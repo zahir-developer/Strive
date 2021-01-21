@@ -41,11 +41,13 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   fileType: string[];
   fileSize: number;
   localFileSize: any;
+  subdocumentType: any;
   constructor(
     private fb: FormBuilder,
     private toastr: MessageServiceToastr,
     private document: DocumentService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private getCode: GetCodeService
   ) { }
 
   ngOnInit() {
@@ -56,6 +58,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       this.employeeId = +localStorage.getItem('empId');
 
     }
+    this.getDocumentSubType();
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
@@ -67,9 +70,21 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       createdDate: [''],
       name: ['', Validators.required, Validators.pattern['a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/']],
       createdName: [''],
-      uploadBy: ['', Validators.required]
+      uploadBy: ['', Validators.required],
+      subDocumentId :['']
     });
     this.handbookSetupForm.patchValue({ status: 0 });
+  }
+
+  getDocumentSubType() {
+    this.getCode.getCodeByCategory("DocumentSubType").subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+        this.subdocumentType = dType.Codes;
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+      }
+    });
   }
 
 
@@ -165,6 +180,7 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
     const obj = {
       documentId: 0,
       DocumentName: this.handbookSetupForm.controls['name'].value,
+      DocumentSubType : this.handbookSetupForm.value.subDocumentId,
       documentType: this.documentTypeId,
       fileName: this.fileName,
       originalFileName: null,

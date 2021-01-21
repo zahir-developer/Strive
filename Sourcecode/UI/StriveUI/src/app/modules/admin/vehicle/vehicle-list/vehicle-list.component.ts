@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -28,11 +29,14 @@ export class VehicleListComponent implements OnInit {
   sort = { column: 'ClientName', descending: true };
   sortColumn: { column: string; descending: boolean; };
   pageSizeList: number[];
+  memberServiceId: any;
+  vehicleslist: any;
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
     private router: Router,
-    private confirmationService: ConfirmationUXBDialogService
+    private confirmationService: ConfirmationUXBDialogService,
+    private memberService: MembershipService
   ) { }
 
   ngOnInit() {
@@ -103,20 +107,40 @@ export class VehicleListComponent implements OnInit {
   edit(data) {
     this.selectedData = data;
     this.showDialog = true;
+    
   }
+ 
   delete(data) {
-    this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
-    information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
-      .then((confirmed) => {
-        if (confirmed === true) {
-          this.confirmDelete(data);
+    this.vehicle.getVehicleMembershipDetailsByVehicleId(data.ClientVehicleId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vehicle = JSON.parse(res.resultData);
+        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership ) {
+          this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
+          information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
+            .then((confirmed) => {
+              if (confirmed === true) {
+                this.confirmDelete(data);
+              }
+             
+            })
+            .catch(() => { });
+            }
+        
+         else {
+          this.toastr.error('Could not Delete the Vehicle due to  Assigned the Membership', 'Error!')
+         }
+
         }
-      })
-      .catch(() => { });
+      
+      
+    });
+  
+   
   }
 
   // Delete vehicle
   confirmDelete(data) {
+    
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');

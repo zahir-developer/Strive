@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="form-group col-lg-3">
             <label for="inputFirstName">First Name<span class="required">*</span></label>
-            <input type="text" [appMaxLength] class="form-control" formControlName="fName" placeholder="First Name"
+            <input type="text" (change) = "sameClientName()" [appMaxLength] class="form-control" formControlName="fName" placeholder="First Name"
                 [ngClass]="{ 'is-invalid': submitted && f.fName.errors }">
             <div *ngIf="submitted && f.fName.errors" class="invalid-feedback">
                 <div *ngIf="f.fName.errors.required">First Name is required</div>
@@ -10,7 +10,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputLastName">Last Name<span class="required">*</span></label>
-            <input type="text" [appMaxLength] class="form-control" formControlName="lName" placeholder="Last Name"
+            <input type="text" (change) = "sameClientName()" [appMaxLength] class="form-control" formControlName="lName" placeholder="Last Name"
                 [ngClass]="{ 'is-invalid': submitted && f.lName.errors }">
             <div *ngIf="submitted && f.lName.errors" class="invalid-feedback">
                 <div *ngIf="f.lName.errors.required">Last Name is required</div>
@@ -79,7 +79,7 @@
         </div>
         <div class="form-group col-lg-6 col-xl-3" [disabled]="isView">
             <label for="inputCity">City</label>
-            <app-city (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId" [isView]="isView"></app-city>
+            <app-city [State] = "State" (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId" [selectedStateId]="selectedStateId" [isView]="isView"></app-city>
         </div>
     </div>
     <div class="form-row">

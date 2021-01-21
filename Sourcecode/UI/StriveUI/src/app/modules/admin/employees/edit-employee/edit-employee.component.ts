@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'underscore';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import { CityComponent } from 'src/app/shared/components/city/city.component';
 
 @Component({
   selector: 'app-edit-employee',
@@ -56,6 +58,12 @@ export class EditEmployeeComponent implements OnInit {
   roleId: any;
   locationId: any;
   authId: any;
+  @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
+  State: any;
+  city: any;
+  selectedStateId: any;
+  selectedCityId: any;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -143,7 +151,14 @@ export class EditEmployeeComponent implements OnInit {
       }
     });
   }
+  getSelectedStateId(event) {
+    this.State = event.target.value;
+    this.cityComponent.getCity(event.target.value);
+  }
 
+  selectCity(event) {
+    this.city = event.target.value;
+  }
   immigrationChange(data) {
     const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
     if (temp.length !== 0) {
@@ -177,7 +192,7 @@ export class EditEmployeeComponent implements OnInit {
       }
     });
   }
-
+ 
   reloadCollisionGrid() {
     this.employeeDetail();
   }
@@ -187,6 +202,16 @@ export class EditEmployeeComponent implements OnInit {
     this.dropdownSetting();
     console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
+    this.selectedStateId = employeeInfo?.State;
+    this.stateDropdownComponent.selectedStateId = this.selectedStateId;
+    this.stateDropdownComponent.setValue();
+    this.State = this.selectedStateId;
+    this.selectedCityId = employeeInfo?.City;
+    this.cityComponent.selectedCityId = this.selectedCityId;
+    this.cityComponent.getCity(this.selectedStateId);
+    this.cityComponent.isView = this.actionType === 'view' ? true : false;
+    this.stateDropdownComponent.isView = this.actionType === 'view' ? true : false;
+    this.city = this.selectedCityId;
     this.employeeAddressId = employee.EmployeeInfo.EmployeeAddressId;
     this.authId = employee.EmployeeInfo.AuthId;
     if (employee.EmployeeRoles !== null) {
@@ -208,7 +233,9 @@ export class EditEmployeeComponent implements OnInit {
       });
     }
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
-    this.selectedLocation = employee.EmployeeLocations;
+    this.selectedLocation = employeeInfo?.EmployeeLocations;
+    // const locationAddress = this.selectedLocation?.LocationAddress;
+    
     this.immigrationChange(employeeInfo.ImmigrationStatus);
     this.personalform.patchValue({
       firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
@@ -376,6 +403,11 @@ export class EditEmployeeComponent implements OnInit {
 
   updateEmployee() {
     this.submitted = true;
+    this.stateDropdownComponent.submitted = true;
+    this.cityComponent.submitted = true;
+    if (this.cityComponent.city === '') {
+      return;
+    }
     if (this.personalform.invalid || this.emplistform.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
@@ -388,14 +420,14 @@ export class EditEmployeeComponent implements OnInit {
       employeeAddressId: this.employeeAddressId,
       employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: 'string',
+      address2: null, // '',
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: '',
+      phoneNumber2: null, // '',
       email: this.emplistform.value.emailId,
-      city: 303,
-      state: 48,
-      zip: 'string',
-      country: 38
+      city: this.city,
+      state: this.State,
+      zip: null, // ''
+      country: null // 38
     };
     const newlyAddedRole = [];
     this.emplistform.value.roles.forEach(item => {
@@ -433,14 +465,14 @@ export class EditEmployeeComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
-      employeeCode: 'string',
+      employeeCode: null, // '',
       authId: this.authId,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
-      lrt: '2020 - 08 - 06T19: 24: 48.817Z',
+      lrt: null, // '2020 - 08 - 06T19: 24: 48.817Z',
       exemptions: +this.emplistform.value.exemptions,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
@@ -481,14 +513,14 @@ export class EditEmployeeComponent implements OnInit {
     const employeeObj = {
       employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
-      middleName: 'string',
+      middleName: null, // 'string',
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: 117,
+      maritalStatus: null, // 117,
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: '',
+      birthDate: null, // '',
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: +this.personalform.value.immigrationStatus,
       isActive: this.emplistform.value.status === 'Active' ? true : false,

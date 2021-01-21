@@ -19,7 +19,7 @@ import { PrintCustomerCopyComponent } from '../print-customer-copy/print-custome
   templateUrl: './create-edit-detail-schedule.component.html',
   styleUrls: ['./create-edit-detail-schedule.component.css'],
   providers: [ConfirmationService],
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
@@ -46,6 +46,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   model: any;
   clientList: any;
   filteredClient: any[];
+  filteredModel: any = [];
+  filteredcolor: any = [];
+  filteredMake: any = [];
   details: any;
   outsideServices: any = [];
   @Output() closeDialog = new EventEmitter();
@@ -220,9 +223,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             this.detailForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
               vehicle: this.barcodeDetails.VehicleId,
-              model: this.barcodeDetails.VehicleModelId,
-              color: this.barcodeDetails.VehicleColor,
-              type: this.barcodeDetails.VehicleMfr
+              // model: this.barcodeDetails.VehicleModelId,
+              // color: this.barcodeDetails.VehicleColor,
+              // type: this.barcodeDetails.VehicleMfr
             });
             this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
@@ -450,9 +453,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
       client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details.ClientName },
       vehicle: this.selectedData.Details.VehicleId,
-      type: this.selectedData.Details.Make,
-      model: this.selectedData.Details.Model,
-      color: this.selectedData.Details.Color,
+      type: { id: this.selectedData.Details.Make, name: this.selectedData?.Details?.vehicleMake },
+      model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.vehicleModel },
+      color: { id: this.selectedData.Details.Color, name: this.selectedData?.Details?.vehicleColor },
       washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId,
       upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
       upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
@@ -460,7 +463,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
     this.clientId = this.selectedData?.Details?.ClientId;
-   
+
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -475,7 +478,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
     if (this.selectedData?.Details?.ClientName.toLowerCase().startsWith('drive')) {
       this.detailForm.get('vehicle').disable();
-    } else if(!this.isView){
+    } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
     }
   }
@@ -498,6 +501,24 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             }
           });
         }
+        this.model = this.model.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
+        this.color = this.color.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
+        this.type = this.type.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -516,6 +537,42 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.filteredClient = filtered;
   }
 
+  filterModel(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.model) {
+      const model = i;
+      if (model.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(model);
+      }
+    }
+    this.filteredModel = filtered;
+  }
+
+  filterColor(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.color) {
+      const color = i;
+      if (color.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(color);
+      }
+    }
+    this.filteredcolor = filtered;
+  }
+
+  filterMake(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.type) {
+      const make = i;
+      if (make.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(make);
+      }
+    }
+    this.filteredMake = filtered;
+  }
+
   selectedClient(event) {
     this.clientId = event.id;
     this.clientName = event.name;
@@ -523,7 +580,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (name.startsWith('drive')) {
       this.detailForm.get('vehicle').disable();
       return;
-    } else if(!this.isView){
+    } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
       this.getPastClientNotesById(this.clientId);
@@ -546,9 +603,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailForm.patchValue({
           vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
-          type: vData.VehicleMakeId,
-          model: vData.VehicleModelId,
-          color: vData.ColorId
+          type: { id: vData.VehicleMakeId, name: vData.VehicleMake },
+          model: { id: vData.VehicleModelId, name: vData.ModelName },
+          color: { id: vData.ColorId, name: vData.Color }
         });
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -600,11 +657,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (this.vehicle.length !== 0 && !this.isBarcode) {
+        if (this.vehicle.length !== 0) { // && !this.isBarcode
           this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
-        }else {
+        } else {
           this.detailForm.get('vehicle').reset();
         }
       } else {
@@ -631,9 +688,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
       vehicleId: this.detailForm.value.vehicle,
-      make: this.detailForm.value.type,
-      model: this.detailForm.value.model,
-      color: this.detailForm.value.color,
+      make: this.detailForm.value.type.id,
+      model: this.detailForm.value.model.id,
+      color: this.detailForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
       jobStatus: jobStatusId,
@@ -687,9 +744,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
       vehicleId: this.detailForm.value.vehicle,
-      make: this.detailForm.value.type,
-      model: this.detailForm.value.model,
-      color: this.detailForm.value.color,
+      make: this.detailForm.value.type.id,
+      model: this.detailForm.value.model.id,
+      color: this.detailForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
       jobStatus: jobStatusId,
@@ -749,9 +806,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.detailForm.value.vehicle,
-      make: this.detailForm.value.type,
-      model: this.detailForm.value.model,
-      color: this.detailForm.value.color,
+      make: this.detailForm.value.type.id,
+      model: this.detailForm.value.model.id,
+      color: this.detailForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
       jobStatus: this.isEdit ? this.jobStatusID : jobStatusId,
@@ -872,7 +929,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
           // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           // this.refreshDetailGrid.emit();
-        }else{
+        } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
       }, (error) => {
@@ -983,10 +1040,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   addVehicle() {
     this.headerData = 'Add New Vehicle';
     let len = this.vehicle.length;
-    if(len === 0){
+    if (len === 0) {
       this.vehicleNumber = 1;
-    }else{
-    this.vehicleNumber = Number(this.vehicle[len-1].VehicleNumber) + 1;
+    } else {
+      this.vehicleNumber = Number(this.vehicle[len - 1].VehicleNumber) + 1;
     }
     this.showVehicleDialog = true;
   }

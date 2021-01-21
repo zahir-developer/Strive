@@ -1,6 +1,7 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Report;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
 using System;
@@ -38,6 +39,16 @@ namespace Strive.ResourceAccess
             _prm.Add("JobId", jobIdDto.id);
             db.Save(SPEnum.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
             return true;
+        }
+
+        public List<CheckOutViewModel> GetCustomerHistory(SalesReportDto salesReportDto)
+        {
+            _prm.Add("locationid", salesReportDto.LocationId);
+            _prm.Add("fromDate", salesReportDto.FromDate);
+            _prm.Add("toDate", salesReportDto.EndDate);
+
+            return db.Fetch<CheckOutViewModel>(SPEnum.USPGETCUSTOMERHISTORY.ToString(), _prm);
+
         }
     }
 }

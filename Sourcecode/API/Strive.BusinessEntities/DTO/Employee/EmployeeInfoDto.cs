@@ -27,5 +27,7 @@ namespace Strive.BusinessEntities.DTO.Employee
         public bool Status { get; set; }
         public string Tip { get; set; }
         public int? Exemptions { get; set; }
+        public int? City { get; set; }
+        public int? State { get; set; }
     }
 }

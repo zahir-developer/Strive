@@ -30,13 +30,16 @@ export class ProductCreateEditComponent implements OnInit {
   fileThumb: any = null;
   costErrMsg: boolean = false;
   priceErrMsg: boolean = false;
+  employeeId: number;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.getProductType();
     this.getAllLocation();
     this.getAllVendor();
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];    
+    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];    
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
@@ -213,9 +216,9 @@ export class ProductCreateEditComponent implements OnInit {
       vendorId: this.productSetupForm.value.vendor,
       thresholdLimit: this.productSetupForm.value.thresholdAmount,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
       price: this.productSetupForm.value.suggested
     };

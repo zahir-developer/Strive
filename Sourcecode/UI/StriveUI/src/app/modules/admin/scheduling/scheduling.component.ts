@@ -11,6 +11,7 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
 import { element } from 'protractor';
+import { threadId } from 'worker_threads';
 
 declare var $: any;
 @Component({
@@ -124,10 +125,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         const selectedDate = eventReceiveEvent.event.start;
         const currentDate: any = new Date();
         if (Date.parse(selectedDate) < Date.parse(currentDate)) {
-          this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Past Date  Should not allow to Schedule' });
+          this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Schedule can not be added for Past Date/Time.' });
           this.cancel();
         } else {
           this.buttonText = 'Add';
+          this.empLocation = this.locationId.toString();
           this.events = this.events.filter(item => item.classNames[0] !== 'draggedEvent');
           const multiSelect = this.selectedList.filter(item => item.clicked === false);
           this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
@@ -147,7 +149,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
             $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
             $('#name').html(this.empName);
             $('#empId').html(this.empId);
-            this.empLocation = undefined;
+            // this.empLocation = undefined;
             $('.modal').find('#location').val(0);
           } else {
             this.removeDraggedEvent();
@@ -233,6 +235,20 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Past Date  Should not allow to Schedule' });
       return;
     }
+    let alreadyScheduled = false;
+    this.events.forEach( item => {
+      if (moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss') === item.start) {
+        if (item.extendedProps.employeeId === +this.empId &&
+          item.extendedProps.locationId === +this.empLocation) {
+            alreadyScheduled = true;
+        }
+      }
+    });
+    if (alreadyScheduled) {
+      console.log('coming');
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Can not able to schedule at the same time' });
+      return;
+    }
     const form = {
       scheduleId: this.scheduleId ? this.scheduleId : 0,
       employeeId: +this.empId,
@@ -307,6 +323,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               };
               this.events = [... this.events, emp];
             });
+            console.log(this.events, 'events');
           }
         }
         this.removeDraggedEvent();

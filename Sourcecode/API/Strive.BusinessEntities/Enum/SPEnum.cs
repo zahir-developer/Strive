@@ -73,7 +73,8 @@ namespace Strive.BusinessEntities
 
         public enum Membership
         {
-            USPGETALLMEMBERSHIP
+            USPGETALLMEMBERSHIP,
+            USPGETVEHICLEMEMBERSHIPAVAILABILITY
         }
         public enum Checklist
         {
@@ -95,7 +96,7 @@ namespace Strive.BusinessEntities
             USPUPDATEDOCUMENTPASSWORD,
             USPGETEMPLOYEEDOCUMENTBYEMPID,
             USPDELETEEMPLOYEEDOCUMENTBYID,
-            USPDELETEDOCUMENT,
+            USPDELETEDOCUMENT,      
             USPDELETEDOCUMENTBYID,
             USPGETDOCUMENTBYID,
             USPGETALLDOCUMENT,
@@ -133,6 +134,7 @@ namespace Strive.BusinessEntities
         USPGETEMPLOYEEROLES,
         USPEMAILEXIST,
         USPGETEMPLOYEEROLEBYID,
+        USPGETCITYBYSTATE,
 
         //Client
         USPGETALLCLIENT,
@@ -148,6 +150,7 @@ namespace Strive.BusinessEntities
         USPSAVEGIFTCARD,
         USPGETALLGIFTCARDS,
         USPDELETEGIFTCARD,
+        USPGETCLIENTNAME,
         //Location
         USPSAVELOCATION,
         USPDELETELOCATION,
@@ -261,6 +264,7 @@ namespace Strive.BusinessEntities
         USPGETAllCHECKOUTDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,
         USPUPDATEJOBSTATUSHOLDBYJOBID,
-        USPUPDATEJOBSTATUSCOMPLETEBYJOBID
+        USPUPDATEJOBSTATUSCOMPLETEBYJOBID,
+        USPGETCUSTOMERHISTORY
     }
 }

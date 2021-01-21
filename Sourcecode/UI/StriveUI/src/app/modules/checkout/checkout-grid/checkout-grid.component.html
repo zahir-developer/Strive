@@ -25,7 +25,7 @@
                                         <form>
                                           <div class="form-row">
                                             <div class="form-group d-flex"> <input type="search" size="25" class="form-control" [(ngModel)]="query"
-                                                name="search" id="inputSearch" placeholder="  Search  " > </div>
+                                                name="search" id="inputSearch" placeholder="Search" > </div>
                                            
                                           </div>
                                         </form>
@@ -43,23 +43,30 @@
                                                 class="mdi mdi-circle font-13 theme-secondary-icon-color mr-1"></i>Completed</a>
                                     </div> -->
                                     <div class="table-responsive" style="overflow-x: scroll;">
-                                        <table class="table border table-striped m-t-10">
+                                        <table class="table border table-striped m-t-10 headerfix">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Ticket No</th>
-                                                    <th scope="col">Customer Name </th>
-                                                    <th scope="col">Make/Model/Color</th>
-                                                    <th scope="col">CheckIn</th>
-                                                    <th scope="col">Est. CheckOut</th>
-                                                    <th scope="col">Service </th>
-                                                    <th scope="col">Additional Services</th>
-                                                    <th scope="col">Pay </th>
-                                                    <th scope="col">Membership</th>
-                                                    <th scope="col">Status</th>
+                                                    <th  scope="col" class="pointer" (click)="sort('TicketNumber')">Ticket No&nbsp; <i class="fa" *ngIf="column =='TicketNumber'" 
+                                                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                        <th  scope="col" class="pointer" (click)="sort('CustomerName')">Customer Name&nbsp; <i class="fa" *ngIf="column =='CustomerName'" 
+                                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th><th  scope="col" class="pointer" (click)="sort('VehicleDescription')">Make/   Model/  Color&nbsp; <i class="fa" *ngIf="column =='VehicleDescription'" 
+                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th><th  scope="col" class="pointer" (click)="sort('Checkin')">CheckIn&nbsp; <i class="fa" *ngIf="column =='Checkin'" 
+                                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                                    <th  scope="col" class="pointer" (click)="sort('Checkout')">Est. CheckOut&nbsp; <i class="fa" *ngIf="column =='Checkout'" 
+                                                                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                           <th  scope="col" class="pointer" (click)="sort('Services')">Service&nbsp; <i class="fa" *ngIf="column =='Services'" 
+                                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th><th  scope="col" class="pointer" (click)="sort('AdditionalServices')">Additional Services&nbsp; <i class="fa" *ngIf="column =='AdditionalServices'" 
+                                                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                                    
+                                                                                    <th  scope="col" class="pointer" (click)="sort('Cost')">Pay&nbsp; <i class="fa" *ngIf="column =='Cost'" 
+                                                                                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th><th  scope="col" class="pointer" (click)="sort('MembershipName')">Member   ship&nbsp; <i class="fa" *ngIf="column =='MembershipName'" 
+                                                                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th><th  scope="col" class="pointer" (click)="sort('MembershipNameOrPaymentStatus')">Status&nbsp; <i class="fa" *ngIf="column =='MembershipNameOrPaymentStatus'" 
+                                                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                                    
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class="bodyfix">
                                                 <!-- | search: query -->
                                                 <tr
                                                     *ngFor="let checkout of uncheckedVehicleDetails  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
@@ -87,16 +94,26 @@
                                                     </td>
                                                 </tr>
                                                 <tr *ngIf="uncheckedVehicleDetails.length === 0">
-                                                    <td colspan="10" class="text-center">
+                                                    <td colspan="11" class="text-center">
                                                         No Record Found
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
+                                         <div class="row pull-right">
+                                    <div class="col-6">
+                                        <ngb-pagination *ngIf="uncheckedVehicleDetails.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
                                             [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
                                             [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="uncheckedVehicleDetails.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
                                     </div>
                                 </div>
                             </div>

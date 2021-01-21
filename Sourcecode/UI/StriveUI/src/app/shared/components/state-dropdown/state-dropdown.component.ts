@@ -11,7 +11,7 @@ export class StateDropdownComponent implements OnInit, AfterViewChecked {
   state = '';
   submitted: boolean;
   @Output() stateId = new EventEmitter();
-  @Input() selectedStateId: any;
+  @Input() selectedStateId?: any;
   @Input() isView: any;
   constructor(private stateService: StateService, private cdRef: ChangeDetectorRef) { }
 

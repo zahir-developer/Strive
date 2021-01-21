@@ -30,7 +30,7 @@ export class EmployeeHandBookComponent implements OnInit {
   checklistAdd: boolean;
   showDialog: boolean;
   documentTypeId: any;
-  document: any;
+  document: any = [];
   fileName: any = null;
   Documents: any;
   url: any;
@@ -42,16 +42,18 @@ export class EmployeeHandBookComponent implements OnInit {
   }
 
   adddata(data, handbookDetails?) {
-    if (this.document.Document !== null) {
-      this.toastr.showMessage({
-        severity: 'warning', title: 'Warning',
-        body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
-      });
-    }
-    else if (data === 'add') {
-      this.selectedData = handbookDetails;
-      this.showDialog = true;
-    }
+    // if (this.document.Document !== null) {
+    //   this.toastr.showMessage({
+    //     severity: 'warning', title: 'Warning',
+    //     body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
+    //   });
+    // }
+    // else if (data === 'add') {
+    //   this.selectedData = handbookDetails;
+    //   this.showDialog = true;
+    // }
+    this.selectedData = handbookDetails;
+    this.showDialog = true;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -61,18 +63,18 @@ export class EmployeeHandBookComponent implements OnInit {
   }
 
 
-  delete() {
+  delete(Id) {
     this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this document? 
     All related information will be deleted and the document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete();
+          this.confirmDelete(+Id);
         }
       })
       .catch(() => { });
   }
-  confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId, 'EMPLOYEEHANDBOOK').subscribe(res => {
+  confirmDelete(Id) {
+    this.documentService.deleteDocumentById(Id, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
         this.fileName = null;
@@ -89,31 +91,29 @@ export class EmployeeHandBookComponent implements OnInit {
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
         console.log(this.documentTypeId);
         this.getDocument();
-
-
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
     });
   }
-  downloadPDF() {
-    const base64 = this.document.Document.Base64;
+  downloadPDF(documents) {
+    const base64 = documents.Base64;
     const linkSource = 'data:application/pdf;base64,' + base64;
     const downloadLink = document.createElement('a');
-    const fileName = this.fileName;
+    const fileName = documents.OriginalFileName;
     downloadLink.href = linkSource;
-    downloadLink.download = this.document.Document.OriginalFileName;
+    downloadLink.download = fileName;
     downloadLink.click();
   }
   getDocument() {
     this.isLoading = true;
-    this.documentService.getDocument(this.documentTypeId, "EMPLOYEEHANDBOOK").subscribe(data => {
+    this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
-        this.fileName = this.document?.Document?.FileName;
+        // this.fileName = this.document?.Document?.FileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }

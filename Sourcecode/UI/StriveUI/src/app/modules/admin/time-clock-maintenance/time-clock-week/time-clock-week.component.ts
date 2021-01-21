@@ -128,7 +128,8 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   getAllRoles() {
-    this.timeClockMaintenanceService.getRolesbyEmployeeId().subscribe(res => {
+   let id  =  this.empClockInObj.employeeID
+    this.timeClockMaintenanceService.getRolesbyEmployeeId(id).subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
         console.log(roles);
@@ -262,9 +263,9 @@ export class TimeClockWeekComponent implements OnInit {
           inTime: time.InTime? moment(inEventDate).format() : '',  // this.datePipe.transform(time.InTime, 'HH:mm'),
           outTime:time.OutTime ?  moment(outEventDate).format(): '', // this.datePipe.transform(time.OutTime, 'HH:mm'),
           eventType: 1,
-          updatedFrom: 'string',
+          updatedFrom: '',
           status: true,
-          comments: 'string',
+          comments: '',
           isActive: true,
           isDeleted: time.isDeleted
         });

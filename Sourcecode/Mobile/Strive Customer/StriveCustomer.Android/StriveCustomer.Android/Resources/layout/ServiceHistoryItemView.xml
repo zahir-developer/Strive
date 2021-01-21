@@ -23,17 +23,10 @@
                 android:layout_margin="@dimen/seven">
                 <TextView
                     android:id="@+id/scheduleTicket_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/textFifteen"
-                    android:text="Ticket No:"
-                    android:fontFamily="@font/opensans_bold"/>
-                <TextView
-                    android:id="@+id/scheduleTicketNumber_TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textFifteen"
-                    android:layout_marginLeft="@dimen/ten"   
+                    android:textColor="#1DC9B7"
                     android:fontFamily="@font/opensans_bold"/>
             </LinearLayout>
             <LinearLayout
@@ -56,6 +49,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textFifteen"
+                    android:textColor="@color/scheduleTextColor"
                     android:layout_weight="0.5"   
                     android:fontFamily="@font/opensans_regular"/>
             </LinearLayout>
@@ -83,7 +77,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:textSize="@dimen/textFifteen"    
+                        android:textSize="@dimen/textFifteen"  
+                        android:textColor="@color/scheduleTextColor"
                         android:fontFamily="@font/opensans_regular"/>
                 </LinearLayout>
                 <LinearLayout
@@ -106,6 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:textSize="@dimen/textFifteen"    
+                        android:textColor="@color/scheduleTextColor"
                         android:fontFamily="@font/opensans_regular"/>
                 </LinearLayout>
                  <LinearLayout
@@ -129,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:textSize="@dimen/textFifteen"    
+                        android:textColor="@color/scheduleTextColor"
                         android:fontFamily="@font/opensans_regular"/>
                  </LinearLayout>
                 <LinearLayout
@@ -150,7 +147,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:textSize="@dimen/textFifteen"    
+                        android:textSize="@dimen/textFifteen"  
+                        android:textColor="@color/scheduleTextColor"
                         android:fontFamily="@font/opensans_regular"/>
                 </LinearLayout>
                 <LinearLayout
@@ -174,6 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:textSize="@dimen/textFifteen"    
+                        android:textColor="@color/scheduleTextColor"
                         android:fontFamily="@font/opensans_regular"/>
                 </LinearLayout>
             </LinearLayout>          
