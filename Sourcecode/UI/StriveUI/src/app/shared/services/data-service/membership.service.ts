@@ -16,6 +16,9 @@ export class MembershipService {
   addMembership(obj) {
     return this.http.post(`${UrlConfig.totalUrl.addMembership}`, obj);
   }
+  deleteRestrictionMembershipVehicle(id){
+    return this.http.get(`${UrlConfig.totalUrl.deleteRestrictionMembershipByVehicleId}` + id);
+}
   updateMembership(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateMembership}`, obj);
   } 

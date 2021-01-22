@@ -114,18 +114,37 @@ export class MembershipListComponent implements OnInit {
 
 
   delete(data) {
+    this.member.deleteRestrictionMembershipVehicle(data.MembershipId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vehicle = JSON.parse(res.resultData);
+        if (vehicle.VehicleMembershipByMembershipId == false ) {
     this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
   information will be deleted and the membership cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
         }
+       
       })
       .catch(() => { });
+      }
+  
+   else {
+    this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Could not Delete the Membership  Assigned to Vehicle ' });
+
+   }
+
   }
+
+
+});
+
+
+}
 
   // Delete Membership
   confirmDelete(data) {
+    
     this.member.deleteMembership(data.MembershipId).subscribe(res => {
       if (res.status === "Success") {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Deleted Successfully!!' });

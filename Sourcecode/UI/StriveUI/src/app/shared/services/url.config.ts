@@ -50,7 +50,7 @@ export const UrlConfig = {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
     getClient: `Admin/Client/GetAll`,
     sameClientName: `Admin/Client/IsClientName`,
-
+    deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,
     addClient: `Admin/Client/InsertClientDetails`,
     updateClient: `Admin/Client/UpdateClientVehicle`,
     deleteClient: `Admin/Client/`,
