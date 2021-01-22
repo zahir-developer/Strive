@@ -56,7 +56,7 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             await ViewModel.GetScheduledServices();
 
-            var selectServiceSource = new Schedule_SelectService_Source();
+            var selectServiceSource = new Schedule_SelectService_Source(this.ViewModel);
             SelectService_TableView.Source = selectServiceSource;
             SelectService_TableView.TableFooterView = new UIView(CGRect.Empty);
             SelectService_TableView.DelaysContentTouches = false;

@@ -25,7 +25,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-Az-hf9">
-                        <rect key="frame" x="10" y="5" width="314" height="191"/>
+                        <rect key="frame" x="10" y="5" width="314" height="190"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mB3-yE-fLw">
                                 <rect key="frame" x="10" y="26.5" width="25" height="25"/>
@@ -53,14 +53,18 @@
                                 <color key="textColor" red="0.0078431372550000003" green="0.25490196079999999" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKL-4P-rGG">
-                                <rect key="frame" x="50" y="51.5" width="28" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKL-4P-rGG">
+                                <rect key="frame" x="50" y="51.5" width="254" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="ea6-QK-SnX"/>
+                                </constraints>
+                                <string key="text">Hand wash Shampoo carpets, upholstery Clean leather Clean interior paneling Detail dash and console Treat &amp; condition all leather Clean windows, mirrors Shampoo headliner Degrease &amp; clean all jams Silicone tires</string>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0o6-mp-mZH">
-                                <rect key="frame" x="50" y="71.5" width="77" height="15"/>
+                                <rect key="frame" x="50" y="131.5" width="77" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="ht7-XJ-YQS"/>
                                 </constraints>
@@ -68,12 +72,16 @@
                                 <state key="normal" title="View More">
                                     <color key="titleColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="ViewMore_BtnTouch:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="Inf-hq-qkq"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="mB3-yE-fLw" firstAttribute="centerY" secondItem="iUE-Cd-zfN" secondAttribute="centerY" id="0qA-fp-GgQ"/>
                             <constraint firstItem="iUE-Cd-zfN" firstAttribute="leading" secondItem="BIz-8Q-s72" secondAttribute="leading" id="0qE-I6-jw2"/>
+                            <constraint firstAttribute="height" constant="190" id="6f4-L9-efM"/>
                             <constraint firstItem="lZS-P6-1y9" firstAttribute="leading" secondItem="BIz-8Q-s72" secondAttribute="trailing" constant="14" id="9qa-TX-DZC"/>
                             <constraint firstItem="lZS-P6-1y9" firstAttribute="centerY" secondItem="BIz-8Q-s72" secondAttribute="centerY" id="CNi-8e-fZ7"/>
                             <constraint firstAttribute="trailing" secondItem="lZS-P6-1y9" secondAttribute="trailing" constant="10" id="IAw-Oi-gAP"/>
@@ -84,6 +92,7 @@
                             <constraint firstItem="BIz-8Q-s72" firstAttribute="top" secondItem="kqK-Az-hf9" secondAttribute="top" constant="10" id="a1m-bY-YCo"/>
                             <constraint firstItem="nKL-4P-rGG" firstAttribute="top" secondItem="iUE-Cd-zfN" secondAttribute="bottom" constant="5" id="aml-MW-FdZ"/>
                             <constraint firstItem="mB3-yE-fLw" firstAttribute="leading" secondItem="kqK-Az-hf9" secondAttribute="leading" constant="10" id="kdS-Lk-nG4"/>
+                            <constraint firstAttribute="trailing" secondItem="nKL-4P-rGG" secondAttribute="trailing" constant="10" id="mIh-9F-MsY"/>
                             <constraint firstItem="nKL-4P-rGG" firstAttribute="leading" secondItem="iUE-Cd-zfN" secondAttribute="leading" id="xaS-am-VaF"/>
                         </constraints>
                     </view>
@@ -98,7 +107,14 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="MoreValue_Const" destination="ea6-QK-SnX" id="P6Z-Fd-LTt"/>
+                <outlet property="SelectService_Btn" destination="mB3-yE-fLw" id="4Sb-MS-IsA"/>
                 <outlet property="SelectService_CellView" destination="kqK-Az-hf9" id="guu-bG-qcp"/>
+                <outlet property="SelectService_CostLbl" destination="lZS-P6-1y9" id="kz9-8U-YOP"/>
+                <outlet property="ServiceName_Lbl" destination="BIz-8Q-s72" id="8TC-T4-0dB"/>
+                <outlet property="ViewMore_Btn" destination="0o6-mp-mZH" id="keS-aU-fQD"/>
+                <outlet property="ViewMore_ValueLbl" destination="nKL-4P-rGG" id="EGF-eO-EMG"/>
+                <outlet property="serviceCell_ViewHeight" destination="6f4-L9-efM" id="Yxw-lS-FTE"/>
             </connections>
             <point key="canvasLocation" x="85.507246376811594" y="52.566964285714285"/>
         </tableViewCell>

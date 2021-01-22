@@ -1,7 +1,9 @@
 ﻿using System;
 
 using Foundation;
+using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.TimInventory;
+using StriveCustomer.iOS.Views.Schedule;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views
@@ -11,6 +13,7 @@ namespace StriveCustomer.iOS.Views
         public static readonly NSString Key = new NSString("DB_VehicleList_Cell");
         public static readonly UINib Nib;
         public VehicleList dataList;
+        public MvxViewController view;
 
         static DB_VehicleList_Cell()
         {
@@ -22,8 +25,9 @@ namespace StriveCustomer.iOS.Views
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        public void SetData(VehicleList list, NSIndexPath indexPath)
+        public void SetData(VehicleList list, NSIndexPath indexPath, MvxViewController viewController)
         {
+            view = viewController;
             dataList = list;
             ScheduleNow_Btn.Layer.CornerRadius = 10;
             Schedule_VhCarName.Text = dataList.Status[indexPath.Row].VehicleColor + " " + dataList.Status[indexPath.Row].VehicleMfr + " " + dataList.Status[indexPath.Row].VehicleModel ?? "";
@@ -36,6 +40,12 @@ namespace StriveCustomer.iOS.Views
             {
                 Schedule_VhMembership.Text = "No";
             }
+        }
+
+        partial void ScheduleNow_BtnTouch(UIButton sender)
+        {
+            var select_service = new Schedule_SelectService();
+            view.NavigationController.PushViewController(select_service, true);
         }
     }
 }
