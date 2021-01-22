@@ -15,5 +15,7 @@ namespace Strive.BusinessLogic.PayRoll
         Result AddPayRoll(PayRollAddDto payRollAdd);
         Result UpdatePayRoll(PayRollUpdateDto payRollUpdate);
         Result UpdateEmployeeAdjustment(List<EmployeeAdjustmentDto> employeeAdjustment);
+
+        Result AddPayRollProcess(PayrollProcessAddDto payrollProcessAddDto);
     }
 }

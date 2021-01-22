@@ -38,5 +38,10 @@ namespace Admin.API.Controllers
         public Result UpdateEmployeeAdjustment([FromBody]List<EmployeeAdjustmentDto> employeeAdjustment) => _bplManager.UpdateEmployeeAdjustment(employeeAdjustment);
 
 
+
+        [HttpPost]
+        [Route("AddPayRollProcess")]
+        public Result AddPayRollProcess([FromBody] PayrollProcessAddDto payRollProcessAddDto) => _bplManager.AddPayRollProcess(payRollProcessAddDto);
+
     }
 }

@@ -59,5 +59,18 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
             return result;
         }
+        public bool GetVehicleMembershipByMembershipId(int membershipid)
+        {
+            _prm.Add("@MembershipId", membershipid);
+            var result = db.Fetch<VehicleMembershipByMembership>(EnumSP.Membership.USPGETVEHICLEMEMBERSHIPBYMEMBERSHIPID.ToString(), _prm);
+            if (result.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

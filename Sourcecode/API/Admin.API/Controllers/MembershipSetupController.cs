@@ -43,5 +43,10 @@ namespace Admin.Api.Controllers
         [HttpPost]
         [Route("GetMembershipSearch")]
         public Result GetMembershipSearch([FromBody] MembershipSearchDto search) => _bplManager.GetMembershipSearch(search);
+
+
+        [HttpGet]
+        [Route("GetVehicleMembershipByMembershipId/{membershipId}")]
+        public Result GetVehicleMembershipByMembershipId(int membershipId) => _bplManager.GetVehicleMembershipByMembershipId(membershipId);
     }
 }
