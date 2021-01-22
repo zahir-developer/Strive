@@ -8,7 +8,7 @@ import { CountryService } from '../../services/common-service/country.service';
 })
 export class CountryDropdownComponent implements OnInit, AfterViewChecked {
   countryList = [];
-  country = 29120;
+  country: any; //  = 29120;
   @Output() countryId = new EventEmitter();
   @Input() selectedCountryId: any;
   @Input() isdisable: any;
@@ -41,6 +41,10 @@ export class CountryDropdownComponent implements OnInit, AfterViewChecked {
           value: item.CodeId
         };
       });
+      const countryValue = this.countryList.filter( item => item.name === 'USA');
+      if (countryValue.length > 0) {
+        this.country = countryValue[0].value;
+      }
       this.setValue();
     }, (err) => {
     });
