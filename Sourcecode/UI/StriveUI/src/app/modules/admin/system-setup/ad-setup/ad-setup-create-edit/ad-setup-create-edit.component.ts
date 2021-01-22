@@ -162,7 +162,7 @@ export class AdSetupCreateEditComponent implements OnInit {
           name: this.adSetupForm.value.name,
       description: this.adSetupForm.value.description,
       isActive: this.adSetupForm.value.status == 1 ? true : false,
-
+      DocumentSubType: null,
           isDeleted: false,
           createdBy: +localStorage.getItem('empId'),
           createdDate: new Date(),
@@ -189,17 +189,17 @@ export class AdSetupCreateEditComponent implements OnInit {
         "document": {
           "documentId": this.selectedData?.DocumentId,
           "documentType": this.documentTypeId,
-          "fileName": "string",
-          "originalFileName": "string",
-          "filePath": "string",
-          "base64": "string",
-          "documentName": "string",
+          "fileName": "",
+          "originalFileName": "",
+          "filePath": "",
+          "base64": "",
+          "documentName": "",
           "isActive": true,
           "isDeleted": true,
-          "createdBy": 0,
-          "createdDate": "2021-01-05T14:28:23.915Z",
-          "updatedBy": 0,
-          "updatedDate": "2021-01-05T14:28:23.915Z"
+          "createdBy": this.employeeId,
+          "createdDate": new Date(),
+          "updatedBy": this.employeeId,
+          "updatedDate": new Date()
         },
         "documentType": "ADS"
       }
