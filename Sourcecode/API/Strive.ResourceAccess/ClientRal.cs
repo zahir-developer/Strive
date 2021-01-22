@@ -95,7 +95,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("FirstName", clientNameDto.FirstName);
             _prm.Add("LastName", clientNameDto.LastName);
-            var result= db.Fetch<ClientViewModel>(SPEnum.USPGETCLIENTNAME.ToString(), _prm);
+            var result= db.Fetch<ClientViewModel>(SPEnum.USPISCLIENTAVAILABLE.ToString(), _prm);
             if (result.Count > 0)
             {
                 return true ;
