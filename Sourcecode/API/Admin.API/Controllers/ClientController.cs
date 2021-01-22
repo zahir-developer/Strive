@@ -74,8 +74,8 @@ namespace Admin.API.Controllers
         #endregion
 
         [HttpPost]
-        [Route("IsClientName")]
-        public Result IsClientName([FromBody]ClientNameDto clientNameDto) => _bplManager.IsClientName(clientNameDto);
+        [Route("IsClientAvailable")]
+        public Result IsClientAvailable([FromBody]ClientNameDto clientNameDto) => _bplManager.IsClientAvailable(clientNameDto);
 
     }
 }

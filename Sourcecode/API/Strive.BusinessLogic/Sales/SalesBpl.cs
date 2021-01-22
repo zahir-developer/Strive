@@ -83,8 +83,10 @@ namespace Strive.BusinessLogic.Sales
             try
             {
                 var jobPaymnetId = new SalesRal(_tenant).AddPayment(salesPayment);
-
-                var result = new SalesRal(_tenant).UpdateJobPayement(salesPayment.JobPayment.JobId, jobPaymnetId);
+                if (jobPaymnetId > 0)
+                {
+                    var result = new SalesRal(_tenant).UpdateJobPayement(salesPayment.JobPayment.JobId, jobPaymnetId);
+                }               
 
                 return ResultWrap(jobPaymnetId>0, "Status");
             }

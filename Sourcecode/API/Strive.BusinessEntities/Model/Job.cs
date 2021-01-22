@@ -9,6 +9,9 @@ namespace Strive.BusinessEntities.Model
 
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
         public int JobId { get; set; }
+        [Column]
+        public int? JobPaymentId { get; set; }
+
 
         [Column]
         public string TicketNumber { get; set; }
@@ -73,8 +76,6 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTime? CheckOutTime { get; set; }
 
-        [Column]
-        public int? JobPaymentId { get; set; }
-
+      
     }
 }

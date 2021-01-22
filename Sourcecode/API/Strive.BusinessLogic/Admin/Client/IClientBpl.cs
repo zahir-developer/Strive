@@ -26,6 +26,6 @@ namespace Strive.BusinessLogic.Client
         Result GetStatementByClientId(int id);
         Result GetHistoryByClientId(int id);
 
-        Result IsClientName(ClientNameDto clientNameDto);
+        Result IsClientAvailable(ClientNameDto clientNameDto);
     }
 }

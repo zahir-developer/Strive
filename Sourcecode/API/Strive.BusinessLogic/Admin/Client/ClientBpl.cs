@@ -137,9 +137,9 @@ namespace Strive.BusinessLogic
             return ResultWrap(new ClientRal(_tenant).GetHistoryByClientId, id, "VehicleHistory");
         }
 
-        public Result IsClientName (ClientNameDto clientNameDto)
+        public Result IsClientAvailable(ClientNameDto clientNameDto)
         {
-            return ResultWrap(new ClientRal(_tenant).IsClientName, clientNameDto, "IsClientNameAvailable");
+            return ResultWrap(new ClientRal(_tenant).IsClientAvailable, clientNameDto, "IsClientNameAvailable");
         }
 
     }

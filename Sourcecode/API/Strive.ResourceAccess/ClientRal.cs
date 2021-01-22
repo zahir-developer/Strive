@@ -91,7 +91,7 @@ namespace Strive.ResourceAccess
             return db.Fetch<ClientHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
         }
 
-        public bool IsClientName(ClientNameDto clientNameDto)
+        public bool IsClientAvailable(ClientNameDto clientNameDto)
         {
             _prm.Add("FirstName", clientNameDto.FirstName);
             _prm.Add("LastName", clientNameDto.LastName);
