@@ -17,7 +17,7 @@
                                     <div class="form-row">
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="40" name="search" id="inputSearch"
-                                                placeholder="Search by Name, Location, Vendor, Type, Size"
+                                                placeholder="Search by Name, Vendor, Type, Size"
                                                 (keyup)="$event.keyCode == 13 ? productSearch() : null"> </div>
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
@@ -39,8 +39,6 @@
                                                 [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
                                                 <th class="pointer" (click)="sort('SizeName')">Size&nbsp; <i class="fa" *ngIf="column =='SizeName'" 
                                                     [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                    <th class="pointer" (click)="sort('LocationName')">Location&nbsp; <i class="fa" *ngIf="column =='LocationName'" 
-                                                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
                                                         <th class="pointer" (click)="sort('Quantity')">Quantity&nbsp; <i class="fa" *ngIf="column =='Quantity'" 
                                                             [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
                                                             <th class="pointer" (click)="sort('VendorName')">VendorName&nbsp; <i class="fa" *ngIf="column =='VendorName'" 
@@ -58,7 +56,6 @@
                                             <td>{{productSetup.ProductTypeName}}</td>
                                             <td>{{productSetup.Cost | currency}}</td>
                                             <td>{{productSetup.SizeName}}</td>
-                                            <td>{{productSetup.LocationName}}</td>
                                             <!-- <td>{{productSetup.Price | currency}}</td> -->
                                             <td>{{productSetup.Quantity}}</td>
                                             <td>{{productSetup.VendorName}}</td>

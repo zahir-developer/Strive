@@ -233,7 +233,7 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
-        this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Washes')[0]?.CodeId;
+        this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
         this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Upcharges')[0]?.CodeId;
         this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
         this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;

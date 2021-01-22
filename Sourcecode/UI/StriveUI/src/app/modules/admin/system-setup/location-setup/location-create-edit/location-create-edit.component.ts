@@ -45,7 +45,7 @@ export class LocationCreateEditComponent implements OnInit {
 
     this.formInitialize();
     this.submitted = false;
-    this.Country = 38;
+    this.Country = null;
     console.log(this.selectedData);
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
@@ -143,21 +143,21 @@ export class LocationCreateEditComponent implements OnInit {
     };
     const formObj = {
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-      locationType: 1,
+      locationType: null,
       locationName: this.locationSetupForm.value.locationName,
       locationDescription: '',
       isFranchise: this.locationSetupForm.value.franchise === '' ? false : this.locationSetupForm.value.franchise,
-      taxRate: '',
-      siteUrl: '',
-      currency: 0,
-      facebook: '',
-      twitter: '',
-      instagram: '',
-      wifiDetail: '',
+      taxRate: null,
+      siteUrl: null,
+      currency: null,
+      facebook: null,
+      twitter: null,
+      instagram: null,
+      wifiDetail: null,
       washTimeMinutes: this.isEdit ? this.selectedData.Location.WashTimeMinutes : 0,
       workhourThreshold: this.locationSetupForm.value.workHourThreshold,
-      startTime: '',
-      endTime: '',
+      startTime: null,
+      endTime: null,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -181,7 +181,7 @@ export class LocationCreateEditComponent implements OnInit {
     };
     const drawer = {
       drawerId: 0,
-      drawerName: '',
+      drawerName: null,
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
       isActive: true,
       isDeleted: false,
