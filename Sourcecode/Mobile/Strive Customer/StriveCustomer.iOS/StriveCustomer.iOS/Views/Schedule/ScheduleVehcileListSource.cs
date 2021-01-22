@@ -37,7 +37,7 @@ namespace StriveCustomer.iOS.Views
         {
             var cell = tableView.DequeueReusableCell("DB_VehicleList_Cell", indexPath) as DB_VehicleList_Cell;            
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.SetData(scheduleVehicleList, indexPath);
+            cell.SetData(scheduleVehicleList, indexPath, view);
             return cell;
         }
 

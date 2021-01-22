@@ -64,11 +64,7 @@ namespace StriveCustomer.iOS.Views
                 SchedulePastHis_TableView.ReloadData();
                 SchedulePastHis_TableView.Layer.CornerRadius = 5;
 
-                var pastHis_Source = new Schedule_PastHis_Source();
-                SchedulePastHis_TableView.Source = pastHis_Source;
-                SchedulePastHis_TableView.TableFooterView = new UIView(CGRect.Empty);
-                SchedulePastHis_TableView.DelaysContentTouches = false;
-                SchedulePastHis_TableView.ReloadData();
+                getPastServiceDetails();                
             }
         }
 
@@ -84,6 +80,25 @@ namespace StriveCustomer.iOS.Views
                 ScheduleVehicle_TableView.DelaysContentTouches = false;
                 ScheduleVehicle_TableView.ReloadData();
             }
+        }
+
+        private async void getPastServiceDetails()
+        {
+            await this.ViewModel.GetPastServiceDetails();
+
+            if(this.ViewModel.pastServiceHistory != null)
+            {
+                if(this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count > 0)
+                {
+                    var pastHis_Source = new Schedule_PastHis_Source(this.ViewModel);
+                    SchedulePastHis_TableView.Source = pastHis_Source;
+                    SchedulePastHis_TableView.TableFooterView = new UIView(CGRect.Empty);
+                    SchedulePastHis_TableView.DelaysContentTouches = false;
+                    SchedulePastHis_TableView.RowHeight = UITableView.AutomaticDimension;
+                    SchedulePastHis_TableView.EstimatedRowHeight = 90;
+                    SchedulePastHis_TableView.ReloadData();
+                }
+            }            
         }
     }
 }

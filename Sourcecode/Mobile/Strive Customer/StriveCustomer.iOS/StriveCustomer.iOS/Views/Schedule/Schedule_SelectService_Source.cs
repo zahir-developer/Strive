@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using Foundation;
-using Strive.Core.Models.Customer;
-using Strive.Core.ViewModels.Customer;
+using Strive.Core.ViewModels.Customer.Schedule;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views.Schedule
 {
-    public class Schedule_PastHis_Source : UITableViewSource
+    public class Schedule_SelectService_Source : UITableViewSource
     {
-        ScheduleViewModel ViewModel;
         public bool isClicked = false;
-        public List<BayJobDetailViewModel> PastHis_List = new List<BayJobDetailViewModel>();
-        public Schedule_PastHis_Source(ScheduleViewModel viewModel)
+        NSIndexPath selected_index = new NSIndexPath();
+        UITableView service_tableview = new UITableView();
+        ScheduleServicesViewModel viewModel;
+        public Schedule_SelectService_Source(ScheduleServicesViewModel ViewModel)
         {
-            this.ViewModel = viewModel;
-            this.PastHis_List = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
-
+            this.viewModel = ViewModel;
         }
 
         public override nint NumberOfSections(UITableView tableView)
@@ -29,32 +26,33 @@ namespace StriveCustomer.iOS.Views.Schedule
             if (isClicked)
             {
                 return 200;
+                tableView.ReloadInputViews();
             }
             else
             {
                 return 90;
-            }            
+            }
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count;
+            return 10;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
+            selected_index = indexPath;
+            service_tableview = tableView;
+            var cell = tableView.DequeueReusableCell("Schedule_SelectService_Cell", indexPath) as Schedule_SelectService_Cell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.SetData(PastHis_List, indexPath);
+            cell.SetData(indexPath, tableView, viewModel);
             return cell;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             isClicked = true;
-            var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
-           
-            GetHeightForRow(tableView, indexPath);                       
+            GetHeightForRow(tableView, indexPath);
         }        
     }
 }

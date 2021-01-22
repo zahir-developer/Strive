@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+        <array key="OpenSans-SemiBold.ttf">
+            <string>OpenSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="201" id="cxk-wN-pdQ" customClass="Schedule_SelectService_Cell">
+            <rect key="frame" x="0.0" y="0.0" width="334" height="201"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxk-wN-pdQ" id="YTl-1W-gDM">
+                <rect key="frame" x="0.0" y="0.0" width="334" height="201"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-Az-hf9">
+                        <rect key="frame" x="10" y="5" width="314" height="190"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mB3-yE-fLw">
+                                <rect key="frame" x="10" y="26.5" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="1ue-Rf-HfE"/>
+                                    <constraint firstAttribute="height" constant="25" id="Oae-Xs-FE9"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="icon-unchecked-round"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interior Detail-upcharges apply" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BIz-8Q-s72">
+                                <rect key="frame" x="50" y="10" width="180.5" height="16.5"/>
+                                <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="12"/>
+                                <color key="textColor" red="0.1137254902" green="0.7843137255" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="**Vehicle up charges apply " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iUE-Cd-zfN">
+                                <rect key="frame" x="50" y="31.5" width="141.5" height="15"/>
+                                <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
+                                <color key="textColor" red="0.15294117647058825" green="0.26666666666666666" blue="0.43137254901960786" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$250.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZS-P6-1y9">
+                                <rect key="frame" x="244.5" y="7.5" width="59.5" height="22"/>
+                                <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
+                                <color key="textColor" red="0.0078431372550000003" green="0.25490196079999999" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKL-4P-rGG">
+                                <rect key="frame" x="50" y="51.5" width="254" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="ea6-QK-SnX"/>
+                                </constraints>
+                                <string key="text">Hand wash Shampoo carpets, upholstery Clean leather Clean interior paneling Detail dash and console Treat &amp; condition all leather Clean windows, mirrors Shampoo headliner Degrease &amp; clean all jams Silicone tires</string>
+                                <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
+                                <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0o6-mp-mZH">
+                                <rect key="frame" x="50" y="131.5" width="77" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="ht7-XJ-YQS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
+                                <state key="normal" title="View More">
+                                    <color key="titleColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="ViewMore_BtnTouch:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="Inf-hq-qkq"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="mB3-yE-fLw" firstAttribute="centerY" secondItem="iUE-Cd-zfN" secondAttribute="centerY" id="0qA-fp-GgQ"/>
+                            <constraint firstItem="iUE-Cd-zfN" firstAttribute="leading" secondItem="BIz-8Q-s72" secondAttribute="leading" id="0qE-I6-jw2"/>
+                            <constraint firstAttribute="height" constant="190" id="6f4-L9-efM"/>
+                            <constraint firstItem="lZS-P6-1y9" firstAttribute="leading" secondItem="BIz-8Q-s72" secondAttribute="trailing" constant="14" id="9qa-TX-DZC"/>
+                            <constraint firstItem="lZS-P6-1y9" firstAttribute="centerY" secondItem="BIz-8Q-s72" secondAttribute="centerY" id="CNi-8e-fZ7"/>
+                            <constraint firstAttribute="trailing" secondItem="lZS-P6-1y9" secondAttribute="trailing" constant="10" id="IAw-Oi-gAP"/>
+                            <constraint firstItem="iUE-Cd-zfN" firstAttribute="top" secondItem="BIz-8Q-s72" secondAttribute="bottom" constant="5" id="Jtq-fN-frl"/>
+                            <constraint firstItem="BIz-8Q-s72" firstAttribute="leading" secondItem="mB3-yE-fLw" secondAttribute="trailing" constant="15" id="QCC-W4-2h5"/>
+                            <constraint firstItem="0o6-mp-mZH" firstAttribute="top" secondItem="nKL-4P-rGG" secondAttribute="bottom" constant="5" id="VwO-IK-LBl"/>
+                            <constraint firstItem="0o6-mp-mZH" firstAttribute="leading" secondItem="nKL-4P-rGG" secondAttribute="leading" id="WIS-sA-XSm"/>
+                            <constraint firstItem="BIz-8Q-s72" firstAttribute="top" secondItem="kqK-Az-hf9" secondAttribute="top" constant="10" id="a1m-bY-YCo"/>
+                            <constraint firstItem="nKL-4P-rGG" firstAttribute="top" secondItem="iUE-Cd-zfN" secondAttribute="bottom" constant="5" id="aml-MW-FdZ"/>
+                            <constraint firstItem="mB3-yE-fLw" firstAttribute="leading" secondItem="kqK-Az-hf9" secondAttribute="leading" constant="10" id="kdS-Lk-nG4"/>
+                            <constraint firstAttribute="trailing" secondItem="nKL-4P-rGG" secondAttribute="trailing" constant="10" id="mIh-9F-MsY"/>
+                            <constraint firstItem="nKL-4P-rGG" firstAttribute="leading" secondItem="iUE-Cd-zfN" secondAttribute="leading" id="xaS-am-VaF"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="kqK-Az-hf9" secondAttribute="bottom" constant="5" id="H8P-DR-tht"/>
+                    <constraint firstAttribute="trailing" secondItem="kqK-Az-hf9" secondAttribute="trailing" constant="10" id="Kyf-sb-y4i"/>
+                    <constraint firstItem="kqK-Az-hf9" firstAttribute="centerX" secondItem="YTl-1W-gDM" secondAttribute="centerX" id="LOy-J7-WoN"/>
+                    <constraint firstItem="kqK-Az-hf9" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" constant="5" id="U7k-xQ-wrp"/>
+                    <constraint firstItem="kqK-Az-hf9" firstAttribute="centerY" secondItem="YTl-1W-gDM" secondAttribute="centerY" id="f9f-m1-hu2"/>
+                    <constraint firstItem="kqK-Az-hf9" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="10" id="mog-oe-oCe"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="MoreValue_Const" destination="ea6-QK-SnX" id="P6Z-Fd-LTt"/>
+                <outlet property="SelectService_Btn" destination="mB3-yE-fLw" id="4Sb-MS-IsA"/>
+                <outlet property="SelectService_CellView" destination="kqK-Az-hf9" id="guu-bG-qcp"/>
+                <outlet property="SelectService_CostLbl" destination="lZS-P6-1y9" id="kz9-8U-YOP"/>
+                <outlet property="ServiceName_Lbl" destination="BIz-8Q-s72" id="8TC-T4-0dB"/>
+                <outlet property="ViewMore_Btn" destination="0o6-mp-mZH" id="keS-aU-fQD"/>
+                <outlet property="ViewMore_ValueLbl" destination="nKL-4P-rGG" id="EGF-eO-EMG"/>
+                <outlet property="serviceCell_ViewHeight" destination="6f4-L9-efM" id="Yxw-lS-FTE"/>
+            </connections>
+            <point key="canvasLocation" x="85.507246376811594" y="52.566964285714285"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon-unchecked-round" width="24" height="24"/>
+    </resources>
+</document>
