@@ -115,7 +115,7 @@ export class LocationCreateEditComponent implements OnInit {
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
     this.countryDropdownComponent.submitted = true;
-    if (this.cityComponent.city === '' || this.countryDropdownComponent.country === '') {
+    if (this.cityComponent.city === '') {
       return;
     }
     if (this.locationSetupForm.invalid) {
@@ -133,7 +133,7 @@ export class LocationCreateEditComponent implements OnInit {
       city: this.city,
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
-      country: this.Country,
+      country: this.countryDropdownComponent.country,
       longitude: 0,
       latitude: 0,
       weatherLocationId: 0,

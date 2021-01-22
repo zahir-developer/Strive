@@ -5,6 +5,7 @@ import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown
 import { VendorService } from 'src/app/shared/services/data-service/vendor.service';
 import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -14,6 +15,7 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 export class VendorCreateEditComponent implements OnInit {
   @ViewChild(CityComponent) cityComponent: CityComponent;
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CountryDropdownComponent) countryDropdownComponent: CountryDropdownComponent;
   vendorSetupForm: FormGroup;
   State: any;
   Country: any;
@@ -58,9 +60,9 @@ export class VendorCreateEditComponent implements OnInit {
   }
   getVendorById() {
     const vendorAddress = this.selectedData;
-    this.selectedStateId = vendorAddress.Country;
+    this.selectedStateId = vendorAddress.State;
     this.State = this.selectedStateId;
-    this.selectedCountryId = vendorAddress.State;
+    this.selectedCountryId = vendorAddress.Country;
     this.Country = this.selectedCountryId;
     this.selectedCityId = vendorAddress.City;
     this.city = this.selectedCityId;
@@ -117,10 +119,10 @@ export class VendorCreateEditComponent implements OnInit {
       phoneNumber2: '',
       email: this.vendorSetupForm.value.email,
       city: this.city,
-      state: this.Country,
+      state: this.State,
       zip: this.vendorSetupForm.value.zipcode,
       fax: this.vendorSetupForm.value.fax,
-      country: this.State,
+      country: this.countryDropdownComponent.country,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
