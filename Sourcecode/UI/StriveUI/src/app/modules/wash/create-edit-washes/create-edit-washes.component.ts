@@ -623,9 +623,9 @@ export class CreateEditWashesComponent implements OnInit {
       jobStatus: this.jobStatusId,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date()
     };
     this.washItem.forEach(element => {
@@ -639,12 +639,12 @@ export class CreateEditWashesComponent implements OnInit {
         commission: 0,
         price: item.Cost,
         quantity: 1,
-        reviewNote: "",
+        reviewNote: null, // ''
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: +localStorage.getItem('empId'),
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date()
       };
     });

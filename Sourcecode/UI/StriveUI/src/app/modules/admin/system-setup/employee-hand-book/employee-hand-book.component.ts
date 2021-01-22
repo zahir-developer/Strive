@@ -91,8 +91,6 @@ export class EmployeeHandBookComponent implements OnInit {
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
         console.log(this.documentTypeId);
         this.getDocument();
-
-
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
