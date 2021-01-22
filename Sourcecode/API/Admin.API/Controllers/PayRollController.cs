@@ -43,5 +43,8 @@ namespace Admin.API.Controllers
         [Route("AddPayRollProcess")]
         public Result AddPayRollProcess([FromBody] PayrollProcessAddDto payRollProcessAddDto) => _bplManager.AddPayRollProcess(payRollProcessAddDto);
 
+        [HttpGet]
+        [Route("GetPayrollProcessStatus")]
+        public Result GetPayrollProcessStatus(PayRollProcessDto payRollProcessDto) => _bplManager.GetPayrollProcessStatus(payRollProcessDto);
     }
 }

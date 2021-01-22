@@ -48,5 +48,18 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(payrollProcessAdd, "PayrollProcessId");
         }
+
+        public bool GetPayrollProcessStatus(PayRollProcessDto payRollProcess)
+        {
+            _prm.Add("@FromDate", payRollProcess.StartDate);
+            _prm.Add("@ToDate", payRollProcess.EndDate);
+            var res = db.Fetch<PayrollProcessViewModel>(SPEnum.USPGETPAYROLLPROCESS.ToString(), _prm);
+           if(res.Count>0)
+            {
+                return true;
+            }
+           else return false;
+                   
+        }
     }
 }

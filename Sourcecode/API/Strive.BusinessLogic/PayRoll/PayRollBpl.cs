@@ -77,6 +77,10 @@ namespace Strive.BusinessLogic.PayRoll
             }
             return _result;
         }
+        public Result GetPayrollProcessStatus(PayRollProcessDto payRollProcess)
+        {
+            return ResultWrap(new PayRollRal(_tenant).GetPayrollProcessStatus, payRollProcess, "Result");
+        }
 
     }
 }
