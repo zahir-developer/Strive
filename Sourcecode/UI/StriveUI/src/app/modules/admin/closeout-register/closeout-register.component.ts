@@ -43,14 +43,15 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   closeoutRegisterForm: FormGroup;
   date = moment(new Date()).format('MM/DD/YYYY');
   CloseRegisterId: any;
-
+  drawerId: any;
   constructor(
-    private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,private toastr: ToastrService,
+    private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getDocumentType()
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
+    this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
   }
   ngAfterViewInit() {
@@ -95,6 +96,14 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     const today = moment(this.selectDate).format('YYYY-MM-DD');
     const cashRegisterType = "CLOSEOUT";
     const locationId = +localStorage.getItem('empLocationId');
+    this.closeoutRegisterForm.reset();
+    this.cashRegisterCoinForm.reset();
+    this.cashRegisterBillForm.reset();
+    this.cashRegisterRollForm.reset();
+    this.totalCoin = 0;
+    this.totalBill = 0;
+    this.totalRoll = 0;
+    this.totalCash = 0;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
@@ -150,6 +159,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterBillForm.enable();
           this.cashRegisterRollForm.enable();
           this.closeoutRegisterForm.enable();
+          this.isUpdate = false;
         } else {
           this.isUpdate = false;
           this.closeoutRegisterForm.reset();
@@ -183,7 +193,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
       isActive: true,
       isDeleted: false,
-      createdBy:  +localStorage.getItem('empId'),
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
@@ -199,7 +209,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       s100: this.cashRegisterBillForm.value.billHundreds,
       isActive: true,
       isDeleted: false,
-      createdBy:+localStorage.getItem('empId'),
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
@@ -238,7 +248,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CloseRegisterId,
       locationId: +localStorage.getItem('empLocationId'),
-      drawerId: 1,
+      drawerId: +this.drawerId,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
       isDeleted: false,

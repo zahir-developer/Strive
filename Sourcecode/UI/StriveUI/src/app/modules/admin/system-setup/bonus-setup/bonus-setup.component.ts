@@ -271,7 +271,7 @@ export class BonusSetupComponent implements OnInit {
     const bonus = {
       bonusId: this.bonusId,
       locationId: this.locationId,
-      bonusStatus: 1,
+      bonusStatus: null,
       bonusMonth: this.selectedMonth,
       bonusYear: this.selectedYear,
       noOfBadReviews: this.noOfBadReviews,

@@ -50,7 +50,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-lg-3">
-                    <label for="inputCountry">Country</label>
+                    <label for="inputCountry">Country&nbsp;<span class="required">*</span></label>
                     <app-country-dropdown [selectedCountryId]="selectedCountryId"
                         (countryId)="getSelectedCountryId($event)">
                     </app-country-dropdown>

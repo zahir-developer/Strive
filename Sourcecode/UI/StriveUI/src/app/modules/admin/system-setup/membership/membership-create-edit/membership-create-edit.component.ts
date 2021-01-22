@@ -63,9 +63,9 @@ export class MembershipCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.service = membership.ServicesWithPrice;
-        this.washes = this.service.filter(item => item.ServiceTypeName === "Wash Package");
-        this.upchargeType = this.service.filter(item => item.ServiceTypeName === "Upcharges");
-        this.additionalService = this.service.filter(item => item.ServiceTypeName === "Additional Services");
+        this.washes = this.service.filter(item => item.ServiceTypeName === 'Wash Package');
+        this.upchargeType = this.service.filter(item => item.ServiceTypeName === 'Wash Upcharges (F)');
+        this.additionalService = this.service.filter(item => item.ServiceTypeName === 'Additonal Services');
         this.additional = this.additionalService.map(item => {
           return {
             item_id: item.ServiceId,
