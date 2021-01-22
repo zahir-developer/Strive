@@ -22,28 +22,28 @@ export class AdSetupListComponent implements OnInit {
   search: any = '';
   searchStatus: any;
   recordCount: any;
-  page: any ;
-  pageSize :any;
+  page: any;
+  pageSize: any;
   pageSizeList: any[];
-
+  clonedadSetupDetails: any = [];
   collectionSize: number = 0;
   Status: any;
   query = '';
   documentTypeId: any;
-  constructor(private adSetup: AdSetupService, 
-    private toastr: ToastrService,  private getCode: GetCodeService,
+  constructor(private adSetup: AdSetupService,
+    private toastr: ToastrService, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.isLoading = false;
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
 
-    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
+    this.Status = [{ id: 0, Value: "InActive" }, { id: 1, Value: "Active" }, { id: 2, Value: "All" }];
     this.searchStatus = "";
     this.getAlladSetupDetails();
-   this.getDocumentType();
+    this.getDocumentType();
   }
 
   // Get All Services
@@ -54,11 +54,14 @@ export class AdSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.adSetupDetails = serviceDetails.GetAllAdSetup;
+        this.adSetupDetails.forEach( ad => {
+          ad.serupName = ad.Name + '' + ad.Description;
+        });
+        this.clonedadSetupDetails = this.adSetupDetails.map(x => Object.assign({}, x));
         if (this.adSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
           this.collectionSize = Math.ceil(this.adSetupDetails.length / this.pageSize) * 10;
-
           this.isTableEmpty = false;
         }
       } else {
@@ -66,30 +69,30 @@ export class AdSetupListComponent implements OnInit {
       }
     });
   }
-  
-  getDocumentType(){
+
+  getDocumentType() {
     this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "Ads")[0].CodeId;
-          console.log(this.documentTypeId);
+        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "Ads")[0].CodeId;
+        console.log(this.documentTypeId);
 
-      
+
       } else {
       }
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
+
+    this.pageSize = +this.pageSize;
+    this.page = event;
+
     this.getAlladSetupDetails()
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+
     this.getAlladSetupDetails()
   }
   edit(data) {
@@ -138,7 +141,16 @@ export class AdSetupListComponent implements OnInit {
       this.showDialog = true;
     }
   }
-  
+
+  searchAdList(text) {
+    if (text.length > 0) {
+      this.adSetupDetails = this.clonedadSetupDetails.filter(item => item.serupName.toLowerCase().includes(text));
+    } else {
+      this.adSetupDetails = [];
+      this.adSetupDetails = this.clonedadSetupDetails;
+    }
+  }
+
 
 
 }

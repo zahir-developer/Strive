@@ -6,6 +6,7 @@ import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -15,6 +16,7 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 export class LocationCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
+  @ViewChild(CountryDropdownComponent) countryDropdownComponent: CountryDropdownComponent;
   locationSetupForm: FormGroup;
   State: any;
   Country: any;
@@ -112,6 +114,7 @@ export class LocationCreateEditComponent implements OnInit {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
+    this.countryDropdownComponent.submitted = true;
     if (this.cityComponent.city === '') {
       return;
     }
@@ -130,7 +133,7 @@ export class LocationCreateEditComponent implements OnInit {
       city: this.city,
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
-      country: this.Country,
+      country: this.countryDropdownComponent.country,
       longitude: 0,
       latitude: 0,
       weatherLocationId: 0,
