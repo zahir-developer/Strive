@@ -42,7 +42,10 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             }
         }
 
-
+        public async void NavToSelect_Loc()
+        {
+            await _navigationService.Navigate<ScheduleLocationsViewModel>();
+        }
         #endregion Commands
 
     }

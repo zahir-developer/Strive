@@ -314,6 +314,8 @@
         <InterfaceDefinition Include="Views\Schedule\DB_PastHistory_Cell.xib" />
         <InterfaceDefinition Include="Views\Schedule\Schedule_SelectService.xib" />
         <InterfaceDefinition Include="Views\Schedule\Schedule_SelectService_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectLoc_View.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_Location_Cell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -466,6 +468,15 @@
           <DependentUpon>Schedule_SelectService_Cell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\Schedule\Schedule_SelectService_Source.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectLoc_View.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectLoc_View.designer.cs">
+          <DependentUpon>Schedule_SelectLoc_View.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_Location_Cell.cs" />
+        <Compile Include="Views\Schedule\Schedule_Location_Cell.designer.cs">
+          <DependentUpon>Schedule_Location_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\ScheduleLocation_Source.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

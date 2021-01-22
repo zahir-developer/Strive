@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Runtime.Remoting.Channels;
 using CoreGraphics;
+using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
 
 namespace StriveCustomer.iOS.Views.Schedule
 {
-    public partial class Schedule_SelectService : UIViewController
+    public partial class Schedule_SelectLoc_View : MvxViewController<ScheduleLocationsViewModel>
     {
-        ScheduleServicesViewModel ViewModel = new ScheduleServicesViewModel();
-        public Schedule_SelectService() : base("Schedule_SelectService", null)
+        public Schedule_SelectLoc_View() : base("Schedule_SelectLoc_View", null)
         {
         }
 
         public override void ViewDidLoad()
-        {            
+        {
             base.ViewDidLoad();
-            InitialSetup();
+            InitialSetUp();
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -27,7 +26,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             // Release any cached data, images, etc that aren't in use.
         }
 
-        private void InitialSetup()
+        public void InitialSetUp()
         {
             var rightBtn = new UIButton(UIButtonType.Custom);
             rightBtn.SetTitle("Next", UIControlState.Normal);
@@ -37,7 +36,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-                ViewModel.NavToSelect_Loc();
+                
             };
 
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
@@ -45,27 +44,24 @@ namespace StriveCustomer.iOS.Views.Schedule
                 Font = DesignUtils.OpenSansBoldFifteen(),
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
-            NavigationItem.Title = "Select Service";           
+            NavigationItem.Title = "Select Location";
 
-            SelectService_View.Layer.CornerRadius = 5;
-            SelectService_TableView.Layer.CornerRadius = 5;
-            Cancel_SelectServiceBtn.Layer.CornerRadius = 5;
+            SelectLocation_View.Layer.CornerRadius = 5;
+            SelectLoc_TableView.Layer.CornerRadius = 5;
+            SelectLoc_CancelBtn.Layer.CornerRadius = 5;
 
-            SelectService_TableView.RegisterNibForCellReuse(Schedule_SelectService_Cell.Nib, Schedule_SelectService_Cell.Key);
-            SelectService_TableView.ReloadData();
-
-            getSelectServices();
+            getLocations();
         }
 
-        private async void getSelectServices()
+        public async void getLocations()
         {
-            await ViewModel.GetScheduledServices();
+            await this.ViewModel.GetAllLocationsCommand();
 
-            var selectServiceSource = new Schedule_SelectService_Source(this.ViewModel);
-            SelectService_TableView.Source = selectServiceSource;
-            SelectService_TableView.TableFooterView = new UIView(CGRect.Empty);
-            SelectService_TableView.DelaysContentTouches = false;
-            SelectService_TableView.ReloadData();
+            var locationSource = new ScheduleLocation_Source(this.ViewModel);
+            SelectLoc_TableView.Source = locationSource;
+            SelectLoc_TableView.TableFooterView = new UIView(CGRect.Empty);
+            SelectLoc_TableView.DelaysContentTouches = false;
+            SelectLoc_TableView.ReloadData();
         }
     }
 }

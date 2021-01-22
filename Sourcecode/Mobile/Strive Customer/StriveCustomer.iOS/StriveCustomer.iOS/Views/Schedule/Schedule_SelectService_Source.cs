@@ -51,8 +51,17 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            isClicked = true;
-            GetHeightForRow(tableView, indexPath);
-        }        
+            //isClicked = true;
+            //GetHeightForRow(tableView, indexPath);
+
+            Schedule_SelectService_Cell cell = (Schedule_SelectService_Cell)tableView.CellAt(indexPath);
+            cell.updateRow(indexPath);
+        }
+
+        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
+        {
+            Schedule_SelectService_Cell cell = (Schedule_SelectService_Cell)tableView.CellAt(indexPath);
+            cell.deselectRow(indexPath);
+        }
     }
 }
