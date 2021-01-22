@@ -109,8 +109,8 @@ namespace Strive.ResourceAccess
 
         public List<ClientViewModel> GetAllClientName(string name)
         {
-            _prm.Add("name",name);
-            return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENTNAME.ToString(), null);
+            _prm.Add("Name",name);
+            return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENTNAME.ToString(), _prm);
         }
     }
 }
