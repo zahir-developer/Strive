@@ -316,6 +316,7 @@
         <InterfaceDefinition Include="Views\Schedule\Schedule_SelectService_Cell.xib" />
         <InterfaceDefinition Include="Views\Schedule\Schedule_SelectLoc_View.xib" />
         <InterfaceDefinition Include="Views\Schedule\Schedule_Location_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectDate_View.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -477,6 +478,10 @@
           <DependentUpon>Schedule_Location_Cell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\Schedule\ScheduleLocation_Source.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectDate_View.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectDate_View.designer.cs">
+          <DependentUpon>Schedule_SelectDate_View.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

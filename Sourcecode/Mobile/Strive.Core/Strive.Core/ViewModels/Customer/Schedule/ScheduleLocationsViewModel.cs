@@ -35,7 +35,10 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             }
         }
 
-
+        public async void NavToScheduleDate()
+        {
+            await _navigationService.Navigate<ScheduleAppointmentDateViewModel>();
+        }
         #endregion Commands
 
     }

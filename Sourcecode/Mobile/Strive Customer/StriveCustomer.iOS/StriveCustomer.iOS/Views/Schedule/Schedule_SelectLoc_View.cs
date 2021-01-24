@@ -36,7 +36,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-                
+                ViewModel.NavToScheduleDate();
             };
 
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
