@@ -1,5 +1,6 @@
 ﻿using System;
 using Foundation;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
 using UIKit;
 
@@ -20,7 +21,7 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 90;
+            return 45;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
@@ -34,6 +35,21 @@ namespace StriveCustomer.iOS.Views.Schedule
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             cell.SetData(ViewModel, indexPath);
             return cell;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            Schedule_Location_Cell cell = (Schedule_Location_Cell)tableView.CellAt(indexPath);
+            cell.updateCell(indexPath);
+
+            CustomerScheduleInformation.ScheduleLocationCode = ViewModel.Locations.Location[indexPath.Row].LocationId;
+            CustomerScheduleInformation.ScheduleLocationAddress = ViewModel.Locations.Location[indexPath.Row].Address1;
+        }
+
+        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
+        {
+            Schedule_Location_Cell cell = (Schedule_Location_Cell)tableView.CellAt(indexPath);
+            cell.deselectRow(indexPath);
         }
     }
 }

@@ -50,6 +50,8 @@ namespace StriveCustomer.iOS.Views.Schedule
             SelectLoc_TableView.Layer.CornerRadius = 5;
             SelectLoc_CancelBtn.Layer.CornerRadius = 5;
 
+            SelectLoc_TableView.RegisterNibForCellReuse(Schedule_Location_Cell.Nib, Schedule_Location_Cell.Key);
+            SelectLoc_TableView.ReloadData();
             getLocations();
         }
 

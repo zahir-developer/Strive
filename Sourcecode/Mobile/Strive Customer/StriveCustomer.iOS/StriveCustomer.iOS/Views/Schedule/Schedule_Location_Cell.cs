@@ -25,5 +25,15 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             ScheduleLocation_Lbl.Text = viewModel.Locations.Location[indexPath.Row].Address1;
         }
+
+        public void updateCell(NSIndexPath indexPath)
+        {
+            scheduleLoc_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);                
+        }
+
+        public void deselectRow(NSIndexPath indexPath)
+        {
+            scheduleLoc_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+        }
     }
 }
