@@ -8,8 +8,7 @@ using UIKit;
 namespace StriveCustomer.iOS.Views.Schedule
 {
     public partial class Schedule_SelectService_Cell : UITableViewCell
-    {
-        //Schedule_SelectService_Source source = new Schedule_SelectService_Source();
+    {       
         NSIndexPath selected_index = new NSIndexPath();
         UITableView service_tableview = new UITableView();
         public static readonly NSString Key = new NSString("Schedule_SelectService_Cell");
@@ -43,6 +42,16 @@ namespace StriveCustomer.iOS.Views.Schedule
             MoreValue_Const.Constant = 75;
             ViewMore_ValueLbl.Hidden = false;
             ViewMore_Btn.SetTitle("View Less", UIControlState.Normal);            
-        }       
+        }
+
+        public void updateRow(NSIndexPath indexPath)
+        {
+            //SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+        }
+
+        public void deselectRow(NSIndexPath indexPath)
+        {
+            //SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+        }
     }
 }
