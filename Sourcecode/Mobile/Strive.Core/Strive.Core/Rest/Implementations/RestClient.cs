@@ -84,7 +84,10 @@ namespace Strive.Core.Rest.Implementations
                     if (!ValidateResponse(baseResponse))
                     {
                         _userDialog.HideLoading();
-                        await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
+                        if(!url.Contains("Login"))
+                        {
+                            await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
+                        }
                         baseResponse.resultData = "null";
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
