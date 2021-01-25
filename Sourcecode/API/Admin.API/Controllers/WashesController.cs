@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Washes;
 using Strive.BusinessLogic.Washes;
 using Strive.Common;
@@ -18,10 +19,6 @@ namespace Admin.API.Controllers
         public WashesController(IWashesBpl colBpl) : base(colBpl) { }
 
         #region GET
-
-        [HttpGet]
-        [Route("GetAllWashes/{locationId}")]
-        public Result GetAllWashTime(int locationId) => _bplManager.GetAllWashTime(locationId);
 
         [HttpGet]
         [Route("GetWashTimeDetail/{id}")]
@@ -42,6 +39,10 @@ namespace Admin.API.Controllers
         #endregion
 
         #region POST
+
+        [HttpPost]
+        [Route("GetAllWashes")]
+        public Result GetAllWashTime(SearchDto searchDto) => _bplManager.GetAllWashTime(searchDto);
 
         [HttpPost]
         [Route("AddWashTime")]
