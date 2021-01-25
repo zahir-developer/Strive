@@ -53,6 +53,8 @@ export const UrlConfig = {
     deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,
     addClient: `Admin/Client/InsertClientDetails`,
     updateClient: `Admin/Client/UpdateClientVehicle`,
+    getClientName: `Admin/Client/GetAllName`,
+
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAll`,
@@ -161,7 +163,8 @@ export const UrlConfig = {
     deleteadSetup: `Admin/AdSetup/Delete`,
     getByIdadSetup: `Admin/AdSetup/GetById`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
-    getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`
+    getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`,
+
 
 
 

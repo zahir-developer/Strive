@@ -302,14 +302,14 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getAllClient() {
-    this.wash.getAllClient().subscribe(res => {
+    this.client.getClientName().subscribe(res => {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
-        client.Client.forEach(item => {
+        client.ClientName.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
-        this.clientList = client.Client.map(item => {
+        this.clientList = client.ClientName.map(item => {
           return {
             id: item.ClientId,
             name: item.fullName
