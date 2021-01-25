@@ -80,8 +80,8 @@ export class WashesListComponent implements OnInit {
     this.washes.getAllWashes(obj).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
+            const totalRowCount = 59000
         this.washDetails = wash.Washes;
-
         for (let i = 0; i < this.washDetails.length; i++) {
           let hh = this.washDetails[i].TimeIn.substring(13, 11);
           let m = this.washDetails[i].TimeIn.substring(16, 14);
@@ -134,10 +134,7 @@ export class WashesListComponent implements OnInit {
         if (this.washDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.washDetails.length / this.pageSize) * 10;
-          console.log(this.collectionSize)
-          console.log(this.washDetails.length)
-
+          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
