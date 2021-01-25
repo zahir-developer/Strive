@@ -121,6 +121,20 @@ namespace Strive.Core.ViewModels.Customer
             }
         }
 
+        public async void CheckSaveVehicle()
+        {
+            if ((MembershipDetails.previousSelectedColor == MembershipDetails.selectedColor) && (MembershipDetails.previousSelectedMake == MembershipDetails.selectedMake) && (MembershipDetails.previousSelectedModel == MembershipDetails.selectedModel))
+            {
+                _userDialog.Alert("You have already created this vehicle");
+            }
+            else
+            {
+                MembershipDetails.previousSelectedModel = MembershipDetails.selectedModel;
+                MembershipDetails.previousSelectedColor = MembershipDetails.selectedColor;
+                MembershipDetails.previousSelectedMake = MembershipDetails.selectedMake;
+                await this.SaveVehicle();
+            }
+        }
         public async Task SaveVehicle()
         {  
             if (VehicleDetailsCheck())

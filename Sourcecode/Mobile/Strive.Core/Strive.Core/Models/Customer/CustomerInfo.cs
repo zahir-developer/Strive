@@ -69,6 +69,9 @@ namespace Strive.Core.Models.Customer
     {
         #region MembershipProperties
 
+        public static int previousSelectedColor { get; set; } = 0;
+        public static int previousSelectedModel { get; set; } = 0;
+        public static int previousSelectedMake { get; set; } = 0;
         public static int selectedColor { get; set; }
         public static int selectedModel { get; set; }
         public static int selectedMake { get; set; }
@@ -92,6 +95,9 @@ namespace Strive.Core.Models.Customer
 
         public static void clearMembershipData()
         {
+            previousSelectedColor = 0;
+            previousSelectedMake = 0;
+            previousSelectedModel = 0;
             selectedColor = 0;
             selectedModel = 0;
             selectedMake = 0;
@@ -157,5 +163,15 @@ namespace Strive.Core.Models.Customer
         }
 
         #endregion Commands
+    }
+
+    public static  class MyProfileCustomerInfo
+    {
+        public static string FullName { get; set; }
+        public static string ContactNumber { get; set; }
+        public static string Address { get; set; }
+        public static string ZipCode { get; set; }
+        public static string SecondaryContactNumber { get; set; }
+        public static string Email { get; set; }
     }
 }
