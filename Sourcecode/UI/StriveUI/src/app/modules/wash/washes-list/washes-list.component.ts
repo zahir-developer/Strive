@@ -22,8 +22,7 @@ export class WashesListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isView: boolean;
-  page = 1;
-  pageSize = 5;
+ 
   collectionSize: number = 0;
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
@@ -32,6 +31,8 @@ export class WashesListComponent implements OnInit {
   sort = { column: 'TicketNumber', descending: true };
   sortColumn: { column: string; descending: boolean; };
   pageSizeList: number[];
+  page: number;
+  pageSize: number;
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe,
     private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
@@ -63,7 +64,20 @@ export class WashesListComponent implements OnInit {
   }
   // Get All Washes
   getAllWashDetails() {
-    this.washes.getAllWashes(this.locationId).subscribe(data => {
+    const obj = {
+      LocationId :this.locationId,
+
+    PageNo :this.page,
+
+    PageSize : this.pageSize ,
+
+     Query : null,
+
+    SortOrder: null,
+
+      SortBy : null
+    }
+    this.washes.getAllWashes(obj).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
         this.washDetails = wash.Washes;
@@ -121,6 +135,9 @@ export class WashesListComponent implements OnInit {
           this.isTableEmpty = true;
         } else {
           this.collectionSize = Math.ceil(this.washDetails.length / this.pageSize) * 10;
+          console.log(this.collectionSize)
+          console.log(this.washDetails.length)
+
           this.isTableEmpty = false;
         }
       } else {

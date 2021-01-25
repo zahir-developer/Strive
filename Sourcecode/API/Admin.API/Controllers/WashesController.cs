@@ -42,8 +42,8 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("GetAllWashes")]
-        public Result GetAllWashTime(SearchDto searchDto) => _bplManager.GetAllWashTime(searchDto);
-
+        public Result GetAllWashTime([FromBody] SearchDto searchDto) => _bplManager.GetAllWashTime(searchDto);
+         
         [HttpPost]
         [Route("AddWashTime")]
         public Result AddWashTime([FromBody] WashesDto washes) => _bplManager.AddWashTime(washes);

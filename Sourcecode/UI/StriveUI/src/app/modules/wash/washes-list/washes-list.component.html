@@ -165,12 +165,12 @@
                                         </table>
                                         <div class="row pull-right" >
                                             <div class="col-6">
-                                             <ngb-pagination *ngIf="washDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                             <ngb-pagination  [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
                                                  [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
                                                  [boundaryLinks]="true" class="d-flex justify-content-end">
                                              </ngb-pagination> 
                                              </div>
-                                             <select *ngIf="washDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                             <select  class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
                                                  <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
          
                                              </select>

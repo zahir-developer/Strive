@@ -12,8 +12,8 @@ export class WashService {
   public dashBoardData = this.data.asObservable();
   constructor(private http: HttpUtilsService) {
   }
-  getAllWashes(locationId): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getAllWash}` + locationId);
+  getAllWashes(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.totalUrl.getAllWash}` , obj);
   }
   updateWashes(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateWash}`, obj);
