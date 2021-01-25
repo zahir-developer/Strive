@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/vehicleInfoCardColor"
-        app:cardElevation="@dimen/five"
+        app:cardElevation="@dimen/one"
         app:cardUseCompatPadding="true">
         <LinearLayout
             android:orientation="horizontal"
