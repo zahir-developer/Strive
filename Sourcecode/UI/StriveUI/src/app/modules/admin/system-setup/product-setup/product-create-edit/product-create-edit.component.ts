@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductService } from 'src/app/shared/services/data-service/product.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -31,7 +32,9 @@ export class ProductCreateEditComponent implements OnInit {
   costErrMsg: boolean = false;
   priceErrMsg: boolean = false;
   employeeId: number;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
+  constructor(private fb: FormBuilder, 
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -223,7 +226,9 @@ export class ProductCreateEditComponent implements OnInit {
       price: this.productSetupForm.value.suggested
     };
     if (this.isEdit === true) {
+      this.spinner.show()
       this.product.updateProduct(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {        
           this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -234,7 +239,9 @@ export class ProductCreateEditComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.show()
       this.product.addProduct(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {        
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

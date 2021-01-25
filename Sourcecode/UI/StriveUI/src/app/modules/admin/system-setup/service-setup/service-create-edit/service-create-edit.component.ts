@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -38,7 +39,9 @@ export class ServiceCreateEditComponent implements OnInit {
 
 
 
-  constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
+  constructor(private serviceSetup: ServiceSetupService, 
+    private spinner: NgxSpinnerService,
+    private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -261,7 +264,9 @@ export class ServiceCreateEditComponent implements OnInit {
 
     };
     if (this.isEdit === true) {
+      this.spinner.show()
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {   
           this.toastr.success('Record Updated Successfully!!', 'Success!');     
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -272,7 +277,9 @@ export class ServiceCreateEditComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.show()
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') { 
           this.toastr.success('Record Saved Successfully!!', 'Success!');       
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

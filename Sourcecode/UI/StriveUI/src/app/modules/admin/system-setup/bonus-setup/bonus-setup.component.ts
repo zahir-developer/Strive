@@ -3,6 +3,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { BonusSetupService } from 'src/app/shared/services/data-service/bonus-setup.service';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-bonus-setup',
@@ -37,6 +38,8 @@ export class BonusSetupComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private bonusSetupService: BonusSetupService,
     private datePipe: DatePipe,
+    private spinner: NgxSpinnerService,
+
     private toastr: ToastrService,
   ) { }
 
@@ -292,7 +295,9 @@ export class BonusSetupComponent implements OnInit {
     };
     console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
+      this.spinner.show()
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
+        this.spinner.hide()
         if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
         } else {
@@ -301,7 +306,9 @@ export class BonusSetupComponent implements OnInit {
         this.getBonusList();
       });
     } else {
+      this.spinner.show()
       this.bonusSetupService.editBonus(finalObj).subscribe(res => {
+        this.spinner.hide()
         if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
 

@@ -6,6 +6,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { CheckListService } from 'src/app/shared/services/data-service/check-list.service';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-check-list',
@@ -38,6 +39,8 @@ export class CheckListComponent implements OnInit {
   constructor(private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
     private httpClient: HttpClient,
+    private spinner: NgxSpinnerService,
+
     private confirmationService: ConfirmationUXBDialogService,
      private toastr: ToastrService,) { }
 
@@ -208,7 +211,9 @@ onRoleDeSelect(event) {
         
     };
     if (data.ChecklistId) {
+      this.spinner.show()
       this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {   
           this.toastr.success('Record Updated Successfully!!', 'Success!'); 
               
@@ -220,7 +225,9 @@ onRoleDeSelect(event) {
         }
       });
     } else {
+      this.spinner.show()
       this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') { 
           this.toastr.success('Record Saved Successfully!!', 'Success!');  
           this.getAllcheckListDetails();

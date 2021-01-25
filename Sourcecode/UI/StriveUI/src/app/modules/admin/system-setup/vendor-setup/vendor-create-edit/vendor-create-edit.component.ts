@@ -5,6 +5,7 @@ import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown
 import { VendorService } from 'src/app/shared/services/data-service/vendor.service';
 import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -27,7 +28,9 @@ export class VendorCreateEditComponent implements OnInit {
   selectedCountryId: any;
   selectedCityId: any;
   employeeId: number;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private vendorService: VendorService) { }
+  constructor(private fb: FormBuilder, 
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService, private vendorService: VendorService) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -133,14 +136,18 @@ export class VendorCreateEditComponent implements OnInit {
       vendorAddress: addressObj
     };
     if (this.isEdit === false) {
+      this.spinner.show()
       this.vendorService.saveVendor(finalObj).subscribe(res => {
+        this.spinner.hide()
         if (res.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         }
       });
     } else {
+      this.spinner.show()
       this.vendorService.updateVendor(finalObj).subscribe(res => {
+        this.spinner.hide()
         if (res.status === 'Success') {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

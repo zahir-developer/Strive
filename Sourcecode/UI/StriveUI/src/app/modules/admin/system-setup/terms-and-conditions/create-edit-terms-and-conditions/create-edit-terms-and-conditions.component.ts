@@ -4,6 +4,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create-edit-terms-and-conditions',
@@ -26,6 +27,8 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   fileSize: number;
   localFileSize: any;
   constructor(private fb:FormBuilder, private toastr: MessageServiceToastr,
+    private spinner: NgxSpinnerService,
+
      private document:DocumentService, private getCode: GetCodeService) { }
 
   ngOnInit() : void {
@@ -134,7 +137,11 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
       document:obj,
       documentType:"TERMSANDCONDITION"
     };
+this.spinner.show();
     this.document.addDocument(finalObj).subscribe(data => {
+      this.spinner.hide();
+      this.isLoading = false;
+
       if (data.status === 'Success') {        
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Saved Successfully' });
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

@@ -6,6 +6,7 @@ import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -37,7 +38,9 @@ export class LocationCreateEditComponent implements OnInit {
   offsetE = false;
   offsetF = false;
   employeeId: number;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
+  constructor(private fb: FormBuilder, private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private locationService: LocationService,
     private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
@@ -196,7 +199,9 @@ export class LocationCreateEditComponent implements OnInit {
       locationOffset
     };
     if (this.isEdit === false) {
+      this.spinner.show()
       this.locationService.saveLocation(finalObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -207,7 +212,9 @@ export class LocationCreateEditComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.show()
       this.locationService.updateLocation(finalObj).subscribe(res => {
+        this.spinner.hide()
         if (res.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

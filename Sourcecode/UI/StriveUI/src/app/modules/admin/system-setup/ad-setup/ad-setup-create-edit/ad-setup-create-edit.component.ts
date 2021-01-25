@@ -5,6 +5,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ad-setup-create-edit',
@@ -34,6 +35,8 @@ export class AdSetupCreateEditComponent implements OnInit {
   localFileSize: any;
 
   constructor(private adSetup: AdSetupService,
+    private spinner: NgxSpinnerService,
+
      private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -214,7 +217,9 @@ if (this.documentClear == false){
 } 
      
     if (this.isEdit === true) {
+      this.spinner.show()
       this.adSetup.updateAdSetup(objList).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {   
           this.toastr.success('Record Updated Successfully!!', 'Success!');     
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -225,7 +230,9 @@ if (this.documentClear == false){
         }
       });
     } else {
+      this.spinner.show()
       this.adSetup.addAdSetup(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') { 
           this.toastr.success('Record Saved Successfully!!', 'Success!');       
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });

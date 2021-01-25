@@ -5,6 +5,7 @@ import { MembershipService } from 'src/app/shared/services/data-service/membersh
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import * as _ from 'underscore';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-membership-create-edit',
   templateUrl: './membership-create-edit.component.html',
@@ -29,7 +30,9 @@ export class MembershipCreateEditComponent implements OnInit {
   PriceServices: any = [];
   costErrMsg: boolean = false;
   employeeId: number;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
+  constructor(private fb: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private toastr: MessageServiceToastr, private member: MembershipService) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -358,7 +361,9 @@ export class MembershipCreateEditComponent implements OnInit {
       membershipService: ServiceObj
     };
     if (this.isEdit === true) {
+      this.spinner.show()
       this.member.updateMembership(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Updated Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -368,7 +373,9 @@ export class MembershipCreateEditComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.show()
       this.member.addMembership(formObj).subscribe(data => {
+        this.spinner.hide()
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Saved Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
