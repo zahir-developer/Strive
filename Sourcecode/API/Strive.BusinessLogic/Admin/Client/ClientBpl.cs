@@ -17,6 +17,7 @@ using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.BusinessLogic
 {
@@ -104,9 +105,9 @@ namespace Strive.BusinessLogic
             return _result;
         }
         
-        public Result GetAllClient()
+        public Result GetAllClient(SearchDto searchDto)
         {
-            return ResultWrap(new ClientRal(_tenant).GetAllClient, "Client");
+            return ResultWrap(new ClientRal(_tenant).GetAllClient, searchDto, "Client");
         }
         public Result GetClientById(int clientId)
         {

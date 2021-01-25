@@ -14,6 +14,7 @@ using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.Code;
 using Strive.RepositoryCqrs;
 using Strive.BusinessEntities.DTO.Sales;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.ResourceAccess
 {
@@ -36,9 +37,17 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
             return true;
         }
-        public List<ClientViewModel> GetAllClient()
+        public List<ClientViewModel> GetAllClient(SearchDto searchDto)
         {
-            return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), null);
+
+            _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            var result = db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), null);
+            return result;
         }
         public List<ClientDetailViewModel> GetClientById(int clientId)
         {
