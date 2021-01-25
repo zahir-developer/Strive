@@ -15,7 +15,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
   payRollList: any = [];
-
+MaxDate = new Date()
   collectionSize = 0;
   isEditAdjustment: boolean;
   isPayrollEmpty = true;
