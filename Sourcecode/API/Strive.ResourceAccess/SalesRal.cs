@@ -27,7 +27,7 @@ namespace Strive.ResourceAccess
             dynParams.Add("@ServiceId", salesItemUpdateDto.ServiceId);
             dynParams.Add("@Quantity", salesItemUpdateDto.Quantity);
             dynParams.Add("@Price", salesItemUpdateDto.Price);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.uspUpdateSalesItem.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Sales.uspUpdateSalesItem.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
@@ -42,7 +42,7 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@JobItemId", itemDto.ItemId);
             dynParams.Add("@IsJobItem", itemDto.IsJobItem);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Sales.uspDeleteSalesItemById.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
@@ -50,19 +50,19 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@TicketNumber", salesListItemDto.TicketNumber);
             _prm.Add("@Quantity", salesListItemDto.Quantity);
-            var result = db.FetchSingle<SalesViewModel>(SPEnum.uspGetItemList.ToString(), _prm);
+            var result = db.FetchSingle<SalesViewModel>(EnumSP.Sales.uspGetItemList.ToString(), _prm);
             return result;
         }
         public List<SalesAccountViewModel> GetAccountDetails(SalesAccountDto salesAccountDto)
         {
             _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
-            return  db.Fetch<SalesAccountViewModel>(SPEnum.USPGETACCOUNTDETAILS.ToString(), _prm);
+            return  db.Fetch<SalesAccountViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
             
         }
         public SalesItemListViewModel GetScheduleByTicketNumber(string ticketNumber)
         {
             _prm.Add("@TicketNumber", ticketNumber);
-            return db.FetchMultiResult<SalesItemListViewModel>(SPEnum.uspGetItemListByTicketNumber.ToString(), _prm);
+            return db.FetchMultiResult<SalesItemListViewModel>(EnumSP.Sales.uspGetItemListByTicketNumber.ToString(), _prm);
 
         }
         public int AddPayment(SalesPaymentDto salesPayment)
@@ -79,13 +79,13 @@ namespace Strive.ResourceAccess
         }
         public List<ServiceItemDto> GetServicesWithPrice()
         {
-            return db.Fetch<ServiceItemDto>(SPEnum.uspGetServiceByItemList.ToString(), null);
+            return db.Fetch<ServiceItemDto>(EnumSP.Sales.uspGetServiceByItemList.ToString(), null);
         }
         public bool DeleteJob(SalesItemDeleteDto salesItemDeleteDto)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEJOBITEMS.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Sales.USPDELETEJOBITEMS.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
@@ -93,20 +93,20 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPROLLBACKPAYMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Sales.USPROLLBACKPAYMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
         public ServiceAndProductViewModel GetServicesAndProduct()
         {
-            return db.FetchMultiResult<ServiceAndProductViewModel>(SPEnum.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
+            return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
         }
 
         public bool UpdateJobPayement(int? jobId, int jobPaymentid)
         {
             _prm.Add("JobId", jobId);
             _prm.Add("JobPaymentid", jobPaymentid);
-            db.Save(SPEnum.USPUPDATEJOBPAYMENT.ToString(), _prm);
+            db.Save(EnumSP.Sales.USPUPDATEJOBPAYMENT.ToString(), _prm);
             return true;
         }
     }

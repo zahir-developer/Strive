@@ -28,11 +28,11 @@ namespace Strive.ResourceAccess
         public List<VehicleViewModel> GetAllVehicle(VehicleSearchDto name)
         {
             _prm.Add("@SearchName", name.SearchName);
-            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+            return db.Fetch<VehicleViewModel>(EnumSP.Vehicle.USPGETVEHICLE.ToString(), _prm);
         }
         public List<VehicleMembershipModel> GetVehicleMembership()
         {
-            return db.Fetch<VehicleMembershipModel>(SPEnum.USPGETVEHICLEMEMBERSHIP.ToString(), null);
+            return db.Fetch<VehicleMembershipModel>(EnumSP.Vehicle.USPGETVEHICLEMEMBERSHIP.ToString(), null);
         }
         public bool UpdateVehicleMembership(BusinessEntities.Model.Membership Membership)
         {
@@ -52,22 +52,22 @@ namespace Strive.ResourceAccess
         public bool DeleteVehicleById(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);
-            db.Save(SPEnum.USPDELETECLIENTVEHICLE.ToString(), _prm);
+            db.Save(EnumSP.Vehicle.USPDELETECLIENTVEHICLE.ToString(), _prm);
             return true;
         }
         public List<VehicleByClientViewModel> GetVehicleByClientId(int clientId)
         {
             _prm.Add("ClientId", clientId);
-             return db.Fetch<VehicleByClientViewModel>(SPEnum.USPGETVEHICLEDETAILBYCLIENTID.ToString(), _prm);
+             return db.Fetch<VehicleByClientViewModel>(EnumSP.Vehicle.USPGETVEHICLEDETAILBYCLIENTID.ToString(), _prm);
         }
         public VehicleDetailViewModel GetVehicleId(int vehicleId)
         {
             _prm.Add("VehicleId", vehicleId);
-            return db.FetchSingle<VehicleDetailViewModel>(SPEnum.USPGETVEHICLEBYID.ToString(), _prm);
+            return db.FetchSingle<VehicleDetailViewModel>(EnumSP.Vehicle.USPGETVEHICLEBYID.ToString(), _prm);
         }
         public List<VehicleColourViewModel> GetVehicleCodes()
         {
-            return db.Fetch<VehicleColourViewModel>(SPEnum.uspGetVehicleCodes.ToString(), _prm);
+            return db.Fetch<VehicleColourViewModel>(EnumSP.Vehicle.uspGetVehicleCodes.ToString(), _prm);
         }
         public bool SaveClientVehicleMembership(ClientVehicleMembershipModel ClientVehicleMembershipModel)
         {
@@ -81,17 +81,17 @@ namespace Strive.ResourceAccess
         public VehicleMembershipViewModel GetVehicleMembershipDetailsByVehicleId(int id)
         {
             _prm.Add("VehicleId", id);
-            return db.FetchMultiResult<VehicleMembershipViewModel>(SPEnum.USPGETVEHICLEMEMBERSHIPBYVEHICLEID.ToString(), _prm);
+            return db.FetchMultiResult<VehicleMembershipViewModel>(EnumSP.Vehicle.USPGETVEHICLEMEMBERSHIPBYVEHICLEID.ToString(), _prm);
         }
         public MembershipAndServiceViewModel GetMembershipDetailsByVehicleId(int id)
         {
             _prm.Add("VehicleId", id);
-            return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYVEHICLEID.ToString(), _prm);
+            return db.FetchMultiResult<MembershipAndServiceViewModel>(EnumSP.Membership.USPGETMEMBERSHIPSERVICEBYVEHICLEID.ToString(), _prm);
         }
         public List<PastDetailsViewModel> GetPastDetails(int clientId)
         {
             _prm.Add("ClientId", clientId);
-            return db.Fetch<PastDetailsViewModel>(SPEnum.USPGETPASTDETAILSBYCLIENTID.ToString(), _prm);
+            return db.Fetch<PastDetailsViewModel>(EnumSP.Vehicle.USPGETPASTDETAILSBYCLIENTID.ToString(), _prm);
         }
     }
 }

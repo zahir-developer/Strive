@@ -26,7 +26,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<Code> lstCode = new List<Code>();
-            lstCode = db.Fetch<Code>(SPEnum.USPGETCODES.ToString(), dynParams);
+            lstCode = db.Fetch<Code>(EnumSP.Employee.USPGETCODES.ToString(), dynParams);
             return lstCode;
         }
 
@@ -36,7 +36,7 @@ namespace Strive.ResourceAccess
             dynParams.Add("Category", codeCategory.ToString());
             dynParams.Add("CategoryId", null);
             List<Code> lstCode = new List<Code>();
-            lstCode = db.Fetch<Code>(SPEnum.USPGETCODES.ToString(), dynParams);
+            lstCode = db.Fetch<Code>(EnumSP.Employee.USPGETCODES.ToString(), dynParams);
             return lstCode;
         }
 
@@ -51,7 +51,7 @@ namespace Strive.ResourceAccess
             dynParams.Add("Category", null);
             dynParams.Add("CategoryId", CategoryId);
             List<Code> lstCode = new List<Code>();
-            lstCode = db.Fetch<Code>(SPEnum.USPGETCODES.ToString(), dynParams);
+            lstCode = db.Fetch<Code>(EnumSP.Employee.USPGETCODES.ToString(), dynParams);
             return lstCode;
         }
 
@@ -69,7 +69,7 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@AuthId", authId);
             dynParams.Add("@TenantGuid", tenentGuid);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVETENANTUSERMAP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Authentication.USPSAVETENANTUSERMAP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
         }
 
@@ -77,7 +77,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<Email> lstEmail = new List<Email>();
-            lstEmail = db.Fetch<Email>(SPEnum.USPGETALLEMAIL.ToString(), dynParams);
+            lstEmail = db.Fetch<Email>(EnumSP.Authentication.USPGETALLEMAIL.ToString(), dynParams);
             return lstEmail;
         }
         public void SaveOTP(string userId, string otp)
@@ -86,7 +86,7 @@ namespace Strive.ResourceAccess
             dynParams.Add("@Email", userId);
             dynParams.Add("@OTP", otp);
             dynParams.Add("@DateEntered", DateTime.Now);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEOTP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Authentication.USPSAVEOTP.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
         }
 
@@ -98,7 +98,7 @@ namespace Strive.ResourceAccess
                 dynParams.Add("@Email", userId);
                 dynParams.Add("@OTP", otp);
                 dynParams.Add("@NewPassword", newPass);
-                CommandDefinition cmd = new CommandDefinition(SPEnum.USPRESETPASSWORD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+                CommandDefinition cmd = new CommandDefinition(EnumSP.Authentication.USPRESETPASSWORD.ToString(), dynParams, commandType: CommandType.StoredProcedure);
                 db.Save(cmd);
                 return true;
             }
@@ -113,7 +113,7 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@Email", emailId);
             dynParams.Add("@OTP", otp);
-            return db.QuerySingleOrDefault<int>(SPEnum.USPVERIFYOTP.ToString(), dynParams);
+            return db.QuerySingleOrDefault<int>(EnumSP.Authentication.USPVERIFYOTP.ToString(), dynParams);
         }
 
         public void UpdateClientAuth(Client client)
@@ -124,13 +124,13 @@ namespace Strive.ResourceAccess
         public bool GetEmailIdExist(string email)
         {
             _prm.Add("@Email", email);
-            var result = db.FetchSingle<bool>(SPEnum.USPEMAILEXIST.ToString(), _prm);
+            var result = db.FetchSingle<bool>(EnumSP.Employee.USPEMAILEXIST.ToString(), _prm);
             return result;
         }
         public List<CityDto> GetCityByStateId(int stateId)
         {
             _prm.Add("stateId", stateId);
-            return db.Fetch<CityDto>(SPEnum.USPGETCITYBYSTATE.ToString(), _prm);
+            return db.Fetch<CityDto>(EnumSP.Employee.USPGETCITYBYSTATE.ToString(), _prm);
         }
     }
 }

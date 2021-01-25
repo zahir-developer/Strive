@@ -33,30 +33,30 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@ClientId", clientAmountUpdate.ClientId);
             _prm.Add("@Amount", clientAmountUpdate.Amount);
-            db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
+            db.Save(EnumSP.Client.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
             return true;
         }
         public List<ClientViewModel> GetAllClient()
         {
-            return db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), null);
+            return db.Fetch<ClientViewModel>(EnumSP.Client.USPGETALLCLIENT.ToString(), null);
         }
         public List<ClientDetailViewModel> GetClientById(int clientId)
         {
             _prm.Add("@ClientId", clientId);
-            return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
+            return db.Fetch<ClientDetailViewModel>(EnumSP.Client.USPGETCLIENT.ToString(), _prm);
             
         }
         public ClientVehicleDetailModelView GetClientVehicleById(int clientId)
         {
             _prm.Add("@ClientId", clientId);
-            return db.FetchMultiResult<ClientVehicleDetailModelView>(SPEnum.uspGetClientAndVehicle.ToString(), _prm);
+            return db.FetchMultiResult<ClientVehicleDetailModelView>(EnumSP.Client.uspGetClientAndVehicle.ToString(), _prm);
         }
 
         public BusinessEntities.Model.Client GetById(int id)
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@ClientId", id);
-            var lstClientInfo = db.FetchSingle<BusinessEntities.Model.Client>(SPEnum.USPGETCLIENTBYID.ToString(), dynParams);
+            var lstClientInfo = db.FetchSingle<BusinessEntities.Model.Client>(EnumSP.Client.USPGETCLIENTBYID.ToString(), dynParams);
             return lstClientInfo;
         }
 
@@ -68,13 +68,13 @@ namespace Strive.ResourceAccess
         public bool DeleteClient(int clientId)
         {
             _prm.Add("ClientId", clientId);
-            db.Save(SPEnum.USPDELETECLIENT.ToString(), _prm);
+            db.Save(EnumSP.Client.USPDELETECLIENT.ToString(), _prm);
             return true;
         }
         public List<ClientSearchViewModel> GetClientSearch(ClientSearchDto search)
         {
             _prm.Add("@ClientName", search.ClientName);
-            return db.Fetch<ClientSearchViewModel>(SPEnum.uspGetClientName.ToString(), _prm);
+            return db.Fetch<ClientSearchViewModel>(EnumSP.Client.USPGETCLIENTNAME.ToString(), _prm);
         }
         public List<Code> GetClientCode()
         {
@@ -83,19 +83,19 @@ namespace Strive.ResourceAccess
         public List<ClientStatementViewModel> GetStatementByClientId(int id)
         {
             _prm.Add("ClientId", id);
-            return db.Fetch<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
+            return db.Fetch<ClientStatementViewModel>(EnumSP.Vehicle.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
         }
         public List<ClientHistoryViewModel> GetHistoryByClientId(int id)
         {
             _prm.Add("ClientId", id);
-            return db.Fetch<ClientHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
+            return db.Fetch<ClientHistoryViewModel>(EnumSP.Vehicle.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
         }
 
         public bool IsClientName(ClientNameDto clientNameDto)
         {
             _prm.Add("FirstName", clientNameDto.FirstName);
             _prm.Add("LastName", clientNameDto.LastName);
-            var result= db.Fetch<ClientViewModel>(SPEnum.USPGETCLIENTNAME.ToString(), _prm);
+            var result= db.Fetch<ClientViewModel>(EnumSP.Client.USPISCLIENTAVAILABLE.ToString(), _prm);
             if (result.Count > 0)
             {
                 return true ;
@@ -110,7 +110,7 @@ namespace Strive.ResourceAccess
         public List<ClientViewModel> GetAllClientName(string name)
         {
             _prm.Add("ClientName", name);
-            return db.Fetch<ClientViewModel>(SPEnum.USPGETCLIENTNAME.ToString(), _prm);
+            return db.Fetch<ClientViewModel>(EnumSP.Client.USPGETCLIENTNAME.ToString(), _prm);
         }
     }
 }

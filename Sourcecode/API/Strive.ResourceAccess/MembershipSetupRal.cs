@@ -39,19 +39,19 @@ namespace Strive.ResourceAccess
         public bool DeleteMembershipById(int membershipid)
         {
             _prm.Add("MembershipId", membershipid);
-            db.Save(SPEnum.USPDELETEMEMBERSHIP.ToString(), _prm);
+            db.Save(EnumSP.Membership.USPDELETEMEMBERSHIP.ToString(), _prm);
             return true;
         }
 
         public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
-            return db.Fetch<MembershipServiceViewModel>(SPEnum.USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID.ToString(), _prm);
+            return db.Fetch<MembershipServiceViewModel>(EnumSP.Membership.USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID.ToString(), _prm);
         }
         public MembershipAndServiceViewModel GetMembershipAndServiceByMembershipId(int id)
         {
             _prm.Add("@MembershipId", id);
-            return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID.ToString(), _prm);
+            return db.FetchMultiResult<MembershipAndServiceViewModel>(EnumSP.Membership.USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID.ToString(), _prm);
         }
         public List<AllMembershipViewModel> GetMembershipSearch(MembershipSearchDto search)
         {

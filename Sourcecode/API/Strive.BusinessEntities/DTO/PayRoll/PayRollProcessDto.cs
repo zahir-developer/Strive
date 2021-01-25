@@ -10,5 +10,6 @@ namespace Strive.BusinessEntities.DTO
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int? EmpId {get; set;}
     }
 }

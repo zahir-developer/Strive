@@ -18,26 +18,26 @@ namespace Strive.ResourceAccess
         public List<CheckOutViewModel> GetAllCheckoutDetails(int locationId)
         {
             _prm.Add("locationid", locationId);
-            return db.Fetch<CheckOutViewModel>(SPEnum.USPGETAllCHECKOUTDETAILS.ToString(), _prm);
+            return db.Fetch<CheckOutViewModel>(EnumSP.Checkout.USPGETAllCHECKOUTDETAILS.ToString(), _prm);
         }
         public bool UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry)
         {
             _prm.Add("JobId", checkoutEntry.id);
             _prm.Add("CheckOut", checkoutEntry.CheckOut);
             _prm.Add("ActualTimeOut", checkoutEntry.ActualTimeOut);
-            db.Save(SPEnum.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
+            db.Save(EnumSP.Checkout.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
             return true;
         }
         public bool UpdateJobStatusHold(JobIdDto jobIdDto)
         {
             _prm.Add("JobId", jobIdDto.id); 
-            db.Save(SPEnum.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
+            db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
             return true;
         }
         public bool UpdateJobStatusComplete(JobIdDto jobIdDto)
         {
             _prm.Add("JobId", jobIdDto.id);
-            db.Save(SPEnum.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
+            db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
             return true;
         }
 
@@ -47,7 +47,7 @@ namespace Strive.ResourceAccess
             _prm.Add("fromDate", salesReportDto.FromDate);
             _prm.Add("toDate", salesReportDto.EndDate);
 
-            return db.Fetch<CheckOutViewModel>(SPEnum.USPGETCUSTOMERHISTORY.ToString(), _prm);
+            return db.Fetch<CheckOutViewModel>(EnumSP.Checkout.USPGETCUSTOMERHISTORY.ToString(), _prm);
 
         }
     }
