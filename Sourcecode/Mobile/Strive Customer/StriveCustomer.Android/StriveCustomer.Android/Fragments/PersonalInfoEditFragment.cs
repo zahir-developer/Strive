@@ -54,6 +54,14 @@ namespace StriveCustomer.Android.Fragments
             emailEditText = rootview.FindViewById<EditText>(Resource.Id.emails);
             saveButton = rootview.FindViewById<Button>(Resource.Id.personalInfoSave);
 
+
+            fullNameEditText.Text = MyProfileCustomerInfo.FullName;
+            contactEditText.Text = MyProfileCustomerInfo.ContactNumber;
+            addressEditText.Text = MyProfileCustomerInfo.Address;
+            zipCodeEditText.Text = MyProfileCustomerInfo.ZipCode;
+            secondaryContactEditText.Text = MyProfileCustomerInfo.SecondaryContactNumber;
+            emailEditText.Text = MyProfileCustomerInfo.Email;
+
             saveButton.Click += SaveButton_Click;
             backButton.Click += BackButton_Click;
 

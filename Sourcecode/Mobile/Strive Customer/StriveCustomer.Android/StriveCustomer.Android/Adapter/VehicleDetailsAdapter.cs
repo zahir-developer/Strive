@@ -92,7 +92,7 @@ namespace StriveCustomer.Android.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             vehicleRecyclerHolder = holder as VehicleRecyclerHolder;
-            vehicleRecyclerHolder.vehicleReg.Text = vehicleLists.Status[position].VehicleNumber ?? "";
+            vehicleRecyclerHolder.vehicleReg.Text = vehicleLists.Status[position].Barcode ?? "";
             vehicleRecyclerHolder.vehicleName.Text = vehicleLists.Status[position].VehicleColor +" "+vehicleLists.Status[position].VehicleMfr + " " + vehicleLists.Status[position].VehicleModel ?? "";
             if(vehicleLists.Status[position].IsMembership)
             {

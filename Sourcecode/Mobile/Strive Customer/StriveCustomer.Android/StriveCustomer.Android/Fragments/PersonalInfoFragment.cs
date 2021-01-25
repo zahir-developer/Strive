@@ -75,6 +75,14 @@ namespace StriveCustomer.Android.Fragments
                 zipCodeView.Text = ViewModel.customerInfo.Status.LastOrDefault().Zip;
                 secPhoneView.Text = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
                 emailView.Text = ViewModel.customerInfo.Status.LastOrDefault().Email;
+
+                MyProfileCustomerInfo.FullName = ViewModel.customerInfo.Status.LastOrDefault().FirstName;
+                MyProfileCustomerInfo.ContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
+                MyProfileCustomerInfo.Email = ViewModel.customerInfo.Status.LastOrDefault().Email;
+                MyProfileCustomerInfo.SecondaryContactNumber = ViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
+                MyProfileCustomerInfo.Address = ViewModel.customerInfo.Status.LastOrDefault().Address1;
+                MyProfileCustomerInfo.ZipCode = ViewModel.customerInfo.Status.LastOrDefault().Zip;
+
             }
             
         }

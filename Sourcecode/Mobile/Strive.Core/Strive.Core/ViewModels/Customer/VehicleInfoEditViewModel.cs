@@ -121,11 +121,25 @@ namespace Strive.Core.ViewModels.Customer
             }
         }
 
-        public async Task SaveVehicle()
+        public async void CheckSaveVehicle()
         {
-            _userDialog.ShowLoading(Strings.Loading);
+            if ((MembershipDetails.previousSelectedColor == MembershipDetails.selectedColor) && (MembershipDetails.previousSelectedMake == MembershipDetails.selectedMake) && (MembershipDetails.previousSelectedModel == MembershipDetails.selectedModel))
+            {
+                _userDialog.Alert("You have already created this vehicle");
+            }
+            else
+            {
+                MembershipDetails.previousSelectedModel = MembershipDetails.selectedModel;
+                MembershipDetails.previousSelectedColor = MembershipDetails.selectedColor;
+                MembershipDetails.previousSelectedMake = MembershipDetails.selectedMake;
+                await this.SaveVehicle();
+            }
+        }
+        public async Task SaveVehicle()
+        {  
             if (VehicleDetailsCheck())
             {
+                _userDialog.ShowLoading(Strings.Loading);
                 clientVehicles = new AddCustomerVehicle();
                 clientVehicles.clientVehicle = new List<clientVehicle>();
                 var selectedvehicle = new clientVehicle();
@@ -151,54 +165,12 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.HideLoading();
                 _userDialog.Toast("Information has been entered successfully");
             }
-            else
-            {
-                _userDialog.HideLoading();
-                _userDialog.Toast("Information save unsuccessful");
-            }
         }
 
         public void ShowAlert()
         {
             _userDialog.Alert("Please save the vehicle specifications");
         }
-
-        public async void sample()
-        {
-            //_userDialog.ShowLoading(Strings.Loading);
-            //clientVehicle = new clientVehicle();
-            //updateVehicle = new CustomerUpdateVehicle();
-            //updateVehicle.client = null;
-            //if (VehicleDetailsCheck())
-            //{
-            //    updateVehicle.clientVehicle = new List<clientVehicle>();
-            //    clientVehicle.clientId = CustomerInfo.ClientID;
-            //    clientVehicle.locationId = 1;
-            //    clientVehicle.vehicleModelNo = 0;
-            //    clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
-            //    clientVehicle.vehicleModel = MembershipDetails.modelNumber;
-            //    clientVehicle.vehicleColor = MembershipDetails.colorNumber;
-            //    clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
-            //    clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
-            //    updateVehicle.clientVehicle.Add(clientVehicle);
-            //    var data = await AdminService.AddCustomerVehicle(updateVehicle);
-            //    if (data == null)
-            //    {
-            //        _userDialog.Alert("Information not added,try again");
-            //        return;
-            //    }
-            //    await GetCustomerVehicleList();
-            //    _userDialog.HideLoading();
-            //    _userDialog.Toast("Information has been entered successfully");
-
-            //}
-            //else
-            //{
-            //    _userDialog.HideLoading();
-            //    _userDialog.Toast("Information save unsuccessful");
-            //}
-        }
-
         public async void NavToVehicleMembership()
         {
             await _navigationService.Navigate<VehicleMembershipViewModel>();

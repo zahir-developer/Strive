@@ -53,8 +53,8 @@ namespace Strive.Core.Models.TimInventory
     {
         public int clientVehicleMembershipServiceId { get; set; }
         public int clientMembershipId { get; set; }
-        public int serviceId { get; set; }
-        public int serviceTypeId { get; set; }
+        public int? serviceId { get; set; }
+        public int? serviceTypeId { get; set; }
         public bool isActive { get; set; }
         public bool isDeleted { get; set; }
         public int createdBy { get; set; }
