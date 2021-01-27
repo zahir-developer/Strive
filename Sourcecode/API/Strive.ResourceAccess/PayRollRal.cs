@@ -44,7 +44,7 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public bool AddPayRollProcess(PayrollProcessAddDto payrollProcessAdd)
+        public bool AddPayRollProcess(List<PayrollProcessAddDto> payrollProcessAdd)
         {
             return dbRepo.InsertPc(payrollProcessAdd, "PayrollProcessId");
         }

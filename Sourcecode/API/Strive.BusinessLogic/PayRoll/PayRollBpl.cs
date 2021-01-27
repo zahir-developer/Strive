@@ -65,7 +65,7 @@ namespace Strive.BusinessLogic.PayRoll
             }
             return _result;
         }
-        public Result AddPayRollProcess(PayrollProcessAddDto payRollProcessAdd)
+        public Result AddPayRollProcess(List<PayrollProcessAddDto> payRollProcessAdd)
         {
             try
             {
