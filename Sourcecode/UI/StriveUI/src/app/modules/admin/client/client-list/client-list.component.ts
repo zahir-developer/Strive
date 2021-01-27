@@ -103,7 +103,9 @@ export class ClientListComponent implements OnInit {
     const obj = {
       clientName: this.search
     }
+    this.spinner.show()
     this.client.ClientSearch(obj).subscribe(data => {
+      this.spinner.hide()
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.ClientSearch;
