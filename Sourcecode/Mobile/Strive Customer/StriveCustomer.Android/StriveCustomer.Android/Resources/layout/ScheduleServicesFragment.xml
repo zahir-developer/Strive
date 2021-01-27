@@ -16,15 +16,6 @@
             android:textSize="18sp"
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
-        <Button
-            android:id="@+id/scheduleServices_BackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:textColor="@color/profileQColor"
-            android:background="@color/mtrl_btn_transparent_bg_color"
-            android:text="Back" />
          <Button
             android:id="@+id/scheduleServices_NextButton"
             android:layout_width="wrap_content"
@@ -35,19 +26,43 @@
             android:background="@color/mtrl_btn_transparent_bg_color"
             android:text="Next" />
         </RelativeLayout>
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="110dp">
-            <LinearLayout
-                android:id="@+id/ScheduleServices_LinearLayout"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:layout_marginBottom="110dp" 
+            android:background="@drawable/secondarylinearlayout">
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/fifteen"
-                android:background="@drawable/secondarylinearlayout">  
-            </LinearLayout>
-        </ScrollView>
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                >
+                <LinearLayout
+                    android:id="@+id/ScheduleServices_LinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:background="@drawable/secondarylinearlayout">  
+                </LinearLayout>
+             </ScrollView>
+            <Button
+                android:id="@+id/ScheduleServiceCancel_Button"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:background="@drawable/secondarybutton"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:text="@android:string/cancel"/>
+        </LinearLayout>
 </LinearLayout>

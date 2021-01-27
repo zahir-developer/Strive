@@ -50,6 +50,10 @@ namespace StriveCustomer.Android.Fragments
             Back_Button.Click += Back_Button_Click;
             schedule_CalendarView.DateChange += Schedule_CalendarView_DateChange1;
             Cancel_Button.Click += Cancel_Button_Click;
+
+            CurrentDateSlots();
+
+
             return rootView;
         }
 
@@ -74,88 +78,99 @@ namespace StriveCustomer.Android.Fragments
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }
 
+        private async void CurrentDateSlots()
+        {
+            var dt = DateTime.Now;
+            GetAvailableSlot(dt.Month, dt.Year, dt.Day);
+        }
+
         private async void Schedule_CalendarView_DateChange1(object sender, CalendarView.DateChangeEventArgs e)
         {
+            GetAvailableSlot(e.Month, e.Year, e.DayOfMonth);
+        }
+
+       private async void GetAvailableSlot(int month, int year, int day)
+        {
             string date = "";
-            switch (e.Month)
+            switch (month)
             {
                 case 0:
-                    date = e.Year + "-" + "01" + "-" + e.DayOfMonth;
+                    date = year + "-" + "01" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "January";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
                 case 1:
-                    date = e.Year + "-" + "02" + "-" + e.DayOfMonth;
+                    date = year + "-" + "02" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "February";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
-                    break; 
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
+                    break;
                 case 2:
-                    date = e.Year + "-" + "03" + "-" + e.DayOfMonth;
+                    date = year + "-" + "03" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "March";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
-                    break; 
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
+                    break;
                 case 3:
-                    date = e.Year + "-" + "04" + "-" + e.DayOfMonth;
+                    date = year + "-" + "04" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "April";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
-                    break; 
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
+                    break;
                 case 4:
-                    date = e.Year + "-" + "05" + "-" + e.DayOfMonth;
+                    date = year + "-" + "05" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "May";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
-                    break; 
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
+                    break;
                 case 5:
-                    date = e.Year + "-" + "06" + "-" + e.DayOfMonth;
+                    date = year + "-" + "06" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "June";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
                 case 6:
-                    date = e.Year + "-" + "07" + "-" + e.DayOfMonth;
+                    date = year + "-" + "07" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "July";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
-                    break; 
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
+                    break;
                 case 7:
-                    date = e.Year + "-" + "08" + "-" + e.DayOfMonth;
+                    date = year + "-" + "08" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "August";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
-                    break; 
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
+                    break;
                 case 8:
-                    date = e.Year + "-" + "09" + "-" + e.DayOfMonth;
+                    date = year + "-" + "09" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "September";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
-                    break;  
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
+                    break;
                 case 9:
-                    date = e.Year + "-" + "10" + "-" + e.DayOfMonth;
+                    date = year + "-" + "10" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "October";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
                 case 10:
-                    date = e.Year + "-" + "11" + "-"+ e.DayOfMonth;
+                    date = year + "-" + "11" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "November";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
                 case 11:
-                    date = e.Year + "-" + "12" + "-" + e.DayOfMonth;
+                    date = year + "-" + "12" + "-" + day;
                     CustomerScheduleInformation.ScheduleMonth = "December";
-                    CustomerScheduleInformation.ScheduleDate = e.DayOfMonth.ToString();
-                    CustomerScheduleInformation.ScheduleYear = e.Year.ToString();
+                    CustomerScheduleInformation.ScheduleDate = day.ToString();
+                    CustomerScheduleInformation.ScheduleYear = year.ToString();
                     break;
             }
             date = date + "T00:00:00.000Z";
             await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date);
 
-            if(this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
+            if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {
                 TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, this.ViewModel.ScheduleSlotInfo);
             }

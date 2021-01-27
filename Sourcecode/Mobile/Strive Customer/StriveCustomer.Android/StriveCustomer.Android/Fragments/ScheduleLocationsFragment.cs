@@ -21,6 +21,8 @@ namespace StriveCustomer.Android.Fragments
 {
     public class ScheduleLocationsFragment : MvxFragment<ScheduleLocationsViewModel>
     {
+        private ScheduleFragment scheduleFragment;
+        private Button ScheduleCancel_Button;
         private Button scheduleLocations_BackButton;
         private Button scheduleLocations_NextButton;
         private ScheduleSelectServiceFragment selectServiceFragment;
@@ -40,7 +42,8 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.ScheduleLocationsFragment, null);
             this.ViewModel = new ScheduleLocationsViewModel();
-
+            ScheduleCancel_Button = rootView.FindViewById<Button>(Resource.Id.ScheduleLocationCancel_Button);
+            ScheduleCancel_Button.Click += ScheduleCancel_Button_Click;
             scheduleLocations_BackButton = rootView.FindViewById<Button>(Resource.Id.scheduleLocations_BackButton);
             scheduleLocations_BackButton.Click += ScheduleLocations_BackButton_Click;
             scheduleLocations_NextButton = rootView.FindViewById<Button>(Resource.Id.scheduleLocations_NextButton);
@@ -48,6 +51,13 @@ namespace StriveCustomer.Android.Fragments
             scheduleLocationsGroup = rootView.FindViewById<RadioGroup>(Resource.Id.scheduleLocations_RadioGroup);
             GetAllLocations();
             return rootView;
+        }
+
+        private void ScheduleCancel_Button_Click(object sender, EventArgs e)
+        {
+            scheduleFragment = new ScheduleFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }
 
         private void ScheduleLocations_NextButton_Click(object sender, EventArgs e)
