@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
 
 namespace StriveCustomer.Android.Adapter
@@ -318,6 +319,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[75] = 0;
             }
             oldSelection = 75;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click74(object sender, EventArgs e)
@@ -339,6 +341,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[74] = 0;
             }
             oldSelection = 74;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click73(object sender, EventArgs e)
@@ -360,6 +363,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[73] = 0;
             }
             oldSelection = 73;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click72(object sender, EventArgs e)
@@ -381,6 +385,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[72] = 0;
             }
             oldSelection = 72;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click71(object sender, EventArgs e)
@@ -402,6 +407,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[71] = 0;
             }
             oldSelection = 71;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click70(object sender, EventArgs e)
@@ -423,6 +429,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[70] = 0;
             }
             oldSelection = 70;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click69(object sender, EventArgs e)
@@ -444,6 +451,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[69] = 0;
             }
             oldSelection = 69;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click68(object sender, EventArgs e)
@@ -465,6 +473,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[68] = 0;
             }
             oldSelection = 68;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click67(object sender, EventArgs e)
@@ -486,6 +495,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[67] = 0;
             }
             oldSelection = 67;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click66(object sender, EventArgs e)
@@ -507,6 +517,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[66] = 0;
             }
             oldSelection = 66;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click65(object sender, EventArgs e)
@@ -528,6 +539,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[65] = 0;
             }
             oldSelection = 65;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click64(object sender, EventArgs e)
@@ -549,6 +561,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[64] = 0;
             }
             oldSelection = 64;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click63(object sender, EventArgs e)
@@ -570,6 +583,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[63] = 0;
             }
             oldSelection = 63;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click62(object sender, EventArgs e)
@@ -591,6 +605,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[62] = 0;
             }
             oldSelection = 62;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click61(object sender, EventArgs e)
@@ -612,6 +627,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[61] = 0;
             }
             oldSelection = 61;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click60(object sender, EventArgs e)
@@ -633,6 +649,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[60] = 0;
             }
             oldSelection = 60;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click59(object sender, EventArgs e)
@@ -654,6 +671,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[59] = 0;
             }
             oldSelection = 59;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click58(object sender, EventArgs e)
@@ -675,6 +693,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[58] = 0;
             }
             oldSelection = 58;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click57(object sender, EventArgs e)
@@ -696,6 +715,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[57] = 0;
             }
             oldSelection = 57;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click56(object sender, EventArgs e)
@@ -717,6 +737,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[56] = 0;
             }
             oldSelection = 56;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click55(object sender, EventArgs e)
@@ -738,6 +759,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[55] = 0;
             }
             oldSelection = 55;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click54(object sender, EventArgs e)
@@ -759,6 +781,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[54] = 0;
             }
             oldSelection = 54;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click53(object sender, EventArgs e)
@@ -780,6 +803,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[53] = 0;
             }
             oldSelection = 53;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click52(object sender, EventArgs e)
@@ -801,6 +825,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[52] = 0;
             }
             oldSelection = 52;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click51(object sender, EventArgs e)
@@ -822,6 +847,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[51] = 0;
             }
             oldSelection = 51;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click50(object sender, EventArgs e)
@@ -843,6 +869,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[50] = 0;
             }
             oldSelection = 50;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click49(object sender, EventArgs e)
@@ -864,6 +891,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[49] = 0;
             }
             oldSelection = 49;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click48(object sender, EventArgs e)
@@ -885,6 +913,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[48] = 0;
             }
             oldSelection = 48;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click47(object sender, EventArgs e)
@@ -906,6 +935,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[47] = 0;
             }
             oldSelection = 47;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click46(object sender, EventArgs e)
@@ -927,6 +957,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[46] = 0;
             }
             oldSelection = 46;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click45(object sender, EventArgs e)
@@ -948,6 +979,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[45] = 0;
             }
             oldSelection = 45;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click44(object sender, EventArgs e)
@@ -969,6 +1001,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[44] = 0;
             }
             oldSelection = 44;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click43(object sender, EventArgs e)
@@ -990,6 +1023,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[43] = 0;
             }
             oldSelection = 43;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click42(object sender, EventArgs e)
@@ -1011,6 +1045,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[42] = 0;
             }
             oldSelection = 42;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click41(object sender, EventArgs e)
@@ -1032,6 +1067,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[41] = 0;
             }
             oldSelection = 41;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click40(object sender, EventArgs e)
@@ -1053,6 +1089,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[40] = 0;
             }
             oldSelection = 40;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click39(object sender, EventArgs e)
@@ -1074,6 +1111,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[39] = 0;
             }
             oldSelection = 39;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click38(object sender, EventArgs e)
@@ -1095,6 +1133,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[38] = 0;
             }
             oldSelection = 38;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click37(object sender, EventArgs e)
@@ -1116,6 +1155,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[37] = 0;
             }
             oldSelection = 37;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click36(object sender, EventArgs e)
@@ -1137,6 +1177,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[36] = 0;
             }
             oldSelection = 36;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click35(object sender, EventArgs e)
@@ -1158,6 +1199,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[35] = 0;
             }
             oldSelection = 35;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click34(object sender, EventArgs e)
@@ -1179,6 +1221,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[34] = 0;
             }
             oldSelection = 34;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click33(object sender, EventArgs e)
@@ -1200,6 +1243,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[33] = 0;
             }
             oldSelection = 33;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click32(object sender, EventArgs e)
@@ -1221,6 +1265,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[32] = 0;
             }
             oldSelection = 32;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click31(object sender, EventArgs e)
@@ -1242,6 +1287,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[31] = 0;
             }
             oldSelection = 31;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click30(object sender, EventArgs e)
@@ -1263,6 +1309,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[30] = 0;
             }
             oldSelection = 30;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click29(object sender, EventArgs e)
         {
@@ -1283,6 +1330,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[29] = 0;
             }
             oldSelection = 29;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click28(object sender, EventArgs e)
         {
@@ -1303,6 +1351,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[28] = 0;
             }
             oldSelection = 28;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click27(object sender, EventArgs e)
         {
@@ -1323,6 +1372,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[27] = 0;
             }
             oldSelection = 27;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click26(object sender, EventArgs e)
         {
@@ -1343,6 +1393,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[26] = 0;
             }
             oldSelection = 26;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click25(object sender, EventArgs e)
         {
@@ -1363,7 +1414,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[25] = 0;
             }
             oldSelection = 25;
-
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click24(object sender, EventArgs e)
         {
@@ -1384,6 +1435,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[24] = 0;
             }
             oldSelection = 24;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click23(object sender, EventArgs e)
         {
@@ -1404,6 +1456,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[23] = 0;
             }
             oldSelection = 23;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click22(object sender, EventArgs e)
         {
@@ -1424,6 +1477,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[22] = 0;
             }
             oldSelection = 22;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click21(object sender, EventArgs e)
         {
@@ -1445,6 +1499,7 @@ namespace StriveCustomer.Android.Adapter
 
             }
             oldSelection = 21;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click20(object sender, EventArgs e)
         {
@@ -1465,7 +1520,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[20] = 0;
             }
             oldSelection = 20;
-
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click19(object sender, EventArgs e)
         {
@@ -1486,7 +1541,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[19] = 0;
             }
             oldSelection = 19;
-
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click18(object sender, EventArgs e)
         {
@@ -1507,7 +1562,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[18] = 0;
             }
             oldSelection = 18;
-
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click17(object sender, EventArgs e)
         {
@@ -1528,7 +1583,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[17] = 0;
             }
             oldSelection = 17;
-           
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click16(object sender, EventArgs e)
         {
@@ -1549,7 +1604,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[16] = 0;
             }
             oldSelection = 16;
-
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click15(object sender, EventArgs e)
         {
@@ -1570,6 +1625,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[15] = 0;
             }
             oldSelection = 15;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click14(object sender, EventArgs e)
         {
@@ -1590,6 +1646,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[14] = 0;
             }
             oldSelection = 14;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click13(object sender, EventArgs e)
         {
@@ -1610,7 +1667,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[13] = 0;
             }
             oldSelection = 13;
-
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
         private void ScheduleTimeSlots_Click12(object sender, EventArgs e)
         {
@@ -1631,6 +1688,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[12] = 0;
             }
             oldSelection = 12;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
 
         }
         private void ScheduleTimeSlots_Click11(object sender, EventArgs e)
@@ -1652,6 +1710,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[11] = 0; 
             }
             oldSelection = 11;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
 
@@ -1674,6 +1733,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[10] = 0;
             }
             oldSelection = 10;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
 
         }
         private void ScheduleTimeSlots_Click9(object sender, EventArgs e)
@@ -1695,6 +1755,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[9] = 0;
             }
             oldSelection = 9;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
 
         }
 
@@ -1717,6 +1778,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[8] = 0;
             }
             oldSelection = 8;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click7(object sender, EventArgs e)
@@ -1738,6 +1800,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[7] = 0;
             }
             oldSelection = 7;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
 
@@ -1760,6 +1823,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[6] = 0;
             }
             oldSelection = 6;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click5(object sender, EventArgs e)
@@ -1781,6 +1845,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[5] = 0;
             }
             oldSelection = 5;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
 
@@ -1804,6 +1869,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[4] = 0;
             }
             oldSelection = 4;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click3(object sender, EventArgs e)
@@ -1825,6 +1891,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[3] = 0;
             }
             oldSelection = 3;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click2(object sender, EventArgs e)
@@ -1846,6 +1913,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[1] = 0;
             }
             oldSelection = 2;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
         }
 
         private void ScheduleTimeSlots_Click1(object sender, EventArgs e)
@@ -1867,6 +1935,7 @@ namespace StriveCustomer.Android.Adapter
                 slotSelection[1].SetBackgroundResource(Resource.Drawable.TimeSlots);
                 Selected[1] = 0;
             }
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text;
             oldSelection = 1;
         }
 
@@ -1890,6 +1959,7 @@ namespace StriveCustomer.Android.Adapter
                 Selected[0] = 0;
             }
             oldSelection = 0;
+            CustomerScheduleInformation.ScheduleServiceTime = button.Text; 
         }
 
 

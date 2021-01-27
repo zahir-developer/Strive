@@ -150,6 +150,8 @@ namespace Strive.Core.Models.Customer
         public static float ScheduleServicePrice { get; set; }
         public static int ScheduleServiceID { get; set; }
         public static int ScheduleServiceType { get; set; }
+        public static string ScheduleServiceName { get; set; }
+        public static string ScheduleServiceTime { get; set; }
 
         #endregion Properties
 
