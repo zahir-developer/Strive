@@ -18,6 +18,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Schedule_SelectDate_View">
             <connections>
+                <outlet property="Cancel_DateSchedule" destination="6po-6o-krw" id="sQP-ir-oBy"/>
+                <outlet property="Date_CollectionView" destination="Z7O-kU-N3K" id="yHI-hP-j1M"/>
+                <outlet property="Schedule_Date_ChildView" destination="oK3-b5-qWQ" id="CZ8-o8-PUS"/>
+                <outlet property="Schedule_datePicker" destination="f3K-VA-VKr" id="jdU-Du-jas"/>
+                <outlet property="SelectDate_ParentView" destination="O2T-TA-IHw" id="gks-nm-sOb"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -41,6 +46,9 @@
                                         <!--2021-01-01 11:00:00 +0000-->
                                     </date>
                                     <locale key="locale" localeIdentifier="en_US"/>
+                                    <connections>
+                                        <action selector="dateChange:" destination="-1" eventType="valueChanged" id="r3s-OV-AnJ"/>
+                                    </connections>
                                 </datePicker>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -59,7 +67,7 @@
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Z7O-kU-N3K">
                             <rect key="frame" x="20" y="342" width="307" height="90"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <color key="backgroundColor" red="0.87058823529411766" green="0.87058823529411766" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="90" id="mhj-Yt-Kvl"/>
                             </constraints>
