@@ -40,7 +40,7 @@ namespace Strive.ResourceAccess
         public List<ClientViewModel> GetAllClient(SearchDto searchDto)
         {
 
-            _prm.Add("@locationId", searchDto.LocationId);
+                _prm.Add("@locationId", searchDto.LocationId);
             _prm.Add("@PageNo", searchDto.PageNo);
             _prm.Add("@PageSize", searchDto.PageSize);
             _prm.Add("@Query", searchDto.Query);
