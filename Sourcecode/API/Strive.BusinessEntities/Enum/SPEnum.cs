@@ -142,6 +142,7 @@ namespace Strive.BusinessEntities
         USPGETCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
+        USPISCLIENTAVAILABLE,
         //GiftCard
         USPGETALLGIFTCARD,
         USPGETGIFTCARDHISTORY,

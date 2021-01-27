@@ -100,20 +100,28 @@ namespace Strive.ResourceAccess
             return db.Fetch<ClientHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
         }
 
+
         public bool IsClientName(ClientNameDto clientNameDto)
         {
             _prm.Add("FirstName", clientNameDto.FirstName);
             _prm.Add("LastName", clientNameDto.LastName);
-            var result= db.Fetch<ClientViewModel>(SPEnum.USPGETCLIENTNAME.ToString(), _prm);
+            var result = db.Fetch<ClientViewModel>(SPEnum.USPISCLIENTAVAILABLE.ToString(), _prm);
             if (result.Count > 0)
             {
-                return true ;
+                return true;
             }
-           else
+            else
             {
                 return false;
             }
 
         }
+
+        public List<ClientViewModel> GetAllClientName(string name)
+        {
+            _prm.Add("ClientName", name);
+            return db.Fetch<ClientViewModel>(SPEnum.USPGETCLIENTNAME.ToString(), _prm);
+        }
+
     }
 }

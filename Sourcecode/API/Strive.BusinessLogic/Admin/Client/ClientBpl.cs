@@ -143,5 +143,11 @@ namespace Strive.BusinessLogic
             return ResultWrap(new ClientRal(_tenant).IsClientName, clientNameDto, "IsClientNameAvailable");
         }
 
+        public Result GetAllClientName(string name)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetAllClientName, name, "ClientName");
+        }
+
+
     }
 }
