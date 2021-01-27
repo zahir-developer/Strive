@@ -153,6 +153,8 @@ export const UrlConfig = {
     updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
+    addPayrollProcess: `Admin/PayRoll/AddPayRollProcess`,
+
     getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`,
     getCheckList: `Admin/Checklist/GetChecklist`,
     addCheckList: `Admin/Checklist/Add`,

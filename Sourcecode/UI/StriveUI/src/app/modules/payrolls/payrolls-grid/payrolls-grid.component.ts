@@ -23,6 +23,7 @@ MaxDate = new Date()
   pageSize: number;
   page: number;
   pageSizeList: number[];
+  employeeId: number;
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -31,6 +32,8 @@ MaxDate = new Date()
   ) { }
 
   ngOnInit(): void {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.page= ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -125,6 +128,51 @@ if (!pattern.test(inputChar)) {
       });
     });
     this.payrollsService.updateAdjustment(updateObj).subscribe( res => {
+      if (res.status === 'Success') {
+        
+        this.isEditAdjustment = false;
+        this.payrollDateForm.enable();
+        
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
+        this.runReport();
+      }
+    });
+  }
+  addPayrollProcess() {
+    const updatedObj = [];
+    this.payRollList.forEach( item => {
+      updatedObj.push({
+        
+        "payrollProcess": {
+          "payrollProcessId": 0,
+          "fromDate": this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
+          "toDate": this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
+          "isActive": true,
+          "isDeleted": true,
+          "createdBy": this.employeeId,
+          "createdDate": new Date(),
+          "updatedBy": this.employeeId,
+          "updatedDate": new Date(),
+        },
+        "payrollEmployee": {
+          "payrollEmployeeId": item.EmployeeId,
+          "employeeId": this.employeeId,
+          "payrollProcessId": 0,
+          "adjustment": +item.Adjustment,
+          "isActive": true,
+          "isDeleted": true,
+          "createdBy": this.employeeId,
+          "createdDate":new Date(),
+          "updatedBy": this.employeeId,
+          "updatedDate": new Date(),
+        }
+      
+    
+      });
+    });
+ 
+  
+    this.payrollsService.addPayRoll(updatedObj).subscribe( res => {
       if (res.status === 'Success') {
         
         this.isEditAdjustment = false;
