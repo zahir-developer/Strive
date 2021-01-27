@@ -46,6 +46,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@Search", searchDto.Search);
             var result = db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), _prm);
             return result;
         }
