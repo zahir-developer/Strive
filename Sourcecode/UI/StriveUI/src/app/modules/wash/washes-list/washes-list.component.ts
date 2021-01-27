@@ -33,6 +33,7 @@ export class WashesListComponent implements OnInit {
   pageSizeList: number[];
   page: number;
   pageSize: number;
+  search: any = null;
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe,
     private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
@@ -71,7 +72,7 @@ export class WashesListComponent implements OnInit {
 
     PageSize : this.pageSize ,
 
-     Query : null,
+     Query : this.search,
 
     SortOrder: null,
 
