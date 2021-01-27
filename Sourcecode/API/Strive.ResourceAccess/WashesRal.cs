@@ -24,6 +24,8 @@ namespace Strive.ResourceAccess
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
 
+            _prm.Add("@search", searchDto.Search);
+
             return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
         }
 
