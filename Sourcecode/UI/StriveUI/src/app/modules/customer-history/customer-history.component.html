@@ -44,11 +44,11 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="search"
-                                                        class="form-control"  name="search" id="inputSearch"
+                                                        class="form-control"  name="search" id="inputSearch" [(ngModel)]="searchQery"
                                                         placeholder="Search"> </div>
                                                 <div class="form-group col-sm m-l-5">
                                                     <button type="button"
-                                                        class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
+                                                        class="btn theme-primary-button-color btn-sm m-l-10" (click)="search()">Search</button>
                                                         <button type="button"
                                                         class="btn theme-primary-button-color btn-sm m-l-10">Reset</button>
                                                 </div>
