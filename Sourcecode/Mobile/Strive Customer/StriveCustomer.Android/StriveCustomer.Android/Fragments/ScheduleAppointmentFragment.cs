@@ -48,8 +48,7 @@ namespace StriveCustomer.Android.Fragments
             Next_Button.Click += Next_Button_Click;
             Back_Button = rootView.FindViewById<Button>(Resource.Id.scheduleAppoitment_BackButton); 
             Back_Button.Click += Back_Button_Click;
-            schedule_CalendarView.DateChange += Schedule_CalendarView_DateChange1; ;
-
+            schedule_CalendarView.DateChange += Schedule_CalendarView_DateChange1;
             Cancel_Button.Click += Cancel_Button_Click;
             return rootView;
         }
