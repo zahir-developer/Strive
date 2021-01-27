@@ -22,13 +22,16 @@ export class ClientListComponent implements OnInit {
   isView: boolean;
   selectedClient: any;
   search: any = '';
-  page = 1;
-  pageSize = 15;
+  
+  locationId = +localStorage.getItem('empLocationId');
+
   collectionSize: number = 0;
   isLoading = true;
   sort = { column: 'IsActive', descending: true };
   sortColumn: { column: string; descending: boolean; };
   pageSizeList: number[];
+  page: number;
+  pageSize: number;
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -52,8 +55,21 @@ export class ClientListComponent implements OnInit {
 
   // Get All Client
   getAllClientDetails() {
+    const obj = {
+      LocationId :this.locationId,
+
+    PageNo :this.page,
+
+    PageSize : this.pageSize ,
+
+     Query : null,
+
+    SortOrder: null,
+
+      SortBy : null
+    }
     this.isLoading = true;
-    this.client.getClient().subscribe(data => {
+    this.client.getClient(obj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
