@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
@@ -31,7 +32,7 @@ namespace Admin.API.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public Result GetAllServiceSetup() => _bplManager.GetAllServiceSetup();
+        public Result GetAllServiceSetup(SearchDto searchDto) => _bplManager.GetAllServiceSetup(searchDto);
 
         [HttpGet]
         [Route("GetServiceById")]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
@@ -26,9 +27,9 @@ namespace Strive.BusinessLogic.ServiceSetup
             return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceType, "ServiceType");
         }
 
-        public Result GetAllServiceSetup()
+        public Result GetAllServiceSetup(SearchDto searchDto)
         {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceSetup, "ServiceSetup");
+            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceSetup,searchDto, "ServiceSetup");
         }
 
         public Result GetServiceSetupById(int id)
