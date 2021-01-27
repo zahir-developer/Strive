@@ -62,7 +62,7 @@ export class ClientListComponent implements OnInit {
 
     PageSize : this.pageSize ,
 
-     Query : null,
+     Query : this.search,
 
     SortOrder: null,
 
@@ -99,16 +99,25 @@ export class ClientListComponent implements OnInit {
     this.getAllClientDetails()
   }
   clientSearch() {
-    this.page = 1;
     const obj = {
-      clientName: this.search
-    }
+      LocationId :this.locationId,
+
+    PageNo :this.page,
+
+    PageSize : this.pageSize ,
+
+     Query : this.search,
+
+    SortOrder: null,
+
+      SortBy : null
+    }  
     this.spinner.show()
-    this.client.ClientSearch(obj).subscribe(data => {
+    this.client.getClient(obj).subscribe(data => {
       this.spinner.hide()
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.ClientSearch;
+        this.clientDetails = client.Client;
         console.log(this.clientDetails);
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
