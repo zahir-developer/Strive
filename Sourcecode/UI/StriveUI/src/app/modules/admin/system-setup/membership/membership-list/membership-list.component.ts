@@ -3,6 +3,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-membership-list',
@@ -27,7 +28,9 @@ export class MembershipListComponent implements OnInit {
   pageSizeList: any;
   isDesc: boolean = false;
   column: string = 'MembershipName';
-  constructor(private toastr: MessageServiceToastr, private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
+  constructor(private toastr: MessageServiceToastr, 
+    private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 
   ngOnInit() {
     this.page= ApplicationConfig.PaginationConfig.page;
@@ -40,8 +43,9 @@ export class MembershipListComponent implements OnInit {
 
   // Get All Membership
   getAllMembershipDetails() {
-    this.isLoading = true;
+this.spinner.show();
     this.member.getMembership().subscribe(data => {
+      this.spinner.hide()
       this.isLoading = false;
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
@@ -96,7 +100,9 @@ export class MembershipListComponent implements OnInit {
     const obj ={
        membershipSearch: this.query
     }
+    this.spinner.show();
     this.member.searchMembership(obj).subscribe(data => {
+      this.spinner.hide()
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.MembershipSearch;

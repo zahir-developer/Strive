@@ -26,9 +26,8 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block" style="text-align: center;">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
+                          
+                            <div class="table-responsive" >
                                 <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
@@ -62,6 +61,9 @@
                                                     style="color:red" pTooltip="Delete" tooltipPosition="bottom"
                                                     (click)="delete(locationSetup)"></em>
                                             </td>
+                                        </tr>
+                                        <tr *ngIf="locationSetupDetails.length == 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
                                         </tr>
                                     </tbody>
                                 </table>

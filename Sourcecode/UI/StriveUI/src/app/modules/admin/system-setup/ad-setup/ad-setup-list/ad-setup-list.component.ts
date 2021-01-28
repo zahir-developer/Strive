@@ -4,6 +4,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ad-setup-list',
@@ -31,6 +32,8 @@ export class AdSetupListComponent implements OnInit {
   query = '';
   documentTypeId: any;
   constructor(private adSetup: AdSetupService,
+    private spinner: NgxSpinnerService,
+
     private toastr: ToastrService, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -48,9 +51,9 @@ export class AdSetupListComponent implements OnInit {
 
   // Get All Services
   getAlladSetupDetails() {
-    this.isLoading = true;
+this.spinner.show();
     this.adSetup.getAdSetup().subscribe(data => {
-      this.isLoading = false;
+this.spinner.hide();
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.adSetupDetails = serviceDetails.GetAllAdSetup;

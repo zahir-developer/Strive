@@ -6,6 +6,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { CheckListService } from 'src/app/shared/services/data-service/check-list.service';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-check-list',
@@ -38,6 +39,8 @@ export class CheckListComponent implements OnInit {
   constructor(private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
     private httpClient: HttpClient,
+    private spinner: NgxSpinnerService,
+
     private confirmationService: ConfirmationUXBDialogService,
      private toastr: ToastrService,) { }
 
@@ -66,9 +69,9 @@ getAllcheckListDetails() {
   //   this.checkListDetails = data.Checklist;
   //   console.log(this.checkListDetails)
   // });
- this.isLoading = true;
+this.spinner.show();
   this.checkListSetup.getCheckListSetup().subscribe(data => {
-   this.isLoading = false;
+this.spinner.hide();
     if (data.status === 'Success') {
       const serviceDetails = JSON.parse(data.resultData);
       this.checkListDetails = serviceDetails.GetChecklist;

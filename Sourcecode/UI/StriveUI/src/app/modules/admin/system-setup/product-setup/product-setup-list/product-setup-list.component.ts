@@ -3,6 +3,7 @@ import { ProductService } from 'src/app/shared/services/data-service/product.ser
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-setup-list',
@@ -24,7 +25,9 @@ export class ProductSetupListComponent implements OnInit {
   pageSize: number;
   pageSizeList: number[];
   page: number;
-  constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+  constructor(private productService: ProductService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.page= ApplicationConfig.PaginationConfig.page;
@@ -39,7 +42,9 @@ export class ProductSetupListComponent implements OnInit {
     const obj ={
       productSearch: this.search
    }
+   this.spinner.show();
    this.productService.ProductSearch(obj).subscribe(data => {
+     this.spinner.hide()
      if (data.status === 'Success') {
        const location = JSON.parse(data.resultData);
        this.productSetupDetails = location.ProductSearch;
@@ -58,8 +63,9 @@ export class ProductSetupListComponent implements OnInit {
 
   // Get All Product
   getAllproductSetupDetails() {
-    this.isLoading = true;
+this.spinner.show();
     this.productService.getProduct().subscribe(data => {
+this.spinner.hide()
       this.isLoading = false;
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
