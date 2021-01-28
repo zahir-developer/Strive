@@ -70,6 +70,7 @@ export class ClientListComponent implements OnInit {
     }
     this.isLoading = true;
     this.client.getClient(obj).subscribe(data => {
+      const totalRowCount = 28900;
       this.isLoading = false;
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
@@ -77,7 +78,7 @@ export class ClientListComponent implements OnInit {
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
