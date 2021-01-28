@@ -21,7 +21,6 @@ namespace StriveCustomer.Android.Fragments
 {
     public class ScheduleSelectServiceFragment : MvxFragment<ScheduleServicesViewModel>
     {
-        private Button ScheduleServices_BackButton;
         private Button ScheduleServices_FrontButton;
         private ScheduleFragment scheduleFragment;
         private ScheduleLocationsFragment locationsFragment;
@@ -30,6 +29,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView[] serviceViewToggle;
         private TextView[] serviceDetailPassage; 
         private LinearLayout ScheduleServices_LinearLayout;
+        private Button Cancel_Button;
         private int oldSelection = -1;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -44,23 +44,34 @@ namespace StriveCustomer.Android.Fragments
             var rootView = this.BindingInflate(Resource.Layout.ScheduleServicesFragment, null);
             this.ViewModel = new ScheduleServicesViewModel();
 
-            ScheduleServices_BackButton = rootView.FindViewById<Button>(Resource.Id.scheduleServices_BackButton);
             ScheduleServices_FrontButton = rootView.FindViewById<Button>(Resource.Id.scheduleServices_NextButton);
             ScheduleServices_LinearLayout = rootView.FindViewById<LinearLayout>(Resource.Id.ScheduleServices_LinearLayout);
+            Cancel_Button = rootView.FindViewById<Button>(Resource.Id.ScheduleServiceCancel_Button);
 
-            ScheduleServices_BackButton.Click += ScheduleServices_BackButton_Click;
             ScheduleServices_FrontButton.Click += ScheduleServices_NextButton_Click;
+            Cancel_Button.Click += Cancel_Button_Click;
 
             GetServicesDates();
 
             return rootView;
         }
 
+        private void Cancel_Button_Click(object sender, EventArgs e)
+        {
+            scheduleFragment = new ScheduleFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
+        }
+
         private void ScheduleServices_NextButton_Click(object sender, EventArgs e)
         {
-            locationsFragment = new ScheduleLocationsFragment();
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
+            if(this.ViewModel.checkSelectedService())
+            {
+                locationsFragment = new ScheduleLocationsFragment();
+                AppCompatActivity activity = (AppCompatActivity)this.Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
+            }
+           
         }
 
         private void ScheduleServices_BackButton_Click(object sender, EventArgs e)
@@ -286,7 +297,8 @@ namespace StriveCustomer.Android.Fragments
                     CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[0].ServiceId;
                     CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[0].ServiceType;
                     CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[0].Price;
-            }
+                    CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[0].ServiceName;
+                }
             oldSelection = 0;
         }
         private void ServiceViewToggle_Click0(object sender, EventArgs e)
@@ -320,6 +332,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[1].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[1].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[1].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[1].ServiceName;
             }
             oldSelection = 1;
         }
@@ -351,6 +364,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[2].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[2].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[2].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[2].ServiceName;
             }
             oldSelection = 2;
         }
@@ -382,6 +396,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[3].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[3].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[3].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[3].ServiceName;
             }
             oldSelection = 3;
         }
@@ -413,6 +428,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[4].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[4].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[4].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[4].ServiceName;
             }
             oldSelection = 4;
         }
@@ -444,6 +460,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[5].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[5].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[5].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[5].ServiceName;
             }
             oldSelection = 5;
         }
@@ -475,6 +492,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[6].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[6].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[6].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[6].ServiceName;
             }
             oldSelection = 6;
         }
@@ -507,6 +525,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[7].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[7].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[7].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[7].ServiceName;
             }
             oldSelection = 7;
         }
@@ -539,6 +558,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[8].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[8].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[8].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[8].ServiceName;
             }
             oldSelection = 8;
         }
@@ -571,6 +591,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[9].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[9].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[9].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[9].ServiceName;
             }
             oldSelection = 9;
         }
@@ -603,6 +624,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[10].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[10].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[10].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[10].ServiceName;
             }
             oldSelection = 10;
         }
@@ -635,6 +657,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[11].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[11].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[11].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[11].ServiceName;
             }
             oldSelection = 11;
         }
@@ -667,6 +690,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[12].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[12].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[12].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[12].ServiceName;
             }
             oldSelection = 12;
         }
@@ -699,6 +723,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[13].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[13].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[13].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[13].ServiceName;
             }
             oldSelection = 13;
         }
@@ -731,6 +756,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[14].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[14].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[14].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[14].ServiceName;
             }
             oldSelection = 14;
         }
@@ -763,6 +789,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[15].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[15].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[15].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[15].ServiceName;
             }
             oldSelection = 15;
         }
@@ -795,6 +822,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[16].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[16].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[16].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[16].ServiceName;
             }
             oldSelection = 16;
         }
@@ -827,6 +855,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[17].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[17].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[17].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[17].ServiceName;
             }
             oldSelection = 17;
         }
@@ -859,6 +888,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[18].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[18].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[18].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[18].ServiceName;
             }
             oldSelection = 18;
         }
@@ -891,6 +921,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[19].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[19].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[19].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[19].ServiceName;
             }
             oldSelection = 19;
         }
@@ -923,6 +954,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[20].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[20].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[20].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[20].ServiceName;
             }
             oldSelection = 20;
         }
@@ -955,6 +987,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[21].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[21].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[21].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[21].ServiceName;
             }
             oldSelection = 21;
         }
@@ -987,6 +1020,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[22].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[22].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[22].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[22].ServiceName;
             }
             oldSelection = 22;
         }
@@ -1019,6 +1053,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[23].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[23].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[23].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[23].ServiceName;
             }
             oldSelection = 23;
         }
@@ -1051,6 +1086,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[24].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[24].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[24].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[24].ServiceName;
             }
             oldSelection = 24;
         }
@@ -1083,6 +1119,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[25].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[25].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[25].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[25].ServiceName;
             }
             oldSelection = 25;
         }
@@ -1115,6 +1152,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[26].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[26].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[26].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[26].ServiceName;
             }
             oldSelection = 26;
         }
@@ -1147,6 +1185,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[27].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[27].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[27].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[27].ServiceName;
             }
             oldSelection = 27;
         }
@@ -1179,6 +1218,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[28].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[28].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[28].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[28].ServiceName;
             }
             oldSelection = 28;
         }
@@ -1211,6 +1251,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[29].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[29].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[29].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[29].ServiceName;
             }
             oldSelection = 29;
         }
@@ -1243,6 +1284,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[30].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[30].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[30].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[30].ServiceName;
             }
             oldSelection = 30;
         }
@@ -1275,6 +1317,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[31].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[31].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[31].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[31].ServiceName;
             }
             oldSelection = 31;
         }
@@ -1307,6 +1350,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[32].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[32].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[32].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[32].ServiceName;
             }
             oldSelection = 32;
         }
@@ -1339,6 +1383,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[33].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[33].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[33].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[33].ServiceName;
             }
             oldSelection = 33;
         }
@@ -1371,6 +1416,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[34].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[34].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[34].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[34].ServiceName;
             }
             oldSelection = 34;
         }
@@ -1403,6 +1449,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[35].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[35].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[35].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[35].ServiceName;
             }
             oldSelection = 35;
         }
@@ -1435,6 +1482,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[36].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[36].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[36].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[36].ServiceName;
             }
             oldSelection = 36;
         }
@@ -1467,6 +1515,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[37].ServiceId;
                 CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[37].ServiceType;
                 CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[37].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[37].ServiceName;
             }
             oldSelection = 37;
         }

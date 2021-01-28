@@ -150,6 +150,8 @@ namespace Strive.Core.Models.Customer
         public static float ScheduleServicePrice { get; set; }
         public static int ScheduleServiceID { get; set; }
         public static int ScheduleServiceType { get; set; }
+        public static string ScheduleServiceName { get; set; }
+        public static string ScheduleServiceTime { get; set; }
 
         #endregion Properties
 
@@ -159,7 +161,18 @@ namespace Strive.Core.Models.Customer
         public static void ClearScheduleData()
         {
             ScheduledVehicleName = null;
-            ScheduleLocationCode = 0;
+            ScheduleLocationCode = -1;
+            ScheduleLocationAddress = null;
+            ScheduleTime = null;
+            ScheduleMonth = null;
+            ScheduleDate = null;
+            ScheduleYear = null;
+            ScheduleTimeOfDay = null;
+            ScheduleServicePrice = 0;
+            ScheduleServiceID = -1;
+            ScheduleServiceType = -1;
+            ScheduleServiceName = null;
+            ScheduleServiceTime = null;
         }
 
         #endregion Commands

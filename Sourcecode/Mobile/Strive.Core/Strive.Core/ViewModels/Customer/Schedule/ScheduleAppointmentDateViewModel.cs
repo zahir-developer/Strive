@@ -10,6 +10,10 @@ namespace Strive.Core.ViewModels.Customer.Schedule
     public class ScheduleAppointmentDateViewModel : BaseViewModel
     {
         #region Properties
+
+        public string checkDate { get; set; }
+        public DateTime selectedDate { get; set; }
+        public DateTime currentDate { get; set; }
         public AvailableScheduleSlots ScheduleSlotInfo { get; set; }
         #endregion Properties
 
@@ -26,6 +30,48 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 ScheduleSlotInfo = result;
             }
         }
+
+        public async void NavToSelect_Preview()
+        {
+            if (checkSelectedTime() && checkSelectedDate())
+            {
+                await _navigationService.Navigate<SchedulePreviewDetailsViewModel>();
+            }
+        }
+
+        public bool checkSelectedTime()
+        {
+            var selected = false;
+            if (CustomerScheduleInformation.ScheduleServiceTime != null)
+            {
+                selected = true;
+            }
+            else
+            {
+                _userDialog.Alert("Please select a time to proceed.");
+                selected = false;
+            }
+            return selected;
+        }
+        public bool checkSelectedDate()
+        {
+            selectedDate = DateTime.Parse(checkDate);
+
+            currentDate = DateTime.Now;
+            var selected = false;
+            if (selectedDate.Date >= currentDate.Date && selectedDate.Month >= currentDate.Month && selectedDate.Year >= currentDate.Year)
+            {
+                selected = true; 
+               
+            }
+            else
+            {
+                selected = false;
+                _userDialog.Alert("Please select a later date.");
+            }
+            return selected;
+        }
+
 
         #endregion Commands
 
