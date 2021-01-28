@@ -16,7 +16,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   @Output() emitNewChat = new EventEmitter();
   @Output() emitFirstMessage = new EventEmitter();
   @Output() emitRefreshGroupUsers = new EventEmitter();
-  @Input() selectedEmployee: any = [];
+  @Input() selectedEmployee?: any;
   @Input() currentEmployeeId: any = 1;
   @Input() popupType: any = '';
   chatGroupId : number;

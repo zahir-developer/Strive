@@ -262,7 +262,7 @@ export class TimeClockWeekComponent implements OnInit {
           eventDate: time.EventDate,
           inTime: time.InTime? moment(inEventDate).format() : '',  // this.datePipe.transform(time.InTime, 'HH:mm'),
           outTime:time.OutTime ?  moment(outEventDate).format(): '', // this.datePipe.transform(time.OutTime, 'HH:mm'),
-          eventType: 1,
+          eventType: null,
           updatedFrom: '',
           status: true,
           comments: '',

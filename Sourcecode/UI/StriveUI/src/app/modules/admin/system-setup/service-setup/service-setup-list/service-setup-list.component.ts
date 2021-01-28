@@ -3,6 +3,7 @@ import { ServiceSetupService } from 'src/app/shared/services/data-service/servic
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -17,7 +18,6 @@ export class ServiceSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  isLoading = true;
   search: any = '';
   searchStatus: any;
   collectionSize: number = 0;
@@ -26,32 +26,47 @@ export class ServiceSetupListComponent implements OnInit {
   pageSize: number;
   pageSizeList: number[];
   isDesc: boolean = false;
-  column: string = 'ServiceName';
-  constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+    column: string = 'ServiceName';
+    totalRowCount = 0;
+  constructor(private serviceSetup: ServiceSetupService, 
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
-    this.searchStatus = "";
+    this.Status = [{ id: 0, Value: 'InActive' }, { id: 1, Value: 'Active' }, { id: 2, Value: 'All' }];
+    this.searchStatus = 1;
     this.getAllserviceSetupDetails();
   }
 
   // Get All Services
   getAllserviceSetupDetails() {
-    this.isLoading = true;
-    this.serviceSetup.getServiceSetup().subscribe(data => {
-      this.isLoading = false;
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search !== '' ? this.search : null,
+      sortOrder: null,
+      sortBy: null,
+      status: this.searchStatus !== 2 ? this.searchStatus === 1 ? true : false : null
+    };
+    this.spinner.show()
+    this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
+     this.spinner.hide()
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.serviceSetupDetails = serviceDetails.ServiceSetup;
-        if (this.serviceSetupDetails.length === 0) {
-          this.isTableEmpty = true;
-        } else {
-          this.sort('ServiceName')
-          this.collectionSize = Math.ceil(this.serviceSetupDetails.length/this.pageSize) * 10;
-          this.isTableEmpty = false;
+        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
+          this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;
+          if (this.serviceSetupDetails.length === 0) {
+            this.isTableEmpty = true;
+          } else {
+            this.sort('ServiceName');
+            this.totalRowCount = serviceDetails.ServiceSetup.Count.Count;
+            this.collectionSize = Math.ceil(this.totalRowCount / this.pageSize) * 10;
+            this.isTableEmpty = false;
+          }
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -59,39 +74,36 @@ export class ServiceSetupListComponent implements OnInit {
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllserviceSetupDetails()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllserviceSetupDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllserviceSetupDetails()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllserviceSetupDetails();
   }
 
-  serviceSearch(){
+  serviceSearch() {
     this.page = 1;
-    const obj ={
+    const obj = {
       serviceSearch: this.search,
-      status: this.searchStatus === "" ? 2 :  Number(this.searchStatus)
-   }
-   this.serviceSetup.ServiceSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.serviceSetupDetails = location.ServiceSearch;
-       if (this.serviceSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
+      status: this.searchStatus === '' ? 2 : Number(this.searchStatus)
+    };
+    this.serviceSetup.ServiceSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.serviceSetupDetails = location.ServiceSearch;
+        if (this.serviceSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
   edit(data) {
     this.selectedData = data;
@@ -111,7 +123,7 @@ export class ServiceSetupListComponent implements OnInit {
   // Delete Service
   confirmDelete(data) {
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
-      if (res.status === "Success") {
+      if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAllserviceSetupDetails();
       } else {
@@ -120,10 +132,9 @@ export class ServiceSetupListComponent implements OnInit {
     });
   }
   sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
+    this.isDesc = !this.isDesc; // change the direction
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
-
     this.serviceSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;

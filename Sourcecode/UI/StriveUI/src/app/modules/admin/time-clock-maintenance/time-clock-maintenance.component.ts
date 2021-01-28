@@ -186,7 +186,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
       eventDate: moment(this.startDate).format(),
       inTime: null,
       outTime: null,
-      eventType: 1,
+      eventType: null,
       updatedFrom: '',
       status: true,
       comments: '',
