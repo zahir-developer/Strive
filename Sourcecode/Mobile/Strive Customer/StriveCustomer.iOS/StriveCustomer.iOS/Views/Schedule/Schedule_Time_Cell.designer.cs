@@ -13,6 +13,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 	partial class Schedule_Time_Cell
 	{
 		[Outlet]
+		UIKit.UIView Time_CellView { get; set; }
+
+		[Outlet]
 		UIKit.UIButton TimeSlot_Btn { get; set; }
 		
 		void ReleaseDesignerOutlets ()
@@ -20,6 +23,11 @@ namespace StriveCustomer.iOS.Views.Schedule
 			if (TimeSlot_Btn != null) {
 				TimeSlot_Btn.Dispose ();
 				TimeSlot_Btn = null;
+			}
+
+			if (Time_CellView != null) {
+				Time_CellView.Dispose ();
+				Time_CellView = null;
 			}
 		}
 	}
