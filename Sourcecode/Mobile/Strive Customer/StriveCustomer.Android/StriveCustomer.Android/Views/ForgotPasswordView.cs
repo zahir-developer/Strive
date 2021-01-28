@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -17,7 +18,7 @@ using Strive.Core.ViewModels.Customer;
 namespace StriveCustomer.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "ForgotPassword View")]
+    [Activity(Label = "ForgotPassword View", ScreenOrientation = ScreenOrientation.Portrait)]
     class ForgotPasswordView : MvxAppCompatActivity<ForgotPasswordViewModel>
     {
         private Button getOTP;

@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -18,7 +19,7 @@ using Strive.Core.ViewModels.Customer;
 namespace StriveCustomer.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "OTP View")]
+    [Activity(Label = "OTP View", ScreenOrientation = ScreenOrientation.Portrait)]
     class OTPView : MvxAppCompatActivity<OTPViewModel>
     {
         private TextView enterOTPTitleTextView;
