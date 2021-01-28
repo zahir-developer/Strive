@@ -10,6 +10,7 @@ import { CollisionListComponent } from '../../employees/collision-list/collision
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-employee-list',
@@ -47,6 +48,8 @@ export class EmployeeListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+
     private messageService: MessageServiceToastr,
     private router: Router
   ) { }
@@ -61,7 +64,9 @@ export class EmployeeListComponent implements OnInit {
     this.getCommisionDropdownValue();
   }
   getAllEmployeeDetails() {
+    this.spinner.show()
     this.employeeService.getEmployees().subscribe(data => {
+      this.spinner.hide()
       if (data.status === 'Success') {
         const employees = JSON.parse(data.resultData);
         const employeeDetail = employees.EmployeeList;
@@ -158,7 +163,9 @@ export class EmployeeListComponent implements OnInit {
   }
 
   seachEmployee() {
+    this.spinner.show()
     this.employeeService.searchEmployee(this.search).subscribe(res => {
+      this.spinner.hide()
       if (res.status === 'Success') {
         const seachList = JSON.parse(res.resultData);
         this.employeeDetails = seachList.EmployeeList;

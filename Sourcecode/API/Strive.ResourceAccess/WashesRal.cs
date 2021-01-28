@@ -15,7 +15,7 @@ namespace Strive.ResourceAccess
     public class WashesRal : RalBase
     {
         public WashesRal(ITenantHelper tenant) : base(tenant) { }
-        public List<AllWashesViewModel> GetAllWashTime(SearchDto searchDto)
+        public WashesListViewModel GetAllWashTime(SearchDto searchDto)
         {
             _prm.Add("@locationId", searchDto.LocationId);
             _prm.Add("@PageNo", searchDto.PageNo);
@@ -25,7 +25,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@SortBy", searchDto.SortBy);
             
 
-            return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
+            return db.FetchMultiResult<WashesListViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
         }
 
         public WashDetailViewModel GetWashTimeDetail(int id)

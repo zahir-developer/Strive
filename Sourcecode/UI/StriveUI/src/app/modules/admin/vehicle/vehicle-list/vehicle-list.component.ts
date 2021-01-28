@@ -5,6 +5,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -35,6 +36,8 @@ export class VehicleListComponent implements OnInit {
     private vehicle: VehicleService,
     private toastr: ToastrService,
     private router: Router,
+    private spinner: NgxSpinnerService,
+
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService
   ) { }
@@ -64,7 +67,9 @@ export class VehicleListComponent implements OnInit {
     const obj = {
       searchName: ""
     }
+    this.spinner.show()
     this.vehicle.getVehicle(obj).subscribe(data => {
+      this.spinner.hide()
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
@@ -89,7 +94,9 @@ export class VehicleListComponent implements OnInit {
     const obj = {
       searchName: this.search
     }
+    this.spinner.show()
     this.vehicle.getVehicle(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;

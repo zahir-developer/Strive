@@ -44,7 +44,6 @@ export class ServiceSetupListComponent implements OnInit {
 
   // Get All Services
   getAllserviceSetupDetails() {
-    this.isLoading = true;
     const serviceObj = {
       locationId: +localStorage.getItem('empLocationId'),
       pageNo: this.page,
@@ -54,6 +53,7 @@ export class ServiceSetupListComponent implements OnInit {
       sortBy: null,
       status: this.searchStatus !== 2 ? this.searchStatus === 1 ? true : false : null
     };
+    this.spinner.show()
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
       this.spinner.hide()
       if (data.status === 'Success') {

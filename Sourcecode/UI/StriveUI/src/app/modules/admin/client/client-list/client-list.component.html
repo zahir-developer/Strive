@@ -117,10 +117,9 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                                    class="col-12 row d-block">No Records Found</span></div>
+                                           
                                             <div class="table-responsive"
-                                                *ngIf="isTableEmpty === false && isLoading === false" >
+                                        >
                                                 <table class="table  table-striped m-t-10 headerfix" >
                                                     <thead>
                                                         <tr>
@@ -161,6 +160,11 @@
                                                                     (click)="delete(client)"></em>
                                                             </td>
                                                         </tr>
+                                                        <tr *ngIf="clientDetails.length === 0">
+                                                            <td colspan="12" class="text-center">
+                                                                No Records Found
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                                 <div class="row pull-right" >
@@ -177,9 +181,7 @@
                                                  </div>
                                             </div>
                                         </div>
-                                        <div class="loadingDiv" *ngIf="isLoading">
-                                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>

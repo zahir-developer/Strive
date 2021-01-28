@@ -17,7 +17,6 @@ export class MembershipListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  isLoading = true;
   Status:any;
   searchStatus:any;
  
@@ -46,7 +45,6 @@ export class MembershipListComponent implements OnInit {
 this.spinner.show();
     this.member.getMembership().subscribe(data => {
       this.spinner.hide()
-      this.isLoading = false;
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.Membership;

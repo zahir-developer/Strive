@@ -18,7 +18,6 @@ export class ProductSetupListComponent implements OnInit {
   column: string = 'ProductName';
   headerData: string;
   isEdit: boolean;
-  isLoading = true;
   isTableEmpty: boolean;
   search : any = '';
   collectionSize: number = 0;
@@ -66,7 +65,6 @@ export class ProductSetupListComponent implements OnInit {
 this.spinner.show();
     this.productService.getProduct().subscribe(data => {
 this.spinner.hide()
-      this.isLoading = false;
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
         this.productSetupDetails = product.Product;

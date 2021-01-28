@@ -26,7 +26,6 @@ export class ClientListComponent implements OnInit {
   locationId = +localStorage.getItem('empLocationId');
 
   collectionSize: number = 0;
-  isLoading = true;
   sort = { column: 'IsActive', descending: true };
   sortColumn: { column: string; descending: boolean; };
   pageSizeList: number[];
@@ -34,6 +33,7 @@ export class ClientListComponent implements OnInit {
   pageSize: number;
   constructor(
     private client: ClientService, private toastr: ToastrService,
+    
     private confirmationService: ConfirmationUXBDialogService,
     private spinner: NgxSpinnerService, private router: Router,
     private route: ActivatedRoute
@@ -68,13 +68,14 @@ export class ClientListComponent implements OnInit {
 
       SortBy : null
     }
-    this.isLoading = true;
+this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
-      const totalRowCount = 28900;
-      this.isLoading = false;
+this.spinner.hide();
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Client;
+        this.clientDetails = client.Client.clientViewModel;
+        const totalRowCount = client.Count.Count;
+
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
