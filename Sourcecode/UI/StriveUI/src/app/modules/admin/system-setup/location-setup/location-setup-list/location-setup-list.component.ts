@@ -20,7 +20,6 @@ export class LocationSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
-  isLoading = true;
   collectionSize: number = 0;
   pageSize: number;
   page: number;
