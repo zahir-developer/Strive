@@ -37,35 +37,35 @@
                     android:fontFamily="@font/opensans_semibold"
                     android:textColor="@color/defaultButtonColor"
                     android:textSize="12sp"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="11sp"
-                        android:gravity="center_vertical"
-                        android:text="**Vehicle up charges apply View More"
-                        android:textColor="#27446E"/>
-                     <TextView
-                        android:id="@+id/scheduleServiceCost_TextView"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/opensans_bold"
-                        android:layout_weight="0.2"
-                        android:gravity="center"
-                        android:text="$250.00"
-                        android:textSize="14sp"/>
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="11sp"
+                            android:gravity="center_vertical"
+                            android:text="**Vehicle up charges apply View More"
+                            android:textColor="#27446E"/>
+                         <TextView
+                            android:id="@+id/scheduleServiceCost_TextView"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/opensans_bold"
+                            android:layout_weight="0.2"
+                            android:gravity="center"
+                            android:text="$250.00"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
                 <TextView
                     android:id="@+id/detailedServiceInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="11sp"
                     android:textColor="#27446E"
-                    android:text="@string/defaultScheduleText"
+                    android:text="@string/defaultScheduleServiceText"
                     android:fontFamily="@font/opensans_regular" />
                 <TextView
                     android:id="@+id/infoShowChange_TextView"

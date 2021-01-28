@@ -69,7 +69,7 @@ namespace StriveCustomer.Android.Fragments
 
         private async void SaveButton_Click(object sender, EventArgs e)
         {
-          this.ViewModel.CheckSaveVehicle();
+          await this.ViewModel.SaveVehicle();
         }
 
         private void BackButton_Click(object sender, EventArgs e)

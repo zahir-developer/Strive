@@ -121,49 +121,56 @@ namespace Strive.Core.ViewModels.Customer
             }
         }
 
-        public async void CheckSaveVehicle()
+        public bool CheckSaveVehicle()
         {
+            var valid = false;
             if ((MembershipDetails.previousSelectedColor == MembershipDetails.selectedColor) && (MembershipDetails.previousSelectedMake == MembershipDetails.selectedMake) && (MembershipDetails.previousSelectedModel == MembershipDetails.selectedModel))
             {
                 _userDialog.Alert("You have already created this vehicle");
+                valid = false;
             }
             else
             {
                 MembershipDetails.previousSelectedModel = MembershipDetails.selectedModel;
                 MembershipDetails.previousSelectedColor = MembershipDetails.selectedColor;
                 MembershipDetails.previousSelectedMake = MembershipDetails.selectedMake;
-                await this.SaveVehicle();
+                valid = true;
             }
+            return valid;
         }
         public async Task SaveVehicle()
         {  
             if (VehicleDetailsCheck())
             {
-                _userDialog.ShowLoading(Strings.Loading);
-                clientVehicles = new AddCustomerVehicle();
-                clientVehicles.clientVehicle = new List<clientVehicle>();
-                var selectedvehicle = new clientVehicle();
-                selectedvehicle.clientId = CustomerInfo.ClientID;
-                selectedvehicle.locationId = 1;
-                selectedvehicle.vehicleModelNo = 0;
-                selectedvehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
-                selectedvehicle.vehicleModel = MembershipDetails.modelNumber;
-                selectedvehicle.vehicleColor = MembershipDetails.colorNumber;
-                selectedvehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
-                selectedvehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
-                selectedvehicle.isActive = true;
-                selectedvehicle.isDeleted = false;
-                clientVehicles.clientVehicle.Add(selectedvehicle);
-
-                var data = await AdminService.AddCustomerVehicle(clientVehicles);
-                if (data == null)
+                if(CheckSaveVehicle())
                 {
-                    _userDialog.Alert("Information not added,try again");
-                    return;
+                    _userDialog.ShowLoading(Strings.Loading);
+                    clientVehicles = new AddCustomerVehicle();
+                    clientVehicles.clientVehicle = new List<clientVehicle>();
+                    var selectedvehicle = new clientVehicle();
+                    selectedvehicle.clientId = CustomerInfo.ClientID;
+                    selectedvehicle.locationId = 1;
+                    selectedvehicle.vehicleModelNo = 0;
+                    selectedvehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+                    selectedvehicle.vehicleModel = MembershipDetails.modelNumber;
+                    selectedvehicle.vehicleColor = MembershipDetails.colorNumber;
+                    selectedvehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
+                    selectedvehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
+                    selectedvehicle.isActive = true;
+                    selectedvehicle.isDeleted = false;
+                    clientVehicles.clientVehicle.Add(selectedvehicle);
+
+                    var data = await AdminService.AddCustomerVehicle(clientVehicles);
+                    if (data == null)
+                    {
+                        _userDialog.Alert("Information not added,try again");
+                        return;
+                    }
+                    await GetCustomerVehicleList();
+                    _userDialog.HideLoading();
+                    _userDialog.Toast("Information has been entered successfully");
                 }
-                await GetCustomerVehicleList();
-                _userDialog.HideLoading();
-                _userDialog.Toast("Information has been entered successfully");
+              
             }
         }
 
