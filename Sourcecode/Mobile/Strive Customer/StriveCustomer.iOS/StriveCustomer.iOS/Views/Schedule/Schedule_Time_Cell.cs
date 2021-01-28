@@ -24,7 +24,10 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public void SetData(AvailableScheduleSlots slots, NSIndexPath indexPath)
         {
-            TimeSlot_Btn.SetTitle(slots.GetTimeInDetails[indexPath.Row].TimeIn, UIControlState.Normal);
+            Time_CellView.Layer.CornerRadius = 5;
+            string timeIn = slots.GetTimeInDetails[indexPath.Row].TimeIn;
+            TimeSlot_Btn.SetTitle(timeIn, UIControlState.Normal);
         }
     }
 }
+ 
