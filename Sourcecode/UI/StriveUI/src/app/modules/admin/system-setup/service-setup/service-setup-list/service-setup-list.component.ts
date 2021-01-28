@@ -42,15 +42,15 @@ export class ServiceSetupListComponent implements OnInit {
 
   // Get All Services
   getAllserviceSetupDetails() {
-    this.isLoading = true;
     const locId = +localStorage.getItem('empLocationId');
     const pageNo = this.page;
     const pageSize = this.pageSize;
     const query = null;
     const sortOrder = null;
     const sortBy = null;
+    this.spinner.show()
     this.serviceSetup.getServiceSetup(locId, pageNo, pageSize, query, sortOrder, sortBy).subscribe(data => {
-      this.isLoading = false;
+     this.spinner.hide()
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.serviceSetupDetails = serviceDetails.ServiceSetup;
