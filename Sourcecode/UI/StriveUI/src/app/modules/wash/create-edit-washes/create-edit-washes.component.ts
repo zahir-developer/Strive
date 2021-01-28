@@ -323,13 +323,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().includes(query.toLowerCase())) {
-        filtered.push(client);
-      }
-    }
-    this.filteredClient = filtered;
   }
 
   filterModel(event) {
