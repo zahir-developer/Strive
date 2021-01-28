@@ -77,7 +77,7 @@ namespace Admin.API.Controllers
         public Result IsClientName([FromBody]ClientNameDto clientNameDto) => _bplManager.IsClientName(clientNameDto);
 
         [HttpGet]
-        [Route("GetAllName")]
+        [Route("GetAllName/{name}")]
         public Result GetAllClientName(string name)
         {
             return _bplManager.GetAllClientName(name);
