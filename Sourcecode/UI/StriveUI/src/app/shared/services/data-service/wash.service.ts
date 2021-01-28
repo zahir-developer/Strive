@@ -55,7 +55,10 @@ export class WashService {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
   }
   getAllClientName(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getClientName}`);
+    return this.http.get(`${UrlConfig.totalUrl.getClientName}`,name);
+  }
+  getAllClients(name): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getClientName}`,{ params: { name: name } });
   }
   getVehicleByClientId(clientId: number) {
     return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });

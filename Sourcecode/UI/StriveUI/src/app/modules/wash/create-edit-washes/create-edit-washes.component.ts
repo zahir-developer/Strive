@@ -301,8 +301,12 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  getAllClient() {
-    this.wash.getAllClientName().subscribe(res => {
+  
+
+  filterClient(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    this.wash.getAllClients(query).subscribe(res => {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
         client.ClientName.forEach(item => {
@@ -319,11 +323,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
-  }
-
-  filterClient(event) {
-    const filtered: any[] = [];
-    const query = event.query;
     for (const i of this.clientList) {
       const client = i;
       if (client.name.toLowerCase().includes(query.toLowerCase())) {
