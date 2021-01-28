@@ -30,6 +30,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView[] serviceDetailPassage; 
         private LinearLayout ScheduleServices_LinearLayout;
         private Button Cancel_Button;
+        private Button scheduleServices_BackButton;
         private int oldSelection = -1;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,13 +48,21 @@ namespace StriveCustomer.Android.Fragments
             ScheduleServices_FrontButton = rootView.FindViewById<Button>(Resource.Id.scheduleServices_NextButton);
             ScheduleServices_LinearLayout = rootView.FindViewById<LinearLayout>(Resource.Id.ScheduleServices_LinearLayout);
             Cancel_Button = rootView.FindViewById<Button>(Resource.Id.ScheduleServiceCancel_Button);
-
+            scheduleServices_BackButton = rootView.FindViewById<Button>(Resource.Id.scheduleServices_BackButton);
+            scheduleServices_BackButton.Click += ScheduleServices_BackButton_Click1;
             ScheduleServices_FrontButton.Click += ScheduleServices_NextButton_Click;
             Cancel_Button.Click += Cancel_Button_Click;
 
             GetServicesDates();
 
             return rootView;
+        }
+
+        private void ScheduleServices_BackButton_Click1(object sender, EventArgs e)
+        {
+            scheduleFragment = new ScheduleFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
