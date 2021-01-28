@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-location-setup-list',
@@ -27,6 +28,8 @@ export class LocationSetupListComponent implements OnInit {
   isDesc: boolean = false;
   column: string = 'LocationName';
   constructor(private locationService: LocationService, private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+
     private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
@@ -39,9 +42,9 @@ export class LocationSetupListComponent implements OnInit {
 
   // get all location
   getAllLocationSetupDetails() {
-    this.isLoading =  true;
+this.spinner.show();
     this.locationService.getLocation().subscribe(data => {
-      this.isLoading =  false;
+this.spinner.hide();
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
@@ -94,7 +97,9 @@ export class LocationSetupListComponent implements OnInit {
     const obj ={
        locationSearch: this.search
     }
+    this.spinner.show()
     this.locationService.LocationSearch(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Search;

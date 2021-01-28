@@ -3,6 +3,7 @@ import { VendorService } from 'src/app/shared/services/data-service/vendor.servi
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vendor-setup-list',
@@ -25,7 +26,9 @@ export class VendorSetupListComponent implements OnInit {
   pageSizeList: number[];
   isDesc: boolean = false;
   column: string = 'VendorName';
-  constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+  constructor(private vendorService: VendorService, 
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.page= ApplicationConfig.PaginationConfig.page;
@@ -39,7 +42,9 @@ export class VendorSetupListComponent implements OnInit {
     const obj ={
       vendorSearch: this.search
    }
+   this.spinner.show();
    this.vendorService.VendorSearch(obj).subscribe(data => {
+     this.spinner.hide()
      if (data.status === 'Success') {
        const location = JSON.parse(data.resultData);
        this.vendorSetupDetails = location.VendorSearch;
@@ -73,8 +78,9 @@ export class VendorSetupListComponent implements OnInit {
   }
   // Get All Vendors
   getAllvendorSetupDetails() {
-    this.isLoading = true;
+this.spinner.show();
     this.vendorService.getVendor().subscribe(data => {
+      this.spinner.hide()
       this.isLoading = false;
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);

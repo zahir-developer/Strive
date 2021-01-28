@@ -3,6 +3,7 @@ import { ServiceSetupService } from 'src/app/shared/services/data-service/servic
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -17,7 +18,6 @@ export class ServiceSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  isLoading = true;
   search: any = '';
   searchStatus: any;
   collectionSize: number = 0;
@@ -27,7 +27,9 @@ export class ServiceSetupListComponent implements OnInit {
   pageSizeList: number[];
   isDesc: boolean = false;
   column: string = 'ServiceName';
-  constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+  constructor(private serviceSetup: ServiceSetupService, 
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.page= ApplicationConfig.PaginationConfig.page;
@@ -40,10 +42,10 @@ export class ServiceSetupListComponent implements OnInit {
 
   // Get All Services
   getAllserviceSetupDetails() {
-    this.isLoading = true;
+this.spinner.show();
     this.serviceSetup.getServiceSetup().subscribe(data => {
-      this.isLoading = false;
-      if (data.status === 'Success') {
+this.spinner.hide() ;
+    if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.serviceSetupDetails = serviceDetails.ServiceSetup;
         if (this.serviceSetupDetails.length === 0) {

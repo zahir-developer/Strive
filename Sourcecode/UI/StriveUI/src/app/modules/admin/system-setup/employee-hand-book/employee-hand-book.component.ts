@@ -5,6 +5,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -36,6 +37,8 @@ export class EmployeeHandBookComponent implements OnInit {
   url: any;
 
   constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+    private spinner: NgxSpinnerService,
+
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
     this.getDocumentType();
@@ -106,9 +109,9 @@ export class EmployeeHandBookComponent implements OnInit {
     downloadLink.click();
   }
   getDocument() {
-    this.isLoading = true;
+this.spinner.show();
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
-      this.isLoading = false;
+this.spinner.hide();
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
