@@ -162,6 +162,17 @@ namespace Strive.Core.Models.Customer
         {
             ScheduledVehicleName = null;
             ScheduleLocationCode = 0;
+            ScheduleLocationAddress = null;
+            ScheduleTime = null;
+            ScheduleMonth = null;
+            ScheduleDate = null;
+            ScheduleYear = null;
+            ScheduleTimeOfDay = null;
+            ScheduleServicePrice = 0;
+            ScheduleServiceID = 0;
+            ScheduleServiceType = 0;
+            ScheduleServiceName = null;
+            ScheduleServiceTime = null;
         }
 
         #endregion Commands

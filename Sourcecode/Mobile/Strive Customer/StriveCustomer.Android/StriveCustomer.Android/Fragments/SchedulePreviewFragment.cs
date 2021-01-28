@@ -31,6 +31,7 @@ namespace StriveCustomer.Android.Fragments
         private Button BookNow_Button;
         private ScheduleAppointmentFragment appointmentFragment;
         private ScheduleFragment scheduleFragment;
+        private ScheduleConfirmationFragment confirmationFragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -66,7 +67,9 @@ namespace StriveCustomer.Android.Fragments
 
         private void BookNow_Button_Click(object sender, EventArgs e)
         {
-           
+            confirmationFragment = new ScheduleConfirmationFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, confirmationFragment).Commit();
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)

@@ -93,6 +93,7 @@
     <Compile Include="Fragments\PersonalInfoFragment.cs" />
     <Compile Include="Fragments\ScheduleAppointmentFragment.cs" />
     <Compile Include="Fragments\ScheduleAppoitmentDateFragment.cs" />
+    <Compile Include="Fragments\ScheduleConfirmationFragment.cs" />
     <Compile Include="Fragments\ScheduleFragment.cs" />
     <Compile Include="Fragments\ScheduleLocationsFragment.cs" />
     <Compile Include="Fragments\SchedulePastServiceHistoryFragment.cs" />
@@ -958,6 +959,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\TimeSlotSelected.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ScheduleConfirmationFragment.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
