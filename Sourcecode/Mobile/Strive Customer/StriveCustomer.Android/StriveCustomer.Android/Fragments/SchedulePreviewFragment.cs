@@ -65,8 +65,9 @@ namespace StriveCustomer.Android.Fragments
             return rootView;
         }
 
-        private void BookNow_Button_Click(object sender, EventArgs e)
+        private async void BookNow_Button_Click(object sender, EventArgs e)
         {
+            await this.ViewModel.BookNow();
             confirmationFragment = new ScheduleConfirmationFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, confirmationFragment).Commit();

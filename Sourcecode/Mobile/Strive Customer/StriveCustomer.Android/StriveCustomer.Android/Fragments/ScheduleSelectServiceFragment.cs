@@ -65,9 +65,13 @@ namespace StriveCustomer.Android.Fragments
 
         private void ScheduleServices_NextButton_Click(object sender, EventArgs e)
         {
-            locationsFragment = new ScheduleLocationsFragment();
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
+            if(this.ViewModel.checkSelectedService())
+            {
+                locationsFragment = new ScheduleLocationsFragment();
+                AppCompatActivity activity = (AppCompatActivity)this.Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, locationsFragment).Commit();
+            }
+           
         }
 
         private void ScheduleServices_BackButton_Click(object sender, EventArgs e)

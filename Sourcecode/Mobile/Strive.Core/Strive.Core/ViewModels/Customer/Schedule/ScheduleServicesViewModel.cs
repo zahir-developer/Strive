@@ -1,4 +1,7 @@
-﻿using Strive.Core.Models.Customer.Schedule;
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,6 +23,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
 
         public async Task GetScheduledServices()
         {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             var result = await AdminService.GetScheduleServices();
             
             if(result == null)
@@ -40,11 +44,30 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                     uniqueServiceID = data.ServiceId;
                 }
             }
+            _userDialog.HideLoading();
         }
 
         public async void NavToSelect_Loc()
         {
-            await _navigationService.Navigate<ScheduleLocationsViewModel>();
+            if(checkSelectedService())
+            {
+                await _navigationService.Navigate<ScheduleLocationsViewModel>();
+            }
+        }
+
+        public bool checkSelectedService()
+        {
+            var selected = false;
+            if(CustomerScheduleInformation.ScheduleServiceID != -1)
+            {
+                selected = true;  
+            }
+            else
+            {
+                _userDialog.Alert("Please select a service to proceed.");
+                selected = false;
+            }
+            return selected;
         }
         #endregion Commands
 

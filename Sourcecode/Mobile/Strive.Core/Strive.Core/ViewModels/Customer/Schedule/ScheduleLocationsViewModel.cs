@@ -1,5 +1,7 @@
-﻿using MvvmCross;
+﻿using Acr.UserDialogs;
+using MvvmCross;
 using Strive.Core.Models.Customer;
+using Strive.Core.Resources;
 using Strive.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
 
         public async Task GetAllLocationsCommand()
         {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             var washLocations = await carWashLocationService.GetAllCarWashLocations();
 
             if (washLocations == null)
@@ -33,8 +36,30 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 Locations = new Locations();
                 Locations = washLocations;
             }
+            _userDialog.HideLoading();
         }
 
+        public async void NavToSelect_Appoitment()
+        {
+            if (checkSelectedLocation())
+            {
+                await _navigationService.Navigate<ScheduleAppointmentDateViewModel>();
+            }
+        }
+        public bool checkSelectedLocation()
+        {
+            var selected = false;
+            if (CustomerScheduleInformation.ScheduleLocationCode != -1)
+            {
+                selected = true;
+            }
+            else
+            {
+                _userDialog.Alert("Please select a location to proceed.");
+                selected = false;
+            }
+            return selected;
+        }
 
         #endregion Commands
 

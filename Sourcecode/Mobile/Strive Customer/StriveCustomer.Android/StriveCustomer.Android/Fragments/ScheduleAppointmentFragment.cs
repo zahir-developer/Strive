@@ -66,9 +66,13 @@ namespace StriveCustomer.Android.Fragments
 
         private void Next_Button_Click(object sender, EventArgs e)
         {
-            previewFragment = new SchedulePreviewFragment();
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, previewFragment).Commit();
+            if (this.ViewModel.checkSelectedTime() && this.ViewModel.checkSelectedDate()) 
+            {
+                previewFragment = new SchedulePreviewFragment();
+                AppCompatActivity activity = (AppCompatActivity)this.Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, previewFragment).Commit();
+
+            }            
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
@@ -92,6 +96,7 @@ namespace StriveCustomer.Android.Fragments
        private async void GetAvailableSlot(int month, int year, int day)
         {
             string date = "";
+           
             switch (month)
             {
                 case 0:
@@ -168,6 +173,7 @@ namespace StriveCustomer.Android.Fragments
                     break;
             }
             date = date + "T00:00:00.000Z";
+            this.ViewModel.checkDate = CustomerScheduleInformation.ScheduleDate + "/" + CustomerScheduleInformation.ScheduleMonth + "/" + CustomerScheduleInformation.ScheduleYear;
             await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date);
 
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)

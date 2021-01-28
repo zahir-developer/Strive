@@ -15,6 +15,7 @@ using Android.Webkit;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.Android.Adapter;
 
@@ -45,6 +46,8 @@ namespace StriveCustomer.Android.Fragments
             schedulePager = rootView.FindViewById<ViewPager>(Resource.Id.Schedule_ProfilePager);
             pastServiceHistoryFragment = new SchedulePastServiceHistoryFragment();
             vehicleListFragment = new ScheduleVehicleListFragment();
+
+            CustomerScheduleInformation.ClearScheduleData();
 
             return rootView;
         }

@@ -161,7 +161,7 @@ namespace Strive.Core.Models.Customer
         public static void ClearScheduleData()
         {
             ScheduledVehicleName = null;
-            ScheduleLocationCode = 0;
+            ScheduleLocationCode = -1;
             ScheduleLocationAddress = null;
             ScheduleTime = null;
             ScheduleMonth = null;
@@ -169,8 +169,8 @@ namespace Strive.Core.Models.Customer
             ScheduleYear = null;
             ScheduleTimeOfDay = null;
             ScheduleServicePrice = 0;
-            ScheduleServiceID = 0;
-            ScheduleServiceType = 0;
+            ScheduleServiceID = -1;
+            ScheduleServiceType = -1;
             ScheduleServiceName = null;
             ScheduleServiceTime = null;
         }
