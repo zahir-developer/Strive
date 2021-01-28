@@ -57,10 +57,9 @@ namespace Strive.ResourceAccess
             return true;
         }
        
-        public List<ServiceCategoryViewModel> GetServiceCategoryByLocationId(int id)
+        public List<ServiceDetailViewModel> GetAllServiceDetail()
         {
-            _prm.Add("@LocationId",id);
-            return db.Fetch<ServiceCategoryViewModel>(SPEnum.USPGETSERVICECATEGORYBYLOCATIONID.ToString(), _prm);
+            return db.Fetch<ServiceDetailViewModel>(SPEnum.USPGETALLSERVICEDETAIL.ToString(), _prm);
         }
 
         public List<ServiceItem> GetServicesWithPrice()

@@ -42,9 +42,9 @@ namespace Strive.BusinessLogic.ServiceSetup
             return ResultWrap(new ServiceSetupRal(_tenant).DeleteServiceById, id, "ServiceDelete");
         }
        
-        public Result GetServiceCategoryByLocationId(int id)
+        public Result GetAllServiceDetail()
         {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetServiceCategoryByLocationId, id, "ServiceCategory");
+            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceDetail, "AllServiceDetail");
         }
         public Result GetServicesWithPrice()
         {
