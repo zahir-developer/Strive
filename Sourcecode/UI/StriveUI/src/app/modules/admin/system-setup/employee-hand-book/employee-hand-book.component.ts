@@ -109,9 +109,7 @@ export class EmployeeHandBookComponent implements OnInit {
     downloadLink.click();
   }
   getDocument() {
-this.spinner.show();
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
-this.spinner.hide();
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;

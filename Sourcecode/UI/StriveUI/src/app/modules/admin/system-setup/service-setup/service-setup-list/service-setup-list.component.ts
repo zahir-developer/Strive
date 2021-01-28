@@ -53,9 +53,7 @@ export class ServiceSetupListComponent implements OnInit {
       sortBy: null,
       status: this.searchStatus !== 2 ? this.searchStatus === 1 ? true : false : null
     };
-    this.spinner.show()
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
-      this.spinner.hide()
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {

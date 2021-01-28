@@ -41,9 +41,7 @@ export class ProductSetupListComponent implements OnInit {
     const obj ={
       productSearch: this.search
    }
-   this.spinner.show();
    this.productService.ProductSearch(obj).subscribe(data => {
-     this.spinner.hide()
      if (data.status === 'Success') {
        const location = JSON.parse(data.resultData);
        this.productSetupDetails = location.ProductSearch;
@@ -62,9 +60,7 @@ export class ProductSetupListComponent implements OnInit {
 
   // Get All Product
   getAllproductSetupDetails() {
-this.spinner.show();
     this.productService.getProduct().subscribe(data => {
-this.spinner.hide()
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
         this.productSetupDetails = product.Product;

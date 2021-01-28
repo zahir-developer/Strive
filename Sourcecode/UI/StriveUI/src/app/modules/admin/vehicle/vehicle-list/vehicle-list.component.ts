@@ -67,9 +67,7 @@ export class VehicleListComponent implements OnInit {
     const obj = {
       searchName: ""
     }
-    this.spinner.show()
     this.vehicle.getVehicle(obj).subscribe(data => {
-      this.spinner.hide()
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
@@ -94,9 +92,7 @@ export class VehicleListComponent implements OnInit {
     const obj = {
       searchName: this.search
     }
-    this.spinner.show()
     this.vehicle.getVehicle(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;

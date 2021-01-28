@@ -41,9 +41,7 @@ export class LocationSetupListComponent implements OnInit {
 
   // get all location
   getAllLocationSetupDetails() {
-this.spinner.show();
     this.locationService.getLocation().subscribe(data => {
-this.spinner.hide();
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
@@ -96,9 +94,7 @@ this.spinner.hide();
     const obj ={
        locationSearch: this.search
     }
-    this.spinner.show()
     this.locationService.LocationSearch(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Search;

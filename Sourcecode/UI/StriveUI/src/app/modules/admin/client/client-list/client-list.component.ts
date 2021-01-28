@@ -68,9 +68,7 @@ export class ClientListComponent implements OnInit {
 
       SortBy : null
     }
-this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
-this.spinner.hide();
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.Client.clientViewModel;
@@ -114,9 +112,7 @@ this.spinner.hide();
 
       SortBy : null
     }  
-    this.spinner.show()
     this.client.getClient(obj).subscribe(data => {
-      this.spinner.hide()
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.Client.clientViewModel;
