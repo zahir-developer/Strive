@@ -113,7 +113,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.CommissionType = cType.Codes;
         this.discountType = cType.Codes;
         this.getAllServiceType();
-        this.getParentType();
+        // this.getParentType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
