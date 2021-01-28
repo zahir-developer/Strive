@@ -30,10 +30,10 @@ export class ServiceSetupListComponent implements OnInit {
   constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
+    this.Status = [{ id: 0, Value: "InActive" }, { id: 1, Value: "Active" }, { id: 2, Value: "All" }];
     this.searchStatus = "";
     this.getAllserviceSetupDetails();
   }
@@ -41,7 +41,13 @@ export class ServiceSetupListComponent implements OnInit {
   // Get All Services
   getAllserviceSetupDetails() {
     this.isLoading = true;
-    this.serviceSetup.getServiceSetup().subscribe(data => {
+    const locId = +localStorage.getItem('empLocationId');
+    const pageNo = this.page;
+    const pageSize = this.pageSize;
+    const query = null;
+    const sortOrder = null;
+    const sortBy = null;
+    this.serviceSetup.getServiceSetup(locId, pageNo, pageSize, query, sortOrder, sortBy).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
@@ -49,8 +55,8 @@ export class ServiceSetupListComponent implements OnInit {
         if (this.serviceSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.sort('ServiceName')
-          this.collectionSize = Math.ceil(this.serviceSetupDetails.length/this.pageSize) * 10;
+          this.sort('ServiceName');
+          this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -59,39 +65,36 @@ export class ServiceSetupListComponent implements OnInit {
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllserviceSetupDetails()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllserviceSetupDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllserviceSetupDetails()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllserviceSetupDetails();
   }
 
-  serviceSearch(){
+  serviceSearch() {
     this.page = 1;
-    const obj ={
+    const obj = {
       serviceSearch: this.search,
-      status: this.searchStatus === "" ? 2 :  Number(this.searchStatus)
-   }
-   this.serviceSetup.ServiceSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.serviceSetupDetails = location.ServiceSearch;
-       if (this.serviceSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
+      status: this.searchStatus === '' ? 2 : Number(this.searchStatus)
+    };
+    this.serviceSetup.ServiceSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.serviceSetupDetails = location.ServiceSearch;
+        if (this.serviceSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
   }
   edit(data) {
     this.selectedData = data;
@@ -120,10 +123,9 @@ export class ServiceSetupListComponent implements OnInit {
     });
   }
   sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
+    this.isDesc = !this.isDesc; // change the direction
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
-
     this.serviceSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;

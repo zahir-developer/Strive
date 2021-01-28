@@ -43,7 +43,7 @@ export class ServiceCreateEditComponent implements OnInit {
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
 
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
     this.formInitialize();
     this.ctypeLabel = 'none';
     this.getCommissionType();
@@ -56,18 +56,18 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceType: ['', Validators.required],
       name: ['', Validators.required],
       description: [''],
-     cost: ['', Validators.required],
+      cost: ['', Validators.required],
       commission: ['',],
       commissionType: ['',],
-      discountType: ['', ],
-      discountServiceType: ['', ],
-     upcharge: ['', Validators.required],
+      discountType: ['',],
+      discountServiceType: ['',],
+      upcharge: ['', Validators.required],
       parentName: ['',],
       status: ['',],
       fee: ['',],
       suggested: ['']
     });
-    this.serviceSetupForm.patchValue({status : 0});
+    this.serviceSetupForm.patchValue({ status: 0 });
   }
 
   get f() {
@@ -87,14 +87,14 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.patchValue({
           serviceType: this.selectedService?.ServiceTypeId,
           name: this.selectedService?.ServiceName,
-          description : this.selectedService?.Description,
+          description: this.selectedService?.Description,
           cost: this.selectedService?.Cost,
           commission: this.selectedService?.Commision,
           commissionType: this.selectedService?.CommissionTypeId,
           fee: this.selectedService?.CommissionCost,
           discountType: this.selectedService?.DiscountType,
           upcharge: this.selectedService?.Upcharges,
-          discountServiceType : this.selectedService?.DiscountServiceType,
+          discountServiceType: this.selectedService?.DiscountServiceType,
 
           parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
@@ -124,7 +124,13 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get ParentType
   getParentType() {
-    this.serviceSetup.getServiceSetup().subscribe(data => {
+    const locId = +localStorage.getItem('empLocationId');
+    const pageNo = null;
+    const pageSize = null;
+    const query = null;
+    const sortOrder = null;
+    const sortBy = null;
+    this.serviceSetup.getServiceSetup(locId, pageNo, pageSize, query, sortOrder, sortBy).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.parent = serviceDetails.ServiceSetup.filter(item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
@@ -164,23 +170,23 @@ export class ServiceCreateEditComponent implements OnInit {
     });
   }
 
-  checkService(data){
-    if(Number(data) === 18){
+  checkService(data) {
+    if (Number(data) === 18) {
       this.isUpcharge = true;
-    }else{
+    } else {
       this.isUpcharge = false;
       this.serviceSetupForm.get('upcharge').clearValidators();
       this.serviceSetupForm.get('upcharge').updateValueAndValidity();
     }
-    if(Number(data) === 17){
+    if (Number(data) === 17) {
       this.isAdditional = true;
-    }else{
-       this.isAdditional = false;
+    } else {
+      this.isAdditional = false;
     }
-    if(Number(data) === 16){
+    if (Number(data) === 16) {
       this.isDetails = true;
-    }else{
-       this.isDetails = false;
+    } else {
+      this.isDetails = false;
     }
     if (Number(data) === 20) {
       this.isDiscounts = true;
@@ -209,7 +215,7 @@ export class ServiceCreateEditComponent implements OnInit {
       this.isChecked = true;
       this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
       if (this.isEdit === true) {
-      this.getCtype(this.selectedService?.CommissionTypeId);
+        this.getCtype(this.selectedService?.CommissionTypeId);
       }
     } else {
       this.isChecked = false;
@@ -226,11 +232,11 @@ export class ServiceCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {
-      if(this.serviceSetupForm.value.cost !== ""){        
-        if(Number(this.serviceSetupForm.value.cost) <= 0){
+      if (this.serviceSetupForm.value.cost !== "") {
+        if (Number(this.serviceSetupForm.value.cost) <= 0) {
           this.costErrMsg = true;
           return;
-        }else{
+        } else {
           this.costErrMsg = false;
         }
       }
@@ -247,7 +253,7 @@ export class ServiceCreateEditComponent implements OnInit {
       upcharges: this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
       isActive: this.serviceSetupForm.value.status == 0 ? true : false,
-      locationId: localStorage.getItem('empLocationId'),
+      locationId: +localStorage.getItem('empLocationId'),
       commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -255,15 +261,12 @@ export class ServiceCreateEditComponent implements OnInit {
       updatedBy: this.employeeId,
       updatedDate: new Date(),
       discountServiceType: this.serviceSetupForm.value.discountServiceType,
-      discountType : this.serviceSetupForm.value.discountType,
-      
-
-
+      discountType: this.serviceSetupForm.value.discountType,
     };
     if (this.isEdit === true) {
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') {   
-          this.toastr.success('Record Updated Successfully!!', 'Success!');     
+        if (data.status === 'Success') {
+          this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
@@ -273,8 +276,8 @@ export class ServiceCreateEditComponent implements OnInit {
       });
     } else {
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') { 
-          this.toastr.success('Record Saved Successfully!!', 'Success!');       
+        if (data.status === 'Success') {
+          this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
