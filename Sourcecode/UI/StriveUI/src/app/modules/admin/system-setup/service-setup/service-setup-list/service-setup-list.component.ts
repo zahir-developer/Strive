@@ -26,7 +26,8 @@ export class ServiceSetupListComponent implements OnInit {
   pageSize: number;
   pageSizeList: number[];
   isDesc: boolean = false;
-  column: string = 'ServiceName';
+    column: string = 'ServiceName';
+    totalRowCount = 0;
   constructor(private serviceSetup: ServiceSetupService, 
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
@@ -35,31 +36,37 @@ export class ServiceSetupListComponent implements OnInit {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.Status = [{ id: 0, Value: "InActive" }, { id: 1, Value: "Active" }, { id: 2, Value: "All" }];
-    this.searchStatus = "";
+    this.Status = [{ id: 0, Value: 'InActive' }, { id: 1, Value: 'Active' }, { id: 2, Value: 'All' }];
+    this.searchStatus = 1;
     this.getAllserviceSetupDetails();
   }
 
   // Get All Services
   getAllserviceSetupDetails() {
-    const locId = +localStorage.getItem('empLocationId');
-    const pageNo = this.page;
-    const pageSize = this.pageSize;
-    const query = null;
-    const sortOrder = null;
-    const sortBy = null;
-    this.spinner.show()
-    this.serviceSetup.getServiceSetup(locId, pageNo, pageSize, query, sortOrder, sortBy).subscribe(data => {
+    this.isLoading = true;
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search !== '' ? this.search : null,
+      sortOrder: null,
+      sortBy: null,
+      status: this.searchStatus !== 2 ? this.searchStatus === 1 ? true : false : null
+    };
+    this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
      this.spinner.hide()
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.serviceSetupDetails = serviceDetails.ServiceSetup;
-        if (this.serviceSetupDetails.length === 0) {
-          this.isTableEmpty = true;
-        } else {
-          this.sort('ServiceName');
-          this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
-          this.isTableEmpty = false;
+        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
+          this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;
+          if (this.serviceSetupDetails.length === 0) {
+            this.isTableEmpty = true;
+          } else {
+            this.sort('ServiceName');
+            this.totalRowCount = serviceDetails.ServiceSetup.Count.Count;
+            this.collectionSize = Math.ceil(this.totalRowCount / this.pageSize) * 10;
+            this.isTableEmpty = false;
+          }
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -116,7 +123,7 @@ export class ServiceSetupListComponent implements OnInit {
   // Delete Service
   confirmDelete(data) {
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
-      if (res.status === "Success") {
+      if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAllserviceSetupDetails();
       } else {

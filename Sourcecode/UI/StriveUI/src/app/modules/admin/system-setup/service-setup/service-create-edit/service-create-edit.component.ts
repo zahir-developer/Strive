@@ -42,7 +42,6 @@ export class ServiceCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
-
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
     this.formInitialize();
     this.ctypeLabel = 'none';
@@ -95,7 +94,6 @@ export class ServiceCreateEditComponent implements OnInit {
           discountType: this.selectedService?.DiscountType,
           upcharge: this.selectedService?.Upcharges,
           discountServiceType: this.selectedService?.DiscountServiceType,
-
           parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
         });
@@ -114,7 +112,7 @@ export class ServiceCreateEditComponent implements OnInit {
         const cType = JSON.parse(data.resultData);
         this.CommissionType = cType.Codes;
         this.discountType = cType.Codes;
-
+        this.getAllServiceType();
         this.getParentType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -124,19 +122,25 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get ParentType
   getParentType() {
-    const locId = +localStorage.getItem('empLocationId');
-    const pageNo = null;
-    const pageSize = null;
-    const query = null;
-    const sortOrder = null;
-    const sortBy = null;
-    this.serviceSetup.getServiceSetup(locId, pageNo, pageSize, query, sortOrder, sortBy).subscribe(data => {
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: 1,
+      pageSize: 10,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.parent = serviceDetails.ServiceSetup.filter(item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
-        this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
-        console.log(this.parent);
-        this.getAllServiceType();
+        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
+          this.parent = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(
+            item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
+          this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
+          console.log(this.parent);
+          this.getAllServiceType();
+        }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -158,8 +162,6 @@ export class ServiceCreateEditComponent implements OnInit {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes;
         this.discountServiceType = cType.Codes;
-
-
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
