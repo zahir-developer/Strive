@@ -53,7 +53,7 @@
                                     </thead>
                                     <tbody  class="bodyfix">
                                         <tr
-                                            *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                            *ngFor="let serviceSetup of serviceSetupDetails">
                                             <td scope="row">{{serviceSetup.ServiceName}}</td>
                                             <td>{{serviceSetup.ServiceType}}</td>
                                             <td>{{serviceSetup.Cost | currency}}</td>
