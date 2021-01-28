@@ -70,11 +70,12 @@ export class ClientListComponent implements OnInit {
     }
 this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
-      const totalRowCount = 28900;
 this.spinner.hide();
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Client;
+        this.clientDetails = client.Client.clientViewModel;
+        const totalRowCount = client.Count.Count;
+
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
