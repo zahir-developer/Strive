@@ -207,7 +207,13 @@ export class SalesComponent implements OnInit {
     });
   }
   getServiceForDiscount() {
-    this.service.getServiceSetup().subscribe(data => {
+    const locId = +localStorage.getItem('empLocationId');
+    const pageNo = null;
+    const pageSize = null;
+    const query = null;
+    const sortOrder = null;
+    const sortBy = null;
+    this.service.getServiceSetup(locId, pageNo, pageSize, query, sortOrder, sortBy).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceSetup !== null && services.ServiceSetup.length !== 0) {
@@ -821,7 +827,7 @@ export class SalesComponent implements OnInit {
     } else {
       this.discountAmount = 0;
     }
-    this.selectedDiscount.forEach( item => {
+    this.selectedDiscount.forEach(item => {
       this.discountList.push(item);
     });
     // this.discountList = this.selectedDiscount;
@@ -1080,7 +1086,7 @@ export class SalesComponent implements OnInit {
 
   }
   deleteTicket() {
-    if (this.multipleTicketNumber.length > 0 ) {
+    if (this.multipleTicketNumber.length > 0) {
       this.salesService.deleteJob(this.multipleTicketNumber.toString()).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });

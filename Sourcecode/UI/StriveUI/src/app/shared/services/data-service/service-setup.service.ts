@@ -10,8 +10,8 @@ import { UrlConfig } from '../url.config';
 export class ServiceSetupService {
 
   constructor(private http: HttpUtilsService) { }
-  getServiceSetup(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
+  getServiceSetup(LocationId, PageNo, PageSize, Query, SortOrder, SortBy): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`, { params: { LocationId, PageNo, PageSize, Query, SortOrder, SortBy } });
   }
   getServiceType(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getServiceType}`);
