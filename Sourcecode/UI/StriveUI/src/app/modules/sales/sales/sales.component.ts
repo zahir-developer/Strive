@@ -207,16 +207,19 @@ export class SalesComponent implements OnInit {
     });
   }
   getServiceForDiscount() {
-    const locId = +localStorage.getItem('empLocationId');
-    const pageNo = null;
-    const pageSize = null;
-    const query = null;
-    const sortOrder = null;
-    const sortBy = null;
-    this.service.getServiceSetup(locId, pageNo, pageSize, query, sortOrder, sortBy).subscribe(data => {
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: 1,
+      pageSize: 10,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: null
+    };
+    this.service.getServiceSetup(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
-        if (services.ServiceSetup !== null && services.ServiceSetup.length !== 0) {
+        if (services.ServiceSetup.getAllServiceViewModel !== null ) {
           this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
           console.log(this.discounts, 'discount');
         }

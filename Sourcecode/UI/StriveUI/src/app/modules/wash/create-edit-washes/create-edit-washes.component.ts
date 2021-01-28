@@ -123,7 +123,7 @@ export class CreateEditWashesComponent implements OnInit {
     //   }
     // });
     this.getWashTimeByLocationID();
-    this.getAllClient();
+    // this.getAllClient();
     this.getServiceType();
     this.getColor();
   }
@@ -772,7 +772,7 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
         this.closePopupEmitClient();
-        this.getAllClient();
+        // this.getAllClient();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         this.clientFormComponent.clientForm.reset();
