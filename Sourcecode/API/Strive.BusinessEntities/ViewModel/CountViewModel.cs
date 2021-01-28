@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class ServiceListViewModel
+    public class CountViewModel
     {
-        public List<GetAllServiceViewModel> getAllServiceViewModel { get; set; }
+       
 
-        public CountViewModel Count { get; set; }
+        public int Count { get; set; }
 
     }
 }
