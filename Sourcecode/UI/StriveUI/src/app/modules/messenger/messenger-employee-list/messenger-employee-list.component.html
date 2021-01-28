@@ -17,11 +17,11 @@
     </div>
     <div class="card-body p-0">
 
-        <div *ngIf="empList === undefined" class="Message-box-slide view-msg position-relative">
+        <div *ngIf="empList.length === 0" class="Message-box-slide view-msg position-relative">
             <p class="font-weight-700 font-size-1-3 text-center aligncenter">No Recent Chats found..!!!</p>
         </div>
-        <div *ngIf="empList !== undefined" class="Message-box-slide view-msg position-relative">
-            <div *ngIf="empList !== undefined">
+        <div *ngIf="empList.length !== 0" class="Message-box-slide view-msg position-relative">
+            <div *ngIf="empList.length !== 0">
                 <div class="Message-item" [ngClass]="{'recentchat-active' : emp.Selected}" *ngFor="let emp of empList"
                     (click)='loadChat(emp)'>
                     <ng-container>

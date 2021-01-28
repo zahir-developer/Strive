@@ -8,6 +8,7 @@ import { datepickerAnimation } from 'ngx-bootstrap/datepicker/datepicker-animati
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-washes-list',
@@ -22,7 +23,7 @@ export class WashesListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isView: boolean;
- 
+
   collectionSize: number = 0;
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
@@ -35,11 +36,11 @@ export class WashesListComponent implements OnInit {
   pageSize: number;
   search: any = null;
   constructor(private washes: WashService, private toastr: ToastrService,
-    private datePipe: DatePipe,
+    private datePipe: DatePipe,private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const obj = {
@@ -51,96 +52,94 @@ export class WashesListComponent implements OnInit {
   }
 
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
+
+    this.pageSize = +this.pageSize;
+    this.page = event;
+
     this.getAllWashDetails()
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+
     this.getAllWashDetails()
   }
   // Get All Washes
   getAllWashDetails() {
     const obj = {
-      LocationId :this.locationId,
-
-    PageNo :this.page,
-
-    PageSize : this.pageSize ,
-
-     Query : this.search,
-
-    SortOrder: null,
-
-      SortBy : null
-    }
+      LocationId: this.locationId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+      Query: this.search,
+      SortOrder: null,
+      SortBy: null
+    };
+    this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-            const totalRowCount = 59000
-        this.washDetails = wash.Washes;
-        for (let i = 0; i < this.washDetails.length; i++) {
-          let hh = this.washDetails[i].TimeIn.substring(13, 11);
-          let m = this.washDetails[i].TimeIn.substring(16, 14);
-          var s = this.washDetails[i].TimeIn.substring(19, 17);
-          let min = m;
+        if (wash.Washes.AllWashesViewModel !== null) {
+          this.washDetails = wash.Washes.AllWashesViewModel;
+          const totalRowCount = wash.Washes.Count.Count;
+          for (let i = 0; i < this.washDetails.length; i++) {
+            let hh = this.washDetails[i].TimeIn.substring(13, 11);
+            let m = this.washDetails[i].TimeIn.substring(16, 14);
+            var s = this.washDetails[i].TimeIn.substring(19, 17);
+            let min = m;
+            let sec = s;
+            var dd;
+            var hr;
+            if (hh > 12) {
+              hr = hh - 12;
+              dd = "PM";
+            }
+            else {
+              hr = hh;
+              dd = "AM"
+            }
+            if (hh == 0) {
+              hh = 12;
+            }
+            let inTimeFormat = hr + ":" + min + ":" + sec + dd;
+            let outhh = this.washDetails[i].EstimatedTimeOut.substring(13, 11);
+            let outm = this.washDetails[i].EstimatedTimeOut.substring(16, 14);
+            var outs = this.washDetails[i].EstimatedTimeOut.substring(19, 17);
+            let outmin = outm;
 
-          let sec = s;
-          var dd;
-          var hr;
-          if (hh > 12) {
-            hr = hh - 12;
-            dd = "PM";
+            let outsec = outs;
+            var outdd;
+            var outhr;
+            if (outhh > 12) {
+              outhr = outhh - 12;
+              outdd = "PM";
+            }
+            else {
+              outhr = outhh
+              outdd = "AM"
+            }
+            if (outhh == 0) {
+              outhh = 12;
+            }
+            let outTimeFormat = outhr + ":" + outmin + ":" + outsec + outdd;
+            this.washDetails.forEach(item => {
+              item.EstimatedTimeOutFormat = outTimeFormat,
+                item.TimeInFormat = inTimeFormat;
+            });
           }
-          else {
-            hr = hh;
-            dd = "AM"
+          console.log(wash);
+          if (this.washDetails.length === 0) {
+            this.isTableEmpty = true;
+          } else {
+            this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
+            this.isTableEmpty = false;
           }
-          if (hh == 0) {
-            hh = 12;
-          }
-          let inTimeFormat = hr + ":" + min + ":" + sec + dd;
-          let outhh = this.washDetails[i].EstimatedTimeOut.substring(13, 11);
-          let outm = this.washDetails[i].EstimatedTimeOut.substring(16, 14);
-          var outs = this.washDetails[i].EstimatedTimeOut.substring(19, 17);
-          let outmin = outm;
-
-          let outsec = outs;
-          var outdd;
-          var outhr;
-          if (outhh > 12) {
-            outhr = outhh - 12;
-            outdd = "PM";
-          }
-          else {
-            outhr = outhh
-            outdd = "AM"
-          }
-          if (outhh == 0) {
-            outhh = 12;
-          }
-          let outTimeFormat = outhr + ":" + outmin + ":" + outsec + outdd;
-          this.washDetails.forEach(item => {
-            item.EstimatedTimeOutFormat = outTimeFormat,
-              item.TimeInFormat = inTimeFormat
-
-
-          })
-        }
-        console.log(wash);
-        if (this.washDetails.length === 0) {
-          this.isTableEmpty = true;
-        } else {
-          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
-          this.isTableEmpty = false;
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+        this.spinner.hide();
     });
   }
   edit(data) {
