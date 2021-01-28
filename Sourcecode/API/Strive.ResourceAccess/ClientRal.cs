@@ -37,17 +37,18 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPUPDATEACCOUNTDETAILS.ToString(), _prm);
             return true;
         }
-        public List<ClientViewModel> GetAllClient(SearchDto searchDto)
+        public ClientListViewModel GetAllClient(SearchDto searchDto)
         {
 
-                _prm.Add("@locationId", searchDto.LocationId);
+             _prm.Add("@locationId", searchDto.LocationId);
             _prm.Add("@PageNo", searchDto.PageNo);
             _prm.Add("@PageSize", searchDto.PageSize);
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
-            var result = db.Fetch<ClientViewModel>(SPEnum.USPGETALLCLIENT.ToString(), _prm);
+            var result= db.FetchMultiResult<ClientListViewModel>(SPEnum.USPGETALLCLIENT.ToString(), _prm);
             return result;
+            
         }
         public List<ClientDetailViewModel> GetClientById(int clientId)
         {
@@ -117,10 +118,10 @@ namespace Strive.ResourceAccess
 
         }
 
-        public List<ClientViewModel> GetAllClientName(string name)
+        public List<ClientNameViewModel> GetAllClientName(string name)
         {
-            _prm.Add("ClientName", name);
-            return db.Fetch<ClientViewModel>(SPEnum.USPGETCLIENTNAME.ToString(), _prm);
+            _prm.Add("Name", name);
+            return db.Fetch<ClientNameViewModel>(SPEnum.USPGETALLCLIENTNAME.ToString(), _prm);
         }
 
     }

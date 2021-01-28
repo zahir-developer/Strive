@@ -14,7 +14,6 @@ namespace Strive.BusinessLogic
         Result GetAllServiceSetup(SearchDto searchDto);
         Result GetServiceSetupById(int id);
         Result DeleteServiceById(int id);
-        Result GetServiceSearch(ServiceSearchDto search);
         Result GetServiceCategoryByLocationId(int id);
         Result GetServicesWithPrice();
     }

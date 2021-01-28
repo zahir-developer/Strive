@@ -30,7 +30,7 @@ namespace Strive.ResourceAccess
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SERVICETYPE);
         }
 
-        public List<ServiceViewModel> GetAllServiceSetup(SearchDto searchDto)
+        public ServiceListViewModel GetAllServiceSetup(SearchDto searchDto)
         {
 
             _prm.Add("@locationId", searchDto.LocationId);
@@ -39,7 +39,9 @@ namespace Strive.ResourceAccess
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
-            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            _prm.Add("@Status", searchDto.Status);
+            var result= db.FetchMultiResult<ServiceListViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            return result;
         }
 
         public ServiceViewModel GetServiceSetupById(int id)
@@ -54,15 +56,7 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETESERVICEBYID.ToString(), _prm);
             return true;
         }
-        public List<ServiceViewModel> GetServiceSearch(ServiceSearchDto search)
-        {
-            _prm.Add("@ServiceSearch", search.ServiceSearch);
-            if (search.Status < 2)
-            {
-                _prm.Add("@Status", search.Status);
-            }
-            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
-        }
+       
         public List<ServiceCategoryViewModel> GetServiceCategoryByLocationId(int id)
         {
             _prm.Add("@LocationId",id);

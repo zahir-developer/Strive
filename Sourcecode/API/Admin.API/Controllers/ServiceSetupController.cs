@@ -30,9 +30,9 @@ namespace Admin.API.Controllers
         [Route("Delete")]
         public Result Delete(int id) => _bplManager.DeleteServiceById(id);
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAll")]
-        public Result GetAllServiceSetup(SearchDto searchDto) => _bplManager.GetAllServiceSetup(searchDto);
+        public Result GetAllServiceSetup([FromBody]SearchDto searchDto) => _bplManager.GetAllServiceSetup(searchDto);
 
         [HttpGet]
         [Route("GetServiceById")]
@@ -42,10 +42,7 @@ namespace Admin.API.Controllers
         [Route("GetAllServiceType")]
         public Result GetAllServiceType() => _bplManager.GetAllServiceType();
 
-        [HttpPost]
-        [Route("GetServiceSearch")]
-        public Result GetServiceSearch([FromBody] ServiceSearchDto search) => _bplManager.GetServiceSearch(search);
-
+      
         [HttpGet]
         [Route("GetServiceCategoryByLocationId/{id}")]
         public Result GetServiceCategoryByLocationId(int id) => _bplManager.GetServiceCategoryByLocationId(id);
