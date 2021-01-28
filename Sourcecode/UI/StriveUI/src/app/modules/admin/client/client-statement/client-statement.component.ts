@@ -33,9 +33,7 @@ export class ClientStatementComponent implements OnInit {
   }
 
   getStatement() {
-    this.spinner.show()
     this.client.getStatementByClientId(this.clientId).subscribe( res => {
-      this.spinner.hide()
       if (res.status === 'Success') {
         const statement = JSON.parse(res.resultData);
         this.statementGrid = statement.VehicleStatement;

@@ -68,13 +68,11 @@ export class ClientListComponent implements OnInit {
 
       SortBy : null
     }
-this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
-this.spinner.hide();
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.Client.clientViewModel;
-        const totalRowCount = client.Count.Count;
+        const totalRowCount = client.Client.Count.Count;  
 
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
@@ -114,17 +112,15 @@ this.spinner.hide();
 
       SortBy : null
     }  
-    this.spinner.show()
     this.client.getClient(obj).subscribe(data => {
-      this.spinner.hide()
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Client;
-        console.log(this.clientDetails);
+        this.clientDetails = client.Client.clientViewModel;
+        const totalRowCount = client.Client.Count.Count;       
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {

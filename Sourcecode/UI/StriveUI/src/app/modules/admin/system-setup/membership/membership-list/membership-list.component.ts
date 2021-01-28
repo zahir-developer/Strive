@@ -42,9 +42,7 @@ export class MembershipListComponent implements OnInit {
 
   // Get All Membership
   getAllMembershipDetails() {
-this.spinner.show();
     this.member.getMembership().subscribe(data => {
-      this.spinner.hide()
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.Membership;
@@ -98,9 +96,7 @@ this.spinner.show();
     const obj ={
        membershipSearch: this.query
     }
-    this.spinner.show();
     this.member.searchMembership(obj).subscribe(data => {
-      this.spinner.hide()
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.MembershipSearch;

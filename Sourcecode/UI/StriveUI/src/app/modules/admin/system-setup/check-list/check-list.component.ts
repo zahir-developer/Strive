@@ -69,9 +69,7 @@ getAllcheckListDetails() {
   //   this.checkListDetails = data.Checklist;
   //   console.log(this.checkListDetails)
   // });
-this.spinner.show();
   this.checkListSetup.getCheckListSetup().subscribe(data => {
-this.spinner.hide();
     if (data.status === 'Success') {
       const serviceDetails = JSON.parse(data.resultData);
       this.checkListDetails = serviceDetails.GetChecklist;
