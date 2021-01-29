@@ -15,7 +15,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
 
-            CustomerScheduleInformation.ClearScheduleData();
+           
 
             _userDialog.HideLoading();
         }

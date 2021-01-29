@@ -18,7 +18,7 @@
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
         <Button
-            android:id="@+id/scheduleServices_BackButton"
+            android:id="@+id/schedulePreview_BackButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

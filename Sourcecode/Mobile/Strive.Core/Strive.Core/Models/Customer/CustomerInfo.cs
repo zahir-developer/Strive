@@ -152,7 +152,10 @@ namespace Strive.Core.Models.Customer
         public static int ScheduleServiceType { get; set; }
         public static string ScheduleServiceName { get; set; }
         public static string ScheduleServiceTime { get; set; }
-
+        public static int ScheduleServiceSlotNumber { get; set; } = -1;
+        public static int ScheduleServiceSelectedNumber { get; set; } = -1;
+        public static int ScheduleServiceLocationNumber { get; set; } = -1;
+        public static int OldScheduleServiceLocationNumber { get; set; } = -1;
         #endregion Properties
 
 
@@ -173,6 +176,10 @@ namespace Strive.Core.Models.Customer
             ScheduleServiceType = -1;
             ScheduleServiceName = null;
             ScheduleServiceTime = null;
+            ScheduleServiceSlotNumber = -1;
+            ScheduleServiceSelectedNumber = -1;
+            ScheduleServiceLocationNumber = -1;
+            OldScheduleServiceLocationNumber = -1;
         }
 
         #endregion Commands

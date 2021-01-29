@@ -29,6 +29,7 @@ namespace StriveCustomer.Android.Fragments
         private TextView serviceLocation_TextView;
         private Button Cancel_Button;
         private Button BookNow_Button;
+        private Button schedulePreview_BackButton;
         private ScheduleAppointmentFragment appointmentFragment;
         private ScheduleFragment scheduleFragment;
         private ScheduleConfirmationFragment confirmationFragment;
@@ -49,6 +50,7 @@ namespace StriveCustomer.Android.Fragments
             appointmentPreviewDate_TextView = rootView.FindViewById<TextView>(Resource.Id.appointmentPreviewDate_TextView);
             vehicleName_TextView = rootView.FindViewById<TextView>(Resource.Id.vehicleName_TextView);
             rescheduleButton = rootView.FindViewById<TextView>(Resource.Id.rescheduleButton);
+            schedulePreview_BackButton = rootView.FindViewById<Button>(Resource.Id.schedulePreview_BackButton);
             serviceLocation_TextView = rootView.FindViewById<TextView>(Resource.Id.serviceLocation_TextView);
             Cancel_Button = rootView.FindViewById<Button>(Resource.Id.CancelButton);
             Cancel_Button.Click += Cancel_Button_Click;
@@ -57,12 +59,20 @@ namespace StriveCustomer.Android.Fragments
             serviceLocation_TextView.Text = CustomerScheduleInformation.ScheduleLocationAddress;
             rescheduleButton.PaintFlags = PaintFlags.UnderlineText;
             rescheduleButton.Click += RescheduleButton_Click;
+            schedulePreview_BackButton.Click += SchedulePreview_BackButton_Click;
             serviceName_TextView = rootView.FindViewById<TextView>(Resource.Id.serviceName_TextView);
             serviceName_TextView.Text = CustomerScheduleInformation.ScheduleServiceName;
             vehicleName_TextView.Text = CustomerScheduleInformation.ScheduledVehicleName;
             appointmentPreviewTime_TextView.Text = CustomerScheduleInformation.ScheduleServiceTime;
             appointmentPreviewDate_TextView.Text = CustomerScheduleInformation.ScheduleDate + " " + CustomerScheduleInformation.ScheduleMonth + " " + CustomerScheduleInformation.ScheduleYear + " | ";
             return rootView;
+        }
+
+        private void SchedulePreview_BackButton_Click(object sender, EventArgs e)
+        {
+            appointmentFragment = new ScheduleAppointmentFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, appointmentFragment).Commit();
         }
 
         private async void BookNow_Button_Click(object sender, EventArgs e)

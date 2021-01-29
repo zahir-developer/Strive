@@ -53,7 +53,6 @@ namespace StriveCustomer.Android.Fragments
 
             CurrentDateSlots();
 
-
             return rootView;
         }
 

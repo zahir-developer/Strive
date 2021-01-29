@@ -37,6 +37,8 @@ namespace StriveCustomer.Android.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.ScheduleConfirmationFragment, null);
+            this.ViewModel = new ScheduleConfirmationViewModel();
+
             confirmationPreviewDate_TextView = rootView.FindViewById<TextView>(Resource.Id.confirmationPreviewDate_TextView);
             confirmationPreviewTime_TextView = rootView.FindViewById<TextView>(Resource.Id.confirmationPreviewTime_TextView);
             confirmationVehicleName_TextView = rootView.FindViewById<TextView>(Resource.Id.confirmationVehicleName_TextView);
@@ -55,6 +57,7 @@ namespace StriveCustomer.Android.Fragments
 
         private void Backtodashboard_Textview_Click(object sender, EventArgs e)
         {
+            this.ViewModel.ClearScheduleData();
             scheduleFragment = new ScheduleFragment();
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFragment).Commit();
