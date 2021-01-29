@@ -55,6 +55,8 @@ export class ServiceSetupListComponent implements OnInit {
     };
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
+        this.totalRowCount = 0;
+        this.serviceSetupDetails = [];
         const serviceDetails = JSON.parse(data.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
           this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;

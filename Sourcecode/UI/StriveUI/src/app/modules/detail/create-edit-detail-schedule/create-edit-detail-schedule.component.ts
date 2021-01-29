@@ -149,7 +149,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getAllList() {
     this.assignDate();
     this.getColor();
-    this.getAllClient();
+    // this.getAllClient();
     this.getServiceType();
   }
 
@@ -389,7 +389,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
         this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Upcharges')[0]?.CodeId;
         this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
+        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
         this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
         this.getAllServices();
       } else {
@@ -399,14 +399,28 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getAllServices() {
-    this.wash.getServices().subscribe(data => {
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: null,
+      pageSize: null,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.wash.getServices(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.outsideServices = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
-        this.details = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
-        this.additional = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-        this.upcharges = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-        this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
+        this.outsideServices = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
+        this.details = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
+        this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
+        this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
+        this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
         this.UpchargeType = this.upcharges;
         // this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
         this.additional.forEach(element => {
@@ -528,13 +542,30 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   filterClient(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().includes(query.toLowerCase())) {
-        filtered.push(client);
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        console.log(client, 'client');
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
-    }
-    this.filteredClient = filtered;
+    });
+    // for (const i of this.clientList) {
+    //   const client = i;
+    //   if (client.name.toLowerCase().includes(query.toLowerCase())) {
+    //     filtered.push(client);
+    //   }
+    // }
+    // this.filteredClient = filtered;
   }
 
   filterModel(event) {

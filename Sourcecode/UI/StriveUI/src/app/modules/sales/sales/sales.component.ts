@@ -335,10 +335,10 @@ export class SalesComponent implements OnInit {
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
-              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Washes');
+              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Wash Package');
               this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Additional Services');
+                item.ServiceType === 'Additonal Services');
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Upcharges');
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -1043,13 +1043,14 @@ export class SalesComponent implements OnInit {
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
-      jobPaymentCreditCard: {
+      jobPaymentCreditCard: null
+      /*{
         jobPaymentCreditCardId: 0,
         jobPaymentId: 0,
-        cardTypeId: 1,
-        cardCategoryId: 1,
+        cardTypeId: null,
+        cardCategoryId: null,
         cardNumber: '',
-        creditCardTransactionTypeId: 1,
+        creditCardTransactionTypeId: null,
         amount: this.credit ? +this.credit : 0,
         tranRefNo: '',
         tranRefDetails: '',
@@ -1059,7 +1060,7 @@ export class SalesComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: null,
         updatedDate: new Date()
-      },
+      }*/,
       //jobPaymentDiscount: discount.length === 0 ? null : discount,
 
     };

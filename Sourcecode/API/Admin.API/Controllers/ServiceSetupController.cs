@@ -41,11 +41,10 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllServiceType")]
         public Result GetAllServiceType() => _bplManager.GetAllServiceType();
-
       
         [HttpGet]
-        [Route("GetServiceCategoryByLocationId/{id}")]
-        public Result GetServiceCategoryByLocationId(int id) => _bplManager.GetServiceCategoryByLocationId(id);
+        [Route("GetAllServiceDetail")]
+        public Result GetAllServiceDetail() => _bplManager.GetAllServiceDetail();
 
         [HttpGet]
         [Route("GetService")]
