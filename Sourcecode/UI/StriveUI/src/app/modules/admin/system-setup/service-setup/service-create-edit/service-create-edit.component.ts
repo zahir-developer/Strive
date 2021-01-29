@@ -98,7 +98,7 @@ export class ServiceCreateEditComponent implements OnInit {
           status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
-        this.checkService(this.selectedService.ServiceTypeId);
+        this.checkService(this.selectedService.ServiceType);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -123,7 +123,7 @@ export class ServiceCreateEditComponent implements OnInit {
   // Get ParentType
   getParentType() {
     const serviceObj = {
-      locationId: +localStorage.getItem('empLocationId'),
+      locationId: null,
       pageNo: 1,
       pageSize: 10,
       query: null,
@@ -173,24 +173,24 @@ export class ServiceCreateEditComponent implements OnInit {
   }
 
   checkService(data) {
-    if (Number(data) === 18) {
+    if (Number(data) === 11779 || Number(data) === 11780 || Number(data) === 11778) {
       this.isUpcharge = true;
     } else {
       this.isUpcharge = false;
       this.serviceSetupForm.get('upcharge').clearValidators();
       this.serviceSetupForm.get('upcharge').updateValueAndValidity();
     }
-    if (Number(data) === 17) {
+    if (Number(data) === 11753) {
       this.isAdditional = true;
     } else {
       this.isAdditional = false;
     }
-    if (Number(data) === 16) {
+    if (Number(data) === 11752) {
       this.isDetails = true;
     } else {
       this.isDetails = false;
     }
-    if (Number(data) === 20) {
+    if (Number(data) === 11754) {
       this.isDiscounts = true;
       this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
       this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
