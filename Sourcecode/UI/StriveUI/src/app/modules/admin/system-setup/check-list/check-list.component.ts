@@ -182,6 +182,12 @@ onRoleDeSelect(event) {
     // if (this.serviceSetupForm.invalid) {
     //   return;
     // }
+
+    if(data.RoleId == undefined && this.RoleId.length  == 0){
+      this.toastr.warning('Role Name is Required', 'Warning!');
+      return 
+      
+  } 
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
 
     if(data.Name !== undefined){
@@ -196,7 +202,7 @@ onRoleDeSelect(event) {
         };
     }
  
-
+    
   
      
     const formObj = {
