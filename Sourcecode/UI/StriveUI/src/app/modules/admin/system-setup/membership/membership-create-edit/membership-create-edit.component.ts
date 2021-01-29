@@ -64,7 +64,7 @@ export class MembershipCreateEditComponent implements OnInit {
         const membership = JSON.parse(data.resultData);
         this.service = membership.ServicesWithPrice;
         this.washes = this.service.filter(item => item.ServiceTypeName === 'Wash Package');
-        this.upchargeType = this.service.filter(item => item.ServiceTypeName === 'Wash Upcharges (F)');
+        this.upchargeType = this.service.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
         this.additionalService = this.service.filter(item => item.ServiceTypeName === 'Additonal Services');
         this.additional = this.additionalService.map(item => {
           return {
@@ -102,7 +102,7 @@ export class MembershipCreateEditComponent implements OnInit {
 
   calculate(data, name) {
     if (name === 'washes') {
-      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Washes');
+      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Wash Package');
       this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
       let price = 0;
       this.PriceServices.forEach(element => {
@@ -110,7 +110,7 @@ export class MembershipCreateEditComponent implements OnInit {
       });
       this.membershipForm.get('price').patchValue(price.toFixed(2));
     } else if (name === 'upcharge') {
-      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Upcharges');
+      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Wash-Upcharge');
       this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
       let price = 0;
       this.PriceServices.forEach(element => {
