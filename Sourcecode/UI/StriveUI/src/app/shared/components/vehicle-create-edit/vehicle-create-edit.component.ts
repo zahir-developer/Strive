@@ -231,12 +231,12 @@ export class VehicleCreateEditComponent implements OnInit {
           monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
         });
         if (this.membershipServices !== null) {
-          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Washes');
+          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash Package');
           if (washService.length > 0) {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
@@ -323,12 +323,12 @@ export class VehicleCreateEditComponent implements OnInit {
         const membership = JSON.parse(res.resultData);
         this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
         if (this.membershipServices !== null) {
-          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Washes');
+          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash Package');
           if (washService.length > 0) {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
@@ -389,8 +389,8 @@ export class VehicleCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         console.log(serviceDetails, 'service');
-        this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceTypeId === '18');
-        this.washesDropdown = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === 'Washes');
+        this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === 'Wash-Upcharge');
+        this.washesDropdown = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === 'Wash Package');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -563,7 +563,7 @@ export class VehicleCreateEditComponent implements OnInit {
   }
   upchargeTypeChange(event, value) {
     console.log(event.target.value, value);
-    const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+    const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
     let oldPrice = 0;
     let newPrice = 0;
     if (upchargeServcie.length > 0) {

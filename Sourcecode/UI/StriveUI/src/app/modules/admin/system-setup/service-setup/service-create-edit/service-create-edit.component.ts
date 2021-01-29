@@ -98,7 +98,7 @@ export class ServiceCreateEditComponent implements OnInit {
           status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
-        this.checkService(this.selectedService.ServiceTypeId);
+        this.checkService(this.selectedService.ServiceType);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -113,7 +113,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.CommissionType = cType.Codes;
         this.discountType = cType.Codes;
         this.getAllServiceType();
-        this.getParentType();
+        // this.getParentType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -123,7 +123,7 @@ export class ServiceCreateEditComponent implements OnInit {
   // Get ParentType
   getParentType() {
     const serviceObj = {
-      locationId: +localStorage.getItem('empLocationId'),
+      locationId: null,
       pageNo: 1,
       pageSize: 10,
       query: null,
@@ -172,43 +172,44 @@ export class ServiceCreateEditComponent implements OnInit {
     });
   }
 
-  checkService(data) {
-    if (Number(data) === 18) {
-      this.isUpcharge = true;
-    } else {
-      this.isUpcharge = false;
-      this.serviceSetupForm.get('upcharge').clearValidators();
-      this.serviceSetupForm.get('upcharge').updateValueAndValidity();
-    }
-    if (Number(data) === 17) {
-      this.isAdditional = true;
-    } else {
-      this.isAdditional = false;
-    }
-    if (Number(data) === 16) {
-      this.isDetails = true;
-    } else {
-      this.isDetails = false;
-    }
-    if (Number(data) === 20) {
-      this.isDiscounts = true;
-      this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
-      this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
+  checkService(typeID) {
+    const serviceType = this.serviceType.filter(item => +item.CodeId === +typeID);
+    if (serviceType.length > 0) {
+      const type = serviceType[0].CodeValue;
+      if (type === 'Detail-Upcharge' || type === 'Detail-CeramicUpcharge' || type === 'Wash-Upcharge') {
+        this.isUpcharge = true;
+      } else {
+        this.isUpcharge = false;
+        this.serviceSetupForm.get('upcharge').clearValidators();
+        this.serviceSetupForm.get('upcharge').updateValueAndValidity();
+      }
+      if (type === 'Additonal Services') {
+        this.isAdditional = true;
+      } else {
+        this.isAdditional = false;
+      }
+      if (type === 'Details') {
+        this.isDetails = true;
+      } else {
+        this.isDetails = false;
+      }
+      if (type === 'Service Discounts') {
+        this.isDiscounts = true;
+        this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
+        this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
 
-    } else {
-      this.serviceSetupForm.get('discountServiceType').clearValidators();
-      this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
-
-      this.isDiscounts = false;
-
+      } else {
+        this.serviceSetupForm.get('discountServiceType').clearValidators();
+        this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
+        this.isDiscounts = false;
+      }
+      if (type === 'Wash Package') {  //  need to check 15
+        this.isCommisstionShow = false;
+      } else {
+        this.isCommisstionShow = true;
+      }
     }
 
-
-    if (Number(data) === 15) {
-      this.isCommisstionShow = false;
-    } else {
-      this.isCommisstionShow = true;
-    }
   }
 
   change(data) {

@@ -169,7 +169,8 @@ export class LocationCreateEditComponent implements OnInit {
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const locationOffset = {
-      locationOffSetId: this.isEdit ? this.selectedData.LocationOffset === undefined ? 0: this.selectedData.LocationOffset.LocationOffSetId : 0,
+      locationOffSetId: this.isEdit ? this.selectedData.LocationOffset === null ? 0 :
+       this.selectedData.LocationOffset.LocationOffSetId : 0,
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
       offSet1: this.offset1,
       offSetA: this.offsetA,

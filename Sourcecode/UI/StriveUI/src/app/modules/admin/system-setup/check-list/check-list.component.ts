@@ -69,9 +69,7 @@ getAllcheckListDetails() {
   //   this.checkListDetails = data.Checklist;
   //   console.log(this.checkListDetails)
   // });
-this.spinner.show();
   this.checkListSetup.getCheckListSetup().subscribe(data => {
-this.spinner.hide();
     if (data.status === 'Success') {
       const serviceDetails = JSON.parse(data.resultData);
       this.checkListDetails = serviceDetails.GetChecklist;
@@ -184,6 +182,12 @@ onRoleDeSelect(event) {
     // if (this.serviceSetupForm.invalid) {
     //   return;
     // }
+
+    if(data.RoleId == undefined && this.RoleId.length  == 0){
+      this.toastr.warning('Role Name is Required', 'Warning!');
+      return 
+      
+  } 
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
 
     if(data.Name !== undefined){
@@ -198,7 +202,7 @@ onRoleDeSelect(event) {
         };
     }
  
-
+    
   
      
     const formObj = {

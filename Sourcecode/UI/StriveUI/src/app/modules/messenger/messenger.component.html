@@ -74,14 +74,14 @@
 
 
                                     </div>
-                                    <ul *ngIf="msgList === undefined">
+                                    <ul *ngIf="msgList.length === 0">
                                         <ul class="conversation-list chat-box-slide">
                                             <li class="text-center aligncenter">
                                                 <p class="font-weight-800 font-size-1-5 line-height-0">You have not
                                                     started a conversation Yet.. Please start one !!!</p>
                                         </ul>
                                     </ul>
-                                    <ul *ngIf="msgList !== undefined" class="conversation-list chat-box-slide"
+                                    <ul *ngIf="msgList.length !== 0" class="conversation-list chat-box-slide"
                                         #scrollMe>
                                         <li *ngFor="let msg of msgList odd"
                                             [ngClass]="{'odd': employeeId === msg.SenderId}" class="clearfix">

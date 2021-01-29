@@ -64,9 +64,7 @@ export class EmployeeListComponent implements OnInit {
     this.getCommisionDropdownValue();
   }
   getAllEmployeeDetails() {
-    this.spinner.show()
     this.employeeService.getEmployees().subscribe(data => {
-      this.spinner.hide()
       if (data.status === 'Success') {
         const employees = JSON.parse(data.resultData);
         const employeeDetail = employees.EmployeeList;
@@ -163,9 +161,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   seachEmployee() {
-    this.spinner.show()
     this.employeeService.searchEmployee(this.search).subscribe(res => {
-      this.spinner.hide()
       if (res.status === 'Success') {
         const seachList = JSON.parse(res.resultData);
         this.employeeDetails = seachList.EmployeeList;

@@ -26,9 +26,10 @@ export class ServiceSetupListComponent implements OnInit {
   pageSize: number;
   pageSizeList: number[];
   isDesc: boolean = false;
-    column: string = 'ServiceName';
-    totalRowCount = 0;
-  constructor(private serviceSetup: ServiceSetupService, 
+  column: string = 'ServiceName';
+  totalRowCount = 0;
+  isLoading: boolean;
+  constructor(private serviceSetup: ServiceSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -52,10 +53,10 @@ export class ServiceSetupListComponent implements OnInit {
       sortBy: null,
       status: this.searchStatus !== 2 ? this.searchStatus === 1 ? true : false : null
     };
-    this.spinner.show()
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
-     this.spinner.hide()
       if (data.status === 'Success') {
+        this.totalRowCount = 0;
+        this.serviceSetupDetails = [];
         const serviceDetails = JSON.parse(data.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
           this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;

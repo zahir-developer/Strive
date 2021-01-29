@@ -51,9 +51,7 @@ export class AdSetupListComponent implements OnInit {
 
   // Get All Services
   getAlladSetupDetails() {
-this.spinner.show();
     this.adSetup.getAdSetup().subscribe(data => {
-this.spinner.hide();
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.adSetupDetails = serviceDetails.GetAllAdSetup;

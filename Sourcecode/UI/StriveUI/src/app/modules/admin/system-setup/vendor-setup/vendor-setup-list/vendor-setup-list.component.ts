@@ -42,9 +42,7 @@ export class VendorSetupListComponent implements OnInit {
     const obj ={
       vendorSearch: this.search
    }
-   this.spinner.show();
    this.vendorService.VendorSearch(obj).subscribe(data => {
-     this.spinner.hide()
      if (data.status === 'Success') {
        const location = JSON.parse(data.resultData);
        this.vendorSetupDetails = location.VendorSearch;
@@ -78,9 +76,7 @@ export class VendorSetupListComponent implements OnInit {
   }
   // Get All Vendors
   getAllvendorSetupDetails() {
-this.spinner.show();
     this.vendorService.getVendor().subscribe(data => {
-      this.spinner.hide()
       this.isLoading = false;
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);

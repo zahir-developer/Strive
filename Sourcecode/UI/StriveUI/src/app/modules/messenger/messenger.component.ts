@@ -78,7 +78,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         } else {
           this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
         }
-        // this.LoadMessageChat(this.selectedEmployee);
+        this.LoadMessageChat(this.selectedEmployee);
       }
     });
 
@@ -101,7 +101,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         } else {
           this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
         }
-        // this.LoadMessageChat(this.selectedEmployee);
+        this.LoadMessageChat(this.selectedEmployee);
       }
     });
 
@@ -148,6 +148,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.spinner.show();
     this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
+    console.log(this.selectedEmployee, 'employee');
     this.isGroupChat = employeeObj.IsGroup;
     this.groupChatId = employeeObj.IsGroup ? employeeObj.Id : 0;
     const chatObj = {
@@ -258,7 +259,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.msgList.push(sendObj);
         this.scrollToBottom();
         this.messengerEmployeeListComponent.SetUnreadMsgBool(this.selectedEmployee?.Id, true, this.messageBody);
-        // this.LoadMessageChat(this.selectedEmployee);
+        this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
       else {
