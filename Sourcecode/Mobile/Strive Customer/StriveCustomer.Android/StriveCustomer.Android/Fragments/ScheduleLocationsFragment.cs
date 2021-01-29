@@ -30,6 +30,8 @@ namespace StriveCustomer.Android.Fragments
         LinearLayout.LayoutParams layoutParams;
         private RadioGroup scheduleLocationsGroup;
         int someId = 2114119900;
+        int count = 0;
+        int firstTime = 0;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -82,14 +84,14 @@ namespace StriveCustomer.Android.Fragments
             await this.ViewModel.GetAllLocationsCommand();
             if(this.ViewModel.Locations != null && this.ViewModel.Locations.Location.Count > 0)
             {
-                foreach(var location in this.ViewModel.Locations.Location)
+                for (int locations = 0; locations < this.ViewModel.Locations.Location.Count; locations++)
                 {
                     RadioButton radioButton = new RadioButton(Context);
                     layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
                     layoutParams.Gravity = GravityFlags.Left | GravityFlags.Center;
                     layoutParams.SetMargins(0, 25, 0, 25);
                     radioButton.LayoutParameters = layoutParams;
-                    radioButton.Text = location.Address1;
+                    radioButton.Text = this.ViewModel.Locations.Location[locations].Address1;
                     radioButton.SetButtonDrawable(Resource.Drawable.radioButton);
                     radioButton.Id = someId;
                     radioButton.SetTextSize(ComplexUnitType.Sp, (float)16.5);
@@ -98,9 +100,12 @@ namespace StriveCustomer.Android.Fragments
                     radioButton.CheckedChange += RadioButton_CheckedChange;
                     radioButton.SetPadding(15,0,15,0);
                     someId++;
+                    if(CustomerScheduleInformation.ScheduleServiceLocationNumber == locations)
+                    {
+                        radioButton.Checked = true;
+                    }
                     scheduleLocationsGroup.AddView(radioButton);
                 }
-
             }
         }
 
@@ -108,14 +113,28 @@ namespace StriveCustomer.Android.Fragments
         {
             var radiobtn = sender as RadioButton;
             var text = radiobtn.Text;
-            foreach(var data in this.ViewModel.Locations.Location)
+            for(int data = 0;  data < this.ViewModel.Locations.Location.Count; data ++)
             {
-                if(string.Equals(data.Address1, text))
+                if(string.Equals(this.ViewModel.Locations.Location[data].Address1, text))
                 {
-                    CustomerScheduleInformation.ScheduleLocationCode = data.LocationId;
-                    CustomerScheduleInformation.ScheduleLocationAddress = data.Address1;
+                    CustomerScheduleInformation.ScheduleLocationCode = this.ViewModel.Locations.Location[data].LocationId;
+                    CustomerScheduleInformation.ScheduleLocationAddress = this.ViewModel.Locations.Location[data].Address1;
+                    if(firstTime == 0)
+                    {
+                        CustomerScheduleInformation.ScheduleServiceLocationNumber = data;
+                        firstTime++;
+                    }
+                    else if(count == 0)
+                    {
+                        CustomerScheduleInformation.ScheduleServiceLocationNumber = data;
+                        count++;
+                    }
+                    else if (count == 1)
+                    {
+                        count = 0;
+                    }
                 }              
-            }
+            }           
         }
     }
 }

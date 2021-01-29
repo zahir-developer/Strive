@@ -117,6 +117,10 @@ namespace StriveCustomer.Android.Fragments
 
                     assignListeners(service);
 
+                    if(CustomerScheduleInformation.ScheduleServiceSelectedNumber == service)
+                    {
+                        checkBoxes[service].Checked = true;
+                    }
 
                     ScheduleServices_LinearLayout.AddView(layout[service]);
 
@@ -309,6 +313,7 @@ namespace StriveCustomer.Android.Fragments
                     CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[0].ServiceName;
                 }
             oldSelection = 0;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click0(object sender, EventArgs e)
         {
@@ -344,6 +349,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[1].ServiceName;
             }
             oldSelection = 1;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click1(object sender, EventArgs e)
         {
@@ -376,6 +382,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[2].ServiceName;
             }
             oldSelection = 2;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click2(object sender, EventArgs e)
         {
@@ -408,6 +415,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[3].ServiceName;
             }
             oldSelection = 3;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click3(object sender, EventArgs e)
         {
@@ -440,6 +448,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[4].ServiceName;
             }
             oldSelection = 4;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click4(object sender, EventArgs e)
         {
@@ -472,6 +481,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[5].ServiceName;
             }
             oldSelection = 5;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click5(object sender, EventArgs e)
         {
@@ -504,6 +514,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[6].ServiceName;
             }
             oldSelection = 6;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click6(object sender, EventArgs e)
         {
@@ -537,6 +548,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[7].ServiceName;
             }
             oldSelection = 7;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click7(object sender, EventArgs e)
         {
@@ -570,6 +582,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[8].ServiceName;
             }
             oldSelection = 8;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click8(object sender, EventArgs e)
         {
@@ -603,6 +616,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[9].ServiceName;
             }
             oldSelection = 9;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click9(object sender, EventArgs e)
         {
@@ -636,6 +650,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[10].ServiceName;
             }
             oldSelection = 10;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click10(object sender, EventArgs e)
         {
@@ -669,6 +684,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[11].ServiceName;
             }
             oldSelection = 11;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click11(object sender, EventArgs e)
         {
@@ -702,6 +718,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[12].ServiceName;
             }
             oldSelection = 12;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click12(object sender, EventArgs e)
         {
@@ -735,6 +752,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[13].ServiceName;
             }
             oldSelection = 13;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click13(object sender, EventArgs e)
         {
@@ -768,6 +786,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[14].ServiceName;
             }
             oldSelection = 14;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click14(object sender, EventArgs e)
         {
@@ -801,6 +820,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[15].ServiceName;
             }
             oldSelection = 15;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click15(object sender, EventArgs e)
         {
@@ -834,6 +854,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[16].ServiceName;
             }
             oldSelection = 16;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click16(object sender, EventArgs e)
         {
@@ -867,6 +888,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[17].ServiceName;
             }
             oldSelection = 17;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click17(object sender, EventArgs e)
         {
@@ -900,6 +922,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[18].ServiceName;
             }
             oldSelection = 18;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click18(object sender, EventArgs e)
         {
@@ -933,6 +956,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[19].ServiceName;
             }
             oldSelection = 19;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click19(object sender, EventArgs e)
         {
@@ -966,6 +990,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[20].ServiceName;
             }
             oldSelection = 20;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click20(object sender, EventArgs e)
         {
@@ -999,6 +1024,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[21].ServiceName;
             }
             oldSelection = 21;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click21(object sender, EventArgs e)
         {
@@ -1032,6 +1058,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[22].ServiceName;
             }
             oldSelection = 22;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click22(object sender, EventArgs e)
         {
@@ -1065,6 +1092,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[23].ServiceName;
             }
             oldSelection = 23;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click23(object sender, EventArgs e)
         {
@@ -1098,6 +1126,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[24].ServiceName;
             }
             oldSelection = 24;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click24(object sender, EventArgs e)
         {
@@ -1131,6 +1160,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[25].ServiceName;
             }
             oldSelection = 25;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click25(object sender, EventArgs e)
         {
@@ -1164,6 +1194,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[26].ServiceName;
             }
             oldSelection = 26;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click26(object sender, EventArgs e)
         {
@@ -1197,6 +1228,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[27].ServiceName;
             }
             oldSelection = 27;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click27(object sender, EventArgs e)
         {
@@ -1230,6 +1262,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[28].ServiceName;
             }
             oldSelection = 28;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click28(object sender, EventArgs e)
         {
@@ -1263,6 +1296,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[29].ServiceName;
             }
             oldSelection = 29;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click29(object sender, EventArgs e)
         {
@@ -1296,6 +1330,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[30].ServiceName;
             }
             oldSelection = 30;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click30(object sender, EventArgs e)
         {
@@ -1329,6 +1364,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[31].ServiceName;
             }
             oldSelection = 31;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click31(object sender, EventArgs e)
         {
@@ -1362,6 +1398,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[32].ServiceName;
             }
             oldSelection = 32;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click32(object sender, EventArgs e)
         {
@@ -1395,6 +1432,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[33].ServiceName;
             }
             oldSelection = 33;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click33(object sender, EventArgs e)
         {
@@ -1428,6 +1466,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[34].ServiceName;
             }
             oldSelection = 34;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click34(object sender, EventArgs e)
         {
@@ -1461,6 +1500,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[35].ServiceName;
             }
             oldSelection = 35;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click35(object sender, EventArgs e)
         {
@@ -1494,6 +1534,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[36].ServiceName;
             }
             oldSelection = 36;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click36(object sender, EventArgs e)
         {
@@ -1527,6 +1568,7 @@ namespace StriveCustomer.Android.Fragments
                 CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[37].ServiceName;
             }
             oldSelection = 37;
+            CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
         }
         private void ServiceViewToggle_Click37(object sender, EventArgs e)
         {
