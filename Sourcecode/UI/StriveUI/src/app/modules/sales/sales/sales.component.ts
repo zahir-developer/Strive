@@ -1043,7 +1043,8 @@ export class SalesComponent implements OnInit {
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
-      jobPaymentCreditCard: {
+      jobPaymentCreditCard: null
+      /*{
         jobPaymentCreditCardId: 0,
         jobPaymentId: 0,
         cardTypeId: null,
@@ -1059,7 +1060,7 @@ export class SalesComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: null,
         updatedDate: new Date()
-      },
+      }*/,
       //jobPaymentDiscount: discount.length === 0 ? null : discount,
 
     };
