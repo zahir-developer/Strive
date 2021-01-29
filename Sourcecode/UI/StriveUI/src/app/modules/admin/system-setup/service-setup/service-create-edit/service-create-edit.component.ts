@@ -98,7 +98,7 @@ export class ServiceCreateEditComponent implements OnInit {
           status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
-        this.checkService(this.selectedService.ServiceTypeId);
+        this.checkService(this.selectedService.ServiceType);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -123,7 +123,7 @@ export class ServiceCreateEditComponent implements OnInit {
   // Get ParentType
   getParentType() {
     const serviceObj = {
-      locationId: +localStorage.getItem('empLocationId'),
+      locationId: null,
       pageNo: 1,
       pageSize: 10,
       query: null,
