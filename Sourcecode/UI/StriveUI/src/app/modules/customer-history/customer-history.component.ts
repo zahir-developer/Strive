@@ -20,6 +20,7 @@ export class CustomerHistoryComponent implements OnInit {
   collectionSize: number;
   historyList: any = [];
   offset1 = false;
+  searchQery: any = '';
   months = [
     { val: '0', name: 'All' },
     { val: '1', name: 'Jan' },
@@ -55,7 +56,7 @@ export class CustomerHistoryComponent implements OnInit {
 
   getCustomerHistory() {
     // 2053 ,2020-12-01,2021-01-21
-    let finalObjj: any = {};
+    let finalObj: any = {};
     if (this.month === '0') {
       const fromDate = new Date();
       fromDate.setFullYear(this.year);
@@ -65,10 +66,15 @@ export class CustomerHistoryComponent implements OnInit {
       toDate.setFullYear(this.year);
       toDate.setMonth(11);
       toDate.setDate(31);
-      finalObjj = {
-        locationId: 2053, // +this.locationId,
+      finalObj = {
+        locationId: +this.locationId, // 2053, // +this.locationId,
         fromDate: moment(fromDate).format('yyyy-MM-DD'),
-        endDate: moment(toDate).format('yyyy-MM-DD')
+        endDate: moment(toDate).format('yyyy-MM-DD'),
+        pageNo: this.page,
+        pageSize: this.pageSize,
+        query: this.searchQery !== '' ? this.searchQery : null,
+        sortOrder: null,
+        sortBy: null
       };
     } else {
       const fromDate = new Date();
@@ -81,17 +87,28 @@ export class CustomerHistoryComponent implements OnInit {
       toDate.setMonth(month);
       const lastDate = moment(new Date(this.year, month + 1, 0)).format('DD');
       toDate.setDate(+lastDate);
-      finalObjj = {
-        locationId: 2053, // +this.locationId,
+      finalObj = {
+        locationId: +this.locationId, // 2053, // +this.locationId,
         fromDate: moment(fromDate).format('yyyy-MM-DD'),
-        endDate: moment(toDate).format('yyyy-MM-DD')
+        endDate: moment(toDate).format('yyyy-MM-DD'),
+        pageNo: this.page,
+        pageSize: this.pageSize,
+        query: this.searchQery !== '' ? this.searchQery : null,
+        sortOrder: null,
+        sortBy: null
       };
     }
-    const finalObj = {
-      locationId: 2053, // +this.locationId,
-      fromDate: '2020-12-01', // moment(selectedYear).format(),
-      endDate: '2021-01-21', // moment(selectedYear).format()
-    };
+    // const finalObj = {
+    //   locationId: 2053, // +this.locationId,
+    //   fromDate: '2020-12-01', // moment(selectedYear).format(),
+    //   endDate: '2021-01-21', // moment(selectedYear).format()
+    //   pageNo: this.page,
+    //   pageSize: this.pageSize,
+    //   query: this.searchQery !== '' ? this.searchQery : null,
+    //   sortOrder: null,
+    //   sortBy: null
+    // };
+    console.log(finalObj, 'final');
     this.checkout.getCustomerHistory(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
@@ -127,6 +144,10 @@ export class CustomerHistoryComponent implements OnInit {
 
   navigateToVehicle() {
     this.router.navigate(['/admin/vehicle'], { queryParams: { vehicleId: 36 } });  // need to change
+  }
+
+  search() {
+    this.getCustomerHistory();
   }
 
 }
