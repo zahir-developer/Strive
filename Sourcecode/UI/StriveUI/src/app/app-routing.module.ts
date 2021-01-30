@@ -62,6 +62,8 @@ const routes: Routes = [
     path: 'customer-history',  data: { label: 'Customer-History', title: 'Customer-History' },
     loadChildren: () => import('./modules/customer-history/customer-history.module').then(mod => mod.CustomerHistoryModule)
   },
+  {path: 'Customer-sales', data: { label: 'Customer-sales', title: 'Customer-sales', authorization: 'Customer-sales' }, loadChildren: () => import('./modules/customer-sales/customer-sales.module').then(mod => mod.CustomerSalesModule)},
+
   {
     path: '',
     redirectTo: '',
