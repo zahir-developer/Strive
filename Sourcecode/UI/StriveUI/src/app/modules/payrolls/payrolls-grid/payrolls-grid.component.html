@@ -39,7 +39,7 @@
                                     <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                                         [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
                                         Report</button>
-                                    <button type="button" *ngIf="!isEditAdjustment" [disabled] = "isPayrollEmpty"
+                                    <button type="button" *ngIf="!isEditAdjustment" [disabled] = "isPayrollEmpty || isEditRestriction"
                                         class="btn theme-primary-button-color btn-md m-l-10"
                                         (click)="editAdjustemt();">Edit</button>
                                     <button type="button" *ngIf="isEditAdjustment"

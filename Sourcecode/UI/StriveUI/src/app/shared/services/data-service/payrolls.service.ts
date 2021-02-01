@@ -18,7 +18,7 @@ export class PayrollsService {
   updateAdjustment(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateAdjustment}`, obj);
   }
-  editRestriction(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.editRestrict}`, obj);
+  editRestriction(empId,StartDate,EndDate) {
+    return this.http.get(`${UrlConfig.totalUrl.editRestrict}`, { params: { empId , StartDate ,  EndDate } });
   }
 }

@@ -107,24 +107,23 @@ if (!pattern.test(inputChar)) {
     });
   }
   editRestriction() {
-    const payRollProcessDto = [];
-    this.payRollList.forEach( item => {
-      payRollProcessDto.push({
-        empId: item.EmployeeId,
-        startDate: this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
-        endDate: this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
-              });
-    });
-    this.payrollsService.editRestriction(payRollProcessDto).subscribe( res => {
+   
+       const empId =  null;
+       const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
+    const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');  
+    this.payrollsService.editRestriction(empId,startDate,endDate).subscribe( res => {
       if (res.status === 'Success') {
+        if (res.resultData.Result === 'false') {
         
-        this.isEditRestriction = true;
+          this.isEditRestriction = res.resultData.Result;
+          
+        } else{
+          this.isEditRestriction = res.resultData.Result;        }
         
       }
       else{
-        this.isEditRestriction = false;
 
-      //  this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
+       this.messageService.showMessage({ severity: 'error', title: 'Eroor', body: 'Communication Error' });
 
       }
     });
