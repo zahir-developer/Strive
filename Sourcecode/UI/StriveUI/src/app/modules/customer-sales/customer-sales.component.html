@@ -1,0 +1,225 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item active" aria-current="page">Customer Sales</li>
+                </ol>
+            </nav>
+            <!--bread crumb-->
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3 class="d-inline-block">Welcome John Doe</h3>
+            </div>
+            <div class="col-lg-12 p-l-0 p-r-0">
+                <div class="col-12">
+                    <div class="row">
+                       
+                        <!--Bills-->
+                        <div class="col-xl-6 no-space">
+                            <div class="card m-b-10">
+                                <div class="card-body" style="min-height: 580px;" >
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item
+                                                List</label>
+                                        </div>
+                                      
+                                    </div>
+                                    <div class="table-responsive m-t-10 scrollbar">
+                                        <table class="table  table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Item</th>
+                                                    <th scope="col">Qty</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="body-half-screen">
+                                                <tr *ngIf="details?.length>0">
+                                                    <th scope="row" colspan="5">Details</th>
+                                                </tr>
+                                                <tr *ngFor="let detail of details">
+                                                    <td class="pointer" >
+                                                        {{detail?.ServiceName}}</td>
+                                                    <td >{{detail?.Quantity}}</td>
+                                                    <td >
+                                                        {{detail?.Quantity * detail?.Price | currency}}</td>
+                                                    
+                                                </tr>
+                                                <tr *ngIf="washes.length>0">
+                                                    <th scope="row" colspan="5">Wash Package </th>
+                                                </tr>
+                                                <tr *ngFor="let wash of washes">
+                                                    <td class="pointer">
+                                                        {{wash?.ServiceName}}</td>
+                                                    <td >{{wash?.Quantity}}</td>
+                                                    <td >
+                                                        {{wash?.Quantity * wash?.Price | currency}}</td>
+                                                 
+                                                </tr>
+                                                <tr *ngIf="additionalService.length > 0">
+                                                    <th scope="row" colspan="5">Additional Services </th>
+                                                </tr>
+                                                <tr *ngFor="let additional of additionalService">
+                                                    <td class="pointer" >
+                                                        {{additional?.ServiceName}}</td>
+                                                    <td >{{additional?.Quantity}}</td>
+                                                    <td >
+                                                        {{additional?.Quantity * additional?.Price | currency}}</td>
+                                                  
+                                                </tr>
+                                                <tr *ngIf="upCharges.length > 0">
+                                                    <th scope="row" colspan="5">UpCharges </th>
+                                                </tr>
+                                                <tr *ngFor="let upcharge of upCharges">
+                                                    <td class="pointer" >
+                                                        {{upcharge?.ServiceName}}</td>
+                                                    <td >{{upcharge?.Quantity}}</td>
+                                                    <td >
+                                                        {{upcharge?.Quantity * upcharge?.Price | currency}}</td>
+                                                 
+                                                </tr>
+                                                <tr *ngIf="outsideServices.length > 0">
+                                                    <th scope="row" colspan="5">Outside Services </th>
+                                                </tr>
+                                                <tr *ngFor="let outService of outsideServices">
+                                                    <td class="pointer" >
+                                                        {{outService?.ServiceName}}</td>
+                                                    <td >{{outService?.Quantity}}</td>
+                                                    <td >
+                                                        {{outService?.Quantity * outService?.Price | currency}}</td>
+                                                    
+                                                </tr>
+                                                <tr *ngIf="airfreshnerService.length > 0">
+                                                    <th scope="row" colspan="5">Air Freshners </th>
+                                                </tr>
+                                                <tr *ngFor="let airService of airfreshnerService">
+                                                    <td class="pointer" >
+                                                        {{airService?.ServiceName}}</td>
+                                                    <td >{{airService?.Quantity}}</td>
+                                                    <td >
+                                                        {{airService?.Quantity * airService?.Price | currency}}</td>
+                                                  
+                                                </tr>
+                                                <tr *ngIf="Products.length > 0">
+                                                    <th scope="row" colspan="5">Products </th>
+                                                </tr>
+                                                <tr *ngFor="let product of Products">
+                                                    <td class="pointer">
+                                                        {{product?.ProductName}}</td>
+                                                    <td >{{product?.Quantity}}</td>
+                                                    <td >
+                                                        {{product?.Quantity * product?.Price | currency}}</td>
+                                                   
+                                                </tr>
+                                                <tr *ngIf="discountService.length > 0">
+                                                    <th scope="row" colspan="5">Discounts </th>
+                                                </tr>
+                                                <tr *ngFor="let discount of discountService">
+                                                    <td class="pointer">{{discount?.ServiceName}}</td>
+                                                    <td>{{discount?.Quantity}}</td>
+                                                    <td>-{{discount?.Quantity * discount?.Price | currency}}</td>
+                                                   
+                                                </tr>
+                                                <tr *ngIf="discountList.length > 0">
+                                                    <th scope="row" colspan="5">Discounts </th>
+                                                </tr>
+                                                <tr *ngFor="let discount of discountList">
+                                                    <td class="pointer">{{discount?.ServiceName}}</td>
+                                                    <td>1</td>
+                                                    <td>-{{1 * discount?.Cost | currency}}</td>
+                                                  
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                        </div>
+                        <!-- end card-->
+
+                        <div class="col-xl-6 no-space">
+
+                            <div class="card" >
+
+                                <div class="card-body" >
+                                    <div class="title-border p-b-5 m-b-5">
+                                        <h4 class="d-inline-block">Summary</h4>
+                                    </div>
+                                    <form class="summary">
+                                        <div class="form-row m-t-15">
+                                            <div class="form-group col-md-6"> Total </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                {{itemList?.Status?.SalesSummaryViewModel?.Total ? (itemList?.Status?.SalesSummaryViewModel?.Total | currency) : '$0.00'}}
+                                            </div>
+                                        </div>
+                                        <div class="form-row  border-bottom m-b-8">
+                                            <div class="form-group col-md-6"> Tax </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                {{itemList?.Status?.SalesSummaryViewModel?.TaxAmount ? (itemList?.Status?.SalesSummaryViewModel?.TaxAmount | currency) : '$0.00'}}
+                                            </div>
+                                        </div>
+                                        <div class="form-row font-weight-700 border-bottom  m-b-25">
+                                            <div class="form-group col-md-6"> Grand Total </div>
+                                            <div class="form-group col-md-6 text-right theme-content-color">
+                                                {{itemList?.Status?.SalesSummaryViewModel?.GrandTotal ? (itemList?.Status?.SalesSummaryViewModel?.GrandTotal | currency) : '$0.00'}}
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Cash </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                {{cash ? (cash | currency ): '$0.00'}}</div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Credit </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                {{credit ? (credit | currency): '$0.00'}} </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Gift Card </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                {{giftCard ? (giftCard | currency): '$0.00'}} </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Discount </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                -{{discountAmount ? (discountAmount | currency): '$0.00'}} </div>
+                                        </div>
+                                        <div class="form-row border-bottom m-b-8">
+                                            <div class="form-group col-md-6"> Account </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                {{account ? (account | currency) : '$0.00'}} </div>
+                                        </div>
+                                        <div class="form-row font-weight-700 border-bottom m-b-25">
+                                            <div class="form-group col-md-6"> Total Paid </div>
+                                            <div class="form-group col-md-6 text-right theme-content-color">
+                                                {{totalPaid ? (totalPaid | currency) : '$0.00'}} </div>
+                                        </div>
+                                        <div class="form-row border-bottom m-t-5 m-b-25">
+                                            <div class="form-group col-md-6"> Balance Due </div>
+                                            <div class="form-group col-md-6 text-right theme-optional-icon-color">
+                                                {{(originalGrandTotal - totalPaid - discountAmount) | currency}}
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6"> Cash back </div>
+                                            <div class="form-group col-md-6 text-right">
+                                                {{cashback ? (cashback | currency) : '$0.00'}}</div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
