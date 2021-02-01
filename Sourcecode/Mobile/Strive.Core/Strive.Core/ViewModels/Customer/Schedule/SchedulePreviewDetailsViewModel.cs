@@ -20,5 +20,17 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             _userDialog.HideLoading();
         }
 
+        public async void NavtoScheduleDate()
+        {
+            await _navigationService.Navigate<ScheduleAppointmentDateViewModel>();
+        }
+        public async void NavtoScheduleView()
+        {
+            await _navigationService.Navigate<ScheduleViewModel>();
+        }
+        public async void NavtoConfirmSchedule()
+        {
+            await _navigationService.Navigate<ScheduleConfirmationViewModel>();
+        } 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Foundation;
+using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.ViewModels.Customer.Schedule;
 using UIKit;
@@ -11,7 +12,7 @@ namespace StriveCustomer.iOS.Views.Schedule
     {
         public static readonly NSString Key = new NSString("Schedule_Time_Cell");
         public static readonly UINib Nib;
-
+        AvailableScheduleSlots timeSlots = new AvailableScheduleSlots();
         static Schedule_Time_Cell()
         {
             Nib = UINib.FromName("Schedule_Time_Cell", NSBundle.MainBundle);
@@ -24,9 +25,14 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public void SetData(AvailableScheduleSlots slots, NSIndexPath indexPath)
         {
+            this.timeSlots = slots;
             Time_CellView.Layer.CornerRadius = 5;
             string timeIn = slots.GetTimeInDetails[indexPath.Row].TimeIn;
             TimeSlot_Btn.SetTitle(timeIn, UIControlState.Normal);
+        }
+        public void cellSelected(NSIndexPath indexPath)
+        {
+            CustomerScheduleInformation.ScheduleServiceTime = timeSlots.GetTimeInDetails[indexPath.Row].TimeIn;
         }
     }
 }
