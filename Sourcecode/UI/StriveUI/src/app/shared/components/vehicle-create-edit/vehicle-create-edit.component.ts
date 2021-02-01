@@ -72,8 +72,8 @@ export class VehicleCreateEditComponent implements OnInit {
       wash: [''],
       services: [[]]
     });
-    this.vehicleForm.controls.vehicleNumber.disable();
     this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
+    this.vehicleForm.controls.vehicleNumber.disable();
     this.getVehicleCodes();
     this.getVehicleMembership();
     this.getMembershipService();
@@ -385,12 +385,22 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   upchargeService() {
-    this.vehicle.getUpchargeService().subscribe(data => {
+    const serviceObj = {
+      locationId: localStorage.getItem('empLocationId'),
+      pageNo: null,
+      pageSize: null,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.vehicle.getUpchargeService(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         console.log(serviceDetails, 'service');
-        this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === 'Wash-Upcharge');
-        this.washesDropdown = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === 'Wash Package');
+        this.upchargeType = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.IsActive === true && item.ServiceType === 'Wash-Upcharge');
+        this.washesDropdown = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+           item.IsActive === true && item.ServiceType === 'Wash Package');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }

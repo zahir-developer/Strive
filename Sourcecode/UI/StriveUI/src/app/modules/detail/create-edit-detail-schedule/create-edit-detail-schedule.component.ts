@@ -1074,7 +1074,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (len === 0) {
       this.vehicleNumber = 1;
     } else {
-      this.vehicleNumber = Number(this.vehicle[len - 1].VehicleNumber) + 1;
+      this.vehicleNumber = this.vehicle[len - 1].VehicleNumber !== '' ? Number(this.vehicle[len - 1].VehicleNumber) + 1 : 1;
     }
     this.showVehicleDialog = true;
   }
