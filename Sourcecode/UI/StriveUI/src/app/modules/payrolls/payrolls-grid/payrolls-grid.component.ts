@@ -24,6 +24,7 @@ MaxDate = new Date()
   page: number;
   pageSizeList: number[];
   employeeId: number;
+  isEditRestriction: boolean;
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -86,12 +87,14 @@ if (!pattern.test(inputChar)) {
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       if (res.status === 'Success') {
+
         const payRoll = JSON.parse(res.resultData);
         //if (payRoll.Result.PayRollRateViewModel !== null) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
           // this.payRollList.forEach(item => {
           //   item.isEditAdjustment = false;
           // });
+         this. editRestriction();
           var length =  this.payRollList === null ? 0 : this.payRollList.length;
           this.collectionSize = Math.ceil(  length / this.pageSize) * 10;
           this.isPayrollEmpty = false;
@@ -103,7 +106,29 @@ if (!pattern.test(inputChar)) {
       }
     });
   }
+  editRestriction() {
+    const payRollProcessDto = [];
+    this.payRollList.forEach( item => {
+      payRollProcessDto.push({
+        empId: item.EmployeeId,
+        startDate: this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
+        endDate: this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
+              });
+    });
+    this.payrollsService.editRestriction(payRollProcessDto).subscribe( res => {
+      if (res.status === 'Success') {
+        
+        this.isEditRestriction = true;
+        
+      }
+      else{
+        this.isEditRestriction = false;
 
+      //  this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
+
+      }
+    });
+  }
   editAdjustemt() {
     this.isEditAdjustment = true;
     this.payrollDateForm.disable();
