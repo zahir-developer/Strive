@@ -702,7 +702,7 @@ export class CreateEditWashesComponent implements OnInit {
     if (len === 0) {
       this.vehicleNumber = 1;
     } else {
-      this.vehicleNumber = this.vehicle[len - 1].VehicleNumber !== '' ? Number(this.vehicle[len - 1].VehicleNumber) + 1 : 1;
+      this.vehicleNumber = this.vehicle.length + 1;
     }
     this.showVehicleDialog = true;
   }

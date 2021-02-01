@@ -30,7 +30,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
   recipientCommunicationId: string;
 
-  messageBody: string;
+  messageBody = '';
 
   chatInitial: string;
   selectedEmployee: any;
@@ -49,12 +49,14 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   isUserOnline: boolean = false;
   groupEmpList: any;
   selectedChatId: number;
+  previouslyMessaged: boolean;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient,
     private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
 
 
   ngOnInit() {
+    this.previouslyMessaged = false;
     this.getSenderName();
     this.scrollToBottom();
     this.signalRService.startConnection();
@@ -190,6 +192,14 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  recentlyMsgSent(event) { 
+    if (event.length === 0) {
+      this.previouslyMessaged = false;
+    } else {
+      this.previouslyMessaged = true;
+    }
+  }
+
   sendMessage(override = false) {
     if (this.messageBody.trim() === '' && override) {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
@@ -266,6 +276,8 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.spinner.hide();
         this.toastrService.error('Communication Error', 'Error sending message!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   scrollToBottom(): void {

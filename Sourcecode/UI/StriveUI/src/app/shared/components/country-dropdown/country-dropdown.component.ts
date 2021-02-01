@@ -45,7 +45,6 @@ export class CountryDropdownComponent implements OnInit, AfterViewChecked {
       if (countryValue.length > 0) {
         this.country = countryValue[0].value;
       }
-      this.setValue();
     }, (err) => {
     });
   }

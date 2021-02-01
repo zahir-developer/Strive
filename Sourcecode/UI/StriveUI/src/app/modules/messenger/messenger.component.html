@@ -18,11 +18,11 @@
                     <div class="row no-gutter">
                         <div class="col-xl-3 m-b-6">
                             <app-messenger-employee-list #newChatEmit (emitLoadMessageChat)="LoadMessageChat($event)"
-                                (popupEmit)="openpopup($event)">
+                                (recentlyMsgSent)="recentlyMsgSent($event)" (popupEmit)="openpopup($event)">
                             </app-messenger-employee-list>
                         </div>
-                        <div class="col-xl-9 m-b-6 internal-employee">
-                            <div class="card">
+                        <div class="col-xl-9 m-b-6 card internal-employee" *ngIf="previouslyMessaged">
+                            <div>
                                 <div class="card-body">
                                     <div class="title-border p-b-8 m-b-12">
                                         <h4 *ngIf="!selectedEmployee?.IsGroup"
@@ -81,8 +81,7 @@
                                                     started a conversation Yet.. Please start one !!!</p>
                                         </ul>
                                     </ul>
-                                    <ul *ngIf="msgList.length !== 0" class="conversation-list chat-box-slide"
-                                        #scrollMe>
+                                    <ul *ngIf="msgList.length !== 0" class="conversation-list chat-box-slide" #scrollMe>
                                         <li *ngFor="let msg of msgList odd"
                                             [ngClass]="{'odd': employeeId === msg.SenderId}" class="clearfix">
                                             <div class="chat-avatar">
@@ -113,6 +112,17 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 m-b-6 card internal-employee" *ngIf="!previouslyMessaged">
+                            <div class="card-body">
+                                <div class="text-center" style="padding: 250px 0;">
+                                    <p class="font-weight-800 font-size-1-5 line-height-0">No Conversation..</p>
+                                </div>
+                                <!-- <ul class="conversation-list chat-box-slide">
+                                    <li class="text-center aligncenter">
+                                        <p class="font-weight-800 font-size-1-5 line-height-0">No Conversation..</p>
+                                </ul> -->
                             </div>
                         </div>
                         <div class="col-xl-3" id="show-search-emp">

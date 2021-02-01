@@ -16,6 +16,7 @@ export class MessengerEmployeeListComponent implements OnInit {
   empOnlineStatus: any;
   @Output() emitLoadMessageChat = new EventEmitter();
   @Output() popupEmit = new EventEmitter();
+  @Output() recentlyMsgSent = new EventEmitter();
   employeeId: number = +localStorage.getItem('empId');
   selectedClass: string;
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
@@ -69,6 +70,7 @@ export class MessengerEmployeeListComponent implements OnInit {
     }
   }
   setName() {
+    this.recentlyMsgSent.emit(this.empList);
     if (this.empList.length > 0) {
       this.empList[0].type = 'first Employee';
       this.emitLoadMessageChat.emit(this.empList[0]);
