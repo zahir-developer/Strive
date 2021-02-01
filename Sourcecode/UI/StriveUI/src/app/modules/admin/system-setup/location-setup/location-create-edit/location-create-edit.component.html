@@ -1,161 +1,172 @@
-<!-- <div class="modal-body"> -->
-<nav aria-label="gift-card">
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-            aria-controls="nav-home" aria-selected="true">Location Detail</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-            aria-controls="nav-profile" aria-selected="false">Location Offset</a>
-        <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
-                role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
-    </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <br>
-        <form [formGroup]="locationSetupForm">
-            <div class="form-row">
-                <div class="form-group col-lg-3">
-                    <label for="inputLocationName">Name&nbsp;<span class="required">*</span></label>
-                    <input type="text" maxlength="100" class="form-control" formControlName="locationName"
-                        placeholder="Location Name" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
-                    <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
-                        <div *ngIf="f.locationName.errors.required">Name is required</div>
+<div>
+    <tabset #staticTabs>
+        <tab heading="Location Detail" id="tab1">
+            <br>
+            <form [formGroup]="locationSetupForm">
+                <div class="form-row">
+                    <div class="form-group col-lg-3">
+                        <label for="inputLocationName">Name&nbsp;<span class="required">*</span></label>
+                        <input type="text" maxlength="100" class="form-control" formControlName="locationName"
+                            placeholder="Location Name"
+                            [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
+                        <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
+                            <div *ngIf="f.locationName.errors.required">Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputLocationAddress">Address&nbsp;<span class="required">*</span></label>
+                        <input type="text" maxlength="50" class="form-control" formControlName="locationAddress"
+                            placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
+                        <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
+                            <div *ngIf="f.locationAddress.errors.required">Address is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputLocationAddress">Address 2</label>
+                        <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2"
+                            placeholder="Address 2"
+                            [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
+                        <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
+                            <div *ngIf="f.locationAddress2.errors.required">Address 2 is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputZipcode">ZipCode&nbsp;<span class="required">*</span></label>
+                        <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control"
+                            placeholder="Zip" formControlName="zipcode"
+                            [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
+                        <div *ngIf="submitted  && f.zipcode.errors" class="invalid-feedback">
+                            <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
+                            <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group col-lg-3">
-                    <label for="inputLocationAddress">Address&nbsp;<span class="required">*</span></label>
-                    <input type="text" maxlength="50" class="form-control" formControlName="locationAddress"
-                        placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
-                    <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
-                        <div *ngIf="f.locationAddress.errors.required">Address is required</div>
+                <div class="form-row">
+                    <div class="form-group col-lg-3">
+                        <label for="inputCountry">Country&nbsp;<span class="required">*</span></label>
+                        <app-country-dropdown [selectedCountryId]="selectedCountryId"
+                            (countryId)="getSelectedCountryId($event)">
+                        </app-country-dropdown>
                     </div>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="inputLocationAddress">Address 2</label>
-                    <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2"
-                        placeholder="Address 2" [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
-                    <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
-                        <div *ngIf="f.locationAddress2.errors.required">Address 2 is required</div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputState">State&nbsp;<span class="required">*</span></label>
+                        <app-state-dropdown [selectedStateId]="selectedStateId" [isdisable]="true"
+                            (stateId)="getSelectedStateId($event)">
+                        </app-state-dropdown>
                     </div>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="inputZipcode">ZipCode&nbsp;<span class="required">*</span></label>
-                    <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip"
-                        formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
-                    <div *ngIf="submitted  && f.zipcode.errors" class="invalid-feedback">
-                        <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
-                        <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode</div>
+                    <div class="form-group  col-lg-3 ">
+                        <label for="inputState">City&nbsp;<span class="required">*</span></label>
+                        <app-city [State]="State" (selectCity)="selectCity($event)" [selectedStateId]="selectedStateId"
+                            [selectedCityId]="selectedCityId"></app-city>
                     </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-lg-3">
-                    <label for="inputCountry">Country&nbsp;<span class="required">*</span></label>
-                    <app-country-dropdown [selectedCountryId]="selectedCountryId"
-                        (countryId)="getSelectedCountryId($event)">
-                    </app-country-dropdown>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="inputState">State&nbsp;<span class="required">*</span></label>
-                    <app-state-dropdown [selectedStateId]="selectedStateId" [isdisable]="true"
-                        (stateId)="getSelectedStateId($event)">
-                    </app-state-dropdown>
-                </div>
-                <div class="form-group  col-lg-3 ">
-                    <label for="inputState">City&nbsp;<span class="required">*</span></label>
-                    <app-city [State] = "State" (selectCity)="selectCity($event)" [selectedStateId]="selectedStateId" [selectedCityId]="selectedCityId"></app-city>
-                </div>
-                <div class="form-group col-lg-3">
-                    <label for="inputPhoneNumber">Phone Number</label>
-                    <input appPhoneMask type="text" maxlength="14" class="form-control" formControlName="phoneNumber"
-                        placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid':submitted  && f.phoneNumber.errors }">
-                    <div *ngIf="submitted  && f.phoneNumber.errors" class="invalid-feedback">
-                        <div *ngIf="f.phoneNumber.errors.minlength">Phone number must be 10 digits</div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputPhoneNumber">Phone Number</label>
+                        <input appPhoneMask type="text" maxlength="14" class="form-control"
+                            formControlName="phoneNumber" placeholder="(XXX) XXX-XXXX"
+                            [ngClass]="{ 'is-invalid':submitted  && f.phoneNumber.errors }">
+                        <div *ngIf="submitted  && f.phoneNumber.errors" class="invalid-feedback">
+                            <div *ngIf="f.phoneNumber.errors.minlength">Phone number must be 10 digits</div>
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-lg-3">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" maxlength="50" class="form-control" formControlName="email"
+                            placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors">Please enter valid email address</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="inputWorkThreshold">Work Threshold</label>
+                        <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
+                            placeholder="Threshold #" numbersOnly>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" formControlName="franchise"
+                                (change)="change($event.target.checked)">
+                            <label class="form-check-label" for="gridCheck">Franchise</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </tab>
+        <tab heading="Location Offset">
+            <br>
             <div class="form-row">
                 <div class="form-group col-lg-3">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" maxlength="50" class="form-control" formControlName="email" placeholder="Email"
-                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                        <div *ngIf="f.email.errors">Please enter valid email address</div>
+                    <div>
+                        <label>Offset1On</label>
+                        <span style="padding-left: 29px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1On"></p-inputSwitch>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <label for="inputWorkThreshold">Work Threshold</label>
-                    <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
-                        placeholder="Threshold #" numbersOnly>
+                    <div>
+                        <label>Offset1</label>
+                        <span style="padding-left: 50px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1"></p-inputSwitch>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <label></label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" formControlName="franchise"
-                            (change)="change($event.target.checked)">
-                        <label class="form-check-label" for="gridCheck">Franchise</label>
+                    <div>
+                        <label>OffsetA</label>
+                        <span style="padding-left: 50px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetA"></p-inputSwitch>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-3">
+                    <div>
+                        <label>OffsetB</label>
+                        <span style="padding-left: 50px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetB"></p-inputSwitch>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-3">
+                    <div>
+                        <label>OffsetC</label>
+                        <span style="padding-left: 50px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetC"></p-inputSwitch>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-3">
+                    <div>
+                        <label>OffsetD</label>
+                        <span style="padding-left: 50px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetD"></p-inputSwitch>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-3">
+                    <div>
+                        <label>OffsetE</label>
+                        <span style="padding-left: 50px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetE"></p-inputSwitch>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-3">
+                    <div>
+                        <label>OffsetF</label>
+                        <span style="padding-left: 50px;">
+                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetF"></p-inputSwitch>
+                        </span>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <br>
-        <div class="form-row">
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>Offset1On</label>
-                    <span style="padding-left: 29px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1On"></p-inputSwitch></span>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>Offset1</label>
-                    <span style="padding-left: 50px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1"></p-inputSwitch></span>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>OffsetA</label>
-                    <span style="padding-left: 50px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetA"></p-inputSwitch></span>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>OffsetB</label>
-                    <span style="padding-left: 50px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetB"></p-inputSwitch></span>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>OffsetC</label>
-                    <span style="padding-left: 50px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetC"></p-inputSwitch></span>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>OffsetD</label>
-                    <span style="padding-left: 50px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetD"></p-inputSwitch></span>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>OffsetE</label>
-                    <span style="padding-left: 50px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetE"></p-inputSwitch></span>
-                </div>
-            </div>
-            <div class="form-group col-lg-3">
-                <div>
-                    <label>OffsetF</label>
-                    <span style="padding-left: 50px;"><p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetF"></p-inputSwitch></span>
-                </div>
-            </div>
-        </div>
-    </div>
+        </tab>
+    </tabset>
 </div>
-
-<!-- </div> -->
 <br>
 
 <div class="modal-footer">
