@@ -31,8 +31,7 @@ namespace StriveCustomer.iOS.Views.Schedule
         partial void dateChange(UIDatePicker sender)
         {
             date = Schedule_datePicker.Date;
-
-            //save the date in viewmodel
+            
             getTimeSlots();
         }
 
@@ -53,7 +52,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-               
+                ViewModel.NavToSelect_Preview();
             };
 
             SelectDate_ParentView.Layer.CornerRadius = 5;
@@ -71,12 +70,76 @@ namespace StriveCustomer.iOS.Views.Schedule
        
         public async void getTimeSlots()
         {
-            await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date.ToString());
+            var dates = date.ToString();
+            var FullSplitDates = dates.Split(" ");
+            var fullDateInfo = FullSplitDates[0].Split("-");
 
-            //var timeSlotSource = new ScheduleDate_CollectionSource(this.ViewModel.ScheduleSlotInfo);
-            //Date_CollectionView.Source = timeSlotSource;
-            //Date_CollectionView.DelaysContentTouches = false;
-            //Date_CollectionView.ReloadData();
+            switch (fullDateInfo[1])
+            {
+                case "01":
+                    CustomerScheduleInformation.ScheduleMonth = "January";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "02":
+                    CustomerScheduleInformation.ScheduleMonth = "February";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "03":
+                    CustomerScheduleInformation.ScheduleMonth = "March";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "04":
+                    CustomerScheduleInformation.ScheduleMonth = "April";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "05":
+                    CustomerScheduleInformation.ScheduleMonth = "May";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "06":
+                    CustomerScheduleInformation.ScheduleMonth = "June";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "07":
+                    CustomerScheduleInformation.ScheduleMonth = "July";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "08":
+                    CustomerScheduleInformation.ScheduleMonth = "August";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "09":
+                    CustomerScheduleInformation.ScheduleMonth = "September";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "10":
+                    CustomerScheduleInformation.ScheduleMonth = "October";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "11":
+                    CustomerScheduleInformation.ScheduleMonth = "November";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+                case "12":
+                    CustomerScheduleInformation.ScheduleMonth = "December";
+                    CustomerScheduleInformation.ScheduleDate = fullDateInfo[2].ToString();
+                    CustomerScheduleInformation.ScheduleYear = fullDateInfo[0].ToString();
+                    break;
+            }
+            this.ViewModel.checkDate = CustomerScheduleInformation.ScheduleDate + "/" + CustomerScheduleInformation.ScheduleMonth + "/"
+                + CustomerScheduleInformation.ScheduleYear;
+            await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date.ToString());           
 
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {
@@ -93,6 +156,7 @@ namespace StriveCustomer.iOS.Views.Schedule
 
     public partial class timeSlotSourceDelegate : UICollectionViewDelegate
     {
+        ScheduleAppointmentDateViewModel viewModel = new ScheduleAppointmentDateViewModel();
         public UICollectionView timeSlot_CollectionView { get; set; }
 
         public timeSlotSourceDelegate(UICollectionView uICollectionView)
@@ -103,16 +167,14 @@ namespace StriveCustomer.iOS.Views.Schedule
         public override bool ShouldHighlightItem(UICollectionView collectionView, NSIndexPath indexPath)
         {
             return true;
-        }
+        }       
 
-        public override void ItemHighlighted(UICollectionView collectionView, NSIndexPath indexPath)
+        public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            base.ItemHighlighted(collectionView, indexPath);
-        }
+            var cell = collectionView.DequeueReusableCell("Schedule_Time_Cell", indexPath) as Schedule_Time_Cell;
 
-        public override void ItemUnhighlighted(UICollectionView collectionView, NSIndexPath indexPath)
-        {
-            base.ItemUnhighlighted(collectionView, indexPath);
+            cell.cellSelected(indexPath);
+
         }
     }
 }
