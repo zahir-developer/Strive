@@ -63,7 +63,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.vehicleNumber = 1;
         } else {
           let len = this.vehicleDetails.length;
-          this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
+          this.vehicleNumber = this.vehicleDetails.length + 1;
           console.log(this.vehicleNumber);
           this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;

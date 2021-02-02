@@ -24,7 +24,7 @@
                         <td>{{statement.TicketNumber}}</td>
                         <td>{{statement.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{statement.ServiceCompleted}}</td>
-                        <td>{{statement.TotalAmount}}</td>
+                        <td>{{statement.TotalAmount | currency}}</td>
                     </tr>
                     <tr *ngIf="statementGrid.length === 0">
                         <td colspan="12" class="text-center">

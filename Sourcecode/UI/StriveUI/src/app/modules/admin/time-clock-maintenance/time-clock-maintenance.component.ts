@@ -79,9 +79,10 @@ export class TimeClockMaintenanceComponent implements OnInit {
     const last = first + 6;
     this.startDate = new Date(currentDate.setDate(first));
     this.currentWeek = this.startDate;
-    // this.endDate = new Date(currentDate.setDate(last));
+    const lastDate = new Date();
+    this.endDate = new Date(lastDate.setDate(last));
     // this.endDate = this.endDate.setDate( this.startDate.getDate() + 6);
-    this.endDate = new Date();
+    // this.endDate = new Date();
     this.daterangepickerModel = [this.startDate, this.endDate];
     this.getTimeClockEmployeeDetails();
   }

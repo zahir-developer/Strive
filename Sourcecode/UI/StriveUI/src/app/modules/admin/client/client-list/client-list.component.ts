@@ -71,8 +71,10 @@ export class ClientListComponent implements OnInit {
     this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Client.clientViewModel;
-        const totalRowCount = client.Client.Count.Count;  
+        if (client.Client.clientViewModel !== null) {
+          this.clientDetails = client.Client.clientViewModel;
+        }
+        const totalRowCount = client.Client.Count.Count;
 
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
