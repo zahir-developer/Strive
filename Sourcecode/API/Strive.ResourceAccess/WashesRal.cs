@@ -23,7 +23,8 @@ namespace Strive.ResourceAccess
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
-            _prm.Add("@Date", searchDto.Date);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
 
             return db.FetchMultiResult<WashesListViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
         }
