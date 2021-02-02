@@ -155,7 +155,9 @@ export class LocationSetupListComponent implements OnInit {
 
   // get location detail by locationId
   getLocationById(data) {
+    this.spinner.show();
     this.locationService.getLocationById(data.LocationId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.selectedLocation = location.Location;
@@ -166,6 +168,8 @@ export class LocationSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   clearSearch() {

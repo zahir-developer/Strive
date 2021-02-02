@@ -258,7 +258,7 @@ export class MembershipCreateEditComponent implements OnInit {
       }
     }
     if (this.isEdit === true) {
-      const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 15);
+      const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === 'Wash Package');
       if (washType !== undefined) {
         if (Number(washType[0].ServiceId) !== Number(this.membershipForm.value.washes)) {
           const wash = {
@@ -287,7 +287,7 @@ export class MembershipCreateEditComponent implements OnInit {
           ServiceObj.push(washDelete);
         }
       }
-      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 18);
+      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === 'Wash-Upcharge');
       if (upchargeType !== undefined) {
         if (Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)) {
           const upcharge = {
