@@ -52,8 +52,6 @@
                                                         <tr>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('GiftCardCode')">Gift Card No.&nbsp;<i class="fa" [ngClass]="selectedCls('GiftCardCode')"
                                                                 aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"  (click)="changeSorting('GiftCardName')">Name&nbsp;<i class="fa" [ngClass]="selectedCls('GiftCardName')"
-                                                                aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('ExpiryDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ExpiryDate')"
                                                                 aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('TotalAmount')">Amount&nbsp;<i class="fa" [ngClass]="selectedCls('TotalAmount')"
@@ -63,7 +61,6 @@
                                                     <tbody *ngIf="giftCardList.length > 0">
                                                         <tr *ngFor="let card of giftCardList | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <td>{{card.GiftCardCode}}</td>
-                                                            <td>{{card.GiftCardName}}</td>
                                                             <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
                                                             <td>{{card.TotalAmount | currency}}</td>
                                                         </tr>
