@@ -18,8 +18,8 @@ export class CustomerService {
     return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
   }
 
-  getServices(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
+  getServices(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.totalUrl.getServiceSetup}`, obj);
   }
 
   getVehicleByClientId(clientId: number) {

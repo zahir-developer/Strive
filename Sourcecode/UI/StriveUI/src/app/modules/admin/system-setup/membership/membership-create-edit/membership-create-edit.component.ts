@@ -5,6 +5,7 @@ import { MembershipService } from 'src/app/shared/services/data-service/membersh
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import * as _ from 'underscore';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-membership-create-edit',
   templateUrl: './membership-create-edit.component.html',
@@ -29,7 +30,11 @@ export class MembershipCreateEditComponent implements OnInit {
   PriceServices: any = [];
   costErrMsg: boolean = false;
   employeeId: number;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
+  constructor(
+    private fb: FormBuilder,
+    private toastr: MessageServiceToastr,
+    private member: MembershipService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -151,7 +156,7 @@ export class MembershipCreateEditComponent implements OnInit {
     });
     if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === 'Wash Package')[0] !== undefined) {
       this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i =>
-         (i.ServiceType) === 'Wash Package')[0].ServiceId);
+        (i.ServiceType) === 'Wash Package')[0].ServiceId);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.washes)[0]);
     }
     if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === 'Wash-Upcharge')[0] !== undefined) {
@@ -162,7 +167,7 @@ export class MembershipCreateEditComponent implements OnInit {
     if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === 'Additonal Services').length !== 0) {
       this.patchedService = this.selectedData?.MembershipService.filter(item => (item.ServiceType) === 'Additonal Services');
       const serviceIds = this.selectedData?.MembershipService.filter(item =>
-         (item.ServiceType) === 'Additonal Services').map(item => item.ServiceId);
+        (item.ServiceType) === 'Additonal Services').map(item => item.ServiceId);
       const memberService = serviceIds.map((e) => {
         const f = this.additionalService.find(a => a.ServiceId === e);
         return f ? f : 0;
@@ -258,7 +263,7 @@ export class MembershipCreateEditComponent implements OnInit {
       }
     }
     if (this.isEdit === true) {
-      const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 15);
+      const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === 'Wash Package');
       if (washType !== undefined) {
         if (Number(washType[0].ServiceId) !== Number(this.membershipForm.value.washes)) {
           const wash = {
@@ -287,7 +292,7 @@ export class MembershipCreateEditComponent implements OnInit {
           ServiceObj.push(washDelete);
         }
       }
-      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 18);
+      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === 'Wash-Upcharge');
       if (upchargeType !== undefined) {
         if (Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)) {
           const upcharge = {
@@ -361,7 +366,9 @@ export class MembershipCreateEditComponent implements OnInit {
       membershipService: ServiceObj
     };
     if (this.isEdit === true) {
+      this.spinner.show();
       this.member.updateMembership(formObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Updated Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -369,9 +376,13 @@ export class MembershipCreateEditComponent implements OnInit {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           // this.membershipForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.member.addMembership(formObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Saved Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -379,6 +390,8 @@ export class MembershipCreateEditComponent implements OnInit {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           this.membershipForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }

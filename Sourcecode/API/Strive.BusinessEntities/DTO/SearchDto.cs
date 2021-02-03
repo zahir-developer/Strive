@@ -8,6 +8,9 @@ namespace Strive.BusinessEntities.DTO
 {
     public class SearchDto
     {
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
         public int? LocationId { get; set; }
 
         public int? PageNo { get; set; }
@@ -20,7 +23,7 @@ namespace Strive.BusinessEntities.DTO
 
         public string SortBy { get; set; }
         public bool Status { get; set; }
-           
+       
         
     }
 }

@@ -18,7 +18,7 @@ export class VendorSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  search : any = '';
+  search: any = '';
 
   collectionSize: number = 0;
   page: any;
@@ -26,36 +26,42 @@ export class VendorSetupListComponent implements OnInit {
   pageSizeList: number[];
   isDesc: boolean = false;
   column: string = 'VendorName';
-  constructor(private vendorService: VendorService, 
+  constructor(
+    private vendorService: VendorService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+    private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllvendorSetupDetails();
   }
 
-  vendorSearch(){
+  vendorSearch() {
     this.page = 1;
-    const obj ={
+    const obj = {
       vendorSearch: this.search
-   }
-   this.vendorService.VendorSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.vendorSetupDetails = location.VendorSearch;
-       if (this.vendorSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
+    }
+    this.spinner.show();
+    this.vendorService.VendorSearch(obj).subscribe(data => {
+      this.spinner.hide();
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.vendorSetupDetails = location.VendorSearch;
+        if (this.vendorSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    }, (err) => {
+      this.spinner.hide();
+    });
   }
   sort(property) {
     this.isDesc = !this.isDesc; //change the direction    
@@ -95,16 +101,16 @@ export class VendorSetupListComponent implements OnInit {
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
+
+    this.pageSize = +this.pageSize;
+    this.page = event;
+
     this.getAllvendorSetupDetails()
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+
     this.getAllvendorSetupDetails()
   }
   edit(data) {

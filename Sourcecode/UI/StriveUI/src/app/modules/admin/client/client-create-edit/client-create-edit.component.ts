@@ -8,6 +8,7 @@ import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientStatementComponent } from '../client-statement/client-statement.component';
 import { ClientHistoryComponent } from '../client-history/client-history.component';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -38,7 +39,7 @@ export class ClientCreateEditComponent implements OnInit {
   sortColumn: { column: string; descending: boolean; };
   employeeId: number;
   constructor(private toastr: ToastrService, private client: ClientService,
-    private confirmationService: ConfirmationUXBDialogService,
+    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
 
   ngOnInit() {    
@@ -63,7 +64,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.vehicleNumber = 1;
         } else {
           let len = this.vehicleDetails.length;
-          this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
+          this.vehicleNumber = this.vehicleDetails.length + 1;
           console.log(this.vehicleNumber);
           this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
@@ -132,7 +133,9 @@ export class ClientCreateEditComponent implements OnInit {
       clientAddress: this.address
     }
     if (this.isEdit === true) {
+      this.spinner.show();
       this.client.updateClient(myObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.deleteIds.forEach(element => {
             this.vehicle.deleteVehicle(element.VehicleId).subscribe(res => {
@@ -149,9 +152,13 @@ export class ClientCreateEditComponent implements OnInit {
           this.toastr.error('Communication Error', 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.client.addClient(myObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -159,6 +166,8 @@ export class ClientCreateEditComponent implements OnInit {
           this.toastr.error('Communication Error', 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }

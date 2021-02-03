@@ -105,7 +105,9 @@ namespace Strive.ResourceAccess
         public bool IsClientName(ClientNameDto clientNameDto)
         {
             _prm.Add("FirstName", clientNameDto.FirstName);
-            _prm.Add("LastName", clientNameDto.LastName);
+            _prm.Add("LastName", clientNameDto.LastName); 
+            _prm.Add("PhoneNumber", clientNameDto.PhoneNumber);
+
             var result = db.Fetch<ClientViewModel>(SPEnum.USPISCLIENTAVAILABLE.ToString(), _prm);
             if (result.Count > 0)
             {
