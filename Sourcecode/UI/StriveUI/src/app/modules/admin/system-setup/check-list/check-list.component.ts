@@ -56,7 +56,7 @@ export class CheckListComponent implements OnInit {
     this.checklistAdd = true;
     this.selectedData = false;
   }
-  checlistcancel() {
+  checklistcancel() {
     this.checkListName = '';
     this.RoleId = [];
     this.checklistAdd = false;
@@ -222,6 +222,7 @@ export class CheckListComponent implements OnInit {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
 
           this.getAllcheckListDetails();
+         
           this.selectedData = false;
 
         } else {
@@ -233,6 +234,7 @@ export class CheckListComponent implements OnInit {
         if (data.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.getAllcheckListDetails();
+          this.checklistcancel()
           this.checkListName = '';
           this.RoleId = [];
 
