@@ -19,7 +19,6 @@ export class MembershipListComponent implements OnInit {
   isTableEmpty: boolean;
   Status:any;
   searchStatus:any;
- 
   query = '';
   collectionSize: number = 0;
   page: any;
@@ -42,7 +41,9 @@ export class MembershipListComponent implements OnInit {
 
   // Get All Membership
   getAllMembershipDetails() {
+    this.spinner.show();
     this.member.getMembership().subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.Membership;
@@ -56,26 +57,24 @@ export class MembershipListComponent implements OnInit {
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
+    this.pageSize = +this.pageSize;
     this.page = event ;
-    
-    this.getAllMembershipDetails()
+    this.getAllMembershipDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
+    this.pageSize = +event.target.value;
     this.page =  this.page;
-    
-    this.getAllMembershipDetails()
+    this.getAllMembershipDetails();
   }
   sort(property) {
     this.isDesc = !this.isDesc; //change the direction    
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
-   
     this.membershipDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -96,7 +95,9 @@ export class MembershipListComponent implements OnInit {
     const obj ={
        membershipSearch: this.query
     }
+    this.spinner.show();
     this.member.searchMembership(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.MembershipSearch;
@@ -109,6 +110,8 @@ export class MembershipListComponent implements OnInit {
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

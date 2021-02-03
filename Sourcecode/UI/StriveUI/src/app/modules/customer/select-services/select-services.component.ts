@@ -36,7 +36,7 @@ export class SelectServicesComponent implements OnInit {
 
   nextPage() {
     console.log(this.serviceForm, 'selectedServcie');
-    const services = this.detailService.filter( item => item.ServiceId === +this.serviceForm.value.serviceID);
+    const services = this.detailService.filter(item => item.ServiceId === +this.serviceForm.value.serviceID);
     if (services.length > 0) {
       this.scheduleDetailObj.serviceobj = services[0];
       this.selectLocation.emit();
@@ -44,15 +44,28 @@ export class SelectServicesComponent implements OnInit {
   }
 
   getService() {
+    const serviceObj = {
+      locationId: 0,
+      pageNo: null,
+      pageSize: null,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
     this.spinner.show();
-    this.customerService.getServices().subscribe(res => {
+    this.customerService.getServices(serviceObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
         console.log(serviceDetails, 'service');
-        this.detailService = serviceDetails.ServiceSetup.filter(item => item.ServiceType === 'Details');
-        this.patchServiceValue();
+        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
+          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Details');
+          this.patchServiceValue();
+        }
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

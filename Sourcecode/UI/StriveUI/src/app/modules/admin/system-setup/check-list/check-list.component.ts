@@ -68,7 +68,9 @@ export class CheckListComponent implements OnInit {
     //   this.checkListDetails = data.Checklist;
     //   console.log(this.checkListDetails)
     // });
+    this.spinner.show();
     this.checkListSetup.getCheckListSetup().subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
@@ -83,20 +85,19 @@ export class CheckListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   paginate(event) {
-
     this.pageSize = +this.pageSize;
     this.page = event;
-
-    this.getAllcheckListDetails()
+    this.getAllcheckListDetails();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
-
-    this.getAllcheckListDetails()
+    this.getAllcheckListDetails();
   }
   onRoleDeSelect(event) {
     if (this.RoleId) {

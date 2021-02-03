@@ -3,6 +3,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { BonusSetupService } from 'src/app/shared/services/data-service/bonus-setup.service';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-bonus-setup',
@@ -38,6 +39,7 @@ export class BonusSetupComponent implements OnInit {
     private bonusSetupService: BonusSetupService,
     private datePipe: DatePipe,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -286,23 +288,30 @@ export class BonusSetupComponent implements OnInit {
     };
     console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
+      this.spinner.show();
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
         } else {
           this.toastr.error('Communication Error', 'Error!');
         }
         this.getBonusList();
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.bonusSetupService.editBonus(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.success('Bonus setup saved successfully! ', 'Success!');
-
           this.getBonusList();
         } else {
           this.toastr.error('Communication Error', 'Error!');
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }
@@ -313,7 +322,9 @@ export class BonusSetupComponent implements OnInit {
       bonusYear: this.selectedYear,
       locationId: this.locationId
     };
+    this.spinner.show();
     this.bonusSetupService.getBonusList(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const bonus = JSON.parse(res.resultData);
         if (bonus?.BonusDetails?.Bonus !== null) {
@@ -394,6 +405,7 @@ export class BonusSetupComponent implements OnInit {
       }
     }, (error) => {
       this.toastr.error('Communication Error', 'Error!');
+      this.spinner.hide();
       this.getBonusFirstList();
     });
   }

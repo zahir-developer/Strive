@@ -60,7 +60,9 @@ export class ProductSetupListComponent implements OnInit {
 
   // Get All Product
   getAllproductSetupDetails() {
+    this.spinner.show();
     this.productService.getProduct().subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
         this.productSetupDetails = product.Product;
@@ -74,6 +76,8 @@ export class ProductSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   sort(property) {
@@ -94,17 +98,14 @@ export class ProductSetupListComponent implements OnInit {
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
+    this.pageSize = +this.pageSize;
     this.page = event ;
-    
-    this.getAllproductSetupDetails()
+    this.getAllproductSetupDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
+    this.pageSize = +event.target.value;
     this.page =  this.page;
-    
-    this.getAllproductSetupDetails()
+    this.getAllproductSetupDetails();
   }
   edit(data) {
     this.selectedData = data;

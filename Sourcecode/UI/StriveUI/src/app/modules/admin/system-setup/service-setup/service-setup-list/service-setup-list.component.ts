@@ -29,9 +29,12 @@ export class ServiceSetupListComponent implements OnInit {
   column: string = 'ServiceName';
   totalRowCount = 0;
   isLoading: boolean;
-  constructor(private serviceSetup: ServiceSetupService,
+  constructor(
+    private serviceSetup: ServiceSetupService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+    private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService
+  ) { }
 
   ngOnInit() {
     this.page = ApplicationConfig.PaginationConfig.page;
@@ -53,7 +56,9 @@ export class ServiceSetupListComponent implements OnInit {
       sortBy: null,
       status: this.searchStatus !== 2 ? this.searchStatus === 1 ? true : false : null
     };
+    this.spinner.show();
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.totalRowCount = 0;
         this.serviceSetupDetails = [];
@@ -72,6 +77,8 @@ export class ServiceSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   paginate(event) {
