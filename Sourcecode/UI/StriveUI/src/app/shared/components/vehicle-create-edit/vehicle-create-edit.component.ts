@@ -60,7 +60,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.vehicleForm = this.fb.group({
-      barcode: ['', Validators.required],
+      barcode: [''],
       vehicleNumber: ['',],
       make: ['', Validators.required],
       model: ['', Validators.required],
@@ -187,6 +187,7 @@ export class VehicleCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.Membership;
+        this.membership = this.membership.filter( item => item.IsActive === true);
         console.log(this.membership);
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -451,7 +452,7 @@ export class VehicleCreateEditComponent implements OnInit {
         vehicleYear: null, // ' '
         vehicleColor: Number(this.vehicleForm.value.color.id),
         upcharge: Number(this.vehicleForm.value.upcharge),
-        barcode: this.vehicleForm.value.barcode,
+        barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
         monthlyCharge: this.vehicleForm.value.monthlyCharge,
         notes: null, // ' '
         isActive: true,
@@ -527,7 +528,7 @@ export class VehicleCreateEditComponent implements OnInit {
         VehicleModel: Number(this.vehicleForm.value.model.id),
         VehicleColor: Number(this.vehicleForm.value.color.id),
         Upcharge: Number(this.vehicleForm.value.upcharge),
-        Barcode: this.vehicleForm.value.barcode,
+        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode :  'None/UNK',
         VehicleModelNo: null, // 0
         VehicleYear: null, // ''
         Notes: null, // ' '
@@ -546,7 +547,7 @@ export class VehicleCreateEditComponent implements OnInit {
         VehicleColor: this.vehicleForm.value.color.id,
         Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
-        Barcode: this.vehicleForm.value.barcode,
+        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
       };
       const formObj = {
         clientVehicle: [add]
