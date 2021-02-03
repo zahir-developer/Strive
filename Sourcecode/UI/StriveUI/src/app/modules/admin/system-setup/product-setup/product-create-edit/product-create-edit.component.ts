@@ -43,6 +43,7 @@ export class ProductCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
+    this.textDisplay = false;
     this.getProductType();
     this.getAllLocation();
     this.getAllVendor();
@@ -100,6 +101,7 @@ export class ProductCreateEditComponent implements OnInit {
         const other = this.size.filter(i => i.CodeValue === "Other")[0];
         this.size = this.size.filter(i => i.CodeValue !== "Other");
         this.size.push(other);
+        console.log(this.size, 'size');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -129,13 +131,17 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   showText(data) {
-    if (data === '33') {
-      this.textDisplay = true;
-      this.productSetupForm.get('other').setValidators([Validators.required]);
-    } else {
-      this.textDisplay = false;
-      this.productSetupForm.get('other').clearValidators();
-      this.productSetupForm.get('other').reset();
+    const size = this.size.filter( item => item.CodeValue === 'Other');
+    if (size.length > 0) {
+      const id = size[0].CodeId;
+      if (+data === id) {
+        this.textDisplay = true;
+        this.productSetupForm.get('other').setValidators([Validators.required]);
+      } else {
+        this.textDisplay = false;
+        this.productSetupForm.get('other').clearValidators();
+        this.productSetupForm.get('other').reset();
+      }
     }
   }
   // Get Product By Id

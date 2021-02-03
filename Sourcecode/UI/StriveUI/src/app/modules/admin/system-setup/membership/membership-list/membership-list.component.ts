@@ -47,6 +47,7 @@ export class MembershipListComponent implements OnInit {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.Membership;
+        this.membershipDetails = this.membershipDetails.filter( item => item.IsActive === true);
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
