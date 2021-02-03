@@ -241,8 +241,8 @@ export class VehicleCreateEditComponent implements OnInit {
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-          if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-            this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
+          if (this.membershipServices.filter(i => i.ServiceTypeName === 'Additonal Services').length !== 0) { // Additonal Services
+            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === 'Additonal Services');
           }
         }
         this.memberOnchangePatchedService.forEach(element => {
@@ -334,8 +334,8 @@ export class VehicleCreateEditComponent implements OnInit {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
         }
-        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-          this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
+        if (this.membershipServices.filter(i => (i.ServiceTypeName) === 'Additonal Services').length !== 0) {
+          this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === 'Additonal Services');
           if (this.memberOnchangePatchedService.length !== 0) {
             this.patchedService.forEach(element => {
               if (this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
