@@ -81,22 +81,26 @@ export class ClientFormComponent implements OnInit {
   sameClientName() {
     const clientNameDto = {
 FirstName :this.clientForm.value.fName,
-LastName : this.clientForm.value.lName
+LastName : this.clientForm.value.lName,
+PhoneNumber : this.clientForm.value.phone1
 
     }
-    this.client.ClientSameName(clientNameDto).subscribe(res => {
-      if (res.status === 'Success') {
-        const sameName = JSON.parse(res.resultData);
-        if(sameName.IsClientNameAvailable === true){
-          this.ClientNameAvailable = true;
-          this.toastr.error('Client Name is Already Entered', 'Error!');
-
-        } else{
-          this.ClientNameAvailable = false;
- 
+    if(this.clientForm.value.fName && this.clientForm.value.lName && this.clientForm.value.phone1){
+      this.client.ClientSameName(clientNameDto).subscribe(res => {
+        if (res.status === 'Success') {
+          const sameName = JSON.parse(res.resultData);
+          if(sameName.IsClientNameAvailable === true){
+            this.ClientNameAvailable = true;
+            this.toastr.error('Client is Already Exists', 'Error!');
+  
+          } else{
+            this.ClientNameAvailable = false;
+   
+          }
         }
-      }
-    });
+      });
+    }
+   
   }
   // Get Score
   getScore() {
