@@ -33,7 +33,6 @@ export class AdSetupListComponent implements OnInit {
   documentTypeId: any;
   constructor(private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
-
     private toastr: ToastrService, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
@@ -51,7 +50,9 @@ export class AdSetupListComponent implements OnInit {
 
   // Get All Services
   getAlladSetupDetails() {
+    this.spinner.show();
     this.adSetup.getAdSetup().subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.adSetupDetails = serviceDetails.GetAllAdSetup;
@@ -68,6 +69,8 @@ export class AdSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

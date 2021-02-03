@@ -22,7 +22,6 @@ export class TermsAndConditionsComponent implements OnInit {
 
   constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
     private spinner: NgxSpinnerService,
-
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
 
   ngOnInit() {
@@ -43,7 +42,9 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   getDocument() {
+    this.spinner.show();
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
@@ -52,6 +53,7 @@ export class TermsAndConditionsComponent implements OnInit {
       }
     }, (err) => {
       this.isLoading = false;
+      this.spinner.hide();
     });
   }
 
