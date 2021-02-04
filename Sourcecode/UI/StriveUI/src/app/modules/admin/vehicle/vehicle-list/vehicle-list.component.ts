@@ -69,6 +69,7 @@ export class VehicleListComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
+        console.log(this.vehicleDetails, 'vehicledetaul');
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -187,8 +188,8 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getMembershipService().subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
-        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Upcharges');
-        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
+        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
+        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additonal Services');
       }
     });
   }
