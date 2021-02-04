@@ -36,6 +36,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 		[Outlet]
 		UIKit.UILabel ViewMore_ValueLbl { get; set; }
 
+		[Action ("SelectService_BtnTouch:")]
+		partial void SelectService_BtnTouch (UIKit.UIButton sender);
+
 		[Action ("ViewMore_BtnTouch:")]
 		partial void ViewMore_BtnTouch (UIKit.UIButton sender);
 		
@@ -44,6 +47,11 @@ namespace StriveCustomer.iOS.Views.Schedule
 			if (MoreValue_Const != null) {
 				MoreValue_Const.Dispose ();
 				MoreValue_Const = null;
+			}
+
+			if (SelectService_Btn != null) {
+				SelectService_Btn.Dispose ();
+				SelectService_Btn = null;
 			}
 
 			if (SelectService_CellView != null) {
@@ -74,11 +82,6 @@ namespace StriveCustomer.iOS.Views.Schedule
 			if (ViewMore_ValueLbl != null) {
 				ViewMore_ValueLbl.Dispose ();
 				ViewMore_ValueLbl = null;
-			}
-
-			if (SelectService_Btn != null) {
-				SelectService_Btn.Dispose ();
-				SelectService_Btn = null;
 			}
 		}
 	}

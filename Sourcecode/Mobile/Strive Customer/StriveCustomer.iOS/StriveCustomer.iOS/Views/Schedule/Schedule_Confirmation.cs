@@ -1,5 +1,6 @@
 ﻿using System;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
@@ -34,6 +35,21 @@ namespace StriveCustomer.iOS.Views.Schedule
             NavigationItem.Title = "Confirmation";
 
             ConfirmSchedule_View.Layer.CornerRadius = 5;
+            ScheduleDate_Lbl.Text = CustomerScheduleInformation.ScheduleDate + " " + CustomerScheduleInformation.ScheduleMonth + " "
+                + CustomerScheduleInformation.ScheduleYear + " | ";
+            ScheduleTime_Lbl.Text = CustomerScheduleInformation.ScheduleServiceTime;
+            ScheduleVehicleName_Lbl.Text = CustomerScheduleInformation.ScheduledVehicleName;
+        }
+
+        partial void BackDashboard_BtnTouch(UIButton sender)
+        {
+            this.ViewModel.ClearScheduleData();
+            NavToSchedule();
+        }
+
+        public void NavToSchedule()
+        {
+            ViewModel.NavtoSchedule();
         }
     }
 }

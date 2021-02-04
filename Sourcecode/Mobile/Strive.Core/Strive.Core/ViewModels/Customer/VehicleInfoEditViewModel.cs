@@ -96,7 +96,10 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.clearMembershipData();
             await _navigationService.Close(this);
         }
-
+        public async void NavigateProfile()
+        {
+            await _navigationService.Navigate<MyProfileInfoViewModel>();
+        }
         public bool VehicleDetailsCheck()
         {
            

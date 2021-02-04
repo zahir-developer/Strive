@@ -28,11 +28,6 @@ namespace StriveCustomer.iOS.Views.Schedule
             var cell = collectionView.DequeueReusableCell("Schedule_Time_Cell", indexPath) as Schedule_Time_Cell;
             cell.SetData(slots, indexPath);
             return cell;
-        }
-
-        public override bool CanMoveItem(UICollectionView collectionView, NSIndexPath indexPath)
-        {            
-            return true;
-        }
+        }       
     }
 }

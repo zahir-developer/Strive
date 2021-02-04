@@ -61,11 +61,14 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             await ViewModel.GetScheduledServices();
 
-            var selectServiceSource = new Schedule_SelectService_Source(this.ViewModel);
-            SelectService_TableView.Source = selectServiceSource;
-            SelectService_TableView.TableFooterView = new UIView(CGRect.Empty);
-            SelectService_TableView.DelaysContentTouches = false;
-            SelectService_TableView.ReloadData();
+            if(this.ViewModel.scheduleServices != null && this.ViewModel.scheduleServices.ServicesWithPrice.Count > 0)
+            {
+                var selectServiceSource = new Schedule_SelectService_Source(this.ViewModel);
+                SelectService_TableView.Source = selectServiceSource;
+                SelectService_TableView.TableFooterView = new UIView(CGRect.Empty);
+                SelectService_TableView.DelaysContentTouches = false;
+                SelectService_TableView.ReloadData();
+            }           
         }
     }
 }
