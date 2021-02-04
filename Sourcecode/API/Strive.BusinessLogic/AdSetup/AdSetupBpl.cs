@@ -58,7 +58,7 @@ namespace Strive.BusinessLogic.AdSetup
 
             adsetup.Base64 = GetBase64(GlobalUpload.DocumentType.ADS, adsetup.Image);
 
-            _resultContent.Add(adsetup.WithName("GetAdSetupByIdd"));
+            _resultContent.Add(adsetup.WithName("GetAdSetupById"));
             _result = Helper.BindSuccessResult(_resultContent);
 
             return _result;
