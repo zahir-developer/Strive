@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class AdSetupViewModel
+    public class AdSetupDetailViewModel
     {
         public int AdSetupId { get; set; }
         public string Name { get; set; }
@@ -14,7 +14,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string Image { get; set; }
         public bool Status { get; set; }
         public int? DocumentId { get; set; }
-
         public string Base64 { get; set; }
     }
 }

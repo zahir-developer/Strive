@@ -43,10 +43,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<AdSetupViewModel>(EnumSP.AdSetup.USPGETALLADSETUP.ToString(), _prm);
         }
 
-        public AdSetupViewModel GetAdSetupById(int id)
+        public AdSetupDetailViewModel GetAdSetupById(int id)
         {
             _prm.Add("@AdSetupId", id);
-            var result = db.FetchSingle<AdSetupViewModel>(EnumSP.AdSetup.USPGETADSETUPBYID.ToString(), _prm);
+            var result = db.FetchSingle<AdSetupDetailViewModel>(EnumSP.AdSetup.USPGETADSETUPBYID.ToString(), _prm);
             return result;
         }
 
