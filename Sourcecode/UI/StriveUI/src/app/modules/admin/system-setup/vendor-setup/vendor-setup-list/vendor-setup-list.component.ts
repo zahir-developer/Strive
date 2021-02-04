@@ -26,6 +26,7 @@ export class VendorSetupListComponent implements OnInit {
   pageSizeList: number[];
   isDesc: boolean = false;
   column: string = 'VendorName';
+  EmitPopup: boolean = true;
   constructor(
     private vendorService: VendorService,
     private spinner: NgxSpinnerService,
@@ -64,6 +65,10 @@ export class VendorSetupListComponent implements OnInit {
     });
   }
   sort(property) {
+    if(this.EmitPopup == false){
+      this.isDesc = false;      
+
+    }
     this.isDesc = !this.isDesc; //change the direction    
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
@@ -87,11 +92,18 @@ export class VendorSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
         this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === 'True');
+
         console.log(this.vendorSetupDetails, 'vendor');
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.sort('VendorName')
+          
+            this.sort('VendorName')
+
+          if(this.EmitPopup == false){
+            this.isDesc = true;      
+
+          }
           this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -141,6 +153,8 @@ export class VendorSetupListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.EmitPopup = false;
+
       this.getAllvendorSetupDetails();
     }
     this.showDialog = event.isOpenPopup;
