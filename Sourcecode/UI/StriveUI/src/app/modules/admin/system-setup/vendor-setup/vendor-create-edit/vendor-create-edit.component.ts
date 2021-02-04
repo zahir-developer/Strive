@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
@@ -6,6 +6,7 @@ import { VendorService } from 'src/app/shared/services/data-service/vendor.servi
 import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -29,7 +30,12 @@ export class VendorCreateEditComponent implements OnInit {
   selectedCountryId: any;
   selectedCityId: any;
   employeeId: number;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private vendorService: VendorService) { }
+  constructor(
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private vendorService: VendorService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -42,7 +48,7 @@ export class VendorCreateEditComponent implements OnInit {
       this.getVendorById();
     }
   }
- 
+
   formInitialize() {
     this.vendorSetupForm = this.fb.group({
       vin: ['', Validators.required],
@@ -53,7 +59,7 @@ export class VendorCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', [Validators.email,Validators.required]],
+      email: ['', [Validators.email, Validators.required]],
       fax: ['',],
       website: ['']
     });
@@ -135,18 +141,26 @@ export class VendorCreateEditComponent implements OnInit {
       vendorAddress: addressObj
     };
     if (this.isEdit === false) {
+      this.spinner.show();
       this.vendorService.saveVendor(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.vendorService.updateVendor(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }

@@ -264,3 +264,8 @@ color-icon:hover {
     white-space: pre-wrap !important;
 }
 
+body {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+

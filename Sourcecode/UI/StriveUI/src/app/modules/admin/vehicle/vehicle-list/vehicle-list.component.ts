@@ -37,37 +37,35 @@ export class VehicleListComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private spinner: NgxSpinnerService,
-
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService
   ) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllVehicleDetails();
     this.getService();
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllVehicleDetails()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllVehicleDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllVehicleDetails()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllVehicleDetails();
   }
   // Get All Vehicles
   getAllVehicleDetails() {
     const obj = {
-      searchName: ""
-    }
+      searchName: ''
+    };
+    this.spinner.show();
     this.vehicle.getVehicle(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
@@ -80,6 +78,8 @@ export class VehicleListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 
@@ -91,8 +91,10 @@ export class VehicleListComponent implements OnInit {
     this.page = 1;
     const obj = {
       searchName: this.search
-    }
+    };
+    this.spinner.show();
     this.vehicle.getVehicle(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
@@ -105,45 +107,38 @@ export class VehicleListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   edit(data) {
     this.selectedData = data;
     this.showDialog = true;
-    
   }
- 
+
   delete(data) {
     this.vehicle.getVehicleMembershipDetailsByVehicleId(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
-        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership ) {
+        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership) {
           this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
           information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
             .then((confirmed) => {
               if (confirmed === true) {
                 this.confirmDelete(data);
               }
-             
             })
             .catch(() => { });
-            }
-        
-         else {
-          this.toastr.error('Could not Delete the Vehicle due to  Assigned the Membership', 'Error!')
-         }
-
         }
-      
-      
+        else {
+          this.toastr.error('Could not Delete the Vehicle due to  Assigned the Membership', 'Error!')
+        }
+      }
     });
-  
-   
   }
 
   // Delete vehicle
   confirmDelete(data) {
-    
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');

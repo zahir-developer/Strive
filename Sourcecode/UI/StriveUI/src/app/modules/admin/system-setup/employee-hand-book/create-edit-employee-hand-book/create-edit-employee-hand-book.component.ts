@@ -71,7 +71,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       name: ['', Validators.required, Validators.pattern['a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/']],
       createdName: [''],
       uploadBy: ['', Validators.required],
-      subDocumentId :['']
+      subDocumentId: ['']
     });
     this.handbookSetupForm.patchValue({ status: 0 });
   }
@@ -130,7 +130,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
       this.localFileSize = fileToLoad.size
-      this.fileName = fileToLoad.name;   
+      this.fileName = fileToLoad.name;
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
@@ -143,14 +143,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
-      let lowercaseFileThumb = this.fileThumb.toLowerCase()
-        if( (lowercaseFileThumb == this.fileType[0]) ||(lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2]) ){
+        let lowercaseFileThumb = this.fileThumb.toLowerCase()
+        if ((lowercaseFileThumb == this.fileType[0]) || (lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2])) {
           fileTosaveName = fileReader.result?.split(',')[1];
-      }
-      else{
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload DOC,DOCX,PDF Only' });
-        this.clearDocument();
-      }
+        }
+        else {
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload DOC,DOCX,PDF Only' });
+          this.clearDocument();
+        }
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
 
@@ -170,9 +170,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         return;
       }
     }
-    let localFileKbSize =   this.localFileSize / Math.pow(1024,1)
-let localFileKbRoundSize = +localFileKbSize.toFixed()
-    if(this.fileSize < localFileKbRoundSize){
+    let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
+    let localFileKbRoundSize = +localFileKbSize.toFixed()
+    if (this.fileSize < localFileKbRoundSize) {
       this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
 
       return;
@@ -180,7 +180,7 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
     const obj = {
       documentId: 0,
       DocumentName: this.handbookSetupForm.controls['name'].value,
-      DocumentSubType : this.handbookSetupForm.value.subDocumentId,
+      DocumentSubType: this.handbookSetupForm.value.subDocumentId,
       documentType: this.documentTypeId,
       fileName: this.fileName,
       originalFileName: null,
@@ -211,6 +211,8 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
         this.submitted = false;
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

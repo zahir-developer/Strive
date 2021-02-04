@@ -315,7 +315,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account[0];
-          this.isAccount = this.accountDetails?.CodeValue !== 'Comp' ? this.accountDetails?.IsAccount : false;
+          this.isAccount = this.accountDetails?.CodeValue === 'Comp' && this.accountDetails?.IsAccount === true || this.accountDetails?.MembershipId > 0;
           console.log(this.accountDetails);
         }
       });
@@ -533,6 +533,7 @@ export class SalesComponent implements OnInit {
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
+    this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
   }

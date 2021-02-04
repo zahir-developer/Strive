@@ -7,7 +7,7 @@
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Bonus List</h5>&nbsp;
                         <button type="button" class="btn btn-md theme-primary-button-color float-right"
-                        (click)="addBonus()">      Add </button>
+                        (click)="addBonus()">Add New Bonus  </button>
                     </div>
                    
                     <div class="setup-wrapper">
@@ -44,14 +44,14 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10">
+                                <table class="table  table-striped m-t-10" aria-labelledby="bonus-setup">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Min</th>
-                                            <th scope="col">Max</th>
-                                            <th scope="col">No. of washes</th>
-                                            <th scope="col">Bonus Amount</th>
-                                            <th scope="col">Total</th>
+                                            <th scope="col" class="text-center">Min</th>
+                                            <th scope="col" class="text-center">Max</th>
+                                            <th scope="col" class="text-center">No. of washes</th>
+                                            <th scope="col" class="text-center">Bonus Amount</th>
+                                            <th scope="col" class="text-center">Total</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -86,7 +86,7 @@
                                                     Enter Max value
                                                 </div>
                                                 <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i && bonus.Min !== ''" class="invalid-feedback">
-                                                    Max value is greater than Min value
+                                                    Max value shuld be greater than Min value
                                                 </div>
                                             
                                             </td>
@@ -108,8 +108,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <input type="number" (input) = "total()"change numbersOnly [(ngModel)]="bonus.Total"
-                                                    class="form-control rounded-0 input-table text-right">
+                                                <input type="number" (input) = "total()" change numbersOnly [(ngModel)]="bonus.Total"
+                                                    class="form-control rounded-0 input-table text-right" [disabled]='true'>
                                             </td>
                                             <td>
                                                 <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" pTooltip="Delete" tooltipPosition="bottom"
@@ -118,8 +118,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <table class="table timeclcok-tb">
+                                <table class="table timeclcok-tb" aria-labelledby="summary">
                                     <thead>
+                                        <th scope="col"></th>
                                     </thead>
                                     <tbody>
                                         <tr>

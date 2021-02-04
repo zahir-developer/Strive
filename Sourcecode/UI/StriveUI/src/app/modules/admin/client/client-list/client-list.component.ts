@@ -22,9 +22,7 @@ export class ClientListComponent implements OnInit {
   isView: boolean;
   selectedClient: any;
   search: any = '';
-  
   locationId = +localStorage.getItem('empLocationId');
-
   collectionSize: number = 0;
   sort = { column: 'IsActive', descending: true };
   sortColumn: { column: string; descending: boolean; };
@@ -33,14 +31,13 @@ export class ClientListComponent implements OnInit {
   pageSize: number;
   constructor(
     private client: ClientService, private toastr: ToastrService,
-    
     private confirmationService: ConfirmationUXBDialogService,
     private spinner: NgxSpinnerService, private router: Router,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const paramsData = this.route.snapshot.queryParamMap.get('clientId');
@@ -56,24 +53,23 @@ export class ClientListComponent implements OnInit {
   // Get All Client
   getAllClientDetails() {
     const obj = {
-      LocationId :this.locationId,
-
-    PageNo :this.page,
-
-    PageSize : this.pageSize ,
-
-     Query : this.search,
-
-    SortOrder: null,
-
-      SortBy : null
-    }
+      LocationId: this.locationId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+      Query: this.search,
+      SortOrder: null,
+      SortBy: null
+    };
+    this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
+        this.clientDetails = [];
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Client.clientViewModel;
-        const totalRowCount = client.Client.Count.Count;  
-
+        if (client.Client.clientViewModel !== null) {
+          this.clientDetails = client.Client.clientViewModel;
+        }
+        const totalRowCount = client.Client.Count.Count;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -83,40 +79,35 @@ export class ClientListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllClientDetails()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllClientDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllClientDetails()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllClientDetails();
   }
+
   clientSearch() {
     const obj = {
-      LocationId :this.locationId,
-
-    PageNo :this.page,
-
-    PageSize : this.pageSize ,
-
-     Query : this.search,
-
-    SortOrder: null,
-
-      SortBy : null
-    }  
+      LocationId: this.locationId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+      Query: this.search,
+      SortOrder: null,
+      SortBy: null
+    };
     this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
         this.clientDetails = client.Client.clientViewModel;
-        const totalRowCount = client.Client.Count.Count;       
+        const totalRowCount = client.Client.Count.Count;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -174,8 +165,8 @@ export class ClientListComponent implements OnInit {
     this.client.getClientById(client.ClientId).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
-        const client = JSON.parse(res.resultData);
-        this.selectedClient = client.Status[0];
+        const clientDetail = JSON.parse(res.resultData);
+        this.selectedClient = clientDetail.Status[0];
         if (data === 'edit') {
           this.headerData = 'Edit Client';
           this.selectedData = this.selectedClient;
@@ -192,6 +183,8 @@ export class ClientListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 
