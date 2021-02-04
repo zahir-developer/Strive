@@ -64,8 +64,8 @@ namespace StriveCustomer.Android.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             vehicleListViewHolder = holder as ScheduleVehicleListViewHolder;
-            vehicleListViewHolder.ScheduleVehicleName_TextView.Text = VehicleLists.Status[position].VehicleColor + VehicleLists.Status[position].VehicleMfr;
-            vehicleListViewHolder.ScheduleVehicleServiceName_TextView.Text = "";
+            vehicleListViewHolder.ScheduleVehicleName_TextView.Text = VehicleLists.Status[position].VehicleColor +" "+ VehicleLists.Status[position].VehicleMfr;
+            vehicleListViewHolder.ScheduleVehicleServiceName_TextView.Text = VehicleLists.Status[position].MembershipName;
             vehicleListViewHolder.SetItemClickListener(this);
         }
         public void OnClick(View itemView, int position, bool isLongClick)

@@ -27,7 +27,15 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             {
                 ScheduleSlotInfo = new AvailableScheduleSlots();
                 ScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();
-                ScheduleSlotInfo = result;
+                string prevSlotTiming = "";
+                foreach(var data in result.GetTimeInDetails)
+                {
+                    if(!string.Equals(prevSlotTiming, data.TimeIn))
+                    {
+                        ScheduleSlotInfo.GetTimeInDetails.Add(data);
+                        prevSlotTiming = data.TimeIn;
+                    }
+                }
             }
         }
 
