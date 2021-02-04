@@ -10,7 +10,19 @@
                     <div *ngIf="f.name.errors.required">Name is required</div>
                 </div>
             </div>
+            <div class="form-group col-lg-6">
+                <label for="inputDescription"> Description<span class="required">*</span></label>
+                <textarea maxlength="100" rows="2" class="form-control" formControlName="description"
+                    placeholder="Description"
+                    [ngClass]="{ 'is-invalid': submitted  && f.description.errors }"></textarea>
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">Description is required</div>
+                </div>
+            </div>
            
+            
+        </div>
+        <div class="form-row">
             <div class="form-group col-lg-6">
                 <label for="inputImage">Image<span class="required">*</span></label>
                 <div class="form-check">
@@ -31,24 +43,13 @@
                     </div>
                 </div>
   </div>
-        </div>
-        <div class="form-row">
              <div class="form-group col-lg-6">
                 <label for="inputStatus">Status</label>
                 <select class="form-control" formControlName="status">
                     <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>
                 </select>
             </div>
-            <div class="form-group col-lg-6">
-                <label for="inputDescription"> Description<span class="required">*</span></label>
-                <textarea maxlength="100" rows="2" class="form-control" formControlName="description"
-                    placeholder="Description"
-                    [ngClass]="{ 'is-invalid': submitted  && f.description.errors }"></textarea>
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                    <div *ngIf="f.description.errors.required">Description is required</div>
-                </div>
-            </div>
-           
+            
            
           
         </div>

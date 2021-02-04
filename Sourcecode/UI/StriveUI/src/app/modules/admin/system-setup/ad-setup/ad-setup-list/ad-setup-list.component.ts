@@ -31,6 +31,7 @@ export class AdSetupListComponent implements OnInit {
   Status: any;
   query = '';
   documentTypeId: any;
+  pdfData: any;
   constructor(private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private getCode: GetCodeService,
@@ -99,9 +100,24 @@ export class AdSetupListComponent implements OnInit {
 
     this.getAlladSetupDetails()
   }
+
+   // Get Service By Id
+
   edit(data) {
-    this.selectedData = data;
-    this.showDialog = true;
+    this.spinner.show()
+  this.adSetup.getAdSetupById(data.AdSetupId).subscribe(data => {
+    if (data.status === "Success") {
+this.spinner.hide()
+      const sType = JSON.parse(data.resultData);
+      this.selectedData = sType.GetAdSetupById;
+      this.showDialog = true;
+
+    } else {
+      this.toastr.error('Communication Error', 'Error!');
+    }
+  });
+
+
   }
   delete(data) {
     this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
@@ -140,7 +156,7 @@ export class AdSetupListComponent implements OnInit {
       this.showDialog = true;
     } else {
       this.headerData = 'Edit AdSetup';
-      this.selectedData = serviceDetails;
+    this.edit(serviceDetails)
       this.isEdit = true;
       this.showDialog = true;
     }
@@ -155,7 +171,24 @@ export class AdSetupListComponent implements OnInit {
     }
   }
 
-
+  downloadPDF(data) {
+    this.adSetup.getAdSetupById(data.AdSetupId).subscribe(data => {
+      if (data.status === "Success") {
+        const sType = JSON.parse(data.resultData);
+        this.pdfData = sType.GetAdSetupById;
+        const base64 = this.pdfData?.Base64;
+        const linkSource = 'data:application/pdf;base64,' + base64;
+        const downloadLink = document.createElement('a');
+        const fileName = this.pdfData?.OriginalFileName;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+   
+  })
+}
 
 }
 
