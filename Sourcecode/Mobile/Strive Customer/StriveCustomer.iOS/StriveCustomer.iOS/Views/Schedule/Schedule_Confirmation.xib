@@ -19,7 +19,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Schedule_Confirmation">
             <connections>
                 <outlet property="ConfirmSchedule_View" destination="XPM-eQ-ESw" id="9rp-qt-Tn6"/>
-                <outlet property="ScheduleDate" destination="3sh-fs-FtR" id="81T-TM-0mk"/>
                 <outlet property="ScheduleDate_Lbl" destination="3sh-fs-FtR" id="5i2-zU-bPR"/>
                 <outlet property="ScheduleTime_Lbl" destination="tLx-95-vaa" id="a6g-aS-qSR"/>
                 <outlet property="ScheduleVehicleName_Lbl" destination="8vW-mR-A4q" id="lrk-kg-715"/>
