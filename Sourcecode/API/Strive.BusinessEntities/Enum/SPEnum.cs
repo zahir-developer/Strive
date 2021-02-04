@@ -253,6 +253,7 @@ namespace Strive.BusinessEntities
         uspGetItemList,
         USPGETACCOUNTDETAILS,
         uspGetItemListByTicketNumber,
+        USPGETTICKETNUMBER,
         USPCREATETENANT,
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
