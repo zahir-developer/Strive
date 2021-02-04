@@ -2,6 +2,7 @@
 
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using StriveCustomer.iOS.Views.Schedule;
 using UIKit;
@@ -44,6 +45,7 @@ namespace StriveCustomer.iOS.Views
 
         partial void ScheduleNow_BtnTouch(UIButton sender)
         {
+            //CustomerScheduleInformation.ScheduledVehicleName = dataList.Status[indexPath.Row].VehicleColor + " " + dataList.Status[indexPath.Row].VehicleMfr;
             var select_service = new Schedule_SelectService();
             view.NavigationController.PushViewController(select_service, true);
         }
