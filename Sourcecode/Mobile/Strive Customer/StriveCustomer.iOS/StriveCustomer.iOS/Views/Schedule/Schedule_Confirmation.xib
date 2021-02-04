@@ -19,6 +19,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Schedule_Confirmation">
             <connections>
                 <outlet property="ConfirmSchedule_View" destination="XPM-eQ-ESw" id="9rp-qt-Tn6"/>
+                <outlet property="ScheduleDate_Lbl" destination="3sh-fs-FtR" id="5i2-zU-bPR"/>
+                <outlet property="ScheduleTime_Lbl" destination="tLx-95-vaa" id="a6g-aS-qSR"/>
+                <outlet property="ScheduleVehicleName_Lbl" destination="8vW-mR-A4q" id="lrk-kg-715"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -78,6 +81,9 @@
                             <state key="normal" title="Back to Dashboard">
                                 <color key="titleColor" red="0.14117647058823529" green="0.28235294117647058" blue="0.60392156862745094" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
+                            <connections>
+                                <action selector="BackDashboard_BtnTouch:" destination="-1" eventType="touchUpInside" id="Fp1-eM-wsg"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>

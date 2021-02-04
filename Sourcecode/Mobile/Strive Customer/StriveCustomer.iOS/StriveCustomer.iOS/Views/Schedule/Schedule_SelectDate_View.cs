@@ -2,6 +2,7 @@
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
@@ -145,7 +146,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             {
                 Date_CollectionView.Hidden = false;
                 Date_CollectionView.DataSource = new ScheduleDate_CollectionSource(this.ViewModel.ScheduleSlotInfo);
-                Date_CollectionView.Delegate = new timeSlotSourceDelegate(Date_CollectionView);
+                Date_CollectionView.Delegate = new timeSlotSourceDelegate(Date_CollectionView, this.ViewModel.ScheduleSlotInfo);
             }
             else
             {
@@ -155,26 +156,33 @@ namespace StriveCustomer.iOS.Views.Schedule
     }
 
     public partial class timeSlotSourceDelegate : UICollectionViewDelegate
-    {
-        ScheduleAppointmentDateViewModel viewModel = new ScheduleAppointmentDateViewModel();
+    {        
         public UICollectionView timeSlot_CollectionView { get; set; }
+        public AvailableScheduleSlots timeSlots { get; set; }
 
-        public timeSlotSourceDelegate(UICollectionView uICollectionView)
+        public timeSlotSourceDelegate(UICollectionView uICollectionView, AvailableScheduleSlots slots)
         {
             timeSlot_CollectionView = uICollectionView;
+            timeSlots = slots;
         }
 
         public override bool ShouldHighlightItem(UICollectionView collectionView, NSIndexPath indexPath)
         {
             return true;
-        }       
-
-        public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
+        }
+        public override bool ShouldSelectItem(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            return true;
+        }
+        public override void ItemHighlighted(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = collectionView.DequeueReusableCell("Schedule_Time_Cell", indexPath) as Schedule_Time_Cell;
-
-            cell.cellSelected(indexPath);
-
+            cell.ContentView.BackgroundColor = UIColor.Green;
+        }
+        public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            var cell = collectionView.DequeueReusableCell("Schedule_Time_Cell", indexPath) as Schedule_Time_Cell;            
+            CustomerScheduleInformation.ScheduleServiceTime = timeSlots.GetTimeInDetails[indexPath.Row].TimeIn;
         }
     }
 }

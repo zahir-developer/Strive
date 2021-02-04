@@ -1,6 +1,7 @@
 ﻿using System;
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.Views.Schedule;
@@ -43,6 +44,8 @@ namespace StriveCustomer.iOS.Views
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            CustomerScheduleInformation.ScheduledVehicleName = scheduleVehicleList.Status[indexPath.Row].VehicleColor +
+                " " + scheduleVehicleList.Status[indexPath.Row].VehicleMfr;
             var select_service = new Schedule_SelectService();
             view.NavigationController.PushViewController(select_service, true);
         }

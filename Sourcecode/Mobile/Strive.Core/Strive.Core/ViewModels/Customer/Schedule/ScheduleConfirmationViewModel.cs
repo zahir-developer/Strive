@@ -12,7 +12,10 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             CustomerScheduleInformation.ClearScheduleData();
         }
 
-        
+        public async void NavtoSchedule()
+        {
+            await _navigationService.Navigate<ScheduleViewModel>();
+        }
 
     }
 }

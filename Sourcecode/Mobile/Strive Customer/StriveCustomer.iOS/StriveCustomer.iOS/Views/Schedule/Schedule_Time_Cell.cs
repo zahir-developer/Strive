@@ -29,11 +29,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             Time_CellView.Layer.CornerRadius = 5;
             string timeIn = slots.GetTimeInDetails[indexPath.Row].TimeIn;
             TimeSlot_Btn.SetTitle(timeIn, UIControlState.Normal);
-        }
-        public void cellSelected(NSIndexPath indexPath)
-        {
-            CustomerScheduleInformation.ScheduleServiceTime = timeSlots.GetTimeInDetails[indexPath.Row].TimeIn;
-        }
+        }        
     }
 }
  

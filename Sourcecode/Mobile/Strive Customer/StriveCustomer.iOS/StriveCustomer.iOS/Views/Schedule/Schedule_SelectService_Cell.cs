@@ -34,24 +34,35 @@ namespace StriveCustomer.iOS.Views.Schedule
 
             ServiceName_Lbl.Text = viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceName;
             SelectService_CostLbl.Text = "$" + viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].Price.ToString();
+            ViewMore_Btn.SetTitle("View More", UIControlState.Normal);
         }
 
         partial void ViewMore_BtnTouch(UIButton sender)
-        {                
-            serviceCell_ViewHeight.Constant = 190;
-            MoreValue_Const.Constant = 75;
-            ViewMore_ValueLbl.Hidden = false;
-            ViewMore_Btn.SetTitle("View Less", UIControlState.Normal);            
+        {
+            if(ViewMore_Btn.TitleLabel.Text == "View Less")
+            {
+                serviceCell_ViewHeight.Constant = 90;
+                MoreValue_Const.Constant = 0;
+                ViewMore_ValueLbl.Hidden = true;
+                ViewMore_Btn.SetTitle("View More", UIControlState.Normal);
+            }
+            else
+            {
+                serviceCell_ViewHeight.Constant = 190;
+                MoreValue_Const.Constant = 75;
+                ViewMore_ValueLbl.Hidden = false;
+                ViewMore_Btn.SetTitle("View Less", UIControlState.Normal);
+            }                    
         }
 
         public void updateRow(NSIndexPath indexPath)
         {
-            //SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+            SelectService_Btn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
         }
 
         public void deselectRow(NSIndexPath indexPath)
         {
-            //SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-        }
+            SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+        }        
     }
 }

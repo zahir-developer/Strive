@@ -11,6 +11,7 @@ namespace StriveCustomer.iOS.Views.Schedule
     {
         ScheduleViewModel ViewModel;
         public bool isClicked = false;
+        public NSIndexPath selectedCell;
         public List<BayJobDetailViewModel> PastHis_List = new List<BayJobDetailViewModel>();
         public Schedule_PastHis_Source(ScheduleViewModel viewModel)
         {
@@ -42,8 +43,9 @@ namespace StriveCustomer.iOS.Views.Schedule
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-        {
+        {           
             var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
+                       
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             cell.SetData(PastHis_List, indexPath);
             return cell;
@@ -52,9 +54,21 @@ namespace StriveCustomer.iOS.Views.Schedule
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             isClicked = true;
+            
+            if (selectedCell != indexPath)
+            {
+                var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
+                GetHeightForRow(tableView, indexPath);
+                selectedCell = indexPath;
+            }
+                      
+        }
+
+        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
+        {
+            isClicked = false;
             var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
-           
-            GetHeightForRow(tableView, indexPath);                       
-        }        
+            GetHeightForRow(tableView, indexPath);
+        }
     }
 }

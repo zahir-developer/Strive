@@ -105,25 +105,15 @@ namespace StriveCustomer.iOS.Views
         }
 
         private void isLocationEnabled()
-        {            
-            switch (CLLocationManager.Status)
-            {
-                case CLAuthorizationStatus.Authorized | CLAuthorizationStatus.AuthorizedAlways | CLAuthorizationStatus.AuthorizedWhenInUse:
-                    Console.WriteLine("Access");
-                    SetMapAnnotations();
-                    break;
-                case CLAuthorizationStatus.Denied | CLAuthorizationStatus.NotDetermined | CLAuthorizationStatus.Restricted:
+        {          
+            bool status = CLLocationManager.LocationServicesEnabled;
 
-                    var alertView = UIAlertController.Create("Alert", "To use this functionality, enable location services from settings in your device", UIAlertControllerStyle.Alert);
-                    alertView.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
-                    PresentViewController(alertView, true, null);
-                    break;
-                default:
-                    var alertView1 = UIAlertController.Create("Alert", "To use this functionality, enable location services from settings in your device",UIAlertControllerStyle.Alert);
-                    PresentViewController(alertView1, true, null);
-                    alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));                    
-                    break;
-            }            
+            if(!status)
+            {
+                var alertView1 = UIAlertController.Create("Alert", "To use this functionality, enable location services from settings in your device", UIAlertControllerStyle.Alert);
+                PresentViewController(alertView1, true, null);
+                alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
+            }
         }
         
         private void NavToSettings()
