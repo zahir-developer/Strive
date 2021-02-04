@@ -94,6 +94,7 @@ namespace StriveCustomer.Android.Adapter
             vehicleRecyclerHolder = holder as VehicleRecyclerHolder;
             vehicleRecyclerHolder.vehicleReg.Text = vehicleLists.Status[position].Barcode ?? "";
             vehicleRecyclerHolder.vehicleName.Text = vehicleLists.Status[position].VehicleColor +" "+vehicleLists.Status[position].VehicleMfr + " " + vehicleLists.Status[position].VehicleModel ?? "";
+            vehicleRecyclerHolder.vehicleMembership.Text = vehicleLists.Status[position].MembershipName;
             vehicleRecyclerHolder.SetItemClickListener(this);
         }
         public override long GetItemId(int position)
