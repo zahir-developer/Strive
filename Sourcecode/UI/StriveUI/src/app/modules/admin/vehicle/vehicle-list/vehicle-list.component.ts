@@ -61,7 +61,15 @@ export class VehicleListComponent implements OnInit {
   // Get All Vehicles
   getAllVehicleDetails() {
     const obj = {
-      searchName: ''
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search !== '' ? this.search : null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
     };
     this.spinner.show();
     this.vehicle.getVehicle(obj).subscribe(data => {

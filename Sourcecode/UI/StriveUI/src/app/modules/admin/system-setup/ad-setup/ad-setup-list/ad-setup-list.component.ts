@@ -32,6 +32,7 @@ export class AdSetupListComponent implements OnInit {
   query = '';
   documentTypeId: any;
   pdfData: any;
+  serviceDetails: any;
   constructor(private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private getCode: GetCodeService,
@@ -55,13 +56,20 @@ export class AdSetupListComponent implements OnInit {
     this.adSetup.getAdSetup().subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
-        const serviceDetails = JSON.parse(data.resultData);
-        this.adSetupDetails = serviceDetails.GetAllAdSetup;
-        this.adSetupDetails.forEach( ad => {
-          ad.serupName = ad.Name + '' + ad.Description;
-        });
-        this.clonedadSetupDetails = this.adSetupDetails.map(x => Object.assign({}, x));
+        
+       this.serviceDetails = JSON.parse(data.resultData);
+       if(this.serviceDetails){
+        this.adSetupDetails = this.serviceDetails.GetAllAdSetup;
+
+       }
+     
+       
         if (this.adSetupDetails.length === 0) {
+          this.adSetupDetails.forEach( ad => {
+            ad.serupName = ad.Name + '' + ad.Description;
+          });
+          this.clonedadSetupDetails = this.adSetupDetails.map(x => Object.assign({}, x));
+        
           this.isTableEmpty = true;
         } else {
           this.collectionSize = Math.ceil(this.adSetupDetails.length / this.pageSize) * 10;
@@ -170,13 +178,13 @@ this.spinner.hide()
     }
   }
 
-  downloadPDF(data) {
+  download(data) {
     this.adSetup.getAdSetupById(data.AdSetupId).subscribe(data => {
       if (data.status === "Success") {
         const sType = JSON.parse(data.resultData);
         this.pdfData = sType.GetAdSetupById;
         const base64 = this.pdfData?.Base64;
-        const linkSource = 'data:application/pdf;base64,' + base64;
+        const linkSource = 'data:application/image;base64,' + base64;
         const downloadLink = document.createElement('a');
         const fileName = this.pdfData?.OriginalFileName;
         downloadLink.href = linkSource;
