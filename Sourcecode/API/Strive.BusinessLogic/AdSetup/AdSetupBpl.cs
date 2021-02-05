@@ -36,7 +36,7 @@ namespace Strive.BusinessLogic.AdSetup
         public Result GetAllAdSetup()
         {
            var adsetup=new AdSetupRal(_tenant).GetAllAdSetup();
-            if (adsetup.Count > 0)
+            //if (adsetup.Count > 0)
             //{
             //    foreach (var item in adsetup)
             //    {

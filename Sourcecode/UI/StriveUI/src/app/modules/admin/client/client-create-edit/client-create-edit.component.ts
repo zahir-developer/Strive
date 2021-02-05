@@ -115,7 +115,7 @@ export class ClientCreateEditComponent implements OnInit {
       lastName: this.clientFormComponent.clientForm.value.lName,
       gender: null,
       maritalStatus: null,
-      birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
+      birthDate: this.isEdit ? this.selectedData.BirthDate === '0001-01-01T00:00:00' ? null : this.selectedData.BirthDate : null,
       isActive: Number(this.clientFormComponent.clientForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -124,9 +124,11 @@ export class ClientCreateEditComponent implements OnInit {
       updatedDate: new Date(),
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
-      score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+      score: (this.clientFormComponent.clientForm.value.score === '' || this.clientFormComponent.clientForm.value.score == null) ?
+       0 : this.clientFormComponent.clientForm.value.score,
       noEmail: this.clientFormComponent.clientForm.value.creditAccount,
-      clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type,
+      clientType: (this.clientFormComponent.clientForm.value.type === '' || this.clientFormComponent.clientForm.value.type == null) ?
+       0 : this.clientFormComponent.clientForm.value.type,
       amount: this.clientFormComponent.clientForm.value.amount
     };
     const myObj = {

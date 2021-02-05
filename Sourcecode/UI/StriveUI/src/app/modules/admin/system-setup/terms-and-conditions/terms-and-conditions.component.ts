@@ -70,10 +70,10 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   confirmDelete(Id) {
-    this.documentService.deleteDocumentById(Id,'TERMSANDCONDITION').subscribe(res => {
+    this.documentService.deleteDocumentById(Id, 'TERMSANDCONDITION').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
-        this.fileName= null;
+        this.fileName = null;
         this.getDocument();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
@@ -95,15 +95,34 @@ export class TermsAndConditionsComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
 
+  // downloadPDF(documents) {
+  //   const base64 = documents.Base64;
+  //   const linkSource = 'data:application/pdf;base64,' + base64;
+  //   const downloadLink = document.createElement('a');
+  //   const fileName = documents.OriginalFileName;
+  //   downloadLink.href = linkSource;
+  //   downloadLink.download = fileName;
+  //   downloadLink.click();
+  // }
+
   downloadPDF(documents) {
-        const base64 = documents.Base64;
-        const linkSource = 'data:application/pdf;base64,' + base64;
-        const downloadLink = document.createElement('a');
-        const fileName = documents.OriginalFileName;
-        downloadLink.href = linkSource;
-        downloadLink.download = fileName;
-        downloadLink.click();
+    this.documentService.getDocumentById(documents.DocumentId, 'TERMSANDCONDITION').subscribe(res => {
+      if (res.status === 'Success') {
+        const documentDetails = JSON.parse(res.resultData);
+        console.log(documentDetails, 'detaila');
+        if (documentDetails.Document !== null) {
+          const details = documentDetails.Document.Document;
+          const base64 = details.Base64;
+          const linkSource = 'data:application/pdf;base64,' + base64;
+          const downloadLink = document.createElement('a');
+          const fileName = details.OriginalFileName;
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+      }
+    });
   }
-  
+
 
 }
