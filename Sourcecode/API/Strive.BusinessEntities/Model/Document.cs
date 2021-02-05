@@ -10,11 +10,17 @@ namespace Strive.BusinessEntities.Model
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
         public int DocumentId { get; set; }
 
+        [Column]
+        public string DocumentName { get; set; }
+
         [Column, PrimaryKey]
         public int DocumentType { get; set; }
 
         [Column]
         public int? DocumentSubType { get; set; }
+
+        [Column]
+        public int? RoleId { get; set; }
 
         [Column]
         public string FileName { get; set; }
@@ -27,9 +33,6 @@ namespace Strive.BusinessEntities.Model
 
         [Ignore]
         public string Base64 { get; set; }
-
-        [Column]
-        public string DocumentName { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }

@@ -22,7 +22,7 @@ namespace Strive.BusinessEntities.DTO
         public string SortOrder { get; set; }
 
         public string SortBy { get; set; }
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
        
         
     }

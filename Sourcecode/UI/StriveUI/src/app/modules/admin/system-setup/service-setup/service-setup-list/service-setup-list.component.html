@@ -18,7 +18,7 @@
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="25" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Type"
-                                                (keyup)="$event.keyCode == 13 ? serviceSearch() : null"> </div>&nbsp;
+                                                (keyup)="$event.keyCode == 13 ? getAllserviceSetupDetails() : null"> </div>&nbsp;
                                         <div class="form-group d-flex"> <select class="form-control"
                                                 [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
                                                 <option value="" selected hidden>Status</option>
