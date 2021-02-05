@@ -29,7 +29,7 @@ export class DocumentService {
   }
 
   getDocumentById(id, type) {
-    return this.http.get(`${UrlConfig.document.getAllDocument}` + id  + '/' + type);
+    return this.http.get(`${UrlConfig.document.getDocumentById}` + id  + '/' + type);
   }
 
 }
