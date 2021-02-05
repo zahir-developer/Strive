@@ -154,15 +154,15 @@ export const UrlConfig = {
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
     getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`,
-    getCheckList : `Admin/Checklist/GetChecklist`,
-    addCheckList : `Admin/Checklist/Add`,
-    DeleteCheckList : `Admin/Checklist/Delete`,
+    getCheckList: `Admin/Checklist/GetChecklist`,
+    addCheckList: `Admin/Checklist/Add`,
+    DeleteCheckList: `Admin/Checklist/Delete`,
     getadSetup: `Admin/AdSetup/GetAll`,
     insertadSetup: `Admin/AdSetup/Add`,
     updateadSetup: `Admin/AdSetup/Update`,
     deleteadSetup: `Admin/AdSetup/Delete`,
     getByIdadSetup: `Admin/AdSetup/GetById`,
-    membershipSearch:`Admin/MembershipSetup/GetMembershipSearch`,
+    membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`
 
 
@@ -175,7 +175,7 @@ export const UrlConfig = {
     sendMessage: `Admin/Messenger/SendChatMessage`,
     updateChatCommunicationDetail: `Admin/Messenger/ChatCommunication`,
     getChatMessage: `Admin/Messenger/GetChatMessage`,
-    createGroup:  `Admin/Messenger/CreateChatGroup`,
+    createGroup: `Admin/Messenger/CreateChatGroup`,
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
     deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`,
@@ -189,8 +189,8 @@ export const UrlConfig = {
     getMonthlyTipReport: ``,
     getDailyStatusReport: `Admin/Report/DailyStatusReport`,
     getDailyStatusWashReport: `Admin/Report/DailyStatusInfo`,
-    EODExcelReport : `Admin/Report/EODSalesExport`,
-    dailyStatusExcelReport : `Admin/Report/DailyStatusExport`,
+    EODExcelReport: `Admin/Report/EODSalesExport`,
+    dailyStatusExcelReport: `Admin/Report/DailyStatusExport`,
     getMonthlyDailyTipReport: `Admin/Report/MonthlyDailyTipReport`,
     getDetailStatusInfo: `Admin/Report/DailyStatusInfo`,
     getDailyClockDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
@@ -213,10 +213,11 @@ export const UrlConfig = {
     editBonus: `Admin/BonusSetup/Update`
   },
   document: {
-    addDocument:`Admin/Document/AddDocument`,
-    getDocument:`Admin/Document/GetDocument/`,
-    getAllDocument:`Admin/Document/GetAllDocument/`,
-deleteDocumentById : `Admin/Document/DeleteDocumentById/`,
-    deleteDocument:`Admin/Document/DeleteDocument/`
+    addDocument: `Admin/Document/AddDocument`,
+    getDocument: `Admin/Document/GetDocument/`,
+    getAllDocument: `Admin/Document/GetAllDocument/`,
+    deleteDocumentById: `Admin/Document/DeleteDocumentById/`,
+    deleteDocument: `Admin/Document/DeleteDocument/`,
+    getDocumentById: `Admin/Document/GetDocumentById/`
   }
 };

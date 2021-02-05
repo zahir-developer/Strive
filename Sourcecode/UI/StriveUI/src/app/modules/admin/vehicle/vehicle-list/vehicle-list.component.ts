@@ -55,7 +55,7 @@ export class VehicleListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllVehicleDetails();
   }
   // Get All Vehicles
@@ -75,14 +75,19 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicle(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
+        this.vehicleDetails = [];
         const vehicle = JSON.parse(data.resultData);
-        this.vehicleDetails = vehicle.Vehicle;
-        console.log(this.vehicleDetails, 'vehicledetaul');
-        if (this.vehicleDetails.length === 0) {
-          this.isTableEmpty = true;
-        } else {
-          this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
-          this.isTableEmpty = false;
+        let totalCount = 0;
+        if (vehicle.Vehicle.clientViewModel !== null) {
+          this.vehicleDetails = vehicle.Vehicle.clientViewModel;
+          totalCount = vehicle.Vehicle.Count.Count;
+          console.log(this.vehicleDetails, 'vehicledetaul');
+          if (this.vehicleDetails.length === 0) {
+            this.isTableEmpty = true;
+          } else {
+            this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+            this.isTableEmpty = false;
+          }
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');

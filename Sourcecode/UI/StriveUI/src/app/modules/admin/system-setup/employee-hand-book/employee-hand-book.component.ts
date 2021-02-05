@@ -126,5 +126,13 @@ export class EmployeeHandBookComponent implements OnInit {
     });
   }
 
+  // downloadPDF(document) {
+  //   this.documentService.getDocumentById(0, 'EMPLOYEEHANDBOOK').subscribe( res => {
+  //     if (res.status === 'Success') {
+  //       const documentDetails = JSON.parse(res.resultData);
+  //     }
+  //   });
+  // }
+
 
 }
