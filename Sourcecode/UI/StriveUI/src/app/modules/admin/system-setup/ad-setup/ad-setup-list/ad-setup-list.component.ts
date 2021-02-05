@@ -158,7 +158,6 @@ this.spinner.hide()
       this.headerData = 'Edit AdSetup';
     this.edit(serviceDetails)
       this.isEdit = true;
-      this.showDialog = true;
     }
   }
 
