@@ -128,9 +128,6 @@
                                                     <th scope="col" class="pointer"  (click)="changeSorting('ClientName')">Client
                                                         Name&nbsp;<i class="fa" [ngClass]="selectedCls('ClientName')"
                                                             aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('PhoneNumber')">Phone
-                                                        No&nbsp;<i class="fa" [ngClass]="selectedCls('PhoneNumber')"
-                                                            aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer"  (click)="changeSorting('VehicleName')">
                                                         Make/Model/Color&nbsp;<i class="fa"
                                                             [ngClass]="selectedCls('VehicleName')"
@@ -146,16 +143,15 @@
                                                         Services&nbsp;<i class="fa"
                                                             [ngClass]="selectedCls('ServiceName')"
                                                             aria-hidden="true"></i> </th>
-                                                    <th scope="col"></th>
+                                                    <th scope="col">Pay</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="bodyfix">
                                                 <tr
-                                                    *ngFor="let wash of washDetails | orderBy:sort.column:'sequence':sort.descending">
+                                                    *ngFor="let wash of washDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
-                                                    <td>{{wash.ClientName}}</td>
-                                                    <td>{{wash.PhoneNumber}}</td>
+                                                    <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">{{wash.ClientName}}</td>
                                                     <td>{{wash.VehicleName}}</td>
                                                     <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}</td>
                                                     <td class="font-weight-600">

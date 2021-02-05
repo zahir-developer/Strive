@@ -40,8 +40,8 @@ export class ServiceSetupListComponent implements OnInit {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.Status = [{ id: 0, Value: 'InActive' }, { id: 1, Value: 'Active' }, { id: 2, Value: 'All' }];
-    this.searchStatus = 1;
+    this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
+    this.searchStatus = true;
     this.getAllserviceSetupDetails();
   }
 
@@ -54,7 +54,7 @@ export class ServiceSetupListComponent implements OnInit {
       query: this.search !== '' ? this.search : null,
       sortOrder: null,
       sortBy: null,
-      status: this.searchStatus !== 2 ? this.searchStatus === 1 ? true : false : null
+      status: this.searchStatus == '' ? null : this.searchStatus
     };
     this.spinner.show();
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
@@ -96,7 +96,7 @@ export class ServiceSetupListComponent implements OnInit {
     this.page = 1;
     const obj = {
       serviceSearch: this.search,
-      status: this.searchStatus === '' ? 2 : Number(this.searchStatus)
+      status: this.searchStatus == '' ? null : this.searchStatus
     };
     this.serviceSetup.ServiceSearch(obj).subscribe(data => {
       if (data.status === 'Success') {

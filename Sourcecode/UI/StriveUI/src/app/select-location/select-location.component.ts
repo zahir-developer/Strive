@@ -82,7 +82,7 @@ export class SelectLocationComponent implements OnInit {
       else if (Roles == 'Detailer') {
         this.router.navigate([`/detail`], { relativeTo: this.route });
       }
-      else if (Roles == 'Wash') {
+      else if (Roles == 'Washer') {
         this.router.navigate([`/wash`], { relativeTo: this.route });
       }
     }

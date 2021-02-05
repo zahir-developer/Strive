@@ -44,13 +44,21 @@ export class AdSetupCreateEditComponent implements OnInit {
     this.formInitialize();
     this.submitted = false;
     this.employeeId = +localStorage.getItem('employeeId');
+    this.adSetup.getAdSetupById(this.selectedData.AdSetupId).subscribe(data => {
+      if (data.status === "Success") {
+  this.spinner.hide()
+        const sType = JSON.parse(data.resultData);
+        this.selectedData = sType.GetAdSetupById;
+  
+      } 
+    });
     this.adSetupForm.patchValue({
       name: this.selectedData.Name,
       description: this.selectedData.Description,
       status: this.selectedData.Status == false ? 0 : 1,
-      image: this.selectedData.Image
+      image: this.selectedData.OriginalFileName
     });
-    this.fileName = this.selectedData.Image,
+    this.fileName = this.selectedData.OriginalFileName,
       this.fileUploadformData = this.selectedData.base64
   }
 
@@ -74,18 +82,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     this.documentClear = true
 
   }
-  // Get Service By Id
-  getServiceById() {
-    this.adSetup.getAdSetupById(this.selectedData.ServiceId).subscribe(data => {
-      if (data.status === "Success") {
-        const sType = JSON.parse(data.resultData);
-        this.selectedService = sType.AdSetup;
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-  }
-
+  
 
 
 
