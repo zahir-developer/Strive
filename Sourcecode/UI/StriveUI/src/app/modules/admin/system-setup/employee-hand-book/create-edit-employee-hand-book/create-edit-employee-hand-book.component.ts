@@ -8,6 +8,7 @@ import { DocumentService } from 'src/app/shared/services/data-service/document.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
   selector: 'app-create-edit-employee-hand-book',
@@ -42,8 +43,10 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   fileSize: number;
   localFileSize: any;
   subdocumentType: any;
+  rollList: any;
   constructor(
     private fb: FormBuilder,
+    private employeeService : EmployeeService,
     private toastr: MessageServiceToastr,
     private document: DocumentService,
     private spinner: NgxSpinnerService,
@@ -58,20 +61,30 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       this.employeeId = +localStorage.getItem('empId');
 
     }
+    this.getAllRoles()
     this.getDocumentSubType();
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
 
   }
-
+  getAllRoles() {
+    this.employeeService.getAllRoles().subscribe(res => {
+      if (res.status === 'Success') {
+        const roles = JSON.parse(res.resultData);
+        this.rollList = roles.EmployeeRoles
+    
+      }
+    });
+  }
   formInitialize() {
     this.handbookSetupForm = this.fb.group({
       createdDate: [''],
       name: ['', Validators.required, Validators.pattern['a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/']],
       createdName: [''],
       uploadBy: ['', Validators.required],
-      subDocumentId: ['']
+      subDocumentId: [''],
+      roleId: ['', Validators.required]
     });
     this.handbookSetupForm.patchValue({ status: 0 });
   }
@@ -163,6 +176,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     if (this.fileName === null) {
       return;
     }
+    if (this.handbookSetupForm.invalid) {
+      return;
+    }
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
     if (this.handbookSetupForm.controls['name'].value) {
       if (!pattern.test(this.handbookSetupForm.controls['name'].value)) {
@@ -192,7 +208,8 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       createdBy: this.employeeId,
       createdDate: new Date(),
       updatedBy: this.employeeId,
-      updatedDate: new Date()
+      updatedDate: new Date(),
+      roleId : this.handbookSetupForm.controls['roleId'].value,
     };
     const finalObj = {
       document: obj,
