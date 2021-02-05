@@ -64,7 +64,7 @@
                                                     <td>{{vehicle.VehicleMfr }}</td>
                                                     <td>{{vehicle.VehicleModel}}</td>                                                    
                                                     <td>{{vehicle.Barcode}}</td>
-                                                    <td>{{vehicle.MembershipName !== null ? vehicle.MembershipName : 'NO'}}</td>
+                                                    <td>{{vehicle.MembershipName !== null ? vehicle.MembershipName : 'No'}}</td>
                                                     <!-- <td></td> -->
                                                     <td>
                                                         <em class="fa fa-times-circle delete-list theme-optional-icon-color"
@@ -107,7 +107,7 @@
 </div>
 <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true"
     [modal]="true" [focusOnShow]="false" [closable]="false">
-    <app-vehicle-create-edit *ngIf="showVehicleDialog" [additionalService]="additionalService" [selectedData]="[]"
+    <app-vehicle-create-edit *ngIf="showVehicleDialog"  [additionalService]="additionalService" [selectedData]="[]"
         [clientId]="clientId" [vehicleNumber]="vehicleNumber" (closeDialog)="closePopupEmit($event)">
     </app-vehicle-create-edit>
 </p-dialog>
