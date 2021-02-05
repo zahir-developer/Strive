@@ -38,17 +38,18 @@ export class ClientCreateEditComponent implements OnInit {
   sort = { column: 'VehicleNumber', descending: true };
   sortColumn: { column: string; descending: boolean; };
   employeeId: number;
+  clonedVehicleDetails = [];
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
 
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
     }
-    else{
+    else {
       this.vehicleNumber = 1;
     }
   }
@@ -59,6 +60,7 @@ export class ClientCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Status;
+        this.clonedVehicleDetails = this.vehicleDetails.map(x => Object.assign({}, x));
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
           this.vehicleNumber = 1;
@@ -74,7 +76,7 @@ export class ClientCreateEditComponent implements OnInit {
       }
     });
   }
-  
+
   // Add/Update Client
   submit() {
     this.clientFormComponent.submitted = true;
@@ -125,7 +127,7 @@ export class ClientCreateEditComponent implements OnInit {
       score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
       noEmail: this.clientFormComponent.clientForm.value.creditAccount,
       clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type,
-      amount : this.clientFormComponent.clientForm.value.amount
+      amount: this.clientFormComponent.clientForm.value.amount
     };
     const myObj = {
       client: formObj,
@@ -176,10 +178,16 @@ export class ClientCreateEditComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.vehicleDetails.push(this.vehicle.vehicleValue);
+      this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
+      if (this.clonedVehicleDetails.length > 0) {
+        this.vehicleDetails = [];
+        this.clonedVehicleDetails.forEach(item => {
+          this.vehicleDetails.push(item);
+        });
+      }
       let len = this.vehicleDetails.length;
-      this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
-      console.log(this.vehicleDetails,'vedel');
+      this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
+      console.log(this.vehicleDetails, 'vedel');
       this.vehicleDet.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
@@ -204,7 +212,7 @@ export class ClientCreateEditComponent implements OnInit {
   confirmDelete(data) {
     this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
     let len = this.vehicleDetails.length;
-    this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
+    this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
     this.toastr.success('Record Deleted Successfully!!', 'Success!');
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
@@ -248,7 +256,7 @@ export class ClientCreateEditComponent implements OnInit {
       }
     });
   }
- 
+
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
