@@ -54,7 +54,7 @@
                                     <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let locationSetup of locationSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                            <th scope="row">{{locationSetup.LocationName}}</th>
+                                            <td scope="row">{{locationSetup.LocationName}}</td>
                                             <td title="{{locationSetup.Address1}}">
                                                 {{locationSetup.Address1 | slice:0:15}}
                                                 {{(locationSetup.Address1!== null) ?locationSetup.Address1.length <= 15 ? '': '...':''}}
