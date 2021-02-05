@@ -134,8 +134,8 @@ export class CheckListComponent implements OnInit {
     });
   }
   delete(data) {
-    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
-  information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Check List', `Are you sure you want to delete this Check List? All related 
+  information will be deleted and the Check List cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
