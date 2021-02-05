@@ -40,7 +40,9 @@
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="Edit" tooltipPosition="bottom"
-                                                    (click)="add('edit', adSetup)"></em>&nbsp;&nbsp;
+                                                    (click)="add('edit', adSetup)"></em>&nbsp;
+                                                    <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
+                                                    pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(adSetup)"></em>&nbsp;
                                                 <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                     style="color:red" pTooltip="Delete" tooltipPosition="bottom"
                                                     (click)="delete(adSetup)"></em>

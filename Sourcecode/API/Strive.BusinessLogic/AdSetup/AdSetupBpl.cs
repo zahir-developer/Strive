@@ -37,12 +37,12 @@ namespace Strive.BusinessLogic.AdSetup
         {
            var adsetup=new AdSetupRal(_tenant).GetAllAdSetup();
             if (adsetup.Count > 0)
-            {
-                foreach (var item in adsetup)
-                {
-                    item.Base64 = GetBase64(GlobalUpload.DocumentType.ADS, item.Image);
-                }
-            }           
+            //{
+            //    foreach (var item in adsetup)
+            //    {
+            //        item.Base64 = GetBase64(GlobalUpload.DocumentType.ADS, item.Image);
+            //    }
+            //}           
 
             _resultContent.Add(adsetup.WithName("GetAllAdSetup"));
             _result = Helper.BindSuccessResult(_resultContent);
@@ -58,7 +58,7 @@ namespace Strive.BusinessLogic.AdSetup
 
             adsetup.Base64 = GetBase64(GlobalUpload.DocumentType.ADS, adsetup.Image);
 
-            _resultContent.Add(adsetup.WithName("GetAdSetupByIdd"));
+            _resultContent.Add(adsetup.WithName("GetAdSetupById"));
             _result = Helper.BindSuccessResult(_resultContent);
 
             return _result;

@@ -145,7 +145,7 @@ export class EmployeeCollisionComponent implements OnInit {
       employeeId: this.employeeId,
       liabilityType: this.liabilityTypeId,
       liabilityDescription: this.collisionForm.value.reason,
-      productId: 2, // 2,
+      productId: null, // 2,
       totalAmount: +this.collisionForm.value.amount,
       status: 0, // 0,
       isActive: true,
