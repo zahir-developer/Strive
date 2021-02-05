@@ -219,6 +219,7 @@ namespace Strive.BusinessEntities
         USPGETMEMBERSHIPBYVEHICLEID,
         //Vendor
         USPGETALLVENDOR,
+        USPGETVENDORBYID,
         USPDELETEVENDOR,
         USPGETVEHICLE,
         //Washes
