@@ -71,7 +71,7 @@ export class ProductCreateEditComponent implements OnInit {
       vendor: ['',],
       thresholdAmount: ['',],
       other: ['',],
-      suggested: ['']
+      suggested: ['', Validators.required]
     });
     this.productSetupForm.patchValue({ status: 0 });
     if (this.isEdit !== true) {
