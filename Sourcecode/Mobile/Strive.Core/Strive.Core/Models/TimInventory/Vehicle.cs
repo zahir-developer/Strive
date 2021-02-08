@@ -20,7 +20,7 @@ namespace Strive.Core.Models.TimInventory
         public string VehicleColor { get; set; }
         public int VehicleModelNo { get; set; }
         public string VehicleYear { get; set; }
-        public int Upcharge { get; set; }
+        public int? Upcharge { get; set; }
         public string Barcode { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }

@@ -68,6 +68,7 @@ namespace StriveCustomer.Android.Adapter
             vehicleListViewHolder.ScheduleVehicleServiceName_TextView.Text = VehicleLists.Status[position].MembershipName;
             vehicleListViewHolder.SetItemClickListener(this);
         }
+
         public void OnClick(View itemView, int position, bool isLongClick)
         {
             selectServicesFragment = new ScheduleSelectServiceFragment();
@@ -75,6 +76,7 @@ namespace StriveCustomer.Android.Adapter
             CustomerScheduleInformation.ScheduledVehicleName = VehicleLists.Status[position].VehicleColor +" "+ VehicleLists.Status[position].VehicleMfr;          
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, selectServicesFragment).Commit();
         }
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(parent.Context);

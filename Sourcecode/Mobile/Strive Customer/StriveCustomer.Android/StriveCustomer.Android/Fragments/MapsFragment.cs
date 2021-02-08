@@ -226,14 +226,19 @@ namespace StriveCustomer.Android.Fragments
             carWashMarkerOptions = new MarkerOptions[carWashLocations.Location.Count];
             foreach (var carWashLocation in carWashLocations.Location)
             {
-                carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
-                carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                //if (carWashLocationsCount == 1)
-                //{
-                //    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
-                //    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
-                //}
-                Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
+                if (!string.IsNullOrEmpty(carWashLocation.Latitude.ToString()) && !string.IsNullOrEmpty(carWashLocation.Longitude.ToString()))
+                {
+                    carWashLatLng[carWashLocationsCount] = new LatLng((double)carWashLocation.Latitude, (double)carWashLocation.Longitude);
+                    carWashMarkerOptions[carWashLocationsCount] = new MarkerOptions().SetPosition(carWashLatLng[carWashLocationsCount]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
+
+                    //if (carWashLocationsCount == 1)
+                    //{
+                    //    carWashLatLng[1] = new LatLng(Convert.ToDouble(13.123282872991561), Convert.ToDouble(80.20491600036623));
+                    //    carWashMarkerOptions[1] = new MarkerOptions().SetPosition(carWashLatLng[1]).SetTitle(carWashLocation.WashTimeMinutes.ToString());
+                    //}
+
+                    Googlemap.AddMarker(carWashMarkerOptions[carWashLocationsCount]).ShowInfoWindow();
+                }
                 carWashLocationsCount++;
             }
         }
@@ -263,8 +268,11 @@ namespace StriveCustomer.Android.Fragments
             carWashGeofences = new List<IGeofence>();
             foreach(var latlng in latlngs)
             {
-                carWashGeofences.Add(geofenceHelper.getGeofence(GeofenceID+geofencesCount,latlng,Radius, Geofence.GeofenceTransitionEnter | Geofence.GeofenceTransitionDwell | Geofence.GeofenceTransitionExit));
-                geofencesCount++; 
+                if(latlng != null)
+                {
+                    carWashGeofences.Add(geofenceHelper.getGeofence(GeofenceID + geofencesCount, latlng, Radius, Geofence.GeofenceTransitionEnter | Geofence.GeofenceTransitionDwell | Geofence.GeofenceTransitionExit));
+                }
+                geofencesCount++;
             }
             geofencingRequests = geofenceHelper.GetGeofencingRequests(carWashGeofences);
             geoPendingIntent = geofenceHelper.getPendingIntent();
@@ -277,13 +285,16 @@ namespace StriveCustomer.Android.Fragments
             geofenceCircles = new CircleOptions[latLngs.Length];
             foreach (var latlng in latLngs )
             {
-                geofenceCircles[geofenceCirclesCount] = new CircleOptions();
-                geofenceCircles[geofenceCirclesCount].InvokeCenter(latlng);
-                geofenceCircles[geofenceCirclesCount].InvokeRadius(Radius);
-                geofenceCircles[geofenceCirclesCount].InvokeStrokeColor(Color.Argb(255, 255, 0, 0));
-                geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(64, 255, 0, 0));
-                geofenceCircles[geofenceCirclesCount].InvokeStrokeWidth(4);
-                Googlemap.AddCircle(geofenceCircles[geofenceCirclesCount]);
+                if (latlng != null)
+                {
+                    geofenceCircles[geofenceCirclesCount] = new CircleOptions();
+                    geofenceCircles[geofenceCirclesCount].InvokeCenter(latlng);
+                    geofenceCircles[geofenceCirclesCount].InvokeRadius(Radius);
+                    geofenceCircles[geofenceCirclesCount].InvokeStrokeColor(Color.Argb(255, 255, 0, 0));
+                    geofenceCircles[geofenceCirclesCount].InvokeFillColor(Color.Argb(64, 255, 0, 0));
+                    geofenceCircles[geofenceCirclesCount].InvokeStrokeWidth(4);
+                    Googlemap.AddCircle(geofenceCircles[geofenceCirclesCount]);
+                }
             }
         }
         private void lastUserLocation()
@@ -324,8 +335,8 @@ namespace StriveCustomer.Android.Fragments
         }
         private async void RefreshWashTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            //carWashLocationsCount = 0;
-            //carWashLocations = await ViewModel.GetAllLocationsCommand();
+            carWashLocationsCount = 0;
+            carWashLocations = await ViewModel.GetAllLocationsCommand();
         }
         public View GetInfoContents(Marker marker)
         {
@@ -336,13 +347,17 @@ namespace StriveCustomer.Android.Fragments
             markerInfoWindow = LayoutInflater.Inflate(Resource.Layout.MarkerInfoWindow, null, false);
             foreach(var locationAddress in carWashLocations.Location)
             {
-                if((double)locationAddress.Latitude == marker.Position.Latitude && (double)locationAddress.Longitude == marker.Position.Longitude)
+                if(!string.IsNullOrEmpty(locationAddress.Latitude.ToString()) && !string.IsNullOrEmpty(locationAddress.Longitude.ToString()))
                 {
-                    markerInfoWindow.FindViewById<TextView>(Resource.Id.markerWashTimes).Text = locationAddress.LocationName;
-                    markerInfoWindow.FindViewById<TextView>(Resource.Id.openTitle).Text = "";
-                    markerInfoWindow.FindViewById<ImageView>(Resource.Id.markerWindowIcon).SetBackgroundResource(Resource.Drawable.Icon_car_wash);
-                    markerInfoWindow.FindViewById<TextView>(Resource.Id.washTiming).Text = locationAddress.WashTimeMinutes.ToString()+"Mins";
+                    if ((double)locationAddress.Latitude == marker.Position.Latitude && (double)locationAddress.Longitude == marker.Position.Longitude)
+                    {
+                        markerInfoWindow.FindViewById<TextView>(Resource.Id.markerWashTimes).Text = locationAddress.LocationName;
+                        markerInfoWindow.FindViewById<TextView>(Resource.Id.openTitle).Text = "";
+                        markerInfoWindow.FindViewById<ImageView>(Resource.Id.markerWindowIcon).SetBackgroundResource(Resource.Drawable.Icon_car_wash);
+                        markerInfoWindow.FindViewById<TextView>(Resource.Id.washTiming).Text = locationAddress.WashTimeMinutes.ToString() + "Mins";
+                    }
                 }
+             
             }
             return markerInfoWindow;
         }
