@@ -234,7 +234,7 @@ export class ClientCreateEditComponent implements OnInit {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size: 'lg'
+      size: 'xl'
     };
     const modalRef = this.modalService.open(ClientStatementComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
@@ -244,7 +244,7 @@ export class ClientCreateEditComponent implements OnInit {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size: 'lg'
+      size: 'xl'
     };
     const modalRef = this.modalService.open(ClientHistoryComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.selectedData.ClientId;

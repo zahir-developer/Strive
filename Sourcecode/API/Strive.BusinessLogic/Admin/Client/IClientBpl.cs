@@ -24,8 +24,8 @@ namespace Strive.BusinessLogic.Client
         Result UpdateAccountBalance(ClientAmountUpdateDto clientAmountUpdate);
         Result GetClientSearch(ClientSearchDto search);
         Result GetClientCodes();
-        Result GetStatementByClientId(int id);
-        Result GetHistoryByClientId(int id);
+        Result GetStatementByClientId(ClientVehicleHistoryDto clientVehicleHistory);
+        Result GetHistoryByClientId(ClientVehicleStatementDto clientVehicleStatement);
 
         Result IsClientName(ClientNameDto clientNameDto);
 

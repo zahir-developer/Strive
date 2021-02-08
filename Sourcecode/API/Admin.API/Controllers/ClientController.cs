@@ -62,14 +62,14 @@ namespace Admin.API.Controllers
             return _bplManager.GetClientCodes();
         }
         #region
-        [HttpGet]
-        [Route("GetStatementByClientId/{id}")]
-        public Result GetStatementByClientId(int id) => _bplManager.GetStatementByClientId(id);
+        [HttpPost]
+        [Route("GetStatementByClientId")]
+        public Result GetStatementByClientId([FromBody] ClientVehicleStatementDto clientVehicleStatement) => _bplManager.GetHistoryByClientId(clientVehicleStatement);
         #endregion
         #region
-        [HttpGet]
-        [Route("GetHistoryByClientId/{id}")]
-        public Result GetHistoryByClientId(int id) => _bplManager.GetHistoryByClientId(id);
+        [HttpPost]
+        [Route("GetHistoryByClientId")]
+        public Result GetHistoryByClientId([FromBody] ClientVehicleHistoryDto clientVehicleHistory) => _bplManager.GetStatementByClientId(clientVehicleHistory);
         #endregion
 
         [HttpPost]

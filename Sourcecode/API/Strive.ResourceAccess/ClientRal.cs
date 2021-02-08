@@ -90,15 +90,22 @@ namespace Strive.ResourceAccess
         {
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SCORE);
         }
-        public List<ClientStatementViewModel> GetStatementByClientId(int id)
+        public ClientVehicleStatementViewModel GetStatementByClientId(ClientVehicleStatementDto clientVehicleStatement)
         {
-            _prm.Add("ClientId", id);
-            return db.Fetch<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
+            _prm.Add("ClientId", clientVehicleStatement.ClientId);
+
+            _prm.Add("PageSize", clientVehicleStatement.PageSize);
+            _prm.Add("PageNo", clientVehicleStatement.PageNo);
+            return db.FetchMultiResult<ClientVehicleStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
         }
-        public List<ClientHistoryViewModel> GetHistoryByClientId(int id)
+        public ClientVehicleHistoryViewModel GetHistoryByClientId(ClientVehicleHistoryDto clientVehicleHistory)
         {
-            _prm.Add("ClientId", id);
-            return db.Fetch<ClientHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
+            _prm.Add("ClientId", clientVehicleHistory.ClientId);
+
+            _prm.Add("PageSize", clientVehicleHistory.PageSize);
+            _prm.Add("PageNo", clientVehicleHistory.PageNo);
+
+            return db.FetchMultiResult<ClientVehicleHistoryViewModel>(SPEnum.USPGETVEHICLEHISTORYBYCLIENTID.ToString(), _prm);
         }
 
 

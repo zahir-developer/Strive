@@ -25,7 +25,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let history of historyGrid | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        *ngFor="let history of historyGrid | orderBy:sort.column:'sequence':sort.descending ">
                         <td>{{history.TicketNumber}}</td>
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
@@ -41,13 +41,27 @@
                     </tr>
                 </tbody>
             </table>
-            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
-                [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
-            </ngb-pagination>
-            <div class="pull-right mw-100 m-t-5">
-                <button type="button" class="btn theme-optional-button-color"
+            <div class="row pull-right">
+                <div class="col-5">
+                    <ngb-pagination [collectionSize]="collectionSize"
+                        (pageChange)="paginate($event)" [(page)]="page"
+                        [maxSize]="3" [rotate]="true" [ellipses]="false"
+                        [boundaryLinks]="true" class="d-flex justify-content-end">
+                    </ngb-pagination>
+                </div>
+                <select class="form-control col-3" name="paginate"
+                    [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                    <option *ngFor="let size of pageSizeList" value="{{size}}">
+                        {{size}}</option>
+
+                </select>
+                <div class="col-4">
+                    <button type="button" class="btn theme-optional-button-color"
                     (click)="closeHistoryModel()">Done</button>
+                </div>
             </div>
+        
+          
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-statement',
@@ -11,11 +12,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ClientStatementComponent implements OnInit {
   @Input() clientId?: any;
   statementGrid: any = [];
-  page = 1;
-  pageSize = 5;
+
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  page: number;
+  pageSize: number;
+  pageSizeList: number[];
   constructor(
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
@@ -25,19 +28,39 @@ export class ClientStatementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getStatement();
   }
 
   closeDocumentModel() {
     this.activeModal.close();
   }
-
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getStatement();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getStatement();
+  }
   getStatement() {
-    this.client.getStatementByClientId(this.clientId).subscribe( res => {
+    const obj = {
+      clientId: this.clientId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+     
+    };
+    this.client.getStatementByClientId(obj).subscribe( res => {
       if (res.status === 'Success') {
         const statement = JSON.parse(res.resultData);
-        this.statementGrid = statement.VehicleStatement;
-        this.collectionSize = Math.ceil(this.statementGrid.length / this.pageSize) * 10;
+        this.statementGrid = statement.VehicleStatement.clientStatementViewModel;
+        const totalRowCount = statement.VehicleStatement.Count.Count;
+
+        this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
         console.log(statement, 'statement');
       }
     });

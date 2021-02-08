@@ -34,10 +34,10 @@ export class ClientService {
   getClientScore(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClientScore}`);
   }
-  getStatementByClientId(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getStatementByClientId}` + id);
+  getStatementByClientId(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getStatementByClientId}`,obj);
   }
-  getHistoryByClientId(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getHistoryByClientId}` + id);
+  getHistoryByClientId(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getHistoryByClientId}` ,obj);
   }
 }

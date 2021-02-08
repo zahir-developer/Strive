@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-history',
@@ -11,11 +12,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
   historyGrid: any = [];
-  page = 1;
-  pageSize = 5;
+ 
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  page: number;
+  pageSize: number;
+  pageSizeList: number[];
   constructor(
     private activeModal: NgbActiveModal,
     private client: ClientService,
@@ -23,19 +26,39 @@ export class ClientHistoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getHistory();
   }
 
   closeHistoryModel() {
     this.activeModal.close();
   }
-
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getHistory();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getHistory();
+  }
   getHistory() {
-    this.client.getHistoryByClientId(this.clientId).subscribe(res => {
+    const obj = {
+      clientId: this.clientId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+     
+    };
+    this.client.getHistoryByClientId(obj).subscribe(res => {
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
-        this.historyGrid = history.VehicleHistory;
-        this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
+        this.historyGrid = history.VehicleHistory.clientVehicleHistoryViewModel;
+        const totalRowCount = history.VehicleHistory.Count.Count;
+
+        this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
         console.log(history, 'history');
       }
     });
