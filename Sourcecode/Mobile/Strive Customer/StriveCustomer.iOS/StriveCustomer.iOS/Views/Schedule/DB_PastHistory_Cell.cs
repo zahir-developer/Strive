@@ -28,10 +28,12 @@ namespace StriveCustomer.iOS.Views.Schedule
             PH_VehicleName_Lbl.Text = datalist[indexPath.Row].VehicleColor +
                                         datalist[indexPath.Row].VehicleColor +
                                         datalist[indexPath.Row].VehicleModel;
-            //var date = datalist[indexPath.Row].JobDate;
-            //DateTime dateTime = new DateTime();
-            //dateTime = Convert.ToDateTime(DateTime.ParseExact(date, "MM/dd/yyyy", new CultureInfo("en-US"), DateTimeStyles.None));
-            PH_Date_Lbl.Text = datalist[indexPath.Row].JobDate;
+            
+            var date = datalist[indexPath.Row].JobDate;            
+            var FullSplitDates = date.Split("-");
+            var fullDateInfo = FullSplitDates[2].Substring(0,2);
+
+            PH_Date_Lbl.Text = FullSplitDates[1].ToString() +"/"+ fullDateInfo.ToString() +"/"+ FullSplitDates[0].ToString();
             PH_DetService_Lbl.Text = "";
             PH_Barcode_Lbl.Text = "";
             PH_Price_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
