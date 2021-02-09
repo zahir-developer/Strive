@@ -42,6 +42,7 @@ namespace Strive.Common
         IMMIGRATIONSTATUS,
         DETAILCOMMISSION,
         DOCUMENTTYPE,
-        DOCUMENTSubTYPE
+        DOCUMENTSubTYPE,
+        StoreStatus
     }
 }
