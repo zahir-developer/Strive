@@ -20,11 +20,21 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/seven">
+                android:layout_margin="@dimen/seven"
+                android:weightSum = "1">
                 <TextView
                     android:id="@+id/scheduleTicket_TextView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:textSize="@dimen/textFifteen"
+                    android:textColor="#1DC9B7"
+                    android:fontFamily="@font/opensans_bold"/>
+                <TextView
+                    android:id="@+id/scheduleTicketValue_TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
                     android:textSize="@dimen/textFifteen"
                     android:textColor="#1DC9B7"
                     android:fontFamily="@font/opensans_bold"/>

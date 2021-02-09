@@ -14,6 +14,7 @@ namespace Strive.Core.ViewModels.Customer
 
         public VehicleList scheduleVehicleList { get; set; }
 
+        public PastClientServices pastClientServices { get; set; }
         public ScheduleModel pastServiceHistory { get; set; }
         public ScheduleModel pastServiceHistory1 { get; set; }
 
@@ -49,10 +50,11 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-                return result;
+                pastClientServices = new PastClientServices();
+                pastClientServices.PastClientDetails = new List<PastClientDetails>();
+                pastClientServices = result;
+                return pastClientServices;
             }
-
-
         }
 
 

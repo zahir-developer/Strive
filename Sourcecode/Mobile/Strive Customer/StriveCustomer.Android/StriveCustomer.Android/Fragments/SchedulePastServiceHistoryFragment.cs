@@ -53,14 +53,14 @@ namespace StriveCustomer.Android.Fragments
 
         public async void GetPastServices()
         {
-            await this.ViewModel.GetPastServiceDetails();
-            if(this.ViewModel.pastServiceHistory != null)
+            await this.ViewModel.GetPastDetailsServices();
+            if(this.ViewModel.pastClientServices != null)
             {
-                if(this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count > 0)
+                if(this.ViewModel.pastClientServices.PastClientDetails.Count > 0)
                 {
-                    TicketNumber = new TextView[this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count];
-                    moreInfo_LinearLayout = new LinearLayout[this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count];
-                    for (int services = 0; services < this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count; services++)
+                    TicketNumber = new TextView[this.ViewModel.pastClientServices.PastClientDetails.Count];
+                    moreInfo_LinearLayout = new LinearLayout[this.ViewModel.pastClientServices.PastClientDetails.Count];
+                    for (int services = 0; services < this.ViewModel.pastClientServices.PastClientDetails.Count; services++)
                     {
                         layout = LayoutInflater.From(Context).Inflate(Resource.Layout.ServiceHistoryItemView, PastServiceList_LinearLayout, false);
                         var vehicleName = layout.FindViewById<TextView>(Resource.Id.makeModelColorValue_TextView);
@@ -69,17 +69,26 @@ namespace StriveCustomer.Android.Fragments
                         var barcode = layout.FindViewById<TextView>(Resource.Id.barcodeValue_TextView);
                         var price = layout.FindViewById<TextView>(Resource.Id.schedulePrice_TextView); 
                         var additionalServices = layout.FindViewById<TextView>(Resource.Id.additionalServicesValue_TextView);
-                       
-                        vehicleName.Text = this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel[services].VehicleColor
-                                        + this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel[services].VehicleMake
-                                        + this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel[services].VehicleModel;
-                        detailVisitDate.Text = this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel[services].JobDate;
-                        detailService.Text = "";
-                        barcode.Text = "";
-                        price.Text = this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel[0].Cost.ToString();
+                        var detailedServiceCost = layout.FindViewById<TextView>(Resource.Id.scheduleTicketValue_TextView);
+
+                        vehicleName.Text = this.ViewModel.pastClientServices.PastClientDetails[services].Color + " "
+                                        + this.ViewModel.pastClientServices.PastClientDetails[services].Make + " "
+                                        + this.ViewModel.pastClientServices.PastClientDetails[services].Model;
+
+                        var dates = this.ViewModel.pastClientServices.PastClientDetails[services].DetailVisitDate.ToString();
+                        var splitDates = dates.Split("T");
+                        var detailedVisitDate = splitDates[0].Split("-"); ;
+                        var orderedDate = detailedVisitDate[2] + "/" + detailedVisitDate[1] + "/" + detailedVisitDate[0];
+
+                        detailVisitDate.Text = orderedDate;
+                        detailService.Text = this.ViewModel.pastClientServices.PastClientDetails[services].WashOrDetailJobType;
+                        additionalServices.Text = this.ViewModel.pastClientServices.PastClientDetails[services].ServiceName;
+                        detailedServiceCost.Text = "$" + this.ViewModel.pastClientServices.PastClientDetails[services].Cost;
+                        barcode.Text = this.ViewModel.pastClientServices.PastClientDetails[services].Barcode;
+                        price.Text = this.ViewModel.pastClientServices.PastClientDetails[services].Cost;
 
                         TicketNumber[services] = layout.FindViewById<TextView>(Resource.Id.scheduleTicket_TextView);
-                        TicketNumber[services].Text = "Ticket No:";
+                        TicketNumber[services].Text = "Ticket No:" +" ";
                         TicketNumber[services].PaintFlags = PaintFlags.UnderlineText;
                         moreInfo_LinearLayout[services] = layout.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
                         moreInfo_LinearLayout[services].Visibility = ViewStates.Gone;
