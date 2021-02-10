@@ -123,6 +123,13 @@ namespace StriveCustomer.iOS.Views
                 ZipCode_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
                 PhoneNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
                 Email_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
+
+                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName;
+                MyProfileCustomerInfo.ContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
+                MyProfileCustomerInfo.Email = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
+                MyProfileCustomerInfo.SecondaryContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
+                MyProfileCustomerInfo.Address = personalInfoViewModel.customerInfo.Status.LastOrDefault().Address1;
+                MyProfileCustomerInfo.ZipCode = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
             }
         }
 

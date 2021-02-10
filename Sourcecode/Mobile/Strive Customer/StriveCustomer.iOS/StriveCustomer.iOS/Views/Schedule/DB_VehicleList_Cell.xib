@@ -37,8 +37,8 @@
                                 <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ultra Mammoth" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n66-U9-DEm">
-                                <rect key="frame" x="10" y="32" width="119.5" height="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ultra Mammoth mini" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n66-U9-DEm">
+                                <rect key="frame" x="10" y="32" width="119.5" height="44"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -64,6 +64,7 @@
                             <constraint firstItem="n66-U9-DEm" firstAttribute="top" secondItem="kdj-ky-Oy2" secondAttribute="bottom" constant="5" id="6vf-r9-wcn"/>
                             <constraint firstItem="kdj-ky-Oy2" firstAttribute="leading" secondItem="n66-U9-DEm" secondAttribute="leading" id="Bgv-fG-LDe"/>
                             <constraint firstItem="kdj-ky-Oy2" firstAttribute="leading" secondItem="jL7-ed-rDf" secondAttribute="leading" constant="10" id="EEk-dv-9bu"/>
+                            <constraint firstItem="n66-U9-DEm" firstAttribute="width" secondItem="kdj-ky-Oy2" secondAttribute="width" multiplier="0.979508" id="R0u-aP-m1C"/>
                             <constraint firstItem="sg9-v7-QZQ" firstAttribute="centerY" secondItem="jL7-ed-rDf" secondAttribute="centerY" id="Yrt-fK-4Vw"/>
                             <constraint firstItem="kdj-ky-Oy2" firstAttribute="top" secondItem="jL7-ed-rDf" secondAttribute="top" constant="5" id="bCf-A9-vO3"/>
                             <constraint firstItem="kdj-ky-Oy2" firstAttribute="width" secondItem="jL7-ed-rDf" secondAttribute="width" multiplier="0.406667" id="jhu-0J-vmO"/>

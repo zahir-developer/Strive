@@ -58,8 +58,8 @@
                             <color key="textColor" red="0.066666666666666666" green="0.15686274509803921" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08:00AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cQA-RC-Hcr">
-                            <rect key="frame" x="216" y="50" width="76" height="25"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08:00AM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cQA-RC-Hcr">
+                            <rect key="frame" x="196" y="50" width="76" height="25"/>
                             <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="18"/>
                             <color key="textColor" red="0.11372549019607843" green="0.78823529411764703" blue="0.71764705882352942" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -208,7 +208,7 @@
                         <constraint firstItem="Jph-zY-32o" firstAttribute="top" secondItem="9YL-YH-jkT" secondAttribute="bottom" constant="10" id="2FR-tZ-huP"/>
                         <constraint firstItem="epy-5X-MEv" firstAttribute="leading" secondItem="DV4-dF-fdv" secondAttribute="leading" id="2ay-2g-eQN"/>
                         <constraint firstItem="DV4-dF-fdv" firstAttribute="centerX" secondItem="UoS-xM-bJC" secondAttribute="centerX" id="ARd-4C-n3O"/>
-                        <constraint firstItem="cQA-RC-Hcr" firstAttribute="leading" secondItem="dpk-0p-fpw" secondAttribute="trailing" constant="30" id="Bn3-Ph-qex"/>
+                        <constraint firstItem="cQA-RC-Hcr" firstAttribute="leading" secondItem="dpk-0p-fpw" secondAttribute="trailing" constant="10" id="Bn3-Ph-qex"/>
                         <constraint firstItem="DV4-dF-fdv" firstAttribute="top" secondItem="qcD-SD-INx" secondAttribute="bottom" constant="10" id="H44-Fy-okT"/>
                         <constraint firstItem="9fB-er-fky" firstAttribute="leading" secondItem="UoS-xM-bJC" secondAttribute="leading" constant="20" id="Mzm-Sa-GJj"/>
                         <constraint firstItem="dpk-0p-fpw" firstAttribute="top" secondItem="9fB-er-fky" secondAttribute="bottom" constant="5" id="OHV-am-lf4"/>

@@ -23,15 +23,8 @@ namespace StriveCustomer.iOS.Views.Schedule
         }
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-        {
-            //if (isClicked)
-            //{
-                //return 180;                
-            //}
-            //else
-            //{
-                return 150;
-            //}
+        {           
+            return 150;           
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)

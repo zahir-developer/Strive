@@ -55,6 +55,11 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             }
         }
 
+        public async void NavToSchedule()
+        {
+            await _navigationService.Navigate<ScheduleViewModel>();
+        }
+
         public bool checkSelectedService()
         {
             var selected = false;
