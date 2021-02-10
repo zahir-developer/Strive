@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -25,6 +26,7 @@ namespace StriveEmployee.Android.Fragments
         private EditText groupFinalName_TextView;
         private MessengerFinalizeGroupAdapter messengerFinalizeGroup_Adapter;
         private RecyclerView finalizeGroup_recyclerView;
+        MessengerFragment messengerFragment = new MessengerFragment(); 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -51,6 +53,8 @@ namespace StriveEmployee.Android.Fragments
             this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
             await this.ViewModel.CreateGroup();
             MessengerTempData.resetParticipantInfo();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
         }
 
         private void getParticipants()

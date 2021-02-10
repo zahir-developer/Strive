@@ -34,7 +34,7 @@ namespace Strive.Core.Services.HubServices
             if (string.IsNullOrEmpty(ConnectionID) || connection == null)
             {
                 //connection = new HubConnectionBuilder().WithUrl("http://10.0.2.2:60001/ChatMessageHub").Build();
-                connection = new HubConnectionBuilder().WithUrl(ApiUtils.BASE_URL + "/ChatMessageHub").Build();
+                connection = new HubConnectionBuilder().WithUrl(ApiUtils.BASE_URL + "/chatMessageHub").Build();
                 try
                 {
                     await connection?.StartAsync();          
@@ -96,7 +96,7 @@ namespace Strive.Core.Services.HubServices
                 Console.WriteLine("Private Message received", data);
                 try
                 {
-                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
+                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());                  
                     PrivateMessageList.Add(datas);
                 }
                 catch(Exception ex)

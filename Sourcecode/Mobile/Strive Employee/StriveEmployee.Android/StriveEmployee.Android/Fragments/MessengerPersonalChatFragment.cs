@@ -138,7 +138,7 @@ namespace StriveEmployee.Android.Fragments
                     ReceipientId = EmployeeTempData.EmployeeID,
                     RecipientFirstName = "",
                     RecipientLastName = "",
-                    SenderFirstName = lastMessage.fullName,
+                    SenderFirstName = lastMessage.fullName ?? lastMessage.firstName,
                     SenderLastName = "",
                     SenderId = (int)lastMessage.chatMessageRecipient.senderId,
                     CreatedDate = DateTime.UtcNow
@@ -147,7 +147,7 @@ namespace StriveEmployee.Android.Fragments
                 {
                     ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(message);
                     messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
-                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
+                    chatMessage_RecyclerView.ScrollToPosition(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count + 1);
                 }
                 
             }
