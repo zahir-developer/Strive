@@ -42,4 +42,8 @@
     <Folder Include="Scheduler\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Template\ClientLogin.html" />
+  </ItemGroup>
+
 </Project>

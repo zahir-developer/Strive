@@ -292,30 +292,17 @@ namespace Strive.BusinessLogic.Common
                 CreatedDate = DateTime.Now
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
+            
+
+            if (authId > 0)
+            {
+                SendLoginCreationEmail(emailId, randomPassword);
+            }
 
             return authId;
+            
         }
-        public string CreateLoginPwd(string emailId, string mobileNo)
-        {
-            string randomPassword = RandomString(6);
-
-            //string passwordHash = Pass.Hash(randomPassword);
-
-            //AuthMaster authMaster = new AuthMaster
-            //{
-            //    UserGuid = Guid.NewGuid().ToString(),
-            //    EmailId = emailId,
-            //    MobileNumber = mobileNo,
-            //    PasswordHash = passwordHash,
-            //    SecurityStamp = "1",
-            //    LockoutEnabled = 0,
-            //    CreatedDate = DateTime.Now
-            //};
-            var password = randomPassword;
-
-            return password;
-        }
-
+       
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
         {
             var commonRal = new CommonRal(_tenant, true);
