@@ -55,19 +55,23 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   employeeId: string;
   documentTypeId: any;
   CahRegisterId: any;
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService,private getCode: GetCodeService,
+  storeStatusList = [];
+  storeTimeIn = '';
+  storeStatus = '';
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.locationId = localStorage.getItem('empLocationId');
     this.employeeId = localStorage.getItem('empId');
-this.getDocumentType();
+    this.getDocumentType();
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
     const locationId = +this.locationId;
     this.Todaydate = moment(new Date()).format('YYYY-MM-DD');
-    this.getTargetBusinessData(locationId,this.Todaydate);
+    this.getStoreStatusList();
+    this.getTargetBusinessData(locationId, this.Todaydate);
     this.getWeatherDetails();
   }
   ngAfterViewInit() {
@@ -110,7 +114,6 @@ this.getDocumentType();
 
   // Get targetBusinessData
   getTargetBusinessData(locationId, date) {
-   
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
@@ -133,6 +136,8 @@ this.getDocumentType();
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
+          this.storeStatus = this.cashDetails.CashRegister.Status !== null ? this.cashDetails.CashRegister.Status : '';
+          this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ? moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails.CashRegisterCoins.Pennies,
             coinNickels: this.cashDetails.CashRegisterCoins.Nickels,
@@ -178,7 +183,7 @@ this.getDocumentType();
             });
           }, 1200);
           this.getTotalCash();
-        } else{
+        } else {
           this.isUpdate = false;
           this.cashRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
@@ -225,7 +230,7 @@ this.getDocumentType();
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-    }
+    };
     const bill = {
       cashRegBillId: this.isUpdate ? this.cashDetails.CashRegisterBills.CashRegBillId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
@@ -241,7 +246,7 @@ this.getDocumentType();
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-    }
+    };
     const roll = {
       cashRegRollId: this.isUpdate ? this.cashDetails.CashRegisterRolls.CashRegRollId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
@@ -272,6 +277,19 @@ this.getDocumentType();
       updatedBy: this.employeeId,
       updatedDate: new Date(),
     }
+    let checkinTime = '';
+    if (this.isUpdate) {
+      const time = this.storeTimeIn.split(':');
+      const hour = time[0];
+      const minutes = time[1];
+      const inTime: any = new Date(this.date);
+      inTime.setHours(hour);
+      inTime.setMinutes(minutes);
+      inTime.setSeconds('00');
+      checkinTime = inTime;
+    } else {
+      checkinTime = this.storeTimeIn;
+    }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CahRegisterId,
@@ -284,14 +302,17 @@ this.getDocumentType();
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
+      storeTimeIn: moment(checkinTime).format(),
+      storeTimeOut: null,
+      status: this.storeStatus
     };
     const formObj = {
-      cashregister: cashregister,
+      cashregister,
       cashRegisterCoins: coin,
       cashRegisterBills: bill,
       cashRegisterRolls: roll,
       cashregisterOthers: other
-    }
+    };
     // const weatherObj = {
     //   weatherId: 0,
     //   locationId: 1,
@@ -306,7 +327,7 @@ this.getDocumentType();
       locationId: +this.locationId,
       // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
       // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
-    weather: (this.weatherDetails?.currentWeather?.temporature) ?  Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
+      weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
       rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,
@@ -323,7 +344,7 @@ this.getDocumentType();
               this.toastr.success('Record Saved Successfully!!', 'Success!');
             }
             this.weatherService.getWeather();
-            this.getTargetBusinessData(this.locationId,this.Todaydate);
+            this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
           } else {
             this.toastr.error('Weather Communication Error', 'Error!');
@@ -443,16 +464,16 @@ this.getDocumentType();
       const locationId = +this.locationId;
       this.toggleTab = 0;
 
-        this.getWeatherDetails();
-        this.getTargetBusinessData(this.locationId, this.selectDate);
+      this.getWeatherDetails();
+      this.getTargetBusinessData(this.locationId, this.selectDate);
 
-     
+
       if (moment(today).isSame(selectedDate)) {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
         this.cashRegisterForm.enable();
-        
+
       } else if (moment(today).isAfter(selectedDate)) {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
@@ -468,5 +489,29 @@ this.getDocumentType();
 
     }
     this.getCashRegister();
+  }
+
+  getStoreStatusList() {
+    this.getCode.getCodeByCategory('Storestatus').subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.storeStatusList = dType.Codes;
+        console.log(dType, 'type');
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  inTime(event) {
+    console.log(event, 'time');
+    const time = event.split(':');
+    const hour = time[0];
+    const minutes = time[1];
+    const checkinTime: any = new Date(this.date);
+    checkinTime.setHours(hour);
+    checkinTime.setMinutes(minutes);
+    checkinTime.setSeconds('00');
+    this.storeTimeIn = checkinTime;
   }
 }
