@@ -15,6 +15,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string ProductDescription { get; set; }
         public int ProductType { get; set; }
         public string FileName { get; set; }
+
+        public string OriginalFileName { get; set; }
         public string ThumbFileName { get; set; }
         public int LocationId { get; set; }
         public int VendorId { get; set; }
