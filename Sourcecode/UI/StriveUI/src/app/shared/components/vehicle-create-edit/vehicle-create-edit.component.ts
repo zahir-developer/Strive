@@ -401,6 +401,22 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.value.franchise = data;
   }
 
+  checkValue(type) {
+    if (type === 'make') {
+      if (!this.vehicleForm.value.make.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ make: '' });
+      }
+    } else if (type === 'model') {
+      if (!this.vehicleForm.value.model.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ model: '' });
+      }
+    } else if (type === 'color') {
+      if (!this.vehicleForm.value.color.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ color: '' });
+      }
+    }
+  }
+
   // Add/Update Vehicle
   submit() {
     this.submitted = true;
@@ -490,7 +506,7 @@ export class VehicleCreateEditComponent implements OnInit {
       }
       let membershipName = '';
       if (this.vehicleForm.value.membership !== '') {
-        const selectedMembership = this.membership.filter( item => item.MembershipId === +this.vehicleForm.value.membership);
+        const selectedMembership = this.membership.filter(item => item.MembershipId === +this.vehicleForm.value.membership);
         if (selectedMembership.length > 0) {
           membershipName = selectedMembership[0].MembershipName;
         }
@@ -505,7 +521,7 @@ export class VehicleCreateEditComponent implements OnInit {
         Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
         Barcode: this.vehicleForm.value.barcode,
-        MembershipName: membershipName !== '' ?  membershipName : 'No'
+        MembershipName: membershipName !== '' ? membershipName : 'No'
       };
 
       const model = {

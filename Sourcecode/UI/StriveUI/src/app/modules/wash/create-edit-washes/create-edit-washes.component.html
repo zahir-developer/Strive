@@ -96,7 +96,7 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredMake"
-                                                    (completeMethod)="filterMake($event)" [size]="10"
+                                                    (completeMethod)="filterMake($event)" [size]="10" (onBlur)="checkValue('make')"
                                                     formControlName="type" placeholder="Make">
                                                 </p-autoComplete>
                                             </div>
@@ -109,7 +109,7 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredModel"
-                                                    (completeMethod)="filterModel($event)" [size]="10"
+                                                    (completeMethod)="filterModel($event)" [size]="10" (onBlur)="checkValue('model')"
                                                     formControlName="model" placeholder="Model">
                                                 </p-autoComplete>
                                             </div>
@@ -127,7 +127,7 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredcolor"
-                                                    (completeMethod)="filterColor($event)" [size]="10"
+                                                    (completeMethod)="filterColor($event)" [size]="10" (onBlur)="checkValue('color')"
                                                     formControlName="color" placeholder="Color">
                                                 </p-autoComplete>
                                             </div>
