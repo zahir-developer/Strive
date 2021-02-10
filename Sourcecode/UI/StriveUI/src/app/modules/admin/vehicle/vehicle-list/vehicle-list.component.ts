@@ -159,7 +159,7 @@ export class VehicleListComponent implements OnInit {
     });
   }
   closePopupEmit(event) {
-    if (event.status === 'saved') {
+    if (event.status === 'saved' || event.status === 'edit') {
       this.getAllVehicleDetails();
     }
     this.showDialog = event.isOpenPopup;
