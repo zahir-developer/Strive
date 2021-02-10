@@ -234,14 +234,14 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<GetCollisions>(ApiUtils.URL_GET_COLLISIONS + liabilityID, HttpMethod.Get);
         }
 
-        public async Task<PostResponse> SaveDocuments(AddDocuments documents)
+        public async Task<PostResponseBool> SaveDocuments(AddDocuments documents)
         {
-            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_SAVE_DOCUMENTS, HttpMethod.Post);
+            return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_ADD, HttpMethod.Post, documents);
         }
 
-        public async Task<CheckOutVehicleDetails> CheckOutVehicleDetails()
+        public async Task<CheckOutVehicleDetails> CheckOutVehicleDetails(int EmployeeID)
         {
-            return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS, HttpMethod.Get);
+            return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS + EmployeeID, HttpMethod.Get);
         }
 
         public async Task<ScheduleModel> GetSchedulePastService(int clientID)

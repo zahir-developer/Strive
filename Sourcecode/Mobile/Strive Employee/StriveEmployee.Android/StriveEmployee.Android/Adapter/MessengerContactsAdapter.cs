@@ -95,7 +95,14 @@ namespace StriveEmployee.Android.Adapter
         {
             MessengerTempData.resetChatData();
             MessengerTempData.GroupID = 0;
-            MessengerTempData.IsGroup = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).IsGroup;
+
+            foreach(var datas in MessengerTempData.RecentEmployeeLists.ChatEmployeeList)
+            {
+                if(string.Equals(datas.FirstName, MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName) && string.Equals(datas.LastName, MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName))
+                {
+                    MessengerTempData.IsGroup = datas.IsGroup;
+                }
+            }
             MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName + " " + MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
             MessengerTempData.GroupUniqueID = null;
             MessengerTempData.RecipientID = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).EmployeeId;
