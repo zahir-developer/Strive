@@ -258,6 +258,11 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<AvailableScheduleSlots>(ApiUtils.URL_SCHEDULE_TIME_SLOTS, HttpMethod.Post, slotInfo);
         }
+
+        public async Task<DownloadDocuments> DownloadDocuments(int documentID, string documentPassword)
+        {
+            return await _restClient.MakeApiCall<DownloadDocuments>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_DOWNLOAD+documentID+","+documentPassword, HttpMethod.Get);
+        }
     }
     public static class RestUtils
     {

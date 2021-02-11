@@ -55,6 +55,15 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeRoles = new List<EmployeeRoles>();
         }
 
-        #endregion Commands
-    }
+        public async Task DownloadDocument()
+        {
+            var result = await AdminService.DownloadDocuments(229,"string");
+            if(result != null)
+            {
+
+            }
+        }
+
+            #endregion Commands
+        }
 }

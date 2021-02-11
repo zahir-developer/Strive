@@ -91,9 +91,15 @@ namespace Strive.Core.Services.Interfaces
         Task<GetCollisions> GetCollisions(int liabilityID);
 
         Task<PostResponseBool> SaveDocuments(AddDocuments documents);
+
+        Task<DownloadDocuments> DownloadDocuments(int documentID, string documentPassword);
+
         Task<CheckOutVehicleDetails> CheckOutVehicleDetails(int EmployeeID);
+        
         Task<ScheduleModel> GetSchedulePastService(int clientID);
+        
         Task<AvailableScheduleServicesModel> GetScheduleServices();
+        
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
     
     }

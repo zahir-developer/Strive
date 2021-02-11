@@ -47,7 +47,7 @@ namespace Strive.Core.Models.Employee.PersonalDetails
     {
         public int DocumentSequence { get; set; }
         public int EmployeeId { get; set; }
-        public int DocumentId { get; set; }
+        public int EmployeeDocumentId { get; set; }
         public string FileName { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }

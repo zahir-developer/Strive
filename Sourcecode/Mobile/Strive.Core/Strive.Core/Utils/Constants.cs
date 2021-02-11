@@ -112,5 +112,7 @@ namespace Strive.Core.Utils
         public const string URL_SCHEDULE_TIME_SLOTS = "/Admin/Dashboard/GetAvailablilityScheduleTime";
 
         public const string URL_EMPLOYEE_DOCUMENTS_ADD = "/Admin/Document/SaveEmployeeDocument";
+
+        public const string URL_EMPLOYEE_DOCUMENTS_DOWNLOAD = "/Admin/Document/GetEmployeeDocumentById/";
     }
 }
