@@ -129,6 +129,7 @@ namespace Strive.BusinessEntities
         public enum Client
         {
             //Client
+            USPCLIENTEMAILEXIST,
             USPGETALLCLIENT,
             USPUPDATEACCOUNTDETAILS,
             USPGETCLIENT,

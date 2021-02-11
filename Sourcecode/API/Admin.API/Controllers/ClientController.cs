@@ -62,6 +62,16 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetClientCodes();
         }
+        [HttpGet]
+        [Route("ClientEmailExist")]
+        public Result ClientEmailExist(string email)
+        {
+         
+              return _bplManager.ClientEmailExist(email);
+
+          
+
+        }
         #region
         [HttpGet]
         [Route("GetStatementByClientId/{id}")]
@@ -84,6 +94,6 @@ namespace Admin.API.Controllers
             return _bplManager.GetAllClientName(name);
 
         }
-
+       
     }
 }
