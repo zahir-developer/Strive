@@ -9,7 +9,7 @@ import { UrlConfig } from '../url.config';
 })
 export class VehicleService {
     addVehicle: object;
-    vehicleValue: object;
+    vehicleValue: any;
 
     constructor(private http: HttpUtilsService) { }
     getVehicle(obj){

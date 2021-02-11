@@ -37,17 +37,22 @@ export class ClientCreateEditComponent implements OnInit {
   sort = { column: 'VehicleNumber', descending: true };
   sortColumn: { column: string; descending: boolean; };
   employeeId: number;
+  showDialog = false;
+  vehicleDetail: any;
+  isVehicleEdit: boolean;
+  clonedVehicleDetails = [];
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
-
+    this.isVehicleEdit = false;
+    this.getService();
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
     }
-    else{
+    else {
       this.vehicleNumber = 1;
     }
   }
@@ -58,12 +63,16 @@ export class ClientCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Status;
+        this.clonedVehicleDetails = this.vehicleDetails.map(x => Object.assign({}, x));
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
           this.vehicleNumber = 1;
         } else {
+          this.vehicleDetails.forEach( item => {
+            item.isAddedVehicle = true;
+          });
           let len = this.vehicleDetails.length;
-          this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
+          this.vehicleNumber = Number(this.vehicleDetails[len - 1].VehicleNumber) + 1;
           console.log(this.vehicleNumber);
           this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
@@ -73,7 +82,7 @@ export class ClientCreateEditComponent implements OnInit {
       }
     });
   }
-  
+
   // Add/Update Client
   submit() {
     this.clientFormComponent.submitted = true;
@@ -129,7 +138,7 @@ export class ClientCreateEditComponent implements OnInit {
       score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
       noEmail: this.clientFormComponent.clientForm.value.creditAccount,
       clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type,
-      amount : this.clientFormComponent.clientForm.value.amount
+      amount: this.clientFormComponent.clientForm.value.amount
     };
     const myObj = {
       client: formObj,
@@ -171,15 +180,40 @@ export class ClientCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   closePopupEmit(event) {
+    // this.vehicleDetails = [];
     if (event.status === 'saved') {
-      this.vehicleDetails.push(this.vehicle.vehicleValue);
+      this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
+      if (this.clonedVehicleDetails.length > 0) {
+        this.vehicleDetails = [];
+        this.clonedVehicleDetails.forEach(item => {
+          this.vehicleDetails.push(item);
+        });
+      }
+      // this.vehicleDetails.push(this.vehicle.vehicleValue);
       let len = this.vehicleDetails.length;
-      this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
-      console.log(this.vehicleDetails,'vedel');
+      this.vehicleNumber = Number(this.vehicleDetails[len - 1].VehicleNumber) + 1;
+      console.log(this.vehicleDetails, 'vedel');
       this.vehicleDet.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
+    } else if (event.status === 'edit') {
+      this.vehicleDetails.forEach( item => {
+        if (item.VehicleId === this.vehicle.vehicleValue.ClientVehicleId) {
+          item.VehicleColor = this.vehicle.vehicleValue.VehicleColor;
+          item.VehicleMfr = this.vehicle.vehicleValue. VehicleMfr;
+          item.VehicleModel = this.vehicle.vehicleValue.VehicleModel;
+          item.Barcode = this.vehicle.vehicleValue.Barcode;
+          item.MembershipName = this.vehicle.vehicleValue.MembershipName;
+        }
+      });
     }
+    this.vehicleDetails.forEach( item => {
+      if (item.hasOwnProperty('VehicleId')) {
+        item.isAddedVehicle = true;
+      } else {
+        item.isAddedVehicle = false;
+      }
+    });
     this.showVehicleDialog = event.isOpenPopup;
   }
   delete(data) {
@@ -200,7 +234,7 @@ export class ClientCreateEditComponent implements OnInit {
   confirmDelete(data) {
     this.vehicleDetails = this.vehicleDetails.filter(item => item !== data);
     let len = this.vehicleDetails.length;
-    this.vehicleNumber = Number(this.vehicleDetails[len-1].VehicleNumber) + 1;
+    this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
     this.toastr.success('Record Deleted Successfully!!', 'Success!');
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
@@ -209,8 +243,29 @@ export class ClientCreateEditComponent implements OnInit {
     }
   }
 
+  editVehicle(vehicle) {
+    console.log(vehicle, 'vehicle');
+    if (!vehicle.hasOwnProperty('VehicleId')) {
+      return;
+    }
+    this.vehicle.getVehicleById(vehicle.VehicleId).subscribe(res => {
+      if (res.status === 'Success') {
+        const vehicleDetail = JSON.parse(res.resultData);
+        this.selectedVehicle = vehicleDetail.Status;
+        this.headerData = 'Edit Vehicle';
+        this.vehicleDetail = this.selectedVehicle;
+        this.isVehicleEdit = true;
+        this.isView = false;
+        this.showVehicleDialog = true;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
   // Add New Vehicle
   add() {
+    this.isVehicleEdit = false;
     this.headerData = 'Add New vehicle';
     this.showVehicleDialog = true;
     this.clientId = this.selectedData.ClientId;
@@ -244,7 +299,7 @@ export class ClientCreateEditComponent implements OnInit {
       }
     });
   }
- 
+
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;

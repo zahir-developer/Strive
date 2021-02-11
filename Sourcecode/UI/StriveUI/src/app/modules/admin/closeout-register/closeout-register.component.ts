@@ -102,11 +102,11 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
-        this.storeStatus = this.closeOutDetails.CashRegister.Status !== null ? this.closeOutDetails.CashRegister.Status : '';
-        this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
-         moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
+          this.storeStatus = this.closeOutDetails.CashRegister.Status !== null ? this.closeOutDetails.CashRegister.Status : '';
+          this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
+            moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.closeOutDetails.CashRegisterCoins.Pennies,
             coinNickels: this.closeOutDetails.CashRegisterCoins.Nickels,

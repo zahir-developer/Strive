@@ -40,19 +40,26 @@
                                         <table class="table  table-striped m-t-10">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" (click)="changeSorting('VehicleNumber')">Vehicle No&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleNumber')"
-                                                        aria-hidden="true"></i></th>
-                                                    <th scope="col" (click)="changeSorting('VehicleColor')">Color&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
-                                                        aria-hidden="true"></i></th>
-                                                    <th scope="col" (click)="changeSorting('VehicleMfr')">Make&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleMfr')"
-                                                        aria-hidden="true"></i></th>
-                                                    <th scope="col" (click)="changeSorting('VehicleModel')">Model&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleModel')"
-                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('VehicleNumber')">Vehicle
+                                                        No&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleNumber')"
+                                                            aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('VehicleColor')">
+                                                        Color&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                                            aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('VehicleMfr')">Make&nbsp;<i
+                                                            class="fa" [ngClass]="selectedCls('VehicleMfr')"
+                                                            aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('VehicleModel')">
+                                                        Model&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleModel')"
+                                                            aria-hidden="true"></i></th>
                                                     <!-- <th scope="col">Upcharge</th> -->
-                                                    <th scope="col" (click)="changeSorting('Barcode')">Barcode&nbsp;<i class="fa" [ngClass]="selectedCls('Barcode')"
-                                                        aria-hidden="true"></i></th>
-                                                    <th scope="col"(click)="changeSorting('MembershipName')">Membership&nbsp;<i class="fa" [ngClass]="selectedCls('MembershipName')"
-                                                        aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('Barcode')">Barcode&nbsp;<i
+                                                            class="fa" [ngClass]="selectedCls('Barcode')"
+                                                            aria-hidden="true"></i></th>
+                                                    <th scope="col" (click)="changeSorting('MembershipName')">
+                                                        Membership&nbsp;<i class="fa"
+                                                            [ngClass]="selectedCls('MembershipName')"
+                                                            aria-hidden="true"></i></th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
@@ -62,11 +69,15 @@
                                                     <th scope="row">{{vehicle.VehicleNumber}}</th>
                                                     <td>{{vehicle.VehicleColor}}</td>
                                                     <td>{{vehicle.VehicleMfr }}</td>
-                                                    <td>{{vehicle.VehicleModel}}</td>                                                    
+                                                    <td>{{vehicle.VehicleModel}}</td>
                                                     <td>{{vehicle.Barcode}}</td>
                                                     <td>{{vehicle.MembershipName}}</td>
                                                     <!-- <td></td> -->
                                                     <td>
+                                                        <em class="fa fa-pencil-square edit-list  m-r-10"
+                                                            [ngClass]="{'theme-disabled-icon-color': !vehicle.isAddedVehicle, 'theme-secondary-icon-color': vehicle.isAddedVehicle  }"
+                                                            pTooltip="Edit" tooltipPosition="bottom"
+                                                            (click)="editVehicle(vehicle)"></em>
                                                         <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                             style="color:red" pTooltip="Delete"
                                                             (click)="delete(vehicle)" tooltipPosition="bottom"></em>
@@ -107,7 +118,8 @@
 </div>
 <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true"
     [modal]="true" [focusOnShow]="false" [closable]="false">
-    <app-vehicle-create-edit *ngIf="showVehicleDialog" [additionalService]="additionalService" [selectedData]="[]"
-        [clientId]="clientId" [vehicleNumber]="vehicleNumber" (closeDialog)="closePopupEmit($event)">
+    <app-vehicle-create-edit *ngIf="showVehicleDialog" [additionalService]="additionalService"
+        [selectedData]="vehicleDetail" [clientId]="clientId" [isEdit]="isVehicleEdit" [vehicleNumber]="vehicleNumber"
+        (closeDialog)="closePopupEmit($event)">
     </app-vehicle-create-edit>
 </p-dialog>

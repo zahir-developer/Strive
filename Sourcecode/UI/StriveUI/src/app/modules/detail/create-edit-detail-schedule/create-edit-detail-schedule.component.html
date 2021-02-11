@@ -113,7 +113,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredMake"
+                                    <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')"
                                         (completeMethod)="filterMake($event)" [size]="10" formControlName="type"
                                         placeholder="Make">
                                     </p-autoComplete>
@@ -131,7 +131,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredModel"
+                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"
                                         (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
                                         placeholder="Model">
                                     </p-autoComplete>
@@ -149,7 +149,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                    <p-autoComplete field="name" [suggestions]="filteredcolor" (onBlur)="checkValue('color')"
                                         (completeMethod)="filterColor($event)" [size]="10" formControlName="color"
                                         placeholder="Color">
                                     </p-autoComplete>
