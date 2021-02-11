@@ -100,6 +100,7 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
+                _userDialog.HideLoading();
                 return proceed = false;
             }
 

@@ -32,15 +32,7 @@ namespace StriveCustomer.iOS.Views
             dataList = list;
             ScheduleNow_Btn.Layer.CornerRadius = 10;
             Schedule_VhCarName.Text = dataList.Status[indexPath.Row].VehicleColor + " " + dataList.Status[indexPath.Row].VehicleMfr + " " + dataList.Status[indexPath.Row].VehicleModel ?? "";
-
-            if (dataList.Status[indexPath.Row].IsMembership)
-            {
-                Schedule_VhMembership.Text = "Yes";
-            }
-            else
-            {
-                Schedule_VhMembership.Text = "No";
-            }
+            Schedule_VhMembership.Text = dataList.Status[indexPath.Row].MembershipName;            
         }
 
         partial void ScheduleNow_BtnTouch(UIButton sender)

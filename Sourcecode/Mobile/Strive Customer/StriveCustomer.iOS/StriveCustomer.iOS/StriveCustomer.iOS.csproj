@@ -206,23 +206,20 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-email.imageset\Icon material-email.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-email.imageset\Icon material-email%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-email.imageset\Icon material-email%403x.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\40.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\60.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\87.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\80.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120-1.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\180.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\29.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58-1.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\40-2.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\80-1.png" />
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\1024.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%403x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\40.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\87.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\60.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\80.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\180.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\appstore.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />

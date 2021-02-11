@@ -20,12 +20,15 @@ namespace StriveCustomer.iOS.Views.Schedule
 
 		[Outlet]
 		UIKit.UIView SelectService_View { get; set; }
+
+		[Action ("CancelBtn_Service:")]
+		partial void CancelBtn_Service (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (SelectService_View != null) {
-				SelectService_View.Dispose ();
-				SelectService_View = null;
+			if (Cancel_SelectServiceBtn != null) {
+				Cancel_SelectServiceBtn.Dispose ();
+				Cancel_SelectServiceBtn = null;
 			}
 
 			if (SelectService_TableView != null) {
@@ -33,9 +36,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 				SelectService_TableView = null;
 			}
 
-			if (Cancel_SelectServiceBtn != null) {
-				Cancel_SelectServiceBtn.Dispose ();
-				Cancel_SelectServiceBtn = null;
+			if (SelectService_View != null) {
+				SelectService_View.Dispose ();
+				SelectService_View = null;
 			}
 		}
 	}

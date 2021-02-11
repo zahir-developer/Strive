@@ -29,12 +29,12 @@ namespace StriveCustomer.iOS.Views.Schedule
             selected_index = indexPath;
             service_tableview = tableView;
             SelectService_CellView.Layer.CornerRadius = 5;            
-            MoreValue_Const.Constant = 0;
-            ViewMore_ValueLbl.Hidden = true;
+            MoreValue_Const.Constant = 75;
+            ViewMore_ValueLbl.Hidden = false;
 
             ServiceName_Lbl.Text = viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceName;
             SelectService_CostLbl.Text = "$" + viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].Price.ToString();
-            ViewMore_Btn.SetTitle("View More", UIControlState.Normal);
+            ViewMore_Btn.SetTitle("View Less", UIControlState.Normal);
         }
 
         partial void ViewMore_BtnTouch(UIButton sender)

@@ -43,6 +43,9 @@
                             <state key="normal" title="CANCEL">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
+                            <connections>
+                                <action selector="CancelBtn_Service:" destination="-1" eventType="touchUpInside" id="YiL-vd-bXC"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>

@@ -37,7 +37,10 @@ namespace StriveCustomer.iOS.Views.Schedule
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-                ViewModel.NavToSelect_Loc();
+                if (this.ViewModel.checkSelectedService())
+                {
+                    ViewModel.NavToSelect_Loc();
+                }                
             };
 
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
@@ -69,6 +72,11 @@ namespace StriveCustomer.iOS.Views.Schedule
                 SelectService_TableView.DelaysContentTouches = false;
                 SelectService_TableView.ReloadData();
             }           
+        }
+
+        partial void CancelBtn_Service (UIButton sender)
+        {
+            ViewModel.NavToSchedule();
         }
     }
 }

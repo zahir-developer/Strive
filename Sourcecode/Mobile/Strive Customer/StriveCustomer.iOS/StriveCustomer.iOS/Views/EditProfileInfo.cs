@@ -1,5 +1,6 @@
 ﻿using System;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 
@@ -35,6 +36,13 @@ namespace StriveCustomer.iOS.Views
             EditProfile_scrollView.Layer.CornerRadius = 5;
 
             ViewModel = new PersonalInfoEditViewModel();
+
+            FullName_EditField.Text = MyProfileCustomerInfo.FullName;
+            ContactNo_EditField.Text = MyProfileCustomerInfo.ContactNumber;
+            Address_EditField.Text = MyProfileCustomerInfo.Address;
+            ZipCode_EditField.Text = MyProfileCustomerInfo.ZipCode;
+            SecPhone_EditField.Text = MyProfileCustomerInfo.SecondaryContactNumber;
+            Email_EditField.Text = MyProfileCustomerInfo.Email;
         }
 
         partial void FullName_TouchBegin(UITextField sender)
