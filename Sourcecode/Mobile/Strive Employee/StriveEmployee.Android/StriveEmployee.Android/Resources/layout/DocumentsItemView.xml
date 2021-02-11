@@ -37,6 +37,7 @@
             android:layout_weight="0.7"
             android:orientation="horizontal">
             <ImageButton
+                android:id="@+id/downloadButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/fifteen"
@@ -44,10 +45,11 @@
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"/>
             <ImageButton
+                android:id="@+id/deleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/five"
-                android:src="@drawable/view"
+                android:src="@drawable/delete_circle"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>

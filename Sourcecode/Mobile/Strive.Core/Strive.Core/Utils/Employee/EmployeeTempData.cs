@@ -80,6 +80,8 @@ namespace Strive.Core.Utils.Employee
     public static class MyProfileTempData
     {
         public static int LiabilityID { get; set; }
+        public static int EmployeeDocumentID { get; set; }
+        public static string DocumentPassword { get; set; }
 
     }
 }

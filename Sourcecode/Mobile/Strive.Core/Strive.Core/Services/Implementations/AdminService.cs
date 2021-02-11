@@ -263,6 +263,11 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<DownloadDocuments>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_DOWNLOAD+documentID+","+documentPassword, HttpMethod.Get);
         }
+
+        public async Task<DeleteResponse> DeleteDocuments(int documentID)
+        {
+            return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_DELETE + documentID, HttpMethod.Delete);
+        }
     }
     public static class RestUtils
     {

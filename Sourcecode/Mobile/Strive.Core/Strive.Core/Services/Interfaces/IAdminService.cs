@@ -94,6 +94,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DownloadDocuments> DownloadDocuments(int documentID, string documentPassword);
 
+        Task<DeleteResponse> DeleteDocuments(int documentID);
+
         Task<CheckOutVehicleDetails> CheckOutVehicleDetails(int EmployeeID);
         
         Task<ScheduleModel> GetSchedulePastService(int clientID);
