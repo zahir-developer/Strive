@@ -16,7 +16,6 @@ export class CityComponent implements OnInit, AfterViewChecked {
   @Input() State?: any;
 
   @Output() selectCity = new EventEmitter();
-  city = '';
   submitted: boolean;
   cities: any = [];
   states: string[] = [
@@ -33,10 +32,13 @@ export class CityComponent implements OnInit, AfterViewChecked {
     'Hawaii',
     'Idaho'];
   cityId: any;
+  city: { value: any; name: any; };
+  selectValueCity: boolean;
   constructor(private cdRef: ChangeDetectorRef, private stateService: StateService) { }
 
   ngOnInit(): void {
     this.submitted = false;
+    this.selectValueCity = false;
     if (this.selectedStateId !== undefined) {
       this.getCity(this.selectedStateId);
     }
@@ -67,11 +69,23 @@ export class CityComponent implements OnInit, AfterViewChecked {
   }
 
   selectedCity(event) {
-    this.selectCity.emit(event);
+    this.selectValueCity = true;
+    this.selectCity.emit(event.value.value);
   }
   setCity() {
     if (this.selectedCityId !== undefined) {
-      this.city = this.selectedCityId;
+       this.selectValueCity = true;
+
+   
+        this.cities.map(item => {
+          if(item.value == this.selectedCityId){
+          this.city =  {
+            value: item.value,
+            name: item.name
+          };
+        }
+        });
+      
     }
   }
 }

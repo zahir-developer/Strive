@@ -26,7 +26,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputEmail">Email</label>
-            <input type="email" maxlength="50" class="form-control" formControlName="email" placeholder="Email"
+            <input type="email" maxlength="50" (change) = "clientEmailCheck($event)" class="form-control" formControlName="email" placeholder="Email"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors">Please enter valid email address</div>
@@ -73,9 +73,9 @@
         </div>
         <div class="form-group col-lg-6 col-xl-3">
             <label for="inputState">State<span class="required">*</span></label>
-            <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"
+           <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"
                 [isView]="isView">
-            </app-state-dropdown>
+            </app-state-dropdown>           
         </div>
         <div class="form-group col-lg-6 col-xl-3" [disabled]="isView">
             <label for="inputCity">City</label>

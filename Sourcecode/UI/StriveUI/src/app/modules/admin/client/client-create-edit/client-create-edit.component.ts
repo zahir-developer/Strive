@@ -87,10 +87,14 @@ export class ClientCreateEditComponent implements OnInit {
   submit() {
     this.clientFormComponent.submitted = true;
     this.clientFormComponent.stateDropdownComponent.submitted = true;
+    if (this.clientFormComponent.stateDropdownComponent.stateValueSelection == false ) {
+      return;
+    }
+   
     if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
-    if (this.clientFormComponent.ClientNameAvailable == true) {
+   if (this.clientFormComponent.ClientNameAvailable == true) {
       this.toastr.error('Client Name is Already Entered', 'Error!');
 
       return;

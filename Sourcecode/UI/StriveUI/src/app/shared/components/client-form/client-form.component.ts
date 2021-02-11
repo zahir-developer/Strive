@@ -30,6 +30,7 @@ export class ClientFormComponent implements OnInit {
   city: any;
   selectedCityId: any;
   ClientNameAvailable: any;
+  ClientEmailAvailable: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService) { }
 
@@ -98,6 +99,22 @@ LastName : this.clientForm.value.lName
       }
     });
   }
+  clientEmailCheck(event) {
+   
+    this.client.ClientEmailCheck(event.target.value).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if(sameEmail.emailExist === true){
+          this.ClientEmailAvailable = true;
+          this.toastr.error('Client Email Already Exist', 'Error!');
+
+        } else{
+          this.ClientEmailAvailable = false;
+ 
+        }
+      }
+    });
+  }
   // Get Score
   getScore() {
     this.client.getClientScore().subscribe(data => {
@@ -154,12 +171,12 @@ LastName : this.clientForm.value.lName
   }
 
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
 
 }

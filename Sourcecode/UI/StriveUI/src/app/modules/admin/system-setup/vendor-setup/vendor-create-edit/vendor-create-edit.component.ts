@@ -87,16 +87,17 @@ export class VendorCreateEditComponent implements OnInit {
   // Add/Update Vendor
   submit() {
     this.submitted = true;
+   
     if (this.vendorSetupForm.invalid) {
-      if (this.stateDropdownComponent.state === '') {
-        this.stateDropdownComponent.submitted = true;
-      }
+    
       return;
     }
-    if (this.stateDropdownComponent.state === '') {
-      this.stateDropdownComponent.submitted = true;
+    if (this.stateDropdownComponent.stateValueSelection == false ) {
+      this.toastr.error('State is Required', 'Error!');
+
       return;
     }
+    
     const vendorObj = {
       vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       vin: this.vendorSetupForm.value.vin,
@@ -159,14 +160,14 @@ export class VendorCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
 }

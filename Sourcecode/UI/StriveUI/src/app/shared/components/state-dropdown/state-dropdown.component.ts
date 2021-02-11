@@ -8,23 +8,26 @@ import { StateService } from '../../services/common-service/state.service';
 })
 export class StateDropdownComponent implements OnInit, AfterViewChecked {
   stateList = [];
-  state = '';
   submitted: boolean;
   @Output() stateId = new EventEmitter();
   @Input() selectedStateId?: any;
   @Input() isView: any;
+  states: any;
+  state: { name: any; value: any; };
+  stateValueSelection: boolean = false;
   constructor(private stateService: StateService, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.submitted = false;
-    this.getstatiesList();
+    this.stateValueSelection = false;
+    this.getstatesList();
   }
   ngAfterViewChecked(){
     if (this.selectedStateId !== undefined) {
       this.cdRef.detectChanges();
     }
   }
-  getstatiesList() {
+  getstatesList() {
     this.stateService.getStatesList().subscribe(data => {
       const state = JSON.parse(data.resultData);
       this.stateList = state.Codes.map(item => {
@@ -38,12 +41,23 @@ export class StateDropdownComponent implements OnInit, AfterViewChecked {
     });
   }
   stateSelection(event) {
-    this.stateId.emit(event);
+    this.stateId.emit(event.value.value);
+    this.stateValueSelection =true;
   }
 
   setValue() {
     if (this.selectedStateId !== undefined) {
-      this.state = this.selectedStateId;
+      this.stateValueSelection =true;
+
+      this.stateList.map(item => {
+        if(item.value ==  this.selectedStateId){
+       this.state = {
+            name: item.name,
+            value: item.value
+          };
+        }
+       
+      });
     }
   }
 }
