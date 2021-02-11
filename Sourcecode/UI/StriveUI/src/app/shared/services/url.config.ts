@@ -54,7 +54,7 @@ export const UrlConfig = {
     addClient: `Admin/Client/InsertClientDetails`,
     updateClient: `Admin/Client/UpdateClientVehicle`,
     getClientName: `Admin/Client/GetAllName`,
-
+    clientEmailCheck :  `Admin/Client/ClientEmailExist`,
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
     getAllVehicle: `Admin/Vehicle/GetAll`,

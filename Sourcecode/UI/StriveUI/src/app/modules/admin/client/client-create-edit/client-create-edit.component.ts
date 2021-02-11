@@ -86,6 +86,11 @@ export class ClientCreateEditComponent implements OnInit {
 
       return;
     }
+    if (this.clientFormComponent.ClientEmailAvailable == true) {
+      this.toastr.error('Client Email Already Exist', 'Error!');
+
+      return;
+    }
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
