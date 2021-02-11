@@ -154,7 +154,7 @@ export class ProductCreateEditComponent implements OnInit {
           vendor: this.selectedProduct.VendorId,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
-        this.fileName= this.selectedProduct.FileName;
+        this.fileName= this.selectedProduct.OriginalFileName;
         this.fileUploadformData = this.selectedProduct.Base64;
         if (this.selectedProduct.Size === 33) {
           this.textDisplay = true;
@@ -206,6 +206,7 @@ export class ProductCreateEditComponent implements OnInit {
       locationId: this.productSetupForm.value.locationName,
       productName: this.productSetupForm.value.name,      
       fileName: this.fileName,
+      OriginalFileName: this.fileName,
       thumbFileName: this.fileThumb,
       base64: this.fileUploadformData,
       cost: this.productSetupForm.value.cost,
