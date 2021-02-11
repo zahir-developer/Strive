@@ -2,6 +2,7 @@
 using Strive.Core.Models.Customer.Schedule;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         public DateTime selectedDate { get; set; }
         public DateTime currentDate { get; set; }
         public AvailableScheduleSlots ScheduleSlotInfo { get; set; }
+        public int BayID { get; set; } = -1;
         #endregion Properties
 
         #region Commands
@@ -28,13 +30,17 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 ScheduleSlotInfo = new AvailableScheduleSlots();
                 ScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();
                 string prevSlotTiming = "";
-                foreach(var data in result.GetTimeInDetails)
+                BayID = result.GetTimeInDetails.First().BayId;
+                foreach (var data in result.GetTimeInDetails)
                 {
-                    if(!string.Equals(prevSlotTiming, data.TimeIn))
+                    if(BayID == data.BayId)
                     {
-                        ScheduleSlotInfo.GetTimeInDetails.Add(data);
-                        prevSlotTiming = data.TimeIn;
-                    }
+                        if (!string.Equals(prevSlotTiming, data.TimeIn))
+                        {
+                            ScheduleSlotInfo.GetTimeInDetails.Add(data);
+                            prevSlotTiming = data.TimeIn;
+                        }
+                    }                    
                 }
             }
         }
