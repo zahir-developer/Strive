@@ -117,7 +117,8 @@ namespace StriveEmployee.Android.Adapter
                 var localDate = localDateTime.ToString().Split(" ");
                 if(String.Equals(DateTime.Now.Date.ToString(), localDateTime.Date.ToString()))
                 {
-                    recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = localDateTime.ToString("HH:mm tt", CultureInfo.CurrentCulture);
+                    var messageTime = lastMessage[1].Split(":");
+                    recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = messageTime[0] + ":" + messageTime[1];
                 }
                 else
                 {

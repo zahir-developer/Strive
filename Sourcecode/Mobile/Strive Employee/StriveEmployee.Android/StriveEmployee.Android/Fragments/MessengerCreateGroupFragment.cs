@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -22,7 +23,9 @@ namespace StriveEmployee.Android.Fragments
     public class MessengerCreateGroupFragment : MvxFragment<MessengerCreateGroupViewModel>
     {
         private Button next_Button;
+        private Button createGroupBack;
         private RecyclerView createGroup_RecyclerView;
+        private MessengerFragment messengerFragment;
         private MessengerCreateGroupAdapter messengerCreateGroup_Adapter;
         private MessengerFinalizeGroupFragment FinalizeGroup_Fragment;
         private MvxFragment selected_MvxFragment;
@@ -39,14 +42,23 @@ namespace StriveEmployee.Android.Fragments
             var rootView = this.BindingInflate(Resource.Layout.MessengerCreateGroup_Fragment, null);
             this.ViewModel = new MessengerCreateGroupViewModel();
 
-            next_Button = rootView.FindViewById<Button>(Resource.Id.createGroupNext);
+            next_Button = rootView.FindViewById<Button>(Resource.Id.createGroupNext); 
+            createGroupBack = rootView.FindViewById<Button>(Resource.Id.createGroupBack);
             createGroup_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.createGroup_RecyclerView);
 
             next_Button.Click += Next_Button_Click;
+            createGroupBack.Click += CreateGroupBack_Click;
 
             selectGroupChatEntry();
 
             return rootView;
+        }
+
+        private void CreateGroupBack_Click(object sender, EventArgs e)
+        {
+            messengerFragment = new MessengerFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
         }
 
         private void Next_Button_Click(object sender, EventArgs e)
@@ -54,13 +66,23 @@ namespace StriveEmployee.Android.Fragments
             if(!MessengerTempData.IsCreateGroup)
             {
                 selected_MvxFragment = new MessengerViewParticipantsFragment();
+                FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
             }
 
             else
             {
-                selected_MvxFragment = new MessengerFinalizeGroupFragment();
+                if(MessengerTempData.SelectedParticipants.EmployeeList.Count > 0)
+                {
+                    selected_MvxFragment = new MessengerFinalizeGroupFragment();
+                    FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+                }
+                else
+                {
+                    this.ViewModel.NotEnough();
+                }
+               
             }
-            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+           
         }
 
         private async void selectGroupChatEntry()

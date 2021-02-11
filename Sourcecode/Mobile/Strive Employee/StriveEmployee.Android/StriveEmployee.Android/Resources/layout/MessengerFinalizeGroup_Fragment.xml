@@ -18,7 +18,7 @@
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
         <Button
-            android:id="@+id/createGroupBack"
+            android:id="@+id/finalizeGroupBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -99,6 +99,7 @@
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_bold"/>
                 <ImageButton
+                    android:id="@+id/addParticipants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"

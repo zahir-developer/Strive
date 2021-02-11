@@ -23,9 +23,12 @@ namespace StriveEmployee.Android.Fragments
     public class MessengerFinalizeGroupFragment : MvxFragment<MessengerFinalizeGroupViewModel>
     {
         private Button Create_Button;
+        private Button BackButton;
         private EditText groupFinalName_TextView;
         private MessengerFinalizeGroupAdapter messengerFinalizeGroup_Adapter;
+        private MessengerCreateGroupFragment messengerCreateGroupFragment;
         private RecyclerView finalizeGroup_recyclerView;
+        private ImageButton AddParticipant;
         MessengerFragment messengerFragment = new MessengerFragment(); 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,19 +46,46 @@ namespace StriveEmployee.Android.Fragments
             Create_Button = rootView.FindViewById<Button>(Resource.Id.createGroupSave);
             groupFinalName_TextView = rootView.FindViewById<EditText>(Resource.Id.groupFinalName_TextView);
             finalizeGroup_recyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.finalizeGroup_recyclerView);
+            BackButton = rootView.FindViewById<Button>(Resource.Id.finalizeGroupBack);
+            BackButton.Click += BackButton_Click;
+            AddParticipant = rootView.FindViewById<ImageButton>(Resource.Id.addParticipants);
+            AddParticipant.Click += AddParticipant_Click;
             getParticipants();
             Create_Button.Click += Create_Button_Click;
             return rootView;
         }
 
+        private void AddParticipant_Click(object sender, EventArgs e)
+        {
+            messengerCreateGroupFragment = new MessengerCreateGroupFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerCreateGroupFragment).Commit();
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            messengerCreateGroupFragment = new MessengerCreateGroupFragment();
+            AppCompatActivity activity = (AppCompatActivity)this.Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerCreateGroupFragment).Commit();
+        }
+
         private async void Create_Button_Click(object sender, EventArgs e)
         {
-            this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
-            await this.ViewModel.CreateGroup();
-            MessengerTempData.resetParticipantInfo();
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
+            if(!string.IsNullOrEmpty(groupFinalName_TextView.Text))
+            {
+                this.ViewModel.GroupName = this.groupFinalName_TextView.Text;
+                await this.ViewModel.CreateGroup();
+                MessengerTempData.resetParticipantInfo();
+                AppCompatActivity activity = (AppCompatActivity)this.Context;
+                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerFragment).Commit();
+            }
+            else
+            {
+                this.ViewModel.EmptyGroupName();
+            }
+            
         }
+
 
         private void getParticipants()
         {

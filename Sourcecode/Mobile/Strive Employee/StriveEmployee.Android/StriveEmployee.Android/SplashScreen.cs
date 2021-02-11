@@ -20,6 +20,7 @@ namespace StriveEmployee.Android
     [Activity(
        MainLauncher = true,
        NoHistory = true,
+       Icon = "@@drawable/strive_logo_page",
        Theme = "@style/SplashTheme",
        ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreen : MvxSplashScreenActivity
