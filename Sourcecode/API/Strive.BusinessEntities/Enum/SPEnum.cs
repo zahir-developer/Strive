@@ -142,6 +142,8 @@ namespace Strive.BusinessEntities
         USPGETCLIENT,
         USPDELETECLIENT,
         USPGETCLIENTBYID,
+        USPISCLIENTAVAILABLE,
+        USPGETALLCLIENTNAME,
         //GiftCard
         USPGETALLGIFTCARD,
         USPGETGIFTCARDHISTORY,
@@ -166,7 +168,7 @@ namespace Strive.BusinessEntities
         //Service Setup
         USPDELETESERVICEBYID,
         USPGETSERVICES,
-        USPGETSERVICECATEGORYBYLOCATIONID,
+        USPGETALLSERVICE,
         //Cash Register
         USPSAVETODAYCASHREGISTER,
         USPGETCASHREGISTERDETAILS,
@@ -185,7 +187,7 @@ namespace Strive.BusinessEntities
         USPVERIFYOTP,
 
         USPGETEMPLOYEEBYID,
-        USPGETALLSERVICE,
+        USPGETALLSERVICEDETAIL,
         USPGETPRODUCTS,
         USPGETCASHREGISTER,
         USPGETCOLLISIONBYEMPID,
@@ -217,6 +219,7 @@ namespace Strive.BusinessEntities
         USPGETMEMBERSHIPBYVEHICLEID,
         //Vendor
         USPGETALLVENDOR,
+        USPGETVENDORBYID,
         USPDELETEVENDOR,
         USPGETVEHICLE,
         //Washes
@@ -251,6 +254,7 @@ namespace Strive.BusinessEntities
         uspGetItemList,
         USPGETACCOUNTDETAILS,
         uspGetItemListByTicketNumber,
+        USPGETTICKETNUMBER,
         USPCREATETENANT,
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,

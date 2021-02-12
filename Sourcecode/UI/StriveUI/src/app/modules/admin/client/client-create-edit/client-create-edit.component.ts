@@ -8,6 +8,7 @@ import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientStatementComponent } from '../client-statement/client-statement.component';
 import { ClientHistoryComponent } from '../client-history/client-history.component';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -42,7 +43,7 @@ export class ClientCreateEditComponent implements OnInit {
   isVehicleEdit: boolean;
   clonedVehicleDetails = [];
   constructor(private toastr: ToastrService, private client: ClientService,
-    private confirmationService: ConfirmationUXBDialogService,
+    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
     private modalService: NgbModal, private vehicle: VehicleService) { }
 
   ngOnInit() {
@@ -72,7 +73,7 @@ export class ClientCreateEditComponent implements OnInit {
             item.isAddedVehicle = true;
           });
           let len = this.vehicleDetails.length;
-          this.vehicleNumber = Number(this.vehicleDetails[len - 1].VehicleNumber) + 1;
+          this.vehicleNumber = this.vehicleDetails.length + 1;
           console.log(this.vehicleNumber);
           this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
@@ -130,7 +131,7 @@ export class ClientCreateEditComponent implements OnInit {
       lastName: this.clientFormComponent.clientForm.value.lName,
       gender: null,
       maritalStatus: null,
-      birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
+      birthDate: this.isEdit ? this.selectedData.BirthDate === '0001-01-01T00:00:00' ? null : this.selectedData.BirthDate : null,
       isActive: Number(this.clientFormComponent.clientForm.value.status) === 0 ? true : false,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -139,9 +140,11 @@ export class ClientCreateEditComponent implements OnInit {
       updatedDate: new Date(),
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
-      score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+      score: (this.clientFormComponent.clientForm.value.score === '' || this.clientFormComponent.clientForm.value.score == null) ?
+       0 : this.clientFormComponent.clientForm.value.score,
       noEmail: this.clientFormComponent.clientForm.value.creditAccount,
-      clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type,
+      clientType: (this.clientFormComponent.clientForm.value.type === '' || this.clientFormComponent.clientForm.value.type == null) ?
+       0 : this.clientFormComponent.clientForm.value.type,
       amount: this.clientFormComponent.clientForm.value.amount
     };
     const myObj = {
@@ -150,7 +153,9 @@ export class ClientCreateEditComponent implements OnInit {
       clientAddress: this.address
     }
     if (this.isEdit === true) {
+      this.spinner.show();
       this.client.updateClient(myObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.deleteIds.forEach(element => {
             this.vehicle.deleteVehicle(element.VehicleId).subscribe(res => {
@@ -167,9 +172,13 @@ export class ClientCreateEditComponent implements OnInit {
           this.toastr.error('Communication Error', 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.client.addClient(myObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -177,6 +186,8 @@ export class ClientCreateEditComponent implements OnInit {
           this.toastr.error('Communication Error', 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }
@@ -193,9 +204,8 @@ export class ClientCreateEditComponent implements OnInit {
           this.vehicleDetails.push(item);
         });
       }
-      // this.vehicleDetails.push(this.vehicle.vehicleValue);
       let len = this.vehicleDetails.length;
-      this.vehicleNumber = Number(this.vehicleDetails[len - 1].VehicleNumber) + 1;
+      this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
       console.log(this.vehicleDetails, 'vedel');
       this.vehicleDet.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;

@@ -7,7 +7,7 @@
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Employee Handbook</h5>&nbsp;
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="adddata('add',[])">Add HandBook
+                            (click)="adddata('add',[])">Add New HandBook
                         </button>
                     </div>
                     <div class="setup-wrapper">
@@ -20,7 +20,7 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-
+                                            <th>Role</th>
                                             <th>File Name</th>
                                             <th> Created Date</th>
                                             <!-- <th> Created By</th> -->
@@ -29,12 +29,12 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngIf="document.length === 0" >
-                                           <td colspan="10" class="text-center"> No Records Found</td>
+                                           <td colspan="12" class="text-center"> No Records Found</td>
                                         </tr>
                                         <tr  *ngFor="let doc of document">
-                                            <th scope="row" >{{doc.DocumentName}}</th>
-
-                                            <th scope="row" >{{doc.OriginalFileName}}</th>
+                                            <td scope="row" >{{doc.DocumentName}}</td>
+                                            <td scope="row" >{{doc.RoleName}}</td>
+                                            <td scope="row" >{{doc.OriginalFileName}}</td>
                                             <td>{{doc.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
                                             <!-- <td>{{Documents?.CreatedBy}}</td> -->
                                             <td>
@@ -48,9 +48,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="loadingDiv" *ngIf="isLoading">
-                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                        </div>
+                       
                     </div>
             </div>
         </div>

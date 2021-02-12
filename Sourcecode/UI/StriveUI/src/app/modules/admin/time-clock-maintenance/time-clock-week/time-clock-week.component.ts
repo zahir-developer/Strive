@@ -262,7 +262,7 @@ export class TimeClockWeekComponent implements OnInit {
           eventDate: time.EventDate,
           inTime: time.InTime ? moment(inEventDate).format() : '',  // this.datePipe.transform(time.InTime, 'HH:mm'),
           outTime: time.OutTime ? moment(outEventDate).format() : '', // this.datePipe.transform(time.OutTime, 'HH:mm'),
-          eventType: 1,
+          eventType: null,
           updatedFrom: '',
           status: true,
           comments: '',
@@ -375,7 +375,7 @@ export class TimeClockWeekComponent implements OnInit {
     let detailsMins = 0;
     this.replicateClockList.forEach(item => {
       item.checkInDetail.forEach(checkIn => {
-        if (this.roleList.filter(role => +role.RoleMasterId === +checkIn.RoleId)[0]?.RoleName === 'Wash') {
+        if (this.roleList.filter(role => +role.RoleMasterId === +checkIn.RoleId)[0]?.RoleName === 'Washer') {
           let n = checkIn.TotalHours.search(":");
           let h = checkIn.TotalHours.substring(0, n);
           let m = checkIn.TotalHours.substring(n + 1, n + 3);

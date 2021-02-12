@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Washes;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
@@ -14,10 +15,18 @@ namespace Strive.ResourceAccess
     public class WashesRal : RalBase
     {
         public WashesRal(ITenantHelper tenant) : base(tenant) { }
-        public List<AllWashesViewModel> GetAllWashTime(int locationId)
+        public WashesListViewModel GetAllWashTime(SearchDto searchDto)
         {
-            _prm.Add("@locationId", locationId);
-            return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
+            _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
+
+            return db.FetchMultiResult<WashesListViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
         }
 
         public WashDetailViewModel GetWashTimeDetail(int id)

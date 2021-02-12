@@ -34,10 +34,6 @@ namespace Strive.BusinessLogic
             int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
             employee.EmployeeDetail.AuthId = authId;
 
-           var password = new CommonBpl(_cache, _tenant).CreateLoginPwd(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
-
-            new CommonBpl(_cache, _tenant).SendLoginCreationEmail(employee.EmployeeAddress.Email, password);
-
             var docBpl = new DocumentBpl(_cache, _tenant);
 
             string error = docBpl.ValidateEmployeeFiles(employee.EmployeeDocument);

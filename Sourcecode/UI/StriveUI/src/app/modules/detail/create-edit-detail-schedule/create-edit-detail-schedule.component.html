@@ -63,7 +63,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredClient"
+                                    <p-autoComplete field="name" [suggestions]="clientList"
                                         (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
                                         placeholder="Client Name" (onSelect)="selectedClient($event)">
                                     </p-autoComplete>

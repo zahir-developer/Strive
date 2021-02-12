@@ -31,26 +31,28 @@ export class ClientFormComponent implements OnInit {
   selectedCityId: any;
   ClientNameAvailable: any;
   ClientEmailAvailable: boolean;
+  isAmount: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService) { }
 
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
+    this.isAmount = false;
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
     }
     if (this.isEdit === true) {
       this.getClientById();
-    } 
-    if(this.isEdit !== true || this.isView === true){
+    }
+    if (this.isEdit !== true || this.isView === true) {
       this.clientForm.controls.status.disable();
-    }else{
+    } else {
       this.clientForm.controls.status.enable();
     }
   }
- 
+
   formInitialize() {
     this.clientForm = this.fb.group({
       fName: ['', Validators.required],
@@ -69,9 +71,10 @@ export class ClientFormComponent implements OnInit {
       notes: ['',],
       checkOut: ['',],
       type: ['', Validators.required],
-      amount:['',]
+      amount: ['',]
     });
     this.clientForm.get('status').patchValue(0);
+    this.clientForm.controls.amount.disable();
     this.getClientType();
     this.getScore();
   }
@@ -81,16 +84,17 @@ export class ClientFormComponent implements OnInit {
   }
   sameClientName() {
     const clientNameDto = {
-FirstName :this.clientForm.value.fName,
-LastName : this.clientForm.value.lName
-
-    }
-    this.client.ClientSameName(clientNameDto).subscribe(res => {
-      if (res.status === 'Success') {
-        const sameName = JSON.parse(res.resultData);
-        if(sameName.IsClientNameAvailable === true){
-          this.ClientNameAvailable = true;
-          this.toastr.error('Client Name is Already Entered', 'Error!');
+      FirstName: this.clientForm.value.fName,
+      LastName: this.clientForm.value.lName,
+      PhoneNumber: this.clientForm.value.phone1
+    };
+    if (this.clientForm.value.fName && this.clientForm.value.lName && this.clientForm.value.phone1) {
+      this.client.ClientSameName(clientNameDto).subscribe(res => {
+        if (res.status === 'Success') {
+          const sameName = JSON.parse(res.resultData);
+          if (sameName.IsClientNameAvailable === true) {
+            this.ClientNameAvailable = true;
+            this.toastr.error('Client is Already Exists', 'Error!');
 
         } else{
           this.ClientNameAvailable = false;
@@ -160,6 +164,9 @@ LastName : this.clientForm.value.lName
       email: this.selectedData.Email
     });
     this.clientId = this.selectedData.ClientId;
+    if (this.selectedData.NoEmail) {
+      this.clientForm.controls.amount.enable();
+    }
   }
 
   viewClient() {
@@ -168,6 +175,11 @@ LastName : this.clientForm.value.lName
 
   change(data) {
     this.clientForm.value.creditAccount = data;
+    if (data) {
+      this.clientForm.controls.amount.enable();
+    } else {
+      this.clientForm.controls.amount.disable();
+    }
   }
 
   getSelectedStateId(event) {

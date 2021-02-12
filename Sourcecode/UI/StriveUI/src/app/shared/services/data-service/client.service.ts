@@ -10,8 +10,8 @@ import { UrlConfig } from '../url.config';
 export class ClientService {
 
   constructor(private http: HttpUtilsService) { }
-  getClient(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getClient}`);
+  getClient(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getClient}`,obj);
   }
   getClientName(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClientName}`);

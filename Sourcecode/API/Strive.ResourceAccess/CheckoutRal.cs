@@ -41,11 +41,16 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<CheckOutViewModel> GetCustomerHistory(SalesReportDto salesReportDto)
+        public List<CheckOutViewModel> GetCustomerHistory(CustomerHistorySearchDto salesReportDto)
         {
             _prm.Add("locationid", salesReportDto.LocationId);
             _prm.Add("fromDate", salesReportDto.FromDate);
             _prm.Add("toDate", salesReportDto.EndDate);
+            _prm.Add("@PageNo", salesReportDto.PageNo);
+            _prm.Add("@PageSize", salesReportDto.PageSize);
+            _prm.Add("@Query", salesReportDto.Query);
+            _prm.Add("@SortOrder", salesReportDto.SortOrder);
+            _prm.Add("@SortBy", salesReportDto.SortBy);
 
             return db.Fetch<CheckOutViewModel>(SPEnum.USPGETCUSTOMERHISTORY.ToString(), _prm);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Strive.BusinessEntities.DTO.ServiceSetup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ServiceListViewModel
     {
-        public int? ServiceId { get; set; }
-        public int? ServiceTypeId { get; set; }
-        public string ServiceType { get; set; }
-        public string ServiceName { get; set; }
+        public List<GetAllServiceViewModel> getAllServiceViewModel { get; set; }
+
+        public CountViewModel Count { get; set; }
+
     }
 }

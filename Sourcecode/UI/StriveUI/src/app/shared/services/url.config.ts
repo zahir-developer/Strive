@@ -75,7 +75,7 @@ export const UrlConfig = {
     updateEmployee: `Admin/Employee/Update`,
     saveGiftCard: `Admin/GiftCard/AddGiftCard`,
     updateStatus: `Admin/GiftCard/ChangeStatus`,
-    getAllWash: `Admin/Washes/GetAllWashes/`,
+    getAllWash: `Admin/Washes/GetAllWashes`,
     getWashById: `Admin/Washes/GetWashTimeDetail/`,
     addWash: `Admin/Washes/AddWashTime`,
     updateWash: `Admin/Washes/UpdateWashTime`,
@@ -91,6 +91,8 @@ export const UrlConfig = {
     updateMembership: `Admin/MembershipSetup/Update`,
     deleteMembership: `Admin/MembershipSetup/Delete/`,
     getClientByName: `Admin/Client/GetClientSearch`,
+    getClientName: `Admin/Client/GetAllName/`,
+
     getClientScore: `Admin/Client/GetClientCodes`,
     updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`,
     getBalance: `Admin/GiftCard/GetGiftCardBalance/`,
@@ -140,7 +142,7 @@ export const UrlConfig = {
     updateProductObj: `Admin/Sales/SaveProductItem`,
     getJobStatus: `Admin/Common/GetCodesByCategory/`,
     getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
-    getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails/`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     getAllWhiteLabelDetail: `Admin/WhiteLabelling/GetAll`,
     addWhiteLabelDetail: `Admin/WhiteLabelling/Add`,
@@ -167,8 +169,7 @@ export const UrlConfig = {
     deleteadSetup: `Admin/AdSetup/Delete`,
     getByIdadSetup: `Admin/AdSetup/GetById`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
-    getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`,
-
+    getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`
 
 
 
@@ -222,7 +223,8 @@ export const UrlConfig = {
     getDocument: `Admin/Document/GetDocument/`,
     getAllDocument: `Admin/Document/GetAllDocument/`,
     deleteDocumentById: `Admin/Document/DeleteDocumentById/`,
-    deleteDocument: `Admin/Document/DeleteDocument/`
+    deleteDocument: `Admin/Document/DeleteDocument/`,
+    getDocumentById: `Admin/Document/GetDocumentById/`
   },
   customerHistory: {
     getCustomerHistory: `Admin/Checkout/GetCustomerHistory`

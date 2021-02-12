@@ -32,17 +32,22 @@ export class ProductCreateEditComponent implements OnInit {
   costErrMsg: boolean = false;
   priceErrMsg: boolean = false;
   employeeId: number;
-  constructor(private fb: FormBuilder, 
-    private spinner: NgxSpinnerService,
-    private toastr: ToastrService, private locationService: LocationService, private product: ProductService, private getCode: GetCodeService) { }
+  constructor(
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private locationService: LocationService,
+    private product: ProductService,
+    private getCode: GetCodeService,
+    private spinner: NgxSpinnerService
+    ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
-
+    this.textDisplay = false;
     this.getProductType();
     this.getAllLocation();
     this.getAllVendor();
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"InActive"}];    
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
@@ -66,12 +71,12 @@ export class ProductCreateEditComponent implements OnInit {
       vendor: ['',],
       thresholdAmount: ['',],
       other: ['',],
-      suggested: ['']
+      suggested: ['', Validators.required]
     });
-    this.productSetupForm.patchValue({status : 0}); 
-    if(this.isEdit !== true){
+    this.productSetupForm.patchValue({ status: 0 });
+    if (this.isEdit !== true) {
       this.productSetupForm.controls.status.disable();
-    }else{
+    } else {
       this.productSetupForm.controls.status.enable();
     }
   }
@@ -96,6 +101,7 @@ export class ProductCreateEditComponent implements OnInit {
         const other = this.size.filter(i => i.CodeValue === "Other")[0];
         this.size = this.size.filter(i => i.CodeValue !== "Other");
         this.size.push(other);
+        console.log(this.size, 'size');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -125,13 +131,17 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   showText(data) {
-    if (data === '33') {
-      this.textDisplay = true;
-      this.productSetupForm.get('other').setValidators([Validators.required]);
-    } else {
-      this.textDisplay = false;
-      this.productSetupForm.get('other').clearValidators();
-      this.productSetupForm.get('other').reset();
+    const size = this.size.filter( item => item.CodeValue === 'Other');
+    if (size.length > 0) {
+      const id = size[0].CodeId;
+      if (+data === id) {
+        this.textDisplay = true;
+        this.productSetupForm.get('other').setValidators([Validators.required]);
+      } else {
+        this.textDisplay = false;
+        this.productSetupForm.get('other').clearValidators();
+        this.productSetupForm.get('other').reset();
+      }
     }
   }
   // Get Product By Id
@@ -187,11 +197,11 @@ export class ProductCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.productSetupForm.invalid) {
-      if(this.productSetupForm.value.cost !== ""){        
-        if(Number(this.productSetupForm.value.cost) <= 0){
+      if (this.productSetupForm.value.cost !== "") {
+        if (Number(this.productSetupForm.value.cost) <= 0) {
           this.costErrMsg = true;
           return;
-        }else{
+        } else {
           this.costErrMsg = false;
         }
       }
@@ -204,7 +214,7 @@ export class ProductCreateEditComponent implements OnInit {
       productType: this.productSetupForm.value.productType,
       productId: this.isEdit ? this.selectedProduct.ProductId : 0,
       locationId: this.productSetupForm.value.locationName,
-      productName: this.productSetupForm.value.name,      
+      productName: this.productSetupForm.value.name,
       fileName: this.fileName,
       OriginalFileName: this.fileName,
       thumbFileName: this.fileThumb,
@@ -227,10 +237,10 @@ export class ProductCreateEditComponent implements OnInit {
       price: this.productSetupForm.value.suggested
     };
     if (this.isEdit === true) {
-      this.spinner.show()
+      this.spinner.show();
       this.product.updateProduct(formObj).subscribe(data => {
-        this.spinner.hide()
-        if (data.status === 'Success') {        
+        this.spinner.hide();
+        if (data.status === 'Success') {
           this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
@@ -238,12 +248,14 @@ export class ProductCreateEditComponent implements OnInit {
           this.productSetupForm.reset();
           this.submitted = false;
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
-      this.spinner.show()
+      this.spinner.show();
       this.product.addProduct(formObj).subscribe(data => {
-        this.spinner.hide()
-        if (data.status === 'Success') {        
+        this.spinner.hide();
+        if (data.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
@@ -251,8 +263,10 @@ export class ProductCreateEditComponent implements OnInit {
           this.productSetupForm.reset();
           this.submitted = false;
         }
+      }, (err) => {
+        this.spinner.hide();
       });
-    }    
+    }
   }
   fileNameChanged() {
     let filesSelected: any;
@@ -260,7 +274,7 @@ export class ProductCreateEditComponent implements OnInit {
     filesSelected = filesSelected.files;
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;      
+      this.fileName = fileToLoad.name;
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
@@ -276,14 +290,14 @@ export class ProductCreateEditComponent implements OnInit {
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
-        console.log(this.fileName,this.fileUploadformData.length);
+        console.log(this.fileName, this.fileUploadformData.length);
       }, 5000);
     }
   }
 
   clearDocument() {
     this.fileName = null;
-    this.fileThumb= null;
+    this.fileThumb = null;
     this.fileUploadformData = null;
   }
   cancel() {

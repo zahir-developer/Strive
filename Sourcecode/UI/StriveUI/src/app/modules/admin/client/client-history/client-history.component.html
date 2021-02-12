@@ -24,12 +24,12 @@
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
                         <!-- <td></td> -->
-                        <td>{{history.Amount}}</td>
-                        <td>{{history.Price}}</td>
-                        <td>{{history.Comm}}</td>
+                        <td>{{history.Amount | currency}}</td>
+                        <td>{{history.Price | currency}}</td>
+                        <td>{{history.Comm | currency}}</td>
                     </tr>
                     <tr *ngIf="historyGrid.length === 0">
-                        <td colspan="7" class="text-center">
+                        <td colspan="12" class="text-center">
                             No Records Found
                         </td>
                     </tr>
