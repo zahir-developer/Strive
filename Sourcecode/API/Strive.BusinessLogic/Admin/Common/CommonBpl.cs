@@ -296,6 +296,7 @@ namespace Strive.BusinessLogic.Common
 
             if (authId > 0)
             {
+                
                 SendLoginCreationEmail(emailId, randomPassword);
             }
 
@@ -382,6 +383,16 @@ namespace Strive.BusinessLogic.Common
             <p> Strive Team </p>", "Welcome to Strive");
         }
 
+        public void SendHoldNotificationEmail(string emailId, string TicketNumber)
+        {
+            SendMail(emailId, @"<p>Hello " + emailId + @",</p>
+            <p>Your Vehicle is on Hold.</p>
+            <p> Ticketnumber: " + TicketNumber + @".</p>
+            <p>Thanks,</p>
+            <p>Strive Team.</p>
+           ", "Vehicle is on Hold");
+        }
+
         private Result SendOtpEmail(string emailId, string otp)
         {
             SendMail(emailId, @"<p>Hello " + emailId + @",</p>
@@ -428,5 +439,36 @@ namespace Strive.BusinessLogic.Common
              
         }
 
+        public string GetMailContent (HtmlContent module , Dictionary<string,string>Name)
+        {
+
+            string subPath = string.Empty;
+            //switch (module)
+            //{
+            //    case HtmlContent.EmployeeSignUp:
+            //        subPath = _tenant.EmployeeSignUp;
+            //        break;
+            //    case HtmlContent.ClientSignUp:
+            //        subPath = _tenant.EmployeeSignUp;
+            //        break;
+            //    case HtmlContent.HoldNotification:
+            //        subPath = _tenant.EmployeeSignUp;
+            //        break;
+
+            //}
+
+            //subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);            
+
+            StreamReader str = new StreamReader(subPath);
+            string MailText = str.ReadToEnd();
+           
+            foreach (var item in Name)
+            {
+                MailText.Replace(item.Key, item.Value.Trim());                
+            }
+            str.Close();
+            
+            return MailText;
+        }
     }
 }

@@ -47,4 +47,11 @@ namespace Strive.Common
         Admin = 3,
         SuperAdmin = 100
     }
+
+    public enum HtmlContent
+    {
+        EmployeeSignUp,
+        ClientSignUp,
+        HoldNotification
+    }
 }
