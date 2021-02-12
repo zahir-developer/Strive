@@ -21,8 +21,10 @@ public class Service
 
 	[Column]
 	public decimal? Cost { get; set; }
+        [Column]
+        public decimal? Price { get; set; }
 
-	[Column]
+        [Column]
 	public bool? Commision { get; set; }
 
 	[Column]

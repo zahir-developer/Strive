@@ -8,7 +8,9 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class GiftCardDetailsViewModel
     {
-        public int GiftCardId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+       public int GiftCardId { get; set; }
         public int LocationId { get; set; }
         public string GiftCardCode { get; set; }
         public string GiftCardName { get; set; }
