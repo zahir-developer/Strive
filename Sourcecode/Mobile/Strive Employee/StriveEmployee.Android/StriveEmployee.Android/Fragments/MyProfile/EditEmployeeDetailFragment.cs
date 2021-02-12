@@ -20,6 +20,9 @@ namespace StriveEmployee.Android.Fragments.MyProfile
     {
         private Button back_Button;
         private Button save_Button;
+        private EditText LoginID;
+        private EditText DateOfHire;
+        private Spinner Status;
         private MyProfileFragment profile_Fragment;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -37,6 +40,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 
             back_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_BackButton);
             save_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_SaveButton);
+            LoginID = rootView.FindViewById<EditText>(Resource.Id.loginID_EditText);
             back_Button.Click += Back_Button_Click;
             save_Button.Click += Save_Button_Click;
 

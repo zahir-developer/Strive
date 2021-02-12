@@ -81,7 +81,7 @@ namespace StriveEmployee.Android.Views
                 password_EditText.SetText(password, null);
                 if (!String.IsNullOrEmpty(emailPhone_EditText.Text) && !String.IsNullOrEmpty(password_EditText.Text))
                 {
-                    //await ViewModel.DoLoginCommand();
+                    await ViewModel.DoLoginCommand();
                 }
             }
             else

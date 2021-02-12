@@ -268,6 +268,11 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_DELETE + documentID, HttpMethod.Delete);
         }
+
+        public async Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo)
+        {
+            return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_UPDATE_EMPLOYEE_PERSONAL_DETAILS, HttpMethod.Post, employeeInfo);
+        }
     }
     public static class RestUtils
     {

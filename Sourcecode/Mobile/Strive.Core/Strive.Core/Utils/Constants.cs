@@ -116,5 +116,7 @@ namespace Strive.Core.Utils
         public const string URL_EMPLOYEE_DOCUMENTS_DOWNLOAD = "/Admin/Document/GetEmployeeDocumentById/";
 
         public const string URL_EMPLOYEE_DOCUMENTS_DELETE = "/Admin/Document/DeleteEmployeeDocument/";
+
+        public const string URL_UPDATE_EMPLOYEE_PERSONAL_DETAILS = "/Admin/Employee/Update";
     }
 }

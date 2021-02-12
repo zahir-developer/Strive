@@ -103,6 +103,8 @@ namespace Strive.Core.Services.Interfaces
         Task<AvailableScheduleServicesModel> GetScheduleServices();
         
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
+
+        Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo);
     
     }
 }
