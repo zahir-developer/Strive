@@ -159,7 +159,7 @@ export class DashboardComponent implements OnInit {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size: 'sm'
+      size: '100px'
     };
     const modalRef = this.modalService.open(FilterDashboardComponent, ngbModalOptions);
     modalRef.componentInstance.filterDashboard.subscribe((receivedEntry) => {
