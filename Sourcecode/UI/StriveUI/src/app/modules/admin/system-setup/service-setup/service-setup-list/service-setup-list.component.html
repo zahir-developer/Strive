@@ -43,7 +43,7 @@
                                                 [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
                                             <th class="pointer" (click)="sort('ServiceType')">Type&nbsp; <i class="fa" *ngIf="column =='ServiceType'" 
                                                 [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('Cost')">Price&nbsp; <i class="fa" *ngIf="column =='Cost'" 
+                                            <th class="pointer" (click)="sort('Price')">Price&nbsp; <i class="fa" *ngIf="column =='Price'" 
                                                 [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
                                             <th class="pointer" (click)="sort('IsActive')">Status&nbsp; <i class="fa" *ngIf="column =='IsActive'" 
                                                 [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
@@ -57,7 +57,7 @@
                                             *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td scope="row">{{serviceSetup.ServiceName}}</td>
                                             <td>{{serviceSetup.ServiceType}}</td>
-                                            <td>{{serviceSetup.Cost | currency}}</td>
+                                            <td>{{serviceSetup.Price | currency}}</td>
                                             <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"

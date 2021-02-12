@@ -36,6 +36,7 @@ export class ServiceCreateEditComponent implements OnInit {
   isDiscounts: boolean;
   discountServiceType: any;
   employeeId: number;
+  priceErrMsg: boolean;
 
 
 
@@ -59,6 +60,7 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceType: ['', Validators.required],
       name: ['', Validators.required],
       description: [''],
+      price:  ['', Validators.required],
      cost: ['', Validators.required],
       commission: ['',],
       commissionType: ['',],
@@ -92,6 +94,8 @@ export class ServiceCreateEditComponent implements OnInit {
           name: this.selectedService?.ServiceName,
           description : this.selectedService?.Description,
           cost: this.selectedService?.Cost,
+          price: this.selectedService?.Price,
+
           commission: this.selectedService?.Commision,
           commissionType: this.selectedService?.CommissionTypeId,
           fee: this.selectedService?.CommissionCost,
@@ -237,6 +241,14 @@ export class ServiceCreateEditComponent implements OnInit {
           this.costErrMsg = false;
         }
       }
+      if(this.serviceSetupForm.value.price !== ""){        
+        if(Number(this.serviceSetupForm.value.price) <= 0){
+          this.priceErrMsg = true;
+          return;
+        }else{
+          this.priceErrMsg = false;
+        }
+      }
       return;
     }
     const formObj = {
@@ -245,7 +257,8 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceName: this.serviceSetupForm.value.name,
       description: this.serviceSetupForm.value.description,
       cost: this.serviceSetupForm.value.cost,
-      commision: this.isChecked,
+      price: this.serviceSetupForm.value.price,
+       commision: this.isChecked,
       commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : null,
       upcharges: this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
