@@ -23,9 +23,9 @@ namespace Admin.API.Controllers
         /// <summary>
         /// Method to Get CheckedIn Vehicle Details.
         /// </summary>
-        [HttpGet]
-        [Route("GetAllCheckoutDetails/{locationId}")]
-        public Result GetAllCheckoutDetails(int locationId) => _bplManager.GetAllCheckoutDetails(locationId);
+        [HttpPost]
+        [Route("GetAllCheckoutDetails")]
+        public Result GetAllCheckoutDetails([FromBody]CheckOutDto checkoutDto) => _bplManager.GetAllCheckoutDetails(checkoutDto);
         #endregion
 
         #region POST
