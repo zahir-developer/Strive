@@ -31,17 +31,22 @@ export class CheckoutGridComponent implements OnInit {
 
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
-    const locId = localStorage.getItem('empLocationId');
-    this.checkout.getUncheckedVehicleDetails(locId).subscribe(data => {
+    const obj = {
+      locationId : localStorage.getItem('empLocationId'),
+       pageSize : this.pageSize,
+       pageNo : this.page
+
+    }
+    this.checkout.getUncheckedVehicleDetails(obj).subscribe(data => {
       if (data.status === 'Success') {
         const uncheck = JSON.parse(data.resultData);
-        this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails;
+        this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
         console.log(this.uncheckedVehicleDetails);
         if (this.uncheckedVehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
 
-          this.collectionSize = Math.ceil(this.uncheckedVehicleDetails.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
