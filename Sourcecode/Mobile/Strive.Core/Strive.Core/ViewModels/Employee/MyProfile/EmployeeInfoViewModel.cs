@@ -1,4 +1,5 @@
-﻿using Strive.Core.Models.Employee.PersonalDetails;
+﻿using Strive.Core.Models.Employee.Common;
+using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
 using System;
@@ -12,8 +13,10 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
     {
         #region Properties
         
-        public PersonalDetails PersonalDetails { get; set; } 
-        
+        public PersonalDetails PersonalDetails { get; set; }
+        public CommonCodes gender { get; set; }
+        public CommonCodes ImmigrationStatus { get; set; }
+
         #endregion Properties
 
         #region Commands
@@ -41,6 +44,37 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             }
 
             _userDialog.HideLoading();
+        }
+        public async Task GetGender()
+        {
+            var result = await AdminService.GetCommonCodes("GENDER");
+
+            if (result == null)
+            {
+                gender = null;
+            }
+            else
+            {
+                gender = new CommonCodes();
+                gender.Codes = new List<Codes>();
+                gender = result;
+            }
+        }
+
+        public async Task GetImmigrationStatus()
+        {
+            var result = await AdminService.GetCommonCodes("IMMIGRATIONSTATUS");
+
+            if (result == null)
+            {
+                ImmigrationStatus = null;
+            }
+            else
+            {
+                ImmigrationStatus = new CommonCodes();
+                ImmigrationStatus.Codes = new List<Codes>();
+                ImmigrationStatus = result;
+            }
         }
 
         private void StoreTempData()

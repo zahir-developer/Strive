@@ -80,6 +80,50 @@ namespace Strive.Core.Utils.Employee
     public static class MyProfileTempData
     {
         public static int LiabilityID { get; set; }
+        public static int EmployeeDocumentID { get; set; }
+        public static string DocumentPassword { get; set; }
+
+    }
+    public static class EmployeePersonalDetails
+    { 
+        public static string FirstName { get; set; }
+        public static string LastName { get; set; }
+        public static int GenderCodeID { get; set; } = -1;
+        public static int GenderSpinnerPosition { get; set; } = -1;
+        public static int ImmigrationCodeID { get; set; } = -1;
+        public static int ImmigrationSpinnerPosition { get; set; } = -1;
+        public static string Address { get; set; }
+        public static string ContactNumber { get; set; }
+        public static string SSN { get; set; }
+        public static string ImmigrationStatus { get; set; }
+
+
+        public static void clearData()
+        {
+            FirstName = null;
+            LastName = null;
+            GenderCodeID = -1;
+            GenderSpinnerPosition = -1;
+            ImmigrationCodeID = -1;
+            ImmigrationSpinnerPosition = -1;
+            Address = null;
+            SSN = null;
+            ImmigrationStatus = null;
+
+        }
+    }
+    public static class EmployeeLoginDetails
+    {
+        public static string LoginID { get; set; }
+        public static string DateofHire { get; set; }
+        public static int Status { get; set; } = -1;
+        public static void clearData()
+        {
+            LoginID = null;
+            DateofHire = null;
+            Status = -1;
+        
+        }
 
     }
 }

@@ -78,12 +78,6 @@ namespace StriveEmployee.Android.Views
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
-        protected override void OnStop()
-        {
-            this.ViewModel.Logout();
-            base.OnStop();
-        }
-
         protected override void OnDestroy()
         {
             base.OnDestroy();

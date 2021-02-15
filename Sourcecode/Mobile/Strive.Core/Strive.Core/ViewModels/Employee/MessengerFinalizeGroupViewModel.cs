@@ -83,6 +83,10 @@ namespace Strive.Core.ViewModels.Employee
             };
             groupChatInfo.chatUserGroup.Add(creatingUser);
         }
+        public void EmptyGroupName()
+        {
+            _userDialog.Alert("Please enter group name to save");
+        }
 
         #endregion Commands
     }

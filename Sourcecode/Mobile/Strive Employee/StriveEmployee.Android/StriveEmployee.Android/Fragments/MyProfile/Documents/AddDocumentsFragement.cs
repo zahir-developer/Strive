@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -24,7 +25,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
         private Button browse_Button;
         private RecyclerView addDoc_RecyclerView;
         private FileData fileData;
-
+        MyProfileFragment MyProfFragment;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -41,6 +42,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             browse_Button = rootView.FindViewById<Button>(Resource.Id.browse_Button);
             browse_Button.Click += Browse_Button_Click;
             addDoc_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.editDoc_RecyclerView);
+            MyProfFragment = new MyProfileFragment();
             return rootView;
         }
 
@@ -49,9 +51,16 @@ namespace StriveEmployee.Android.Fragments.MyProfile.Documents
             try
             {
                 fileData = await CrossFilePicker.Current.PickFile();
-                if(fileData == null)
+                if(fileData != null)
                 {
-                    return;
+                    this.ViewModel.filedata = Convert.ToBase64String(fileData.DataArray);
+                   this.ViewModel.filepath = fileData.FilePath;
+                   this.ViewModel.filename = fileData.FileName;
+                   var fileType = fileData.FileName.Split(".");
+                   this.ViewModel.filetype = fileType[1];
+                   await this.ViewModel.SaveDocuments();
+                    AppCompatActivity activity = (AppCompatActivity)this.Context;
+                    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, MyProfFragment).Commit();
                 }
             }
             catch(Exception ex)

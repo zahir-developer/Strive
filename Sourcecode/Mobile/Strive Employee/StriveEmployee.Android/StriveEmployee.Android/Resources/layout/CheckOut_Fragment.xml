@@ -17,23 +17,13 @@
             android:textColor="@color/profileInfoColor"
             android:fontFamily="@font/opensans_bold"/>
         <Button
-            android:id="@+id/editDocumentsBack_Button"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:textColor="@color/profileQColor"
-            android:background="@color/mtrl_btn_transparent_bg_color"
-            android:text="Back" />
-        <Button
-            android:id="@+id/editDocumentsSave_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:textColor="@color/profileQColor"
-            android:background="@color/mtrl_btn_transparent_bg_color"
-            android:text="Next" />
+            android:background="@color/mtrl_btn_transparent_bg_color" />
         </RelativeLayout>
     <LinearLayout
             android:layout_width="match_parent"

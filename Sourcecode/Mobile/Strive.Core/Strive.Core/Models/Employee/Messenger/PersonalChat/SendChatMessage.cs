@@ -8,7 +8,7 @@ namespace Strive.Core.Models.Employee.Messenger.PersonalChat
     {
         public chatMessage chatMessage { get; set; }
         public chatMessageRecipient chatMessageRecipient { get; set; }
-        public chatGroupRecipient chatGroupRecipient { get; set; }
+        public List<chatGroupRecipient> chatGroupRecipient { get; set; }
         public string connectionId { get; set; }
         public string fullName { get; set; }
         public string groupId { get; set; }

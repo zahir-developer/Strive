@@ -43,6 +43,11 @@ namespace Strive.Core.ViewModels.Employee
             }
         }
 
+        public void NotEnough()
+        {
+            _userDialog.Alert("Please add participants to the group");
+        }
+
         #endregion Commands
     }
 }

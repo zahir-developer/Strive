@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.CheckOut;
+using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
 
         public async Task GetCheckOutDetails()
         {
-            var result = await AdminService.CheckOutVehicleDetails();
+            var result = await AdminService.CheckOutVehicleDetails(EmployeeTempData.EmployeeID);
             if (result == null)
             {
 
