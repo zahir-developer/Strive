@@ -7,6 +7,24 @@ namespace Strive.BusinessEntities
 
     public class EnumSP
     {
+        public enum Authentication
+        {
+            USPLOGIN,
+            USPGETUSERBYLOGIN,
+            USPGETALLUSERS,
+            USPGETALLSERVICETYPE,
+            USPGETUSERS,
+            USPSAVEUSER,
+            USPSAVELOGIN,
+            USPSAVETENANTUSERMAP,
+            USPGETALLEMAIL,
+            USPGETSCHEMABYGUID,
+            USPGETPASSWORDHASH,
+            USPSAVEOTP,
+            USPRESETPASSWORD,
+            USPVERIFYOTP,
+        }
+
         public enum ClockTime
         {
             USPGETTIMECLOCK,
@@ -29,8 +47,7 @@ namespace Strive.BusinessEntities
             USPGETEODSALESREPORT,
             USPGETDAILYSALESREPORT,
             USPGETHOURLYWASHREPORT,
-            USPGETHOURLYWASHSALESREPORT,
-            USPGetPastWeatherInfo
+            USPGETHOURLYWASHSALESREPORT
         }
 
         public enum WhiteLabelling
@@ -41,17 +58,22 @@ namespace Strive.BusinessEntities
         public enum Employee
         {
             //Employee
+            USPGETEMPLOYEELIST,
             USPGETALLEMPLOYEE,
             USPGETEMPLOYEE,
             USPSAVEEMPLOYEE,
-            USPGETSCHEMABYGUID,
             USPGETCODES,
             USPGETUSERBYAUTHID,
             USPDELETEEMPLOYEE,
             USPGETEMPLOYEEBYEMPID,
             USPGETEMPLOYEEROLES,
             USPGETALLEMPLOYEEDETAIL,
+            USPEMAILEXIST,
+            USPGETEMPLOYEEROLEBYID,
+            USPGETCITYBYSTATE,
+            USPGETEMPLOYEEBYID
         }
+
         public enum DashboardStatistics
         {
             USPGETDASHBOARDSTATISTICS,
@@ -74,12 +96,194 @@ namespace Strive.BusinessEntities
         public enum Membership
         {
             USPGETALLMEMBERSHIP,
-            USPGETVEHICLEMEMBERSHIPAVAILABILITY
+            USPGETVEHICLEMEMBERSHIPAVAILABILITY,
+            USPGETVEHICLEMEMBERSHIPBYMEMBERSHIPID,
+            USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID,
+            USPDELETEMEMBERSHIP,
+            USPGETMEMBERSHIPBYID,
+            USPSAVEMEMBERSHIPSETUP,
+            USPGETMEMBERSHIPSERVICEBYVEHICLEID,
+            USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
+            uspGetMembershipListByVehicleId,
         }
+
         public enum Checklist
         {
             USPGETCHECKLIST,
             USPDELETECHECKLIST
+        }
+
+        public enum Client
+        {
+            //Client
+            USPCLIENTEMAILEXIST,
+            USPGETALLCLIENT,
+            USPUPDATEACCOUNTDETAILS,
+            USPGETCLIENT,
+            USPDELETECLIENT,
+            USPGETCLIENTBYID,
+            USPGETVEHICLELISTBYCLIENTID,
+            USPGETCLIENTNAME,
+            USPGETALLCLIENTNAME,
+            uspGetClientCodes,
+            uspGetClientAndVehicle,
+            USPISCLIENTAVAILABLE
+        }
+        public enum GiftCard
+        {
+            //GiftCard
+            USPGETALLGIFTCARD,
+            USPGETGIFTCARDHISTORY,
+            USPGETGIFTCARDBYID,
+            USPGIFTCARDCHANGESTATUS,
+            USPSAVEGIFTCARD,
+            USPGETALLGIFTCARDS,
+            USPDELETEGIFTCARD,
+            uspGetGiftCardHistoryByNumber,
+            uspGetGiftCardByLocation,
+            uspGetGiftCardBalance,
+        }
+
+        public enum Location
+        {
+            //Location
+            USPSAVELOCATION,
+            USPDELETELOCATION,
+            USPGETAllPRODUCTNEW,
+            USPGETALLLOCATION,
+            USPGETLOCATIONBYID,
+            USPGETALLLOCATIONOFFSET,
+            USPDELETELOCATIONOFFSET,
+            USPADDBAYSLOT
+        }
+        public enum ServiceSetup
+        {
+            //Service Setup
+            USPDELETESERVICEBYID,
+            USPGETSERVICES,
+            USPGETSERVICECATEGORYBYLOCATIONID,
+            USPGETALLSERVICE,
+            USPGETSERVICELIST,
+
+        }
+
+        public enum Product
+        {
+            USPGETPRODUCTS,
+            USPGETPRODUCT,
+            USPDELETEPRODUCT,
+            USPGETAllPRODUCT,
+        }
+        public enum CashRegister
+        {
+            //Cash Register
+            USPSAVETODAYCASHREGISTER,
+            USPGETCASHREGISTERDETAILS,
+            USPSAVECASHREGISTERBILLS,
+            USPSAVECASHREGISTERCOINS,
+            USPSAVECASHREGISTERMAIN,
+            USPSAVECASHREGISTEROTHERS,
+            USPSAVECASHREGISTERROLES,
+            USPSAVECASHREGISTERROLLS,
+            USPSAVECASHREGISTER,
+            USPGETCASHREGISTER,
+            USPGETPASTWEATHERINFO
+        }
+        public enum Collision
+        {            //Collison
+            USPDELETECOLLISION,
+            USPGETCOLLISIONBYEMPID,
+            USPGETCOLLISIONBYID,
+        }
+
+        public enum Vehicle
+        {
+            //Vehicle
+
+            USPGETVEHICLE,
+            USPGETALLVEHICLE,
+            USPUPDATEVEHICLE,
+            USPDELETECLIENTVEHICLE,
+            USPGETVEHICLEBYID,
+            USPGETPASTDETAILSBYCLIENTID,
+            USPSAVEVEHICLE,
+            uspGetVehicleByClientId,
+            USPGETVEHICLEMEMBERSHIP,
+            uspUpdateVechicleMembership,
+            USPGETVEHICLEDETAILBYCLIENTID,
+            USPGETVEHICLESTATEMENTBYCLIENTID,
+            USPGETVEHICLEHISTORYBYCLIENTID,
+            uspGetVehicleCodes,
+            USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
+            USPGETMEMBERSHIPBYVEHICLEID,
+        }
+        public enum Vendor
+        {
+            //Vendor
+            USPGETALLVENDOR,
+            USPDELETEVENDOR,
+        }
+        public enum Washes
+        {
+            //Washes
+            USPGETJOBBYID,
+            USPGETALLJOB,
+            USPGETWASHDASHBOARD,
+            USPGETCLIENTANDVEHICLEDETAIL,
+            USPDELETEWASHES
+        }
+        public enum Details
+        {
+            //Details
+            USPGETALLDETAILJOB,
+            USPGETDETAILJOBBYID,
+            USPGETALLBAYLISTBYID,
+            USPGETBAYSCHEDULESDETAILS,
+            USPGETPASTCLIENTNOTESBYCLIENTID,
+            USPGETJOBTYPE,
+            USPDELETEDETAILSCHEDULE,
+            USPGETALLDETAILS,
+        }
+        public enum Schedule
+        {
+            //Schedule
+            USPSAVESCHEDULE,
+            USPGETSCHEDULEBYSCHEDULEID,
+            uspDeleteSchedule,
+            USPGETSCHEDULE,
+        }
+
+        public enum Sales
+        {
+            uspGetItemList,
+            USPGETACCOUNTDETAILS,
+            uspGetItemListByTicketNumber,
+            uspUpdateSalesItem,
+            uspDeleteSalesItemById,
+            USPUPDATEJOBPAYMENT,
+            USPGETALLSERVICEANDPRODUCTLIST,
+            uspGetServiceByItemList,
+            USPDELETEJOBITEMS,
+            USPROLLBACKPAYMENT,
+        }
+
+        public enum Payroll
+        {
+
+            USPGETPAYROLLLIST,
+            USPGETPAYROLLPROCESS,
+            USPUPDATEADJUSMENT,
+            USPUPDATEEMPLOYEEADJUSTMENT,
+        }
+        public enum Checkout
+        {
+
+            //CHECKOUT
+            USPGETAllCHECKOUTDETAILS,
+            USPUPDATECHECKOUTDETAILFORJOBID,
+            USPUPDATEJOBSTATUSHOLDBYJOBID,
+            USPUPDATEJOBSTATUSCOMPLETEBYJOBID,
+            USPGETCUSTOMERHISTORY
         }
 
         public enum SystemSetup
@@ -249,11 +453,7 @@ namespace Strive.BusinessEntities
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
         uspGetMembershipListByVehicleId,
-        uspUpdateSalesItem,
-        uspDeleteSalesItemById,
-        uspGetItemList,
-        USPGETACCOUNTDETAILS,
-        uspGetItemListByTicketNumber,
+        
         USPGETTICKETNUMBER,
         USPCREATETENANT,
         uspGetServiceByItemList,
