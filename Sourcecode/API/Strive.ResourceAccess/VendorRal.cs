@@ -39,7 +39,7 @@ namespace Strive.ResourceAccess
         public List<VendorViewModel> GetVendorById(int id)
         {
             _prm.Add("@VendorId", id);
-            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
+            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETVENDORBYID.ToString(), _prm);
             return result;
         }
         public List<VendorViewModel> GetVendorSearch(VendorSearchDto search)

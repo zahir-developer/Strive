@@ -25,10 +25,14 @@ namespace Strive.ResourceAccess
     {
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<VehicleViewModel> GetAllVehicle(VehicleSearchDto name)
+        public VehicleCountViewModel GetAllVehicle(SearchDto searchDto)
         {
-            _prm.Add("@SearchName", name.SearchName);
-            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return db.FetchMultiResult<VehicleCountViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public List<VehicleMembershipModel> GetVehicleMembership()
         {

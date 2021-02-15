@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit {
           this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
         });
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        //this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }

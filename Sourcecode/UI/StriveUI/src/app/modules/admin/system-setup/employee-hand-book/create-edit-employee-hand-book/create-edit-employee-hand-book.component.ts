@@ -8,6 +8,7 @@ import { DocumentService } from 'src/app/shared/services/data-service/document.s
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
   selector: 'app-create-edit-employee-hand-book',
@@ -42,8 +43,10 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   fileSize: number;
   localFileSize: any;
   subdocumentType: any;
+  rollList: any;
   constructor(
     private fb: FormBuilder,
+    private employeeService : EmployeeService,
     private toastr: MessageServiceToastr,
     private document: DocumentService,
     private spinner: NgxSpinnerService,
@@ -58,20 +61,30 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       this.employeeId = +localStorage.getItem('empId');
 
     }
+    this.getAllRoles()
     this.getDocumentSubType();
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
 
   }
-
+  getAllRoles() {
+    this.employeeService.getAllRoles().subscribe(res => {
+      if (res.status === 'Success') {
+        const roles = JSON.parse(res.resultData);
+        this.rollList = roles.EmployeeRoles
+    
+      }
+    });
+  }
   formInitialize() {
     this.handbookSetupForm = this.fb.group({
       createdDate: [''],
       name: ['', Validators.required, Validators.pattern['a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/']],
       createdName: [''],
       uploadBy: ['', Validators.required],
-      subDocumentId :['']
+      subDocumentId: [''],
+      roleId: ['', Validators.required]
     });
     this.handbookSetupForm.patchValue({ status: 0 });
   }
@@ -130,7 +143,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
       this.localFileSize = fileToLoad.size
-      this.fileName = fileToLoad.name;   
+      this.fileName = fileToLoad.name;
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
       let fileReader: any;
       fileReader = new FileReader();
@@ -143,14 +156,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
-      let lowercaseFileThumb = this.fileThumb.toLowerCase()
-        if( (lowercaseFileThumb == this.fileType[0]) ||(lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2]) ){
+        let lowercaseFileThumb = this.fileThumb.toLowerCase()
+        if ((lowercaseFileThumb == this.fileType[0]) || (lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2])) {
           fileTosaveName = fileReader.result?.split(',')[1];
-      }
-      else{
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload DOC,DOCX,PDF Only' });
-        this.clearDocument();
-      }
+        }
+        else {
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload DOC,DOCX,PDF Only' });
+          this.clearDocument();
+        }
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
 
@@ -163,6 +176,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     if (this.fileName === null) {
       return;
     }
+    if (this.handbookSetupForm.invalid) {
+      return;
+    }
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
     if (this.handbookSetupForm.controls['name'].value) {
       if (!pattern.test(this.handbookSetupForm.controls['name'].value)) {
@@ -170,9 +186,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         return;
       }
     }
-    let localFileKbSize =   this.localFileSize / Math.pow(1024,1)
-let localFileKbRoundSize = +localFileKbSize.toFixed()
-    if(this.fileSize < localFileKbRoundSize){
+    let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
+    let localFileKbRoundSize = +localFileKbSize.toFixed()
+    if (this.fileSize < localFileKbRoundSize) {
       this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
 
       return;
@@ -180,7 +196,7 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
     const obj = {
       documentId: 0,
       DocumentName: this.handbookSetupForm.controls['name'].value,
-      DocumentSubType : this.handbookSetupForm.value.subDocumentId,
+      DocumentSubType: null,
       documentType: this.documentTypeId,
       fileName: this.fileName,
       originalFileName: null,
@@ -192,7 +208,8 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
       createdBy: this.employeeId,
       createdDate: new Date(),
       updatedBy: this.employeeId,
-      updatedDate: new Date()
+      updatedDate: new Date(),
+      roleId : this.handbookSetupForm.controls['roleId'].value,
     };
     const finalObj = {
       document: obj,
@@ -211,6 +228,8 @@ let localFileKbRoundSize = +localFileKbSize.toFixed()
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
         this.submitted = false;
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

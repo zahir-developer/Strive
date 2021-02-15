@@ -11,6 +11,7 @@ namespace Strive.BusinessEntities.Document
         public long DocumentId { get; set; }
         public int DocumentType { get; set; }
         public string DocumentSubtype { get; set; }
+        public string RoleName { get; set; }
         public string FileName { get; set; }
         public string OriginalFileName { get; set; }
         public string FilePath { get; set; }
@@ -19,7 +20,5 @@ namespace Strive.BusinessEntities.Document
         public string CreatedBy { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset ModifiedDate { get; set; }
-
-
     }
 }

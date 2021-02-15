@@ -25,14 +25,14 @@
                                     <div class="form-row">
                                         <label class="col-sm-2 col-form-label" for="inTime">From:</label>
                                         <input type="text" class="form-control col-sm-10" formControlName="fromDate"
-                                            bsDatepicker [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
+                                            bsDatepicker (bsValueChange)="onValueChange($event)" [bsConfig]="{  showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-row">
                                         <label class="col-sm-2 col-form-label" for="inTime">To:</label>
                                         <input type="text" class="form-control col-sm-10" formControlName="toDate"
-                                            bsDatepicker [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
+                                            bsDatepicker [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
                                 <div class="col-4 pull-right ">

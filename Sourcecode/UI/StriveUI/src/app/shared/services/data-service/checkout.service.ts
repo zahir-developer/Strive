@@ -11,7 +11,7 @@ export class CheckoutService {
   constructor(private http : HttpUtilsService) { }
 
   getUncheckedVehicleDetails(locationId): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getUncheckedVehicleDetails}` ,  { params: { locationId:locationId} });
+    return this.http.get(`${UrlConfig.totalUrl.getUncheckedVehicleDetails}` + locationId);
   }
 
   checkoutVehicle(obj) {

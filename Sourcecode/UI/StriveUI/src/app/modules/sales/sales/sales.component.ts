@@ -207,10 +207,19 @@ export class SalesComponent implements OnInit {
     });
   }
   getServiceForDiscount() {
-    this.service.getServiceSetup().subscribe(data => {
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: 1,
+      pageSize: 10,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: null
+    };
+    this.service.getServiceSetup(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
-        if (services.ServiceSetup !== null && services.ServiceSetup.length !== 0) {
+        if (services.ServiceSetup.getAllServiceViewModel !== null ) {
           this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
           console.log(this.discounts, 'discount');
         }
@@ -306,7 +315,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account[0];
-          this.isAccount = this.accountDetails?.CodeValue !== 'Comp' ? this.accountDetails?.IsAccount : false;
+          this.isAccount = this.accountDetails?.CodeValue === 'Comp' && this.accountDetails?.IsAccount === true || this.accountDetails?.MembershipId > 0;
           console.log(this.accountDetails);
         }
       });
@@ -326,10 +335,10 @@ export class SalesComponent implements OnInit {
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
-              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Washes');
+              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Wash Package');
               this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Additional Services');
+                item.ServiceType === 'Additonal Services');
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Upcharges');
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -524,6 +533,7 @@ export class SalesComponent implements OnInit {
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
+    this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
   }
@@ -821,7 +831,7 @@ export class SalesComponent implements OnInit {
     } else {
       this.discountAmount = 0;
     }
-    this.selectedDiscount.forEach( item => {
+    this.selectedDiscount.forEach(item => {
       this.discountList.push(item);
     });
     // this.discountList = this.selectedDiscount;
@@ -1034,13 +1044,14 @@ export class SalesComponent implements OnInit {
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
-      jobPaymentCreditCard: {
+      jobPaymentCreditCard: null
+      /*{
         jobPaymentCreditCardId: 0,
         jobPaymentId: 0,
-        cardTypeId: 1,
-        cardCategoryId: 1,
+        cardTypeId: null,
+        cardCategoryId: null,
         cardNumber: '',
-        creditCardTransactionTypeId: 1,
+        creditCardTransactionTypeId: null,
         amount: this.credit ? +this.credit : 0,
         tranRefNo: '',
         tranRefDetails: '',
@@ -1050,7 +1061,7 @@ export class SalesComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: null,
         updatedDate: new Date()
-      },
+      }*/,
       //jobPaymentDiscount: discount.length === 0 ? null : discount,
 
     };
@@ -1080,7 +1091,7 @@ export class SalesComponent implements OnInit {
 
   }
   deleteTicket() {
-    if (this.multipleTicketNumber.length > 0 ) {
+    if (this.multipleTicketNumber.length > 0) {
       this.salesService.deleteJob(this.multipleTicketNumber.toString()).subscribe(data => {
         if (data.status === 'Success') {
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });

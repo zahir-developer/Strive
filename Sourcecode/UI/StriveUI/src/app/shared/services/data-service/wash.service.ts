@@ -12,8 +12,8 @@ export class WashService {
   public dashBoardData = this.data.asObservable();
   constructor(private http: HttpUtilsService) {
   }
-  getAllWashes(locationId): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getAllWash}` + locationId);
+  getAllWashes(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.totalUrl.getAllWash}` , obj);
   }
   updateWashes(obj) {
     return this.http.post(`${UrlConfig.totalUrl.updateWash}`, obj);
@@ -33,8 +33,8 @@ export class WashService {
   deleteWash(washId: number) {
     return this.http.delete(`${UrlConfig.totalUrl.deleteWash}`, { params: { id: washId } });
   }
-  getServices(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getServiceSetup}`);
+  getServices(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.totalUrl.getServiceSetup}`, obj);
   }
   getServiceType(obj: string) {
     return this.http.get(`${UrlConfig.totalUrl.getCode}` + obj);
@@ -53,6 +53,12 @@ export class WashService {
   }
   getAllClient(): Observable<any> {
     return this.http.get(`${UrlConfig.totalUrl.getClient}`);
+  }
+  getAllClientName(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getClientName}`,name);
+  }
+  getAllClients(name): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getClientName}`+ name,{ params: { name: name } });
   }
   getVehicleByClientId(clientId: number) {
     return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Washes;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
@@ -20,9 +21,9 @@ namespace Strive.BusinessLogic.Washes
         public WashesBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
         }
-        public Result GetAllWashTime(int locationId)
+        public Result GetAllWashTime(SearchDto searchDto)
         {
-            return ResultWrap(new WashesRal(_tenant).GetAllWashTime, locationId, "Washes");
+            return ResultWrap(new WashesRal(_tenant).GetAllWashTime, searchDto, "Washes");
         }
 
         public Result GetWashTimeDetail(int id)

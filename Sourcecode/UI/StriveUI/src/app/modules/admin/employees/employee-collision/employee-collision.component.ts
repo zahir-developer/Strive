@@ -7,6 +7,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'underscore';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-employee-collision',
@@ -21,7 +22,9 @@ export class EmployeeCollisionComponent implements OnInit {
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
     private spinner: NgxSpinnerService,
-    private getCode: GetCodeService
+    private getCode: GetCodeService,
+    private wash: WashService,
+    private toastr: MessageServiceToastr
   ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
@@ -142,7 +145,7 @@ export class EmployeeCollisionComponent implements OnInit {
       employeeId: this.employeeId,
       liabilityType: this.liabilityTypeId,
       liabilityDescription: this.collisionForm.value.reason,
-      productId: 2, // 2,
+      productId: null, // 2,
       totalAmount: +this.collisionForm.value.amount,
       status: 0, // 0,
       isActive: true,
@@ -204,13 +207,30 @@ export class EmployeeCollisionComponent implements OnInit {
   filterClient(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        filtered.push(client);
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        console.log(client, 'client');
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
-    }
-    this.filteredClient = filtered;
+    });
+    // for (const i of this.clientList) {
+    //   const client = i;
+    //   if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+    //     filtered.push(client);
+    //   }
+    // }
+    // this.filteredClient = filtered;
   }
 
   selectedClient(event) {
@@ -219,6 +239,9 @@ export class EmployeeCollisionComponent implements OnInit {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.vehicleList = vehicle.Status;
+        if (this.vehicleList.length !== 0) {
+          this.collisionForm.patchValue({ vehicle: this.vehicleList[0].VehicleId });
+        }
       }
     });
   }

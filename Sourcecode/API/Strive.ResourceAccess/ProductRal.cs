@@ -30,25 +30,25 @@ namespace Strive.ResourceAccess
 
         public List<ProductViewModel> GetAllProduct()
         {
-            return db.Fetch<ProductViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            return db.Fetch<ProductViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
 
         public ProductDetailViewModel GetProductById(int productId)
         {
             _prm.Add("@ProductId", productId);
-            return db.FetchSingle<ProductDetailViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            return db.FetchSingle<ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)
         {
             _prm.Add("ProductId", productId);
-            db.Save(SPEnum.USPDELETEPRODUCT.ToString(), _prm);
+            db.Save(EnumSP.Product.USPDELETEPRODUCT.ToString(), _prm);
             return true;
         }
         public List<ProductSearchViewModel> GetProductSearch(ProductSearchDto search)
         {
             _prm.Add("@ProductSearch", search.ProductSearch);
-            return db.Fetch<ProductSearchViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            return db.Fetch<ProductSearchViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
     }
 }

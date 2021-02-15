@@ -3,6 +3,7 @@ import { ProductService } from 'src/app/shared/services/data-service/product.ser
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-setup-list',
@@ -17,14 +18,15 @@ export class ProductSetupListComponent implements OnInit {
   column: string = 'ProductName';
   headerData: string;
   isEdit: boolean;
-  isLoading = true;
   isTableEmpty: boolean;
   search : any = '';
   collectionSize: number = 0;
   pageSize: number;
   pageSizeList: number[];
   page: number;
-  constructor(private productService: ProductService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+  constructor(private productService: ProductService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
     this.page= ApplicationConfig.PaginationConfig.page;
@@ -58,9 +60,9 @@ export class ProductSetupListComponent implements OnInit {
 
   // Get All Product
   getAllproductSetupDetails() {
-    this.isLoading = true;
+    this.spinner.show();
     this.productService.getProduct().subscribe(data => {
-      this.isLoading = false;
+      this.spinner.hide();
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
         this.productSetupDetails = product.Product;
@@ -74,6 +76,8 @@ export class ProductSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   sort(property) {
@@ -94,17 +98,14 @@ export class ProductSetupListComponent implements OnInit {
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
+    this.pageSize = +this.pageSize;
     this.page = event ;
-    
-    this.getAllproductSetupDetails()
+    this.getAllproductSetupDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
+    this.pageSize = +event.target.value;
     this.page =  this.page;
-    
-    this.getAllproductSetupDetails()
+    this.getAllproductSetupDetails();
   }
   edit(data) {
     this.selectedData = data;

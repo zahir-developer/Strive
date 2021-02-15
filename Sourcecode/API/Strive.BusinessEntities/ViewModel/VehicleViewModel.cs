@@ -20,5 +20,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string VehicleMake { get; set; }
         public string Upcharge { get; set; }
         public string Barcode { get; set; }
+
+        public string MembershipName { get; set; }
     }
 }
