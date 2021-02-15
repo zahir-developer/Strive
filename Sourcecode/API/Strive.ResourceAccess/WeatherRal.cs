@@ -33,7 +33,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
             _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
 
-            return db.Fetch<WeatherPredictions>(EnumSP.SalesReport.USPGetPastWeatherInfo.ToString(), _prm);
+            return db.Fetch<WeatherPredictions>(EnumSP.CashRegister.USPGETPASTWEATHERINFO.ToString(), _prm);
             
         }
 
