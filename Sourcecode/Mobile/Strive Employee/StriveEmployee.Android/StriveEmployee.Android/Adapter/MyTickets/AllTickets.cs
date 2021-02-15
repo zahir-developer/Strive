@@ -105,13 +105,13 @@ namespace StriveEmployee.Android.Adapter.MyTickets
             }
             else if(position == 1)
             {
-                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click2; ;
+                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click2;
             }
         }
 
         private void AllTickets_TextView_Click2(object sender, EventArgs e)
         {
-            if (allTicketsViewHolder.hiddenLayout[2.Visibility == ViewStates.Gone)
+            if (allTicketsViewHolder.hiddenLayout[2].Visibility == ViewStates.Gone)
             {
                 allTicketsViewHolder.hiddenLayout[2].Visibility = ViewStates.Visible;
             }
