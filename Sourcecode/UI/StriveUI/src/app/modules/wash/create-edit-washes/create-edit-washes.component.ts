@@ -123,7 +123,7 @@ export class CreateEditWashesComponent implements OnInit {
     //   }
     // });
     this.getWashTimeByLocationID();
-    this.getAllClient();
+    // this.getAllClient();
     this.getServiceType();
     this.getColor();
   }
@@ -233,10 +233,10 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
-        this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Washes')[0]?.CodeId;
-        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Upcharges')[0]?.CodeId;
+        this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
+        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
         this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
+        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
         this.getAllServices();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -279,13 +279,26 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getAllServices() {
-    this.wash.getServices().subscribe(data => {
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: null,
+      pageSize: null,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.wash.getServices(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.additional = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-        this.washes = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.washId);
-        this.upcharges = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-        this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
+        this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
+        this.washes = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.washId);
+        this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
+        this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
         this.UpchargeType = this.upcharges;
         // this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
         this.additional.forEach(element => {
@@ -301,15 +314,19 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  getAllClient() {
-    this.wash.getAllClient().subscribe(res => {
+
+
+  filterClient(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    this.wash.getAllClients(query).subscribe(res => {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
-        client.Client.forEach(item => {
+        client.ClientName.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
-        this.clientList = client.Client.map(item => {
+        this.clientList = client.ClientName.map(item => {
           return {
             id: item.ClientId,
             name: item.fullName
@@ -319,18 +336,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
-  }
-
-  filterClient(event) {
-    const filtered: any[] = [];
-    const query = event.query;
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().includes(query.toLowerCase())) {
-        filtered.push(client);
-      }
-    }
-    this.filteredClient = filtered;
   }
 
   filterModel(event) {
@@ -697,7 +702,7 @@ export class CreateEditWashesComponent implements OnInit {
     if (len === 0) {
       this.vehicleNumber = 1;
     } else {
-      this.vehicleNumber = Number(this.vehicle[len - 1].VehicleNumber) + 1;
+      this.vehicleNumber = this.vehicle.length + 1;
     }
     this.showVehicleDialog = true;
   }
@@ -729,34 +734,34 @@ export class CreateEditWashesComponent implements OnInit {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
       address1: this.clientFormComponent.clientForm.value.address,
-      address2: "",
+      address2: null,
       phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
       isActive: true,
       zip: this.clientFormComponent.clientForm.value.zipcode,
       state: this.clientFormComponent.State,
       city: this.clientFormComponent.city,
-      country: 38,
+      country: null,
       phoneNumber: this.clientFormComponent.clientForm.value.phone1,
       email: this.clientFormComponent.clientForm.value.email,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date()
     }]
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       firstName: this.clientFormComponent.clientForm.value.fName,
-      middleName: "",
+      middleName: null,
       lastName: this.clientFormComponent.clientForm.value.lName,
-      gender: 1,
-      maritalStatus: 1,
+      gender: null,
+      maritalStatus: null,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
       isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
@@ -773,7 +778,7 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
         this.closePopupEmitClient();
-        this.getAllClient();
+        // this.getAllClient();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         this.clientFormComponent.clientForm.reset();

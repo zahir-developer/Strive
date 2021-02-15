@@ -32,7 +32,7 @@ namespace Strive.BusinessLogic.Checkout
             return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatusComplete, jobIdDto, "UpdateJobStatus");
         }
 
-        public Result GetCustomerHistory (SalesReportDto salesReportDto)
+        public Result GetCustomerHistory (CustomerHistorySearchDto salesReportDto)
         {
             return ResultWrap(new CheckoutRal(_tenant).GetCustomerHistory, salesReportDto, "CustomerHistory");
         }

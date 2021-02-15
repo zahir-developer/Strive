@@ -5,6 +5,7 @@ import { MembershipService } from 'src/app/shared/services/data-service/membersh
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import * as _ from 'underscore';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-membership-create-edit',
   templateUrl: './membership-create-edit.component.html',
@@ -29,7 +30,11 @@ export class MembershipCreateEditComponent implements OnInit {
   PriceServices: any = [];
   costErrMsg: boolean = false;
   employeeId: number;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr, private member: MembershipService) { }
+  constructor(
+    private fb: FormBuilder,
+    private toastr: MessageServiceToastr,
+    private member: MembershipService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -49,9 +54,9 @@ export class MembershipCreateEditComponent implements OnInit {
       notes: ['',]
     });
     this.membershipForm.patchValue({ status: 0 });
-    if(this.isEdit !== true){
+    if (this.isEdit !== true) {
       this.membershipForm.controls.status.disable();
-    }else{
+    } else {
       this.membershipForm.controls.status.enable();
     }
     this.getMembershipService();
@@ -63,9 +68,9 @@ export class MembershipCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.service = membership.ServicesWithPrice;
-        this.washes = this.service.filter(item => item.ServiceTypeName === "Washes");
-        this.upchargeType = this.service.filter(item => item.ServiceTypeName === "Upcharges");
-        this.additionalService = this.service.filter(item => item.ServiceTypeName === "Additional Services");
+        this.washes = this.service.filter(item => item.ServiceTypeName === 'Wash Package');
+        this.upchargeType = this.service.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
+        this.additionalService = this.service.filter(item => item.ServiceTypeName === 'Additonal Services');
         this.additional = this.additionalService.map(item => {
           return {
             item_id: item.ServiceId,
@@ -102,7 +107,7 @@ export class MembershipCreateEditComponent implements OnInit {
 
   calculate(data, name) {
     if (name === 'washes') {
-      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Washes');
+      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Wash Package');
       this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
       let price = 0;
       this.PriceServices.forEach(element => {
@@ -110,7 +115,7 @@ export class MembershipCreateEditComponent implements OnInit {
       });
       this.membershipForm.get('price').patchValue(price.toFixed(2));
     } else if (name === 'upcharge') {
-      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Upcharges');
+      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== 'Wash-Upcharge');
       this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
       let price = 0;
       this.PriceServices.forEach(element => {
@@ -149,17 +154,20 @@ export class MembershipCreateEditComponent implements OnInit {
       price: this.selectedData?.Membership?.Price?.toFixed(2),
       status: this.selectedData.Membership.Status === true ? 0 : 1
     });
-    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0] !== undefined) {
-      this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 15)[0].ServiceId);
+    if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === 'Wash Package')[0] !== undefined) {
+      this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i =>
+        (i.ServiceType) === 'Wash Package')[0].ServiceId);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.washes)[0]);
     }
-    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0] !== undefined) {
-      this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 18)[0].ServiceId);
+    if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === 'Wash-Upcharge')[0] !== undefined) {
+      this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i =>
+        (i.ServiceType) === 'Wash-Upcharge')[0].ServiceId);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.upcharge)[0]);
     }
-    if (this.selectedData.MembershipService.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-      this.patchedService = this.selectedData?.MembershipService.filter(item => Number(item.ServiceTypeId) === 17);
-      const serviceIds = this.selectedData?.MembershipService.filter(item => Number(item.ServiceTypeId) === 17).map(item => item.ServiceId);
+    if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === 'Additonal Services').length !== 0) {
+      this.patchedService = this.selectedData?.MembershipService.filter(item => (item.ServiceType) === 'Additonal Services');
+      const serviceIds = this.selectedData?.MembershipService.filter(item =>
+        (item.ServiceType) === 'Additonal Services').map(item => item.ServiceId);
       const memberService = serviceIds.map((e) => {
         const f = this.additionalService.find(a => a.ServiceId === e);
         return f ? f : 0;
@@ -192,12 +200,12 @@ export class MembershipCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.membershipForm.invalid) {
-      if(this.membershipForm.value.price !== ""){
-        if(Number(this.membershipForm.value.price) <= 0){
+      if (this.membershipForm.value.price !== "") {
+        if (Number(this.membershipForm.value.price) <= 0) {
           console.log(Number(this.membershipForm.value.price));
           this.costErrMsg = true;
           return;
-        }else{
+        } else {
           this.costErrMsg = false;
         }
       }
@@ -230,7 +238,7 @@ export class MembershipCreateEditComponent implements OnInit {
           serviceId: item.item_id,
           isActive: true,
           isDeleted: false,
-          createdBy: this.employeeId ,
+          createdBy: this.employeeId,
           createdDate: new Date(),
           updatedBy: this.employeeId,
           updatedDate: new Date()
@@ -254,10 +262,10 @@ export class MembershipCreateEditComponent implements OnInit {
         });
       }
     }
-    if(this.isEdit === true){
-      const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 15);
-      if(washType !== undefined){
-        if(Number(washType[0].ServiceId) !== Number(this.membershipForm.value.washes)){
+    if (this.isEdit === true) {
+      const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === 'Wash Package');
+      if (washType !== undefined) {
+        if (Number(washType[0].ServiceId) !== Number(this.membershipForm.value.washes)) {
           const wash = {
             membershipServiceId: 0,
             membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
@@ -268,53 +276,53 @@ export class MembershipCreateEditComponent implements OnInit {
             createdDate: new Date(),
             updatedBy: this.employeeId,
             updatedDate: new Date()
-          };        
-        const washDelete = {
-          membershipServiceId: Number(washType[0].MembershipServiceId),
-          membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-          serviceId: Number(washType[0].ServiceId),
-          isActive: true,
-          isDeleted: true,
-          createdBy: this.employeeId,
-          createdDate: new Date(),
-          updatedBy: this.employeeId,
-          updatedDate: new Date()
-        };
-        ServiceObj.push(wash);
-        ServiceObj.push(washDelete);
+          };
+          const washDelete = {
+            membershipServiceId: Number(washType[0].MembershipServiceId),
+            membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+            serviceId: Number(washType[0].ServiceId),
+            isActive: true,
+            isDeleted: true,
+            createdBy: this.employeeId,
+            createdDate: new Date(),
+            updatedBy: this.employeeId,
+            updatedDate: new Date()
+          };
+          ServiceObj.push(wash);
+          ServiceObj.push(washDelete);
         }
       }
-      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceTypeId === 18);
-      if(upchargeType !== undefined){
-        if(Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)){        
-        const upcharge = {
-          membershipServiceId: 0,
-          membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-          serviceId: Number(this.membershipForm.value.upcharge),
-          isActive: true,
-          isDeleted: false,
-          createdBy: this.employeeId,
-          createdDate: new Date(),
-          updatedBy: this.employeeId,
-          updatedDate: new Date()
-        };       
-        const upchargeDelete = {
-          membershipServiceId: Number(upchargeType[0].MembershipServiceId),
-          membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-          serviceId: Number(upchargeType[0].ServiceId),
-          isActive: true,
-          isDeleted: true,
-          createdBy: this.employeeId,
-          createdDate: new Date(),
-          updatedBy: this.employeeId,
-          updatedDate: new Date()
-        };
-        ServiceObj.push(upcharge);
-        ServiceObj.push(upchargeDelete);
+      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === 'Wash-Upcharge');
+      if (upchargeType !== undefined) {
+        if (Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)) {
+          const upcharge = {
+            membershipServiceId: 0,
+            membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+            serviceId: Number(this.membershipForm.value.upcharge),
+            isActive: true,
+            isDeleted: false,
+            createdBy: this.employeeId,
+            createdDate: new Date(),
+            updatedBy: this.employeeId,
+            updatedDate: new Date()
+          };
+          const upchargeDelete = {
+            membershipServiceId: Number(upchargeType[0].MembershipServiceId),
+            membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+            serviceId: Number(upchargeType[0].ServiceId),
+            isActive: true,
+            isDeleted: true,
+            createdBy: this.employeeId,
+            createdDate: new Date(),
+            updatedBy: this.employeeId,
+            updatedDate: new Date()
+          };
+          ServiceObj.push(upcharge);
+          ServiceObj.push(upchargeDelete);
         }
       }
     }
-    else{
+    else {
       const wash = {
         membershipServiceId: 0,
         membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
@@ -358,7 +366,9 @@ export class MembershipCreateEditComponent implements OnInit {
       membershipService: ServiceObj
     };
     if (this.isEdit === true) {
+      this.spinner.show();
       this.member.updateMembership(formObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Updated Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -366,9 +376,13 @@ export class MembershipCreateEditComponent implements OnInit {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           // this.membershipForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.member.addMembership(formObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Saved Successfully' });
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -376,6 +390,8 @@ export class MembershipCreateEditComponent implements OnInit {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
           this.membershipForm.reset();
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }

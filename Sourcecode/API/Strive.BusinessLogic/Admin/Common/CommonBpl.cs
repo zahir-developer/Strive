@@ -292,7 +292,6 @@ namespace Strive.BusinessLogic.Common
                 CreatedDate = DateTime.Now
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
-            
 
             if (authId > 0)
             {
@@ -300,9 +299,8 @@ namespace Strive.BusinessLogic.Common
             }
 
             return authId;
-            
         }
-       
+
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
         {
             var commonRal = new CommonRal(_tenant, true);
@@ -425,7 +423,7 @@ namespace Strive.BusinessLogic.Common
         public Result GetCityByStateId(int stateId)
         {
             return ResultWrap(new CommonRal(_tenant, false).GetCityByStateId, stateId, "cities");
-             
+
         }
 
     }

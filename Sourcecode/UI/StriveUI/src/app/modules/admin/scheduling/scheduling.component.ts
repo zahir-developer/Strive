@@ -51,7 +51,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
   empList: any;
   showDialog: boolean;
-  locationId: any;
+  locationId = 0;
   scheduleId: any;
   scheduleType: any;
   totalHours: any;

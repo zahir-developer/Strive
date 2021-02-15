@@ -41,9 +41,9 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("GetAll")]
-        public Result GetAllVehicle([FromBody]VehicleSearchDto name)
+        public Result GetAllVehicle([FromBody]SearchDto searchDto)
         {
-            return _bplManager.GetAllVehicle(name);
+            return _bplManager.GetAllVehicle(searchDto);
         }
 
         [HttpGet]

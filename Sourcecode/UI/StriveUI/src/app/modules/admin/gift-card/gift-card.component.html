@@ -18,7 +18,7 @@
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
                                     role="tab" aria-controls="nav-home" aria-selected="true">Gift Card List</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-                                    role="tab" aria-controls="nav-profile" aria-selected="false">Add Gift Card</a>
+                                    role="tab" aria-controls="nav-profile" aria-selected="false">Add New Gift Card</a>
                                 <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
                                     role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
                             </div>
@@ -52,8 +52,6 @@
                                                         <tr>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('GiftCardCode')">Gift Card No.&nbsp;<i class="fa" [ngClass]="selectedCls('GiftCardCode')"
                                                                 aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"  (click)="changeSorting('GiftCardName')">Name&nbsp;<i class="fa" [ngClass]="selectedCls('GiftCardName')"
-                                                                aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('ExpiryDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ExpiryDate')"
                                                                 aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('TotalAmount')">Amount&nbsp;<i class="fa" [ngClass]="selectedCls('TotalAmount')"
@@ -63,7 +61,6 @@
                                                     <tbody *ngIf="giftCardList.length > 0">
                                                         <tr *ngFor="let card of giftCardList | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <td>{{card.GiftCardCode}}</td>
-                                                            <td>{{card.GiftCardName}}</td>
                                                             <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
                                                             <td>{{card.TotalAmount | currency}}</td>
                                                         </tr>

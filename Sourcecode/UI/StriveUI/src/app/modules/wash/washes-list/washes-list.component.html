@@ -96,11 +96,27 @@
                                             class="text-muted font-size-1"></span></h4>
                                     <div class="pull-right card-widgets"><button type="button"
                                             class="btn theme-primary-button-color  mw-100"
-                                            (click)="add('add',[])">New</button>
+                                            (click)="add('add',[])">Add New Wash</button>
                                     </div>
                                 </div>
-                                <div class="setup-content" *ngIf="isTableEmpty === true"> <span
-                                        class="col-12 row d-block">No Washes Found</span></div>
+                                <div class="setup-content" >
+                                    <div class="search-container  pull-right" *ngIf="isTableEmpty === false">
+                                        <form>
+                                            <div class="form-row">
+                                                <div class="form-group d-flex"> <input type="search"
+                                                        class="form-control" size="31" [(ngModel)]="search" name="search"
+                                                        id="inputSearchbyName" placeholder="Search"
+                                                        (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
+                                                <div class="form-group col-sm m-l-5">
+                                                    <button type="button"
+                                                        class="btn theme-primary-button-color btn-sm m-l-10"
+                                                        (click)="getAllWashDetails()">Search</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                     <span
+                                        class="col-12 row d-block " *ngIf="isTableEmpty === true">No Washes Found</span></div>
                                 <div class="setup-content" *ngIf="isTableEmpty === false">
                                     <div class="table-responsive">
                                         <table class="table table-striped headerfix">
@@ -111,9 +127,6 @@
                                                             aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer"  (click)="changeSorting('ClientName')">Client
                                                         Name&nbsp;<i class="fa" [ngClass]="selectedCls('ClientName')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('PhoneNumber')">Phone
-                                                        No&nbsp;<i class="fa" [ngClass]="selectedCls('PhoneNumber')"
                                                             aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer"  (click)="changeSorting('VehicleName')">
                                                         Make/Model/Color&nbsp;<i class="fa"
@@ -130,7 +143,7 @@
                                                         Services&nbsp;<i class="fa"
                                                             [ngClass]="selectedCls('ServiceName')"
                                                             aria-hidden="true"></i> </th>
-                                                    <th scope="col"></th>
+                                                    <th scope="col">Pay</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
@@ -138,8 +151,7 @@
                                                 <tr
                                                     *ngFor="let wash of washDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
-                                                    <td>{{wash.ClientName}}</td>
-                                                    <td>{{wash.PhoneNumber}}</td>
+                                                    <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">{{wash.ClientName}}</td>
                                                     <td>{{wash.VehicleName}}</td>
                                                     <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}</td>
                                                     <td class="font-weight-600">
@@ -165,12 +177,12 @@
                                         </table>
                                         <div class="row pull-right" >
                                             <div class="col-6">
-                                             <ngb-pagination *ngIf="washDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                             <ngb-pagination  [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
                                                  [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
                                                  [boundaryLinks]="true" class="d-flex justify-content-end">
                                              </ngb-pagination> 
                                              </div>
-                                             <select *ngIf="washDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                             <select  class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
                                                  <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
          
                                              </select>

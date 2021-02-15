@@ -18,7 +18,8 @@
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="40" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Address, Phone, Email"
-                                                (keyup)="$event.keyCode == 13 ? locationSearch() : null" (clear)="clearSearch()"> </div>
+                                                (keyup)="$event.keyCode == 13 ? locationSearch() : null"
+                                                (clear)="clearSearch()"> </div>
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
                                                 (click)="locationSearch()">Search</button>
@@ -26,34 +27,41 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block" style="text-align: center;">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
+
+                            <div class="table-responsive">
                                 <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="sort('LocationName')">Name&nbsp; <i class="fa" *ngIf="column =='LocationName'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                <th class="pointer" (click)="sort('Address1')">Address&nbsp; <i class="fa" *ngIf="column =='Address1'" 
+                                            <th class="pointer" scope="col" (click)="sort('LocationName')">Name&nbsp; <i
+                                                    class="fa" *ngIf="column =='LocationName'"
                                                     [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                    <th class="pointer" (click)="sort('IsFranchise')">Franchise&nbsp; <i class="fa" *ngIf="column =='IsFranchise'" 
-                                                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                        <th class="pointer" (click)="sort('PhoneNumber')">Phone Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'" 
-                                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                            <th class="pointer" (click)="sort('Email')">Email&nbsp; <i class="fa" *ngIf="column =='Email'" 
-                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                      
+                                            <th class="pointer" scope="col" (click)="sort('Address1')">Address&nbsp; <i
+                                                    class="fa" *ngIf="column =='Address1'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" scope="col" (click)="sort('IsFranchise')">
+                                                Franchise&nbsp; <i class="fa" *ngIf="column =='IsFranchise'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" scope="col" (click)="sort('PhoneNumber')">Phone
+                                                Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" scope="col" (click)="sort('Email')">Email&nbsp; <i
+                                                    class="fa" *ngIf="column =='Email'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let locationSetup of locationSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                            <th scope="row">{{locationSetup.LocationName}}</th>
-                                            <td title="{{locationSetup.Address1}}">{{locationSetup.Address1 | slice:0:15}} {{(locationSetup.Address1!== null) ?locationSetup.Address1.length <= 15 ? '': '...':''}}</td>
+                                            <td scope="row">{{locationSetup.LocationName}}</td>
+                                            <td title="{{locationSetup.Address1}}">
+                                                {{locationSetup.Address1 | slice:0:15}}
+                                                {{(locationSetup.Address1!== null) ?locationSetup.Address1.length <= 15 ? '': '...':''}}
+                                            </td>
                                             <td>{{locationSetup.IsFranchise === true ? "Yes" : "No"}}</td>
                                             <td>{{locationSetup.PhoneNumber}}</td>
-                                            <td >{{locationSetup.Email}}</td>
+                                            <td>{{locationSetup.Email}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="Edit" tooltipPosition="bottom"
@@ -63,25 +71,28 @@
                                                     (click)="delete(locationSetup)"></em>
                                             </td>
                                         </tr>
+                                        <tr *ngIf="locationSetupDetails.length == 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                     <ngb-pagination  *ngIf="locationSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
-                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
-                                         [boundaryLinks]="true" class="d-flex justify-content-end">
-                                     </ngb-pagination> 
-                                     </div>
-                                     <select  *ngIf="locationSetupDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
-                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
-                  
-                                     </select>
-                                 </div>
+                                        <ngb-pagination *ngIf="locationSetupDetails.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="locationSetupDetails.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="loadingDiv" *ngIf="isLoading">
-                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                        </div>
+
                     </div>
                 </div>
             </div>

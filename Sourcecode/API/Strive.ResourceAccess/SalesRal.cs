@@ -59,6 +59,12 @@ namespace Strive.ResourceAccess
             return  db.Fetch<SalesAccountViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
             
         }
+
+        public string GetTicketNumber()
+        {
+            return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
+
+        }
         public SalesItemListViewModel GetScheduleByTicketNumber(string ticketNumber)
         {
             _prm.Add("@TicketNumber", ticketNumber);

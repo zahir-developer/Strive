@@ -30,7 +30,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
   recipientCommunicationId: string;
 
-  messageBody: string;
+  messageBody = '';
 
   chatInitial: string;
   selectedEmployee: any;
@@ -49,12 +49,14 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   isUserOnline: boolean = false;
   groupEmpList: any;
   selectedChatId: number;
+  previouslyMessaged: boolean;
   constructor(public signalRService: SignalRService, private msgService: MessengerService, private messageNotification: MessageServiceToastr, private http: HttpClient,
     private toastrService: ToastrService, private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
 
 
 
   ngOnInit() {
+    this.previouslyMessaged = false;
     this.getSenderName();
     this.scrollToBottom();
     this.signalRService.startConnection();
@@ -78,7 +80,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         } else {
           this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
         }
-        // this.LoadMessageChat(this.selectedEmployee);
+        this.LoadMessageChat(this.selectedEmployee);
       }
     });
 
@@ -101,7 +103,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         } else {
           this.showUnreadMsg(data?.chatMessageRecipient?.senderId, data?.chatMessage?.messagebody);
         }
-        // this.LoadMessageChat(this.selectedEmployee);
+        this.LoadMessageChat(this.selectedEmployee);
       }
     });
 
@@ -148,6 +150,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.spinner.show();
     this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
+    console.log(this.selectedEmployee, 'employee');
     this.isGroupChat = employeeObj.IsGroup;
     this.groupChatId = employeeObj.IsGroup ? employeeObj.Id : 0;
     const chatObj = {
@@ -186,6 +189,14 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
     if (this.isGroupChat) {
       this.getGroupMembers(this.groupChatId);
+    }
+  }
+
+  recentlyMsgSent(event) { 
+    if (event.length === 0) {
+      this.previouslyMessaged = false;
+    } else {
+      this.previouslyMessaged = true;
     }
   }
 
@@ -258,13 +269,15 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.msgList.push(sendObj);
         this.scrollToBottom();
         this.messengerEmployeeListComponent.SetUnreadMsgBool(this.selectedEmployee?.Id, true, this.messageBody);
-        // this.LoadMessageChat(this.selectedEmployee);
+        this.LoadMessageChat(this.selectedEmployee);
         this.messageBody = '';
       }
       else {
         this.spinner.hide();
         this.toastrService.error('Communication Error', 'Error sending message!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   scrollToBottom(): void {

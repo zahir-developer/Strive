@@ -55,19 +55,19 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   employeeId: string;
   documentTypeId: any;
   CahRegisterId: any;
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService,private getCode: GetCodeService,
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.locationId = localStorage.getItem('empLocationId');
     this.employeeId = localStorage.getItem('empId');
-this.getDocumentType();
+    this.getDocumentType();
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
     const locationId = +this.locationId;
     this.Todaydate = moment(new Date()).format('YYYY-MM-DD');
-    this.getTargetBusinessData(locationId,this.Todaydate);
+    this.getTargetBusinessData(locationId, this.Todaydate);
     this.getWeatherDetails();
   }
   ngAfterViewInit() {
@@ -110,7 +110,7 @@ this.getDocumentType();
 
   // Get targetBusinessData
   getTargetBusinessData(locationId, date) {
-   
+
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
@@ -127,6 +127,14 @@ this.getDocumentType();
     const date = this.selectDate;
     const cashRegisterType = 'CASHIN';
     const locationId = +localStorage.getItem('empLocationId');
+    this.cashRegisterForm.reset();
+    this.cashRegisterCoinForm.reset();
+    this.cashRegisterBillForm.reset();
+    this.cashRegisterRollForm.reset();
+    this.totalCoin = 0;
+    this.totalBill = 0;
+    this.totalRoll = 0;
+    this.totalCash = 0;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(data => {
       if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
@@ -178,7 +186,7 @@ this.getDocumentType();
             });
           }, 1200);
           this.getTotalCash();
-        } else{
+        } else {
           this.isUpdate = false;
           this.cashRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
@@ -306,7 +314,7 @@ this.getDocumentType();
       locationId: +this.locationId,
       // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
       // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
-    weather: (this.weatherDetails?.currentWeather?.temporature) ?  Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
+      weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
       rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,
@@ -323,7 +331,7 @@ this.getDocumentType();
               this.toastr.success('Record Saved Successfully!!', 'Success!');
             }
             this.weatherService.getWeather();
-            this.getTargetBusinessData(this.locationId,this.Todaydate);
+            this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
           } else {
             this.toastr.error('Weather Communication Error', 'Error!');
@@ -443,16 +451,16 @@ this.getDocumentType();
       const locationId = +this.locationId;
       this.toggleTab = 0;
 
-        this.getWeatherDetails();
-        this.getTargetBusinessData(this.locationId, this.selectDate);
+      this.getWeatherDetails();
+      this.getTargetBusinessData(this.locationId, this.selectDate);
 
-     
+
       if (moment(today).isSame(selectedDate)) {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
         this.cashRegisterForm.enable();
-        
+
       } else if (moment(today).isAfter(selectedDate)) {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();

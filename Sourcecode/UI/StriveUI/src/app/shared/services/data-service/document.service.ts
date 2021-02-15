@@ -28,4 +28,8 @@ export class DocumentService {
     return this.http.delete(`${UrlConfig.document.deleteDocument}` + id + '/' + type );
   }
 
+  getDocumentById(id, type) {
+    return this.http.get(`${UrlConfig.document.getDocumentById}` + id  + '/' + type);
+  }
+
 }

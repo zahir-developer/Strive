@@ -17,6 +17,6 @@ namespace Strive.BusinessLogic.Checkout
         Result UpdateJobStatusHold(JobIdDto jobIdDto);
         Result UpdateJobStatusComplete(JobIdDto jobIdDto);
 
-        Result GetCustomerHistory(SalesReportDto salesReportDto);
+        Result GetCustomerHistory(CustomerHistorySearchDto salesReportDto);
     }
 }

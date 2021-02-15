@@ -5,7 +5,7 @@ namespace Strive.BusinessEntities.DTO.Messenger
 {
     public class ChatCommunicationDto
     {
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
         public string CommunicationId { get; set; }
     }

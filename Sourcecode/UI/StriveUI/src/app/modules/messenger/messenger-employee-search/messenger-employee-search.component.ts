@@ -16,7 +16,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   @Output() emitNewChat = new EventEmitter();
   @Output() emitFirstMessage = new EventEmitter();
   @Output() emitRefreshGroupUsers = new EventEmitter();
-  @Input() selectedEmployee: any = [];
+  @Input() selectedEmployee?: any;
   @Input() currentEmployeeId: any = 1;
   @Input() popupType: any = '';
   chatGroupId : number;
@@ -50,7 +50,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         this.empList = empList.EmployeeList;
-        this.removeSelectedEmployee();
+        // this.removeSelectedEmployee();
         this.setDefaultBoolean(false);
         this.setName();
       }
