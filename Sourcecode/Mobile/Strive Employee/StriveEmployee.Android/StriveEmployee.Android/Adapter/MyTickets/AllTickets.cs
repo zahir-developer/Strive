@@ -25,7 +25,7 @@ namespace StriveEmployee.Android.Adapter.MyTickets
         public TextView barcode;
         public TextView customer;
         public TextView additionalServices;
-        public LinearLayout[] hiddenLayout = new LinearLayout[10];
+       // public LinearLayout[] hiddenLayout = new LinearLayout[10];
 
         public AllTicketsViewHolder(View itemView) : base(itemView)
         {
@@ -37,8 +37,8 @@ namespace StriveEmployee.Android.Adapter.MyTickets
             additionalServices = itemView.FindViewById<TextView>(Resource.Id.additionalService_TextView);
             DeclineButton = itemView.FindViewById<Button>(Resource.Id.decline_Button);
             CompleteButton = itemView.FindViewById<Button>(Resource.Id.completes_Button);
-            allTickets_TextView = itemView.FindViewById<Button>(Resource.Id.allTickets_TextView);
-            hiddenLayout[AdapterPosition] = itemView.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
+            allTickets_TextView = itemView.FindViewById<TextView>(Resource.Id.allTickets_TextView);
+            //hiddenLayout[AdapterPosition] = itemView.FindViewById<LinearLayout>(Resource.Id.moreInfo_LinearLayout);
         }
 
         public void OnClick(View v)
@@ -85,66 +85,66 @@ namespace StriveEmployee.Android.Adapter.MyTickets
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            allTicketsViewHolder = holder as AllTicketsViewHolder;
+            //allTicketsViewHolder = holder as AllTicketsViewHolder;
 
-            allTicketsViewHolder.makeModelColor.Text = ticketData[position].MakeModelColor;
-            allTicketsViewHolder.washService.Text = ticketData[position].WashService;
-            allTicketsViewHolder.upcharge.Text = ticketData[position].Upcharge;
-            allTicketsViewHolder.barcode.Text = ticketData[position].Barcode;
-            allTicketsViewHolder.customer.Text = ticketData[position].Customer;
-            allTicketsViewHolder.additionalServices.Text = ticketData[position].AdditionalServices;
-            allTicketsViewHolder.allTickets_TextView.Text = "Ticket No:"+" "+ ticketData[position].TicketNumber;
-            allTicketsViewHolder.hiddenLayout[position].Visibility = ViewStates.Gone;
-            if(position == 0)
-            {
-                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click0;
-            }
-            else if(position == 1)
-            {
-                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click1; ;
-            }
-            else if(position == 1)
-            {
-                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click2;
-            }
+            //allTicketsViewHolder.makeModelColor.Text = ticketData[position].MakeModelColor;
+            //allTicketsViewHolder.washService.Text = ticketData[position].WashService;
+            //allTicketsViewHolder.upcharge.Text = ticketData[position].Upcharge;
+            //allTicketsViewHolder.barcode.Text = ticketData[position].Barcode;
+            //allTicketsViewHolder.customer.Text = ticketData[position].Customer;
+            //allTicketsViewHolder.additionalServices.Text = ticketData[position].AdditionalServices;
+            //allTicketsViewHolder.allTickets_TextView.Text = "Ticket No:"+" "+ ticketData[position].TicketNumber;
+            ////allTicketsViewHolder.hiddenLayout[position].Visibility = ViewStates.Gone;
+            //if(position == 0)
+            //{
+            //    allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click0;
+            //}
+            //else if(position == 1)
+            //{
+            //    allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click1; ;
+            //}
+            //else if(position == 1)
+            //{
+            //    allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click2;
+            //}
         }
 
         private void AllTickets_TextView_Click2(object sender, EventArgs e)
         {
-            if (allTicketsViewHolder.hiddenLayout[2].Visibility == ViewStates.Gone)
-            {
-                allTicketsViewHolder.hiddenLayout[2].Visibility = ViewStates.Visible;
-            }
-            else
-            {
-                allTicketsViewHolder.hiddenLayout[2].Visibility = ViewStates.Gone;
-            }
+            //if (allTicketsViewHolder.hiddenLayout[2].Visibility == ViewStates.Gone)
+            //{
+            //    allTicketsViewHolder.hiddenLayout[2].Visibility = ViewStates.Visible;
+            //}
+            //else
+            //{
+            //    allTicketsViewHolder.hiddenLayout[2].Visibility = ViewStates.Gone;
+            //}
         }
 
         private void AllTickets_TextView_Click1(object sender, EventArgs e)
         {
-            if(allTicketsViewHolder.hiddenLayout[1].Visibility == ViewStates.Gone)
-            {
-                allTicketsViewHolder.hiddenLayout[1].Visibility = ViewStates.Visible;
-            }
-            else
-            {
-                allTicketsViewHolder.hiddenLayout[1].Visibility = ViewStates.Gone;
-            }
+            //if(allTicketsViewHolder.hiddenLayout[1].Visibility == ViewStates.Gone)
+            //{
+            //    allTicketsViewHolder.hiddenLayout[1].Visibility = ViewStates.Visible;
+            //}
+            //else
+            //{
+            //    allTicketsViewHolder.hiddenLayout[1].Visibility = ViewStates.Gone;
+            //}
 
             
         }
 
         private void AllTickets_TextView_Click0(object sender, EventArgs e)
         {
-            if (allTicketsViewHolder.hiddenLayout[0].Visibility == ViewStates.Gone)
-            {
-                allTicketsViewHolder.hiddenLayout[0].Visibility = ViewStates.Visible;
-            }
-            else
-            {
-                allTicketsViewHolder.hiddenLayout[0].Visibility = ViewStates.Gone;
-            }
+            //if (allTicketsViewHolder.hiddenLayout[0].Visibility == ViewStates.Gone)
+            //{
+            //    allTicketsViewHolder.hiddenLayout[0].Visibility = ViewStates.Visible;
+            //}
+            //else
+            //{
+            //    allTicketsViewHolder.hiddenLayout[0].Visibility = ViewStates.Gone;
+            //}
         }
 
         public void OnClick(View itemView, int position, bool isLongClick)
