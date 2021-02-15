@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -32,13 +34,20 @@ export class VehicleListComponent implements OnInit {
   pageSizeList: number[];
   memberServiceId: any;
   vehicleslist: any;
+  imagePopup: boolean;
+  imgData: any;
+  linkSource: string;
+  base64: any;
+  imgbase64: any;
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
     private router: Router,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService,
-    private memberService: MembershipService
+    private memberService: MembershipService,
+    private adSetup: AdSetupService,
+    private sanitizer:DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -96,7 +105,32 @@ export class VehicleListComponent implements OnInit {
       this.spinner.hide();
     });
   }
+  transform(){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.linkSource);
+}
+  imageViewer(){
+      this.adSetup.getAdSetupById(7).subscribe(data => {
+        if (data.status === "Success") {
+          const sType = JSON.parse(data.resultData);
+          this.imgData = sType.GetAdSetupById;
+         this.imgbase64 = this.imgData?.Base64;
+          this.linkSource = 'data:application/image;base64,' + this.imgbase64;
+          this.imagePopup = true;
+        } else {
+          this.toastr.error('Communication Error', 'Error!');
+        }
+     
+    })
+  
+  }
+  newtabImageViewer(){
+    var image = new Image();
+    image.src = "data:image/jpg;base64," + this.imgbase64;
+    image.name = 'Image';
 
+    var w = window.open("",image.name);
+    w.document.write(image.outerHTML);
+    }
   navigateToClient(vehicle) {
     this.router.navigate(['/admin/client'], { queryParams: { clientId: vehicle.ClientId } });
   }
