@@ -56,7 +56,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             }
         }
 
-        public async Task SavePersonalInfo()
+        public async Task<bool> SavePersonalInfo()
         {
             UpdatePersonalDetails updatePersonalDetails = new UpdatePersonalDetails();
             updatePersonalDetails.employee = new employee();
@@ -82,8 +82,9 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             var result = await AdminService.UpdateEmployeePersonalDetails(updatePersonalDetails);
             if(result != null)
             {
-
+                _userDialog.Toast("Personal info save successful");
             }
+            return result.Status;
         }
 
 

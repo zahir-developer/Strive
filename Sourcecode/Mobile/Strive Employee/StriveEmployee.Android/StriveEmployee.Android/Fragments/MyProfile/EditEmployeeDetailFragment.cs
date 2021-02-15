@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
@@ -43,6 +44,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             LoginID = rootView.FindViewById<EditText>(Resource.Id.loginID_EditText);
             back_Button.Click += Back_Button_Click;
             save_Button.Click += Save_Button_Click;
+
+            LoginID.Text = EmployeeLoginDetails.LoginID;
 
             return rootView;
         }

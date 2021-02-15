@@ -80,6 +80,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 
         private void EmployeeDetailEdit_ImageButton_Click(object sender, EventArgs e)
         {
+            EmployeeLoginDetails.LoginID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             employeeDetails_Fragment = new EditEmployeeDetailFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, employeeDetails_Fragment).Commit();

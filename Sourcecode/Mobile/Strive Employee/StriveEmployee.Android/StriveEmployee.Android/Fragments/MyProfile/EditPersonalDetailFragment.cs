@@ -161,7 +161,11 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             EmployeePersonalDetails.ContactNumber = ContactNumber.Text;
             EmployeePersonalDetails.Address = Address.Text;
             EmployeePersonalDetails.SSN = SSN.Text ;
-            await this.ViewModel.SavePersonalInfo();
+            var result = await this.ViewModel.SavePersonalInfo();
+            if(result)
+            {
+                FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
+            }
         }
 
         private void Back_Button_Click(object sender, EventArgs e)
