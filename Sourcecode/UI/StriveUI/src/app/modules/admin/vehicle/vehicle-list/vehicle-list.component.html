@@ -73,9 +73,8 @@ appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
                                         </thead>
 
                                         <tbody class="bodyfix">
-
                                             <tr
-                                                *ngFor="let vehicle of vehicleDetails | orderBy:sort.column:'sequence':sort.descending">
+                                                *ngFor="let vehicle of vehicleDetails">
                                                 <th scope="row" class="text-underline theme-primary-color font-size--9"
                                                     style="cursor: pointer;" (click)="navigateToClient(vehicle)">
                                                     {{vehicle.ClientName}}</th>

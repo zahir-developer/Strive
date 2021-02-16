@@ -50,7 +50,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.selectedEmployee = '';
@@ -60,17 +60,14 @@ export class TimeClockMaintenanceComponent implements OnInit {
     // this.getTimeClockEmployeeDetails();
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.weeklyDateAssign()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.weeklyDateAssign();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.weeklyDateAssign()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.weeklyDateAssign();
   }
 
   weeklyDateAssign() {
@@ -99,8 +96,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.timeClockMaintenanceService.getTimeClockEmployeeDetails(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         const timeClock = JSON.parse(data.resultData);
-        this.timeClockEmployeeDetails = timeClock.Result.TimeClockEmployeeDetailViewModel !== null ? 
-        timeClock.Result.TimeClockEmployeeDetailViewModel : [];
+        this.timeClockEmployeeDetails = timeClock.Result.TimeClockEmployeeDetailViewModel !== null ?
+          timeClock.Result.TimeClockEmployeeDetailViewModel : [];
         this.employeeList = timeClock.Result.EmployeeViewModel;
         if (this.timeClockEmployeeDetails.length === 0) {
           this.isTimeClockEmpty = true;
@@ -228,9 +225,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
         } else {
           this.startDate = event[0];
           this.endDate = event[1];
-          if(this.startDate.toDateString() !== this.currentWeek.toDateString()){
+          if (this.startDate.toDateString() !== this.currentWeek.toDateString()) {
             this.isView = true;
-          }else{
+          } else {
             this.isView = false;
           }
           this.getTimeClockEmployeeDetails();

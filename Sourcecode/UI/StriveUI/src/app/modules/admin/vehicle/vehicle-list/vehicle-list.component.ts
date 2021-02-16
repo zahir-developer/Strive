@@ -29,7 +29,7 @@ export class VehicleListComponent implements OnInit {
   collectionSize: number = 0;
   additionalService: any = [];
   upchargeServices: any = [];
-  sort = { column: 'ClientName', descending: true };
+  sort = { column: 'VehicleNumber', descending: true };
   sortColumn: { column: string; descending: boolean; };
   pageSizeList: number[];
   memberServiceId: any;
@@ -47,7 +47,7 @@ export class VehicleListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService,
     private adSetup: AdSetupService,
-    private sanitizer:DomSanitizer
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -76,8 +76,8 @@ export class VehicleListComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search !== '' ? this.search : null,
-      sortOrder: null,
-      sortBy: null,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
       status: true
     };
     this.spinner.show();
@@ -105,32 +105,30 @@ export class VehicleListComponent implements OnInit {
       this.spinner.hide();
     });
   }
-  transform(){
+  transform() {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.linkSource);
-}
-  imageViewer(){
-      this.adSetup.getAdSetupById(7).subscribe(data => {
-        if (data.status === "Success") {
-          const sType = JSON.parse(data.resultData);
-          this.imgData = sType.GetAdSetupById;
-         this.imgbase64 = this.imgData?.Base64;
-          this.linkSource = 'data:application/image;base64,' + this.imgbase64;
-          this.imagePopup = true;
-        } else {
-          this.toastr.error('Communication Error', 'Error!');
-        }
-     
-    })
-  
   }
-  newtabImageViewer(){
+  imageViewer() {
+    this.adSetup.getAdSetupById(7).subscribe(data => {
+      if (data.status === "Success") {
+        const sType = JSON.parse(data.resultData);
+        this.imgData = sType.GetAdSetupById;
+        this.imgbase64 = this.imgData?.Base64;
+        this.linkSource = 'data:application/image;base64,' + this.imgbase64;
+        this.imagePopup = true;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+
+  }
+  newtabImageViewer() {
     var image = new Image();
     image.src = "data:image/jpg;base64," + this.imgbase64;
     image.name = 'Image';
-
-    var w = window.open("",image.name);
+    var w = window.open("", image.name);
     w.document.write(image.outerHTML);
-    }
+  }
   navigateToClient(vehicle) {
     this.router.navigate(['/admin/client'], { queryParams: { clientId: vehicle.ClientId } });
   }
@@ -244,6 +242,7 @@ export class VehicleListComponent implements OnInit {
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
+    this.getAllVehicleDetails();
   }
 
   changeSortingDescending(column, sortingInfo) {

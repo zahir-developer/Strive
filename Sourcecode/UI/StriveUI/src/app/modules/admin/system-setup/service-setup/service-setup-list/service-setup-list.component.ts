@@ -29,6 +29,8 @@ export class ServiceSetupListComponent implements OnInit {
   column: string = 'ServiceName';
   totalRowCount = 0;
   isLoading: boolean;
+  sort = { column: 'ServiceName', descending: false };
+  sortColumn: { column: string; descending: boolean; };
   constructor(
     private serviceSetup: ServiceSetupService,
     private spinner: NgxSpinnerService,
@@ -53,8 +55,8 @@ export class ServiceSetupListComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search !== '' ? this.search : null,
-      sortOrder: null,
-      sortBy: null,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
       status: this.searchStatus === '' ? null : this.searchStatus
     };
     this.isLoading = true;
@@ -69,7 +71,6 @@ export class ServiceSetupListComponent implements OnInit {
           if (this.serviceSetupDetails.length === 0) {
             this.isTableEmpty = true;
           } else {
-            this.sort('ServiceName');
             this.totalRowCount = serviceDetails.ServiceSetup.Count.Count;
             this.collectionSize = Math.ceil(this.totalRowCount / this.pageSize) * 10;
             this.isTableEmpty = false;
@@ -144,21 +145,34 @@ export class ServiceSetupListComponent implements OnInit {
       }
     });
   }
-  sort(property) {
-    this.isDesc = !this.isDesc; // change the direction
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-    this.serviceSetupDetails.sort(function (a, b) {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
-        return 1 * direction;
-      }
-      else {
-        return 0;
-      }
-    });
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+    this.getAllserviceSetupDetails();
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 
 

@@ -56,13 +56,12 @@ export class WashesListComponent implements OnInit {
     this.pageSize = +this.pageSize;
     this.page = event;
 
-    this.getAllWashDetails()
+    this.getAllWashDetails();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
-
-    this.getAllWashDetails()
+    this.getAllWashDetails();
   }
   // Get All Washes
   getAllWashDetails() {
@@ -71,8 +70,8 @@ export class WashesListComponent implements OnInit {
       PageNo: this.page,
       PageSize: this.pageSize,
       Query: this.search,
-      SortOrder: null,
-      SortBy: null
+      SortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      SortBy: this.sort.column
     };
     this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
@@ -224,6 +223,7 @@ export class WashesListComponent implements OnInit {
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
+    this.getAllWashDetails();
   }
 
   changeSortingDescending(column, sortingInfo) {

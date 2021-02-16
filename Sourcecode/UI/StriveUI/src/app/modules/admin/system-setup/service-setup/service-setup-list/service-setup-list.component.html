@@ -38,14 +38,14 @@
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="sort('ServiceName')">Name&nbsp; <i class="fa" *ngIf="column =='ServiceName'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('ServiceType')">Type&nbsp; <i class="fa" *ngIf="column =='ServiceType'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('Cost')">Price&nbsp; <i class="fa" *ngIf="column =='Cost'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('IsActive')">Status&nbsp; <i class="fa" *ngIf="column =='IsActive'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="changeSorting('ServiceName')">Name&nbsp; <i class="fa"  
+                                                [ngClass]="selectedCls('ServiceName')"></i></th>
+                                            <th class="pointer" (click)="changeSorting('ServiceType')">Type&nbsp; <i class="fa" 
+                                                [ngClass]="selectedCls('ServiceType')"></i></th>
+                                            <th class="pointer" (click)="changeSorting('Cost')">Price&nbsp; <i class="fa"
+                                                [ngClass]="selectedCls('Cost')"></i></th>
+                                            <th class="pointer" (click)="changeSorting('IsActive')">Status&nbsp; <i class="fa" 
+                                                [ngClass]="selectedCls('IsActive')"></i></th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
