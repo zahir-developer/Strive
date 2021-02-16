@@ -5,7 +5,7 @@
     [Address2]        VARCHAR (50)       NULL,
     [PhoneNumber]     VARCHAR (50)       NULL,
     [PhoneNumber2]    VARCHAR (50)       NULL,
-    [Email]           VARCHAR (50)       NULL,
+    [Email]           VARCHAR (100)      NULL,
     [City]            INT                NULL,
     [State]           INT                NULL,
     [Country]         INT                NULL,
@@ -22,6 +22,8 @@
     CONSTRAINT [FK_tblClientAddress_Country] FOREIGN KEY ([Country]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClientAddress_State] FOREIGN KEY ([State]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 GO

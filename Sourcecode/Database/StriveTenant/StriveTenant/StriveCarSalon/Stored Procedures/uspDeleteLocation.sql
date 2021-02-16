@@ -41,4 +41,8 @@ UpdatedBy=@UserId,
 UpdatedDate=@Date
 WHERE LocationId = @LocationId
 
+UPDATE [StriveCarSalon].[tblLocationOffset] SET
+  IsDeleted=1 
+   WHERE LocationId = @LocationId	
+
 END

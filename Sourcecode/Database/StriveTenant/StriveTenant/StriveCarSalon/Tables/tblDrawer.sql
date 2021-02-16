@@ -8,7 +8,10 @@
     [CreatedDate] DATETIMEOFFSET (7) NULL,
     [UpdatedBy]   INT                NULL,
     [UpdatedDate] DATETIMEOFFSET (7) NULL,
+    [DrawerNo]    INT                NULL,
     CONSTRAINT [PK_tblDrawer] PRIMARY KEY CLUSTERED ([DrawerId] ASC),
     CONSTRAINT [FK_tblDrawer_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 

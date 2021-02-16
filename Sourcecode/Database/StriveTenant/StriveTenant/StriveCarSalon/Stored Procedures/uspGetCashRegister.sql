@@ -24,7 +24,10 @@ CR.CashRegisterId ,
 CR.CashRegisterType,
 CR.LocationId ,
 CR.DrawerId,
-CR.CashRegisterDate 
+CR.CashRegisterDate ,
+CR.StoreTimeIn,
+CR.StoreTimeOut,
+CR.Status
 FROM 
 strivecarsalon.tblCashRegister CR 
 WHERE
@@ -116,5 +119,34 @@ CR.CashRegisterType = @CashRegisterTypeId AND
 CR.CashRegisterDate = @CashRegisterDate AND
 --CR.DrawerId = @DrawerID AND
 isnull(CR.isDeleted,0) = 0  
+
+SELECT 
+WP.Weather,
+WP.RainProbability,
+WP.PredictedBusiness,
+WP.TargetBusiness
+FROM [StriveCarSalon].[tblWeatherPrediction] WP
+INNER JOIN
+strivecarsalon.tblCashRegister CR 
+ON WP.LocationId=CR.LocationId
+WHERE
+WP.LocationId =@LocationId AND
+WP.CreatedDate=@CashRegisterDate
+
+Declare @WashId INT = (Select valueid from GetTable('JobType') where valuedesc='Wash')
+Declare @WashServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Washes')
+Declare @CompletedJobStatus INT = (Select valueid from GetTable('JobStatus') where valuedesc='Completed')
+SELECT 
+	tbll.LocationId,tbll.LocationName,COUNT(*) WashCount
+	FROM tbljob tblj 
+	INNER JOIN tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
+	INNER JOIN tblJobItem tblji ON(tblj.JobId=tblji.JobId)
+	INNER JOIN tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
+	WHERE tblj.JobType=@WashId
+	AND tbls.ServiceType=@WashServiceId
+	AND tblj.JobStatus=@CompletedJobStatus
+	AND tblj.LocationId=@LocationId
+	GROUP BY tbll.LocationId,tbll.LocationName	
+
 END
 

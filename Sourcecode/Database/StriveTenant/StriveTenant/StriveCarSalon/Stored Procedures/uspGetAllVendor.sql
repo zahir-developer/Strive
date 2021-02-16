@@ -3,25 +3,12 @@
 AS 
 BEGIN
 SELECT 
+Distinct
 V.VendorId
-,V.VIN
 ,V.VendorName
-,V.VendorAlias
 ,V.IsActive
-,VA.VendorAddressId	
-,VA.Address1	 
-,VA.Address2	
 ,VA.PhoneNumber	 
-,VA.PhoneNumber2	 
 ,VA.Email	 
-,VA.City	 
-,VA.State	 
-,VA.Country 
-,VA.Zip	 
-,VA.Fax	
-,VA.IsActive
-,websiteAddress	 
-	
 FROM  [StriveCarSalon].[tblVendor] V
 Inner Join [StriveCarSalon].[tblVendorAddress] VA
  On V.VendorId=VA.VendorId
@@ -30,7 +17,7 @@ Inner Join [StriveCarSalon].[tblVendorAddress] VA
  (@VendorSearch is null or V.VendorName like '%'+@VendorSearch+'%'
  or VA.Address1 like '%'+@VendorSearch+'%' or VA.Address2 like '%'+@VendorSearch+'%'or VA.Email like '%'+@VendorSearch+'%')
 
- order by V.VendorId desc
+ order by V.VendorName ASC
  --or tblla.PhoneNumber like '%'+@LocationSearch+'%'
  --or tblla.Email like '%'+@LocationSearch+'%')
 END

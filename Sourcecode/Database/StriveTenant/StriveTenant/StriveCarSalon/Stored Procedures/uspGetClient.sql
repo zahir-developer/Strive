@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetClient]  
+﻿
+CREATE PROCEDURE [StriveCarSalon].[uspGetClient]  
 (@ClientId int)
 AS 
 BEGIN
@@ -8,6 +9,7 @@ SELECT
   tblc.FirstName,
   tblc.MiddleName,
   tblc.LastName,
+  tblc.Amount,
   tblc.Gender,
   tblc.MaritalStatus,
   tblc.BirthDate,
@@ -28,13 +30,14 @@ tblca.Email,
 tblca.City,
 tblca.State,
 tblca.Country,
-tblca.Zip,
-tblca.IsActive
+tblca.Zip
+--tblca.IsActive
 
 
 FROM [StriveCarSalon].[tblClient] tblc inner join [StriveCarSalon].[tblClientAddress] tblca
 		   ON(tblc.ClientId = tblca.ClientId) 
-           WHERE ISNULL(tblc.IsDeleted,0)=0 AND ISNULL(tblc.IsActive,1)=1 and
+           WHERE ISNULL(tblc.IsDeleted,0)=0 --AND ISNULL(tblc.IsActive,1)=1
+		    AND
 		   (@ClientId is null or tblc.ClientId = @ClientId)  
 		 
 END

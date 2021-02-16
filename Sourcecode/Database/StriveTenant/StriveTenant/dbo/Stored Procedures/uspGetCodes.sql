@@ -9,4 +9,6 @@ begin
 	(@Category is null or Category = @Category)
 	and 
 	(@CategoryId is null or CategoryId = @CategoryId)
+	and ISNULL(val.IsDeleted,0) =0
+	order by SortOrder,val.CodeValue
 end

@@ -1,4 +1,4 @@
-﻿Create PROC [StriveCarSalon].[uspGetVehicleByClientId] 
+﻿CREATE PROC [StriveCarSalon].[uspGetVehicleByClientId] 
 (@ClientId int =null)
 AS
 BEGIN
@@ -9,9 +9,9 @@ SELECT
 	,cvl.VehicleMfr AS VehicleMakeId
 	,cvMfr.valuedesc AS VehicleMake
 	,cvl.VehicleModel AS VehicleModelId
-	,cvmo.valuedesc AS ModelName
-	,cvCo.valuedesc AS Color
-	,cvl.VehicleColor AS ColorId
+	,cvmo.valuedesc AS VehicleModelName
+	,cvCo.valuedesc AS VehicleColor
+	,cvl.VehicleColor AS VehicleColorId
 	,cvl.Upcharge
 	,cvl.Barcode
 FROM

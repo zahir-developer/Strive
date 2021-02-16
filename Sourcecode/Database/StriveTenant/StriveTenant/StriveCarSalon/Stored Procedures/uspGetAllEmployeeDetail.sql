@@ -1,4 +1,5 @@
-﻿-- =============================================
+﻿
+-- =============================================
 -- Author:		Naveen
 -- Create date: 15-07-2020
 -- Description:	Retrieves All Employee details
@@ -17,7 +18,6 @@ CREATE PROC [StriveCarSalon].[uspGetAllEmployeeDetail]
 (@EmployeeName varchar(50)=null)
 AS
 BEGIN
-
 SELECT 
 emp.EmployeeId, 
 empdet.EmployeeDetailId,
@@ -34,6 +34,7 @@ FOR XML PATH('')),1,1,'') as MobileNo,
 (SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM StriveCarSalon.tblSchedule WHERE employeeid=emp.employeeid AND (IsDeleted=0 OR IsDeleted IS NULL)) as Schedules,
 
 isnull(emp.IsActive,1) as Status
+
 FROM 
 StriveCarSalon.tblEmployee emp 
 LEFT JOIN StriveCarSalon.tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
@@ -44,5 +45,7 @@ AND ((emp.FirstName like '%'+@EmployeeName+'%')
 OR (emp.LastName like '%'+@EmployeeName+'%')
 OR @EmployeeName is null OR @EmployeeName = ' ')
 AND (emp.IsDeleted = 0 OR emp.IsDeleted IS NULL)
-ORDER BY 1 DESC
+ORDER BY emp.FirstName, emp.LastName, emp.IsActive DESC
+
+
 END

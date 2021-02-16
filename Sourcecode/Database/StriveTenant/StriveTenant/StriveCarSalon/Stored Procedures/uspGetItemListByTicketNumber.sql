@@ -1,11 +1,15 @@
 ﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- '649592'
-@TicketNumber varchar(10)
+
+--[StriveCarSalon].[uspGetItemListByTicketNumber] '228251'
+
+
+
+CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- [StriveCarSalon].[uspGetItemListByTicketNumber] '651284,537631,566450,118839,833659'
+@TicketNumber varchar(max)
 AS 
 --DECLARE @TicketNumber varchar(10)='274997'--'782436'
 
-BEGIN
-    
+BEGIN     
 DROP TABLE IF EXISTS #JobItemList
 
 SELECT 
@@ -33,7 +37,7 @@ LEFT JOIN
 	tblCodeValue tblcv
 ON		tblcv.id=tblsr.ServiceType
 WHERE 
-	tbljb.TicketNumber =  @TicketNumber  
+	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%'
 AND ISNULL(tbljbI.IsDeleted,0)=0 
 AND ISNULL(tbljbI.IsActive,1)=1 
 AND ISNULL(tbljb.IsDeleted,0)=0 
@@ -69,15 +73,11 @@ LEFT JOIN
 	tblCodeValue tblCV 
 ON		tblP.ProductType = tblcv.id
 WHERE 
-	tbljb.TicketNumber =  @TicketNumber  
+	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%'
 AND ISNULL(tbljbP.IsDeleted,0)=0 
 AND ISNULL(tbljbP.IsActive,1)=1 
 AND ISNULL(tbljb.IsDeleted,0)=0 
 AND ISNULL(tbljb.IsActive,1)=1
-
-
-
- 
 
 
 --Item Total
@@ -93,6 +93,16 @@ FROM
 	#JobItemList JIL
 GROUP BY JIL.TicketNumber
 
+--Total for given tickets
+DROP TABLE IF EXISTS #JobTotalForGivenTickets
+
+DECLARE @JobServiceCostForGivenTickets decimal(9,2) = (SELECT 
+SUM(JIL.Cost) Total
+FROM #JobItemList JIL)
+DECLARE @JobTaxCostForGivenTickets decimal(9,2) = (SELECT 
+SUM(JIL.TaxAmount) TaxAmount 
+FROM #JobItemList JIL)
+	
 DROP TABLE IF EXISTS #JobProductTotal
 
 SELECT 
@@ -105,7 +115,15 @@ FROM
 	#JobProductList JPL
 GROUP BY JPL.TicketNumber
 
-UPDATE #JobTotal SET Total= (ISNULL(JT.Total,0)+ISNULL(JPT.Total,0)),TaxAmount=(ISNULL(JT.TaxAmount,0)+ISNULL(JPT.TaxAmount,0)) FROM #JobTotal JT LEFT JOIN #JobProductTotal JPT ON JT.TicketNumber=JPT.TicketNumber
+DECLARE @JobProductCostForGivenTickets decimal(9,2) = (SELECT 
+SUM(JIL.Cost) Total
+FROM #JobProductList JIL)
+DECLARE @JobProductTaxCostForGivenTickets decimal(9,2) = (SELECT 
+SUM(JIL.TaxAmount) TaxAmount 
+FROM #JobProductList JIL)
+
+DECLARE @Total decimal(9,2)= (ISNULL(@JobServiceCostForGivenTickets,0)+ISNULL(@JobProductCostForGivenTickets,0))
+DECLARE @TaxAmount decimal(9,2) = (ISNULL(@JobTaxCostForGivenTickets,0)+ISNULL(@JobProductTaxCostForGivenTickets,0))
 
 DROP TABLE IF EXISTS #PaymentType
 
@@ -119,7 +137,7 @@ Where CC.[Category]='PaymentType'
 DROP TABLE IF EXISTS #Payment_Summary
 
 SELECT 
-	TicketNumber,
+	--TicketNumber,
 	SUM(Cash) AS Cash,
 	SUM(Credit) AS Credit,
 	SUM(GiftCard)AS GiftCard,
@@ -152,7 +170,7 @@ LEFT JOIN
 	#PaymentType tblpt
 on		tbljpd.PaymentType = tblpt.id
 WHERE 
-	tbljob.TicketNumber = @TicketNumber
+	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljob.TicketNumber)+',%'
 AND	ISNULL(tbljob.IsDeleted,0)=0 
 AND ISNULL(tbljob.IsActive,1)=1 
 AND	ISNULL(tbljp.IsDeleted,0)=0 
@@ -161,62 +179,44 @@ AND	ISNULL(tbljpd.IsDeleted,0)=0
 AND ISNULL(tbljpd.IsActive,1)=1 
 Group by tbljob.TicketNumber,tblpt.CodeValue
 ) sub
-GROUP BY TicketNumber
+--GROUP BY TicketNumber
 
 -- Summary List
-SELECT * FROM #JobItemList
-SELECT * FROM #JobProductList
+SELECT * FROM #JobItemList ORDER BY JobId
+SELECT * FROM #JobProductList ORDER BY JobId
 
-SELECT 
-	PS.TicketNumber,
-	JT.Total, 
-	JT.TaxAmount,
-	(JT.Total+JT.TaxAmount) AS GrandTotal,
+SELECT DISTINCT
+	--PS.TicketNumber,
+	@Total AS Total, 
+	@TaxAmount as TaxAmount,
+	(@Total+@TaxAmount) AS GrandTotal,
 	Cash,
 	Credit,
 	GiftCard,
 	Discount,
 	(Account+Membership) AS Account,
 	(Account+Membership+Cash+Credit+GiftCard) AS TotalPaid,
-	((JT.Total+JT.TaxAmount) - (Account+Membership+Cash+Credit+Discount+GiftCard)) AS BalanceDue,
+	((@Total+@TaxAmount) - (Account+Membership+Cash+Credit+Discount+GiftCard)) AS BalanceDue,
 	CashBack
 FROM 
-	#Payment_Summary PS 
-LEFT JOIN 
-	#JobTotal JT 
-ON JT.TicketNumber=PS.TicketNumber
+	#Payment_Summary 
 
 --Payment, IsProcessed, IsRollBack
-Select top 1 job.JobId, ISNULL(tbljp.JobPaymentId, 0) as JobPaymentId, ISNULL(tbljp.IsProcessed, 0) as IsProcessed, ISNULL(tbljp.IsRollBack, 0) as IsRollBack
+--Select  ISNULL(tbljp.JobPaymentId, 0) as JobPaymentId, ISNULL(tbljp.IsProcessed, 0) as IsProcessed, ISNULL(tbljp.IsRollBack, 0) as IsRollBack
+--from tblJobPayment tbljp 
+--LEFT JOIN tblJob job on job.JobId = tbljp.JobId
+--WHERE  ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),job.TicketNumber)+',%'
+--order by JobPaymentId desc
+
+Select DISTINCT ISNULL(tbljp.JobPaymentId, 0) as JobPaymentId, ISNULL(tbljp.IsProcessed, 0) as IsProcessed, ISNULL(tbljp.IsRollBack, 0) as IsRollBack
 from tblJob job 
 LEFT JOIN tblJobPayment tbljp on job.JobId = tbljp.JobId
-WHERE job.TicketNumber = @TicketNumber 
-order by tbljp.JobPaymentId desc
+WHERE  ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),job.TicketNumber)+',%'
+order by JobPaymentId desc
 
---Address
 
- SELECT 
- tblla.Address1, 
- tblla.Address2, 
- tblla.PhoneNumber, 
- tblcv.valuedesc, 
- tblsv.valuedesc 
- FROM 
- tblLocationAddress tblla
- LEFT JOIN
- tblJob tblj 
- ON tblj.LocationId = tblla.LocationId
- LEFT JOIN
- GetTable('City') tblcv
- ON tblcv.valueid = tblla.City
- LEFT JOIN
- GetTable('State') tblsv
- ON tblsv.valueid = tblla.State
- WHERE 
-	tblj.TicketNumber =  @TicketNumber
-AND ISNULL(tblj.IsDeleted,0)=0 
-AND ISNULL(tblj.IsActive,1)=1
-
+--JobId, TicketNumber
+Select JobId,TicketNumber from tblJob where ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),TicketNumber)+',%' and IsActive=1 and ISNULL(IsDeleted,0)=0
 END
 GO
 

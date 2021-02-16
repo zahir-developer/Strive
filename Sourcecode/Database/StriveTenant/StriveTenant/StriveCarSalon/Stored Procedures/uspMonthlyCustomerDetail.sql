@@ -4,6 +4,7 @@
 
 
 
+
 -- =============================================
 -- Author:		Arunkumae S
 -- Create date: 02-11-2020
@@ -33,7 +34,7 @@ J.JobId,
  ISNULL(PaymentType,0) As PaymentType,
  GT.valuedesc As PaymentDescription,
 StriveCarSalon.GetMemberShipName(JP.MembershipId) As MemberShipName,
-SUM(JP.Amount) as TicketAmount
+SUM(JI.Price) as TicketAmount
 from [StriveCarSalon].[tblJob] (NoLock) J
 inner join [StriveCarSalon].[tblJobItem] (NoLock) JI on JI.JobId = J.JobId and JI.IsActive = 1 and JI.IsDeleted = 0
 inner join [StriveCarSalon].[tblJobPayment] (NoLock) JP on JP.JobId = J.JobId and JP.IsActive = 1 and JP.IsDeleted = 0 and JP.IsProcessed = 1

@@ -41,7 +41,7 @@ FROM StriveCarSalon.tblMembership M Where
 (@MembershipSearch is null or m.MembershipName like'%'+ @MembershipSearch+'%')
 and ISNULL(M.IsDeleted,0)=0
 GROUP BY M.MembershipName, M.MembershipId, M.IsActive, M.CreatedDate
-ORDER BY M.MembershipId desc
+ORDER BY  M.IsActive desc
 
 
 END

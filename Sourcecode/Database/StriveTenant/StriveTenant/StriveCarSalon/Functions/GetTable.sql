@@ -1,4 +1,7 @@
-﻿CREATE FUNCTION [StriveCarSalon].[GetTable] (@category as varchar(100))
+﻿
+/****** Object:  UserDefinedFunction [StriveCarSalon].[GetTable]    Script Date: 29-01-2021 15:44:23 ******/
+
+CREATE FUNCTION [StriveCarSalon].[GetTable] (@category as varchar(100))
 returns @result table (id int, category varchar(100), valueid int, valuedesc varchar(100))
 as
 begin
@@ -9,14 +12,14 @@ begin
 		  select cv.id, cv.codevalue as category, cv1.id as valueid, cv1.codevalue as valuedesc from tblcodecategory co inner join
 		tblCodeValue cv on co.id=cv.categoryid
 		inner join tblcodevalue cv1 on cv.id = cv1.parentid 
-		where co.category=@category
+		where co.category=@category and ISNULL(cv.isDeleted,0) = 0
 	end
 
 	else
 	begin
 		Insert into @result
 		select cat.id, cat.category, val.id as valueid, val.codevalue as valuedesc from 
-		tblcodecategory cat inner join tblcodevalue val on cat.id = val.categoryid where category=@category
+		tblcodecategory cat inner join tblcodevalue val on cat.id = val.categoryid where category=@category and ISNULL(val.isDeleted,0) = 0
 	end
 	return 
 end

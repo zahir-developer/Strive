@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetClientById] 
+﻿
+CREATE PROCEDURE [StriveCarSalon].[uspGetClientById] 
 (@ClientId int =null)
 AS 
 BEGIN
@@ -8,6 +9,7 @@ tblc.ClientId,
 tblc.FirstName,
 tblc.MiddleName,
 tblc.LastName,
+tblc.Amount,
 tblc.Gender,
 tblc.MaritalStatus,
 tblc.BirthDate,

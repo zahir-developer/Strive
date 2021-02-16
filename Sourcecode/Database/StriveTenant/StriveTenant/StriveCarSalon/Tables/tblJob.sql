@@ -22,13 +22,17 @@
     [UpdatedDate]      DATETIMEOFFSET (7) NULL,
     [CheckOut]         BIT                CONSTRAINT [DF__tblJob__CheckOut] DEFAULT ((0)) NULL,
     [CheckOutTime]     DATETIME           NULL,
+    [JobPaymentId]     INT                NULL,
     CONSTRAINT [PK_tblJob] PRIMARY KEY CLUSTERED ([JobId] ASC),
     CONSTRAINT [FK_tblJob_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
+    CONSTRAINT [FK_tblJob_JobPaymentId] FOREIGN KEY ([JobPaymentId]) REFERENCES [StriveCarSalon].[tblJobPayment] ([JobPaymentId]),
     CONSTRAINT [FK_tblJob_JobStatus] FOREIGN KEY ([JobStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblJob_JobType] FOREIGN KEY ([JobType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblJob_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblJob_VehicleId] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId])
 );
+
+
 
 
 

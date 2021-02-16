@@ -1,4 +1,5 @@
 ﻿
+
 -- =========================================================
 -- Author:		Vineeth B
 -- Create date: 26-08-2020
@@ -12,7 +13,7 @@
 --01-09-2020 - Zahir Hussain - Added IsActive/Status, Upcharges
 -- =========================================================
 
-CREATE procedure [StriveCarSalon].[uspGetMembershipServiceByMembershipId]
+CREATE procedure [StriveCarSalon].[uspGetMembershipServiceByMembershipId] --[StriveCarSalon].[uspGetMembershipServiceByMembershipId] 23384 
 (@MembershipId int)
 AS
 BEGIN
@@ -24,16 +25,18 @@ Price,
 Notes,
 IsActive as Status,
 CreatedDate as StartDate
-from [StriveCarSalon].[tblMembership] WITH(NOLOCK) WHERE MembershipId=@MembershipId AND ISNULL(IsDeleted,0)=0 AND IsActive=1
+from [StriveCarSalon].[tblMembership] WITH(NOLOCK) WHERE MembershipId=@MembershipId AND ISNULL(IsDeleted,0)=0 --AND IsActive=1
 
 select 
 MembershipServiceId,
 MembershipId,
 s.ServiceId,
 s.ServiceType as ServiceTypeId,
+st.valuedesc as ServiceType,
 s.Upcharges
 from [StriveCarSalon].[tblMembershipService] ms
 LEFT JOIN StriveCarSalon.tblService s WITH(NOLOCK) on s.ServiceId = ms.ServiceId
-WHERE MembershipId=@MembershipId AND ISNULL(ms.IsDeleted,0)=0 AND ms.IsActive=1
+LEFT JOIN GetTable('ServiceType') st on s.ServiceType = st.valueid
+WHERE MembershipId=@MembershipId AND ISNULL(ms.IsDeleted,0)=0 --AND ms.IsActive=1
 
 END

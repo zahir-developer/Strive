@@ -6,8 +6,8 @@
 
 
 
-CREATE procedure [StriveCarSalon].[uspGetDailySalesReport] -- [StriveCarSalon].[uspGetDailySalesReport] '2020-11-24'
-(@Date date)
+CREATE procedure [StriveCarSalon].[uspGetDailySalesReport] -- [StriveCarSalon].[uspGetDailySalesReport] '2020-12-24',2057
+(@Date date , @LocationId int)
 AS
 BEGIN
 
@@ -21,7 +21,7 @@ INNER JOIN tblJobPayment tbljp on(tblj.JobId = tbljp.JobId)
 INNER JOIN GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid) --AND js.valuedesc='Completed'
 where  tblj.IsActive=1 and tbljpi.IsActive=1 and tbljp.IsActive=1 and
 ISNULL(tblj.IsDeleted,0)=0 and ISNULL(tbljpi.IsDeleted,0)=0 and ISNULL(tbljp.IsDeleted,0)=0 --and (@LocationId IS NULL or tblj.LocationId=@LocationId)
-AND tblj.JobDate=@Date
+AND tblj.JobDate=@Date and tblj.LocationId = @LocationId
 --AND tblj.JobDate='2020-09-29' 
 GROUP BY tblj.JobId)
 
@@ -34,7 +34,7 @@ INNER JOIN GetTable('ServiceType') st on st.valueid = tbls.ServiceType
 INNER JOIN GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid) --AND js.valuedesc='Completed'
 where  tblj.IsActive=1 and tblji.IsActive=1 and tbls.IsActive=1 and
 ISNULL(tblj.IsDeleted,0)=0 and ISNULL(tblji.IsDeleted,0)=0 and ISNULL(tbls.IsDeleted,0)=0 --and (@LocationId IS NULL or tblj.LocationId=@LocationId)
-AND tblj.JobDate=@Date
+AND tblj.JobDate=@Date and tblj.LocationId = @LocationId
 GROUP BY tblj.JobId)
 
 
@@ -42,10 +42,14 @@ SELECT
     DISTINCT 
 	tblj.JobId,
     tblj.TicketNumber,
-	SUBSTRING(CONVERT(VARCHAR(8),tblj.TimeIn,108),0,6) AS TimeIn,
-	SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6) AS Est,
-	SUBSTRING(CONVERT(VARCHAR(8),tblj.ActualTimeOut,108),0,6) AS TimeOut,
-	DATEDIFF(MINUTE,tblj.ActualTimeOut,tblj.EstimatedTimeOut) as TimeOutDifference,
+	tblj.TimeIn AS TimeIn,
+	tblj.ActualTimeOut AS TimeOut,
+	tblj.EstimatedTimeOut AS Est,
+	--SUBSTRING(CONVERT(VARCHAR(8),tblj.TimeIn,108),0,6) AS TimeIn,
+	--SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6) AS Est,
+	--SUBSTRING(CONVERT(VARCHAR(8),tblj.ActualTimeOut,108),0,6) AS TimeOut,
+	DATEDIFF(minute,tblj.ActualTimeOut,tblj.EstimatedTimeOut) as Deviation,
+	--DATEDIFF(minute,SUBSTRING(CONVERT(VARCHAR(8),tblj.ActualTimeOut,108),0,6),SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6))/60 as Deviation,
 	--((SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6))+(SUBSTRING(CONVERT(VARCHAR(8),tblj.TimeIn,108),0,6)))Deviation,
 	tbls.ServiceName,
 	st.valuedesc AS ServiceType,
@@ -96,7 +100,7 @@ LEFT JOIN
     tblClientVehicleMembershipDetails tblcvmd ON(tblj.VehicleId = tblcvmd.ClientVehicleId) AND tblcvmd.IsActive = 1 AND ISNULL(tblcvmd.IsDeleted,0)=0
 WHERE 
 tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail')  and st.valuedesc in('Washes','Details')
-AND tblj.JobDate=@Date
+AND tblj.JobDate=@Date and tblj.LocationId = @LocationId
 AND tblj.IsActive = 1 AND tblc.IsActive = 1 AND tblcv.IsActive = 1 
 AND tblji.IsActive = 1 AND tbls.IsActive = 1 
 AND tblca.IsActive = 1

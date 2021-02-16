@@ -23,10 +23,10 @@ Set @CurrentDate=(SELECT CAST(GETDATE() as Date))
 
 		   From tblJob tbljb 
 		   Inner Join tblClient tblcli ON tbljb.ClientId = tblcli.ClientId
-		   Inner Join tblClientVehicle tblcv ON tblcli.ClientId = tblcv.ClientId
-		   Inner Join tblClientVehicleMembershipDetails tblcvm ON tblcv.VehicleId = tblcvm.ClientVehicleId
+		   Left Join tblClientVehicle tblcv ON tblcli.ClientId = tblcv.ClientId
+		   Left Join tblClientVehicleMembershipDetails tblcvm ON tblcv.VehicleId = tblcvm.ClientVehicleId
 		   Left Join  tblCodeValue tblcva ON tblcli.ClientType = tblcva.id
 		   Left Join  tblCodeCategory tblcc ON tblcva.CategoryId = tblcc.id
-		   Where tblcc.Category ='ClientType' and tbljb.TicketNumber=@TicketNumber and tblcvm.StartDate<= @CurrentDate and tblcvm.EndDate>=@CurrentDate 
+		   Where tblcc.Category ='ClientType' and tbljb.TicketNumber=@TicketNumber --and tblcvm.StartDate<= @CurrentDate and tblcvm.EndDate>=@CurrentDate 
 
 End

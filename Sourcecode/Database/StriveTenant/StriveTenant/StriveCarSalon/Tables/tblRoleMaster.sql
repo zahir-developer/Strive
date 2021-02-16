@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblRoleMaster] (
     [RoleMasterId] INT                IDENTITY (1, 1) NOT NULL,
-    [RoleName]     VARCHAR (10)       NULL,
+    [RoleName]     VARCHAR (50)       NULL,
     [RoleAlias]    VARCHAR (4)        NULL,
     [ParentId]     INT                NULL,
     [IsActive]     BIT                NULL,
@@ -11,4 +11,6 @@
     [UpdatedDate]  DATETIMEOFFSET (7) NULL,
     CONSTRAINT [PK_tblRoleMaster] PRIMARY KEY CLUSTERED ([RoleMasterId] ASC)
 );
+
+
 

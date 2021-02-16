@@ -21,7 +21,7 @@ CREATE proc [StriveCarSalon].[uspGetBaySchedulesDetails]
 AS
 BEGIN
 
-SELECT BayId,BayName FROM tblBay WHERE LocationId=@LocationId AND IsActive=1 AND IsDeleted = 0;
+SELECT BayId,BayName FROM tblBay WHERE LocationId=@LocationId AND IsActive=1 AND IsDeleted = 0 AND BayName like '%Detail%';
 
 SELECT 
 tblB.BayId

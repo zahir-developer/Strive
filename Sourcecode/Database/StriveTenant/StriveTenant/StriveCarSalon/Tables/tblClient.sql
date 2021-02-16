@@ -6,8 +6,8 @@
     [Gender]        INT                NULL,
     [MaritalStatus] INT                NULL,
     [BirthDate]     DATETIME           NULL,
-    [Notes]         VARCHAR (50)       NULL,
-    [RecNotes]      VARCHAR (50)       NULL,
+    [Notes]         TEXT               NULL,
+    [RecNotes]      TEXT               NULL,
     [Score]         INT                NULL,
     [NoEmail]       BIT                NULL,
     [ClientType]    INT                NULL,
@@ -24,6 +24,8 @@
     CONSTRAINT [FK_tblClient_Gender] FOREIGN KEY ([Gender]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClient_MaritalStatus] FOREIGN KEY ([MaritalStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

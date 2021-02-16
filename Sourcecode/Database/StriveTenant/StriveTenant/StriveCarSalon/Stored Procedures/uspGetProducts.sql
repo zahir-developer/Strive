@@ -11,6 +11,7 @@ SELECT
 	prd.ProductType,
 	prd.[FileName],
 	prd.[ThumbFileName],
+	prd.OriginalFileName,
 	prd.LocationId, 
 	prd.VendorId, 
 	prd.Size, 

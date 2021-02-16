@@ -14,11 +14,14 @@
     [UpdatedBy]          INT                NULL,
     [UpdatedDate]        DATETIMEOFFSET (7) NULL,
     [TotalPrice]         DECIMAL (19, 2)    NULL,
+    [REFCustAccID]       INT                NULL,
     CONSTRAINT [PK_tblClientMembershipDetails] PRIMARY KEY CLUSTERED ([ClientMembershipId] ASC),
     CONSTRAINT [FK_tblClientMembershipDetails_ClientVehicleId] FOREIGN KEY ([ClientVehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId]),
     CONSTRAINT [FK_tblClientMembershipDetails_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblClientMembershipDetails_MembershipId] FOREIGN KEY ([MembershipId]) REFERENCES [StriveCarSalon].[tblMembership] ([MembershipId])
 );
+
+
 
 
 

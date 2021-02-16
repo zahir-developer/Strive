@@ -2,13 +2,16 @@
 
 
 
+
+
+
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 03-11-2020
 -- Description:	To get Dashboard Details
 -- =============================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics] --0,'2020-11-01','2020-11-20'
+CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics] --[StriveCarSalon].[uspGetDashboardStatistics] 2060,'2020-12-28','2020-12-28'
 (@LocationId INT,@FromDate Date,@ToDate Date)
 AS
 BEGIN
@@ -122,21 +125,21 @@ DROP TABLE  IF EXISTS #WashTime
 (SELECT tbll.LocationId,
 CASE
 	   WHEN wt.Washer <=3 AND wt.CarCount <=1 THEN 25
-	   WHEN wt.Washer <=3 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*8) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=3 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*8) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer <=6 AND wt.CarCount <=1 THEN 25
-	   WHEN wt.Washer <=6 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*7) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=6 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*7) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer <=9 AND wt.CarCount <=1 THEN 25
-	   WHEN wt.Washer <=9 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*6) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=9 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*6) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer <=11 AND wt.CarCount <=3 THEN 25
-	   WHEN wt.Washer <=11 AND wt.CarCount >3 THEN (25+(wt.CarCount - 3)*5) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=11 AND wt.CarCount >3 THEN (25+(wt.CarCount - 3)*5) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >=12 AND wt.Washer<=15 AND wt.CarCount <=5 THEN 25
-	   WHEN wt.Washer >=12 AND wt.Washer<=15 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*3) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >=12 AND wt.Washer<=15 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*3) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >=16 AND wt.Washer<=21 AND wt.CarCount <=5 THEN 25
-	   WHEN wt.Washer >=16 AND wt.Washer<=21 AND wt.CarCount >5  THEN (25+(wt.CarCount - 6)*2) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >=16 AND wt.Washer<=21 AND wt.CarCount >5  THEN (25+(wt.CarCount - 6)*2) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >=22 AND wt.Washer<=26 AND wt.CarCount <=5 THEN 25
-	   WHEN wt.Washer >=22 AND wt.Washer<=26 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*2) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >=22 AND wt.Washer<=26 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*2) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >26 AND wt.CarCount <=7 THEN 25
-	   WHEN wt.Washer >26 AND wt.CarCount >7  THEN (25+(wt.CarCount - 7)*2) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >26 AND wt.CarCount >7  THEN (25+(wt.CarCount - 7)*2) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   ELSE 0
 	   END AS WashTimeMinutes
 	   INTO #WashTime
@@ -144,8 +147,8 @@ CASE
 LEFT JOIN #WashRoleCount wt ON(tbll.LocationId = wt.LocationId)
 LEFT JOIN tblLocationOffSet tbllo ON(tbll.LocationId = tbllo.LocationId)
 LEFT JOIN #EventDateForLocation edfl ON(tbll.LocationId = edfl.LocationId)
-WHERE isnull(IsActive,1) = 1 AND
-isnull(isDeleted,0) = 0  AND
+WHERE isnull(tbllo.IsActive,1) = 1 AND
+isnull(tbllo.isDeleted,0) = 0  AND
 tbll.LocationId = @LocationId--AND (@LocationId IS NULL or tblj.LocationId=@LocationId)
 	AND (edfl.EventDate>=@FromDate AND edfl.EventDate<=@ToDate) 
 
@@ -297,9 +300,11 @@ GROUP BY tblj.LocationId)
 DROP TABLE  IF EXISTS #TotalServiceSales
 (Select tblj.LocationId,SUM(tblji.Price)TotalServiceSales INTO #TotalServiceSales from tblJob tblj inner join tblJobItem tblji on(tblj.JobId = tblji.JobId) 
 inner join tblService tblS on(tblji.ServiceId = tbls.ServiceId)
+inner join tblJobPayment tblJP on(tblj.JobId = tblJP.JobId)
 where tblj.JobType in(@WashId,@DetailId) and tblj.IsActive=1 and tblji.IsActive=1 and tbls.IsActive=1 and ISNULL(tblj.IsDeleted,0)=0 and 
 ISNULL(tblji.IsDeleted,0)=0 and ISNULL(tbls.IsDeleted,0)=0 --and (@LocationId IS NULL or tblj.LocationId=@LocationId)
 AND (tblj.JobDate>=@FromDate AND tblj.JobDate<=@ToDate) 
+and tbljp.PaymentStatus=@CompletedPaymentStatus
 	AND tblj.LocationId=@LocationId 
 --tblj.JobDate='2020-09-29' 
 GROUP BY tblj.LocationId)
@@ -489,21 +494,21 @@ DROP TABLE  IF EXISTS #WashTime1
 (SELECT tbll.LocationId,
 CASE
 	   WHEN wt.Washer <=3 AND wt.CarCount <=1 THEN 25
-	   WHEN wt.Washer <=3 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*8) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=3 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*8) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer <=6 AND wt.CarCount <=1 THEN 25
-	   WHEN wt.Washer <=6 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*7) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=6 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*7) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer <=9 AND wt.CarCount <=1 THEN 25
-	   WHEN wt.Washer <=9 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*6) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=9 AND wt.CarCount >1 THEN (25+(wt.CarCount - 1)*6) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer <=11 AND wt.CarCount <=3 THEN 25
-	   WHEN wt.Washer <=11 AND wt.CarCount >3 THEN (25+(wt.CarCount - 3)*5) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer <=11 AND wt.CarCount >3 THEN (25+(wt.CarCount - 3)*5) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >=12 AND wt.Washer<=15 AND wt.CarCount <=5 THEN 25
-	   WHEN wt.Washer >=12 AND wt.Washer<=15 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*3) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >=12 AND wt.Washer<=15 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*3) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >=16 AND wt.Washer<=21 AND wt.CarCount <=5 THEN 25
-	   WHEN wt.Washer >=16 AND wt.Washer<=21 AND wt.CarCount >5  THEN (25+(wt.CarCount - 6)*2) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >=16 AND wt.Washer<=21 AND wt.CarCount >5  THEN (25+(wt.CarCount - 6)*2) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >=22 AND wt.Washer<=26 AND wt.CarCount <=5 THEN 25
-	   WHEN wt.Washer >=22 AND wt.Washer<=26 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*2) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >=22 AND wt.Washer<=26 AND wt.CarCount >5  THEN (25+(wt.CarCount - 5)*2) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   WHEN wt.Washer >26 AND wt.CarCount <=7 THEN 25
-	   WHEN wt.Washer >26 AND wt.CarCount >7  THEN (25+(wt.CarCount - 7)*2) + ((wt.CarCount+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wt.Washer >26 AND wt.CarCount >7  THEN (25+(wt.CarCount - 7)*2) + ((wt.CarCount+ISNULL(tbllo.OffSet1,0))*ISNULL(tbllo.OffSet1On,0))
 	   ELSE 0
 	   END AS WashTimeMinutes
 	   INTO #WashTime1
@@ -511,9 +516,10 @@ CASE
 LEFT JOIN #WashRoleCount wt ON(tbll.LocationId = wt.LocationId)
 LEFT JOIN tblLocationOffSet tbllo ON(tbll.LocationId = tbllo.LocationId)
 LEFT JOIN #EventDateForLocation edfl ON(tbll.LocationId = edfl.LocationId)
-WHERE isnull(IsActive,1) = 1 AND
-isnull(isDeleted,0) = 0  --AND (@LocationId IS NULL or tblj.LocationId=@LocationId)
-	AND (edfl.EventDate>=@FromDate AND edfl.EventDate<=@ToDate) 
+WHERE --isnull(IsActive,1) = 1 AND
+--isnull(isDeleted,0) = 0  --AND (@LocationId IS NULL or tblj.LocationId=@LocationId)
+	--AND 
+	(edfl.EventDate>=@FromDate AND edfl.EventDate<=@ToDate) 
 
 	--AND tblj.JobDate='2020-09-29'
 	)
@@ -652,9 +658,11 @@ GROUP BY tblj.LocationId)
 DROP TABLE  IF EXISTS #TotalServiceSales1
 (Select tblj.LocationId,SUM(tblji.Price)TotalServiceSales INTO #TotalServiceSales1 from tblJob tblj inner join tblJobItem tblji on(tblj.JobId = tblji.JobId) 
 inner join tblService tblS on(tblji.ServiceId = tbls.ServiceId)
+inner join tblJobPayment tblJP on(tblj.JobId = tblJP.JobId)
 where tblj.JobType in(@WashId,@DetailId) and tblj.IsActive=1 and tblji.IsActive=1 and tbls.IsActive=1 and ISNULL(tblj.IsDeleted,0)=0 and 
 ISNULL(tblji.IsDeleted,0)=0 and ISNULL(tbls.IsDeleted,0)=0 --and (@LocationId IS NULL or tblj.LocationId=@LocationId)
 AND (tblj.JobDate>=@FromDate AND tblj.JobDate<=@ToDate) 
+AND tblJP.PaymentStatus=@CompletedPaymentStatus
 --tblj.JobDate='2020-09-29' 
 GROUP BY tblj.LocationId)
 

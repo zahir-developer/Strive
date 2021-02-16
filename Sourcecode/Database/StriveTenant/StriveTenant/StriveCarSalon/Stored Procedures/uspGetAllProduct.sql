@@ -9,6 +9,6 @@ Cost, IsTaxable, TaxAmount, IsActive, ThresholdLimit
 
 FROM [StriveCarSalon].[tblProduct] WHERE 
 --LocationId = @LocationId and 
-IsDeleted = 0
+ISNULL(IsDeleted,0) = 0
 
 END

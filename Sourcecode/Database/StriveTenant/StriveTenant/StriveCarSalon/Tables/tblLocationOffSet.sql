@@ -9,7 +9,11 @@
     [OffSetF]          BIT NULL,
     [LocationId]       INT NULL,
     [OffSet1On]        BIT NULL,
+    [IsActive]         BIT NULL,
+    [IsDeleted]        BIT NULL,
     CONSTRAINT [PK__tblLocationOffSet] PRIMARY KEY CLUSTERED ([LocationOffSetId] ASC),
     CONSTRAINT [FK_tblLocation_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 
