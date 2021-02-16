@@ -1,3 +1,9 @@
+
+<p-dialog styleClass="MyDialog" [showHeader] = false [(visible)]="imagePopup" [blockScroll]="true" [resizable]="true" 
+appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
+<img [src]="transform()" (click) = "newtabImageViewer()"/>
+
+</p-dialog>
 <div id="page-content">
     <div class="container-fluid">
         <div class="row">
@@ -73,7 +79,8 @@
                                                 <th scope="row" class="text-underline theme-primary-color font-size--9"
                                                     style="cursor: pointer;" (click)="navigateToClient(vehicle)">
                                                     {{vehicle.ClientName}}</th>
-                                                <td>{{vehicle.VehicleNumber}}</td>
+                                                <td scope="row" class="text-underline theme-primary-color font-size--9"
+                                                style="cursor: pointer;" (click)="imageViewer()">{{vehicle.VehicleNumber}}</td>
                                                 <td>{{vehicle.Color}}</td>
                                                 <td>{{vehicle.VehicleMake}}</td>
                                                 <td>{{vehicle.ModelName}}</td>
