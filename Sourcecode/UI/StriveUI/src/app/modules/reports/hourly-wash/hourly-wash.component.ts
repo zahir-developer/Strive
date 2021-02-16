@@ -8,6 +8,7 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
   selector: 'app-hourly-wash',
@@ -46,7 +47,8 @@ export class HourlyWashComponent implements OnInit {
   constructor(
     private reportsService: ReportsService,
     private excelService: ExcelService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -96,7 +98,9 @@ export class HourlyWashComponent implements OnInit {
       fromDate: moment(this.startDate).format(),
       endDate: moment(this.endDate).format()
     };
+    this.spinner.show();
     this.reportsService.getHourlyWashReport(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const hourlyRate = JSON.parse(res.resultData);
         this.salesDetails = [];
@@ -225,6 +229,8 @@ export class HourlyWashComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

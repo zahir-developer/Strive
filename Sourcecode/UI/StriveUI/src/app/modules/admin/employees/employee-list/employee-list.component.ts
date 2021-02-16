@@ -49,7 +49,6 @@ export class EmployeeListComponent implements OnInit {
     private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-
     private messageService: MessageServiceToastr,
     private router: Router
   ) { }
@@ -109,17 +108,14 @@ export class EmployeeListComponent implements OnInit {
     }
   }
   paginate(event) {
-
     this.pageSize = +this.pageSize;
     this.page = event;
-
-    this.seachEmployee()
+    this.seachEmployee();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
-
-    this.seachEmployee()
+    this.seachEmployee();
   }
   employeeDetail(employeeDetail) {
     const id = employeeDetail.EmployeeId;
@@ -161,7 +157,9 @@ export class EmployeeListComponent implements OnInit {
   }
 
   seachEmployee() {
+    this.spinner.show();
     this.employeeService.searchEmployee(this.search).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const seachList = JSON.parse(res.resultData);
         this.employeeDetails = seachList.EmployeeList;
@@ -169,6 +167,8 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

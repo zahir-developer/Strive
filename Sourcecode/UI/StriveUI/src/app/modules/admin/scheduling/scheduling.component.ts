@@ -12,6 +12,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
 import { element } from 'protractor';
 import { threadId } from 'worker_threads';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any;
 @Component({
@@ -57,7 +58,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   totalHours: any;
   EmpCount: any;
   constructor(private empService: EmployeeService, private locationService: LocationService,
-    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) {
+    private messageService: MessageServiceToastr,
+     private scheduleService: ScheduleService, private employeeService: EmployeeService, private spinner: NgxSpinnerService) {
     this.dateTime = new Date();
   }
   ngAfterViewInit() {
@@ -442,12 +444,16 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   // Search Employee
   searchEmployee() {
+    this.spinner.show();
     this.employeeService.searchEmployee(this.search).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.empList = JSON.parse(res.resultData);
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   getAll() {

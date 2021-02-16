@@ -7,6 +7,7 @@ import html2canvas from 'html2canvas';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -26,14 +27,17 @@ export class PayrollsGridComponent implements OnInit {
   pageSizeList: number[];
   maxDate = new Date();
   minDate: any;
+  isLoading: boolean;
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private messageService: MessageServiceToastr,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -62,28 +66,27 @@ export class PayrollsGridComponent implements OnInit {
     const pattern = /[0-9]/;
     let inputChar = payroll.Adjustment;
     if (!pattern.test(inputChar)) {
-      payroll.Adjustment = ''
-    };
+      payroll.Adjustment = '';
+    }
 
   }
   paginate(event) {
-
     this.pageSize = +this.pageSize;
     this.page = event;
-
-    this.runReport()
+    this.runReport();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
-
-    this.runReport()
+    this.runReport();
   }
   runReport() {
     const locationId = localStorage.getItem('empLocationId');
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
+    this.spinner.show();
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const payRoll = JSON.parse(res.resultData);
         //if (payRoll.Result.PayRollRateViewModel !== null) {
@@ -91,7 +94,7 @@ export class PayrollsGridComponent implements OnInit {
         // this.payRollList.forEach(item => {
         //   item.isEditAdjustment = false;
         // });
-        var length = this.payRollList === null ? 0 : this.payRollList.length;
+        const length = this.payRollList === null ? 0 : this.payRollList.length;
         this.collectionSize = Math.ceil(length / this.pageSize) * 10;
         this.isPayrollEmpty = false;
         //}
@@ -100,6 +103,8 @@ export class PayrollsGridComponent implements OnInit {
         this.isPayrollEmpty = payRoll.Result.PayRollRateViewModel === null ? true : false;
         //}
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 
@@ -130,15 +135,17 @@ export class PayrollsGridComponent implements OnInit {
         adjustment: +item.Adjustment
       });
     });
+    this.spinner.show();
     this.payrollsService.updateAdjustment(updateObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
-
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
-
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
         this.runReport();
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { WeatherService } from 'src/app/shared/services/common-service/weather.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-cash-register',
@@ -56,7 +57,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   documentTypeId: any;
   CahRegisterId: any;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
-    private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
+    private toastr: ToastrService, private weatherService: WeatherService,
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
@@ -105,7 +107,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalRoll = this.totalPennieRoll = this.totalQuaterRoll = this.totalNickelRoll = this.totalDimeRoll = 0;
     this.totalBill = this.totalOnes = this.totalFives = this.totalTens = this.totalTwenties = this.totalFifties = this.totalHunderds = 0;
     this.totalCash = 0;
-    this.getCashRegister();
+    // this.getCashRegister();
   }
 
   // Get targetBusinessData
@@ -114,9 +116,11 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
-        this.cashRegisterForm.patchValue({
-          goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
-        });
+        if (this.targetBusiness.WeatherPrediction.WeatherPredictionToday !== null) {
+          this.cashRegisterForm.patchValue({
+            goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
+          });
+        }
       }
     });
   }
@@ -135,7 +139,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalBill = 0;
     this.totalRoll = 0;
     this.totalCash = 0;
+    this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
@@ -194,6 +200,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterRollForm.reset();
         }
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

@@ -4,6 +4,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.component';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 
 @Component({
@@ -49,7 +50,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     public dashboardService: DashboardService,
     private messageService: MessageServiceToastr,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -89,7 +91,9 @@ export class DashboardComponent implements OnInit {
       fromDate: this.fromDate,
       toDate: this.toDate
     };
+    this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const dashboardCount = JSON.parse(res.resultData);
         console.log(dashboardCount, 'dashboard');
@@ -118,6 +122,8 @@ export class DashboardComponent implements OnInit {
       } else {
         //this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

@@ -4,6 +4,7 @@ import { ReportsService } from 'src/app/shared/services/data-service/reports.ser
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 
 @Component({
@@ -41,7 +42,8 @@ export class EodComponent implements OnInit, AfterViewInit {
   constructor(
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -232,7 +234,9 @@ export class EodComponent implements OnInit, AfterViewInit {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD')
     };
+    this.spinner.show();
     this.reportService.getDailyStatusReport(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const dailyStatusReport = JSON.parse(data.resultData);
         console.log(dailyStatusReport);
@@ -258,7 +262,7 @@ export class EodComponent implements OnInit, AfterViewInit {
         }
       }
     }, (err) => {
-
+      this.spinner.hide();
     });
   }
   getDailyStatusDetailInfo() {
