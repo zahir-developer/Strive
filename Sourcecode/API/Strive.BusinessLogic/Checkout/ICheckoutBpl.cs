@@ -14,7 +14,7 @@ namespace Strive.BusinessLogic.Checkout
     {
         Result GetAllCheckoutDetails(CheckOutDto checkoutDto);
         Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry);
-        Result UpdateJobStatusHold(JobIdDto jobIdDto);
+        Result UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto);
         Result UpdateJobStatusComplete(JobIdDto jobIdDto);
 
         Result GetCustomerHistory(CustomerHistorySearchDto salesReportDto);

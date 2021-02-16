@@ -34,16 +34,18 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Checkout.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
             return true;
         }
-        public bool UpdateJobStatusHold(JobIdDto jobIdDto)
+        public bool UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
         {
-            _prm.Add("JobId", jobIdDto.id); 
+            _prm.Add("JobId", checkoutHoldDto .id); 
             db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
+          
             return true;
         }
         public bool UpdateJobStatusComplete(JobIdDto jobIdDto)
         {
             _prm.Add("JobId", jobIdDto.id);
             db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
+          
             return true;
         }
 
