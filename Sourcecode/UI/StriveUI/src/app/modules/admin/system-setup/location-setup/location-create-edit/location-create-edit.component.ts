@@ -3,9 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -15,6 +17,8 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 export class LocationCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
+  @ViewChild(CountryDropdownComponent) countryDropdownComponent: CountryDropdownComponent;
+  @ViewChild('staticTabs', { static: false }) staticTabs: TabsetComponent;
   locationSetupForm: FormGroup;
   State: any;
   Country: any;
@@ -28,13 +32,28 @@ export class LocationCreateEditComponent implements OnInit {
   selectedCountryId: any;
   city: any;
   selectedCityId: any;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
-    private uiLoaderService: NgxUiLoaderService) { }
+  offset1On = false;
+  offset1 = false;
+  offsetA = false;
+  offsetB = false;
+  offsetC = false;
+  offsetD = false;
+  offsetE = false;
+  offsetF = false;
+  employeeId: number;
+  constructor(
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private locationService: LocationService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+
     this.formInitialize();
     this.submitted = false;
-    this.Country = 38;
+    this.Country = null;
     console.log(this.selectedData);
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
@@ -75,6 +94,16 @@ export class LocationCreateEditComponent implements OnInit {
       email: this.selectedData.LocationAddress.Email,
       franchise: this.selectedData.Location.IsFranchise
     });
+    if (this.selectedData.LocationOffset !== null) {
+      this.offset1On = this.selectedData.LocationOffset.OffSet1On;
+      this.offset1 = this.selectedData.LocationOffset.OffSet1;
+      this.offsetA = this.selectedData.LocationOffset.OffSetA;
+      this.offsetB = this.selectedData.LocationOffset.OffSetB;
+      this.offsetC = this.selectedData.LocationOffset.OffSetC;
+      this.offsetD = this.selectedData.LocationOffset.OffSetD;
+      this.offsetE = this.selectedData.LocationOffset.OffSetE;
+      this.offsetF = this.selectedData.LocationOffset.OffSetF;
+    }
   }
 
   change(data) {
@@ -87,13 +116,17 @@ export class LocationCreateEditComponent implements OnInit {
 
   // Add / Update location 
   submit() {
+    console.log(this.offset1, 'offset');
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
+    this.countryDropdownComponent.submitted = true;
     if (this.cityComponent.city === '') {
+      this.selectTab(0);
       return;
     }
     if (this.locationSetupForm.invalid) {
+      this.selectTab(0);
       return;
     }
     const sourceObj = [];
@@ -108,58 +141,76 @@ export class LocationCreateEditComponent implements OnInit {
       city: this.city,
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
-      country: this.Country,
+      country: this.countryDropdownComponent.country,
       longitude: 0,
       latitude: 0,
       weatherLocationId: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const formObj = {
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-      locationType: 1,
+      locationType: null,
       locationName: this.locationSetupForm.value.locationName,
       locationDescription: '',
       isFranchise: this.locationSetupForm.value.franchise === '' ? false : this.locationSetupForm.value.franchise,
-      taxRate: '',
-      siteUrl: '',
-      currency: 0,
-      facebook: '',
-      twitter: '',
-      instagram: '',
-      wifiDetail: '',
+      taxRate: null,
+      siteUrl: null,
+      currency: null,
+      facebook: null,
+      twitter: null,
+      instagram: null,
+      wifiDetail: null,
       washTimeMinutes: this.isEdit ? this.selectedData.Location.WashTimeMinutes : 0,
       workhourThreshold: this.locationSetupForm.value.workHourThreshold,
-      startTime: '',
-      endTime: '',
+      startTime: null,
+      endTime: null,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    const locationOffset = {
+      locationOffSetId: this.isEdit ? this.selectedData.LocationOffset === null ? 0 :
+        this.selectedData.LocationOffset.LocationOffSetId : 0,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+      offSet1: this.offset1,
+      offSetA: this.offsetA,
+      offSetB: this.offsetB,
+      offSetC: this.offsetC,
+      offSetD: this.offsetD,
+      offSetE: this.offsetE,
+      offSetF: this.offsetF,
+      offSet1On: this.offset1On,
+      isActive: true,
+      isDeleted: false
+    };
     const drawer = {
-    drawerId: 0,
-    drawerName: "",
-    locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-    isActive: true,
-    isDeleted: false,
-    createdBy: 0,
-    createdDate: moment(new Date()).format('YYYY-MM-DD'),
-    updatedBy: 0,
-    updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      drawerId: 0,
+      drawerName: null,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+      isActive: true,
+      isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      updatedBy: this.employeeId,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {
       location: formObj,
-      locationAddress: this.address
+      locationAddress: this.address,
+      locationOffset
     };
     if (this.isEdit === false) {
+      this.spinner.show();
       this.locationService.saveLocation(finalObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -168,9 +219,13 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.locationService.updateLocation(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
           this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -179,6 +234,8 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }
@@ -187,6 +244,7 @@ export class LocationCreateEditComponent implements OnInit {
   }
   getSelectedStateId(event) {
     this.State = event.target.value;
+    this.cityComponent.getCity(event.target.value);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
@@ -195,6 +253,10 @@ export class LocationCreateEditComponent implements OnInit {
 
   selectCity(event) {
     this.city = event.target.value;
+  }
+
+  selectTab(tabId: number) {
+    this.staticTabs.tabs[tabId].active = true;
   }
 }
 

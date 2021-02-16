@@ -14,6 +14,8 @@ export class ClientHistoryComponent implements OnInit {
   page = 1;
   pageSize = 5;
   collectionSize: number;
+  sort = { column: 'Date', descending: true };
+  sortColumn: { column: string; descending: boolean; };
   constructor(
     private activeModal: NgbActiveModal,
     private client: ClientService,
@@ -29,9 +31,7 @@ export class ClientHistoryComponent implements OnInit {
   }
 
   getHistory() {
-    this.spinner.show();
     this.client.getHistoryByClientId(this.clientId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
         this.historyGrid = history.VehicleHistory;
@@ -39,6 +39,34 @@ export class ClientHistoryComponent implements OnInit {
         console.log(history, 'history');
       }
     });
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 
 }

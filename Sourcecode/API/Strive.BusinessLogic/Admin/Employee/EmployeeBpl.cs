@@ -7,6 +7,7 @@ using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Document;
 using Strive.Common;
+using Strive.Crypto;
 using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Strive.BusinessLogic
     {
         public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-
+     
         public Result AddEmployee(EmployeeModel employee)
         {
             var isExist = new CommonRal(_tenant, true).GetEmailIdExist(employee.EmployeeAddress.Email);
@@ -85,6 +86,11 @@ namespace Strive.BusinessLogic
         public Result GetAllEmployeeRoles()
         {
             return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles, "EmployeeRoles");
+        }
+
+        public Result GetEmployeeRoleById(int employeeId)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeRoleById, employeeId, "EmployeeRole");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.DTO.Washes;
+﻿using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Washes;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Strive.BusinessLogic.Washes
 {
     public interface IWashesBpl
     {
-        Result GetAllWashTime(int locationId);
+        Result GetAllWashTime(SearchDto searchDto);
         Result GetWashTimeDetail(int id);
         Result AddWashTime(WashesDto washes);
         Result UpdateWashTime(WashesDto washes);

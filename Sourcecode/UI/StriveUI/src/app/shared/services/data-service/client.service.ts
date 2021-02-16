@@ -10,8 +10,11 @@ import { UrlConfig } from '../url.config';
 export class ClientService {
 
   constructor(private http: HttpUtilsService) { }
-  getClient(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getClient}`);
+  getClient(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getClient}`,obj);
+  }
+  ClientSameName(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.sameClientName}`, obj);
   }
   addClient(obj) {
     return this.http.post(`${UrlConfig.totalUrl.addClient}`, obj);

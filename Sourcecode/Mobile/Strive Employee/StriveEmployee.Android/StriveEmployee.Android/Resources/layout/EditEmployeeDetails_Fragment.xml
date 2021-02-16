@@ -37,97 +37,63 @@
             android:text="Back" />
         </RelativeLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginRight="@dimen/ten"
-            android:layout_marginLeft="@dimen/ten"
-            android:layout_marginBottom="90dp"
-            android:background="@drawable/secondarylinearlayout">
-        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="65dp"
+                android:background="@drawable/secondarylinearlayout">
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fifty"    
                 android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/borderededittext"
                 app:hintEnabled="true">
                 <EditText
-                    android:id="@+id/LoginID_EditText"
+                    android:id="@+id/loginID_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
                     android:hint="Login ID"
-                    android:editable="false"
                     android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
+                    android:background="@null"
                     android:inputType="text"
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fifty"    
                 android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/borderededittext"
                 app:hintEnabled="true">
                 <EditText
-                    android:id="@+id/password_EditText"
+                    android:id="@+id/DateoFHire_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
-                    android:hint="Login ID"
-                    android:editable="false"
+                    android:hint="Date of Hire"
                     android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
+                    android:background="@null"
                     android:inputType="text"
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty"    
-                android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                app:hintEnabled="true">
-                <EditText
-                    android:id="@+id/DOH_EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty"
-                    android:paddingBottom="@dimen/ten"
-                    android:hint="Login ID"
-                    android:editable="false"
-                    android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
-                    android:textSize="@dimen/textSixteen"
-                    android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
          <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty"
             android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginLeft="@dimen/fifteen"
-            android:layout_marginRight="@dimen/fifteen"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginRight="@dimen/twenty"
             android:background="@drawable/borderededittext">
             <Spinner
-                android:id="@+id/statusOptions_Spinner"
-                android:layout_marginTop="@dimen/five"
-                android:layout_marginBottom="@dimen/five"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty"
-            android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginLeft="@dimen/fifteen"
-            android:layout_marginRight="@dimen/fifteen"
-            android:background="@drawable/borderededittext">
-            <Spinner
-                android:id="@+id/exemptionsOptions_Spinner"
+                android:id="@+id/status_Spinner"
                 android:layout_marginTop="@dimen/five"
                 android:layout_marginBottom="@dimen/five"
                 android:layout_width="match_parent"

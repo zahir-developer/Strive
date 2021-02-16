@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'underscore';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-employee-collision',
@@ -19,7 +21,10 @@ export class EmployeeCollisionComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private getCode: GetCodeService,
+    private wash: WashService,
+    private toastr: MessageServiceToastr
   ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
@@ -33,6 +38,7 @@ export class EmployeeCollisionComponent implements OnInit {
   filteredClient: any = [];
   vehicleList: any = [];
   liabilityDetail: any;
+  liabilityTypeId: any;
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
@@ -42,6 +48,8 @@ export class EmployeeCollisionComponent implements OnInit {
       client: [''],
       vehicle: ['']
     });
+    this.getLiabilityType();
+    this.getLiabilityDetailType();
     this.getAllClient();
     this.getAllModel();
     this.getAllMake();
@@ -88,6 +96,25 @@ export class EmployeeCollisionComponent implements OnInit {
     });
   }
 
+  getLiabilityType() {
+    this.getCode.getCodeByCategory('LIABILITYTYPE').subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === 'Collision')[0].CodeId;
+      }
+    });
+  }
+
+  getLiabilityDetailType() {
+    this.getCode.getCodeByCategory('LIABILITYDETAILTYPE').subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        // this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === 'Collision')[0].CodeId;
+        console.log(dType, 'liability');
+      }
+    });
+  }
+
   get f() {
     return this.collisionForm.controls;
   }
@@ -103,31 +130,31 @@ export class EmployeeCollisionComponent implements OnInit {
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       liabilityDetailType: 1,
       amount: +this.collisionForm.value.amount,
-      paymentType: 1,
-      documentPath: 'string',
+      paymentType: 1, // 1,
+      documentPath: null, // '',
       description: this.collisionForm.value.reason,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const liabilityObj = {
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       employeeId: this.employeeId,
-      liabilityType: 103,
+      liabilityType: this.liabilityTypeId,
       liabilityDescription: this.collisionForm.value.reason,
-      productId: 2,
+      productId: null, // 2,
       totalAmount: +this.collisionForm.value.amount,
-      status: 0,
+      status: 0, // 0,
       isActive: true,
       isDeleted: false,
       vehicleId: this.collisionForm.value.vehicle,
       clientId: this.collisionForm.value.client.id,
-      createdBy: 0,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {
@@ -180,13 +207,30 @@ export class EmployeeCollisionComponent implements OnInit {
   filterClient(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        filtered.push(client);
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        console.log(client, 'client');
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
-    }
-    this.filteredClient = filtered;
+    });
+    // for (const i of this.clientList) {
+    //   const client = i;
+    //   if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+    //     filtered.push(client);
+    //   }
+    // }
+    // this.filteredClient = filtered;
   }
 
   selectedClient(event) {
@@ -195,6 +239,9 @@ export class EmployeeCollisionComponent implements OnInit {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.vehicleList = vehicle.Status;
+        if (this.vehicleList.length !== 0) {
+          this.collisionForm.patchValue({ vehicle: this.vehicleList[0].VehicleId });
+        }
       }
     });
   }

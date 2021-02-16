@@ -6,6 +6,7 @@ using System.Web;
 using MvvmCross;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
@@ -233,14 +234,44 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<GetCollisions>(ApiUtils.URL_GET_COLLISIONS + liabilityID, HttpMethod.Get);
         }
 
-        public async Task<PostResponse> SaveDocuments(AddDocuments documents)
+        public async Task<PostResponseBool> SaveDocuments(AddDocuments documents)
         {
-            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_SAVE_DOCUMENTS, HttpMethod.Post);
+            return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_ADD, HttpMethod.Post, documents);
         }
 
-        public async Task<CheckOutVehicleDetails> CheckOutVehicleDetails()
+        public async Task<CheckOutVehicleDetails> CheckOutVehicleDetails(int EmployeeID)
         {
-            return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS, HttpMethod.Get);
+            return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS + EmployeeID, HttpMethod.Get);
+        }
+
+        public async Task<ScheduleModel> GetSchedulePastService(int clientID)
+        {
+            return await _restClient.MakeApiCall<ScheduleModel>(ApiUtils.URL_SCHEDULE_PAST_SERVICE+ "?ClientId=" +clientID, HttpMethod.Get);
+        }
+
+        public async Task<AvailableScheduleServicesModel> GetScheduleServices()
+        {
+            return await _restClient.MakeApiCall<AvailableScheduleServicesModel>(ApiUtils.URL_SCHEDULE_SERVICES_AVAILABLE,HttpMethod.Get);
+        }
+
+        public async Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo )
+        {
+            return await _restClient.MakeApiCall<AvailableScheduleSlots>(ApiUtils.URL_SCHEDULE_TIME_SLOTS, HttpMethod.Post, slotInfo);
+        }
+
+        public async Task<DownloadDocuments> DownloadDocuments(int documentID, string documentPassword)
+        {
+            return await _restClient.MakeApiCall<DownloadDocuments>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_DOWNLOAD+documentID+","+documentPassword, HttpMethod.Get);
+        }
+
+        public async Task<DeleteResponse> DeleteDocuments(int documentID)
+        {
+            return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_DELETE + documentID, HttpMethod.Delete);
+        }
+
+        public async Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo)
+        {
+            return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_UPDATE_EMPLOYEE_PERSONAL_DETAILS, HttpMethod.Post, employeeInfo);
         }
     }
     public static class RestUtils

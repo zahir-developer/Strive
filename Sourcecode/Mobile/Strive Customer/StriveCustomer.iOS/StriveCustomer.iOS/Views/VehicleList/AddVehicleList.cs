@@ -50,6 +50,17 @@ namespace StriveCustomer.iOS.Views
             };
             NavigationItem.Title = "Vehicle";
 
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Account", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.NavigateProfile();
+            };
+
             makeList = new List<string>();
             colorList = new List<string>();
             modelList = new List<string>();                                       

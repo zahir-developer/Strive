@@ -24,7 +24,7 @@ namespace Strive.ResourceAccess
             try
             {
                 var dynParams = new DynamicParameters();
-                var res = db.Fetch<User>(SPEnum.USPGETALLUSERS.ToString(), dynParams);
+                var res = db.Fetch<User>(EnumSP.Authentication.USPGETALLUSERS.ToString(), dynParams);
                 if (res.Count() == 0) throw new Exception("data returned null value");
                 return res;
             }
@@ -42,7 +42,7 @@ namespace Strive.ResourceAccess
                 lstUser.Add(user);
                 var dynParams = new DynamicParameters();
                 dynParams.Add("@UserTVP", lstUser.ToDataTable().AsTableValuedParameter("UserTVP"));
-                CommandDefinition cmd = new CommandDefinition(SPEnum.USPSAVEUSER.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+                CommandDefinition cmd = new CommandDefinition(EnumSP.Authentication.USPSAVEUSER.ToString(), dynParams, commandType: CommandType.StoredProcedure);
                 db.Save(cmd);
             }
             catch (Exception ex)

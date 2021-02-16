@@ -13,10 +13,13 @@ namespace Strive.BusinessLogic.MembershipSetup
     {
         Result GetAllMembership();
         Result GetMembershipById(int membershipId);
+        Result GetMembershipAvailability(int vehicleId);
         Result AddMembership(MembershipDto member);
         Result UpdateMembership(MembershipDto member);
         Result DeleteMembershipById(int membershipId);
         Result GetMembershipAndServiceByMembershipId(int id);
         Result GetMembershipSearch(MembershipSearchDto search);
+
+        Result GetVehicleMembershipByMembershipId(int membershipId);
     }
 }

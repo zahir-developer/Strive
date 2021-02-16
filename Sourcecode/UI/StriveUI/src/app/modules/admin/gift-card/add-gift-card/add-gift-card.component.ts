@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-gift-card',
@@ -21,7 +23,9 @@ export class AddGiftCardComponent implements OnInit {
     private fb: FormBuilder,
     private giftCardService: GiftCardService,
     private toastr: ToastrService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private router: Router,
+    private spinner: NgxSpinnerService
     ) { }
 
   ngOnInit(): void {
@@ -58,7 +62,7 @@ export class AddGiftCardComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close(false);
   }
 
   selectedAmount(event) {
@@ -81,30 +85,38 @@ export class AddGiftCardComponent implements OnInit {
     }
     const cardObj = {
       giftCardId: 0,
-      locationId: 1,
+      locationId: +localStorage.getItem('empLocationId'),
       giftCardCode: this.giftCardForm.value.number,
-      giftCardName: 'string',
+      giftCardName: null,
       expiryDate: moment(this.giftCardForm.value.activeDate),
-      comments: 'string',
+      comments: null,
       isActive: true,
       isDeleted: false,
       totalAmount: this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
-      createdBy: 0,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: moment(new Date()),
-      updatedBy: 0,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date())
     };
     const finalObj = {
       giftCard: cardObj
     };
+    // this.giftCardComponent.getAllGiftCard(x=> x.)==finalObj.giftCard.giftCardCode
+    
+    // this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Giftcard code alredy exist' });
+    this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Gift Card Added Successfully!!' });
-        this.activeModal.close();
+        this.activeModal.close(true);
+        this.router.navigate(['/admin/gift-card']);
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         this.giftCardForm.reset();
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

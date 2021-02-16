@@ -8,6 +8,7 @@ import { CashRegisterService } from 'src/app/shared/services/data-service/cash-r
 import { ToastrService } from 'ngx-toastr';
 import { WeatherService } from 'src/app/shared/services/common-service/weather.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-cash-register',
@@ -51,17 +52,22 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   drawerId: any;
   Todaydate: any;
   date = moment(new Date()).format('MM/DD/YYYY');
-  constructor(private fb: FormBuilder, private registerService: CashRegisterService,
+  employeeId: string;
+  documentTypeId: any;
+  CahRegisterId: any;
+  constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.locationId = localStorage.getItem('empLocationId');
+    this.employeeId = localStorage.getItem('empId');
+    this.getDocumentType();
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
     const locationId = +this.locationId;
     this.Todaydate = moment(new Date()).format('YYYY-MM-DD');
-    this.getTargetBusinessData(locationId,this.Todaydate);
+    this.getTargetBusinessData(locationId, this.Todaydate);
     this.getWeatherDetails();
   }
   ngAfterViewInit() {
@@ -104,7 +110,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
   // Get targetBusinessData
   getTargetBusinessData(locationId, date) {
-   
+
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);
@@ -121,6 +127,14 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const date = this.selectDate;
     const cashRegisterType = 'CASHIN';
     const locationId = +localStorage.getItem('empLocationId');
+    this.cashRegisterForm.reset();
+    this.cashRegisterCoinForm.reset();
+    this.cashRegisterBillForm.reset();
+    this.cashRegisterRollForm.reset();
+    this.totalCoin = 0;
+    this.totalBill = 0;
+    this.totalRoll = 0;
+    this.totalCash = 0;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(data => {
       if (data.status === 'Success') {
         const cashIn = JSON.parse(data.resultData);
@@ -172,7 +186,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             });
           }, 1200);
           this.getTotalCash();
-        } else{
+        } else {
           this.isUpdate = false;
           this.cashRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
@@ -193,7 +207,16 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  getDocumentType() {
+    this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+        this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === "CashIn")[0].CodeId;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
   // Add/Update CashInRegister
   submit() {
     const coin = {
@@ -206,9 +229,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
     }
     const bill = {
@@ -222,9 +245,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       s100: this.cashRegisterBillForm.value.billHundreds,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
     }
     const roll = {
@@ -237,9 +260,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       halfDollars: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
     }
     const other = {
@@ -252,22 +275,22 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       payouts: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
     }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      cashRegisterType: 119,
+      cashRegisterType: this.CahRegisterId,
       locationId: +this.locationId,
       drawerId: +this.drawerId,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: this.employeeId,
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: this.employeeId,
       updatedDate: new Date(),
     };
     const formObj = {
@@ -291,8 +314,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       locationId: +this.locationId,
       // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
       // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
-    weather: (this.weatherDetails?.currentWeather.temporature) ?  Math.floor(this.weatherDetails?.currentWeather.temporature).toString() : null,
-      rainProbability: (this.weatherDetails?.currentWeather.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather.rainPercentage).toString() : null,
+      weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
+      rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
@@ -308,7 +331,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
               this.toastr.success('Record Saved Successfully!!', 'Success!');
             }
             this.weatherService.getWeather();
-            this.getTargetBusinessData(this.locationId,this.Todaydate);
+            this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
           } else {
             this.toastr.error('Weather Communication Error', 'Error!');
@@ -428,23 +451,26 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       const locationId = +this.locationId;
       this.toggleTab = 0;
 
-        this.getWeatherDetails();
-        this.getTargetBusinessData(this.locationId, this.selectDate);
+      this.getWeatherDetails();
+      this.getTargetBusinessData(this.locationId, this.selectDate);
 
-     
+
       if (moment(today).isSame(selectedDate)) {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
-        
+        this.cashRegisterForm.enable();
+
       } else if (moment(today).isAfter(selectedDate)) {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
         this.cashRegisterRollForm.disable();
+        this.cashRegisterForm.disable();
       } else {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
+        this.cashRegisterForm.enable();
       }
 
 

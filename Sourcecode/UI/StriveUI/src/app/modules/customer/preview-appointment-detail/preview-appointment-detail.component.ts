@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
 import * as moment from 'moment';
+import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 
 @Component({
   selector: 'app-preview-appointment-detail',
@@ -15,6 +16,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   @Output() appointmentPage = new EventEmitter();
   @Output() dashboardPage = new EventEmitter();
   @Input() scheduleDetailObj?: any;
+  @Input() selectedData?: any;
   ticketNumber: any;
   jobTypeId: any;
   jobStatus: any = [];
@@ -22,10 +24,13 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
+    private toastr: MessageServiceToastr
   ) { }
 
   ngOnInit(): void {
     this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    this.getJobStatus();
+    this.getJobType();
   }
 
   bookNow() {
@@ -35,14 +40,14 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       jobStatusId = jobstatus[0].CodeId;
     }
     const job = {
-      jobId: 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       ticketNumber: this.ticketNumber,
       locationId: this.scheduleDetailObj.locationObj.LocationId,
-      clientId: this.scheduleDetailObj.vechicleDetail.ClientId,
-      vehicleId: this.scheduleDetailObj.vechicleDetail.VehicleId,
-      make: 1,
-      model: 1,
-      color: 1,
+      clientId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.ClientId : this.scheduleDetailObj.vechicleDetail.ClientId,
+      vehicleId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.VehicleId : this.scheduleDetailObj.vechicleDetail.VehicleId,
+      make: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Make : this.scheduleDetailObj.vechicleDetail.VehicleMakeId,
+      model: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Model : this.scheduleDetailObj.vechicleDetail.VehicleModelId,
+      color: this.scheduleDetailObj.isEdit ? this.selectedData.Details.Color : this.scheduleDetailObj.vechicleDetail.VehicleColorId,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.scheduleDetailObj.InTime, 'yyyy-MM-dd'),
       jobStatus: jobStatusId,
@@ -57,7 +62,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     };
     const jobDetail = {
       jobDetailId: 0,
-      jobId: 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       bayId: this.scheduleDetailObj.Slot.BayId,
       isActive: true,
       isDeleted: false,
@@ -67,10 +72,10 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     const baySchedule = {
       bayScheduleID: 0,
       bayId: this.scheduleDetailObj.Slot.BayId,
-      jobId: 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       scheduleDate: this.datePipe.transform(this.scheduleDetailObj.InTime, 'yyyy-MM-dd'),
-      scheduleInTime: this.datePipe.transform(this.scheduleDetailObj.InTime, 'hh:mm'),
-      scheduleOutTime: this.datePipe.transform(this.scheduleDetailObj.OutTime, 'hh:mm'),
+      scheduleInTime: this.datePipe.transform(this.scheduleDetailObj.InTime, 'HH:mm'),
+      scheduleOutTime: this.datePipe.transform(this.scheduleDetailObj.OutTime, 'HH:mm'),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -78,9 +83,9 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     };
     const jobItem = [];
     jobItem.push({
-      jobItemId: 0,
-      jobId: 0,
-      serviceId: this.scheduleDetailObj.serviceobj.ServiceTypeId,
+      jobItemId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobItemId : 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
+      serviceId: this.scheduleDetailObj.serviceobj.ServiceId,
       isActive: true,
       isDeleted: false,
       commission: 0,
@@ -95,13 +100,27 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       jobDetail,
       baySchedule
     };
-    this.spinner.show();
-    this.detailService.saveEmployeeWithService(formObj).subscribe( res => {
-      this.spinner.hide();
-      if (res.status === 'Success') {
-        this.confirmation.emit();
-      }
-    });
+    if (this.scheduleDetailObj.isEdit) {
+      this.spinner.show();
+      this.detailService.updateDetail(formObj).subscribe(res => {
+        this.spinner.hide();
+        if (res.status === 'Success') {
+          this.confirmation.emit();
+        } else {
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        }
+      });
+    } else {
+      this.spinner.show();
+      this.detailService.addDetail(formObj).subscribe(res => {
+        this.spinner.hide();
+        if (res.status === 'Success') {
+          this.confirmation.emit();
+        } else {
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        }
+      });
+    }
   }
 
   cancel() {

@@ -25,6 +25,10 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public string FileName { get; set; }
 
+
+        [Column]
+        public string OriginalFileName { get; set; }
+
         [Column]
         public string ThumbFileName { get; set; }
 

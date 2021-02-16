@@ -18,7 +18,7 @@
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="25" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Type"
-                                                (keyup)="$event.keyCode == 13 ? serviceSearch() : null"> </div>&nbsp;
+                                                (keyup)="$event.keyCode == 13 ? getAllserviceSetupDetails() : null"> </div>&nbsp;
                                         <div class="form-group d-flex"> <select class="form-control"
                                                 [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
                                                 <option value="" selected hidden>Status</option>
@@ -26,33 +26,36 @@
                                                     {{status.Value}}</option>
                                             </select> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button" (click)="serviceSearch()"
+                                            <button type="button" (click)="getAllserviceSetupDetails()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
-                                <table class="table  table-striped m-t-10">
+                           
+                            <div class="table-responsive" >
+
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th> Name</th>
-                                            <th> Type</th>
-                                            <th> Description</th>
-                                              <th>Price</th>
-                                            <th>Status</th>
+                                            <th class="pointer" (click)="sort('ServiceName')">Name&nbsp; <i class="fa" *ngIf="column =='ServiceName'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('ServiceType')">Type&nbsp; <i class="fa" *ngIf="column =='ServiceType'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('Cost')">Price&nbsp; <i class="fa" *ngIf="column =='Cost'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="sort('IsActive')">Status&nbsp; <i class="fa" *ngIf="column =='IsActive'" 
+                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            
+                                          
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody  class="bodyfix">
                                         <tr
-                                            *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                            <th scope="row">{{serviceSetup.ServiceName}}</th>
+                                            *ngFor="let serviceSetup of serviceSetupDetails">
+                                            <td scope="row">{{serviceSetup.ServiceName}}</td>
                                             <td>{{serviceSetup.ServiceType}}</td>
-                                            <td>{{serviceSetup.Description}}</td>
-
                                             <td>{{serviceSetup.Cost | currency}}</td>
                                             <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
@@ -64,25 +67,25 @@
                                                     (click)="delete(serviceSetup)"></em>
                                             </td>
                                         </tr>
+                                        <tr *ngIf="serviceSetupDetails.length == 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="row pull-right" >
                                     <div class="col-6">
-                                     <ngb-pagination  *ngIf="serviceSetupDetails.length > 10" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                     <ngb-pagination  *ngIf="serviceSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
                                          [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
                                          [boundaryLinks]="true" class="d-flex justify-content-end">
                                      </ngb-pagination> 
                                      </div>
-                                     <select *ngIf="serviceSetupDetails.length > 10" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                     <select *ngIf="serviceSetupDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
                                          <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
  
                                      </select>
                                  </div>
                             </div>
-                        </div>
-                        <div class="loadingDiv" *ngIf="isLoading">
-                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                        </div>
+                            
                     </div>
                 </div>
             </div>

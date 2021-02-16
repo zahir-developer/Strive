@@ -24,8 +24,8 @@
                                 </h5>
                                 <div class="pull-right m-t-4 pointer">
                                     <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                                            (click)="addEmployee('create', '')">Add Employee</button>
-                                            &nbsp;&nbsp;
+                                        (click)="addEmployee('create', '')">Add New Employee</button>
+                                    &nbsp;&nbsp;
                                     <a> <em class="font-size-1-4 fa"
                                             [ngClass]="{'fa-angle-up':!isCollapsed, 'fa-angle-down': isCollapsed  }"
                                             (click)="collapsed()"></em>
@@ -52,22 +52,30 @@
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table class="table border table-hover" aria-describedby="employee-list">
+                                    <table class="table border table-hover headerfix" aria-describedby="employee-list">
                                         <thead>
                                             <tr>
-                                                <th scope="col">First Name</th>
-                                                <th scope="col">Last Name</th>
-                                                <th scope="col">Mobile # </th>
+                                                <th scope="col" class="pointer"  (click)="changeSorting('FirstName')">First
+                                                    Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
+                                                        aria-hidden="true"></i> </th>
+                                                <th scope="col" class="pointer"  (click)="changeSorting('LastName')">Last
+                                                    Name&nbsp;<i class="fa" [ngClass]="selectedCls('LastName')"
+                                                        aria-hidden="true"></i> </th>
+                                                <th scope="col" class="pointer"  (click)="changeSorting('MobileNo')">Mobile #
+                                                    &nbsp;<i class="fa" [ngClass]="selectedCls('MobileNo')"
+                                                        aria-hidden="true"></i> </th>
                                                 <th scope="col">Collision</th>
                                                 <th scope="col">Documents</th>
                                                 <th scope="col">Schedules</th>
-                                                <th scope="col">Status</th>
+                                                <th scope="col" class="pointer"  (click)="changeSorting('Status')">Status&nbsp;<i
+                                                        class="fa" [ngClass]="selectedCls('Status')"
+                                                        aria-hidden="true"></i> </th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="bodyfix">
                                             <tr
-                                                *ngFor="let employee of employeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                *ngFor="let employee of employeeDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                 <td>{{employee.FirstName}}</td>
                                                 <td>{{employee.LastName}}</td>
                                                 <td>{{employee.MobileNo}}</td>
@@ -91,15 +99,24 @@
                                                         (click)="viewDocument(employee)"> View
                                                     </span>
                                                 </td>
-                                                <td> <span class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="schedule()"> No
+                                                <td> <span *ngIf="employee.Schedules === true"
+                                                        class="text-underline theme-primary-color font-size--9"
+                                                        style="cursor: pointer;" (click)="schedule()"> View
+                                                        Schedule </span>
+                                                    <span [hidden]="employee.Schedules === true"
+                                                        class="text-underline theme-primary-color font-size--9"
+                                                        style="cursor: pointer;" (click)="schedule()"> No
                                                         Schedule </span> </td>
                                                 <td>{{employee.Status === true ? 'Active' : 'InActive'}}</td>
                                                 <td> <em class="mdi mdi-eye-circle  pointer theme-primary-icon-color font-size-1-2"
-                                                        (click)="addEmployee('view', employee)" pTooltip="View" tooltipPosition="bottom"></em>
+                                                        (click)="addEmployee('view', employee)" pTooltip="View"
+                                                        tooltipPosition="bottom"></em>
                                                     <em class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
-                                                        (click)="addEmployee('edit', employee)" pTooltip="Edit" tooltipPosition="bottom"></em>
+                                                        (click)="addEmployee('edit', employee)" pTooltip="Edit"
+                                                        tooltipPosition="bottom"></em>
                                                     <em class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                                                        (click)="deleteEmployee(employee)" pTooltip="Delete" tooltipPosition="bottom"></em> </td>
+                                                        (click)="deleteEmployee(employee)" pTooltip="Delete"
+                                                        tooltipPosition="bottom"></em> </td>
                                             </tr>
                                             <tr *ngIf="employeeDetails.length === 0">
                                                 <td colspan="9" class="text-center">
@@ -108,10 +125,18 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                        class="d-flex justify-content-end">
-                                    </ngb-pagination>
+                                    <div class="row pull-right" >
+                                        <div class="col-6">
+                                         <ngb-pagination *ngIf="employeeDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
+                                             [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
+                                             [boundaryLinks]="true" class="d-flex justify-content-end">
+                                         </ngb-pagination> 
+                                         </div>
+                                         <select *ngIf="employeeDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                             <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
+     
+                                         </select>
+                                     </div>
                                 </div>
                             </div>
                         </div>

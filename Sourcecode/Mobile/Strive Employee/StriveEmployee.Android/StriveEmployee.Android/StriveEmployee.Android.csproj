@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapter\CheckOut\CheckOutDetailsAdapter.cs" />
+    <Compile Include="Adapter\IItemClickListener.cs" />
     <Compile Include="Adapter\MessengerChatAdapter.cs" />
     <Compile Include="Adapter\MessengerContactsAdapter.cs" />
     <Compile Include="Adapter\MessengerCreateGroupAdapter.cs" />
@@ -73,7 +74,9 @@
     <Compile Include="Adapter\MyProfile\Collision\CollisionAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Documents\AddDocumentsAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Documents\DocumentsAdapter.cs" />
+    <Compile Include="Adapter\MyTickets\AllTickets.cs" />
     <Compile Include="Adapter\ViewPagerAdapter.cs" />
+    <Compile Include="DemoTicketsData\TicketsModule.cs" />
     <Compile Include="Enums\MessageType_Enum.cs" />
     <Compile Include="Fragments\CheckOut\CheckOutFragment.cs" />
     <Compile Include="Fragments\MessengerContactFragment.cs" />
@@ -931,6 +934,14 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\paidCheck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AllTickets_ItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -90,45 +90,6 @@
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
             <Visible>false</Visible>
         </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon167.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon152.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon29.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon40.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon76.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
-            <Visible>false</Visible>
-        </ImageAsset>
-        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
-            <Visible>false</Visible>
-        </ImageAsset>
         <ImageAsset Include="Resources\Assets.xcassets\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%402x.png" />
@@ -210,6 +171,55 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1 %281%29.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1%402x %281%29.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1%403x %281%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-location.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-location.imageset\Icon material-location.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-location.imageset\Icon material-location%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-location.imageset\Icon material-location%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-location.imageset\Icon material-location-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-location.imageset\Icon material-location%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-location.imageset\Icon material-location%403x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-phone.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-phone.imageset\Icon awesome-phone-alt.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-phone.imageset\Icon awesome-phone-alt%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-phone.imageset\Icon awesome-phone-alt%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-mail.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-mail.imageset\Icon feather-mail.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-mail.imageset\Icon feather-mail%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-mail.imageset\Icon feather-mail%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-time.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-time.imageset\Store hours.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-time.imageset\Store hours%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-time.imageset\Store hours%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-facebook.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-facebook.imageset\Icon awesome-facebook.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-facebook.imageset\Icon awesome-facebook%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-facebook.imageset\Icon awesome-facebook%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-instagram.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-instagram.imageset\Icon awesome-instagram.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-instagram.imageset\Icon awesome-instagram%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-instagram.imageset\Icon awesome-instagram%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-twitter.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-twitter.imageset\Icon awesome-twitter.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-twitter.imageset\Icon awesome-twitter%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-twitter.imageset\Icon awesome-twitter%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-email.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-email.imageset\Icon material-email.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-email.imageset\Icon material-email%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-email.imageset\Icon material-email%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%403x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\40.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\87.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\60.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\80.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\180.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\appstore.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -235,6 +245,17 @@
         <Folder Include="Views\VehicleList\" />
         <Folder Include="Resources\Assets.xcassets\icon-unchecked-round.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-checked-round.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-location.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-phone.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-mail.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-time.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-facebook.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-instagram.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-twitter.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-email.imageset\" />
+        <Folder Include="Views\Schedule\" />
+        <Folder Include="Resources\Assets.xcassets\icon-back.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-back-arrow.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -264,6 +285,18 @@
         <InterfaceDefinition Include="Views\TermsView.xib" />
         <InterfaceDefinition Include="Views\EditVehicleListView.xib" />
         <InterfaceDefinition Include="Views\MembershipDetailView.xib" />
+        <InterfaceDefinition Include="Views\ContactUsView.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Dashboard_ScheduleView.xib" />
+        <InterfaceDefinition Include="Views\Schedule\DB_VehicleList_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\DB_PastHistory_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectService.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectService_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectLoc_View.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_Location_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_SelectDate_View.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_Time_Cell.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_Preview.xib" />
+        <InterfaceDefinition Include="Views\Schedule\Schedule_Confirmation.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -388,6 +421,59 @@
         <Compile Include="Views\MembershipDetailView.cs" />
         <Compile Include="Views\MembershipDetailView.designer.cs">
           <DependentUpon>MembershipDetailView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\ContactUsView.cs" />
+        <Compile Include="Views\ContactUsView.designer.cs">
+          <DependentUpon>ContactUsView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Dashboard_ScheduleView.cs" />
+        <Compile Include="Views\Schedule\Dashboard_ScheduleView.designer.cs">
+          <DependentUpon>Dashboard_ScheduleView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\DB_VehicleList_Cell.cs" />
+        <Compile Include="Views\Schedule\DB_VehicleList_Cell.designer.cs">
+          <DependentUpon>DB_VehicleList_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\ScheduleVehcileListSource.cs" />
+        <Compile Include="Views\Schedule\DB_PastHistory_Cell.cs" />
+        <Compile Include="Views\Schedule\DB_PastHistory_Cell.designer.cs">
+          <DependentUpon>DB_PastHistory_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_SelectService.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectService.designer.cs">
+          <DependentUpon>Schedule_SelectService.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_PastHis_Source.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectService_Cell.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectService_Cell.designer.cs">
+          <DependentUpon>Schedule_SelectService_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_SelectService_Source.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectLoc_View.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectLoc_View.designer.cs">
+          <DependentUpon>Schedule_SelectLoc_View.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_Location_Cell.cs" />
+        <Compile Include="Views\Schedule\Schedule_Location_Cell.designer.cs">
+          <DependentUpon>Schedule_Location_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\ScheduleLocation_Source.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectDate_View.cs" />
+        <Compile Include="Views\Schedule\Schedule_SelectDate_View.designer.cs">
+          <DependentUpon>Schedule_SelectDate_View.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_Time_Cell.cs" />
+        <Compile Include="Views\Schedule\Schedule_Time_Cell.designer.cs">
+          <DependentUpon>Schedule_Time_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\ScheduleDate_CollectionSource.cs" />
+        <Compile Include="Views\Schedule\Schedule_Preview.cs" />
+        <Compile Include="Views\Schedule\Schedule_Preview.designer.cs">
+          <DependentUpon>Schedule_Preview.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Schedule\Schedule_Confirmation.cs" />
+        <Compile Include="Views\Schedule\Schedule_Confirmation.designer.cs">
+          <DependentUpon>Schedule_Confirmation.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>

@@ -4,6 +4,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-list',
@@ -19,52 +21,97 @@ export class ClientListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
-  search: any='';
-  page = 1;
-  pageSize = 15;
+  search: any = '';
+  locationId = +localStorage.getItem('empLocationId');
   collectionSize: number = 0;
-  isLoading = true;
-  constructor(private client: ClientService, private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService) { }
+  sort = { column: 'IsActive', descending: true };
+  sortColumn: { column: string; descending: boolean; };
+  pageSizeList: number[];
+  page: number;
+  pageSize: number;
+  constructor(
+    private client: ClientService, private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService,
+    private spinner: NgxSpinnerService, private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    const paramsData = this.route.snapshot.queryParamMap.get('clientId');
+    if (paramsData !== null) {
+      const clientObj = {
+        ClientId: paramsData
+      };
+      this.getClientById('view', clientObj);
+    }
     this.getAllClientDetails();
   }
 
   // Get All Client
   getAllClientDetails() {
-    this.isLoading = true;
-    this.client.getClient().subscribe(data => {
-      this.isLoading = false;
+    const obj = {
+      LocationId: this.locationId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+      Query: this.search,
+      SortOrder: null,
+      SortBy: null
+    };
+    this.spinner.show();
+    this.client.getClient(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
+        this.clientDetails = [];
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Client;
+        if (client.Client.clientViewModel !== null) {
+          this.clientDetails = client.Client.clientViewModel;
+        }
+        const totalRowCount = client.Client.Count.Count;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllClientDetails();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllClientDetails();
+  }
 
-  clientSearch(){
-    this.page = 1;
+  clientSearch() {
     const obj = {
-       clientName: this.search
-    }
-    this.client.ClientSearch(obj).subscribe(data => {
+      LocationId: this.locationId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+      Query: this.search,
+      SortOrder: null,
+      SortBy: null
+    };
+    this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.ClientSearch;
-        console.log(this.clientDetails);
+        this.clientDetails = client.Client.clientViewModel;
+        const totalRowCount = client.Client.Count.Count;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -118,8 +165,8 @@ export class ClientListComponent implements OnInit {
     this.client.getClientById(client.ClientId).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
-        const client = JSON.parse(res.resultData);
-        this.selectedClient = client.Status[0];
+        const clientDetail = JSON.parse(res.resultData);
+        this.selectedClient = clientDetail.Status[0];
         if (data === 'edit') {
           this.headerData = 'Edit Client';
           this.selectedData = this.selectedClient;
@@ -136,6 +183,40 @@ export class ClientListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
     });
+  }
+
+  navigateToCustmerDashboard(client) {
+    this.router.navigate(['/customer'], { queryParams: { clientId: client.ClientId } });
+  }
+
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 }

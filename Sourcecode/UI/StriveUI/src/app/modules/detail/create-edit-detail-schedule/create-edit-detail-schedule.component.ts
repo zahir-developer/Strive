@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -18,7 +18,8 @@ import { PrintCustomerCopyComponent } from '../print-customer-copy/print-custome
   selector: 'app-create-edit-detail-schedule',
   templateUrl: './create-edit-detail-schedule.component.html',
   styleUrls: ['./create-edit-detail-schedule.component.css'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  encapsulation: ViewEncapsulation.None
 })
 export class CreateEditDetailScheduleComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
@@ -45,6 +46,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   model: any;
   clientList: any;
   filteredClient: any[];
+  filteredModel: any = [];
+  filteredcolor: any = [];
+  filteredMake: any = [];
   details: any;
   outsideServices: any = [];
   @Output() closeDialog = new EventEmitter();
@@ -145,7 +149,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getAllList() {
     this.assignDate();
     this.getColor();
-    this.getAllClient();
+    // this.getAllClient();
     this.getServiceType();
   }
 
@@ -219,9 +223,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             this.detailForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
               vehicle: this.barcodeDetails.VehicleId,
-              model: this.barcodeDetails.VehicleModelId,
-              color: this.barcodeDetails.VehicleColor,
-              type: this.barcodeDetails.VehicleMfr
+              // model: this.barcodeDetails.VehicleModelId,
+              // color: this.barcodeDetails.VehicleColor,
+              // type: this.barcodeDetails.VehicleMfr
             });
             this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
@@ -360,14 +364,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getAllClient() {
-    this.wash.getAllClient().subscribe(res => {
+    this.wash.getAllClientName().subscribe(res => {
       if (res.status === 'Success') {
         const client = JSON.parse(res.resultData);
-        client.Client.forEach(item => {
+        client.ClientName.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
         console.log(client, 'client');
-        this.clientList = client.Client.map(item => {
+        this.clientList = client.ClientName.map(item => {
           return {
             id: item.ClientId,
             name: item.fullName
@@ -383,9 +387,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
         this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
-        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Upcharges')[0]?.CodeId;
+        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
         this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
+        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
         this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
         this.getAllServices();
       } else {
@@ -395,14 +399,28 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getAllServices() {
-    this.wash.getServices().subscribe(data => {
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: null,
+      pageSize: null,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.wash.getServices(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.outsideServices = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
-        this.details = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
-        this.additional = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-        this.upcharges = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-        this.airFreshner = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
+        this.outsideServices = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
+        this.details = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
+        this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
+        this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
+        this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+          item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
         this.UpchargeType = this.upcharges;
         // this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
         this.additional.forEach(element => {
@@ -435,7 +453,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.jobStatusID = isJobStatus[0].CodeId;
       }
     }
-    this.getClientVehicle(this.selectedData?.Details?.ClientId);
+    this.getVehicleList(this.selectedData?.Details?.ClientId);
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
     this.note = this.selectedData.Details.Notes;
     this.detailItems = this.selectedData.DetailsItem;
@@ -449,9 +467,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
       client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details.ClientName },
       vehicle: this.selectedData.Details.VehicleId,
-      type: this.selectedData.Details.Make,
-      model: this.selectedData.Details.Model,
-      color: this.selectedData.Details.Color,
+      type: { id: this.selectedData.Details.Make, name: this.selectedData?.Details?.vehicleMake },
+      model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.vehicleModel },
+      color: { id: this.selectedData.Details.Color, name: this.selectedData?.Details?.vehicleColor },
       washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId,
       upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
       upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
@@ -459,6 +477,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
     });
     this.clientId = this.selectedData?.Details?.ClientId;
+
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -471,6 +490,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
+    if (this.selectedData?.Details?.ClientName.toLowerCase().startsWith('drive')) {
+      this.detailForm.get('vehicle').disable();
+    } else if (!this.isView) {
+      this.detailForm.get('vehicle').enable();
+    }
   }
 
   getColor() {
@@ -491,6 +515,24 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             }
           });
         }
+        this.model = this.model.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
+        this.color = this.color.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
+        this.type = this.type.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -500,13 +542,66 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   filterClient(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().includes(query.toLowerCase())) {
-        filtered.push(client);
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        console.log(client, 'client');
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+    // for (const i of this.clientList) {
+    //   const client = i;
+    //   if (client.name.toLowerCase().includes(query.toLowerCase())) {
+    //     filtered.push(client);
+    //   }
+    // }
+    // this.filteredClient = filtered;
+  }
+
+  filterModel(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.model) {
+      const model = i;
+      if (model.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(model);
       }
     }
-    this.filteredClient = filtered;
+    this.filteredModel = filtered;
+  }
+
+  filterColor(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.color) {
+      const color = i;
+      if (color.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(color);
+      }
+    }
+    this.filteredcolor = filtered;
+  }
+
+  filterMake(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.type) {
+      const make = i;
+      if (make.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(make);
+      }
+    }
+    this.filteredMake = filtered;
   }
 
   selectedClient(event) {
@@ -516,7 +611,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (name.startsWith('drive')) {
       this.detailForm.get('vehicle').disable();
       return;
-    } else {
+    } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
       this.getPastClientNotesById(this.clientId);
@@ -539,9 +634,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailForm.patchValue({
           vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
-          type: vData.VehicleMakeId,
-          model: vData.VehicleModelId,
-          color: vData.ColorId
+          type: { id: vData.VehicleMakeId, name: vData.VehicleMake },
+          model: { id: vData.VehicleModelId, name: vData.ModelName },
+          color: { id: vData.ColorId, name: vData.Color }
         });
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -576,20 +671,29 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     console.log(this.additionalService, this.washItem);
   }
 
-  // Get Vehicle By ClientId
-  getClientVehicle(id) {
-    this.detailForm.patchValue({ vehicle: '' });
+  getVehicleList(id) {
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (!this.isEdit && !this.isBarcode) {
+      } else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+
+  // Get Vehicle By ClientId
+  getClientVehicle(id) {
+    this.wash.getVehicleByClientId(id).subscribe(data => {
+      if (data.status === 'Success') {
+        const vehicle = JSON.parse(data.resultData);
+        this.vehicle = vehicle.Status;
+        if (this.vehicle.length !== 0) { // && !this.isBarcode
           this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
-        }
-        if (this.isEdit && this.selectedData.Details !== null) {
-          this.detailForm.patchValue({ vehicle: this.selectedData.Details.VehicleId });
+        } else {
+          this.detailForm.get('vehicle').reset();
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -615,9 +719,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
       vehicleId: this.detailForm.value.vehicle,
-      make: this.detailForm.value.type,
-      model: this.detailForm.value.model,
-      color: this.detailForm.value.color,
+      make: this.detailForm.value.type.id,
+      model: this.detailForm.value.model.id,
+      color: this.detailForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
       jobStatus: jobStatusId,
@@ -671,9 +775,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
       vehicleId: this.detailForm.value.vehicle,
-      make: this.detailForm.value.type,
-      model: this.detailForm.value.model,
-      color: this.detailForm.value.color,
+      make: this.detailForm.value.type.id,
+      model: this.detailForm.value.model.id,
+      color: this.detailForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
       jobStatus: jobStatusId,
@@ -733,9 +837,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.detailForm.value.vehicle,
-      make: this.detailForm.value.type,
-      model: this.detailForm.value.model,
-      color: this.detailForm.value.color,
+      make: this.detailForm.value.type.id,
+      model: this.detailForm.value.model.id,
+      color: this.detailForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
       jobStatus: this.isEdit ? this.jobStatusID : jobStatusId,
@@ -763,8 +867,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       bayId: this.detailForm.value.bay,
       jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
       scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'hh:mm'),
-      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'hh:mm'),
+      scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'HH:mm'),
+      scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'HH:mm'),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -834,6 +938,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     } else {
       this.spinner.show();
@@ -843,7 +950,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (res.status === 'Success') {
           this.isAssign = true;
           this.isStart = true;
-          this.isEdit = true;
+          // this.isEdit = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.jobID = jobID.Status;
@@ -853,7 +960,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
           // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           // this.refreshDetailGrid.emit();
+        } else {
+          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         }
+      }, (error) => {
+        this.spinner.hide();
+        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       });
     }
   }
@@ -959,10 +1071,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   addVehicle() {
     this.headerData = 'Add New Vehicle';
     let len = this.vehicle.length;
-    if(len === 0){
+    if (len === 0) {
       this.vehicleNumber = 1;
-    }else{
-    this.vehicleNumber = Number(this.vehicle[len-1].VehicleNumber) + 1;
+    } else {
+      this.vehicleNumber = this.vehicle.length + 1;
     }
     this.showVehicleDialog = true;
   }

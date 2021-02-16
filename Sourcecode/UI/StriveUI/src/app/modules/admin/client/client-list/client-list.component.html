@@ -106,36 +106,56 @@
                                                 <form>
                                                     <div class="form-row">
                                                         <div class="form-group d-flex"> <input type="search"
-                                                                class="form-control" size="31" [(ngModel)]="search" name="search"
-                                                                id="inputSearchbyName" placeholder="Search by First name and Last name"
-                                                                (keyup)="$event.keyCode == 13 ? clientSearch() : null"> </div>
+                                                                class="form-control" size="31" [(ngModel)]="search"
+                                                                name="search" id="inputSearchbyName"
+                                                                placeholder="Search by First name and Last name"
+                                                                (keyup)="$event.keyCode == 13 ? getAllClientDetails() : null">
+                                                        </div>
                                                         <div class="form-group col-sm m-l-5">
                                                             <button type="button"
                                                                 class="btn theme-primary-button-color btn-sm m-l-10"
-                                                                (click)="clientSearch()">Search</button>
+                                                                (click)="getAllClientDetails()">Search</button>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                                    class="col-12 row d-block">No Records Found</span></div>
-                                            <div class="table-responsive headerfix"
-                                                *ngIf="isTableEmpty === false && isLoading === false" >
-                                                <table class="table  table-striped m-t-10" >
+
+                                            <div class="table-responsive">
+                                                <table class="table  table-striped m-t-10 headerfix">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">First Name</th>
-                                                            <th scope="col">Last Name</th>
-                                                            <th scope="col">Phone Number</th>
-                                                            <th scope="col">Type</th>
-                                                            <th scope="col">Status</th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('FirstName')">First Name&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('FirstName')"
+                                                                    aria-hidden="true"></i> </th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('LastName')">Last Name&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('LastName')"
+                                                                    aria-hidden="true"></i> </th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('PhoneNumber')">Phone
+                                                                Number&nbsp;<i class="fa"
+                                                                    [ngClass]="selectedCls('PhoneNumber')"
+                                                                    aria-hidden="true"></i> </th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('Type')">Type&nbsp;<i class="fa"
+                                                                    [ngClass]="selectedCls('Type')"
+                                                                    aria-hidden="true"></i> </th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('IsActive')">Status&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('IsActive')"
+                                                                    aria-hidden="true"></i> </th>
                                                             <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody class="header">
+                                                    <tbody class="bodyfix">
                                                         <tr
-                                                            *ngFor="let client of clientDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                            <th scope="row">{{client.FirstName}}</th>
+                                                            *ngFor="let client of clientDetails | orderBy:sort.column:'sequence':sort.descending">
+                                                            <th scope="row"
+                                                                class="text-underline theme-primary-color font-size--9"
+                                                                style="cursor: pointer;"
+                                                                (click)="navigateToCustmerDashboard(client)">
+                                                                {{client.FirstName}}</th>
                                                             <td>{{client.LastName}}</td>
                                                             <td>{{client.PhoneNumber}}</td>
                                                             <td>{{client.Type}}</td>
@@ -156,18 +176,32 @@
                                                                     (click)="delete(client)"></em>
                                                             </td>
                                                         </tr>
+                                                        <tr
+                                                            *ngIf="clientDetails?.length === 0 || clientDetails == null">
+                                                            <td colspan="12" class="text-center">
+                                                                No Records Found
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
-                                                <ngb-pagination *ngIf="collectionSize > 10"
-                                                    [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                                    class="d-flex justify-content-end">
-                                                </ngb-pagination>
+                                                <div class="row pull-right">
+                                                    <div class="col-6">
+                                                        <ngb-pagination [collectionSize]="collectionSize"
+                                                            (pageChange)="paginate($event)" [(page)]="page"
+                                                            [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                        </ngb-pagination>
+                                                    </div>
+                                                    <select class="form-control col-4" name="paginate"
+                                                        [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                                        <option *ngFor="let size of pageSizeList" value="{{size}}">
+                                                            {{size}}</option>
+
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="loadingDiv" *ngIf="isLoading">
-                                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -188,33 +222,29 @@
 
 
 <style>
-   
-
     .header {
         display: block;
         height: 500px;
         overflow-y: scroll;
     }
 
-        .headerfix thead, .header tr {
-            display: table;
-            width: 100%;
-            table-layout: fixed;
-        }
-
-        .header tr {
-            display: table;
-            width: 100%;
-            table-layout: fixed;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-    .headerfix thead {
-        width: calc( 100% - 1.15em );
+    .headerfix thead,
+    .header tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
     }
 
-    
+    .header tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
+    .headerfix thead {
+        width: calc(100% - 1.15em);
+    }
 </style>

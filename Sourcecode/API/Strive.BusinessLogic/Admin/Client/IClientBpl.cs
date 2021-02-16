@@ -8,6 +8,7 @@ using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
 using Strive.Common;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.BusinessLogic.Client
 {
@@ -15,7 +16,7 @@ namespace Strive.BusinessLogic.Client
     {
         //Result SaveClientDetails(ClientView lstClient);
         Result SaveClientDetails(ClientDto client);
-        Result GetAllClient();
+        Result GetAllClient(SearchDto searchDto);
         Result DeleteClient(int clientId);
         Result GetClientById(int clientId);
         Result GetClientVehicleById(int clientId);
@@ -25,5 +26,9 @@ namespace Strive.BusinessLogic.Client
         Result GetClientCodes();
         Result GetStatementByClientId(int id);
         Result GetHistoryByClientId(int id);
+
+        Result IsClientName(ClientNameDto clientNameDto);
+
+        Result GetAllClientName(string name);
     }
 }

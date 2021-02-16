@@ -20,9 +20,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group row border-bottom p-b-10 no-gutters">
-                                        <label for="colFormLabelSm" class="col-sm-3 font-weight-600 font-size-2-2"
+                                        <label for="colFormLabelSm" class="col-sm-2 font-weight-600 font-size-2-2"
                                             style="padding-top: 1.5%;">Ticket #</label>
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-10">
                                             <div>
                                                 <input type="text" maxlength="9" id="ticketNumber"
                                                     (focus)="quantityFocus($event)" *ngIf="isSelected"
@@ -30,13 +30,25 @@
                                                     [(ngModel)]="ticketNumber" (keypress)="allowNumbersOnly($event)"
                                                     (clear)="clearpaymentField()">&nbsp;
                                                 <span class="p-r-71" *ngIf="!isSelected">{{newTicketNumber}}</span>
+                                                <!-- (click)="getDetailByTicket(false); selected= true" -->
                                                 <button type="button" class="btn theme-primary-button-color"
-                                                    (click)="getDetailByTicket(false); selected= true"
-                                                    [disabled]="(ticketNumber=== '' || ticketNumber === undefined)">Select</button>&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color "
-                                                    (click)="getTicketNumber();">New</button>
+                                                    (click)="addTicketNumber()"
+                                                    [disabled]="(ticketNumber === '' || ticketNumber === undefined) || isTenTicketNumber"><i
+                                                        class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;
+                                                <button type="button" [disabled]="(ticketNumber !== '')" class="btn theme-primary-button-color "
+                                                    (click)="getTicketNumber();">New</button>&nbsp;
+                                                <!-- <button type="button"
+                                                    class="btn theme-primary-button-color" [disabled]="multipleTicketNumber.length > 0 ? false : true"  (click)="getDetailByTicket(false)">Add</button>-->
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group row border-bottom p-b-10 no-gutters"
+                                        *ngIf="multipleTicketNumber.length > 0">
+                                        <span *ngFor="let ticket of multipleTicketNumber"
+                                            style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
+                                            class="badge badge-secondary"><span>{{ticket}}</span><em
+                                                class="fa fa-times-circle"
+                                                (click)="removeTicketNumber(ticket)"></em></span>
                                     </div>
                                     <div class="row no-gutters">
                                         <button type="button" class="btn btn-numbers col-sm"
@@ -116,13 +128,13 @@
                                         <button type="button" class="btn col-sm btn-payment actived"
                                             [disabled]='enableButton' (click)="addPayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]="!enableButton || ticketNumber === ''"
+                                            [disabled]="!enableButton || multipleTicketNumber.length === 0"
                                             (click)="deleteItem('', 'rollback')">RollBack</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]="!enableButton || ticketNumber === ''"
+                                            [disabled]="!enableButton || multipleTicketNumber.length === 0"
                                             (click)="deleteItem('', 'deleteJob')">Del</button>
                                         <button type="button" class="btn col-sm btn-payment actived m-r-0"
-                                            [disabled]="!enableButton || ticketNumber === ''"
+                                            [disabled]="!enableButton || multipleTicketNumber.length === 0"
                                             (click)="print()">Print</button>
                                     </div>
                                     <div id="Giftcardpopup" class="gift-card"> <span class="closebtn"
@@ -381,7 +393,7 @@
                         <!--Bills-->
                         <div class="col-xl-6 no-space">
                             <div class="card m-b-10">
-                                <div class="card-body">
+                                <div class="card-body" style="min-height: 580px;" >
                                     <div class="form-row">
                                         <div class="form-group col-md-3">
                                             <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item
@@ -521,9 +533,19 @@
                                                 <tr *ngFor="let discount of discountService">
                                                     <td class="pointer">{{discount?.ServiceName}}</td>
                                                     <td>{{discount?.Quantity}}</td>
-                                                    <td>{{discount?.Quantity * discount?.Price | currency}}</td>
+                                                    <td>-{{discount?.Quantity * discount?.Price | currency}}</td>
                                                     <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             (click)="deleteItem(discount, 'deleteItem')"></i></td>
+                                                </tr>
+                                                <tr *ngIf="discountList.length > 0">
+                                                    <th scope="row" colspan="5">Discounts </th>
+                                                </tr>
+                                                <tr *ngFor="let discount of discountList">
+                                                    <td class="pointer">{{discount?.ServiceName}}</td>
+                                                    <td>1</td>
+                                                    <td>-{{1 * discount?.Cost | currency}}</td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                            (click)="deletediscount(discount)"></i></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -535,8 +557,10 @@
                         <!-- end card-->
 
                         <div class="col-xl-2 no-space">
-                            <div class="card">
-                                <div class="card-body">
+
+                            <div class="card" >
+
+                                <div class="card-body" >
                                     <div class="title-border p-b-5 m-b-5">
                                         <h4 class="d-inline-block">Summary</h4>
                                     </div>
@@ -577,7 +601,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6"> Discount </div>
                                             <div class="form-group col-md-6 text-right">
-                                                {{discountAmount ? (discountAmount | currency): '$0.00'}} </div>
+                                                -{{discountAmount ? (discountAmount | currency): '$0.00'}} </div>
                                         </div>
                                         <div class="form-row border-bottom m-b-8">
                                             <div class="form-group col-md-6"> Account </div>

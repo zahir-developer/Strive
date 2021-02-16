@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'helps', component: HelpsComponent },
   { path: 'side-nav', component: SidenavComponent },
 
-  { path: 'admin', canActivate: [AuthGuard], loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
+  { path: 'admin', canActivate: [AuthGuard], data: { label: 'Admin', title: 'Admin', authorization: 'Admin' },loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
   { path: 'wash', canActivate: [AuthGuard], data: { label: 'Washes', title: 'Washes', authorization: 'Washes' },
    loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
   { path: 'detail', data: { label: 'Detail', title: 'Detail', authorization: 'Detail' },
@@ -29,15 +29,15 @@ const routes: Routes = [
   },
   {path: 'sales', canActivate: [AuthGuard], data: { label: 'Sales', title: 'Sales', authorization: 'Sales' },
    loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
-  {path: 'white-labelling', canActivate: [AuthGuard], data: { label: 'White Labelling', title: 'White Labelling', authorization: 'White Labelling' },
+  {path: 'white-labelling', canActivate: [AuthGuard], data: { label: 'White Labelling', title: 'White Labelling', authorization: 'WhiteLabelling' },
   loadChildren: () =>
   import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)},
   { path: 'payrolls', canActivate: [AuthGuard], data: { label: 'PayRoll', title: 'PayRoll', authorization: 'PayRoll' },
   loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
   {path: 'messenger', canActivate: [AuthGuard], data: { label: 'Messenger', title: 'Messenger', authorization: 'Messenger' },
   loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
-  {path: 'reports', loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)},
-  {path: 'customer', loadChildren: () => import('./modules/customer/customer.module').then(mod => mod.CustomerModule)},
+  {path: 'reports', canActivate: [AuthGuard], data: { label: 'Report', title: 'Report', authorization: 'Report' }, loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)},
+  {path: 'customer',canActivate: [AuthGuard], data: { label: 'Customer', title: 'Customer', authorization: 'Customer' }, loadChildren: () => import('./modules/customer/customer.module').then(mod => mod.CustomerModule)},
   {
     path: '',
     redirectTo: '',

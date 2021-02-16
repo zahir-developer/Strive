@@ -291,10 +291,12 @@ namespace Strive.BusinessLogic.Common
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
             };
-
-
-
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
+
+            if (authId > 0)
+            {
+                SendLoginCreationEmail(emailId, randomPassword);
+            }
 
             return authId;
         }
@@ -366,10 +368,10 @@ namespace Strive.BusinessLogic.Common
             }
             return _result;
         }
-        private void SendLoginCreationEmail(string emailId, string defaultPassword)
+        public void SendLoginCreationEmail(string emailId, string defaultPassword)
         {
             SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
-            <p> You have successfully signed up with Strive.& nbsp;</p>
+            <p> You have successfully signed up with Strive.</p>
             <p> Your login Credentials:</p>
             <p> UserName: " + emailId + @".</p>
             <p> Password: " + defaultPassword + @".</p>
@@ -417,6 +419,11 @@ namespace Strive.BusinessLogic.Common
         public Result GetEmailIdExist(string emailId)
         {
             return ResultWrap(new CommonRal(_tenant, true).GetEmailIdExist, emailId, "EmailIdExist");
+        }
+        public Result GetCityByStateId(int stateId)
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetCityByStateId, stateId, "cities");
+
         }
 
     }

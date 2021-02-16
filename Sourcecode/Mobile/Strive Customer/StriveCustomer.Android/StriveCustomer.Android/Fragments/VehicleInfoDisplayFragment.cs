@@ -101,7 +101,7 @@ namespace StriveCustomer.Android.Fragments
                 vehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
                                    this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr + " " +
                                    this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel;
-                vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
+                vehicleBarCode.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "";
                 vehicleMake.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 vehicleModel.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
                 vehicleColor.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";

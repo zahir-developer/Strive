@@ -19,7 +19,7 @@
                                             <br> <span
                                                 class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.selectedDate | date : 'dd LLLL yyyy'}}
                                                 | <span
-                                                    class="theme-secondary-color m-r-20">{{scheduleDetailObj?.InTime | date : 'HH:mm'}}</span>
+                                                    class="theme-secondary-color m-r-20">{{scheduleDetailObj?.InTime | date : 'HH:mm aa'}}</span>
                                             </span> <span
                                                 class="text-underline m-r-10 cancellink font-size-1" (click)="backToDashboard()">Re-schedule</span>
                                         </div>
@@ -28,8 +28,9 @@
                                         <div class="form-group col-md-10">
                                             <h6 class="d-inline-block align-middle">Vehicle</h6>
                                             <br> <span
-                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
+                                                class="font-size-1-5 font-weight-bold" *ngIf="!scheduleDetailObj.isEdit">{{scheduleDetailObj?.vechicleDetail?.VehicleMfr}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleModel}}&nbsp;{{scheduleDetailObj?.vechicleDetail?.VehicleColor}}
                                             </span>
+                                            <span class="font-size-1-5 font-weight-bold" *ngIf="scheduleDetailObj.isEdit">{{selectedData?.Details?.VechicleName}}</span>
                                         </div>
                                     </div>
                                     <div class="form-row row no-gutters m-b-10 m-t-10 preview-card">
@@ -50,7 +51,7 @@
                                         <div class="form-group col-md-10">
                                             <h6 class="d-inline-block align-middle">Service Location </h6>
                                             <br> <span
-                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.locationObj?.Address1}}&nbsp;{{scheduleDetailObj?.locationObj?.Address2}}</span>
+                                                class="font-size-1-5 font-weight-bold">{{scheduleDetailObj?.locationObj?.Address1}}&nbsp;{{scheduleDetailObj?.locationObj?.Address2}}&nbsp;{{scheduleDetailObj?.locationObj?.City}}&nbsp;{{scheduleDetailObj?.locationObj?.State}}&nbsp;{{scheduleDetailObj?.locationObj?.Country}}&nbsp;{{scheduleDetailObj?.locationObj?.Zip}}</span>
                                         </div>
                                     </div>
                                     <div class="form-row row no-gutters  m-t-30 margin-auto">

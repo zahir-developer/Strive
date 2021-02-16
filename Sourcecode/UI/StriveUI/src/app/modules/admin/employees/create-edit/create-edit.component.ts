@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -7,6 +7,9 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import { CityComponent } from 'src/app/shared/components/city/city.component';
+
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -14,6 +17,11 @@ declare var $: any;
   styleUrls: ['./create-edit.component.css']
 })
 export class CreateEditComponent implements OnInit {
+  @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
+  State: any;
+  city: any;
+
   sampleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
@@ -82,8 +90,8 @@ export class CreateEditComponent implements OnInit {
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
       ssn: [''],
-      alienNumber:[''],
-      permitDate:['']
+      alienNumber: [''],
+      permitDate: ['']
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
@@ -91,7 +99,7 @@ export class CreateEditComponent implements OnInit {
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       comType: [''],
-      comRate:[''],
+      comRate: [''],
       status: ['Active'],
       exemptions: [''],
       roles: [[]],
@@ -103,7 +111,7 @@ export class CreateEditComponent implements OnInit {
     });
   }
 
-  getImmigrationStatus(){
+  getImmigrationStatus() {
     this.getCode.getCodeByCategory("IMMIGRATIONSTATUS").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
@@ -126,7 +134,14 @@ export class CreateEditComponent implements OnInit {
       }
     });
   }
+  getSelectedStateId(event) {
+    this.State = event.target.value;
+    this.cityComponent.getCity(event.target.value);
+  }
 
+  selectCity(event) {
+    this.city = event.target.value;
+  }
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
       return {
@@ -166,19 +181,19 @@ export class CreateEditComponent implements OnInit {
     };
   }
 
-  immigrationChange(data){
+  immigrationChange(data) {
     const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
-    if(temp.length !== 0){
-      if(temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A'){
+    if (temp.length !== 0) {
+      if (temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A') {
         this.isAlien = true;
         this.isCitizen = false;
-      } else{
-        this.isAlien = false;        
+      } else {
+        this.isAlien = false;
       }
-      if(temp[0].CodeValue === 'An alien authorized to work until'){
+      if (temp[0].CodeValue === 'An alien authorized to work until') {
         this.isDate = true;
-        this.isCitizen = false;        
-      } else{
+        this.isCitizen = false;
+      } else {
         this.isDate = false;
       }
     }
@@ -192,7 +207,7 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.getAllRoles().subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
-        this.employeeRoles = roles.EmployeeRoles.map( item => {
+        this.employeeRoles = roles.EmployeeRoles.map(item => {
           return {
             item_id: item.RoleMasterId,
             item_text: item.RoleName
@@ -253,26 +268,26 @@ export class CreateEditComponent implements OnInit {
     this.documentDailog = true;
   }
 
-  fileNameChanged() {
-    let filesSelected: any;
-    filesSelected = document.getElementById('customFile');
-    filesSelected = filesSelected.files;
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;
-      const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-      let fileReader: any;
-      fileReader = new FileReader();
-      fileReader.onload = function (fileLoadedEventTigger) {
-        let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('customFile');
-        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
-      };
-      fileReader.readAsDataURL(fileToLoad);
-      this.isLoading = true;
-      setTimeout(() => {
+  fileNameChanged(e: any) {
+    this.isLoading = true;
+    try {
+      const file = e.target.files[0];
+      const fileSize = + file.size;
+      const sizeFixed = (fileSize / 1048576);
+      const sizeFixedValue = +sizeFixed.toFixed(1);
+      if (sizeFixedValue > 1) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'File size cannot be more than 10MB' });
+        this.isLoading = false;
+        return;
+      }
+      const fReader = new FileReader();
+      fReader.readAsDataURL(file);
+      fReader.onloadend = (event: any) => {
+        console.log(file.size, 'size');
+        this.fileName = file.name;
+        const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
+        fileTosaveName = event.target.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         const fileObj = {
           fileName: this.fileName,
@@ -282,7 +297,12 @@ export class CreateEditComponent implements OnInit {
         this.multipleFileUpload.push(fileObj);
         this.isLoading = false;
         console.log(this.multipleFileUpload, 'fileupload');
-      }, 5000);
+      };
+    } catch (error) {
+      this.fileName = null;
+      this.fileUploadformData = null;
+      this.isLoading = false;
+      console.log('no file was selected...');
     }
   }
 
@@ -313,6 +333,11 @@ export class CreateEditComponent implements OnInit {
     console.log(this.emplistform, 'empdorm');
     this.emplistform.controls.status.enable();
     this.submitted = true;
+    this.stateDropdownComponent.submitted = true;
+    this.cityComponent.submitted = true;
+    if (this.cityComponent.city === '') {
+      return;
+    }
     if (this.personalform.invalid || this.emplistform.invalid) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
       return;
@@ -323,21 +348,21 @@ export class CreateEditComponent implements OnInit {
     const employeeRoles = [];
     const employeeAddressObj = {
       employeeAddressId: 0,
-      employeeId: 0,
+      employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: 'string',
+      address2: null, // ''
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: '',
+      phoneNumber2: null, // ''
       email: this.emplistform.value.emailId,
-      city: 303,
-      state: 48,
-      zip: 'string',
-      country: 38
+      city: this.city,
+      state: this.State,
+      zip: null,  // ''
+      country: null // 38
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
         employeeRoleId: 0,
-        employeeId: 0,
+        employeeId: this.employeeId,
         roleId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -345,14 +370,14 @@ export class CreateEditComponent implements OnInit {
     });
     const employeeDetailObj = {
       employeeDetailId: 0,
-      employeeId: 0,
-      employeeCode: 'string',
+      employeeId: this.employeeId,
+      employeeCode: null, // ''
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
-      DetailRate:null,
+      DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
-      lrt: '2020 - 08 - 06T19: 24: 48.817Z',
+      lrt: null, // '2020 - 08 - 06T19: 24: 48.817Z',
       exemptions: +this.emplistform.value.exemptions,
       isActive: true,
       isDeleted: false,
@@ -360,23 +385,23 @@ export class CreateEditComponent implements OnInit {
     const locationObj = this.emplistform.value.location.map(item => {
       return {
         employeeLocationId: 0,
-        employeeId: 0,
+        employeeId: this.employeeId,
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
       };
     });
     const employeeObj = {
-      employeeId: 0,
+      employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
-      middleName: 'string',
+      middleName: null,  // ''
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: 117,
+      maritalStatus: null, // ''
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: '',
+      birthDate: null,  // ''
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
@@ -385,19 +410,19 @@ export class CreateEditComponent implements OnInit {
     const documentObj = this.multipleFileUpload.map(item => {
       return {
         employeeDocumentId: 0,
-        employeeId: 0,
+        employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: 'string',
+        filepath: null,  // '',
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: false,
-        password: 'string',
-        comments: 'string',
+        password: null, // ''
+        comments: null, // ''
         isActive: true,
         isDeleted: false,
-        createdBy: 0,
+        createdBy:  +localStorage.getItem('empId'),
         createdDate: moment(new Date()).format('YYYY-MM-DD'),
-        updatedBy: 0,
+        updatedBy:  +localStorage.getItem('empId'),
         updatedDate: moment(new Date()).format('YYYY-MM-DD')
       };
     });
@@ -443,36 +468,5 @@ export class CreateEditComponent implements OnInit {
 
   navigatePage() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
-  }
-
-  getCtype(data) {
-    const label = this.commissionType.filter(item => item.CodeId === Number(data));
-    if (label.length !== 0 && label[0].CodeValue !== 'Hourly Rate') {
-      this.ctypeLabel = label[0].CodeValue;
-    } else if(label.length !== 0 && label[0].CodeValue === 'Hourly Rate'){
-      this.ctypeLabel = 'Hourly Rate-Details';
-    }else {
-      this.ctypeLabel = 'none';
-    }
-  }
-
-  onItemSelect(data){
-    if(data.item_text === "Detailer"){
-      this.isRequired = true;
-      this.emplistform.get('comType').setValidators(Validators.required);
-      this.emplistform.get('comType').updateValueAndValidity();
-    }else{
-      this.isRequired = false;
-      this.emplistform.get('comType').clearValidators();
-      this.emplistform.get('comType').updateValueAndValidity();
-    }
-  }
-
-  onItemDeSelect(data){
-    if(data.item_text === "Detailer"){
-      this.isRequired = false;
-      this.emplistform.get('comType').clearValidators();
-      this.emplistform.get('comType').updateValueAndValidity();
-    }
   }
 }

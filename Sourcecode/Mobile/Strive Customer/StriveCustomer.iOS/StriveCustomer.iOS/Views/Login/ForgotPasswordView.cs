@@ -35,6 +35,11 @@ namespace StriveCustomer.iOS.Views.Login
             Tap.CancelsTouchesInView = false;
             View.AddGestureRecognizer(Tap);
         }
+
+        partial void BackBtn_Touch(UIButton sender)
+        {
+            this.ViewModel.NavigateBackCommand();
+        }
     }
 }
 

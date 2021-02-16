@@ -101,7 +101,7 @@
                                             <div class="Search-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
                                                 <input type="checkbox" [(ngModel)]="emp.selected">
                                             </div></span>
-                                                <h6 class="theme-mid-black" style="font-size: 20px;">{{emp.FirstName}} &nbsp; {{emp.LastName }}</h6> <span class="theme-mid-black font-size-7">{{emp.EmployeeId}}</span> </div>
+                                                <h6 class="theme-mid-black" style="font-size: 20px;">{{emp.FirstName}} {{emp.LastName }}</h6> <span class="theme-mid-black font-size-7">{{emp.EmployeeId}}</span> </div>
                                         </div>
                                     </div>
                                     </div>
@@ -171,7 +171,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="Location">Location</label>
-                            <select id ="location" class="form-control" [(ngModel)]="empLocation" [ngModelOptions]="{standalone: true}" (change)="getLocation($event)" (focus)="locationFlag = false"  [ngClass]="{ 'is-invalid': submitted && locationFlag}">
+                            <select id ="location" class="form-control" [(ngModel)]="empLocation" name="location" (change)="getLocation($event)" (focus)="locationFlag = false"  [ngClass]="{ 'is-invalid': submitted && locationFlag}">
                                 <option selected hidden>Select</option>
                                 <option *ngFor="let location of location" value="{{location.LocationId}}">
                                     {{location.LocationName}}</option>

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
-import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 //import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
@@ -17,7 +18,6 @@ export class ServiceSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  isLoading = true;
   search: any = '';
   searchStatus: any;
   collectionSize: number = 0;
@@ -25,70 +25,93 @@ export class ServiceSetupListComponent implements OnInit {
   page: number;
   pageSize: number;
   pageSizeList: number[];
-  constructor(private serviceSetup: ServiceSetupService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+  isDesc: boolean = false;
+  column: string = 'ServiceName';
+  totalRowCount = 0;
+  isLoading: boolean;
+  constructor(
+    private serviceSetup: ServiceSetupService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService
+  ) { }
 
   ngOnInit() {
-    this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.TableGridSize;
-    this.pageSizeList = PaginationConfig.Rows;
-    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
-    this.searchStatus = "";
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
+    this.searchStatus = true;
     this.getAllserviceSetupDetails();
   }
 
   // Get All Services
   getAllserviceSetupDetails() {
-    this.isLoading = true;
-    this.serviceSetup.getServiceSetup().subscribe(data => {
-      this.isLoading = false;
+    const serviceObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search !== '' ? this.search : null,
+      sortOrder: null,
+      sortBy: null,
+      status: this.searchStatus == '' ? null : this.searchStatus
+    };
+    this.spinner.show();
+    this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
+        this.totalRowCount = 0;
+        this.serviceSetupDetails = [];
         const serviceDetails = JSON.parse(data.resultData);
-        this.serviceSetupDetails = serviceDetails.ServiceSetup;
+        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
+          this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;
+          if (this.serviceSetupDetails.length === 0) {
+            this.isTableEmpty = true;
+          } else {
+            this.sort('ServiceName');
+            this.totalRowCount = serviceDetails.ServiceSetup.Count.Count;
+            this.collectionSize = Math.ceil(this.totalRowCount / this.pageSize) * 10;
+            this.isTableEmpty = false;
+          }
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    }, (err) => {
+      this.spinner.hide();
+    });
+  }
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllserviceSetupDetails();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllserviceSetupDetails();
+  }
+
+  serviceSearch() {
+    this.page = 1;
+    const obj = {
+      serviceSearch: this.search,
+      status: this.searchStatus == '' ? null : this.searchStatus
+    };
+    this.serviceSetup.ServiceSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.serviceSetupDetails = location.ServiceSearch;
         if (this.serviceSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.serviceSetupDetails.length/this.pageSize) * 10;
+          this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
-  }
-  paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllserviceSetupDetails()
-  }
-  paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllserviceSetupDetails()
-  }
-
-  serviceSearch(){
-    this.page = 1;
-    const obj ={
-      serviceSearch: this.search,
-      status: this.searchStatus === "" ? 2 :  Number(this.searchStatus)
-   }
-   this.serviceSetup.ServiceSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.serviceSetupDetails = location.ServiceSearch;
-       if (this.serviceSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.collectionSize = Math.ceil(this.serviceSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
   }
   edit(data) {
     this.selectedData = data;
@@ -108,7 +131,7 @@ export class ServiceSetupListComponent implements OnInit {
   // Delete Service
   confirmDelete(data) {
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
-      if (res.status === "Success") {
+      if (res.status === 'Success') {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');
         this.getAllserviceSetupDetails();
       } else {
@@ -116,6 +139,23 @@ export class ServiceSetupListComponent implements OnInit {
       }
     });
   }
+  sort(property) {
+    this.isDesc = !this.isDesc; // change the direction
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+    this.serviceSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+
 
   closePopupEmit(event) {
     if (event.status === 'saved') {

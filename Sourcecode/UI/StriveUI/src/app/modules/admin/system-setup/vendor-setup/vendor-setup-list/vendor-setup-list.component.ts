@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { VendorService } from 'src/app/shared/services/data-service/vendor.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ToastrService } from 'ngx-toastr';
-import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vendor-setup-list',
@@ -17,51 +18,39 @@ export class VendorSetupListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  search : any = '';
+  search: any = '';
 
   collectionSize: number = 0;
   page: any;
   pageSize: number;
   pageSizeList: number[];
-  constructor(private vendorService: VendorService, private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+  isDesc: boolean = false;
+  column: string = 'VendorName';
+  EmitPopup: boolean = true;
+  constructor(
+    private vendorService: VendorService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.TableGridSize;
-    this.pageSizeList = PaginationConfig.Rows;
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllvendorSetupDetails();
   }
 
-  vendorSearch(){
+  vendorSearch() {
     this.page = 1;
-    const obj ={
+    const obj = {
       vendorSearch: this.search
-   }
-   this.vendorService.VendorSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.vendorSetupDetails = location.VendorSearch;
-       if (this.vendorSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
-  }
-
-  // Get All Vendors
-  getAllvendorSetupDetails() {
-    this.isLoading = true;
-    this.vendorService.getVendor().subscribe(data => {
-      this.isLoading = false;
+    }
+    this.spinner.show();
+    this.vendorService.VendorSearch(obj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
-        const vendor = JSON.parse(data.resultData);
-        this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === 'True');
-        console.log(this.vendorSetupDetails, 'vendor');
+        const location = JSON.parse(data.resultData);
+        this.vendorSetupDetails = location.VendorSearch;
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -71,19 +60,69 @@ export class VendorSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+    });
+  }
+  sort(property) {
+    if(this.EmitPopup == false){
+      this.isDesc = false;      
+
+    }
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = property;
+    let direction = this.isDesc ? 1 : -1;
+
+    this.vendorSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+  // Get All Vendors
+  getAllvendorSetupDetails() {
+    this.vendorService.getVendor().subscribe(data => {
+      this.isLoading = false;
+      if (data.status === 'Success') {
+        const vendor = JSON.parse(data.resultData);
+        this.vendorSetupDetails = vendor.Vendor.filter(item => item.IsActive === 'True');
+
+        console.log(this.vendorSetupDetails, 'vendor');
+        if (this.vendorSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          
+            this.sort('VendorName')
+
+          if(this.EmitPopup == false){
+            this.isDesc = true;      
+
+          }
+          this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
+
+    this.pageSize = +this.pageSize;
+    this.page = event;
+
     this.getAllvendorSetupDetails()
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+
     this.getAllvendorSetupDetails()
   }
   edit(data) {
@@ -114,6 +153,8 @@ export class VendorSetupListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.EmitPopup = false;
+
       this.getAllvendorSetupDetails();
     }
     this.showDialog = event.isOpenPopup;

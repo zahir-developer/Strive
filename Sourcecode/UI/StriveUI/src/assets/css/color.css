@@ -55,7 +55,14 @@ Color
 	color: var(--primary-color) !important;
 }
 
+.ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider {
+    background: var(--primary-color) !important;
+}
 
+.nav-tabs .nav-link.active {
+	color: #FFFFFF;
+    background-color: var(--primary-color) !important;
+}
 
 .theme-optional-icon-color
 {

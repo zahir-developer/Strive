@@ -1,3 +1,6 @@
-<nav class="navbar navbar-expand-sm bg-light">
-  Footer
+<nav class="nav navbar p-0" style="position: fixed;height: 43px; bottom: 0; width: 96%;" *ngIf="isLoggedIn$ | async as isLoggedIn">
+  <ul class="w-100 bg-light p-t-5 p-b-5">
+    <div class="d-flex float-right align-self-center m-r-40">Powered By Strive</div>
+  </ul>
 </nav>
+<!-- navbar-expand-sm bg-light -->

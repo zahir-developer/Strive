@@ -6,52 +6,60 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Bonus List</h5>&nbsp;
+                        <button type="button" class="btn btn-md theme-primary-button-color float-right"
+                        (click)="addBonus()">Add New Bonus  </button>
                     </div>
+                   
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
                             <div class="search-container ">
                                 <div class="form-row">
-                                    <div class="form-group col-lg-2">
+                                    <div class="form-group col-lg-3  col-lg-offset-1 m-l-30">
                                         <label>Location:</label>
                                         <app-location-dropdown (emitLocation)="onLocationChange($event)">
                                         </app-location-dropdown>
                                     </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="form-group col-lg-2">
+
+                                    <!-- <div class="form-group col-lg-2">
                                         <label>Month/Year:</label>
                                         <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
                                             class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY',showWeekNumbers: false }" (bsValueChange)="getBonusList()">
+                                    </div> -->
+                                    <div class="form-group col-lg-offset-1 col-lg-2 m-l-60">
+                                        <label>Month:</label>
+
+                                        <app-month-picker (emitMonth)='onMonthChange($event)'></app-month-picker>
                                     </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="form-group col-lg-2">
+
+                                    <div class="form-group col-lg-2 m-l-60">
+                                        <label>Year:</label>
+
+                                        <app-year-picker (emitYear)="onYearChange($event)"></app-year-picker>
+                                    </div>                     
+                                    <div class="form-group col-lg-2 m-l-55">
                                         <label>Status:</label>
                                         <div class="m-t-8"><strong>Pending</strong></div>
                                     </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="form-group col-lg-2">
-                                        <label></label>
-                                        <button type="button" class="btn theme-primary-button-color"
-                                            (click)="addBonus()">Add</button>
-                                    </div>
+                                   
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10">
+                                <table class="table  table-striped m-t-10" aria-labelledby="bonus-setup">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Min</th>
-                                            <th scope="col">Max</th>
-                                            <th scope="col">No. of washes</th>
-                                            <th scope="col">Bonus Amount</th>
-                                            <th scope="col">Total</th>
+                                            <th scope="col" class="text-center">Min</th>
+                                            <th scope="col" class="text-center">Max</th>
+                                            <th scope="col" class="text-center">No. of washes</th>
+                                            <th scope="col" class="text-center">Bonus Amount</th>
+                                            <th scope="col" class="text-center">Total</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let bonus of monthBonusList; let i = index">
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i)"
-                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' || isMinValueObj?.isMinValue && isMinValueObj?.index === i}"
+                                                <input type="text" numbersOnly [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i);validateMaxValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' }"
                                                     class="form-control rounded-0 input-table text-right">
                                                 <div *ngIf="submitted && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
@@ -59,15 +67,15 @@
                                                 <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
                                                 </div>
-                                                <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
+                                                <!-- <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
-                                                </div>
-                                                <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
+                                                </div> -->
+                                                <!-- <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
                                                     Min value greater than Max value
-                                                </div>
+                                                </div> -->
                                             </td>
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.Max"
+                                                <input type="text" numbersOnly [(ngModel)]="bonus.Max"
                                                     (change)="validateMaxValue(bonus, i)"
                                                     [ngClass]="{ 'is-invalid': submitted && bonus.Max === '' || isValueMax && bonus.Max === '' || isValueObj?.isValueMax && isValueObj?.index === i }"
                                                     class="form-control rounded-0 input-table text-right">
@@ -77,16 +85,17 @@
                                                 <div *ngIf="isValueMax && bonus.Max === ''" class="invalid-feedback">
                                                     Enter Max value
                                                 </div>
-                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i" class="invalid-feedback">
-                                                    Max value is greater than Min value
+                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i && bonus.Min !== ''" class="invalid-feedback">
+                                                    Max value should be greater than Min value
                                                 </div>
+                                            
                                             </td>
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.noOfWashes"
+                                                <input type="text" numbersOnly [(ngModel)]="bonus.noOfWashes" [disabled]='true'
                                                     class="form-control rounded-0 input-table text-right">
                                             </td>
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.BonusAmount"
+                                                <input type="text" numbersOnly [(ngModel)]="bonus.BonusAmount"
                                                     [ngClass]="{ 'is-invalid': submitted && bonus.BonusAmount === ''|| isValueMax && bonus.BonusAmount === '' }"
                                                     class="form-control rounded-0 input-table text-right">
                                                 <div *ngIf="submitted && bonus.BonusAmount === ''"
@@ -99,8 +108,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <input type="text" [(ngModel)]="bonus.Total"
-                                                    class="form-control rounded-0 input-table text-right">
+                                                <input type="number" (input) = "total()" change numbersOnly [(ngModel)]="bonus.Total"
+                                                    class="form-control rounded-0 input-table text-right" [disabled]='true'>
                                             </td>
                                             <td>
                                                 <em class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" pTooltip="Delete" tooltipPosition="bottom"
@@ -109,8 +118,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <table class="table timeclcok-tb">
+                                <table class="table timeclcok-tb" aria-labelledby="summary">
                                     <thead>
+                                        <th scope="col"></th>
                                     </thead>
                                     <tbody>
                                         <tr>
@@ -122,7 +132,7 @@
                                                         No of Bad Reviews:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" [(ngModel)]="noOfBadReviews" (input)="totalBadReviewAmount()"
+                                                        <input type="number" numbersOnly [(ngModel)]="noOfBadReviews" (input)="totalBadReviewAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
                                                 </div>
@@ -133,7 +143,7 @@
                                                         Deductions Amount:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" [(ngModel)]="badReviewDeductionAmount"
+                                                        <input type="number" numbersOnly [(ngModel)]="badReviewDeductionAmount"
                                                             (input)="totalBadReviewAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
@@ -141,7 +151,7 @@
                                             </td>
                                             <td class="p-t-10" style="width: 26%">
                                                 <span class="font-weight-600 mr-2">Bad review
-                                                    Deductions:&nbsp;&nbsp;&nbsp;{{badReviewDeduction}}</span>
+                                                    Deductions:&nbsp;&nbsp;&nbsp;{{negativebadReviewDeduction}}</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -153,7 +163,7 @@
                                                         No of Collisions:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" [(ngModel)]="noOfCollisions" (input)="totalCollisionAmount()"
+                                                        <input type="number" numbersOnly [(ngModel)]="noOfCollisions" (input)="totalCollisionAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
                                                 </div>
@@ -164,7 +174,7 @@
                                                         Deductions Amount:
                                                     </div>
                                                     <div class="col-4">
-                                                        <input type="text" [(ngModel)]="collisionDeductionAmount"
+                                                        <input type="number" numbersOnly [(ngModel)]="collisionDeductionAmount"
                                                             (input)="totalCollisionAmount()"
                                                             class="form-control rounded-0 input-table text-right">
                                                     </div>
@@ -172,7 +182,7 @@
                                             </td>
                                             <td class="p-r-20 p-t-10" style="width: 26%">
                                                 <span class="font-weight-600 mr-2">Collisions
-                                                    Deductions:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{collisionDeduction}}</span>
+                                                    Deductions:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{negativecollisionDeduction}}</span>
                                             </td>
                                         </tr>
                                     </tbody>

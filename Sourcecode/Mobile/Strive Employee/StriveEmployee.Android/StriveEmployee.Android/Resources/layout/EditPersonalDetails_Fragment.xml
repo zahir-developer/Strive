@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -36,42 +36,49 @@
             android:background="@color/mtrl_btn_transparent_bg_color"
             android:text="Save" />
         </RelativeLayout>
-     <LinearLayout
+        <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/fifteen"
-        android:layout_marginRight="@dimen/ten"
-        android:layout_marginLeft="@dimen/ten"
-        android:layout_marginBottom="90dp"
-        android:background="@drawable/secondarylinearlayout">
-        <android.support.design.widget.TextInputLayout
+        android:layout_marginBottom="95dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="45dp"
+                android:background="@drawable/secondarylinearlayout">
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fifty"    
                 android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                android:background="@drawable/edit_text"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/borderededittext"
                 app:hintEnabled="true">
                 <EditText
-                    android:id="@+id/fullName_EditText"
+                    android:id="@+id/firstName_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty"
                     android:paddingBottom="@dimen/ten"
-                    android:hint="Full Name"
+                    android:hint="First Name"
                     android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
+                    android:background="@null"
                     android:inputType="text"
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fifty"    
                 android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                android:background="@drawable/edit_text"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"
+                android:background="@drawable/borderededittext"
                 app:hintEnabled="true">
                 <EditText
                     android:id="@+id/lastName_EditText"
@@ -80,106 +87,102 @@
                     android:paddingBottom="@dimen/ten"
                     android:hint="Last Name"
                     android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
+                    android:background="@null"
+                    android:inputType="number"
                     android:textSize="@dimen/textSixteen"
                     android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty"
-            android:layout_marginTop="@dimen/fifteen"
-            android:layout_marginLeft="@dimen/fifteen"
-            android:layout_marginRight="@dimen/fifteen"
-            android:gravity="center"
-            android:background="@drawable/borderededittext">
-            <Spinner
-                android:id="@+id/genderOptions_Spinner"
-                android:layout_marginTop="@dimen/five"
-                android:layout_marginBottom="@dimen/five"
+            </android.support.design.widget.TextInputLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="@dimen/fifty"
+                android:layout_marginTop="@dimen/fifteen"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"
+                android:gravity="center"
+                android:background="@drawable/borderededittext">
+                <Spinner
+                    android:id="@+id/genderOptions_Spinner"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginBottom="@dimen/five"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>          
+            <android.support.design.widget.TextInputLayout
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/fifty"    
+               android:layout_marginTop="@dimen/fifteen"
+               android:layout_marginLeft="@dimen/twenty"
+               android:layout_marginRight="@dimen/twenty"
+               android:background="@drawable/borderededittext"
+               app:hintEnabled="true">
+               <EditText
+                  android:id="@+id/contactNumber_EditText"
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/forty"
+                   android:paddingBottom="@dimen/ten"
+                   android:hint="Contact Number"
+                   android:textColorHint="@color/defaultHintColor"
+                   android:background="@null"
+                   android:inputType="textEmailAddress"
+                   android:textSize="@dimen/textSixteen"
+                   android:fontFamily="@font/opensans_regular"/> 
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/fifty"    
+               android:layout_marginTop="@dimen/fifteen"
+               android:layout_marginLeft="@dimen/twenty"
+               android:layout_marginRight="@dimen/twenty"
+               android:background="@drawable/borderededittext"
+               app:hintEnabled="true">
+               <EditText
+                  android:id="@+id/address_EditText"
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/forty"
+                   android:paddingBottom="@dimen/ten"
+                   android:hint="Address"
+                   android:textColorHint="@color/defaultHintColor"
+                   android:background="@null"
+                   android:inputType="textEmailAddress"
+                   android:textSize="@dimen/textSixteen"
+                   android:fontFamily="@font/opensans_regular"/> 
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/fifty"    
+               android:layout_marginTop="@dimen/fifteen"
+               android:layout_marginLeft="@dimen/twenty"
+               android:layout_marginRight="@dimen/twenty"
+               android:background="@drawable/borderededittext"
+               app:hintEnabled="true">
+               <EditText
+                  android:id="@+id/ssn_EditText"
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/forty"
+                   android:paddingBottom="@dimen/ten"
+                   android:hint="SSN"
+                   android:textColorHint="@color/defaultHintColor"
+                   android:background="@null"
+                   android:inputType="number"
+                   android:textSize="@dimen/textSixteen"
+                   android:fontFamily="@font/opensans_regular"/> 
+            </android.support.design.widget.TextInputLayout>
+           <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fifty"
+                android:layout_marginTop="@dimen/fifteen"
+                android:layout_marginLeft="@dimen/twenty"
+                android:layout_marginRight="@dimen/twenty"
+                android:gravity="center"
+                android:background="@drawable/borderededittext">
+                <Spinner
+                    android:id="@+id/immigrationOptions_Spinner"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginBottom="@dimen/five"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty"    
-                android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                android:background="@drawable/edit_text"
-                app:hintEnabled="true">
-                <EditText
-                    android:id="@+id/contactNumber_EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty"
-                    android:paddingBottom="@dimen/ten"
-                    android:hint="Contact Number"
-                    android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
-                    android:textSize="@dimen/textSixteen"
-                    android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty"    
-                android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                android:background="@drawable/edit_text"
-                app:hintEnabled="true">
-                <EditText
-                    android:id="@+id/address_EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty"
-                    android:paddingBottom="@dimen/ten"
-                    android:hint="Address"
-                    android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
-                    android:textSize="@dimen/textSixteen"
-                    android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty"    
-                android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                android:background="@drawable/edit_text"
-                app:hintEnabled="true">
-                <EditText
-                    android:id="@+id/ssn_EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty"
-                    android:paddingBottom="@dimen/ten"
-                    android:hint="SSN"
-                    android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
-                    android:textSize="@dimen/textSixteen"
-                    android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty"    
-                android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                android:background="@drawable/edit_text"
-                app:hintEnabled="true">
-                <EditText
-                    android:id="@+id/immigration_EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/forty"
-                    android:paddingBottom="@dimen/ten"
-                    android:hint="Immigration Status"
-                    android:textColorHint="@color/defaultHintColor"
-                    android:background="@drawable/edit_text"
-                    android:inputType="text"
-                    android:textSize="@dimen/textSixteen"
-                    android:fontFamily="@font/opensans_regular"/> 
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

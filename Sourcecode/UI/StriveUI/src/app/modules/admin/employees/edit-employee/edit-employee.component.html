@@ -71,6 +71,16 @@
                                 </div>
                             </div>
                             <div class="form-row">
+                                <div class="form-group col-lg-3">
+                                    <label for="inputState">State&nbsp;<span class="required">*</span></label>
+                                    <app-state-dropdown [selectedStateId]="selectedStateId" [isdisable]="true"
+                                        (stateId)="getSelectedStateId($event)">
+                                    </app-state-dropdown>
+                                </div>
+                                <div class="form-group  col-lg-3 ">
+                                    <label for="inputState">City&nbsp;<span class="required">*</span></label>
+                                    <app-city [State] = "State" (selectCity)="selectCity($event)" [selectedStateId]="selectedStateId" [selectedCityId]="selectedCityId"></app-city>
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
                                     <input type="text" maxlength="14" class="form-control" appPhoneMask id="inputPhone"
@@ -174,15 +184,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
+                                    <label for="inputhourrate">Hourly Rate <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="inputhourrate"
                                         formControlName="hourlyRateWash" appTwoDecimalNumber placeholder="$0.00"
                                         [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
                                     <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
-                                        <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
+                                        <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate is required</div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <!-- <div class="form-group col-md-3">
                                     <label for="inputcommission">Detail Commission <span class="required"
                                             *ngIf="isRequired === true">*</span></label>
                                     <select id="inputcommission" class="form-control" formControlName="comType"
@@ -195,7 +205,7 @@
                                     <div *ngIf="submitted && g.comType.errors" class="invalid-feedback">
                                         <div *ngIf="g.comType.errors">Detail Commission is required</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- <div class="form-group col-md-3" *ngIf="isHourlyRate === true">
                                     <label for="inputhourdetail">Hourly Rate-Details</label>
                                     <input type="text" class="form-control" [appMaxLength]="9" appTwoDecimalNumber
@@ -216,7 +226,7 @@
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'"
                                         [disabled]="!isEditEmployeeList && actionType === 'view'"
                                         [settings]="dropdownSettings" [data]="employeeRoles" formControlName="roles"
-                                        (onDeSelect)="onRoleDeSelect($event)" (onSelect)="onItemSelect($event)">
+                                        (onDeSelect)="onRoleDeSelect($event)">
                                     </ng-multiselect-dropdown>
                                 </div>
                                 <div class="form-group col-md-3">

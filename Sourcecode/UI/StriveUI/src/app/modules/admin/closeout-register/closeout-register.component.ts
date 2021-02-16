@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 
 @Component({
   selector: 'app-closeout-register',
@@ -41,13 +42,16 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   cashRegisterRollForm: FormGroup;
   closeoutRegisterForm: FormGroup;
   date = moment(new Date()).format('MM/DD/YYYY');
-
+  CloseRegisterId: any;
+  drawerId: any;
   constructor(
-    private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService,
+    private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.getDocumentType()
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
+    this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
   }
   ngAfterViewInit() {
@@ -92,6 +96,14 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     const today = moment(this.selectDate).format('YYYY-MM-DD');
     const cashRegisterType = "CLOSEOUT";
     const locationId = +localStorage.getItem('empLocationId');
+    this.closeoutRegisterForm.reset();
+    this.cashRegisterCoinForm.reset();
+    this.cashRegisterBillForm.reset();
+    this.cashRegisterRollForm.reset();
+    this.totalCoin = 0;
+    this.totalBill = 0;
+    this.totalRoll = 0;
+    this.totalCash = 0;
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
@@ -141,13 +153,30 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.closeoutRegisterForm.patchValue({
             cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1
           });
-        }else{
+        } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
+          || this.closeOutDetails.CashRegisterRolls === null || this.closeOutDetails.CashRegisterBills === null) {
+          this.cashRegisterCoinForm.enable();
+          this.cashRegisterBillForm.enable();
+          this.cashRegisterRollForm.enable();
+          this.closeoutRegisterForm.enable();
+          this.isUpdate = false;
+        } else {
           this.isUpdate = false;
           this.closeoutRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
           this.cashRegisterBillForm.reset();
           this.cashRegisterRollForm.reset();
         }
+      }
+    });
+  }
+  getDocumentType() {
+    this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === "CloseOut")[0].CodeId;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
       }
     });
   }
@@ -164,9 +193,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
     const bill = {
@@ -180,9 +209,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       s100: this.cashRegisterBillForm.value.billHundreds,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
     const roll = {
@@ -195,9 +224,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       halfDollars: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
     const other = {
@@ -210,22 +239,22 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       payouts: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
-      cashRegisterType: 120,
+      cashRegisterType: this.CloseRegisterId,
       locationId: +localStorage.getItem('empLocationId'),
-      drawerId: 1,
+      drawerId: +this.drawerId,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     };
     const formObj = {
@@ -329,7 +358,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
   // Calculate TotalCash
   getTotalCash() {
-    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount; 
+    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
   }
   onValueChange(event) {
     let selectedDate = event;

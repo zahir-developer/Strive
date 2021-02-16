@@ -15,5 +15,9 @@ namespace Strive.BusinessEntities.ViewModel
         public int? LocationId { get; set; }
 
         public int? DrawerId { get; set; }
+
+        public DateTime? StoreTimeIn { get; set; }
+        public DateTime? StoreTimeOut { get; set; }
+        public int? Status { get; set; }
     }
 }

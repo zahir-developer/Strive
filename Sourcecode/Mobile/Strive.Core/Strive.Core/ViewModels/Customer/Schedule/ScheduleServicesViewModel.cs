@@ -1,0 +1,80 @@
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Resources;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Strive.Core.ViewModels.Customer.Schedule
+{
+    public class ScheduleServicesViewModel : BaseViewModel
+    {
+
+        #region Properties
+        
+        public AvailableScheduleServicesModel scheduleServices { get; set; }
+        public int uniqueServiceID { get; set; } = 0;
+
+        #endregion Properties
+
+        #region Commands
+
+        public async Task GetScheduledServices()
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.GetScheduleServices();
+            
+            if(result == null)
+            {
+                _userDialog.Alert("No Services available");
+            }
+            else
+            {
+                scheduleServices = new AvailableScheduleServicesModel();
+                scheduleServices.ServicesWithPrice = new List<ServicesWithPrice>();
+                
+                foreach(var data in result.ServicesWithPrice)
+                {
+                    if(uniqueServiceID != data.ServiceId && string.Equals(data.ServiceTypeName, "Details"))
+                    {
+                        scheduleServices.ServicesWithPrice.Add(data);
+                    }
+                    uniqueServiceID = data.ServiceId;
+                }
+            }
+            _userDialog.HideLoading();
+        }
+
+        public async void NavToSelect_Loc()
+        {
+            if(checkSelectedService())
+            {
+                await _navigationService.Navigate<ScheduleLocationsViewModel>();
+            }
+        }
+
+        public async void NavToSchedule()
+        {
+            await _navigationService.Navigate<ScheduleViewModel>();
+        }
+
+        public bool checkSelectedService()
+        {
+            var selected = false;
+            if(CustomerScheduleInformation.ScheduleServiceID != -1)
+            {
+                selected = true;  
+            }
+            else
+            {
+                _userDialog.Alert("Please select a service to proceed.");
+                selected = false;
+            }
+            return selected;
+        }
+        #endregion Commands
+
+    }
+}

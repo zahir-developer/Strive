@@ -6,6 +6,7 @@ namespace Strive.Core.Utils
        // public const string BASE_URL = "http://10.0.2.2:60001";
 
         public const string BASE_URL = "http://14.141.185.75:5004";
+        public const string AZURE_URL = "http://40.114.79.101:5004";
         public static string Token { get; set; }
 
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
@@ -101,7 +102,21 @@ namespace Strive.Core.Utils
         public const string URL_GET_COLLISIONS = "/Admin/Collision/GetCollisionById/";
 
         public const string URL_SAVE_DOCUMENTS = "/Admin/Document/SaveDocument";
+            
+        public const string URL_CHECKOUT_DETAILS = "/Admin/Checkout/GetAllCheckoutDetails/";
 
-        public const string URL_CHECKOUT_DETAILS = "/Admin/Checkout/GetCheckedInVehicleDetails";
+        public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllDetails";
+
+        public const string URL_SCHEDULE_SERVICES_AVAILABLE = "/Admin/Sales/GetServicesWithPrice";
+
+        public const string URL_SCHEDULE_TIME_SLOTS = "/Admin/Dashboard/GetAvailablilityScheduleTime";
+
+        public const string URL_EMPLOYEE_DOCUMENTS_ADD = "/Admin/Document/SaveEmployeeDocument";
+
+        public const string URL_EMPLOYEE_DOCUMENTS_DOWNLOAD = "/Admin/Document/GetEmployeeDocumentById/";
+
+        public const string URL_EMPLOYEE_DOCUMENTS_DELETE = "/Admin/Document/DeleteEmployeeDocument/";
+
+        public const string URL_UPDATE_EMPLOYEE_PERSONAL_DETAILS = "/Admin/Employee/Update";
     }
 }

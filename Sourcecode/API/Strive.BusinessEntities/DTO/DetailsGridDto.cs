@@ -8,7 +8,8 @@ namespace Strive.BusinessEntities.DTO
 {
     public class DetailsGridDto
     {
-        public DateTime JobDate { get; set; }
+        public DateTime? JobDate { get; set; }
         public int LocationId { get; set; }
+        public int ClientId { get; set; }
     }
 }

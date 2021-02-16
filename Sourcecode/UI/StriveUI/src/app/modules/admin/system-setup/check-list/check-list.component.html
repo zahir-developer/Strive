@@ -7,79 +7,76 @@
                     <div class=" p-b-20 m-b-15">
                         <h5 class="d-inline-block">Check List</h5>&nbsp;
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="checlist()">Add
+                            (click)="checlist()">Add New Item
                         </button>
-                        
+
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
                             <div class="search-container  " *ngIf="checklistAdd">
-                                <form><div class ="title-border m-b-22"></div>
+                                <form>
+                                    <div class="title-border m-b-22"></div>
                                     <div class="form-row">
                                         <div class="form-group col-3 "> <input type="text" class="form-control"
-                                                name="CheckList" [(ngModel)]="checkListName"
+                                                name="CheckList" [(ngModel)]="checkListName" maxlength="100"
                                                 placeholder="Enter Check List"> </div>&nbsp;
 
-                                        <div class="form-group col-3 m-l-140">
+                                        <div class="form-group col-3 m-l-80">
 
                                             <select name="Roles" class="form-control" [(ngModel)]="RoleId"
                                                 placeholder="Select Role">
-                                                <option value='' selected hidden>Select</option>
-
+                                                <option value='' selected hidden>Select Role</option>
                                                 <option *ngFor="let role of rollList" value="{{role.RoleMasterId}}">
                                                     {{role.RoleName}}</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-2 m-l-120 m-t-5">
-
-                                            <em class="fa fa-floppy-o edit-list theme-secondary-icon-color m-r-10"
-                                                style="color:green" pTooltip="save" tooltipPosition="bottom"
-                                                (click)="add('add',[])"></em>&nbsp;
-                                            <em class="fa fa-ban  theme-optional-icon-color" style="color:red"
-                                                pTooltip="cancel" tooltipPosition="bottom"
-                                                (click)="checlistcancel()"></em>
-
+                                        <div class="form-group col-2 m-l-90 ">
+                                            <button type="button" style="margin-left: 5%;"
+                                                class="btn theme-primary-button-color btn-md float-right"
+                                                (click)="checklistcancel()">Cancel</button>
+                                            <button type="button"
+                                                class="btn theme-primary-button-color btn-md float-right"
+                                                (click)="add('add',[])">Save</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
 
-                                <table class="table  table-striped m-t-10">
+                            <div class="table-responsive">
+
+                                <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th> Name</th>
-                                            <th> Role Name</th>
-                                            <th>Action</th>
+                                            <th class="pointer" scope="col" (click)="sort('Name')">Name&nbsp; <i
+                                                    class="fa" *ngIf="column =='Name'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" scope="col" (click)="sort('RoleName')">Role&nbsp; <i
+                                                    class="fa" *ngIf="column =='RoleName'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
-                                                    {{checkList.Name}}
+                                                    <span title="{{checkList.Name}}">
+                                                        {{checkList.Name | slice:0:15}}
+                                                        {{(checkList.Name!== null) ? checkList.Name.length <= 15 ? '': '...':''}}
+                                                    </span>
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
-                                                    <input type="text" class="form-control" name="CheckList"
-                                                        [(ngModel)]="checkList.Name" placeholder="Enter Check List">
+                                                    <input type="text" maxlength="100" class="form-control"
+                                                        name="CheckList" [(ngModel)]="checkList.Name"
+                                                        placeholder="Enter Check List">
                                                 </span>
                                             </td>
 
 
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
-                                                    <!--  <ng-multiselect-dropdown name ="Roles" 
-                                                    [(ngModel)] = "checkList.RoleId" 
-                                                    [placeholder]="'Select Role'"
-                                            [settings]="dropdownSettings" [data]="rollList" 
-                                           
-                                            (onDeSelect)="onRoleDeSelect($event)" (onSelect)="onItemSelect($event)"
-                                           > 
-                                        </ng-multiselect-dropdown> -->
                                                     <div class="form-group d-flex">
 
                                                         <select name="Roles" [(ngModel)]="checkList.RoleId"
@@ -90,21 +87,21 @@
                                                     </div>
                                                 </span>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
-
                                                     {{checkList.RoleName}}
-                                                </span></td>
+                                                </span>
+                                            </td>
 
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
                                                     <em class="fa fa-floppy-o  theme-secondary-icon-color m-r-10 m-t-8"
-                                                        style="color:green" pTooltip="save" tooltipPosition="bottom"
+                                                        style="color:green" pTooltip="Save" tooltipPosition="bottom"
                                                         (click)="submit(checkList)"></em>&nbsp;&nbsp;
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
                                                     <em class="fa fa-ban  theme-optional-icon-color m-t-8"
-                                                        style="color:red" pTooltip="cancel" tooltipPosition="bottom"
+                                                        style="color:red" pTooltip="Cancel" tooltipPosition="bottom"
                                                         (click)="cancel()"></em>
                                                 </span>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
@@ -119,47 +116,31 @@
 
                                             </td>
                                         </tr>
+                                        <tr *ngIf="checkListDetails.length === 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
+                                        </tr>
                                     </tbody>
                                 </table>
-                                <div class="row pull-right" >
+                                <div class="row pull-right">
                                     <div class="col-6">
-                                     <ngb-pagination *ngIf="checkListDetails.length > 10" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
-                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
-                                         [boundaryLinks]="true" class="d-flex justify-content-end">
-                                     </ngb-pagination> 
-                                     </div>
-                                     <select *ngIf="checkListDetails.length > 10" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
-                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
- 
-                                     </select>
-                                 </div>
+                                        <ngb-pagination *ngIf="checkListDetails.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="checkListDetails.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="loadingDiv" *ngIf="isLoading">
-                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- <div class="bootstrap-timepicker">
-    <input id="timepicker5" type="text" class="input-small">
-    <i class="icon-time"></i>
-</div>
-
-
-<div class="input-group bootstrap-timepicker timepicker">
-    <input id="timepicker" class="form-control" data-provide="timepicker" data-template="modal" data-minute-step="1" data-modal-backdrop="true" type="text"/></div>
-<div class="input-group bootstrap-timepicker timepicker pull-right">
-            <input id="timepicker3" type="text" class="form-control input-small">
-        </div>
- 
-        <script type="text/javascript">
-            $('#timepicker3').timepicker({
-                minuteStep: 5,
-                showInputs: false,
-                disableFocus: true
-            });
-        </script> -->

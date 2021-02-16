@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessLogic.Client;
 using Strive.Common;
@@ -22,13 +23,11 @@ namespace Admin.API.Controllers
         [Route("UpdateClientVehicle")]
         public Result ClientVehicleSave([FromBody] ClientDto client) => _bplManager.UpdateClientVehicle(client);
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAll")]
-        public Result GetAllClient()
-        {
-            return _bplManager.GetAllClient();
+        public Result GetAllClient([FromBody] SearchDto  searchDto) =>_bplManager.GetAllClient(searchDto);
 
-        }
+        
         [HttpDelete]
         [Route("{clientId}")]
         public Result DeleteClient(int clientId)
@@ -62,6 +61,7 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetClientCodes();
         }
+
         #region
         [HttpGet]
         [Route("GetStatementByClientId/{id}")]
@@ -72,6 +72,19 @@ namespace Admin.API.Controllers
         [Route("GetHistoryByClientId/{id}")]
         public Result GetHistoryByClientId(int id) => _bplManager.GetHistoryByClientId(id);
         #endregion
+
+        [HttpPost]
+        [Route("IsClientName")]
+        public Result IsClientName([FromBody]ClientNameDto clientNameDto) => _bplManager.IsClientName(clientNameDto);
+
+        [HttpGet]
+        [Route("GetAllName/{name}")]
+        public Result GetAllClientName(string name)
+        {
+            return _bplManager.GetAllClientName(name);
+
+        }
+
 
     }
 }

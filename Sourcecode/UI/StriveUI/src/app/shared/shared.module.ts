@@ -48,6 +48,11 @@ import { ExportFiletypeComponent } from './components/export-filetype/export-fil
 import { ChartsModule } from 'ng2-charts';
 import { SsnNumberMaskDirective } from './Directive/ssn-number-mask.directive';
 import { SearchPipe } from './common-search-pipe/search.pipe';
+import {DropdownModule} from 'primeng/dropdown';
+import { OrderByPipe } from './pipe/order-by.pipe';
+import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decimal-positive-negative-number.directive';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   imports: [
@@ -69,7 +74,11 @@ import { SearchPipe } from './common-search-pipe/search.pipe';
     NgMultiSelectDropDownModule.forRoot(),
     TooltipModule,
     NgbPaginationModule,
-    ChartsModule  ],
+    ChartsModule,
+    DropdownModule,
+    InputSwitchModule,
+    TabsModule.forRoot()
+  ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
@@ -79,7 +88,7 @@ import { SearchPipe } from './common-search-pipe/search.pipe';
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -88,7 +97,7 @@ import { SearchPipe } from './common-search-pipe/search.pipe';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

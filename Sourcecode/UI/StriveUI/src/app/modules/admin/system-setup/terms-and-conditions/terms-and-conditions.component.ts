@@ -4,6 +4,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-terms-and-conditions',
@@ -20,6 +21,7 @@ export class TermsAndConditionsComponent implements OnInit {
   documentTypeId: any;
 
   constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+    private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
 
   ngOnInit() {
@@ -40,38 +42,38 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   getDocument() {
-    this.isLoading = true;
-    this.documentService.getDocument(this.documentTypeId, "TERMSANDCONDITION").subscribe(data => {
-      this.isLoading = false;
+    this.spinner.show();
+    this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
-        this.fileName = this.document?.Document?.OriginalFileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
     }, (err) => {
       this.isLoading = false;
+      this.spinner.hide();
     });
   }
 
 
-  delete() {
+  delete(Id) {
     this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this Document? All related 
-    information will be deleted and the Document cannot be retrieved?`, 'Yes', 'No')
+    information will be deleted and the Document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete();
+          this.confirmDelete(+Id);
         }
       })
       .catch(() => { });
   }
 
-  confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId, 'TERMSANDCONDITION').subscribe(res => {
+  confirmDelete(Id) {
+    this.documentService.deleteDocumentById(Id, 'TERMSANDCONDITION').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
-        this.fileName= null;
+        this.fileName = null;
         this.getDocument();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
@@ -93,15 +95,34 @@ export class TermsAndConditionsComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
 
-  downloadPDF() {
-        const base64 = this.document.Document.Base64;
-        const linkSource = 'data:application/pdf;base64,' + base64;
-        const downloadLink = document.createElement('a');
-        const fileName = this.fileName;
-        downloadLink.href = linkSource;
-        downloadLink.download = fileName;
-        downloadLink.click();
+  // downloadPDF(documents) {
+  //   const base64 = documents.Base64;
+  //   const linkSource = 'data:application/pdf;base64,' + base64;
+  //   const downloadLink = document.createElement('a');
+  //   const fileName = documents.OriginalFileName;
+  //   downloadLink.href = linkSource;
+  //   downloadLink.download = fileName;
+  //   downloadLink.click();
+  // }
+
+  downloadPDF(documents) {
+    this.documentService.getDocumentById(documents.DocumentId, 'TERMSANDCONDITION').subscribe(res => {
+      if (res.status === 'Success') {
+        const documentDetails = JSON.parse(res.resultData);
+        console.log(documentDetails, 'detaila');
+        if (documentDetails.Document !== null) {
+          const details = documentDetails.Document.Document;
+          const base64 = details.Base64;
+          const linkSource = 'data:application/pdf;base64,' + base64;
+          const downloadLink = document.createElement('a');
+          const fileName = details.OriginalFileName;
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+      }
+    });
   }
-  
+
 
 }

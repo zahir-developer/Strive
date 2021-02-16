@@ -5,6 +5,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -30,22 +31,32 @@ export class EmployeeHandBookComponent implements OnInit {
   checklistAdd: boolean;
   showDialog: boolean;
   documentTypeId: any;
-  document: any;
+  document: any = [];
   fileName: any = null;
   Documents: any;
   url: any;
- 
-     constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
-      private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
+
+  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+    private spinner: NgxSpinnerService,
+
+    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
-  this.getDocumentType();
+    this.getDocumentType();
   }
 
   adddata(data, handbookDetails?) {
-    if (data === 'add') {     
-      this.selectedData = handbookDetails;
-      this.showDialog = true;
-    }
+    // if (this.document.Document !== null) {
+    //   this.toastr.showMessage({
+    //     severity: 'warning', title: 'Warning',
+    //     body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
+    //   });
+    // }
+    // else if (data === 'add') {
+    //   this.selectedData = handbookDetails;
+    //   this.showDialog = true;
+    // }
+    this.selectedData = handbookDetails;
+    this.showDialog = true;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -54,19 +65,19 @@ export class EmployeeHandBookComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
 
-  
-  delete() {
-    this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this document? All related 
-  information will be deleted and the document cannot be retrieved?`, 'Yes', 'No')
+
+  delete(Id) {
+    this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this document? 
+    All related information will be deleted and the document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete();
+          this.confirmDelete(+Id);
         }
       })
       .catch(() => { });
   }
-  confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId,'EMPLOYEEHANDBOOK').subscribe(res => {
+  confirmDelete(Id) {
+    this.documentService.deleteDocumentById(Id, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
         this.fileName = null;
@@ -76,45 +87,63 @@ export class EmployeeHandBookComponent implements OnInit {
       }
     });
   }
-  getDocumentType(){
+  getDocumentType() {
     this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
-          console.log(this.documentTypeId);
-          this.getDocument();
-
-      
+        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
+        console.log(this.documentTypeId);
+        this.getDocument();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
     });
   }
-  downloadPDF() {
-    const base64 = this.document.Document.Base64;
-    const linkSource = 'data:application/pdf;base64,' + base64;
-    const downloadLink = document.createElement('a');
-    const fileName = this.fileName;
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
-}
+  // downloadPDF(documents) {
+  //   const base64 = documents.Base64;
+  //   const linkSource = 'data:application/pdf;base64,' + base64;
+  //   const downloadLink = document.createElement('a');
+  //   const fileName = documents.OriginalFileName;
+  //   downloadLink.href = linkSource;
+  //   downloadLink.download = fileName;
+  //   downloadLink.click();
+  // }
   getDocument() {
-    this.isLoading = true;
-    this.documentService.getDocument(this.documentTypeId, "EMPLOYEEHANDBOOK").subscribe(data => {
-      this.isLoading = false;
+    this.spinner.show();
+    this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
-        this.fileName = this.document?.Document?.FileName;
+        // this.fileName = this.document?.Document?.FileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
     }, (err) => {
       this.isLoading = false;
+      this.spinner.hide();
     });
   }
 
-  
+  downloadPDF(documents) {
+    this.documentService.getDocumentById(documents.DocumentId, 'EMPLOYEEHANDBOOK').subscribe(res => {
+      if (res.status === 'Success') {
+        const documentDetails = JSON.parse(res.resultData);
+        console.log(documentDetails, 'detaila');
+        if (documentDetails.Document !== null) {
+          const details = documentDetails.Document.Document;
+          const base64 = details.Base64;
+          const linkSource = 'data:application/pdf;base64,' + base64;
+          const downloadLink = document.createElement('a');
+          const fileName = details.OriginalFileName;
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+      }
+    });
+  }
+
+
 }

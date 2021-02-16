@@ -42,8 +42,13 @@ namespace Strive.BusinessLogic.Location
             //var apiLocationId = CreateLocationForWeatherPortal();
 
             //location.Drawer = new BusinessEntities.Model.Drawer();
-            //bool status = new LocationRal(_tenant).AddLocation(location);
-            return ResultWrap(new LocationRal(_tenant).AddLocation, location, "Status");
+            //bool status = new LocationRal(_tenant).AddLocation(location);     
+            
+            var locationId =new LocationRal(_tenant).AddLocation(location);
+
+            var result =Bayslot(locationId);
+
+            return ResultWrap(locationId, "Status");
 
         }
 
@@ -141,8 +146,11 @@ namespace Strive.BusinessLogic.Location
         {
             return ResultWrap(new LocationRal(_tenant).DeleteLocationOffset, id, "LocationDelete");
         }
+        public Result Bayslot (int id)
+        {
 
-
+            return ResultWrap(new LocationRal(_tenant).AddBaySolt, id, "bayslot");
+        }
     }
 }
 

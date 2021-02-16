@@ -57,9 +57,9 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public bool AddDocument(DocumentDto documents)
+        public int AddDocument(DocumentDto documents)
         {
-            return dbRepo.InsertPc(documents, "DocumentId");
+            return dbRepo.InsertPK(documents, "DocumentId");
         }
 
         public bool DeleteDocument(int documentType)
@@ -76,6 +76,29 @@ namespace Strive.ResourceAccess
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@documentType", documentType);
             var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENT.ToString(), dynParams);
+            return result;
+        }
+
+        public bool DeleteDocumentById(int documentId)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@documentId", documentId);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Document.USPDELETEDOCUMENTBYID.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
+
+        public DocumentViewModel GetDocumentById(int documentId)
+        {
+            DynamicParameters dynParams = new DynamicParameters();
+            dynParams.Add("@documentId", documentId);
+            var result = db.FetchMultiResult<DocumentViewModel>(EnumSP.Document.USPGETDOCUMENTBYID.ToString(), dynParams);
+            return result;
+        }
+        public List<DocumentView> GetAllDocument(int documentTypeId)
+        {
+            _prm.Add("@documentType", documentTypeId);
+            var result = db.Fetch<DocumentView>(EnumSP.Document.USPGETALLDOCUMENT.ToString(), _prm);
             return result;
         }
     }

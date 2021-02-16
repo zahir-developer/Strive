@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -30,10 +31,25 @@ export class ServiceCreateEditComponent implements OnInit {
   isAdditional = false;
   isDetails: boolean;
   costErrMsg: boolean = false;
-  constructor(private serviceSetup: ServiceSetupService, private getCode: GetCodeService, private fb: FormBuilder, private toastr: ToastrService) { }
+  discountType: any;
+  priceLabel: string = 'Price';
+  isDiscounts: boolean;
+  discountServiceType: any;
+  employeeId: number;
+
+
+
+  constructor(
+    private serviceSetup: ServiceSetupService,
+    private getCode: GetCodeService,
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+    ) { }
 
   ngOnInit() {
-    this.Status = [{id : 0,Value :"Active"}, {id :1 , Value:"Inactive"}];
+    this.employeeId = +localStorage.getItem('empId');
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
     this.formInitialize();
     this.ctypeLabel = 'none';
     this.getCommissionType();
@@ -45,17 +61,19 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm = this.fb.group({
       serviceType: ['', Validators.required],
       name: ['', Validators.required],
-      description: ['', Validators.required],
-     cost: ['', Validators.required],
+      description: [''],
+      cost: ['', Validators.required],
       commission: ['',],
       commissionType: ['',],
+      discountType: ['',],
+      discountServiceType: ['',],
       upcharge: ['', Validators.required],
       parentName: ['',],
       status: ['',],
       fee: ['',],
       suggested: ['']
     });
-    this.serviceSetupForm.patchValue({status : 0});
+    this.serviceSetupForm.patchValue({ status: 0 });
   }
 
   get f() {
@@ -73,19 +91,21 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.get('upcharge').updateValueAndValidity();
         }
         this.serviceSetupForm.patchValue({
-          serviceType: this.selectedService.ServiceTypeId,
-          name: this.selectedService.ServiceName,
-          description : this.selectedService.Description,
-          cost: this.selectedService.Cost,
-          commission: this.selectedService.Commision,
-          commissionType: this.selectedService.CommissionTypeId,
-          fee: this.selectedService.CommissionCost,
-          upcharge: this.selectedService.Upcharges,
-          parentName: this.selectedService.ParentServiceId,
+          serviceType: this.selectedService?.ServiceTypeId,
+          name: this.selectedService?.ServiceName,
+          description: this.selectedService?.Description,
+          cost: this.selectedService?.Cost,
+          commission: this.selectedService?.Commision,
+          commissionType: this.selectedService?.CommissionTypeId,
+          fee: this.selectedService?.CommissionCost,
+          discountType: this.selectedService?.DiscountType,
+          upcharge: this.selectedService?.Upcharges,
+          discountServiceType: this.selectedService?.DiscountServiceType,
+          parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1
         });
         this.change(this.selectedService.Commision);
-        this.checkService(this.selectedService.ServiceTypeId);
+        this.checkService(this.selectedService.ServiceType);
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -98,7 +118,9 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.CommissionType = cType.Codes;
-        this.getParentType();
+        this.discountType = cType.Codes;
+        this.getAllServiceType();
+        // this.getParentType();
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -107,13 +129,25 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get ParentType
   getParentType() {
-    this.serviceSetup.getServiceSetup().subscribe(data => {
+    const serviceObj = {
+      locationId: null,
+      pageNo: 1,
+      pageSize: 10,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.parent = serviceDetails.ServiceSetup.filter(item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
-        this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
-        console.log(this.parent);
-        this.getAllServiceType();
+        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
+          this.parent = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(
+            item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
+          this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
+          console.log(this.parent);
+          this.getAllServiceType();
+        }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -134,6 +168,7 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes;
+        this.discountServiceType = cType.Codes;
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
@@ -144,29 +179,44 @@ export class ServiceCreateEditComponent implements OnInit {
     });
   }
 
-  checkService(data){
-    if(Number(data) === 18){
-      this.isUpcharge = true;
-    }else{
-      this.isUpcharge = false;
-      this.serviceSetupForm.get('upcharge').clearValidators();
-      this.serviceSetupForm.get('upcharge').updateValueAndValidity();
+  checkService(typeID) {
+    const serviceType = this.serviceType.filter(item => +item.CodeId === +typeID);
+    if (serviceType.length > 0) {
+      const type = serviceType[0].CodeValue;
+      if (type === 'Detail-Upcharge' || type === 'Detail-CeramicUpcharge' || type === 'Wash-Upcharge') {
+        this.isUpcharge = true;
+      } else {
+        this.isUpcharge = false;
+        this.serviceSetupForm.get('upcharge').clearValidators();
+        this.serviceSetupForm.get('upcharge').updateValueAndValidity();
+      }
+      if (type === 'Additonal Services') {
+        this.isAdditional = true;
+      } else {
+        this.isAdditional = false;
+      }
+      if (type === 'Details') {
+        this.isDetails = true;
+      } else {
+        this.isDetails = false;
+      }
+      if (type === 'Service Discounts') {
+        this.isDiscounts = true;
+        this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
+        this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
+
+      } else {
+        this.serviceSetupForm.get('discountServiceType').clearValidators();
+        this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
+        this.isDiscounts = false;
+      }
+      if (type === 'Wash Package') {  //  need to check 15
+        this.isCommisstionShow = false;
+      } else {
+        this.isCommisstionShow = true;
+      }
     }
-    if(Number(data) === 17){
-      this.isAdditional = true;
-    }else{
-       this.isAdditional = false;
-    }
-    if(Number(data) === 16){
-      this.isDetails = true;
-    }else{
-       this.isDetails = false;
-    }
-    if (Number(data) === 15) {
-      this.isCommisstionShow = false;
-    } else {
-      this.isCommisstionShow = true;
-    }
+
   }
 
   change(data) {
@@ -175,7 +225,7 @@ export class ServiceCreateEditComponent implements OnInit {
       this.isChecked = true;
       this.serviceSetupForm.get('commissionType').setValidators([Validators.required]);
       if (this.isEdit === true) {
-      this.getCtype(this.selectedService?.CommissionTypeId);
+        this.getCtype(this.selectedService?.CommissionTypeId);
       }
     } else {
       this.isChecked = false;
@@ -192,11 +242,11 @@ export class ServiceCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {
-      if(this.serviceSetupForm.value.cost !== ""){        
-        if(Number(this.serviceSetupForm.value.cost) <= 0){
+      if (this.serviceSetupForm.value.cost !== "") {
+        if (Number(this.serviceSetupForm.value.cost) <= 0) {
           this.costErrMsg = true;
           return;
-        }else{
+        } else {
           this.costErrMsg = false;
         }
       }
@@ -213,35 +263,45 @@ export class ServiceCreateEditComponent implements OnInit {
       upcharges: this.serviceSetupForm.value.upcharge,
       parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
       isActive: this.serviceSetupForm.value.status == 0 ? true : false,
-      locationId: localStorage.getItem('empLocationId'),
+      locationId: +localStorage.getItem('empLocationId'),
       commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
-      updatedBy: 0,
-      updatedDate: new Date()
+      updatedBy: this.employeeId,
+      updatedDate: new Date(),
+      discountServiceType: this.serviceSetupForm.value.discountServiceType,
+      discountType: this.serviceSetupForm.value.discountType,
     };
     if (this.isEdit === true) {
+      this.spinner.show();
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') {   
-          this.toastr.success('Record Updated Successfully!!', 'Success!');     
+        this.spinner.hide();
+        if (data.status === 'Success') {
+          this.toastr.success('Record Updated Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
+      this.spinner.show();
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') { 
-          this.toastr.success('Record Saved Successfully!!', 'Success!');       
+        this.spinner.hide();
+        if (data.status === 'Success') {
+          this.toastr.success('Record Saved Successfully!!', 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.error('Communication Error', 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }

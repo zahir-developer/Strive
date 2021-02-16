@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-select-appointment-date',
@@ -15,10 +16,12 @@ export class SelectAppointmentDateComponent implements OnInit {
   activeSlot: any;
   timeSlot: any = [];
   WashTimeMinutes = 0;
+  @Input() selectedData?: any;
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30'];
   constructor(
     private customerService: CustomerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +43,9 @@ export class SelectAppointmentDateComponent implements OnInit {
       locationId: this.scheduleDetailObj.locationObj.LocationId,
       date: this.selectedDate
     };
+    this.spinner.show();
     this.customerService.getAvailablilityScheduleTime(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const slot = JSON.parse(res.resultData);
         this.timeSlot = slot.GetTimeInDetails.reduce((unique, o) => {
@@ -49,19 +54,38 @@ export class SelectAppointmentDateComponent implements OnInit {
           }
           return unique;
         }, []);
-        console.log(this.timeSlot, 'slot');
+        this.timeSlot.forEach(item => {
+          const date: any = new Date();
+          const time = item.TimeIn.split(':');
+          const hours = time[0];
+          const minutes = time[1];
+          date.setHours(hours);
+          date.setMinutes(minutes);
+          date.setSeconds('00');
+          item.dateTime = date;
+        });
+        const sortedActivities = this.timeSlot.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+        console.log(sortedActivities, 'slot');
       }
     });
   }
 
   patchAppoimentValue() {
-    if (this.scheduleDetailObj.Slot !== undefined) {
+    if (this.scheduleDetailObj.Slot !== undefined && !this.scheduleDetailObj.isEdit) {
       this.activeSlot = this.scheduleDetailObj.Slot.TimeIn;
       this.selectedDate = this.scheduleDetailObj.selectedDate;
     }
+    if (this.scheduleDetailObj.isEdit) {
+      const slot = {
+        TimeIn: this.datePipe.transform(this.selectedData.Details.TimeIn, 'HH:mm'),
+        BayId: this.selectedData.Details.BayId
+      };
+      this.selectedData = new Date(this.selectedData.Details.JobDate);
+      this.selectedTimeSlot(slot);
+    }
   }
 
-  selectedTimeSlot(slot, i) {
+  selectedTimeSlot(slot) {
     this.activeSlot = slot.TimeIn;
     this.scheduleDetailObj.Slot = slot;
     const time = slot.TimeIn.split(':');
@@ -71,7 +95,8 @@ export class SelectAppointmentDateComponent implements OnInit {
     this.selectedDate.setMinutes(minutes);
     this.selectedDate.setSeconds('00');
     this.scheduleDetailObj.InTime = this.selectedDate;
-    const outTime = this.selectedDate.setMinutes(this.selectedDate.getMinutes() + this.WashTimeMinutes);
+    const outHourTime = new Date(this.selectedDate);
+    const outTime = outHourTime.setMinutes(this.selectedDate.getMinutes() + 30);
     this.scheduleDetailObj.OutTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
   }
 

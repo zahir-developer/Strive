@@ -244,3 +244,28 @@ color-icon:hover {
 .timepicker__actions{
   background-color:#00bfff !important;
 }
+
+
+.bodyfix {
+  display: block;
+  height: 350px;
+  overflow-y: scroll;
+  text-overflow: ellipsis;
+ 
+}
+
+  .headerfix thead, .bodyfix tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+  }
+
+  .headerfix td, .headerfix th {
+    white-space: pre-wrap !important;
+}
+
+body {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+

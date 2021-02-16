@@ -50,20 +50,20 @@ export class SelectLocationComponent implements OnInit {
           }
 
         }, 100)
-                      })
-  
-if(this.dashBoardModule = true){
-  this.router.navigate([`/dashboard`], { relativeTo: this.route });
-              }
-              else if (this.dashBoardModule = false) {
-                this.routingPage();
+      })
 
-              }
+      if (this.dashBoardModule === true) {
+        this.router.navigate([`/dashboard`], { relativeTo: this.route });
+      }
+      else if (this.dashBoardModule === false) {
+        this.routingPage();
+
+      }
 
 
     }
-            
-                
+
+
   }
   routingPage() {
     const Roles = localStorage.getItem('empRoles');
@@ -82,7 +82,7 @@ if(this.dashBoardModule = true){
       else if (Roles == 'Detailer') {
         this.router.navigate([`/detail`], { relativeTo: this.route });
       }
-      else if (Roles == 'Wash') {
+      else if (Roles == 'Washer') {
         this.router.navigate([`/wash`], { relativeTo: this.route });
       }
     }

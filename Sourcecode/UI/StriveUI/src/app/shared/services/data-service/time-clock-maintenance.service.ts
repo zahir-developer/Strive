@@ -35,4 +35,9 @@ export class TimeClockMaintenanceService {
   getEmployeeList() {
     return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
   }
+  getRolesbyEmployeeId(id) {
+    return this.http.get(`${UrlConfig.totalUrl.getRoleByEmpId}`, { params: { id: id } });
+
+
+  }
 }

@@ -64,24 +64,25 @@ export class AddActivityComponent implements OnInit {
       return;
     }
     if (this.symbol === 'minus') {
-      if (this.totalAmount === 0) {
+      if (+this.totalAmount < Number(this.giftCardForm.value.amount)) {
         this.amountValidation = true;
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Insufficient Balance' });
         return;
       }
     }
     const activityObj = {
       giftCardHistoryId: 0,
       giftCardId: this.giftCardId,
-      locationId: 1,
-      transactionType: 1,
+      locationId: +localStorage.getItem('empLocationId'),
+      transactionType: null,
       transactionAmount: this.symbol === 'plus' ? this.giftCardForm.value.amount : -(this.giftCardForm.value.amount),
       transactionDate: moment(new Date()),
-      comments: 'string',
+      comments: null,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: moment(new Date()),
-      updatedBy: 0,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date())
     };
     console.log(activityObj);

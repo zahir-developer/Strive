@@ -26,6 +26,11 @@ namespace Strive.BusinessLogic.MembershipSetup
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipById,membershipid, "MembershipDetail");
         }
+
+        public Result GetMembershipAvailability(int vehicleId)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipAvailability, vehicleId, "IsMemebership");
+        }
         public Result AddMembership(MembershipDto member)
         {
             return ResultWrap(new MembershipSetupRal(_tenant).AddMembership, member, "Status");
@@ -46,6 +51,11 @@ namespace Strive.BusinessLogic.MembershipSetup
         public Result GetMembershipSearch(MembershipSearchDto search)
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipSearch, search, "MembershipSearch");
+        }
+
+        public Result GetVehicleMembershipByMembershipId(int membershipId)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetVehicleMembershipByMembershipId, membershipId, "VehicleMembershipByMembershipId");
         }
     }
 }

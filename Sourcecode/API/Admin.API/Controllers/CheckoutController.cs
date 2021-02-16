@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Report;
 using Strive.BusinessLogic.Checkout;
 using Strive.Common;
 using System;
@@ -22,9 +23,9 @@ namespace Admin.API.Controllers
         /// <summary>
         /// Method to Get CheckedIn Vehicle Details.
         /// </summary>
-        [HttpGet]
-        [Route("GetCheckedInVehicleDetails")]
-        public Result GetCheckedInVehicleDetails() => _bplManager.GetCheckedInVehicleDetails();
+        [HttpPost]
+        [Route("GetAllCheckoutDetails")]
+        public Result GetAllCheckoutDetails([FromBody]CheckOutDto checkoutDto) => _bplManager.GetAllCheckoutDetails(checkoutDto);
         #endregion
 
         #region POST
@@ -48,6 +49,15 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("UpdateJobStatusComplete")]
         public Result UpdateJobStatusComplete([FromBody]JobIdDto jobIdDto) => _bplManager.UpdateJobStatusComplete(jobIdDto);
+        #endregion
+
+        #region GET
+        /// <summary>
+        /// Method to Get Customer history
+        /// </summary>
+        [HttpPost]
+        [Route("GetCustomerHistory")]
+        public Result GetCustomerHistory([FromBody]CustomerHistorySearchDto salesReportDto) => _bplManager.GetCustomerHistory(salesReportDto);
         #endregion
     }
 }

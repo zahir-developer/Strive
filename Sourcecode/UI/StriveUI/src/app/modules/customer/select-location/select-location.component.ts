@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-select-location',
@@ -13,9 +14,11 @@ export class SelectLocationComponent implements OnInit {
   locationList: any = [];
   locationForm: FormGroup;
   @Input() scheduleDetailObj?: any;
+  @Input() selectedData?: any;
   constructor(
     private customerService: CustomerService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +41,9 @@ export class SelectLocationComponent implements OnInit {
   }
 
   getLocation() {
+    this.spinner.show();
     this.customerService.getLocation().subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.locationList = location.Location;
@@ -51,6 +56,10 @@ export class SelectLocationComponent implements OnInit {
   patchLocationValue() {
     if (this.scheduleDetailObj.locationObj !== undefined) {
       this.locationForm.patchValue({ locationID: this.scheduleDetailObj.locationObj.LocationId });
+    }
+    if (this.scheduleDetailObj.isEdit) {
+      const locationid = this.selectedData.Details.LocationId;
+      this.locationForm.patchValue({ locationID: locationid });
     }
   }
 
