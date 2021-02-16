@@ -151,6 +151,12 @@ namespace Strive.BusinessLogic.Location
 
             return ResultWrap(new LocationRal(_tenant).AddBaySolt, id, "bayslot");
         }
+
+
+        public Result GetAllLocationName()
+        {
+            return ResultWrap(new LocationRal(_tenant).GetAllLocationName, "Location");
+        }
     }
 }
 

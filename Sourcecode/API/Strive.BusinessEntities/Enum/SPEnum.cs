@@ -154,7 +154,8 @@ namespace Strive.BusinessEntities
             USPGETLOCATIONBYID,
             USPGETALLLOCATIONOFFSET,
             USPDELETELOCATIONOFFSET,
-            USPADDBAYSLOT
+            USPADDBAYSLOT,
+            USPGETALLLOCATIONNAME
         }
         public enum ServiceSetup
         {
@@ -406,6 +407,8 @@ namespace Strive.BusinessEntities
         USPGETMEMBERSHIPSERVICEBYVEHICLEID,
         USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
         //Vehicle
+
+        USPGETVEHICLE,
         USPGETALLVEHICLE,
         USPUPDATEVEHICLE,
         USPDELETECLIENTVEHICLE,
@@ -425,7 +428,7 @@ namespace Strive.BusinessEntities
         USPGETALLVENDOR,
         USPGETVENDORBYID,
         USPDELETEVENDOR,
-        USPGETVEHICLE,
+        USPGETALLVENDORNAME,
         //Washes
         USPGETJOBBYID,
         USPGETALLJOB,

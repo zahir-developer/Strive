@@ -37,6 +37,11 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAll")]
         public Result GetAllVendor() => _bplManager.GetVendorDetails();
+
+
+        [HttpGet]
+        [Route("GetAllVendorName")]
+        public Result GetAllVendorName() => _bplManager.GetAllVendorName();
         #endregion
         #region
         [HttpGet]

@@ -49,7 +49,12 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetById")]
         public Result GetLocationById(int id) => _bplManager.GetLocationById(id);
-        
+
+
+        [HttpGet]
+        [Route("GetAllLocationName")]
+        public Result GetAllLocationName() => _bplManager.GetAllLocationName();
+
         #endregion
     }
 }

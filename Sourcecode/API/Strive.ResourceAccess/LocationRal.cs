@@ -117,5 +117,10 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public List<LocationNameViewModel> GetAllLocationName()
+        {
+            return db.Fetch<LocationNameViewModel>(EnumSP.Location.USPGETALLLOCATIONNAME.ToString(), _prm);
+        }
+
     }
 }
