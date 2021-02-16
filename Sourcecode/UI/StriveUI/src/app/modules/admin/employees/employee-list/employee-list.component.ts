@@ -35,13 +35,13 @@ export class EmployeeListComponent implements OnInit {
   employeeId: any;
   location: any;
   public isCollapsed = false;
-  
+
   collectionSize: number;
   search = '';
   sort = { column: 'Status', descending: true };
   sortColumn: { column: string; descending: boolean; };
-  page: any ;
-  pageSize :any;
+  page: any;
+  pageSize: any;
   pageSizeList: any[];
   constructor(
     private employeeService: EmployeeService,
@@ -55,7 +55,7 @@ export class EmployeeListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.isTableEmpty = true;
@@ -68,17 +68,17 @@ export class EmployeeListComponent implements OnInit {
       if (data.status === 'Success') {
         const employees = JSON.parse(data.resultData);
         const employeeDetail = employees.EmployeeList;
-          this.employeeDetails = employeeDetail;
-          if (this.employeeDetails.length === 0) {
-            this.isTableEmpty = true;
-          } else {
-            this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
-  
-            this.isTableEmpty = false;
-          }
+        this.employeeDetails = employeeDetail;
+        if (this.employeeDetails.length === 0) {
+          this.isTableEmpty = true;
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+
+          this.isTableEmpty = false;
         }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
     });
   }
   edit(data) {
@@ -109,16 +109,16 @@ export class EmployeeListComponent implements OnInit {
     }
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
+
+    this.pageSize = +this.pageSize;
+    this.page = event;
+
     this.seachEmployee()
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+
     this.seachEmployee()
   }
   employeeDetail(employeeDetail) {

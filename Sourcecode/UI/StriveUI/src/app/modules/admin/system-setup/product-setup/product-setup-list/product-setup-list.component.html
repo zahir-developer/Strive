@@ -28,7 +28,7 @@
                             </div>
                        
                             <div class="table-responsive" >
-                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list">
+                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list" *ngIf="!isLoading">
                                     <thead>
                                         <tr>   <th class="pointer" (click)="sort('ProductName')">Name&nbsp; <i class="fa" *ngIf="column =='ProductName'" 
                                             [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
@@ -73,6 +73,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
                                      <ngb-pagination  *ngIf="productSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"

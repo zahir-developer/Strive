@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10" aria-labelledby="bonus-setup">
+                                <table class="table  table-striped m-t-10" aria-labelledby="bonus-setup" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-center">Min</th>
@@ -118,6 +118,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                                 <table class="table timeclcok-tb" aria-labelledby="summary">
                                     <thead>
                                         <th scope="col"></th>

@@ -34,6 +34,7 @@ export class BonusSetupComponent implements OnInit {
   negativecollisionDeduction: string;
   negativebadReviewDeduction: string;
   employeeId: number;
+  isLoading: boolean;
   constructor(
     private confirmationService: ConfirmationUXBDialogService,
     private bonusSetupService: BonusSetupService,
@@ -43,6 +44,7 @@ export class BonusSetupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.employeeId = +localStorage.getItem('empId');
     this.bonusId = 0;
     this.submitted = false;
@@ -262,8 +264,8 @@ export class BonusSetupComponent implements OnInit {
         Total: item.Total,
         IsActive: true,
         IsDeleted: item.IsDeleted
-      }
-    })
+      };
+    });
     const bonus = {
       bonusId: this.bonusId,
       locationId: this.locationId,
@@ -322,9 +324,9 @@ export class BonusSetupComponent implements OnInit {
       bonusYear: this.selectedYear,
       locationId: this.locationId
     };
-    this.spinner.show();
+    this.isLoading = true;
     this.bonusSetupService.getBonusList(finalObj).subscribe(res => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (res.status === 'Success') {
         const bonus = JSON.parse(res.resultData);
         if (bonus?.BonusDetails?.Bonus !== null) {
@@ -405,7 +407,7 @@ export class BonusSetupComponent implements OnInit {
       }
     }, (error) => {
       this.toastr.error('Communication Error', 'Error!');
-      this.spinner.hide();
+      this.isLoading = false;
       this.getBonusFirstList();
     });
   }

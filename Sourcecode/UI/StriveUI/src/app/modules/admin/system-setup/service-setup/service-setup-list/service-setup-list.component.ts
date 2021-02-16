@@ -37,6 +37,7 @@ export class ServiceSetupListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -54,11 +55,11 @@ export class ServiceSetupListComponent implements OnInit {
       query: this.search !== '' ? this.search : null,
       sortOrder: null,
       sortBy: null,
-      status: this.searchStatus == '' ? null : this.searchStatus
+      status: this.searchStatus === '' ? null : this.searchStatus
     };
-    this.spinner.show();
+    this.isLoading = true;
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         this.totalRowCount = 0;
         this.serviceSetupDetails = [];
@@ -78,7 +79,7 @@ export class ServiceSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     }, (err) => {
-      this.spinner.hide();
+      this.isLoading = false;
     });
   }
   paginate(event) {
@@ -96,9 +97,11 @@ export class ServiceSetupListComponent implements OnInit {
     this.page = 1;
     const obj = {
       serviceSearch: this.search,
-      status: this.searchStatus == '' ? null : this.searchStatus
+      status: this.searchStatus === '' ? null : this.searchStatus
     };
+    this.isLoading = true;
     this.serviceSetup.ServiceSearch(obj).subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.serviceSetupDetails = location.ServiceSearch;
@@ -111,6 +114,8 @@ export class ServiceSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.isLoading = false;
     });
   }
   edit(data) {

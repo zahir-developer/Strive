@@ -20,9 +20,7 @@
                                         <div class="form-group col-3 "> <input type="text" class="form-control"
                                                 name="CheckList" [(ngModel)]="checkListName" maxlength="100"
                                                 placeholder="Enter Check List"> </div>&nbsp;
-
                                         <div class="form-group col-3 m-l-80">
-
                                             <select name="Roles" class="form-control" [(ngModel)]="RoleId"
                                                 placeholder="Select Role">
                                                 <option value='' selected hidden>Select Role</option>
@@ -43,8 +41,7 @@
                             </div>
 
                             <div class="table-responsive">
-
-                                <table class="table  table-striped m-t-10 headerfix">
+                                <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
                                             <th class="pointer" scope="col" (click)="sort('Name')">Name&nbsp; <i
@@ -73,8 +70,6 @@
                                                         placeholder="Enter Check List">
                                                 </span>
                                             </td>
-
-
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
                                                     <div class="form-group d-flex">
@@ -90,7 +85,6 @@
                                                     {{checkList.RoleName}}
                                                 </span>
                                             </td>
-
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
@@ -121,6 +115,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
                                         <ngb-pagination *ngIf="checkListDetails.length > 0"
@@ -132,7 +129,6 @@
                                     <select *ngIf="checkListDetails.length > 0" class="form-control col-4"
                                         name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                         <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
-
                                     </select>
                                 </div>
                             </div>

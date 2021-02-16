@@ -16,7 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class EmployeeHandBookComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   employeeRoles: any;
-  isLoading: boolean = false;
+  isLoading = false;
   checkListDetails: any;
   isTableEmpty: boolean;
   selectedData: boolean = false;
@@ -41,6 +41,7 @@ export class EmployeeHandBookComponent implements OnInit {
 
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
+    this.isLoading = false;
     this.getDocumentType();
   }
 
@@ -109,14 +110,13 @@ export class EmployeeHandBookComponent implements OnInit {
   //   downloadLink.click();
   // }
   getDocument() {
-    this.spinner.show();
+    this.isLoading = true;
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
-        // this.fileName = this.document?.Document?.FileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }

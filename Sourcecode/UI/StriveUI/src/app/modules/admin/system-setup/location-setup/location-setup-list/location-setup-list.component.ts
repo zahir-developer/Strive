@@ -16,7 +16,7 @@ export class LocationSetupListComponent implements OnInit {
   showDialog = false;
   selectedData: any;
   headerData: string;
-  search : any = '';
+  search: any = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
@@ -26,22 +26,25 @@ export class LocationSetupListComponent implements OnInit {
   pageSizeList: number[];
   isDesc: boolean = false;
   column: string = 'LocationName';
+  isLoading: boolean;
   constructor(private locationService: LocationService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
 
     private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.isLoading = false;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllLocationSetupDetails();
-
   }
 
   // get all location
   getAllLocationSetupDetails() {
+    this.isLoading = true;
     this.locationService.getLocation().subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
@@ -49,20 +52,20 @@ export class LocationSetupListComponent implements OnInit {
           this.isTableEmpty = true;
         } else {
           this.sort('LocationName')
-
           this.collectionSize = Math.ceil(this.locationSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.isLoading = false;
     });
   }
   sort(property) {
     this.isDesc = !this.isDesc; //change the direction    
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
-   
     this.locationSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -76,25 +79,24 @@ export class LocationSetupListComponent implements OnInit {
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllLocationSetupDetails()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllLocationSetupDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllLocationSetupDetails()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllLocationSetupDetails();
   }
   // Get Location Search
-  locationSearch(){
+  locationSearch() {
     this.page = 1;
-    const obj ={
-       locationSearch: this.search
-    }
+    const obj = {
+      locationSearch: this.search
+    };
+    this.isLoading = true;
     this.locationService.LocationSearch(obj).subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Search;
@@ -110,6 +112,8 @@ export class LocationSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.isLoading = false;
     });
   }
 

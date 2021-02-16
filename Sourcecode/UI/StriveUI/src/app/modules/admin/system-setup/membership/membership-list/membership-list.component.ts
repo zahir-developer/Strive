@@ -17,8 +17,8 @@ export class MembershipListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  Status:any;
-  searchStatus:any;
+  Status: any;
+  searchStatus: any;
   query = '';
   collectionSize: number = 0;
   page: any;
@@ -26,28 +26,30 @@ export class MembershipListComponent implements OnInit {
   pageSizeList: any;
   isDesc: boolean = false;
   column: string = 'MembershipName';
-  constructor(private toastr: MessageServiceToastr, 
+  isLoading: boolean;
+  constructor(private toastr: MessageServiceToastr,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.isLoading = false;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
+    this.Status = [{ id: 0, Value: "InActive" }, { id: 1, Value: "Active" }, { id: 2, Value: "All" }];
     this.searchStatus = "";
     this.getAllMembershipDetails();
   }
 
   // Get All Membership
   getAllMembershipDetails() {
-    this.spinner.show();
+    this.isLoading = true;
     this.member.getMembership().subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.Membership;
-        this.membershipDetails = this.membershipDetails.filter( item => item.IsActive === true);
+        this.membershipDetails = this.membershipDetails.filter(item => item.IsActive === true);
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -59,17 +61,17 @@ export class MembershipListComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     }, (err) => {
-      this.spinner.hide();
+      this.isLoading = false;
     });
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
-    this.page = event ;
+    this.page = event;
     this.getAllMembershipDetails();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page =  this.page;
+    this.page = this.page;
     this.getAllMembershipDetails();
   }
   sort(property) {
@@ -88,17 +90,17 @@ export class MembershipListComponent implements OnInit {
       }
     });
   }
- 
-  
 
-  membershipSearch(){
+
+
+  membershipSearch() {
     this.page = 1;
-    const obj ={
-       membershipSearch: this.query
-    }
-    this.spinner.show();
+    const obj = {
+      membershipSearch: this.query
+    };
+    this.isLoading = true;
     this.member.searchMembership(obj).subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.MembershipSearch;
@@ -112,7 +114,7 @@ export class MembershipListComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     }, (err) => {
-      this.spinner.hide();
+      this.isLoading = false;
     });
   }
 
@@ -162,7 +164,7 @@ export class MembershipListComponent implements OnInit {
   getMembershipById(det) {
     this.member.getMembershipById(det.MembershipId).subscribe(data => {
       if (data.status === 'Success') {
-        const membership = JSON.parse(data.resultData);        
+        const membership = JSON.parse(data.resultData);
         const details = membership.MembershipAndServiceDetail;
         this.headerData = 'Edit Membership';
         this.selectedData = details;
