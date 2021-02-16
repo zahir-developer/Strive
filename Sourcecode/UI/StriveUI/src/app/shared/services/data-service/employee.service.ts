@@ -44,7 +44,7 @@ export class EmployeeService {
     return this.http.get(`${UrlConfig.totalUrl.getDocumentById}` + documentId +  ',' + password);
   }
   getLocation() {
-    return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
+    return this.http.get(`${UrlConfig.totalUrl.getAllLocationName}`);
   }
   getAllCollision(empId) {
     return this.http.get(`${UrlConfig.totalUrl.getAllCollision}` + empId);
