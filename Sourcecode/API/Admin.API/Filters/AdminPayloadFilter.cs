@@ -125,6 +125,7 @@ namespace Admin.API.Filters
             _tenant.LogoImageFolder = Pick("FolderPath", "LogoImage");
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
             _tenant.GeneralDocumentFolder = Pick("FolderPath", "GeneralDocument");
+            _tenant.VehicleImageFolder = Pick("FolderPath", "VehicleImage");
             
             //File Format
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");

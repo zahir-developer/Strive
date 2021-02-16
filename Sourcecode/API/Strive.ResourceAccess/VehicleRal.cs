@@ -93,5 +93,11 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", clientId);
             return db.Fetch<PastDetailsViewModel>(EnumSP.Vehicle.USPGETPASTDETAILSBYCLIENTID.ToString(), _prm);
         }
+
+        public int AddVehicleImage(VehicleImageDto vehicleImage)
+        {
+            return dbRepo.InsertPK(vehicleImage, "VehicleImageId");
+        }
+
     }
 }
