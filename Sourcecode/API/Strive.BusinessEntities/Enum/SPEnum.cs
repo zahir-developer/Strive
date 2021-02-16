@@ -24,6 +24,7 @@ namespace Strive.BusinessEntities
             USPRESETPASSWORD,
             USPVERIFYOTP,
         }
+
         public enum ClockTime
         {
             USPGETTIMECLOCK,
@@ -46,8 +47,7 @@ namespace Strive.BusinessEntities
             USPGETEODSALESREPORT,
             USPGETDAILYSALESREPORT,
             USPGETHOURLYWASHREPORT,
-            USPGETHOURLYWASHSALESREPORT,
-            USPGetPastWeatherInfo
+            USPGETHOURLYWASHSALESREPORT
         }
 
         public enum WhiteLabelling
@@ -55,7 +55,25 @@ namespace Strive.BusinessEntities
             USPGETWHITELABEL
         }
 
-      
+        public enum Employee
+        {
+            //Employee
+            USPGETEMPLOYEELIST,
+            USPGETALLEMPLOYEE,
+            USPGETEMPLOYEE,
+            USPSAVEEMPLOYEE,
+            USPGETCODES,
+            USPGETUSERBYAUTHID,
+            USPDELETEEMPLOYEE,
+            USPGETEMPLOYEEBYEMPID,
+            USPGETEMPLOYEEROLES,
+            USPGETALLEMPLOYEEDETAIL,
+            USPEMAILEXIST,
+            USPGETEMPLOYEEROLEBYID,
+            USPGETCITYBYSTATE,
+            USPGETEMPLOYEEBYID
+        }
+
         public enum DashboardStatistics
         {
             USPGETDASHBOARDSTATISTICS,
@@ -75,60 +93,30 @@ namespace Strive.BusinessEntities
             USPGETCHATEMPLOYEEANDGROUPHISTORY
         }
 
+        public enum Membership
+        {
+            USPGETALLMEMBERSHIP,
+            USPGETVEHICLEMEMBERSHIPAVAILABILITY,
+            USPGETVEHICLEMEMBERSHIPBYMEMBERSHIPID,
+            USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID,
+            USPDELETEMEMBERSHIP,
+            USPGETMEMBERSHIPBYID,
+            USPSAVEMEMBERSHIPSETUP,
+            USPGETMEMBERSHIPSERVICEBYVEHICLEID,
+            USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
+            uspGetMembershipListByVehicleId,
+        }
+
         public enum Checklist
         {
             USPGETCHECKLIST,
             USPDELETECHECKLIST
         }
 
-        public enum SystemSetup
-        {
-            USPDELETEBONUSSETUP,
-            USPGETBONUSSETUP
-        }
-
-        public enum Document
-        {
-            USPGETDOCUMENT,
-            USPSAVEDOCUMENT,
-            USPGETEMPLOYEEDOCUMENTBYID,
-            USPUPDATEDOCUMENTPASSWORD,
-            USPGETEMPLOYEEDOCUMENTBYEMPID,
-            USPDELETEEMPLOYEEDOCUMENTBYID,
-            USPDELETEDOCUMENT,      
-            USPDELETEDOCUMENTBYID,
-            USPGETDOCUMENTBYID,
-            USPGETALLDOCUMENT,
-        }
-        public enum AdSetup
-        {
-            USPGETALLADSETUP,
-            USPGETADSETUPBYID,
-            USPDELETEADSETUP
-        }
-
-       
-        public enum Employee
-        {
-            //Employee
-            USPGETEMPLOYEELIST,
-            USPGETALLEMPLOYEE,
-            USPGETEMPLOYEE,
-            USPSAVEEMPLOYEE,
-            USPGETCODES,
-            USPGETUSERBYAUTHID,
-            USPDELETEEMPLOYEE,
-            USPGETEMPLOYEEBYEMPID,
-            USPGETEMPLOYEEROLES,
-            USPGETALLEMPLOYEEDETAIL,
-            USPEMAILEXIST,
-            USPGETEMPLOYEEROLEBYID,
-            USPGETCITYBYSTATE,
-            USPGETEMPLOYEEBYID
-        }
         public enum Client
         {
             //Client
+            USPCLIENTEMAILEXIST,
             USPGETALLCLIENT,
             USPUPDATEACCOUNTDETAILS,
             USPGETCLIENT,
@@ -141,7 +129,7 @@ namespace Strive.BusinessEntities
             uspGetClientAndVehicle,
             USPISCLIENTAVAILABLE
         }
-       public enum GiftCard
+        public enum GiftCard
         {
             //GiftCard
             USPGETALLGIFTCARD,
@@ -198,7 +186,8 @@ namespace Strive.BusinessEntities
             USPSAVECASHREGISTERROLES,
             USPSAVECASHREGISTERROLLS,
             USPSAVECASHREGISTER,
-            USPGETCASHREGISTER
+            USPGETCASHREGISTER,
+            USPGETPASTWEATHERINFO
         }
         public enum Collision
         {            //Collison
@@ -206,24 +195,7 @@ namespace Strive.BusinessEntities
             USPGETCOLLISIONBYEMPID,
             USPGETCOLLISIONBYID,
         }
-       
-       
 
-        public enum Membership
-        {
-            USPGETALLMEMBERSHIP,
-            USPGETVEHICLEMEMBERSHIPAVAILABILITY,
-            USPGETVEHICLEMEMBERSHIPBYMEMBERSHIPID,
-            USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID,
-            
-            USPDELETEMEMBERSHIP,
-            USPGETMEMBERSHIPBYID,
-            USPSAVEMEMBERSHIPSETUP,
-            USPGETMEMBERSHIPSERVICEBYVEHICLEID,
-            USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
-
-            uspGetMembershipListByVehicleId,
-        }
         public enum Vehicle
         {
             //Vehicle
@@ -280,6 +252,7 @@ namespace Strive.BusinessEntities
             uspDeleteSchedule,
             USPGETSCHEDULE,
         }
+
         public enum Sales
         {
             uspGetItemList,
@@ -293,6 +266,7 @@ namespace Strive.BusinessEntities
             USPDELETEJOBITEMS,
             USPROLLBACKPAYMENT,
         }
+
         public enum Payroll
         {
 
@@ -311,12 +285,190 @@ namespace Strive.BusinessEntities
             USPUPDATEJOBSTATUSCOMPLETEBYJOBID,
             USPGETCUSTOMERHISTORY
         }
-           
+
+        public enum SystemSetup
+        {
+            USPDELETEBONUSSETUP,
+            USPGETBONUSSETUP
+        }
+
+        public enum Document
+        {
+            USPGETDOCUMENT,
+            USPSAVEDOCUMENT,
+            USPGETEMPLOYEEDOCUMENTBYID,
+            USPUPDATEDOCUMENTPASSWORD,
+            USPGETEMPLOYEEDOCUMENTBYEMPID,
+            USPDELETEEMPLOYEEDOCUMENTBYID,
+            USPDELETEDOCUMENT,      
+            USPDELETEDOCUMENTBYID,
+            USPGETDOCUMENTBYID,
+            USPGETALLDOCUMENT,
+        }
+        public enum AdSetup
+        {
+            USPGETALLADSETUP,
+            USPGETADSETUPBYID,
+            USPDELETEADSETUP
+        }
     }
     
     public enum SPEnum
     {
-      
+        USPLOGIN,
+        USPGETUSERBYLOGIN,
+        USPGETALLUSERS,
+        USPGETALLSERVICETYPE,
+        USPGETUSERS,
+        USPSAVEUSER,
+        USPSAVELOGIN,
+        USPSAVETENANTUSERMAP,
+        USPGETALLEMAIL,
+
+        //Employee
+        USPGETEMPLOYEELIST,
+        USPGETALLEMPLOYEE,
+        USPGETEMPLOYEE,
+        USPSAVEEMPLOYEE,
+        USPGETSCHEMABYGUID,
+        USPGETCODES,
+        USPGETUSERBYAUTHID,
+        USPDELETEEMPLOYEE,
+        USPGETEMPLOYEEBYEMPID,
+        USPGETEMPLOYEEROLES,
+        USPEMAILEXIST,
+        USPGETEMPLOYEEROLEBYID,
+        USPGETCITYBYSTATE,
+
+        //Client
+        USPGETALLCLIENT,
+        USPUPDATEACCOUNTDETAILS,
+        USPGETCLIENT,
+        USPDELETECLIENT,
+        USPGETCLIENTBYID,
+        USPISCLIENTAVAILABLE,
+        USPGETALLCLIENTNAME,
+        //GiftCard
+        USPGETALLGIFTCARD,
+        USPGETGIFTCARDHISTORY,
+        USPGETGIFTCARDBYID,
+        USPGIFTCARDCHANGESTATUS,
+        USPSAVEGIFTCARD,
+        USPGETALLGIFTCARDS,
+        USPDELETEGIFTCARD,
+        USPGETCLIENTNAME,
+        //Location
+        USPSAVELOCATION,
+        USPDELETELOCATION,
+        USPGETPRODUCT,
+        USPDELETEPRODUCT,
+        USPGETAllPRODUCT,
+        USPGETAllPRODUCTNEW,
+        USPGETALLLOCATION,
+        USPGETLOCATIONBYID,
+        USPGETALLLOCATIONOFFSET,
+        USPDELETELOCATIONOFFSET,
+        USPADDBAYSLOT,
+        //Service Setup
+        USPDELETESERVICEBYID,
+        USPGETSERVICES,
+        USPGETALLSERVICE,
+        //Cash Register
+        USPSAVETODAYCASHREGISTER,
+        USPGETCASHREGISTERDETAILS,
+        USPSAVECASHREGISTERBILLS,
+        USPSAVECASHREGISTERCOINS,
+        USPSAVECASHREGISTERMAIN,
+        USPSAVECASHREGISTEROTHERS,
+        USPSAVECASHREGISTERROLES,
+        USPSAVECASHREGISTERROLLS,
+        USPSAVECASHREGISTER,
+        //Collison
+        USPDELETECOLLISION,
+        USPGETPASSWORDHASH,
+        USPSAVEOTP,
+        USPRESETPASSWORD,
+        USPVERIFYOTP,
+
+        USPGETEMPLOYEEBYID,
+        USPGETALLSERVICEDETAIL,
+        USPGETPRODUCTS,
+        USPGETCASHREGISTER,
+        USPGETCOLLISIONBYEMPID,
+        USPGETCOLLISIONBYID,
+        USPGETVEHICLELISTBYCLIENTID,
+        //MembershipSetup
+        USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID,
+        USPGETSERVICELIST,
+        USPDELETEMEMBERSHIP,
+        USPGETMEMBERSHIPBYID,
+        USPSAVEMEMBERSHIPSETUP,
+        USPGETMEMBERSHIPSERVICEBYVEHICLEID,
+        USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
+        //Vehicle
+        USPGETALLVEHICLE,
+        USPUPDATEVEHICLE,
+        USPDELETECLIENTVEHICLE,
+        USPGETVEHICLEBYID,
+        USPGETPASTDETAILSBYCLIENTID,
+        USPSAVEVEHICLE,
+        uspGetVehicleByClientId,
+        USPGETVEHICLEMEMBERSHIP,
+        uspUpdateVechicleMembership,
+        USPGETVEHICLEDETAILBYCLIENTID,
+        USPGETVEHICLESTATEMENTBYCLIENTID,
+        USPGETVEHICLEHISTORYBYCLIENTID,
+        uspGetVehicleCodes,
+        USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
+        USPGETMEMBERSHIPBYVEHICLEID,
+        //Vendor
+        USPGETALLVENDOR,
+        USPGETVENDORBYID,
+        USPDELETEVENDOR,
+        USPGETVEHICLE,
+        //Washes
+        USPGETJOBBYID,
+        USPGETALLJOB,
+        USPGETWASHDASHBOARD,
+        USPGETCLIENTANDVEHICLEDETAIL,
+        //Details
+        USPGETALLDETAILJOB,
+        USPGETDETAILJOBBYID,
+        USPGETALLBAYLISTBYID,
+        USPGETBAYSCHEDULESDETAILS,
+        USPGETPASTCLIENTNOTESBYCLIENTID,
+        USPGETJOBTYPE,
+        USPDELETEDETAILSCHEDULE,
+        USPGETALLDETAILS,
+        //Schedule
+        USPSAVESCHEDULE,
+        USPGETSCHEDULEBYSCHEDULEID,
+        uspDeleteSchedule,
+        USPGETSCHEDULE,
+        uspGetGiftCardHistoryByNumber,
+        uspGetGiftCardByLocation,
+        USPDELETEWASHES,
+        uspGetClientName,
+        uspGetClientCodes,
+        uspGetGiftCardBalance,
+        uspGetClientAndVehicle,
+        uspGetMembershipListByVehicleId,
+        
+        USPGETTICKETNUMBER,
         USPCREATETENANT,
+        uspGetServiceByItemList,
+        USPDELETEJOBITEMS,
+        USPROLLBACKPAYMENT,
+        USPGETALLSERVICEANDPRODUCTLIST,
+        USPGETPAYROLLLIST,
+        USPUPDATEADJUSMENT,
+        USPUPDATEEMPLOYEEADJUSTMENT,
+        USPUPDATEJOBPAYMENT,
+        //CHECKOUT
+        USPGETAllCHECKOUTDETAILS,
+        USPUPDATECHECKOUTDETAILFORJOBID,
+        USPUPDATEJOBSTATUSHOLDBYJOBID,
+        USPUPDATEJOBSTATUSCOMPLETEBYJOBID,
+        USPGETCUSTOMERHISTORY
     }
 }

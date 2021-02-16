@@ -16,9 +16,9 @@ namespace Strive.BusinessLogic.Vehicle
     {
         public VehicleBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper) { }
 
-        public Result GetAllVehicle(VehicleSearchDto name)
+        public Result GetAllVehicle(SearchDto searchDto)
         {
-            return ResultWrap(new VehicleRal(_tenant).GetAllVehicle, name, "Vehicle");
+            return ResultWrap(new VehicleRal(_tenant).GetAllVehicle, searchDto, "Vehicle");
         }
         public Result GetVehicleMembership()
         {

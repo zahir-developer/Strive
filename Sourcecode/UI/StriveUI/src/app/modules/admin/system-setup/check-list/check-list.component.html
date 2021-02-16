@@ -9,7 +9,7 @@
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
                             (click)="checlist()">Add New Item
                         </button>
-                        
+
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
@@ -18,7 +18,6 @@
                                     <div class="title-border m-b-22"></div>
                                     <div class="form-row">
                                         <div class="form-group col-3 "> <input type="text" class="form-control"
-                                            
                                                 name="CheckList" [(ngModel)]="checkListName" maxlength="100"
                                                 placeholder="Enter Check List"> </div>&nbsp;
 
@@ -26,8 +25,7 @@
 
                                             <select name="Roles" class="form-control" [(ngModel)]="RoleId"
                                                 placeholder="Select Role">
-                                                <option value='' selected hidden>Select</option>
-
+                                                <option value='' selected hidden>Select Role</option>
                                                 <option *ngFor="let role of rollList" value="{{role.RoleMasterId}}">
                                                     {{role.RoleName}}</option>
                                             </select>
@@ -35,7 +33,7 @@
                                         <div class="form-group col-2 m-l-90 ">
                                             <button type="button" style="margin-left: 5%;"
                                                 class="btn theme-primary-button-color btn-md float-right"
-                                                (click)="checlistcancel()">Cancel</button>
+                                                (click)="checklistcancel()">Cancel</button>
                                             <button type="button"
                                                 class="btn theme-primary-button-color btn-md float-right"
                                                 (click)="add('add',[])">Save</button>
@@ -43,18 +41,19 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
+
+                            <div class="table-responsive">
 
                                 <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="sort('Name')">Name&nbsp; <i class="fa" *ngIf="column =='Name'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('RoleName')">Role&nbsp; <i class="fa" *ngIf="column =='RoleName'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th>Action</th>
+                                            <th class="pointer" scope="col" (click)="sort('Name')">Name&nbsp; <i
+                                                    class="fa" *ngIf="column =='Name'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" scope="col" (click)="sort('RoleName')">Role&nbsp; <i
+                                                    class="fa" *ngIf="column =='RoleName'"
+                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bodyfix">
@@ -62,14 +61,16 @@
                                             *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
-                                                    <span  title="{{checkList.Name}}">
-                                                    {{checkList.Name | slice:0:15}} {{(checkList.Name!== null) ? checkList.Name.length <= 15 ? '': '...':''}}
+                                                    <span title="{{checkList.Name}}">
+                                                        {{checkList.Name | slice:0:15}}
+                                                        {{(checkList.Name!== null) ? checkList.Name.length <= 15 ? '': '...':''}}
                                                     </span>
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
 
-                                                    <input type="text"  maxlength="100"  class="form-control" name="CheckList"
-                                                        [(ngModel)]="checkList.Name" placeholder="Enter Check List">
+                                                    <input type="text" maxlength="100" class="form-control"
+                                                        name="CheckList" [(ngModel)]="checkList.Name"
+                                                        placeholder="Enter Check List">
                                                 </span>
                                             </td>
 
@@ -115,6 +116,9 @@
 
                                             </td>
                                         </tr>
+                                        <tr *ngIf="checkListDetails.length === 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="row pull-right">
@@ -133,9 +137,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="loadingDiv" *ngIf="isLoading">
-                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                        </div>
+
                     </div>
                 </div>
             </div>

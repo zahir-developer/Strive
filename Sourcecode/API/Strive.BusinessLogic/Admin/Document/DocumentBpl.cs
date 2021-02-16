@@ -428,7 +428,7 @@ namespace Strive.BusinessLogic.Document
         {
             var document = new DocumentRal(_tenant).GetAllDocument(documentTypeId);
 
-            
+
             _resultContent.Add(document.WithName("Document"));
             _result = Helper.BindSuccessResult(_resultContent);
 

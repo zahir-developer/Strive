@@ -18,7 +18,7 @@
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="25" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Type"
-                                                (keyup)="$event.keyCode == 13 ? serviceSearch() : null"> </div>&nbsp;
+                                                (keyup)="$event.keyCode == 13 ? getAllserviceSetupDetails() : null"> </div>&nbsp;
                                         <div class="form-group d-flex"> <select class="form-control"
                                                 [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
                                                 <option value="" selected hidden>Status</option>
@@ -26,15 +26,14 @@
                                                     {{status.Value}}</option>
                                             </select> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button" (click)="serviceSearch()"
+                                            <button type="button" (click)="getAllserviceSetupDetails()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                    class="col-12 row d-block">No Records Found</span></div>
-                            <div class="table-responsive" *ngIf="isTableEmpty === false && isLoading === false">
+                           
+                            <div class="table-responsive" >
 
                                 <table class="table  table-striped m-t-10 headerfix">
                                     <thead>
@@ -54,7 +53,7 @@
                                     </thead>
                                     <tbody  class="bodyfix">
                                         <tr
-                                            *ngFor="let serviceSetup of serviceSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                            *ngFor="let serviceSetup of serviceSetupDetails">
                                             <td scope="row">{{serviceSetup.ServiceName}}</td>
                                             <td>{{serviceSetup.ServiceType}}</td>
                                             <td>{{serviceSetup.Cost | currency}}</td>
@@ -67,6 +66,9 @@
                                                     style="color:red" pTooltip="Delete" tooltipPosition="bottom"
                                                     (click)="delete(serviceSetup)"></em>
                                             </td>
+                                        </tr>
+                                        <tr *ngIf="serviceSetupDetails.length == 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -83,9 +85,7 @@
                                      </select>
                                  </div>
                             </div>
-                             <div class="loadingDiv" *ngIf="isLoading">
-                            <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
-                        </div>
+                            
                     </div>
                 </div>
             </div>

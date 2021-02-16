@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-client-statement',
@@ -18,6 +19,8 @@ export class ClientStatementComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
+    private spinner: NgxSpinnerService,
+
     private client: ClientService
   ) { }
 

@@ -16,8 +16,9 @@ export class MessengerEmployeeListComponent implements OnInit {
   empOnlineStatus: any;
   @Output() emitLoadMessageChat = new EventEmitter();
   @Output() popupEmit = new EventEmitter();
+  @Output() recentlyMsgSent = new EventEmitter();
   employeeId: number = +localStorage.getItem('empId');
-  selectedClass : string;
+  selectedClass: string;
   constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
   ngOnInit(): void {
     this.getRecentChatHistory(this.employeeId);
@@ -43,11 +44,14 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.msgService.GetEmployeeList(employeeId).subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
-        this.empList = empList?.EmployeeList?.ChatEmployeeList;
-        this.originalEmpList = this.empList;
-        this.setName();
-        this.setCommunicationId();
-        this.setUnreadMsgFlag();
+        console.log(empList, 'emplist');
+        if (empList.EmployeeList.ChatEmployeeList !== null) {
+          this.empList = empList?.EmployeeList?.ChatEmployeeList;
+          this.originalEmpList = this.empList;
+          this.setName();
+          this.setCommunicationId();
+          this.setUnreadMsgFlag();
+        }
       }
     });
   }
@@ -66,6 +70,7 @@ export class MessengerEmployeeListComponent implements OnInit {
     }
   }
   setName() {
+    this.recentlyMsgSent.emit(this.empList);
     if (this.empList.length > 0) {
       this.empList[0].type = 'first Employee';
       this.emitLoadMessageChat.emit(this.empList[0]);
@@ -93,11 +98,11 @@ export class MessengerEmployeeListComponent implements OnInit {
   }
   loadChat(employeeObj) {
     employeeObj.Selected = true;
-    this.empList.filter(s=>s.Id !== employeeObj.Id).forEach(item => {
-        if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
-          item.Selected = false
-        }
-      });
+    this.empList.filter(s => s.Id !== employeeObj.Id).forEach(item => {
+      if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
+        item.Selected = false
+      }
+    });
     employeeObj.type = 'selected Employee';
     this.SetUnreadMsgBool(employeeObj.Id, true, '');
     this.emitLoadMessageChat.emit(employeeObj);

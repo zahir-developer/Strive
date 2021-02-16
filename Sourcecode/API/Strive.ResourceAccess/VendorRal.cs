@@ -18,7 +18,7 @@ namespace Strive.ResourceAccess
         public VendorRal(ITenantHelper tenant) : base(tenant) { }
         public List<VendorViewModel> GetVendorDetails()
         {
-            return db.Fetch<VendorViewModel>(EnumSP.Vendor.USPGETALLVENDOR.ToString(), null);
+            return db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), null);
         }
         public bool AddVendor(VendorDTO vendor)
         {
@@ -32,20 +32,20 @@ namespace Strive.ResourceAccess
         public bool DeleteVendorById(int id)
         {
             _prm.Add("@VendorId", id);
-            db.Save(EnumSP.Vendor.USPDELETEVENDOR.ToString(), _prm);
+            db.Save(SPEnum.USPDELETEVENDOR.ToString(), _prm);
             return true;
         }
 
         public List<VendorViewModel> GetVendorById(int id)
         {
             _prm.Add("@VendorId", id);
-            var result = db.Fetch<VendorViewModel>(EnumSP.Vendor.USPGETALLVENDOR.ToString(), _prm);
+            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETVENDORBYID.ToString(), _prm);
             return result;
         }
         public List<VendorViewModel> GetVendorSearch(VendorSearchDto search)
         {
             _prm.Add("@VendorSearch", search.VendorSearch);
-            var result = db.Fetch<VendorViewModel>(EnumSP.Vendor.USPGETALLVENDOR.ToString(), _prm);
+            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
             return result;
         }
     }

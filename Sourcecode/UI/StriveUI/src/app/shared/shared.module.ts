@@ -52,6 +52,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import { OrderByPipe } from './pipe/order-by.pipe';
 import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decimal-positive-negative-number.directive';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   imports: [
@@ -75,7 +76,9 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     NgbPaginationModule,
     ChartsModule,
     DropdownModule,
-    InputSwitchModule  ],
+    InputSwitchModule,
+    TabsModule.forRoot()
+  ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
@@ -94,7 +97,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 
