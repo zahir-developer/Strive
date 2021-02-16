@@ -286,7 +286,7 @@ namespace Strive.BusinessLogic.Document
             }
         }
 
-        private string GetUploadFolderPath(GlobalUpload.DocumentType module)
+        public string GetUploadFolderPath(GlobalUpload.DocumentType module)
         {
             string path = string.Empty;
             string subPath = string.Empty;
@@ -301,7 +301,9 @@ namespace Strive.BusinessLogic.Document
                 case GlobalUpload.DocumentType.LOGO:
                     subPath = _tenant.LogoImageFolder;
                     break;
-
+                case GlobalUpload.DocumentType.VEHICLEIMAGE:
+                    subPath = _tenant.VehicleImageFolder;
+                    break;
                 default:
                     subPath = _tenant.GeneralDocumentFolder + module.ToString() + "\\" ;
                     break;

@@ -31,7 +31,9 @@ namespace Strive.Common
         string TermsAndCondition { get; set; }
         string EmployeeHandbook { get; set; }
         string GeneralDocumentFolder { get; set; }
+        string EmployeeSignUp { get; set; }
 
+        string VehicleImageFolder { get; set; }
         IDbConnection db();
         IDbConnection dbAuth();
         void SetConnection(string con);
@@ -75,6 +77,9 @@ namespace Strive.Common
         public string EmployeeHandbook { get; set; }
         public string GeneralDocumentFolder { get; set; }
 
+        public string EmployeeSignUp { get; set; }
+
+        public string VehicleImageFolder { get; set; }
         public TenantHelper(IDistributedCache cache)
         {
             _cache = cache;

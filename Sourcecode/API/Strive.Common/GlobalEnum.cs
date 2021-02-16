@@ -28,10 +28,12 @@ namespace Strive.Common
         {
             EMPLOYEEDOCUMENT,
             PRODUCTIMAGE,
+            VEHICLEIMAGE,
             LOGO,
             EMPLOYEEHANDBOOK,
             TERMSANDCONDITION,
             ADS
+            
         }
 
         public enum ArchiveFolder
@@ -46,5 +48,12 @@ namespace Strive.Common
         Client=2,
         Admin = 3,
         SuperAdmin = 100
+    }
+
+    public enum HtmlContent
+    {
+        EmployeeSignUp,
+        ClientSignUp,
+        HoldNotification
     }
 }

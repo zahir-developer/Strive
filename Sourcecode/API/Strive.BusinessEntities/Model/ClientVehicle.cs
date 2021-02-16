@@ -63,6 +63,7 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public decimal? MonthlyCharge { get; set; }
+        
 
     }
 }

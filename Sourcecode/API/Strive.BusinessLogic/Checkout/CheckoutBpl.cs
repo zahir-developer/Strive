@@ -2,6 +2,7 @@
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.CheckoutEntry;
 using Strive.BusinessEntities.DTO.Report;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -23,9 +24,16 @@ namespace Strive.BusinessLogic.Checkout
         {
             return ResultWrap(new CheckoutRal(_tenant).UpdateCheckoutDetails,checkoutEntry, "SaveCheckoutTime");
         }
-        public Result UpdateJobStatusHold(JobIdDto jobIdDto)
+        public Result UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
         {
-            return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatusHold, jobIdDto, "UpdateJobStatus");
+
+            new CommonBpl(_cache, _tenant).SendHoldNotificationEmail(checkoutHoldDto.emailId, checkoutHoldDto.TicketNumber);
+
+
+            return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatusHold, checkoutHoldDto, "UpdateJobStatus");
+
+            
+
         }
         public Result UpdateJobStatusComplete(JobIdDto jobIdDto)
         {
