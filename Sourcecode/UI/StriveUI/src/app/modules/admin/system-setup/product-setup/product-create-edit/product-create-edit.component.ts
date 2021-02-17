@@ -123,7 +123,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getAllLocationName().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        this.locationName = location.Location.filter(item => item.IsActive === true);
+        this.locationName = location.Location;
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -166,10 +166,21 @@ export class ProductCreateEditComponent implements OnInit {
         });
         this.fileName = this.selectedProduct.FileName;
         this.fileUploadformData = this.selectedProduct.Base64;
-        if (this.selectedProduct.Size === 33) {
-          this.textDisplay = true;
-          this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+        if (this.selectedProduct.Size !== null) {
+          const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
+          let descriptionName = '';
+          if (sizeObj.length > 0) {
+            descriptionName = sizeObj[0].CodeValue;
+            if (descriptionName === 'Other') {
+              this.textDisplay = true;
+              this.productSetupForm.patchValue({ other: this.selectedProduct.SizeDescription });
+            }
+          }
         }
+        // if (this.selectedProduct.Size === 33) {
+        //   this.textDisplay = true;
+        //   this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+        // }
         this.change(this.selectedProduct.IsTaxable);
       } else {
         this.toastr.error('Communication Error', 'Error!');
