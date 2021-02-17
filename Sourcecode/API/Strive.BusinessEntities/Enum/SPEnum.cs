@@ -424,6 +424,7 @@ namespace Strive.BusinessEntities
         uspGetVehicleCodes,
         USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
         USPGETMEMBERSHIPBYVEHICLEID,
+        USPGETALLVEHICLEIMAGEBYID,
         //Vendor
         USPGETALLVENDOR,
         USPGETVENDORBYID,

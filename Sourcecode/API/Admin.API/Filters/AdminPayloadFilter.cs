@@ -135,8 +135,8 @@ namespace Admin.API.Filters
             _tenant.TermsAndCondition = Pick("FileFormat", "TermsAndCondition");
 
             //Image Size
-            _tenant.ProductThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
-            _tenant.ProductThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
+            _tenant.ImageThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
+            _tenant.ImageThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
             _tenant.LogoThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
             _tenant.LogoThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
 

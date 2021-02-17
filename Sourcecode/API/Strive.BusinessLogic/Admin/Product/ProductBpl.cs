@@ -97,12 +97,9 @@ namespace Strive.BusinessLogic
                 }
                 else
                 {
-                    string extension = Path.GetExtension(fileName);
-                    thumbFileName = fileName.Replace(extension, string.Empty) + "Thumb" + extension;
                     try
                     {
-                        documentBpl.SaveThumbnail(_tenant.ProductThumbWidth, _tenant.ProductThumbHeight, base64, thumbFileName);
-
+                        thumbFileName = documentBpl.SaveThumbnail(GlobalUpload.DocumentType.PRODUCTIMAGE, _tenant.ImageThumbWidth, _tenant.ImageThumbHeight, base64, fileName);
                     }
                     catch (Exception ex)
                     {

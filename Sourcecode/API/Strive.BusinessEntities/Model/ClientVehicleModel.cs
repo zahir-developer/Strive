@@ -10,5 +10,6 @@ namespace Strive.BusinessEntities.Model
     public class ClientVehicleModel
     {
         public ClientVehicle ClientVehicle { get; set; }
+        public List<VehicleImage> VehicleImage { get; set; }
     }
 }

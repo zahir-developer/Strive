@@ -30,20 +30,31 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result AddVehicle(VehicleDto ClientVehicle)
         {
-            foreach (var img in ClientVehicle.VehicleImage)
+            foreach (var vehicleImage in ClientVehicle.VehicleImage)
             {
-              
-
-                string imageName = new DocumentBpl(_cache, _tenant).Upload(GlobalUpload.DocumentType.VEHICLEIMAGE, img.Base64, img.ImageName);
-                
-                img.OriginalImageName = img.ImageName;
-                img.ImageName = imageName;
-                img.FilePath = new DocumentBpl(_cache, _tenant).GetUploadFolderPath(GlobalUpload.DocumentType.VEHICLEIMAGE) + imageName;
-               
-
+                UploadVehicleImage(vehicleImage);
             }
 
             return ResultWrap(new VehicleRal(_tenant).AddVehicle, ClientVehicle, "Status");
+        }
+
+        private void UploadVehicleImage(VehicleImage vehicleImage)
+        {
+            var docBpl = new DocumentBpl(_cache, _tenant);
+            string imageName = docBpl.Upload(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.Base64, vehicleImage.ImageName);
+
+            vehicleImage.OriginalImageName = vehicleImage.ImageName;
+            vehicleImage.ImageName = imageName;
+            vehicleImage.FilePath = new DocumentBpl(_cache, _tenant).GetUploadFolderPath(GlobalUpload.DocumentType.VEHICLEIMAGE) + imageName;
+
+            try
+            {
+                vehicleImage.ThumbnailFileName = docBpl.SaveThumbnail(GlobalUpload.DocumentType.VEHICLEIMAGE, _tenant.ImageThumbWidth, _tenant.ImageThumbHeight, vehicleImage.Base64, imageName);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public Result SaveClientVehicle(VehicleDto vehicle)
@@ -77,6 +88,11 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel vehicleMembership)
         {
+            foreach(var vehicleImage in vehicleMembership.ClientVehicle.VehicleImage)
+            {
+                UploadVehicleImage(vehicleImage);
+            }
+
             var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
             if (!saveVehicle)
                 return ResultWrap<ClientVehicle>(false, "Result", "Failed to save vehicle details.");
@@ -94,6 +110,19 @@ namespace Strive.BusinessLogic.Vehicle
         public Result GetPastDetails(int clientId)
         {
             return ResultWrap(new VehicleRal(_tenant).GetPastDetails, clientId, "PastClientDetails");
+        }
+
+        public Result GetAllVehicleImage(int vehicleId)
+        {
+            var vehicleRal = new VehicleRal(_tenant).GetAllVehicleImage(vehicleId);
+
+            var documentBpl = new DocumentBpl(_cache, _tenant);
+            foreach(var vehicle in vehicleRal)
+            {
+                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ThumbnailFileName);
+            }
+
+            return ResultWrap(documentBpl, "VehicleImage");
         }
 
         //public int AddImage(VehicleImageDto vehicleImage)
