@@ -32,6 +32,7 @@ export class ProductCreateEditComponent implements OnInit {
   costErrMsg: boolean = false;
   priceErrMsg: boolean = false;
   employeeId: number;
+  base64Value = '';
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -39,7 +40,7 @@ export class ProductCreateEditComponent implements OnInit {
     private product: ProductService,
     private getCode: GetCodeService,
     private spinner: NgxSpinnerService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -130,7 +131,7 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   showText(data) {
-    const size = this.size.filter( item => item.CodeValue === 'Other');
+    const size = this.size.filter(item => item.CodeValue === 'Other');
     if (size.length > 0) {
       const id = size[0].CodeId;
       if (+data === id) {
@@ -164,6 +165,7 @@ export class ProductCreateEditComponent implements OnInit {
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
         this.fileName = this.selectedProduct.FileName;
+        this.base64Value = this.selectedProduct.Base64;
         this.fileUploadformData = this.selectedProduct.Base64;
         if (this.selectedProduct.Size !== null) {
           const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
@@ -310,5 +312,14 @@ export class ProductCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  downloadImage() {
+    const linkSource = 'data:application/image;base64,' + this.base64Value;
+    const downloadLink = document.createElement('a');
+    const fileName = this.fileName;
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 }
