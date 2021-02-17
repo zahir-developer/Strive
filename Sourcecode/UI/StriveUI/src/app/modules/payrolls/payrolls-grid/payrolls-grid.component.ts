@@ -90,7 +90,6 @@ export class PayrollsGridComponent implements OnInit {
       if (res.status === 'Success') {
         const payRoll = JSON.parse(res.resultData);
         this.payRollList = payRoll.Result.PayRollRateViewModel;
-        
         var length = this.payRollList === null ? 0 : this.payRollList.length;
         this.collectionSize = Math.ceil(length / this.pageSize) * 10;
         this.isPayrollEmpty = false;
