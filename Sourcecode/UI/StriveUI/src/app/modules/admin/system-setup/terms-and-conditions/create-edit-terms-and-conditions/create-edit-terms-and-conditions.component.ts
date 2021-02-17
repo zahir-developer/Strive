@@ -57,6 +57,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       createdDate: [''],
       createdName: [''],
       uploadBy: ['', Validators.required],
+      name: ['', Validators.required],
       subDocumentId: ['']
     });
   }
@@ -108,6 +109,10 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     if (this.fileName === null) {
       return;
     }
+    if (this.termsForm.invalid) {
+
+      return;
+    }
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
@@ -129,6 +134,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
+      DocumentName:this.termsForm.controls['name'].value,
       DocumentSubType: this.termsForm.controls['subDocumentId'].value
     };
     const finalObj = {
