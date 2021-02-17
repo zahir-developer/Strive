@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
@@ -73,9 +74,9 @@ namespace Strive.BusinessLogic
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeList, "EmployeeList");
         }
 
-        public Result GetAllEmployeeDetail(string employeeName)
+        public Result GetAllEmployeeDetail(SearchDto searchDto)
         {
-            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeDetail, employeeName, "EmployeeList");
+            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeDetail, searchDto, "EmployeeList");
         }
 
         public Result GetEmployeeById(int employeeId)

@@ -19,16 +19,14 @@ namespace Admin.API.Controllers
     {
         public CheckoutController(ICheckoutBpl prdBpl) : base(prdBpl) { }
 
-        #region GET
+        #region POST
         /// <summary>
         /// Method to Get CheckedIn Vehicle Details.
         /// </summary>
         [HttpPost]
         [Route("GetAllCheckoutDetails")]
-        public Result GetAllCheckoutDetails([FromBody]CheckOutDto checkoutDto) => _bplManager.GetAllCheckoutDetails(checkoutDto);
-        #endregion
-
-        #region POST
+        public Result GetAllCheckoutDetails([FromBody]SearchDto checkoutDto) => _bplManager.GetAllCheckoutDetails(checkoutDto);
+      
         /// <summary>
         /// Method to Update Checkout Flag and Checkout Time
         /// </summary>

@@ -15,14 +15,18 @@ namespace Strive.ResourceAccess
     public class CheckoutRal : RalBase
     {
         public CheckoutRal(ITenantHelper tenant) : base(tenant) { }
-        public CheckOutGridViewModel GetAllCheckoutDetails(CheckOutDto checkoutDto)
+        public CheckOutGridViewModel GetAllCheckoutDetails(SearchDto checkoutDto)
         {
             _prm.Add("locationid", checkoutDto.LocationId);
             _prm.Add("PageNo", checkoutDto.PageNo);
 
             _prm.Add("PageSize", checkoutDto.PageSize);
-            
-          
+
+            _prm.Add("@Query", checkoutDto.Query);
+            _prm.Add("@SortOrder", checkoutDto.SortOrder);
+            _prm.Add("@SortBy", checkoutDto.SortBy);
+
+
             var result =  db.FetchMultiResult<CheckOutGridViewModel>(EnumSP.Checkout.USPGETAllCHECKOUTDETAILS.ToString(), _prm);
             return result;
         }

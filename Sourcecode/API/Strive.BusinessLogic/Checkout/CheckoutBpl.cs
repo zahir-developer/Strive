@@ -16,7 +16,7 @@ namespace Strive.BusinessLogic.Checkout
     public class CheckoutBpl : Strivebase, ICheckoutBpl
     {
         public CheckoutBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
-        public Result GetAllCheckoutDetails(CheckOutDto checkoutDto)
+        public Result GetAllCheckoutDetails(SearchDto checkoutDto)
         {
             return ResultWrap(new CheckoutRal(_tenant).GetAllCheckoutDetails,checkoutDto, "GetCheckedInVehicleDetails");
         }

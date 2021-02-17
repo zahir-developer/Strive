@@ -72,20 +72,7 @@ namespace Admin.API.Controllers
         [Route("GetPastDetails/{clientId}")]
         public Result GetPastDetails(int clientId) => _bplManager.GetPastDetails(clientId);
 
-        //[HttpPost]
-        //[Route("AddImage")]
-        //public Result AddDocument([FromBody] VehicleImageDto vehicleImage)
-        //{
-        //    Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
-        //    Result _result = new Result();
-
-        //    var result = _bplManager.AddImage(vehicleImage);
-        //    _resultContent.Add(result.WithName("Result"));
-        //    _result = Helper.BindSuccessResult(_resultContent);
-
-        //    return _result;
-        //}
-
+   
 
     }
 }
