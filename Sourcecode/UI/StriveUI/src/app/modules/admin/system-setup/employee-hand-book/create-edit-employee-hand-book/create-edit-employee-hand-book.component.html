@@ -1,4 +1,3 @@
-<!-- <div class="modal-body"> -->
     <form [formGroup]="handbookSetupForm">
         <div class="form-row">
             <div class="form-group col-lg-6 col-offset-1">
@@ -9,17 +8,7 @@
                     <div *ngIf="f.name.errors.required">Name is required</div>
                 </div>
             </div> 
-            <!-- <div class="form-group col-lg-6" >
-                <label for="inputServiceType">Type </label>
-                <select class="form-control" formControlName="subDocumentId"
-                        [ngClass]="{ 'is-invalid': submitted && f.subDocumentId.errors }">
-                  <option value="" selected hidden>Choose </option>
-                  <option *ngFor="let serviceType of subdocumentType"  value="{{serviceType.CodeId}}">
-                    {{serviceType.CodeValue}}
-                    
-                  </option>
-                </select>
-            </div> -->
+           
             <div class="form-group col-6">
                 <label for="inputName"> Role<span class="required">*</span></label>
 
@@ -52,18 +41,7 @@
                     </div>
               </div> 
             </div>
-                    <!-- <div class="form-group col-lg-6">
-                <label for="inputcreatedDate"> Date Created </label>
-                <input type="text" disabled class="form-control" formControlName="createdDate" >
-
-
-            </div>
-
-            <div class="form-group col-lg-6">
-                <label for="inputSize">Created By</label>
-                <input type="text" disabled class="form-control" formControlName="createdName" >
-
-            </div> -->
+                  
         </div>
 
     </form>

@@ -150,7 +150,6 @@
                                             <tbody class="bodyfix">
                                                 <tr
                                                     *ngFor="let wash of washDetails">
-                                                    <!-- | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize  -->
                                                     <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">{{wash.ClientName}}</td>
                                                     <td>{{wash.VehicleName}}</td>

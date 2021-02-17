@@ -2,7 +2,6 @@
     <div class="row">
         <div class="col-8">
 
-            <!-- <button type="button" style="font-family: Arial, Helvetica, sans-serif;"class="btn btn-secondary btn-xs float-right" (click)="addCustomer()">Add Template</button> -->
             <input type="button" value="Add" (click)="addCustomer()">
             <ng-container *ngIf="cars.length>0; else noRecords">
             <p-table [value]="cars" [autoLayout]="true">
@@ -53,4 +52,3 @@
     [focusOnShow]="false" [style]="{width: '1000px', height: '400px'}">
     <app-create-customer-details *ngIf="showDialog" [selectedData]="selectedData"></app-create-customer-details>
 </p-dialog>
-<!-- <p-dialog [header]="Create New Customer" [visible]="showDialog"></p-dialog> -->

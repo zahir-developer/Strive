@@ -13,7 +13,6 @@
                     <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()"
                     [bsConfig]="bsConfig"  bsDatepicker [outsideClick]="true"><span class="input-group-addon">
                         <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
-                    <!-- <span class="datepick">{{selectDate}}</span> -->
                 </div>
                 
             </div>

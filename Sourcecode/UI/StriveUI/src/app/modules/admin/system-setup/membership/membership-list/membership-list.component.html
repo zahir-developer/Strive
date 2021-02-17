@@ -19,12 +19,7 @@
                                                 class="form-control" [(ngModel)]="query" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Service Type"
                                                 (keyup)="$event.keyCode == 13 ? membershipSearch() : null"> </div>&nbsp;
-                                        <!-- <div class="form-group d-flex"> <select class="form-control"
-                                                [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
-                                                <option value="" selected hidden>Status</option>
-                                                <option *ngFor="let status of Status" value="{{status.id}}">
-                                                    {{status.Value}}</option>
-                                            </select> </div> -->
+                                     
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" (click)="membershipSearch()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
@@ -55,7 +50,6 @@
                                             <th scope="row">{{membership.MembershipName}}</th>
                                             <td class="table-ellipsis">{{membership.Services}}</td>
                                             <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td>
-                                            <!--: 'dd/MM/yyyy'-->
                                             <td>{{membership.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"

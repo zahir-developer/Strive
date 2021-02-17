@@ -67,10 +67,7 @@
                                         <th scope="col">Collision</th>
                                         <th scope="col">Adjustment</th>
                                         <th scope="col">Details com.</th>
-                                        <!-- <th scope="col">Tips</th> -->
-                                        <!-- <th scope="col">Detail Tips</th> -->
-                                        <th scope="col">Payee Total</th>
-                                        <!-- <th scope="col">Action</th> -->
+                                       <th scope="col">Payee Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,13 +88,7 @@
                                         </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
                                         <td>{{payroll.PayeeTotal  | currency}}</td>
-                                        <!-- <td><em *ngIf="!payroll.isEditAdjustment"
-                                                class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2" (click)="editAdjustemt(payroll)"></em>
-                                                <em *ngIf="payroll.isEditAdjustment"
-                                                class="mdi mdi-checkbox-marked-circle edit-list pointer theme-secondary-icon-color font-size-1-2" (click)="saveAdjustemt()"></em>
-                                            <em *ngIf="payroll.isEditAdjustment"
-                                                class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2" (click)="cancelEditAdjusment(payroll)"></em>
-                                        </td> -->
+                                       
                                     </tr>
                                     <tr *ngIf="isPayrollEmpty === true">
                                         <td colspan="12" class="text-center">

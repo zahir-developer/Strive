@@ -60,7 +60,6 @@ appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
                                                 <th scope="col" class="pointer" (click)="changeSorting('ModelName')">
                                                     Model&nbsp;<i class="fa" [ngClass]="selectedCls('ModelName')"
                                                         aria-hidden="true"></i></th>
-                                                <!-- <th scope="col">Upcharge</th> -->
                                                 <th scope="col" class="pointer" (click)="changeSorting('Barcode')">
                                                     Barcode&nbsp;<i class="fa" [ngClass]="selectedCls('Barcode')"
                                                         aria-hidden="true"></i></th>
@@ -83,10 +82,8 @@ appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
                                                 <td>{{vehicle.Color}}</td>
                                                 <td>{{vehicle.VehicleMake}}</td>
                                                 <td>{{vehicle.ModelName}}</td>
-                                                <!-- <td>{{vehicle.Upcharge}}</td> -->
                                                 <td>{{vehicle.Barcode}}</td>
                                                 <td>{{vehicle.MembershipName !== null ? vehicle.MembershipName : 'No'}}</td>
-                                                <!-- {{vehicle.MembershipName !== null ? vehicle.MembershipName : 'NO'}} -->
                                                 <td>
                                                     <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
                                                         style="color:orange" pTooltip="View" tooltipPosition="bottom"
