@@ -77,4 +77,8 @@ export class EmployeeService {
   getVehicleByClientId(id) {
     return this.http.get(`${UrlConfig.vehicle.getVehicleByClientId}`, { params: { id } } );
   }
+
+  getAllEmployeeList(obj) {
+    return this.http.post(`${UrlConfig.totalUrl.getAllEmployeeList}`, obj);
+  }
 }
