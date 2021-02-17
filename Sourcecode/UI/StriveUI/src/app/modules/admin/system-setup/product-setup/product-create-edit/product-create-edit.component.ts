@@ -119,7 +119,7 @@ export class ProductCreateEditComponent implements OnInit {
   }
   // Get All Location
   getAllLocation() {
-    this.locationService.getLocation().subscribe(data => {
+    this.product.getAllLocationName().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationName = location.Location.filter(item => item.IsActive === true);

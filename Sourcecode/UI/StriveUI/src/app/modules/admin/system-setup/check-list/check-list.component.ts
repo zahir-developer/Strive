@@ -19,7 +19,6 @@ export class CheckListComponent implements OnInit {
   isLoading: boolean;
   checkListDetails: any = [];
   isTableEmpty: boolean;
-
   collectionSize: number = 0;
   selectedData: boolean = false;
   isEdit: boolean;
@@ -46,6 +45,7 @@ export class CheckListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -63,9 +63,9 @@ export class CheckListComponent implements OnInit {
   }
   // Get All Services
   getAllcheckListDetails() {
-    this.spinner.show();
+    this.isLoading = true;
     this.checkListSetup.getCheckListSetup().subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
@@ -80,7 +80,7 @@ export class CheckListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     }, (err) => {
-      this.spinner.hide();
+      this.isLoading = false;
     });
   }
   paginate(event) {
@@ -140,8 +140,6 @@ export class CheckListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
-
-
     this.checkListSetup.deleteCheckListSetup(data.ChecklistId).subscribe(res => {
       if (res.status === "Success") {
         this.toastr.success('Record Deleted Successfully!!', 'Success!');

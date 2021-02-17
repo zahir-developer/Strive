@@ -41,9 +41,9 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   getDocument() {
-    this.spinner.show();
+    this.isLoading = true;
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;

@@ -44,8 +44,8 @@ appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
                                     <table class="table  table-striped m-t-10 headerfix">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="pointer" (click)="changeSorting('ClientName')">
-                                                    Client Name&nbsp;<i class="fa" [ngClass]="selectedCls('ClientName')"
+                                                <th scope="col" class="pointer" (click)="changeSorting('FirstName')">
+                                                    Client Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
                                                         aria-hidden="true"></i></th>
                                                 <th scope="col" class="pointer"
                                                     (click)="changeSorting('VehicleNumber')">Vehicle #&nbsp;<i
@@ -73,9 +73,8 @@ appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
                                         </thead>
 
                                         <tbody class="bodyfix">
-
                                             <tr
-                                                *ngFor="let vehicle of vehicleDetails | orderBy:sort.column:'sequence':sort.descending">
+                                                *ngFor="let vehicle of vehicleDetails">
                                                 <th scope="row" class="text-underline theme-primary-color font-size--9"
                                                     style="cursor: pointer;" (click)="navigateToClient(vehicle)">
                                                     {{vehicle.ClientName}}</th>

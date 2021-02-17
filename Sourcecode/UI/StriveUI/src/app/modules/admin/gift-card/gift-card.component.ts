@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-gift-card',
@@ -38,7 +39,8 @@ export class GiftCardComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -47,16 +49,17 @@ export class GiftCardComponent implements OnInit {
     this.giftCardForm = this.fb.group({
       number: ['', Validators.required]
     });
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    
     this.getAllGiftCard();
   }
 
   getAllGiftCard() {
     const locationId = +localStorage.getItem('empLocationId');
+    this.spinner.show();
     this.giftCardService.getAllGiftCard(locationId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const giftcard = JSON.parse(res.resultData);
         this.giftCardList = giftcard.GiftCard;
@@ -66,21 +69,20 @@ export class GiftCardComponent implements OnInit {
         this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
         this.collectionSize = Math.ceil(this.giftCardList.length / this.pageSize) * 10;
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
+    this.pageSize = +this.pageSize;
     this.page = event ;
-    
-    this.getAllGiftCard()
+    this.getAllGiftCard();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
+    this.pageSize = +event.target.value;
     this.page =  this.page;
-    
-    this.getAllGiftCard()
+    this.getAllGiftCard();
   }
   searchGift(text) {
     if (text.length > 0) {

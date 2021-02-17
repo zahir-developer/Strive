@@ -163,8 +163,9 @@ export const UrlConfig = {
     deleteadSetup: `Admin/AdSetup/Delete`,
     getByIdadSetup: `Admin/AdSetup/GetById`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
-    getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`
-
+    getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`,
+    getALLVendorName: `Admin/Vendor/GetAllVendorName`,
+    getAllLocationName: `Admin/Location/GetAllLocationName`
 
 
 
@@ -202,7 +203,7 @@ export const UrlConfig = {
     getHourlyWashReport: `Admin/Report/GetHourlyWashReport`
   },
   dashboard: {
-    getDashboardLocation: `Admin/Location/GetAll`,
+    getDashboardLocation: `Admin/Location/GetAllLocationName`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`,
     getAvailablilityScheduleTime: `Admin/Dashboard/GetAvailablilityScheduleTime`

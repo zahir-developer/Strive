@@ -24,7 +24,7 @@ export class ClientListComponent implements OnInit {
   search: any = '';
   locationId = +localStorage.getItem('empLocationId');
   collectionSize: number = 0;
-  sort = { column: 'IsActive', descending: true };
+  sort = { column: 'FirstName', descending: false };
   sortColumn: { column: string; descending: boolean; };
   pageSizeList: number[];
   page: number;
@@ -57,8 +57,8 @@ export class ClientListComponent implements OnInit {
       PageNo: this.page,
       PageSize: this.pageSize,
       Query: this.search,
-      SortOrder: null,
-      SortBy: null
+      SortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      SortBy: this.sort.column
     };
     this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
@@ -100,8 +100,8 @@ export class ClientListComponent implements OnInit {
       PageNo: this.page,
       PageSize: this.pageSize,
       Query: this.search,
-      SortOrder: null,
-      SortBy: null
+      SortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      SortBy: this.sort.column
     };
     this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
@@ -195,6 +195,7 @@ export class ClientListComponent implements OnInit {
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
+    this.getAllClientDetails();
   }
 
   changeSortingDescending(column, sortingInfo) {

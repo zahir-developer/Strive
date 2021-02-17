@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as _ from 'underscore';
@@ -32,7 +33,8 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   owedLocationName = [];
   constructor(
     private excelService: ExcelService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +49,9 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
 
   getMoneyOwnedReportList() {
     const date = this.year + '-' + this.month;
+    this.spinner.show();
     this.reportsService.getMonthlyMoneyOwnedReport(date, this.locationId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const monthlyReport = JSON.parse(res.resultData);
         this.uniqLocationName = [];
@@ -100,6 +104,8 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
           this.moontlyOwnedGrid(monthlyReport.GetMonthlyMoneyOwnedReport, uniqDate);
         }
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

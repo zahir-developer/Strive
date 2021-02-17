@@ -5,6 +5,7 @@ import { CashRegisterService } from 'src/app/shared/services/data-service/cash-r
 import { ToastrService } from 'ngx-toastr';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-closeout-register',
@@ -46,7 +47,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   drawerId: any;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
-    private cd: ChangeDetectorRef) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getDocumentType()
@@ -88,7 +89,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.totalRoll = this.totalPennieRoll = this.totalQuaterRoll = this.totalNickelRoll = this.totalDimeRoll = 0;
     this.totalBill = this.totalOnes = this.totalFives = this.totalTens = this.totalTwenties = this.totalFifties = this.totalHunderds = 0;
     this.totalCash = 0;
-    this.getCloseOutRegister();
+    // this.getCloseOutRegister();
   }
 
   // Get CloseOutRegister By Date
@@ -104,7 +105,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.totalBill = 0;
     this.totalRoll = 0;
     this.totalCash = 0;
+    this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
+      this.spinner.hide();
       if (data.status === "Success") {
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
@@ -168,6 +171,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterRollForm.reset();
         }
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   getDocumentType() {

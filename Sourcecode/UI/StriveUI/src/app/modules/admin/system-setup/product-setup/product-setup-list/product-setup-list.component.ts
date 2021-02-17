@@ -19,71 +19,77 @@ export class ProductSetupListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  search : any = '';
+  search: any = '';
   collectionSize: number = 0;
   pageSize: number;
   pageSizeList: number[];
   page: number;
+  isLoading: boolean;
   constructor(private productService: ProductService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.isLoading = false;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllproductSetupDetails();
 
   }
 
-  productSearch(){
+  productSearch() {
     this.page = 1;
-    const obj ={
+    const obj = {
       productSearch: this.search
-   }
-   this.productService.ProductSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.productSetupDetails = location.ProductSearch;
-       if (this.productSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.sort('ProductName')
-         this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
-  }
-
-  // Get All Product
-  getAllproductSetupDetails() {
-    this.spinner.show();
-    this.productService.getProduct().subscribe(data => {
-      this.spinner.hide();
+    };
+    this.isLoading = true;
+    this.productService.ProductSearch(obj).subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
-        const product = JSON.parse(data.resultData);
-        this.productSetupDetails = product.Product;
+        const location = JSON.parse(data.resultData);
+        this.productSetupDetails = location.ProductSearch;
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.productSetupDetails.length/this.pageSize) * 10;
+          this.sort('ProductName')
+          this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     }, (err) => {
-      this.spinner.hide();
+      this.isLoading = false;
+    });
+  }
+
+  // Get All Product
+  getAllproductSetupDetails() {
+    this.isLoading = true;
+    this.productService.getProduct().subscribe(data => {
+      this.isLoading = false;
+      if (data.status === 'Success') {
+        const product = JSON.parse(data.resultData);
+        this.productSetupDetails = product.Product;
+        if (this.productSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    }, (err) => {
+      this.isLoading = false;
     });
   }
   sort(property) {
     this.isDesc = !this.isDesc; //change the direction    
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
-   
+
     this.productSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -98,12 +104,12 @@ export class ProductSetupListComponent implements OnInit {
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
-    this.page = event ;
+    this.page = event;
     this.getAllproductSetupDetails();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page =  this.page;
+    this.page = this.page;
     this.getAllproductSetupDetails();
   }
   edit(data) {

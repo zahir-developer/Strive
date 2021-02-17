@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
   selector: 'app-time-clock-week',
@@ -41,6 +42,7 @@ export class TimeClockWeekComponent implements OnInit {
     private datePipe: DatePipe,
     private toastr: ToastrService,
     private messageService: MessageServiceToastr,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +62,9 @@ export class TimeClockWeekComponent implements OnInit {
       startDate,
       endDate
     };
+    this.spinner.show();
     this.timeClockMaintenanceService.getTimeClockWeekDetails(inputParams).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const weekDetails = JSON.parse(res.resultData);
         if (weekDetails.Result.TimeClockWeek !== null) {
@@ -117,6 +121,8 @@ export class TimeClockWeekComponent implements OnInit {
           this.totalHoursCalculation();
         }
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

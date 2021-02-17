@@ -3,6 +3,7 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as moment from 'moment';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-monthly-tip',
   templateUrl: './monthly-tip.component.html',
@@ -25,7 +26,10 @@ export class MonthlyTipComponent implements OnInit {
   tipAmount: number;
   totalHours = 0;
   fileTypeEvent: boolean = false;
-  constructor(private excelService: ExcelService, private reportService: ReportsService) { }
+  constructor(
+    private excelService: ExcelService,
+    private reportService: ReportsService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.month = this.date.getMonth() + 1;
@@ -39,8 +43,10 @@ export class MonthlyTipComponent implements OnInit {
       month: +this.month,
       date: null
     };
+    this.spinner.show();
     this.totalTip = 0;
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const dailytip = JSON.parse(res.resultData);
         this.monthlyTip = dailytip.GetEmployeeTipReport;
@@ -49,6 +55,8 @@ export class MonthlyTipComponent implements OnInit {
         });
         this.collectionSize = Math.ceil(this.monthlyTip.length / this.pageSize) * 10;
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
   export() {
@@ -66,7 +74,7 @@ export class MonthlyTipComponent implements OnInit {
           document.getElementById('monthlyTip').style.visibility = 'visible';
         }, 3000);
         this.excelService.exportAsPDFFile('monthlyReport', 'MonthlyTipReport_' + this.month + '/' + this.year
-        + '_' + locationName + '.pdf');
+          + '_' + locationName + '.pdf');
         break;
       }
       case 2: {

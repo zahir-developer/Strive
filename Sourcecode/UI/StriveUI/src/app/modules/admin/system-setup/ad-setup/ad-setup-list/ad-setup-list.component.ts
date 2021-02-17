@@ -39,7 +39,6 @@ export class AdSetupListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -52,26 +51,21 @@ export class AdSetupListComponent implements OnInit {
 
   // Get All Services
   getAlladSetupDetails() {
-    this.spinner.show();
+    this.isLoading = true;
     this.adSetup.getAdSetup().subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
-        
-       this.serviceDetails = JSON.parse(data.resultData);
-       if(this.serviceDetails){
-        this.adSetupDetails = this.serviceDetails.GetAllAdSetup;
-
-       }
-     
-       
+        this.serviceDetails = JSON.parse(data.resultData);
+        if (this.serviceDetails.GetAllAdSetup !== null) {
+          this.adSetupDetails = this.serviceDetails.GetAllAdSetup;
+        }
         if (this.adSetupDetails.length === 0) {
-          this.adSetupDetails.forEach( ad => {
+          this.isTableEmpty = true;
+        } else {
+          this.adSetupDetails.forEach(ad => {
             ad.serupName = ad.Name + '' + ad.Description;
           });
           this.clonedadSetupDetails = this.adSetupDetails.map(x => Object.assign({}, x));
-        
-          this.isTableEmpty = true;
-        } else {
           this.collectionSize = Math.ceil(this.adSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -79,6 +73,7 @@ export class AdSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     }, (err) => {
+      this.isLoading = false;
       this.spinner.hide();
     });
   }
@@ -106,21 +101,21 @@ export class AdSetupListComponent implements OnInit {
     this.getAlladSetupDetails()
   }
 
-   // Get Service By Id
+  // Get Service By Id
 
   edit(data) {
     this.spinner.show()
-  this.adSetup.getAdSetupById(data.AdSetupId).subscribe(data => {
-    if (data.status === "Success") {
-this.spinner.hide()
-      const sType = JSON.parse(data.resultData);
-      this.selectedData = sType.GetAdSetupById;
-      this.showDialog = true;
+    this.adSetup.getAdSetupById(data.AdSetupId).subscribe(data => {
+      if (data.status === "Success") {
+        this.spinner.hide()
+        const sType = JSON.parse(data.resultData);
+        this.selectedData = sType.GetAdSetupById;
+        this.showDialog = true;
 
-    } else {
-      this.toastr.error('Communication Error', 'Error!');
-    }
-  });
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
 
 
   }
@@ -161,7 +156,7 @@ this.spinner.hide()
       this.showDialog = true;
     } else {
       this.headerData = 'Edit AdSetup';
-    this.edit(serviceDetails)
+      this.edit(serviceDetails)
       this.isEdit = true;
     }
   }
@@ -190,9 +185,9 @@ this.spinner.hide()
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
-   
-  })
-}
+
+    })
+  }
 
 }
 

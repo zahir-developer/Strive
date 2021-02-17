@@ -35,13 +35,13 @@ export class EmployeeListComponent implements OnInit {
   employeeId: any;
   location: any;
   public isCollapsed = false;
-  
+
   collectionSize: number;
   search = '';
   sort = { column: 'Status', descending: true };
   sortColumn: { column: string; descending: boolean; };
-  page: any ;
-  pageSize :any;
+  page: any;
+  pageSize: any;
   pageSizeList: any[];
   constructor(
     private employeeService: EmployeeService,
@@ -49,13 +49,12 @@ export class EmployeeListComponent implements OnInit {
     private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-
     private messageService: MessageServiceToastr,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.isTableEmpty = true;
@@ -67,17 +66,17 @@ export class EmployeeListComponent implements OnInit {
       if (data.status === 'Success') {
         const employees = JSON.parse(data.resultData);
         const employeeDetail = employees.EmployeeList;
-          this.employeeDetails = employeeDetail;
-          if (this.employeeDetails.length === 0) {
-            this.isTableEmpty = true;
-          } else {
-            this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
-  
-            this.isTableEmpty = false;
-          }
+        this.employeeDetails = employeeDetail;
+        if (this.employeeDetails.length === 0) {
+          this.isTableEmpty = true;
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+
+          this.isTableEmpty = false;
         }
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
     });
   }
   edit(data) {
@@ -108,17 +107,14 @@ export class EmployeeListComponent implements OnInit {
     }
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.seachEmployee()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.seachEmployee();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.seachEmployee()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.seachEmployee();
   }
   employeeDetail(employeeDetail) {
     const id = employeeDetail.EmployeeId;
@@ -158,7 +154,9 @@ export class EmployeeListComponent implements OnInit {
   }
 
   seachEmployee() {
+    this.spinner.show();
     this.employeeService.searchEmployee(this.search).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const seachList = JSON.parse(res.resultData);
         this.employeeDetails = seachList.EmployeeList;
@@ -166,6 +164,8 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

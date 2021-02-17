@@ -19,7 +19,6 @@ export class VendorSetupListComponent implements OnInit {
   isTableEmpty: boolean;
   isLoading = true;
   search: any = '';
-
   collectionSize: number = 0;
   page: any;
   pageSize: number;
@@ -44,10 +43,10 @@ export class VendorSetupListComponent implements OnInit {
     this.page = 1;
     const obj = {
       vendorSearch: this.search
-    }
-    this.spinner.show();
+    };
+    this.isLoading = true;
     this.vendorService.VendorSearch(obj).subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.vendorSetupDetails = location.VendorSearch;
@@ -61,15 +60,14 @@ export class VendorSetupListComponent implements OnInit {
         this.toastr.error('Communication Error', 'Error!');
       }
     }, (err) => {
-      this.spinner.hide();
+      this.isLoading = false;
     });
   }
   sort(property) {
-    if(this.EmitPopup == false){
-      this.isDesc = false;      
-
+    if (this.EmitPopup === false) {
+      this.isDesc = false;
     }
-    this.isDesc = !this.isDesc; //change the direction    
+    this.isDesc = !this.isDesc; // change the direction    
     this.column = property;
     let direction = this.isDesc ? 1 : -1;
 
@@ -95,11 +93,9 @@ export class VendorSetupListComponent implements OnInit {
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          
-            this.sort('VendorName')
-
-          if(this.EmitPopup == false){
-            this.isDesc = true;      
+          this.sort('VendorName');
+          if (this.EmitPopup === false) {
+            this.isDesc = true;
 
           }
           this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
@@ -108,20 +104,19 @@ export class VendorSetupListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.isLoading = false;
     });
   }
   paginate(event) {
-
     this.pageSize = +this.pageSize;
     this.page = event;
-
-    this.getAllvendorSetupDetails()
+    this.getAllvendorSetupDetails();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
-
-    this.getAllvendorSetupDetails()
+    this.getAllvendorSetupDetails();
   }
   edit(data) {
     this.selectedData = data;
@@ -152,7 +147,6 @@ export class VendorSetupListComponent implements OnInit {
   closePopupEmit(event) {
     if (event.status === 'saved') {
       this.EmitPopup = false;
-
       this.getAllvendorSetupDetails();
     }
     this.showDialog = event.isOpenPopup;
