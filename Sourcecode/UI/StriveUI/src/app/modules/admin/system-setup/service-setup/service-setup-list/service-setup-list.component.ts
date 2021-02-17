@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
-//import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
   selector: 'app-service-setup-list',

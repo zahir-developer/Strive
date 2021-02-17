@@ -54,7 +54,6 @@ export class LocationCreateEditComponent implements OnInit {
     this.formInitialize();
     this.submitted = false;
     this.Country = null;
-    console.log(this.selectedData);
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
       this.getLocationById();
@@ -116,7 +115,6 @@ export class LocationCreateEditComponent implements OnInit {
 
   // Add / Update location 
   submit() {
-    console.log(this.offset1, 'offset');
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;

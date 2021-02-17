@@ -5,7 +5,6 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timelinePlugin from '@fullcalendar/timeline';
 import * as moment from 'moment';
 import { FullCalendar } from 'primeng';
-// import { FullCalendarComponent } from '@fullcalendar/angular';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -47,7 +46,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   endTime: Date;
   dateTime: Date
   @ViewChild('fc') fc: FullCalendar;
-  // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
   empList: any;
   showDialog: boolean;
@@ -75,7 +73,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit(): void {
-    // this.getEmployeeList();
     this.searchEmployee();
     this.getLocationList();
 
@@ -113,7 +110,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
       },
       dayClick: (event) => {
-        console.log(event.view.activeStart, 'dayClick');
       },
       eventResize: (event) => {
         this.empName = event.event.title;
@@ -149,15 +145,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
             $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
             $('#name').html(this.empName);
             $('#empId').html(this.empId);
-            // this.empLocation = undefined;
             $('.modal').find('#location').val(0);
           } else {
             this.removeDraggedEvent();
             let i = 0;
             this.selectedList.forEach(item => {
-              // if(multiSelect.length !== 0){
-              //   i = multiSelect.length;
-              // }
               i++;
               item.id = 'clicked' + i,
                 item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
@@ -245,7 +237,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     });
     if (alreadyScheduled) {
-      console.log('coming');
       this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Can not able to schedule at the same time' });
       return;
     }
@@ -323,7 +314,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
               };
               this.events = [... this.events, emp];
             });
-            console.log(this.events, 'events');
           }
         }
         this.removeDraggedEvent();
@@ -373,7 +363,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     });
   }
   getLocationId(event) {
-    // const loc = this.location.filter(item => item.LocationName === event.target.textContent);
     this.locationId = event.LocationId;
     this.getSchedule();
   }

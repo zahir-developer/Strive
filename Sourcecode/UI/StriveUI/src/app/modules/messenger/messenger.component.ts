@@ -150,7 +150,6 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.spinner.show();
     this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
-    console.log(this.selectedEmployee, 'employee');
     this.isGroupChat = employeeObj.IsGroup;
     this.groupChatId = employeeObj.IsGroup ? employeeObj.Id : 0;
     const chatObj = {
@@ -287,7 +286,6 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
   openpopup(event) {
     this.currentEmployeeId = 0;
-    // this.selectedEmployee = [];
     this.openemp(event);
   }
 
@@ -350,10 +348,8 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
     this.msgService.changeUnreadMessageState(chatDetail).subscribe(data => {
       if (data.status === 'Success') {
         const result = JSON.parse(data.resultData);
-        console.log(result, 'changeUnreadMessageState');
       }
       else {
-        console.log('Error')
       }
     });
 

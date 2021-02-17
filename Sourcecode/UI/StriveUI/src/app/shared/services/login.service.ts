@@ -14,6 +14,5 @@ export class LoginService {
   }
   refreshToken(paramsObj): Observable<any> {
     return this.http.post(`${UrlConfig.totalUrl.refreshToken}`, {params: {token: paramsObj.token, refreshToken: paramsObj.refreshToken}});
-    // return this.http.post(`${UrlConfig.totalUrl.refreshToken}`, paramsObj);
   }
 }

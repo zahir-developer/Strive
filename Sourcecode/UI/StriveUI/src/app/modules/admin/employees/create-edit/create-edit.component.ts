@@ -127,7 +127,6 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
         }
@@ -149,7 +148,6 @@ export class CreateEditComponent implements OnInit {
         item_text: item.CodeValue
       };
     });
-    console.log(this.employeeRoles, 'employeerolesmuliti');
     this.dropdownSettings = {
       singleSelection: false,
       defaultOpen: false,
@@ -229,7 +227,6 @@ export class CreateEditComponent implements OnInit {
 
   getGenderDropdownValue() {
     this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      console.log(res, 'gender');
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
@@ -283,7 +280,6 @@ export class CreateEditComponent implements OnInit {
       const fReader = new FileReader();
       fReader.readAsDataURL(file);
       fReader.onloadend = (event: any) => {
-        console.log(file.size, 'size');
         this.fileName = file.name;
         const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
@@ -296,13 +292,11 @@ export class CreateEditComponent implements OnInit {
         };
         this.multipleFileUpload.push(fileObj);
         this.isLoading = false;
-        console.log(this.multipleFileUpload, 'fileupload');
       };
     } catch (error) {
       this.fileName = null;
       this.fileUploadformData = null;
       this.isLoading = false;
-      console.log('no file was selected...');
     }
   }
 
@@ -330,7 +324,6 @@ export class CreateEditComponent implements OnInit {
   }
 
   saveEmployee() {
-    console.log(this.emplistform, 'empdorm');
     this.emplistform.controls.status.enable();
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
@@ -350,14 +343,14 @@ export class CreateEditComponent implements OnInit {
       employeeAddressId: 0,
       employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: null, // ''
+      address2: null,
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: null, // ''
+      phoneNumber2: null, 
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null,  // ''
-      country: null // 38
+      zip: null, 
+      country: null 
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
@@ -371,13 +364,13 @@ export class CreateEditComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: 0,
       employeeId: this.employeeId,
-      employeeCode: null, // ''
+      employeeCode: null, 
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
-      lrt: null, // '2020 - 08 - 06T19: 24: 48.817Z',
+      lrt: null,
       exemptions: +this.emplistform.value.exemptions,
       isActive: true,
       isDeleted: false,
@@ -394,14 +387,14 @@ export class CreateEditComponent implements OnInit {
     const employeeObj = {
       employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
-      middleName: null,  // ''
+      middleName: null, 
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: null, // ''
+      maritalStatus: null, 
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: null,  // ''
+      birthDate: null,  
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
@@ -412,12 +405,12 @@ export class CreateEditComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: null,  // '',
+        filepath: null,  
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: false,
-        password: null, // ''
-        comments: null, // ''
+        password: null, 
+        comments: null,
         isActive: true,
         isDeleted: false,
         createdBy:  +localStorage.getItem('empId'),

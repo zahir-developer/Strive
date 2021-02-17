@@ -167,23 +167,7 @@ a[data-goto]:hover {
     position: relative;
     width: 100%;
 }
-/* .fc-event {
-    position: relative;
-    display: block;
-    font-size: 0.85em;
-    line-height: 1.4;
-    border-radius: 3px;
-    border: 1px solid #3788d8;
-}
-.fc-event,
-.fc-event-dot {
-    background-color: #3788d8;
-}
-.fc-event,
-.fc-event:hover {
-    color: #fff;
-    text-decoration: none;
-} */
+
 .fc-not-allowed,
 .fc-not-allowed .fc-event {
     cursor: not-allowed;
@@ -455,8 +439,7 @@ a.fc-more:hover {
 }
 .fc-button:focus {
     outline: 0;
-/*     -webkit-box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
-    box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25); */
+
 }
 .fc-button:disabled {
     opacity: 0.65;
@@ -503,7 +486,6 @@ a.fc-more:hover {
     color: #fff !important;
     background-color: #A7A7A7 !important;
     border-color: #DDE7E9 !important;
-	/* opacity: 65%; */
 	font-weight:600;
 
 }
@@ -578,12 +560,9 @@ vertical-align: middle;
 	.fc-time-grid .fc-event {
 		position: absolute;
 		z-index: 1;
-		/* background-color: #FEA2C1 !important; */
 	}
 	
-	.fc-time-grid-container {
-		/* height: 300px !important; */
-	}
+	
 .fc-view-container {
     position: relative;
 }

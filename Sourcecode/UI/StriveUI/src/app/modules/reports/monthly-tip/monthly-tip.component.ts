@@ -43,7 +43,6 @@ export class MonthlyTipComponent implements OnInit {
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(res => {
       if (res.status === 'Success') {
         const dailytip = JSON.parse(res.resultData);
-        console.log(dailytip);
         this.monthlyTip = dailytip.GetEmployeeTipReport;
         this.monthlyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;

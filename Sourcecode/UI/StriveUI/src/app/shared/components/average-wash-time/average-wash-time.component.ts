@@ -22,7 +22,6 @@ export class AverageWashTimeComponent implements OnInit {
     this.wash.getWashTimeByLocationId(id).subscribe((data: any) => {
       if (data.status === 'Success') {
         const washTime = JSON.parse(data.resultData);   
-        console.log(washTime)
              this.average = washTime.Location.Location.WashTimeMinutes;
 
       }

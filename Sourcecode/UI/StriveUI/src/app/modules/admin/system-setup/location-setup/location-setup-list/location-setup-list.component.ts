@@ -172,7 +172,5 @@ export class LocationSetupListComponent implements OnInit {
       this.spinner.hide();
     });
   }
-  clearSearch() {
-    console.log('clear');
-  }
+ 
 }

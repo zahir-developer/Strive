@@ -47,7 +47,6 @@ export class SelectLocationComponent implements OnInit {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.locationList = location.Location;
-        console.log(location, 'location');
         this.patchLocationValue();
       }
     });

@@ -63,18 +63,12 @@ export class CheckListComponent implements OnInit {
   }
   // Get All Services
   getAllcheckListDetails() {
-    // this.httpClient.get('assets/json/checkList.json').toPromise()
-    // .then((data: any) => {
-    //   this.checkListDetails = data.Checklist;
-    //   console.log(this.checkListDetails)
-    // });
     this.spinner.show();
     this.checkListSetup.getCheckListSetup().subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
-        console.log(data);
         if (this.checkListDetails.length === 0) {
           this.sort('Name');
           this.isTableEmpty = true;
@@ -171,18 +165,9 @@ export class CheckListComponent implements OnInit {
     this.selectedData = false;
 
   }
-  //   onItemSelect(employeeRoles){
-  // console.log(employeeRoles)
-
-  //   this.employeeRoleId.push(employeeRoles.item_id);
-
-  //   }
+ 
   submit(data) {
-    // this.submitted = true;
-    // if (this.serviceSetupForm.invalid) {
-    //   return;
-    // }
-
+   
     if (data.RoleId == undefined && this.RoleId.length == 0) {
       this.toastr.warning('Role Name is Required', 'Warning!');
       return

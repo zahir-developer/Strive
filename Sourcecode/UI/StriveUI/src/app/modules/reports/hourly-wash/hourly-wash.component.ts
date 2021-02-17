@@ -78,7 +78,6 @@ export class HourlyWashComponent implements OnInit {
   }
 
   onValueChange(event) {
-    console.log(event, 'start');
     if (event !== null) {
       this.startDate = event[0];
       this.endDate = event[1];
@@ -90,7 +89,6 @@ export class HourlyWashComponent implements OnInit {
   }
 
   viewHourlyReport() {
-    // 2034, '2020-11-16', '2020-11-17'
     const finalObj = {
       locationId: +this.locationId,
       fromDate: moment(this.startDate).format(),
@@ -186,7 +184,6 @@ export class HourlyWashComponent implements OnInit {
               });
             }
           });
-          console.log(this.salesDetails, 'salesdetail');
           this.salesDetails.forEach(item => {
             const manager = _.where(this.hourlyWashManager, { EventDate: item.JobDate });
             if (manager.length > 0) {

@@ -274,12 +274,6 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        // this.excelService.exportAsExcelFile(this.washes, 'DailyWashStatusReport_' +
-        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        // this.excelService.exportAsExcelFile(this.details, 'DailyDetailStatusReport_' +
-        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        // this.excelService.exportAsExcelFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' +
-        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
          const obj = {
           locationId: +this.locationId,
           date: moment(this.date).format('YYYY-MM-DD'),
@@ -293,10 +287,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
             return data; 
                }
-      //     this.download(data, 'excel', 'Escheatments');
-      // return data;       
-
-        })
+      })
       
         break;
       }

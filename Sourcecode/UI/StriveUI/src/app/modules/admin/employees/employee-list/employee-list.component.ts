@@ -59,7 +59,6 @@ export class EmployeeListComponent implements OnInit {
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.isTableEmpty = true;
-    // this.getAllEmployeeDetails();
     this.seachEmployee();
     this.getCommisionDropdownValue();
   }
@@ -124,10 +123,8 @@ export class EmployeeListComponent implements OnInit {
   employeeDetail(employeeDetail) {
     const id = employeeDetail.EmployeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
-      console.log(res, 'getEmployeById');
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
           this.showDialog = true;
@@ -183,7 +180,6 @@ export class EmployeeListComponent implements OnInit {
 
   getGenderDropdownValue() {
     this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      console.log(res, 'gender');
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;

@@ -50,7 +50,6 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
     this.reportsService.getMonthlyMoneyOwnedReport(date, this.locationId).subscribe(res => {
       if (res.status === 'Success') {
         const monthlyReport = JSON.parse(res.resultData);
-        console.log(monthlyReport, 'monthlyrEport');
         this.uniqLocationName = [];
         this.ownedReportList = [];
         this.locationTotalValue = [];
@@ -98,7 +97,6 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
               this.owedLocationName.push(uniq);
             }
           });
-          console.log(this.owedLocationName, 'first');
           this.moontlyOwnedGrid(monthlyReport.GetMonthlyMoneyOwnedReport, uniqDate);
         }
       }
@@ -159,7 +157,6 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         gridRecord.push(finalObj);
       }
     });
-    console.log(gridRecord, 'grid');
     this.ownedReportList = gridRecord;
     this.ownedReportList.forEach(item => {
       this.accountAmount = this.accountAmount + item.AccountAmount;
@@ -195,7 +192,6 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         totalOwnedValue
       });
     });
-    console.log(this.locationTotalValue, 'totalvalue');
   }
 
   onMonthChange(event) {

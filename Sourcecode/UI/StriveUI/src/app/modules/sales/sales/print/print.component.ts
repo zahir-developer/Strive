@@ -26,7 +26,6 @@ export class PrintComponent implements OnInit {
     this.phone = '(770)521-0599';
     this.invoiceDate = '9/18/2020';
     this.invoiceTime = '9:26 AM';
-    console.log(this.itemList);
   }
 cancel() {
   this.activeModal.close();

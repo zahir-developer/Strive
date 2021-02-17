@@ -8,7 +8,7 @@ import { CountryService } from '../../services/common-service/country.service';
 })
 export class CountryDropdownComponent implements OnInit, AfterViewChecked {
   countryList = [];
-  country: any; //  = 29120;
+  country: any;
   @Output() countryId = new EventEmitter();
   @Input() selectedCountryId: any;
   @Input() isdisable: any;

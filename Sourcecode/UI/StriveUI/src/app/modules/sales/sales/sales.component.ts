@@ -221,7 +221,6 @@ export class SalesComponent implements OnInit {
         const services = JSON.parse(data.resultData);
         if (services.ServiceSetup.getAllServiceViewModel !== null ) {
           this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
-          console.log(this.discounts, 'discount');
         }
       }
     });
@@ -316,7 +315,6 @@ export class SalesComponent implements OnInit {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account[0];
           this.isAccount = this.accountDetails?.CodeValue === 'Comp' && this.accountDetails?.IsAccount === true || this.accountDetails?.MembershipId > 0;
-          console.log(this.accountDetails);
         }
       });
       this.spinner.show();
@@ -325,13 +323,6 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
-          console.log(this.itemList, 'item');
-          // if (this.itemList.Status.PaymentStatusViewModel === null) {
-          //   this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
-          //   return;
-          // } else {
-          //   this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
-          // }
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
@@ -347,7 +338,6 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === 'Air Fresheners');
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === 'Discounts');
-              console.log(this.washes);
             }
           } else {
             this.showPopup = false;
@@ -602,7 +592,6 @@ export class SalesComponent implements OnInit {
           jobItemId: 0,
           jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
           serviceId: this.selectedService?.id,
-          // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
           commission: 0,
           price: this.selectedService?.price,
           quantity: +this.addItemForm.controls.quantity.value,
@@ -709,10 +698,6 @@ export class SalesComponent implements OnInit {
     this.enableAdd = true;
     this.clearpaymentField();
     this.clearGridItems();
-    // this.salesService.getTicketNumber().subscribe(data => {
-    //   this.newTicketNumber = data;
-
-    // });
   }
   creditProcess() {
     this.removAddedAmount(this.credit);
@@ -826,7 +811,6 @@ export class SalesComponent implements OnInit {
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
           + upchargeDiscountPrice + outsideDiscountPrice;
       });
-      // discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
       this.discountAmount = discountValue;
     } else {
       this.discountAmount = 0;
@@ -834,8 +818,6 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.forEach(item => {
       this.discountList.push(item);
     });
-    // this.discountList = this.selectedDiscount;
-    //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
@@ -859,15 +841,7 @@ export class SalesComponent implements OnInit {
       }
     });
   }
-  // getPaymentStatus() {
-  //   this.salesService.getPaymentStatus('PAYMENTSTATUS').subscribe(res => {
-  //     if (res.status === 'Success') {
-  //       const status = JSON.parse(res.resultData);
-  //       this.paymentStatus = status.Codes.filter(item => item.CodeValue === 'Success');
-  //       this.paymentStatusId = this.paymentStatus[0].CodeId;
-  //     }
-  //   });
-  // }
+ 
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
@@ -1045,24 +1019,7 @@ export class SalesComponent implements OnInit {
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: null
-      /*{
-        jobPaymentCreditCardId: 0,
-        jobPaymentId: 0,
-        cardTypeId: null,
-        cardCategoryId: null,
-        cardNumber: '',
-        creditCardTransactionTypeId: null,
-        amount: this.credit ? +this.credit : 0,
-        tranRefNo: '',
-        tranRefDetails: '',
-        isActive: true,
-        isDeleted: false,
-        createdBy: null,
-        createdDate: new Date(),
-        updatedBy: null,
-        updatedDate: new Date()
-      }*/,
-      //jobPaymentDiscount: discount.length === 0 ? null : discount,
+    
 
     };
     this.spinner.show();
@@ -1132,9 +1089,7 @@ export class SalesComponent implements OnInit {
         this.balance = currentAmount - enteredAmount;
       }
     }
-    // if (!moment(today).isBefore(giftcardexpiryDate)) {
-    //   this.isInvalidGiftcard = true;
-    // }
+   
   }
   rollBack() {
     if (this.multipleTicketNumber.length > 0) {

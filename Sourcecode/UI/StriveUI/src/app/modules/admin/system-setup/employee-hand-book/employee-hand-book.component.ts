@@ -45,16 +45,7 @@ export class EmployeeHandBookComponent implements OnInit {
   }
 
   adddata(data, handbookDetails?) {
-    // if (this.document.Document !== null) {
-    //   this.toastr.showMessage({
-    //     severity: 'warning', title: 'Warning',
-    //     body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
-    //   });
-    // }
-    // else if (data === 'add') {
-    //   this.selectedData = handbookDetails;
-    //   this.showDialog = true;
-    // }
+  
     this.selectedData = handbookDetails;
     this.showDialog = true;
   }
@@ -92,22 +83,13 @@ export class EmployeeHandBookComponent implements OnInit {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
-        console.log(this.documentTypeId);
         this.getDocument();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
     });
   }
-  // downloadPDF(documents) {
-  //   const base64 = documents.Base64;
-  //   const linkSource = 'data:application/pdf;base64,' + base64;
-  //   const downloadLink = document.createElement('a');
-  //   const fileName = documents.OriginalFileName;
-  //   downloadLink.href = linkSource;
-  //   downloadLink.download = fileName;
-  //   downloadLink.click();
-  // }
+  
   getDocument() {
     this.spinner.show();
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
@@ -116,7 +98,6 @@ export class EmployeeHandBookComponent implements OnInit {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
-        // this.fileName = this.document?.Document?.FileName;
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
       }
@@ -130,7 +111,6 @@ export class EmployeeHandBookComponent implements OnInit {
     this.documentService.getDocumentById(documents.DocumentId, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
         const documentDetails = JSON.parse(res.resultData);
-        console.log(documentDetails, 'detaila');
         if (documentDetails.Document !== null) {
           const details = documentDetails.Document.Document;
           const base64 = details.Base64;

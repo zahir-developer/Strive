@@ -78,7 +78,6 @@ export class DocumentListComponent implements OnInit {
 
   getAllDocument() {
     this.employeeService.getAllDocument(this.employeeId).subscribe(res => {
-      console.log(res, 'allDocument');
       if (res.status === 'Success') {
         const document = JSON.parse(res.resultData);
         this.documentList = document.GetAllDocuments;
@@ -134,7 +133,6 @@ export class DocumentListComponent implements OnInit {
     this.employeeService.getDocumentById(this.documentId, 'string').subscribe( res => {
       if (res.status === 'Success') {
         const documentDetail = JSON.parse(res.resultData);
-        console.log(documentDetail);
         const base64 = documentDetail.Document.Base64Url;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');

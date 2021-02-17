@@ -96,11 +96,6 @@ export class MembershipCreateEditComponent implements OnInit {
       }
     });
   }
-
-  // getPrice(data) {
-  //   this.membershipForm.get('price').patchValue(this.service.filter(item => item.ServiceId === Number(data))[0].Price);
-  // }
-
   get f() {
     return this.membershipForm.controls;
   }
@@ -123,7 +118,6 @@ export class MembershipCreateEditComponent implements OnInit {
       });
       this.membershipForm.get('price').patchValue(price.toFixed(2));
     }
-    console.log(this.PriceServices);
   }
 
   onItemSelect(data) {
@@ -133,7 +127,6 @@ export class MembershipCreateEditComponent implements OnInit {
       price += +element.Price;
     });
     this.membershipForm.get('price').patchValue(price.toFixed(2));
-    console.log(this.PriceServices, price);
   }
 
   onItemDeSelect(data) {
@@ -143,7 +136,6 @@ export class MembershipCreateEditComponent implements OnInit {
       price += +element.Price;
     });
     this.membershipForm.get('price').patchValue(price.toFixed(2));
-    console.log(this.PriceServices, price);
   }
 
   getMembershipById() {
@@ -202,7 +194,6 @@ export class MembershipCreateEditComponent implements OnInit {
     if (this.membershipForm.invalid) {
       if (this.membershipForm.value.price !== "") {
         if (Number(this.membershipForm.value.price) <= 0) {
-          console.log(Number(this.membershipForm.value.price));
           this.costErrMsg = true;
           return;
         } else {

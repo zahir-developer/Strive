@@ -86,19 +86,12 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       if (res.status === 'Success') {
         const payRoll = JSON.parse(res.resultData);
-        //if (payRoll.Result.PayRollRateViewModel !== null) {
         this.payRollList = payRoll.Result.PayRollRateViewModel;
-        // this.payRollList.forEach(item => {
-        //   item.isEditAdjustment = false;
-        // });
+        
         var length = this.payRollList === null ? 0 : this.payRollList.length;
         this.collectionSize = Math.ceil(length / this.pageSize) * 10;
         this.isPayrollEmpty = false;
-        //}
-        //else
-        //{
         this.isPayrollEmpty = payRoll.Result.PayRollRateViewModel === null ? true : false;
-        //}
       }
     });
   }
@@ -122,7 +115,6 @@ export class PayrollsGridComponent implements OnInit {
   }
 
   updateAdjustment() {
-    console.log(this.payRollList, 'edit');
     const updateObj = [];
     this.payRollList.forEach(item => {
       updateObj.push({

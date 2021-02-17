@@ -82,7 +82,6 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.reportService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(res => {
       if (res.status === 'Success') {
         const cashIn = JSON.parse(res.resultData);
-        console.log(cashIn, 'cashIn');
         if (cashIn.CashRegister.CashRegisterCoins !== null) {
           this.cashRegisterCoins = {
             Pennies: cashIn.CashRegister.CashRegisterCoins.Pennies / 100,
@@ -178,12 +177,6 @@ export class EodComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        //this.excelService.exportAsExcelFile(this.washes, 'EodWashStatusReport_' +
-        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
-        // this.excelService.exportAsExcelFile(this.details, 'EodDetailStatusReport_' +
-        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
-        // this.excelService.exportAsExcelFile(this.clockDetail, 'EodEmployeeClockDetailsReport_' +
-        // moment(this.date).format('MM/dd/yyyy') + '_' + locationName);
         const obj = {
           locationId: +this.locationId,
           date: moment(this.date).format('YYYY-MM-DD'),
@@ -235,7 +228,6 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.reportService.getDailyStatusReport(obj).subscribe(data => {
       if (data.status === 'Success') {
         const dailyStatusReport = JSON.parse(data.resultData);
-        console.log(dailyStatusReport);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
         if (this.dailyStatusReport.length > 0) {
           this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
@@ -243,18 +235,7 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.washTotal = this.calculateTotal(this.washes, 'wash');
           this.detailTotal = this.calculateTotal(this.details, 'detail');
           this.serviceTotal = this.washTotal + this.detailTotal;
-          // this.washes.forEach( item => {
-          //   this.washReport.push({
-          //     ServiceName: item.ServiceName,
-          //     Number: item.Number
-          //   });
-          // });
-          // this.details.forEach( item => {
-          //   this.detailReport.push({
-          //     ServiceName: item.ServiceName,
-          //     Number: item.Number
-          //   });
-          // });
+    
         }
       }
     }, (err) => {
@@ -269,7 +250,6 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {
       if (data.status === 'Success') {
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
-        console.log(dailyStatusDetailInfo);
         this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusDetailInfo;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
@@ -290,8 +270,6 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.reportService.getTimeClockEmpHoursDetail(obj).subscribe(data => {
       if (data.status === 'Success') {
         const clockDetail = JSON.parse(data.resultData);
-        console.log(clockDetail);
-        // this.clockDetail = clockDetail?.Result;
         if (clockDetail.Result.TimeClockEmployeeDetails !== null) {
           this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
           this.clockDetail.forEach(item => {
@@ -319,7 +297,6 @@ export class EodComponent implements OnInit, AfterViewInit {
     this.reportService.getEodSaleReport(saleObj).subscribe(res => {
       if (res.status === 'Success') {
         const saleReport = JSON.parse(res.resultData);
-        console.log(saleReport, 'sales');
         this.salesReport = saleReport.GetEODSalesReport.EODSalesDetails;
       }
     });

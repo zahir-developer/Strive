@@ -35,9 +35,6 @@ export class CollisionListComponent implements OnInit {
     } else {
       this.showCloseButton = false;
     }
-    console.log(this.employeeCollision,this.actionType, 'collision');
-    // this.getAllCollision();
-    // this.collistionGrid();
     this.employeeDetail();
   }
 
@@ -95,7 +92,6 @@ export class CollisionListComponent implements OnInit {
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfully!' });
         this.employeeDetail();
-        //this.collistionGrid();
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -108,7 +104,6 @@ export class CollisionListComponent implements OnInit {
         const employeesCollison = JSON.parse(res.resultData);
         this.employeeCollision = [];
         this.collisionList = [];
-        console.log(employeesCollison, 'employeDeatil');
         if (employeesCollison.Collision.length > 0) {
           this.employeeCollision = employeesCollison.Collision;
           this.collistionGrid();

@@ -39,8 +39,6 @@ export class DetailScheduleComponent implements OnInit {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-    // this.getScheduleDetailsByDate(this.selectedDate);
-    // this.getTodayDateScheduleList();
   }
 
   addNewDetail(schedule) {
@@ -81,11 +79,9 @@ export class DetailScheduleComponent implements OnInit {
       this.isView = true;
     }
     this.actionType = 'Edit Detail';
-    console.log(this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd'), 'date changing');
     this.detailService.getDetailById(bay.jobId).subscribe(res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
-        console.log(details, 'details');
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
         this.showDialog = true;
@@ -104,13 +100,11 @@ export class DetailScheduleComponent implements OnInit {
       jobDate: scheduleDate,
       locationId
     };
-    // document.documentElement.style.setProperty(`--primary-color`, '#FFFFFF');
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
-        console.log(scheduleDetails, 'details');
         const bayList = scheduleDetails.GetBaySchedulesDetails.BayList;
         const bayScheduleDetails = scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails === null ? []
           : scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails;
@@ -151,7 +145,6 @@ export class DetailScheduleComponent implements OnInit {
             bay: baySchedule
           });
         });
-        console.log(baySheduled, 'bayLogic');
         baySheduled.forEach(item => {
           if (item.time === '07:00' || item.time === '07:30' || item.time === '08:00' || item.time === '08:30' ||
           item.time === '09:00' || item.time === '09:30' || item.time === '10:00' || item.time === '10:30') {

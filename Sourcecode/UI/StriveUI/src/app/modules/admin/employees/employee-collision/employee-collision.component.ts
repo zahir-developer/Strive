@@ -69,7 +69,6 @@ export class EmployeeCollisionComponent implements OnInit {
       this.spinner.hide();
       if (res.status === 'Success') {
         const employeesCollison = JSON.parse(res.resultData);
-        console.log(employeesCollison.Collision);
         if (employeesCollison.Collision) {
           const detail = employeesCollison.Collision.Liability[0];
           this.collisionDetail = detail;
@@ -109,8 +108,6 @@ export class EmployeeCollisionComponent implements OnInit {
     this.getCode.getCodeByCategory('LIABILITYDETAILTYPE').subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
-        // this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === 'Collision')[0].CodeId;
-        console.log(dType, 'liability');
       }
     });
   }
@@ -120,7 +117,6 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   saveCollision() {
-    console.log(this.collisionForm);
     this.submitted = true;
     if (this.collisionForm.invalid) {
       return;
@@ -130,13 +126,13 @@ export class EmployeeCollisionComponent implements OnInit {
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       liabilityDetailType: 1,
       amount: +this.collisionForm.value.amount,
-      paymentType: 1, // 1,
-      documentPath: null, // '',
+      paymentType: 1,
+      documentPath: null, 
       description: this.collisionForm.value.reason,
       isActive: true,
       isDeleted: false,
       createdBy: +localStorage.getItem('empId'),
-      createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
+      createdDate: this.collisionForm.value.dateOfCollision,
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
@@ -145,15 +141,15 @@ export class EmployeeCollisionComponent implements OnInit {
       employeeId: this.employeeId,
       liabilityType: this.liabilityTypeId,
       liabilityDescription: this.collisionForm.value.reason,
-      productId: null, // 2,
+      productId: null, 
       totalAmount: +this.collisionForm.value.amount,
-      status: 0, // 0,
+      status: 0, 
       isActive: true,
       isDeleted: false,
       vehicleId: this.collisionForm.value.vehicle,
       clientId: this.collisionForm.value.client.id,
       createdBy: +localStorage.getItem('empId'),
-      createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
+      createdDate: this.collisionForm.value.dateOfCollision,
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
@@ -193,7 +189,6 @@ export class EmployeeCollisionComponent implements OnInit {
         client.Client.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
-        console.log(client, 'client');
         this.clientList = client.Client.map(item => {
           return {
             id: item.ClientId,
@@ -213,7 +208,6 @@ export class EmployeeCollisionComponent implements OnInit {
         client.ClientName.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
-        console.log(client, 'client');
         this.clientList = client.ClientName.map(item => {
           return {
             id: item.ClientId,
@@ -224,13 +218,7 @@ export class EmployeeCollisionComponent implements OnInit {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
-    // for (const i of this.clientList) {
-    //   const client = i;
-    //   if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-    //     filtered.push(client);
-    //   }
-    // }
-    // this.filteredClient = filtered;
+  
   }
 
   selectedClient(event) {

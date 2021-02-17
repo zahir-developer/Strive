@@ -44,7 +44,6 @@ export class TimeClockWeekComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.empClockInObj, 'empObj');
     this.weekStartDate = new Date(this.empClockInObj.startDate);
     this.weekLastDate = this.empClockInObj.endDate;
     this.getAllRoles();
@@ -64,10 +63,8 @@ export class TimeClockWeekComponent implements OnInit {
     this.timeClockMaintenanceService.getTimeClockWeekDetails(inputParams).subscribe(res => {
       if (res.status === 'Success') {
         const weekDetails = JSON.parse(res.resultData);
-        console.log(weekDetails, 'weekDetails');
         if (weekDetails.Result.TimeClockWeek !== null) {
           this.totalWeekDetail = weekDetails.Result.TimeClockWeek;
-          //this.totalHoursCalculation();
         }
         if (weekDetails.Result.TimeClock !== null) {
           this.weekDays.forEach(day => {
@@ -97,11 +94,8 @@ export class TimeClockWeekComponent implements OnInit {
             });
           });
           this.replicateClockList = this.timeClockList;
-          console.log(this.timeClockList, 'timeclocklist');
           this.totalHoursCalculation();
         } else {
-          // const daysCount = this.empClockInObj.endDate.getDate() - this.empClockInObj.startDate.getDate();
-          console.log("daysCount", 'day');
           const weekDetails = [];
           weekDetails.push({
             day: this.datePipe.transform(this.weekStartDate, 'EEEE'),
@@ -118,7 +112,6 @@ export class TimeClockWeekComponent implements OnInit {
             const checkIn = [];
             item.checkInDetail = checkIn;
           });
-          console.log(weekDetails, 'weekDetails');
           this.timeClockList = weekDetails;
           this.replicateClockList = this.timeClockList;
           this.totalHoursCalculation();
@@ -132,7 +125,6 @@ export class TimeClockWeekComponent implements OnInit {
     this.timeClockMaintenanceService.getRolesbyEmployeeId(id).subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
-        console.log(roles);
         this.roleList = roles.EmployeeRole.EmployeeRoles;
         this.getTimeClockWeekDetails();
       }
@@ -140,7 +132,6 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   addTimeList(week) {
-    console.log(week);
     week.checkInDetail.push({
       EventDate: week.date ? week.date : week.checkInDetail[0].EventDate,
       InTime: '',
@@ -187,7 +178,6 @@ export class TimeClockWeekComponent implements OnInit {
       i++;
     });
     this.totalHoursCalculation();
-    console.log(this.timeClockList, this.replicateClockList);
   }
 
   saveWeeklyhours() {
@@ -236,10 +226,7 @@ export class TimeClockWeekComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
       return;
     }
-
-
-    console.log(this.replicateClockList, 'finalobj');
-    const weekDetailObj = [];
+ const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
         const inEventDate = new Date(time.EventDate);
@@ -260,8 +247,8 @@ export class TimeClockWeekComponent implements OnInit {
           locationId: time.locationId,
           roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
           eventDate: time.EventDate,
-          inTime: time.InTime ? moment(inEventDate).format() : '',  // this.datePipe.transform(time.InTime, 'HH:mm'),
-          outTime: time.OutTime ? moment(outEventDate).format() : '', // this.datePipe.transform(time.OutTime, 'HH:mm'),
+          inTime: time.InTime ? moment(inEventDate).format() : '', 
+          outTime: time.OutTime ? moment(outEventDate).format() : '', 
           eventType: null,
           updatedFrom: '',
           status: true,
@@ -274,7 +261,6 @@ export class TimeClockWeekComponent implements OnInit {
     const finalObj = {
       timeClock: weekDetailObj
     };
-    console.log(finalObj, 'finalObj');
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success('Time Clock record added successfully!!', 'Success!');
@@ -284,9 +270,7 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   inTime(event, currentTime) {
-
-    console.log(event, 'intime');
-    if (currentTime.OutTime !== "") {
+ if (currentTime.OutTime !== "") {
 
       const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime;
       const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime;
@@ -322,7 +306,6 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   outTime(event, currentTime) {
-    console.log(event, currentTime);
     if (currentTime.InTime !== "") {
       const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime;
       const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime;
@@ -415,17 +398,9 @@ export class TimeClockWeekComponent implements OnInit {
     this.totalWeekDetail.TotalDetailHours = detailHour;
     this.washHours = washHour.split(':');
     this.totalWeekDetail.TotalWashHours = this.washHours[0] <= 40 ? washHour : '40:00';
-    /*this.totalWeekDetail.OverTimeHours = washHour > 40 ? (washHour-40) : 0;
-   this.totalWeekDetail.WashAmount = this.totalWeekDetail.TotalWashHours * this.totalWeekDetail.WashRate;
-   this.totalWeekDetail.DetailAmount = this.totalWeekDetail.TotalDetailHours * this.totalWeekDetail.DetailRate;
-   this.totalWeekDetail.OverTimePay = this.totalWeekDetail.OverTimeHours * (this.totalWeekDetail.WashRate * 1.5);
-   this.totalWeekDetail.GrandTotal = (this.totalWeekDetail.WashAmount + this.totalWeekDetail.DetailAmount +
-     this.totalWeekDetail.OverTimePay) - this.totalWeekDetail.CollisionAmount;*/
 
   }
 
-  timeCheck(data) {
-    console.log(data);
-  }
+ 
 
 }

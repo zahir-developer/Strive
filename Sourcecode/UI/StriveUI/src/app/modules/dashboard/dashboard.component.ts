@@ -80,7 +80,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getDashboardStatistics(locationID) {
-    // const locationId = localStorage.getItem('empLocationId');
     this.locationId = locationID;
     this.dashboardStatistics = [];
     this.resetValue();
@@ -92,7 +91,6 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         const dashboardCount = JSON.parse(res.resultData);
-        console.log(dashboardCount, 'dashboard');
         this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
         this.dashboardStatistics.forEach(item => {
           this.washesCount = this.washesCount + item.WashesCount;
@@ -116,7 +114,6 @@ export class DashboardComponent implements OnInit {
           this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
         });
       } else {
-        //this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     });
   }

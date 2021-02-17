@@ -56,7 +56,6 @@ export class AddActivityComponent implements OnInit {
   }
 
   addActivity() {
-    console.log(this.giftCardForm);
     this.submitted = true;
     this.amountValidation = false;
     if (this.giftCardForm.invalid) {
@@ -85,7 +84,6 @@ export class AddActivityComponent implements OnInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date())
     };
-    console.log(activityObj);
     const finalObj = {
       giftCardHistory: activityObj
     };
