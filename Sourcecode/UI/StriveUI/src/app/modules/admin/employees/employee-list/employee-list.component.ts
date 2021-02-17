@@ -38,7 +38,7 @@ export class EmployeeListComponent implements OnInit {
 
   collectionSize: number;
   search = '';
-  sort = { column: 'Status', descending: true };
+  sort = { column: 'FirstName', descending: false };
   sortColumn: { column: string; descending: boolean; };
   page: any;
   pageSize: any;
@@ -155,12 +155,27 @@ export class EmployeeListComponent implements OnInit {
 
   seachEmployee() {
     this.spinner.show();
-    this.employeeService.searchEmployee(this.search).subscribe(res => {
+    const empObj = {
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
+      status: true
+    };
+    this.employeeDetails = [];
+    this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const seachList = JSON.parse(res.resultData);
-        this.employeeDetails = seachList.EmployeeList;
-        this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+        if (seachList.EmployeeList.Employee !== null) {
+          this.employeeDetails = seachList.EmployeeList.Employee;
+          const totalCount = seachList.EmployeeList.Count.Count;
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        }
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }

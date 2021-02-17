@@ -94,7 +94,7 @@
                                         <input type="text" class="form-control rounded-0" placeholder="Search Employee" [(ngModel)]="search" (focus)="searchFocus()" (keyup)="searchEmployee()"> </div>
                                       
                                     <div class="Search-box " #draggable_people>
-                                        <div *ngFor="let emp of this.empList?.EmployeeList" >
+                                        <div *ngFor="let emp of this.empList" >
                                         <div class="fc-event Search-item border-top " style=" display: flex;background-color: transparent; color:black !important;border-top: 1px solid #dddd!important;"> <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search image">
                                             <div class="Search-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
                                                 <input type="checkbox" [(ngModel)]="emp.selected">

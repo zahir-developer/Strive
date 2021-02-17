@@ -165,8 +165,8 @@ export const UrlConfig = {
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`,
     getALLVendorName: `Admin/Vendor/GetAllVendorName`,
-    getAllLocationName: `Admin/Location/GetAllLocationName`
-
+    getAllLocationName: `Admin/Location/GetAllLocationName`,
+    getAllEmployeeList: `Admin/Employee/GetAllEmployeeDetail`
 
 
   },

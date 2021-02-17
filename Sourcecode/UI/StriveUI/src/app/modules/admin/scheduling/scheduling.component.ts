@@ -434,10 +434,25 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   // Search Employee
   searchEmployee() {
     this.spinner.show();
-    this.employeeService.searchEmployee(this.search).subscribe(res => {
+    const empObj = {
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: null,
+      pageSize: null,
+      query: this.search,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         this.empList = JSON.parse(res.resultData);
+        const seachList = JSON.parse(res.resultData);
+        if (seachList.EmployeeList.Employee !== null) {
+          this.empList = seachList.EmployeeList.Employee;
+        }
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
