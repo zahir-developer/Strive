@@ -58,7 +58,7 @@ namespace StriveCustomer.iOS.Views
                 EditVehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
                                    this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr + " " +
                                    this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel;                
-                EditBarCode_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
+                EditBarCode_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "1234";
                 EditVehicleMake_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 EditVehicleModel_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
                 EditVehicleColor_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";

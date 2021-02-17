@@ -20,12 +20,15 @@ namespace StriveCustomer.iOS.Views.Schedule
 
 		[Outlet]
 		UIKit.UIView SelectLocation_View { get; set; }
+
+		[Action ("CancelLoc_BtnTouch:")]
+		partial void CancelLoc_BtnTouch (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (SelectLocation_View != null) {
-				SelectLocation_View.Dispose ();
-				SelectLocation_View = null;
+			if (SelectLoc_CancelBtn != null) {
+				SelectLoc_CancelBtn.Dispose ();
+				SelectLoc_CancelBtn = null;
 			}
 
 			if (SelectLoc_TableView != null) {
@@ -33,9 +36,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 				SelectLoc_TableView = null;
 			}
 
-			if (SelectLoc_CancelBtn != null) {
-				SelectLoc_CancelBtn.Dispose ();
-				SelectLoc_CancelBtn = null;
+			if (SelectLocation_View != null) {
+				SelectLocation_View.Dispose ();
+				SelectLocation_View = null;
 			}
 		}
 	}

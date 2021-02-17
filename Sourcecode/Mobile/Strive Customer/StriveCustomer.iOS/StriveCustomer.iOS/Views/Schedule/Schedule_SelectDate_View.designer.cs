@@ -27,6 +27,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 		[Outlet]
 		UIKit.UIView SelectDate_ParentView { get; set; }
 
+		[Action ("CancelDate_BtnTouch:")]
+		partial void CancelDate_BtnTouch (UIKit.UIButton sender);
+
 		[Action ("dateChange:")]
 		partial void dateChange (UIKit.UIDatePicker sender);
 		

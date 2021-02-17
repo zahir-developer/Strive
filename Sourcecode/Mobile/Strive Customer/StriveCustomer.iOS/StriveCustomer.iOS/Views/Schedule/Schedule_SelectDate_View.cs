@@ -1,4 +1,5 @@
 ﻿using System;
+using Acr.UserDialogs;
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
@@ -152,7 +153,12 @@ namespace StriveCustomer.iOS.Views.Schedule
             {
                 Date_CollectionView.Hidden = true;
             }
-        }        
+        }
+
+        partial void CancelDate_BtnTouch(UIButton sender)
+        {
+            ViewModel.NavToSchedule();
+        }
     }
 
     public partial class timeSlotSourceDelegate : UICollectionViewDelegate
@@ -173,17 +179,12 @@ namespace StriveCustomer.iOS.Views.Schedule
         public override bool ShouldSelectItem(UICollectionView collectionView, NSIndexPath indexPath)
         {
             return true;
-        }
-        public override void ItemHighlighted(UICollectionView collectionView, NSIndexPath indexPath)
-        {
-            var cell = collectionView.DequeueReusableCell("Schedule_Time_Cell", indexPath) as Schedule_Time_Cell;
-            cell.ContentView.BackgroundColor = UIColor.Green;
-        }
+        }       
         public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = collectionView.DequeueReusableCell("Schedule_Time_Cell", indexPath) as Schedule_Time_Cell;            
-            CustomerScheduleInformation.ScheduleServiceTime = timeSlots.GetTimeInDetails[indexPath.Row].TimeIn;
-        }
+            var cell = collectionView.DequeueReusableCell("Schedule_Time_Cell", indexPath) as Schedule_Time_Cell;
+            cell.ContentView.BackgroundColor = UIColor.Gray;           
+        }        
     }
 }
 

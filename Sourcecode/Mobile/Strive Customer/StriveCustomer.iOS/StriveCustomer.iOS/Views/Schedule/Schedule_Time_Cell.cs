@@ -12,6 +12,8 @@ namespace StriveCustomer.iOS.Views.Schedule
     {
         public static readonly NSString Key = new NSString("Schedule_Time_Cell");
         public static readonly UINib Nib;
+        public NSIndexPath selectedTime;
+        public NSIndexPath oldCell;
         AvailableScheduleSlots timeSlots = new AvailableScheduleSlots();
         static Schedule_Time_Cell()
         {
@@ -26,10 +28,25 @@ namespace StriveCustomer.iOS.Views.Schedule
         public void SetData(AvailableScheduleSlots slots, NSIndexPath indexPath)
         {
             this.timeSlots = slots;
+            this.selectedTime = indexPath; 
             Time_CellView.Layer.CornerRadius = 5;
+            Time_CellView.BackgroundColor = UIColor.Gray;
             string timeIn = slots.GetTimeInDetails[indexPath.Row].TimeIn;
             TimeSlot_Btn.SetTitle(timeIn, UIControlState.Normal);
-        }        
+        }
+
+        partial void TimeSlot_BtnTouch(UIButton sender)
+        {           
+            if(Time_CellView.BackgroundColor == UIColor.Gray)
+            {
+                Time_CellView.BackgroundColor = UIColor.SystemBlueColor;
+                CustomerScheduleInformation.ScheduleServiceTime = timeSlots.GetTimeInDetails[selectedTime.Row].TimeIn;
+            }
+            else
+            {
+                Time_CellView.BackgroundColor = UIColor.Gray;                
+            }                   
+        }       
     }
 }
  
