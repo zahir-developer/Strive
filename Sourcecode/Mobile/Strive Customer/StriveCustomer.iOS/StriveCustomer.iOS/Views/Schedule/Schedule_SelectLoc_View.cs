@@ -65,6 +65,11 @@ namespace StriveCustomer.iOS.Views.Schedule
             SelectLoc_TableView.DelaysContentTouches = false;
             SelectLoc_TableView.ReloadData();
         }
+
+        partial void CancelLoc_BtnTouch(UIButton sender)
+        {
+            ViewModel.NavToSchedule();
+        }
     }
 }
 

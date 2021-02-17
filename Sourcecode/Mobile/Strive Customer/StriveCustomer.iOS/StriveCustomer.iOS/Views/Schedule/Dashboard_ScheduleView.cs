@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
 using StriveCustomer.iOS.Views.Schedule;
@@ -44,6 +45,11 @@ namespace StriveCustomer.iOS.Views
             ScheduleVehicle_TableView.ReloadData();
             ScheduleVehicle_TableView.Layer.CornerRadius = 5;
             getVehicleList();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            CustomerScheduleInformation.ClearScheduleData();
         }
 
         partial void Schedule_SegTouch(UISegmentedControl sender)

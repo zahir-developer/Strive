@@ -17,17 +17,20 @@ namespace StriveCustomer.iOS.Views.Schedule
 
 		[Outlet]
 		UIKit.UIButton TimeSlot_Btn { get; set; }
+
+		[Action ("TimeSlot_BtnTouch:")]
+		partial void TimeSlot_BtnTouch (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (TimeSlot_Btn != null) {
-				TimeSlot_Btn.Dispose ();
-				TimeSlot_Btn = null;
-			}
-
 			if (Time_CellView != null) {
 				Time_CellView.Dispose ();
 				Time_CellView = null;
+			}
+
+			if (TimeSlot_Btn != null) {
+				TimeSlot_Btn.Dispose ();
+				TimeSlot_Btn = null;
 			}
 		}
 	}

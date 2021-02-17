@@ -25,12 +25,12 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         {
             var result = await AdminService.GetScheduleSlots(new ScheduleSlotInfo {  locationId = LocationID, date = Time});
 
-            if(result != null)
+            if(result != null && result.GetTimeInDetails.Count > 0)
             {
                 ScheduleSlotInfo = new AvailableScheduleSlots();
                 ScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();
                 string prevSlotTiming = "";
-                BayID = result.GetTimeInDetails.First().BayId;
+                BayID = result.GetTimeInDetails[0].BayId;
                 foreach (var data in result.GetTimeInDetails)
                 {
                     if(BayID == data.BayId)
@@ -86,7 +86,10 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             return selected;
         }
 
-
+        public async void NavToSchedule()
+        {
+            await _navigationService.Navigate<ScheduleViewModel>();
+        } 
         #endregion Commands
 
     }

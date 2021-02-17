@@ -15,6 +15,7 @@ namespace StriveCustomer.iOS.Views
         public static readonly UINib Nib;
         public VehicleList dataList;
         public MvxViewController view;
+        public NSIndexPath selectedRow;
 
         static DB_VehicleList_Cell()
         {
@@ -30,6 +31,7 @@ namespace StriveCustomer.iOS.Views
         {
             view = viewController;
             dataList = list;
+            selectedRow = indexPath;
             ScheduleNow_Btn.Layer.CornerRadius = 10;
             Schedule_VhCarName.Text = dataList.Status[indexPath.Row].VehicleColor + " " + dataList.Status[indexPath.Row].VehicleMfr + " " + dataList.Status[indexPath.Row].VehicleModel ?? "";
             Schedule_VhMembership.Text = dataList.Status[indexPath.Row].MembershipName;            
@@ -37,7 +39,7 @@ namespace StriveCustomer.iOS.Views
 
         partial void ScheduleNow_BtnTouch(UIButton sender)
         {
-            //CustomerScheduleInformation.ScheduledVehicleName = dataList.Status[indexPath.Row].VehicleColor + " " + dataList.Status[indexPath.Row].VehicleMfr;
+            CustomerScheduleInformation.ScheduledVehicleName = dataList.Status[selectedRow.Row].VehicleColor + " " + dataList.Status[selectedRow.Row].VehicleMfr + " " + dataList.Status[selectedRow.Row].VehicleModel ?? "";
             var select_service = new Schedule_SelectService();
             view.NavigationController.PushViewController(select_service, true);
         }

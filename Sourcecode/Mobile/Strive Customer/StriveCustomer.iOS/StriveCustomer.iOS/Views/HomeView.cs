@@ -90,7 +90,7 @@ namespace StriveCustomer.iOS.Views
                     
                 annotations[i] = new MKPointAnnotation()
                 {
-                    Title = carWashLocations.Location[i].Address1,                    
+                    Title = carWashLocations.Location[i].LocationName,                    
                     Subtitle = subtitle,
                     Coordinate = new CLLocationCoordinate2D((double)carWashLocations.Location[i].Latitude, (double)carWashLocations.Location[i].Longitude)                    
                 };
@@ -114,6 +114,7 @@ namespace StriveCustomer.iOS.Views
                 PresentViewController(alertView1, true, null);
                 alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
             }
+            SetMapAnnotations();
         }
         
         private void NavToSettings()
@@ -122,8 +123,7 @@ namespace StriveCustomer.iOS.Views
             if (UIApplication.SharedApplication.CanOpenUrl(url))
             {
                 UIApplication.SharedApplication.OpenUrl(url);
-            }
-            SetMapAnnotations();
+            }            
         }
        
         public class MapDelegate : MKMapViewDelegate
