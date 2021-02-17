@@ -22,7 +22,7 @@ export class AuthService {
     }
   }
   login(loginData: any): Observable<any> {
-    return this.http.post(`${UrlConfig.totalUrl.login}`, loginData).pipe(map((user) => {
+    return this.http.post(`${UrlConfig.Auth.login}`, loginData).pipe(map((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
           this.userService.setUserSettings(user.resultData);
