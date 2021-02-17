@@ -1,4 +1,3 @@
-<!-- <app-navigation></app-navigation> -->
 <h1 align="center">Create Customer</h1>
 <div class="col-md-4 m-5 pb-5">
     <form [formGroup]="createCustomerForm" (ngSubmit)="createCustomer()">
@@ -15,8 +14,6 @@
         </div>
         <div class="form-group">
             <label>Gender :</label>
-            <!-- <input type="radio" name="sex" formControlName="gender">
-        <input type="radio" name="sex" formControlName="gender"> -->
             <select formControlName="gender" class="form-control">
                 <option value="" selected hidden>Enter customer Gender</option>
                 <option *ngFor="let gender of genderDropdown" value="{{gender.id}}"> {{gender.value}}</option>

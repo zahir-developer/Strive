@@ -11,9 +11,7 @@
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <!-- <div class="table-responsive" *ngIf="isLoading === false && fileName === null"> <span
-                                class="col-12 row d-block" style="text-align: center;">No Records Found</span>
-                            </div>  -->
+                           
                             <div class="table-responsive">
                                 <table class="table  table-striped m-t-10" *ngIf="!isLoading">
                                     <thead>
@@ -22,7 +20,6 @@
                                             <th>Role</th>
                                             <th>File Name</th>
                                             <th> Created Date</th>
-                                            <!-- <th> Created By</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -35,7 +32,6 @@
                                             <td scope="row" >{{doc.RoleName}}</td>
                                             <td scope="row" >{{doc.OriginalFileName}}</td>
                                             <td>{{doc.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
-                                            <!-- <td>{{Documents?.CreatedBy}}</td> -->
                                             <td>
                                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                                     pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(doc)"></em>

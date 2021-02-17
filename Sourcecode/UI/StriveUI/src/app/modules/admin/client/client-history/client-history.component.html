@@ -14,7 +14,6 @@
                                 [ngClass]="selectedCls('Date')" aria-hidden="true"></i></th>
                         <th scope="col" (click)="changeSorting('ServiceCompleted')">Serive Completed&nbsp;<i class="fa"
                                 [ngClass]="selectedCls('ServiceCompleted')" aria-hidden="true"></i></th>
-                        <!-- <th scope="col">Detailer</th> -->
                         <th scope="col" (click)="changeSorting('Amount')">Amount&nbsp;<i class="fa"
                                 [ngClass]="selectedCls('Amount')" aria-hidden="true"></i></th>
                         <th scope="col" (click)="changeSorting('Price')">Price&nbsp;<i class="fa"
@@ -29,7 +28,6 @@
                         <td>{{history.TicketNumber}}</td>
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
-                        <!-- <td></td> -->
                         <td>{{history.Amount | currency}}</td>
                         <td>{{history.Price | currency}}</td>
                         <td>{{history.Comm | currency}}</td>

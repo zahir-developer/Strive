@@ -1,15 +1,12 @@
-<!-- <router-outlet></router-outlet> -->
 <div id="wrapper"><!--Wrapper-->
   <app-sidenav localStorageUpdation = "localStorageUpdation"></app-sidenav>
   <section id="content-wrapper" class="d-flex flex-column"> <!--Content Wrapper-->
     <div id="content"><!--Content-->
       <app-header></app-header>
-      <!-- <div id="page-content">
-        <div class="container-fluid"> -->
+     
       <router-outlet></router-outlet> 
       <app-footer></app-footer>
-      <!-- </div>
-      </div> -->
+     
     </div>
   </section>
 </div>

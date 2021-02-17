@@ -19,11 +19,6 @@
                                         </app-location-dropdown>
                                     </div>
 
-                                    <!-- <div class="form-group col-lg-2">
-                                        <label>Month/Year:</label>
-                                        <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
-                                            class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY',showWeekNumbers: false }" (bsValueChange)="getBonusList()">
-                                    </div> -->
                                     <div class="form-group col-lg-offset-1 col-lg-2 m-l-60">
                                         <label>Month:</label>
 
@@ -66,12 +61,7 @@
                                                 <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
                                                 </div>
-                                                <!-- <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
-                                                    Enter Min value
-                                                </div> -->
-                                                <!-- <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
-                                                    Min value greater than Max value
-                                                </div> -->
+                                              
                                             </td>
                                             <td>
                                                 <input type="text" numbersOnly [(ngModel)]="bonus.Max"

@@ -11,10 +11,7 @@
     <div class="row no-gutter">
         <div class="col-12">
             <div class="row no-gutter">
-                <!-- <div class="col-lg-2">
-                    <label>Select Custom Date</label>
-                    <input type="text" class="form-control date datepicker-view" data-toggle="date-picker"
-                        data-single-date-picker="true" placeholder="Report Date" /> </div> -->
+             
                 <div class="col-lg-2">
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
@@ -26,11 +23,7 @@
                 <div class="card-body p-10">
                     <div class="row">
                         <div class="col-md-4">
-                            <!-- <div class="p-b-5 p-t-5">
-                                <h4 class="d-inline-block align-middle"><span class="resp-title">Report
-                                        Date: {{selectDate | date : 'MM/dd/yyyy'}}</span>
-                                </h4>
-                            </div> -->
+                          
                         </div>
                         <div class="col-md-8">
                             <div class="pull-right">
@@ -83,12 +76,7 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                    <!-- <tfoot class="font-weight-700" *ngIf="clockDetail.length > 0">
-                                        <tr class="table-foot">
-                                            <td class="text-right">Total Hours:</td>
-                                            <td class="text-right"> {{empTotalHours}}</td>
-                                        </tr>
-                                    </tfoot> -->
+                                   
                                 </table>
                             </div>
                         </div>
@@ -104,11 +92,7 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table m-b-0 dailyreport">
-                                    <!-- 							<thead>
-                                        <tr>
-                                            <th scope="col" colspan="3" class="font-size-1-5 font-weight-700">Washes</th>
-                                        </tr>
-                                    </thead> -->
+                                  
                                     <tbody>
                                         <tr *ngFor="let wash of washes" >
                                             <td colspan="2">{{wash?.ServiceName}}</td>
@@ -162,9 +146,7 @@
                             <div class="title-border p-b-5 m-b-5">
                                 <h4 class="d-inline-block font-weight-700 font-size-1-2">Coins</h4>
                                 <div class="pull-right card-widgets">
-                                    <!-- <a data-toggle="collapse" href="#Coinslist" role="button" aria-expanded="false"
-                                        aria-controls="Coinslist"> <i
-                                            class="theme-font-color font-size-1-4 mdi mdi-chevron-up"></i></a> -->
+                                 
                                 </div>
                             </div>
                             <div id="Coinslist" class="collapse show">
@@ -200,9 +182,7 @@
                             <div class="title-border p-b-5 m-b-5">
                                 <h4 class="d-inline-block font-weight-700 font-size-1-2">Rolls</h4>
                                 <div class="pull-right card-widgets">
-                                    <!-- <a data-toggle="collapse" href="#Rolls" role="button" aria-expanded="false"
-                                        aria-controls="Rolls"> <i
-                                            class="theme-font-color font-size-1-4 mdi mdi-chevron-up"></i></a> -->
+                                   
                                 </div>
                             </div>
                             <div id="Rolls" class="collapse show">
@@ -235,9 +215,7 @@
                             <div class="title-border p-b-5 m-b-5">
                                 <h4 class="d-inline-block font-weight-700 font-size-1-2">Bills</h4>
                                 <div class="pull-right card-widgets">
-                                    <!-- <a data-toggle="collapse" href="#Bills" role="button" aria-expanded="false"
-                                        aria-controls="Bills"> <i
-                                            class="theme-font-color font-size-1-4 mdi mdi-chevron-up"></i></a> -->
+                                   
                                 </div>
                             </div>
                             <div id="Bills" class="collapse show">
