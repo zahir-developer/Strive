@@ -21,13 +21,7 @@ export class UserDataService {
   setUserSettings(loginToken) {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
-    console.log(token, 'token');
     this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
-
-
-    // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
-    //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
-    // }
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
 
@@ -41,7 +35,6 @@ export class UserDataService {
     }
     if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
 
-      // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
     }
     this.setHeaderName(token.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token.EmployeeDetails?.EmployeeLogin?.LastName);
@@ -77,7 +70,6 @@ export class UserDataService {
   getUnreadMessage(id) {
     this.http.get(`${UrlConfig.Messenger.getUnReadMessageCount}` + id).subscribe(res => {
       const unReadCount = JSON.parse(res.resultData);
-      console.log(unReadCount, 'unread');
       if (unReadCount?.UnreadMessage.getUnReadMessageCountViewModels !== null) {
         this.unReadMessage.next(unReadCount?.UnreadMessage.getUnReadMessageCountViewModels);
       }

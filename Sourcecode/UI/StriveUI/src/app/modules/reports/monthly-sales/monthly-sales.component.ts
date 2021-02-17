@@ -6,9 +6,6 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 declare var $: any;
-// import * as jsPDF from 'jspdf';
-// import 'jspdf-autotable';
-// declare let jsPDF;
 @Component({
   selector: 'app-monthly-sales',
   templateUrl: './monthly-sales.component.html',
@@ -91,7 +88,6 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
       this.empName = this.employees[count - 1]?.EmployeeName;
       this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
       this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
-      // this.calculatePrice();
     }
     this.calculatePrice();
   }

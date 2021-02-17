@@ -110,8 +110,6 @@ export class EditEmployeeComponent implements OnInit {
     this.getAllRoles();
     this.getLocation();
     this.dropdownSetting();
-    // this.getAllCollision();
-    // this.getAllDocument();
   }
 
   dropdownSetting() {
@@ -142,7 +140,6 @@ export class EditEmployeeComponent implements OnInit {
 
   getGenderDropdownValue() {
     this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      console.log(res, 'gender');
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
@@ -183,7 +180,6 @@ export class EditEmployeeComponent implements OnInit {
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeelist');
         this.employeeData = employees.Employee;
         if (employees.Employee.EmployeeCollision !== null) {
           this.employeeCollision = employees.Employee.EmployeeCollision;
@@ -200,7 +196,6 @@ export class EditEmployeeComponent implements OnInit {
   setValue() {
     const employee = this.employeeData;
     this.dropdownSetting();
-    console.log(employee, 'employe');
     const employeeInfo = employee.EmployeeInfo;
     this.selectedStateId = employeeInfo?.State;
     this.stateDropdownComponent.selectedStateId = this.selectedStateId;
@@ -234,8 +229,6 @@ export class EditEmployeeComponent implements OnInit {
     }
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
     this.selectedLocation = employeeInfo?.EmployeeLocations;
-    // const locationAddress = this.selectedLocation?.LocationAddress;
-    
     this.immigrationChange(employeeInfo.ImmigrationStatus);
     this.personalform.patchValue({
       firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
@@ -420,14 +413,14 @@ export class EditEmployeeComponent implements OnInit {
       employeeAddressId: this.employeeAddressId,
       employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: null, // '',
+      address2: null,
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: null, // '',
+      phoneNumber2: null, 
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null, // ''
-      country: null // 38
+      zip: null, 
+      country: null 
     };
     const newlyAddedRole = [];
     this.emplistform.value.roles.forEach(item => {
@@ -465,14 +458,14 @@ export class EditEmployeeComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
-      employeeCode: null, // '',
+      employeeCode: null,  
       authId: this.authId,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
-      lrt: null, // '2020 - 08 - 06T19: 24: 48.817Z',
+      lrt: null, 
       exemptions: +this.emplistform.value.exemptions,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
@@ -484,7 +477,7 @@ export class EditEmployeeComponent implements OnInit {
         newlyAddedLocation.push({
           employeeLocationId: 0,
           employeeId: this.employeeId,
-          locationId: item.item_id,   // LocationId
+          locationId: item.item_id,  
           isActive: true,
           isDeleted: false,
         });
@@ -492,7 +485,7 @@ export class EditEmployeeComponent implements OnInit {
         newlyAddedLocation.push({
           employeeLocationId: isData[0].EmployeeLocationId,
           employeeId: this.employeeId,
-          locationId: item.item_id,   // LocationId
+          locationId: item.item_id,  
           isActive: true,
           isDeleted: false,
         });
@@ -513,14 +506,14 @@ export class EditEmployeeComponent implements OnInit {
     const employeeObj = {
       employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
-      middleName: null, // 'string',
+      middleName: null,  
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: null, // 117,
+      maritalStatus: null,
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: null, // '',
+      birthDate: null, 
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: +this.personalform.value.immigrationStatus,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
@@ -532,7 +525,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeAddress: employeeAddressObj,
       employeeRole: newlyAddedRole,
       employeeLocation: newlyAddedLocation,
-      employeeDocument: null // this.employeeData.EmployeeDocument
+      employeeDocument: null 
     };
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {

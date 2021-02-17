@@ -31,8 +31,6 @@ export class SelectLocationComponent implements OnInit {
       localStorage.setItem('empLocationId', this.locationId);
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
-      //this.router.navigate([`/dashboard`], { relativeTo: this.route });
-
       this.user.navName.subscribe((data = []) => {
         setTimeout(() => {
 

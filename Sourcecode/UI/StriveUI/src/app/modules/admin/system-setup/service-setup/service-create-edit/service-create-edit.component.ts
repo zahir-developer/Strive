@@ -145,7 +145,6 @@ export class ServiceCreateEditComponent implements OnInit {
           this.parent = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(
             item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
           this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
-          console.log(this.parent);
           this.getAllServiceType();
         }
       } else {
@@ -210,7 +209,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
         this.isDiscounts = false;
       }
-      if (type === 'Wash Package') {  //  need to check 15
+      if (type === 'Wash Package') { 
         this.isCommisstionShow = false;
       } else {
         this.isCommisstionShow = true;

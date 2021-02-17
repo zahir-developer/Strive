@@ -90,7 +90,6 @@ export class VehicleListComponent implements OnInit {
         if (vehicle.Vehicle.clientViewModel !== null) {
           this.vehicleDetails = vehicle.Vehicle.clientViewModel;
           totalCount = vehicle.Vehicle.Count.Count;
-          console.log(this.vehicleDetails, 'vehicledetaul');
           if (this.vehicleDetails.length === 0) {
             this.isTableEmpty = true;
           } else {

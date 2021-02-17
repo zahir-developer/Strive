@@ -101,7 +101,6 @@ export class ProductCreateEditComponent implements OnInit {
         const other = this.size.filter(i => i.CodeValue === "Other")[0];
         this.size = this.size.filter(i => i.CodeValue !== "Other");
         this.size.push(other);
-        console.log(this.size, 'size');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -300,7 +299,6 @@ export class ProductCreateEditComponent implements OnInit {
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
-        console.log(this.fileName, this.fileUploadformData.length);
       }, 5000);
     }
   }

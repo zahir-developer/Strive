@@ -101,10 +101,7 @@ export class AddGiftCardComponent implements OnInit {
     const finalObj = {
       giftCard: cardObj
     };
-    // this.giftCardComponent.getAllGiftCard(x=> x.)==finalObj.giftCard.giftCardCode
-    
-    // this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Giftcard code alredy exist' });
-    this.spinner.show();
+  this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {

@@ -36,7 +36,6 @@ export class ClientHistoryComponent implements OnInit {
         const history = JSON.parse(res.resultData);
         this.historyGrid = history.VehicleHistory;
         this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
-        console.log(history, 'history');
       }
     });
   }

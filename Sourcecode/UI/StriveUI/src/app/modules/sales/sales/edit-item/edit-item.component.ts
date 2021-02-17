@@ -18,7 +18,6 @@ export class EditItemComponent implements OnInit {
     private messageService: MessageServiceToastr) { }
 
   ngOnInit(): void {
-    console.log(this.ItemDetail);
     this.formInit();
     if (this.ItemDetail !== undefined) {
       this.editItemForm.patchValue({
@@ -73,7 +72,6 @@ export class EditItemComponent implements OnInit {
   }
   updateServiceItem(updateObj) {
     this.salesService.updateItem(updateObj).subscribe(data => {
-      console.log(data);
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item upated successfully' });
         this.activeModal.close();

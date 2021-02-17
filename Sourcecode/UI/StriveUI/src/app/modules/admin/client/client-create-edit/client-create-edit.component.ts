@@ -67,7 +67,6 @@ export class ClientCreateEditComponent implements OnInit {
         } else {
           let len = this.vehicleDetails.length;
           this.vehicleNumber = this.vehicleDetails.length + 1;
-          console.log(this.vehicleNumber);
           this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -189,7 +188,6 @@ export class ClientCreateEditComponent implements OnInit {
       }
       let len = this.vehicleDetails.length;
       this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
-      console.log(this.vehicleDetails, 'vedel');
       this.vehicleDet.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;

@@ -210,8 +210,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.weatherDetails = data;
-        console.log(this.weatherDetails, 'weather')
-
       }
     });
   }
@@ -308,21 +306,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       cashRegisterRolls: roll,
       cashregisterOthers: other
     }
-    // const weatherObj = {
-    //   weatherId: 0,
-    //   locationId: 1,
-    //   weather: Math.floor(this.weatherDetails?.temporature).toString(),
-    //   rainProbability: Math.floor(this.weatherDetails?.rainPercentage).toString(),
-    //   predictedBusiness: '-',
-    //   targetBusiness: this.cashRegisterForm.controls.goal.value,
-    //   createdDate: moment(new Date()).format('YYYY-MM-DD')
-    // };
     const weatherObj = {
       weatherId: 0,
       locationId: +this.locationId,
-      // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
-      // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
-      weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
+     weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
       rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
       predictedBusiness: '-',
       targetBusiness: this.cashRegisterForm.controls.goal.value,

@@ -103,7 +103,6 @@ export class WhiteLabellingSectionComponent implements OnInit {
 
   closeColorPopup() {
     this.showDialog = false;
-    // this.getAllWhiteLabelDetail();
   }
 
   fontChange(style) {
@@ -192,7 +191,6 @@ export class WhiteLabellingSectionComponent implements OnInit {
     const uploadObj = {
       whiteLabel: {
         whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
-        // logoPath: this.logoPath !== '' ? this.logoPath : null,
         fileName: this.fileName ? this.fileName : this.logoPath, // LogoPath if image already uploaded
         thumbFileName: null,
         base64: selectedLogo ? selectedLogo : '', // empty string if update

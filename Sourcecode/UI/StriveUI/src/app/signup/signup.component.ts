@@ -18,10 +18,7 @@ export class SignupComponent implements OnInit {
       "hobby": new FormArray([], null, [this.ForbiddenHobby]),
       "userName": new FormControl(null, [Validators.required, this.CheckNames.bind(this)]),
       "unValidation": new FormControl(null)
-    }),
-      this.signupForm.valueChanges.subscribe(
-        (value) => console.log(value)
-      );
+    })
   }
 
   AddHobby(): void {

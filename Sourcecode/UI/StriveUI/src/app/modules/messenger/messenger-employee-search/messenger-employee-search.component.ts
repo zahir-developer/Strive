@@ -50,7 +50,6 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
         this.empList = empList.EmployeeList;
-        // this.removeSelectedEmployee();
         this.setDefaultBoolean(false);
         this.setName();
       }

@@ -51,14 +51,9 @@ export class BonusSetupComponent implements OnInit {
     this.isValueMax = false;
     this.locationId = localStorage.getItem('empLocationId');
     this.isEdit = false;
-    // this.noOfBadReviews = 0;
-    // this.badReviewDeductionAmount = 0;
-    // this.noOfCollisions = 0;
-    // this.collisionDeductionAmount = 0;
     this.badReviewDeduction = 0;
     this.collisionDeduction = 0;
     this.totalBonusAmount = 0;
-    // this.getBonusFirstList();
     this.getBonusList();
   }
 
@@ -207,7 +202,6 @@ export class BonusSetupComponent implements OnInit {
     let totalAmount = 0;
     let deduction: any;
     for (let i = 0; i < this.monthBonusList.length; i++) {
-      // this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
       totalAmount += (+this.monthBonusList[i].Total);
       deduction = Math.abs(this.collisionDeduction + this.badReviewDeduction)
       this.totalBonusAmount = totalAmount - deduction;
@@ -223,7 +217,6 @@ export class BonusSetupComponent implements OnInit {
     this.getBonusList();
   }
   saveBonus() {
-    console.log(this.monthBonusList, this.selectedDate, 'multi');
     this.submitted = false;
     this.isValueMax = false;
     let checkValue = true;
@@ -288,7 +281,6 @@ export class BonusSetupComponent implements OnInit {
       bonus,
       bonusRange: bounsRange
     };
-    console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
       this.spinner.show();
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
@@ -392,7 +384,6 @@ export class BonusSetupComponent implements OnInit {
             break;
           }
         }
-        console.log(bonus, 'bonusList');
         let totalAmount = 0;
         let deduction: any;
         for (const list of this.monthBonusList) {

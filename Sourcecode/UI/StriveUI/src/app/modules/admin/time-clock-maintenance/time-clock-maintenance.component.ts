@@ -56,8 +56,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.selectedEmployee = '';
     this.isTimeClockWeekPage = false;
     this.weeklyDateAssign();
-    // this.getEmployeeList();
-    // this.getTimeClockEmployeeDetails();
+
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
@@ -78,8 +77,6 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.currentWeek = this.startDate;
     const lastDate = new Date();
     this.endDate = new Date(lastDate.setDate(last));
-    // this.endDate = this.endDate.setDate( this.startDate.getDate() + 6);
-    // this.endDate = new Date();
     this.daterangepickerModel = [this.startDate, this.endDate];
     this.getTimeClockEmployeeDetails();
   }
@@ -101,14 +98,11 @@ export class TimeClockMaintenanceComponent implements OnInit {
         this.employeeList = timeClock.Result.EmployeeViewModel;
         if (this.timeClockEmployeeDetails.length === 0) {
           this.isTimeClockEmpty = true;
-          console.log(this.timeClockEmployeeDetails);
         }
         else {
           this.collectionSize = Math.ceil(this.timeClockEmployeeDetails.length / this.pageSize) * 10;
           this.isTimeClockEmpty = false;
-          console.log(this.timeClockEmployeeDetails);
         }
-        //this.onValueChange
       }
       else {
         this.toastr.error('Communication Error', 'Error !!!');
@@ -150,7 +144,6 @@ export class TimeClockMaintenanceComponent implements OnInit {
   }
 
   employeeCheckInDetail(empDetail) {
-    console.log(empDetail, 'detail');
     this.isTimeClockWeekPage = true;
     this.empClockInObj = {
       employeeID: empDetail.EmployeeId,
@@ -206,17 +199,14 @@ export class TimeClockMaintenanceComponent implements OnInit {
   }
 
   selectEmploye(event) {
-    console.log(event, 'event');
     this.selectedEmployee = event.value;
   }
 
   onValueChange(event) {
-    console.log(event, 'start');
     if (event !== null) {
       if (event.length !== 0 && event.length !== null) {
         const dates = Math.floor((Date.UTC(event[1].getFullYear(), event[1].getMonth(), event[1].getDate()) - Date.UTC(event[0].getFullYear(), event[0].getMonth(), event[0].getDate())) / (1000 * 60 * 60 * 24));
         if (event[0].getDay() !== 0) {
-          //console.log(event[0].getDay());          
           this.toastr.warning('Sunday should be the start of the week!!', 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else if (dates !== 6) {

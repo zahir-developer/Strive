@@ -14,7 +14,6 @@ export class AuthorizeService {
   ) { }
 
   routingLevelAccess(routingPageId) {
-    console.log(routingPageId, this.userDataService.isAuthenticated, this.userDataService, 'authrize');
     if (localStorage.getItem('isAuthenticated') === 'true') {
     if (routingPageId !== undefined) {
       const roleViews = JSON.parse(localStorage.getItem('views'));

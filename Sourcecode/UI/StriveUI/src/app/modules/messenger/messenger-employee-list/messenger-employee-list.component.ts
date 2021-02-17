@@ -44,7 +44,6 @@ export class MessengerEmployeeListComponent implements OnInit {
     this.msgService.GetEmployeeList(employeeId).subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
-        console.log(empList, 'emplist');
         if (empList.EmployeeList.ChatEmployeeList !== null) {
           this.empList = empList?.EmployeeList?.ChatEmployeeList;
           this.originalEmpList = this.empList;
@@ -74,13 +73,6 @@ export class MessengerEmployeeListComponent implements OnInit {
     if (this.empList.length > 0) {
       this.empList[0].type = 'first Employee';
       this.emitLoadMessageChat.emit(this.empList[0]);
-      // this.empList.forEach(item => {
-      //   if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
-      //     const recentMsg = item.RecentChatMessage.split(',');
-      //     item.RecentChatMessage = recentMsg[1];
-      //     item.createdDate = recentMsg[0];
-      //   }
-      // });
     }
   }
   SetUnreadMsgBool(empId, event, msg) {

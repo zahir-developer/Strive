@@ -38,7 +38,6 @@ export class ClientStatementComponent implements OnInit {
         const statement = JSON.parse(res.resultData);
         this.statementGrid = statement.VehicleStatement;
         this.collectionSize = Math.ceil(this.statementGrid.length / this.pageSize) * 10;
-        console.log(statement, 'statement');
       }
     });
   }

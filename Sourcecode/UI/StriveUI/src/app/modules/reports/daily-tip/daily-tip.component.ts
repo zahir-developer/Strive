@@ -59,7 +59,6 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
       this.spinner.hide();
       if (data.status === 'Success') {
         const dailytip = JSON.parse(data.resultData);
-        console.log(dailytip);
         this.dailyTip = dailytip.GetEmployeeTipReport;
         this.dailyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;

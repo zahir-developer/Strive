@@ -37,13 +37,11 @@ export class AssignDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.details, 'assignedDetailService');
     this.detailService = this.detailsJobServiceEmployee;
     this.getAllServiceType();
-    // this.employeeDetail();
-    console.log(this.detailService, this.detailsJobServiceEmployee, 'detailsJobServiceEmployee');
     if (this.detailService.length > 0) {
-      this.detailService.forEach((item, index) => {  // Adding Id to the grid
+      this.detailService.forEach((item, index) => {  
+        // Adding Id to the grid
         item.detailServiceId = index + 1;
       });
     }
@@ -77,12 +75,7 @@ export class AssignDetailComponent implements OnInit {
     this.assignForm.value.serviceId.forEach(service => {
       this.clonedServices = this.clonedServices.filter(item => item.item_id !== service.item_id);
     });
-
-    console.log(this.details, 'details');
-
-    console.log(selectedService, 'selectedservices');
-
-    selectedService.forEach(service => {
+ selectedService.forEach(service => {
       this.assignForm.value.employeeId.forEach(emp => {
         const employeeService = {
           ServiceId: service.ServiceId,
@@ -106,7 +99,6 @@ export class AssignDetailComponent implements OnInit {
         this.detailService.push(employeeService);
       });
     });
-    // this.detailService = assignedService;
     this.assignForm.patchValue({
       employeeId: '',
       serviceId: ''
@@ -114,12 +106,10 @@ export class AssignDetailComponent implements OnInit {
     this.detailService.forEach((item, index) => {  // Adding Id to the grid
       item.detailServiceId = index + 1;
     });
-    console.log(this.detailService, 'assignedservice');
     this.collectionSize = Math.ceil(this.detailService.length / this.pageSize) * 10;
   }
 
   onItemSelect(item: any) {
-    console.log(item);
     this.employeeList = this.clonedEmployee;
     if (this.detailService.length > 0) {
       const assignedEmployee = _.where(this.detailService, { ServiceId: +item.item_id });
@@ -170,15 +160,12 @@ export class AssignDetailComponent implements OnInit {
   }
 
   serviceByEmployeeId(id) {
-    // this.details = this.clonedServices;
     if (this.detailService.length > 0) {
       const assignedEmployee = _.where(this.detailService, { EmployeeId: +id });
       if (assignedEmployee.length > 0) {
         assignedEmployee.forEach(item => {
           this.details = this.details.filter(elem => elem.ServiceId !== item.ServiceId);
         });
-      } else {
-        // this.details = this.clonedServices;
       }
     }
   }
@@ -270,7 +257,6 @@ export class AssignDetailComponent implements OnInit {
 
   getDetailService() {
     this.details = this.details.filter(i => i.ServiceTypeId !== this.serviceType.CodeId);
-    console.log(this.details);
     this.clonedServices = this.details.map(x => Object.assign({}, x));
     this.clonedServices = this.clonedServices.map(item => {
       return {

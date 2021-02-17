@@ -46,7 +46,6 @@ const routes: Routes = [
 ];
 const config: ExtraOptions = {
   useHash: true,
-  // enableTracing: true,
   preloadingStrategy: PreloadAllModules
 };
 @NgModule({

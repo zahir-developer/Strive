@@ -43,7 +43,6 @@ export class CheckoutGridComponent implements OnInit {
       if (data.status === 'Success') {
         const uncheck = JSON.parse(data.resultData);
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails;
-        console.log(this.uncheckedVehicleDetails);
         if (this.uncheckedVehicleDetails.length === 0) {
           this.isTableEmpty = true;
         } else {

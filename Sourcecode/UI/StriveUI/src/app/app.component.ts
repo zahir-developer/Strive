@@ -4,8 +4,6 @@ import { AuthenticateObservableService } from './shared/observable-service/authe
 import { WhiteLabelService } from './shared/services/data-service/white-label.service';
 import { LogoService } from './shared/services/common-service/logo.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-// import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,8 +21,6 @@ export class AppComponent implements OnInit {
     private authService: AuthenticateObservableService,
     private whiteLabelService: WhiteLabelService, private logoService: LogoService, private userService: UserDataService) {
     this.isUserAuthenticated = this.user.isAuthenticated;
-    // console.log(this.isUserAuthenticated);
-    // console.log(this.authService.getIsAuthenticate);
   }
   ngOnInit() {
  

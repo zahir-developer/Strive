@@ -53,7 +53,6 @@ public ReceiveGrpMsg: Observable<any> = this.recGrpMsg.asObservable();
 
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
-      // this.messengerService.UpdateChatCommunication(id);
 console.log('ReceiveCommunicationID: '+ id);
       this.hubConnection?.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
         return console.error(err.toString());
@@ -61,27 +60,15 @@ console.log('ReceiveCommunicationID: '+ id);
     });
 
     this.hubConnection.on('ReceivePrivateMessage', (data) => {
-      console.log('Messager Received');
-
-      console.log(data);
       this.setReceivedMsg(data);
-      //this.messengerService.ReceivePrivateMessage(data);
     });
 
     this.hubConnection.on('ReceiveGroupMessage', (data) => {
-      console.log('Messager Group Received');
       this.setGrpReceivedMsg(data);
-      //this.messengerService.ReceivePrivateMessage(data);
     });
 
     this.hubConnection.on("SendPrivateMessage", function (obj) {
-      console.log(obj);
-      /*var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      var encodedMsg = user + " says " + msg;
-      var li = document.createElement("li");
-      li.textContent = encodedMsg;
-      console.log(connId + senderId + user + message);*/
-      //document.getElementById("messagesList").appendChild(li);
+
     });
 
     
@@ -90,7 +77,6 @@ console.log('ReceiveCommunicationID: '+ id);
       if (data !== null) {
         console.log('ReceiveEmployeeCommunicationId' + data); 
         this.setname(data);
-        // this.messengerService.UpdateChatCommunication(data[0], data[1]);
       }
     });
     this.hubConnection.on('UserAddedtoGroup', (data) => {
@@ -101,8 +87,6 @@ console.log('ReceiveCommunicationID: '+ id);
 
     this.hubConnection.on('GroupMessageReceive', (data) => {
       if (data !== null) {
-        console.log('GroupMessageReceive');        
-        console.log(data); 
         this.setGrpReceivedMsg(data);
       }
     });

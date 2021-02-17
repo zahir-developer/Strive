@@ -126,7 +126,6 @@ export class WashesListComponent implements OnInit {
                 item.TimeInFormat = inTimeFormat;
             });
           }
-          console.log(wash);
           if (this.washDetails.length === 0) {
             this.isTableEmpty = true;
           } else {
@@ -146,7 +145,6 @@ export class WashesListComponent implements OnInit {
     this.showDialog = true;
   }
   delete(data) {
-    console.log(data);
     this.confirmationService.confirm('Delete Wash', `Are you sure you want to delete this Wash? All related 
     information will be deleted and the Wash cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
