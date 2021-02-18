@@ -99,7 +99,11 @@ namespace Strive.BusinessLogic.Sales
             try
             {
                
-                return ResultWrap(new SalesRal(_tenant).AddListItem, salesAddListItem, "Status");
+              new SalesRal(_tenant).AddListItem( salesAddListItem);
+                var result = new SalesRal(_tenant).UpdateProductQuantity(salesAddListItem.JobProductItem.Quantity, salesAddListItem.JobProductItem.ProductId);
+
+                return ResultWrap(result , "Status");
+
             }
             catch (Exception ex)
             {
