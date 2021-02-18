@@ -54,6 +54,8 @@ export const UrlConfig = {
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
   },
  client :{
+  clientEmailCheck :  `Admin/Client/ClientEmailExist`,
+
   getClient: `Admin/Client/GetAll`,
   sameClientName: `Admin/Client/IsClientName`,
   getClientByName: `Admin/Client/GetClientSearch`,

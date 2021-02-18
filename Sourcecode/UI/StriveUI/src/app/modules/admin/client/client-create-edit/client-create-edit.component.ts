@@ -84,10 +84,16 @@ export class ClientCreateEditComponent implements OnInit {
       return;
     }
     if (this.clientFormComponent.ClientNameAvailable == true) {
-      this.toastr.error('Client Name is Already Entered', 'Error!');
+      this.toastr.warning('First name, Last name, Phone number combination already exist', 'Warning!');
 
       return;
     }
+    if (this.clientFormComponent.ClientEmailAvailable == true) {
+      this.toastr.error('Client Email Already Exist', 'Error!');
+
+      return;
+    }
+
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
