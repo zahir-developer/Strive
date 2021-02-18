@@ -88,9 +88,12 @@ namespace Strive.BusinessLogic.Vehicle
         }
         public Result SaveClientVehicleMembership(ClientVehicleMembershipDetailModel vehicleMembership)
         {
-            foreach(var vehicleImage in vehicleMembership.ClientVehicle.VehicleImage)
+            if (vehicleMembership.ClientVehicle.VehicleImage != null)
             {
-                UploadVehicleImage(vehicleImage);
+                foreach (var vehicleImage in vehicleMembership.ClientVehicle.VehicleImage)
+                {
+                    UploadVehicleImage(vehicleImage);
+                }
             }
 
             var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
