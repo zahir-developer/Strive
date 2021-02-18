@@ -79,6 +79,6 @@ export class EmployeeService {
   }
 
   getAllEmployeeList(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getAllEmployeeList}`, obj);
+    return this.http.post(`${UrlConfig.employee.getAllEmployeeList}`, obj);
   }
 }

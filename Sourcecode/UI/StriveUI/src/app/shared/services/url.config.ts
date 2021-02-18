@@ -88,6 +88,9 @@ employee: {
   getAllRoles: `Admin/Employee/GetAllRoles`,
   searchEmployee: `Admin/Employee/GetAllEmployeeDetail/`,
   getEmployees: `Admin/Employee/GetAllEmplloyeeList`,
+  getAllEmployeeList: `Admin/Employee/GetAllEmployeeDetail`,
+
+  
   saveEmployees: `Admin/Employee/Add`,
   getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`,
   updateEmployee: `Admin/Employee/Update`,
