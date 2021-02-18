@@ -21,6 +21,9 @@ namespace Strive.BusinessEntities.Model
         public string OriginalImageName { get; set; }
 
         [Column]
+        public string ThumbnailFileName { get; set; }
+
+        [Column]
         public string FilePath { get; set; }
 
         [Ignore]
