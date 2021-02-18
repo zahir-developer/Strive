@@ -115,5 +115,13 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Sales.USPUPDATEJOBPAYMENT.ToString(), _prm);
             return true;
         }
+
+        public bool UpdateProductQuantity(int? qaunatity, int? productId)
+        {
+            _prm.Add("Quantity", qaunatity);
+            _prm.Add("ProductId", productId);
+            db.Save(EnumSP.Sales.USPUPDATEPRODUCTQUANTITY.ToString(), _prm);
+            return true;
+        }
     }
 }
