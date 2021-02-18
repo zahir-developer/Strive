@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
 
@@ -37,17 +38,36 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.EditEmployeeDetails_Fragment, null);
             profile_Fragment = new MyProfileFragment();
-            this.ViewModel = new EditEmployeeDetailsViewModel();
+            this.ViewModel = new EditEmployeeDetailsViewModel(); 
 
-            back_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_BackButton);
+             back_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_BackButton);
             save_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_SaveButton);
             LoginID = rootView.FindViewById<EditText>(Resource.Id.loginID_EditText);
+            DateOfHire = rootView.FindViewById<EditText>(Resource.Id.DateoFHire_EditText);
+            var dates = EmployeeLoginDetails.DateofHire.Split("T");
+            var formattedDate = dates[0].Split("-");
+            DateOfHire.Text = formattedDate[2] + "-" + formattedDate[1] + "-" + formattedDate[0];
+            DateOfHire.Click += DateOfHire_Click;
             back_Button.Click += Back_Button_Click;
             save_Button.Click += Save_Button_Click;
 
             LoginID.Text = EmployeeLoginDetails.LoginID;
 
             return rootView;
+        }
+
+        private void DateOfHire_Click(object sender, EventArgs e)
+        {
+            DateTime today = DateTime.Today;
+            DatePickerDialog dialog = new DatePickerDialog(Context, OnDateSet, today.Year, today.Month - 1, today.Day);
+            dialog.DatePicker.MinDate = today.Millisecond;
+            dialog.Show();
+        }
+        private void OnDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
+        {
+            DateOfHire.Text = e.Month + 1 + "-" + e.DayOfMonth + "-" + e.Year;
+            var setDate = DateUtils.ConvertDateTimeWithZ().Split("T"); 
+            this.ViewModel.DateOfHire = e.Year + "-" + e.Month + 1  + "-" + e.DayOfMonth + "T" + setDate[1];
         }
 
         private void Save_Button_Click(object sender, EventArgs e)

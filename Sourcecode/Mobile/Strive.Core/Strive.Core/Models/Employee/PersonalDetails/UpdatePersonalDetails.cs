@@ -51,7 +51,27 @@ namespace Strive.Core.Models.Employee.PersonalDetails
     public class employeeDetail
     { }
     public class employeeAddress
-    { }
+    {
+        public int employeeAddressId { get; set; }
+        public int employeeId { get; set; }
+        public string address1 { get; set; }
+        public string address2 { get; set; }
+        public string phoneNumber { get; set; }
+        public string phoneNumber2 { get; set; }
+        public string email { get; set; }
+        public int city { get; set; }
+        public int state { get; set; }
+        public string zip { get; set; }
+        public int country { get; set; }
+        public bool isActive { get; set; }
+        public bool isDeleted { get; set; }
+        public int createdBy { get; set; }
+        public string createdDate { get; set; }
+        public int updatedBy { get; set; }
+        public string updatedDate { get; set; }
+
+
+    }
     public class employeeDocument
     { }
     public class employeeLiability

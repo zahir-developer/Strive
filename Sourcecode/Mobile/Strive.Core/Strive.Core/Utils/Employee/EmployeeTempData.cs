@@ -93,6 +93,7 @@ namespace Strive.Core.Utils.Employee
         public static int ImmigrationCodeID { get; set; } = -1;
         public static int ImmigrationSpinnerPosition { get; set; } = -1;
         public static string Address { get; set; }
+        public static int AddressID { get; set; }
         public static string ContactNumber { get; set; }
         public static string SSN { get; set; }
         public static string ImmigrationStatus { get; set; }

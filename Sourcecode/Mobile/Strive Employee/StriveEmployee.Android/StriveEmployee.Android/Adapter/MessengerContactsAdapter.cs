@@ -83,10 +83,24 @@ namespace StriveEmployee.Android.Adapter
             {
                 secondInitial = contacts[position].LastName.ToCharArray();
             }
-            if (firstInitial.Length != 0 || secondInitial.Length != 0)
+            if (firstInitial != null && secondInitial != null)
             {
                 contactsRecycleHolder.contact_Button.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
                 contactsRecycleHolder.contactName_TextView.Text = contacts[position].FirstName + " " + contacts[position].LastName;
+            }
+            else if(firstInitial != null)
+            {
+                if(firstInitial.Length > 0)
+                {
+                    contactsRecycleHolder.contact_Button.Text = firstInitial.ElementAt(0).ToString() + firstInitial.ElementAt(1).ToString();
+                }
+            }
+            else
+            {
+                if (secondInitial.Length > 0)
+                {
+                    contactsRecycleHolder.contact_Button.Text = secondInitial.ElementAt(0).ToString() + secondInitial.ElementAt(1).ToString();
+                }
             }
             contactsRecycleHolder.SetItemClickListener(this);
         }
