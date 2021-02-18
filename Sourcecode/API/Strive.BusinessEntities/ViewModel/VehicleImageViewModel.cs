@@ -1,10 +1,14 @@
-﻿namespace Strive.BusinessEntities.ViewModel
+﻿using System;
+
+namespace Strive.BusinessEntities.ViewModel
 {
     public class VehicleImageViewModel
     {
-        public int VehicleImageI { get; set; }
+        public int VehicleImageId { get; set; }
 
         public string ImageName { get; set; }
+
+        public DateTimeOffset CreatedDate { get; set; }
 
         public string OriginalImageName { get; set; }
 
