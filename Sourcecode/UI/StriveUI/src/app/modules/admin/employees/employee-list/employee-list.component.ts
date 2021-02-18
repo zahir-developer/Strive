@@ -348,6 +348,7 @@ export class EmployeeListComponent implements OnInit {
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
+    this.seachEmployee();
   }
 
   changeSortingDescending(column, sortingInfo) {
