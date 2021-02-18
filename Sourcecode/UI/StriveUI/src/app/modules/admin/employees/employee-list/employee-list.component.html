@@ -75,7 +75,7 @@
                                         </thead>
                                         <tbody class="bodyfix">
                                             <tr
-                                                *ngFor="let employee of employeeDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                *ngFor="let employee of employeeDetails">
                                                 <td>{{employee.FirstName}}</td>
                                                 <td>{{employee.LastName}}</td>
                                                 <td>{{employee.MobileNo}}</td>
