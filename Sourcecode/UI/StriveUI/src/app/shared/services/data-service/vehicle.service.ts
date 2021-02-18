@@ -48,4 +48,8 @@ export class VehicleService {
     getVehicleMembershipDetailsByVehicleId(id) {
         return this.http.get(`${UrlConfig.vehicle.getVehicleMembershipDetailsByVehicleId}`, { params : { id }});
     }
+
+    getAllVehicleThumbnail(id) {
+        return this.http.get(`${UrlConfig.vehicle.getAllVehicleThumbnail}` + id);
+    }
 }

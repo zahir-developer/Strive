@@ -444,6 +444,26 @@ export class CreateEditWashesComponent implements OnInit {
     this.washForm.disable();
   }
 
+  checkValue(type) {
+    if (type === 'make' && this.washForm.value.type !== '') {
+      if (!this.washForm.value.type.hasOwnProperty('id')) {
+        this.washForm.patchValue({ type: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
+      }
+    } else if (type === 'model' && this.washForm.value.model !== '') {
+      if (!this.washForm.value.model.hasOwnProperty('id')) {
+        this.washForm.patchValue({ model: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
+      }
+    } else if (type === 'color' && this.washForm.value.color !== '') {
+      if (!this.washForm.value.color.hasOwnProperty('id')) {
+        this.washForm.patchValue({ color: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });
+      }
+    }
+  }
+
+
   // Get Client And Vehicle Details By Barcode
   getByBarcode(barcode) {
     this.wash.getByBarcode(barcode).subscribe(data => {

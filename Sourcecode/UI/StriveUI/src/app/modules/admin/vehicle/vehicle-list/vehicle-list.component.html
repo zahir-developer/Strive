@@ -1,15 +1,18 @@
-<p-dialog styleClass="MyDialog" header="View Image" [(visible)]="imagePopup" [blockScroll]="true" [resizable]="true"
+<p-dialog [style]="{width: '50vw'}" header="View Image" [(visible)]="imagePopup" [blockScroll]="true" 
     appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
-    <div class="row" *ngIf="imagePopup">
+    <div class="row" *ngIf="imagePopup && imageList.length > 0">
         <br>
         <div class="col-sm-3 text-center" *ngFor="let image of imageList">
-            <img src="{{image.base64}}" width="50" height="50" (click)="openImage(image)" />
-            <div>{{image.name}}</div>
+            <img src="{{image.vehicleImage}}" width="100" height="100" (click)="openImage(image)" />
+            <div>{{image.OriginalImageName}}</div>
             <br>
         </div>
     </div>
+    <div *ngIf="imagePopup && imageList.length === 0">
+        <div class="text-center">No image availabe </div>
+    </div>
 </p-dialog>
-<p-dialog styleClass="MyDialog" header="Preview Image" [(visible)]="isOpenImage" [blockScroll]="true" [resizable]="true"
+<p-dialog styleClass="MyDialog"  [(visible)]="isOpenImage" [blockScroll]="true" [resizable]="true"
     appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
     <div *ngIf="isOpenImage">
         <img [src]="originalImage"   />
