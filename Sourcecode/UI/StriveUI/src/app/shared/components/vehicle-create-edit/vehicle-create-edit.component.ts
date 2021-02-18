@@ -405,6 +405,26 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.value.franchise = data;
   }
 
+  checkValue(type) {
+    if (type === 'make' && this.vehicleForm.value.make !== '') {
+      if (!this.vehicleForm.value.make.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ make: '' });
+        this.toastr.info('Please select valid make', 'Info!');
+      }
+    } else if (type === 'model' && this.vehicleForm.value.model !== '') {
+      if (!this.vehicleForm.value.model.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ model: '' });
+        this.toastr.info('Please select valid model', 'Info!');
+      }
+    } else if (type === 'color' && this.vehicleForm.value.color !== '') {
+      if (!this.vehicleForm.value.color.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ color: '' });
+        this.toastr.info('Please select valid color', 'Info!');
+      }
+    }
+  }
+
+
   // Add/Update Vehicle
   submit() {
     this.submitted = true;
@@ -441,13 +461,13 @@ export class VehicleCreateEditComponent implements OnInit {
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
         vehicleMfr: this.vehicleForm.value.make.id,
         vehicleModel: this.vehicleForm.value.model.id,
-        vehicleModelNo: null,   
-        vehicleYear: null, 
+        vehicleModelNo: null,
+        vehicleYear: null,
         vehicleColor: Number(this.vehicleForm.value.color.id),
         upcharge: Number(this.vehicleForm.value.upcharge),
         barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
         monthlyCharge: this.vehicleForm.value.monthlyCharge,
-        notes: null, 
+        notes: null,
         isActive: true,
         isDeleted: false,
         createdBy: +localStorage.getItem('empId'),
@@ -523,7 +543,7 @@ export class VehicleCreateEditComponent implements OnInit {
         Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
         VehicleModelNo: null,
         VehicleYear: null,
-        Notes: null, 
+        Notes: null,
         IsActive: true,
         IsDeleted: false,
         CreatedBy: +localStorage.getItem('empId'),

@@ -87,13 +87,13 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputType">Type</label>
-                                   
+
                                     <div class="ui-fluid">
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredMake"
-                                                    (completeMethod)="filterMake($event)" [size]="10"
-                                                    formControlName="type" placeholder="Make">
+                                                    (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)"
+                                                    [size]="10" formControlName="type" placeholder="Make">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
@@ -105,13 +105,14 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredModel"
+                                                    (onBlur)="checkValue('model')"
                                                     (completeMethod)="filterModel($event)" [size]="10"
                                                     formControlName="model" placeholder="Model">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputColor">Color</label>
@@ -119,13 +120,14 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                                    (onBlur)="checkValue('color')"
                                                     (completeMethod)="filterColor($event)" [size]="10"
                                                     formControlName="color" placeholder="Color">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
                                     </div>
-                                 
+
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes<span class="required">*</span></label>

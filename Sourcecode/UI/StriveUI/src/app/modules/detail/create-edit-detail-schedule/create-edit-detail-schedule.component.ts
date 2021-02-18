@@ -198,6 +198,26 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
+  checkValue(type) {
+    if (type === 'make' && this.details.value.type !== '') {
+      if (!this.detailForm.value.type.hasOwnProperty('id')) {
+        this.detailForm.patchValue({ type: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
+      }
+    } else if (type === 'model' && this.detailForm.value.model !== '') {
+      if (!this.detailForm.value.model.hasOwnProperty('id')) {
+        this.detailForm.patchValue({ model: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
+      }
+    } else if (type === 'color' && this.detailForm.value.color !== '') {
+      if (!this.detailForm.value.color.hasOwnProperty('id')) {
+        this.detailForm.patchValue({ color: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });
+      }
+    }
+  }
+
+
   getByBarcode(barcode) {
     if (barcode === '') {
       this.toastr.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter Barcode' });
