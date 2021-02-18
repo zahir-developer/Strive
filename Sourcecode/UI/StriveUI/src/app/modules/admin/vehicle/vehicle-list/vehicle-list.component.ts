@@ -111,42 +111,17 @@ export class VehicleListComponent implements OnInit {
   }
 
   previewImage() {
-    this.adSetup.getAdSetupById(9).subscribe(data => {
-      if (data.status === "Success") {
+    this.vehicle.getAllVehicleThumbnail(49233).subscribe(data => {
+      if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
-        const pdfBase = sType.GetAdSetupById;
-        const base64 = pdfBase.Base64;
+        console.log(sType, 'image');
         this.imagePopup = true;
-        const linkSource = 'data:image/png;base64,' + base64;
-        const downloadLink = document.createElement('a');
-        const fileName = pdfBase.OriginalFileName;
-        this.imageList = [
-          {
-            base64: linkSource,
-            name: fileName
-          },
-          {
-            base64 : linkSource,
-            name: fileName
-          },
-          {
-            base64 : linkSource,
-            name: fileName
-          },
-          {
-            base64 : linkSource,
-            name: fileName
-          },
-          {
-            base64 : linkSource,
-            name: fileName
-          },
-          {
-            base64 : linkSource,
-            name: fileName
-          },
-        ];
-        console.log(this.imageList, 'image');
+        if (sType.VehicleThumbnails.length > 0) {
+          this.imageList = sType.VehicleThumbnails;
+          this.imageList.forEach( item => {
+            item.vehicleImage = 'data:image/png;base64,' + item.Base64Thumbnail;
+          });
+        }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -155,7 +130,7 @@ export class VehicleListComponent implements OnInit {
 
   openImage(base64Value) {
     this.isOpenImage = true;
-    this.originalImage = base64Value.base64;
+    this.originalImage = base64Value.vehicleImage;
   }
 
   navigateToClient(vehicle) {
