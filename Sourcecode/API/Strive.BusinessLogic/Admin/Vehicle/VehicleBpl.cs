@@ -112,9 +112,9 @@ namespace Strive.BusinessLogic.Vehicle
             return ResultWrap(new VehicleRal(_tenant).GetPastDetails, clientId, "PastClientDetails");
         }
 
-        public Result GetAllVehicleImage(int vehicleId)
+        public Result GetAllVehicleThumbnail(int vehicleId)
         {
-            var vehicleRal = new VehicleRal(_tenant).GetAllVehicleImage(vehicleId);
+            var vehicleRal = new VehicleRal(_tenant).GetAllVehicleThumbnail(vehicleId);
 
             var documentBpl = new DocumentBpl(_cache, _tenant);
             foreach(var vehicle in vehicleRal)
@@ -122,27 +122,7 @@ namespace Strive.BusinessLogic.Vehicle
                 vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ThumbnailFileName);
             }
 
-            return ResultWrap(documentBpl, "VehicleImage");
+            return ResultWrap(documentBpl, "VehicleThumbnails");
         }
-
-        //public int AddImage(VehicleImageDto vehicleImage)
-        //{
-
-        //    foreach (var img in vehicleImage.VehicleImage)
-        //        string imageName = Upload(vehicleImage.DocumentType, vehicleImage.VehicleImage.Base64, vehicleImage.VehicleImage.ImageName);
-
-        //    vehicleImage.VehicleImage.OriginalImageName = vehicleImage.VehicleImage.ImageName;
-        //    vehicleImage.VehicleImage.ImageName = imageName;
-        //    vehicleImage.VehicleImage.FilePath = new DocumentBpl(_cache, _tenant).GetUploadFolderPath(vehicleImage.DocumentType) + imageName;
-
-        //    var result = new VehicleRal(_tenant).AddVehicleImage(vehicleImage);
-
-        //    if (!(result > 0))
-        //    {
-        //        DeleteImage(vehicleImage.DocumentType, imageName);
-        //    }
-
-        //    return result;
-        //}
     }
 }

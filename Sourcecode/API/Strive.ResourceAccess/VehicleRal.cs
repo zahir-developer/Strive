@@ -91,7 +91,7 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPK(vehicleImage, "VehicleImageId");
         }
 
-        public List<VehicleImageViewModel> GetAllVehicleImage(int vehicleId)
+        public List<VehicleImageViewModel> GetAllVehicleThumbnail(int vehicleId)
         {
             _prm.Add("vehicleId", vehicleId);
             return db.Fetch<VehicleImageViewModel>(SPEnum.USPGETALLVEHICLEIMAGEBYID.ToString(), _prm);
