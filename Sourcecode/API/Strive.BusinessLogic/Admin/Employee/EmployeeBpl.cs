@@ -32,7 +32,7 @@ namespace Strive.BusinessLogic
                 return _result;
             }
 
-            int authId = new CommonBpl(_cache, _tenant).CreateLogin(employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
+            int authId = new CommonBpl(_cache, _tenant).CreateLogin(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
             employee.EmployeeDetail.AuthId = authId;
 
             var docBpl = new DocumentBpl(_cache, _tenant);
