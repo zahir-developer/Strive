@@ -9,13 +9,13 @@ export class StateService {
 
   constructor(private http: HttpUtilsService) { }
   getStatesList() {
-    return this.http.get(`${UrlConfig.totalUrl.stateList}`);
+    return this.http.get(`${UrlConfig.common.stateList}`);
   }
 
   getCityList(code) {
-    return this.http.get(`${UrlConfig.totalUrl.cityList}` + code);
+    return this.http.get(`${UrlConfig.common.cityList}` + code);
   }
   getCityByStateId(Id) {
-    return this.http.get(`${UrlConfig.totalUrl.cityByStateId}`+  Id);
+    return this.http.get(`${UrlConfig.common.cityByStateId}`+  Id);
   }
 }
