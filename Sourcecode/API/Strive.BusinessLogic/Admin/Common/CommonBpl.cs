@@ -275,7 +275,7 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public int CreateLogin(string emailId, string mobileNo)
+        public int CreateLogin(HtmlTemplate htmlTemplate, string emailId, string mobileNo)
         {
             string randomPassword = RandomString(6);
 
@@ -295,8 +295,7 @@ namespace Strive.BusinessLogic.Common
 
             if (authId > 0)
             {
-                
-                SendLoginCreationEmail(emailId, randomPassword);
+                SendLoginCreationEmail(htmlTemplate, emailId, randomPassword);
             }
 
             return authId;
@@ -369,16 +368,15 @@ namespace Strive.BusinessLogic.Common
             }
             return _result;
         }
-        public void SendLoginCreationEmail(string emailId, string defaultPassword)
+        public void SendLoginCreationEmail(HtmlTemplate htmlTemplate,  string emailId, string defaultPassword)
         {
-            SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
-            <p> You have successfully signed up with Strive.</p>
-            <p> Your login Credentials:</p>
-            <p> UserName: " + emailId + @".</p>
-            <p> Password: " + defaultPassword + @".</p>
-            <p> &nbsp;</p>
-            <p> Thanks,</p>
-            <p> Strive Team </p>", "Welcome to Strive");
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            keyValues.Add("{{emailId}}", emailId);
+            keyValues.Add("{{password}}", defaultPassword);
+
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
+
+            SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
         public void SendHoldNotificationEmail(string emailId, string TicketNumber)
@@ -437,35 +435,21 @@ namespace Strive.BusinessLogic.Common
 
         }
 
-        public string GetMailContent (HtmlContent module , Dictionary<string,string>Name)
+        public string GetMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
         {
+            string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
 
-            string subPath = string.Empty;
-            //switch (module)
-            //{
-            //    case HtmlContent.EmployeeSignUp:
-            //        subPath = _tenant.EmployeeSignUp;
-            //        break;
-            //    case HtmlContent.ClientSignUp:
-            //        subPath = _tenant.EmployeeSignUp;
-            //        break;
-            //    case HtmlContent.HoldNotification:
-            //        subPath = _tenant.EmployeeSignUp;
-            //        break;
-
-            //}
-
-            //subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);            
+            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             StreamReader str = new StreamReader(subPath);
             string MailText = str.ReadToEnd();
-           
-            foreach (var item in Name)
+
+            foreach (var item in keyValues)
             {
-                MailText.Replace(item.Key, item.Value.Trim());                
+                MailText.Replace(item.Key, item.Value.Trim());
             }
             str.Close();
-            
+
             return MailText;
         }
     }

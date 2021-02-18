@@ -140,6 +140,8 @@ namespace Admin.API.Filters
             _tenant.LogoThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
             _tenant.LogoThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
 
+            //HTML Template Url
+            _tenant.HtmlTemplates = Pick("FolderPath", "HtmlTemplates");
         }
     }
 }

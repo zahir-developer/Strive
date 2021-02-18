@@ -61,17 +61,16 @@ namespace Strive.BusinessLogic
         {
             try
             {
-                
-               
-                    foreach (var item in client.ClientAddress)
+
+                foreach (var item in client.ClientAddress)
                 {
                     if (!string.IsNullOrEmpty(item.Email))
                     {
-                        int clientAuthId = new CommonBpl(_cache, _tenant).CreateLogin(item.Email, item.PhoneNumber);
+                        int clientAuthId = new CommonBpl(_cache, _tenant).CreateLogin(HtmlTemplate.ClientSignUp, item.Email, item.PhoneNumber);
                         client.Client.AuthId = clientAuthId;
                     }
                 }
-               
+
                 return ResultWrap(new ClientRal(_tenant).InsertClientDetails, client, "Status");
             }
             catch (Exception ex)
@@ -104,7 +103,7 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        
+
         public Result GetAllClient(SearchDto searchDto)
         {
             return ResultWrap(new ClientRal(_tenant).GetAllClient, searchDto, "Client");
@@ -138,7 +137,7 @@ namespace Strive.BusinessLogic
             return ResultWrap(new ClientRal(_tenant).GetHistoryByClientId, id, "VehicleHistory");
         }
 
-        public Result IsClientName (ClientNameDto clientNameDto)
+        public Result IsClientName(ClientNameDto clientNameDto)
         {
             return ResultWrap(new ClientRal(_tenant).IsClientName, clientNameDto, "IsClientNameAvailable");
         }

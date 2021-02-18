@@ -50,10 +50,10 @@ namespace Strive.Common
         SuperAdmin = 100
     }
 
-    public enum HtmlContent
+    public enum HtmlTemplate
     {
         EmployeeSignUp,
         ClientSignUp,
-        HoldNotification
+        VehicleHold
     }
 }
