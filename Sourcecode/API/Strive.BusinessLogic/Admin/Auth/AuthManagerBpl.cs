@@ -18,6 +18,7 @@ using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Common;
+using Strive.BusinessLogic.DTO.Client;
 using Strive.Common;
 using Strive.Crypto;
 using Strive.ResourceAccess;
@@ -32,17 +33,34 @@ namespace Strive.BusinessLogic.Auth
         {
             try
             {
+                string token = string.Empty;
+                string refreshToken = string.Empty;
+
                 ValidateLogin(authentication);
                 TenantSchema tSchema = new AuthRal(_tenant).Login(authentication);
                 CacheLogin(tSchema, tcon);
 
-                EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId);
-                (string token, string refreshToken) = GetTokens(tSchema, employee, secretKey);
+                if(tSchema.UserType != (int)UserType.Client)
+                {
+
+                    EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId);
+
+                    (token, refreshToken) = GetTokens(tSchema, employee, secretKey);
+                    _resultContent.Add(employee.WithName("EmployeeDetails"));
+                }
+                else
+                {
+                    ClientLoginViewModel client = new ClientRal(_tenant).GetClientByAuthId(tSchema.AuthId);
+
+                    (token, refreshToken) = GetTokens(tSchema, client, secretKey);
+                    _resultContent.Add(client.WithName("ClientDetails"));
+                }
 
                 SaveRefreshToken(tSchema.UserGuid, refreshToken);
                 _resultContent.Add(token.WithName("Token"));
                 _resultContent.Add(refreshToken.WithName("RefreshToken"));
-                _resultContent.Add(employee.WithName("EmployeeDetails"));
+
+
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -102,8 +120,28 @@ namespace Strive.BusinessLogic.Auth
                 new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("tid", $"{tenant.TenantId}"),
                 new Claim("AuthId", $"{tenant.AuthId}"),
-                new Claim("RoleId", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.Roleid.ToString()).ToList())}"),
+                new Claim("RoleId", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.RoleId.ToString()).ToList())}"),
                 new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.RoleName).ToList())}"),
+            }.ToList();
+
+            var token = tkn.Generate(claims, secretKey, "Strive", "Strive", _tenant.TokenExpiryMintues);
+            var reToken = tkn.GenerateRefreshToken();
+            return (token, reToken);
+        }
+
+        private (string, string) GetTokens(TenantSchema tenant, ClientLoginViewModel client, string secretKey)
+        {
+            Token tkn = new Token();
+            var claims = new[]
+            {
+                new Claim("UserGuid", $"{tenant.UserGuid}"),
+                new Claim("ClientId", $"{client.ClientDetail.ClientId}"),
+                new Claim("SchemaName", $"{tenant.Schemaname}"),
+                new Claim("TenantGuid", $"{tenant.TenantGuid}"),
+                new Claim("tid", $"{tenant.TenantId}"),
+                new Claim("AuthId", $"{tenant.AuthId}"),
+                new Claim("RoleId", $"{string.Join(",", client.RolePermissionViewModel.Select(x => x.RoleId.ToString()).ToList())}"),
+                new Claim("RoleIdName", $"{string.Join(",", client.RolePermissionViewModel.Select(x => x.RoleName).ToList())}"),
             }.ToList();
 
             var token = tkn.Generate(claims, secretKey, "Strive", "Strive", _tenant.TokenExpiryMintues);

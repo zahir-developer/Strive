@@ -290,7 +290,7 @@ namespace Strive.BusinessLogic.Common
                 EmailId = emailId,
                 MobileNumber = mobileNo,
                 PasswordHash = passwordHash,
-                UserType = userType.toInt(),
+                UserType = (int)userType,
                 SecurityStamp = "1",
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
