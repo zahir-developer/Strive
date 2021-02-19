@@ -1,9 +1,10 @@
-
 <p-dialog styleClass="MyDialog" [showHeader] = false [(visible)]="imagePopup" [blockScroll]="true" [resizable]="true" 
 appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
-<img [src]="transform()" (click) = "newtabImageViewer()"/>
-
+<div>
+    <img [src]="transform()" (click) = "newtabImageViewer()"/>
+</div>
 </p-dialog>
+
 <div id="page-content">
     <div class="container-fluid">
         <div class="row">

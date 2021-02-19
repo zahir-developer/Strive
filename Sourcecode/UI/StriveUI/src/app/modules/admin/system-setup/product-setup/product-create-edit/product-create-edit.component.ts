@@ -112,7 +112,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.Vendor = vendor.Vendor.filter(item => item.IsActive === 'True');
+        this.Vendor = vendor.Vendor;
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -123,7 +123,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getAllLocationName().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        this.locationName = location.Location.filter(item => item.IsActive === true);
+        this.locationName = location.Location;
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -290,7 +290,7 @@ export class ProductCreateEditComponent implements OnInit {
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
         console.log(this.fileName, this.fileUploadformData.length);
-      }, 5000);
+      }, 500);
     }
   }
 
