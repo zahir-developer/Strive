@@ -125,6 +125,25 @@ namespace Strive.ResourceAccess
             _prm.Add("Name", name);
             return db.Fetch<ClientNameViewModel>(SPEnum.USPGETALLCLIENTNAME.ToString(), _prm);
         }
+        public bool ClientEmailExist(string email)
+        {
+
+            _prm.Add("Email", email);
+
+            var result = db.Fetch<ClientEmailValidationViewModel>(EnumSP.Client.USPCLIENTEMAILEXIST.ToString(), _prm);
+            if (result.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
+
 
     }
 }

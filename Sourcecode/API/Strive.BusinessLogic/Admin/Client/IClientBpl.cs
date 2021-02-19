@@ -30,5 +30,7 @@ namespace Strive.BusinessLogic.Client
         Result IsClientName(ClientNameDto clientNameDto);
 
         Result GetAllClientName(string name);
+        Result ClientEmailExist(string email);
+
     }
 }

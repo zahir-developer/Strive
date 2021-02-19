@@ -163,6 +163,10 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetAllClientName, name, "ClientName");
         }
+        public Result ClientEmailExist(string email)
+        {
+            return ResultWrap(new ClientRal(_tenant).ClientEmailExist, email, "emailExist");
+        }
 
 
     }
