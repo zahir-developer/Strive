@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class SelectAppointmentDateComponent implements OnInit {
   @Output() previewAppointment = new EventEmitter();
   @Output() locationPage = new EventEmitter();
-  selectedDate: any; // = new Date();
+  selectedDate: any; 
   @Input() scheduleDetailObj?: any;
   activeSlot: any;
   timeSlot: any = [];
@@ -65,7 +65,6 @@ export class SelectAppointmentDateComponent implements OnInit {
           item.dateTime = date;
         });
         const sortedActivities = this.timeSlot.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
-        console.log(sortedActivities, 'slot');
       }
     });
   }

@@ -12,6 +12,6 @@ export class GetCodeService {
   constructor(private http: HttpUtilsService) { }
    
   getCodeByCategory(obj : string){
-    return this.http.get(`${UrlConfig.totalUrl.getCode}`+ obj);
+    return this.http.get(`${UrlConfig.common.getCode}`+ obj);
   } 
 }

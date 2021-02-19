@@ -52,7 +52,6 @@ export class HeaderComponent implements OnInit {
       if (res === null) {
         this.unReadMessageDetail = [];
       }
-      console.log(res, 'checkimg');
     });
   }
 

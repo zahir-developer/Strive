@@ -32,6 +32,7 @@ export class ProductCreateEditComponent implements OnInit {
   costErrMsg: boolean = false;
   priceErrMsg: boolean = false;
   employeeId: number;
+  base64Value = '';
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -39,7 +40,7 @@ export class ProductCreateEditComponent implements OnInit {
     private product: ProductService,
     private getCode: GetCodeService,
     private spinner: NgxSpinnerService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -101,7 +102,6 @@ export class ProductCreateEditComponent implements OnInit {
         const other = this.size.filter(i => i.CodeValue === "Other")[0];
         this.size = this.size.filter(i => i.CodeValue !== "Other");
         this.size.push(other);
-        console.log(this.size, 'size');
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -131,7 +131,7 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   showText(data) {
-    const size = this.size.filter( item => item.CodeValue === 'Other');
+    const size = this.size.filter(item => item.CodeValue === 'Other');
     if (size.length > 0) {
       const id = size[0].CodeId;
       if (+data === id) {
@@ -165,11 +165,23 @@ export class ProductCreateEditComponent implements OnInit {
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
         this.fileName = this.selectedProduct.FileName;
+        this.base64Value = this.selectedProduct.Base64;
         this.fileUploadformData = this.selectedProduct.Base64;
-        if (this.selectedProduct.Size === 33) {
-          this.textDisplay = true;
-          this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+        if (this.selectedProduct.Size !== null) {
+          const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
+          let descriptionName = '';
+          if (sizeObj.length > 0) {
+            descriptionName = sizeObj[0].CodeValue;
+            if (descriptionName === 'Other') {
+              this.textDisplay = true;
+              this.productSetupForm.patchValue({ other: this.selectedProduct.SizeDescription });
+            }
+          }
         }
+        // if (this.selectedProduct.Size === 33) {
+        //   this.textDisplay = true;
+        //   this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+        // }
         this.change(this.selectedProduct.IsTaxable);
       } else {
         this.toastr.error('Communication Error', 'Error!');
@@ -289,7 +301,6 @@ export class ProductCreateEditComponent implements OnInit {
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
-        console.log(this.fileName, this.fileUploadformData.length);
       }, 500);
     }
   }
@@ -301,5 +312,14 @@ export class ProductCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  downloadImage() {
+    const linkSource = 'data:application/image;base64,' + this.base64Value;
+    const downloadLink = document.createElement('a');
+    const fileName = this.fileName;
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 }

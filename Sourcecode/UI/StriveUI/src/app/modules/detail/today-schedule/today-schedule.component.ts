@@ -37,9 +37,7 @@ export class TodayScheduleComponent implements OnInit {
     this.detailService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
-        console.log(scheduleDetails, 'todayList');
         const detailGrid = scheduleDetails.DetailsGrid;
-        // this.bayDetail = detailGrid.BayDetailViewModel;
         const bayJobDetail = [];
         if (detailGrid.BayJobDetailViewModel !== null) {
           detailGrid.BayDetailViewModel.forEach(item => {
@@ -63,7 +61,6 @@ export class TodayScheduleComponent implements OnInit {
                   OutsideService: sameJobId.length > 0 ? sameJobId[0].ServiceName : 'None'
                 });
               });
-              console.log(services, 'servcei');
               bayJobDetail.push({
                 BayId: item.BayId,
                 BayDetail: isData
@@ -87,30 +84,12 @@ export class TodayScheduleComponent implements OnInit {
         bayJobDetail.forEach( bay => {
           bay.totalCount = bay.BayDetail.length;
         });
-        // bayJobDetail.forEach(bay => {
-        //   let isJobID = false;
-        //   bay.BayDetail.forEach(detail => {
-        //     if (detail.JobId === null) {
-        //       isJobID = true;
-        //     } else {
-        //       isJobID = false;
-        //     }
-        //   });
-        //   if (isJobID) {
-        //     bay.totalCount = 0;
-        //     bay.BayDetail = [];
-        //   } else {
-        //     bay.totalCount = bay.BayDetail.length;
-        //   }
-        // });
-        console.log(bayJobDetail, 'bayjb');
         this.bayDetail = bayJobDetail;
       }
     });
   }
 
   getDetailByID(bay) {
-    console.log(bay, bay.JobId);
     const currentDate = new Date();
     if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {
       this.isView = false;
@@ -123,7 +102,6 @@ export class TodayScheduleComponent implements OnInit {
     this.detailService.getDetailById(bay.JobId).subscribe(res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
-        console.log(details, 'details');
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
         this.showDialog = true;

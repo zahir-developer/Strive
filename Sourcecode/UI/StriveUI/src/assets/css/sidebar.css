@@ -11,7 +11,6 @@
 		overflow-x: hidden;
 		transition: 0.5s;
 		transition: right .3s;
-		/* margin-left: 70px; */
 	}
 	
 	.nav-slider-menu-items li a {

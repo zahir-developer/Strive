@@ -12,14 +12,11 @@
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputMake">Make<span class="required">*</span></label>
-                <!-- <select class="form-control" formControlName="make" >
-                    <option hidden selected value="">Choose</option>
-                    <option *ngFor="let make of make" value="{{make.CodeId}}">{{make.CodeValue}}</option>
-                </select> -->
+               
                 <div class="ui-fluid">
                     <div class="p-grid forms-grid">
                         <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.make.errors }">
-                            <p-autoComplete field="name" [suggestions]="filteredMake"
+                            <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')"
                                 (completeMethod)="filterMake($event)" [size]="10" formControlName="make"
                                 placeholder="Make">
                             </p-autoComplete>
@@ -32,14 +29,11 @@
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputModel">Model<span class="required">*</span></label>
-                <!-- <select class="form-control" formControlName="model" >
-                    <option hidden selected value="">Choose</option>
-                    <option *ngFor="let model of model" value="{{model.CodeId}}">{{model.CodeValue}}</option>
-                </select> -->
+               
                 <div class="ui-fluid">
                     <div class="p-grid forms-grid">
                         <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.model.errors }">
-                            <p-autoComplete field="name" [suggestions]="filteredModel"
+                            <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"
                                 (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
                                 placeholder="Model">
                             </p-autoComplete>
@@ -54,14 +48,11 @@
         <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputColor">Color<span class="required">*</span></label>
-                <!-- <select class="form-control" formControlName="color" [ngClass]="{ 'is-invalid':submitted && f.color.errors }">
-                    <option hidden selected value="">Choose</option>
-                    <option *ngFor="let color of color" value="{{color.CodeId}}">{{color.CodeValue}}</option>
-                </select> -->
+               
                 <div class="ui-fluid">
                     <div class="p-grid forms-grid">
                         <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.color.errors }">
-                            <p-autoComplete field="name" [suggestions]="filteredcolor"
+                            <p-autoComplete field="name" [suggestions]="filteredcolor" (onBlur)="checkValue('color')"
                                 (completeMethod)="filterColor($event)" [size]="10" formControlName="color"
                                 placeholder="Color">
                             </p-autoComplete>
@@ -81,13 +72,7 @@
                     </option>
                 </select>
             </div>
-            <!-- <div class="form-group col-lg-3" *ngIf="isEdit">
-                <label for="inputUpcharge">Washes</label>
-                <select class="form-control" formControlName="wash" (change)="washChange($event.target.value)">
-                    <option *ngFor="let wash of washesDropdown" value="{{wash.ServiceId}}">
-                        {{wash.ServiceName}}</option>
-                </select>
-            </div> -->
+           
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Upcharge Type</label>
                 <select class="form-control" formControlName="upchargeType"

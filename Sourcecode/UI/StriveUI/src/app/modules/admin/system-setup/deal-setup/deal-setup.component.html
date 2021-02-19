@@ -1,0 +1,61 @@
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
+        <div class="card m-b-10">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="title-border p-b-20 m-b-15">
+                        <h5 class="d-inline-block">Deals Setup</h5>&nbsp;
+                        <button [hidden]="showDialog" type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="adddata('add',DealsDetails)">Add Deals
+                        </button>
+                    </div>
+                    <div class="setup-wrapper">
+                        <div class="setup-content" id="open-collapse">
+                            <app-deals-add *ngIf="showDialog"   [selectedData] = "this.selectedData"
+        (closeDialog)="closePopupEmit($event)" (getDeals) = "getDeals()">
+    </app-deals-add>
+                            <div class="table-responsive" [hidden]="showDialog">
+                                <table class="table  table-striped m-t-10" >
+                                    <thead>
+                                        <tr>
+                                            <th> Deals Name</th>
+                                            <th>Time Period</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr *ngIf = "DealsDetails?.length === 0">
+                                           <td colspan="12" class="text-center"> No Deals Available</td>
+                                        </tr>
+                                         <tr  *ngFor="let deal of DealsDetails">
+                                            <td scope="row" >{{deal.DealName}}</td>
+                                            <td scope="row" >
+                                              <span *ngIf = "deal.TimePeriod ==1">Monthly</span>
+                                              <span *ngIf = "deal.TimePeriod ==2">Yearly</span>  
+                                              <span *ngIf = "deal.TimePeriod ==3">Custom</span>  
+
+                                            </td>
+                                            <td scope="row" >{{deal.StartDate | date : 'MM/dd/yyyy'}}</td>
+                                            <td scope="row" >{{deal.EndDate | date : 'MM/dd/yyyy'}}</td>
+
+                                           
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+   

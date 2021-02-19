@@ -49,7 +49,6 @@ export class CreateDocumentComponent implements OnInit {
   }
 
   protectPassword(event) {
-    console.log(event, 'event');
     if (event.target.checked === true) {
       this.isPassword = true;
       this.passwordForm.get('password').setValidators([Validators.required]);
@@ -76,7 +75,6 @@ export class CreateDocumentComponent implements OnInit {
       const fReader = new FileReader();
       fReader.readAsDataURL(file);
       fReader.onloadend = (event: any) => {
-        console.log(file.name);
         this.fileName = file.name;
         const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
@@ -89,13 +87,11 @@ export class CreateDocumentComponent implements OnInit {
         };
         this.multipleFileUpload.push(fileObj);
         this.isLoading = false;
-        console.log(this.multipleFileUpload, 'fileupload');
       };
     } catch (error) {
       this.fileName = null;
       this.fileUploadformData = null;
       this.isLoading = false;
-      console.log('no file was selected...');
     }
   }
 
@@ -119,12 +115,12 @@ export class CreateDocumentComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: '', // ' '
+        filepath: '', 
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: this.isPassword,
         password: this.passwordForm.value.confirm,
-        comments: '', // '',
+        comments: '', 
         isActive: true,
         isDeleted: false,
         createdBy: this.employeeId,
@@ -136,9 +132,7 @@ export class CreateDocumentComponent implements OnInit {
     const finalObj = {
       employeeDocument: documentObj
     };
-    console.log(finalObj, 'obj');
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
-      console.log(res, 'uploadDcument');
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document upload Successfully!' });
         this.activeModal.close(true);
@@ -150,7 +144,6 @@ export class CreateDocumentComponent implements OnInit {
 
   getAllDocument() {
     this.employeeService.getAllDocument(this.employeeId).subscribe(res => {
-      console.log(res, 'allDocument');
       if (res.status === 'Success') {
         const document = JSON.parse(res.resultData);
       }

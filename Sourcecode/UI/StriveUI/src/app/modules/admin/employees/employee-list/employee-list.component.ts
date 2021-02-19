@@ -38,7 +38,7 @@ export class EmployeeListComponent implements OnInit {
 
   collectionSize: number;
   search = '';
-  sort = { column: 'Status', descending: true };
+  sort = { column: 'FirstName', descending: false };
   sortColumn: { column: string; descending: boolean; };
   page: any;
   pageSize: any;
@@ -58,7 +58,6 @@ export class EmployeeListComponent implements OnInit {
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.isTableEmpty = true;
-    // this.getAllEmployeeDetails();
     this.seachEmployee();
     this.getCommisionDropdownValue();
   }
@@ -120,10 +119,8 @@ export class EmployeeListComponent implements OnInit {
   employeeDetail(employeeDetail) {
     const id = employeeDetail.EmployeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
-      console.log(res, 'getEmployeById');
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
           this.showDialog = true;
@@ -158,12 +155,27 @@ export class EmployeeListComponent implements OnInit {
 
   seachEmployee() {
     this.spinner.show();
-    this.employeeService.searchEmployee(this.search).subscribe(res => {
+    const empObj = {
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
+      status: true
+    };
+    this.employeeDetails = [];
+    this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const seachList = JSON.parse(res.resultData);
-        this.employeeDetails = seachList.EmployeeList;
-        this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+        if (seachList.EmployeeList.Employee !== null) {
+          this.employeeDetails = seachList.EmployeeList.Employee;
+          const totalCount = seachList.EmployeeList.Count.Count;
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        }
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
@@ -183,7 +195,6 @@ export class EmployeeListComponent implements OnInit {
 
   getGenderDropdownValue() {
     this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      console.log(res, 'gender');
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
@@ -337,6 +348,7 @@ export class EmployeeListComponent implements OnInit {
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
+    this.seachEmployee();
   }
 
   changeSortingDescending(column, sortingInfo) {

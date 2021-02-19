@@ -23,7 +23,6 @@ export class SelectServicesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.scheduleDetailObj, 'schedule');
     this.serviceForm = this.fb.group({
       serviceID: ['', Validators.required]
     });
@@ -35,7 +34,6 @@ export class SelectServicesComponent implements OnInit {
   }
 
   nextPage() {
-    console.log(this.serviceForm, 'selectedServcie');
     const services = this.detailService.filter(item => item.ServiceId === +this.serviceForm.value.serviceID);
     if (services.length > 0) {
       this.scheduleDetailObj.serviceobj = services[0];
@@ -58,7 +56,6 @@ export class SelectServicesComponent implements OnInit {
       this.spinner.hide();
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
-        console.log(serviceDetails, 'service');
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
           this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Details');
           this.patchServiceValue();

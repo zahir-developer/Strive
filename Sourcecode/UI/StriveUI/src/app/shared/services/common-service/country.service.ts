@@ -9,6 +9,6 @@ export class CountryService {
 
   constructor(private http: HttpUtilsService) { }
   getCountriesList() {
-    return this.http.get(`${UrlConfig.totalUrl.countryList}`);
+    return this.http.get(`${UrlConfig.common.countryList}`);
   }
 }

@@ -83,9 +83,6 @@ export class AdSetupListComponent implements OnInit {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "Ads")[0].CodeId;
-        console.log(this.documentTypeId);
-
-
       } else {
       }
     });

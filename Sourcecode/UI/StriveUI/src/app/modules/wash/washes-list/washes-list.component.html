@@ -125,8 +125,8 @@
                                                     <th scope="col" class="pointer"  (click)="changeSorting('TicketNumber')">Ticket
                                                         No&nbsp;<i class="fa" [ngClass]="selectedCls('TicketNumber')"
                                                             aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('ClientName')">Client
-                                                        Name&nbsp;<i class="fa" [ngClass]="selectedCls('ClientName')"
+                                                    <th scope="col" class="pointer"  (click)="changeSorting('FirstName')">Client
+                                                        Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
                                                             aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer"  (click)="changeSorting('VehicleName')">
                                                         Make/Model/Color&nbsp;<i class="fa"
@@ -150,7 +150,6 @@
                                             <tbody class="bodyfix">
                                                 <tr
                                                     *ngFor="let wash of washDetails">
-                                                    <!-- | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize  -->
                                                     <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">{{wash.ClientName}}</td>
                                                     <td>{{wash.VehicleName}}</td>

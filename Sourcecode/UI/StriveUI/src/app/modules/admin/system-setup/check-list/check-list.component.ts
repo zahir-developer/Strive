@@ -163,18 +163,9 @@ export class CheckListComponent implements OnInit {
     this.selectedData = false;
 
   }
-  //   onItemSelect(employeeRoles){
-  // console.log(employeeRoles)
-
-  //   this.employeeRoleId.push(employeeRoles.item_id);
-
-  //   }
+ 
   submit(data) {
-    // this.submitted = true;
-    // if (this.serviceSetupForm.invalid) {
-    //   return;
-    // }
-
+   
     if (data.RoleId == undefined && this.RoleId.length == 0) {
       this.toastr.warning('Role Name is Required', 'Warning!');
       return

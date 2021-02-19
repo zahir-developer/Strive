@@ -95,7 +95,6 @@
                                         <div class="search-container pull-right">
                                             <form>
                                                 <div class="form-row">
-                                                    <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span> </div> -->
                                                     <div class="form-group col-sm m-l-5">
                                                         <input type="search" class="form-control" placeholder="Search"
                                                             (input)=searchVechicleList($event.target.value)>
@@ -140,7 +139,6 @@
                                         <div class="search-container pull-right">
                                             <form>
                                                 <div class="form-row">
-                                                    <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span>  -->
                                                 </div>
                                                 <div class="form-group col-sm m-l-5">
                                                     <input type="search" class="form-control" placeholder="Search"
@@ -181,7 +179,6 @@
                                     <tbody
                                         *ngFor="let service of pastScheduleDetail | orderBy:pastSort.column:'sequence':pastSort.descending">
                                         <tr>
-                                            <!-- class="text-underline theme-primary-color font-size--9" -->
                                             <th scope="row" >
                                                 {{service.TicketNumber}}</th>
                                             <td>{{service.JobDate | date : 'MM/dd/yyyy'}}</td>

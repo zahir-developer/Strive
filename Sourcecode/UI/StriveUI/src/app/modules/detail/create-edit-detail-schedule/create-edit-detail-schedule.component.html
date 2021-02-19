@@ -23,11 +23,7 @@
                             <div class="col-sm-1 text-right p-t-5"
                                 style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>In Time:</label>
-                                <!-- <div class="form-row">
-                                    <label class="col-sm-1 col-form-label" for="inTime">In:</label>
-                                    <input type="text" class="form-control col-sm-8" name="inTime" id="inTime"
-                                        formControlName="inTime" />
-                                </div> -->
+                               
                             </div>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="inTime" id="inTime"
@@ -41,13 +37,7 @@
                                 <input type="text" class="form-control" name="dueTime" id="dueTime"
                                     formControlName="dueTime" />
                             </div>
-                            <!-- <div class="col-sm-4">
-                                <div class="form-row">
-                                    <label class="col-sm-4 col-form-label" for="dueTime">Due Time:</label>
-                                    <input type="text" class="form-control col-sm-8" name="dueTime" id="dueTime"
-                                        formControlName="dueTime" />
-                                </div>
-                            </div> -->
+                           
                         </div>
                     </div>
                 </div>
@@ -90,10 +80,7 @@
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="getByBarcode(detailForm.value.barcode)"
                                 [disabled]="isView">Select</button>&nbsp;
-                            <!-- <button type="button" class="btn theme-primary-button-color btn-responsive">Add
-                                Client</button>&nbsp;
-                            <button type="button" class="btn theme-primary-button-color btn-responsive">Add
-                                Vehicle</button> -->
+                           
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
@@ -105,15 +92,11 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputType">Type</label>
-                        <!-- <select class="form-control" formControlName="type">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of type" value="{{score.CodeId}}">{{score.CodeValue}}
-                            </option>
-                        </select> -->
+                       
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredMake"
+                                    <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')"
                                         (completeMethod)="filterMake($event)" [size]="10" formControlName="type"
                                         placeholder="Make">
                                     </p-autoComplete>
@@ -123,15 +106,11 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputModel">Model</label>
-                        <!-- <select class="form-control" formControlName="model">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of model" value="{{score.CodeId}}">{{score.CodeValue}}
-                            </option>
-                        </select> -->
+                      
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredModel"
+                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"
                                         (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
                                         placeholder="Model">
                                     </p-autoComplete>
@@ -141,15 +120,11 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputColor">Color</label>
-                        <!-- <select class="form-control" formControlName="color">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
-                            </option>
-                        </select> -->
+                       
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                    <p-autoComplete field="name" [suggestions]="filteredcolor" (onBlur)="checkValue('color')"
                                         (completeMethod)="filterColor($event)" [size]="10" formControlName="color"
                                         placeholder="Color">
                                     </p-autoComplete>
@@ -214,20 +189,7 @@
                         </select>
                     </div>
                 </div>
-                <!-- <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label>Notes</label>
-                            <textarea class="form-control m-t-5 notes-textarea" rows="4"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label> View Past Client Notes</label>
-                            <textarea class="form-control m-t-5 notes-textarea" rows="4"></textarea>
-                        </div>
-                    </div>
-                </div> -->
+              
             </form>
             <div class="form-row">
                 <div class="col-sm-8 border " style="height: 225px">
@@ -271,24 +233,7 @@
                                 [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
                         </span>
                     </div>
-                    <!-- <div class="row"> [disabled]="!isAssign && !isView"
-                        <div class="col-sm-3">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
-                                (click)="saveDetail()">Save</button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
-                                [disabled]="!isEdit" (click)="deleteDetail()">Delete</button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Customer
-                            </button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Vehicle
-                            </button>
-                        </div>
-                    </div> -->
+                  
                 </div>
             </div>
             <div class="m-t-12">

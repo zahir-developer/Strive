@@ -39,6 +39,9 @@ export class VehicleListComponent implements OnInit {
   linkSource: string;
   base64: any;
   imgbase64: any;
+  imageList = [];
+  isOpenImage: boolean;
+  originalImage = '';
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -51,6 +54,8 @@ export class VehicleListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.imagePopup = false;
+    this.isOpenImage = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -90,7 +95,6 @@ export class VehicleListComponent implements OnInit {
         if (vehicle.Vehicle.clientViewModel !== null) {
           this.vehicleDetails = vehicle.Vehicle.clientViewModel;
           totalCount = vehicle.Vehicle.Count.Count;
-          console.log(this.vehicleDetails, 'vehicledetaul');
           if (this.vehicleDetails.length === 0) {
             this.isTableEmpty = true;
           } else {
@@ -105,30 +109,30 @@ export class VehicleListComponent implements OnInit {
       this.spinner.hide();
     });
   }
-  transform() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.linkSource);
-  }
-  imageViewer() {
-    this.adSetup.getAdSetupById(7).subscribe(data => {
-      if (data.status === "Success") {
+
+  previewImage() {
+    this.vehicle.getAllVehicleThumbnail(49233).subscribe(data => {
+      if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
-        this.imgData = sType.GetAdSetupById;
-        this.imgbase64 = this.imgData?.Base64;
-        this.linkSource = 'data:application/image;base64,' + this.imgbase64;
+        console.log(sType, 'image');
         this.imagePopup = true;
+        if (sType.VehicleThumbnails.length > 0) {
+          this.imageList = sType.VehicleThumbnails;
+          this.imageList.forEach( item => {
+            item.vehicleImage = 'data:image/png;base64,' + item.Base64Thumbnail;
+          });
+        }
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
     });
+  }
 
+  openImage(base64Value) {
+    this.isOpenImage = true;
+    this.originalImage = base64Value.vehicleImage;
   }
-  newtabImageViewer() {
-    var image = new Image();
-    image.src = "data:image/jpg;base64," + this.imgbase64;
-    image.name = 'Image';
-    var w = window.open("", image.name);
-    w.document.write(image.outerHTML);
-  }
+
   navigateToClient(vehicle) {
     this.router.navigate(['/admin/client'], { queryParams: { clientId: vehicle.ClientId } });
   }

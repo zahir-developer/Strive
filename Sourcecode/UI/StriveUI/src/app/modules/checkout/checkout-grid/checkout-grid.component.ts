@@ -18,8 +18,10 @@ export class CheckoutGridComponent implements OnInit {
   pageSizeList: any;
   collectionSize: number = 0;
   isDesc: boolean = false;
-  column: string = 'TicketNumber';
-  query = '';
+  search = '';
+  sort = { column: 'TicketNumber', descending: false };
+  sortColumn: { column: string; descending: boolean; }; 
+   query = '';
 
   constructor(
     private checkout: CheckoutService,
@@ -36,18 +38,28 @@ export class CheckoutGridComponent implements OnInit {
 
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
-    const locId = localStorage.getItem('empLocationId');
+    const obj = {
+      locationId : localStorage.getItem('empLocationId'),
+      startDate: null,
+      endDate: null,
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
+      status: true
+
+    }
     this.spinner.show();
-    this.checkout.getUncheckedVehicleDetails(locId).subscribe(data => {
+    this.checkout.getUncheckedVehicleDetails(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
         const uncheck = JSON.parse(data.resultData);
-        this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails;
-        console.log(this.uncheckedVehicleDetails);
-        if (this.uncheckedVehicleDetails.length === 0) {
+        this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
+        if (this.uncheckedVehicleDetails == null) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.uncheckedVehicleDetails.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
@@ -62,27 +74,45 @@ export class CheckoutGridComponent implements OnInit {
     this.page = event;
     this.getAllUncheckedVehicleDetails();
   }
+  checkOutSearch() {
+    this.search =this.query 
+    
+    this.getAllUncheckedVehicleDetails();
+  }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
     this.getAllUncheckedVehicleDetails();
   }
-  sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-    this.uncheckedVehicleDetails.sort(function (a, b) {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
-        return 1 * direction;
-      }
-      else {
-        return 0;
-      }
-    });
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+    this.getAllUncheckedVehicleDetails();
   }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
+  }
+   
   checkoutVehicle(checkout) {
     if (checkout.JobPaymentId === 0) {
       this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Checkout can be done only for paid tickets.' });

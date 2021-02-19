@@ -26,7 +26,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputEmail">Email</label>
-            <input type="email" maxlength="50" class="form-control" formControlName="email" placeholder="Email"
+            <input (change) = "clientEmailExist()" type="email" maxlength="50"  class="form-control" formControlName="email" placeholder="Email"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors">Please enter valid email address</div>

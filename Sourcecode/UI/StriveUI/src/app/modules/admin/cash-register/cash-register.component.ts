@@ -56,6 +56,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   employeeId: string;
   documentTypeId: any;
   CahRegisterId: any;
+  storeStatusList = [];
+  storeTimeIn = '';
+  storeStatus = '';
+  storeTimeOut = '';
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
@@ -69,6 +73,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.formInitialize();
     const locationId = +this.locationId;
     this.Todaydate = moment(new Date()).format('YYYY-MM-DD');
+    this.getStoreStatusList();
     this.getTargetBusinessData(locationId, this.Todaydate);
     this.getWeatherDetails();
   }
@@ -139,6 +144,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalBill = 0;
     this.totalRoll = 0;
     this.totalCash = 0;
+    this.storeTimeOut = '';
+    this.storeTimeIn = '';
+    this.storeStatus = '';
     this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(data => {
       this.spinner.hide();
@@ -147,6 +155,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
+          this.storeStatus = this.cashDetails.CashRegister.Status !== null ? this.cashDetails.CashRegister.Status : '';
+          this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ? moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
+          this.storeTimeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
+           moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails.CashRegisterCoins.Pennies,
             coinNickels: this.cashDetails.CashRegisterCoins.Nickels,
@@ -210,8 +222,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.weatherDetails = data;
-        console.log(this.weatherDetails, 'weather')
-
       }
     });
   }
@@ -241,7 +251,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-    }
+    };
     const bill = {
       cashRegBillId: this.isUpdate ? this.cashDetails.CashRegisterBills.CashRegBillId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
@@ -257,7 +267,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-    }
+    };
     const roll = {
       cashRegRollId: this.isUpdate ? this.cashDetails.CashRegisterRolls.CashRegRollId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
@@ -272,7 +282,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-    }
+    };
     const other = {
       cashRegOtherId: this.isUpdate ? this.cashDetails.CashRegisterOthers.CashRegOtherId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
@@ -287,7 +297,23 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
+    };
+    let checkinTime = '';
+    let checkoutTime = '';
+    if (this.isUpdate) {
+      const intime = this.storeTimeIn.split(':');
+      const inhour = intime[0];
+      const inminutes = intime[1];
+      const inTime: any = new Date(this.date);
+      inTime.setHours(inhour);
+      inTime.setMinutes(inminutes);
+      inTime.setSeconds('00');
+      checkinTime = inTime;
+    } else {
+      checkinTime = this.storeTimeIn;
+      checkoutTime = this.storeTimeOut;
     }
+
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CahRegisterId,
@@ -300,28 +326,20 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
+      storeTimeIn: moment(checkinTime).format(),
+      storeTimeOut: this.storeTimeOut !== '' ? moment(this.storeTimeOut).format() : null,
+      status: this.storeStatus
     };
     const formObj = {
-      cashregister: cashregister,
+      cashregister,
       cashRegisterCoins: coin,
       cashRegisterBills: bill,
       cashRegisterRolls: roll,
       cashregisterOthers: other
     }
-    // const weatherObj = {
-    //   weatherId: 0,
-    //   locationId: 1,
-    //   weather: Math.floor(this.weatherDetails?.temporature).toString(),
-    //   rainProbability: Math.floor(this.weatherDetails?.rainPercentage).toString(),
-    //   predictedBusiness: '-',
-    //   targetBusiness: this.cashRegisterForm.controls.goal.value,
-    //   createdDate: moment(new Date()).format('YYYY-MM-DD')
-    // };
     const weatherObj = {
       weatherId: 0,
       locationId: +this.locationId,
-      // weather: Math.floor(this.targetBusiness?.WeatherPrediction?.Weather).toString(),
-      // rainProbability: Math.floor(this.targetBusiness?.WeatherPrediction?.RainProbability).toString(),
       weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
       rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
       predictedBusiness: '-',
@@ -443,6 +461,41 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
     this.getTotalCash();
   }
+
+  getStoreStatusList() {
+    this.getCode.getCodeByCategory('Storestatus').subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.storeStatusList = dType.Codes;
+        console.log(dType, 'type');
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    });
+  }
+
+  inTime(event) {
+    const time = event.split(':');
+    const hour = time[0];
+    const minutes = time[1];
+    const checkinTime: any = new Date(this.date);
+    checkinTime.setHours(hour);
+    checkinTime.setMinutes(minutes);
+    checkinTime.setSeconds('00');
+    this.storeTimeIn = checkinTime;
+  }
+
+  outTime(event) {
+    const time = event.split(':');
+    const hour = time[0];
+    const minutes = time[1];
+    const checkoutTime: any = new Date(this.date);
+    checkoutTime.setHours(hour);
+    checkoutTime.setMinutes(minutes);
+    checkoutTime.setSeconds('00');
+    this.storeTimeOut = checkoutTime;
+  }
+
 
   // Calculate TotalCash
   getTotalCash() {

@@ -14,7 +14,7 @@ export class DashboardService {
   }
 
   getDetailCount(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj);
+    return this.http.post(`${UrlConfig.washes.getDashBoardCount}`, obj);
   }
 
   getLocation() {

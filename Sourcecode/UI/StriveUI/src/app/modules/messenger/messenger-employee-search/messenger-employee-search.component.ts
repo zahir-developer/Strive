@@ -46,11 +46,23 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   }
   getAllEmployees() {
     this.clearSelectAllFlag();
-    this.empService.searchEmployee(this.search).subscribe(data => {
+    const empObj = {
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: null,
+      pageSize: null,
+      query: this.search,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.empService.getAllEmployeeList(empObj).subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
-        this.empList = empList.EmployeeList;
-        // this.removeSelectedEmployee();
+        if (empList.EmployeeList.Employee !== null) {
+          this.empList = empList.EmployeeList.Employee;
+        }
         this.setDefaultBoolean(false);
         this.setName();
       }

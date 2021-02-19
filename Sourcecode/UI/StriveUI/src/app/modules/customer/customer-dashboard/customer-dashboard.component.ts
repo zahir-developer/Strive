@@ -58,7 +58,6 @@ export class CustomerDashboardComponent implements OnInit {
       if (res.status === 'Success') {
         const sales = JSON.parse(res.resultData);
         this.serviceList = sales.GetDailySalesReport;
-        console.log(sales, 'customer');
       }
     });
   }
@@ -78,13 +77,11 @@ export class CustomerDashboardComponent implements OnInit {
           item.VechicleName = item.VehicleMfr + ' ' + item.VehicleModel + ' ' + item.VehicleColor;
         });
         this.clonedVechicleList = this.vechicleList.map(x => Object.assign({}, x));
-        console.log(vechicle, 'vechicle');
       }
     });
   }
 
   searchVechicleList(text) {
-    console.log(text);
     if (text.length > 0) {
       this.vechicleList = this.clonedVechicleList.filter(item => item.VechicleName.toLowerCase().includes(text));
     } else {
@@ -104,8 +101,8 @@ export class CustomerDashboardComponent implements OnInit {
 
   getScheduleDetail() {
     const currentDate = new Date();
-    const todayDate = null; // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-    const locationId = null; // 2033;
+    const todayDate = null;  
+    const locationId = null; 
     const clientID = this.clientID ? this.clientID : 0;
     this.spinner.show();
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
@@ -115,7 +112,6 @@ export class CustomerDashboardComponent implements OnInit {
         this.pastScheduleDetail = [];
         this.todayScheduleDetail = [];
         if (scheduleDetails.DetailsGrid.BayJobDetailViewModel !== null) {
-          // this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
           scheduleDetails.DetailsGrid.BayJobDetailViewModel.forEach(item => {
             if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(item.JobDate, 'dd-MM-yyyy')) {
               this.todayScheduleDetail.push(item);
@@ -125,7 +121,6 @@ export class CustomerDashboardComponent implements OnInit {
               this.pastScheduleDetail.push(item);
             }
           });
-          console.log(this.todayScheduleDetail, this.pastScheduleDetail, 'scheduleDetails');
           if (this.pastScheduleDetail.length > 0) {
             this.pastScheduleDetail.forEach(item => {
               item.searchData = item.TicketNumber + ' ' + this.datePipe.transform(item.JobDate, 'MM/dd/yyyy') + ' ' + item.LocationName

@@ -10,14 +10,14 @@ export class CheckListService {
 
   constructor(private http : HttpUtilsService) { }
   getCheckListSetup(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getCheckList}`);
+    return this.http.get(`${UrlConfig.Checklist.getCheckList}`);
   }
   addCheckListSetup(obj) {
     
-    return this.http.post(`${UrlConfig.totalUrl.addCheckList}`,obj);
+    return this.http.post(`${UrlConfig.Checklist.addCheckList}`,obj);
   }
   deleteCheckListSetup(id) {
     
-    return this.http.delete(`${UrlConfig.totalUrl.DeleteCheckList}`, { params: { id: id } });
+    return this.http.delete(`${UrlConfig.Checklist.DeleteCheckList}`, { params: { id: id } });
   }
 }

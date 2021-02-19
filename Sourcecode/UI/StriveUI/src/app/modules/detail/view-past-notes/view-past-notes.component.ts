@@ -13,7 +13,6 @@ export class ViewPastNotesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.viewNotes, 'viewNotes');
     this.collectionSize = Math.ceil(this.viewNotes.length / this.pageSize) * 10;
   }
 

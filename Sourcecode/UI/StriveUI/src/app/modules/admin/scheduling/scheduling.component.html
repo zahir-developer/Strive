@@ -89,14 +89,12 @@
                         <div class="col-xl-3">
                             <div class="card">
                                 <div class="card-body p-0">
-                                    <!-- <div class="input-icon right p-10 d-flex"> <input type="search" class="form-control" [(ngModel)]="search" name="search" id="inputSearchbyName" (click)="search = ''; searchEmployee()"
-                                        placeholder="Search Employee" (keyup)="searchEmployee()"> </div> -->
+   
                                     <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon" (click)="searchEmployee()"></i>
                                         <input type="text" class="form-control rounded-0" placeholder="Search Employee" [(ngModel)]="search" (focus)="searchFocus()" (keyup)="searchEmployee()"> </div>
                                       
                                     <div class="Search-box " #draggable_people>
-                                        <div *ngFor="let emp of this.empList?.EmployeeList" >
-                                            <!--  -->
+                                        <div *ngFor="let emp of this.empList" >
                                         <div class="fc-event Search-item border-top " style=" display: flex;background-color: transparent; color:black !important;border-top: 1px solid #dddd!important;"> <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search image">
                                             <div class="Search-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
                                                 <input type="checkbox" [(ngModel)]="emp.selected">
@@ -120,7 +118,6 @@
                                     </div>
                                     <div  id='calendar-container'>
                                         <p-fullCalendar #fc *ngIf="options"[events]="events" [options]="options" ></p-fullCalendar>
-                                        <!-- <div id='calendar'></div> -->
                                     </div>
                                 </div>
                             </div>

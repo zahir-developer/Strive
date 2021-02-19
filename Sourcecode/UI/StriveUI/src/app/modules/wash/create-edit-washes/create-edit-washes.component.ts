@@ -83,7 +83,6 @@ export class CreateEditWashesComponent implements OnInit {
     this.isPrint = false;
     this.formInitialize();
     this.timeInDate = new Date();
-    // this.timeOutDate = new Date() + 30;
     this.Score = [{ CodeId: 1, CodeValue: "None" }, { CodeId: 2, CodeValue: "Option1" }, { CodeId: 3, CodeValue: "Option2" }];
     if (this.isView === true) {
       this.viewWash();
@@ -117,13 +116,8 @@ export class CreateEditWashesComponent implements OnInit {
     if (!this.isEdit) {
       this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
     }
-    // this.wash.getTicketNumber().subscribe(data => {
-    //   if (!this.isEdit) {
-    //     this.ticketNumber = data;
-    //   }
-    // });
+   
     this.getWashTimeByLocationID();
-    // this.getAllClient();
     this.getServiceType();
     this.getColor();
   }
@@ -142,7 +136,6 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashById() {
-    console.log(this.selectedData);
     this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
@@ -263,7 +256,6 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
-        console.log(vData, 'vData');
         this.washForm.patchValue({
           vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
@@ -300,7 +292,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
           item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
         this.UpchargeType = this.upcharges;
-        // this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
         this.additional.forEach(element => {
           element.IsChecked = false;
         });
@@ -325,7 +316,6 @@ export class CreateEditWashesComponent implements OnInit {
         client.ClientName.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
-        console.log(client, 'client');
         this.clientList = client.ClientName.map(item => {
           return {
             id: item.ClientId,
@@ -395,7 +385,6 @@ export class CreateEditWashesComponent implements OnInit {
     const temp = this.washItem.filter(item => item.ServiceId === data.ServiceId);
     if (temp.length !== 0) {
       this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted = this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted ? false : true;
-      console.log(this.washItem);
     } else {
       data.IsChecked = data.IsChecked ? false : true;
     }
@@ -427,7 +416,6 @@ export class CreateEditWashesComponent implements OnInit {
             };
           }
         }
-        // this.model =
         this.model = this.model.map(item => {
           return {
             id: item.CodeId,
@@ -456,6 +444,26 @@ export class CreateEditWashesComponent implements OnInit {
     this.washForm.disable();
   }
 
+  checkValue(type) {
+    if (type === 'make' && this.washForm.value.type !== '') {
+      if (!this.washForm.value.type.hasOwnProperty('id')) {
+        this.washForm.patchValue({ type: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
+      }
+    } else if (type === 'model' && this.washForm.value.model !== '') {
+      if (!this.washForm.value.model.hasOwnProperty('id')) {
+        this.washForm.patchValue({ model: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
+      }
+    } else if (type === 'color' && this.washForm.value.color !== '') {
+      if (!this.washForm.value.color.hasOwnProperty('id')) {
+        this.washForm.patchValue({ color: '' });
+        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });
+      }
+    }
+  }
+
+
   // Get Client And Vehicle Details By Barcode
   getByBarcode(barcode) {
     this.wash.getByBarcode(barcode).subscribe(data => {
@@ -469,9 +477,6 @@ export class CreateEditWashesComponent implements OnInit {
             this.washForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
               vehicle: this.barcodeDetails.VehicleId,
-              // model: this.barcodeDetails.VehicleModelId,
-              // color: this.barcodeDetails.VehicleColor,
-              // type: this.barcodeDetails.VehicleMfr
             });
             this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
@@ -506,13 +511,12 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (this.vehicle.length !== 0) { // !this.isBarcode &&
+        if (this.vehicle.length !== 0) {
           this.washForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
         } else {
           this.washForm.get('vehicle').reset();
-          //this.washForm.patchValue({ vehicle: '' });
         }
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
@@ -541,7 +545,6 @@ export class CreateEditWashesComponent implements OnInit {
       }
     }
     this.washForm.patchValue({ washes: +data });
-    console.log(this.additionalService, this.washItem);
   }
 
   upchargeService(data) {
@@ -568,7 +571,6 @@ export class CreateEditWashesComponent implements OnInit {
     }
     this.washForm.patchValue({ upcharges: +data });
     this.washForm.patchValue({ upchargeType: +data });
-    console.log(this.additionalService, this.washItem);
   }
 
   airService(data) {
@@ -594,7 +596,6 @@ export class CreateEditWashesComponent implements OnInit {
       }
     }
     this.washForm.patchValue({ airfreshners: +data });
-    console.log(this.additionalService, this.washItem);
   }
 
   // Add/Update Wash
@@ -617,7 +618,7 @@ export class CreateEditWashesComponent implements OnInit {
       clientId: this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
       make: this.washForm.value.type.id,
-      model: this.washForm.value.model.id, // 0,
+      model: this.washForm.value.model.id, 
       color: this.washForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: moment(this.timeInDate).format(),
@@ -644,7 +645,7 @@ export class CreateEditWashesComponent implements OnInit {
         commission: 0,
         price: item.Cost,
         quantity: 1,
-        reviewNote: null, // ''
+        reviewNote: null,
         isActive: true,
         isDeleted: false,
         createdBy: +localStorage.getItem('empId'),
@@ -669,7 +670,6 @@ export class CreateEditWashesComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-          // this.washForm.reset();
         }
       }, (error) => {
         this.spinner.hide();
@@ -778,7 +778,6 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
         this.closePopupEmitClient();
-        // this.getAllClient();
       } else {
         this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         this.clientFormComponent.clientForm.reset();

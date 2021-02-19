@@ -111,7 +111,6 @@ export class SaleGiftCardComponent implements OnInit {
         jobItemId: 0,
         jobId: 0,
         serviceId: this.ItemDetail.selectedService?.id,
-        // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
         commission: 0,
         price: this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
         quantity: +this.ItemDetail.quantity,

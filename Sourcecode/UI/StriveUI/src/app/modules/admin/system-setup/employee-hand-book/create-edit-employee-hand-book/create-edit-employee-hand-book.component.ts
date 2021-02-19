@@ -108,34 +108,6 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     return this.handbookSetupForm.controls;
   }
 
-  // fileNameChanged(e: any) {
-  //   this.isLoading = true;
-  //   try {
-  //     const file = e.target.files[0];
-  //     const fReader = new FileReader();
-  //     fReader.readAsDataURL(file);
-  //     fReader.onloadend = (event: any) => {
-  //       console.log(file.name);
-  //       this.fileName = file.name;
-  //       const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-  //       let fileTosaveName: any;
-  //       fileTosaveName = event.target.result.split(',')[1];
-  //       this.fileUploadformData = fileTosaveName;
-  //       const fileObj = {
-  //         fileName: this.fileName,
-  //         fileUploadDate: this.fileUploadformData,
-  //         fileType: fileExtension
-  //       };
-  //       this.isLoading = false;
-  //     };
-  //   } catch (error) {
-  //     this.fileName = null;
-  //     this.fileUploadformData = null;
-  //     this.isLoading = false;
-  //     console.log('no file was selected...');
-  //   }
-  // }
-
   fileNameChanged() {
     let filesSelected: any;
     filesSelected = document.getElementById('customFile');

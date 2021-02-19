@@ -147,7 +147,6 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
         this.jobStatus = status.Codes;
-        console.log(status, 'status');
       }
     });
   }

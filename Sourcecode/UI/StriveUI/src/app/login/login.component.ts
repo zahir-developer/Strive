@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
-      // console.log(data, 'isloggedIn value');
     });
     this.authService.logout();
     this.loginForm = new FormGroup({
@@ -138,11 +137,8 @@ if(this.dashBoardModule = true){
       this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
         if (res.status === 'Success') {
           const label = JSON.parse(res.resultData);
-          console.log(label, 'white');
           this.colorTheme = label.WhiteLabelling.Theme;
           this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
-          // this.fontName = this.whiteLabelDetail.FontFace;
-          // this.themeId = this.whiteLabelDetail.ThemeId;
           this.colorTheme.forEach(item => {
             if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
               document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);

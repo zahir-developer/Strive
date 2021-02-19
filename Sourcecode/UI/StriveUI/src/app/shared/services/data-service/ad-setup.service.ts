@@ -10,22 +10,22 @@ export class AdSetupService {
 
   constructor(private http: HttpUtilsService) { }
   getAdSetup(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getadSetup}`);
+    return this.http.get(`${UrlConfig.AdSetup.getadSetup}`);
   }
   getAdType(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getServiceType}`);
+    return this.http.get(`${UrlConfig.ServiceSetup.getServiceType}`);
   }
   addAdSetup(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.insertadSetup}`, obj);
+    return this.http.post(`${UrlConfig.AdSetup.insertadSetup}`, obj);
   }  
   updateAdSetup(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateadSetup}`, obj);
+    return this.http.post(`${UrlConfig.AdSetup.updateadSetup}`, obj);
   }
   deleteAdSetup(id) {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteadSetup}` , { params: { id: id } });
+    return this.http.delete(`${UrlConfig.AdSetup.deleteadSetup}` , { params: { id: id } });
   }
   getAdSetupById(id: number) {
-    return this.http.get(`${UrlConfig.totalUrl.getByIdadSetup}`, { params: { id: id } });
+    return this.http.get(`${UrlConfig.AdSetup.getByIdadSetup}`, { params: { id: id } });
   }
   
 }
