@@ -24,6 +24,6 @@ namespace Strive.BusinessLogic.DealSetup
         {
             return ResultWrap(new DealSetupRal(_tenant).GetAllDeals, "GetAllDeals");
         }
-     \
+     
     }
 }
