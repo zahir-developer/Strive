@@ -11,7 +11,7 @@ namespace Strive.BusinessLogic.DealSetup
 {
    public interface IdealSetupBpl
     {
-        Result AddDealSetup(DealSetupDto dealSetup);
+        Result AddDealSetup(Deals dealSetup);
         Result GetAllDeals();
     }
 }

@@ -7,27 +7,23 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.Model
 {
-    [OverrideName("tblDeal")]
-    public class DealSetup
+    [OverrideName("tblDeals")]
+    public class Deal
     {
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-
-
-        public int DealId { get; set; }
+        public int? DealId { get; set; }
 
         [Column]
         public string DealName { get; set; }
 
         [Column]
-        public int TimePeriod { get; set; }
+        public int? TimePeriod { get; set; }
+
 
         [Column]
-        public bool Deals { get; set; }
-
+        public DateTime? StartDate { get; set; }
         [Column]
-        public DateTime StartDate { get; set; }
-        [Column]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
