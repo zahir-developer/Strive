@@ -24,8 +24,9 @@ namespace StriveEmployee.Android.Fragments.MyProfile
         private Button save_Button;
         private EditText LoginID;
         private EditText DateOfHire;
-        private Spinner Status;
+        private Spinner status_Spinner;
         private MyProfileFragment profile_Fragment;
+        private ArrayAdapter statusCodesAdapter;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,9 +39,10 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.EditEmployeeDetails_Fragment, null);
             profile_Fragment = new MyProfileFragment();
-            this.ViewModel = new EditEmployeeDetailsViewModel(); 
+            this.ViewModel = new EditEmployeeDetailsViewModel();
 
-             back_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_BackButton);
+            status_Spinner = rootView.FindViewById<Spinner>(Resource.Id.status_Spinner);
+            back_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_BackButton);
             save_Button = rootView.FindViewById<Button>(Resource.Id.employmentDetails_SaveButton);
             LoginID = rootView.FindViewById<EditText>(Resource.Id.loginID_EditText);
             DateOfHire = rootView.FindViewById<EditText>(Resource.Id.DateoFHire_EditText);
@@ -50,10 +52,24 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             DateOfHire.Click += DateOfHire_Click;
             back_Button.Click += Back_Button_Click;
             save_Button.Click += Save_Button_Click;
+            status_Spinner.ItemSelected += Status_Spinner_ItemSelected;
+            GetStatus();
 
             LoginID.Text = EmployeeLoginDetails.LoginID;
 
             return rootView;
+        }
+
+        private void Status_Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+           if(e.Id == 0)
+            {
+                EmployeeLoginDetails.IsActive = true;
+            }
+            else
+            {
+                EmployeeLoginDetails.IsActive = false;
+            }
         }
 
         private void DateOfHire_Click(object sender, EventArgs e)
@@ -78,8 +94,22 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             var result =  await this.ViewModel.SavePersonalInfo();
             if(result)
             {
+                EmployeeLoginDetails.clearData();
+                EmployeePersonalDetails.clearData();
                 FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
             }
+        }
+        private async void GetStatus()
+        {
+            var activeCodes = new List<string>() { "Active", "Inactive"};
+                
+                statusCodesAdapter = new ArrayAdapter<string>(Context, Resource.Layout.support_simple_spinner_dropdown_item, activeCodes);
+                status_Spinner.Adapter = statusCodesAdapter;
+                if (EmployeePersonalDetails.GenderSpinnerPosition != -1)
+                {
+                status_Spinner.SetSelection(EmployeePersonalDetails.GenderSpinnerPosition);
+                }
+
         }
 
         private void Back_Button_Click(object sender, EventArgs e)

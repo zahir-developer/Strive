@@ -38,7 +38,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
 
 
             updatePersonalDetails.employeeAddress = new employeeAddress();
-            updatePersonalDetails.employeeAddress.employeeAddressId = 0;
+            updatePersonalDetails.employeeAddress.employeeAddressId = 1;
             updatePersonalDetails.employeeAddress.employeeId = EmployeeTempData.EmployeeID;
             updatePersonalDetails.employeeAddress.address1 = EmployeePersonalDetails.Address;
             updatePersonalDetails.employeeAddress.address2 = EmployeePersonalDetails.Address;
@@ -47,7 +47,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             updatePersonalDetails.employeeAddress.email = EmployeeLoginDetails.LoginID;
             updatePersonalDetails.employeeAddress.city = 1;
             updatePersonalDetails.employeeAddress.state = 1;
-            updatePersonalDetails.employeeAddress.zip = null;
+            updatePersonalDetails.employeeAddress.zip = "";
             updatePersonalDetails.employeeAddress.country = 1;
             updatePersonalDetails.employeeAddress.isActive = true;
             updatePersonalDetails.employeeAddress.isDeleted = false;

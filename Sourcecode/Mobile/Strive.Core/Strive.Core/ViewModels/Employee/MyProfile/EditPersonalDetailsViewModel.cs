@@ -91,7 +91,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             updatePersonalDetails.employeeAddress.state = 1;
             updatePersonalDetails.employeeAddress.zip = null;
             updatePersonalDetails.employeeAddress.country = 1;
-            updatePersonalDetails.employeeAddress.isActive = true;
+            updatePersonalDetails.employeeAddress.isActive = EmployeeLoginDetails.IsActive;
             updatePersonalDetails.employeeAddress.isDeleted = false;
             updatePersonalDetails.employeeAddress.createdBy = 0;
             updatePersonalDetails.employeeAddress.createdDate = DateUtils.ConvertDateTimeWithZ();

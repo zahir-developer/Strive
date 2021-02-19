@@ -78,8 +78,13 @@ namespace Strive.Core.ViewModels.Employee
             }
             else
             {
-                _userDialog.Toast("Group chat created successfully");
+                _userDialog.Toast("User added successfully");
             }
+        }
+
+        public void NoParticipants()
+        {
+            _userDialog.Alert("There are no participants to add");
         }
 
         public async Task DeleteGroupUser()
