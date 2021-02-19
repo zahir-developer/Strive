@@ -100,6 +100,11 @@ namespace Strive.BusinessLogic.Common
             return lstGeocode;
         }
 
+        public void DeleteUser(int authId)
+        {
+            new CommonRal(_tenant, true).DeleteUser(authId);
+        }
+
         public Result GetCodesByCategory(int codeCategoryId)
         {
             try
@@ -208,8 +213,6 @@ namespace Strive.BusinessLogic.Common
 
         }
 
-
-
         public async Task<Result> GetAllWeatherLocations()
         {
             const string baseUrl = "https://api.climacell.co/";
@@ -275,7 +278,7 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public int CreateLogin(HtmlTemplate htmlTemplate, string emailId, string mobileNo)
+        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo)
         {
             string randomPassword = RandomString(6);
 
@@ -287,18 +290,14 @@ namespace Strive.BusinessLogic.Common
                 EmailId = emailId,
                 MobileNumber = mobileNo,
                 PasswordHash = passwordHash,
+                UserType = userType.toInt(),
                 SecurityStamp = "1",
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
-            if (authId > 0)
-            {
-                SendLoginCreationEmail(htmlTemplate, emailId, randomPassword);
-            }
-
-            return authId;
+            return (authId, randomPassword);
         }
 
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
@@ -374,6 +373,13 @@ namespace Strive.BusinessLogic.Common
             keyValues.Add("{{emailId}}", emailId);
             keyValues.Add("{{password}}", defaultPassword);
 
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
+
+            SendMail(emailId, emailContent, "Welcome to Strive !!!");
+        }
+
+        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues)
+        {
             string emailContent = GetMailContent(htmlTemplate, keyValues);
 
             SendMail(emailId, emailContent, "Welcome to Strive !!!");

@@ -108,6 +108,17 @@ namespace Strive.ResourceAccess
             }
         }
 
+        public void DeleteUser(int authId)
+        {
+            DynamicParameters dynamic = new DynamicParameters();
+            dynamic.Add("@AuthId", authId);
+            
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Authentication.USPDELETEUSER.ToString(), dynamic, commandType: CommandType.StoredProcedure);
+
+            db.Save(cmd);
+
+        }
+
         public int VerifyOTP(string emailId, string otp)
         {
             DynamicParameters dynParams = new DynamicParameters();
