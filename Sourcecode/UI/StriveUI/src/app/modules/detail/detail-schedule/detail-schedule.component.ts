@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import { TodayScheduleComponent } from '../today-schedule/today-schedule.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
+import {  DatepickerDateCustomClasses } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -27,6 +28,8 @@ export class DetailScheduleComponent implements OnInit {
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'];
   @ViewChild(TodayScheduleComponent) todayScheduleComponent: TodayScheduleComponent;
   @ViewChild(NoOfDetailsComponent) noOfDetailsComponent: NoOfDetailsComponent;
+  dateCustomClasses: DatepickerDateCustomClasses[];
+  scheduleDate = [];
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe,
@@ -100,6 +103,7 @@ export class DetailScheduleComponent implements OnInit {
       jobDate: scheduleDate,
       locationId
     };
+    this.getDetailScheduleStatus();
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       this.spinner.hide();
@@ -176,6 +180,32 @@ export class DetailScheduleComponent implements OnInit {
     this.getScheduleDetailsByDate(this.selectedDate);
     this.todayScheduleComponent.getTodayDateScheduleList();
     this.noOfDetailsComponent.getDashboardDetails();
+  }
+
+  getDetailScheduleStatus() {
+    const locId = localStorage.getItem('empLocationId');
+    const date = this.datePipe.transform(this.selectedDate, 'yyyy-MM');
+    this.detailService.getDetailScheduleStatus(locId, date).subscribe( res => {
+      if (res.status === 'Success') {
+        const scheduleStatus = JSON.parse(res.resultData);
+        console.log(scheduleStatus, 'ststus');
+        if (scheduleStatus.Status.length > 0) {
+          const dateClass = [];
+          this.scheduleDate = scheduleStatus.Status;
+          this.scheduleDate.forEach( item => {
+            dateClass.push({
+              date: new Date(item.JobDate),
+              classes: ['text-danger']
+            });
+          });
+          this.dateCustomClasses = dateClass;
+        }
+      }
+    });
+  }
+
+  caall() {
+    console.log('varuthu');
   }
 
 }

@@ -69,4 +69,8 @@ export class DetailService {
   getDetailCount(obj) {
     return this.http.post(`${UrlConfig.washes.getDashBoardCount}`, obj);
   }
+
+  getDetailScheduleStatus(LocationId, date) {
+    return this.http.get(`${UrlConfig.details.getDetailScheduleStatus}`, { params: { LocationId , Date: date } });
+  }
 }

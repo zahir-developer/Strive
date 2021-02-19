@@ -58,35 +58,35 @@ export const UrlConfig = {
     holdoutVehicle: `Admin/Checkout/UpdateJobStatusHold`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
   },
- client :{
-  clientEmailCheck :  `Admin/Client/ClientEmailExist`,
+    client: {
+    clientEmailCheck: `Admin/Client/ClientEmailExist`,
+    getClient: `Admin/Client/GetAll`,
+    sameClientName: `Admin/Client/IsClientName`,
+    getClientByName: `Admin/Client/GetClientSearch`,
+    getClientName: `Admin/Client/GetAllName/`,
+    getClientScore: `Admin/Client/GetClientCodes`,
+    updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
+    getStatementByClientId: `Admin/Client/GetStatementByClientId/`,
+    getHistoryByClientId: `Admin/Client/GetHistoryByClientId/`,
+    addClient: `Admin/Client/InsertClientDetails`,
+    updateClient: `Admin/Client/UpdateClientVehicle`,
+    deleteClient: `Admin/Client/`,
+    getClientById: `Admin/Client/GetClientById/`,
+  },
+  details: {
+    addDetail: `Admin/Details/AddDetails`,
+    getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
+    updateDetail: `Admin/Details/UpdateDetails`,
+    getDetailById: `Admin/Details/GetDetailsById/`,
+    getAllBayById: `Admin/Details/GetAllBayById/`,
+    getScheduleDetailsByDate: `Admin/Details/GetBaySchedulesDetails`,
+    deleteDetail: `Admin/Details/Delete`,
+    getJobType: `Admin/Details/GetJobType`,
+    getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
+    saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
+    getDetailScheduleStatus: `Admin/Details/GetDetailScheduleStatus`
 
-  getClient: `Admin/Client/GetAll`,
-  sameClientName: `Admin/Client/IsClientName`,
-  getClientByName: `Admin/Client/GetClientSearch`,
-  getClientName: `Admin/Client/GetAllName/`,
- getClientScore: `Admin/Client/GetClientCodes`,
-  updateAccountBalance: `Admin/Client/UpdateAccountBalance`,
-  getStatementByClientId: `Admin/Client/GetStatementByClientId/`,
-  getHistoryByClientId: `Admin/Client/GetHistoryByClientId/`,
-  addClient: `Admin/Client/InsertClientDetails`,
-  updateClient: `Admin/Client/UpdateClientVehicle`,
-  deleteClient: `Admin/Client/`,
-  getClientById: `Admin/Client/GetClientById/`,
- },
- details:{
-  addDetail: `Admin/Details/AddDetails`,
-  getPastClientNotesById: `Admin/Details/GetPastClientNotesById/`,
- updateDetail: `Admin/Details/UpdateDetails`,
-  getDetailById: `Admin/Details/GetDetailsById/`,
-  getAllBayById: `Admin/Details/GetAllBayById/`,
-  getScheduleDetailsByDate: `Admin/Details/GetBaySchedulesDetails`,
-  deleteDetail: `Admin/Details/Delete`,
-  getJobType: `Admin/Details/GetJobType`,
-  getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
-  saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
-  
- },
+  },
 
 
   employee: {
@@ -299,5 +299,10 @@ export const UrlConfig = {
     saveTimeClock: `Admin/TimeClock/Save`,
     getTimeClockEmployeeDetails: `Admin/TimeClock/GetTimeClockEmployeeDetails`,
     deleteTimeClockEmployee: `Admin/TimeClock/DeleteTimeClockEmployee`,
+  },
+
+  customerHistory: {
+    getCustomerHistory: `Admin/Checkout/GetCustomerHistory`
   }
+
 };

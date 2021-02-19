@@ -25,4 +25,9 @@ export class CheckoutService {
   completedVehicle(obj) {
     return this.http.post(`${UrlConfig.checkOut.completedVehicle}`, obj);
   }
+
+  getCustomerHistory(obj) {
+    return this.http.post(`${UrlConfig.customerHistory.getCustomerHistory}`, obj);
+  }
+
 }
