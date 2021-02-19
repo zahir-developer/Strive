@@ -21,9 +21,13 @@ namespace Strive.BusinessLogic
     {
         public EmployeeBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-     
+
         public Result AddEmployee(EmployeeModel employee)
         {
+
+            bool success = false;
+
+            //Validate emailId already exist
             var isExist = new CommonRal(_tenant, true).GetEmailIdExist(employee.EmployeeAddress.Email);
 
             if (isExist)
@@ -32,23 +36,54 @@ namespace Strive.BusinessLogic
                 return _result;
             }
 
-            int authId = new CommonBpl(_cache, _tenant).CreateLogin(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
-            employee.EmployeeDetail.AuthId = authId;
+            //Validate documents
 
             var docBpl = new DocumentBpl(_cache, _tenant);
 
-            string error = docBpl.ValidateEmployeeFiles(employee.EmployeeDocument);
-            if (!(error == string.Empty))
+            if (employee.EmployeeDocument.Count > 0)
             {
-                _result = Helper.ErrorMessageResult(error);
+
+                string error = docBpl.ValidateEmployeeFiles(employee.EmployeeDocument);
+                if (!(error == string.Empty))
+                {
+                    _result = Helper.ErrorMessageResult(error);
+                }
+
+                return _result;
             }
 
-            //Documents Upload & Get File Names
-            List<EmployeeDocument> employeeDocument = docBpl.UploadEmployeeFiles(employee.EmployeeDocument);
+            var commonBpl = new CommonBpl(_cache, _tenant);
+            var createLogin = commonBpl.CreateLogin(UserType.Employee, employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
+            employee.EmployeeDetail.AuthId = createLogin.authId;
 
-            employee.EmployeeDocument = employeeDocument;
+            if (createLogin.authId > 0)
+            {
+                if (employee.EmployeeDocument.Count > 0)
+                {
+                    //Documents Upload & Get File Names
+                    List<EmployeeDocument> employeeDocument = docBpl.UploadEmployeeFiles(employee.EmployeeDocument);
 
-            return ResultWrap(new EmployeeRal(_tenant).AddEmployee, employee, "Status");
+                    employee.EmployeeDocument = employeeDocument;
+                }
+
+                //Add Employee
+                var employeeResult = new EmployeeRal(_tenant).AddEmployee(employee);
+
+                if (employeeResult)
+                {
+                    //Send Email
+                    commonBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, employee.EmployeeAddress.Email, createLogin.password);
+                    success = true;
+                }
+                else if(createLogin.authId > 0)
+                {
+                    //Delete AuthMaster record from AuthDatabase
+                    commonBpl.DeleteUser(createLogin.authId);
+                }
+                
+            }
+
+            return ResultWrap(success, "Status");
         }
 
         public Result UpdateEmployee(EmployeeModel employee)
@@ -83,7 +118,7 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeById, employeeId, "Employee");
         }
-      
+
         public Result GetAllEmployeeRoles()
         {
             return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles, "EmployeeRoles");
