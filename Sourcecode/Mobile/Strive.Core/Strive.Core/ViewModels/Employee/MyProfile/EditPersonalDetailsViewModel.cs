@@ -98,6 +98,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             updatePersonalDetails.employeeAddress.updatedBy = 0;
             updatePersonalDetails.employeeAddress.updatedDate = DateUtils.ConvertDateTimeWithZ();
 
+
             var result = await AdminService.UpdateEmployeePersonalDetails(updatePersonalDetails);
             if(result != null)
             {

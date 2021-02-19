@@ -116,8 +116,12 @@ namespace Strive.Core.Utils.Employee
     public static class EmployeeLoginDetails
     {
         public static string LoginID { get; set; }
+        public static int AuthID { get; set; }
+        public static int DetailID { get; set; }
+        public static string WashRate { get; set; }
         public static string DateofHire { get; set; }
         public static int Status { get; set; } = -1;
+        public static string Exemptions { get; set; }
         public static void clearData()
         {
             LoginID = null;

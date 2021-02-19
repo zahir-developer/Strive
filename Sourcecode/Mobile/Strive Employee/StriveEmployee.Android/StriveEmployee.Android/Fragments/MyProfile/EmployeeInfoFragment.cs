@@ -104,6 +104,10 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             EmployeeLoginDetails.LoginID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
             EmployeeLoginDetails.DateofHire = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.HiredDate;
             EmployeePersonalDetails.AddressID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.EmployeeAddressId;
+            EmployeeLoginDetails.DetailID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.EmployeeDetailId;
+            EmployeeLoginDetails.WashRate = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.WashRate;
+            EmployeeLoginDetails.AuthID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.AuthId;
+            EmployeeLoginDetails.Exemptions = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Exemptions.ToString();
         }
         private async void GetEmployeeDetails()
         {

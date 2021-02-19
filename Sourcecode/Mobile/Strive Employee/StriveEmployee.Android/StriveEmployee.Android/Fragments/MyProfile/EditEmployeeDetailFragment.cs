@@ -67,12 +67,19 @@ namespace StriveEmployee.Android.Fragments.MyProfile
         {
             DateOfHire.Text = e.Month + 1 + "-" + e.DayOfMonth + "-" + e.Year;
             var setDate = DateUtils.ConvertDateTimeWithZ().Split("T"); 
-            this.ViewModel.DateOfHire = e.Year + "-" + e.Month + 1  + "-" + e.DayOfMonth + "T" + setDate[1];
+            this.ViewModel.DateOfHire = e.Year + "-" + e.Month + 1  + "-" + e.DayOfMonth;
         }
 
-        private void Save_Button_Click(object sender, EventArgs e)
+        private async void Save_Button_Click(object sender, EventArgs e)
         {
-           
+            var dates = DateOfHire.Text.Split("-");
+            this.ViewModel.DateOfHire = dates[2] +"-"+dates[1] +"-"+dates[0];
+            EmployeeLoginDetails.LoginID = LoginID.Text;
+            var result =  await this.ViewModel.SavePersonalInfo();
+            if(result)
+            {
+                FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
+            }
         }
 
         private void Back_Button_Click(object sender, EventArgs e)
