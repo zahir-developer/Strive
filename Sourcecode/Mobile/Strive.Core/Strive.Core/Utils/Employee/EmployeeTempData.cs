@@ -93,6 +93,7 @@ namespace Strive.Core.Utils.Employee
         public static int ImmigrationCodeID { get; set; } = -1;
         public static int ImmigrationSpinnerPosition { get; set; } = -1;
         public static string Address { get; set; }
+        public static int AddressID { get; set; }
         public static string ContactNumber { get; set; }
         public static string SSN { get; set; }
         public static string ImmigrationStatus { get; set; }
@@ -107,6 +108,8 @@ namespace Strive.Core.Utils.Employee
             ImmigrationCodeID = -1;
             ImmigrationSpinnerPosition = -1;
             Address = null;
+            AddressID = -1;
+            ContactNumber = null;
             SSN = null;
             ImmigrationStatus = null;
 
@@ -115,14 +118,24 @@ namespace Strive.Core.Utils.Employee
     public static class EmployeeLoginDetails
     {
         public static string LoginID { get; set; }
+        public static int AuthID { get; set; }
+        public static int DetailID { get; set; }
+        public static string WashRate { get; set; }
         public static string DateofHire { get; set; }
         public static int Status { get; set; } = -1;
+        public static string Exemptions { get; set; }
+        public static bool IsActive { get; set; } = true;
         public static void clearData()
         {
             LoginID = null;
+            AuthID = -1;
+            DetailID = -1;
+            WashRate = null;
             DateofHire = null;
             Status = -1;
-        
+            Exemptions = null;
+            IsActive = true;
+
         }
 
     }

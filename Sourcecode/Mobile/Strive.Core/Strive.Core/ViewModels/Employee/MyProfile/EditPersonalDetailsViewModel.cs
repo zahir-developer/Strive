@@ -76,7 +76,27 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             updatePersonalDetails.employee.createdBy = 0;
             updatePersonalDetails.employee.createdDate = DateUtils.ConvertDateTimeWithZ(); 
             updatePersonalDetails.employee.updatedBy = 0;
-            updatePersonalDetails.employee.updatedDate = DateUtils.ConvertDateTimeWithZ(); 
+            updatePersonalDetails.employee.updatedDate = DateUtils.ConvertDateTimeWithZ();
+
+
+            updatePersonalDetails.employeeAddress = new employeeAddress();
+            updatePersonalDetails.employeeAddress.employeeAddressId = EmployeePersonalDetails.AddressID;
+            updatePersonalDetails.employeeAddress.employeeId = EmployeeTempData.EmployeeID;
+            updatePersonalDetails.employeeAddress.address1 = EmployeePersonalDetails.Address;
+            updatePersonalDetails.employeeAddress.address2 = EmployeePersonalDetails.Address;
+            updatePersonalDetails.employeeAddress.phoneNumber = EmployeePersonalDetails.ContactNumber;
+            updatePersonalDetails.employeeAddress.phoneNumber2 = EmployeePersonalDetails.ContactNumber;
+            updatePersonalDetails.employeeAddress.email = EmployeeLoginDetails.LoginID;
+            updatePersonalDetails.employeeAddress.city = 1;
+            updatePersonalDetails.employeeAddress.state = 1;
+            updatePersonalDetails.employeeAddress.zip = null;
+            updatePersonalDetails.employeeAddress.country = 1;
+            updatePersonalDetails.employeeAddress.isActive = EmployeeLoginDetails.IsActive;
+            updatePersonalDetails.employeeAddress.isDeleted = false;
+            updatePersonalDetails.employeeAddress.createdBy = 0;
+            updatePersonalDetails.employeeAddress.createdDate = DateUtils.ConvertDateTimeWithZ();
+            updatePersonalDetails.employeeAddress.updatedBy = 0;
+            updatePersonalDetails.employeeAddress.updatedDate = DateUtils.ConvertDateTimeWithZ();
 
 
             var result = await AdminService.UpdateEmployeePersonalDetails(updatePersonalDetails);

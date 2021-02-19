@@ -49,9 +49,52 @@ namespace Strive.Core.Models.Employee.PersonalDetails
 
     }
     public class employeeDetail
-    { }
+    { 
+       public int employeeDetailId { get; set; }
+       public int employeeId { get; set; }
+       public string employeeCode { get; set; }
+       public int authId { get; set; }
+       public int comType { get; set; }
+       public string washRate { get; set; }
+       public string detailRate { get; set; }
+       // //public string sickRate { get; set; }
+       // //public string vacRate { get; set; }
+       public int comRate { get; set; }
+        public string hiredDate { get; set; }
+        // //public string salary { get; set; }
+        // //public string tip { get; set; }
+        public string lrt { get; set; }
+        public string exemptions { get; set; }
+        public bool isActive { get; set; }
+        public bool isDeleted { get; set; }
+        // public int createdBy { get; set; }
+        // public string createdDate { get; set; }
+        public int updatedBy { get; set; }
+        public string updatedDate { get; set; }
+
+    }
     public class employeeAddress
-    { }
+    {
+        public int employeeAddressId { get; set; }
+        public int employeeId { get; set; }
+        public string address1 { get; set; }
+        public string address2 { get; set; }
+        public string phoneNumber { get; set; }
+        public string phoneNumber2 { get; set; }
+        public string email { get; set; }
+        public int city { get; set; }
+        public int state { get; set; }
+        public string zip { get; set; }
+        public int country { get; set; }
+        public bool isActive { get; set; }
+        public bool isDeleted { get; set; }
+        public int createdBy { get; set; }
+        public string createdDate { get; set; }
+        public int updatedBy { get; set; }
+        public string updatedDate { get; set; }
+
+
+    }
     public class employeeDocument
     { }
     public class employeeLiability

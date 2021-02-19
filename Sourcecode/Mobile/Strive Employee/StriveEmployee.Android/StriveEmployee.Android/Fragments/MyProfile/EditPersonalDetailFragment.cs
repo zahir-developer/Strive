@@ -164,6 +164,8 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             var result = await this.ViewModel.SavePersonalInfo();
             if(result)
             {
+                EmployeeLoginDetails.clearData();
+                EmployeePersonalDetails.clearData();
                 FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, profile_Fragment).Commit();
             }
         }

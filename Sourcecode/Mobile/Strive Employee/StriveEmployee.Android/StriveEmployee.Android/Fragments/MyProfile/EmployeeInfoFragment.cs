@@ -80,7 +80,6 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 
         private void EmployeeDetailEdit_ImageButton_Click(object sender, EventArgs e)
         {
-            EmployeeLoginDetails.LoginID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             employeeDetails_Fragment = new EditEmployeeDetailFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, employeeDetails_Fragment).Commit();
@@ -89,26 +88,36 @@ namespace StriveEmployee.Android.Fragments.MyProfile
 
         private void PersonalDetailEdit_ImageButton_Click(object sender, EventArgs e)
         {
-            EmployeePersonalDetails.FirstName = FirstName_TextView.Text;
-            EmployeePersonalDetails.LastName = LastName_TextView.Text;
-            EmployeePersonalDetails.GenderCodeID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender;
-            EmployeePersonalDetails.ContactNumber = ContactNo_TextView.Text;
-            EmployeePersonalDetails.SSN = SSN_TextView.Text;
-            EmployeePersonalDetails.ImmigrationCodeID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.ImmigrationStatus; 
-            EmployeePersonalDetails.Address = Address_TextView.Text;
-
-
             AppCompatActivity activity = (AppCompatActivity)this.Context;
             personalDetails_Fragment = new EditPersonalDetailsFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, personalDetails_Fragment).Commit();
+        }
+        private void FillEmployeeDetails()
+        {
+            EmployeePersonalDetails.FirstName = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
+            EmployeePersonalDetails.LastName = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
+            EmployeePersonalDetails.GenderCodeID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender;
+            EmployeePersonalDetails.ContactNumber = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.PhoneNumber;
+            EmployeePersonalDetails.SSN = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.SSNo;
+            EmployeePersonalDetails.ImmigrationCodeID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.ImmigrationStatus;
+            EmployeePersonalDetails.Address = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Address1;
+            EmployeeLoginDetails.LoginID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
+            EmployeeLoginDetails.DateofHire = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.HiredDate;
+            EmployeePersonalDetails.AddressID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.EmployeeAddressId;
+            EmployeeLoginDetails.DetailID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.EmployeeDetailId;
+            EmployeeLoginDetails.WashRate = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.WashRate;
+            EmployeeLoginDetails.AuthID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.AuthId;
+            EmployeeLoginDetails.Exemptions = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Exemptions.ToString();
         }
         private async void GetEmployeeDetails()
         {
             await this.ViewModel.GetGender();
             await this.ViewModel.GetImmigrationStatus();
             await this.ViewModel.GetPersonalEmployeeInfo();
-            if(this.ViewModel.PersonalDetails.Employee != null)
+            if((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
+                || this.ViewModel.PersonalDetails.Employee.EmployeeDocument != null || this.ViewModel.PersonalDetails.Employee.EmployeeLocations != null || this.ViewModel.PersonalDetails.Employee.EmployeeRoles != null)
             {
+                FillEmployeeDetails();
                 FirstName_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
                 LastName_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
                 Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
@@ -138,6 +147,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
                 }
                 Exemptions_TextVIew.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Exemptions.ToString();
             }
+            
         }
 
     }
