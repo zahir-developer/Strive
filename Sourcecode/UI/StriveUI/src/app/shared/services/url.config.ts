@@ -294,5 +294,10 @@ export const UrlConfig = {
     saveTimeClock: `Admin/TimeClock/Save`,
     getTimeClockEmployeeDetails: `Admin/TimeClock/GetTimeClockEmployeeDetails`,
     deleteTimeClockEmployee: `Admin/TimeClock/DeleteTimeClockEmployee`,
+  },
+
+  customerHistory: {
+    getCustomerHistory: `Admin/Checkout/GetCustomerHistory`
   }
+
 };
