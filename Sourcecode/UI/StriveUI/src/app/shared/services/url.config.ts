@@ -53,7 +53,8 @@ export const UrlConfig = {
     holdoutVehicle: `Admin/Checkout/UpdateJobStatusHold`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,
   },
-  client: {
+    client: {
+    clientEmailCheck: `Admin/Client/ClientEmailExist`,
     getClient: `Admin/Client/GetAll`,
     sameClientName: `Admin/Client/IsClientName`,
     getClientByName: `Admin/Client/GetClientSearch`,

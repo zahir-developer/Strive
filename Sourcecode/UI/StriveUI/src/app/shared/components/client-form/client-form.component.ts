@@ -31,6 +31,7 @@ export class ClientFormComponent implements OnInit {
   selectedCityId: any;
   ClientNameAvailable: any;
   isAmount: boolean;
+  ClientEmailAvailable: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService) { }
 
@@ -81,6 +82,8 @@ export class ClientFormComponent implements OnInit {
   get f() {
     return this.clientForm.controls;
   }
+ 
+
   sameClientName() {
     const clientNameDto = {
       FirstName: this.clientForm.value.fName,
@@ -93,7 +96,7 @@ export class ClientFormComponent implements OnInit {
           const sameName = JSON.parse(res.resultData);
           if (sameName.IsClientNameAvailable === true) {
             this.ClientNameAvailable = true;
-            this.toastr.error('Client is Already Exists', 'Error!');
+            this.toastr.warning('First name, Last name, phone no. combination already exist', 'Warning!');
 
           } else {
             this.ClientNameAvailable = false;
@@ -175,5 +178,20 @@ export class ClientFormComponent implements OnInit {
   selectCity(event) {
     this.city = event.target.value;
   }
+  clientEmailExist() {
+   
+    this.client.ClientEmailCheck(this.clientForm.value.email).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if(sameEmail.emailExist === true){
+          this.ClientEmailAvailable = true;
+          this.toastr.error('Client Email Already Exist', 'Error!');
 
+        } else{
+          this.ClientEmailAvailable = false;
+ 
+        }
+      }
+    });
+  }
 }
