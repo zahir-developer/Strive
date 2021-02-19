@@ -25,6 +25,8 @@
                 <option value="8">Ads</option>
                 <option value="9">Employee Handbook</option>
                 <option value="10">Terms & Conditions</option>
+                <option value="11">Deal Setup</option>
+
                 
               </select>
             </div>
@@ -65,7 +67,10 @@
                   [routerLink]="'/admin/setup/terms&condition'" [routerLinkActive]='["link-active"]' role="tab"
                   aria-controls="v-pills-terms" aria-selected="true">Terms & Conditions</a>
               </li>
-
+              <li class="nav-item"> <a class="nav-link" id="v-pills-deal-tab" data-toggle="pill"
+                [routerLink]="'/admin/setup/dealSetup'" [routerLinkActive]='["link-active"]' role="tab"
+                aria-controls="v-pills-deal" aria-selected="true">Deals </a>
+            </li>
             </ul>
           </div>
           <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 setup-content p-0">
