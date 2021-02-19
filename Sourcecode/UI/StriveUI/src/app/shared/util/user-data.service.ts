@@ -22,8 +22,11 @@ export class UserDataService {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
     console.log(token, 'token');
-    this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
 
+
+    if(token.EmployeeDetails !== undefined)
+    {
+    this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
 
     // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
     //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
@@ -55,8 +58,23 @@ export class UserDataService {
     localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].Roleid);
     localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.Firstname);
     localStorage.setItem('employeeLastName', token.EmployeeDetails.EmployeeLogin.LastName);
+  }
+  else if(token.ClientDetails !== undefined)
+  {
+    this.setSides(JSON.stringify(token?.ClientDetails?.RolePermissionViewModel));
 
+    // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
+    //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
+    // }
+    localStorage.setItem('authorizationToken', token.Token);
+    localStorage.setItem('refreshToken', token.RefreshToken);
 
+    localStorage.setItem('employeeName', token.ClientDetails.ClientDetail[0].Firstname + ' ' +
+      token.ClientDetails.ClientDetail[0].LastName);
+    localStorage.setItem('roleId', token.ClientDetails.ClientDetail[0].Roleid);
+    localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail[0].Firstname);
+    localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail[0].LastName);
+  }
 
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }
