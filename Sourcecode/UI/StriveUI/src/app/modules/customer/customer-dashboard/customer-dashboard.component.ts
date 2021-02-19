@@ -101,12 +101,10 @@ export class CustomerDashboardComponent implements OnInit {
 
   getScheduleDetail() {
     const currentDate = new Date();
-    const todayDate = null;  
-    const locationId = null; 
+    const todayDate = null;
+    const locationId = null;
     const clientID = this.clientID ? this.clientID : 0;
-    this.spinner.show();
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         this.pastScheduleDetail = [];
@@ -129,6 +127,8 @@ export class CustomerDashboardComponent implements OnInit {
             this.clonedPastScheduleDetail = this.pastScheduleDetail.map(x => Object.assign({}, x));
           }
         }
+      }
+      else {
       }
     });
   }

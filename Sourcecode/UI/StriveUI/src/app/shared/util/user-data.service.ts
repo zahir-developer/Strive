@@ -55,9 +55,10 @@ export class UserDataService {
       token.EmployeeDetails?.EmployeeLogin?.LastName);
     localStorage.setItem('drawerId', token.EmployeeDetails.Drawer[0].DrawerId);
     localStorage.setItem('empId', token.EmployeeDetails?.EmployeeLogin?.EmployeeId);
-    localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].Roleid);
-    localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.Firstname);
+    localStorage.setItem('roleId', token.EmployeeDetails.EmployeeRoles[0].RoleId);
+    localStorage.setItem('employeeFirstName', token.EmployeeDetails.EmployeeLogin.FirstName);
     localStorage.setItem('employeeLastName', token.EmployeeDetails.EmployeeLogin.LastName);
+
   }
   else if(token.ClientDetails !== undefined)
   {
@@ -68,12 +69,15 @@ export class UserDataService {
     // }
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
+    localStorage.setItem('clientId', token.ClientDetails.ClientDetail.ClientId);
+    localStorage.setItem('employeeName', token.ClientDetails.ClientDetail.FirstName + ' ' +
+      token.ClientDetails.ClientDetail.LastName);
+    localStorage.setItem('roleId', token.ClientDetails.RolePermissionViewModel[0].RoleId);
+    localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail.FirstName);
+    localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);
 
-    localStorage.setItem('employeeName', token.ClientDetails.ClientDetail[0].Firstname + ' ' +
-      token.ClientDetails.ClientDetail[0].LastName);
-    localStorage.setItem('roleId', token.ClientDetails.ClientDetail[0].Roleid);
-    localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail[0].Firstname);
-    localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail[0].LastName);
+    localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);
+
   }
 
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
