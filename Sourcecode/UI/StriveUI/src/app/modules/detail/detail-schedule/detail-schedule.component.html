@@ -21,7 +21,8 @@
                                                                         <h6 class="font-weight-600">
                                                                                 <em
                                                                                         class="mdi mdi-car-multiple font-size-1-5 theme-optional-icon-color align-mid"></em>
-                                                                                No. of Washes</h6> <span
+                                                                                No. of Washes
+                                                                        </h6> <span
                                                                                 class="font-size-1 font-weight-bold">15</span>
                                                                 </div>
                                                         </a>
@@ -30,7 +31,8 @@
                                                                         <h6 class="font-weight-600">
                                                                                 <em
                                                                                         class="mdi mdi-car-wash font-size-1-5 theme-light-yellow-color align-mid"></em>
-                                                                                No.of Details</h6> <span
+                                                                                No.of Details
+                                                                        </h6> <span
                                                                                 class="font-size-1 font-weight-bold">10</span>
                                                                 </div>
                                                         </a>
@@ -39,7 +41,8 @@
                                                                         <h6 class="font-weight-600">
                                                                                 <em
                                                                                         class="mdi mdi-account-outline font-size-1-5 theme-primary-color align-mid"></em>
-                                                                                Wash Employees </h6> <span
+                                                                                Wash Employees
+                                                                        </h6> <span
                                                                                 class="font-size-1 font-weight-bold">15</span>
                                                                 </div>
                                                         </a>
@@ -48,7 +51,8 @@
                                                                         <h6 class="font-weight-600">
                                                                                 <em
                                                                                         class="mdi mdi-weather-rainy font-size-1-5 theme-light-blue-color align-mid"></em>
-                                                                                Score</h6> <span
+                                                                                Score
+                                                                        </h6> <span
                                                                                 class="font-size-1 font-weight-bold">100</span>
                                                                 </div>
                                                         </a>
@@ -57,7 +61,8 @@
                                                                         <h6 class="font-weight-600">
                                                                                 <em
                                                                                         class="mdi mdi-car-back font-size-1-5 theme-secondary-color align-mid"></em>
-                                                                                Current /Forecasted Cars</h6> <span
+                                                                                Current /Forecasted Cars
+                                                                        </h6> <span
                                                                                 class="font-size-1 font-weight-bold">25/25</span>
                                                                 </div>
                                                         </a>
@@ -66,7 +71,8 @@
                                                                         <h6 class="font-weight-600">
                                                                                 <em
                                                                                         class="mdi mdi-car-back font-size-1-5 theme-voilet-color align-mid"></em>
-                                                                                Average Car wash Time</h6> <span
+                                                                                Average Car wash Time
+                                                                        </h6> <span
                                                                                 class="font-size-1 font-weight-bold">30min</span>
                                                                 </div>
                                                         </a>
@@ -186,9 +192,11 @@
                                                                                                                 </td>
                                                                                                                 <td
                                                                                                                         *ngFor="let bay of schedule.bay">
-                                                                                                                        <i *ngIf="bay.isSchedule === true" (click)="getDetailByID(bay)"
+                                                                                                                        <i *ngIf="bay.isSchedule === true"
+                                                                                                                                (click)="getDetailByID(bay)"
                                                                                                                                 class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
-                                                                                                                        <i *ngIf="bay.isSchedule === false" (click)="addNewDetail(bay)"
+                                                                                                                        <i *ngIf="bay.isSchedule === false"
+                                                                                                                                (click)="addNewDetail(bay)"
                                                                                                                                 class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
                                                                                                                 </td>
                                                                                                         </tr>
@@ -230,9 +238,11 @@
                                                                                                                 </td>
                                                                                                                 <td
                                                                                                                         *ngFor="let bay of schedule.bay">
-                                                                                                                        <i *ngIf="bay.isSchedule === true" (click)="getDetailByID(bay)"
+                                                                                                                        <i *ngIf="bay.isSchedule === true"
+                                                                                                                                (click)="getDetailByID(bay)"
                                                                                                                                 class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
-                                                                                                                        <i *ngIf="bay.isSchedule === false" (click)="addNewDetail(bay)"
+                                                                                                                        <i *ngIf="bay.isSchedule === false"
+                                                                                                                                (click)="addNewDetail(bay)"
                                                                                                                                 class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
                                                                                                                 </td>
                                                                                                         </tr>
@@ -241,7 +251,8 @@
                                                                                 </div>
                                                                         </div>
                                                                 </div>
-                                                                <app-today-schedule [selectedDate]="selectedDate"></app-today-schedule>
+                                                                <app-today-schedule [selectedDate]="selectedDate">
+                                                                </app-today-schedule>
                                                         </div>
                                                         <!-- end card-body -->
                                                 </div>
@@ -259,7 +270,7 @@
                 <button type="button" class="btn theme-primary-button-color float-right"
                         (click)="closeModal()">Close</button>
         </p-header>
-        <app-create-edit-detail-schedule *ngIf="showDialog" [isView]="isView" [isEdit]="isEdit" [bayScheduleObj]="bayScheduleObj"
-                [selectedData]="selectedData" (closeDialog)="closeDialog($event)"
+        <app-create-edit-detail-schedule *ngIf="showDialog" [isView]="isView" [isEdit]="isEdit"
+                [bayScheduleObj]="bayScheduleObj" [selectedData]="selectedData" (closeDialog)="closeDialog($event)"
                 (refreshDetailGrid)="refreshDetailGrid()"></app-create-edit-detail-schedule>
 </p-dialog>
