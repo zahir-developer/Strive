@@ -29,5 +29,13 @@ namespace Admin.API.Controllers
 
 
         #endregion
+
+        #region Get
+
+        [HttpGet]
+        [Route("GetAllDeals")]
+        public Result GetAllDeals() => _bplManager.GetAllDeals();
+
+        #endregion
     }
 }

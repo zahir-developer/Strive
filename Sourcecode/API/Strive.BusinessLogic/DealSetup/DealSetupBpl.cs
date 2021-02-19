@@ -18,5 +18,12 @@ namespace Strive.BusinessLogic.DealSetup
         {
             return ResultWrap(new DealSetupRal(_tenant).AddDealSetup, dealSetup, "dealSetup");
         }
+        
+
+            public Result GetAllDeals()
+        {
+            return ResultWrap(new DealSetupRal(_tenant).GetAllDeals, "GetAllDeals");
+        }
+     \
     }
 }

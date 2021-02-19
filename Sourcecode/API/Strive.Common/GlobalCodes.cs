@@ -43,6 +43,7 @@ namespace Strive.Common
         DETAILCOMMISSION,
         DOCUMENTTYPE,
         DOCUMENTSubTYPE,
-        StoreStatus
+        StoreStatus,
+        TIMEPERIOD
     }
 }

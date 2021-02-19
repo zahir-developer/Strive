@@ -18,5 +18,9 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(dealSetup, "DealId");
         }
+        public List<DealSetUpViewModel> GetAllDeals()
+        {
+            return db.Fetch<DealSetUpViewModel>(SPEnum.USPGETALLDEALS.ToString(), null);
+        }
     }
 }
