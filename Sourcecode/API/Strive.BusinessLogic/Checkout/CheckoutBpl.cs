@@ -27,7 +27,7 @@ namespace Strive.BusinessLogic.Checkout
         public Result UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
         {
 
-            new CommonBpl(_cache, _tenant).SendHoldNotificationEmail(checkoutHoldDto.emailId, checkoutHoldDto.TicketNumber);
+            new CommonBpl(_cache, _tenant).SendHoldNotificationEmail(HtmlTemplate.VehicleHold, checkoutHoldDto.emailId, checkoutHoldDto.TicketNumber);
 
 
             return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatusHold, checkoutHoldDto, "UpdateJobStatus");

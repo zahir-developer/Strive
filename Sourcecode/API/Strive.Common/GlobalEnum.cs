@@ -54,6 +54,7 @@ namespace Strive.Common
     {
         EmployeeSignUp,
         ClientSignUp,
-        VehicleHold
+        VehicleHold,
+        ProductThreshold
     }
 }

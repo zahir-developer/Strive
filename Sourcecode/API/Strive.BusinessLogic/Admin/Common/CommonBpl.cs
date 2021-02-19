@@ -379,14 +379,23 @@ namespace Strive.BusinessLogic.Common
             SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
-        public void SendHoldNotificationEmail(string emailId, string TicketNumber)
+        public void SendHoldNotificationEmail(HtmlTemplate htmlTemplate,string emailId, string ticketNumber)
         {
-            SendMail(emailId, @"<p>Hello " + emailId + @",</p>
-            <p>Your Vehicle is on Hold.</p>
-            <p> Ticketnumber: " + TicketNumber + @".</p>
-            <p>Thanks,</p>
-            <p>Strive Team.</p>
-           ", "Vehicle is on Hold");
+
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            keyValues.Add("{emailId}", emailId);
+            keyValues.Add("{ticketNumber}", ticketNumber);
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
+            SendMail(emailId,emailContent, "Vehicle is on Hold");
+        }
+        public void SendProductThresholdEmail(HtmlTemplate htmlTemplate, string emailId, string productName)
+        {
+
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            keyValues.Add("{{emailId}}", emailId);
+            keyValues.Add("{{productName}}", productName);
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
+            SendMail(emailId, emailContent, "The Product has reached its threshold Limit");
         }
 
         private Result SendOtpEmail(string emailId, string otp)
@@ -446,10 +455,10 @@ namespace Strive.BusinessLogic.Common
 
             foreach (var item in keyValues)
             {
-                MailText.Replace(item.Key, item.Value.Trim());
+                MailText.Replace(item.Key, item.Value);
             }
             str.Close();
-
+                 
             return MailText;
         }
     }
