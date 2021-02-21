@@ -51,8 +51,15 @@ namespace Strive.BusinessLogic
 
             foreach (var prod in products)
             {
-                if (!string.IsNullOrEmpty(prod.FileName))
-                    prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, prod.FileName);
+                string fileName = string.Empty;
+
+                fileName = prod.ThumbFileName;
+
+                if (string.IsNullOrEmpty(fileName))
+                    fileName = prod.FileName;
+
+                if (!string.IsNullOrEmpty(fileName))
+                    prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
             }
 
             return ResultWrap(products, "Product");

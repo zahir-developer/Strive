@@ -15,6 +15,7 @@ using Strive.BusinessEntities.Code;
 using Strive.RepositoryCqrs;
 using Strive.BusinessEntities.DTO.Sales;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessLogic.DTO.Client;
 
 namespace Strive.ResourceAccess
 {
@@ -50,6 +51,13 @@ namespace Strive.ResourceAccess
             return result;
             
         }
+
+        public ClientLoginViewModel GetClientByAuthId(int authId)
+        {
+            _prm.Add("@AuthId", authId);
+            return db.FetchMultiResult<ClientLoginViewModel>(EnumSP.Authentication.USPGETCLIENTUSERBYAUTHID.ToString(), _prm);
+        }
+
         public List<ClientDetailViewModel> GetClientById(int clientId)
         {
             _prm.Add("@ClientId", clientId);
