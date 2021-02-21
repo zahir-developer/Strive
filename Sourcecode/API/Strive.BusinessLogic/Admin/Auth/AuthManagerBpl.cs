@@ -141,9 +141,15 @@ namespace Strive.BusinessLogic.Auth
             throw new NotImplementedException();
         }
 
-        public int CreateLogin(string emailId, string mobileNumber)
+        public int CreateLogin(UserType userType, HtmlTemplate htmlTemplate, string emailId, string mobileNumber)
         {
-            return new CommonBpl(_cache, _tenant).CreateLogin(emailId, mobileNumber);
+            var commonBpl = new CommonBpl(_cache, _tenant);
+
+            var createLogin = commonBpl.CreateLogin(userType, emailId, mobileNumber);
+
+            commonBpl.SendLoginCreationEmail(htmlTemplate, emailId, createLogin.Item2);
+
+            return createLogin.Item1;
         }
 
         public bool ForgotPassword(string userId)

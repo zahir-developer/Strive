@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO
 {
-   public class DealSetupDto
+   public class Deals
     {
-        public Model.DealSetup dealSetup { get; set; }
+        public Model.Deal Deal { get; set; }
 
     }
 }

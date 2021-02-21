@@ -23,6 +23,7 @@ namespace Strive.BusinessEntities
             USPSAVEOTP,
             USPRESETPASSWORD,
             USPVERIFYOTP,
+            USPDELETEUSER
         }
 
         public enum ClockTime

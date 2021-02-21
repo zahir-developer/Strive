@@ -25,7 +25,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("Add")]
-        public Result AddDealSetup([FromBody]DealSetupDto dealSetup) => _bplManager.AddDealSetup(dealSetup);
+        public Result AddDealSetup([FromBody]Deals dealSetup) => _bplManager.AddDealSetup(dealSetup);
 
 
         #endregion

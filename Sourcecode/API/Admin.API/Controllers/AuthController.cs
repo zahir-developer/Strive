@@ -27,13 +27,28 @@ namespace Admin.Api.Controllers
         [HttpPost, Route("Refresh")]
         public Result Refresh([FromBody] RegenerateToken regToken) => _bplManager.GenerateTokenByRefreshKey(regToken.Token, regToken.RefreshToken, GetSecretKey());
 
-        [HttpPost, Route("CreateLogin")]
+        [HttpPost, Route("CreateEmployeeLogin")]
         public Result CreateLogin([FromBody]AuthMaster authMaster)
         {
             Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
             Result _result;
 
-            var result = _bplManager.CreateLogin(authMaster.EmailId, authMaster.MobileNumber);
+            var result = _bplManager.CreateLogin(UserType.Employee, HtmlTemplate.EmployeeSignUp, authMaster.EmailId, authMaster.MobileNumber);
+
+            _resultContent.Add((result > 0).WithName("Status"));
+            _result = Helper.BindSuccessResult(_resultContent);
+            return _result;
+
+        }
+
+        [HttpPost, Route("CustomerSignup")]
+        public Result CustomerSignup([FromBody]AuthMaster authMaster)
+        {
+            Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
+            Result _result;
+
+            var result = _bplManager.CreateLogin(UserType.Employee, HtmlTemplate.ClientSignUp, authMaster.EmailId, authMaster.MobileNumber);
+
 
             _resultContent.Add((result > 0).WithName("Status"));
             _result = Helper.BindSuccessResult(_resultContent);

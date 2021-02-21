@@ -14,9 +14,9 @@ namespace Strive.ResourceAccess
     {
         public DealSetupRal(ITenantHelper tenant) : base(tenant) { }
     
-        public bool AddDealSetup(DealSetupDto dealSetup)
+        public bool AddDealSetup(Deals dealSetup)
         {
-            return dbRepo.SavePc(dealSetup, "DealId");
+            return dbRepo.SavePc(dealSetup, "dealId");
         }
         public List<DealSetUpViewModel> GetAllDeals()
         {

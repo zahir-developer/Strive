@@ -59,19 +59,36 @@ namespace Strive.BusinessLogic
 
         public Result SaveClientDetails(ClientDto client)
         {
+            bool success = false;
             try
             {
-
                 foreach (var item in client.ClientAddress)
                 {
                     if (!string.IsNullOrEmpty(item.Email))
                     {
-                        int clientAuthId = new CommonBpl(_cache, _tenant).CreateLogin(HtmlTemplate.ClientSignUp, item.Email, item.PhoneNumber);
-                        client.Client.AuthId = clientAuthId;
+                        var comBpl = new CommonBpl(_cache, _tenant);
+                        var clientLogin = comBpl.CreateLogin(UserType.Client, item.Email, item.PhoneNumber);
+                        client.Client.AuthId = clientLogin.authId;
+
+                        if (clientLogin.authId > 0)
+                        {
+                            var clientSignup = new ClientRal(_tenant).InsertClientDetails(client);
+                            if (clientSignup)
+                            {
+                                comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
+                                success = true;
+                            }
+                            else if(clientLogin.authId > 0)
+                            {
+                                //Delete AuthMaster record from AuthDatabase in case client add failed.
+                                comBpl.DeleteUser(clientLogin.authId);
+                            }
+                        }
                     }
+
                 }
 
-                return ResultWrap(new ClientRal(_tenant).InsertClientDetails, client, "Status");
+                return ResultWrap(success, "Status");
             }
             catch (Exception ex)
             {
