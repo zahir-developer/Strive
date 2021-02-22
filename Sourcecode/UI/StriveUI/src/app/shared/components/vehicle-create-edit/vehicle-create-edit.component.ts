@@ -406,20 +406,17 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   checkValue(type) {
-    if (type === 'make' && this.vehicleForm.value.make !== '') {
+    if (type === 'make') {
       if (!this.vehicleForm.value.make.hasOwnProperty('id')) {
         this.vehicleForm.patchValue({ make: '' });
-        this.toastr.info('Please select valid make', 'Info!');
       }
-    } else if (type === 'model' && this.vehicleForm.value.model !== '') {
+    } else if (type === 'model') {
       if (!this.vehicleForm.value.model.hasOwnProperty('id')) {
         this.vehicleForm.patchValue({ model: '' });
-        this.toastr.info('Please select valid model', 'Info!');
       }
-    } else if (type === 'color' && this.vehicleForm.value.color !== '') {
+    } else if (type === 'color') {
       if (!this.vehicleForm.value.color.hasOwnProperty('id')) {
         this.vehicleForm.patchValue({ color: '' });
-        this.toastr.info('Please select valid color', 'Info!');
       }
     }
   }
@@ -563,7 +560,8 @@ export class VehicleCreateEditComponent implements OnInit {
         Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
       };
       const formObj = {
-        clientVehicle: [add]
+        clientVehicle: add,
+        vehicleImage: []
       };
       if (this.isAdd === true) {
         this.vehicle.saveVehicle(formObj).subscribe(data => {

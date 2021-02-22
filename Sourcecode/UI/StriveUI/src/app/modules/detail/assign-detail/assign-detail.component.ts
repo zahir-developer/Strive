@@ -31,7 +31,7 @@ export class AssignDetailComponent implements OnInit {
   @Output() cancelAssignModel = new EventEmitter();
   serviceType: any;
   constructor(
-    private fb: FormBuilder, private getCode:GetCodeService,
+    private fb: FormBuilder, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService,
     private detailServices: DetailService
   ) { }
@@ -40,7 +40,7 @@ export class AssignDetailComponent implements OnInit {
     this.detailService = this.detailsJobServiceEmployee;
     this.getAllServiceType();
     if (this.detailService.length > 0) {
-      this.detailService.forEach((item, index) => {  
+      this.detailService.forEach((item, index) => {
         // Adding Id to the grid
         item.detailServiceId = index + 1;
       });
@@ -75,7 +75,7 @@ export class AssignDetailComponent implements OnInit {
     this.assignForm.value.serviceId.forEach(service => {
       this.clonedServices = this.clonedServices.filter(item => item.item_id !== service.item_id);
     });
- selectedService.forEach(service => {
+    selectedService.forEach(service => {
       this.assignForm.value.employeeId.forEach(emp => {
         const employeeService = {
           ServiceId: service.ServiceId,
@@ -246,10 +246,10 @@ export class AssignDetailComponent implements OnInit {
   }
 
   getAllServiceType() {
-    this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
-      if (data.status === "Success") {
+    this.getCode.getCodeByCategory('SERVICETYPE').subscribe(data => {
+      if (data.status === 'Success') {
         const cType = JSON.parse(data.resultData);
-        this.serviceType = cType.Codes.filter(i => i.CodeValue === "Upcharges")[0];
+        this.serviceType = cType.Codes.filter(i => i.CodeValue === 'Detail-Upcharge')[0];
         this.getDetailService();
       }
     });

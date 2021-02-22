@@ -445,17 +445,17 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   checkValue(type) {
-    if (type === 'make' && this.washForm.value.type !== '') {
+    if (type === 'make') {
       if (!this.washForm.value.type.hasOwnProperty('id')) {
         this.washForm.patchValue({ type: '' });
         this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
       }
-    } else if (type === 'model' && this.washForm.value.model !== '') {
+    } else if (type === 'model') {
       if (!this.washForm.value.model.hasOwnProperty('id')) {
         this.washForm.patchValue({ model: '' });
         this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
       }
-    } else if (type === 'color' && this.washForm.value.color !== '') {
+    } else if (type === 'color') {
       if (!this.washForm.value.color.hasOwnProperty('id')) {
         this.washForm.patchValue({ color: '' });
         this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });

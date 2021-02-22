@@ -261,7 +261,8 @@ export const UrlConfig = {
     getVehicleById: `Admin/Vehicle/GetVehicleId`,
     getVehicleMembership: `Admin/Vehicle/GetVehicleMembership`,
     addVehicle: 'Admin/Vehicle/AddVehicle',
-    getAllVehicleThumbnail: `Admin/Vehicle/GetAllVehicleThumbnail/`
+    getAllVehicleThumbnail: `Admin/Vehicle/GetAllVehicleThumbnail/`,
+    getVehicleImageById: `Admin/Vehicle/GetVehicleImageById/`
 
   },
   washes: {

@@ -209,8 +209,8 @@ export class SalesComponent implements OnInit {
   getServiceForDiscount() {
     const serviceObj = {
       locationId: +localStorage.getItem('empLocationId'),
-      pageNo: 1,
-      pageSize: 10,
+      pageNo: null,
+      pageSize: null,
       query: null,
       sortOrder: null,
       sortBy: null,
@@ -220,7 +220,7 @@ export class SalesComponent implements OnInit {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceSetup.getAllServiceViewModel !== null ) {
-          this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
+          this.discounts = services.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Service Discounts');
         }
       }
     });
