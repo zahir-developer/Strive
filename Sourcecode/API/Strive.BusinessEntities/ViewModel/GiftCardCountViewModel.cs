@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class GiftCardCountViewModel
     {
-   public List<GiftCardViewModel> giftCardViewModel { get; set; }
+   public List<GiftCardViewModel> GiftCardViewModel { get; set; }
         public CountViewModel Count { get; set; }
     }
 }
