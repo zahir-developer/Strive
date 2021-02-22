@@ -102,13 +102,17 @@ namespace Strive.BusinessLogic.Sales
               new SalesRal(_tenant).AddListItem( salesAddListItem);
               var result = new SalesRal(_tenant).UpdateProductQuantity(salesAddListItem.JobProductItem.Quantity, salesAddListItem.JobProductItem.ProductId);
               var product = new ProductRal(_tenant).GetProductById(salesAddListItem.JobProductItem.ProductId);
+              var emailId =new SalesRal(_tenant).GetEmailId();
 
-                //if (salesAddListItem.JobProductItem.Quantity < product.ThresholdLimit )
-                //{
-
-                //    new CommonBpl(_cache, _tenant).SendProductThresholdEmail(HtmlTemplate.ProductThreshold, .emailId, product.ProductId);
-                //}
-              return ResultWrap(result , "Status");
+                if (salesAddListItem.JobProductItem.Quantity < product.ThresholdLimit)
+                {
+                    foreach (var item in emailId)
+                    {
+                        new CommonBpl(_cache, _tenant).SendProductThresholdEmail(HtmlTemplate.ProductThreshold, item.Email, product.ProductName);
+                    }
+                   
+                }
+                return ResultWrap(result , "Status");
 
             }
             catch (Exception ex)

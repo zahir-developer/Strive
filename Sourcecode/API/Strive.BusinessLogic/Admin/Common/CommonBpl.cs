@@ -463,7 +463,8 @@ namespace Strive.BusinessLogic.Common
 
             foreach (var item in keyValues)
             {
-                MailText.Replace(item.Key, item.Value);
+
+                MailText = MailText.Replace(item.Key, item.Value);
             }
             str.Close();
                  

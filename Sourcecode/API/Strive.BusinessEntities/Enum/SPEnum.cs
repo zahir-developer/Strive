@@ -271,6 +271,7 @@ namespace Strive.BusinessEntities
             USPDELETEJOBITEMS,
             USPROLLBACKPAYMENT,
             USPUPDATEPRODUCTQUANTITY,
+            USPGETEMAILID,
         }
 
         public enum Payroll

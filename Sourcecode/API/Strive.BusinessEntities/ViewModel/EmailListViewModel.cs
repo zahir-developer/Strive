@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class GiftCardCountViewModel
+    public class EmailListViewModel
     {
-         public List<GiftCardViewModel> GiftCardViewModel { get; set; }
-         public CountViewModel Count { get; set; }
+        public string Email { get; set; }
     }
 }

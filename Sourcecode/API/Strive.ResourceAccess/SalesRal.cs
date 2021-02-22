@@ -59,7 +59,11 @@ namespace Strive.ResourceAccess
             return  db.Fetch<SalesAccountViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
             
         }
+        public List<EmailListViewModel> GetEmailId()
+        {
+            return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
 
+        }
         public string GetTicketNumber()
         {
             return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
