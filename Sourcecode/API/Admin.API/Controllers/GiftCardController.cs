@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Collision;
 using Strive.BusinessEntities.DTO.GiftCard;
 using Strive.BusinessLogic.GiftCard;
@@ -67,9 +68,9 @@ namespace Admin.API.Controllers
 
         #endregion
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllGiftCard")]
-        public Result GetAllGiftCard(int locationId) => _bplManager.GetAllGiftCard();
+        public Result GetAllGiftCard([FromBody] SearchDto searchDto) => _bplManager.GetAllGiftCard(searchDto);
 
 
         [HttpDelete]

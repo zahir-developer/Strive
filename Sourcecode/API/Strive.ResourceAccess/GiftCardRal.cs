@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.GiftCard;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
@@ -73,9 +74,15 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(giftCardHistoryDto, "GiftCardHistoryId");
         }
-        public List<GiftCardViewModel> GetAllGiftCard()
+        public GiftCardCountViewModel GetAllGiftCard(SearchDto searchDto)
         {
-            return  db.Fetch<GiftCardViewModel>(EnumSP.GiftCard.USPGETALLGIFTCARDS.ToString(), _prm);
+
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return  db.FetchMultiResult<GiftCardCountViewModel>(EnumSP.GiftCard.USPGETALLGIFTCARDS.ToString(), _prm);
             
         }
 
