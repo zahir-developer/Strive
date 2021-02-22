@@ -1,0 +1,59 @@
+<form [formGroup]="dealSetupForm">
+    <div class="form-row">
+        <div class="form-group col-1">
+            <label for="inputName"> Deals</label>
+            <div>
+                <p-inputSwitch formControlName="deals"  (onChange)="dealChange($event)" ></p-inputSwitch>
+  
+            </div>
+
+           
+        </div> 
+       
+        <div class="form-group col-3 col-offset-1" >
+            
+            <label for="inputName"> Deals Name<span class="required">*</span></label>
+
+            <select name="Roles" class="form-control" formControlName ="dealsName"
+                placeholder="Select Role"   [ngClass]="{ 'is-invalid': submitted && f.dealsName.errors }">
+                <option value='' selected hidden>Select Deals Name</option>
+                <option *ngFor="let deal of dealList" value="{{deal.value}}">
+                    {{deal.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.dealsName.errors" class="invalid-feedback">
+                <div *ngIf="f.dealsName.errors.required">Deals Name is required</div>
+            </div>
+        </div>  
+        
+        <div class="form-group col-3 col-offset-1" >
+            <label for="inputName"> Time Period<span class="required">*</span></label>
+
+            <select name="Roles" (change) = "Timeperiod($event)" class="form-control" formControlName ="timePeriod"
+                placeholder="Select Role"   [ngClass]="{ 'is-invalid': submitted && f.timePeriod.errors }">
+                <option value='' selected hidden>Select Time Period</option>
+                <option *ngFor="let time of timePeriods" value="{{time.value}}">
+                    {{time.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.timePeriod.errors" class="invalid-feedback">
+                <div *ngIf="f.timePeriod.errors.required">Time Period is required</div>
+            </div>
+        </div> 
+
+        <div class="form-group col-4" *ngIf = "Custom">
+            <label for="inputName"> Select Duration</label>
+
+            <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control"
+           formControlName = "startDate" bsDaterangepicker (bsValueChange)="onValueChange($event)"
+            [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+  
+        </div> 
+     
+    </div>
+
+</form>
+<br>
+<div class="pull-right">
+        <button type="button" class="btn theme-primary-button-color m-r-10" (click)="submit()">Save</button>
+
+    <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+</div>

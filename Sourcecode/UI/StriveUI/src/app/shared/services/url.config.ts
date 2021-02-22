@@ -18,6 +18,11 @@ export const UrlConfig = {
     getByIdadSetup: `Admin/AdSetup/GetById`
 
   },
+  DealSetup: {
+    getDealSetupSetup: `Admin/DealSetup/GetAllDeals`,
+    insertDealSetup: `Admin/DealSetup/Add`,
+  
+  },
   cashRegister: {
     getCashRegister: `Admin/CashRegister/Get`,
     saveCashRegister: `Admin/CashRegister/Save`,
