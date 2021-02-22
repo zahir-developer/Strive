@@ -26,8 +26,6 @@ namespace Strive.BusinessEntities.ViewModel
 
         public bool? IsEmployeeAbscent { get; set; }
 
-
-
         public DateTime? ScheduledDate { get; set; }
 
         public DateTimeOffset? StartTime { get; set; }
