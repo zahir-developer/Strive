@@ -9,11 +9,12 @@ namespace Strive.BusinessEntities.ViewModel
     public class GetAllServiceViewModel
     {
         public int ServiceId { get; set; }
-        public string ServiceTypeId { get; set; }      
+        public string ServiceTypeId { get; set; }
         public string ServiceType { get; set; }
         public string ServiceName { get; set; }
         public string Upcharges { get; set; }
         public decimal? Cost { get; set; }
         public bool? IsActive { get; set; }
+        public int DiscountServiceType  {get;set;}
     }
 }
