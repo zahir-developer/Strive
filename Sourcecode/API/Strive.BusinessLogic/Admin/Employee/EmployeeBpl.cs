@@ -72,7 +72,13 @@ namespace Strive.BusinessLogic
                 if (employeeResult)
                 {
                     //Send Email
-                    commonBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, employee.EmployeeAddress.Email, createLogin.password);
+
+                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                    keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
+                    keyValues.Add("{{password}}", createLogin.password);
+                    commonBpl.SendEmail(HtmlTemplate.ClientSignUp, employee.EmployeeAddress.Email, keyValues);
+
+                   // commonBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, employee.EmployeeAddress.Email, createLogin.password);
                     success = true;
                 }
                 else if(createLogin.authId > 0)

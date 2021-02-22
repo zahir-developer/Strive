@@ -69,13 +69,18 @@ namespace Strive.BusinessLogic
                         var comBpl = new CommonBpl(_cache, _tenant);
                         var clientLogin = comBpl.CreateLogin(UserType.Client, item.Email, item.PhoneNumber);
                         client.Client.AuthId = clientLogin.authId;
+                        
 
                         if (clientLogin.authId > 0)
                         {
                             var clientSignup = new ClientRal(_tenant).InsertClientDetails(client);
                             if (clientSignup)
                             {
-                                comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
+                                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                keyValues.Add("{emailId}",item.Email);
+                                keyValues.Add("{ticketNumber}",clientLogin.password);
+                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues);
+                               // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
                                 success = true;
                             }
                             else if(clientLogin.authId > 0)

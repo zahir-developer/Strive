@@ -297,6 +297,8 @@ namespace Strive.BusinessLogic.Common
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
+            
+      
             return (authId, randomPassword);
         }
 
