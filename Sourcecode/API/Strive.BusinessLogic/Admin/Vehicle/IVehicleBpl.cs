@@ -23,6 +23,7 @@ namespace Strive.BusinessLogic.Vehicle
         Result GetMembershipDetailsByVehicleId(int id);
         Result GetPastDetails(int clientId);
         Result GetAllVehicleThumbnail(int vehicleId);
+        Result GetVehicleImageById(int vehicleImageId);
 
     }
 }

@@ -127,5 +127,16 @@ namespace Strive.BusinessLogic.Vehicle
 
             return ResultWrap(vehicleThumnail, "VehicleThumbnails");
         }
+
+        public Result GetVehicleImageById(int vehicleImageId)
+        {
+            var vehicleImage = new VehicleRal(_tenant).GetVehicleImageById(vehicleImageId);
+            
+          
+            vehicleImage.Base64Thumbnail= new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicleImage.ImageName);
+            
+
+            return ResultWrap(vehicleImage, "VehicleThumbnails");
+        }
     }
 }

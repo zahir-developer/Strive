@@ -82,6 +82,10 @@ namespace Admin.API.Controllers
         [Route("GetAllVehicleThumbnail/{vehicleId}")]
         public Result GetAllVehicleThumbnail(int vehicleId) => _bplManager.GetAllVehicleThumbnail(vehicleId);
 
-        
+        [HttpGet]
+        [Route("GetVehicleImageById/{vehicleImageId}")]
+        public Result GetVehicleImageById(int vehicleImageId) => _bplManager.GetVehicleImageById(vehicleImageId);
+
+
     }
 }
