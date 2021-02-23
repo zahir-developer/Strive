@@ -13,5 +13,7 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public int ServiceTypeId { get; set; }
         public string ServiceTypeName { get; set; }
         public decimal Price { get; set; }
+        public string DiscountType { get; set; }
+
     }
 }
