@@ -5,6 +5,7 @@ import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-add-activity',
@@ -59,13 +60,13 @@ export class AddActivityComponent implements OnInit {
     this.submitted = true;
     this.amountValidation = false;
     if (this.giftCardForm.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
     }
     if (this.symbol === 'minus') {
       if (+this.totalAmount < Number(this.giftCardForm.value.amount)) {
         this.amountValidation = true;
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Insufficient Balance' });
+        this.toastr.warning(MessageConfig.Admin.GiftCard.insuffBalnce, 'Warning');
         return;
       }
     }
@@ -89,10 +90,10 @@ export class AddActivityComponent implements OnInit {
     };
     this.giftCardService.addCardHistory(finalObj).subscribe( res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Activity Added Successfully!!' });
+        this.toastr.success(MessageConfig.Admin.GiftCard.ActivityAdd, 'Success!');
         this.activeModal.close(true);
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

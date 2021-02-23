@@ -5,6 +5,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-terms-and-conditions',
@@ -20,7 +22,7 @@ export class TermsAndConditionsComponent implements OnInit {
   selectedData: any;
   documentTypeId: any;
 
-  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+  constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
 
@@ -35,7 +37,7 @@ export class TermsAndConditionsComponent implements OnInit {
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "TermsAndCondition")[0].CodeId;
         this.getDocument();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -48,7 +50,7 @@ export class TermsAndConditionsComponent implements OnInit {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;
@@ -71,11 +73,11 @@ export class TermsAndConditionsComponent implements OnInit {
   confirmDelete(Id) {
     this.documentService.deleteDocumentById(Id, 'TERMSANDCONDITION').subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
+        this.toastr.success(MessageConfig.Admin.SystemSetup.TermsCondition.Delete, 'Success!');
         this.fileName = null;
         this.getDocument();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DealsService } from 'src/app/shared/services/data-service/deals.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-deal-setup',
@@ -16,7 +18,7 @@ export class DealSetupComponent implements OnInit {
   DealsDetails: any;
   
   constructor(private Deals :DealsService,
-    private toastr: MessageServiceToastr,) { }
+    private toastr: ToastrService,) { }
   ngOnInit(): void {
     this.isLoading = false;
     this.getDeals();
@@ -40,7 +42,7 @@ export class DealSetupComponent implements OnInit {
        const Deals = JSON.parse(data.resultData);
        this.DealsDetails = Deals.GetAllDeals
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;

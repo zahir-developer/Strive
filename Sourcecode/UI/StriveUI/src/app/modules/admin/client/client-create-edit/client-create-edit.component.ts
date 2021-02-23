@@ -9,6 +9,7 @@ import { ClientStatementComponent } from '../client-statement/client-statement.c
 import { ClientHistoryComponent } from '../client-history/client-history.component';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -71,7 +72,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -84,12 +85,12 @@ export class ClientCreateEditComponent implements OnInit {
       return;
     }
     if (this.clientFormComponent.ClientNameAvailable == true) {
-      this.toastr.warning('First name, Last name, Phone number combination already exist', 'Warning!');
+      this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
 
       return;
     }
     if (this.clientFormComponent.ClientEmailAvailable == true) {
-      this.toastr.error('Client Email Already Exist', 'Error!');
+      this.toastr.error(MessageConfig.Client.emailExist, 'Warning!');
 
       return;
     }
@@ -149,16 +150,16 @@ export class ClientCreateEditComponent implements OnInit {
           this.deleteIds.forEach(element => {
             this.vehicle.deleteVehicle(element.VehicleId).subscribe(res => {
               if (res.status === 'Success') {
-                this.toastr.success('Vehicle Deleted Successfully!!', 'Success!');
+                this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
               } else {
-                this.toastr.error('Communication Error', 'Error!');
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
               }
             });
           })
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Client.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
       }, (err) => {
@@ -169,10 +170,10 @@ export class ClientCreateEditComponent implements OnInit {
       this.client.addClient(myObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Client.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
       }, (err) => {
@@ -220,7 +221,7 @@ export class ClientCreateEditComponent implements OnInit {
     let len = this.vehicleDetails.length;
     this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
-    this.toastr.success('Record Deleted Successfully!!', 'Success!');
+    this.toastr.success(MessageConfig.Client.Delete, 'Success!');
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
     if (data.ClientVehicleId !== 0) {
       this.deleteIds.push(data);

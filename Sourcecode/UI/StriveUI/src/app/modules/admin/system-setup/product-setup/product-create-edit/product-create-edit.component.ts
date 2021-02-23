@@ -5,6 +5,7 @@ import { ProductService } from 'src/app/shared/services/data-service/product.ser
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -88,7 +89,7 @@ export class ProductCreateEditComponent implements OnInit {
         const pType = JSON.parse(data.resultData);
         this.prodType = pType.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
     this.getSize();
@@ -103,7 +104,7 @@ export class ProductCreateEditComponent implements OnInit {
         this.size = this.size.filter(i => i.CodeValue !== "Other");
         this.size.push(other);
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -114,7 +115,7 @@ export class ProductCreateEditComponent implements OnInit {
         const vendor = JSON.parse(data.resultData);
         this.Vendor = vendor.Vendor;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     })
   }
@@ -125,7 +126,7 @@ export class ProductCreateEditComponent implements OnInit {
         const location = JSON.parse(data.resultData);
         this.locationName = location.Location;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -178,13 +179,10 @@ export class ProductCreateEditComponent implements OnInit {
             }
           }
         }
-        // if (this.selectedProduct.Size === 33) {
-        //   this.textDisplay = true;
-        //   this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
-        // }
+       
         this.change(this.selectedProduct.IsTaxable);
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -252,10 +250,10 @@ export class ProductCreateEditComponent implements OnInit {
       this.product.updateProduct(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
         }
@@ -267,10 +265,10 @@ export class ProductCreateEditComponent implements OnInit {
       this.product.addProduct(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
         }

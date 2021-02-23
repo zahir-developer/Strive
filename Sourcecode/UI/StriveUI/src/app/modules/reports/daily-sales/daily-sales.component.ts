@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-daily-sales',
   templateUrl: './daily-sales.component.html',
@@ -24,7 +26,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   collectionSize: number = 0;
   fileTypeEvent: boolean = false;
 
-  constructor(private spinner: NgxSpinnerService, private toastr: MessageServiceToastr,
+  constructor(private spinner: NgxSpinnerService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private reportService: ReportsService, private excelService: ExcelService) { }
 
   ngOnInit(): void {
@@ -54,7 +56,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.spinner.hide();

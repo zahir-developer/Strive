@@ -4,6 +4,7 @@ import { BonusSetupService } from 'src/app/shared/services/data-service/bonus-se
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-bonus-setup',
@@ -286,9 +287,9 @@ export class BonusSetupComponent implements OnInit {
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Bonus setup saved successfully! ', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BonusSetup.Add, 'Success!');
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
         this.getBonusList();
       }, (err) => {
@@ -299,10 +300,10 @@ export class BonusSetupComponent implements OnInit {
       this.bonusSetupService.editBonus(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Bonus setup saved successfully! ', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BonusSetup.Update, 'Success!');
           this.getBonusList();
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (err) => {
         this.spinner.hide();
@@ -393,11 +394,11 @@ export class BonusSetupComponent implements OnInit {
         this.totalBonusAmount = totalAmount - deduction;
       }
       else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.getBonusFirstList();
       }
     }, (error) => {
-      this.toastr.error('Communication Error', 'Error!');
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.isLoading = false;
       this.getBonusFirstList();
     });

@@ -5,6 +5,7 @@ import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.se
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-ad-setup-list',
@@ -70,7 +71,7 @@ export class AdSetupListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;
@@ -113,7 +114,7 @@ export class AdSetupListComponent implements OnInit {
         this.showDialog = true;
 
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
 
@@ -134,10 +135,10 @@ export class AdSetupListComponent implements OnInit {
   confirmDelete(data) {
     this.adSetup.deleteAdSetup(data.AdSetupId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Delete, 'Success!');
         this.getAlladSetupDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -183,7 +184,7 @@ export class AdSetupListComponent implements OnInit {
         downloadLink.download = fileName;
         downloadLink.click();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
 
     })

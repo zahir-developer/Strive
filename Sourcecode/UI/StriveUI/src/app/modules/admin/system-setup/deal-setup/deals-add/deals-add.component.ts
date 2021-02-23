@@ -6,6 +6,8 @@ import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { DealsService } from 'src/app/shared/services/data-service/deals.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-deals-add',
@@ -34,7 +36,7 @@ export class DealsAddComponent implements OnInit {
   dealId: any;
   constructor(
     private fb: FormBuilder,
-    private toastr: MessageServiceToastr,
+    private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private deals: DealsService,
     private getCode: GetCodeService 
@@ -166,13 +168,13 @@ else{
     this.deals.addDealsSetup(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Deals Saved Successfully' });
+        this.toastr.success(MessageConfig.Admin.SystemSetup.Deal.Add, 'Success!' );
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.getDeals.emit();
         this.isLoading = false;
       } else {
         this.isLoading = false;
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
     }, (err) => {

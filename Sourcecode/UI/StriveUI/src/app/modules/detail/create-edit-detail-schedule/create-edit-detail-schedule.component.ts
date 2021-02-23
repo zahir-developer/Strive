@@ -13,6 +13,8 @@ import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { PrintCustomerCopyComponent } from '../print-customer-copy/print-customer-copy.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -93,7 +95,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
-    private toastr: MessageServiceToastr,
+    private message: MessageServiceToastr,
+    private toastr: ToastrService,
+
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
@@ -202,17 +206,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (type === 'make') {
       if (!this.detailForm.value.type.hasOwnProperty('id')) {
         this.detailForm.patchValue({ type: '' });
-        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.type });
       }
     } else if (type === 'model') {
       if (!this.detailForm.value.model.hasOwnProperty('id')) {
         this.detailForm.patchValue({ model: '' });
-        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.model });
       }
     } else if (type === 'color') {
       if (!this.detailForm.value.color.hasOwnProperty('id')) {
         this.detailForm.patchValue({ color: '' });
-        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.color });
       }
     }
   }
@@ -220,7 +224,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   getByBarcode(barcode) {
     if (barcode === '') {
-      this.toastr.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter Barcode' });
+      this.toastr.warning(MessageConfig.Detail.BarCode, 'Warning!');
       return;
     }
     this.wash.getByBarcode(barcode).subscribe(data => {
@@ -242,13 +246,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           const barCode = this.detailForm.value.barcode;
           this.detailForm.reset();
           this.detailForm.patchValue({ barcode: barCode });
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Barcode' });
+          this.toastr.warning(MessageConfig.Detail.InvalidBarCode, 'Warning');
           this.additional.forEach(element => {
             element.IsChecked = false;
           });
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -270,7 +274,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           });
         } 
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -394,7 +398,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
         this.getAllServices();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -431,7 +435,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.getWashById();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -531,7 +535,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           };
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -552,7 +556,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           };
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -628,7 +632,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           color: { id: vData.ColorId, name: vData.Color }
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -665,7 +669,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -684,7 +688,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.get('vehicle').reset();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -739,7 +743,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -794,7 +798,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -916,16 +920,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.detailService.updateDetail(formObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
+          this.toastr.success(MessageConfig.Detail.Update, 'Success!');
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (error) => {
         this.spinner.hide();
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
@@ -940,13 +944,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
+          this.toastr.success(MessageConfig.Detail.Add, 'Success!');
           } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-        }
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          }
       }, (error) => {
         this.spinner.hide();
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }
@@ -1004,7 +1008,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   confirmDelete(jobID) {
     this.detailService.deleteDetail(jobID).subscribe(res => {  // need to change
       if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
+        this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.refreshDetailGrid.emit();
       }
@@ -1024,7 +1028,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           } 
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -1124,11 +1128,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     this.client.addClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+        this.toastr.success(MessageConfig.Client.Add, 'Success');
         this.closePopupEmitClient();
         this.getAllClient();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.clientFormComponent.clientForm.reset();
       }
     });

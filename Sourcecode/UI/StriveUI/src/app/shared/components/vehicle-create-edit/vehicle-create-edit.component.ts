@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as _ from 'underscore';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -187,7 +188,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.membership = vehicle.Membership;
         this.membership = this.membership.filter(item => item.IsActive === true);
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -281,7 +282,7 @@ export class VehicleCreateEditComponent implements OnInit {
           });
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -341,7 +342,7 @@ export class VehicleCreateEditComponent implements OnInit {
           }
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -374,7 +375,7 @@ export class VehicleCreateEditComponent implements OnInit {
         });
         this.upchargeService();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -396,7 +397,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.washesDropdown = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
           item.IsActive === true && item.ServiceType === 'Wash Package');
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -521,10 +522,10 @@ export class VehicleCreateEditComponent implements OnInit {
       };
       this.vehicle.updateVehicle(sourceObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.Vehicle.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       });
     } else {
@@ -566,7 +567,7 @@ export class VehicleCreateEditComponent implements OnInit {
       if (this.isAdd === true) {
         this.vehicle.saveVehicle(formObj).subscribe(data => {
           if (data.status === 'Success') {
-            this.toastr.success('Vehicle Added Successfully!!', 'Success!');
+            this.toastr.success(MessageConfig.Admin.Vehicle.Add, 'Success!');
             this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           } else {
             this.toastr.error('Communication Error', 'Error!');
@@ -576,7 +577,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.vehicle.addVehicle = add;
         this.vehicle.vehicleValue = value;
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.toastr.success('Vehicle Saved Successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.Vehicle.Save, 'Success!');
       }
     }
   }

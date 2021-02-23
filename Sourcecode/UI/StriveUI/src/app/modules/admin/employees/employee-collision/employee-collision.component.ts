@@ -8,6 +8,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'underscore';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employee-collision',
@@ -24,7 +26,7 @@ export class EmployeeCollisionComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private getCode: GetCodeService,
     private wash: WashService,
-    private toastr: MessageServiceToastr
+    private toastr: ToastrService
   ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
@@ -162,10 +164,10 @@ export class EmployeeCollisionComponent implements OnInit {
       this.employeeService.saveCollision(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Added Successfully!' });
+          this.toastr.success(MessageConfig.Collision.Add, 'Success!');
           this.activeModal.close(true);
         } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       });
     } else {
@@ -173,10 +175,10 @@ export class EmployeeCollisionComponent implements OnInit {
       this.employeeService.updateCollision(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Updated Successfully!' });
+          this.toastr.success(MessageConfig.Collision.Update, 'Success!');
           this.activeModal.close(true);
         } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       });
     }
@@ -215,7 +217,7 @@ export class EmployeeCollisionComponent implements OnInit {
           };
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   

@@ -5,6 +5,8 @@ import { DocumentService } from 'src/app/shared/services/data-service/document.s
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-create-edit-terms-and-conditions',
@@ -26,7 +28,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   fileType: any;
   fileSize: number;
   localFileSize: any;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
+  constructor(private fb: FormBuilder, private toastr: ToastrService,
     private document: DocumentService, private getCode: GetCodeService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
         const dType = JSON.parse(data.resultData);
         this.subdocumentType = dType.Codes;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -87,7 +89,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
           fileTosaveName = fileReader.result?.split(',')[1];
         }
         else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
+          this.toastr.error( 'Upload Pdf Only' , 'Error!');
           this.clearDocument();
         }
         this.fileUploadformData = fileTosaveName;
@@ -116,7 +118,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
+      this.toastr.error('Maximum File Size 5MB', 'Error!' );
 
       return;
     }
@@ -145,10 +147,10 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     this.document.addDocument(finalObj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Saved Successfully' });
+        this.toastr.success( MessageConfig.Admin.SystemSetup.TermsCondition.Add, 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
     }, (err) => {

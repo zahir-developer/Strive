@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -25,7 +26,9 @@ export class CheckoutGridComponent implements OnInit {
 
   constructor(
     private checkout: CheckoutService,
-    private toastr: MessageServiceToastr,
+    private message: MessageServiceToastr,
+    private toastr: ToastrService,
+
     private spinner: NgxSpinnerService
   ) { }
 
@@ -64,7 +67,7 @@ export class CheckoutGridComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.spinner.hide();
@@ -116,7 +119,7 @@ export class CheckoutGridComponent implements OnInit {
    
   checkoutVehicle(checkout) {
     if (checkout.JobPaymentId === 0) {
-      this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Checkout can be done only for paid tickets.' });
+      this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.checkOut.paidTicket });
     } else {
       if (checkout.valuedesc === 'Completed') {
         const finalObj = {
@@ -126,13 +129,13 @@ export class CheckoutGridComponent implements OnInit {
         };
         this.checkout.checkoutVehicle(finalObj).subscribe(res => {
           if (res.status === 'Success') {
-            this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Checkout successfully' });
+            this.toastr.success( MessageConfig.checkOut.Add,'Success!');
             this.getAllUncheckedVehicleDetails();
           }
         });
       }
       else {
-        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Checkout should allow only completed tickets.' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.checkOut.checkoutRestriction });
       }
     }
   }
@@ -146,7 +149,7 @@ export class CheckoutGridComponent implements OnInit {
     }
     this.checkout.holdVehicle(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Hold successfully' });
+        this.toastr.success(MessageConfig.checkOut.Hold, 'Success!');
         this.getAllUncheckedVehicleDetails();
       }
     });
@@ -159,7 +162,7 @@ export class CheckoutGridComponent implements OnInit {
       };
       this.checkout.completedVehicle(finalObj).subscribe(res => {
         if (res.status === 'Success') {
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Completed Successfully' });
+          this.toastr.success(MessageConfig.checkOut.Complete , 'Success!');
           this.getAllUncheckedVehicleDetails();
         }
       });

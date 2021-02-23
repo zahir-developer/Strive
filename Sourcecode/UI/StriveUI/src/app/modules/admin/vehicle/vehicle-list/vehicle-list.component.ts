@@ -8,6 +8,7 @@ import { MembershipService } from 'src/app/shared/services/data-service/membersh
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -103,7 +104,7 @@ export class VehicleListComponent implements OnInit {
           }
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.spinner.hide();
@@ -123,7 +124,7 @@ export class VehicleListComponent implements OnInit {
           });
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -160,7 +161,7 @@ export class VehicleListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.spinner.hide();
@@ -186,7 +187,8 @@ export class VehicleListComponent implements OnInit {
             .catch(() => { });
         }
         else {
-          this.toastr.error('Could not Delete the Vehicle due to  Assigned the Membership', 'Error!')
+          this.toastr.warning(MessageConfig.Admin.Vehicle.memberShip, 'Warning!');
+
         }
       }
     });
@@ -196,10 +198,10 @@ export class VehicleListComponent implements OnInit {
   confirmDelete(data) {
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
         this.getAllVehicleDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -233,7 +235,7 @@ export class VehicleListComponent implements OnInit {
           this.showDialog = true;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

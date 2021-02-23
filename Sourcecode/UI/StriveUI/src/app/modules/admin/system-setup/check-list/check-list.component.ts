@@ -7,6 +7,7 @@ import { CheckListService } from 'src/app/shared/services/data-service/check-lis
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-check-list',
@@ -77,7 +78,7 @@ export class CheckListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;
@@ -142,10 +143,10 @@ export class CheckListComponent implements OnInit {
   confirmDelete(data) {
     this.checkListSetup.deleteCheckListSetup(data.ChecklistId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Delete, 'Success!');
         this.getAllcheckListDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -167,7 +168,7 @@ export class CheckListComponent implements OnInit {
   submit(data) {
    
     if (data.RoleId == undefined && this.RoleId.length == 0) {
-      this.toastr.warning('Role Name is Required', 'Warning!');
+      this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.roleNameValidation, 'Warning!');
       return
 
     }
@@ -175,12 +176,12 @@ export class CheckListComponent implements OnInit {
 
     if (data.Name !== undefined) {
       if (!pattern.test(data.Name) || data.Name === undefined) {
-        this.toastr.warning('Checklist name is Required', 'Warning!');
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
         return
       };
     } else {
       if (!pattern.test(this.checkListName) || this.checkListName === undefined) {
-        this.toastr.warning('Checklist name is Required', 'Warning!');
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
         return
       };
     }
@@ -202,27 +203,27 @@ export class CheckListComponent implements OnInit {
     if (data.ChecklistId) {
       this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
 
           this.getAllcheckListDetails();
          
           this.selectedData = false;
 
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       });
     } else {
       this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Add, 'Success!');
           this.getAllcheckListDetails();
           this.checklistcancel()
           this.checkListName = '';
           this.RoleId = [];
 
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
         }
       });

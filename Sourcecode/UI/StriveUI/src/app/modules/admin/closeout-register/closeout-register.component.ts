@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-closeout-register',
@@ -181,7 +182,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         const dType = JSON.parse(data.resultData);
         this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === "CloseOut")[0].CodeId;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -272,13 +273,13 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       if (data.status === "Success") {
         if (this.isUpdate) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
         } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.weather.Update, 'Success!');
         }
         this.getCloseOutRegister();
       } else {
-        this.toastr.error('Weather Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
       }
     });
   }

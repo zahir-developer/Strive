@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 @Component({
   selector: 'app-messenger-employee-search',
@@ -21,7 +23,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   @Input() popupType: any = '';
   chatGroupId : number;
   constructor(private empService: EmployeeService, private messengerService: MessengerService,
-    private messageService: MessageServiceToastr) { }
+    private messageService: ToastrService) { }
 
   ngOnInit(): void {
     $('#getGroupName').hide();
@@ -96,7 +98,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     this.groupname = '';
     const selectedEmp = this.getSelectedEmp();
     if (selectedEmp.length === 0) {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Please select the employees' });
+      this.messageService.success(MessageConfig.Messenger.empselect, 'Success!');
       return;
     } else if (this.popupType === 'newChat') {
       if (selectedEmp.length === 1) {

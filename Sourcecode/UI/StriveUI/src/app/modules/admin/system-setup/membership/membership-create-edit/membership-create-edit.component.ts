@@ -6,6 +6,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import * as _ from 'underscore';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-membership-create-edit',
   templateUrl: './membership-create-edit.component.html',
@@ -32,7 +34,7 @@ export class MembershipCreateEditComponent implements OnInit {
   employeeId: number;
   constructor(
     private fb: FormBuilder,
-    private toastr: MessageServiceToastr,
+    private toastr: ToastrService,
     private member: MembershipService,
     private spinner: NgxSpinnerService) { }
 
@@ -92,7 +94,7 @@ export class MembershipCreateEditComponent implements OnInit {
           this.getMembershipById();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -361,11 +363,10 @@ export class MembershipCreateEditComponent implements OnInit {
       this.member.updateMembership(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Updated Successfully' });
+          this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-          // this.membershipForm.reset();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (err) => {
         this.spinner.hide();
@@ -375,10 +376,10 @@ export class MembershipCreateEditComponent implements OnInit {
       this.member.addMembership(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Saved Successfully' });
+          this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.membershipForm.reset();
         }
       }, (err) => {

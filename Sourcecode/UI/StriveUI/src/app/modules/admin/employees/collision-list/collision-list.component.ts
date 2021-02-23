@@ -4,6 +4,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeCollisionComponent } from '../../employees/employee-collision/employee-collision.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-collision-list',
@@ -25,7 +27,7 @@ export class CollisionListComponent implements OnInit {
     private employeeService: EmployeeService,
     private modalService: NgbModal,
     private confirmationService: ConfirmationUXBDialogService,
-    private messageService: MessageServiceToastr
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -90,10 +92,10 @@ export class CollisionListComponent implements OnInit {
     const collisionId = collision.LiabilityId;
     this.employeeService.deleteCollision(collisionId).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfully!' });
+        this.toastr.success(MessageConfig.Collision.Delete, 'Success!');
         this.employeeDetail();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 declare var $: any;
 @Component({
@@ -117,7 +118,7 @@ export class CreateEditComponent implements OnInit {
         const cType = JSON.parse(data.resultData);
         this.imigirationStatus = cType.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -231,7 +232,7 @@ export class CreateEditComponent implements OnInit {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -273,7 +274,7 @@ export class CreateEditComponent implements OnInit {
       const sizeFixed = (fileSize / 1048576);
       const sizeFixedValue = +sizeFixed.toFixed(1);
       if (sizeFixedValue > 1) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'File size cannot be more than 10MB' });
+        this.toastr.warning(MessageConfig.Document.fileSize, 'Warning!');
         this.isLoading = false;
         return;
       }
@@ -332,7 +333,7 @@ export class CreateEditComponent implements OnInit {
       return;
     }
     if (this.personalform.invalid || this.emplistform.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      this.toastr.warning(MessageConfig.Mandatory ,'Warning!');
       return;
     }
     const sourceObj = [];
@@ -431,19 +432,19 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfully!' });
+        this.toastr.success(MessageConfig.Employee.saved, 'Success' );
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
         if (res.status === 'Fail' && res.errorMessage !== null) {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.errorMessage });
+          this.toastr.error(res.errorMessage , 'Error!');
         }
         else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }
     }, (error) => {
       this.spinner.hide();
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

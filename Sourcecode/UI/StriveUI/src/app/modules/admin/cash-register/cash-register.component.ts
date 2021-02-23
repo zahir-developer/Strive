@@ -10,6 +10,7 @@ import { WeatherService } from 'src/app/shared/services/common-service/weather.s
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-cash-register',
@@ -231,7 +232,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         const dType = JSON.parse(data.resultData);
         this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === "CashIn")[0].CodeId;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -352,19 +353,19 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           if (response.status === 'Success') {
             this.toggleTab = 0;
             if (this.isUpdate) {
-              this.toastr.success('Record Updated Successfully!!', 'Success!');
+              this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
             } else {
-              this.toastr.success('Record Saved Successfully!!', 'Success!');
+              this.toastr.success(MessageConfig.Admin.weather.Update, 'Success!');
             }
             this.weatherService.getWeather();
             this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
           } else {
-            this.toastr.error('Weather Communication Error', 'Error!');
+            this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
           }
         });
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
     this.toggleTab = 0;
@@ -469,7 +470,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.storeStatusList = dType.Codes;
         console.log(dType, 'type');
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

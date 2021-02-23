@@ -8,6 +8,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -32,7 +34,7 @@ export class PayrollsGridComponent implements OnInit {
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
-    private messageService: MessageServiceToastr,
+    private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) { }
 
@@ -132,7 +134,7 @@ export class PayrollsGridComponent implements OnInit {
       if (res.status === 'Success') {
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
+        this.toastr.success(MessageConfig.PayRoll.Adjustment, 'Success!');
         this.runReport();
       }
     }, (err) => {

@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -145,7 +146,7 @@ export class VendorCreateEditComponent implements OnInit {
       this.vendorService.saveVendor(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         }
       }, (err) => {
@@ -156,7 +157,7 @@ export class VendorCreateEditComponent implements OnInit {
       this.vendorService.updateVendor(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         }
       }, (err) => {

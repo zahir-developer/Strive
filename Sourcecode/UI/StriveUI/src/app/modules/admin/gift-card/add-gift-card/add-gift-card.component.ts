@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-add-gift-card',
@@ -80,7 +81,7 @@ export class AddGiftCardComponent implements OnInit {
   saveGiftCard() {
     this.submitted = true;
     if (this.giftCardForm.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      this.toastr.warning( MessageConfig.Mandatory ,'Warning!');
       return;
     }
     const cardObj = {
@@ -105,11 +106,11 @@ export class AddGiftCardComponent implements OnInit {
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Gift Card Added Successfully!!' });
+        this.toastr.success(MessageConfig.Admin.GiftCard.Add , 'Success!');
         this.activeModal.close(true);
         this.router.navigate(['/admin/gift-card']);
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.giftCardForm.reset();
       }
     }, (err) => {
