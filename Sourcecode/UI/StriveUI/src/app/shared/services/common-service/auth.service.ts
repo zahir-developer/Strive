@@ -33,6 +33,17 @@ export class AuthService {
     }));
   }
 
+  refershToken(obj) {
+    return this.http.post(`${UrlConfig.Auth.refreshToken}`, obj).pipe(map((user) => {
+      if (user !== null && user !== undefined) {
+        if (user.status === 'Success') {
+          return user;
+        }
+      }
+      return user;
+    }));
+  }
+
 
   logout() {
     localStorage.setItem('isAuthenticated', 'false');

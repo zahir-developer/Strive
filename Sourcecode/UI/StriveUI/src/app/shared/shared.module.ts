@@ -53,6 +53,7 @@ import { OrderByPipe } from './pipe/order-by.pipe';
 import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decimal-positive-negative-number.directive';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NavigatePageDirective } from './Directive/navigate-page.directive';
 
 @NgModule({
   imports: [
@@ -88,7 +89,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -97,7 +98,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

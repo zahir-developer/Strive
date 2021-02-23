@@ -18,6 +18,8 @@ export class TokenInterceptor implements HttpInterceptor {
         private authService: AuthService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const accessToken = localStorage.getItem('authorizationToken');
+        const refreshToken = localStorage.getItem('token');
         request = request.clone({
             setHeaders: {
                 Authorization: `Bearer ${localStorage.getItem('authorizationToken')}`,
@@ -26,11 +28,23 @@ export class TokenInterceptor implements HttpInterceptor {
             }
         });
         return next.handle(request).pipe(tap(event => { }, err => {
-            if (err.status === 401) {
-                this.authService.logout();
-                this.router.navigate([`/login`], { relativeTo: this.route });
+            if (err.status === 200) {
+                if (accessToken && refreshToken) {
+                    this.refreshToken(accessToken, refreshToken);
+                }
+                // this.authService.logout();
+                // this.router.navigate([`/login`], { relativeTo: this.route });
             }
-          
         }));
+    }
+
+    refreshToken(accessToken, refreshToken) {
+        const obj = {
+            token: accessToken,
+            refreshToken
+        };
+        this.authService.refershToken(obj).subscribe( res => {
+
+        });
     }
 }

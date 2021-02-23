@@ -89,21 +89,20 @@ export class LoginComponent implements OnInit {
               if (ModuleName === "Dashboard") {
                 this.dashBoardModule = true;
               }
-              else
-              {
+              else {
                 this.routingPage();
               }
             }
 
           }
 
-        }, 100)
-      })
+        }, 100);
+      });
 
-      if (this.dashBoardModule = true) {
+      if (this.dashBoardModule === true) {
         this.router.navigate([`/dashboard`], { relativeTo: this.route });
       }
-      else if (this.dashBoardModule = false) {
+      else if (this.dashBoardModule === false) {
         this.routingPage();
 
       }
@@ -133,7 +132,7 @@ export class LoginComponent implements OnInit {
       }
       else if (Roles === 'Client') {
         const clientId = localStorage.getItem('clientId');
-        this.router.navigate([`/customer`], { relativeTo: this.route, queryParams: { clientId : clientId } });
+        this.router.navigate([`/customer`], { relativeTo: this.route, queryParams: { clientId: clientId } });
       }
     }
   }
