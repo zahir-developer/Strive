@@ -59,7 +59,7 @@ export class GiftCardComponent implements OnInit {
   getAllGiftCard() {
     const locationId = +localStorage.getItem('empLocationId');
     const obj = {
-      locationId : localStorage.getItem('empLocationId'),
+      locationId: localStorage.getItem('empLocationId'),
       startDate: null,
       endDate: null,
       pageNo: this.page,
@@ -75,12 +75,16 @@ export class GiftCardComponent implements OnInit {
       this.spinner.hide();
       if (res.status === 'Success') {
         const giftcard = JSON.parse(res.resultData);
-        this.giftCardList = giftcard.GiftCard;
-        this.giftCardList.forEach( item => {
-          item.searchName = item.GiftCardCode + '' + item.GiftCardName;
-        });
-        this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
-        this.collectionSize = Math.ceil(this.giftCardList.length / this.pageSize) * 10;
+        if (giftcard.GiftCard.GiftCardViewModel !== null) {
+          this.giftCardList = giftcard.GiftCard.GiftCardViewModel;
+          const totalCount = giftcard.GiftCard.Count.Count;
+          this.giftCardList.forEach(item => {
+            item.searchName = item.GiftCardCode + '' + item.GiftCardName;
+          });
+          this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        }
+
       }
     }, (err) => {
       this.spinner.hide();
@@ -89,12 +93,12 @@ export class GiftCardComponent implements OnInit {
 
   paginate(event) {
     this.pageSize = +this.pageSize;
-    this.page = event ;
+    this.page = event;
     this.getAllGiftCard();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page =  this.page;
+    this.page = this.page;
     this.getAllGiftCard();
   }
   searchGift() {
@@ -203,7 +207,7 @@ export class GiftCardComponent implements OnInit {
         const giftcardBalance = JSON.parse(res.resultData);
         if (giftcardBalance.GiftCardDetail.length > 0) {
           const balanceAmount = giftcardBalance.GiftCardDetail[0].BalaceAmount;
-            this.totalAmount = balanceAmount;
+          this.totalAmount = balanceAmount;
         }
       }
     });
@@ -220,6 +224,7 @@ export class GiftCardComponent implements OnInit {
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
+    this.getAllGiftCard();
   }
 
   changeSortingDescending(column, sortingInfo) {

@@ -61,7 +61,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
-                                                        <tr *ngFor="let card of giftCardList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                        <tr *ngFor="let card of giftCardList">
                                                             <td>{{card.GiftCardCode}}</td>
                                                             <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
                                                             <td>{{card.TotalAmount | currency}}</td>
