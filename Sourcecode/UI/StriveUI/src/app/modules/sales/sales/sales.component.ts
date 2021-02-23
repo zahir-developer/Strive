@@ -737,6 +737,7 @@ export class SalesComponent implements OnInit {
       let upchargeDiscountPrice = 0;
       let airfreshnerDiscountPrice = 0;
       let outsideDiscountPrice = 0;
+      let noServiceTypePrice = 0;
       this.selectedDiscount.forEach(item => {
         const serviceType = this.serviceType.filter(type => +type.CodeId === +item.DiscountServiceType);
         if (serviceType.length > 0) {
@@ -806,10 +807,14 @@ export class SalesComponent implements OnInit {
               upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Cost / 100);
               item.Cost = (upchargeCost * item.Cost / 100);
             }
+          } else if (item.DiscountServiceType === null) {
+            noServiceTypePrice = noServiceTypePrice + item.Cost;
           }
+        } else if (item.DiscountServiceType === null)  {
+          noServiceTypePrice = noServiceTypePrice + item.Cost;
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
-          + upchargeDiscountPrice + outsideDiscountPrice;
+          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice ;
       });
       this.discountAmount = discountValue;
     } else {
@@ -962,7 +967,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(accountDet);
     }
     if (this.credit !== 0) {
-      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Credit")[0].CodeId;
+      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Card")[0].CodeId;
       const credit = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,

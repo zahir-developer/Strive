@@ -10,8 +10,8 @@ export class GiftCardService {
 
   constructor(private http: HttpUtilsService) { }
 
-  getAllGiftCard(locationId): Observable<any> {
-    return this.http.get(`${UrlConfig.giftCard.getAllGiftCard}` + locationId);
+  getAllGiftCard(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.giftCard.getAllGiftCard}` , obj );
   }
   getAllGiftCardHistory(giftCardId) {
     return this.http.get(`${UrlConfig.giftCard.getAllGiftCardHistory}` + giftCardId);

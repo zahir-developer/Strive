@@ -34,11 +34,15 @@
                                                         <div class="search-container pull-right">
                                                             <form>
                                                                 <div class="form-row">
-                                                                </div>
-                                                                <div class="form-group col-sm m-l-5">
-                                                                    <input type="search" class="form-control"
-                                                                        (input)="searchGift($event.target.value)"
-                                                                        placeholder="Search">
+                                                                    <div class="form-group d-flex"> <input type="search" class="form-control"
+                                                                            [(ngModel)]="query" size="40" name="search" id="inputSearch"
+                                                                            placeholder="Search"
+                                                                            (keyup)="$event.keyCode == 13 ? searchGift() : null"
+                                                                           > </div>
+                                                                    <div class="form-group col-sm m-l-5">
+                                                                        <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
+                                                                            (click)="searchGift()">Search</button>
+                                                                    </div>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -57,7 +61,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
-                                                        <tr *ngFor="let card of giftCardList | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                        <tr *ngFor="let card of giftCardList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                                             <td>{{card.GiftCardCode}}</td>
                                                             <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
                                                             <td>{{card.TotalAmount | currency}}</td>

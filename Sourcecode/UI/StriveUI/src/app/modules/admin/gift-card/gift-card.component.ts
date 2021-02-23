@@ -27,13 +27,14 @@ export class GiftCardComponent implements OnInit {
   isActivityCollapsed = false;
   giftCardList = [];
   clonedGiftCardList = [];
- 
+  search = '';
   collectionSize: number;
-  sort = { column: 'GiftCardCode', descending: true };
+  sort = { column: 'GiftCardCode', descending: false };
   sortColumn: { column: string; descending: boolean; };
   page: number;
   pageSize: number;
   pageSizeList: number[];
+  query = '';
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -57,8 +58,20 @@ export class GiftCardComponent implements OnInit {
 
   getAllGiftCard() {
     const locationId = +localStorage.getItem('empLocationId');
+    const obj = {
+      locationId : localStorage.getItem('empLocationId'),
+      startDate: null,
+      endDate: null,
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
+      status: true
+    };
+    this.giftCardList = [];
     this.spinner.show();
-    this.giftCardService.getAllGiftCard(locationId).subscribe(res => {
+    this.giftCardService.getAllGiftCard(obj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const giftcard = JSON.parse(res.resultData);
@@ -84,13 +97,9 @@ export class GiftCardComponent implements OnInit {
     this.page =  this.page;
     this.getAllGiftCard();
   }
-  searchGift(text) {
-    if (text.length > 0) {
-      this.giftCardList = this.clonedGiftCardList.filter(item => item.searchName.toLowerCase().includes(text));
-    } else {
-      this.giftCardList = [];
-      this.giftCardList = this.clonedGiftCardList;
-    }
+  searchGift() {
+    this.search = this.query;
+    this.getAllGiftCard();
   }
 
   getAllGiftCardHistory(giftCardNumber) {

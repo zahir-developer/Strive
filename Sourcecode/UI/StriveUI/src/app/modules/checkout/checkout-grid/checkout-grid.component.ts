@@ -48,14 +48,15 @@ export class CheckoutGridComponent implements OnInit {
       sortOrder: this.sort.descending ? 'DESC' : 'ASC',
       sortBy: this.sort.column,
       status: true
-
-    }
+    };
     this.spinner.show();
     this.checkout.getUncheckedVehicleDetails(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
         const uncheck = JSON.parse(data.resultData);
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
+        const check = this.uncheckedVehicleDetails.filter( item => +item.TicketNumber  === 304024);
+        console.log(check, 'chwck');
         if (this.uncheckedVehicleDetails == null) {
           this.isTableEmpty = true;
         } else {
