@@ -8,6 +8,6 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class GetTotalUnReadMessageViewModel
     {
-        public int AllTotalmesUnread { get; set; }
+        public int? AllTotalmesUnread { get; set; }
     }
 }
