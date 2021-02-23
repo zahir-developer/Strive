@@ -209,8 +209,8 @@ export class SalesComponent implements OnInit {
   getServiceForDiscount() {
     const serviceObj = {
       locationId: +localStorage.getItem('empLocationId'),
-      pageNo: 1,
-      pageSize: 10,
+      pageNo: null,
+      pageSize: null,
       query: null,
       sortOrder: null,
       sortBy: null,
@@ -220,7 +220,7 @@ export class SalesComponent implements OnInit {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceSetup.getAllServiceViewModel !== null ) {
-          this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
+          this.discounts = services.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Service Discounts');
         }
       }
     });
@@ -737,6 +737,7 @@ export class SalesComponent implements OnInit {
       let upchargeDiscountPrice = 0;
       let airfreshnerDiscountPrice = 0;
       let outsideDiscountPrice = 0;
+      let noServiceTypePrice = 0;
       this.selectedDiscount.forEach(item => {
         const serviceType = this.serviceType.filter(type => +type.CodeId === +item.DiscountServiceType);
         if (serviceType.length > 0) {
@@ -806,10 +807,14 @@ export class SalesComponent implements OnInit {
               upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Cost / 100);
               item.Cost = (upchargeCost * item.Cost / 100);
             }
+          } else if (item.DiscountServiceType === null) {
+            noServiceTypePrice = noServiceTypePrice + item.Cost;
           }
+        } else if (item.DiscountServiceType === null)  {
+          noServiceTypePrice = noServiceTypePrice + item.Cost;
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
-          + upchargeDiscountPrice + outsideDiscountPrice;
+          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice ;
       });
       this.discountAmount = discountValue;
     } else {
@@ -962,7 +967,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(accountDet);
     }
     if (this.credit !== 0) {
-      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Credit")[0].CodeId;
+      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Card")[0].CodeId;
       const credit = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,

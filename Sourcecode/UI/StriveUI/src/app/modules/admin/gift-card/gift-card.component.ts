@@ -27,13 +27,14 @@ export class GiftCardComponent implements OnInit {
   isActivityCollapsed = false;
   giftCardList = [];
   clonedGiftCardList = [];
- 
+  search = '';
   collectionSize: number;
-  sort = { column: 'GiftCardCode', descending: true };
+  sort = { column: 'GiftCardCode', descending: false };
   sortColumn: { column: string; descending: boolean; };
   page: number;
   pageSize: number;
   pageSizeList: number[];
+  query = '';
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -57,17 +58,33 @@ export class GiftCardComponent implements OnInit {
 
   getAllGiftCard() {
     const locationId = +localStorage.getItem('empLocationId');
+    const obj = {
+      locationId: localStorage.getItem('empLocationId'),
+      startDate: null,
+      endDate: null,
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
+      status: true
+    };
+    this.giftCardList = [];
     this.spinner.show();
-    this.giftCardService.getAllGiftCard(locationId).subscribe(res => {
+    this.giftCardService.getAllGiftCard(obj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const giftcard = JSON.parse(res.resultData);
-        this.giftCardList = giftcard.GiftCard;
-        this.giftCardList.forEach( item => {
-          item.searchName = item.GiftCardCode + '' + item.GiftCardName;
-        });
-        this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
-        this.collectionSize = Math.ceil(this.giftCardList.length / this.pageSize) * 10;
+        if (giftcard.GiftCard.GiftCardViewModel !== null) {
+          this.giftCardList = giftcard.GiftCard.GiftCardViewModel;
+          const totalCount = giftcard.GiftCard.Count.Count;
+          this.giftCardList.forEach(item => {
+            item.searchName = item.GiftCardCode + '' + item.GiftCardName;
+          });
+          this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        }
+
       }
     }, (err) => {
       this.spinner.hide();
@@ -76,21 +93,17 @@ export class GiftCardComponent implements OnInit {
 
   paginate(event) {
     this.pageSize = +this.pageSize;
-    this.page = event ;
+    this.page = event;
     this.getAllGiftCard();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page =  this.page;
+    this.page = this.page;
     this.getAllGiftCard();
   }
-  searchGift(text) {
-    if (text.length > 0) {
-      this.giftCardList = this.clonedGiftCardList.filter(item => item.searchName.toLowerCase().includes(text));
-    } else {
-      this.giftCardList = [];
-      this.giftCardList = this.clonedGiftCardList;
-    }
+  searchGift() {
+    this.search = this.query;
+    this.getAllGiftCard();
   }
 
   getAllGiftCardHistory(giftCardNumber) {
@@ -194,7 +207,7 @@ export class GiftCardComponent implements OnInit {
         const giftcardBalance = JSON.parse(res.resultData);
         if (giftcardBalance.GiftCardDetail.length > 0) {
           const balanceAmount = giftcardBalance.GiftCardDetail[0].BalaceAmount;
-            this.totalAmount = balanceAmount;
+          this.totalAmount = balanceAmount;
         }
       }
     });
@@ -211,6 +224,7 @@ export class GiftCardComponent implements OnInit {
   changeSorting(column) {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
+    this.getAllGiftCard();
   }
 
   changeSortingDescending(column, sortingInfo) {

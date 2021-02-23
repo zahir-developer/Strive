@@ -21,7 +21,16 @@ export class UserDataService {
   setUserSettings(loginToken) {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
+    console.log(token, 'token');
+
+
+    if(token.EmployeeDetails !== undefined)
+    {
     this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
+
+    // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
+    //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
+    // }
     localStorage.setItem('authorizationToken', token.Token);
     localStorage.setItem('refreshToken', token.RefreshToken);
 
@@ -35,6 +44,7 @@ export class UserDataService {
     }
     if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
 
+      // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
     }
     this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
       token?.EmployeeDetails?.EmployeeLogin?.LastName);
@@ -52,7 +62,26 @@ export class UserDataService {
     localStorage.setItem('employeeFirstName', token?.EmployeeDetails?.EmployeeLogin?.Firstname);
     localStorage.setItem('employeeLastName', token?.EmployeeDetails?.EmployeeLogin?.LastName);
 
+  }
+  else if(token.ClientDetails !== undefined)
+  {
+    this.setSides(JSON.stringify(token?.ClientDetails?.RolePermissionViewModel));
 
+    // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
+    //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
+    // }
+    localStorage.setItem('authorizationToken', token.Token);
+    localStorage.setItem('refreshToken', token.RefreshToken);
+    localStorage.setItem('clientId', token.ClientDetails.ClientDetail.ClientId);
+    localStorage.setItem('employeeName', token.ClientDetails.ClientDetail.FirstName + ' ' +
+      token.ClientDetails.ClientDetail.LastName);
+    localStorage.setItem('roleId', token.ClientDetails.RolePermissionViewModel[0].RoleId);
+    localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail.FirstName);
+    localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);
+
+    localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);
+
+  }
 
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
   }
@@ -73,6 +102,7 @@ export class UserDataService {
   getUnreadMessage(id) {
     this.http.get(`${UrlConfig.Messenger.getUnReadMessageCount}` + id).subscribe(res => {
       const unReadCount = JSON.parse(res.resultData);
+      console.log(unReadCount, 'unread');
       if (unReadCount?.UnreadMessage.getUnReadMessageCountViewModels !== null) {
         this.unReadMessage.next(unReadCount?.UnreadMessage.getUnReadMessageCountViewModels);
       }

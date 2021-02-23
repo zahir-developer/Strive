@@ -112,7 +112,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.Vendor = vendor.Vendor.filter(item => item.IsActive === 'True');
+        this.Vendor = vendor.Vendor;
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
@@ -301,7 +301,7 @@ export class ProductCreateEditComponent implements OnInit {
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
-      }, 5000);
+      }, 500);
     }
   }
 

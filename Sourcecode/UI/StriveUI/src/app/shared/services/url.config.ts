@@ -107,7 +107,7 @@ export const UrlConfig = {
   },
 
   giftCard: {
-    getAllGiftCard: `Admin/GiftCard/GetAllGiftCard/`,
+    getAllGiftCard: `Admin/GiftCard/GetAllGiftCard`,
     getAllGiftCardHistory: `Admin/GiftCard/GetAllGiftCardHistory/`,
     getGiftCard: `Admin/GiftCard/GetGiftCard/`,
     saveGiftCard: `Admin/GiftCard/AddGiftCard`,
@@ -266,7 +266,8 @@ export const UrlConfig = {
     getVehicleById: `Admin/Vehicle/GetVehicleId`,
     getVehicleMembership: `Admin/Vehicle/GetVehicleMembership`,
     addVehicle: 'Admin/Vehicle/AddVehicle',
-    getAllVehicleThumbnail: `Admin/Vehicle/GetAllVehicleThumbnail/`
+    getAllVehicleThumbnail: `Admin/Vehicle/GetAllVehicleThumbnail/`,
+    getVehicleImageById: `Admin/Vehicle/GetVehicleImageById/`
 
   },
   washes: {

@@ -52,4 +52,8 @@ export class VehicleService {
     getAllVehicleThumbnail(id) {
         return this.http.get(`${UrlConfig.vehicle.getAllVehicleThumbnail}` + id);
     }
+    
+    getVehicleImageById(id) {
+        return this.http.get(`${UrlConfig.vehicle.getVehicleImageById}` + id);
+    }
 }

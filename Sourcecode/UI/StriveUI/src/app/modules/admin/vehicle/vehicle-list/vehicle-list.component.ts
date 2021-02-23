@@ -110,8 +110,8 @@ export class VehicleListComponent implements OnInit {
     });
   }
 
-  previewImage() {
-    this.vehicle.getAllVehicleThumbnail(49233).subscribe(data => {
+  previewImage(vehicle) {
+    this.vehicle.getAllVehicleThumbnail(vehicle.ClientVehicleId).subscribe(data => {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         console.log(sType, 'image');
@@ -129,8 +129,13 @@ export class VehicleListComponent implements OnInit {
   }
 
   openImage(base64Value) {
-    this.isOpenImage = true;
-    this.originalImage = base64Value.vehicleImage;
+    this.vehicle.getVehicleImageById(base64Value.VehicleImageId).subscribe( res => {
+      if (res.status === 'Success') {
+        const image = JSON.parse(res.resultData);
+        this.originalImage = 'data:image/png;base64,' + image.VehicleThumbnails.Base64Thumbnail;
+        this.isOpenImage = true;
+      }
+    });
   }
 
   navigateToClient(vehicle) {

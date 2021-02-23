@@ -155,7 +155,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
     this.assignDate();
     this.getColor();
-    this.getAllClient();
+    // this.getAllClient();
     this.getServiceType();
   }
 
@@ -199,17 +199,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   checkValue(type) {
-    if (type === 'make' && this.details.value.type !== '') {
+    if (type === 'make') {
       if (!this.detailForm.value.type.hasOwnProperty('id')) {
         this.detailForm.patchValue({ type: '' });
         this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
       }
-    } else if (type === 'model' && this.detailForm.value.model !== '') {
+    } else if (type === 'model') {
       if (!this.detailForm.value.model.hasOwnProperty('id')) {
         this.detailForm.patchValue({ model: '' });
         this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
       }
-    } else if (type === 'color' && this.detailForm.value.color !== '') {
+    } else if (type === 'color') {
       if (!this.detailForm.value.color.hasOwnProperty('id')) {
         this.detailForm.patchValue({ color: '' });
         this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });

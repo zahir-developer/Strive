@@ -130,13 +130,13 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           this.empLocation = this.locationId.toString();
           this.events = this.events.filter(item => item.classNames[0] !== 'draggedEvent');
           const multiSelect = this.selectedList.filter(item => item.clicked === false);
-          this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
+          this.selectedList = this.empList.filter(item => item.selected === true);
           this.splitEmpName(eventReceiveEvent);
           this.startTime = eventReceiveEvent.event.start;
           this.isLeave = false;
           this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
           if (this.selectedList.length === 0) {
-            this.selectedList = this.empList.EmployeeList.filter(item => item.EmployeeId === +this.empId);
+            this.selectedList = this.empList.filter(item => item.EmployeeId === +this.empId);
           }
           if (multiSelect.length !== 0) {
             multiSelect.forEach(element => {

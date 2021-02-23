@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   dashBoardModule: boolean;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService,
-    private msgService: MessengerService,private user: UserDataService, private spinner: NgxSpinnerService) { }
+    private msgService: MessengerService, private user: UserDataService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
@@ -89,20 +89,25 @@ export class LoginComponent implements OnInit {
               if (ModuleName === "Dashboard") {
                 this.dashBoardModule = true;
               }
+              else
+              {
+                this.routingPage();
+              }
             }
 
           }
 
         }, 100)
-                      })
-  
-if(this.dashBoardModule = true){
-  this.router.navigate([`/dashboard`], { relativeTo: this.route });
-              }
-              else if (this.dashBoardModule = false) {
-                this.routingPage();
+      })
 
-              }    } else {
+      if (this.dashBoardModule = true) {
+        this.router.navigate([`/dashboard`], { relativeTo: this.route });
+      }
+      else if (this.dashBoardModule = false) {
+        this.routingPage();
+
+      }
+    } else {
       this.router.navigate([`/location`], { relativeTo: this.route });
     }
   }
@@ -125,6 +130,10 @@ if(this.dashBoardModule = true){
       }
       else if (Roles === 'Wash') {
         this.router.navigate([`/wash`], { relativeTo: this.route });
+      }
+      else if (Roles === 'Client') {
+        const clientId = localStorage.getItem('clientId');
+        this.router.navigate([`/customer`], { relativeTo: this.route, queryParams: { clientId : clientId } });
       }
     }
   }
