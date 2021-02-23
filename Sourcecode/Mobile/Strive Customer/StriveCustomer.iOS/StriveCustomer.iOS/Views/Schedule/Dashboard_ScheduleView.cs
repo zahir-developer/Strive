@@ -50,6 +50,8 @@ namespace StriveCustomer.iOS.Views
         public override void ViewWillAppear(bool animated)
         {
             CustomerScheduleInformation.ClearScheduleData();
+            InitialSetup();
+            NavigationItem.HidesBackButton = true;
         }
 
         partial void Schedule_SegTouch(UISegmentedControl sender)
