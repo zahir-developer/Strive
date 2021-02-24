@@ -159,7 +159,7 @@ export const UrlConfig = {
     deleteServiceSetup: `Admin/ServiceSetup/Delete`,
     getServiceSetupById: `Admin/ServiceSetup/GetServiceById`,
     getServiceSearch: `Admin/ServiceSetup/GetServiceSearch`,
-
+    getAllServiceDetail: `Admin/ServiceSetup/GetAllServiceDetail`
   },
   payRoll: {
     getPayroll: `Admin/PayRoll/GetPayroll`,

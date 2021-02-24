@@ -216,9 +216,10 @@ export class SalesComponent implements OnInit {
       sortBy: null,
       status: null
     };
-    this.service.getServiceSetup(serviceObj).subscribe(data => {
+    this.service.getAllServiceDetail().subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
+        console.log(services, 'discount');
         if (services.ServiceSetup.getAllServiceViewModel !== null ) {
           this.discounts = services.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Service Discounts');
         }
