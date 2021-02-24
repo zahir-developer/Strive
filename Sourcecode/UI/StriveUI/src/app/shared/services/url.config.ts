@@ -4,7 +4,7 @@ export const UrlConfig = {
   Auth:
   {
     login: `Auth/Login`,
-    refreshToken: `Admin/Refresh`,
+    refreshToken: `Auth/Refresh`,
     getOtpCode: `Auth/SendOTP/`,
     verifyOtp: `Auth/VerfiyOTP/`,
     resetPassword: `Auth/ResetPassword`,

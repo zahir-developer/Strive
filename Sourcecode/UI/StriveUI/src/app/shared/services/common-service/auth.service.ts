@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpUtilsService } from '../../util/http-utils.service';
 import { UrlConfig } from '../url.config';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { UserDataService } from '../../util/user-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 @Injectable({
@@ -22,7 +22,7 @@ export class AuthService {
     }
   }
   login(loginData: any): Observable<any> {
-    return this.http.post(`${UrlConfig.Auth.login}`, loginData).pipe(map((user) => {
+    return this.http.post(`${UrlConfig.Auth.login}`, loginData).pipe(tap((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
           this.userService.setUserSettings(user.resultData);
@@ -33,16 +33,37 @@ export class AuthService {
     }));
   }
 
-  refershToken(obj) {
-    return this.http.post(`${UrlConfig.Auth.refreshToken}`, obj).pipe(map((user) => {
+  refreshToken() {
+    const obj = {
+      token: localStorage.getItem('authorizationToken'),
+      refreshToken: localStorage.getItem('refreshToken')
+    };
+    return this.http.post(`${UrlConfig.Auth.refreshToken}`, obj).pipe(tap((user) => {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
-          return user;
+          const token = JSON.parse(user.resultData);
+          localStorage.setItem('authorizationToken', token.Token);
+          localStorage.setItem('refreshToken', token.RefreshToken);
         }
       }
-      return user;
     }));
   }
+
+  // refreshToken(): Observable<{accessToken: string; refreshToken: string}> {
+  //   const refreshToken = localStorage.getItem('refreshToken');
+
+  //   return this.http.post<{accessToken: string; refreshToken: string}>(
+  //     `${environment.apiUrl}/refresh-token`,
+  //     {
+  //       refreshToken
+  //     }).pipe(
+  //       tap(response => {
+  //         this.setToken('token', response.accessToken);
+  //         this.setToken('refreshToken', response.refreshToken);
+  //       })
+  //   );
+  // }
+
 
 
   logout() {
