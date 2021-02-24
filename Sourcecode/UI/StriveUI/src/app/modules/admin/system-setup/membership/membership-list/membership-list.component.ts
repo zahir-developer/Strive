@@ -4,6 +4,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-membership-list',
@@ -27,7 +29,7 @@ export class MembershipListComponent implements OnInit {
   isDesc: boolean = false;
   column: string = 'MembershipName';
   isLoading: boolean;
-  constructor(private toastr: MessageServiceToastr,
+  constructor(private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 
@@ -58,7 +60,7 @@ export class MembershipListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;
@@ -111,7 +113,7 @@ export class MembershipListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;
@@ -134,10 +136,10 @@ export class MembershipListComponent implements OnInit {
   confirmDelete(data) {
     this.member.deleteMembership(data.MembershipId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Deleted Successfully!!' });
+        this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Delete,'Success');
         this.getAllMembershipDetails();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -171,7 +173,7 @@ export class MembershipListComponent implements OnInit {
         this.isEdit = true;
         this.showDialog = true;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

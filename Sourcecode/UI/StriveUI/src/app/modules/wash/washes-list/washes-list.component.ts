@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-washes-list',
@@ -134,7 +135,7 @@ export class WashesListComponent implements OnInit {
           }
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
         this.spinner.hide();
@@ -159,10 +160,10 @@ export class WashesListComponent implements OnInit {
   confirmDelete(data) {
     this.washes.deleteWash(data.JobId).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Wash.Delete, 'Success!');
         this.getAllWashDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -209,7 +210,7 @@ export class WashesListComponent implements OnInit {
           this.showDialog = true;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

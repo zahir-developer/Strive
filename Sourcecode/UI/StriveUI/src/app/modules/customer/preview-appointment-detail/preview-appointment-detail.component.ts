@@ -5,6 +5,8 @@ import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-preview-appointment-detail',
@@ -24,7 +26,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
-    private toastr: MessageServiceToastr
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -107,7 +109,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
         if (res.status === 'Success') {
           this.confirmation.emit();
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       });
     } else {
@@ -117,7 +119,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
         if (res.status === 'Success') {
           this.confirmation.emit();
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       });
     }

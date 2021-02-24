@@ -9,6 +9,7 @@ import * as _ from 'underscore';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-edit-employee',
@@ -144,7 +145,7 @@ export class EditEmployeeComponent implements OnInit {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -370,7 +371,7 @@ export class EditEmployeeComponent implements OnInit {
     if (event.item_id === +this.roleId && this.employeeId === +localStorage.getItem('empId')) {
       this.employeeRole = this.employeeRole.filter(item => item.item_id !== event.item_id);
       this.employeeRole.push(event);
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Current logged in role cannot be removed' });
+      this.toastr.warning(MessageConfig.Employee.role, 'Warning!');
       this.emplistform.patchValue({
         roles: this.employeeRole
       });
@@ -384,7 +385,7 @@ export class EditEmployeeComponent implements OnInit {
     if (event.item_id === +this.locationId && this.employeeId === +localStorage.getItem('empId')) {
       this.employeeLocation = this.employeeLocation.filter(item => item.item_id !== event.item_id);
       this.employeeLocation.push(event);
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Current logged in location cannot be removed' });
+      this.toastr.warning(MessageConfig.Employee.location, 'Warning!');
       this.emplistform.patchValue({
         location: this.employeeLocation
       });
@@ -402,7 +403,7 @@ export class EditEmployeeComponent implements OnInit {
       return;
     }
     if (this.personalform.invalid || this.emplistform.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
     }
     const sourceObj = [];
@@ -529,10 +530,10 @@ export class EditEmployeeComponent implements OnInit {
     };
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Updated Successfully!' });
+        this.toastr.success(MessageConfig.Employee.Update , 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

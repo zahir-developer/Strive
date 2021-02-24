@@ -5,6 +5,8 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { MustMatch } from 'src/app/shared/Validator/must-match.validator';
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-document',
@@ -25,6 +27,7 @@ export class CreateDocumentComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private employeeService: EmployeeService,
+    private toastr: ToastrService,
     private messageService: MessageServiceToastr
   ) { }
 
@@ -68,7 +71,7 @@ export class CreateDocumentComponent implements OnInit {
       const sizeFixed = (fileSize / 1048576);
       const sizeFixedValue = +sizeFixed.toFixed(1);
       if (sizeFixedValue > 10) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'File size cannot be more than 10MB' });
+        this.toastr.warning(MessageConfig.Document.fileSize, 'Warning!');
         this.isLoading = false;
         return;
       }
@@ -104,7 +107,7 @@ export class CreateDocumentComponent implements OnInit {
   uploadDocument() {
     this.submitted = true;
     if (this.multipleFileUpload.length === 0) {
-      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Please Choose file to upload' });
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Document.fileRequired});
       return;
     }
     if (this.passwordForm.invalid) {
@@ -134,10 +137,10 @@ export class CreateDocumentComponent implements OnInit {
     };
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document upload Successfully!' });
+        this.toastr.success(MessageConfig.Document.upload, 'Success!');
         this.activeModal.close(true);
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

@@ -6,6 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
 import {  DatepickerDateCustomClasses } from 'ngx-bootstrap/datepicker';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -34,7 +36,9 @@ export class DetailScheduleComponent implements OnInit {
     private detailService: DetailService,
     private datePipe: DatePipe,
     private spinner: NgxSpinnerService,
-    private toastr: MessageServiceToastr
+    private message: MessageServiceToastr,
+    private toastr: ToastrService
+
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +55,7 @@ export class DetailScheduleComponent implements OnInit {
     } else if (currentDate < this.selectedDate) {
       this.bayAddDetail(schedule);
     } else {
-      this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'New schedule is not allowed for passed dates.' });
+      this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Schedule.pastDates });
       return;
     }
   }
@@ -165,7 +169,7 @@ export class DetailScheduleComponent implements OnInit {
       }
     }, (error) => {
       this.spinner.hide();
-      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -204,8 +208,6 @@ export class DetailScheduleComponent implements OnInit {
     });
   }
 
-  caall() {
-    console.log('varuthu');
-  }
+ 
 
 }

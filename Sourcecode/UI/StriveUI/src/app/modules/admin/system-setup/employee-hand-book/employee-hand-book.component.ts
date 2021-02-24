@@ -6,6 +6,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -36,7 +38,7 @@ export class EmployeeHandBookComponent implements OnInit {
   Documents: any;
   url: any;
 
-  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+  constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
 
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
@@ -71,11 +73,11 @@ export class EmployeeHandBookComponent implements OnInit {
   confirmDelete(Id) {
     this.documentService.deleteDocumentById(Id, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
+        this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Delete, 'Success!');
         this.fileName = null;
         this.getDocument();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -86,7 +88,7 @@ export class EmployeeHandBookComponent implements OnInit {
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
         this.getDocument();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -100,7 +102,8 @@ export class EmployeeHandBookComponent implements OnInit {
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.isLoading = false;

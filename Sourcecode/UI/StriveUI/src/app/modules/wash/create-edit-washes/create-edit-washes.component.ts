@@ -10,6 +10,8 @@ import { PrintWashComponent } from 'src/app/shared/components/print-wash/print-w
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -74,7 +76,9 @@ export class CreateEditWashesComponent implements OnInit {
   upchargeId: any;
   airFreshenerId: any;
   additionalId: any;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
+  constructor(private fb: FormBuilder, private toastr: ToastrService,
+    private message: MessageServiceToastr,
+
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
     private spinner: NgxSpinnerService) { }
 
@@ -193,7 +197,7 @@ export class CreateEditWashesComponent implements OnInit {
           this.washForm.get('washes').reset();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -215,7 +219,7 @@ export class CreateEditWashesComponent implements OnInit {
           this.washForm.get('washes').reset();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -232,7 +236,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
         this.getAllServices();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -265,7 +269,7 @@ export class CreateEditWashesComponent implements OnInit {
         });
         this.upchargeService(vData.Upcharge);
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -300,7 +304,7 @@ export class CreateEditWashesComponent implements OnInit {
           this.getWashById();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -323,7 +327,7 @@ export class CreateEditWashesComponent implements OnInit {
           };
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -435,7 +439,7 @@ export class CreateEditWashesComponent implements OnInit {
           };
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -448,17 +452,17 @@ export class CreateEditWashesComponent implements OnInit {
     if (type === 'make') {
       if (!this.washForm.value.type.hasOwnProperty('id')) {
         this.washForm.patchValue({ type: '' });
-        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
       }
     } else if (type === 'model') {
       if (!this.washForm.value.model.hasOwnProperty('id')) {
         this.washForm.patchValue({ model: '' });
-        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
       }
     } else if (type === 'color') {
       if (!this.washForm.value.color.hasOwnProperty('id')) {
         this.washForm.patchValue({ color: '' });
-        this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });
       }
     }
   }
@@ -489,7 +493,7 @@ export class CreateEditWashesComponent implements OnInit {
           });
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -500,7 +504,7 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -519,7 +523,7 @@ export class CreateEditWashesComponent implements OnInit {
           this.washForm.get('vehicle').reset();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -666,29 +670,29 @@ export class CreateEditWashesComponent implements OnInit {
       this.wash.updateWashes(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Wash Updated Successfully!!' });
+          this.toastr.success(MessageConfig.Wash.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (error) => {
         this.spinner.hide();
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
       this.wash.addWashes(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+          this.toastr.success(MessageConfig.Wash.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.washForm.reset();
         }
       }, (error) => {
         this.spinner.hide();
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }
@@ -776,10 +780,10 @@ export class CreateEditWashesComponent implements OnInit {
     }
     this.client.addClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+        this.toastr.success(MessageConfig.Client.Add, 'Success!');
         this.closePopupEmitClient();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.clientFormComponent.clientForm.reset();
       }
     });

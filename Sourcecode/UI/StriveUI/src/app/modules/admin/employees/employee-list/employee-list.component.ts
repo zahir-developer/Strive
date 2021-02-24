@@ -11,6 +11,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-employee-list',
@@ -145,10 +146,10 @@ export class EmployeeListComponent implements OnInit {
     const id = employeeDetail.EmployeeId;
     this.employeeService.deleteEmployee(id).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Deleted Successfully!' });
+        this.toastr.success(MessageConfig.Employee.Delete, 'Success!');
         this.seachEmployee();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -177,7 +178,7 @@ export class EmployeeListComponent implements OnInit {
           this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
         }
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.spinner.hide();

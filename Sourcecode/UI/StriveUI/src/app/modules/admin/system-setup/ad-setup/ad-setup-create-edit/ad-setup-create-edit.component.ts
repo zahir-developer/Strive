@@ -6,6 +6,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-ad-setup-create-edit',
@@ -214,10 +215,10 @@ export class AdSetupCreateEditComponent implements OnInit {
       this.adSetup.updateAdSetup(objList).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.adSetupForm.reset();
           this.submitted = false;
         }
@@ -229,10 +230,10 @@ export class AdSetupCreateEditComponent implements OnInit {
       this.adSetup.addAdSetup(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.adSetupForm.reset();
           this.submitted = false;
         }

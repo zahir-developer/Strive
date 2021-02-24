@@ -6,6 +6,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-time-clock-maintenance',
@@ -105,7 +106,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
         }
       }
       else {
-        this.toastr.error('Communication Error', 'Error !!!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -134,11 +135,11 @@ export class TimeClockMaintenanceComponent implements OnInit {
 
     this.timeClockMaintenanceService.deleteTimeClockEmployee(this.objDelete).subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.success('Employee record deleted successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.TimeClock.Delete, 'Success!');
         this.getTimeClockEmployeeDetails();
       }
       else {
-        this.toastr.error('Communication Error', 'Error !!!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -191,7 +192,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     };
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.success('Employee added successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.selectedEmployee = '';
         this.getTimeClockEmployeeDetails();
       }
@@ -207,10 +208,10 @@ export class TimeClockMaintenanceComponent implements OnInit {
       if (event.length !== 0 && event.length !== null) {
         const dates = Math.floor((Date.UTC(event[1].getFullYear(), event[1].getMonth(), event[1].getDate()) - Date.UTC(event[0].getFullYear(), event[0].getMonth(), event[0].getDate())) / (1000 * 60 * 60 * 24));
         if (event[0].getDay() !== 0) {
-          this.toastr.warning('Sunday should be the start of the week!!', 'Warning!');
+          this.toastr.warning(MessageConfig.Admin.TimeClock.sunday, 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else if (dates !== 6) {
-          this.toastr.warning('Only one week can be selected!', 'Warning!');
+          this.toastr.warning(MessageConfig.Admin.TimeClock.weekRange, 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else {
           this.startDate = event[0];

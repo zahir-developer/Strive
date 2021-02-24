@@ -9,6 +9,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-create-edit-employee-hand-book',
@@ -47,7 +48,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private employeeService : EmployeeService,
-    private toastr: MessageServiceToastr,
+    private toastr: ToastrService,
     private document: DocumentService,
     private spinner: NgxSpinnerService,
     private getCode: GetCodeService
@@ -95,7 +96,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         const dType = JSON.parse(data.resultData);
         this.subdocumentType = dType.Codes;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -133,7 +134,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
           fileTosaveName = fileReader.result?.split(',')[1];
         }
         else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload DOC,DOCX,PDF Only' });
+          this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileType,'Warning!');
           this.clearDocument();
         }
         this.fileUploadformData = fileTosaveName;
@@ -154,14 +155,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
     if (this.handbookSetupForm.controls['name'].value) {
       if (!pattern.test(this.handbookSetupForm.controls['name'].value)) {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Name is Required' });
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.nameValidation,'Warning!');
         return;
       }
     }
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
+      this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileSize,'Warning!');
 
       return;
     }
@@ -191,13 +192,14 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     this.document.addDocument(finalObj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Saved Successfully' });
+        this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Add, 'Success!');
+
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.getDocumentType.emit();
         this.isLoading = false;
       } else {
         this.isLoading = false;
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
     }, (err) => {

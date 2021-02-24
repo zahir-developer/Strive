@@ -4,6 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-item',
@@ -15,7 +17,7 @@ export class EditItemComponent implements OnInit {
   @Input() ItemDetail: any;
   @Input() JobId: any;
   constructor(private fb: FormBuilder, private activeModal: NgbActiveModal, private salesService: SalesService,
-    private messageService: MessageServiceToastr) { }
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.formInit();
@@ -73,25 +75,25 @@ export class EditItemComponent implements OnInit {
   updateServiceItem(updateObj) {
     this.salesService.updateItem(updateObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item upated successfully' });
+        this.toastr.success(MessageConfig.Sales.Add,'Success!');
         this.activeModal.close();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   updateProductItem(updateObj) {
     this.salesService.updateProductItem(updateObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item upated successfully' });
+        this.toastr.success(MessageConfig.Sales.Update,'Success!');
         this.activeModal.close();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

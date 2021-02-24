@@ -5,6 +5,8 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ViewDocumentComponent } from '../../employees/view-document/view-document.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-document-list',
@@ -25,7 +27,7 @@ export class DocumentListComponent implements OnInit {
     private modalService: NgbModal,
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
-    private messageService: MessageServiceToastr
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -102,10 +104,10 @@ export class DocumentListComponent implements OnInit {
     const docId = documentList.EmployeeDocumentId;
     this.employeeService.deleteDocument(docId).subscribe( res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document Deleted Successfully!' });
+        this.toastr.success(MessageConfig.Document.Delete, 'Success!');
         this.employeeDetail();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

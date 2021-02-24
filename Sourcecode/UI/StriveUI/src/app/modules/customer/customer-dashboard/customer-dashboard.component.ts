@@ -8,6 +8,7 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -147,7 +148,7 @@ export class CustomerDashboardComponent implements OnInit {
     this.detailService.deleteDetail(jobID).subscribe(res => {
       if (res.status === 'Success') {
         this.getScheduleDetail();
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Customer.Delete });
       }
     });
   }

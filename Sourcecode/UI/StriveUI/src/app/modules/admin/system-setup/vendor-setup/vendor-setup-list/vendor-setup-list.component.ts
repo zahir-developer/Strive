@@ -4,6 +4,7 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-vendor-setup-list',
@@ -57,7 +58,7 @@ export class VendorSetupListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;
@@ -102,7 +103,7 @@ export class VendorSetupListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.isLoading = false;
@@ -137,10 +138,10 @@ export class VendorSetupListComponent implements OnInit {
   confirmDelete(data) {
     this.vendorService.deleteVendor(data.VendorId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Delete, 'Success!');
         this.getAllvendorSetupDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -172,7 +173,7 @@ export class VendorSetupListComponent implements OnInit {
         this.isEdit = true;
         this.showDialog = true;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

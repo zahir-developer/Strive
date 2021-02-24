@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sale-gift-card',
@@ -21,7 +23,7 @@ export class SaleGiftCardComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private salesService: SalesService,
-    private messageService: MessageServiceToastr,
+    private toastr: ToastrService,
     private giftCardService: GiftCardService
   ) { }
 
@@ -150,7 +152,7 @@ export class SaleGiftCardComponent implements OnInit {
         this.saveGiftCard();
         this.activeModal.close(true);
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -176,8 +178,10 @@ export class SaleGiftCardComponent implements OnInit {
     };
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.toastr.success(MessageConfig.Sales.UpdateGiftCrd, 'Success!');
+
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.giftCardForm.reset();
       }
     });

@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -107,7 +108,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceType);
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -122,7 +123,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.getAllServiceType();
         // this.getParentType();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -148,7 +149,7 @@ export class ServiceCreateEditComponent implements OnInit {
           this.getAllServiceType();
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -173,7 +174,7 @@ export class ServiceCreateEditComponent implements OnInit {
           this.getServiceById();
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -277,10 +278,10 @@ export class ServiceCreateEditComponent implements OnInit {
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
@@ -292,10 +293,10 @@ export class ServiceCreateEditComponent implements OnInit {
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
