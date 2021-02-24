@@ -5,7 +5,8 @@
         <ol class="breadcrumb font-size--9">
           <li class="breadcrumb-item"><span appNavigatePage>Admin</span></li>
           <li class="breadcrumb-item active" aria-current="page">System Setup</li>
-          <li class="breadcrumb-item active" aria-current="page" style="font-weight: 700;font-size: large;line-height: initial;">{{subModule}}</li>
+          <li class="breadcrumb-item active" aria-current="page"
+            style="font-weight: 700;font-size: large;line-height: initial;">{{subModule}}</li>
         </ol>
       </nav>
 
@@ -20,14 +21,12 @@
                 <option value="3">Product</option>
                 <option value="4">Vendor</option>
                 <option value="5">Membership</option>
-                <option value="6">Check List</option>
+                <option value="6">Ads</option>
                 <option value="7">Bonus</option>
-                <option value="8">Ads</option>
-                <option value="9">Employee Handbook</option>
-                <option value="10">Terms & Conditions</option>
-                <option value="11">Deal Setup</option>
-
-                
+                <option value="8">Check List</option>
+                <option value="9">Deals</option>
+                <option value="10">Employee Handbook</option>
+                <option value="11">Terms & Conditions</option>
               </select>
             </div>
             <ul class="nav nav-pills flex-column web-display" id="myTab" role="tablist" (click)="subMenuClick($event)">
@@ -47,17 +46,22 @@
                   [routerLink]="'/admin/setup/membership'" [routerLinkActive]='["link-active"]' role="tab"
                   aria-controls="v-pills-membership" aria-selected="true">Membership</a>
               </li>
-              <li class="nav-item"> <a class="nav-link" id="v-pills-checkList-tab" data-toggle="pill"
-                  [routerLink]="'/admin/setup/checkList'" [routerLinkActive]='["link-active"]' role="tab"
-                  aria-controls="v-pills-checkList" aria-selected="true">Check List</a>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-adSetup-tab" data-toggle="pill"
+                  [routerLink]="'/admin/setup/adSetup'" [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-adSetup" aria-selected="true">Ads</a>
               </li>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-deal-tab" data-toggle="pill"
+                  [routerLink]="'/admin/setup/dealSetup'" [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-deal" aria-selected="true">Deals</a>
+              </li>
+
               <li class="nav-item"> <a class="nav-link" id="v-pills-bonus-tab" data-toggle="pill"
                   [routerLink]="'/admin/setup/bonus'" [routerLinkActive]='["link-active"]' role="tab"
                   aria-controls="v-pills-bonus" aria-selected="true">Bonus</a>
               </li>
-              <li class="nav-item"> <a class="nav-link" id="v-pills-adSetup-tab"
-                  data-toggle="pill" [routerLink]="'/admin/setup/adSetup'" [routerLinkActive]='["link-active"]'
-                  role="tab" aria-controls="v-pills-adSetup" aria-selected="true">Ads</a>
+              <li class="nav-item"> <a class="nav-link" id="v-pills-checkList-tab" data-toggle="pill"
+                  [routerLink]="'/admin/setup/checkList'" [routerLinkActive]='["link-active"]' role="tab"
+                  aria-controls="v-pills-checkList" aria-selected="true">Check List</a>
               </li>
               <li class="nav-item"> <a class="nav-link" id="v-pills-empHandBook-tab" data-toggle="pill"
                   [routerLink]="'/admin/setup/empHandBook'" [routerLinkActive]='["link-active"]' role="tab"
@@ -67,10 +71,6 @@
                   [routerLink]="'/admin/setup/terms&condition'" [routerLinkActive]='["link-active"]' role="tab"
                   aria-controls="v-pills-terms" aria-selected="true">Terms & Conditions</a>
               </li>
-              <li class="nav-item"> <a class="nav-link" id="v-pills-deal-tab" data-toggle="pill"
-                [routerLink]="'/admin/setup/dealSetup'" [routerLinkActive]='["link-active"]' role="tab"
-                aria-controls="v-pills-deal" aria-selected="true">Deals </a>
-            </li>
             </ul>
           </div>
           <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 setup-content p-0">
