@@ -33,33 +33,33 @@ export class UserDataService {
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
 
-    if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
-      localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
-    } else {
-      localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
-    }
-    if (token?.EmployeeDetails?.EmployeeRoles?.length) {
-      localStorage.setItem('empRoles', token?.EmployeeDetails?.EmployeeRoles[0]?.RoleName);
-    }
-    if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
+      if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
+        localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
+      } else {
+        localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
+      }
+      if (token?.EmployeeDetails?.EmployeeRoles?.length) {
+        localStorage.setItem('empRoles', token?.EmployeeDetails?.EmployeeRoles[0]?.RoleName);
+      }
+      if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
 
-      // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
-    }
-    this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
-      token?.EmployeeDetails?.EmployeeLogin?.LastName);
-    this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+        // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
+      }
+      this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
+        token?.EmployeeDetails?.EmployeeLogin?.LastName);
+      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
 
-    this.getUnreadMessage(token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
-    localStorage.setItem('employeeName', token?.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
-      token?.EmployeeDetails?.EmployeeLogin?.LastName);
-      if(token?.EmployeeDetails?.Drawer){
+      this.getUnreadMessage(token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
+      localStorage.setItem('employeeName', token?.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
+        token?.EmployeeDetails?.EmployeeLogin?.LastName);
+      if (token?.EmployeeDetails?.Drawer) {
         localStorage.setItem('drawerId', token?.EmployeeDetails?.Drawer[0].DrawerId);
 
       }
-    localStorage.setItem('empId', token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
-    localStorage.setItem('roleId', token?.EmployeeDetails?.EmployeeRoles[0]?.Roleid);
-    localStorage.setItem('employeeFirstName', token?.EmployeeDetails?.EmployeeLogin?.Firstname);
-    localStorage.setItem('employeeLastName', token?.EmployeeDetails?.EmployeeLogin?.LastName);
+      localStorage.setItem('empId', token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
+      localStorage.setItem('roleId', token?.EmployeeDetails?.EmployeeRoles[0]?.Roleid);
+      localStorage.setItem('employeeFirstName', token?.EmployeeDetails?.EmployeeLogin?.Firstname);
+      localStorage.setItem('employeeLastName', token?.EmployeeDetails?.EmployeeLogin?.LastName);
 
     }
     else if (token.ClientDetails !== undefined) {

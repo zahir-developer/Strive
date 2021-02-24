@@ -220,8 +220,8 @@ export class SalesComponent implements OnInit {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         console.log(services, 'discount');
-        if (services.ServiceSetup.getAllServiceViewModel !== null ) {
-          this.discounts = services.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Service Discounts');
+        if (services.ServiceSetup.AllServiceDetail !== null ) {
+          this.discounts = services.ServiceSetup.AllServiceDetail.filter(item => item.ServiceType === 'Service Discounts');
         }
       }
     });

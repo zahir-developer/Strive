@@ -54,6 +54,7 @@ import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decim
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NavigatePageDirective } from './Directive/navigate-page.directive';
+import { IdleLockoutComponent } from './components/idle-lockout/idle-lockout.component';
 
 @NgModule({
   imports: [
@@ -89,7 +90,7 @@ import { NavigatePageDirective } from './Directive/navigate-page.directive';
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -98,7 +99,7 @@ import { NavigatePageDirective } from './Directive/navigate-page.directive';
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective, IdleLockoutComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 
