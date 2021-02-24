@@ -35,6 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPrintModule} from 'ngx-print';
 import { SelectLocationComponent } from './select-location/select-location.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -112,7 +113,8 @@ const load = (http: HttpClient) => {
     MultiSelectModule,
     NgxSpinnerModule,
     NgbModule,
-    NgxPrintModule
+    NgxPrintModule,
+    NgIdleKeepaliveModule.forRoot(),
   ],
   exports: [
     HttpClientModule,
