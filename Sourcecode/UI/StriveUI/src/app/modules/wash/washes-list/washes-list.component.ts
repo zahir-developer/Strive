@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-washes-list',
@@ -38,7 +39,8 @@ export class WashesListComponent implements OnInit {
   search: any = null;
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe,private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationUXBDialogService, private router: Router) { }
+    private confirmationService: ConfirmationUXBDialogService, private router: Router
+    ,private landingservice:LandingService) { }
 
   ngOnInit() {
     this.page = ApplicationConfig.PaginationConfig.page;
@@ -51,7 +53,9 @@ export class WashesListComponent implements OnInit {
     this.washes.getDashBoard(obj);
     this.getAllWashDetails();
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   paginate(event) {
 
     this.pageSize = +this.pageSize;

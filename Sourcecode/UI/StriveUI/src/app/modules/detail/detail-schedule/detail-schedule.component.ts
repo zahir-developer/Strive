@@ -8,6 +8,7 @@ import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no
 import {  DatepickerDateCustomClasses } from 'ngx-bootstrap/datepicker';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -38,7 +39,7 @@ export class DetailScheduleComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private message: MessageServiceToastr,
     private toastr: ToastrService
-
+,private landingservice: LandingService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +48,9 @@ export class DetailScheduleComponent implements OnInit {
     this.isEdit = false;
     this.isView = false;
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   addNewDetail(schedule) {
     const currentDate = new Date();
     if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {

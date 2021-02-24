@@ -10,6 +10,8 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { LoginComponent } from 'src/app/login/login.component';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -23,6 +25,8 @@ export class PayrollsGridComponent implements OnInit {
   collectionSize = 0;
   isEditAdjustment: boolean;
   isPayrollEmpty = true;
+  @ViewChild(LoginComponent) LoginComponent: LoginComponent;
+
   @ViewChild('content') content: ElementRef;
   pageSize: number;
   page: number;
@@ -36,6 +40,7 @@ export class PayrollsGridComponent implements OnInit {
     private datePipe: DatePipe,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
+    ,private landingservice:LandingService
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +55,9 @@ export class PayrollsGridComponent implements OnInit {
     this.isEditAdjustment = false;
     this.patchValue();
   }
-
+landing(){
+  this.landingservice.loadTheLandingPage()
+}
   patchValue() {
     const curr = new Date(); // get current date
     const first = curr.getDate() - 13; // First day is the day of the month - the day of the week

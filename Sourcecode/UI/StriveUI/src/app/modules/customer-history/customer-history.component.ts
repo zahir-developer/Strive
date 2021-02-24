@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-customer-history',
@@ -39,6 +40,7 @@ export class CustomerHistoryComponent implements OnInit {
   constructor(
     private checkout: CheckoutService,
     private router: Router
+    ,private landingservice:LandingService
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +51,9 @@ export class CustomerHistoryComponent implements OnInit {
     this.year = this.date.getFullYear();
     this.getCustomerHistory();
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   onYearChange(event) {
     this.year = event;
   }
