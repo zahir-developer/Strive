@@ -25,6 +25,7 @@ namespace StriveEmployee.Android.Fragments
         private RecyclerView contacts_RecyclerView;
         private SearchView contact_SearchView;
         private MessengerContactsAdapter messengerContacts_Adapter;
+        private MessengerSearchAdapter searchAdapter;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,13 +43,32 @@ namespace StriveEmployee.Android.Fragments
             contacts_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.contacts_RecyclerView);
             contact_SearchView = rootView.FindViewById<SearchView>(Resource.Id.contacts_SearchView);
             contact_SearchView.QueryTextChange += Contact_SearchView_QueryTextChange;
+            searchAdapter = new MessengerSearchAdapter();
             getContacts();
             return rootView;
         }
 
         private void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            
+            if (!string.IsNullOrEmpty(e.NewText))
+            {
+                var sortedResult = searchAdapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList, e.NewText);
+
+                if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
+                {
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    contacts_RecyclerView.SetLayoutManager(layoutManager);
+                    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+                }
+            }
+            else
+            {
+                messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList);
+                var layoutManager = new LinearLayoutManager(Context);
+                contacts_RecyclerView.SetLayoutManager(layoutManager);
+                contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+            }
         }
 
         private async void getContacts()
