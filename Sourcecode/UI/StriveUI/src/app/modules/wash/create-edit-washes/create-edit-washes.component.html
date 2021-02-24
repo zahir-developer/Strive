@@ -3,7 +3,7 @@
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item" appNavigatePage>Home</li>
                     <li class="breadcrumb-item"><a (click)="cancel()">Wash</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Wash</li>
                     <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Wash</li>

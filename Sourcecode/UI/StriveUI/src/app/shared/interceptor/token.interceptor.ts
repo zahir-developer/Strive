@@ -47,7 +47,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     return this.logoutAndRedirect(err);
                 }
                 // if error has status neither 401 nor 403 then just return this error
-                // return throwError(err);
+                return throwError(err);
             })
         );
     }
