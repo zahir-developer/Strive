@@ -9,10 +9,9 @@ using Strive.BusinessEntities.DTO.TimeClock;
 
 namespace Strive.BusinessEntities.Model
 {
-    public class TimeClockModel
+    public class TimeClockListModel
     {
-        public TimeClockListModel TimeClock { get; set; }
-
-       public TimeClockWeekDetailDto TimeClockWeekDetailDto { get;set; }
+        public List<TimeClock> TimeClock { get; set; }
+        
     }
 }

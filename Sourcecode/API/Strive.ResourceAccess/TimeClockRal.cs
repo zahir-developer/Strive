@@ -18,11 +18,11 @@ namespace Strive.ResourceAccess
         public TimeClockRal(ITenantHelper tenant) : base(tenant) { }
 
 
-        public bool SaveTimeClock(TimeClockModel timeClock)
+        public bool SaveTimeClock(TimeClockListModel timeClock)
         {
             try
             {
-                return dbRepo.SaveAll<BusinessEntities.Model.TimeClockModel>(timeClock, "TimeClockId");
+                return dbRepo.SaveAll(timeClock, "TimeClockId");
             }
             catch (Exception ex)
             {

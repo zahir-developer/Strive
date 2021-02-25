@@ -10,6 +10,6 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public decimal LocationWorkHourThreshold { get; set; }
 
-        public DateTime EmployeeWorkMinutes { get; set; }
+        public int EmployeeWorkMinutes { get; set; }
      }
 }

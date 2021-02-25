@@ -27,19 +27,22 @@ namespace Strive.BusinessLogic.TimeClock
 
         public Result SaveTimeClock(Strive.BusinessEntities.Model.TimeClockModel timeClock)
         {
-           var result=new TimeClockRal(_tenant).SaveTimeClock( timeClock);
-             
-            var thresholdHours = new TimeClockRal(_tenant).GetEmployeeWeeklyTimeClockHour(timeClock.TimeClockWeekDetailDto);
-           
-            if (thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
+           var result=new TimeClockRal(_tenant).SaveTimeClock( timeClock.TimeClock);
+
+            if (timeClock.TimeClockWeekDetailDto != null)
             {
-                var emailId = new SalesRal(_tenant).GetEmailId();
-                foreach (var item in emailId)
+                var thresholdHours = new TimeClockRal(_tenant).GetEmployeeWeeklyTimeClockHour(timeClock.TimeClockWeekDetailDto);
+
+                if (thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
                 {
-                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                    keyValues.Add("{emailId}", item.Email);
-                    keyValues.Add("{EmployeedName}",timeClock.TimeClockWeekDetailDto.EmployeeName);
-                    new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues);
+                    var emailId = new SalesRal(_tenant).GetEmailId();
+                    foreach (var item in emailId)
+                    {
+                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                        keyValues.Add("{{emailId}}", item.Email);
+                        keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
+                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues);
+                    }
                 }
             }
 
