@@ -21,6 +21,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
   payRollList: any = [];
+MaxDate = new Date()
   bsConfig: Partial<BsDatepickerConfig>;
   collectionSize = 0;
   isEditAdjustment: boolean;
@@ -97,6 +98,7 @@ landing(){
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
+
         const payRoll = JSON.parse(res.resultData);
         this.payRollList = payRoll.Result.PayRollRateViewModel;
         var length = this.payRollList === null ? 0 : this.payRollList.length;
@@ -106,6 +108,28 @@ landing(){
       }
     }, (err) => {
       this.spinner.hide();
+    });
+  }
+  editRestriction() {
+   
+       const empId =  null;
+       const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
+    const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');  
+    this.payrollsService.editRestriction(empId,startDate,endDate).subscribe( res => {
+      if (res.status === 'Success') {
+        if (res.resultData.Result === 'false') {
+        
+          this.isEditRestriction = res.resultData.Result;
+          
+        } else{
+          this.isEditRestriction = res.resultData.Result;        }
+        
+      }
+      else{
+
+       this.messageService.showMessage({ severity: 'error', title: 'Eroor', body: 'Communication Error' });
+
+      }
     });
   }
 
@@ -146,6 +170,51 @@ landing(){
       }
     }, (err) => {
       this.spinner.hide();
+    });
+  }
+  addPayrollProcess() {
+    const updatedObj = [];
+    this.payRollList.forEach( item => {
+      updatedObj.push({
+        
+        "payrollProcess": {
+          "payrollProcessId": 0,
+          "fromDate": this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
+          "toDate": this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
+          "isActive": true,
+          "isDeleted": true,
+          "createdBy": this.employeeId,
+          "createdDate": new Date(),
+          "updatedBy": this.employeeId,
+          "updatedDate": new Date(),
+        },
+        "payrollEmployee": {
+          "payrollEmployeeId": item.EmployeeId,
+          "employeeId": this.employeeId,
+          "payrollProcessId": 0,
+          "adjustment": +item.Adjustment,
+          "isActive": true,
+          "isDeleted": true,
+          "createdBy": this.employeeId,
+          "createdDate":new Date(),
+          "updatedBy": this.employeeId,
+          "updatedDate": new Date(),
+        }
+      
+    
+      });
+    });
+ 
+  
+    this.payrollsService.addPayRoll(updatedObj).subscribe( res => {
+      if (res.status === 'Success') {
+        
+        this.isEditAdjustment = false;
+        this.payrollDateForm.enable();
+        
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
+        this.runReport();
+      }
     });
   }
 

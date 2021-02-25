@@ -118,7 +118,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
   // Get targetBusinessData
   getTargetBusinessData(locationId, date) {
-
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
         this.targetBusiness = JSON.parse(data.resultData);

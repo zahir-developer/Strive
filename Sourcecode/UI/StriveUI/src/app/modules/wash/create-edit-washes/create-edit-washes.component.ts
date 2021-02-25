@@ -397,6 +397,21 @@ private landingservice:LandingService,
     }
   }
 
+  checkValue(type) {
+    if (type === 'make') {
+      if (!this.washForm.value.type.hasOwnProperty('id')) {
+        this.washForm.patchValue({ type: '' });
+      }
+    } else if (type === 'model') {
+      if (!this.washForm.value.model.hasOwnProperty('id')) {
+        this.washForm.patchValue({ model: '' });
+      }
+    } else if (type === 'color') {
+      if (!this.washForm.value.color.hasOwnProperty('id')) {
+        this.washForm.patchValue({ color: '' });
+      }
+    }
+  }
 
 
   getColor() {

@@ -135,12 +135,12 @@ export class CreateEditComponent implements OnInit {
     });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
@@ -329,7 +329,10 @@ export class CreateEditComponent implements OnInit {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
-    if (this.cityComponent.city === '') {
+    if (this.stateDropdownComponent.stateValueSelection == false ) {
+      return;
+    }
+    if (this.cityComponent.selectValueCity == false ) {
       return;
     }
     if (this.personalform.invalid || this.emplistform.invalid) {

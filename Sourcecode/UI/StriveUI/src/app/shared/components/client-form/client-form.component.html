@@ -73,9 +73,9 @@
         </div>
         <div class="form-group col-lg-6 col-xl-3">
             <label for="inputState">State<span class="required">*</span></label>
-            <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"
+           <app-state-dropdown [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)"
                 [isView]="isView">
-            </app-state-dropdown>
+            </app-state-dropdown>           
         </div>
         <div class="form-group col-lg-6 col-xl-3" [disabled]="isView">
             <label for="inputCity">City</label>

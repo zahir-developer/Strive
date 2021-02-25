@@ -226,6 +226,7 @@ export class ProductCreateEditComponent implements OnInit {
       locationId: this.productSetupForm.value.locationName,
       productName: this.productSetupForm.value.name,
       fileName: this.fileName,
+      OriginalFileName: this.fileName,
       thumbFileName: this.fileThumb,
       base64: this.fileUploadformData,
       cost: this.productSetupForm.value.cost,

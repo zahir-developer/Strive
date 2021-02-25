@@ -40,7 +40,6 @@ export class CheckListComponent implements OnInit {
     private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
     private httpClient: HttpClient,
-    private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService,
     private toastr: ToastrService
   ) { }
@@ -201,12 +200,16 @@ export class CheckListComponent implements OnInit {
 
     };
     if (data.ChecklistId) {
+      this.spinner.show()
       this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
 
+        this.spinner.hide()
+        if (data.status === 'Success') {   
+          this.toastr.success('Record Updated Successfully!!', 'Success!'); 
+              
           this.getAllcheckListDetails();
-         
           this.selectedData = false;
 
         } else {
@@ -214,6 +217,7 @@ export class CheckListComponent implements OnInit {
         }
       });
     } else {
+      this.spinner.show()
       this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Add, 'Success!');
