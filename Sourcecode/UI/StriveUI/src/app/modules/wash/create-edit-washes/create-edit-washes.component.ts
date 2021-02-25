@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 declare var $: any;
 
 @Component({
@@ -78,7 +79,7 @@ export class CreateEditWashesComponent implements OnInit {
   additionalId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
-
+private landingservice:LandingService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
     private spinner: NgxSpinnerService) { }
 
@@ -93,7 +94,9 @@ export class CreateEditWashesComponent implements OnInit {
     }
     this.getJobType();
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   formInitialize() {
     this.washForm = this.fb.group({
       client: ['',],

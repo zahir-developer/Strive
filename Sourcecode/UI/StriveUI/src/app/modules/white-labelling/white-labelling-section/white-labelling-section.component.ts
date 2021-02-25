@@ -5,6 +5,7 @@ import { WhiteLabelService } from 'src/app/shared/services/data-service/white-la
 import { LogoService } from 'src/app/shared/services/common-service/logo.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -38,6 +39,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
     private toastr: ToastrService,
     private logoService: LogoService,
     private ngxService: NgxSpinnerService
+    ,private landingservice:LandingService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +54,9 @@ export class WhiteLabellingSectionComponent implements OnInit {
     this.fontName = 'Open Sans';
     this.getAllWhiteLabelDetail();
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   themeChange(theme) {
     this.msgType = 'Theme';
     if (theme.ThemeName === 'Custom') {

@@ -5,6 +5,7 @@ import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.component';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 declare var $: any;
 
 @Component({
@@ -52,6 +53,7 @@ export class DashboardComponent implements OnInit {
     private messageService: MessageServiceToastr,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService
+    ,private landingservice: LandingService
   ) { }
 
   ngOnInit(): void {
@@ -173,7 +175,9 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   mainStreet() {
     this.firstSectionTogggle = !this.firstSectionTogggle;
   }

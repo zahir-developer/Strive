@@ -5,6 +5,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -28,7 +29,7 @@ export class CheckoutGridComponent implements OnInit {
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
     private toastr: ToastrService,
-
+private landingservice: LandingService,
     private spinner: NgxSpinnerService
   ) { }
 
@@ -38,7 +39,9 @@ export class CheckoutGridComponent implements OnInit {
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllUncheckedVehicleDetails();
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
     const obj = {
