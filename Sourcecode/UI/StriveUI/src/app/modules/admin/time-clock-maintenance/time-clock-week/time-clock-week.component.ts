@@ -270,7 +270,15 @@ export class TimeClockWeekComponent implements OnInit {
       });
     });
     const finalObj = {
-      timeClock: weekDetailObj
+      timeClock: weekDetailObj,
+      TimeClockWeekDetailDto : {
+
+        employeeId : this.empClockInObj.employeeID,
+        locationId : this.empClockInObj.locationId,
+       startDate : this.datePipe.transform(this.empClockInObj.startDate, 'yyyy-MM-dd'),
+       endDate : this.datePipe.transform(this.empClockInObj.endDate, 'yyyy-MM-dd'),
+       employeeName : this.empClockInObj.firstName + ' ' + this.empClockInObj.lastName
+      }
     };
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {
