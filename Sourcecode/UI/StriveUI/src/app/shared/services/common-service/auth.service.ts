@@ -68,6 +68,7 @@ export class AuthService {
 
   logout() {
     this.clearCacheValue();
+    this.loggedIn.next(false);
     document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
@@ -82,7 +83,6 @@ export class AuthService {
 
   clearCacheValue() {
     localStorage.setItem('isAuthenticated', 'false');
-    this.loggedIn.next(false);
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('views');

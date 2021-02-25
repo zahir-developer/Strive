@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/common-service/auth.service';
+import { LandingService } from '../../services/common-service/landing.service';
 import { UserDataService } from '../../util/user-data.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class IdleLockoutComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private fb: FormBuilder,
+    private landing: LandingService
   ) { }
 
   ngOnInit(): void {
@@ -63,6 +65,7 @@ export class IdleLockoutComponent implements OnInit {
     };
     this.authService.login(obj).subscribe(res => {
       if (res.status === 'Success') {
+        this.landing.loadTheLandingPage();
         this.closeDialog.emit();
       }
     });
