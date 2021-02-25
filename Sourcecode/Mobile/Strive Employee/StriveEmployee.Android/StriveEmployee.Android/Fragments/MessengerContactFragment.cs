@@ -42,18 +42,18 @@ namespace StriveEmployee.Android.Fragments
 
             contacts_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.contacts_RecyclerView);
             contact_SearchView = rootView.FindViewById<SearchView>(Resource.Id.contacts_SearchView);
-            contact_SearchView.QueryTextChange += Contact_SearchView_QueryTextChange;
+            contact_SearchView.QueryTextChange += Contact_SearchView_QueryTextChange; 
             searchAdapter = new MessengerSearchAdapter();
-            getContacts();
+            getContacts("%20");
             return rootView;
         }
 
-        private void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
+        private async void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.NewText))
+            if (!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeLists != null)
             {
+               // getContacts(e.NewText);
                 var sortedResult = searchAdapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList, e.NewText);
-
                 if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
                 {
                     messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult);
@@ -64,6 +64,7 @@ namespace StriveEmployee.Android.Fragments
             }
             else
             {
+               // getContacts("%20");
                 messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList);
                 var layoutManager = new LinearLayoutManager(Context);
                 contacts_RecyclerView.SetLayoutManager(layoutManager);
@@ -71,9 +72,9 @@ namespace StriveEmployee.Android.Fragments
             }
         }
 
-        private async void getContacts()
+        private async void getContacts(string employeeName)
         {
-            await ViewModel.GetContactsList();
+            await ViewModel.GetContactsList(employeeName);
             if(ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
             {
                 messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList);

@@ -47,7 +47,7 @@ namespace StriveEmployee.Android.Fragments
 
         private void GroupSearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.NewText))
+            if (!string.IsNullOrEmpty(e.NewText) && ViewModel.GroupList != null)
             {
                 var sortedResult = searchAdapter.SearchRecentContacts(ViewModel.GroupList.ChatEmployeeList, e.NewText);
 
@@ -61,23 +61,28 @@ namespace StriveEmployee.Android.Fragments
             }
             else
             {
-                messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList);
-                var layoutManager = new LinearLayoutManager(Context);
-                groupChat_RecyclerView.SetLayoutManager(layoutManager);
-                groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
+                if (ViewModel.GroupList != null)
+                {
+                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    groupChat_RecyclerView.SetLayoutManager(layoutManager);
+                    groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
+                }
             }
         }
 
         private async void getGroups()
         {
             await ViewModel.GetGroupsList();
-            if (ViewModel.GroupList != null || !(ViewModel.GroupList.ChatEmployeeList.Count == 0))
+            if (ViewModel.GroupList != null)
             {
-                messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList);
-                var layoutManager = new LinearLayoutManager(Context);
-                groupChat_RecyclerView.SetLayoutManager(layoutManager);
-                groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
-
+                if(ViewModel.GroupList.ChatEmployeeList.Count > 0)
+                {
+                    messengerGroup_Adapter = new MessengerGroupChatAdapter(this.Context, ViewModel.GroupList.ChatEmployeeList);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    groupChat_RecyclerView.SetLayoutManager(layoutManager);
+                    groupChat_RecyclerView.SetAdapter(messengerGroup_Adapter);
+                }
             }
         }
     }

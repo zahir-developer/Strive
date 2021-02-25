@@ -49,7 +49,7 @@ namespace StriveEmployee.Android.Fragments
 
         private void RecentContactSearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            if(!string.IsNullOrEmpty(e.NewText))
+            if(!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeList != null)
             {
                 var sortedResult = searchAdapter.SearchRecentContacts(ViewModel.EmployeeList.ChatEmployeeList, e.NewText);
 
@@ -63,10 +63,14 @@ namespace StriveEmployee.Android.Fragments
             }
             else
             {
-                messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList);
-                var layoutManager = new LinearLayoutManager(Context);
-                recentContacts_RecyclerView.SetLayoutManager(layoutManager);
-                recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
+                if(ViewModel.EmployeeList != null)
+                {
+                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    recentContacts_RecyclerView.SetLayoutManager(layoutManager);
+                    recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
+                }
+               
             }
         }
 
@@ -75,10 +79,14 @@ namespace StriveEmployee.Android.Fragments
             await ViewModel.GetRecentContactsList();
             if(ViewModel.EmployeeList != null)
             {
-                messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList);
-                var layoutManager = new LinearLayoutManager(Context);
-                recentContacts_RecyclerView.SetLayoutManager(layoutManager);
-                recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
+                if(ViewModel.EmployeeList.ChatEmployeeList.Count > 0)
+                {
+                    messengerRecentContacts_Adapter = new MessengerRecentContactsAdapter(this.Context, ViewModel.EmployeeList.ChatEmployeeList);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    recentContacts_RecyclerView.SetLayoutManager(layoutManager);
+                    recentContacts_RecyclerView.SetAdapter(messengerRecentContacts_Adapter);
+                }
+              
             }
         }
     }

@@ -49,7 +49,7 @@ namespace StriveEmployee.Android.Adapter
     } 
 
 
-    public class MessengerContactsAdapter : RecyclerView.Adapter, IItemClickListener
+    public class MessengerContactsAdapter : RecyclerView.Adapter, IItemClickListener //, IFilterable
     {
 
         Context context;
@@ -71,6 +71,11 @@ namespace StriveEmployee.Android.Adapter
                 return contacts.Count;
             }
         }
+
+        //public Filter Filter
+        //{
+        //    get { }
+        //}
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
