@@ -78,6 +78,20 @@ namespace Strive.ResourceAccess
 
             return db.FetchMultiResult<TimeClockEmployeeHourViewModel>(EnumSP.ClockTime.USPGETTIMECLOCKEMPLOYEEHOURDETAIL.ToString(), _prm);
         }
-        
+
+        public EmployeeThresholdHourViewModel GetEmployeeWeeklyTimeClockHour (TimeClockWeekDetailDto timeClockWeekDetailDto)
+        {
+            _prm.Add("EmployeeId", timeClockWeekDetailDto.EmployeeId);
+            _prm.Add("LocationId", timeClockWeekDetailDto.LocationId);
+            _prm.Add("StartDate", timeClockWeekDetailDto.StartDate);
+            _prm.Add("EndDate", timeClockWeekDetailDto.EndDate);
+
+            return db.FetchSingle<EmployeeThresholdHourViewModel>(EnumSP.ClockTime.USPGETEMPLOYEEWEEKLYTIMECLOCKHOUR.ToString(), _prm);
+
+
+        }
+
+
+
     }
 }
