@@ -8,6 +8,7 @@ import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { IdleLockoutComponent } from './shared/components/idle-lockout/idle-lockout.component';
 import { Subscription } from 'rxjs';
+import { AuthService } from './shared/services/common-service/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -33,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private authenticate: AuthenticateObservableService,
     private whiteLabelService: WhiteLabelService, private logoService: LogoService,
-    private userService: UserDataService,
+    private userService: UserDataService, private authService: AuthService,
     private idle: Idle) {
     this.isUserAuthenticated = this.user.isAuthenticated;
     this.subscriptionAuthenticate = this.authenticate.getIsAuthenticate().subscribe(isAuthenticate => {
@@ -74,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 10 * 60;
+      const seconds = 5;  // 10 * 60;
       this.subscribeTheIdle(this.idle, seconds);
     }
   }
@@ -89,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(seconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
-    idle.setTimeout(60);  // 60
+    idle.setTimeout(5);  // 60
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     idle.onIdleEnd.subscribe(() => {
@@ -120,7 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.idleLockoutComponent.dialogDisplay = true;
       this.idleLockoutComponent.header = 'Locked Out';
       this.header = 'Locked Out';
-      // this.user.logOut();
+      this.authService.refreshLogout();
       clearInterval(this.intervalId);
     });
     idle.onIdleStart.subscribe(() => {

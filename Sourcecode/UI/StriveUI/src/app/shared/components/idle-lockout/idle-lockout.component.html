@@ -14,11 +14,20 @@
     </div>
 </div>
 <div *ngIf="dialogType === 'timeout'">
-    <span>Your session has expired due to inactivity. Please Login again to continue your work!</span>
-    <div style="margin-top:10px;">
-        <div class="col-xs-12">
-            <button type="button" class="btn btn-secondary" style="float: right;" (click)="logout()">Ok</button>
+    <form [formGroup]="authentication">
+        <div class="row">
+            <div class="col-4 form-group">
+                <label>Username</label>
+                <input type='text' class="form-control" formControlName='username' />
+            </div>
+            <div class="col-4 form-group">
+                <label>Password</label>
+                <input type='password' class="form-control" formControlName='password' />
+            </div>
+            <div class="col-4" style="margin-top: 30px;">
+                <button class="btn btn-secondary" (click)="login()">Submit Approval</button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 <!-- </p-dialog> -->
