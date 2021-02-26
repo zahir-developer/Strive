@@ -6,7 +6,6 @@ import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 @Component({
   selector: 'app-time-clock-week',
@@ -195,8 +194,7 @@ export class TimeClockWeekComponent implements OnInit {
 
 
     if (this.inCorrectTotalHours === true) {
-
-      this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning');
+      this.messageService.showMessage({ severity: 'error', body: 'Enter Valid 24Hours Time Format' });
       return;
     }
     this.timeClockList.forEach(element => {
@@ -224,17 +222,14 @@ export class TimeClockWeekComponent implements OnInit {
       }
     });
     if (replication) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.sameDay, 'Warning');
-
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Similar Timing in same Day' });
       return;
     }
     if (checkIn.length !== 0) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHour, 'Warning');
-
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be Zero.' });
       return;
     } else if (negativeHrs.length !== 0) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHourNegative, 'Warning');
-
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total Hours should not be negative' });
       return;
     }
  const weekDetailObj = [];
@@ -270,11 +265,19 @@ export class TimeClockWeekComponent implements OnInit {
       });
     });
     const finalObj = {
-      timeClock: weekDetailObj
+      timeClock:{timeClock:weekDetailObj} ,
+      TimeClockWeekDetailDto : {
+
+        employeeId : this.empClockInObj.employeeID,
+        locationId : this.empClockInObj.locationId,
+       startDate : this.datePipe.transform(this.empClockInObj.startDate, 'yyyy-MM-dd'),
+       endDate : this.datePipe.transform(this.empClockInObj.endDate, 'yyyy-MM-dd'),
+       employeeName : this.empClockInObj.firstName + ' ' + this.empClockInObj.lastName
+      }
     };
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.success(MessageConfig.Admin.TimeClock.TimeclockAdd, 'Success!');
+        this.toastr.success('Time Clock record added successfully!!', 'Success!');
         this.backToTimeClockPage();
       }
     });
@@ -304,13 +307,12 @@ export class TimeClockWeekComponent implements OnInit {
         currentTime.TotalHours = 0;
         this.inCorrectTotalHours = true;
 
-        this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning');
+        this.messageService.showMessage({ severity: 'error', body: 'Enter Valid 24Hours Time Format' });
 
       }
       else {
         currentTime.TotalHours = HHMM;
         this.inCorrectTotalHours = false;
-
       }
       this.totalHoursCalculation();
     }
@@ -341,7 +343,7 @@ export class TimeClockWeekComponent implements OnInit {
         currentTime.TotalHours = 0;
         this.inCorrectTotalHours = true;
 
-        this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning');
+        this.messageService.showMessage({ severity: 'error', body: 'Enter Valid 24Hours Time Format' });
 
       }
       else {

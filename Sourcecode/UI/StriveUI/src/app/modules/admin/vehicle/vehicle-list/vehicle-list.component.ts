@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -50,8 +50,7 @@ export class VehicleListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService,
-    private adSetup: AdSetupService,
-    private sanitizer: DomSanitizer
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -60,6 +59,13 @@ export class VehicleListComponent implements OnInit {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    const paramsData = this.route.snapshot.queryParamMap.get('vehicleId');
+    if (paramsData !== null) {
+      const clientObj = {
+        ClientVehicleId: paramsData
+      };
+      this.getVehicleById('view', clientObj);
+    }
     this.getAllVehicleDetails();
     this.getService();
   }
@@ -206,7 +212,7 @@ export class VehicleListComponent implements OnInit {
     });
   }
   closePopupEmit(event) {
-    if (event.status === 'saved') {
+    if (event.status === 'saved' || event.status === 'edit') {
       this.getAllVehicleDetails();
     }
     this.showDialog = event.isOpenPopup;

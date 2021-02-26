@@ -13,6 +13,12 @@ export class ClientService {
   getClient(obj) {
     return this.http.post(`${UrlConfig.client.getClient}`,obj);
   }
+  getClientName(): Observable<any> {
+    return this.http.get(`${UrlConfig.totalUrl.getClientName}`);
+  }
+  ClientEmailCheck(email) {
+    return this.http.get(`${UrlConfig.totalUrl.clientEmailCheck}` , { params: { email: email } });
+  }
   ClientSameName(obj) {
     return this.http.post(`${UrlConfig.client.sameClientName}`, obj);
   }

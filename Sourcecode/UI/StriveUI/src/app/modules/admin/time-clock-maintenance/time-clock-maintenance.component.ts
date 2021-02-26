@@ -188,7 +188,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     const employeeListObj = [];
     employeeListObj.push(employeeObj);
     const finalObj = {
-      timeClock: employeeListObj
+      timeClock: {timeClock:employeeListObj}
     };
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {

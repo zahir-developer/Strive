@@ -30,6 +30,7 @@ export class ClientFormComponent implements OnInit {
   city: any;
   selectedCityId: any;
   ClientNameAvailable: any;
+  ClientEmailAvailable: boolean;
   isAmount: boolean;
   ClientEmailAvailable: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
@@ -98,14 +99,28 @@ export class ClientFormComponent implements OnInit {
             this.ClientNameAvailable = true;
             this.toastr.warning('First name, Last name, phone no. combination already exist', 'Warning!');
 
-          } else {
-            this.ClientNameAvailable = false;
-
-          }
+        } else{
+          this.ClientNameAvailable = false;
+ 
         }
-      });
-    }
+      }
+    });
+  }
+  clientEmailCheck(event) {
+   
+    this.client.ClientEmailCheck(event.target.value).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if(sameEmail.emailExist === true){
+          this.ClientEmailAvailable = true;
+          this.toastr.error('Client Email Already Exist', 'Error!');
 
+        } else{
+          this.ClientEmailAvailable = false;
+ 
+        }
+      }
+    });
   }
   // Get Score
   getScore() {
@@ -171,12 +186,12 @@ export class ClientFormComponent implements OnInit {
   }
 
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
   clientEmailExist() {
    
