@@ -124,6 +124,9 @@ export class LocationCreateEditComponent implements OnInit {
       this.selectTab(0);
       return;
     }
+    if (this.cityComponent.selectValueCity == false ) {
+      return;
+    }
     if (this.locationSetupForm.invalid) {
       this.selectTab(0);
       return;
@@ -242,8 +245,8 @@ export class LocationCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
@@ -251,7 +254,7 @@ export class LocationCreateEditComponent implements OnInit {
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
 
   selectTab(tabId: number) {

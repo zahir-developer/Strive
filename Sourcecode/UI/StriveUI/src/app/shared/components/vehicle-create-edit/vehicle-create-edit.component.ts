@@ -509,8 +509,25 @@ export class VehicleCreateEditComponent implements OnInit {
           };
         });
       }
-
-
+      let membershipName = '';
+      if (this.vehicleForm.value.membership !== '') {
+        const selectedMembership = this.membership.filter(item => item.MembershipId === +this.vehicleForm.value.membership);
+        if (selectedMembership.length > 0) {
+          membershipName = selectedMembership[0].MembershipName;
+        }
+      }
+      const value: any = {
+        ClientId: this.clientId,
+        ClientVehicleId: this.selectedData.ClientVehicleId,
+        VehicleNumber: this.vehicleForm.value.vehicleNumber,
+        VehicleMfr: this.vehicleForm.value.make.name,
+        VehicleModel: this.vehicleForm.value.model.name,
+        VehicleColor: this.vehicleForm.value.color.name,
+        Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
+          item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
+        Barcode: this.vehicleForm.value.barcode,
+        MembershipName: membershipName !== '' ? membershipName : 'No'
+      };
 
       const model = {
         clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
@@ -520,6 +537,7 @@ export class VehicleCreateEditComponent implements OnInit {
         clientVehicle: { clientVehicle: formObj },
         clientVehicleMembershipModel: model
       };
+      this.vehicle.vehicleValue = value;
       this.vehicle.updateVehicle(sourceObj).subscribe(data => {
         if (data.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.Vehicle.Update, 'Success!');
@@ -559,6 +577,7 @@ export class VehicleCreateEditComponent implements OnInit {
         Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
         Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
+        MembershipName: 'No'
       };
       const formObj = {
         clientVehicle: add,

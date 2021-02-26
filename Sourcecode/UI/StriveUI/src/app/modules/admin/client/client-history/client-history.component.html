@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let history of historyGrid | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        *ngFor="let history of historyGrid ">
                         <td>{{history.TicketNumber}}</td>
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
