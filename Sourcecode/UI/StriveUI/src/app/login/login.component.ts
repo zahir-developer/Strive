@@ -9,6 +9,9 @@ import { MessengerService } from '../shared/services/data-service/messenger.serv
 import { UserDataService } from '../shared/util/user-data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LandingService } from '../shared/services/common-service/landing.service';
+import { GetCodeService } from '../shared/services/data-service/getcode.service';
+import { CodeValueService } from '../shared/common-service/code-value.service';
+import { tap, mapTo, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -26,9 +29,9 @@ export class LoginComponent implements OnInit {
   colorTheme: any;
   dashBoardModule: boolean;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
-    private authService: AuthService, private whiteLabelService: WhiteLabelService,
+    private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
     private msgService: MessengerService, private user: UserDataService, private spinner: NgxSpinnerService
-    ,private landing: LandingService) { }
+    , private landing: LandingService, private codeValueService: CodeValueService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
@@ -60,6 +63,7 @@ export class LoginComponent implements OnInit {
       if (data) {
         if (data.status === 'Success') {
           const token = JSON.parse(data.resultData);
+          this.getCodeValue();
           this.getThemeColor();
           this.landing.loadTheLandingPage();
           this.msgService.startConnection();
@@ -74,7 +78,7 @@ export class LoginComponent implements OnInit {
       this.isLoginLoading = false;
     });
   }
-  
+
   forgotPassword() {
     this.router.navigate([`/forgot-password`], { relativeTo: this.route });
   }
@@ -99,5 +103,14 @@ export class LoginComponent implements OnInit {
         }
       });
     }
+  }
+
+  getCodeValue() {
+    this.getCodeService.getCodeByCategory('ALL').subscribe( res => {
+      if (res.status === 'Success') {
+        const value = JSON.parse(res.resultData);
+        localStorage.setItem('codeValue', JSON.stringify(value.Codes));
+      }
+    });
   }
 }

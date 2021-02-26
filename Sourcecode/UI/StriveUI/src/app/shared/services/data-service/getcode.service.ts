@@ -10,8 +10,8 @@ import { UrlConfig } from '../url.config';
 export class GetCodeService {
 
   constructor(private http: HttpUtilsService) { }
-   
-  getCodeByCategory(obj : string){
-    return this.http.get(`${UrlConfig.common.getCode}`+ obj);
-  } 
+
+  getCodeByCategory(obj: string) {
+    return this.http.get(`${UrlConfig.common.getCode}` + obj);
+  }
 }

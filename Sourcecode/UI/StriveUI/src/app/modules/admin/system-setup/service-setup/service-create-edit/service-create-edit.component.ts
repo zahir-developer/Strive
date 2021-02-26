@@ -6,6 +6,7 @@ import { ServiceSetupService } from 'src/app/shared/services/data-service/servic
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -45,7 +46,8 @@ export class ServiceCreateEditComponent implements OnInit {
     private getCode: GetCodeService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private codeValueService: CodeValueService
     ) { }
 
   ngOnInit() {
@@ -164,6 +166,8 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get ServiceType
   getAllServiceType() {
+    const check = this.codeValueService.getCodeValueByType('ServiceType');
+    console.log(check, 'cache-value');
     this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
