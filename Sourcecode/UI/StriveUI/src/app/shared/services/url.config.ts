@@ -135,10 +135,7 @@ export const UrlConfig = {
     getMembershipService: `Admin/ServiceSetup/GetService`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getAllMembership: `Admin/MembershipSetup/GetAll`,
-    deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,
-
-
-  },
+    deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,},
 
   Messenger:
   {
