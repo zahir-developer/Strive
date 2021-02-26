@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../services/data-service/client.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
 import { CityComponent } from '../city/city.component';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-client-form',
@@ -32,7 +33,6 @@ export class ClientFormComponent implements OnInit {
   ClientNameAvailable: any;
   ClientEmailAvailable: boolean;
   isAmount: boolean;
-  ClientEmailAvailable: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService) { }
 
@@ -97,7 +97,7 @@ export class ClientFormComponent implements OnInit {
           const sameName = JSON.parse(res.resultData);
           if (sameName.IsClientNameAvailable === true) {
             this.ClientNameAvailable = true;
-            this.toastr.warning('First name, Last name, phone no. combination already exist', 'Warning!');
+            this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
 
         } else{
           this.ClientNameAvailable = false;
@@ -106,6 +106,7 @@ export class ClientFormComponent implements OnInit {
       }
     });
   }
+}
   clientEmailCheck(event) {
    
     this.client.ClientEmailCheck(event.target.value).subscribe(res => {
@@ -113,7 +114,7 @@ export class ClientFormComponent implements OnInit {
         const sameEmail = JSON.parse(res.resultData);
         if(sameEmail.emailExist === true){
           this.ClientEmailAvailable = true;
-          this.toastr.error('Client Email Already Exist', 'Error!');
+          this.toastr.error(MessageConfig.Client.emailExist, 'Error!');
 
         } else{
           this.ClientEmailAvailable = false;
@@ -129,7 +130,7 @@ export class ClientFormComponent implements OnInit {
         const client = JSON.parse(data.resultData);
         this.Score = client.ClientDetails;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -141,7 +142,7 @@ export class ClientFormComponent implements OnInit {
         const cType = JSON.parse(data.resultData);
         this.Type = cType.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }

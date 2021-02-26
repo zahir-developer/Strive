@@ -14,10 +14,7 @@ export class ClientService {
     return this.http.post(`${UrlConfig.client.getClient}`,obj);
   }
   getClientName(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getClientName}`);
-  }
-  ClientEmailCheck(email) {
-    return this.http.get(`${UrlConfig.totalUrl.clientEmailCheck}` , { params: { email: email } });
+    return this.http.get(`${UrlConfig.client.getClientName}`);
   }
   ClientSameName(obj) {
     return this.http.post(`${UrlConfig.client.sameClientName}`, obj);

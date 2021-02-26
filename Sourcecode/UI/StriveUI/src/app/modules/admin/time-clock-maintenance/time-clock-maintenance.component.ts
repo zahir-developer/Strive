@@ -115,8 +115,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
     if (this.isView) {
       return;
     }
-    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
-      information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this Time Clock? All related 
+      information will be deleted and the Time Clock cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.deleteTimeClockEmployee(obj);

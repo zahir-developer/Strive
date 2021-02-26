@@ -79,7 +79,7 @@ export class CreateEditWashesComponent implements OnInit {
   additionalId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
-private landingservice:LandingService,
+    private landingservice: LandingService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
     private spinner: NgxSpinnerService) { }
 
@@ -94,7 +94,7 @@ private landingservice:LandingService,
     }
     this.getJobType();
   }
-  landing(){
+  landing() {
     this.landingservice.loadTheLandingPage()
   }
   formInitialize() {
@@ -123,7 +123,7 @@ private landingservice:LandingService,
     if (!this.isEdit) {
       this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
     }
-   
+
     this.getWashTimeByLocationID();
     this.getServiceType();
     this.getColor();
@@ -397,23 +397,6 @@ private landingservice:LandingService,
     }
   }
 
-  checkValue(type) {
-    if (type === 'make') {
-      if (!this.washForm.value.type.hasOwnProperty('id')) {
-        this.washForm.patchValue({ type: '' });
-      }
-    } else if (type === 'model') {
-      if (!this.washForm.value.model.hasOwnProperty('id')) {
-        this.washForm.patchValue({ model: '' });
-      }
-    } else if (type === 'color') {
-      if (!this.washForm.value.color.hasOwnProperty('id')) {
-        this.washForm.patchValue({ color: '' });
-      }
-    }
-  }
-
-
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
       if (data.status === 'Success') {
@@ -470,17 +453,17 @@ private landingservice:LandingService,
     if (type === 'make') {
       if (!this.washForm.value.type.hasOwnProperty('id')) {
         this.washForm.patchValue({ type: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid type' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.type });
       }
     } else if (type === 'model') {
       if (!this.washForm.value.model.hasOwnProperty('id')) {
         this.washForm.patchValue({ model: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid model' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.model });
       }
     } else if (type === 'color') {
       if (!this.washForm.value.color.hasOwnProperty('id')) {
         this.washForm.patchValue({ color: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: 'Please select valid color' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.color});
       }
     }
   }
@@ -640,7 +623,7 @@ private landingservice:LandingService,
       clientId: this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
       make: this.washForm.value.type.id,
-      model: this.washForm.value.model.id, 
+      model: this.washForm.value.model.id,
       color: this.washForm.value.color.id,
       jobType: this.jobTypeId,
       jobDate: moment(this.timeInDate).format(),

@@ -573,11 +573,10 @@ export class VehicleCreateEditComponent implements OnInit {
         VehicleMfr: this.vehicleForm.value.make.name,
         VehicleModel: this.vehicleForm.value.model.name,
         VehicleColor: this.vehicleForm.value.color.name,
-        MembershipName: null,
+        MembershipName: 'NO',
         Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
         Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
-        MembershipName: 'No'
       };
       const formObj = {
         clientVehicle: add,
@@ -589,7 +588,7 @@ export class VehicleCreateEditComponent implements OnInit {
             this.toastr.success(MessageConfig.Admin.Vehicle.Add, 'Success!');
             this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           } else {
-            this.toastr.error('Communication Error', 'Error!');
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
         });
       } else {

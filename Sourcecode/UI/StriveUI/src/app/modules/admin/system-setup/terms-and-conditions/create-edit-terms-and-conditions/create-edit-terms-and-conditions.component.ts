@@ -89,7 +89,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
           fileTosaveName = fileReader.result?.split(',')[1];
         }
         else {
-          this.toastr.error( 'Upload Pdf Only' , 'Error!');
+          this.toastr.error(MessageConfig.Admin.SystemSetup.TermsCondition.FileType, 'Error!');
           this.clearDocument();
         }
         this.fileUploadformData = fileTosaveName;
@@ -118,7 +118,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.error('Maximum File Size 5MB', 'Error!' );
+      this.toastr.error(MessageConfig.Admin.SystemSetup.TermsCondition.FileSize, 'Error!' );
 
       return;
     }

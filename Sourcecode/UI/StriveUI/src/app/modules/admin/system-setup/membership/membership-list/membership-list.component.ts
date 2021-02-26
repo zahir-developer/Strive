@@ -138,7 +138,7 @@ export class MembershipListComponent implements OnInit {
       }
   
    else {
-    this.toastr.showMessage({ severity: 'warning', title: 'Warning', body: 'Could not Delete the Membership  Assigned to Vehicle ' });
+    this.toastr.warning(MessageConfig.Admin.SystemSetup.MemberShipSetup.DeleteRestrict, 'Warning!' );
 
    }
 

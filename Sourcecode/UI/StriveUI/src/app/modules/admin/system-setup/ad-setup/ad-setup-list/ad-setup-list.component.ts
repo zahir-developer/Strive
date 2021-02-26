@@ -121,8 +121,8 @@ export class AdSetupListComponent implements OnInit {
 
   }
   delete(data) {
-    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
-  information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this Ad Setup? All related 
+  information will be deleted and the Ad Setup cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);

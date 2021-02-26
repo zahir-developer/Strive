@@ -7,7 +7,6 @@ import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.se
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ad-setup-create-edit',
@@ -40,11 +39,11 @@ export class AdSetupCreateEditComponent implements OnInit {
     private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.submitted = false;
     this.fileType = ApplicationConfig.UploadFileType.AdSetup;
     this.fileSize = ApplicationConfig.UploadSize.AdSetup
     this.Status = [{ id: 0, Value: "Inactive" }, { id: 1, Value: "Active" }];
     this.formInitialize();
-    this.submitted = false;
     this.employeeId = +localStorage.getItem('employeeId');
     this.adSetup.getAdSetupById(this.selectedData.AdSetupId).subscribe(data => {
       if (data.status === "Success") {
@@ -113,7 +112,7 @@ export class AdSetupCreateEditComponent implements OnInit {
           fileTosaveName = fileReader.result?.split(',')[1];
         }
         else {
-          this.toastr.error('Upload Image Only');
+          this.toastr.error(MessageConfig.Admin.SystemSetup.AdSetup.FileType, 'Error!');
           this.clearDocument();
         }
         this.fileUploadformData = fileTosaveName;
@@ -133,7 +132,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.error('Maximum Image Size 5MB');
+      this.toastr.error(MessageConfig.Admin.SystemSetup.AdSetup.FileSize, 'Error!');
       return;
     }
     const obj = {

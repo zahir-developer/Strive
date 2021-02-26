@@ -41,7 +41,9 @@ export class CheckListComponent implements OnInit {
     private checkListSetup: CheckListService,
     private httpClient: HttpClient,
     private confirmationService: ConfirmationUXBDialogService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+
   ) { }
 
   ngOnInit(): void {
@@ -128,8 +130,8 @@ export class CheckListComponent implements OnInit {
     });
   }
   delete(data) {
-    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
-  information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this Check List? All related 
+  information will be deleted and the Check List cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
@@ -163,9 +165,9 @@ export class CheckListComponent implements OnInit {
     this.selectedData = false;
 
   }
- 
+
   submit(data) {
-   
+
     if (data.RoleId == undefined && this.RoleId.length == 0) {
       this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.roleNameValidation, 'Warning!');
       return
@@ -205,15 +207,16 @@ export class CheckListComponent implements OnInit {
         if (data.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
 
-        this.spinner.hide()
-        if (data.status === 'Success') {   
-          this.toastr.success('Record Updated Successfully!!', 'Success!'); 
-              
-          this.getAllcheckListDetails();
-          this.selectedData = false;
+          this.spinner.hide()
+          if (data.status === 'Success') {
+            this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
 
-        } else {
-          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            this.getAllcheckListDetails();
+            this.selectedData = false;
+
+          } else {
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          }
         }
       });
     } else {

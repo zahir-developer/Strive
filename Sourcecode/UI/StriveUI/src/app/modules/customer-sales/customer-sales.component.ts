@@ -108,7 +108,7 @@ export class CustomerSalesComponent implements OnInit {
       this.addTicketNumber();
     }
   
-    this.getServiceForDiscount();
+   this.getServiceForDiscount();
     this.getAllServiceandProduct();
   }
 
@@ -144,12 +144,12 @@ export class CustomerSalesComponent implements OnInit {
   }
   
   getServiceForDiscount() {
-    this.service.getServiceSetup().subscribe(data => {
+    this.service.getAllServiceDetail().subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceSetup !== null && services.ServiceSetup.length !== 0) {
+          
           this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
-          console.log(this.discounts, 'discount');
         }
       }
     });
@@ -200,13 +200,6 @@ export class CustomerSalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
-          console.log(this.itemList, 'item');
-          // if (this.itemList.Status.PaymentStatusViewModel === null) {
-          //   this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
-          //   return;
-          // } else {
-          //   this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
-          // }
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
@@ -348,7 +341,6 @@ export class CustomerSalesComponent implements OnInit {
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
           + upchargeDiscountPrice + outsideDiscountPrice;
       });
-      // discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
       this.discountAmount = discountValue;
     } else {
       this.discountAmount = 0;
@@ -356,8 +348,7 @@ export class CustomerSalesComponent implements OnInit {
     this.selectedDiscount.forEach( item => {
       this.discountList.push(item);
     });
-    // this.discountList = this.selectedDiscount;
-    //this.updateListItem(formObj, false);
+   
     document.getElementById('discountpopup').style.width = '0';
   }
  

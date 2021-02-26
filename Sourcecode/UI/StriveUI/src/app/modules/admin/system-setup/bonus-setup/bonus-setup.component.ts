@@ -40,9 +40,7 @@ export class BonusSetupComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private bonusSetupService: BonusSetupService,
     private datePipe: DatePipe,
-    private spinner: NgxSpinnerService,
-
-    private toastr: ToastrService,
+     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) { }
 
