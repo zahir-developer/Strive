@@ -35,6 +35,8 @@ MaxDate = new Date()
   maxDate = new Date();
   minDate: any;
   isLoading: boolean;
+  isEditRestriction: boolean;
+  employeeId: string;
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -45,6 +47,8 @@ MaxDate = new Date()
   ) { }
 
   ngOnInit(): void {
+    this.employeeId = localStorage.getItem('empId');
+
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -98,7 +102,7 @@ landing(){
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
-
+        this.editRestriction();
         const payRoll = JSON.parse(res.resultData);
         this.payRollList = payRoll.Result.PayRollRateViewModel;
         var length = this.payRollList === null ? 0 : this.payRollList.length;
@@ -116,18 +120,19 @@ landing(){
        const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');  
     this.payrollsService.editRestriction(empId,startDate,endDate).subscribe( res => {
+      const edit = JSON.parse(res.resultData);
       if (res.status === 'Success') {
-        if (res.resultData.Result === 'false') {
+        if (edit.Result === 'false') {
         
-          this.isEditRestriction = res.resultData.Result;
+          this.isEditRestriction = edit.Result;
           
         } else{
-          this.isEditRestriction = res.resultData.Result;        }
+          this.isEditRestriction = edit.Result;        }
         
       }
       else{
 
-       this.messageService.showMessage({ severity: 'error', title: 'Eroor', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
       }
     });
@@ -174,10 +179,8 @@ landing(){
   }
   addPayrollProcess() {
     const updatedObj = [];
-    this.payRollList.forEach( item => {
-      updatedObj.push({
-        
-        "payrollProcess": {
+    const obj = {
+      "payrollProcess": {
           "payrollProcessId": 0,
           "fromDate": this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
           "toDate": this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
@@ -188,7 +191,12 @@ landing(){
           "updatedBy": this.employeeId,
           "updatedDate": new Date(),
         },
-        "payrollEmployee": {
+        "payrollEmployee": updatedObj
+    }
+    this.payRollList.forEach( item => {
+      updatedObj.push({
+        
+        
           "payrollEmployeeId": item.EmployeeId,
           "employeeId": this.employeeId,
           "payrollProcessId": 0,
@@ -199,20 +207,20 @@ landing(){
           "createdDate":new Date(),
           "updatedBy": this.employeeId,
           "updatedDate": new Date(),
-        }
+        
       
     
       });
     });
  
   
-    this.payrollsService.addPayRoll(updatedObj).subscribe( res => {
+    this.payrollsService.addPayRoll(obj).subscribe( res => {
       if (res.status === 'Success') {
         
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
         
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
+        this.toastr.success(MessageConfig.PayRoll.Process, 'Success!');
         this.runReport();
       }
     });

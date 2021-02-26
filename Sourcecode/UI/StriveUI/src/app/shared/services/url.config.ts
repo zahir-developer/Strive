@@ -135,6 +135,8 @@ export const UrlConfig = {
     getMembershipService: `Admin/ServiceSetup/GetService`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getAllMembership: `Admin/MembershipSetup/GetAll`,
+    deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,
+
 
   },
 
@@ -164,6 +166,11 @@ export const UrlConfig = {
   payRoll: {
     getPayroll: `Admin/PayRoll/GetPayroll`,
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
+    editRestrict: `Admin/PayRoll/GetPayrollProcessStatus`,
+
+    addPayrollProcess: `Admin/PayRoll/AddPayRollProcess`,
+
+
 
   },
   product: {

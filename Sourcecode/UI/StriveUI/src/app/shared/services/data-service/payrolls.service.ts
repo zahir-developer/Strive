@@ -13,12 +13,12 @@ export class PayrollsService {
     return this.http.get(`${UrlConfig.payRoll.getPayroll}`, { params: { LocationId , StartDate ,  EndDate } });
   }
   addPayRoll(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.addPayrollProcess}`, obj);
+    return this.http.post(`${UrlConfig.payRoll.addPayrollProcess}`, obj);
   }
   updateAdjustment(obj) {
     return this.http.post(`${UrlConfig.payRoll.updateAdjustment}`, obj);
   }
   editRestriction(empId,StartDate,EndDate) {
-    return this.http.get(`${UrlConfig.totalUrl.editRestrict}`, { params: { empId , StartDate ,  EndDate } });
+    return this.http.get(`${UrlConfig.payRoll.editRestrict}`, { params: { empId , StartDate ,  EndDate } });
   }
 }

@@ -77,7 +77,8 @@ emailExist : 'Client Email Already Exist',
  Add: 'PayRoll added successfully !',
  Update: 'PayRoll updated successfully !',
  Delete: 'PayRoll deleted successfully !',
- Adjustment: 'Saved Successfully!'
+ Adjustment: 'Saved Successfully!',
+ Process : 'PayRoll Processed successfully !',
  },
  Messenger : {
     empselect: 'Please select the employees'
