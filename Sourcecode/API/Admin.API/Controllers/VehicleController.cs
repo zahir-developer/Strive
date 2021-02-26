@@ -87,5 +87,11 @@ namespace Admin.API.Controllers
         public Result GetVehicleImageById(int vehicleImageId) => _bplManager.GetVehicleImageById(vehicleImageId);
 
 
+
+        [HttpDelete]
+        [Route("DeleteVehicleImage")]
+        public Result DeleteVehicleImage(int id) => _bplManager.DeleteVehicleImage(id);
+
+
     }
 }
