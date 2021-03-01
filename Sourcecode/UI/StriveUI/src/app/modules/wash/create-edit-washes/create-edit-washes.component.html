@@ -4,7 +4,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <ol class="breadcrumb font-size--9">
                     <li class="breadcrumb-item" (click) = "landing()">Home</li>
-                    <li class="breadcrumb-item"><a (click)="cancel()">Wash</a></li>
+                    <li class="breadcrumb-item"><a (click)="cancel()">Washes</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Wash</li>
                     <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Wash</li>
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Wash</li>
