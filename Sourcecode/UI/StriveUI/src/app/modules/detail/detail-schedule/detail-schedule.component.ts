@@ -5,7 +5,7 @@ import { TodayScheduleComponent } from '../today-schedule/today-schedule.compone
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
-import { DatepickerDateCustomClasses, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import {  DatepickerDateCustomClasses, BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
@@ -16,6 +16,8 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
   styleUrls: ['./detail-schedule.component.css']
 })
 export class DetailScheduleComponent implements OnInit {
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  bsConfig: Partial<BsDatepickerConfig>;
   showDialog: boolean;
   selectedData: any;
   isEdit: boolean;
@@ -28,11 +30,6 @@ export class DetailScheduleComponent implements OnInit {
   eveningBaySchedule: any = [];
   actionType: string;
   isView: boolean;
-  dates = [];
-  datesString = [
-    '2021/02/02',
-    '2021/02/04',
-  ]
   dateCustomClasses: DatepickerDateCustomClasses[];
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'];
   @ViewChild(TodayScheduleComponent) todayScheduleComponent: TodayScheduleComponent;
@@ -43,18 +40,10 @@ export class DetailScheduleComponent implements OnInit {
     private datePipe: DatePipe,
     private spinner: NgxSpinnerService,
     private message: MessageServiceToastr,
-    private toastr: ToastrService,
-    private landingservice: LandingService) {
-    const dateClass = [];
-    this.datesString.forEach(item => {
-      dateClass.push({
-        date: new Date(item),
-        classes: ['bg-danger', 'text-warning']
-      });
-    });
-    this.dateCustomClasses = dateClass;
-  }
-
+    private toastr: ToastrService
+,private landingservice: LandingService) {
+    }
+  
   ngOnInit(): void {
     this.actionType = '';
     this.showDialog = false;
@@ -162,14 +151,17 @@ export class DetailScheduleComponent implements OnInit {
               }
             });
           } else {
-            bayList.forEach(bay => {
-              baySchedule.push({
-                bayId: bay.BayId,
-                isSchedule: false,
-                time: item
-              });
-            });
-          }
+            if(bayList)
+{
+  bayList.forEach(bay => {
+    baySchedule.push({
+      bayId: bay.BayId,
+      isSchedule: false,
+      time: item
+    });
+  });
+}         
+ }
           baySheduled.push({
             time: item,
             bay: baySchedule
