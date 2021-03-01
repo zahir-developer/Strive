@@ -102,7 +102,6 @@ export class CustomerHistoryComponent implements OnInit {
         sortBy: null
       };
     }
-    console.log(finalObj, 'final');
     this.checkout.getCustomerHistory(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
