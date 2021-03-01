@@ -34,7 +34,7 @@ namespace Admin.API.Controllers
 
         [HttpGet]
         [Route("GetTicketNumber")]
-        public string GetTicketNumber() => _bplManager.GetTicketNumber();
+        public string GetTicketNumber(int locationId) => _bplManager.GetTicketNumber(locationId);
 
         #endregion
 

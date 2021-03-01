@@ -143,5 +143,12 @@ namespace Strive.ResourceAccess
             _prm.Add("stateId", stateId);
             return db.Fetch<CityDto>(EnumSP.Employee.USPGETCITYBYSTATE.ToString(), _prm);
         }
+
+        public string GetTicketNumber(int locationId)
+        {
+            _prm.Add("@locationId", locationId);
+            return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
+
+        }
     }
 }

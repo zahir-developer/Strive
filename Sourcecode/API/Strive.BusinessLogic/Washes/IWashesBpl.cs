@@ -19,7 +19,7 @@ namespace Strive.BusinessLogic.Washes
         Result GetByBarCode(string barcode);
         Result GetMembershipListByVehicleId(int vehicleId);
         Result DeleteWashes(int id);
-        string GetTicketNumber();
+        string GetTicketNumber(int locationId);
 
         Result GetWashTimeByLocationId(int id);
 

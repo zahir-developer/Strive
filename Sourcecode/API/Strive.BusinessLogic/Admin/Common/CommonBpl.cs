@@ -470,5 +470,11 @@ namespace Strive.BusinessLogic.Common
                  
             return MailText;
         }
+
+        public string GetTicketNumber(int locationId)
+        {
+            string ticketNumber = new CommonRal(_tenant, false).GetTicketNumber(locationId);
+            return ticketNumber;
+        }
     }
 }
