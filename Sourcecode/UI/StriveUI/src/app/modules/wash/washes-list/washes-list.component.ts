@@ -54,7 +54,7 @@ export class WashesListComponent implements OnInit {
     this.getAllWashDetails();
   }
   landing(){
-    this.landingservice.loadTheLandingPage()
+    this.landingservice.loadTheLandingPage();
   }
   paginate(event) {
 

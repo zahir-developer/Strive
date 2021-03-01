@@ -23,7 +23,7 @@ export class TodayScheduleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getTodayDateScheduleList();
+    // this.getTodayDateScheduleList();
   }
 
   getTodayDateScheduleList() {
@@ -112,7 +112,7 @@ export class TodayScheduleComponent implements OnInit {
   closeModal() {
     this.showDialog = false;
     this.isEdit = false;
-    this.isView = false;    
+    this.isView = false;
     this.getTodayDateScheduleList();
   }
   closeDialog(event) {

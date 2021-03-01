@@ -13,6 +13,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
+import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 declare var $: any;
 
 @Component({
@@ -81,7 +83,7 @@ export class CreateEditWashesComponent implements OnInit {
     private message: MessageServiceToastr,
     private landingservice: LandingService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService) { }
 
   ngOnInit() {
     this.getJobStatus();
@@ -229,21 +231,32 @@ export class CreateEditWashesComponent implements OnInit {
 
 
   getServiceType() {
-    this.wash.getServiceType("SERVICETYPE").subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.serviceEnum = sType.Codes;
-        this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
-        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
-        this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
-        this.getAllServices();
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    });
+    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    console.log(serviceTypeValue, 'serviceTypeValue');
+    if (serviceTypeValue.length > 0) {
+      this.serviceEnum = serviceTypeValue;
+      this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
+      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
+      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
+      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+      this.getAllServices();
+    }
+    // this.wash.getServiceType("SERVICETYPE").subscribe(data => {
+    //   if (data.status === 'Success') {
+    //     const sType = JSON.parse(data.resultData);
+    //     this.serviceEnum = sType.Codes;
+    //     this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
+    //     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
+    //     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
+    //     this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+    //     this.getAllServices();
+    //   } else {
+    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    //   }
+    // });
   }
-  //To get JobType
+
+  // To get JobType
   getJobType() {
     this.wash.getJobType().subscribe(res => {
       if (res.status === 'Success') {
@@ -287,29 +300,54 @@ export class CreateEditWashesComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.wash.getServices(serviceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        const serviceDetails = JSON.parse(data.resultData);
-        this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-        this.washes = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.washId);
-        this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-        this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
-        this.UpchargeType = this.upcharges;
-        this.additional.forEach(element => {
-          element.IsChecked = false;
-        });
-        if (this.isEdit === true) {
-          this.washForm.reset();
-          this.getWashById();
+    this.serviceSetupService.getAllServiceDetail().subscribe(res => {
+      if (res.status === 'Success') {
+        const serviceDetails = JSON.parse(res.resultData);
+        if (serviceDetails.AllServiceDetail !== null) {
+          this.additional = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.additionalId);
+          this.washes = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.washId);
+          this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.upchargeId);
+          this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.airFreshenerId);
+          this.UpchargeType = this.upcharges;
+          this.additional.forEach(element => {
+            element.IsChecked = false;
+          });
+          if (this.isEdit === true) {
+            this.washForm.reset();
+            this.getWashById();
+          }
         }
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+    // this.wash.getServices(serviceObj).subscribe(data => {
+    //   if (data.status === 'Success') {
+    //     const serviceDetails = JSON.parse(data.resultData);
+    //     this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
+    //     this.washes = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.washId);
+    //     this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
+    //     this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
+    //     this.UpchargeType = this.upcharges;
+    //     this.additional.forEach(element => {
+    //       element.IsChecked = false;
+    //     });
+    //     if (this.isEdit === true) {
+    //       this.washForm.reset();
+    //       this.getWashById();
+    //     }
+    //   } else {
+    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    //   }
+    // });
   }
 
 
@@ -463,7 +501,7 @@ export class CreateEditWashesComponent implements OnInit {
     } else if (type === 'color') {
       if (!this.washForm.value.color.hasOwnProperty('id')) {
         this.washForm.patchValue({ color: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.color});
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.color });
       }
     }
   }
@@ -791,18 +829,25 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getJobStatus() {
-    this.wash.getJobStatus('JOBSTATUS').subscribe(res => {
-      if (res.status === 'Success') {
-        const status = JSON.parse(res.resultData);
-        this.jobStatus = status.Codes.filter(item => item.CodeValue === 'In Progress');
+    const jobStatus = this.codeValueService.getCodeValueByType('JobStatus');
+    if (jobStatus.length > 0) {
+      this.jobStatus = jobStatus.filter(item => item.CodeValue === 'In Progress');
+      if (this.jobStatus.length > 0) {
         this.jobStatusId = this.jobStatus[0].CodeId;
       }
-    });
+    }
+    // this.wash.getJobStatus('JOBSTATUS').subscribe(res => {
+    //   if (res.status === 'Success') {
+    //     const status = JSON.parse(res.resultData);
+    //     this.jobStatus = status.Codes.filter(item => item.CodeValue === 'In Progress');
+    //     this.jobStatusId = this.jobStatus[0].CodeId;
+    //   }
+    // });
   }
 
   pay() {
     this.router.navigate(['/sales'], { queryParams: { ticketNumber: this.ticketNumber } });
-    this.openNav('sales')
+    this.openNav('sales');
   }
   openNav(sales) {
 
