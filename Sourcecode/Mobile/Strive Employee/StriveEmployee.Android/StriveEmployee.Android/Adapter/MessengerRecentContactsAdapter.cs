@@ -149,8 +149,8 @@ namespace StriveEmployee.Android.Adapter
                 MessengerTempData.GroupUniqueID = null;
                 MessengerTempData.RecipientID = MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(position).Id;
                 var data = await MessengerService.GetRecentContacts(EmployeeTempData.EmployeeID);
-                var selectedData = data.EmployeeList.ChatEmployeeList.Find(x => x.Id == MessengerTempData.RecipientID);
-                MessengerTempData.ConnectionID = selectedData.CommunicationId;
+                //var selectedData = data.EmployeeList.ChatEmployeeList.Find(x => x.Id == MessengerTempData.RecipientID);
+                //MessengerTempData.ConnectionID = selectedData.CommunicationId;
             }
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();

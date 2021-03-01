@@ -76,14 +76,33 @@ namespace StriveEmployee.Android.Adapter
             {
                 firstInitial = selectedParticipants.EmployeeList[position].FirstName.ToCharArray();
             }
+            else
+            {
+                firstInitial = null;
+
+            }
             if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList[position].LastName))
             {
                 secondInitial = selectedParticipants.EmployeeList[position].LastName.ToCharArray();
             }
-            if (firstInitial.Length != 0 || secondInitial.Length != 0)
+            else
+            {
+                secondInitial = null;
+            }
+            if (firstInitial != null && secondInitial != null)
             {
                 MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
                 MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList[position].FirstName + " " + selectedParticipants.EmployeeList[position].LastName;
+            }
+            else if(firstInitial != null)
+            {
+                MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString();
+                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList[position].FirstName;
+            }
+            else
+            {
+                MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = secondInitial.ElementAt(0).ToString();
+                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList[position].LastName;
             }
             MessengerFinalizeGroup.SetItemClickListener(this);
         }

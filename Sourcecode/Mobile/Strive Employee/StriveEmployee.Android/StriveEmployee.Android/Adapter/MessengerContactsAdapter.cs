@@ -72,10 +72,6 @@ namespace StriveEmployee.Android.Adapter
             }
         }
 
-        //public Filter Filter
-        //{
-        //    get { }
-        //}
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -115,28 +111,13 @@ namespace StriveEmployee.Android.Adapter
             MessengerTempData.resetChatData();
             MessengerTempData.GroupID = 0;
 
-            foreach(var datas in MessengerTempData.RecentEmployeeLists.ChatEmployeeList)
-            {
-                if(string.Equals(datas.FirstName, MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName) && string.Equals(datas.LastName, MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName))
-                {
-                    MessengerTempData.IsGroup = datas.IsGroup;
-                }
-            }
+
+            MessengerTempData.IsGroup = false;
+
             MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName + " " + MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
             MessengerTempData.GroupUniqueID = null;
             MessengerTempData.RecipientID = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).EmployeeId;
-            
-            var data = await MessengerService.GetRecentContacts(EmployeeTempData.EmployeeID);
-            var selectedData = data.EmployeeList.ChatEmployeeList.Find(x => x.Id == MessengerTempData.RecipientID);
-            if(selectedData != null)
-            {
-                MessengerTempData.ConnectionID = selectedData.CommunicationId;
-            }
-            else
-            {
-                MessengerTempData.ConnectionID = "0";
-            }
-           
+
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, messengerPersonalChatFragment).Commit();
