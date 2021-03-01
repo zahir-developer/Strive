@@ -106,9 +106,8 @@
                                                                 <div class="row no-gutter">
                                                                         <div class="col-md-3 pr-3 pb-3 ">
                                                                                 <bs-datepicker-inline
-                                                                               [bsValue]="selectedDate" 
-                                                                                        [bsConfig]="{ showWeekNumbers: false }"
-                                                                                        (bsValueChange)="getScheduleDetailsByDate($event)"
+                                                                                        [bsValue]="selectedDate"  class = 'highlight' id = 'highlight'
+                                                                                        (bsValueChange)="onValueChange($event)"
                                                                                         [dateCustomClasses]="dateCustomClasses">
                                                                                 </bs-datepicker-inline>
                                                                         </div>

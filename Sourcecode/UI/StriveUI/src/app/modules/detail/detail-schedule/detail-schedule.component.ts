@@ -49,10 +49,12 @@ export class DetailScheduleComponent implements OnInit {
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-}
-  landing(){
-    this.landingservice.loadTheLandingPage()
   }
+
+  landing() {
+    this.landingservice.loadTheLandingPage();
+  }
+
   addNewDetail(schedule) {
     const currentDate = new Date();
     if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {
@@ -100,7 +102,11 @@ export class DetailScheduleComponent implements OnInit {
       }
     });
   }
- 
+
+  onValueChange(date) {
+    this.getScheduleDetailsByDate(date);
+  }
+
   getScheduleDetailsByDate(date) {
     this.morningBaySchedule = [];
     this.afternoonBaySchedue = [];
@@ -163,13 +169,13 @@ export class DetailScheduleComponent implements OnInit {
         });
         baySheduled.forEach(item => {
           if (item.time === '07:00' || item.time === '07:30' || item.time === '08:00' || item.time === '08:30' ||
-          item.time === '09:00' || item.time === '09:30' || item.time === '10:00' || item.time === '10:30') {
+            item.time === '09:00' || item.time === '09:30' || item.time === '10:00' || item.time === '10:30') {
             this.morningBaySchedule.push(item);
-          } else if ( item.time === '11:00' || item.time ===  '11:30' || item.time === '12:00' || item.time === '12:30' ||
-          item.time === '13:00' || item.time === '13:30' || item.time === '14:00' || item.time === '14:30') {
+          } else if (item.time === '11:00' || item.time === '11:30' || item.time === '12:00' || item.time === '12:30' ||
+            item.time === '13:00' || item.time === '13:30' || item.time === '14:00' || item.time === '14:30') {
             this.afternoonBaySchedue.push(item);
-          } else if ( item.time === '15:00' || item.time === '15:30' || item.time === '16:00' || item.time === '16:30' ||
-          item.time === '17:00' || item.time === '17:30' || item.time === '18:00' || item.time === '18:30') {
+          } else if (item.time === '15:00' || item.time === '15:30' || item.time === '16:00' || item.time === '16:30' ||
+            item.time === '17:00' || item.time === '17:30' || item.time === '18:00' || item.time === '18:30') {
             this.eveningBaySchedule.push(item);
           }
         });
@@ -197,14 +203,14 @@ export class DetailScheduleComponent implements OnInit {
   getDetailScheduleStatus() {
     const locId = localStorage.getItem('empLocationId');
     const date = this.datePipe.transform(this.selectedDate, 'yyyy-MM');
-    this.detailService.getDetailScheduleStatus(locId, date).subscribe( res => {
+    this.detailService.getDetailScheduleStatus(locId, date).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleStatus = JSON.parse(res.resultData);
         console.log(scheduleStatus, 'ststus');
         if (scheduleStatus.Status.length > 0) {
           const dateClass = [];
           this.scheduleDate = scheduleStatus.Status;
-          this.scheduleDate.forEach( item => {
+          this.scheduleDate.forEach(item => {
             dateClass.push({
               date: new Date(item.JobDate),
               classes: ['text-danger']
@@ -215,7 +221,4 @@ export class DetailScheduleComponent implements OnInit {
       }
     });
   }
-
- 
-
 }

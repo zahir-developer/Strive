@@ -18,12 +18,11 @@ export class AverageWashTimeComponent implements OnInit {
 
   // Get Averege Wash Time
   getDashboardDetails = () => {
-    const  id= +localStorage.getItem('empLocationId')
+    const id = +localStorage.getItem('empLocationId');
     this.wash.getWashTimeByLocationId(id).subscribe((data: any) => {
       if (data.status === 'Success') {
-        const washTime = JSON.parse(data.resultData);   
-             this.average = washTime.Location.Location.WashTimeMinutes;
-
+        const washTime = JSON.parse(data.resultData);
+        this.average = washTime.Location.Location.WashTimeMinutes;
       }
     });
   }
