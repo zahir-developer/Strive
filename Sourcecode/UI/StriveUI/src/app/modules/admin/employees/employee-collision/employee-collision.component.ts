@@ -52,7 +52,6 @@ export class EmployeeCollisionComponent implements OnInit {
     });
     this.getLiabilityType();
     this.getLiabilityDetailType();
-    this.getAllClient();
     this.getAllModel();
     this.getAllMake();
     this.getAllColor();
