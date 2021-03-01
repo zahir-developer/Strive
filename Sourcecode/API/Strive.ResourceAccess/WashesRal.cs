@@ -71,5 +71,13 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETEWASHES.ToString(), _prm);
             return true;
         }
+
+        public List<LocationDetailViewModel> GetWashTime(int id)
+        {
+
+            _prm.Add("@LocationId", id);
+            var result = db.Fetch<LocationDetailViewModel>(SPEnum.USPGETWASHTIMEBYLOCATIONID.ToString(), _prm);
+            return result;
+        }
     }
 }

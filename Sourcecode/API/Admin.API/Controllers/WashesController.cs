@@ -61,5 +61,11 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteWashes(int id) => _bplManager.DeleteWashes(id);
+
+
+        [HttpGet]
+        [Route("GetWashTimeByLocationId")]
+        public Result GetLocationById(int id) => _bplManager.GetWashTimeByLocationId(id);
+
     }
 }

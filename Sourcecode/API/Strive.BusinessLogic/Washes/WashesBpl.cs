@@ -61,5 +61,10 @@ namespace Strive.BusinessLogic.Washes
             var ticketNumberGenerator = new CommonBpl(_cache, _tenant).RandomNumber(6);
             return ticketNumberGenerator;
         }
+
+        public Result GetWashTimeByLocationId(int id)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetWashTime, id, "WashTime");
+        }
     }
 }

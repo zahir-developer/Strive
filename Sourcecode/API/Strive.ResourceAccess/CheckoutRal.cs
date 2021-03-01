@@ -19,13 +19,12 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("locationid", checkoutDto.LocationId);
             _prm.Add("PageNo", checkoutDto.PageNo);
-
             _prm.Add("PageSize", checkoutDto.PageSize);
-
             _prm.Add("@Query", checkoutDto.Query);
             _prm.Add("@SortOrder", checkoutDto.SortOrder);
             _prm.Add("@SortBy", checkoutDto.SortBy);
-
+            _prm.Add("@StartDate", checkoutDto.StartDate);
+            _prm.Add("@EndDate", checkoutDto.EndDate);
 
             var result =  db.FetchMultiResult<CheckOutGridViewModel>(EnumSP.Checkout.USPGETAllCHECKOUTDETAILS.ToString(), _prm);
             return result;

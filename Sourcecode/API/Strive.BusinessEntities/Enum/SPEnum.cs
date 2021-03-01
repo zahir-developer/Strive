@@ -467,7 +467,9 @@ namespace Strive.BusinessEntities
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
         uspGetMembershipListByVehicleId,
-        
+        USPGETWASHTIMEBYLOCATIONID,
+
+
         USPGETTICKETNUMBER,
         USPCREATETENANT,
         uspGetServiceByItemList,
