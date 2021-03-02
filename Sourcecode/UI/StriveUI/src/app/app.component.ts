@@ -9,6 +9,7 @@ import { Keepalive } from '@ng-idle/keepalive';
 import { IdleLockoutComponent } from './shared/components/idle-lockout/idle-lockout.component';
 import { Subscription } from 'rxjs';
 import { AuthService } from './shared/services/common-service/auth.service';
+import { SessionLogoutComponent } from './shared/components/session-logout/session-logout.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,6 +17,7 @@ import { AuthService } from './shared/services/common-service/auth.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(IdleLockoutComponent) idleLockoutComponent: IdleLockoutComponent;
+  @ViewChild(SessionLogoutComponent) sessionLogoutComponent: SessionLogoutComponent;
   title = 'StriveUI';
   isUserAuthenticated = false;
   navData: any;
@@ -75,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 10 * 60;
+      const seconds = 10 * 60;    // 10
       this.subscribeTheIdle(this.idle, seconds);
     }
   }
@@ -95,31 +97,31 @@ export class AppComponent implements OnInit, OnDestroy {
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     idle.onIdleEnd.subscribe(() => {
       // console.log('onIdle');
-      this.idleLockoutComponent.idleClear();
-      this.idleLockoutComponent.dialogDisplay = false;
+      this.sessionLogoutComponent.idleClear();
+      this.sessionLogoutComponent.dialogDisplay = false;
       this.dialogDisplay = false;
-      this.idleLockoutComponent.header = '';
+      this.sessionLogoutComponent.header = '';
       this.header = '';
-      this.idleLockoutComponent.dialogType = 'noIdle';
+      this.sessionLogoutComponent.dialogType = 'noIdle';
       clearInterval(this.intervalId);
     });
     idle.onTimeoutWarning.subscribe((countdown) => {
       // console.log('onTimeoutWarning');
       this.dialogDisplay = true;
-      this.idleLockoutComponent.dialogDisplay = true;
+      this.sessionLogoutComponent.dialogDisplay = true;
       // this.idleState = 'You will time out in ' + countdown + ' seconds!'
-      this.idleLockoutComponent.countdown = countdown;
-      this.idleLockoutComponent.dialogType = 'idle';
-      this.idleLockoutComponent.header = 'Idle Warning.';
+      this.sessionLogoutComponent.countdown = countdown;
+      this.sessionLogoutComponent.dialogType = 'idle';
+      this.sessionLogoutComponent.header = 'Idle Warning.';
       this.header = 'Idle Warning.';
     }
     );
     idle.onTimeout.subscribe(() => {
       // console.log('onTimeout');
       this.dialogDisplay = true;
-      this.idleLockoutComponent.dialogType = 'timeout';
-      this.idleLockoutComponent.dialogDisplay = true;
-      this.idleLockoutComponent.header = 'Locked Out';
+      this.sessionLogoutComponent.dialogType = 'timeout';
+      this.sessionLogoutComponent.dialogDisplay = true;
+      this.sessionLogoutComponent.header = 'Locked Out';
       this.header = 'Locked Out';
       this.authService.refreshLogout();
       clearInterval(this.intervalId);
@@ -146,11 +148,11 @@ export class AppComponent implements OnInit, OnDestroy {
   timeCounter(counter = this.TimeoutPeriod) {
     this.intervalId = setInterval(() => {
       counter = counter - 1;
-      this.idleLockoutComponent.countdown = counter;
-      this.idleLockoutComponent.dialogType = 'idle';
+      this.sessionLogoutComponent.countdown = counter;
+      this.sessionLogoutComponent.dialogType = 'idle';
       this.dialogDisplay = true;
-      this.idleLockoutComponent.dialogDisplay = true;
-      this.idleLockoutComponent.header = 'Idle Warning.';
+      this.sessionLogoutComponent.dialogDisplay = true;
+      this.sessionLogoutComponent.header = 'Idle Warning.';
       this.header = 'Idle Warning.';
       if (counter <= 0) {
         clearInterval(this.intervalId);

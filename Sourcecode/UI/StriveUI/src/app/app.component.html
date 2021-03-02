@@ -18,6 +18,6 @@
 </ngx-spinner>
 <p-dialog styleClass="MyDialog" header="{{header}}" [(visible)]="dialogDisplay" [blockScroll]="true" [resizable]="true"
   appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false">
-  <app-idle-lockout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header" [countdown]="countdown" (closeDialog)="closeDialog()">
-  </app-idle-lockout>
+  <app-session-logout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header" [countdown]="countdown" (closeDialog)="closeDialog()">
+  </app-session-logout>
 </p-dialog>
