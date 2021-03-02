@@ -110,6 +110,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getTicketNumber();
     this.isSaveClick = false;
     this.showDialog = false;
     this.submitted = false;
@@ -145,24 +146,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isView) {
       this.detailForm.disable();
     }
-    if (!this.isEdit) {
-      this.getTicketNumber();
-    } else {
-      this.getAllList();
-    }
-  }
+   
 
-  getAllList() {
-    this.assignDate();
-    this.getColor();
-    this.getServiceType();
   }
 
   getTicketNumber() {
-    this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    if (!this.isEdit) {
+      this.wash.getTicketNumber().subscribe(item => {
+        this.ticketNumber = item;
+  
+      })
+    }
     this.assignDate();
     this.getColor();
-    // this.getAllClient();
     this.getServiceType();
   }
 

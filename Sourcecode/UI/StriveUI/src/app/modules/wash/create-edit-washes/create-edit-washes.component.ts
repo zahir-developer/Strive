@@ -86,6 +86,7 @@ export class CreateEditWashesComponent implements OnInit {
     private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService) { }
 
   ngOnInit() {
+    this.getTicketNumber();
     this.getJobStatus();
     this.isPrint = false;
     this.formInitialize();
@@ -114,7 +115,6 @@ export class CreateEditWashesComponent implements OnInit {
       notes: ['',],
       pastNotes: ['',]
     });
-    this.getTicketNumber();
   }
 
   get f() {
@@ -123,7 +123,10 @@ export class CreateEditWashesComponent implements OnInit {
 
   getTicketNumber() {
     if (!this.isEdit) {
-      this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+      this.wash.getTicketNumber().subscribe(item => {
+        this.ticketNumber = item;
+  
+      })
     }
 
     this.getWashTimeByLocationID();
