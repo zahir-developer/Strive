@@ -68,5 +68,10 @@ namespace Strive.BusinessLogic.TimeClock
         {
             return ResultWrap(new TimeClockRal(_tenant).TimeClockEmployeeHourDetail, timeClockLocationDto, "Result");
         }
+
+        public Result GetClockedInDetailer (DateTime date)
+        {
+            return ResultWrap(new TimeClockRal(_tenant).GetClockedInDetailer, date, "result");
+        }
     }
 }
