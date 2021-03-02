@@ -8,7 +8,10 @@ public class GiftCard
 {
 
 	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-	public int GiftCardId { get; set; }
+        public int? ClientId { get; set; }
+
+        [Column]
+        public int GiftCardId { get; set; }
 
 	[Column]
 	public int? LocationId { get; set; }
