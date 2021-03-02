@@ -20,10 +20,13 @@ export class CheckoutGridComponent implements OnInit {
   pageSizeList: any;
   collectionSize: number = 0;
   isDesc: boolean = false;
+  daterangepickerModel:any;
   search = '';
   sort = { column: 'TicketNumber', descending: false };
   sortColumn: { column: string; descending: boolean; }; 
    query = '';
+  startDate: any;
+  endDate: any;
 
   constructor(
     private checkout: CheckoutService,
@@ -42,15 +45,27 @@ private landingservice: LandingService,
   landing(){
     this.landingservice.loadTheLandingPage()
   }
+  onValueChange(event) {
+    if (event !== null) {
+      this.startDate = event;
+      this.endDate = event;
+    }
+    else{
+      this.startDate = null;
+      this.endDate = null;
+    }
+    this.getAllUncheckedVehicleDetails();
+  
+}
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
     const obj = {
       locationId : localStorage.getItem('empLocationId'),
-      startDate: null,
-      endDate: null,
+      startDate: this.startDate,
+      endDate: this.endDate,
       pageNo: this.page,
       pageSize: this.pageSize,
-      query: this.search,
+      query: this.search == "" ? null : this.search,
       sortOrder: this.sort.descending ? 'DESC' : 'ASC',
       sortBy: this.sort.column,
       status: true

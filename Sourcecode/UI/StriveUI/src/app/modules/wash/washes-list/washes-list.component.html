@@ -94,24 +94,31 @@
                                 <div class="p-b-20">
                                     <h4 class="d-inline-block align-middle">Washes &nbsp;<span
                                             class="text-muted font-size-1"></span></h4>
-                                    <div class="pull-right card-widgets"><button type="button"
-                                            class="btn theme-primary-button-color  mw-100"
-                                            (click)="add('add',[])">Add New Wash</button>
-                                    </div>
+                                  
                                 </div>
                                 <div class="setup-content" >
                                     <div class="search-container  pull-right" *ngIf="isTableEmpty === false">
                                         <form>
                                             <div class="form-row">
-                                                <div class="form-group d-flex"> <input type="search"
-                                                        class="form-control" size="31" [(ngModel)]="search" name="search"
+                                                <div class="form-group d-flex"> 
+                                                <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control m-r-10"
+                                                [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
+                                                [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+                                                </div>
+                                                 <div class="form-group d-flex"> 
+                                                     <input type="search"
+                                                        class="form-control" size="25" [(ngModel)]="search" name="search"
                                                         id="inputSearchbyName" placeholder="Search"
                                                         (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
                                                 <div class="form-group col-sm m-l-5">
-                                                    <button type="button"
-                                                        class="btn theme-primary-button-color btn-sm m-l-10"
+                                         <button type="button"
+                                                        class="btn theme-primary-button-color  m-l-10 btn-sm"
                                                         (click)="getAllWashDetails()">Search</button>
                                                 </div>
+                                                <div class="pull-right card-widgets"><button type="button"
+                                                    class="btn theme-primary-button-color btn-sm"
+                                                    (click)="add('add',[])">Add New Wash</button>
+                                            </div>
                                             </div>
                                         </form>
                                     </div>

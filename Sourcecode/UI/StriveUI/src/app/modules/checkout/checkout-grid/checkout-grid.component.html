@@ -24,15 +24,26 @@
                                     <div class="search-container  pull-right">
                                         <form>
                                             <div class="form-row">
-                                                <div class="form-group d-flex"> <input type="search" class="form-control"
-                                                        [(ngModel)]="query" size="40" name="search" id="inputSearch"
+                                                <div class="form-group d-flex"> 
+
+                                                <input type="text" size="25" placeholder="Datepicker" name="date" class="form-control m-r-10"
+                                                [(ngModel)]="daterangepickerModel" bsDatepicker (bsValueChange)="onValueChange($event)"
+                                                [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+                                            </div>
+
+                                                  
+                                                    <div class="form-group d-flex"> 
+
+                                                     <input type="search" class="form-control"
+                                                        [(ngModel)]="query" size="25" name="search" id="inputSearch"
                                                         placeholder="Search"
                                                         (keyup)="$event.keyCode == 13 ? checkOutSearch() : null"
                                                        > </div>
-                                                <div class="form-group col-sm m-l-5">
+
+                                                <div class="form-group d-flex col-sm m-l-5">
                                                     <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
                                                         (click)="checkOutSearch()">Search</button>
-                                                </div>
+                                                      </div>  
                                             </div>
                                         </form>
                                     </div>
