@@ -19,6 +19,13 @@
 
     <li class="admin-menu">
       <ul class="d-flex float-right align-self-center m-r-20">
+        <li class="p-2 mob-washes-notification">
+          <p class="mb-0 text-muted bg-white weather-notification"> <span class="mr-2">
+            <i class="mdi mdi-weather-partly-cloudy theme-light-yellow-color"></i> {{temperature ? temperature : 0}}°/{{rainPrediction ? rainPrediction: 0}}%</span> 
+            <span class="text-nowrap"> <span title="{{locationName}}">
+            {{locationName | slice:0:11}}
+            {{(locationName!== null) ? locationName.length <= 11 ? '': '':''}}</span>,GA</span> </p>
+        </li>
         <li> <a href="#"><i class="fa fa-gear"></i></a> </li>
         <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow"
             id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span
