@@ -15,6 +15,8 @@ import * as _ from 'underscore';
 import { PrintCustomerCopyComponent } from '../print-customer-copy/print-customer-copy.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
+import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -97,16 +99,18 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private wash: WashService,
     private message: MessageServiceToastr,
     private toastr: ToastrService,
-
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
     private client: ClientService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private codeValueService: CodeValueService,
+    private serviceSetupService: ServiceSetupService
   ) { }
 
   ngOnInit(): void {
+    this.getTicketNumber();
     this.isSaveClick = false;
     this.showDialog = false;
     this.submitted = false;
@@ -142,24 +146,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isView) {
       this.detailForm.disable();
     }
-    if (!this.isEdit) {
-      this.getTicketNumber();
-    } else {
-      this.getAllList();
-    }
-  }
+   
 
-  getAllList() {
-    this.assignDate();
-    this.getColor();
-    this.getServiceType();
   }
 
   getTicketNumber() {
-    this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    if (!this.isEdit) {
+      this.wash.getTicketNumber().subscribe(item => {
+        this.ticketNumber = item;
+  
+      })
+    }
     this.assignDate();
     this.getColor();
-    // this.getAllClient();
     this.getServiceType();
   }
 
@@ -239,7 +238,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             this.detailForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
               vehicle: this.barcodeDetails.VehicleId,
-               });
+            });
             this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
         } else {
@@ -272,7 +271,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
               });
             }
           });
-        } 
+        }
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -387,20 +386,30 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getServiceType() {
-    this.wash.getServiceType('SERVICETYPE').subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.serviceEnum = sType.Codes;
-        this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
-        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
-        this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
-        this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
-        this.getAllServices();
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    });
+    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    console.log(serviceTypeValue, 'serviceTypeValue');
+    if (serviceTypeValue.length > 0) {
+      this.serviceEnum = serviceTypeValue;
+      this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
+      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
+      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
+      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+      this.getAllServices();
+    }
+    // this.wash.getServiceType('SERVICETYPE').subscribe(data => {
+    //   if (data.status === 'Success') {
+    //     const sType = JSON.parse(data.resultData);
+    //     this.serviceEnum = sType.Codes;
+    //     this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
+    //     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
+    //     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
+    //     this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+    //     this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
+    //     this.getAllServices();
+    //   } else {
+    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    //   }
+    // });
   }
 
   getAllServices() {
@@ -413,31 +422,58 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.wash.getServices(serviceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        const serviceDetails = JSON.parse(data.resultData);
-        this.outsideServices = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
-        this.details = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
-        this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-        this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-        this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
-        this.UpchargeType = this.upcharges;
-        this.additional.forEach(element => {
-          element.IsChecked = false;
-        });
-        if (this.isEdit === true) {
-          this.detailForm.reset();
-          this.getWashById();
+    this.serviceSetupService.getAllServiceDetail().subscribe(res => {
+      if (res.status === 'Success') {
+        const serviceDetails = JSON.parse(res.resultData);
+        if (serviceDetails.AllServiceDetail !== null) {
+          this.outsideServices = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.outsideServiceId);
+          this.details = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.detailId);
+          this.additional = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.additionalId);
+          this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.upchargeId);
+          this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.airFreshenerId);
+          this.UpchargeType = this.upcharges;
+          this.additional.forEach(element => {
+            element.IsChecked = false;
+          });
+          if (this.isEdit === true) {
+            this.detailForm.reset();
+            this.getWashById();
+          }
         }
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+    // this.wash.getServices(serviceObj).subscribe(data => {
+    //   if (data.status === 'Success') {
+    //     const serviceDetails = JSON.parse(data.resultData);
+    //     this.outsideServices = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
+    //     this.details = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
+    //     this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
+    //     this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
+    //     this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+    //       item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
+    //     this.UpchargeType = this.upcharges;
+    //     this.additional.forEach(element => {
+    //       element.IsChecked = false;
+    //     });
+    //     if (this.isEdit === true) {
+    //       this.detailForm.reset();
+    //       this.getWashById();
+    //     }
+    //   } else {
+    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    //   }
+    // });
   }
 
   getWashById() {
@@ -680,7 +716,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (this.vehicle.length !== 0) { 
+        if (this.vehicle.length !== 0) {
           this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
@@ -945,9 +981,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
           this.toastr.success(MessageConfig.Detail.Add, 'Success!');
-          } else {
-            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-          }
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }, (error) => {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -1025,7 +1061,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === this.detailId);
           if (washService.length !== 0) {
             this.washService(washService[0].ServiceId);
-          } 
+          }
         }
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -1166,12 +1202,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getJobStatus() {
-    this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
-      if (res.status === 'Success') {
-        const status = JSON.parse(res.resultData);
-        this.jobStatus = status.Codes;
-      }
-    });
+    const jobStatus = this.codeValueService.getCodeValueByType('JobStatus');
+    if (jobStatus.length > 0) {
+      this.jobStatus = jobStatus;
+    }
+    // this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
+    //   if (res.status === 'Success') {
+    //     const status = JSON.parse(res.resultData);
+    //     this.jobStatus = status.Codes;
+    //   }
+    // });
   }
 
   getPastClientNotesById(clientID) {

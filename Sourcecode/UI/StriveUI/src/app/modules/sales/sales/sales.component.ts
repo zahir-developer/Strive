@@ -695,7 +695,10 @@ export class SalesComponent implements OnInit {
   getTicketNumber() {
     this.isSelected = false;
     this.ticketNumber = '';
-    this.newTicketNumber = Math.floor(100000 + Math.random() * 900000);
+    this.salesService.getTicketNumber().subscribe(item => {
+      this.newTicketNumber = item;
+
+    })
     this.enableAdd = true;
     this.clearpaymentField();
     this.clearGridItems();

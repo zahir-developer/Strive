@@ -35,7 +35,7 @@ export const UrlConfig = {
     cityByStateId: `Admin/Common/GetCityByStateId/`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
-    countryList: `Admin/Common/CountryList`,
+    countryList: `Admin/Common/CountryList`
   },
   collision: {
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
@@ -201,7 +201,7 @@ export const UrlConfig = {
   },
   sales: {
     addItem: `Admin/Sales/AddListItem`,
-    getTicketNumberforItem: `Admin/Sales/GetTicketNumber`,
+    getTicketNumber: `Admin/Sales/GetTicketNumber`,
     updateListItem: `Admin/Sales/UpdateListItem`,
     updateItem: `Admin/Sales/UpdateItem`,
     addPayment: `Admin/Sales/AddPayment`,
@@ -309,5 +309,4 @@ export const UrlConfig = {
   customerHistory: {
     getCustomerHistory: `Admin/Checkout/GetCustomerHistory`
   }
-
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
@@ -11,6 +11,8 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 
 @Component({
   selector: 'app-washes-list',
@@ -25,7 +27,7 @@ export class WashesListComponent implements OnInit {
   isEdit: boolean;
   isTableEmpty: boolean;
   isView: boolean;
-
+  daterangepickerModel: any;
   collectionSize: number = 0;
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
@@ -37,10 +39,14 @@ export class WashesListComponent implements OnInit {
   page: number;
   pageSize: number;
   search: any = null;
+  startDate: any = null;
+  endDate: any = null;
+  jobTypeId: any;
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
   constructor(private washes: WashService, private toastr: ToastrService,
-    private datePipe: DatePipe,private spinner: NgxSpinnerService,
+    private datePipe: DatePipe, private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router
-    ,private landingservice:LandingService) { }
+    , private landingservice: LandingService, private detailService: DetailService) { }
 
   ngOnInit() {
     this.page = ApplicationConfig.PaginationConfig.page;
@@ -50,11 +56,11 @@ export class WashesListComponent implements OnInit {
       id: this.locationId,
       date: new Date()
     };
-    this.washes.getDashBoard(obj);
+    // this.washes.getDashBoard(obj);
     this.getAllWashDetails();
   }
-  landing(){
-    this.landingservice.loadTheLandingPage()
+  landing() {
+    this.landingservice.loadTheLandingPage();
   }
   paginate(event) {
 
@@ -68,24 +74,38 @@ export class WashesListComponent implements OnInit {
     this.page = this.page;
     this.getAllWashDetails();
   }
+  onValueChange(event) {
+    if (event !== null) {
+      this.startDate = event[0];
+      this.endDate = event[1];
+      this.getAllWashDetails();
+    }
+    else {
+      this.startDate = null;
+      this.endDate = null;
+    }
+  }
   // Get All Washes
   getAllWashDetails() {
     const obj = {
       LocationId: this.locationId,
       PageNo: this.page,
       PageSize: this.pageSize,
-      Query: this.search,
+      Query: this.search == "" ? null : this.search,
       SortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      SortBy: this.sort.column
+      SortBy: this.sort.column,
+      StartDate: this.startDate,
+      EndDate: this.endDate
     };
     this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
-        if (wash.Washes.AllWashesViewModel !== null) {
-          this.washDetails = wash.Washes.AllWashesViewModel;
-          const totalRowCount = wash.Washes.Count.Count;
+        this.getJobType();
+        if (wash.Washes !== null) {
+          this.washDetails = wash?.Washes?.AllWashesViewModel;
+          const totalRowCount = wash?.Washes?.Count?.Count;
           for (let i = 0; i < this.washDetails.length; i++) {
             let hh = this.washDetails[i].TimeIn.substring(13, 11);
             let m = this.washDetails[i].TimeIn.substring(16, 14);
@@ -131,7 +151,7 @@ export class WashesListComponent implements OnInit {
                 item.TimeInFormat = inTimeFormat;
             });
           }
-          if (this.washDetails.length === 0) {
+          if (this.washDetails?.length === 0 || this.washDetails == null) {
             this.isTableEmpty = true;
           } else {
             this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
@@ -142,7 +162,7 @@ export class WashesListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-        this.spinner.hide();
+      this.spinner.hide();
     });
   }
   edit(data) {
@@ -250,6 +270,23 @@ export class WashesListComponent implements OnInit {
 
   selectedCls(column) {
     return this.sortedColumnCls(column, this.sort);
+  }
+
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Wash') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    });
   }
 
 }

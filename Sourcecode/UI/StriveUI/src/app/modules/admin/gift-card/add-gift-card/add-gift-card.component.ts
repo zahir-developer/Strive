@@ -8,6 +8,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-add-gift-card',
@@ -17,6 +19,8 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 export class AddGiftCardComponent implements OnInit {
   giftCardForm: FormGroup;
   amountList: any = [];
+  clientList: any;
+  clientId: any;
   isOtherAmount: boolean;
   submitted: boolean;
   constructor(
@@ -26,6 +30,7 @@ export class AddGiftCardComponent implements OnInit {
     private toastr: ToastrService,
     private messageService: MessageServiceToastr,
     private router: Router,
+    private wash : WashService,
     private spinner: NgxSpinnerService
     ) { }
 
@@ -36,7 +41,8 @@ export class AddGiftCardComponent implements OnInit {
       number: ['', Validators.required],
       activeDate: ['', Validators.required],
       amount: ['', Validators.required],
-      others: ['']
+      others: [''],
+      clientId: ['', Validators.required],
     });
     this.amountList = [
       {
@@ -77,6 +83,29 @@ export class AddGiftCardComponent implements OnInit {
   get f() {
     return this.giftCardForm.controls;
   }
+  filterClient(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      }
+    });
+  }
+  selectedClient(event) {
+    this.clientId = event.id;
+  }
 
   saveGiftCard() {
     this.submitted = true;
@@ -97,7 +126,8 @@ export class AddGiftCardComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: moment(new Date()),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: moment(new Date())
+      updatedDate: moment(new Date()),
+      clientId : this.clientId
     };
     const finalObj = {
       giftCard: cardObj

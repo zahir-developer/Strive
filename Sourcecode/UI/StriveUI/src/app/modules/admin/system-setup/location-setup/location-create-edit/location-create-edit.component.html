@@ -82,8 +82,9 @@
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputWorkThreshold">Work Threshold</label>
-                        <input type="text" maxlength="2" class="form-control" formControlName="workHourThreshold"
-                            placeholder="Threshold #" numbersOnly>
+                        <input type="text" class="form-control" formControlName="workHourThreshold"
+                            appTwoDecimalNumber [appMaxLength]="9"
+                            placeholder="$0.00">
                     </div>
                     <div class="form-group col-lg-3">
                         <label></label>

@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 export class LandingService {
   dashBoardModule: boolean;
 
-  constructor(    private authService: AuthService,private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
   loadTheLandingPage(): void {
     const location = localStorage.getItem('empLocationId');
     if (!Array.isArray(JSON.parse(location))) {

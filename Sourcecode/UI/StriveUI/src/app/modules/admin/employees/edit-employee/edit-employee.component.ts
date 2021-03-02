@@ -150,12 +150,12 @@ export class EditEmployeeComponent implements OnInit {
     });
   }
   getSelectedStateId(event) {
-    this.State = event;
-    this.cityComponent.getCity(event);
+    this.State = event.target.value;
+    this.cityComponent.getCity(event.target.value);
   }
 
   selectCity(event) {
-    this.city = event;
+    this.city = event.target.value;
   }
   immigrationChange(data) {
     const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
@@ -481,17 +481,19 @@ export class EditEmployeeComponent implements OnInit {
         newlyAddedLocation.push({
           employeeLocationId: 0,
           employeeId: this.employeeId,
-          locationId: item.item_id,  
+          locationId: item.item_id,
           isActive: true,
           isDeleted: false,
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash
         });
       } else {
         newlyAddedLocation.push({
           employeeLocationId: isData[0].EmployeeLocationId,
           employeeId: this.employeeId,
-          locationId: item.item_id,  
+          locationId: item.item_id,
           isActive: true,
           isDeleted: false,
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash
         });
       }
     });
@@ -503,7 +505,8 @@ export class EditEmployeeComponent implements OnInit {
           employeeId: this.employeeId,
           locationId: item.item_id,
           isActive: true,
-          isDeleted: true
+          isDeleted: true,
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash
         });
       }
     });
