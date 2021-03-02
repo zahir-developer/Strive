@@ -91,6 +91,7 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const sType = JSON.parse(data.resultData);
         this.selectedService = sType.ServiceSetup;
+      
         if (this.selectedService.Upcharges === '') {
           this.serviceSetupForm.get('upcharge').clearValidators();
           this.serviceSetupForm.get('upcharge').updateValueAndValidity();
@@ -115,6 +116,13 @@ export class ServiceCreateEditComponent implements OnInit {
         this.checkService(this.selectedService.ServiceType);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+      if ( this.selectedService?.ServiceType === 'Detail-Upcharge' || this.selectedService?.ServiceType === 'Detail-CeramicUpcharge' || this.selectedService?.ServiceType === 'Wash-Upcharge') {
+        this.isUpcharge = true;
+      } else {
+        this.isUpcharge = false;
+        this.serviceSetupForm.get('upcharge').clearValidators();
+        this.serviceSetupForm.get('upcharge').updateValueAndValidity();
       }
     });
   }

@@ -23,7 +23,9 @@ export class SalesService {
    return this.http.get(`${UrlConfig.ServiceSetup.getService}`);
  }
  getTicketNumber() {
-  return this.http.get(`${UrlConfig.sales.getTicketNumberforItem}`);
+  const locationId = localStorage.getItem('empLocationId');
+
+  return this.http.get(`${UrlConfig.common.getTicketNumber}`+ locationId);
  }
  updateListItem(updateObj) {
    return this.http.post(`${UrlConfig.sales.updateListItem}`, updateObj);

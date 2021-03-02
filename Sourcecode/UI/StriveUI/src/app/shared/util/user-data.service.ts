@@ -26,13 +26,11 @@ export class UserDataService {
 
     if (token.EmployeeDetails !== undefined) {
       this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
-
-      // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
-      //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
-      // }
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
-
+      if (token?.EmployeeDetails?.EmployeeLocations) {
+        localStorage.setItem('empLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
+      } 
       if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
         localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
       } else {

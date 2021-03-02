@@ -210,6 +210,21 @@ li.message-notification .dropdown-menu
     animation-timing-function: transform cubic-bezier(.18,1.25,.4,1),opacity cubic-bezier(0,1,.4,1);
 }
 
+
+/****FOOTER****/
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #6c757d;
+    text-align: right;
+    background-color: #ECECEC;
+    box-shadow: 0px 3px 6px #092b2814;
+    padding:5px;
+    height:40px;
+ }
+
 /***CONTENT**/
 
 #page-content
@@ -236,15 +251,17 @@ li.message-notification .dropdown-menu
     color: #333333;
     font-family: "Material Icons";
     content: "\e5cc";
-	padding-top: 0.1rem;
+	padding-top: 0.3rem;
 }
-.breadcrumb-item .active
+.breadcrumb-item.active
 {
     color:#30343C;
     font-weight: 700;
     font-size: large;
     line-height: initial;
+    font-size: 1rem !important;
 }
+
 
 /****PAGE TITLE **/
 

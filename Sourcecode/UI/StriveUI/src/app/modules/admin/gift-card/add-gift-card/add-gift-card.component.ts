@@ -116,9 +116,9 @@ export class AddGiftCardComponent implements OnInit {
     const cardObj = {
       giftCardId: 0,
       locationId: +localStorage.getItem('empLocationId'),
-      giftCardCode: this.giftCardForm.value.number,
+      giftCardCode: this.giftCardForm.value.number.toString(),
       giftCardName: null,
-      expiryDate: moment(this.giftCardForm.value.activeDate),
+      activationDate: moment(this.giftCardForm.value.activeDate),
       comments: null,
       isActive: true,
       isDeleted: false,
