@@ -19,8 +19,7 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public int? TimePeriod { get; set; }
 
-
-        [Column]
+       [Column]
         public DateTime? StartDate { get; set; }
         [Column]
         public DateTime? EndDate { get; set; }
@@ -42,6 +41,9 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
+
+        [Column]
+        public bool? Deals { get; set; }
 
     }
 }
