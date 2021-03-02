@@ -45,9 +45,17 @@ export class DealsAddComponent implements OnInit {
   ngOnInit() {
     this.submitted = false;
     this.formInitialize();
-this.dealSetupForm.controls.dealsName.disable()
-this.dealSetupForm.controls.timePeriod.disable()
-this.dealSetupForm.controls.startDate.disable()    
+    if (this.selectedData?.Deals== true) {
+      this.dealSetupForm.controls.dealsName.enable()
+      this.dealSetupForm.controls.timePeriod.enable()
+
+        }
+        else{
+          this.dealSetupForm.controls.dealsName.disable()
+          this.dealSetupForm.controls.timePeriod.disable()
+      this.dealSetupForm.controls.startDate.disable();
+        }
+ 
 this.timePeriods = [
   {
     name: 'Monthly', value: 1
