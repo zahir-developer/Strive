@@ -87,11 +87,7 @@ namespace Strive.ResourceAccess
 
             result.Latitude = locationAddress.Latitude;
             result.Longitude = locationAddress.Longitude;
-            result.WeatherLocationId = locationAddress.WeatherLocationId;
-            result.LocationId = locationAddress.LocationId;
-            result = locationAddress;
-         
-           
+            result.WeatherLocationId = locationAddress.WeatherLocationId;         
 
             return result;
         }
