@@ -35,7 +35,9 @@ export const UrlConfig = {
     cityByStateId: `Admin/Common/GetCityByStateId/`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
-    countryList: `Admin/Common/CountryList`
+    countryList: `Admin/Common/CountryList`,
+    getTicketNumber: `Admin/Common/GetTicketNumber/`,
+
   },
   collision: {
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
@@ -201,7 +203,6 @@ export const UrlConfig = {
   },
   sales: {
     addItem: `Admin/Sales/AddListItem`,
-    getTicketNumber: `Admin/Sales/GetTicketNumber`,
     updateListItem: `Admin/Sales/UpdateListItem`,
     updateItem: `Admin/Sales/UpdateItem`,
     addPayment: `Admin/Sales/AddPayment`,
@@ -282,7 +283,6 @@ export const UrlConfig = {
     deleteWash: `Admin/washes/Delete`,
     getDashBoardCount: `Admin/Washes/DashboardCount`,
     getByBarcode: `Admin/Washes/GetByBarCode/`,
-    getTicketNumber: `Admin/Washes/GetTicketNumber`,
   },
   weather: {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,

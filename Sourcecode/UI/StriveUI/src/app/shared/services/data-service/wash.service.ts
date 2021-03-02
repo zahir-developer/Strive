@@ -45,7 +45,7 @@ export class WashService {
   getTicketNumber(): Observable<any> {
  const locationId = localStorage.getItem('empLocationId');
 
-    return this.http.get(`${UrlConfig.washes.getTicketNumber}`,  { params: { locationId: locationId } });
+    return this.http.get(`${UrlConfig.common.getTicketNumber}`+locationId);
   }
   getJobType() {
     return this.http.get(`${UrlConfig.details.getJobType}`);
