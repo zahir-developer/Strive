@@ -5,10 +5,11 @@ import { TodayScheduleComponent } from '../today-schedule/today-schedule.compone
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
-import {  DatepickerDateCustomClasses, BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
+import { DatepickerDateCustomClasses, BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -34,21 +35,24 @@ export class DetailScheduleComponent implements OnInit {
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'];
   @ViewChild(TodayScheduleComponent) todayScheduleComponent: TodayScheduleComponent;
   @ViewChild(NoOfDetailsComponent) noOfDetailsComponent: NoOfDetailsComponent;
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
   scheduleDate = [];
+  jobTypeId: any;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe,
     private spinner: NgxSpinnerService,
     private message: MessageServiceToastr,
-    private toastr: ToastrService
-,private landingservice: LandingService) {
-    }
-  
+    private toastr: ToastrService,
+    private landingservice: LandingService) {
+  }
+
   ngOnInit(): void {
     this.actionType = '';
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
+    this.getJobType();
   }
 
   landing() {
@@ -151,17 +155,16 @@ export class DetailScheduleComponent implements OnInit {
               }
             });
           } else {
-            if(bayList)
-{
-  bayList.forEach(bay => {
-    baySchedule.push({
-      bayId: bay.BayId,
-      isSchedule: false,
-      time: item
-    });
-  });
-}         
- }
+            if (bayList) {
+              bayList.forEach(bay => {
+                baySchedule.push({
+                  bayId: bay.BayId,
+                  isSchedule: false,
+                  time: item
+                });
+              });
+            }
+          }
           baySheduled.push({
             time: item,
             bay: baySchedule
@@ -197,7 +200,24 @@ export class DetailScheduleComponent implements OnInit {
   refreshDetailGrid() {
     this.getScheduleDetailsByDate(this.selectedDate);
     this.todayScheduleComponent.getTodayDateScheduleList();
-    this.noOfDetailsComponent.getDashboardDetails();
+    this.dashboardStaticsComponent.getDashboardDetails();
+  }
+
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Detail') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    });
   }
 
   getDetailScheduleStatus() {

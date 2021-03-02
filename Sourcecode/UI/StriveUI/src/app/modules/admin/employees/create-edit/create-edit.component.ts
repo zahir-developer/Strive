@@ -135,12 +135,12 @@ export class CreateEditComponent implements OnInit {
     });
   }
   getSelectedStateId(event) {
-    this.State = event;
-    this.cityComponent.getCity(event);
+    this.State = event.target.value;
+    this.cityComponent.getCity(event.target.value);
   }
 
   selectCity(event) {
-    this.city = event;
+    this.city = event.target.value;
   }
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
@@ -386,6 +386,7 @@ export class CreateEditComponent implements OnInit {
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
+        hourlyWashRate: +this.emplistform.value.hourlyRateWash
       };
     });
     const employeeObj = {

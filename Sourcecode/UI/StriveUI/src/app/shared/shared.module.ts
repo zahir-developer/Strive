@@ -55,6 +55,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NavigatePageDirective } from './Directive/navigate-page.directive';
 import { IdleLockoutComponent } from './components/idle-lockout/idle-lockout.component';
+import { SessionLogoutComponent } from './components/session-logout/session-logout.component';
+import { DashboardStaticsComponent } from './components/dashboard-statics/dashboard-statics.component';
 
 @NgModule({
   imports: [
@@ -90,7 +92,7 @@ import { IdleLockoutComponent } from './components/idle-lockout/idle-lockout.com
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -99,7 +101,8 @@ import { IdleLockoutComponent } from './components/idle-lockout/idle-lockout.com
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective, IdleLockoutComponent],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective,
+       IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 
