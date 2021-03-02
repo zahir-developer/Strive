@@ -240,11 +240,11 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const coin = {
       cashRegCoinId: this.isUpdate ? this.cashDetails.CashRegisterCoins.CashRegCoinId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      pennies: this.cashRegisterCoinForm.value.coinPennies,
-      nickels: this.cashRegisterCoinForm.value.coinNickels,
-      dimes: this.cashRegisterCoinForm.value.coinDimes,
-      quarters: this.cashRegisterCoinForm.value.coinQuaters,
-      halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
+      pennies: this.cashRegisterCoinForm.value.coinPennies == null ? 0:  this.cashRegisterCoinForm.value.coinPennies,
+      nickels: this.cashRegisterCoinForm.value.coinNickels == null ? 0: this.cashRegisterCoinForm.value.coinNickels,
+      dimes: this.cashRegisterCoinForm.value.coinDimes == null ? 0: this.cashRegisterCoinForm.value.coinDimes,
+      quarters: this.cashRegisterCoinForm.value.coinQuaters == null ? 0: this.cashRegisterCoinForm.value.coinQuaters,
+      halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars == null? 0: this.cashRegisterCoinForm.value.coinQuaters,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -255,12 +255,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const bill = {
       cashRegBillId: this.isUpdate ? this.cashDetails.CashRegisterBills.CashRegBillId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      s1: this.cashRegisterBillForm.value.billOnes,
-      s5: this.cashRegisterBillForm.value.billFives,
-      s10: this.cashRegisterBillForm.value.billTens,
-      s20: this.cashRegisterBillForm.value.billTwenties,
-      s50: this.cashRegisterBillForm.value.billFifties,
-      s100: this.cashRegisterBillForm.value.billHundreds,
+      s1: this.cashRegisterBillForm.value.billOnes == null ?  0: this.cashRegisterBillForm.value.billOnes,
+      s5: this.cashRegisterBillForm.value.billFives == null ?  0 : this.cashRegisterBillForm.value.billOnes,
+      s10: this.cashRegisterBillForm.value.billTens == null ? 0 :this.cashRegisterBillForm.value.billTens,
+      s20: this.cashRegisterBillForm.value.billTwenties == null ? 0 :  this.cashRegisterBillForm.value.billTwenties,
+      s50: this.cashRegisterBillForm.value.billFifties == null ? 0 :this.cashRegisterBillForm.value.billFifties,
+      s100: this.cashRegisterBillForm.value.billHundreds == null ? 0: this.cashRegisterBillForm.value.billHundreds,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -271,10 +271,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const roll = {
       cashRegRollId: this.isUpdate ? this.cashDetails.CashRegisterRolls.CashRegRollId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      pennies: this.cashRegisterRollForm.value.pennieRolls,
-      nickels: this.cashRegisterRollForm.value.nickelRolls,
-      dimes: this.cashRegisterRollForm.value.dimeRolls,
-      quarters: this.cashRegisterRollForm.value.quaterRolls,
+      pennies: this.cashRegisterRollForm.value.pennieRolls == null ? 0: this.cashRegisterRollForm.value.pennieRolls,
+      nickels: this.cashRegisterRollForm.value.nickelRolls == null ? 0: this.cashRegisterRollForm.value.nickelRolls,
+      dimes: this.cashRegisterRollForm.value.dimeRolls == null ? 0: this.cashRegisterRollForm.value.dimeRolls,
+      quarters: this.cashRegisterRollForm.value.quaterRolls == null ?0: this.cashRegisterRollForm.value.quaterRolls,
       halfDollars: 0,
       isActive: true,
       isDeleted: false,
@@ -309,6 +309,14 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       inTime.setMinutes(inminutes);
       inTime.setSeconds('00');
       checkinTime = inTime;
+      const outtime = this.storeTimeOut.split(':');
+      const outhour = outtime[0];
+      const outminutes = outtime[1];
+      const outTime: any = new Date(this.date);
+      outTime.setHours(outhour);
+      outTime.setMinutes(outminutes);
+      inTime.setSeconds('00');
+      checkoutTime = outTime;
     } else {
       checkinTime = this.storeTimeIn;
       checkoutTime = this.storeTimeOut;
@@ -326,9 +334,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      storeTimeIn: moment(checkinTime).format(),
-      storeTimeOut: this.storeTimeOut !== '' ? moment(this.storeTimeOut).format() : null,
-      status: this.storeStatus
+      storeTimeIn: checkinTime !== '' ? moment(checkinTime).format() :null ,
+      storeTimeOut: checkoutTime !== '' ? moment(checkoutTime).format() : null,
+      status: this.storeStatus  == "" ? null :this.storeStatus 
     };
     const formObj = {
       cashregister,
