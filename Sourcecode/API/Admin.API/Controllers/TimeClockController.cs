@@ -49,7 +49,17 @@ namespace Admin.API.Controllers
         [Route("DeleteTimeClockEmployee")]
         public Result DeleteTimeClockEmployee(TimeClockDeleteDto timeClockDeleteDto) => _bplManager.DeleteTimeClockEmployee(timeClockDeleteDto);
 
-     
+
+       
+
+      [HttpGet]
+        [Route("GetClockedInDetailer/{date}")]
+        public Result GetClockedInDetailer(DateTime dateTime) => _bplManager.GetClockedInDetailer(dateTime);
+
+
+
+
+
 
     }
 }
