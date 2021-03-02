@@ -5,7 +5,7 @@ import { TodayScheduleComponent } from '../today-schedule/today-schedule.compone
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
-import {  DatepickerDateCustomClasses, BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
+import { DatepickerDateCustomClasses, BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
@@ -40,10 +40,10 @@ export class DetailScheduleComponent implements OnInit {
     private datePipe: DatePipe,
     private spinner: NgxSpinnerService,
     private message: MessageServiceToastr,
-    private toastr: ToastrService
-,private landingservice: LandingService) {
-    }
-  
+    private toastr: ToastrService,
+    private landingservice: LandingService) {
+  }
+
   ngOnInit(): void {
     this.actionType = '';
     this.showDialog = false;
@@ -151,17 +151,16 @@ export class DetailScheduleComponent implements OnInit {
               }
             });
           } else {
-            if(bayList)
-{
-  bayList.forEach(bay => {
-    baySchedule.push({
-      bayId: bay.BayId,
-      isSchedule: false,
-      time: item
-    });
-  });
-}         
- }
+            if (bayList) {
+              bayList.forEach(bay => {
+                baySchedule.push({
+                  bayId: bay.BayId,
+                  isSchedule: false,
+                  time: item
+                });
+              });
+            }
+          }
           baySheduled.push({
             time: item,
             bay: baySchedule
