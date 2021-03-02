@@ -8,7 +8,7 @@ using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
 using System.Net;
-
+using GoogleMaps.LocationServices;
 namespace Strive.BusinessLogic.Location
 {
     public class LocationBpl : Strivebase, ILocationBpl
@@ -82,7 +82,12 @@ namespace Strive.BusinessLogic.Location
 
         private string GetLocationGeo(LocationAddress locationAddress)
         {
-            throw new NotImplementedException();
+            var locationService = new GoogleLocationService();
+            var point = locationService.GetLatLongFromAddress(locationAddress.Address1);
+            locationAddress.Latitude = point.Latitude.toDecimal();
+            var longitude = point.Longitude;
+            return "s";
+
         }
 
         //public async Task<Result> CreateLocationForWeatherPortal()
