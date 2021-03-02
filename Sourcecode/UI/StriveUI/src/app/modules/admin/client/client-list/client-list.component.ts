@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
@@ -7,6 +7,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 
 @Component({
   selector: 'app-client-list',
@@ -30,11 +32,14 @@ export class ClientListComponent implements OnInit {
   pageSizeList: number[];
   page: number;
   pageSize: number;
+  jobTypeId: any;
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
     private spinner: NgxSpinnerService, private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private detailService: DetailService
   ) { }
 
   ngOnInit() {
@@ -65,6 +70,7 @@ export class ClientListComponent implements OnInit {
     this.client.getClient(obj).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
+        this.getJobType();
         this.clientDetails = [];
         const client = JSON.parse(data.resultData);
         if (client.Client.clientViewModel !== null) {
@@ -220,5 +226,22 @@ export class ClientListComponent implements OnInit {
 
   selectedCls(column) {
     return this.sortedColumnCls(column, this.sort);
+  }
+
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Wash') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    });
   }
 }
