@@ -23,7 +23,7 @@ public class GiftCard
 	public string GiftCardName { get; set; }
 
 	[Column]
-	public DateTimeOffset? ExpiryDate { get; set; }
+	public DateTimeOffset? ActivationDate { get; set; }
     [Column]
     public decimal TotalAmount { get; set; }
     [Column]
