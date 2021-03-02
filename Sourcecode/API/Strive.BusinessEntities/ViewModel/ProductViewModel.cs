@@ -21,7 +21,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int LocationId { get; set; }
         public int VendorId { get; set; }
         public int Size { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public string QuantityDescription { get; set; }
         public decimal Cost { get; set; }
         public decimal Price { get; set; }
