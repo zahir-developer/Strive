@@ -56,11 +56,7 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).DeleteWashes, id, "Status");
         }
-        public string GetTicketNumber(int locationId)
-        {
-            var ticketNumberGenerator = new CommonRal(_tenant,false).GetTicketNumber(locationId);
-            return ticketNumberGenerator;
-        }
+     
 
         public Result GetWashTimeByLocationId(int id)
         {

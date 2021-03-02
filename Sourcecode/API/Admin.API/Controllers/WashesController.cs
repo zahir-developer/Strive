@@ -31,10 +31,7 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetMembershipListByVehicleId/{vehicleId}")]
         public Result GetMembershipListByVehicleId(int vehicleId) => _bplManager.GetMembershipListByVehicleId(vehicleId);
-
-        [HttpGet]
-        [Route("GetTicketNumber")]
-        public string GetTicketNumber(int locationId) => _bplManager.GetTicketNumber(locationId);
+        
 
         #endregion
 

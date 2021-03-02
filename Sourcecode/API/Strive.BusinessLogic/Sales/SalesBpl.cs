@@ -60,11 +60,7 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
-        public string GetTicketNumber(int locationId)
-        {
-            var ticketNumberGenerator = new CommonRal(_tenant,false).GetTicketNumber(locationId);
-            return ticketNumberGenerator;
-        }
+      
         public Result GetItemList(SalesListItemDto salesListItemDto)
         {
             return ResultWrap(new SalesRal(_tenant).GetItemList, salesListItemDto, "SalesList");
