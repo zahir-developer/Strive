@@ -60,7 +60,7 @@ export class VendorCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', [Validators.email, Validators.required]],
+      email: [''],
       fax: ['',],
       website: ['']
     });
