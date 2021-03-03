@@ -112,17 +112,28 @@ namespace StriveEmployee.Android.Adapter
             }
             if (!String.IsNullOrEmpty(recentContacts[position].RecentChatMessage))
             {
-                var lastMessage = recentContacts[position].CreatedDate.Split('T');
-                DateTime localDateTime = DateTime.Parse(lastMessage[0]);
-                var localDate = localDateTime.ToString().Split(" ");
-                if(String.Equals(DateTime.Now.Date.ToString(), localDateTime.Date.ToString()))
+                DateTime UTCFormat = DateTime.Parse(recentContacts[position].CreatedDate);
+                DateTime TimeKindFormat = DateTime.SpecifyKind(UTCFormat, DateTimeKind.Utc);
+                DateTime localFormat = TimeKindFormat.ToLocalTime();
+                var lastMessage = localFormat.ToString().Split(" ");
+                if(String.Equals(DateTime.Now.Date.ToString(), localFormat.Date.ToString()))
                 {
                     var messageTime = lastMessage[1].Split(":");
-                    recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = messageTime[0] + ":" + messageTime[1];
+
+                    var TimeofDay = int.Parse(messageTime[0]);
+
+                    if(TimeofDay >= 12)
+                    {
+                        recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = messageTime[0] + ":" + messageTime[1] + " " +"PM";
+                    }
+                    else
+                    {
+                        recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = messageTime[0] + ":" + messageTime[1] + " " + "AM";
+                    }
                 }
                 else
                 {
-                    recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = localDate[0];
+                    recentContactsRecycleHolder.recentContactMessageTime_TextView.Text = lastMessage[0];
                 }
                 recentContactsRecycleHolder.recentContactLastText_TextView.Text = recentContacts[position].RecentChatMessage;
             }

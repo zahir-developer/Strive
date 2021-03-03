@@ -1,4 +1,6 @@
-﻿using Strive.Core.Models.Employee.Messenger.MessengerGroups;
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Employee.Messenger.MessengerGroups;
+using Strive.Core.Resources;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using System;
@@ -56,6 +58,8 @@ namespace Strive.Core.ViewModels.Employee
             }
             groupChatInfo.groupId = null;
 
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+
             GroupChatResponse groupChatResponse = new GroupChatResponse();
             groupChatResponse.Result = new Result();
             groupChatResponse = await MessengerService.CreateChatGroup(groupChatInfo);
@@ -67,6 +71,8 @@ namespace Strive.Core.ViewModels.Employee
             {
                 _userDialog.Toast("Group chat created successfully");
             }
+
+            _userDialog.HideLoading();
         }
         public void AddCreatingUser()
         {

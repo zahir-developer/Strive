@@ -22,20 +22,23 @@ namespace Strive.Core.ViewModels.Employee
         public async Task GetContactsList(string employeeName)
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-            var contactList = await MessengerService.GetContacts(employeeName);
-            if(contactList == null || contactList.EmployeeList == null || contactList.EmployeeList.Count == 0)
+            if (MessengerTempData.EmployeeLists == null)
             {
-                EmployeeLists = null;
-            }
-            else
-            {
-                EmployeeLists = new EmployeeLists();
-                EmployeeLists.EmployeeList = new List<EmployeeList>();
-                MessengerTempData.EmployeeLists = new EmployeeLists();
-                MessengerTempData.EmployeeLists.EmployeeList = new List<EmployeeList>();
-                EmployeeLists = contactList;
-                MessengerTempData.EmployeeLists = contactList;
-            }
+                var contactList = await MessengerService.GetContacts(employeeName);
+                if(contactList == null || contactList.EmployeeList == null || contactList.EmployeeList.Count == 0)
+                {
+                    EmployeeLists = null;
+                }
+                else
+                {
+                    EmployeeLists = new EmployeeLists();
+                    EmployeeLists.EmployeeList = new List<EmployeeList>();
+                    MessengerTempData.EmployeeLists = new EmployeeLists();
+                    MessengerTempData.EmployeeLists.EmployeeList = new List<EmployeeList>();
+                    EmployeeLists = contactList;
+                    MessengerTempData.EmployeeLists = contactList;
+                }
+            }          
             _userDialog.HideLoading();
         }
 

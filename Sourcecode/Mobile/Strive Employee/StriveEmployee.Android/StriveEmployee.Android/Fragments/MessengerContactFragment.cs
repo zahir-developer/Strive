@@ -14,6 +14,7 @@ using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.Android.Adapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
@@ -74,15 +75,18 @@ namespace StriveEmployee.Android.Fragments
 
         private async void getContacts(string employeeName)
         {
-            await ViewModel.GetContactsList(employeeName);
-            if(ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
+            if(MessengerTempData.EmployeeLists == null)
             {
-                messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList);
-                var layoutManager = new LinearLayoutManager(Context);
-                contacts_RecyclerView.SetLayoutManager(layoutManager);
-                contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+                await ViewModel.GetContactsList(employeeName);
+                if(MessengerTempData.EmployeeLists != null || ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
+                {
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, MessengerTempData.EmployeeLists.EmployeeList);
+                    var layoutManager = new LinearLayoutManager(Context);
+                    contacts_RecyclerView.SetLayoutManager(layoutManager);
+                    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+                }
             }
-            
+              
         }
     }
 }
