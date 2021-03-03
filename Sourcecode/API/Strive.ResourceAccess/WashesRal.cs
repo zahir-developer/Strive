@@ -72,10 +72,12 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<LocationDetailViewModel> GetWashTime(int id)
+        public List<LocationDetailViewModel> GetWashTime(WashTimeDto washTimeDto)
         {
 
-            _prm.Add("@LocationId", id);
+            _prm.Add("@LocationId",washTimeDto.LocationId);
+
+            _prm.Add("@DateTime", washTimeDto.DateTime);
             var result = db.Fetch<LocationDetailViewModel>(SPEnum.USPGETWASHTIMEBYLOCATIONID.ToString(), _prm);
             return result;
         }
