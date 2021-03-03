@@ -14,7 +14,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string PhoneNumber { get; set; }
         public string VehicleName { get; set; }
         public DateTimeOffset TimeIn { get; set; }
-        public DateTimeOffset EstimatedTimeOut { get; set; }
+        public DateTimeOffset? EstimatedTimeOut { get; set; }
         public string ServiceName { get; set; }
     }
 }
