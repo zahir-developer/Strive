@@ -1145,7 +1145,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       gender: 1,
       maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
+      isActive: this.clientFormComponent.clientForm.value.status === 0 ? true : false,
       isDeleted: false,
       createdBy: 1,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
@@ -1153,9 +1153,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       updatedDate: new Date(),
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
-      score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+      score: (this.clientFormComponent.clientForm.value.score === '' ||
+        this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
       noEmail: this.clientFormComponent.clientForm.value.creditAccount,
-      clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
+      clientType: (this.clientFormComponent.clientForm.value.type === '' ||
+        this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
     };
     const myObj = {
       client: formObj,
@@ -1166,7 +1168,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         this.toastr.success(MessageConfig.Client.Add, 'Success');
         this.closePopupEmitClient();
-        this.getAllClient();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.clientFormComponent.clientForm.reset();
