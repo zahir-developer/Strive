@@ -13,6 +13,7 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string ServiceName { get; set; }
         public int ServiceTypeId { get; set; }
         public string ServiceTypeName { get; set; }
+        public string Upcharges { get; set; }
         public decimal Price { get; set; }
         public string DiscountType { get; set; }
 
