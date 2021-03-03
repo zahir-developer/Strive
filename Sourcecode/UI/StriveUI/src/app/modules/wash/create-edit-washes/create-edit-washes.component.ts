@@ -139,7 +139,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
-        const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
+        const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
         this.washTime = WashTimeMinutes;
         const dt = new Date();
         this.timeOutDate = dt.setMinutes(dt.getMinutes() + this.washTime);
@@ -663,13 +663,13 @@ export class CreateEditWashesComponent implements OnInit {
       locationId: +localStorage.getItem('empLocationId'),
       clientId: this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
-      make: this.washForm.value.type.id,
-      model: this.washForm.value.model.id,
-      color: this.washForm.value.color.id,
+      make: this.washForm.value.type.id.toString(),
+      model: this.washForm.value.model.id.toString(),
+      color: this.washForm.value.color.id.toString(),
       jobType: this.jobTypeId,
       jobDate: moment(this.timeInDate).format(),
       timeIn: moment(this.timeInDate).format(),
-      estimatedTimeOut: moment(this.timeOutDate).format(),
+      estimatedTimeOut: this.timeOutDate ? moment(this.timeOutDate).format() : null,
       actualTimeOut: null,
       notes: this.washForm.value.notes,
       jobStatus: this.jobStatusId,
