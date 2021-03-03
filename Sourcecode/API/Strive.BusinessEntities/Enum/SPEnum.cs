@@ -334,6 +334,7 @@ namespace Strive.BusinessEntities
         USPSAVETENANTUSERMAP,
         USPGETALLEMAIL,
         USPGETALLDEALS,
+        USPUPDATETOGGLEDEALSTATUS,
 
         //Employee
         USPGETEMPLOYEELIST,

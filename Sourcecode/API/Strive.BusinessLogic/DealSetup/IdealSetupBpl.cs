@@ -13,5 +13,6 @@ namespace Strive.BusinessLogic.DealSetup
     {
         Result AddDealSetup(Deals dealSetup);
         Result GetAllDeals();
+        Result UpdateToggledeal(bool status);
     }
 }

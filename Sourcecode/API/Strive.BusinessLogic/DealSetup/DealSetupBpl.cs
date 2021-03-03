@@ -24,6 +24,9 @@ namespace Strive.BusinessLogic.DealSetup
         {
             return ResultWrap(new DealSetupRal(_tenant).GetAllDeals, "GetAllDeals");
         }
-     
+     public Result UpdateToggledeal(bool status)
+        {
+            return ResultWrap(new DealSetupRal(_tenant).UpdateToggledeal, status, "Status");
+        }
     }
 }
