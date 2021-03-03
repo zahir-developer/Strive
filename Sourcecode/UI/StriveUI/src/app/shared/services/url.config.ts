@@ -98,8 +98,6 @@ export const UrlConfig = {
     searchEmployee: `Admin/Employee/GetAllEmployeeDetail/`,
     getEmployees: `Admin/Employee/GetAllEmplloyeeList`,
     getAllEmployeeList: `Admin/Employee/GetAllEmployeeDetail`,
-
-
     saveEmployees: `Admin/Employee/Add`,
     getRoleByEmpId: `Admin/Employee/GetEmployeeRoleById/`,
     updateEmployee: `Admin/Employee/Update`,
@@ -126,8 +124,6 @@ export const UrlConfig = {
     getLocationById: `Admin/Location/GetById`,
     getLocationSearch: `Admin/Location/GetLocationSearch`,
     getAllLocationName: `Admin/Location/GetAllLocationName`
-
-
   },
   MembershipSetup: {
     getMembershipById: `Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,
@@ -166,11 +162,7 @@ export const UrlConfig = {
     getPayroll: `Admin/PayRoll/GetPayroll`,
     updateAdjustment: `Admin/PayRoll/UpdateEmployeeAdjustment`,
     editRestrict: `Admin/PayRoll/GetPayrollProcessStatus`,
-
     addPayrollProcess: `Admin/PayRoll/AddPayRollProcess`,
-
-
-
   },
   product: {
     getProduct: `Admin/Product/GetAll`,
@@ -283,6 +275,7 @@ export const UrlConfig = {
     deleteWash: `Admin/washes/Delete`,
     getDashBoardCount: `Admin/Washes/DashboardCount`,
     getByBarcode: `Admin/Washes/GetByBarCode/`,
+    getWashTimeByLocationId: `Admin/Washes/GetWashTimeByLocationId`
   },
   weather: {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
@@ -304,6 +297,7 @@ export const UrlConfig = {
     saveTimeClock: `Admin/TimeClock/Save`,
     getTimeClockEmployeeDetails: `Admin/TimeClock/GetTimeClockEmployeeDetails`,
     deleteTimeClockEmployee: `Admin/TimeClock/DeleteTimeClockEmployee`,
+    getClockedInDetailer: `Admin/TimeClock/GetClockedInDetailer/`
   },
 
   customerHistory: {

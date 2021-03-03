@@ -47,7 +47,7 @@ export class DetailService {
   }
 
   getWashTimeByLocationId(id) {
-    return this.http.get(`${UrlConfig.location.getLocationById}`, { params: { id }});
+    return this.http.get(`${UrlConfig.washes.getWashTimeByLocationId}`, { params: { id }});
   }
 
   getPastClientNotesById(id) {
@@ -73,4 +73,9 @@ export class DetailService {
   getDetailScheduleStatus(LocationId, date) {
     return this.http.get(`${UrlConfig.details.getDetailScheduleStatus}`, { params: { LocationId , Date: date } });
   }
+
+  getClockedInDetailer(date , dateTime) {
+    return this.http.get(`${UrlConfig.timeClock.getClockedInDetailer}` + date, { params: { dateTime } });
+  }
+
 }
