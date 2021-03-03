@@ -39,6 +39,8 @@ export class ServiceCreateEditComponent implements OnInit {
   discountServiceType: any;
   employeeId: number;
   priceErrMsg: boolean;
+  serviceEnum: any;
+  additional: any;
 
 
 
@@ -124,6 +126,11 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.get('upcharge').clearValidators();
         this.serviceSetupForm.get('upcharge').updateValueAndValidity();
       }
+      if (this.selectedService?.ServiceType === 'Additonal Services') {
+        this.isAdditional = true;
+      } else {
+        this.isAdditional = false;
+      }
     });
   }
 
@@ -135,39 +142,64 @@ export class ServiceCreateEditComponent implements OnInit {
         this.CommissionType = cType.Codes;
         this.discountType = cType.Codes;
         this.getAllServiceType();
-        // this.getParentType();
+         this.getParentType();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
-
+  getServiceType() {
+    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    console.log(serviceTypeValue, 'serviceTypeValue');
+    if (serviceTypeValue.length > 0) {
+      this.serviceEnum = serviceTypeValue;
+     
+    }
+  }
   // Get ParentType
   getParentType() {
-    const serviceObj = {
-      locationId: null,
-      pageNo: 1,
-      pageSize: 10,
-      query: null,
-      sortOrder: null,
-      sortBy: null,
-      status: true
-    };
-    this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        const serviceDetails = JSON.parse(data.resultData);
-        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
-          this.parent = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(
-            item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
-          this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
-          this.getAllServiceType();
+    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    console.log(serviceTypeValue, 'serviceTypeValue');
+    if (serviceTypeValue.length > 0) {
+      this.serviceEnum = serviceTypeValue;
+        const serviceDetails = this.serviceEnum;
+        if (serviceDetails !== null) {
+          this.parent =   this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;   
+                   this.getAllServices();
         }
+    
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
-  }
-
+    }
+    getAllServices() {
+      const serviceObj = {
+        locationId: +localStorage.getItem('empLocationId'),
+        pageNo: null,
+        pageSize: null,
+        query: null,
+        sortOrder: null,
+        sortBy: null,
+        status: true
+      };
+      this.serviceSetup.getAllServiceDetail().subscribe(res => {
+        if (res.status === 'Success') {
+          const serviceDetails = JSON.parse(res.resultData);
+          if (serviceDetails.AllServiceDetail !== null) {
+            this.additional = serviceDetails.AllServiceDetail.filter(item =>
+              Number(item.ServiceTypeId) === this.parent);
+           
+          
+          }
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+     
+    }
+  
+  
+  
   getCtype(data) {
     const label = this.CommissionType.filter(item => item.CodeId === Number(data));
     if (label.length !== 0) {

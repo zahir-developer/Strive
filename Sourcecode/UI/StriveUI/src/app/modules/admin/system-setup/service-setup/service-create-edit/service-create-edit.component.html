@@ -155,7 +155,7 @@
                         <select class="form-control" formControlName="parentName">
                             <option value="" *ngIf="parent.length !== 0" selected hidden>Choose </option>
                             <option value="" *ngIf="parent.length === 0" selected hidden>No Items Found</option>
-                            <option *ngFor="let parent of parent" value="{{parent.ServiceId}}">{{parent.ServiceName}}
+                            <option *ngFor="let parent of additional" value="{{parent.ServiceId}}">{{parent.ServiceName}}
                             </option>
                         </select>
                     </div>

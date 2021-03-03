@@ -244,19 +244,7 @@ export class CreateEditWashesComponent implements OnInit {
       this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
       this.getAllServices();
     }
-    // this.wash.getServiceType("SERVICETYPE").subscribe(data => {
-    //   if (data.status === 'Success') {
-    //     const sType = JSON.parse(data.resultData);
-    //     this.serviceEnum = sType.Codes;
-    //     this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
-    //     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
-    //     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-    //     this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
-    //     this.getAllServices();
-    //   } else {
-    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    //   }
-    // });
+  
   }
 
   // To get JobType
@@ -328,29 +316,7 @@ export class CreateEditWashesComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-    // this.wash.getServices(serviceObj).subscribe(data => {
-    //   if (data.status === 'Success') {
-    //     const serviceDetails = JSON.parse(data.resultData);
-    //     this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-    //     this.washes = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.washId);
-    //     this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-    //     this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
-    //     this.UpchargeType = this.upcharges;
-    //     this.additional.forEach(element => {
-    //       element.IsChecked = false;
-    //     });
-    //     if (this.isEdit === true) {
-    //       this.washForm.reset();
-    //       this.getWashById();
-    //     }
-    //   } else {
-    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    //   }
-    // });
+  
   }
 
 
