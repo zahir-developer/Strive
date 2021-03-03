@@ -6,6 +6,7 @@ namespace Strive.Common
 {
     public enum GlobalCodes
     {
+        ALL,
         CARDTYPE,
         CASHREGISTERTYPE,
         CITY,
