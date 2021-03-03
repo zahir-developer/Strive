@@ -251,7 +251,7 @@ li.message-notification .dropdown-menu
     color: #333333;
     font-family: "Material Icons";
     content: "\e5cc";
-	padding-top: 0.3rem;
+	padding-top: 0.2rem;
 }
 .breadcrumb-item.active
 {
@@ -452,6 +452,11 @@ table th
 	.p-12 {
 		padding: 12.5px;
 	}
+    
+    .p-l-r-10
+    {
+        padding: 0px 10px;
+    }
 	
 	.theme-light-yellow-color {
 		color: #FFB822;
