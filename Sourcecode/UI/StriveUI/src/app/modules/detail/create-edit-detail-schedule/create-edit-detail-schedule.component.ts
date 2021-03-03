@@ -110,7 +110,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getTicketNumber();
     this.isSaveClick = false;
     this.showDialog = false;
     this.submitted = false;
@@ -119,10 +118,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.viewNotesDialog = false;
     this.isStart = false;
     this.isCompleted = false;
-    this.getJobStatus();
-    this.getEmployeeList();
     this.formInitialize();
+    this.getJobStatus();
+    // this.getEmployeeList();
     this.getAllBayById();
+    this.getTicketNumber();
     this.getJobType();
   }
 
@@ -146,16 +146,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isView) {
       this.detailForm.disable();
     }
-   
-
   }
 
   getTicketNumber() {
     if (!this.isEdit) {
       this.wash.getTicketNumber().subscribe(item => {
         this.ticketNumber = item;
-  
-      })
+      });
     }
     this.assignDate();
     this.getColor();
@@ -182,6 +179,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       });
       this.detailForm.controls.bay.disable();
       this.detailForm.controls.inTime.disable();
+      this.getEmployeeList();
     }
   }
 
@@ -190,13 +188,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
-        const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
-        let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + WashTimeMinutes);
-        outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
-        this.detailForm.patchValue({
-          dueTime: outTime
-        });
-        this.detailForm.controls.dueTime.disable();
+        if (washTime.WashTime.length > 0) {
+          const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
+          let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + WashTimeMinutes);
+          outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
+          this.detailForm.patchValue({
+            dueTime: outTime
+          });
+          this.detailForm.controls.dueTime.disable();
+        }
       }
     });
   }
@@ -1193,7 +1193,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    this.detailService.getAllEmployeeList().subscribe(res => {
+    this.detailForm.controls.inTime.enable();
+    const date = this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd');
+    this.detailService.getClockedInDetailer(date, this.detailForm.value.inTime).subscribe(res => {
+      this.detailForm.controls.inTime.disable();
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.EmployeeList.Employee;

@@ -63,9 +63,9 @@ export class LoginComponent implements OnInit {
       if (data) {
         if (data.status === 'Success') {
           const token = JSON.parse(data.resultData);
+          this.landing.loadTheLandingPage();
           this.getCodeValue();
           this.getThemeColor();
-          this.landing.loadTheLandingPage();
           this.msgService.startConnection();
         } else {
           this.errorFlag = true;

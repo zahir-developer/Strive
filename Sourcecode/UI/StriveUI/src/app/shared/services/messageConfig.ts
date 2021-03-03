@@ -189,7 +189,7 @@ export const MessageConfig = {
             Add: 'Deal added successfully !',
             Update: 'Deal updated successfully !',
             Delete: 'Deal Deleted Successfully !',
-
+            DealLimit: 'Maximum Deal set up added'
          },
          EmployeeHandBook:
          {

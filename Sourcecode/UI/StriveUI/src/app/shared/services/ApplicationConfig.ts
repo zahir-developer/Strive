@@ -21,8 +21,33 @@ export const ApplicationConfig = {
     },
     ServiceType:
     {
-        Washes : 'Wash Package',
-        Detail : 'Detail'
-    }
+        Washes: 'Wash Package',
+        Detail: 'Detail'
+    },
 
-}
+    dealTimePeriods: [
+        {
+            name: 'Monthly',
+            value: 1
+        },
+        {
+            name: 'Yearly',
+            value: 2
+        },
+        {
+            name: 'Custom',
+            value: 3
+        },
+    ],
+
+    dealList: [
+        {
+            name: 'Buy 10, Get next FREE', value: 'Buy 10, Get next FREE'
+        },
+        {
+            name: 'Bounce back coupon', value: 'Bounce back coupon'
+        }
+    ]
+
+};
+
