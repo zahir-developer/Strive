@@ -46,8 +46,8 @@ export class DetailService {
     return this.http.get(`${UrlConfig.employee.getEmployees}`);
   }
 
-  getWashTimeByLocationId(id) {
-    return this.http.get(`${UrlConfig.washes.getWashTimeByLocationId}`, { params: { id }});
+  getWashTimeByLocationId(id, DateTime) {
+    return this.http.get(`${UrlConfig.washes.getWashTimeByLocationId}`, { params: { id, DateTime }});
   }
 
   getPastClientNotesById(id) {

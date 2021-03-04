@@ -137,7 +137,8 @@ export class CreateEditWashesComponent implements OnInit {
 
   getWashTimeByLocationID() {
     const locationId = localStorage.getItem('empLocationId');
-    this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
+    const date = moment(new Date()).format();
+    this.detailService.getWashTimeByLocationId(locationId, date).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
         const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
