@@ -325,14 +325,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       inTime.setMinutes(inminutes);
       inTime.setSeconds('00');
       checkinTime = inTime;
-      // const outtime = this.storeTimeOut.split(':');
-      // const outhour = outtime[0];
-      // const outminutes = outtime[1];
-      // const outTime: any = new Date(this.date);
-      // outTime.setHours(outhour);
-      // outTime.setMinutes(outminutes);
-      // inTime.setSeconds('00');
-      // checkoutTime = outTime;
+  
     } else {
       checkinTime = this.storeTimeIn;
       checkoutTime = this.storeTimeOut;
@@ -380,11 +373,16 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    this.spinner.show();
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       this.submitted = false;
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
           if (response.status === 'Success') {
+            this.spinner.hide();
+
             this.toggleTab = 0;
             if (this.isUpdate) {
               this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
@@ -395,10 +393,14 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
           } else {
+            this.spinner.hide();
+
             this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
           }
         });
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });

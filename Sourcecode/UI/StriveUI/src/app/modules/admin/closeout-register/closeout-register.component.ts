@@ -293,8 +293,12 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       cashRegisterRolls: roll,
       cashregisterOthers: other
     }
+    this.spinner.show();
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
+      this.spinner.hide();
       if (data.status === "Success") {
+        this.spinner.hide();
+
         if (this.isUpdate) {
           this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
         } else {
@@ -302,6 +306,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         }
         this.getCloseOutRegister();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
       }
     });

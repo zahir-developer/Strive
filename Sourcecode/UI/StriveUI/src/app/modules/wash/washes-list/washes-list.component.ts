@@ -226,6 +226,7 @@ export class WashesListComponent implements OnInit {
 
   // Get Wash By Id
   getWashById(label, washDet) {
+    this.spinner.show();
     this.washes.getWashById(washDet.JobId).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
@@ -235,14 +236,17 @@ export class WashesListComponent implements OnInit {
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
+          this.spinner.hide();
         } else {
           this.headerData = 'View Service';
           this.selectedData = wash.WashesDetail;
           this.isEdit = true;
           this.isView = true;
           this.showDialog = true;
+          this.spinner.hide();
         }
       } else {
+this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
