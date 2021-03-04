@@ -88,6 +88,7 @@ export class ClientCreateEditComponent implements OnInit {
   submit() {
     this.clientFormComponent.submitted = true;
     this.clientFormComponent.stateDropdownComponent.submitted = true;
+    this.clientFormComponent.clientForm.controls.status.enable();
     if (this.clientFormComponent.stateDropdownComponent.stateValueSelection == false ) {
       return;
     }

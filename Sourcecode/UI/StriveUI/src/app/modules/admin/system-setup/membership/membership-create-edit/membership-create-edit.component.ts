@@ -149,18 +149,22 @@ export class MembershipCreateEditComponent implements OnInit {
       price: this.selectedData?.Membership?.Price?.toFixed(2),
       status: this.selectedData.Membership.Status === true ? 0 : 1
     });
-    if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashPackage)[0] !== undefined) {
+    if (this.selectedData.MembershipService.filter(i => 
+      (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashPackage)[0] !== undefined) {
       this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i =>
         (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashPackage)[0].ServiceId);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.washes)[0]);
     }
-    if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0] !== undefined) {
+    if (this.selectedData.MembershipService.filter(i =>
+       (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0] !== undefined) {
       this.membershipForm.get('upcharge').patchValue(this.selectedData.MembershipService.filter(i =>
         (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0].ServiceId);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.upcharge)[0]);
     }
-    if (this.selectedData.MembershipService.filter(i => (i.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) {
-      this.patchedService = this.selectedData?.MembershipService.filter(item => (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+    if (this.selectedData.MembershipService.filter(i =>
+       (i.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) {
+      this.patchedService = this.selectedData?.MembershipService.filter(item =>
+         (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
       const serviceIds = this.selectedData?.MembershipService.filter(item =>
         (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices).map(item => item.ServiceId);
       const memberService = serviceIds.map((e) => {

@@ -225,45 +225,64 @@ export class VehicleCreateEditComponent implements OnInit {
       if (res.status === 'Success') {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
-        if (membership.MembershipAndServiceDetail.MembershipService !== null) {
-          this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+        if (membership.MembershipAndServiceDetail.Membership !== null) {
           this.vehicleForm.patchValue({
             monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
           });
-          const washService = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
+        }
+        if (membership.MembershipAndServiceDetail.MembershipService !== null) {
+          this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+          const washService = this.membershipServices.filter(item =>
+            item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
           if (washService.length > 0) {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+          const upchargeServcie = this.membershipServices.filter(item =>
+            item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-          if (this.membershipServices.filter(i => i.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) { // Additonal Services
-            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+          if (this.membershipServices.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) { // Additonal Services
+            this.memberOnchangePatchedService = this.membershipServices.filter(item =>
+              (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
           }
+          this.memberOnchangePatchedService.forEach(element => {
+            if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+              this.selectedservice.push(element);
+            }
+          });
+          this.extraService.forEach(element => {
+            if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+              this.selectedservice.push(element);
+            }
+          });
+          const serviceIds = this.selectedservice.map(item => item.ServiceId);
+          const memberService = serviceIds.map((e) => {
+            const f = this.additionalService.find(a => a.ServiceId === e);
+            return f ? f : 0;
+          });
+          this.memberService = memberService.map(item => {
+            return {
+              item_id: item.ServiceId,
+              item_text: item.ServiceName
+            };
+          });
+          this.vehicleForm.get('services').patchValue(this.memberService);
+          if (this.patchedService !== undefined) {
+            this.patchedService.forEach(element => {
+              if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+                element.IsDeleted = true;
+              }
+            });
+          }
+        } else {
+          this.vehicleForm.patchValue({
+            upcharge: '',
+            upchargeType: '',
+            services: ''
+          });
         }
-        this.memberOnchangePatchedService.forEach(element => {
-          if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
-            this.selectedservice.push(element);
-          }
-        });
-        this.extraService.forEach(element => {
-          if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
-            this.selectedservice.push(element);
-          }
-        });
-        const serviceIds = this.selectedservice.map(item => item.ServiceId);
-        const memberService = serviceIds.map((e) => {
-          const f = this.additionalService.find(a => a.ServiceId === e);
-          return f ? f : 0;
-        });
-        this.memberService = memberService.map(item => {
-          return {
-            item_id: item.ServiceId,
-            item_text: item.ServiceName
-          };
-        });
         this.dropdownSettings = {
           singleSelection: false,
           defaultOpen: false,
@@ -274,14 +293,6 @@ export class VehicleCreateEditComponent implements OnInit {
           itemsShowLimit: 2,
           allowSearchFilter: false
         };
-        this.vehicleForm.get('services').patchValue(this.memberService);
-        if (this.patchedService !== undefined) {
-          this.patchedService.forEach(element => {
-            if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
-              element.IsDeleted = true;
-            }
-          });
-        }
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -604,7 +615,8 @@ export class VehicleCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   upchargeTypeChange(event, value) {
-    const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+    const upchargeServcie = this.membershipServices.filter(item =>
+      item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
     let oldPrice = 0;
     let newPrice = 0;
     if (upchargeServcie.length > 0) {
