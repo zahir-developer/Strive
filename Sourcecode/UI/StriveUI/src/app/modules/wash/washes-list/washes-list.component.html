@@ -16,39 +16,42 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="p-b-10">
-                                    <h4 class="d-inline-block align-middle">Washes &nbsp;<span
-                                            class="text-muted font-size-1"></span></h4>
-                                  
+                                    <div class="search-container ">
+                                        <form>
+                                            <div class="form-row ">
+                                                <div class="form-row ">
+                                    <h4 class="d-inline-block  m-b-5">Washes - &nbsp;</h4>
+                                    <div class="input-icon-right date-pick m-r-320">
+                                        <i class="mdi mdi-calendar-range"></i>
+                                        <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control"
+                                            [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
+                                            [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+                                    </div>
+                               
+                                                </div>
+                                           <div class="col-4"></div>
+                                             <div class="form-group d-flex"> 
+                                                 <input type="search"
+                                                    class="form-control" size="25" [(ngModel)]="search" name="search"
+                                                    id="inputSearchbyName" placeholder="Search"
+                                                    (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
+                                            <div class="form-group col-sm m-l-5">
+                                     <button type="button"
+                                                    class="btn theme-primary-button-color  btn-sm"
+                                                    (click)="getAllWashDetails()">Search</button>
+                                            </div>
+                                            <div class=" card-widgets"><button type="button"
+                                                class="btn theme-primary-button-color btn-sm"
+                                                (click)="add('add',[])">Add New Wash</button>
+                                        </div>
+                                        </div>
+                                    </form>
+                                </div>
                                 </div>
                                 <div class="setup-content" >
-                                    <div class="search-container  pull-right" *ngIf="isTableEmpty === false">
-                                        <form>
-                                            <div class="form-row">
-                                                <div class="form-group d-flex"> 
-                                                <input type="text" placeholder="Select a Date" name="dateRange" class="form-control m-r-10"
-                                                [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
-                                                [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
-                                                </div>
-                                                 <div class="form-group d-flex"> 
-                                                     <input type="search"
-                                                        class="form-control" size="25" [(ngModel)]="search" name="search"
-                                                        id="inputSearchbyName" placeholder="Search"
-                                                        (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
-                                                <div class="form-group col-sm m-l-5">
-                                         <button type="button"
-                                                        class="btn theme-primary-button-color  m-l-10 btn-sm"
-                                                        (click)="getAllWashDetails()">Search</button>
-                                                </div>
-                                                <div class="pull-right card-widgets"><button type="button"
-                                                    class="btn theme-primary-button-color btn-sm"
-                                                    (click)="add('add',[])">Add New Wash</button>
-                                            </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                     <span
-                                        class="col-12 row d-block " *ngIf="isTableEmpty === true">No Washes Found</span></div>
-                                <div class="setup-content" *ngIf="isTableEmpty === false">
+                                   
+                                     </div>
+                                <div class="setup-content" >
                                     <div class="table-responsive">
                                         <table class="table table-striped headerfix">
                                             <thead>
@@ -78,7 +81,9 @@
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="bodyfix">
+                                            <span
+                                       colspan="11" class="text-center"  *ngIf="isTableEmpty === true">No Washes Found</span>
+                                            <tbody class="bodyfix" *ngIf="isTableEmpty === false">
                                                 <tr
                                                     *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
@@ -106,7 +111,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div class="row pull-right" >
+                                        <div class="row pull-right"  *ngIf="isTableEmpty === false">
                                             <div class="col-6">
                                              <ngb-pagination  [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
                                                  [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
