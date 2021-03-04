@@ -30,7 +30,7 @@ export class PrintCustomerCopyComponent implements OnInit {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
-        this.selectedData.DetailsItem.forEach(item => {
+        this.selectedData?.DetailsItem.forEach(item => {
           const serviceType = _.where(this.serviceEnum, { CodeId: item.ServiceTypeId });
           if (serviceType.length > 0) {
             if (serviceType[0].CodeValue === 'Details') {

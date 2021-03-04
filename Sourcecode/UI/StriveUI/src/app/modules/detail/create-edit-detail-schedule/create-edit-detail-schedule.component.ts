@@ -95,6 +95,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   upchargeId: any;
   airFreshenerId: any;
   additionalId: any;
+  deleteDetailList: boolean;
+  body: string;
+  header: string;
+  title: string;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -106,6 +110,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private client: ClientService,
     private confirmationService: ConfirmationService,
     private router: Router,
+    
     private codeValueService: CodeValueService,
     private serviceSetupService: ServiceSetupService
   ) { }
@@ -1012,25 +1017,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   deleteDetail() {
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to delete?',
-      header: 'Confirmation',
-      acceptLabel: 'Confirm',
-      rejectLabel: 'Cancel',
-      acceptIcon: null,
-      rejectIcon: null,
-      acceptButtonStyleClass: 'theme-secondary-button-color',
-      rejectButtonStyleClass: 'theme-optional-button-color',
-      icon: null,
-      accept: () => {
-        this.confirmDelete(this.selectedData.Details.JobId);
-      },
-      reject: () => { }
-    });
+    this.deleteDetailList = true
+    this.body = 'Are you sure you want to Detail this Detail? All related information will be deleted and the Detail cannot be retrieved?',
+      this.title = 'Delete Detail'
   }
 
-  confirmDelete(jobID) {
-    this.detailService.deleteDetail(jobID).subscribe(res => {  // need to change
+  confirmDelete() {
+    this.detailService.deleteDetail(this.selectedData.Details.JobId).subscribe(res => {  // need to change
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
