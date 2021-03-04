@@ -18,6 +18,7 @@ import { PrintComponent } from './print/print.component';
 import { element } from 'protractor';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { SaleGiftCardComponent } from './sale-gift-card/sale-gift-card.component';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -221,7 +222,7 @@ export class SalesComponent implements OnInit {
         const services = JSON.parse(data.resultData);
         console.log(services, 'discount');
         if (services.ServiceSetup.AllServiceDetail !== null ) {
-          this.discounts = services.ServiceSetup.AllServiceDetail.filter(item => item.ServiceType === 'Service Discounts');
+          this.discounts = services.ServiceSetup.AllServiceDetail.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
         }
       }
     });
@@ -327,18 +328,18 @@ export class SalesComponent implements OnInit {
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
-              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Wash Package');
+              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
               this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Additonal Services');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Upcharges');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.Upcharges);
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Outside Services');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.OutsideServices);
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Air Fresheners');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Discounts');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
             }
           } else {
             this.showPopup = false;
@@ -781,7 +782,7 @@ export class SalesComponent implements OnInit {
               additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Cost / 100);
               item.Cost = (additionalCost * item.Cost / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Air Fresheners') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
             this.airfreshnerService.forEach(airFreshner => {
               airfreshnerCost = airfreshnerCost + airFreshner.Price;
             });
@@ -791,7 +792,7 @@ export class SalesComponent implements OnInit {
               airfreshnerDiscountPrice = airfreshnerDiscountPrice + (airfreshnerCost * item.Cost / 100);
               item.Cost = (airfreshnerCost * item.Cost / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Outside Services') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices) {
             this.outsideServices.forEach(outside => {
               outsideCost = outsideCost + outside.Price;
             });
@@ -801,7 +802,7 @@ export class SalesComponent implements OnInit {
               outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Cost / 100);
               item.Cost = (outsideCost * item.Cost / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Upcharges') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
             this.upCharges.forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });

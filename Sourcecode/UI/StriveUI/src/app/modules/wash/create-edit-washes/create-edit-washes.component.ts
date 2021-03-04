@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 declare var $: any;
 
 @Component({
@@ -139,7 +140,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
-        const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
+        const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
         this.washTime = WashTimeMinutes;
         const dt = new Date();
         this.timeOutDate = dt.setMinutes(dt.getMinutes() + this.washTime);
@@ -235,28 +236,15 @@ export class CreateEditWashesComponent implements OnInit {
 
   getServiceType() {
     const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
-    console.log(serviceTypeValue, 'serviceTypeValue');
-    if (serviceTypeValue.length > 0) {
+   if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
-      this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
-      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
-      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+      this.washId = this.serviceEnum.filter(i => i.CodeValue ===ApplicationConfig.Enum.ServiceType.WashPackage)[0]?.CodeId;
+     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0] ?.CodeId;
+     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0] ?.CodeId;
+      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
       this.getAllServices();
     }
-    // this.wash.getServiceType("SERVICETYPE").subscribe(data => {
-    //   if (data.status === 'Success') {
-    //     const sType = JSON.parse(data.resultData);
-    //     this.serviceEnum = sType.Codes;
-    //     this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
-    //     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
-    //     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-    //     this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
-    //     this.getAllServices();
-    //   } else {
-    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    //   }
-    // });
+  
   }
 
   // To get JobType
@@ -328,29 +316,7 @@ export class CreateEditWashesComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-    // this.wash.getServices(serviceObj).subscribe(data => {
-    //   if (data.status === 'Success') {
-    //     const serviceDetails = JSON.parse(data.resultData);
-    //     this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-    //     this.washes = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.washId);
-    //     this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-    //     this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
-    //     this.UpchargeType = this.upcharges;
-    //     this.additional.forEach(element => {
-    //       element.IsChecked = false;
-    //     });
-    //     if (this.isEdit === true) {
-    //       this.washForm.reset();
-    //       this.getWashById();
-    //     }
-    //   } else {
-    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    //   }
-    // });
+  
   }
 
 
@@ -663,13 +629,13 @@ export class CreateEditWashesComponent implements OnInit {
       locationId: +localStorage.getItem('empLocationId'),
       clientId: this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
-      make: this.washForm.value.type.id,
-      model: this.washForm.value.model.id,
-      color: this.washForm.value.color.id,
+      make: this.washForm.value.type.id.toString(),
+      model: this.washForm.value.model.id.toString(),
+      color: this.washForm.value.color.id.toString(),
       jobType: this.jobTypeId,
       jobDate: moment(this.timeInDate).format(),
       timeIn: moment(this.timeInDate).format(),
-      estimatedTimeOut: moment(this.timeOutDate).format(),
+      estimatedTimeOut: this.timeOutDate ? moment(this.timeOutDate).format() : null,
       actualTimeOut: null,
       notes: this.washForm.value.notes,
       jobStatus: this.jobStatusId,

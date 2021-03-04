@@ -9,9 +9,6 @@
                     <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                 </ol>
             </nav>
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Checkout</h3>
-            </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="row no-gutter">
                     <div class="col-12">
@@ -26,7 +23,7 @@
                                             <div class="form-row">
                                                 <div class="form-group d-flex"> 
 
-                                                <input type="text" size="25" placeholder="Datepicker" name="date" class="form-control m-r-10"
+                                                <input type="text" size="25" placeholder="Select a Date" name="date" class="form-control m-r-10"
                                                 [(ngModel)]="daterangepickerModel" bsDatepicker (bsValueChange)="onValueChange($event)"
                                                 [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
                                             </div>

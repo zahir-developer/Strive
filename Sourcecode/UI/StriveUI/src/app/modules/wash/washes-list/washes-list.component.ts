@@ -106,6 +106,7 @@ export class WashesListComponent implements OnInit {
         if (wash.Washes !== null) {
           this.washDetails = wash?.Washes?.AllWashesViewModel;
           const totalRowCount = wash?.Washes?.Count?.Count;
+          if(this.washDetails.length > 0){
           for (let i = 0; i < this.washDetails.length; i++) {
             let hh = this.washDetails[i].TimeIn.substring(13, 11);
             let m = this.washDetails[i].TimeIn.substring(16, 14);
@@ -126,9 +127,9 @@ export class WashesListComponent implements OnInit {
               hh = 12;
             }
             let inTimeFormat = hr + ":" + min + ":" + sec + dd;
-            let outhh = this.washDetails[i].EstimatedTimeOut.substring(13, 11);
-            let outm = this.washDetails[i].EstimatedTimeOut.substring(16, 14);
-            var outs = this.washDetails[i].EstimatedTimeOut.substring(19, 17);
+            let outhh = this.washDetails[i]?.EstimatedTimeOut?  this.washDetails[i].EstimatedTimeOut.substring(13, 11) : null;
+            let outm = this.washDetails[i]?.EstimatedTimeOut? this.washDetails[i].EstimatedTimeOut.substring(16, 14): null;
+            var outs =this.washDetails[i]?.EstimatedTimeOut? this.washDetails[i].EstimatedTimeOut.substring(19, 17):null;
             let outmin = outm;
 
             let outsec = outs;
@@ -151,6 +152,7 @@ export class WashesListComponent implements OnInit {
                 item.TimeInFormat = inTimeFormat;
             });
           }
+        }
           if (this.washDetails?.length === 0 || this.washDetails == null) {
             this.isTableEmpty = true;
           } else {
@@ -159,6 +161,7 @@ export class WashesListComponent implements OnInit {
           }
         }
       } else {
+        this.isTableEmpty === false
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

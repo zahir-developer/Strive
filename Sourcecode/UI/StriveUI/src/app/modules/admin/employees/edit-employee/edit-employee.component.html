@@ -4,19 +4,17 @@
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
-                <ol class="breadcrumb font-size--9">
+                <ol class="breadcrumb font-size-1">
                     <li class="breadcrumb-item"><a appNavigatePage>Admin</a></li>
                     <li class="breadcrumb-item"><a (click)="navigatePage()">Employees</a></li>
                     <li class="breadcrumb-item active" aria-current="page">View/Edit Employee</li>
                 </ol>
             </nav>
             <!--bread crumb-->
-            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3>View/Edit Employee
-                    <button *ngIf="actionType === 'view'" type="button"
+            <!-- <div *ngIf="actionType === 'view'" class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                    <button type="button"
                         class="btn theme-optional-button-color float-right" (click)="backToGrid()">Back</button>
-                </h3>
-            </div>
+            </div> -->
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">

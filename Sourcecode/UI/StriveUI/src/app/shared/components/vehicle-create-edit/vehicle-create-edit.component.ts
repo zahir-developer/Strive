@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as _ from 'underscore';
 import { MessageConfig } from '../../services/messageConfig';
+import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -229,17 +230,17 @@ export class VehicleCreateEditComponent implements OnInit {
           this.vehicleForm.patchValue({
             monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
           });
-          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash Package');
+          const washService = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
           if (washService.length > 0) {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
+          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-          if (this.membershipServices.filter(i => i.ServiceTypeName === 'Additonal Services').length !== 0) { // Additonal Services
-            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === 'Additonal Services');
+          if (this.membershipServices.filter(i => i.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) { // Additonal Services
+            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
           }
         }
         this.memberOnchangePatchedService.forEach(element => {
@@ -321,17 +322,17 @@ export class VehicleCreateEditComponent implements OnInit {
         const membership = JSON.parse(res.resultData);
         if (membership.MembershipAndServiceDetail.MembershipService !== null) {
           this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash Package');
+          const washService = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
           if (washService.length > 0) {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
+          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-          if (this.membershipServices.filter(i => (i.ServiceTypeName) === 'Additonal Services').length !== 0) {
-            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === 'Additonal Services');
+          if (this.membershipServices.filter(i => (i.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) {
+            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
             if (this.memberOnchangePatchedService.length !== 0) {
               this.patchedService.forEach(element => {
                 if (this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
@@ -393,9 +394,9 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getUpchargeService(serviceObj).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.upchargeType = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.IsActive === true && item.ServiceType === 'Wash-Upcharge');
+        this.upchargeType = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.IsActive === true && item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
         this.washesDropdown = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && item.ServiceType === 'Wash Package');
+          item.IsActive === true && item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -603,7 +604,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   upchargeTypeChange(event, value) {
-    const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
+    const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
     let oldPrice = 0;
     let newPrice = 0;
     if (upchargeServcie.length > 0) {

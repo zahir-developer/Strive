@@ -7,6 +7,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -39,6 +40,8 @@ export class ServiceCreateEditComponent implements OnInit {
   discountServiceType: any;
   employeeId: number;
   priceErrMsg: boolean;
+  serviceEnum: any;
+  additional: any;
 
 
 
@@ -117,12 +120,17 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-      if ( this.selectedService?.ServiceType === 'Detail-Upcharge' || this.selectedService?.ServiceType === 'Detail-CeramicUpcharge' || this.selectedService?.ServiceType === 'Wash-Upcharge') {
+      if ( this.selectedService?.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge  || this.selectedService?.ServiceType === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge  || this.selectedService?.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
       } else {
         this.isUpcharge = false;
         this.serviceSetupForm.get('upcharge').clearValidators();
         this.serviceSetupForm.get('upcharge').updateValueAndValidity();
+      }
+      if (this.selectedService?.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
+        this.isAdditional = true;
+      } else {
+        this.isAdditional = false;
       }
     });
   }
@@ -135,39 +143,54 @@ export class ServiceCreateEditComponent implements OnInit {
         this.CommissionType = cType.Codes;
         this.discountType = cType.Codes;
         this.getAllServiceType();
-        // this.getParentType();
+         this.getParentType();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
-
+  
   // Get ParentType
   getParentType() {
-    const serviceObj = {
-      locationId: null,
-      pageNo: 1,
-      pageSize: 10,
-      query: null,
-      sortOrder: null,
-      sortBy: null,
-      status: true
-    };
-    this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        const serviceDetails = JSON.parse(data.resultData);
-        if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
-          this.parent = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(
-            item => Number(item.ServiceTypeId) === 17 && item.IsActive === true);
-          this.parent = this.parent.filter(item => Number(item.ParentServiceId) === 0);
-          this.getAllServiceType();
+    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    if (serviceTypeValue.length > 0) {
+      this.serviceEnum = serviceTypeValue;
+        const serviceDetails = this.serviceEnum;
+        if (serviceDetails !== null) {
+          this.parent =   this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;   
+                   this.getAllServices();
         }
+    
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
-  }
-
+    }
+    getAllServices() {
+      const serviceObj = {
+        locationId: +localStorage.getItem('empLocationId'),
+        pageNo: null,
+        pageSize: null,
+        query: null,
+        sortOrder: null,
+        sortBy: null,
+        status: true
+      };
+      this.serviceSetup.getAllServiceDetail().subscribe(res => {
+        if (res.status === 'Success') {
+          const serviceDetails = JSON.parse(res.resultData);
+          if (serviceDetails.AllServiceDetail !== null) {
+            this.additional = serviceDetails.AllServiceDetail.filter(item =>
+              Number(item.ServiceTypeId) === this.parent); 
+          }
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+     
+    }
+  
+  
+  
   getCtype(data) {
     const label = this.CommissionType.filter(item => item.CodeId === Number(data));
     if (label.length !== 0) {
@@ -179,7 +202,6 @@ export class ServiceCreateEditComponent implements OnInit {
   // Get ServiceType
   getAllServiceType() {
     const check = this.codeValueService.getCodeValueByType('ServiceType');
-    console.log(check, 'cache-value');
     this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
@@ -199,14 +221,14 @@ export class ServiceCreateEditComponent implements OnInit {
     const serviceType = this.serviceType.filter(item => +item.CodeId === +typeID);
     if (serviceType.length > 0) {
       const type = serviceType[0].CodeValue;
-      if (type === 'Detail-Upcharge' || type === 'Detail-CeramicUpcharge' || type === 'Wash-Upcharge') {
+      if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge || type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
       } else {
         this.isUpcharge = false;
         this.serviceSetupForm.get('upcharge').clearValidators();
         this.serviceSetupForm.get('upcharge').updateValueAndValidity();
       }
-      if (type === 'Additonal Services') {
+      if (type === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
         this.isAdditional = true;
       } else {
         this.isAdditional = false;
@@ -216,7 +238,7 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isDetails = false;
       }
-      if (type === 'Service Discounts') {
+      if (type === ApplicationConfig.Enum.ServiceType.ServiceDiscounts) {
         this.isDiscounts = true;
         this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
         this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
@@ -226,7 +248,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
         this.isDiscounts = false;
       }
-      if (type === 'Wash Package') { 
+      if (type === ApplicationConfig.Enum.ServiceType.WashPackage) { 
         this.isCommisstionShow = false;
       } else {
         this.isCommisstionShow = true;

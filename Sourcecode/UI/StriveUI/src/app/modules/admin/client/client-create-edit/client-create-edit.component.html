@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
-                <ol class="breadcrumb font-size--9">
+                <ol class="breadcrumb font-size-1">
                     <li class="breadcrumb-item">Admin</li>
                     <li class="breadcrumb-item"><a (click)="cancel()">Client</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Client</li>
@@ -10,16 +10,11 @@
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Client</li>
                 </ol>
             </nav>
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 *ngIf="!isEdit" class="d-inline-block">New Client</h3>
-                <h3 *ngIf="isEdit && !isView" class="d-inline-block">Edit Client</h3>
-                <h3 *ngIf="isEdit && isView" class="d-inline-block">View Client</h3>
-            </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="card">
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5 line-height">
-                            <h5 class="d-inline-block font-weight-600">Client<span class="theme-secondary-color"></span>
+                            <h5 class="d-inline-block font-weight-600">Client Details<span class="theme-secondary-color"></span>
                             </h5>
                             <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Clientviewedit"
                                     role="button" aria-expanded="false" aria-controls="Clientviewedit"><i
@@ -31,7 +26,7 @@
                             </app-client-form>
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="title-border p-b-15 m-b-15">
+                                    <div class="m-t-10 m-b-10">
                                         <h5 class="d-inline-block font-weight-600">Vehicles</h5>&nbsp;
                                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
                                             (click)="add()" [disabled]="isView">Add New Vehicle</button>
