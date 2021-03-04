@@ -62,7 +62,7 @@ namespace Admin.API.Controllers
 
         [HttpGet]
         [Route("GetWashTimeByLocationId")]
-        public Result GetLocationById([FromBody]WashTimeDto washTimeDto) => _bplManager.GetWashTimeByLocationId(washTimeDto);
+        public Result GetLocationById(WashTimeDto washTimeDto) => _bplManager.GetWashTimeByLocationId(washTimeDto);
 
     }
 }
