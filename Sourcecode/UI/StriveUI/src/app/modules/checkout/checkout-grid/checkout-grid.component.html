@@ -14,36 +14,36 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="p-b-5 m-b-10">
-                                    <h4 class="d-inline-block align-middle" >Checkout</h4>
+                                    <h4 class="d-inline-block m-b-5">Checkout - </h4>
+                                    <div class="date d-inline-block datepicker-view " data-date-format="dd/mm/yyyy">
+                                    
+                                        <input type="text" class="datepick" [(ngModel)]="daterangepickerModel" #dp="bsDatepicker"
+                                            (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
+                                            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+                                            <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
                                 </div>
-                                <div id="Checkoutlist" class="collapse show">
-                                    <div class="search-container  pull-right">
-                                        <form>
-                                            <div class="form-row">
+                                <div class="search-container  pull-right">
+                                    <form>
+                                        <div class="form-row">
+                                         
+                                              
                                                 <div class="form-group d-flex"> 
 
-                                                <input type="text" size="25" placeholder="Select a Date" name="date" class="form-control m-r-10"
-                                                [(ngModel)]="daterangepickerModel" bsDatepicker (bsValueChange)="onValueChange($event)"
-                                                [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
-                                            </div>
+                                                 <input type="search" class="form-control"
+                                                    [(ngModel)]="query" size="25" name="search" id="inputSearch"
+                                                    placeholder="Search"
+                                                    (keyup)="$event.keyCode == 13 ? checkOutSearch() : null"
+                                                   > </div>
 
-                                                  
-                                                    <div class="form-group d-flex"> 
-
-                                                     <input type="search" class="form-control"
-                                                        [(ngModel)]="query" size="25" name="search" id="inputSearch"
-                                                        placeholder="Search"
-                                                        (keyup)="$event.keyCode == 13 ? checkOutSearch() : null"
-                                                       > </div>
-
-                                                <div class="form-group d-flex col-sm m-l-5">
-                                                    <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
-                                                        (click)="checkOutSearch()">Search</button>
-                                                      </div>  
-                                            </div>
-                                        </form>
-                                    </div>
+                                            <div class="form-group d-flex col-sm m-l-5">
+                                                <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
+                                                    (click)="checkOutSearch()">Search</button>
+                                                  </div>  
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="Checkoutlist" class="collapse show">
+                                   
                                   
                                    
                                     <div class="table-responsive" style="overflow-x: scroll;">
@@ -71,8 +71,8 @@
                                                                                         ></i></th>
                                                                                         <th  scope="col" class="pointer" (click)="changeSorting('MembershipName')">Member   ship&nbsp; <i class="fa" 
                                                                                            [ngClass]="selectedCls('MembershipName')"></i></th>
-                                                                                            <th  scope="col" class="pointer" (click)="changeSorting('MembershipNameOrPaymentStatus')">Status&nbsp; <i class="fa" 
-                                                                                                [ngClass]="selectedCls('MembershipNameOrPaymentStatus')"></i></th>
+                                                                                            <th  scope="col" class="pointer" >Status&nbsp; <i class="fa" 
+                                                                                                ></i></th>
                                                     
                                                     <th scope="col">Action</th>
                                                 </tr>
