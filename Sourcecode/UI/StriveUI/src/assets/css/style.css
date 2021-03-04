@@ -230,6 +230,7 @@ li.message-notification .dropdown-menu
 #page-content
 {
 	padding: 1rem 2rem;
+    margin-bottom: 20px;
 }
 
 /** Bread Crumb **/
