@@ -78,7 +78,7 @@ namespace Strive.BusinessLogic
                             {
                                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
                                 keyValues.Add("{emailId}",item.Email);
-                                keyValues.Add("{ticketNumber}",clientLogin.password);
+                                keyValues.Add("{password}",clientLogin.password);
                                 comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues);
                                // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
                                 success = true;
