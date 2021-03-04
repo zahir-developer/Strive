@@ -5,9 +5,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-4">Vehicle: &nbsp;{{selectedData.Details.vehicleModel}}</div>
-        <div class="col-4 text-center">{{selectedData.Details.vehicleMake}}</div>
-        <div class="col-4 text-right">{{selectedData.Details.vehicleColor}}</div>
+        <div class="col-4">Vehicle: &nbsp;{{selectedData?.Details?.vehicleModel}}</div>
+        <div class="col-4 text-center">{{selectedData?.Details?.vehicleMake}}</div>
+        <div class="col-4 text-right">{{selectedData?.Details?.vehicleColor}}</div>
     </div>
     <div class="row">
         <div class="col-6">
@@ -39,19 +39,19 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div>In: &nbsp; {{selectedData.Details.TimeIn | date : 'MM/dd/yyyy, hh:mm a'}}</div>
+            <div>In: &nbsp; {{selectedData?.Details?.TimeIn | date : 'MM/dd/yyyy, hh:mm a'}}</div>
         </div>
     </div>
     <br/>
     <div class="row">
         <div class="col-12">
-            <div>Out: &nbsp; {{selectedData.Details.EstimatedTimeOut | date: 'MM/dd/yyyy, hh:mm a'}}</div>
+            <div>Out: &nbsp; {{selectedData?.Details?.EstimatedTimeOut | date: 'MM/dd/yyyy, hh:mm a'}}</div>
         </div>
     </div>
     <br/>
     <div class="row">
         <div class="col-12">
-            <div>Est: &nbsp; {{selectedData.Details.EstimatedTimeOut | date: 'mm'}} &nbsp;Min</div>
+            <div>Est: &nbsp; {{selectedData?.Details?.EstimatedTimeOut | date: 'mm'}} &nbsp;Min</div>
         </div>
     </div>
     <br/>
@@ -90,7 +90,7 @@
     <br/>
     <div class="row">
         <div class="col-12">
-            <div>Note: {{selectedData.Details.Notes}}</div>
+            <div>Note: {{selectedData?.Details?.Notes}}</div>
         </div>
     </div>
 </div>
