@@ -14,4 +14,10 @@ export class DealsService {
 
   addDealsSetup(obj) {
     return this.http.post(`${UrlConfig.DealSetup.insertDealSetup}`, obj);
-  } }
+  }
+
+  updateDeals(status) {
+    return this.http.get(`${UrlConfig.DealSetup.updatedeals}`, { params : { status } });
+  }
+
+}

@@ -59,7 +59,13 @@ export class DealSetupComponent implements OnInit {
           }
         });
         if (this.DealsDetails.length > 0) {
-          this.dealStatus = true;
+          for (const deal of this.DealsDetails) {
+            if (deal.Deals) {
+              this.dealStatus = true;
+              return;
+            }
+            this.dealStatus = false;
+          }
         } else {
           this.dealStatus = false;
         }
@@ -73,9 +79,18 @@ export class DealSetupComponent implements OnInit {
 
   dealChange(event) {
     console.log(event, 'deal');
+    const status = event.checked;
+    this.Deals.updateDeals(status).subscribe( res => {
+      if (res.status === 'Success') {
+        this.getDeals();
+      }
+    });
   }
 
   delete(data) {
+    if (!data.Deals) {
+      return;
+    }
     this.confirmationService.confirm('Delete Deals', `Are you sure you want to delete this deal? All related 
     information will be deleted and the client cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
@@ -109,6 +124,9 @@ export class DealSetupComponent implements OnInit {
 
 
   editDeal(data) {
+    if (!data.Deals) {
+      return;
+    }
     this.actionType = 'Edit';
     this.selectedData = data;
     this.showDialog = true;

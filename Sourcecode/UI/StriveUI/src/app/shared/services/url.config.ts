@@ -21,7 +21,7 @@ export const UrlConfig = {
   DealSetup: {
     getDealSetupSetup: `Admin/DealSetup/GetAllDeals`,
     insertDealSetup: `Admin/DealSetup/Add`,
-  
+    updatedeals: `Admin/DealSetup/Update`
   },
   cashRegister: {
     getCashRegister: `Admin/CashRegister/Get`,
