@@ -250,8 +250,8 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getMembershipService().subscribe(res => {
       if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
-        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Wash-Upcharge');
-        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additonal Services');
+        this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+        this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
       }
     });
   }

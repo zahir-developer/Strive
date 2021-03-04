@@ -19,10 +19,20 @@ export const ApplicationConfig = {
         EmployeeHandbook: 5120,
         TermsAndCondition: 5120
     },
-    ServiceType:
-    {
-        Washes: 'Wash Package',
-        Detail: 'Detail'
+    Enum : {
+        ServiceType:
+        {   
+            WashPackage: 'Wash Package',
+            AdditonalServices: 'Additonal Services',
+            ServiceDiscounts : 'Service Discounts',
+            OutsideServices: 'Outside Services',
+            WashUpcharge: 'Wash-Upcharge',
+            DetailUpcharge : 'Detail-Upcharge',
+            DetailCeramicUpcharge: 'Detail-CeramicUpcharge',
+            AirFresheners: 'Air Fresheners',
+            Discounts: 'Discounts',
+            Upcharges: 'Upcharges',
+        },
     },
 
     dealTimePeriods: [

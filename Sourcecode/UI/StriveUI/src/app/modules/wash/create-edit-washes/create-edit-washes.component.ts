@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 declare var $: any;
 
 @Component({
@@ -235,13 +236,12 @@ export class CreateEditWashesComponent implements OnInit {
 
   getServiceType() {
     const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
-    console.log(serviceTypeValue, 'serviceTypeValue');
-    if (serviceTypeValue.length > 0) {
+   if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
-      this.washId = this.serviceEnum.filter(i => i.CodeValue === 'Wash Package')[0]?.CodeId;
-      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Wash-Upcharge')[0]?.CodeId;
-      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+      this.washId = this.serviceEnum.filter(i => i.CodeValue ===ApplicationConfig.Enum.ServiceType.WashPackage)[0]?.CodeId;
+     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0] ?.CodeId;
+     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0] ?.CodeId;
+      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
       this.getAllServices();
     }
   

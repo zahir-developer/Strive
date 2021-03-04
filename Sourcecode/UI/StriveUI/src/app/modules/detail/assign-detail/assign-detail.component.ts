@@ -5,6 +5,7 @@ import * as _ from 'underscore';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-assign-detail',
@@ -249,7 +250,7 @@ export class AssignDetailComponent implements OnInit {
     this.getCode.getCodeByCategory('SERVICETYPE').subscribe(data => {
       if (data.status === 'Success') {
         const cType = JSON.parse(data.resultData);
-        this.serviceType = cType.Codes.filter(i => i.CodeValue === 'Detail-Upcharge')[0];
+        this.serviceType = cType.Codes.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];
         this.getDetailService();
       }
     });

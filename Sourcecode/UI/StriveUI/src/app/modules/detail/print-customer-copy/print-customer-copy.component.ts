@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import * as _ from 'underscore';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-print-customer-copy',
@@ -34,9 +35,9 @@ export class PrintCustomerCopyComponent implements OnInit {
           if (serviceType.length > 0) {
             if (serviceType[0].CodeValue === 'Details') {
               this.detailService = item.ServiceName + '$' + item.Cost;
-            } else if (serviceType[0].CodeValue === 'Upcharges') {
+            } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
               this.upchargeService = item.ServiceName + '$' + item.Cost;
-            } else if (serviceType[0].CodeValue === 'Air Fresheners') {
+            } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners) {
               this.airfreshService = item.ServiceName;
             }
           }
