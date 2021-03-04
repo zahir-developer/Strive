@@ -184,7 +184,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getWashTimeByLocationID() {
-    const locationId = localStorage.getItem('empLocationId');
+    const locationId = +localStorage.getItem('empLocationId');
     this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
@@ -394,6 +394,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
       this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
       this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+      this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
       this.getAllServices();
     }
     // this.wash.getServiceType('SERVICETYPE').subscribe(data => {
@@ -1194,13 +1195,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    this.detailForm.controls.inTime.enable();
-    const date = this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd');
-    this.detailService.getClockedInDetailer(date, this.detailForm.value.inTime).subscribe(res => {
-      this.detailForm.controls.inTime.disable();
+    const date = this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss ');
+    this.detailService.getClockedInDetailer(date).subscribe(res => {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
-        this.employeeList = employee.EmployeeList.Employee;
+        this.employeeList = employee.result;
       }
     });
   }

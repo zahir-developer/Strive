@@ -74,8 +74,8 @@ export class DetailService {
     return this.http.get(`${UrlConfig.details.getDetailScheduleStatus}`, { params: { LocationId , Date: date } });
   }
 
-  getClockedInDetailer(date , dateTime) {
-    return this.http.get(`${UrlConfig.timeClock.getClockedInDetailer}` + date, { params: { dateTime } });
+  getClockedInDetailer(date) {
+    return this.http.get(`${UrlConfig.timeClock.getClockedInDetailer}` + date);
   }
 
 }
