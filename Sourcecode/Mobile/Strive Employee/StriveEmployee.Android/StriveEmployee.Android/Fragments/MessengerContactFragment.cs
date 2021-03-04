@@ -75,7 +75,7 @@ namespace StriveEmployee.Android.Fragments
 
         private async void getContacts(string employeeName)
         {
-            if(MessengerTempData.EmployeeLists == null)
+            if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
                 await ViewModel.GetContactsList(employeeName);
                 if(MessengerTempData.EmployeeLists != null || ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
