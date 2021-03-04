@@ -18,12 +18,15 @@
                     <ngx-timepicker-field [format]="24" (timeChanged)="inTime($event)" [(ngModel)]="storeTimeIn"
                         [defaultTime]="storeTimeIn ">
                     </ngx-timepicker-field>
+                    <div *ngIf="submitted && storeTimeIn === ''" style="color: red;">
+                        <div >Please enter the store open/close time</div>
+                    </div>
                 </div>
-                <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
+                <!-- <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
                     <ngx-timepicker-field [format]="24" (timeChanged)="outTime($event)" [(ngModel)]="storeTimeOut"
                         [defaultTime]="storeTimeOut ">
                     </ngx-timepicker-field>
-                </div>
+                </div> -->
                 <div class="d-inline-block">
                     <select class="form-control" [(ngModel)]="storeStatus">
                         <option value="" hidden selected>Select Status
@@ -32,6 +35,9 @@
                             {{status.CodeValue}}
                         </option>
                     </select>
+                    <div *ngIf="submitted && storeStatus === ''" style="color: red;">
+                        <div >Please select the store status</div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12 p-l-0 p-r-0">
