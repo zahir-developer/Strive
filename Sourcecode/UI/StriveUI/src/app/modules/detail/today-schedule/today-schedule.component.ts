@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-today-schedule',
@@ -44,8 +45,8 @@ export class TodayScheduleComponent implements OnInit {
             const isData = _.where(detailGrid.BayJobDetailViewModel, { BayId: item.BayId });
             if (isData.length > 0) {
               const services = [];
-              const detailService = _.where(isData, { ServiceTypeName: 'Details' });
-              const outsideService = _.where(isData, { ServiceTypeName: 'Outside Services' });
+              const detailService = _.where(isData, { ServiceTypeName:'Details'});
+              const outsideService = _.where(isData, { ServiceTypeName: ApplicationConfig.Enum.ServiceType.OutsideServices});
               detailService.forEach(service => {
                 const sameJobId = _.where(outsideService, { JobId: service.JobId });
                 services.push({

@@ -17,6 +17,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -184,7 +185,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getWashTimeByLocationID() {
-    const locationId = localStorage.getItem('empLocationId');
+    const locationId = +localStorage.getItem('empLocationId');
     this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
@@ -387,29 +388,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   getServiceType() {
     const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
-    console.log(serviceTypeValue, 'serviceTypeValue');
     if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
       this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
       this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
       this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
       this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
+      this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
       this.getAllServices();
     }
-    // this.wash.getServiceType('SERVICETYPE').subscribe(data => {
-    //   if (data.status === 'Success') {
-    //     const sType = JSON.parse(data.resultData);
-    //     this.serviceEnum = sType.Codes;
-    //     this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
-    //     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
-    //     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-    //     this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
-    //     this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
-    //     this.getAllServices();
-    //   } else {
-    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    //   }
-    // });
+   
   }
 
   getAllServices() {
@@ -1194,13 +1182,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    this.detailForm.controls.inTime.enable();
-    const date = this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd');
-    this.detailService.getClockedInDetailer(date, this.detailForm.value.inTime).subscribe(res => {
-      this.detailForm.controls.inTime.disable();
+    const date = this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss ');
+    this.detailService.getClockedInDetailer(date).subscribe(res => {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
-        this.employeeList = employee.EmployeeList.Employee;
+        this.employeeList = employee.result;
       }
     });
   }
