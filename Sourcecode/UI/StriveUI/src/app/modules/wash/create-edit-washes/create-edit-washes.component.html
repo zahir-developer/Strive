@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
-                <ol class="breadcrumb font-size--9">
+                <ol class="breadcrumb font-size-1">
                     <li class="breadcrumb-item" (click) = "landing()">Home</li>
                     <li class="breadcrumb-item"><a (click)="cancel()">Washes</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Wash</li>
@@ -10,11 +10,6 @@
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Wash</li>
                 </ol>
             </nav>
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 *ngIf="!isEdit" class="d-inline-block">New Wash</h3>
-                <h3 *ngIf="isEdit && !isView" class="d-inline-block">Edit Wash</h3>
-                <h3 *ngIf="isEdit && isView" class="d-inline-block">View Wash</h3>
-            </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="card">
                     <div class="card-body">

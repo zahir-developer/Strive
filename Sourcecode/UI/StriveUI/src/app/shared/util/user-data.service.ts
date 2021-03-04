@@ -43,12 +43,12 @@ export class UserDataService {
 
         // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
       }
-      this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
+      this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.FirstName + ' ' +
         token?.EmployeeDetails?.EmployeeLogin?.LastName);
       this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
 
       this.getUnreadMessage(token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
-      localStorage.setItem('employeeName', token?.EmployeeDetails?.EmployeeLogin?.Firstname + ' ' +
+      localStorage.setItem('employeeName', token?.EmployeeDetails?.EmployeeLogin?.FirstName + ' ' +
         token?.EmployeeDetails?.EmployeeLogin?.LastName);
       if (token?.EmployeeDetails?.Drawer) {
         localStorage.setItem('drawerId', token?.EmployeeDetails?.Drawer[0].DrawerId);
@@ -56,7 +56,7 @@ export class UserDataService {
       }
       localStorage.setItem('empId', token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
       localStorage.setItem('roleId', token?.EmployeeDetails?.EmployeeRoles[0]?.Roleid);
-      localStorage.setItem('employeeFirstName', token?.EmployeeDetails?.EmployeeLogin?.Firstname);
+      localStorage.setItem('employeeFirstName', token?.EmployeeDetails?.EmployeeLogin?.FirstName);
       localStorage.setItem('employeeLastName', token?.EmployeeDetails?.EmployeeLogin?.LastName);
 
     }
