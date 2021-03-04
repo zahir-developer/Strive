@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
@@ -6,6 +6,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -19,15 +20,15 @@ export class CheckoutGridComponent implements OnInit {
   pageSize: any;
   pageSizeList: any;
   collectionSize: number = 0;
-  isDesc: boolean = false;
-  daterangepickerModel:any;
   search = '';
-  sort = { column: 'TicketNumber', descending: false };
+  sort = { column: 'TicketNumber', descending: true };
   sortColumn: { column: string; descending: boolean; }; 
    query = '';
-  startDate: any;
-  endDate: any;
-
+  startDate : Date;
+  endDate :  Date;
+  daterangepickerModel  = new Date();
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  bsConfig: Partial<BsDatepickerConfig>;
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
@@ -37,6 +38,8 @@ private landingservice: LandingService,
   ) { }
 
   ngOnInit() {
+    this.startDate= new Date();
+    this.endDate = new Date();
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
