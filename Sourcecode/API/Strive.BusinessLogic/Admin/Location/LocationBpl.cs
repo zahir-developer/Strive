@@ -37,8 +37,15 @@ namespace Strive.BusinessLogic.Location
             location.Drawer = CreateDrawer();
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            try
+            {
+                var LocationGeo = GetLocationGeo(location.LocationAddress);
 
-            var LocationGeo = GetLocationGeo(location.LocationAddress);
+            }
+            catch (Exception ex)
+            {
+
+            }
             //var apiLocationId = CreateLocationForWeatherPortal();
 
             //location.Drawer = new BusinessEntities.Model.Drawer();
