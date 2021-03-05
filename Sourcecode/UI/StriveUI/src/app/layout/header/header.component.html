@@ -26,24 +26,24 @@
             {{locationName | slice:0:11}}
             {{(locationName!== null) ? locationName.length <= 11 ? '': '':''}}</span>,GA</span> </p>
         </li>
-        <li> <a href="#"><i class="fa fa-gear"></i></a> </li>
-        <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow"
+        <li> <a href="#" style="cursor: pointer;"><i class="fa fa-gear"></i></a> </li>
+        <li class="message-notification"> <a href="#" style="cursor: pointer;" class="dropdown dropdown-toggle position-relative hide-arrow"
             id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span
               class="badge position-absolute theme-notification-background-icon-color">{{unReadMessageDetail?.length}}</span>
             <span class="sr-only ">unread messages</span></a>
           <div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
             <h6 class="font-weight-bold font-size--8"> Message Notification</h6>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item  p-0 m-t-5 font-size--8" *ngFor="let unread of unReadMessageDetail"><i
+            <a style="cursor: pointer;" class="dropdown-item  p-0 m-t-5 font-size--8" *ngFor="let unread of unReadMessageDetail"><i
                 class="fa fa-user-md"></i><span style="cursor: pointer;" (click)="navigateToMessage(unread)">{{unread.SenderName}}</span> </a>
                 <div *ngIf="unReadMessageDetail?.length === 0">No new messages</div>
           </div>
         </li>
-        <li class="admin"> <a href="#" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle"
+        <li class="admin"> <a href="#" style="cursor: pointer;" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle"
             data-toggle="dropdown"> <i class="fa fa-user-circle"><span
                 class="i-text web-display">{{empName}}</span></i></a>
           <div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle"> 
-            <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out" (click)="logout()"></i> Logout</a>
+            <a class="dropdown-item" style="cursor: pointer;" (click)="logout()"><i class="fa fa-sign-out" (click)="logout()"></i> Logout</a>
           </div>
         </li>
       </ul>

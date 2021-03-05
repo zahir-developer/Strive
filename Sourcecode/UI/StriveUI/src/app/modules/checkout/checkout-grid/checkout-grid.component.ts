@@ -22,30 +22,30 @@ export class CheckoutGridComponent implements OnInit {
   collectionSize: number = 0;
   search = '';
   sort = { column: 'TicketNumber', descending: true };
-  sortColumn: { column: string; descending: boolean; }; 
-   query = '';
-  startDate : Date;
-  endDate :  Date;
-  daterangepickerModel  = new Date();
+  sortColumn: { column: string; descending: boolean; };
+  query = '';
+  startDate: Date;
+  endDate: Date;
+  daterangepickerModel = new Date();
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
     private toastr: ToastrService,
-private landingservice: LandingService,
+    private landingservice: LandingService,
     private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
-    this.startDate= new Date();
+    this.startDate = new Date();
     this.endDate = new Date();
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllUncheckedVehicleDetails();
   }
-  landing(){
+  landing() {
     this.landingservice.loadTheLandingPage()
   }
   onValueChange(event) {
@@ -53,17 +53,17 @@ private landingservice: LandingService,
       this.startDate = event;
       this.endDate = event;
     }
-    else{
+    else {
       this.startDate = null;
       this.endDate = null;
     }
     this.getAllUncheckedVehicleDetails();
-  
-}
+
+  }
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
     const obj = {
-      locationId : localStorage.getItem('empLocationId'),
+      locationId: localStorage.getItem('empLocationId'),
       startDate: this.startDate,
       endDate: this.endDate,
       pageNo: this.page,
@@ -98,8 +98,8 @@ private landingservice: LandingService,
     this.getAllUncheckedVehicleDetails();
   }
   checkOutSearch() {
-    this.search =this.query 
-    
+    this.search = this.query
+
     this.getAllUncheckedVehicleDetails();
   }
   paginatedropdown(event) {
@@ -135,7 +135,7 @@ private landingservice: LandingService,
   selectedCls(column) {
     return this.sortedColumnCls(column, this.sort);
   }
-   
+
   checkoutVehicle(checkout) {
     if (checkout.JobPaymentId === 0) {
       this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.checkOut.paidTicket });
@@ -146,11 +146,15 @@ private landingservice: LandingService,
           checkOut: true,
           actualTimeOut: new Date()
         };
+        this.spinner.show();
         this.checkout.checkoutVehicle(finalObj).subscribe(res => {
+          this.spinner.hide();
           if (res.status === 'Success') {
-            this.toastr.success( MessageConfig.checkOut.Add,'Success!');
+            this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
             this.getAllUncheckedVehicleDetails();
           }
+        }, (err) => {
+          this.spinner.hide();
         });
       }
       else {
@@ -181,7 +185,7 @@ private landingservice: LandingService,
       };
       this.checkout.completedVehicle(finalObj).subscribe(res => {
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.checkOut.Complete , 'Success!');
+          this.toastr.success(MessageConfig.checkOut.Complete, 'Success!');
           this.getAllUncheckedVehicleDetails();
         }
       });
