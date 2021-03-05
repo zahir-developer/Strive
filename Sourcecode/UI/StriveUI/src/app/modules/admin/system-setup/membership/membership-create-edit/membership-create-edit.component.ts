@@ -262,7 +262,7 @@ export class MembershipCreateEditComponent implements OnInit {
     }
     if (this.isEdit === true) {
       const washType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
-      if (washType !== undefined) {
+      if (washType.length > 0) {
         if (Number(washType[0].ServiceId) !== Number(this.membershipForm.value.washes)) {
           const wash = {
             membershipServiceId: 0,
@@ -290,8 +290,9 @@ export class MembershipCreateEditComponent implements OnInit {
           ServiceObj.push(washDelete);
         }
       }
-      const upchargeType = this.selectedData?.MembershipService?.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
-      if (upchargeType !== undefined) {
+      const upchargeType = this.selectedData?.MembershipService?.filter(i =>
+         i.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+      if (upchargeType.length > 0) {
         if (Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)) {
           const upcharge = {
             membershipServiceId: 0,
@@ -348,7 +349,7 @@ export class MembershipCreateEditComponent implements OnInit {
     }
     const membership = {
       membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-      membershipName: this.membershipForm.value.membershipName === '' ? "None/UNK" : this.membershipForm.value.membershipName,
+      membershipName: this.membershipForm.value.membershipName === '' ? 'None/UNK' : this.membershipForm.value.membershipName,
       price: this.membershipForm.value.price ? this.membershipForm.value.price : 0,
       notes: this.membershipForm.value.notes ? this.membershipForm.value.notes : '',
       locationId: localStorage.getItem('empLocationId'),
