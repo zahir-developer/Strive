@@ -168,9 +168,9 @@ export class CheckListComponent implements OnInit {
 
   submit(data) {
 
-    if (data.RoleId == undefined && this.RoleId.length == 0) {
+    if (data.RoleId === undefined && this.RoleId.length === 0) {
       this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.roleNameValidation, 'Warning!');
-      return
+      return;
 
     }
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
@@ -178,17 +178,14 @@ export class CheckListComponent implements OnInit {
     if (data.Name !== undefined) {
       if (!pattern.test(data.Name) || data.Name === undefined) {
         this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
-        return
+        return;
       };
     } else {
       if (!pattern.test(this.checkListName) || this.checkListName === undefined) {
         this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
-        return
-      };
+        return;
+      }
     }
-
-
-
 
     const formObj = {
       checkList: {
@@ -202,37 +199,37 @@ export class CheckListComponent implements OnInit {
 
     };
     if (data.ChecklistId) {
-      this.spinner.show()
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') {
+      this.spinner.show();
+      this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
+        if (res.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
-
-          this.spinner.hide()
-          if (data.status === 'Success') {
+          this.spinner.hide();
+          if (res.status === 'Success') {
             this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
-
             this.getAllcheckListDetails();
             this.selectedData = false;
-
           } else {
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     } else {
-      this.spinner.show()
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') {
+      this.spinner.show();
+      this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.spinner.hide();
           this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Add, 'Success!');
           this.getAllcheckListDetails();
-          this.checklistcancel()
+          this.checklistcancel();
           this.checkListName = '';
           this.RoleId = [];
-
         } else {
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
         }
+      }, (err) => {
+        this.spinner.hide();
       });
     }
   }
