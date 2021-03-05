@@ -51,6 +51,7 @@ export class SessionLogoutComponent implements OnInit {
  */
   idleClear() {
     this.dialogDisplay = false;
+    this.closeDialog.emit();
   }
 
   get f() { return this.authentication.controls; }
