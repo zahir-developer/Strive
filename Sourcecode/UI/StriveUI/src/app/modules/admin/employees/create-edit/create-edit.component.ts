@@ -10,6 +10,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 
 declare var $: any;
 @Component({
@@ -22,7 +23,7 @@ export class CreateEditComponent implements OnInit {
   @ViewChild(CityComponent) cityComponent: CityComponent;
   State: any;
   city: any;
-
+  @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   sampleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
@@ -329,14 +330,14 @@ export class CreateEditComponent implements OnInit {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
-    if (this.stateDropdownComponent.stateValueSelection == false ) {
+    if (this.stateDropdownComponent.stateValueSelection === false ) {
       return;
     }
-    if (this.cityComponent.selectValueCity == false ) {
+    if (this.cityComponent.selectValueCity === false ) {
       return;
     }
-    if (this.personalform.invalid || this.emplistform.invalid) {
-      this.toastr.warning(MessageConfig.Mandatory ,'Warning!');
+    if (this.clientFormComponent.clientForm.invalid) {
+      this.toastr.warning(MessageConfig.Mandatory , 'Warning!');
       return;
     }
     const sourceObj = [];

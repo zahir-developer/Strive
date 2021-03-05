@@ -12,6 +12,8 @@ import { ScheduleService } from 'src/app/shared/services/data-service/schedule.s
 import { element } from 'protractor';
 import { threadId } from 'worker_threads';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 
 declare var $: any;
 @Component({
@@ -55,9 +57,17 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   scheduleType: any;
   totalHours: any;
   EmpCount: any;
-  constructor(private empService: EmployeeService, private locationService: LocationService,
+  jobTypeId: any;
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  constructor(
+    private empService: EmployeeService,
+    private locationService: LocationService,
     private messageService: MessageServiceToastr,
-     private scheduleService: ScheduleService, private employeeService: EmployeeService, private spinner: NgxSpinnerService) {
+    private scheduleService: ScheduleService,
+    private employeeService: EmployeeService,
+    private spinner: NgxSpinnerService,
+    private detailService: DetailService
+  ) {
     this.dateTime = new Date();
   }
   ngAfterViewInit() {
@@ -230,11 +240,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       return;
     }
     let alreadyScheduled = false;
-    this.events.forEach( item => {
+    this.events.forEach(item => {
       if (moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss') === item.start) {
         if (item.extendedProps.employeeId === +this.empId &&
           item.extendedProps.locationId === +this.empLocation) {
-            alreadyScheduled = true;
+          alreadyScheduled = true;
         }
       }
     });
@@ -364,6 +374,24 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Wash') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    });
+  }
+
   getLocationId(event) {
     this.locationId = event.LocationId;
     this.getSchedule();
@@ -445,6 +473,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       sortBy: null,
       status: true
     };
+    this.getJobType();
     this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
