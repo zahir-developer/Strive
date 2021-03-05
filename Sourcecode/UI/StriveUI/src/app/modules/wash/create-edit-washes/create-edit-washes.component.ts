@@ -150,7 +150,9 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashById() {
+    
     this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
+    this.getClientPastNotes(this.selectedData?.Washes[0]?.ClientId);
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
@@ -159,7 +161,6 @@ export class CreateEditWashesComponent implements OnInit {
       model: { id: this.selectedData?.Washes[0]?.Model, name: this.selectedData?.Washes[0]?.vehicleModel },
       color: { id: this.selectedData.Washes[0].Color, name: this.selectedData?.Washes[0]?.vehicleColor },
       notes: this.selectedData.Washes[0].ReviewNote,
-      pastNotes: this.selectedData.Washes[0].PastHistoryNote,
       washes: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId,
       upchargeType: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId,
       upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId,
@@ -178,8 +179,34 @@ export class CreateEditWashesComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
+    
   }
+getClientPastNotes(Id){
+  this.detailService.getPastClientNotesById(Id).subscribe(data => {
+    if (data.status === 'Success') {
+      const pastNote = JSON.parse(data.resultData);
+      if(pastNote.PastClientNotesByClientId.length > 0)
+{
+const pastClientNotes = pastNote.PastClientNotesByClientId[0]?.Notes
+if(pastClientNotes){
+  this.washForm.controls.pastNotes.disable();
 
+  this.washForm.patchValue({
+    pastNotes: pastClientNotes
+
+  })
+
+} 
+else{
+this.washForm.controls.pastNotes.enable();
+
+}      
+  }
+  
+ 
+}
+})
+}
   vehicleChange(id) {
     this.additional.forEach(element => {
       element.IsChecked = false;
@@ -382,6 +409,7 @@ export class CreateEditWashesComponent implements OnInit {
   selectedClient(event) {
     this.clientId = event.id;
     this.clientName = event.name;
+  this.getClientPastNotes(this.clientId)
     const name = event.name.toLowerCase();
     if (name.startsWith('drive')) {
       this.washForm.get('vehicle').disable();
@@ -390,6 +418,7 @@ export class CreateEditWashesComponent implements OnInit {
       this.washForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
     }
+  
   }
 
   clientChange() {
