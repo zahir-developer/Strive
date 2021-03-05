@@ -56,7 +56,7 @@
                                             <td scope="row">{{locationSetup.LocationName}}</td>
                                             <td title="{{locationSetup.Address1}}">
                                                 {{locationSetup.Address1 | slice:0:15}}
-                                                {{(locationSetup.Address1!== null) ?locationSetup.Address1.length <= 15 ? '': '...':''}}
+                                                {{(locationSetup.Address1 !== null) ? locationSetup.Address1.length <= 15 ? '' : '...':''}}
                                             </td>
                                             <td>{{locationSetup.IsFranchise === true ? "Yes" : "No"}}</td>
                                             <td>{{locationSetup.PhoneNumber}}</td>

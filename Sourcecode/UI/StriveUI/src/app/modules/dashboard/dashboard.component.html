@@ -24,11 +24,11 @@
                                 class="text-center p-r-15 p-l-5">All</span> </a>
                     </li>
                     <li *ngFor="let loc of location">
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link"
-                            (click)="getDashboardStatistics(loc.LocationId)"> <i
-                                class="mdi mdi-store Schedules-tab-icon"></i> <span
-                                class="text-center p-r-15 p-l-5">{{loc.LocationName}}</span> &nbsp;&nbsp; <div
-                                class="badge Schedules-badge">{{loc.WashTimeMinutes}}&nbsp; mins</div></a>
+                        <a href="#all" data-toggle="tab" title="{{loc.LocationName}}" aria-expanded="false" class="nav-tab-link"
+                            (click)="getDashboardStatistics(loc.LocationId)"> 
+                            <i class="mdi mdi-store Schedules-tab-icon"></i>
+                            <span class="text-center p-r-15 p-l-5">{{loc.LocationName.slice(0, 20)}}{{ loc.LocationName.length > 20 ? '...' : ''}}</span> &nbsp;&nbsp; 
+                            <div class="badge Schedules-badge">{{loc.WashTimeMinutes}}&nbsp; mins</div></a>
                     </li>
 
                 </ul>

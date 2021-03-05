@@ -77,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 10 * 60;    // 10
+      const seconds = 60;    // 10
       this.subscribeTheIdle(this.idle, seconds);
     }
   }
@@ -112,8 +112,8 @@ export class AppComponent implements OnInit, OnDestroy {
       // this.idleState = 'You will time out in ' + countdown + ' seconds!'
       this.sessionLogoutComponent.countdown = countdown;
       this.sessionLogoutComponent.dialogType = 'idle';
-      this.sessionLogoutComponent.header = 'Idle Warning.';
-      this.header = 'Idle Warning.';
+      this.sessionLogoutComponent.header = 'Session Timeout';
+      this.header = 'Session Timeout Warning!';
     }
     );
     idle.onTimeout.subscribe(() => {
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.dialogType = 'timeout';
       this.sessionLogoutComponent.dialogDisplay = true;
       this.sessionLogoutComponent.header = 'Locked Out';
-      this.header = 'Locked Out';
+      this.header = 'Hey..! Session expired.. Please login to continue..!';
       this.authService.refreshLogout();
       clearInterval(this.intervalId);
     });
