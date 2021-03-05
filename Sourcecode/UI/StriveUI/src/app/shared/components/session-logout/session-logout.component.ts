@@ -68,7 +68,7 @@ export class SessionLogoutComponent implements OnInit {
     this.authService.login(obj).subscribe(res => {
       if (res.status === 'Success') {
         this.getCodeValue();
-        this.landing.loadTheLandingPage();
+        //this.landing.loadTheLandingPage();
         this.closeDialog.emit();
       }
     });
