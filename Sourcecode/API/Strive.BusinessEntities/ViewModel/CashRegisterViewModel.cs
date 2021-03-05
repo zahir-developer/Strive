@@ -18,6 +18,6 @@ namespace Strive.BusinessEntities.ViewModel
 
         public DateTime? StoreTimeIn { get; set; }
         public DateTime? StoreTimeOut { get; set; }
-        public int? Status { get; set; }
+        public int? StoreOpenCloseStatus { get; set; }
     }
 }

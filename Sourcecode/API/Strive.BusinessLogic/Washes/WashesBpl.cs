@@ -58,9 +58,9 @@ namespace Strive.BusinessLogic.Washes
         }
      
 
-        public Result GetWashTimeByLocationId(int id)
+        public Result GetWashTimeByLocationId(WashTimeDto washTimeDto)
         {
-            return ResultWrap(new WashesRal(_tenant).GetWashTime, id, "WashTime");
+            return ResultWrap(new WashesRal(_tenant).GetWashTime, washTimeDto, "WashTime");
         }
     }
 }

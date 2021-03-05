@@ -22,5 +22,13 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<DealSetUpViewModel>(SPEnum.USPGETALLDEALS.ToString(), null);
         }
+
+        public bool UpdateToggledeal(bool status)
+        {
+            _prm.Add("@Status", status);
+            db.Save(SPEnum.USPUPDATETOGGLEDEALSTATUS.ToString(), _prm);
+            return true;
+        }
+
     }
 }

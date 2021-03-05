@@ -20,7 +20,7 @@ namespace Strive.BusinessLogic.Washes
         Result GetMembershipListByVehicleId(int vehicleId);
         Result DeleteWashes(int id);
 
-        Result GetWashTimeByLocationId(int id);
+        Result GetWashTimeByLocationId(WashTimeDto washTimeDto);
 
     }
 }

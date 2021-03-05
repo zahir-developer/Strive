@@ -37,5 +37,8 @@ namespace Admin.API.Controllers
         public Result GetAllDeals() => _bplManager.GetAllDeals();
 
         #endregion
+        [HttpGet]
+        [Route("Update")]
+        public Result UpdateToggledeal(bool status) => _bplManager.UpdateToggledeal(status);
     }
 }

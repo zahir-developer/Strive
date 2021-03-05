@@ -53,7 +53,7 @@ namespace Admin.API.Controllers
        
 
       [HttpGet]
-        [Route("GetClockedInDetailer/{date}")]
+        [Route("GetClockedInDetailer/{dateTime}")]
         public Result GetClockedInDetailer(DateTime dateTime) => _bplManager.GetClockedInDetailer(dateTime);
 
 
