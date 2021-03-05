@@ -96,7 +96,7 @@
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputService">Services</label>
                 <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
-                    [data]="additional" [disabled]="isView" formControlName="services" (onSelect)="onItemSelect($event)"
+                    [data]="additional" [disabled]="isView" formControlName="services" (onSelectAll)="onAllItemSelect($event)"  (onSelect)="onItemSelect($event)"
                     (onDeSelect)="onItemDeselect($event)">
                 </ng-multiselect-dropdown>
             </div>

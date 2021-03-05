@@ -168,10 +168,9 @@ export class VehicleCreateEditComponent implements OnInit {
             defaultOpen: false,
             idField: 'item_id',
             textField: 'item_text',
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
             itemsShowLimit: 1,
-            allowSearchFilter: false
+            enableCheckAll: false,
+            allowSearchFilter: true
           };
           this.vehicleForm.patchValue({
             services: this.memberService
@@ -206,10 +205,9 @@ export class VehicleCreateEditComponent implements OnInit {
       defaultOpen: false,
       idField: 'item_id',
       textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
       itemsShowLimit: 2,
-      allowSearchFilter: false
+      enableCheckAll: false,
+      allowSearchFilter: true
     };
   }
 
@@ -288,10 +286,9 @@ export class VehicleCreateEditComponent implements OnInit {
           defaultOpen: false,
           idField: 'item_id',
           textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
           itemsShowLimit: 2,
-          allowSearchFilter: false
+          enableCheckAll: false,
+          allowSearchFilter: true,
         };
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -611,6 +608,11 @@ export class VehicleCreateEditComponent implements OnInit {
       }
     }
   }
+
+  onAllItemSelect(event) {
+    console.log(event, 'event');
+  }
+
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
