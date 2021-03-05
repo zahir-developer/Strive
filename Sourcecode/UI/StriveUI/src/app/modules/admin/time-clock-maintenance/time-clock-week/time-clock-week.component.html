@@ -4,15 +4,12 @@
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
-                <ol class="breadcrumb font-size--9">
+                <ol class="breadcrumb font-size-1">
                     <li class="breadcrumb-item"><a appNavigatePage>Admin</a></li>
                     <li class="breadcrumb-item"><a (click)="backToTimeClockPage()">Time Clock - Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Time Clock Maintenance</li>
                 </ol>
             </nav>
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Time Clock Maintenance</h3>
-            </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="row no-gutter">
                     <div class="col-12">
@@ -162,14 +159,13 @@
                                                 <tr class="text-right">
                                                     <td></td>
                                                     <td></td>
-                                                    <td><span class="font-weight-600 mr-2">Detail
-                                                            Rate:</span>{{ totalWeekDetail.DetailRate ? (totalWeekDetail.DetailRate | currency) : (0 | currency) }}
+                                                    <td>
                                                     </td>
                                                     <td><span class="font-weight-600 mr-2">Total Detail Hours:</span>
                                                         {{ totalWeekDetail.TotalDetailHours == 0 ? (totalWeekDetail.TotalDetailHours | number:'.2') : totalWeekDetail.TotalDetailHours}}
                                                     </td>
                                                     <td class="p-r-20"><span
-                                                            class="font-weight-600 mr-2">Details:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}
+                                                            class="font-weight-600 mr-2">Detail Commission:</span>{{ totalWeekDetail.DetailAmount ?( totalWeekDetail.DetailAmount | currency ): ( 0 | currency ) }}
                                                     </td>
                                                 </tr>
                                                 <tr class="text-right">

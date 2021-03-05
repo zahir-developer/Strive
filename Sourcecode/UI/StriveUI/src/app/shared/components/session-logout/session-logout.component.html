@@ -1,5 +1,5 @@
 <div *ngIf="dialogType === 'idle'">
-    <span>You'll be automatically locked out in {{countdown}} second(s).</span>
+    <span>You'll be automatically logged out in {{countdown}} second(s).</span>
     <div class="progress">
         <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
             style="width: 100%" aria-valuenow="75" aria-label="test" aria-valuemax="100">
@@ -7,24 +7,33 @@
     </div>
     <div style="margin-top:10px;">
         <div class="col-xs-12">
-            <button type="button" class="btn btn-secondary" style="float: right;" (click)="idleClear()">Ok</button>
+            <button type="button" class="btn btn-secondary" style="float: right;" (click)="idleClear()">Continue...</button>
         </div>
     </div>
 </div>
 <div *ngIf="dialogType === 'timeout'">
     <form [formGroup]="authentication">
         <div class="row">
-            <div class="col-4 form-group">
+            <div class="col-12 form-group">
                 <label>Username</label>
                 <input type='text' class="form-control" formControlName='username' />
             </div>
-            <div class="col-4 form-group">
+        </div>
+        <div class="row">
+            <div class="col-12 form-group">
                 <label>Password</label>
                 <input type='password' class="form-control" formControlName='password' />
             </div>
-            <div class="col-4" style="margin-top: 30px;">
-                <button class="btn theme-primary-button-color" (click)="login()">Login</button>
+        </div>
+        <div class="row">
+            <div class="col-5" style="margin-top: 30px;">
+                <button class="btn theme-notification-background-icon-color" (click)="logout()">Logout !</button>
             </div>
+
+            <div class="col-7" style="margin-top: 30px;">
+                <button class="btn float-right theme-primary-button-color" (click)="login()">Login Again !</button>
+            </div>
+            
         </div>
     </form>
 </div>

@@ -245,7 +245,7 @@ color-icon:hover {
 
 .bodyfix {
   display: block;
-  height: 350px;
+  height: 300px;
   overflow-y: scroll;
   text-overflow: ellipsis;
  
