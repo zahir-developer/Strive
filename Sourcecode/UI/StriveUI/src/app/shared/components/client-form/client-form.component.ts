@@ -63,7 +63,7 @@ export class ClientFormComponent implements OnInit {
       state: ['',],
       city: ['',],
       phone1: ['', [Validators.required, Validators.minLength(14)]],
-      email: ['', Validators.email],
+      email: ['', Validators.required,Validators.email],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],

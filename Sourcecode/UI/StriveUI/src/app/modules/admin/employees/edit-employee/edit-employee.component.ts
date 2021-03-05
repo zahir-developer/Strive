@@ -150,12 +150,12 @@ export class EditEmployeeComponent implements OnInit {
     });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
   immigrationChange(data) {
     const temp = this.imigirationStatus.filter(item => item.CodeId === +data);

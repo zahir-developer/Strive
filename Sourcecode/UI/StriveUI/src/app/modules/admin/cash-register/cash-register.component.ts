@@ -61,6 +61,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   storeTimeIn = '';
   storeStatus = '';
   storeTimeOut = '';
+  submitted = false;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
@@ -155,10 +156,21 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
+          const status = this.storeStatusList.filter(item => item.CodeId === +this.cashDetails.CashRegister.Status);
+          let isOpen = false;
+          if (status.length > 0) {
+            if (status[0].CodeValue === 'Open') {
+              isOpen = true;
+            } else {
+              isOpen = false;
+            }
+          }
           this.storeStatus = this.cashDetails.CashRegister.Status !== null ? this.cashDetails.CashRegister.Status : '';
-          this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ? moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
-          this.storeTimeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
-           moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+          this.storeTimeIn = isOpen ? this.cashDetails.CashRegister.StoreTimeIn !== null ?
+            moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : ''
+             : moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm');
+          this.storeTimeOut = !isOpen ? this.cashDetails.CashRegister.StoreTimeOut !== null ?
+            moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '' : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails.CashRegisterCoins.Pennies,
             coinNickels: this.cashDetails.CashRegisterCoins.Nickels,
@@ -237,14 +249,18 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   }
   // Add/Update CashInRegister
   submit() {
+    this.submitted = true;
+    if (this.storeStatus === '' || this.storeTimeIn === '') {
+      return;
+    }
     const coin = {
       cashRegCoinId: this.isUpdate ? this.cashDetails.CashRegisterCoins.CashRegCoinId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      pennies: this.cashRegisterCoinForm.value.coinPennies == null ? 0:  this.cashRegisterCoinForm.value.coinPennies,
-      nickels: this.cashRegisterCoinForm.value.coinNickels == null ? 0: this.cashRegisterCoinForm.value.coinNickels,
-      dimes: this.cashRegisterCoinForm.value.coinDimes == null ? 0: this.cashRegisterCoinForm.value.coinDimes,
-      quarters: this.cashRegisterCoinForm.value.coinQuaters == null ? 0: this.cashRegisterCoinForm.value.coinQuaters,
-      halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars == null? 0: this.cashRegisterCoinForm.value.coinQuaters,
+      pennies: this.cashRegisterCoinForm.value.coinPennies == null ? 0 : this.cashRegisterCoinForm.value.coinPennies,
+      nickels: this.cashRegisterCoinForm.value.coinNickels == null ? 0 : this.cashRegisterCoinForm.value.coinNickels,
+      dimes: this.cashRegisterCoinForm.value.coinDimes == null ? 0 : this.cashRegisterCoinForm.value.coinDimes,
+      quarters: this.cashRegisterCoinForm.value.coinQuaters == null ? 0 : this.cashRegisterCoinForm.value.coinQuaters,
+      halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars == null ? 0 : this.cashRegisterCoinForm.value.coinQuaters,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -255,12 +271,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const bill = {
       cashRegBillId: this.isUpdate ? this.cashDetails.CashRegisterBills.CashRegBillId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      s1: this.cashRegisterBillForm.value.billOnes == null ?  0: this.cashRegisterBillForm.value.billOnes,
-      s5: this.cashRegisterBillForm.value.billFives == null ?  0 : this.cashRegisterBillForm.value.billOnes,
-      s10: this.cashRegisterBillForm.value.billTens == null ? 0 :this.cashRegisterBillForm.value.billTens,
-      s20: this.cashRegisterBillForm.value.billTwenties == null ? 0 :  this.cashRegisterBillForm.value.billTwenties,
-      s50: this.cashRegisterBillForm.value.billFifties == null ? 0 :this.cashRegisterBillForm.value.billFifties,
-      s100: this.cashRegisterBillForm.value.billHundreds == null ? 0: this.cashRegisterBillForm.value.billHundreds,
+      s1: this.cashRegisterBillForm.value.billOnes == null ? 0 : this.cashRegisterBillForm.value.billOnes,
+      s5: this.cashRegisterBillForm.value.billFives == null ? 0 : this.cashRegisterBillForm.value.billOnes,
+      s10: this.cashRegisterBillForm.value.billTens == null ? 0 : this.cashRegisterBillForm.value.billTens,
+      s20: this.cashRegisterBillForm.value.billTwenties == null ? 0 : this.cashRegisterBillForm.value.billTwenties,
+      s50: this.cashRegisterBillForm.value.billFifties == null ? 0 : this.cashRegisterBillForm.value.billFifties,
+      s100: this.cashRegisterBillForm.value.billHundreds == null ? 0 : this.cashRegisterBillForm.value.billHundreds,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -271,10 +287,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     const roll = {
       cashRegRollId: this.isUpdate ? this.cashDetails.CashRegisterRolls.CashRegRollId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
-      pennies: this.cashRegisterRollForm.value.pennieRolls == null ? 0: this.cashRegisterRollForm.value.pennieRolls,
-      nickels: this.cashRegisterRollForm.value.nickelRolls == null ? 0: this.cashRegisterRollForm.value.nickelRolls,
-      dimes: this.cashRegisterRollForm.value.dimeRolls == null ? 0: this.cashRegisterRollForm.value.dimeRolls,
-      quarters: this.cashRegisterRollForm.value.quaterRolls == null ?0: this.cashRegisterRollForm.value.quaterRolls,
+      pennies: this.cashRegisterRollForm.value.pennieRolls == null ? 0 : this.cashRegisterRollForm.value.pennieRolls,
+      nickels: this.cashRegisterRollForm.value.nickelRolls == null ? 0 : this.cashRegisterRollForm.value.nickelRolls,
+      dimes: this.cashRegisterRollForm.value.dimeRolls == null ? 0 : this.cashRegisterRollForm.value.dimeRolls,
+      quarters: this.cashRegisterRollForm.value.quaterRolls == null ? 0 : this.cashRegisterRollForm.value.quaterRolls,
       halfDollars: 0,
       isActive: true,
       isDeleted: false,
@@ -309,17 +325,20 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       inTime.setMinutes(inminutes);
       inTime.setSeconds('00');
       checkinTime = inTime;
-      const outtime = this.storeTimeOut.split(':');
-      const outhour = outtime[0];
-      const outminutes = outtime[1];
-      const outTime: any = new Date(this.date);
-      outTime.setHours(outhour);
-      outTime.setMinutes(outminutes);
-      inTime.setSeconds('00');
-      checkoutTime = outTime;
+  
     } else {
       checkinTime = this.storeTimeIn;
       checkoutTime = this.storeTimeOut;
+    }
+
+    const status = this.storeStatusList.filter(item => item.CodeId === +this.storeStatus);
+    let isOpen = false;
+    if (status.length > 0) {
+      if (status[0].CodeValue === 'Open') {
+        isOpen = true;
+      } else {
+        isOpen = false;
+      }
     }
 
     const cashregister = {
@@ -327,16 +346,16 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       cashRegisterType: this.CahRegisterId,
       locationId: +this.locationId,
       drawerId: +this.drawerId,
-      cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
+      cashRegisterDate: moment(this.date).format('YYYY-MM-DD'),
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      storeTimeIn: checkinTime !== '' ? moment(checkinTime).format() :null ,
-      storeTimeOut: checkoutTime !== '' ? moment(checkoutTime).format() : null,
-      status: this.storeStatus  == "" ? null :this.storeStatus 
+      storeTimeIn: isOpen ? checkinTime !== '' ? moment(checkinTime).format() : null : null,
+      storeTimeOut: !isOpen ? checkinTime !== '' ? moment(checkinTime).format() : null : null,
+      status: this.storeStatus === '' ? null : this.storeStatus
     };
     const formObj = {
       cashregister,
@@ -354,10 +373,16 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       targetBusiness: this.cashRegisterForm.controls.goal.value,
       createdDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    this.spinner.show();
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
+      this.submitted = false;
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
           if (response.status === 'Success') {
+            this.spinner.hide();
+
             this.toggleTab = 0;
             if (this.isUpdate) {
               this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
@@ -368,10 +393,14 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
           } else {
+            this.spinner.hide();
+
             this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
           }
         });
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
@@ -516,7 +545,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       selectedDate = moment(event.toISOString()).format('YYYY-MM-DD');
       this.selectDate = selectedDate;
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
-
       const locationId = +this.locationId;
       this.toggleTab = 0;
 

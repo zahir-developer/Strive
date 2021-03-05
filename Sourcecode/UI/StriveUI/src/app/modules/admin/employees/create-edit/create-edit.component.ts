@@ -135,12 +135,12 @@ export class CreateEditComponent implements OnInit {
     });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {

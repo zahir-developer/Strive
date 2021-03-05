@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
@@ -13,6 +13,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-washes-list',
@@ -23,11 +24,11 @@ export class WashesListComponent implements OnInit {
   washDetails = [];
   showDialog = false;
   selectedData: any;
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
   isView: boolean;
-  daterangepickerModel: any;
   collectionSize: number = 0;
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
@@ -39,16 +40,21 @@ export class WashesListComponent implements OnInit {
   page: number;
   pageSize: number;
   search: any = null;
-  startDate: any = null;
-  endDate: any = null;
+  startDate:Date = new Date();
+  endDate:Date = new Date();
   jobTypeId: any;
+ maxDate = new Date()
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  bsConfig: { maxDate: Date; dateInputFormat: { rangeInputFormat: string; dateInputFormat: string; showWeekNumbers: boolean; }; };
+  daterangepickerModel: Date[];
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe, private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router
-    , private landingservice: LandingService, private detailService: DetailService) { }
+    , private landingservice: LandingService, private detailService: DetailService,
+    private cd: ChangeDetectorRef,) { }
 
   ngOnInit() {
+    this.daterangepickerModel = [this.startDate, this.endDate];
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -106,7 +112,7 @@ export class WashesListComponent implements OnInit {
         if (wash.Washes !== null) {
           this.washDetails = wash?.Washes?.AllWashesViewModel;
           const totalRowCount = wash?.Washes?.Count?.Count;
-          if(this.washDetails.length > 0){
+          if(this.washDetails?.length > 0){
           for (let i = 0; i < this.washDetails.length; i++) {
             let hh = this.washDetails[i].TimeIn.substring(13, 11);
             let m = this.washDetails[i].TimeIn.substring(16, 14);
@@ -220,6 +226,7 @@ export class WashesListComponent implements OnInit {
 
   // Get Wash By Id
   getWashById(label, washDet) {
+    this.spinner.show();
     this.washes.getWashById(washDet.JobId).subscribe(data => {
       if (data.status === 'Success') {
         const wash = JSON.parse(data.resultData);
@@ -229,14 +236,17 @@ export class WashesListComponent implements OnInit {
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
+          this.spinner.hide();
         } else {
           this.headerData = 'View Service';
           this.selectedData = wash.WashesDetail;
           this.isEdit = true;
           this.isView = true;
           this.showDialog = true;
+          this.spinner.hide();
         }
       } else {
+this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
@@ -283,8 +293,11 @@ export class WashesListComponent implements OnInit {
           jobtype.GetJobType.forEach(item => {
             if (item.valuedesc === 'Wash') {
               this.jobTypeId = item.valueid;
-              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
-              this.dashboardStaticsComponent.getDashboardDetails();
+              if( this.dashboardStaticsComponent?.jobTypeId){
+                this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+                this.dashboardStaticsComponent.getDashboardDetails();
+
+              }
             }
           });
         }
