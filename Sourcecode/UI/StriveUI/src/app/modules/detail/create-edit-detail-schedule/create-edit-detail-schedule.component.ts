@@ -192,7 +192,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getWashTimeByLocationID() {
     const locationId = +localStorage.getItem('empLocationId');
     const date = moment(new Date()).format();
+    this.spinner.show();
     this.detailService.getWashTimeByLocationId(locationId, date).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
         if (washTime.WashTime.length > 0) {
@@ -205,6 +207,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.dueTime.disable();
         }
       }
+    }, (err) => {
+      this.spinner.hide();
     });
   }
 

@@ -1,19 +1,22 @@
-<div class="modal" id = "deleteModel" tabindex="-1" role="dialog" *ngIf="deleteDetailList">
+<div class="modal" id="deleteModel" tabindex="-1" role="dialog" *ngIf="deleteDetailList">
     <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content" >
-        <div class="modal-header">
-          <h5 class="modal-title">{{title}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                        aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <p>{{body}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn theme-optional-button-color" data-dismiss="modal">No</button>
+                <button type="button" class="btn theme-primary-button-color" data-dismiss="modal"
+                    (click)="confirmDelete()">Yes</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <p>{{body}}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn theme-optional-button-color" data-dismiss="modal" >No</button>
-          <button type="button" class="btn theme-primary-button-color" data-dismiss="modal" (click)="confirmDelete()">Yes</button>
-        </div>
-      </div>
-      </div></div>
+    </div>
+</div>
 <div class="col-lg-12 p-l-0 p-r-0">
     <div>
         <div>
@@ -36,7 +39,7 @@
                             <div class="col-sm-1 text-right p-t-5"
                                 style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>In Time:</label>
-                               
+
                             </div>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="inTime" id="inTime"
@@ -50,7 +53,7 @@
                                 <input type="text" class="form-control" name="dueTime" id="dueTime"
                                     formControlName="dueTime" />
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -93,7 +96,7 @@
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="getByBarcode(detailForm.value.barcode)"
                                 [disabled]="isView">Select</button>&nbsp;
-                           
+
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
@@ -105,13 +108,13 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputType">Type</label>
-                       
+
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')"
-                                        (completeMethod)="filterMake($event)" [size]="10" formControlName="type"
-                                        placeholder="Make">
+                                    <p-autoComplete field="name" [suggestions]="filteredMake"
+                                        (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10"
+                                        formControlName="type" placeholder="Make">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -119,13 +122,13 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputModel">Model</label>
-                      
+
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"
-                                        (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
-                                        placeholder="Model">
+                                    <p-autoComplete field="name" [suggestions]="filteredModel"
+                                        (onBlur)="checkValue('model')" (completeMethod)="filterModel($event)"
+                                        [size]="10" formControlName="model" placeholder="Model">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -133,13 +136,13 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputColor">Color</label>
-                       
+
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredcolor" (onBlur)="checkValue('color')"
-                                        (completeMethod)="filterColor($event)" [size]="10" formControlName="color"
-                                        placeholder="Color">
+                                    <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                        (onBlur)="checkValue('color')" (completeMethod)="filterColor($event)"
+                                        [size]="10" formControlName="color" placeholder="Color">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -202,7 +205,7 @@
                         </select>
                     </div>
                 </div>
-              
+
             </form>
             <div class="form-row">
                 <div class="col-sm-8 border " style="height: 225px">
@@ -246,11 +249,11 @@
                                 [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
                         </span>
                     </div>
-                  
+
                 </div>
             </div>
-            <div class="m-t-12">
-                <span class="mw-100">
+            <div class="m-t-12 row">
+                <div class="col-sm-8">
                     <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="!isEdit"
                         (click)="printCustomerCopy()">Customer
                         Copy</button>
@@ -258,15 +261,24 @@
                         [disabled]="!isEdit">Vehicle Copy</button>
                     <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes"
                         (click)="pastNotes()">View Past Client Notes</button>
-                </span>
-                <span style="float: right; margin-right: 125px;">   
-                    <button type="button" style =  "margin-left: 360px;" class="btn theme-primary-button-color "
-                        [disabled]="!isEdit || isView" (click)="pay()">Pay</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color " (click)="saveDetail()"
-                        [disabled]="isView">Save</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color " [disabled]="!isEdit && !isView"
-                    data-toggle="modal" data-target="#deleteModel" (click)="deleteDetail()">Delete</button>
-                </span>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <span class="col-2"></span>
+                        <span class="col-10" style="padding-left: 5px !important;">
+                            <button type="button" class="btn theme-primary-button-color col-3"
+                                [disabled]="!isEdit || isView" (click)="pay()">Pay</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
+                                [disabled]="isView">Save</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color col-3"
+                                [disabled]="!isEdit && !isView" data-toggle="modal" data-target="#deleteModel"
+                                (click)="deleteDetail()">Delete</button>
+                        </span>
+                    </div>
+                </div>
+                <!-- <span style="float: right; margin-right: 125px;">
+
+                </span> -->
             </div>
         </div>
     </div>
