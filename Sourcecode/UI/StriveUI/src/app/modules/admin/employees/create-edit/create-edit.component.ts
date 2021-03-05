@@ -336,10 +336,12 @@ export class CreateEditComponent implements OnInit {
     if (this.cityComponent.selectValueCity === false ) {
       return;
     }
-    if (this.clientFormComponent.clientForm.invalid) {
-      this.toastr.warning(MessageConfig.Mandatory , 'Warning!');
+
+    if (this.personalform.invalid || this.emplistform.invalid) {
+      this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
     }
+    
     const sourceObj = [];
     const employeeDetails = [];
     const employeAddress = [];
