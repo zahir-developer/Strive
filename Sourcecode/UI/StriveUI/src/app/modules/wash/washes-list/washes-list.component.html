@@ -66,9 +66,11 @@
                                             <tbody class="bodyfix" *ngIf="isTableEmpty === false">
                                                 <tr *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
-                                                    <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">{{wash.ClientName}}</td>
+                                                    <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">
+                                                        {{wash.ClientName}}</td>
                                                     <td>{{wash.VehicleName}}</td>
-                                                    <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}</td>
+                                                    <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}
+                                                    </td>
                                                     <td class="font-weight-600">
                                                         {{wash.EstimatedTimeOut | date : 'hh:mm:ss aa'}}</td>
                                                     <td>{{wash.ServiceName}}</td>

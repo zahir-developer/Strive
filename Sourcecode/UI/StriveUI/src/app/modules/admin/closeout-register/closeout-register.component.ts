@@ -48,7 +48,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   storeStatusList = [];
   storeTimeIn = '';
   storeStatus = '';
+  storeTimeOut = '';
   drawerId: any;
+  submitted = false;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
@@ -110,6 +112,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.totalBill = 0;
     this.totalRoll = 0;
     this.totalCash = 0;
+    this.storeTimeOut = '';
+    this.storeTimeIn = '';
+    this.storeStatus = '';
     this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       this.spinner.hide();
@@ -121,6 +126,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.storeStatus = this.closeOutDetails.CashRegister.Status !== null ? this.closeOutDetails.CashRegister.Status : '';
           this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
+          this.storeTimeOut = this.closeOutDetails.CashRegister.StoreTimeOut !== null ?
+            moment(this.closeOutDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.closeOutDetails.CashRegisterCoins.Pennies,
             coinNickels: this.closeOutDetails.CashRegisterCoins.Nickels,
@@ -196,6 +203,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
   // Add/Update CloseOutRegister
   submit() {
+    this.submitted = true;
+    if (this.storeStatus === '' || this.storeTimeOut === '') {
+      return;
+    }
     const coin = {
       cashRegCoinId: this.isUpdate ? this.closeOutDetails.CashRegisterCoins.CashRegCoinId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
@@ -257,18 +268,18 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
-    let checkinTime = '';
+    let checkoutTime = '';
     if (this.isUpdate) {
-      const time = this.storeTimeIn.split(':');
+      const time = this.storeTimeOut.split(':');
       const hour = time[0];
       const minutes = time[1];
       const inTime: any = new Date(this.date);
       inTime.setHours(hour);
       inTime.setMinutes(minutes);
       inTime.setSeconds('00');
-      checkinTime = inTime;
+      checkoutTime = inTime;
     } else {
-      checkinTime = this.storeTimeIn;
+      checkoutTime = this.storeTimeOut;
     }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
@@ -283,7 +294,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
-      storeTimeOut: moment(checkinTime).format(),
+      storeTimeOut: moment(checkoutTime).format(),
       status: this.storeStatus
     };
     const formObj = {
@@ -295,6 +306,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     }
     this.spinner.show();
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
+      this.submitted = false;
       this.spinner.hide();
       if (data.status === "Success") {
         this.spinner.hide();
@@ -310,6 +322,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
         this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
       }
+    }, (err) => {
+      this.submitted = false;
+      this.spinner.hide();
     });
   }
 
@@ -444,5 +459,16 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     checkinTime.setMinutes(minutes);
     checkinTime.setSeconds('00');
     this.storeTimeIn = checkinTime;
+  }
+
+  outTime(event) {
+    const time = event.split(':');
+    const hour = time[0];
+    const minutes = time[1];
+    const checkoutTime: any = new Date(this.date);
+    checkoutTime.setHours(hour);
+    checkoutTime.setMinutes(minutes);
+    checkoutTime.setSeconds('00');
+    this.storeTimeOut = checkoutTime;
   }
 }

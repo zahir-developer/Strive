@@ -126,7 +126,7 @@ export class CreateEditWashesComponent implements OnInit {
     if (!this.isEdit) {
       this.wash.getTicketNumber().subscribe(item => {
         this.ticketNumber = item;
-  
+
       })
     }
 
@@ -141,16 +141,18 @@ export class CreateEditWashesComponent implements OnInit {
     this.detailService.getWashTimeByLocationId(locationId, date).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
-        const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
-        this.washTime = WashTimeMinutes;
-        const dt = new Date();
-        this.timeOutDate = dt.setMinutes(dt.getMinutes() + this.washTime);
+        if (washTime.WashTime.length > 0) {
+          const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
+          this.washTime = WashTimeMinutes;
+          const dt = new Date();
+          this.timeOutDate = dt.setMinutes(dt.getMinutes() + this.washTime);
+        }
       }
     });
   }
 
   getWashById() {
-    
+
     this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
     this.getClientPastNotes(this.selectedData?.Washes[0]?.ClientId);
     this.washForm.patchValue({
@@ -179,34 +181,33 @@ export class CreateEditWashesComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
-    
+
   }
-getClientPastNotes(Id){
-  this.detailService.getPastClientNotesById(Id).subscribe(data => {
-    if (data.status === 'Success') {
-      const pastNote = JSON.parse(data.resultData);
-      if(pastNote.PastClientNotesByClientId.length > 0)
-{
-const pastClientNotes = pastNote.PastClientNotesByClientId[0]?.Notes
-if(pastClientNotes){
-  this.washForm.controls.pastNotes.disable();
+  getClientPastNotes(Id) {
+    this.detailService.getPastClientNotesById(Id).subscribe(data => {
+      if (data.status === 'Success') {
+        const pastNote = JSON.parse(data.resultData);
+        if (pastNote.PastClientNotesByClientId.length > 0) {
+          const pastClientNotes = pastNote.PastClientNotesByClientId[0]?.Notes
+          if (pastClientNotes) {
+            this.washForm.controls.pastNotes.disable();
 
-  this.washForm.patchValue({
-    pastNotes: pastClientNotes
+            this.washForm.patchValue({
+              pastNotes: pastClientNotes
 
-  })
+            })
 
-} 
-else{
-this.washForm.controls.pastNotes.enable();
+          }
+          else {
+            this.washForm.controls.pastNotes.enable();
 
-}      
+          }
+        }
+
+
+      }
+    })
   }
-  
- 
-}
-})
-}
   vehicleChange(id) {
     this.additional.forEach(element => {
       element.IsChecked = false;
@@ -264,15 +265,15 @@ this.washForm.controls.pastNotes.enable();
 
   getServiceType() {
     const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
-   if (serviceTypeValue.length > 0) {
+    if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
-      this.washId = this.serviceEnum.filter(i => i.CodeValue ===ApplicationConfig.Enum.ServiceType.WashPackage)[0]?.CodeId;
-     this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0] ?.CodeId;
-     this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0] ?.CodeId;
+      this.washId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage)[0]?.CodeId;
+      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0]?.CodeId;
+      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0]?.CodeId;
       this.additionalId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
       this.getAllServices();
     }
-  
+
   }
 
   // To get JobType
@@ -344,7 +345,7 @@ this.washForm.controls.pastNotes.enable();
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-  
+
   }
 
 
@@ -409,7 +410,7 @@ this.washForm.controls.pastNotes.enable();
   selectedClient(event) {
     this.clientId = event.id;
     this.clientName = event.name;
-  this.getClientPastNotes(this.clientId)
+    this.getClientPastNotes(this.clientId)
     const name = event.name.toLowerCase();
     if (name.startsWith('drive')) {
       this.washForm.get('vehicle').disable();
@@ -418,7 +419,7 @@ this.washForm.controls.pastNotes.enable();
       this.washForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
     }
-  
+
   }
 
   clientChange() {

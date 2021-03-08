@@ -43,22 +43,21 @@ export class CheckoutGridComponent implements OnInit {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.getAllUncheckedVehicleDetails();
+    // this.getAllUncheckedVehicleDetails();
   }
   landing() {
-    this.landingservice.loadTheLandingPage()
+    this.landingservice.loadTheLandingPage();
   }
   onValueChange(event) {
     if (event !== null) {
       this.startDate = event;
       this.endDate = event;
+      this.getAllUncheckedVehicleDetails();
     }
     else {
       this.startDate = null;
       this.endDate = null;
     }
-    this.getAllUncheckedVehicleDetails();
-
   }
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
@@ -98,8 +97,7 @@ export class CheckoutGridComponent implements OnInit {
     this.getAllUncheckedVehicleDetails();
   }
   checkOutSearch() {
-    this.search = this.query
-
+    this.search = this.query;
     this.getAllUncheckedVehicleDetails();
   }
   paginatedropdown(event) {

@@ -110,7 +110,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private client: ClientService,
     private confirmationService: ConfirmationService,
     private router: Router,
-    
+
     private codeValueService: CodeValueService,
     private serviceSetupService: ServiceSetupService
   ) { }
@@ -178,7 +178,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.bayScheduleObj.date.setMinutes(minutes);
       this.bayScheduleObj.date.setSeconds('00');
       const inTime = this.datePipe.transform(this.bayScheduleObj.date, 'MM/dd/yyyy HH:mm');
-      this.getWashTimeByLocationID();
+      this.addDueTime();
       this.detailForm.patchValue({
         bay: this.bayScheduleObj.bayId,
         inTime
@@ -189,27 +189,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
   }
 
-  getWashTimeByLocationID() {
-    const locationId = +localStorage.getItem('empLocationId');
-    const date = moment(new Date()).format();
-    this.spinner.show();
-    this.detailService.getWashTimeByLocationId(locationId, date).subscribe(res => {
-      this.spinner.hide();
-      if (res.status === 'Success') {
-        const washTime = JSON.parse(res.resultData);
-        if (washTime.WashTime.length > 0) {
-          const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
-          let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + WashTimeMinutes);
-          outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
-          this.detailForm.patchValue({
-            dueTime: outTime
-          });
-          this.detailForm.controls.dueTime.disable();
-        }
-      }
-    }, (err) => {
-      this.spinner.hide();
+  addDueTime() {
+    let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + 30);
+    outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
+    this.detailForm.patchValue({
+      dueTime: outTime
     });
+    this.detailForm.controls.dueTime.disable();
   }
 
   checkValue(type) {
@@ -407,7 +393,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
       this.getAllServices();
     }
-   
+
   }
 
   getAllServices() {

@@ -55,7 +55,7 @@ export const UrlConfig = {
     DeleteCheckList: `Admin/Checklist/Delete`,
   },
   checkOut: {
-    getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails/`,
+    getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails`,
     checkoutVehicle: `Admin/Checkout/UpdateCheckoutDetails`,
     holdoutVehicle: `Admin/Checkout/UpdateJobStatusHold`,
     completedVehicle: `Admin/Checkout/UpdateJobStatusComplete`,

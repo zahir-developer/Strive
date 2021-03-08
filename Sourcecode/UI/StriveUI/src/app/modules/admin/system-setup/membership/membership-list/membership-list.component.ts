@@ -183,7 +183,9 @@ export class MembershipListComponent implements OnInit {
 
   // Get Membership By Id
   getMembershipById(det) {
+    this.spinner.show();
     this.member.getMembershipById(det.MembershipId).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         const details = membership.MembershipAndServiceDetail;
@@ -194,6 +196,9 @@ export class MembershipListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }
