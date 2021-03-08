@@ -147,7 +147,9 @@ export class ProductCreateEditComponent implements OnInit {
   }
   // Get Product By Id
   getProductById() {
+    this.spinner.show();
     this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
+      this.spinner.hide();
       if (data.status === "Success") {
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product;
@@ -184,6 +186,9 @@ export class ProductCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

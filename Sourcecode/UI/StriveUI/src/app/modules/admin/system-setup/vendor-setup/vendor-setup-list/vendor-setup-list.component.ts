@@ -165,7 +165,9 @@ export class VendorSetupListComponent implements OnInit {
 
   // Get vendor By Id
   getVendorById(data) {
+    this.spinner.show();
     this.vendorService.getVendorById(data.VendorId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const vendor = JSON.parse(res.resultData);
         this.headerData = 'Edit Vendor';
@@ -175,6 +177,9 @@ export class VendorSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

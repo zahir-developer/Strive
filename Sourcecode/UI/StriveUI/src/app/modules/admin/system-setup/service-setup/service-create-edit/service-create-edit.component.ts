@@ -90,7 +90,9 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get Service By Id
   getServiceById() {
+    this.spinner.show();
     this.serviceSetup.getServiceSetupById(this.selectedData.ServiceId).subscribe(data => {
+      this.spinner.hide();
       if (data.status === "Success") {
         const sType = JSON.parse(data.resultData);
         this.selectedService = sType.ServiceSetup;
@@ -132,6 +134,9 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isAdditional = false;
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
