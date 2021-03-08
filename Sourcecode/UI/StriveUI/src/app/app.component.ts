@@ -77,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 5;    // 60
+      const seconds = 60;    // 60
       this.subscribeTheIdle(this.idle, seconds);
     }
   }
