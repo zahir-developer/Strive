@@ -165,7 +165,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           //     isOpen = false;
           //   }
           // }
-          this.storeStatus = this.cashDetails.CashRegister.Status !== null ? this.cashDetails.CashRegister.Status : '';
+          this.storeStatus = this.cashDetails.CashRegister.storeOpenCloseStatus !== null ?
+           this.cashDetails.CashRegister.storeOpenCloseStatus : '';
           this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
           this.storeTimeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
@@ -353,7 +354,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       updatedDate: new Date(),
       storeTimeIn: checkinTime !== '' ? moment(checkinTime).format() : null,
       storeTimeOut: null,
-      status: this.storeStatus === '' ? null : this.storeStatus
+      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
     const formObj = {
       cashregister,
