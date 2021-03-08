@@ -52,13 +52,12 @@ export class CheckoutGridComponent implements OnInit {
     if (event !== null) {
       this.startDate = event;
       this.endDate = event;
+      this.getAllUncheckedVehicleDetails();
     }
     else {
       this.startDate = null;
       this.endDate = null;
     }
-    this.getAllUncheckedVehicleDetails();
-
   }
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
