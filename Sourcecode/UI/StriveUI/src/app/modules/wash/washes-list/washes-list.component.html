@@ -5,7 +5,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a (click) = "landing()">Home</a></li>
+                    <li class="breadcrumb-item"><a (click)="landing()">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Washes</li>
                 </ol>
             </nav>
@@ -20,72 +20,51 @@
                                         <form>
                                             <div class="form-row ">
                                                 <div class="form-row ">
-                                    <h4 class="d-inline-block  m-b-5">Washes - &nbsp;</h4>
-                                    <div class="input-icon-right date-pick m-r-320">
-                                        <i class="mdi mdi-calendar-range"></i>
-                                        <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control"
-                                            [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
-                                            [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
-                                    </div>
-                               
+                                                    <h4 class="d-inline-block  m-b-5">Washes&nbsp;</h4>
+                                                    <div class="input-icon-right date-pick m-r-320">
+                                                        <i class="mdi mdi-calendar-range"></i>
+                                                        <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control" [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)" [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+                                                    </div>
+
                                                 </div>
-                                           <div class="col-4"></div>
-                                             <div class="form-group d-flex"> 
-                                                 <input type="search"
-                                                    class="form-control" size="25" [(ngModel)]="search" name="search"
-                                                    id="inputSearchbyName" placeholder="Search"
-                                                    (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
-                                            <div class="form-group col-sm m-l-5">
-                                     <button type="button"
-                                                    class="btn theme-primary-button-color  btn-sm"
-                                                    (click)="getAllWashDetails()">Search</button>
+                                                <div class="col-4"></div>
+                                                <div class="form-group d-flex">
+                                                    <input type="search" class="form-control" size="25" [(ngModel)]="search" name="search" id="inputSearchbyName" placeholder="Search" (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
+                                                <div class="form-group col-sm m-l-5">
+                                                    <button type="button" class="btn theme-primary-button-color  btn-sm" (click)="getAllWashDetails()">Search</button>
+                                                </div>
+                                                <div class=" card-widgets"><button type="button" class="btn theme-primary-button-color btn-sm" (click)="add('add',[])">Add New Wash</button>
+                                                </div>
                                             </div>
-                                            <div class=" card-widgets"><button type="button"
-                                                class="btn theme-primary-button-color btn-sm"
-                                                (click)="add('add',[])">Add New Wash</button>
-                                        </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
+                                <div class="setup-content">
+
                                 </div>
-                                <div class="setup-content" >
-                                   
-                                     </div>
-                                <div class="setup-content" >
+                                <div class="setup-content">
                                     <div class="table-responsive">
                                         <table class="table table-striped headerfix">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('TicketNumber')">Ticket
-                                                        No&nbsp;<i class="fa" [ngClass]="selectedCls('TicketNumber')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('FirstName')">Client
-                                                        Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('VehicleName')">
-                                                        Make/Model/Color&nbsp;<i class="fa"
-                                                            [ngClass]="selectedCls('VehicleName')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('TimeInFormat')">Time
-                                                        In&nbsp;<i class="fa" [ngClass]="selectedCls('TimeInFormat')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('EstimatedTimeOutFormat')">Est.
-                                                        Time Out&nbsp;<i class="fa"
-                                                            [ngClass]="selectedCls('EstimatedTimeOutFormat')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('ServiceName')">
-                                                        Services&nbsp;<i class="fa"
-                                                            [ngClass]="selectedCls('ServiceName')"
-                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('TicketNumber')">Ticket No&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('TicketNumber')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('FirstName')">Client Name&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('FirstName')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('VehicleName')">
+                                                        Make/Model/Color&nbsp;<i class="fa" [ngClass]="selectedCls('VehicleName')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('TimeInFormat')">Time In&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('TimeInFormat')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('EstimatedTimeOutFormat')">Est. Time Out&nbsp;<i class="fa" [ngClass]="selectedCls('EstimatedTimeOutFormat')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('ServiceName')">
+                                                        Services&nbsp;<i class="fa" [ngClass]="selectedCls('ServiceName')" aria-hidden="true"></i> </th>
                                                     <th scope="col">Pay</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
-                                            <span
-                                       colspan="11" class="text-center"  *ngIf="isTableEmpty === true">No Washes Found</span>
+                                            <span colspan="11" class="text-center" *ngIf="isTableEmpty === true">No Washes Found</span>
                                             <tbody class="bodyfix" *ngIf="isTableEmpty === false">
-                                                <tr
-                                                    *ngFor="let wash of washDetails">
+                                                <tr *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
                                                     <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">{{wash.ClientName}}</td>
                                                     <td>{{wash.VehicleName}}</td>
@@ -94,35 +73,25 @@
                                                         {{wash.EstimatedTimeOut | date : 'hh:mm:ss aa'}}</td>
                                                     <td>{{wash.ServiceName}}</td>
                                                     <td>
-                                                        <button type="button"
-                                                            class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12"
-                                                            (click)="pay(wash)">Pay</button>
+                                                        <button type="button" class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12" (click)="pay(wash)">Pay</button>
                                                     </td>
-                                                    <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('view',wash)" pTooltip="View"
-                                                            tooltipPosition="bottom"></i>
-                                                        <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('edit',wash)" pTooltip="Edit"
-                                                            tooltipPosition="bottom"></i>
-                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            (click)="delete(wash)" pTooltip="Delete"
-                                                            tooltipPosition="bottom"></i>
+                                                    <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1" (click)="add('view',wash)" pTooltip="View" tooltipPosition="bottom"></i>
+                                                        <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1" (click)="add('edit',wash)" pTooltip="Edit" tooltipPosition="bottom"></i>
+                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="delete(wash)" pTooltip="Delete" tooltipPosition="bottom"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div class="row pull-right"  *ngIf="isTableEmpty === false">
+                                        <div class="row pull-right" *ngIf="isTableEmpty === false">
                                             <div class="col-6">
-                                             <ngb-pagination  [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
-                                                 [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
-                                                 [boundaryLinks]="true" class="d-flex justify-content-end">
-                                             </ngb-pagination> 
-                                             </div>
-                                             <select  class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                                <ngb-pagination [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                </ngb-pagination>
+                                            </div>
+                                            <select class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                                  <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
          
                                              </select>
-                                         </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +103,6 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
-        (closeDialog)="closePopupEmit($event)">
+    <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView" (closeDialog)="closePopupEmit($event)">
     </app-create-edit-washes>
 </div>
