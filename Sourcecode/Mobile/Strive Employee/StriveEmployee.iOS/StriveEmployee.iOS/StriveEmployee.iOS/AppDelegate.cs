@@ -1,4 +1,6 @@
 ﻿using Foundation;
+using MvvmCross.Platforms.Ios.Core;
+using StriveEmployee.iOS.MvvmCross;
 using UIKit;
 
 namespace StriveEmployee.iOS
@@ -6,7 +8,7 @@ namespace StriveEmployee.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : UIApplicationDelegate
+    public class AppDelegate : MvxApplicationDelegate<Setup, App>
     {
         // class-level declarations
 
@@ -19,13 +21,9 @@ namespace StriveEmployee.iOS
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             // create a new window instance based on the screen size
-            Window = new UIWindow(UIScreen.MainScreen.Bounds);
-            Window.RootViewController = new UIViewController();
+            var result = base.FinishedLaunching(application, launchOptions);
 
-            // make the window visible
-            Window.MakeKeyAndVisible();
-
-            return true;
+            return result;
         }
 
         public override void OnResignActivation(UIApplication application)

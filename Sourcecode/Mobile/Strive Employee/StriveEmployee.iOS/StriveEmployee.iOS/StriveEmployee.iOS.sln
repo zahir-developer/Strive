@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StriveEmployee.iOS", "StriveEmployee.iOS\StriveEmployee.iOS.csproj", "{0BD55306-DDAE-41BC-BD20-63EA26A6C7B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.Core", "..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj", "{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhone = Debug|iPhone
@@ -25,6 +27,14 @@ Global
 		{0BD55306-DDAE-41BC-BD20-63EA26A6C7B6}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{0BD55306-DDAE-41BC-BD20-63EA26A6C7B6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{0BD55306-DDAE-41BC-BD20-63EA26A6C7B6}.Release|iPhoneSimulator.Deploy.0 = Release|iPhoneSimulator
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Release|iPhone.Build.0 = Release|Any CPU
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{AE41157C-C7D2-4EF1-9B10-7C2BDE477DFE}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
