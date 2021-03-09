@@ -800,7 +800,7 @@ export class CreateEditWashesComponent implements OnInit {
       gender: null,
       maritalStatus: null,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
+      isActive: true,
       isDeleted: false,
       createdBy: +localStorage.getItem('empId'),
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
