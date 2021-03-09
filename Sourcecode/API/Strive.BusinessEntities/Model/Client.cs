@@ -67,5 +67,8 @@ public class Client
 	[Column]
 	public decimal? Amount { get; set; }
 
-}
+        [Column]
+        public bool? IsCreditAccount { get; set; }
+
+    }
 }

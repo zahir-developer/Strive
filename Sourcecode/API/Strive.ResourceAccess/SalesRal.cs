@@ -53,10 +53,10 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<SalesViewModel>(EnumSP.Sales.uspGetItemList.ToString(), _prm);
             return result;
         }
-        public List<SalesAccountViewModel> GetAccountDetails(SalesAccountDto salesAccountDto)
+        public SalesAccountDeatilViewModel GetAccountDetails(SalesAccountDto salesAccountDto)
         {
             _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
-            return  db.Fetch<SalesAccountViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
+            return  db.FetchMultiResult<SalesAccountDeatilViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
             
         }
         public List<EmailListViewModel> GetEmailId()
