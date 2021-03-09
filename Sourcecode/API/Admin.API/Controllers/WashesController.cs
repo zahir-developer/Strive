@@ -60,9 +60,9 @@ namespace Admin.API.Controllers
         public Result DeleteWashes(int id) => _bplManager.DeleteWashes(id);
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetWashTimeByLocationId")]
-        public Result GetLocationById(WashTimeDto washTimeDto) => _bplManager.GetWashTimeByLocationId(washTimeDto);
+        public Result GetLocationById([FromBody] WashTimeDto washTimeDto) => _bplManager.GetWashTimeByLocationId(washTimeDto);
 
     }
 }
