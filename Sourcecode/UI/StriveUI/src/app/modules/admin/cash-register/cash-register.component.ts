@@ -377,24 +377,20 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       this.submitted = false;
       if (data.status === 'Success') {
         this.spinner.hide();
+        this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
 
         this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
           if (response.status === 'Success') {
             this.spinner.hide();
 
             this.toggleTab = 0;
-            if (this.isUpdate) {
-              this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
-            } else {
-              this.toastr.success(MessageConfig.Admin.weather.Update, 'Success!');
-            }
+          
             this.weatherService.getWeather();
             this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
           } else {
             this.spinner.hide();
 
-            this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
           }
         });
       } else {

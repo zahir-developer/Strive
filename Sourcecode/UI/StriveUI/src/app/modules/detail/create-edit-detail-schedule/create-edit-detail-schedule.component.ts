@@ -1104,9 +1104,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       phoneNumber: this.clientFormComponent.clientForm.value.phone1,
       email: this.clientFormComponent.clientForm.value.email,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: null,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: null,
       updatedDate: new Date()
     }];
     const formObj = {
@@ -1117,11 +1117,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       gender: 1,
       maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientFormComponent.clientForm.value.status === 0 ? true : false,
+      isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: null,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: null,
       updatedDate: new Date(),
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,

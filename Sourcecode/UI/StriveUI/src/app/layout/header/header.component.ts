@@ -29,11 +29,25 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.empName = localStorage.getItem('employeeName');
-    this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
 
     this.userService.headerName.subscribe(data => {
       this.empName = data;
     });
+    if(localStorage.getItem('empLocationName')){
+      this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
+
+    }
+    
+      else{
+        this.userService.locationName.subscribe(data => {
+          if(data){
+            this.locationName = JSON.parse(data);
+    
+          }
+      
+        
+    });
+  }
     this.getUnReadMessage();
   }
   // Get WeatherDetails

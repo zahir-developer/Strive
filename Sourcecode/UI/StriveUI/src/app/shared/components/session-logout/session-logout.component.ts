@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../services/common-service/auth.service';
 import { LandingService } from '../../services/common-service/landing.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
@@ -25,7 +26,8 @@ export class SessionLogoutComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private fb: FormBuilder,
-    private getCodeService: GetCodeService
+    private getCodeService: GetCodeService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +41,7 @@ export class SessionLogoutComponent implements OnInit {
   * Logout Session and navigate to login page
   */
   logout() {
+    this.modalService.dismissAll();
     this.authService.logout();
     this.dialogDisplay = false;
     this.closeDialog.emit();
