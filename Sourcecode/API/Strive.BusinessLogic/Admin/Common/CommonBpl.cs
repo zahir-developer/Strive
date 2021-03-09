@@ -382,9 +382,17 @@ namespace Strive.BusinessLogic.Common
 
         public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues)
         {
-            string emailContent = GetMailContent(htmlTemplate, keyValues);
+            try
+            {
+                string emailContent = GetMailContent(htmlTemplate, keyValues);
 
-            SendMail(emailId, emailContent, "Welcome to Strive !!!");
+                SendMail(emailId, emailContent, "Welcome to Strive !!!");
+
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         public void SendHoldNotificationEmail(HtmlTemplate htmlTemplate,string emailId, string ticketNumber)

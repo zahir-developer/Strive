@@ -60,7 +60,7 @@ namespace Strive.ResourceAccess
         }
         public bool AddGiftCard(GiftCardDto giftCardDto)
         {
-            return dbRepo.SavePc(giftCardDto, "GiftCardId");
+            return dbRepo.InsertPc(giftCardDto, "GiftCardId");
         }
         public bool UpdateGiftCard(GiftCardDto giftCardDto)
         {
