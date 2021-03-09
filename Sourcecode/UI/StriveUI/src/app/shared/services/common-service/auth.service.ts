@@ -5,6 +5,7 @@ import { UrlConfig } from '../url.config';
 import { map, tap } from 'rxjs/operators';
 import { UserDataService } from '../../util/user-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticateObservableService } from '../../observable-service/authenticate-observable.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,7 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
   constructor(private http: HttpUtilsService, private userService: UserDataService, private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute, private authenticate: AuthenticateObservableService) {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.loggedIn.next(true);
     }
@@ -69,6 +70,8 @@ export class AuthService {
   logout() {
     this.clearCacheValue();
     this.loggedIn.next(false);
+    localStorage.removeItem('views');
+    localStorage.removeItem('navName');
     document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
@@ -82,11 +85,24 @@ export class AuthService {
   }
 
   clearCacheValue() {
+    this.authenticate.setIsAuthenticate(false);
     localStorage.setItem('isAuthenticated', 'false');
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
-    localStorage.removeItem('views');
-    localStorage.removeItem('navName');
-    localStorage.clear();
+  }
+
+  sessionLogin(loginData: any) {
+    return this.http.post(`${UrlConfig.Auth.login}`, loginData).pipe(tap((user) => {
+      if (user !== null && user !== undefined) {
+        if (user.status === 'Success') {
+          const token = JSON.parse(user.resultData);
+          localStorage.setItem('authorizationToken', token.Token);
+          localStorage.setItem('refreshToken', token.RefreshToken);
+          this.authenticate.setIsAuthenticate(true);
+          return user;
+        }
+      }
+      return user;
+    }));
   }
 }

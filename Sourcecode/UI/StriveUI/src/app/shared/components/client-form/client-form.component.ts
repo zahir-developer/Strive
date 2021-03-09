@@ -168,7 +168,7 @@ export class ClientFormComponent implements OnInit {
       email: this.selectedData.Email
     });
     this.clientId = this.selectedData.ClientId;
-    if (this.selectedData.NoEmail) {
+    if (this.selectedData.IsCreditAccount) {
       this.clientForm.controls.amount.enable();
     }
   }

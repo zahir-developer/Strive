@@ -17,7 +17,7 @@
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 <p-dialog width="30" height="20" styleClass="SessionTimeoutDialog" header="{{header}}" [(visible)]="dialogDisplay" [blockScroll]="true" [resizable]="true"
-  appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false">
+   [modal]="true" [focusOnShow]="false" [closable]="false" [baseZIndex]="10000">
   <app-session-logout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header" [countdown]="countdown" (closeDialog)="closeDialog()">
   </app-session-logout>
 </p-dialog>
