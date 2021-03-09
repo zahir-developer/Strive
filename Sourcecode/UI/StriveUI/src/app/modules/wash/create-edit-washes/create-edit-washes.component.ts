@@ -136,9 +136,13 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashTimeByLocationID() {
-    const locationId = localStorage.getItem('empLocationId');
-    const date = moment(new Date()).format();
-    this.detailService.getWashTimeByLocationId(locationId, date).subscribe(res => {
+
+    const washTimeObj =
+    {
+        locationId: +localStorage.getItem('empLocationId'),
+        dateTime: moment(new Date()).format()
+    }
+    this.detailService.getWashTimeByLocationId(washTimeObj).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
         if (washTime.WashTime.length > 0) {
@@ -686,7 +690,7 @@ export class CreateEditWashesComponent implements OnInit {
         jobId: this.isEdit ? +this.selectedData.Washes[0].JobId : 0,
         serviceId: item.ServiceId,
         commission: 0,
-        price: item.Cost,
+        price: item.Price,
         quantity: 1,
         reviewNote: null,
         isActive: true,
