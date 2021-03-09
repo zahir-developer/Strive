@@ -25,7 +25,6 @@ export class SessionLogoutComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private fb: FormBuilder,
-    private landing: LandingService,
     private getCodeService: GetCodeService
   ) { }
 
@@ -66,17 +65,19 @@ export class SessionLogoutComponent implements OnInit {
       email: this.authentication.value.username,
       passwordHash: this.authentication.value.password
     };
-    this.authService.login(obj).subscribe(res => {
+    this.authService.sessionLogin(obj).subscribe(res => {
       if (res.status === 'Success') {
         this.getCodeValue();
-        //this.landing.loadTheLandingPage();
+        localStorage.setItem('isAuthenticated', 'true');
+        // this.authService.loggedIn.next(true);
+        // this.landing.loadTheLandingPage();
         this.closeDialog.emit();
       }
     });
   }
 
   getCodeValue() {
-    this.getCodeService.getCodeByCategory('ALL').subscribe( res => {
+    this.getCodeService.getCodeByCategory('ALL').subscribe(res => {
       if (res.status === 'Success') {
         const value = JSON.parse(res.resultData);
         localStorage.setItem('codeValue', JSON.stringify(value.Codes));
