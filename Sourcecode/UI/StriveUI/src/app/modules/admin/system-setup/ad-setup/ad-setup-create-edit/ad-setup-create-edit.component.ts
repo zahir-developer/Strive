@@ -7,6 +7,7 @@ import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.se
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ad-setup-create-edit',
@@ -34,11 +35,13 @@ export class AdSetupCreateEditComponent implements OnInit {
   fileType: string[];
   fileSize: number;
   localFileSize: any;
-
+  selectedDate: Date;
   constructor(private adSetup: AdSetupService, private spinner: NgxSpinnerService,
     private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
+  this.selectedDate =  new Date();
+
     this.submitted = false;
     this.fileType = ApplicationConfig.UploadFileType.AdSetup;
     this.fileSize = ApplicationConfig.UploadSize.AdSetup
@@ -57,8 +60,10 @@ export class AdSetupCreateEditComponent implements OnInit {
       name: this.selectedData.Name,
       description: this.selectedData.Description,
       status: this.selectedData.Status == false ? 0 : 1,
-      image: this.selectedData.OriginalFileName
+      image: this.selectedData.OriginalFileName,
+      daterangepickerModel :moment(this.selectedData.LaunchDate).format('MM-DD-YYYY')
     });
+  
     this.fileName = this.selectedData.OriginalFileName,
       this.fileUploadformData = this.selectedData.base64
   }
@@ -69,6 +74,7 @@ export class AdSetupCreateEditComponent implements OnInit {
       name: ['', Validators.required],
       image: ['', Validators.required],
       status: ['',],
+      daterangepickerModel : new Date()
     });
     this.adSetupForm.patchValue({ status: 1 });
   }
@@ -85,7 +91,17 @@ export class AdSetupCreateEditComponent implements OnInit {
   }
   
 
+  onValueChange(event) {
+   this.selectedDate = event;
+    if (this.selectedDate !== null) {
+      this.selectedDate = event
+     
+    }
+    else{
+      this.selectedDate = null;
 
+    }
+  }
 
   fileNameChanged() {
     let filesSelected: any;
@@ -149,7 +165,8 @@ export class AdSetupCreateEditComponent implements OnInit {
         createdBy: this.employeeId,
         createdDate: new Date(),
         updatedBy: this.employeeId,
-        updatedDate: new Date()
+        updatedDate: new Date(),
+      
       },
       documentType: "ADS",
 
@@ -164,8 +181,8 @@ export class AdSetupCreateEditComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: new Date()
-
+      updatedDate: new Date(),
+      LaunchDate: moment(this.selectedDate).format('MM-DD-YYYY')
     }
 
 

@@ -25,6 +25,8 @@
                                     <thead>
                                         <tr>
                                             <th> Name</th>
+                                            <th> Launch Date</th>
+
                                             <th> Description</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -34,6 +36,8 @@
                                         <tr
                                             *ngFor="let adSetup of adSetupDetails  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{adSetup.Name}}</th>
+                                            <td>{{adSetup.LaunchDate  | date: 'MM/dd/yyyy'}}</td>
+
                                             <td>{{adSetup.Description}}</td>
                                             <td>{{adSetup.Status === true ? "Active" : "InActive"}}</td>
                                             <td>
