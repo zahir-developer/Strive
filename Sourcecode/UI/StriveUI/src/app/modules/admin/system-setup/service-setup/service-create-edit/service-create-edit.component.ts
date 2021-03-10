@@ -180,7 +180,7 @@ export class ServiceCreateEditComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.serviceSetup.getAllServiceDetail().subscribe(res => {
+    this.serviceSetup.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(res => {
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
         if (serviceDetails.AllServiceDetail !== null) {

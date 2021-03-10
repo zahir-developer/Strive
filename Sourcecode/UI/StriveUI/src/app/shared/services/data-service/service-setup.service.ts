@@ -32,7 +32,7 @@ export class ServiceSetupService {
     return this.http.post(`${UrlConfig.ServiceSetup.getServiceSearch}`, obj);
   }
 
-  getAllServiceDetail() {
-    return this.http.get(`${UrlConfig.ServiceSetup.getAllServiceDetail}`);
+  getAllServiceDetail(locationId: any) {
+    return this.http.get(`${UrlConfig.ServiceSetup.getAllServiceDetail}`, { params: { locationId } });
   }
 }

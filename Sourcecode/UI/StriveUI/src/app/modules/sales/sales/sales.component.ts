@@ -217,7 +217,7 @@ export class SalesComponent implements OnInit {
       sortBy: null,
       status: null
     };
-    this.service.getAllServiceDetail().subscribe(data => {
+    this.service.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         console.log(services, 'discount');
@@ -295,6 +295,9 @@ export class SalesComponent implements OnInit {
       this.isTenTicketNumber = true;
     } else {
       this.isTenTicketNumber = false;
+    }
+    if (this.multipleTicketNumber.length === 0) {
+      this.enableAdd = false;
     }
     this.getDetailByTicket(false);
   }
