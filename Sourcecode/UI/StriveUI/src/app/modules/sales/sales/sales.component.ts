@@ -221,8 +221,9 @@ export class SalesComponent implements OnInit {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         console.log(services, 'discount');
-        if (services.ServiceSetup.AllServiceDetail !== null ) {
-          this.discounts = services.ServiceSetup.AllServiceDetail.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
+        if (services.AllServiceDetail !== null) {
+          this.discounts = services.AllServiceDetail.filter(item =>
+            item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
         }
       }
     });
@@ -815,11 +816,11 @@ export class SalesComponent implements OnInit {
           } else if (item.DiscountServiceType === null) {
             noServiceTypePrice = noServiceTypePrice + item.Cost;
           }
-        } else if (item.DiscountServiceType === null)  {
+        } else if (item.DiscountServiceType === null) {
           noServiceTypePrice = noServiceTypePrice + item.Cost;
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
-          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice ;
+          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice;
       });
       this.discountAmount = discountValue;
     } else {
@@ -851,7 +852,7 @@ export class SalesComponent implements OnInit {
       }
     });
   }
- 
+
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
@@ -1029,7 +1030,7 @@ export class SalesComponent implements OnInit {
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: null
-    
+
 
     };
     this.spinner.show();
@@ -1099,7 +1100,7 @@ export class SalesComponent implements OnInit {
         this.balance = currentAmount - enteredAmount;
       }
     }
-   
+
   }
   rollBack() {
     if (this.multipleTicketNumber.length > 0) {
