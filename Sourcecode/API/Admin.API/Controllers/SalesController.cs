@@ -57,7 +57,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("AddPayment")]
-        public Result AddPayment([FromBody] SalesPaymentDto salesPayment) => _bplManager.AddPayment(salesPayment);
+        public Result AddPayment([FromBody] SalesPaymentDetailDto salesPayment) => _bplManager.AddPayment(salesPayment);
 
         [HttpPost]
         [Route("AddListItem")]

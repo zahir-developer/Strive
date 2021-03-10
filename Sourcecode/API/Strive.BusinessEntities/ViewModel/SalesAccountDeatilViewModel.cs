@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class SalesAccountDeatilViewModel
     {
-      public SalesAccountCreditViewModel SalesAccountCreditViewModel { get; set; }
+        public SalesAccountCreditViewModel SalesAccountCreditViewModel { get; set; }
         public SalesAccountViewModel SalesAccountViewModel { get; set; }
     }
 }

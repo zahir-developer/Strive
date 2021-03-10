@@ -339,7 +339,7 @@ namespace Strive.BusinessLogic.Common
             return detail;
         }
 
-
+   
 
         public Result SendOTP(string emailId)
         {

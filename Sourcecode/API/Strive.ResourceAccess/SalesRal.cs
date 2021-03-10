@@ -56,14 +56,10 @@ namespace Strive.ResourceAccess
         public SalesAccountDeatilViewModel GetAccountDetails(SalesAccountDto salesAccountDto)
         {
             _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
-            return  db.FetchMultiResult<SalesAccountDeatilViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
-            
-        }
-        public List<EmailListViewModel> GetEmailId()
-        {
-            return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
+            return db.FetchMultiResult<SalesAccountDeatilViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
 
         }
+       
         public string GetTicketNumber()
         {
             return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);

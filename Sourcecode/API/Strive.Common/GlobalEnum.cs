@@ -19,7 +19,7 @@ namespace Strive.Common
         Admin,
     }
 
-    
+
 
     public static class GlobalUpload
     {
@@ -33,7 +33,7 @@ namespace Strive.Common
             EMPLOYEEHANDBOOK,
             TERMSANDCONDITION,
             ADS
-            
+
         }
 
         public enum ArchiveFolder
@@ -44,8 +44,8 @@ namespace Strive.Common
 
     public enum UserType
     {
-        Employee =1,
-        Client=2,
+        Employee = 1,
+        Client = 2,
         Admin = 3,
         SuperAdmin = 100
     }
@@ -57,5 +57,16 @@ namespace Strive.Common
         VehicleHold,
         ProductThreshold,
         EmployeeThreshold
+    }
+
+    public enum Roles
+    {
+        Admin,
+        Operator,
+        Manager,
+        Cashier,
+        Detailer,
+        Washer,
+        Runner
     }
 }

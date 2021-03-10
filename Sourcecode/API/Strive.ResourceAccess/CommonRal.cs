@@ -12,6 +12,7 @@ using Strive.BusinessEntities.City;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.DTO.Employee;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.ResourceAccess
 {
@@ -148,6 +149,16 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@locationId", locationId);
             return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
+
+        }
+
+        public List<EmailListViewModel> GetEmailIdByRole(int locationId, string roles)
+        {
+            _prm.Add("@LocationId", locationId);
+
+            _prm.Add("@Roles", roles);
+
+            return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
 
         }
     }

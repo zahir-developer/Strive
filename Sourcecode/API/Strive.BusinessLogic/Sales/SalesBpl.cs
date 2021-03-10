@@ -47,7 +47,7 @@ namespace Strive.BusinessLogic.Sales
             return _result;
         }
 
-        
+
         public Result DeleteItemById(DeleteItemDto itemDto)
         {
             try
@@ -60,7 +60,7 @@ namespace Strive.BusinessLogic.Sales
             }
             return _result;
         }
-      
+
         public Result GetItemList(SalesListItemDto salesListItemDto)
         {
             return ResultWrap(new SalesRal(_tenant).GetItemList, salesListItemDto, "SalesList");
@@ -69,20 +69,52 @@ namespace Strive.BusinessLogic.Sales
         {
             return ResultWrap(new SalesRal(_tenant).GetAccountDetails, salesAccountDto, "Account");
         }
-        
+
         public Result GetScheduleByTicketNumber(string ticketNumber)
         {
             return ResultWrap(new SalesRal(_tenant).GetScheduleByTicketNumber, ticketNumber, "Status");
         }
-        public Result AddPayment(SalesPaymentDto salesPayment)
+        public Result AddPayment(SalesPaymentDetailDto salesPayment)
         {
             try
             {
-                var jobPaymnetId = new SalesRal(_tenant).AddPayment(salesPayment);
+                var jobPaymnetId = new SalesRal(_tenant).AddPayment(salesPayment.SalesPaymentDto);
 
-                var result = new SalesRal(_tenant).UpdateJobPayement(salesPayment.JobPayment.JobId, jobPaymnetId);
+                if (jobPaymnetId > 0)
+                {
+                    var result = new SalesRal(_tenant).UpdateJobPayement(salesPayment.SalesPaymentDto.JobPayment.JobId, jobPaymnetId);
 
-                return ResultWrap(jobPaymnetId>0, "Status");
+                    if (salesPayment.SalesProductItemDto != null)
+                    {
+                        foreach (var prod in salesPayment.SalesProductItemDto.JobProductItem)
+                        {
+                            var productUpdate = new SalesRal(_tenant).UpdateProductQuantity(prod.Quantity, prod.ProductId);
+
+                            var product = new ProductRal(_tenant).GetProductById(prod.ProductId);
+
+                            string roles = Roles.Manager.ToString() + ',' + Roles.Operator;
+
+                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId, roles);
+
+                            if (product != null && product.Quantity != null)
+                            {
+                                if ((product.Quantity - prod.Quantity) < product.ThresholdLimit)
+                                {
+                                    foreach (var item in emailId)
+                                    {
+                                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                        keyValues.Add("{{emailId}}", item.Email);
+                                        keyValues.Add("{{productName}}", product.ProductName);
+                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return ResultWrap(jobPaymnetId > 0, "Status");
             }
             catch (Exception ex)
             {
@@ -94,22 +126,8 @@ namespace Strive.BusinessLogic.Sales
         {
             try
             {
-               
-              new SalesRal(_tenant).AddListItem( salesAddListItem);
-              var result = new SalesRal(_tenant).UpdateProductQuantity(salesAddListItem.JobProductItem.Quantity, salesAddListItem.JobProductItem.ProductId);
-              var product = new ProductRal(_tenant).GetProductById(salesAddListItem.JobProductItem.ProductId);
-              var emailId =new SalesRal(_tenant).GetEmailId();
 
-                if (salesAddListItem.JobProductItem.Quantity < product.ThresholdLimit)
-                {
-                    foreach (var item in emailId)
-                    {
-                        new CommonBpl(_cache, _tenant).SendProductThresholdEmail(HtmlTemplate.ProductThreshold, item.Email, product.ProductName);
-                    }
-                   
-                }
-                return ResultWrap(result , "Status");
-
+                return ResultWrap(new SalesRal(_tenant).AddListItem, salesAddListItem, "Status");
             }
             catch (Exception ex)
             {
@@ -158,7 +176,7 @@ namespace Strive.BusinessLogic.Sales
             return ResultWrap(new SalesRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
         }
 
-        public Result  GetServicesAndProduct()
+        public Result GetServicesAndProduct()
         {
             return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct, "ServiceAndProductList");
         }
