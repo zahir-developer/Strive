@@ -23,7 +23,10 @@
                                               <h4 class="d-inline-block  m-b-5">Washes - &nbsp;</h4>
                                               <div class="input-icon-right date-pick m-r-320">
                                                 <i class="mdi mdi-calendar-range"></i>
-                                                <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control" [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)" [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+                                                
+                                                <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control" 
+                                                [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
+                                                 [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
                                               </div>
 
                                             </div>
@@ -62,7 +65,12 @@
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
-                                            <span colspan="11" class="text-center" *ngIf="isTableEmpty === true">No Washes Found</span>
+                                          
+                                            <tr colspan="11" class="text-center" *ngIf="isTableEmpty === true">
+                                                <td colspan="9" class="text-center">
+                                                No Records Found
+                                            </td>
+                                        </tr>
                                             <tbody class="bodyfix" *ngIf="isTableEmpty === false">
                                                 <tr *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>

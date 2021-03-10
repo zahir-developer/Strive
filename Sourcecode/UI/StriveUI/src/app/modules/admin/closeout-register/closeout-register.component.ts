@@ -309,20 +309,18 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       this.submitted = false;
       this.spinner.hide();
       if (data.status === "Success") {
-        this.spinner.hide();
+        this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
 
-        if (this.isUpdate) {
-          this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
-        } else {
-          this.toastr.success(MessageConfig.Admin.weather.Update, 'Success!');
-        }
-        this.getCloseOutRegister();
+        this.spinner.hide();
+    this.getCloseOutRegister();
       } else {
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
-        this.toastr.error(MessageConfig.Admin.weather.Communication, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       this.submitted = false;
       this.spinner.hide();
     });

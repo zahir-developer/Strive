@@ -12,6 +12,8 @@ export class UserDataService {
   userDetails: any = {};
   private header: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public headerName = this.header.asObservable();
+  private location: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public locationName = this.header.asObservable();
   private nav: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public navName = this.nav.asObservable();
   private unReadMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -45,6 +47,7 @@ export class UserDataService {
       }
       this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.FirstName + ' ' +
         token?.EmployeeDetails?.EmployeeLogin?.LastName);
+        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
       this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
 
       this.getUnreadMessage(token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
@@ -84,7 +87,9 @@ export class UserDataService {
   setHeaderName(headerName) {
     this.header.next(headerName);
   }
-
+  setLocationName(Name) {
+    this.location.next(Name);
+  }
   setViews(views) {
     this.userDetails.views = views;
     localStorage.setItem('views', JSON.stringify(views));

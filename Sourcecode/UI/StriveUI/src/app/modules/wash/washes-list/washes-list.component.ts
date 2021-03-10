@@ -40,13 +40,14 @@ export class WashesListComponent implements OnInit {
   page: number;
   pageSize: number;
   search: any = null;
-  startDate:Date = new Date();
-  endDate:Date = new Date();
+
   jobTypeId: any;
  maxDate = new Date()
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
-  bsConfig: { maxDate: Date; dateInputFormat: { rangeInputFormat: string; dateInputFormat: string; showWeekNumbers: boolean; }; };
-  daterangepickerModel: Date[];
+  daterangepickerModel:any;
+  currentWeek: any;
+  startDate: any;
+  endDate: any;
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe, private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router
@@ -54,6 +55,13 @@ export class WashesListComponent implements OnInit {
     private cd: ChangeDetectorRef,) { }
 
   ngOnInit() {
+    const currentDate = new Date();
+    const first = currentDate.getDate();
+    const last = first -7;
+    this.startDate = new Date(currentDate.setDate(last));
+    this.currentWeek = this.startDate;
+    const lastDate = new Date();
+    this.endDate = new Date(lastDate);
     this.daterangepickerModel = [this.startDate, this.endDate];
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;

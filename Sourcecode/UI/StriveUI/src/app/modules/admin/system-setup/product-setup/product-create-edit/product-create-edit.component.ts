@@ -6,6 +6,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -34,13 +35,16 @@ export class ProductCreateEditComponent implements OnInit {
   priceErrMsg: boolean = false;
   employeeId: number;
   base64Value = '';
+  IsOtherSize: number;
+  sizeId: number;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
     private locationService: LocationService,
     private product: ProductService,
     private getCode: GetCodeService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private codeService: CodeValueService
   ) { }
 
   ngOnInit() {
@@ -56,6 +60,7 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.productSetupForm.reset();
       this.getProductById();
+      this.getSize();
     }
   }
 
@@ -84,29 +89,20 @@ export class ProductCreateEditComponent implements OnInit {
   }
   // Get ProductType
   getProductType() {
-    this.getCode.getCodeByCategory("PRODUCTTYPE").subscribe(data => {
-      if (data.status === "Success") {
-        const pType = JSON.parse(data.resultData);
-        this.prodType = pType.Codes;
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    });
-    this.getSize();
+
+    const prodTypeCodes = this.codeService.getCodeValueByType('ProductType');
+    if (prodTypeCodes.length > 0) {
+      this.prodType = prodTypeCodes;
+    }
+    
   }
+
   // Get Size
   getSize() {
-    this.getCode.getCodeByCategory("SIZE").subscribe(data => {
-      if (data.status === "Success") {
-        const pSize = JSON.parse(data.resultData);
-        this.size = pSize.Codes;
-        const other = this.size.filter(i => i.CodeValue === "Other")[0];
-        this.size = this.size.filter(i => i.CodeValue !== "Other");
-        this.size.push(other);
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    });
+    const sizeCodes = this.codeService.getCodeValueByType('Size');
+    if (sizeCodes.length > 0) {
+      this.size = sizeCodes;
+    }
   }
   // Get All Vendors
   getAllVendor() {
@@ -171,17 +167,13 @@ export class ProductCreateEditComponent implements OnInit {
         this.base64Value = this.selectedProduct.Base64;
         this.fileUploadformData = this.selectedProduct.Base64;
         if (this.selectedProduct.Size !== null) {
+          this.sizeId = this.selectedProduct.Size;
           const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
-          let descriptionName = '';
-          if (sizeObj.length > 0) {
-            descriptionName = sizeObj[0].CodeValue;
-            if (descriptionName === 'Other') {
-              this.textDisplay = true;
-              this.productSetupForm.patchValue({ other: this.selectedProduct.SizeDescription });
-            }
+          if (sizeObj !== null) {
+            this.enableOtherSize(sizeObj);
           }
         }
-       
+
         this.change(this.selectedProduct.IsTaxable);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -325,5 +317,14 @@ export class ProductCreateEditComponent implements OnInit {
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
     downloadLink.click();
+  }
+
+  enableOtherSize(sizeObj) {
+    let descriptionName = '';
+    descriptionName = sizeObj[0].CodeValue;
+    if (descriptionName === 'Other') {
+      this.textDisplay = true;
+      this.productSetupForm.patchValue({ other: this.selectedProduct.SizeDescription });
+    }
   }
 }
