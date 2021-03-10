@@ -107,6 +107,7 @@ export const UrlConfig = {
   },
 
   giftCard: {
+    giftCardExist: 'Admin/GiftCard/IsGiftCardExist/',
     getAllGiftCard: `Admin/GiftCard/GetAllGiftCard`,
     getAllGiftCardHistory: `Admin/GiftCard/GetAllGiftCardHistory/`,
     getGiftCard: `Admin/GiftCard/GetGiftCard/`,

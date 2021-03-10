@@ -25,12 +25,14 @@ export class ServiceSetupListComponent implements OnInit {
   page: number;
   pageSize: number;
   pageSizeList: number[];
-  isDesc: boolean = false;
   column: string = 'ServiceName';
   totalRowCount = 0;
   isLoading: boolean;
   sort = { column: 'ServiceName', descending: false };
   sortColumn: { column: string; descending: boolean; };
+
+
+  
   constructor(
     private serviceSetup: ServiceSetupService,
     private spinner: NgxSpinnerService,
@@ -40,7 +42,7 @@ export class ServiceSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = false;
-    this.page = ApplicationConfig.PaginationConfig.page;
+     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
@@ -57,6 +59,7 @@ export class ServiceSetupListComponent implements OnInit {
       query: this.search !== '' ? this.search : null,
       sortOrder: this.sort.descending ? 'DESC' : 'ASC',
       sortBy: this.sort.column,
+
       status: this.searchStatus === '' ? null : this.searchStatus
     };
     this.isLoading = true;

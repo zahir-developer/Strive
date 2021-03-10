@@ -7,6 +7,26 @@ export const ApplicationConfig = {
         Rows: [5, 10, 25, 50, 100],
         PageSize: 10
     },
+    
+    Sorting:
+    {
+        SortOrder:{
+            ServiceSetup:  {
+                ASC: 'ASC',
+                DESC: 'DESC'
+            },
+            ProductSetup:  {
+                ASC: 'ASC',
+                DESC: 'DESC'
+            },
+        },
+        
+        SortBy:
+        {
+            ServiceSetup: 'ServiceName',
+            ProductSetup: 'ProductName'
+        }
+    },
     UploadFileType:
     {
         AdSetup: ['png', 'jpeg', 'jpg'],

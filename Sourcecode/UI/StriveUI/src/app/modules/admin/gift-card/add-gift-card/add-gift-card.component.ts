@@ -23,6 +23,7 @@ export class AddGiftCardComponent implements OnInit {
   clientId: any;
   isOtherAmount: boolean;
   submitted: boolean;
+  GiftcardNumberExist: any;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -113,6 +114,11 @@ export class AddGiftCardComponent implements OnInit {
       this.toastr.warning( MessageConfig.Mandatory ,'Warning!');
       return;
     }
+    if(this.GiftcardNumberExist === true){
+      this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists , 'Warning!');
+      return;
+
+    }
     const cardObj = {
       giftCardId: 0,
       locationId: +localStorage.getItem('empLocationId'),
@@ -150,9 +156,34 @@ export class AddGiftCardComponent implements OnInit {
 
   generateNumber() {
     const cardNumber = Math.floor(100000 + Math.random() * 900000);
-    this.giftCardForm.patchValue({
-      number: cardNumber
+    this.giftCardService.GiftCardAlreadyExists(cardNumber).subscribe(res => {
+      this.spinner.hide();
+      if (res.status === 'Success') {
+      const GiftcardNumber = JSON.parse(res.resultData)
+      this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable
+        if(this.GiftcardNumberExist === true){
+          this.giftCardForm.value.number.reset();
+          this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists , 'Warning!');
+
+        }
+        else {
+        
+          this.giftCardForm.patchValue({
+            number: cardNumber
+          });
+      } 
+      }else{
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+        this.spinner.hide();
+      }
+     
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      this.spinner.hide();
     });
+   
   }
 
 }
