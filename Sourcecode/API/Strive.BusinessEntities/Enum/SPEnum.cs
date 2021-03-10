@@ -146,6 +146,7 @@ namespace Strive.BusinessEntities
             uspGetGiftCardHistoryByNumber,
             uspGetGiftCardByLocation,
             uspGetGiftCardBalance,
+            USPISGIFTCARDEXIST,
         }
 
         public enum Location

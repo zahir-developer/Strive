@@ -72,5 +72,9 @@ namespace Strive.BusinessLogic.GiftCard
         {
             return ResultWrap(new GiftCardRal(_tenant).DeleteGiftCard,id, "GiftCard");
         }
+        public Result IsGiftCardExist (string giftCardCode)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).IsGiftCardExist, giftCardCode, "IsGiftCardAvailable");
+        }
     }
 }

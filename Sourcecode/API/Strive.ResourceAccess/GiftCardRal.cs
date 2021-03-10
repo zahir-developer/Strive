@@ -28,7 +28,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@GiftCardNumber", giftCardNumber);
             return db.Fetch<GiftCardBalanceViewModel>(EnumSP.GiftCard.uspGetGiftCardBalance.ToString(), _prm);
         }
-        
+
         public List<GiftCardViewModel> GetGiftCardByGiftCardId(string giftCardNumber)
         {
             _prm.Add("@GiftCardCode", giftCardNumber);
@@ -41,7 +41,7 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<GiftCardViewModel>(EnumSP.GiftCard.uspGetGiftCardHistoryByNumber.ToString(), _prm);
             return result;
         }
-        
+
         public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(string giftCardNumber)
         {
 
@@ -82,9 +82,9 @@ namespace Strive.ResourceAccess
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
-            var result= db.FetchMultiResult<GiftCardCountViewModel>(EnumSP.GiftCard.USPGETALLGIFTCARDS.ToString(), _prm);
+            var result = db.FetchMultiResult<GiftCardCountViewModel>(EnumSP.GiftCard.USPGETALLGIFTCARDS.ToString(), _prm);
             return result;
-            
+
         }
 
         public bool DeleteGiftCard(int id)
@@ -92,6 +92,19 @@ namespace Strive.ResourceAccess
             _prm.Add("GiftCardId", id.toInt());
             db.Save(EnumSP.GiftCard.USPDELETEGIFTCARD.ToString(), _prm);
             return true;
+        }
+        public bool IsGiftCardExist(string giftCardCode)
+        {
+            _prm.Add("@GiftCardCode", giftCardCode);
+            var result = db.Fetch<GiftCardViewModel>(EnumSP.GiftCard.USPISGIFTCARDEXIST.ToString(), _prm);
+            if(result.Count > 0)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+
         }
     }
 }

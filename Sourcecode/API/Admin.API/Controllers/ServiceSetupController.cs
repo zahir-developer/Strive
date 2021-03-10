@@ -44,7 +44,7 @@ namespace Admin.API.Controllers
       
         [HttpGet]
         [Route("GetAllServiceDetail")]
-        public Result GetAllServiceDetail() => _bplManager.GetAllServiceDetail();
+        public Result GetAllServiceDetail(int locationId) => _bplManager.GetAllServiceDetail(locationId);
 
         [HttpGet]
         [Route("GetService")]

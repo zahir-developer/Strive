@@ -78,5 +78,9 @@ namespace Admin.API.Controllers
         [Route("Delete")]
         public Result DeleteGiftCard(int id) => _bplManager.DeleteGiftCard(id);
 
+        [HttpGet]
+        [Route("IsGiftCardExist/{giftCardCode}")]
+        public Result IsGiftCardExist(string giftCardCode) => _bplManager.IsGiftCardExist(giftCardCode);
+
     }
 }
