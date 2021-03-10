@@ -25,11 +25,12 @@ export class ServiceSetupListComponent implements OnInit {
   page: number;
   pageSize: number;
   pageSizeList: number[];
-  isDesc: boolean = false;
+  column: string = 'ServiceName';
   totalRowCount = 0;
   isLoading: boolean;
-  sortColumn: { sortBy: string; SortOrder: string; };
-  sort: { sortBy: string; SortOrder: string; };
+  sort = { column: 'ServiceName', descending: false };
+  sortColumn: { column: string; descending: boolean; };
+
 
   
   constructor(
@@ -41,8 +42,7 @@ export class ServiceSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = false;
-    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup ,SortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.ASC };
-    this.page = ApplicationConfig.PaginationConfig.page;
+     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
@@ -57,8 +57,9 @@ export class ServiceSetupListComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search !== '' ? this.search : null,
-      sortOrder: this.sortColumn.SortOrder,
-      sortBy: this.sortColumn.sortBy,
+      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
+      sortBy: this.sort.column,
+
       status: this.searchStatus === '' ? null : this.searchStatus
     };
     this.isLoading = true;
@@ -148,33 +149,33 @@ export class ServiceSetupListComponent implements OnInit {
     });
   }
 
-  changeSorting(sortBy) {
-    this.changeSortingDescending(sortBy, this.sort);
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
     this.getAllserviceSetupDetails();
   }
 
-  changeSortingDescending(sortBy, sortingInfo) {
-    if (sortingInfo.sortBy === sortBy) {
-      sortingInfo.sortOrder = !sortingInfo.sortOrder;
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
     } else {
-      sortingInfo.sortBy = sortBy;
-      sortingInfo.sortOrder =  sortingInfo.sortOrder;
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
     }
     return sortingInfo;
   }
 
-  sortedColumnCls(sortBy, sortingInfo) {
-    if (sortBy === sortingInfo.sortBy && sortingInfo.sortOrder) {
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
       return 'fa-sort-desc';
-    } else if (sortBy === sortingInfo.sortBy && !sortingInfo.sortOrder) {
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
       return 'fa-sort-asc';
     }
     return '';
   }
 
-  selectedCls(sortBy) {
-    return this.sortedColumnCls(sortBy, this.sort);
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
   }
 
 
