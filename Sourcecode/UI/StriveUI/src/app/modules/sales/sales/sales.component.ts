@@ -333,18 +333,24 @@ export class SalesComponent implements OnInit {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
-                 item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
               this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge ||
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge );
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.OutsideServices);
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
+              this.itemList.Status.SalesItemViewModel.map(item => {
+                if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge  ) {
+
+                }
+              });
             }
           } else {
             this.showPopup = false;
