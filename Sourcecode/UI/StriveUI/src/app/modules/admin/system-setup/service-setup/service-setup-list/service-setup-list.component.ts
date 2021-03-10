@@ -26,11 +26,12 @@ export class ServiceSetupListComponent implements OnInit {
   pageSize: number;
   pageSizeList: number[];
   isDesc: boolean = false;
-  column: string = 'ServiceName';
   totalRowCount = 0;
   isLoading: boolean;
-  sort = { column: 'ServiceName', descending: false };
-  sortColumn: { column: string; descending: boolean; };
+  sortColumn: { sortBy: string; SortOrder: string; };
+  sort: { sortBy: string; SortOrder: string; };
+
+  
   constructor(
     private serviceSetup: ServiceSetupService,
     private spinner: NgxSpinnerService,
@@ -40,6 +41,7 @@ export class ServiceSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = false;
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup ,SortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.ASC };
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -55,8 +57,8 @@ export class ServiceSetupListComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search !== '' ? this.search : null,
-      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      sortBy: this.sort.column,
+      sortOrder: this.sortColumn.SortOrder,
+      sortBy: this.sortColumn.sortBy,
       status: this.searchStatus === '' ? null : this.searchStatus
     };
     this.isLoading = true;
@@ -146,33 +148,33 @@ export class ServiceSetupListComponent implements OnInit {
     });
   }
 
-  changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
+  changeSorting(sortBy) {
+    this.changeSortingDescending(sortBy, this.sort);
     this.sortColumn = this.sort;
     this.getAllserviceSetupDetails();
   }
 
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
+  changeSortingDescending(sortBy, sortingInfo) {
+    if (sortingInfo.sortBy === sortBy) {
+      sortingInfo.sortOrder = !sortingInfo.sortOrder;
     } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+      sortingInfo.sortBy = sortBy;
+      sortingInfo.sortOrder =  sortingInfo.sortOrder;
     }
     return sortingInfo;
   }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
+  sortedColumnCls(sortBy, sortingInfo) {
+    if (sortBy === sortingInfo.sortBy && sortingInfo.sortOrder) {
       return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+    } else if (sortBy === sortingInfo.sortBy && !sortingInfo.sortOrder) {
       return 'fa-sort-asc';
     }
     return '';
   }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
+  selectedCls(sortBy) {
+    return this.sortedColumnCls(sortBy, this.sort);
   }
 
 
