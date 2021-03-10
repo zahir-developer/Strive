@@ -66,6 +66,7 @@ export class SalesComponent implements OnInit {
   accountDetails: any;
   isAccount: any;
   discountList: any = [];
+  isAccountButton = false;
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -1021,7 +1022,7 @@ export class SalesComponent implements OnInit {
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
-        membershipId: this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null,
+        membershipId: this.isAccountButton ?  this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
         jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,
@@ -1129,6 +1130,7 @@ export class SalesComponent implements OnInit {
   }
 
   processAccount() {
+    this.isAccountButton = !this.isAccountButton;
     if (this.isAccount) {
       this.removAddedAmount(+this.account);
       this.account = +this.washes[0].Price;
