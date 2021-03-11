@@ -72,7 +72,6 @@ export class ServiceSetupListComponent implements OnInit {
         this.serviceSetupDetails = [];
         const serviceDetails = JSON.parse(data.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
-          this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
           this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;
           if (this.serviceSetupDetails.length === 0) {
@@ -146,6 +145,8 @@ export class ServiceSetupListComponent implements OnInit {
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Delete, 'Success!');
+        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+
    this.getAllserviceSetupDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -177,6 +178,8 @@ export class ServiceSetupListComponent implements OnInit {
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+
       this.getAllserviceSetupDetails();
     }
     this.showDialog = event.isOpenPopup;
