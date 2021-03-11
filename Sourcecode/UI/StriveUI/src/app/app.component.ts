@@ -77,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 60;    // 60
+      const seconds = 10 * 60;    // 60
       this.subscribeTheIdle(this.idle, seconds);
     }
   }
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(seconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
-    idle.setTimeout(10);  // 60
+    idle.setTimeout(60);  // 60
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     idle.onIdleEnd.subscribe(() => {

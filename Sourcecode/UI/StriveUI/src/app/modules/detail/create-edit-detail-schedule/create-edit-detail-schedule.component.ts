@@ -900,7 +900,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         isActive: true,
         isDeleted: false,
         commission: 0,
-        price: item.Cost,
+        price: item.Price,
         quantity: 1,
         createdBy: 0,
         updatedBy: 0
@@ -914,7 +914,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         isActive: true,
         isDeleted: false,
         commission: 0,
-        price: element.Cost,
+        price: element.Price,
         quantity: 1,
         createdBy: 0,
         updatedBy: 0
@@ -930,7 +930,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         createdBy: 0,
         updatedBy: 0,
         commission: 0,
-        price: item.Cost,
+        price: item.Price,
         quantity: 1,
         employeeId: item.EmployeeId
       });
