@@ -20,7 +20,7 @@ namespace Strive.Core.Models.Employee.PersonalDetails
         public  string firstName { get; set; }
         public  string middleName { get; set; }
         public  string lastName { get; set; }
-        public  int gender { get; set; }
+        public  int? gender { get; set; }
         public  string ssNo { get; set; }
         public  int maritalStatus { get; set; }
         public  bool isCitizen { get; set; }

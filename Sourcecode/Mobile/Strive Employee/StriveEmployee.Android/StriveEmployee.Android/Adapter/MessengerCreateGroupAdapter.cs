@@ -76,10 +76,14 @@ namespace StriveEmployee.Android.Adapter
             }
 
             messengerCreateGroup.ItemView.Tag = position;
-            if(!MessengerTempData.ChatParticipants.ContainsKey(contacts[position].EmployeeId))
+            if(MessengerTempData.ChatParticipants != null)
             {
-                MessengerTempData.ChatParticipants.Add(contacts[position].EmployeeId, position);
+                if (!MessengerTempData.ChatParticipants.ContainsKey(contacts[position].EmployeeId))
+                {
+                    MessengerTempData.ChatParticipants.Add(contacts[position].EmployeeId, position);
+                }
             }
+            
             messengerCreateGroup.ItemView.SetOnClickListener(this);
             
         }

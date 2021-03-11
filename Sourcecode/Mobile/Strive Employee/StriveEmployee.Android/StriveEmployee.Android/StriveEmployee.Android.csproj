@@ -70,6 +70,7 @@
     <Compile Include="Adapter\MessengerFinalizeGroupAdapter.cs" />
     <Compile Include="Adapter\MessengerGroupChatAdapter.cs" />
     <Compile Include="Adapter\MessengerRecentContactsAdapter.cs" />
+    <Compile Include="Adapter\MessengerSearchAdapter.cs" />
     <Compile Include="Adapter\MessengerViewParticipantsAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Collision\CollisionAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Documents\AddDocumentsAdapter.cs" />

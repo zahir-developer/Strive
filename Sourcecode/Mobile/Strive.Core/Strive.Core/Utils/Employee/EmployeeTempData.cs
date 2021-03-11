@@ -39,6 +39,7 @@ namespace Strive.Core.Utils.Employee
         public static string ConnectionID { get; set; }
         public static string GroupName { get; set; }
         public static bool IsGroup { get; set; }
+        public static int ContactsCount { get; set; }
         public static bool IsCreateGroup { get; set; } = false;
         public static Dictionary<int, int> ChatParticipants { get; set; }
         public static EmployeeLists SelectedParticipants { get; set; }
@@ -88,7 +89,7 @@ namespace Strive.Core.Utils.Employee
     { 
         public static string FirstName { get; set; }
         public static string LastName { get; set; }
-        public static int GenderCodeID { get; set; } = -1;
+        public static int? GenderCodeID { get; set; } = -1;
         public static int GenderSpinnerPosition { get; set; } = -1;
         public static int ImmigrationCodeID { get; set; } = -1;
         public static int ImmigrationSpinnerPosition { get; set; } = -1;

@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Strive.Core.ViewModels.Employee
 
         public async Task GetContactsList()
         {
+            _userDialog.ShowLoading(Strings.Loading);
             var contactList = await MessengerService.GetContacts("%20");
             if (contactList == null)
             {
@@ -41,6 +43,7 @@ namespace Strive.Core.ViewModels.Employee
                 }
                
             }
+            _userDialog.HideLoading();
         }
 
         public void NotEnough()
