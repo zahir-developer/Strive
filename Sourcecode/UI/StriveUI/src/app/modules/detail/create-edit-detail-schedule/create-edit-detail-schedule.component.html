@@ -112,7 +112,7 @@
                                 <div class="p-col-3 p-md-6">
                                     <p-autoComplete field="name" [suggestions]="clientList"
                                         (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
-                                        placeholder="Client Name" (onSelect)="selectedClient($event)">
+                                        placeholder="Client Name" (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
                                     </p-autoComplete>
                                 </div>
                             </div>

@@ -375,6 +375,13 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
+  onKeyUp(event) {
+    if (event.target.value === '') {
+      this.washForm.patchValue({ vehicle: '' , barcode: '' , type: '', model: '', color: '', pastNotes: '' });
+      this.washForm.get('pastNotes').enable();
+    }
+  }
+
   filterModel(event) {
     const filtered: any[] = [];
     const query = event.query;
