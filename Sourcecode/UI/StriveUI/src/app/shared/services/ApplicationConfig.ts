@@ -66,7 +66,10 @@ export const ApplicationConfig = {
                 order: 'ASC',
             },
            
-           
+           Detail:{
+            order: 'ASC',
+
+           }
         },
         
         SortBy:
@@ -88,7 +91,7 @@ export const ApplicationConfig = {
             PayRoll : 'EmployeeId',
             CheckOut : 'TicketNumber',
             Washes: 'TicketNumber',
-            Detail: '',
+            Detail: 'TicketNumber',
             GiftCard: 'GiftCardCode'
  
         }
