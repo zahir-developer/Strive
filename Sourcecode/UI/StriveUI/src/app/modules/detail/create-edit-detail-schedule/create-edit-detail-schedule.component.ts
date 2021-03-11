@@ -581,6 +581,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
+  onKeyUp(event) {
+    if (event.target.value === '') {
+      this.detailForm.patchValue({ vehicle: '' , barcode: '' , type: '', model: '', color: '' });
+    }
+  }
+
   filterModel(event) {
     const filtered: any[] = [];
     const query = event.query;

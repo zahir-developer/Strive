@@ -117,6 +117,12 @@ export class EmployeeCollisionComponent implements OnInit {
     return this.collisionForm.controls;
   }
 
+  onKeyUp(event) {
+    if (event.target.value === '') {
+      this.collisionForm.patchValue({ vehicle: '' });
+    }
+  }
+
   saveCollision() {
     this.submitted = true;
     if (this.collisionForm.invalid) {
