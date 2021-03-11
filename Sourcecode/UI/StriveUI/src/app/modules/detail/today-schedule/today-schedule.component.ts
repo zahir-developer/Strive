@@ -74,7 +74,7 @@ export class TodayScheduleComponent implements OnInit {
             }
           });
         } else if (detailGrid.BayJobDetailViewModel === null) {
-          detailGrid.BayDetailViewModel.forEach(item => {
+          detailGrid?.BayDetailViewModel?.forEach(item => {
             bayJobDetail.push({
               BayId: item.BayId,
               BayDetail: []
@@ -82,7 +82,7 @@ export class TodayScheduleComponent implements OnInit {
           });
         }
 
-        bayJobDetail.forEach( bay => {
+        bayJobDetail?.forEach( bay => {
           bay.totalCount = bay.BayDetail.length;
         });
         this.bayDetail = bayJobDetail;

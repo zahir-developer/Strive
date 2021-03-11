@@ -41,6 +41,32 @@ export const ApplicationConfig = {
             location:  {
                 order: 'ASC',
             },
+            Employee:  {
+                order: 'ASC',
+            },
+            GiftCard:  {
+                order: 'ASC',
+            },
+            Vehicle:  {
+                order: 'ASC',
+            },
+            TimeClock:  {
+                order: 'ASC',
+            },
+            Client:  {
+                order: 'ASC',
+            },
+            CheckOut:  {
+                order: 'ASC',
+            },
+            PayRoll:  {
+                order: 'ASC',
+            },
+            Washes:  {
+                order: 'ASC',
+            },
+           
+           
         },
         
         SortBy:
@@ -54,9 +80,17 @@ export const ApplicationConfig = {
             AdSetup: 'Name',
             location: 'LocationName',
             TermsAndCondition : 'DocumentName',
-            EmployeeHandbook : 'DocumentName'
-
-           
+            EmployeeHandbook : 'DocumentName',
+            Employee : 'FirstName',
+            Vehicle : 'VehicleNumber',
+            TimeClock : 'EmployeeId',
+            Client: 'FirstName',
+            PayRoll : 'EmployeeId',
+            CheckOut : 'TicketNumber',
+            Washes: 'TicketNumber',
+            Detail: '',
+            GiftCard: 'GiftCardCode'
+ 
         }
     },
     UploadFileType:

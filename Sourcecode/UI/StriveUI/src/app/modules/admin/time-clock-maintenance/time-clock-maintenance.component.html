@@ -58,7 +58,7 @@
                       </thead>
                       <tbody class="bodyfix">
                         <tr
-                          *ngFor="let timeClock of timeClockEmployeeDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                          *ngFor="let timeClock of timeClockEmployeeDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                           <th scope="row">{{ timeClock.EmployeeId }}</th>
                           <td (click)="employeeCheckInDetail(timeClock)"><span
                               class="text-underline theme-primary-color font-size--9"

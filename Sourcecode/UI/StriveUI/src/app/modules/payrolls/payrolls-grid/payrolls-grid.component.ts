@@ -37,6 +37,7 @@ MaxDate = new Date()
   isLoading: boolean;
   isEditRestriction: boolean;
   employeeId: string;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -48,7 +49,10 @@ MaxDate = new Date()
 
   ngOnInit(): void {
     this.employeeId = localStorage.getItem('empId');
-
+    this.sortColumn ={
+      sortBy:  ApplicationConfig.Sorting.SortBy.PayRoll,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.PayRoll.order
+     }
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -107,6 +111,8 @@ landing(){
         this.payRollList = payRoll.Result.PayRollRateViewModel;
         var length = this.payRollList === null ? 0 : this.payRollList.length;
         this.collectionSize = Math.ceil(length / this.pageSize) * 10;
+        this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
+
         this.isPayrollEmpty = false;
         this.isPayrollEmpty = payRoll.Result.PayRollRateViewModel === null ? true : false;
       }
@@ -137,7 +143,48 @@ landing(){
       }
     });
   }
-
+  sort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
+    this.payRollList.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+  changeSorting(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
   onValueChange(event) {
     this.minDate = event;
   }

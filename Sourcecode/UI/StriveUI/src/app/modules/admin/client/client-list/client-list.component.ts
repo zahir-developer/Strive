@@ -27,13 +27,13 @@ export class ClientListComponent implements OnInit {
   search: any = '';
   locationId = +localStorage.getItem('empLocationId');
   collectionSize: number = 0;
-  sort = { column: 'FirstName', descending: false };
-  sortColumn: { column: string; descending: boolean; };
+ 
   pageSizeList: number[];
   page: number;
   pageSize: number;
   jobTypeId: any;
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -43,6 +43,8 @@ export class ClientListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -63,8 +65,8 @@ export class ClientListComponent implements OnInit {
       PageNo: this.page,
       PageSize: this.pageSize,
       Query: this.search,
-      SortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      SortBy: this.sort.column
+      SortOrder: this.sortColumn.sortOrder,
+      SortBy: this.sortColumn.sortBy
     };
     this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
@@ -107,8 +109,8 @@ export class ClientListComponent implements OnInit {
       PageNo: this.page,
       PageSize: this.pageSize,
       Query: this.search,
-      SortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      SortBy: this.sort.column
+      SortOrder: this.sortColumn.sortOrder,
+      SortBy: this.sortColumn.sortBy
     };
     this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
@@ -142,6 +144,8 @@ export class ClientListComponent implements OnInit {
     this.client.deleteClient(data.ClientId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Client.Delete, 'Success!');
+        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
         this.getAllClientDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -150,6 +154,8 @@ export class ClientListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
       this.getAllClientDetails();
     }
     this.showDialog = event.isOpenPopup;
@@ -199,34 +205,26 @@ export class ClientListComponent implements OnInit {
     this.router.navigate(['/customer'], { queryParams: { clientId: client.ClientId } });
   }
 
-  changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-    this.getAllClientDetails();
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+    changeSorting(column) {
+    this.sortColumn ={
+     sortBy: column,
+     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    return sortingInfo;
-  }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
+    this.selectedCls(this.sortColumn)
+   this.getAllClientDetails();
+ }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
+ 
+
+ selectedCls(column) {
+   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+     return 'fa-sort-desc';
+   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+     return 'fa-sort-asc';
+   }
+   return '';
+ }
 
   getJobType() {
     this.detailService.getJobType().subscribe(res => {
