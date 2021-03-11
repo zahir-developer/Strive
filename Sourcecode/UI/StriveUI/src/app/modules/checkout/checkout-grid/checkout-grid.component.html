@@ -97,9 +97,9 @@
                                                     <td [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'Paid' ? 'Green' : 'none'}">
                                                         <span *ngIf="checkout.MembershipNameOrPaymentStatus == 'Paid'">{{checkout.MembershipNameOrPaymentStatus}}</span>
                                                     </td>
-                                                    <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="checkoutVehicle(checkout)"></em>
-                                                        <em class="mdi mdi-file-clock font-size-1-5 pointer"[ngClass]="{ 'theme-primary-color': checkout.MembershipNameOrPaymentStatus !== 'Hold', 'theme-disabled-icon-color':checkout.MembershipNameOrPaymentStatus === 'Hold' }"  pTooltip="Hold" tooltipPosition="top" (click)="hold(checkout)"></em>
-                                                        <em  class="mdi mdi-checkbox-marked  font-size-1-5 pointer" *ngIf="(checkout.MembershipNameOrPaymentStatus !== 'Completed' && checkout.valuedesc !== 'Completed') || (checkout.MembershipNameOrPaymentStatus !== 'PAID' && checkout.valuedesc !== 'Completed')" pTooltip="Complete" tooltipPosition="top" (click)="complete(checkout)"></em>
+                                                    <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="statusConfirmation('Check Out',checkout)"></em>
+                                                        <em class="mdi mdi-file-clock font-size-1-5 pointer"[ngClass]="{ 'theme-primary-color': checkout.MembershipNameOrPaymentStatus !== 'Hold', 'theme-disabled-icon-color':checkout.MembershipNameOrPaymentStatus === 'Hold' }"  pTooltip="Hold" tooltipPosition="top" (click)="statusConfirmation('Hold',checkout)"></em>
+                                                        <em  class="mdi mdi-checkbox-marked  font-size-1-5 pointer" *ngIf="(checkout.MembershipNameOrPaymentStatus !== 'Completed' && checkout.valuedesc !== 'Completed') || (checkout.MembershipNameOrPaymentStatus !== 'PAID' && checkout.valuedesc !== 'Completed')" pTooltip="Complete" tooltipPosition="top" (click)="statusConfirmation('Complete',checkout)"></em>
             
                                                     </td>
                                                 </tr>

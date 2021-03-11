@@ -7,6 +7,7 @@ import { CheckoutService } from 'src/app/shared/services/data-service/checkout.s
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -33,6 +34,8 @@ export class CheckoutGridComponent implements OnInit {
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
     private toastr: ToastrService,
+    private confirmationService: ConfirmationUXBDialogService,
+
     private landingservice: LandingService,
     private spinner: NgxSpinnerService
   ) { }
@@ -126,6 +129,25 @@ export class CheckoutGridComponent implements OnInit {
    }
    return '';
  }
+ statusConfirmation(data,checkout) {
+  this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' +data, 'Yes', 'No')
+    .then((confirmed) => {
+      if (confirmed === true && data === 'Check Out') {
+        
+        this.checkoutVehicle(checkout);
+      }
+      else if (confirmed === true && data === 'Hold') {
+        this.hold(checkout);
+      }
+      else  if (confirmed === true && data === 'Complete') {
+        this.complete(checkout);
+      }
+    })
+    .catch(() => { });
+}
+
+// Delete Product
+
   checkoutVehicle(checkout) {
     if (checkout.JobPaymentId === 0) {
       this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.checkOut.paidTicket });
