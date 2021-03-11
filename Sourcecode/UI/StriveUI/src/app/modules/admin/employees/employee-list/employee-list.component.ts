@@ -36,14 +36,12 @@ export class EmployeeListComponent implements OnInit {
   employeeId: any;
   location: any;
   public isCollapsed = false;
-
   collectionSize: number;
   search = '';
-  sort = { column: 'FirstName', descending: false };
-  sortColumn: { column: string; descending: boolean; };
-  page: any;
+ page: any;
   pageSize: any;
   pageSizeList: any[];
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -55,6 +53,8 @@ export class EmployeeListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -147,6 +147,8 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.deleteEmployee(id).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Employee.Delete, 'Success!');
+        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+
         this.seachEmployee();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -163,8 +165,8 @@ export class EmployeeListComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search,
-      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      sortBy: this.sort.column,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
       status: true
     };
     this.employeeDetails = [];
@@ -266,6 +268,8 @@ export class EmployeeListComponent implements OnInit {
 
   closeDialog(event) {
     this.showDialog = event.isOpenPopup;
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+
     this.seachEmployee();
   }
 
@@ -345,34 +349,26 @@ export class EmployeeListComponent implements OnInit {
   schedule() {
     this.router.navigate(['/admin/scheduling']);
   }
-
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-    this.seachEmployee();
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+    this.sortColumn ={
+     sortBy: column,
+     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    return sortingInfo;
-  }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
+    this.selectedCls(this.sortColumn)
+   this.seachEmployee();
+ }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
+ 
 
+ selectedCls(column) {
+   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+     return 'fa-sort-desc';
+   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+     return 'fa-sort-asc';
+   }
+   return '';
+ }
+
+  
 }

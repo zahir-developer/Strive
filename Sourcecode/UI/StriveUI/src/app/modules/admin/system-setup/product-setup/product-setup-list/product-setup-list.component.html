@@ -29,20 +29,35 @@
                             <div class="table-responsive" >
                                 <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list" *ngIf="!isLoading">
                                     <thead>
-                                        <tr>   <th class="pointer" (click)="sort('ProductName')">Name&nbsp; <i class="fa" *ngIf="column =='ProductName'" 
-                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('ProductTypeName')">Type&nbsp; <i class="fa" *ngIf="column =='ProductTypeName'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('Cost')">Cost&nbsp; <i class="fa" *ngIf="column =='Cost'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                <th class="pointer" (click)="sort('SizeName')">Size&nbsp; <i class="fa" *ngIf="column =='SizeName'" 
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                        <th class="pointer" (click)="sort('Quantity')">Quantity&nbsp; <i class="fa" *ngIf="column =='Quantity'" 
-                                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                            <th class="pointer" (click)="sort('VendorName')">VendorName&nbsp; <i class="fa" *ngIf="column =='VendorName'" 
-                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                                <th class="pointer" (click)="sort('Status')">Status&nbsp; <i class="fa" *ngIf="column =='Status'" 
-                                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                        <tr> 
+                                              <th class="pointer" (click)="changesort('ProductName')">Name&nbsp; 
+                                           
+                                        <i class="fa"   [ngClass]="selectedCls('ProductName')"></i>
+                                    </th>
+                                            <th class="pointer" (click)="changesort('ProductTypeName')">Type&nbsp;
+                                                 <i class="fa" 
+                                                 [ngClass]="selectedCls('ProductTypeName')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('Cost')">Cost&nbsp;
+                                                 <i class="fa"
+                                                [ngClass]="selectedCls('Cost')"></i>
+                                            </th>
+                                                <th class="pointer" (click)="changesort('SizeName')">Size&nbsp; 
+                                                    <i class="fa"
+                                                    [ngClass]="selectedCls('SizeName')"></i>
+                                                </th>
+                                                        <th class="pointer" (click)="changesort('Quantity')">Quantity&nbsp; 
+                                                            <i class="fa" 
+                                                            [ngClass]="selectedCls('Quantity')"></i>
+                                                        </th>
+                                                            <th class="pointer" (click)="changesort('VendorName')">VendorName&nbsp;
+                                                                 <i class="fa" 
+                                                                 [ngClass]="selectedCls('VendorName')"></i>
+                                                            </th>
+                                                                <th class="pointer" (click)="changesort('Status')">Status&nbsp; 
+                                                                    <i class="fa" 
+                                                                    [ngClass]="selectedCls('Status')"></i>
+                                                                </th>
                                          
                                             <th scope="col">Action</th>
                                         </tr>

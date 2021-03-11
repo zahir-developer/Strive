@@ -24,9 +24,8 @@ export class VendorSetupListComponent implements OnInit {
   page: any;
   pageSize: number;
   pageSizeList: number[];
-  isDesc: boolean = false;
-  column: string = 'VendorName';
   EmitPopup: boolean = true;
+  sortColumn: { sortBy: any; sortOrder: any; };
   constructor(
     private vendorService: VendorService,
     private spinner: NgxSpinnerService,
@@ -34,6 +33,10 @@ export class VendorSetupListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.VendorSetup,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.VendorSetup.order
+     }
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -54,6 +57,8 @@ export class VendorSetupListComponent implements OnInit {
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort(ApplicationConfig.Sorting.SortBy.VendorSetup);
+
           this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -64,14 +69,19 @@ export class VendorSetupListComponent implements OnInit {
       this.isLoading = false;
     });
   }
+ 
   sort(property) {
-    if (this.EmitPopup === false) {
-      this.isDesc = false;
-    }
-    this.isDesc = !this.isDesc; // change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.VendorSetup.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
     this.vendorSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -84,6 +94,24 @@ export class VendorSetupListComponent implements OnInit {
       }
     });
   }
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
   // Get All Vendors
   getAllvendorSetupDetails() {
     this.vendorService.getVendor().subscribe(data => {
@@ -94,11 +122,8 @@ export class VendorSetupListComponent implements OnInit {
         if (this.vendorSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.sort('VendorName');
-          if (this.EmitPopup === false) {
-            this.isDesc = true;
-
-          }
+          this.sort(ApplicationConfig.Sorting.SortBy.VendorSetup);
+          
           this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }

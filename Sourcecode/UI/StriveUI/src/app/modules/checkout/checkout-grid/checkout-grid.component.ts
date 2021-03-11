@@ -21,14 +21,14 @@ export class CheckoutGridComponent implements OnInit {
   pageSizeList: any;
   collectionSize: number = 0;
   search = '';
-  sort = { column: 'TicketNumber', descending: true };
-  sortColumn: { column: string; descending: boolean; };
+
   query = '';
   startDate: Date;
   endDate: Date;
   daterangepickerModel = new Date();
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
@@ -38,12 +38,13 @@ export class CheckoutGridComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
+
     this.startDate = new Date();
     this.endDate = new Date();
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    // this.getAllUncheckedVehicleDetails();
   }
   landing() {
     this.landingservice.loadTheLandingPage();
@@ -68,8 +69,8 @@ export class CheckoutGridComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search == "" ? null : this.search,
-      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      sortBy: this.sort.column,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
       status: true
     };
     this.spinner.show();
@@ -106,34 +107,25 @@ export class CheckoutGridComponent implements OnInit {
     this.getAllUncheckedVehicleDetails();
   }
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-    this.getAllUncheckedVehicleDetails();
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+    this.sortColumn ={
+     sortBy: column,
+     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    return sortingInfo;
-  }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
+    this.selectedCls(this.sortColumn)
+   this.getAllUncheckedVehicleDetails();
+ }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
+ 
 
+ selectedCls(column) {
+   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+     return 'fa-sort-desc';
+   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+     return 'fa-sort-asc';
+   }
+   return '';
+ }
   checkoutVehicle(checkout) {
     if (checkout.JobPaymentId === 0) {
       this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.checkOut.paidTicket });
@@ -149,6 +141,8 @@ export class CheckoutGridComponent implements OnInit {
           this.spinner.hide();
           if (res.status === 'Success') {
             this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
+            this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+
             this.getAllUncheckedVehicleDetails();
           }
         }, (err) => {
@@ -171,6 +165,8 @@ export class CheckoutGridComponent implements OnInit {
     this.checkout.holdVehicle(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.checkOut.Hold, 'Success!');
+        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
+
         this.getAllUncheckedVehicleDetails();
       }
     });
@@ -184,6 +180,8 @@ export class CheckoutGridComponent implements OnInit {
       this.checkout.completedVehicle(finalObj).subscribe(res => {
         if (res.status === 'Success') {
           this.toastr.success(MessageConfig.checkOut.Complete, 'Success!');
+          this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
+
           this.getAllUncheckedVehicleDetails();
         }
       });

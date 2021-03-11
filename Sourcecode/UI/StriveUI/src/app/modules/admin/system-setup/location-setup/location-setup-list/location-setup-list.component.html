@@ -31,21 +31,23 @@
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" scope="col" (click)="sort('LocationName')">Name&nbsp; <i
-                                                    class="fa" *ngIf="column =='LocationName'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('Address1')">Address&nbsp; <i
-                                                    class="fa" *ngIf="column =='Address1'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('IsFranchise')">
-                                                Franchise&nbsp; <i class="fa" *ngIf="column =='IsFranchise'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('PhoneNumber')">Phone
-                                                Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('Email')">Email&nbsp; <i
-                                                    class="fa" *ngIf="column =='Email'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="changesort('LocationName')">Name&nbsp;
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('LocationName')"></i></th>
+                                           <th class="pointer" (click)="changesort('Address1')">Address&nbsp; 
+                                             <i class="fa"
+                                             [ngClass]="selectedCls('Address1')"></i></th>
+                                          
+                                           <th class="pointer" (click)="changesort('IsFranchise')">Franchise&nbsp;
+                                              <i class="fa"
+                                              [ngClass]="selectedCls('IsFranchise')"></i></th>
+                                              <th class="pointer" (click)="changesort('PhoneNumber')">Phone Number&nbsp; 
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('PhoneNumber')"></i></th>
+                                           <th class="pointer" (click)="changesort('Email')">Email&nbsp; 
+                                             <i class="fa" 
+                                             [ngClass]="selectedCls('Email')"></i></th>
+                                          
 
                                             <th scope="col">Action</th>
                                         </tr>

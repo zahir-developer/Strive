@@ -26,15 +26,18 @@ export class MembershipListComponent implements OnInit {
   page: any;
   pageSize: any;
   pageSizeList: any;
-  isDesc: boolean = false;
-  column: string = 'MembershipName';
   isLoading: boolean;
+  sortColumn: { sortBy: any; sortOrder: string; };
   constructor(private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
 
   ngOnInit() {
     this.isLoading = false;
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.MemberShipSetup,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.MemberShipSetup.order
+     }
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -55,7 +58,8 @@ export class MembershipListComponent implements OnInit {
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.sort('MembershipName')
+          this.sort(ApplicationConfig.Sorting.SortBy.MemberShipSetup);
+
           this.collectionSize = Math.ceil(this.membershipDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -76,10 +80,19 @@ export class MembershipListComponent implements OnInit {
     this.page = this.page;
     this.getAllMembershipDetails();
   }
+ 
   sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.MemberShipSetup.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
     this.membershipDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -92,7 +105,24 @@ export class MembershipListComponent implements OnInit {
       }
     });
   }
-
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
 
 
   membershipSearch() {
@@ -109,6 +139,8 @@ export class MembershipListComponent implements OnInit {
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort(ApplicationConfig.Sorting.SortBy.MemberShipSetup);
+
           this.collectionSize = Math.ceil(this.membershipDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
