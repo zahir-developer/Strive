@@ -15,8 +15,7 @@ export class ProductSetupListComponent implements OnInit {
   productSetupDetails = [];
   showDialog = false;
   selectedData: any;
-  isDesc: boolean = false;
-  column: string = 'ProductName';
+
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
@@ -26,11 +25,16 @@ export class ProductSetupListComponent implements OnInit {
   pageSizeList: number[];
   page: number;
   isLoading: boolean;
+  isDesc: boolean;
+  sortBy: string;
+  sortColumn: { sortBy: any; sortOrder: string; };
   constructor(private productService: ProductService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ProductSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order };
+
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -53,7 +57,7 @@ export class ProductSetupListComponent implements OnInit {
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.sort('ProductName')
+          this.sort(ApplicationConfig.Sorting.SortBy.ProductSetup)
           this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -76,6 +80,7 @@ export class ProductSetupListComponent implements OnInit {
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort(ApplicationConfig.Sorting.SortBy.ProductSetup)
           this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -86,22 +91,48 @@ export class ProductSetupListComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-
-    this.productSetupDetails.sort(function (a, b) {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
-        return 1 * direction;
-      }
-      else {
-        return 0;
-      }
-    });
+ 
+ sort(property) {
+  this.sortColumn ={
+    sortBy: property,
+    sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order
+   }
+   this.sorting(this.sortColumn)
+   this.selectedCls(this.sortColumn)
+ 
+}
+sorting(sortColumn){
+  let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+let property = sortColumn.sortBy;
+  this.productSetupDetails.sort(function (a, b) {
+    if (a[property] < b[property]) {
+      return -1 * direction;
+    }
+    else if (a[property] > b[property]) {
+      return 1 * direction;
+    }
+    else {
+      return 0;
+    }
+  });
+}
+  changesort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+     }
+ 
+     this.selectedCls(this.sortColumn)
+this.sorting(this.sortColumn)
+    
+  }
+  selectedCls(column) {
+    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
   }
   paginate(event) {
     this.pageSize = +this.pageSize;

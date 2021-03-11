@@ -7,6 +7,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-terms-and-conditions',
@@ -21,12 +22,17 @@ export class TermsAndConditionsComponent implements OnInit {
   isEdit: any;
   selectedData: any;
   documentTypeId: any;
+  sortColumn: { sortBy: any; sortOrder: any; };
 
   constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
 
   ngOnInit() {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.TermsAndCondition,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TermsAndCondition.order
+     }
     this.getDocumentType();
   }
 
@@ -49,6 +55,8 @@ export class TermsAndConditionsComponent implements OnInit {
       if (data.status === 'Success') {
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
+        this.sort(ApplicationConfig.Sorting.SortBy.TermsAndCondition)
+
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -114,5 +122,46 @@ export class TermsAndConditionsComponent implements OnInit {
     });
   }
 
-
+  sort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TermsAndCondition.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
+    this.document.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
 }

@@ -12,19 +12,51 @@ export const ApplicationConfig = {
     {
         SortOrder:{
             ServiceSetup:  {
-                ASC: 'ASC',
-                DESC: 'DESC'
+                order: 'ASC',
             },
             ProductSetup:  {
-                ASC: 'ASC',
-                DESC: 'DESC'
+                order: 'ASC',
+            },
+            MemberShipSetup:  {
+                order: 'ASC',
+            },
+            VendorSetup:  {
+                order: 'ASC',
+            },
+           checklistSetup:  {
+                order: 'ASC',
+            },
+            TermsAndCondition:  {
+                order: 'ASC',
+            },
+            EmployeeHandbook:  {
+                order: 'ASC',
+            },
+            Deals:  {
+                order: 'ASC',
+            },
+            AdSetup:  {
+                order: 'ASC',
+            },
+            location:  {
+                order: 'ASC',
             },
         },
         
         SortBy:
         {
             ServiceSetup: 'ServiceName',
-            ProductSetup: 'ProductName'
+            ProductSetup: 'ProductName',
+            VendorSetup: 'VendorName',
+            checklistSetup: 'Name',
+            MemberShipSetup: 'MembershipName',
+            Deals: 'Name',
+            AdSetup: 'Name',
+            location: 'LocationName',
+            TermsAndCondition : 'DocumentName',
+            EmployeeHandbook : 'DocumentName'
+
+           
         }
     },
     UploadFileType:

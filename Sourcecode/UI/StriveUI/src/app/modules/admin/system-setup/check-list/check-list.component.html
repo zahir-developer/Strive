@@ -43,12 +43,12 @@
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" scope="col" (click)="sort('Name')">Name&nbsp; <i
-                                                    class="fa" *ngIf="column =='Name'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('RoleName')">Role&nbsp; <i
-                                                    class="fa" *ngIf="column =='RoleName'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" scope="col" (click)="changesort('Name')">Name&nbsp; <i
+                                                    class="fa" 
+                                                    [ngClass]="selectedCls('Name')"></i></th>
+                                            <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp; <i
+                                                    class="fa" 
+                                                    [ngClass]="selectedCls('RoleName')"></i></th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>

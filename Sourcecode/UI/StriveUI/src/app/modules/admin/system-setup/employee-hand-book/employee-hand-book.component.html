@@ -16,10 +16,19 @@
                                 <table class="table  table-striped m-t-10" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Role</th>
-                                            <th>File Name</th>
-                                            <th> Created Date</th>
+                                            <th class="pointer" scope="col" (click)="changesort('DocumentName')">Name&nbsp; <i
+                                                class="fa" 
+                                                [ngClass]="selectedCls('DocumentName')"></i></th>
+                                        <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp; <i
+                                                class="fa" 
+                                                [ngClass]="selectedCls('RoleName')"></i></th>
+                                                <th class="pointer" scope="col" (click)="changesort('OriginalFileName')">File Name&nbsp; <i
+                                                    class="fa" 
+                                                    [ngClass]="selectedCls('OriginalFileName')"></i></th>
+                                                    <th class="pointer" (click)="changesort('CreatedDate')">Creation Date&nbsp; 
+                                                        <i class="fa"
+                                                        [ngClass]="selectedCls('CreatedDate')"></i></th>
+                                           
                                             <th>Action</th>
                                         </tr>
                                     </thead>

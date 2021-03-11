@@ -34,8 +34,8 @@ export class CheckListComponent implements OnInit {
   page: any;
   pageSize: any;
   pageSizeList: any;
-  isDesc: boolean = false;
-  column: string = 'Name';
+  sortColumn: { sortBy: string; sortOrder: string; };
+ 
   constructor(
     private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
@@ -47,6 +47,10 @@ export class CheckListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.checklistSetup,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
+     }
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -72,9 +76,10 @@ export class CheckListComponent implements OnInit {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
         if (this.checkListDetails.length === 0) {
-          this.sort('Name');
           this.isTableEmpty = true;
         } else {
+          this.sort(ApplicationConfig.Sorting.SortBy.checklistSetup);
+
           this.collectionSize = Math.ceil(this.checkListDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -234,10 +239,17 @@ export class CheckListComponent implements OnInit {
     }
   }
   sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
     this.checkListDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -250,4 +262,24 @@ export class CheckListComponent implements OnInit {
       }
     });
   }
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
+
+
 }
