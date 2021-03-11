@@ -66,6 +66,7 @@ export class SalesComponent implements OnInit {
   accountDetails: any;
   isAccount: any;
   discountList: any = [];
+  isAccountButton = false;
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -217,7 +218,7 @@ export class SalesComponent implements OnInit {
       sortBy: null,
       status: null
     };
-    this.service.getAllServiceDetail().subscribe(data => {
+    this.service.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         console.log(services, 'discount');
@@ -296,6 +297,9 @@ export class SalesComponent implements OnInit {
     } else {
       this.isTenTicketNumber = false;
     }
+    if (this.multipleTicketNumber.length === 0) {
+      this.enableAdd = false;
+    }
     this.getDetailByTicket(false);
   }
   getDetailByTicket(flag) {
@@ -329,18 +333,25 @@ export class SalesComponent implements OnInit {
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
-              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
+              this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
               this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.Upcharges);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge ||
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge );
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.OutsideServices);
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
+              this.itemList.Status.SalesItemViewModel.map(item => {
+                if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge  ) {
+
+                }
+              });
             }
           } else {
             this.showPopup = false;
@@ -1011,7 +1022,7 @@ export class SalesComponent implements OnInit {
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
-        membershipId: this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null,
+        membershipId: this.isAccountButton ?  this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
         jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,
@@ -1108,7 +1119,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
-          this.router.navigate([`/checkout`], { relativeTo: this.route });
+          // this.router.navigate([`/checkout`], { relativeTo: this.route });
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }
@@ -1119,6 +1130,7 @@ export class SalesComponent implements OnInit {
   }
 
   processAccount() {
+    this.isAccountButton = !this.isAccountButton;
     if (this.isAccount) {
       this.removAddedAmount(+this.account);
       this.account = +this.washes[0].Price;

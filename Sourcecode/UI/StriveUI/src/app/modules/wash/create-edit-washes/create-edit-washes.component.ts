@@ -324,7 +324,7 @@ export class CreateEditWashesComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.serviceSetupService.getAllServiceDetail().subscribe(res => {
+    this.serviceSetupService.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(res => {
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
         if (serviceDetails.AllServiceDetail !== null) {
