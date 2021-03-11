@@ -66,7 +66,7 @@ export class GiftCardComponent implements OnInit {
       startDate: null,
       endDate: null,
       pageNo: this.page,
-      pageSize: 4088,
+      pageSize: this.pageSize,
       query: this.search == '' ? null : this.search ,
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
