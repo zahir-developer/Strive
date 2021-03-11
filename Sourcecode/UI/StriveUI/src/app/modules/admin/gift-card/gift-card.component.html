@@ -57,8 +57,8 @@
                                                                         aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('ActivatedDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ActivatedDate')"
                                                                 aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"  >Amount&nbsp;<i class="fa"
-                                                                aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer" (click)="changeSorting('TotalAmount')" >Amount&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('TotalAmount')"        aria-hidden="true"></i></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
