@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -19,13 +19,6 @@
             android:layout_gravity="center"
             android:fontFamily="@font/opensans_bold"
             android:text="Personal Detail"/>
-        <ImageButton
-            android:id="@+id/PersonalEdit_ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/edit"
-            android:background="@android:color/transparent"/>
 
     </LinearLayout>
  <LinearLayout
@@ -226,14 +219,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/opensans_bold"
             android:text="Employee Detail"/>
-        <ImageButton
-            android:id="@+id/employeeEdit_ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/edit"
-            android:background="@android:color/transparent"/>
- 
+
     </LinearLayout>
  <LinearLayout
         android:layout_width="match_parent"

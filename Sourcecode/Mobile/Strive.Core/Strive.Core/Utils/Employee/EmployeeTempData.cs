@@ -89,7 +89,7 @@ namespace Strive.Core.Utils.Employee
     { 
         public static string FirstName { get; set; }
         public static string LastName { get; set; }
-        public static int GenderCodeID { get; set; } = -1;
+        public static int? GenderCodeID { get; set; } = -1;
         public static int GenderSpinnerPosition { get; set; } = -1;
         public static int ImmigrationCodeID { get; set; } = -1;
         public static int ImmigrationSpinnerPosition { get; set; } = -1;

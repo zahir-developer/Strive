@@ -22,7 +22,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
         public async Task GetCollisionInfo()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var result = await AdminService.GetPersonalDetails(EmployeeTempData.EmployeeID);
+            var result = await AdminService.GetPersonalDetails(1463);
             if (result == null)
             {
                 CollisionDetails = null;
