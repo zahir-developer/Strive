@@ -379,6 +379,7 @@ export class SalesComponent implements OnInit {
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
+            console.log(this.Products, 'products');
           }
           if (this.itemList?.Status?.PaymentStatusViewModel?.IsProcessed === true) {
             this.showPopup = false;
@@ -765,7 +766,7 @@ export class SalesComponent implements OnInit {
           let upchargeCost = 0;
           let airfreshnerCost = 0;
           let outsideCost = 0;
-          if (serviceType[0].CodeValue === 'Washes') {
+          if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage) {
             this.washes.forEach(wash => {
               washCost = washCost + wash.Price;
             });
@@ -785,7 +786,7 @@ export class SalesComponent implements OnInit {
               detailDiscountPrice = detailDiscountPrice + (detailCost * item.Price / 100);
               item.Price = (detailCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Additional Services') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
             this.additionalService.forEach(additional => {
               additionalCost = additionalCost + additional.Price;
             });
@@ -795,7 +796,7 @@ export class SalesComponent implements OnInit {
               additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Price / 100);
               item.Price = (additionalCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners) {
             this.airfreshnerService.forEach(airFreshner => {
               airfreshnerCost = airfreshnerCost + airFreshner.Price;
             });
@@ -1020,9 +1021,6 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
-
-    
-
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -1045,12 +1043,20 @@ export class SalesComponent implements OnInit {
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: null
-
     };
+
+    const jobProductItem = [];
+    this.Products.forEach( item => {
+      jobProductItem.push({
+        productId: item.ProductId,
+        quantity: item.Quantity,
+        productName: item.ProductName
+      });
+    });
 
     const paymentDetail = {
       SalesPaymentDto : paymentObj,
-      SalesProductItemDto: null,
+      SalesProductItemDto: jobProductItem.length > 0 ?  { jobProductItem } : null,
       locationId : +localStorage.getItem('locationId')
     };
 

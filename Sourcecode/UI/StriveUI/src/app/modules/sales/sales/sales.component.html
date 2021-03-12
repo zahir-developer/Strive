@@ -541,7 +541,7 @@
                                                 <tr *ngFor="let discount of discountList">
                                                     <td class="pointer">{{discount?.ServiceName}}</td>
                                                     <td>1</td>
-                                                    <td>-{{1 * discount?.Cost | currency}}</td>
+                                                    <td>-{{1 * discount?.Price | currency}}</td>
                                                     <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             (click)="deletediscount(discount)"></i></td>
                                                 </tr>
