@@ -58,7 +58,7 @@ export class SalesComponent implements OnInit {
   itemList: any;
   originalGrandTotal = 0;
   JobId: any;
-  newTicketNumber: any;
+  newTicketNumber: any = '';
   selectedService: any;
   balance: number;
   PaymentType: any;
@@ -712,8 +712,7 @@ export class SalesComponent implements OnInit {
     this.ticketNumber = '';
     this.salesService.getTicketNumber().subscribe(item => {
       this.newTicketNumber = item;
-
-    })
+    });
     this.enableAdd = true;
     this.clearpaymentField();
     this.clearGridItems();

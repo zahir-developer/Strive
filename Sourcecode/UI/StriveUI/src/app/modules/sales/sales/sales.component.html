@@ -397,7 +397,7 @@
                                             <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item
                                                 List</label>
                                         </div>
-                                        <div class="form-group col-md-4" *ngIf="enableAdd === true && !enableButton">
+                                        <div class="form-group col-md-4" *ngIf="(enableAdd === true && !enableButton) || (enableAdd === true && newTicketNumber !== '')">
                                             <form [formGroup]="addItemForm">
                                                 <div class="ui-fluid">
                                                     <div class="p-grid forms-grid">
@@ -413,7 +413,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="form-group col-md-5" *ngIf="enableAdd === true && !enableButton">
+                                        <div class="form-group col-md-5" *ngIf="(enableAdd === true && !enableButton) || (enableAdd === true && newTicketNumber !== '')">
                                             <div class=" ">
                                                 <form [formGroup]="addItemForm">
                                                     <input type="text" id="quantity" pattern="\d*" maxlength="9"
