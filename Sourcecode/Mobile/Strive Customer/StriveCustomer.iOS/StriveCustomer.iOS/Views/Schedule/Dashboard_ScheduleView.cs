@@ -96,16 +96,18 @@ namespace StriveCustomer.iOS.Views
 
             if(this.ViewModel.pastServiceHistory != null)
             {
-                if(this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count > 0)
-                {
-                    var pastHis_Source = new Schedule_PastHis_Source(this.ViewModel);
-                    SchedulePastHis_TableView.Source = pastHis_Source;
-                    SchedulePastHis_TableView.TableFooterView = new UIView(CGRect.Empty);
-                    SchedulePastHis_TableView.DelaysContentTouches = false;
-                    SchedulePastHis_TableView.RowHeight = UITableView.AutomaticDimension;
-                    SchedulePastHis_TableView.EstimatedRowHeight = 90;
-                    SchedulePastHis_TableView.ReloadData();
-                }
+                if(this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel != null) {
+                    if (this.ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count > 0)
+                    {
+                        var pastHis_Source = new Schedule_PastHis_Source(this.ViewModel);
+                        SchedulePastHis_TableView.Source = pastHis_Source;
+                        SchedulePastHis_TableView.TableFooterView = new UIView(CGRect.Empty);
+                        SchedulePastHis_TableView.DelaysContentTouches = false;
+                        SchedulePastHis_TableView.RowHeight = UITableView.AutomaticDimension;
+                        SchedulePastHis_TableView.EstimatedRowHeight = 90;
+                        SchedulePastHis_TableView.ReloadData();
+                    }
+                }                
             }            
         }
     }
