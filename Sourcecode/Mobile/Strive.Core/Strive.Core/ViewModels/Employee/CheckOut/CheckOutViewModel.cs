@@ -1,4 +1,6 @@
-﻿using Strive.Core.Models.Employee.CheckOut;
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Employee.CheckOut;
+using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,8 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
 
         public async Task GetCheckOutDetails()
         {
-            var result = await AdminService.CheckOutVehicleDetails(EmployeeTempData.EmployeeID);
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.CheckOutVehicleDetails(1);
             if (result == null)
             {
 
@@ -29,6 +32,7 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
                 CheckOutVehicleDetails.GetCheckedInVehicleDetails = new List<GetCheckedInVehicleDetails>();
                 CheckOutVehicleDetails = result;
             }
+            _userDialog.HideLoading();
         }
 
         #endregion Commands
