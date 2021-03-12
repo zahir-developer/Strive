@@ -217,11 +217,11 @@ export class SalesComponent implements OnInit {
       sortBy: null,
       status: null
     };
-    this.service.getAllServiceDetail().subscribe(data => {
+    this.service.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         console.log(services, 'discount');
-        if (services.ServiceSetup.AllServiceDetail !== null ) {
+        if (services.ServiceSetup.AllServiceDetail !== null) {
           this.discounts = services.ServiceSetup.AllServiceDetail.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
         }
       }
@@ -815,11 +815,11 @@ export class SalesComponent implements OnInit {
           } else if (item.DiscountServiceType === null) {
             noServiceTypePrice = noServiceTypePrice + item.Cost;
           }
-        } else if (item.DiscountServiceType === null)  {
+        } else if (item.DiscountServiceType === null) {
           noServiceTypePrice = noServiceTypePrice + item.Cost;
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
-          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice ;
+          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice;
       });
       this.discountAmount = discountValue;
     } else {
@@ -851,7 +851,7 @@ export class SalesComponent implements OnInit {
       }
     });
   }
- 
+
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
@@ -1007,6 +1007,9 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
+
+    
+
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -1029,11 +1032,17 @@ export class SalesComponent implements OnInit {
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: null
-    
 
     };
+
+    const paymentDetail = {
+      SalesPaymentDto : paymentObj,
+      SalesProductItemDto: null,
+      locationId : +localStorage.getItem('locationId')
+    };
+
     this.spinner.show();
-    this.salesService.addPayemnt(paymentObj).subscribe(data => {
+    this.salesService.addPayemnt(paymentDetail).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
         if (this.accountDetails !== null && this.accountDetails?.CodeValue === "Comp") {
@@ -1099,7 +1108,7 @@ export class SalesComponent implements OnInit {
         this.balance = currentAmount - enteredAmount;
       }
     }
-   
+
   }
   rollBack() {
     if (this.multipleTicketNumber.length > 0) {
