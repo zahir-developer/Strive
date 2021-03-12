@@ -184,7 +184,7 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicleMembershipDetailsByVehicleId(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
-        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership) {
+        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership == null) {
           this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
           information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
             .then((confirmed) => {

@@ -1020,6 +1020,9 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
+
+    
+
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -1043,10 +1046,16 @@ export class SalesComponent implements OnInit {
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: null
 
-
     };
+
+    const paymentDetail = {
+      SalesPaymentDto : paymentObj,
+      SalesProductItemDto: null,
+      locationId : +localStorage.getItem('locationId')
+    };
+
     this.spinner.show();
-    this.salesService.addPayemnt(paymentObj).subscribe(data => {
+    this.salesService.addPayemnt(paymentDetail).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
         if (this.accountDetails !== null && this.accountDetails?.CodeValue === "Comp") {

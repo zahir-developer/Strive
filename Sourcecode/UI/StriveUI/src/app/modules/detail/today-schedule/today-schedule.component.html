@@ -29,35 +29,29 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">
-                                        Ticket
-                                        #
-                                    </th>
-                                    <th scope="col">
-                                        Time
-                                        In
-                                    </th>
-                                    <th scope="col">
-                                        Client
-                                    </th>
-                                    <th scope="col">
-                                        Phone
-                                    </th>
-                                    <th scope="col">
-                                        Time
-                                        Out(Est.)
-                                    </th>
-                                    <th scope="col">
-                                        Service
-                                    </th>
-                                    <th scope="col">
-                                        Outside
-                                        Service
-                                    </th>
+                                    <th scope="col" class="pointer" (click)="changeSorting('TicketNumber')">Ticket #&nbsp;
+                                        <i class="fa" [ngClass]="selectedCls('TicketNumber')" aria-hidden="true"></i> </th>
+                                 
+                                   
+                                    <th scope="col" class="pointer" (click)="changeSorting('TimeIn')">Time In&nbsp;
+                                        <i class="fa" [ngClass]="selectedCls('TimeIn')" aria-hidden="true"></i> </th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('ClientName')">Client&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('ClientName')" aria-hidden="true"></i> </th>
+                                            <th class="pointer" (click)="changeSorting('PhoneNumber')">Phone&nbsp; 
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('PhoneNumber')"></i></th>
+                                    <th scope="col" class="pointer" (click)="changeSorting('EstimatedTimeOut')"> Time
+                                        Out(Est.)&nbsp;<i class="fa" [ngClass]="selectedCls('EstimatedTimeOut')" aria-hidden="true"></i> </th>
+                                    <th scope="col" class="pointer" (click)="changeSorting('ServiceTypeName')">
+                                        Service&nbsp;<i class="fa" [ngClass]="selectedCls('ServiceTypeName')" aria-hidden="true"></i> </th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('OutsideService')">
+                                            Outside
+                                            Service&nbsp;<i class="fa" [ngClass]="selectedCls('OutsideService')" aria-hidden="true"></i> </th>  
+                                          
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let detail of bay.BayDetail">
+                                <tr *ngFor="let detail of bay.BayDetail | orderBy:sort.column:'sequence':sort.descending">
                                     <th scope="row" (click)="getDetailByID(detail)"><span
                                             class="text-underline theme-primary-color font-size--9"
                                             style="cursor: pointer;">

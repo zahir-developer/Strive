@@ -18,12 +18,18 @@ export class TodayScheduleComponent implements OnInit {
   selectedData: any;
   isEdit: boolean;
   showDialog: boolean;
+  bay: any;
+  sort = { column: ApplicationConfig.Sorting.SortBy.Detail, descending: true };
+  sortColumn: { column: string; descending: boolean; };
+
+  sortDetail: any;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
+   
     // this.getTodayDateScheduleList();
   }
 
@@ -41,6 +47,7 @@ export class TodayScheduleComponent implements OnInit {
         const detailGrid = scheduleDetails.DetailsGrid;
         const bayJobDetail = [];
         if (detailGrid.BayJobDetailViewModel !== null) {
+         this.sortDetail =  detailGrid.BayJobDetailViewModel
           detailGrid.BayDetailViewModel.forEach(item => {
             const isData = _.where(detailGrid.BayJobDetailViewModel, { BayId: item.BayId });
             if (isData.length > 0) {
@@ -89,6 +96,34 @@ export class TodayScheduleComponent implements OnInit {
       }
     });
   }
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
+  }
+
 
   getDetailByID(bay) {
     const currentDate = new Date();

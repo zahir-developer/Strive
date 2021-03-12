@@ -55,10 +55,10 @@
                                                                     aria-hidden="true"></i></th>
                                                                     <th scope="col" class="pointer"  (click)="changeSorting('LastName')">Last Name&nbsp;<i class="fa" [ngClass]="selectedCls('LastName')"
                                                                         aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"  (click)="changeSorting('ActivationDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ActivationDate')"
+                                                            <th scope="col" class="pointer"  (click)="changeSorting('ActivatedDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ActivatedDate')"
                                                                 aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"  (click)="changeSorting('TotalAmount')">Amount&nbsp;<i class="fa" [ngClass]="selectedCls('TotalAmount')"
-                                                                aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer" (click)="changeSorting('TotalAmount')" >Amount&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('TotalAmount')"        aria-hidden="true"></i></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
