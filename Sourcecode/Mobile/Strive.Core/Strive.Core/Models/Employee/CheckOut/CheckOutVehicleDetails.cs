@@ -17,7 +17,7 @@ namespace Strive.Core.Models.Employee.CheckOut
         public string VehicleDescription { get; set; }
         public string AdditionalServices { get; set; }
         public string Services { get; set; }
-        public float Cost { get; set; }
+        public float? Cost { get; set; }
         public string Checkin { get; set; }
         public string Checkout { get; set; }
         public string MembershipName { get; set; }

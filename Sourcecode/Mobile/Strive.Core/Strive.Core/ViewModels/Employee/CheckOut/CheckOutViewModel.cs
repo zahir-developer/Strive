@@ -18,7 +18,7 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
 
         public async Task GetCheckOutDetails()
         {
-            var result = await AdminService.CheckOutVehicleDetails(EmployeeTempData.EmployeeID);
+            var result = await AdminService.CheckOutVehicleDetails(1);
             if (result == null)
             {
 
