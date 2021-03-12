@@ -63,7 +63,7 @@ export class WashesListComponent implements OnInit {
     this.startDate = new Date(currentDate.setDate(last));
     this.currentWeek = this.startDate;
     const lastDate = new Date();
-    this.endDate = new Date(lastDate);
+    this.endDate = new Date();
     this.daterangepickerModel = [this.startDate, this.endDate];
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -110,8 +110,8 @@ export class WashesListComponent implements OnInit {
       Query: this.search == "" ? null : this.search,
       SortOrder: this.sortColumn.sortOrder,
       SortBy: this.sortColumn.sortBy,
-      StartDate: this.startDate,
-      EndDate: this.endDate
+      StartDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
+      EndDate: this.datePipe.transform(this.endDate, 'yyyy-MM-dd')
     };
     this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
