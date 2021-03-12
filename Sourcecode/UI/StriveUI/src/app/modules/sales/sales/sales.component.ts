@@ -321,7 +321,8 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account[0];
-          this.isAccount = this.accountDetails?.CodeValue === 'Comp' && this.accountDetails?.IsAccount === true || this.accountDetails?.MembershipId > 0;
+          this.isAccount = this.accountDetails?.CodeValue === 'Comp' && this.accountDetails?.IsAccount === true ||
+            this.accountDetails?.MembershipId > 0;
         }
       });
       this.spinner.show();
@@ -340,7 +341,7 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge ||
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge );
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge);
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.OutsideServices);
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -348,7 +349,7 @@ export class SalesComponent implements OnInit {
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
               this.itemList.Status.SalesItemViewModel.map(item => {
-                if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge  ) {
+                if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
 
                 }
               });
@@ -769,66 +770,66 @@ export class SalesComponent implements OnInit {
               washCost = washCost + wash.Price;
             });
             if (item.DiscountType === 'Flat Fee') {
-              washDiscountPrice = washDiscountPrice + item.Cost;
+              washDiscountPrice = washDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              washDiscountPrice = washDiscountPrice + (washCost * item.Cost / 100);
-              item.Cost = (washCost * item.Cost / 100);
+              washDiscountPrice = washDiscountPrice + (washCost * item.Price / 100);
+              item.Price = (washCost * item.Price / 100);
             }
           } else if (serviceType[0].CodeValue === 'Details') {
             this.details.forEach(detail => {
               detailCost = detailCost + detail.Price;
             });
             if (item.DiscountType === 'Flat Fee') {
-              detailDiscountPrice = detailDiscountPrice + item.Cost;
+              detailDiscountPrice = detailDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              detailDiscountPrice = detailDiscountPrice + (detailCost * item.Cost / 100);
-              item.Cost = (detailCost * item.Cost / 100);
+              detailDiscountPrice = detailDiscountPrice + (detailCost * item.Price / 100);
+              item.Price = (detailCost * item.Price / 100);
             }
           } else if (serviceType[0].CodeValue === 'Additional Services') {
             this.additionalService.forEach(additional => {
               additionalCost = additionalCost + additional.Price;
             });
             if (item.DiscountType === 'Flat Fee') {
-              additionalDiscountPrice = additionalDiscountPrice + item.Cost;
+              additionalDiscountPrice = additionalDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Cost / 100);
-              item.Cost = (additionalCost * item.Cost / 100);
+              additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Price / 100);
+              item.Price = (additionalCost * item.Price / 100);
             }
           } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
             this.airfreshnerService.forEach(airFreshner => {
               airfreshnerCost = airfreshnerCost + airFreshner.Price;
             });
             if (item.DiscountType === 'Flat Fee') {
-              airfreshnerDiscountPrice = airfreshnerDiscountPrice + item.Cost;
+              airfreshnerDiscountPrice = airfreshnerDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              airfreshnerDiscountPrice = airfreshnerDiscountPrice + (airfreshnerCost * item.Cost / 100);
-              item.Cost = (airfreshnerCost * item.Cost / 100);
+              airfreshnerDiscountPrice = airfreshnerDiscountPrice + (airfreshnerCost * item.Price / 100);
+              item.Price = (airfreshnerCost * item.Price / 100);
             }
           } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices) {
             this.outsideServices.forEach(outside => {
               outsideCost = outsideCost + outside.Price;
             });
             if (item.DiscountType === 'Flat Fee') {
-              outsideDiscountPrice = outsideDiscountPrice + item.Cost;
+              outsideDiscountPrice = outsideDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Cost / 100);
-              item.Cost = (outsideCost * item.Cost / 100);
+              outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Price / 100);
+              item.Price = (outsideCost * item.Price / 100);
             }
           } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
             this.upCharges.forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
             if (item.DiscountType === 'Flat Fee') {
-              upchargeDiscountPrice = upchargeDiscountPrice + item.Cost;
+              upchargeDiscountPrice = upchargeDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Cost / 100);
-              item.Cost = (upchargeCost * item.Cost / 100);
+              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
+              item.Price = (upchargeCost * item.Price / 100);
             }
           } else if (item.DiscountServiceType === null) {
-            noServiceTypePrice = noServiceTypePrice + item.Cost;
+            noServiceTypePrice = noServiceTypePrice + item.Price;
           }
         } else if (item.DiscountServiceType === null) {
-          noServiceTypePrice = noServiceTypePrice + item.Cost;
+          noServiceTypePrice = noServiceTypePrice + item.Price;
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
           + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice;
@@ -1022,7 +1023,7 @@ export class SalesComponent implements OnInit {
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
-        membershipId: this.isAccountButton ?  this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
+        membershipId: this.isAccountButton ? this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
         jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,

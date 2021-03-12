@@ -363,7 +363,7 @@
                                                             <tr *ngFor="let discount of selectedDiscount">
                                                                 <td class="pointer">{{discount?.ServiceName}}</td>
                                                                 <td style="text-align: center;">
-                                                                    {{discount?.Cost | currency}}</td>
+                                                                    {{discount?.Price | currency}}</td>
                                                                 <td style="text-align: center;"> <i
                                                                         class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                                         (click)="deletediscount(discount)"></i></td>
