@@ -40,6 +40,7 @@ namespace StriveCustomer.iOS.Views
             WashTimeWebView.ScrollEnabled = true;
 
             locationManager.RequestWhenInUseAuthorization();
+            WashTimeWebView.ShowsUserLocation = true;
 
             this.mapDelegate = new MapDelegate();
             this.WashTimeWebView.Delegate = this.mapDelegate;
