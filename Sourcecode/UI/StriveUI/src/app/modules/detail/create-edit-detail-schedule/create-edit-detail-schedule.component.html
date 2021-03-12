@@ -1,3 +1,43 @@
+<div class="modal" id="vehicleModal" tabindex="1" role="dialog" *ngIf="showVehicleDialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{headerData}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                        aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
+                [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber"
+                (closeDialog)="closePopupEmitVehicle($event)">
+            </app-vehicle-create-edit>
+            </div>
+          
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="clientModal" tabindex="1" role="dialog" *ngIf="showClientDialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{headerData}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                        aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button"  data-dismiss="modal" class="btn theme-optional-button-color"
+                (click)="closePopupEmitClient()">Cancel</button>&nbsp;
+            <button type="button" class="btn theme-primary-button-color"  data-dismiss="modal" (click)="saveClient()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" id="deleteModel" tabindex="-1" role="dialog" *ngIf="deleteDetailList">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -17,6 +57,7 @@
         </div>
     </div>
 </div>
+
 <div class="col-lg-12 p-l-0 p-r-0">
     <div>
         <div>
@@ -71,7 +112,7 @@
                                 <div class="p-col-3 p-md-6">
                                     <p-autoComplete field="name" [suggestions]="clientList"
                                         (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
-                                        placeholder="Client Name" (onSelect)="selectedClient($event)">
+                                        placeholder="Client Name" (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -98,9 +139,9 @@
                                 [disabled]="isView">Select</button>&nbsp;
 
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
+                                (click)="addClient()" data-toggle="modal" data-target="#clientModal" [disabled]="isView">Add Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addVehicle()" [disabled]="isView || clientId === undefined">Add
+                                (click)="addVehicle()" data-toggle="modal" data-target="#vehicleModal" [disabled]="isView || clientId === undefined">Add
                                 Vehicle</button>
                         </div>
                     </div>
@@ -304,7 +345,8 @@
     <app-view-past-notes *ngIf="viewNotesDialog" [viewNotes]="viewNotes"></app-view-past-notes>
 </p-dialog>
 
-<p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
+
+<!-- <p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
     <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
     <p-footer>
@@ -312,12 +354,11 @@
             (click)="closePopupEmitClient()">Cancel</button>&nbsp;
         <button type="button" class="btn theme-primary-button-color" (click)="saveClient()">Save</button>
     </p-footer>
-</p-dialog>
+</p-dialog> -->
 
-<p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
+<!-- <p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
-    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
-        [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber"
-        (closeDialog)="closePopupEmitVehicle($event)">
-    </app-vehicle-create-edit>
-</p-dialog>
+  
+</p-dialog> -->
+
+

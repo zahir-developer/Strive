@@ -149,7 +149,6 @@ export class CustomerSalesComponent implements OnInit {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceSetup !== null && services.ServiceSetup.length !== 0) {
-          
           this.discounts = services.ServiceSetup.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
         }
       }

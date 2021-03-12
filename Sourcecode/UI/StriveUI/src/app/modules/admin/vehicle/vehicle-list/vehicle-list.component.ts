@@ -30,8 +30,7 @@ export class VehicleListComponent implements OnInit {
   collectionSize: number = 0;
   additionalService: any = [];
   upchargeServices: any = [];
-  sort = { column: 'VehicleNumber', descending: true };
-  sortColumn: { column: string; descending: boolean; };
+
   pageSizeList: number[];
   memberServiceId: any;
   vehicleslist: any;
@@ -43,6 +42,7 @@ export class VehicleListComponent implements OnInit {
   imageList = [];
   isOpenImage: boolean;
   originalImage = '';
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -54,6 +54,8 @@ export class VehicleListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+
     this.imagePopup = false;
     this.isOpenImage = false;
     this.page = ApplicationConfig.PaginationConfig.page;
@@ -88,8 +90,8 @@ export class VehicleListComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search !== '' ? this.search : null,
-      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      sortBy: this.sort.column,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
       status: true
     };
     this.spinner.show();
@@ -182,7 +184,7 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.getVehicleMembershipDetailsByVehicleId(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
-        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership) {
+        if (vehicle.VehicleMembershipDetails.ClientVehicleMembership == null) {
           this.confirmationService.confirm('Delete Vehicle', `Are you sure you want to delete this vehicle? All related 
           information will be deleted and the vehicle cannot be retrieved?`, 'Yes', 'No')
             .then((confirmed) => {
@@ -205,6 +207,8 @@ export class VehicleListComponent implements OnInit {
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
+        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+
         this.getAllVehicleDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -213,6 +217,8 @@ export class VehicleListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved' || event.status === 'edit') {
+      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+
       this.getAllVehicleDetails();
     }
     this.showDialog = event.isOpenPopup;
@@ -257,32 +263,25 @@ export class VehicleListComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-    this.getAllVehicleDetails();
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+    this.sortColumn ={
+     sortBy: column,
+     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    return sortingInfo;
-  }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
+    this.selectedCls(this.sortColumn)
+   this.getAllVehicleDetails();
+ }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
+ 
+
+ selectedCls(column) {
+   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+     return 'fa-sort-desc';
+   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+     return 'fa-sort-asc';
+   }
+   return '';
+ }
+
 }
 

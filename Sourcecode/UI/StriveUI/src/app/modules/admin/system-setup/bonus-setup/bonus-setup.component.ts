@@ -22,7 +22,7 @@ export class BonusSetupComponent implements OnInit {
   collisionDeduction: any;
   totalBonusAmount: any;
   selectedDate: any = new Date();
-  selectedMonth: any = new Date().getMonth();
+  selectedMonth: any = new Date().getMonth() + 1;
   selectedYear: any = new Date().getFullYear();
   submitted: boolean;
   isValueMax: boolean;

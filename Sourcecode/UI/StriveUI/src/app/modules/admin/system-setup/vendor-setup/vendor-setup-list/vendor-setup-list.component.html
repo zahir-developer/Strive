@@ -28,14 +28,17 @@
                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                   <thead>
                     <tr>
-                      <th class="pointer" (click)="sort('VendorName')">Name&nbsp; <i class="fa" *ngIf="column =='VendorName'" 
-                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                    <th class="pointer" (click)="sort('VendorAlias')">Contact&nbsp; <i class="fa" *ngIf="column =='VendorAlias'" 
-                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                    <th class="pointer" (click)="sort('PhoneNumber')">Phone Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'" 
-                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                    <th class="pointer" (click)="sort('Email')">Email&nbsp; <i class="fa" *ngIf="column =='Email'" 
-                        [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                      <th class="pointer" (click)="changesort('VendorName')">Name&nbsp;
+                         <i class="fa"
+                         [ngClass]="selectedCls('VendorName')"></i></th>
+                    <th class="pointer" >Contact&nbsp; 
+                    </th>
+                    <th class="pointer" (click)="changesort('PhoneNumber')">Phone Number&nbsp;
+                       <i class="fa"
+                       [ngClass]="selectedCls('PhoneNumber')"></i></th>
+                    <th class="pointer" (click)="changesort('Email')">Email&nbsp; 
+                      <i class="fa" 
+                      [ngClass]="selectedCls('Email')"></i></th>
 
                       <th>Action</th>
                     </tr>

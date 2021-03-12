@@ -25,12 +25,13 @@ export class ServiceSetupListComponent implements OnInit {
   page: number;
   pageSize: number;
   pageSizeList: number[];
-  isDesc: boolean = false;
-  column: string = 'ServiceName';
+  column = ApplicationConfig.Sorting.SortBy.ServiceSetup;
   totalRowCount = 0;
   isLoading: boolean;
-  sort = { column: 'ServiceName', descending: false };
-  sortColumn: { column: string; descending: boolean; };
+  sortColumn: { sortBy: string; sortOrder: string; };
+
+
+  
   constructor(
     private serviceSetup: ServiceSetupService,
     private spinner: NgxSpinnerService,
@@ -40,7 +41,9 @@ export class ServiceSetupListComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = false;
-    this.page = ApplicationConfig.PaginationConfig.page;
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+
+     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
@@ -55,18 +58,21 @@ export class ServiceSetupListComponent implements OnInit {
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search !== '' ? this.search : null,
-      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      sortBy: this.sort.column,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
+
       status: this.searchStatus === '' ? null : this.searchStatus
     };
     this.isLoading = true;
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
+        
         this.totalRowCount = 0;
         this.serviceSetupDetails = [];
         const serviceDetails = JSON.parse(data.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
+
           this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;
           if (this.serviceSetupDetails.length === 0) {
             this.isTableEmpty = true;
@@ -139,7 +145,9 @@ export class ServiceSetupListComponent implements OnInit {
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Delete, 'Success!');
-        this.getAllserviceSetupDetails();
+        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+
+   this.getAllserviceSetupDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -147,37 +155,31 @@ export class ServiceSetupListComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
+     this.sortColumn ={
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+     }
+
+     this.selectedCls(this.sortColumn)
     this.getAllserviceSetupDetails();
   }
 
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
-    }
-    return sortingInfo;
-  }
+  
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
+  selectedCls(column) {
+    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
       return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+    } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
       return 'fa-sort-asc';
     }
     return '';
   }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
-
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+
       this.getAllserviceSetupDetails();
     }
     this.showDialog = event.isOpenPopup;

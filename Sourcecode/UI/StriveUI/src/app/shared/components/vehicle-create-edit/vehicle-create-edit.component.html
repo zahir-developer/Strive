@@ -109,6 +109,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-    <button *ngIf="!isView" type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
+    <button type="button" data-dismiss="modal" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
+    <button *ngIf="!isView" data-dismiss="modal" type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
 </div>

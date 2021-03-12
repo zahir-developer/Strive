@@ -31,7 +31,8 @@
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="changeSorting('ServiceName')">Name&nbsp; <i class="fa" [ngClass]="selectedCls('ServiceName')"></i></th>
+                                            <th class="pointer" (click)="changeSorting('ServiceName')">Name&nbsp; 
+                                                <i class="fa" [ngClass]="selectedCls('ServiceName')"></i></th>
                                             <th class="pointer" (click)="changeSorting('ServiceType')">Type&nbsp; <i class="fa" [ngClass]="selectedCls('ServiceType')"></i></th>
                                             <th class="pointer" (click)="changeSorting('Price')">Price&nbsp; <i class="fa" [ngClass]="selectedCls('Price')"></i></th>
                                             <th class="pointer" (click)="changeSorting('IsActive')">Status&nbsp; <i class="fa" [ngClass]="selectedCls('IsActive')"></i></th>

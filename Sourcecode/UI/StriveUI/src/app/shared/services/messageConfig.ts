@@ -110,6 +110,7 @@ export const MessageConfig = {
 
       GiftCard:
       {
+         GiftCardAlreadyExists: 'GiftCard Already Exist !',
          Add: 'Gift Card added successfully !',
          Update: 'Gift Card updated successfully !',
          Delete: 'Gift Card deleted successfully !',

@@ -9,7 +9,10 @@ import { UrlConfig } from '../url.config';
 export class GiftCardService {
 
   constructor(private http: HttpUtilsService) { }
+  GiftCardAlreadyExists(cardNumber){
+    return this.http.get(`${UrlConfig.giftCard.giftCardExist}` + cardNumber,{ params: { giftCardCode: cardNumber } });
 
+  }
   getAllGiftCard(obj): Observable<any> {
     return this.http.post(`${UrlConfig.giftCard.getAllGiftCard}` , obj );
   }

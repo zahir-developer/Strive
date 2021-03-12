@@ -30,12 +30,12 @@ export class GiftCardComponent implements OnInit {
   clonedGiftCardList = [];
   search = '';
   collectionSize: number;
-  sort = { column: 'GiftCardCode', descending: false };
-  sortColumn: { column: string; descending: boolean; };
+ 
   page: number;
   pageSize: number;
   pageSizeList: number[];
   query = '';
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -51,6 +51,8 @@ export class GiftCardComponent implements OnInit {
     this.giftCardForm = this.fb.group({
       number: ['', Validators.required]
     });
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.GiftCard, sortOrder: ApplicationConfig.Sorting.SortOrder.GiftCard.order };
+
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -65,9 +67,9 @@ export class GiftCardComponent implements OnInit {
       endDate: null,
       pageNo: this.page,
       pageSize: this.pageSize,
-      query: this.search,
-      sortOrder: this.sort.descending ? 'DESC' : 'ASC',
-      sortBy: this.sort.column,
+      query: this.search == '' ? null : this.search ,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
       status: true
     };
     this.giftCardList = [];
@@ -223,32 +225,24 @@ export class GiftCardComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-    this.getAllGiftCard();
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+    this.sortColumn ={
+     sortBy: column,
+     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    return sortingInfo;
-  }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
+    this.selectedCls(this.sortColumn)
+   this.getAllGiftCard();
+ }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
+ 
+
+ selectedCls(column) {
+   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+     return 'fa-sort-desc';
+   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+     return 'fa-sort-asc';
+   }
+   return '';
+ }
 
 }

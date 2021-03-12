@@ -24,11 +24,17 @@
                                 <table class="table  table-striped m-t-10" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th> Name</th>
-                                            <th> Launch Date</th>
-
-                                            <th> Description</th>
-                                            <th>Status</th>
+                                            <th class="pointer" (click)="changesort('Name')">Name&nbsp;
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('Name')"></i></th>
+                                                <th >   Launch Date          </th>
+                                           <th class="pointer" (click)="changesort('Description')">Description&nbsp;
+                                              <i class="fa"
+                                              [ngClass]="selectedCls('Description')"></i></th>
+                                           <th class="pointer" (click)="changesort('Status')">Status&nbsp; 
+                                             <i class="fa" 
+                                             [ngClass]="selectedCls('Status')"></i></th>
+                                           
                                             <th>Action</th>
                                         </tr>
                                     </thead>

@@ -34,12 +34,17 @@ export class AdSetupListComponent implements OnInit {
   documentTypeId: any;
   pdfData: any;
   serviceDetails: any;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.AdSetup,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.AdSetup.order
+     }
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -59,10 +64,13 @@ export class AdSetupListComponent implements OnInit {
         this.serviceDetails = JSON.parse(data.resultData);
         if (this.serviceDetails.GetAllAdSetup !== null) {
           this.adSetupDetails = this.serviceDetails.GetAllAdSetup;
+          this.sort(ApplicationConfig.Sorting.SortBy.AdSetup)
+
         }
         if (this.adSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+
           this.adSetupDetails.forEach(ad => {
             ad.serupName = ad.Name + '' + ad.Description;
           });
@@ -190,5 +198,47 @@ export class AdSetupListComponent implements OnInit {
     })
   }
 
+  sort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.AdSetup.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
+    this.adSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
 }
 

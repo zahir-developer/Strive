@@ -37,11 +37,11 @@ export class TimeClockMaintenanceComponent implements OnInit {
   endDate: any;
   dateRange: any = [];
   isView: boolean = false;
-  sort = { column: 'EmployeeId', descending: true };
-  sortColumn: { column: string; descending: boolean; };
+
   pageSizeList: number[];
   page: number;
   pageSize: number;
+  sortColumn: { sortBy: any; sortOrder: string; };
   constructor(
     private timeClockMaintenanceService: TimeClockMaintenanceService,
     private toastr: ToastrService,
@@ -51,6 +51,10 @@ export class TimeClockMaintenanceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.TimeClock,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+     }
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -59,6 +63,48 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.weeklyDateAssign();
 
   }
+  sort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
+    this.timeClockEmployeeDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+  changeSorting(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
   paginate(event) {
     this.pageSize = +this.pageSize;
     this.page = event;
@@ -97,6 +143,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
         this.timeClockEmployeeDetails = timeClock.Result.TimeClockEmployeeDetailViewModel !== null ?
           timeClock.Result.TimeClockEmployeeDetailViewModel : [];
         this.employeeList = timeClock.Result.EmployeeViewModel;
+        this.sort(ApplicationConfig.Sorting.SortBy.TimeClock);
+
         if (this.timeClockEmployeeDetails.length === 0) {
           this.isTimeClockEmpty = true;
         }
@@ -136,6 +184,10 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.timeClockMaintenanceService.deleteTimeClockEmployee(this.objDelete).subscribe(data => {
       if (data.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.TimeClock.Delete, 'Success!');
+        this.sortColumn ={
+          sortBy: ApplicationConfig.Sorting.SortBy.TimeClock,
+          sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+         }
         this.getTimeClockEmployeeDetails();
       }
       else {
@@ -194,6 +246,10 @@ export class TimeClockMaintenanceComponent implements OnInit {
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.selectedEmployee = '';
+        this.sortColumn ={
+          sortBy: ApplicationConfig.Sorting.SortBy.TimeClock,
+          sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+         }
         this.getTimeClockEmployeeDetails();
       }
     });
@@ -227,34 +283,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     }
   }
 
-  changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
-    }
-    return sortingInfo;
-  }
-
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
-
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
-
+  
 
 
 }

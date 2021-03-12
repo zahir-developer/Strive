@@ -7,6 +7,95 @@ export const ApplicationConfig = {
         Rows: [5, 10, 25, 50, 100],
         PageSize: 10
     },
+    
+    Sorting:
+    {
+        SortOrder:{
+            ServiceSetup:  {
+                order: 'ASC',
+            },
+            ProductSetup:  {
+                order: 'ASC',
+            },
+            MemberShipSetup:  {
+                order: 'ASC',
+            },
+            VendorSetup:  {
+                order: 'ASC',
+            },
+           checklistSetup:  {
+                order: 'ASC',
+            },
+            TermsAndCondition:  {
+                order: 'ASC',
+            },
+            EmployeeHandbook:  {
+                order: 'ASC',
+            },
+            Deals:  {
+                order: 'ASC',
+            },
+            AdSetup:  {
+                order: 'ASC',
+            },
+            location:  {
+                order: 'ASC',
+            },
+            Employee:  {
+                order: 'ASC',
+            },
+            GiftCard:  {
+                order: 'ASC',
+            },
+            Vehicle:  {
+                order: 'ASC',
+            },
+            TimeClock:  {
+                order: 'ASC',
+            },
+            Client:  {
+                order: 'ASC',
+            },
+            CheckOut:  {
+                order: 'ASC',
+            },
+            PayRoll:  {
+                order: 'ASC',
+            },
+            Washes:  {
+                order: 'ASC',
+            },
+           
+           Detail:{
+            order: 'ASC',
+
+           }
+        },
+        
+        SortBy:
+        {
+            ServiceSetup: 'ServiceName',
+            ProductSetup: 'ProductName',
+            VendorSetup: 'VendorName',
+            checklistSetup: 'Name',
+            MemberShipSetup: 'MembershipName',
+            Deals: 'Name',
+            AdSetup: 'Name',
+            location: 'LocationName',
+            TermsAndCondition : 'DocumentName',
+            EmployeeHandbook : 'DocumentName',
+            Employee : 'FirstName',
+            Vehicle : 'VehicleNumber',
+            TimeClock : 'EmployeeId',
+            Client: 'FirstName',
+            PayRoll : 'EmployeeId',
+            CheckOut : 'TicketNumber',
+            Washes: 'TicketNumber',
+            Detail: 'TicketNumber',
+            GiftCard: 'GiftCardCode'
+ 
+        }
+    },
     UploadFileType:
     {
         AdSetup: ['png', 'jpeg', 'jpg'],
