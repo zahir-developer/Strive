@@ -27,6 +27,6 @@
   <item
     android:id="@+id/menu_checkOut"
     android:enabled="true"
-    android:icon="@drawable/ticket"
+    android:icon="@drawable/racing_flag"
     app:showAsAction="ifRoom" />
 </menu>

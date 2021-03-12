@@ -29,7 +29,7 @@ namespace StriveEmployee.Android.Adapter.MyTickets
 
         public AllTicketsViewHolder(View itemView) : base(itemView)
         {
-            makeModelColor = itemView.FindViewById<TextView>(Resource.Id.makeModelColorValue_TextView);
+            makeModelColor = itemView.FindViewById<TextView>(Resource.Id.makemodelColor_TextView);
             washService = itemView.FindViewById<TextView>(Resource.Id.washServiceValue_TextView);
             upcharge = itemView.FindViewById<TextView>(Resource.Id.upcharges_TextView);
             barcode = itemView.FindViewById<TextView>(Resource.Id.barcode_TextView);
@@ -85,28 +85,28 @@ namespace StriveEmployee.Android.Adapter.MyTickets
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            //allTicketsViewHolder = holder as AllTicketsViewHolder;
+            allTicketsViewHolder = holder as AllTicketsViewHolder;
 
             //allTicketsViewHolder.makeModelColor.Text = ticketData[position].MakeModelColor;
-            //allTicketsViewHolder.washService.Text = ticketData[position].WashService;
-            //allTicketsViewHolder.upcharge.Text = ticketData[position].Upcharge;
-            //allTicketsViewHolder.barcode.Text = ticketData[position].Barcode;
-            //allTicketsViewHolder.customer.Text = ticketData[position].Customer;
-            //allTicketsViewHolder.additionalServices.Text = ticketData[position].AdditionalServices;
-            //allTicketsViewHolder.allTickets_TextView.Text = "Ticket No:"+" "+ ticketData[position].TicketNumber;
-            ////allTicketsViewHolder.hiddenLayout[position].Visibility = ViewStates.Gone;
-            //if(position == 0)
-            //{
-            //    allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click0;
-            //}
-            //else if(position == 1)
-            //{
-            //    allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click1; ;
-            //}
-            //else if(position == 1)
-            //{
-            //    allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click2;
-            //}
+            allTicketsViewHolder.washService.Text = ticketData[position].WashService;
+            allTicketsViewHolder.upcharge.Text = ticketData[position].Upcharge;
+            allTicketsViewHolder.barcode.Text = ticketData[position].Barcode;
+            allTicketsViewHolder.customer.Text = ticketData[position].Customer;
+            allTicketsViewHolder.additionalServices.Text = ticketData[position].AdditionalServices;
+            allTicketsViewHolder.allTickets_TextView.Text = "Ticket No:" + " " + ticketData[position].TicketNumber;
+            //allTicketsViewHolder.hiddenLayout[position].Visibility = ViewStates.Gone;
+            if (position == 0)
+            {
+                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click0;
+            }
+            else if (position == 1)
+            {
+                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click1; ;
+            }
+            else if (position == 1)
+            {
+                allTicketsViewHolder.allTickets_TextView.Click += AllTickets_TextView_Click2;
+            }
         }
 
         private void AllTickets_TextView_Click2(object sender, EventArgs e)
