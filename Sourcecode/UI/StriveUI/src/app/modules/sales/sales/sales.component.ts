@@ -1068,13 +1068,15 @@ export class SalesComponent implements OnInit {
           const obj = {
             clientId: this.accountDetails?.ClientId,
             amount: amt
-          }
-          this.salesService.updateAccountBalance(obj).subscribe(data => {
+          };
+          this.salesService.updateAccountBalance(obj).subscribe(res => {
           });
         }
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
         this.getDetailByTicket(false);
-        this.router.navigate([`/checkout`], { relativeTo: this.route });
+        if (this.newTicketNumber === '') {
+          this.router.navigate([`/checkout`], { relativeTo: this.route });
+        }
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
       }
