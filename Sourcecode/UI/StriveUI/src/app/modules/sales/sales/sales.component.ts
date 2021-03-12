@@ -320,9 +320,9 @@ export class SalesComponent implements OnInit {
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
-          this.accountDetails = accountDetails.Account[0];
-          this.isAccount = this.accountDetails?.CodeValue === 'Comp' && this.accountDetails?.IsAccount === true ||
-            this.accountDetails?.MembershipId > 0;
+          this.accountDetails = accountDetails.Account;
+          this.isAccount = this.accountDetails.SalesAccountCreditViewModel.IsCreditAccount ||
+            this.accountDetails.SalesAccountViewModel.MembershipId !== null;
         }
       });
       this.spinner.show();
@@ -373,7 +373,8 @@ export class SalesComponent implements OnInit {
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
             if (+this.account === 0.00) {
-              this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
+              this.account = this.accountDetails?.SalesAccountViewModel.IsAccount === true &&
+               this.accountDetails?.SalesAccountViewModel.CodeValue === 'Comp' ? +this.grandTotal : 0;
               this.calculateTotalpaid(+this.account);
             }
           }
@@ -964,9 +965,9 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(det);
     }
     if (this.account !== 0) {
-      let accountPayType = this.PaymentType.filter(i => i.CodeValue === "Account")[0].CodeId;
-      if (this.accountDetails?.CodeValue !== "Comp") {
-        accountPayType = this.PaymentType.filter(i => i.CodeValue === "Membership")[0].CodeId;
+      let accountPayType = this.PaymentType.filter(i => i.CodeValue === 'Account')[0].CodeId;
+      if (this.accountDetails?.SalesAccountViewModel.CodeValue !== 'Comp') {
+        accountPayType = this.PaymentType.filter(i => i.CodeValue === 'Membership')[0].CodeId;
       }
       const accountDet = {
         jobPaymentDetailId: 0,
@@ -1063,10 +1064,10 @@ export class SalesComponent implements OnInit {
     this.salesService.addPayemnt(paymentDetail).subscribe(data => {
       this.spinner.hide();
       if (data.status === 'Success') {
-        if (this.accountDetails !== null && this.accountDetails?.CodeValue === "Comp") {
-          const amt = (+this.accountDetails?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
+        if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel.CodeValue === 'Comp') {
+          const amt = (+this.accountDetails?.SalesAccountViewModel.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
           const obj = {
-            clientId: this.accountDetails?.ClientId,
+            clientId: this.accountDetails?.SalesAccountViewModel.ClientId,
             amount: amt
           };
           this.salesService.updateAccountBalance(obj).subscribe(res => {
