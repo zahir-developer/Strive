@@ -157,7 +157,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getTicketNumber() {
     if (!this.isEdit) {
       this.wash.getTicketNumber().subscribe(item => {
-        this.ticketNumber = item;
+        if(item){
+          this.ticketNumber = item;
+        }
+        else{
+          this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+
+        }
+
       });
     }
     this.assignDate();
@@ -833,6 +840,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.submitted = true;
     if (this.detailForm.invalid) {
       return;
+    }
+    if (!this.ticketNumber) {
+      this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+  return;
+
     }
     this.detailForm.controls.inTime.enable();
     this.detailForm.controls.dueTime.enable();
