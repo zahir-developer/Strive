@@ -107,22 +107,7 @@ export class ClientFormComponent implements OnInit {
     });
   }
 }
-  clientEmailCheck(event) {
-   
-    this.client.ClientEmailCheck(event.target.value).subscribe(res => {
-      if (res.status === 'Success') {
-        const sameEmail = JSON.parse(res.resultData);
-        if(sameEmail.emailExist === true){
-          this.ClientEmailAvailable = true;
-          this.toastr.error(MessageConfig.Client.emailExist, 'Error!');
-
-        } else{
-          this.ClientEmailAvailable = false;
  
-        }
-      }
-    });
-  }
   // Get Score
   getScore() {
     this.client.getClientScore().subscribe(data => {
@@ -193,15 +178,14 @@ export class ClientFormComponent implements OnInit {
 
   selectCity(event) {
     this.city = event;
-  }
+  } 
   clientEmailExist() {
-   
-    this.client.ClientEmailCheck(this.clientForm.value.email).subscribe(res => {
+     this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
         if(sameEmail.emailExist === true){
           this.ClientEmailAvailable = true;
-          this.toastr.error('Client Email Already Exist', 'Error!');
+          this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
 
         } else{
           this.ClientEmailAvailable = false;
