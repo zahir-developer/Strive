@@ -48,7 +48,9 @@ export class HeaderComponent implements OnInit {
         
     });
   }
+  this.getWeatherDetails()
     this.getUnReadMessage();
+  
   }
   // Get WeatherDetails
   getWeatherDetails = () => {
