@@ -21,7 +21,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
   payRollList: any = [];
-MaxDate = new Date()
+  MaxDate = new Date()
   bsConfig: Partial<BsDatepickerConfig>;
   collectionSize = 0;
   isEditAdjustment: boolean;
@@ -43,16 +43,16 @@ MaxDate = new Date()
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
-    ,private landingservice:LandingService
+    private spinner: NgxSpinnerService,
+    private landingservice: LandingService
   ) { }
 
   ngOnInit(): void {
     this.employeeId = localStorage.getItem('empId');
-    this.sortColumn ={
-      sortBy:  ApplicationConfig.Sorting.SortBy.PayRoll,
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.PayRoll,
       sortOrder: ApplicationConfig.Sorting.SortOrder.PayRoll.order
-     }
+    }
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -64,15 +64,15 @@ MaxDate = new Date()
     this.isEditAdjustment = false;
     this.patchValue();
   }
-landing(){
-  this.landingservice.loadTheLandingPage()
-}
+  landing() {
+    this.landingservice.loadTheLandingPage()
+  }
   patchValue() {
     const curr = new Date(); // get current date
-    const first = curr.getDate() - 13; // First day is the day of the month - the day of the week
-    const last = curr.getDate();//first + 13; // last day is the first day + 6
+    const first = curr.getDate() - 15; // First day is the day of the month - the day of the week
+    const last = curr.getDate(); // first + 13; // last day is the first day + 6
     const firstday = new Date(curr.setDate(first));
-    const lastday = new Date(curr.setDate(last));
+    const lastday = new Date();
     this.minDate = firstday;
     this.payrollDateForm.patchValue({
       fromDate: firstday,
@@ -108,35 +108,38 @@ landing(){
       if (res.status === 'Success') {
         this.editRestriction();
         const payRoll = JSON.parse(res.resultData);
-        this.payRollList = payRoll.Result.PayRollRateViewModel;
-        var length = this.payRollList === null ? 0 : this.payRollList.length;
-        this.collectionSize = Math.ceil(length / this.pageSize) * 10;
-        this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
-
-        this.isPayrollEmpty = false;
-        this.isPayrollEmpty = payRoll.Result.PayRollRateViewModel === null ? true : false;
+        if (payRoll.Result.PayRollRateViewModel) {
+          this.payRollList = payRoll.Result.PayRollRateViewModel;
+          const length = this.payRollList === null ? 0 : this.payRollList.length;
+          this.collectionSize = Math.ceil(length / this.pageSize) * 10;
+          this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
+          this.isPayrollEmpty = false;
+        } else {
+          this.isPayrollEmpty = true;
+        }
       }
     }, (err) => {
       this.spinner.hide();
     });
   }
   editRestriction() {
-   
-       const empId =  null;
-       const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
-    const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');  
-    this.payrollsService.editRestriction(empId,startDate,endDate).subscribe( res => {
+
+    const empId = null;
+    const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
+    const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
+    this.payrollsService.editRestriction(empId, startDate, endDate).subscribe(res => {
       const edit = JSON.parse(res.resultData);
       if (res.status === 'Success') {
         if (edit.Result === 'false') {
-        
+
           this.isEditRestriction = edit.Result;
-          
-        } else{
-          this.isEditRestriction = edit.Result;        }
-        
+
+        } else {
+          this.isEditRestriction = edit.Result;
+        }
+
       }
-      else{
+      else {
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -144,17 +147,17 @@ landing(){
     });
   }
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.payRollList.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -168,23 +171,23 @@ landing(){
     });
   }
   changeSorting(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
   onValueChange(event) {
     this.minDate = event;
   }
@@ -228,45 +231,45 @@ landing(){
     const updatedObj = [];
     const obj = {
       "payrollProcess": {
-          "payrollProcessId": 0,
-          "fromDate": this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
-          "toDate": this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
-          "isActive": true,
-          "isDeleted": true,
-          "createdBy": this.employeeId,
-          "createdDate": new Date(),
-          "updatedBy": this.employeeId,
-          "updatedDate": new Date(),
-        },
-        "payrollEmployee": updatedObj
+        "payrollProcessId": 0,
+        "fromDate": this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
+        "toDate": this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
+        "isActive": true,
+        "isDeleted": true,
+        "createdBy": this.employeeId,
+        "createdDate": new Date(),
+        "updatedBy": this.employeeId,
+        "updatedDate": new Date(),
+      },
+      "payrollEmployee": updatedObj
     }
-    this.payRollList.forEach( item => {
+    this.payRollList.forEach(item => {
       updatedObj.push({
-        
-        
-          "payrollEmployeeId": item.EmployeeId,
-          "employeeId": this.employeeId,
-          "payrollProcessId": 0,
-          "adjustment": +item.Adjustment,
-          "isActive": true,
-          "isDeleted": true,
-          "createdBy": this.employeeId,
-          "createdDate":new Date(),
-          "updatedBy": this.employeeId,
-          "updatedDate": new Date(),
-        
-      
-    
+
+
+        "payrollEmployeeId": item.EmployeeId,
+        "employeeId": this.employeeId,
+        "payrollProcessId": 0,
+        "adjustment": +item.Adjustment,
+        "isActive": true,
+        "isDeleted": true,
+        "createdBy": this.employeeId,
+        "createdDate": new Date(),
+        "updatedBy": this.employeeId,
+        "updatedDate": new Date(),
+
+
+
       });
     });
- 
-  
-    this.payrollsService.addPayRoll(obj).subscribe( res => {
+
+
+    this.payrollsService.addPayRoll(obj).subscribe(res => {
       if (res.status === 'Success') {
-        
+
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
-        
+
         this.toastr.success(MessageConfig.PayRoll.Process, 'Success!');
         this.runReport();
       }
