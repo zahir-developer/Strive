@@ -96,17 +96,18 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
-    if (this.clientFormComponent.ClientNameAvailable == true) {
-      this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
-
-      return;
-    }
     if (this.clientFormComponent.ClientEmailAvailable == true) {
       this.toastr.error(MessageConfig.Client.emailExist, 'Warning!');
 
       return;
     }
 
+    if (this.clientFormComponent.ClientNameAvailable == true) {
+      this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
+
+      return;
+    }
+  
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,

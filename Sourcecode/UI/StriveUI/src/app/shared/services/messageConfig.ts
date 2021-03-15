@@ -3,6 +3,7 @@ export const MessageConfig = {
 
    CommunicationError: 'Communication Error !',
    Mandatory: 'Please Enter Mandatory fields',
+   TicketNumber : 'Ticket Number is Empty',
 
    Schedule:
    {

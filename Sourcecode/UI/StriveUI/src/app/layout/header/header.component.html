@@ -27,9 +27,9 @@
             {{(locationName!== null) ? locationName.length <= 11 ? '': '':''}}</span>,GA</span>
                     </p>
                 </li>
-                <li> <a href="#"><i class="fa fa-gear"></i></a> </li>
+                <!-- <li> <a href="#"><i class="fa fa-gear"></i></a> </li> -->
                 <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span
-              class="badge position-absolute theme-notification-background-icon-color">{{unReadMessageDetail?.length}}</span>
+              class="badge position-absolute theme-notification-background-icon-color" [hidden]="unReadMessageDetail?.length === 0">{{unReadMessageDetail?.length}}</span>
             <span class="sr-only ">unread messages</span></a>
                     <div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
                         <h6 class="font-weight-bold font-size--8"> Message Notification</h6>

@@ -19,6 +19,7 @@ import { element } from 'protractor';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { SaleGiftCardComponent } from './sale-gift-card/sale-gift-card.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -712,7 +713,12 @@ export class SalesComponent implements OnInit {
     this.isSelected = false;
     this.ticketNumber = '';
     this.salesService.getTicketNumber().subscribe(item => {
-      this.newTicketNumber = item;
+      if(item){
+        this.newTicketNumber = item;
+      }
+      else{
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
+  }
     });
     this.enableAdd = true;
     this.clearpaymentField();
@@ -891,6 +897,11 @@ export class SalesComponent implements OnInit {
     if (balancedue !== 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total paid amount not matching with Total amount.' });
       return;
+    }
+    if (!this.newTicketNumber) {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
+ return;
+
     }
     let giftcard = null;
     let discount = null;

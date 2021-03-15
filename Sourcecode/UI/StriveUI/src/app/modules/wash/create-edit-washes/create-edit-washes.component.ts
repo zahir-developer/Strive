@@ -125,8 +125,13 @@ export class CreateEditWashesComponent implements OnInit {
   getTicketNumber() {
     if (!this.isEdit) {
       this.wash.getTicketNumber().subscribe(item => {
-        this.ticketNumber = item;
+          if(item){
+            this.ticketNumber = item;
+          }
+          else{
+            this.toastr.error(MessageConfig.TicketNumber, 'Error!');
 
+          }
       })
     }
 
@@ -657,6 +662,12 @@ export class CreateEditWashesComponent implements OnInit {
     this.submitted = true;
     if (this.washForm.invalid) {
       return;
+    }
+ 
+     if (!this.ticketNumber) {
+      this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+  return;
+
     }
     this.additional.forEach(element => {
       if (element.IsChecked) {
