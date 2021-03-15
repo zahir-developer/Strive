@@ -7,71 +7,71 @@ export const ApplicationConfig = {
         Rows: [5, 10, 25, 50, 100],
         PageSize: 10
     },
-    
+
     Sorting:
     {
-        SortOrder:{
-            ServiceSetup:  {
+        SortOrder: {
+            ServiceSetup: {
                 order: 'ASC',
             },
-            ProductSetup:  {
+            ProductSetup: {
                 order: 'ASC',
             },
-            MemberShipSetup:  {
+            MemberShipSetup: {
                 order: 'ASC',
             },
-            VendorSetup:  {
+            VendorSetup: {
                 order: 'ASC',
             },
-           checklistSetup:  {
+            checklistSetup: {
                 order: 'ASC',
             },
-            TermsAndCondition:  {
+            TermsAndCondition: {
                 order: 'ASC',
             },
-            EmployeeHandbook:  {
+            EmployeeHandbook: {
                 order: 'ASC',
             },
-            Deals:  {
+            Deals: {
                 order: 'ASC',
             },
-            AdSetup:  {
+            AdSetup: {
                 order: 'ASC',
             },
-            location:  {
+            location: {
                 order: 'ASC',
             },
-            Employee:  {
+            Employee: {
                 order: 'ASC',
             },
-            GiftCard:  {
+            GiftCard: {
                 order: 'ASC',
             },
-            Vehicle:  {
+            Vehicle: {
                 order: 'ASC',
             },
-            TimeClock:  {
+            TimeClock: {
                 order: 'ASC',
             },
-            Client:  {
+            Client: {
                 order: 'ASC',
             },
-            CheckOut:  {
+            CheckOut: {
                 order: 'ASC',
             },
-            PayRoll:  {
+            PayRoll: {
                 order: 'ASC',
             },
-            Washes:  {
+            Washes: {
                 order: 'ASC',
             },
-           
-           Detail:{
-            order: 'ASC',
 
-           }
+            Detail: {
+                order: 'ASC',
+
+            }
         },
-        
+
         SortBy:
         {
             ServiceSetup: 'ServiceName',
@@ -82,18 +82,18 @@ export const ApplicationConfig = {
             Deals: 'Name',
             AdSetup: 'Name',
             location: 'LocationName',
-            TermsAndCondition : 'DocumentName',
-            EmployeeHandbook : 'DocumentName',
-            Employee : 'FirstName',
-            Vehicle : 'VehicleNumber',
-            TimeClock : 'EmployeeId',
+            TermsAndCondition: 'DocumentName',
+            EmployeeHandbook: 'DocumentName',
+            Employee: 'FirstName',
+            Vehicle: 'VehicleNumber',
+            TimeClock: 'EmployeeId',
             Client: 'FirstName',
-            PayRoll : 'EmployeeId',
-            CheckOut : 'TicketNumber',
+            PayRoll: 'EmployeeId',
+            CheckOut: 'TicketNumber',
             Washes: 'TicketNumber',
             Detail: 'TicketNumber',
             GiftCard: 'GiftCardCode'
- 
+
         }
     },
     UploadFileType:
@@ -146,7 +146,13 @@ export const ApplicationConfig = {
         {
             name: 'Bounce back coupon', value: 'Bounce back coupon'
         }
-    ]
+    ],
+
+    storestatus: {
+        open: 'Open',
+        closedforWeather: 'ClosedforWeather',
+        closed: 'Closed'
+    }
 
 };
 

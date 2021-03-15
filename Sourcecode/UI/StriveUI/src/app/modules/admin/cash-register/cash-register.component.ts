@@ -11,6 +11,7 @@ import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/da
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-cash-register',
@@ -59,7 +60,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   CahRegisterId: any;
   storeStatusList = [];
   storeTimeIn = '';
-  storeStatus: any;
+  storeStatus: any = '';
   storeTimeOut = '';
   submitted = false;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
@@ -499,7 +500,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
-        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue === 'Open');
+        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue === ApplicationConfig.storestatus.open);
         console.log(dType, 'type');
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');

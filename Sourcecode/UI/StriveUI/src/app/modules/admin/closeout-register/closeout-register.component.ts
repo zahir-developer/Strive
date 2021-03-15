@@ -7,6 +7,7 @@ import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/da
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-closeout-register',
@@ -123,7 +124,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.closeOutDetails = closeOut.CashRegister;
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
-          this.storeStatus = this.closeOutDetails.CashRegister.Status !== null ? this.closeOutDetails.CashRegister.Status : '';
+          this.storeStatus = this.closeOutDetails.CashRegister.StoreOpenCloseStatus !== null ?
+            this.closeOutDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
           this.storeTimeOut = this.closeOutDetails.CashRegister.StoreTimeOut !== null ?
@@ -295,7 +297,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedDate: new Date(),
       storeTimeIn: null,
       storeTimeOut: moment(checkoutTime).format(),
-      status: this.storeStatus
+      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
     const formObj = {
       cashregister,
@@ -312,7 +314,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
 
         this.spinner.hide();
-    this.getCloseOutRegister();
+        this.getCloseOutRegister();
       } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -440,6 +442,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
+        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue !== ApplicationConfig.storestatus.open);
         console.log(dType, 'type');
       } else {
         this.toastr.error('Communication Error', 'Error!');
