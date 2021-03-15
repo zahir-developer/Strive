@@ -210,7 +210,7 @@ export const UrlConfig = {
 
   },
   dashboard: {
-    getDashboardLocation: `Admin/Location/GetAllLocationName`,
+    getDashboardLocation: `Admin/Location/GetAll`,
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`,
     getAvailablilityScheduleTime: `Admin/Dashboard/GetAvailablilityScheduleTime`,
