@@ -89,9 +89,9 @@ export class ClientCreateEditComponent implements OnInit {
     this.clientFormComponent.submitted = true;
     this.clientFormComponent.stateDropdownComponent.submitted = true;
     this.clientFormComponent.clientForm.controls.status.enable();
-    if (this.clientFormComponent.stateDropdownComponent.stateValueSelection == false ) {
-      return;
-    }
+    // if (this.clientFormComponent.stateDropdownComponent.stateValueSelection == false ) {
+    //   return;
+    // }
    
     if (this.clientFormComponent.clientForm.invalid) {
       return;
@@ -111,12 +111,12 @@ export class ClientCreateEditComponent implements OnInit {
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
-      address1: this.clientFormComponent.clientForm.value.address,
+      address1: this.clientFormComponent.clientForm.value.address ? this.clientFormComponent.clientForm.value.address: null,
       address2: null,
       phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
       isActive: true,
-      zip: this.clientFormComponent.clientForm.value.zipcode,
-      state: this.clientFormComponent.State,
+      zip: this.clientFormComponent.clientForm.value.zipcode ? this.clientFormComponent.clientForm.value.zipcode : null,
+      state: this.clientFormComponent.State ? this.clientFormComponent.State : null,
       city: this.clientFormComponent.city == 0 ? null : this.clientFormComponent.city,
       country: null,
       phoneNumber: this.clientFormComponent.clientForm.value.phone1,

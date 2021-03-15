@@ -68,6 +68,7 @@ export class SalesComponent implements OnInit {
   isAccount: any;
   discountList: any = [];
   isAccountButton = false;
+  ticketNumberGeneration: boolean;
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -714,6 +715,7 @@ export class SalesComponent implements OnInit {
     this.ticketNumber = '';
     this.salesService.getTicketNumber().subscribe(item => {
       if(item){
+        this.ticketNumberGeneration = true
         this.newTicketNumber = item;
       }
       else{
@@ -898,11 +900,11 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total paid amount not matching with Total amount.' });
       return;
     }
-    if (!this.newTicketNumber) {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
- return;
-
+    if (this.ticketNumberGeneration == false) {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber});
+      return;
     }
+  
     let giftcard = null;
     let discount = null;
     giftcard = this.giftcards.map(item => {
