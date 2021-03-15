@@ -94,7 +94,9 @@ namespace Strive.BusinessLogic.Sales
 
                             string roles = Roles.Manager.ToString() + ',' + Roles.Operator;
 
-                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId, roles);
+                            //var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId, roles);
+
+                            var emailId = new CommonRal(_tenant).GetEmailIdByRole();
 
                             if (product != null && product.Quantity != null)
                             {
