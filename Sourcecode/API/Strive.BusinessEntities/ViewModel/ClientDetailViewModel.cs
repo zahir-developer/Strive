@@ -35,6 +35,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string Zip { get; set; }
         public decimal? CreditAmount { get; set; }
         public bool IsActive { get; set; }
+        public bool IsCreditAccount { get; set; }
         //public ClientAddressDto ClientAddressDto { get; set; }
         //public List<ClientAddressDetailDto> ClientAddressDetailDto { get; set; }
         //public List<ClientVehicleDto> ClientVehicleDto { get; set; }
