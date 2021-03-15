@@ -36,6 +36,7 @@ export class GiftCardComponent implements OnInit {
   pageSizeList: number[];
   query = '';
   sortColumn: { sortBy: string; sortOrder: string; };
+  startDate: Date;
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -46,6 +47,9 @@ export class GiftCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  this.startDate = new Date();
+var amountOfYearsRequired = 5;
+this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired);
     this.submitted = false;
     this.isActivity = false;
     this.giftCardForm = this.fb.group({
@@ -60,11 +64,10 @@ export class GiftCardComponent implements OnInit {
   }
 
   getAllGiftCard() {
-    const locationId = +localStorage.getItem('empLocationId');
     const obj = {
       locationId: localStorage.getItem('empLocationId'),
-      startDate: null,
-      endDate: null,
+      startDate: this.startDate,
+      endDate: new Date(),
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search == '' ? null : this.search ,
