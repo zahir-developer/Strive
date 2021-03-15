@@ -59,7 +59,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   CahRegisterId: any;
   storeStatusList = [];
   storeTimeIn = '';
-  storeStatus = '';
+  storeStatus: any;
   storeTimeOut = '';
   submitted = false;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
@@ -165,8 +165,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           //     isOpen = false;
           //   }
           // }
-          this.storeStatus = this.cashDetails.CashRegister.storeOpenCloseStatus !== null ?
-           this.cashDetails.CashRegister.storeOpenCloseStatus : '';
+          this.storeStatus = this.cashDetails.CashRegister.StoreOpenCloseStatus !== null ?
+           +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
           this.storeTimeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
@@ -499,6 +499,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
+        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue === 'Open');
         console.log(dType, 'type');
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
