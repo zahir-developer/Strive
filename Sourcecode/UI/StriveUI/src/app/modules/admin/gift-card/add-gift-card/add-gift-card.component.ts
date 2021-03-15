@@ -156,34 +156,41 @@ export class AddGiftCardComponent implements OnInit {
 
   generateNumber() {
     const cardNumber = Math.floor(100000 + Math.random() * 900000);
-    this.giftCardService.GiftCardAlreadyExists(cardNumber).subscribe(res => {
-      this.spinner.hide();
-      if (res.status === 'Success') {
-      const GiftcardNumber = JSON.parse(res.resultData)
-      this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable
-        if(this.GiftcardNumberExist === true){
-          this.giftCardForm.value.number.reset();
-          this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists , 'Warning!');
-
-        }
-        else {
-        
-          this.giftCardForm.patchValue({
-            number: cardNumber
-          });
-      } 
-      }else{
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
-        this.spinner.hide();
+    
+    this.giftCardForm.patchValue({
+      number: cardNumber
+    });
+  }
+giftCardExist(event){
+  this.giftCardService.GiftCardAlreadyExists(event).subscribe(res => {
+    this.spinner.hide();
+    if (res.status === 'Success') {
+    const GiftcardNumber = JSON.parse(res.resultData)
+    this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable
+      if(this.GiftcardNumberExist === true){
+        this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists , 'Warning!');
+        this.giftCardForm.patchValue({
+          number: ''
+        });
       }
-     
-    }, (err) => {
+      else {
+      
+        this.giftCardForm.patchValue({
+          number: event
+        });
+    } 
+    }else{
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
       this.spinner.hide();
-    });
+    }
    
-  }
+  }, (err) => {
+    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+    this.spinner.hide();
+  });
+ 
+}
 
 }
