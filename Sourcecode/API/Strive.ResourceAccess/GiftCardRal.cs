@@ -82,6 +82,9 @@ namespace Strive.ResourceAccess
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+
+            _prm.Add("@EndDate", searchDto.EndDate);
             var result = db.FetchMultiResult<GiftCardCountViewModel>(EnumSP.GiftCard.USPGETALLGIFTCARDS.ToString(), _prm);
             return result;
 
