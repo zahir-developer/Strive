@@ -898,11 +898,7 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total paid amount not matching with Total amount.' });
       return;
     }
-    if (!this.newTicketNumber) {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
- return;
-
-    }
+  
     let giftcard = null;
     let discount = null;
     giftcard = this.giftcards.map(item => {
