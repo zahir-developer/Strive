@@ -80,6 +80,7 @@ export class CreateEditWashesComponent implements OnInit {
   upchargeId: any;
   airFreshenerId: any;
   additionalId: any;
+  selectclient: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
     private landingservice: LandingService,
@@ -87,10 +88,22 @@ export class CreateEditWashesComponent implements OnInit {
     private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService) { }
 
   ngOnInit() {
+
+
     this.getTicketNumber();
+
     this.getJobStatus();
     this.isPrint = false;
     this.formInitialize();
+    // this.washForm.patchValue({
+     
+    //   client: { id: 1547, name: 'A ULMAN' }
+  
+    // })
+    // this.selectclient= 
+    // { id: 1547,
+    //    name: 'A ULMAN' }
+    // this.selectedClient(this.selectclient)
     this.timeInDate = new Date();
     this.Score = [{ CodeId: 1, CodeValue: "None" }, { CodeId: 2, CodeValue: "Option1" }, { CodeId: 3, CodeValue: "Option2" }];
     if (this.isView === true) {
@@ -102,6 +115,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.landingservice.loadTheLandingPage()
   }
   formInitialize() {
+
     this.washForm = this.fb.group({
       client: ['',],
       vehicle: ['', Validators.required],

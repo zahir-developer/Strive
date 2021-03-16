@@ -24,7 +24,7 @@
             <i class="mdi mdi-weather-partly-cloudy theme-light-yellow-color"></i> {{temperature ? temperature : 0}}°/{{rainPrediction ? rainPrediction: 0}}%</span>
                         <span class="text-nowrap"> <span class="text-capital" title="{{locationName}}">
             {{locationName | slice:0:11}}
-            {{(locationName!== null) ? locationName.length <= 11 ? '': '':''}}</span>,GA</span>
+            {{(locationName!== null) ? locationName?.length <= 11 ? '': '':''}}</span>,GA</span>
                     </p>
                 </li>
                 <!-- <li> <a href="#"><i class="fa fa-gear"></i></a> </li> -->
