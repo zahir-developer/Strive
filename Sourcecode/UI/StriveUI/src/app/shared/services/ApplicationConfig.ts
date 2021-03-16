@@ -166,7 +166,15 @@ export const ApplicationConfig = {
         GiftCard: 'GiftCard',
         Membership: 'Membership',
         OnlinePayment: 'OnlinePayment'
-    }
-
+    },
+Roles: {
+Admin:'Admin',
+Manager: 'Manager',
+Operator: 'Operator',
+Cashier : 'Cashier',
+Detailer : 'Detailer',
+Wash :'Wash',
+Client :'Client'
+}
 };
 

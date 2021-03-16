@@ -33,22 +33,30 @@ export class UserDataService {
       if (token?.EmployeeDetails?.EmployeeLocations) {
         localStorage.setItem('empLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
       } 
+      if (token?.EmployeeDetails?.EmployeeLocations) {
       if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
         localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
+
+        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
+
+    
       } else {
         localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
       }
+    }
+
+
       if (token?.EmployeeDetails?.EmployeeRoles?.length) {
         localStorage.setItem('empRoles', token?.EmployeeDetails?.EmployeeRoles[0]?.RoleName);
       }
       if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
+        this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
+        localStorage.setItem('roleId', token?.EmployeeDetails?.EmployeeRoles[0]?.Roleid);
 
-        // this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
+       
       }
       this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.FirstName + ' ' +
         token?.EmployeeDetails?.EmployeeLogin?.LastName);
-        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
-      this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
 
       this.getUnreadMessage(token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
       localStorage.setItem('employeeName', token?.EmployeeDetails?.EmployeeLogin?.FirstName + ' ' +
@@ -58,7 +66,6 @@ export class UserDataService {
 
       }
       localStorage.setItem('empId', token?.EmployeeDetails?.EmployeeLogin?.EmployeeId);
-      localStorage.setItem('roleId', token?.EmployeeDetails?.EmployeeRoles[0]?.Roleid);
       localStorage.setItem('employeeFirstName', token?.EmployeeDetails?.EmployeeLogin?.FirstName);
       localStorage.setItem('employeeLastName', token?.EmployeeDetails?.EmployeeLogin?.LastName);
 
@@ -66,9 +73,7 @@ export class UserDataService {
     else if (token.ClientDetails !== undefined) {
       this.setSides(JSON.stringify(token?.ClientDetails?.RolePermissionViewModel));
 
-      // if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
-      //   this.userDetails.views = token.EmployeeDetails.RolePermissionViewModel;
-      // }
+     
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
       localStorage.setItem('clientId', token.ClientDetails.ClientDetail.ClientId);

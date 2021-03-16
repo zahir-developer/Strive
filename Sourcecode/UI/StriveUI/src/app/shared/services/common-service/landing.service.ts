@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../../util/user-data.service';
 import { AuthService } from './auth.service';
+import { ApplicationConfig } from '../ApplicationConfig';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,14 @@ export class LandingService {
   constructor(private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
   loadTheLandingPage(): void {
     const location = localStorage.getItem('empLocationId');
-    if (!Array.isArray(JSON.parse(location))) {
+    if (location) {
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
-      this.user.navName.subscribe((data = []) => {
-        setTimeout(() => {
-
-          if (data) {
-            const newparsedData = JSON.parse(data);
+      this.user.navName.subscribe((data) => {
+        
+        const newparsedData = JSON.parse(data);
+          if (newparsedData) {
+          
             for (let i = 0; i < newparsedData?.length; i++) {
               const ModuleName = newparsedData[i].ModuleName;
 
@@ -33,8 +34,10 @@ export class LandingService {
             }
 
           }
-
-        }, 100);
+          else {
+            this.routingPage();
+          }
+         
       });
 
       if (this.dashBoardModule === true) {
@@ -44,31 +47,32 @@ export class LandingService {
         this.routingPage();
 
       }
-    } else {
+    }
+     else {
       this.router.navigate([`/location`], { relativeTo: this.route });
     }
   }
   routingPage() {
     const Roles = localStorage.getItem('empRoles');
     if (Roles) {
-      if (Roles === 'Admin') {
+      if (Roles === ApplicationConfig.Roles.Admin) {
         this.router.navigate([`/dashboard`], { relativeTo: this.route });
-      } else if (Roles === 'Manager') {
+      } else if (Roles === ApplicationConfig.Roles.Manager) {
         this.router.navigate([`/reports/eod`], { relativeTo: this.route });
       }
-      else if (Roles === 'Operator') {
+      else if (Roles === ApplicationConfig.Roles.Operator) {
         this.router.navigate([`/reports/eod`], { relativeTo: this.route });
       }
-      else if (Roles === 'Cashier') {
+      else if (Roles === ApplicationConfig.Roles.Cashier) {
         this.router.navigate([`/sales`], { relativeTo: this.route });
       }
-      else if (Roles === 'Detailer') {
+      else if (Roles === ApplicationConfig.Roles.Detailer) {
         this.router.navigate([`/detail`], { relativeTo: this.route });
       }
-      else if (Roles === 'Wash') {
+      else if (Roles === ApplicationConfig.Roles.Wash) {
         this.router.navigate([`/wash`], { relativeTo: this.route });
       }
-      else if (Roles === 'Client') {
+      else if (Roles === ApplicationConfig.Roles.Client) {
         const clientId = localStorage.getItem('clientId');
         this.router.navigate([`/customer`], { relativeTo: this.route, queryParams: { clientId: clientId } });
       }
