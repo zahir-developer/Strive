@@ -939,7 +939,7 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       }
     });
-    let discountPayType = this.PaymentType.filter(i => i.CodeValue === "Discount")[0].CodeId;
+    const discountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Discount)[0].CodeId;
     const discountDet = this.selectedDiscount.map(item => {
       return {
         jobPaymentDetailId: 0,
@@ -960,7 +960,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(element);
     })
     if (this.cash !== 0) {
-      let cashPayType = this.PaymentType.filter(i => i.CodeValue === "Cash")[0].CodeId;
+      const cashPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Cash)[0].CodeId;
       const det = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
@@ -978,9 +978,9 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(det);
     }
     if (this.account !== 0) {
-      let accountPayType = this.PaymentType.filter(i => i.CodeValue === 'Account')[0].CodeId;
+      let accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
       if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== 'Comp') {
-        accountPayType = this.PaymentType.filter(i => i.CodeValue === 'Membership')[0].CodeId;
+        accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
       }
       const accountDet = {
         jobPaymentDetailId: 0,
@@ -999,7 +999,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(accountDet);
     }
     if (this.credit !== 0) {
-      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Card")[0].CodeId;
+      const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;
       const credit = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
@@ -1017,7 +1017,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(credit);
     }
     if (this.giftCard !== 0) {
-      let giftPayType = this.PaymentType.filter(i => i.CodeValue === "GiftCard")[0].CodeId;
+      const giftPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.GiftCard)[0].CodeId;
       const gift = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,

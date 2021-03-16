@@ -152,6 +152,20 @@ export const ApplicationConfig = {
         open: 'Open',
         closedforWeather: 'ClosedforWeather',
         closed: 'Closed'
+    },
+
+    PaymentType:
+    {
+
+        Account: 'Account',
+        Card: 'Card',
+        Cash: 'Cash',
+        Check: 'Check',
+        Discount: 'Discount',
+        Payroll: 'From Payroll',
+        GiftCard: 'GiftCard',
+        Membership: 'Membership',
+        OnlinePayment: 'OnlinePayment'
     }
 
 };
