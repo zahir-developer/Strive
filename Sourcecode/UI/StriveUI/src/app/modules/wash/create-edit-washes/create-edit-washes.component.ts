@@ -95,15 +95,15 @@ export class CreateEditWashesComponent implements OnInit {
     this.getJobStatus();
     this.isPrint = false;
     this.formInitialize();
-    this.washForm.patchValue({
+    // this.washForm.patchValue({
      
-      client: { id: 1547, name: 'A ULMAN' }
+    //   client: { id: 1547, name: 'A ULMAN' }
   
-    })
-    this.selectclient= 
-    { id: 1547,
-       name: 'A ULMAN' }
-    this.selectedClient(this.selectclient)
+    // })
+    // this.selectclient= 
+    // { id: 1547,
+    //    name: 'A ULMAN' }
+    // this.selectedClient(this.selectclient)
     this.timeInDate = new Date();
     this.Score = [{ CodeId: 1, CodeValue: "None" }, { CodeId: 2, CodeValue: "Option1" }, { CodeId: 3, CodeValue: "Option2" }];
     if (this.isView === true) {
