@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../../util/user-data.service';
 import { AuthService } from './auth.service';
 import { ApplicationConfig } from '../ApplicationConfig';
+import { MessageConfig } from '../messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,8 @@ import { ApplicationConfig } from '../ApplicationConfig';
 export class LandingService {
   dashBoardModule: boolean;
 
-  constructor(private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private toastr: ToastrService,
+    private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
   loadTheLandingPage(): void {
     const location = localStorage.getItem('empLocationId');
     if (location) {
@@ -49,7 +52,8 @@ export class LandingService {
       }
     }
      else {
-      this.router.navigate([`/location`], { relativeTo: this.route });
+      this.toastr.error(MessageConfig.locationError, 'Error!');
+      // this.router.navigate([`/location`], { relativeTo: this.route });
     }
   }
   routingPage() {
