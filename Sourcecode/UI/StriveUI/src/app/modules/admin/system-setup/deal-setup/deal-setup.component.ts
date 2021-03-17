@@ -78,13 +78,15 @@ export class DealSetupComponent implements OnInit {
   }
 
   dealChange(event) {
-    console.log(event, 'deal');
-    const status = event.checked;
-    this.Deals.updateDeals(status).subscribe( res => {
-      if (res.status === 'Success') {
-        this.getDeals();
-      }
-    });
+    if(this.DealsDetails.length > 0 ){
+      const status = event.checked;
+      this.Deals.updateDeals(status).subscribe( res => {
+        if (res.status === 'Success') {
+          this.getDeals();
+        }
+      });
+    }
+   
   }
 
   delete(data) {
@@ -107,8 +109,9 @@ export class DealSetupComponent implements OnInit {
       dealName: data.DealName,
       timePeriod: data.TimePeriod,
       deals: true,
-      startDate: data.StartDate === '0001-01-01T00:00:00' ? null : data.StartDate,
-      endDate: data.EndDate === '0001-01-01T00:00:00' ? null : data.EndDate,
+     
+      startDate: data.StartDate ===  'None'? null :  data.StartDate,
+      endDate: data.EndDate === 'None'? null  : data.EndDate,
       isActive: true,
       isDeleted: true
     };
