@@ -3,6 +3,7 @@ import { AuthenticateObservableService } from '../observable-service/authenticat
 import { BehaviorSubject } from 'rxjs';
 import { UrlConfig } from '../services/url.config';
 import { HttpUtilsService } from './http-utils.service';
+import { WeatherService } from '../services/common-service/weather.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,14 @@ export class UserDataService {
   public navName = this.nav.asObservable();
   private unReadMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public unReadMessageDetail = this.unReadMessage.asObservable();
-  constructor(private authenticateObservableService: AuthenticateObservableService, private http: HttpUtilsService) {
+  constructor(
+    private weatherService: WeatherService,
+    private authenticateObservableService: AuthenticateObservableService, private http: HttpUtilsService) {
   }
   setUserSettings(loginToken) {
     this.isAuthenticated = true;
     const token = JSON.parse(loginToken);
     console.log(token, 'token');
-
 
     if (token.EmployeeDetails !== undefined) {
       this.setSides(JSON.stringify(token?.EmployeeDetails?.RolePermissionViewModel));
@@ -45,6 +47,7 @@ export class UserDataService {
       }
     }
 
+    this.weatherService.getWeather()
 
       if (token?.EmployeeDetails?.EmployeeRoles?.length) {
         localStorage.setItem('empRoles', token?.EmployeeDetails?.EmployeeRoles[0]?.RoleName);
