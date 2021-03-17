@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.Common;
@@ -52,6 +53,21 @@ namespace Strive.ResourceAccess
 
             return WeatherPredictionId > 0;
         }
+        public List<WeatherPredictions> GetForcastedRainPercentage(ForecastedRainPercentageDto forecastedRainPercentage)
+        {
 
+            DateTime lastMonth = forecastedRainPercentage.Date.AddMonths(-1).Date;
+            DateTime lastweek = forecastedRainPercentage.Date.AddDays(-7).Date;
+            DateTime lastThirdMonth = forecastedRainPercentage.Date.AddMonths(-3).Date;
+
+            _prm.Add("@LocationId", forecastedRainPercentage.LocationId);
+            _prm.Add("@date", forecastedRainPercentage.Date);
+            _prm.Add("@lastweek", lastweek.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
+
+            return db.Fetch<WeatherPredictions>(EnumSP.CashRegister.USPGETFORCASTEDRAINPERCENTAGE.ToString(), _prm);
+
+        }
     }
 }

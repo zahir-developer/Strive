@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.BusinessLogic.Weather;
@@ -46,12 +47,12 @@ namespace Strive.BusinessLogic
                 weatherPredictionDetails.WeatherPredictionLastMonth = new WeatherPredictions();
                 weatherPredictionDetails.WeatherPredictionLastThirdMonth = new WeatherPredictions();
 
-                var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId,dateTime );
+                var weather = new WeatherRal(_tenant).GetWeatherDetails(locationId, dateTime);
                 if (weather != null)
                 {
                     var todayResult = weather.FirstOrDefault(s => s.CreatedDate == dateTime);
 
-                    if(todayResult != null)
+                    if (todayResult != null)
                     {
                         weatherPredictionDetails.WeatherPredictionToday = todayResult;
                     }
@@ -75,7 +76,7 @@ namespace Strive.BusinessLogic
 
                     }
                 }
-                    _resultContent.Add(weatherPredictionDetails.WithName("WeatherPrediction"));
+                _resultContent.Add(weatherPredictionDetails.WithName("WeatherPrediction"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -85,7 +86,7 @@ namespace Strive.BusinessLogic
             return _result;
         }
 
-
+     
         public Result AddWeatherPrediction(WeatherPrediction weatherPrediction)
         {
             try
@@ -188,6 +189,12 @@ namespace Strive.BusinessLogic
         {
             return decimal.Round((celsius * 9 / 5) + 32);
         }
+
+        public Result GetForcastedRainPercentage(ForecastedRainPercentageDto forecastedRainPercentage)
+        {
+
+            return ResultWrap(new WeatherRal(_tenant).GetForcastedRainPercentage, forecastedRainPercentage, "ForecastedRainpercentage");
+        }
     }
 
     public class WeatherData
@@ -200,3 +207,9 @@ namespace Strive.BusinessLogic
         public PrecipitationProbability PrecipitationProbability { get; set; }
     }
 }
+
+
+
+
+
+
