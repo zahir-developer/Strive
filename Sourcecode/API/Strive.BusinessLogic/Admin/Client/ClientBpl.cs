@@ -59,7 +59,7 @@ namespace Strive.BusinessLogic
 
         public Result SaveClientDetails(ClientDto client)
         {
-            bool success = false;
+            List<int> clientId = new List<int>();
             try
             {
                 foreach (var item in client.ClientAddress)
@@ -74,14 +74,14 @@ namespace Strive.BusinessLogic
                         if (clientLogin.authId > 0)
                         {
                             var clientSignup = new ClientRal(_tenant).InsertClientDetails(client);
-                            if (clientSignup)
+                            if (clientSignup > 0)
                             {
                                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
                                 keyValues.Add("{emailId}",item.Email);
                                 keyValues.Add("{password}",clientLogin.password);
                                 comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues);
                                // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
-                                success = true;
+                                clientId.Add(clientSignup);
                             }
                             else if(clientLogin.authId > 0)
                             {
@@ -92,8 +92,8 @@ namespace Strive.BusinessLogic
                     }
 
                 }
-
-                return ResultWrap(success, "Status");
+               
+                return ResultWrap(clientId, "Status");
             }
             catch (Exception ex)
             {
