@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.Weather;
 using Strive.Common;
 using System;
@@ -16,6 +17,8 @@ namespace Strive.BusinessLogic.Weather
         Task<WeatherView> GetWeather(string baseUrl, string apiKey, string apiMethod, int locationId);
 
         void SaveWeathertoDB_AutoProcess();
+
+        Result GetForcastedRainPercentage(ForecastedRainPercentageDto forecastedRainPercentage);
 
     }
 }

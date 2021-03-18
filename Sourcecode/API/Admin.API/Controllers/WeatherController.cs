@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.Weather;
 using Strive.BusinessLogic;
 using Strive.BusinessLogic.Common;
@@ -68,6 +69,14 @@ namespace Admin.Api.Controllers
         private string Pick(string section, string name)
         {
             return _configuration.GetSection("StriveAdminSettings:" + section)[name] ?? string.Empty;
+        }
+
+        [HttpPost]
+        [Route("GetForcastedRainTemperature")]
+        public Result GetForcastedRainPercentage([FromBody]ForecastedRainPercentageDto forecastedRainPercentage)
+        {
+
+            return _weatherBpl.GetForcastedRainPercentage(forecastedRainPercentage);
         }
     }
 }
