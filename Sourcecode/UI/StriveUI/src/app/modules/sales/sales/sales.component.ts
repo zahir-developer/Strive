@@ -778,6 +778,8 @@ export class SalesComponent implements OnInit {
             this.washes.forEach(wash => {
               washCost = washCost + wash.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
               washDiscountPrice = washDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
@@ -788,6 +790,8 @@ export class SalesComponent implements OnInit {
             this.details.forEach(detail => {
               detailCost = detailCost + detail.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
               detailDiscountPrice = detailDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
@@ -798,6 +802,8 @@ export class SalesComponent implements OnInit {
             this.additionalService.forEach(additional => {
               additionalCost = additionalCost + additional.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
               additionalDiscountPrice = additionalDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
@@ -808,6 +814,8 @@ export class SalesComponent implements OnInit {
             this.airfreshnerService.forEach(airFreshner => {
               airfreshnerCost = airfreshnerCost + airFreshner.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
               airfreshnerDiscountPrice = airfreshnerDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
@@ -818,6 +826,8 @@ export class SalesComponent implements OnInit {
             this.outsideServices.forEach(outside => {
               outsideCost = outsideCost + outside.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
               outsideDiscountPrice = outsideDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
@@ -828,6 +838,8 @@ export class SalesComponent implements OnInit {
             this.upCharges.forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
               upchargeDiscountPrice = upchargeDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
@@ -837,8 +849,9 @@ export class SalesComponent implements OnInit {
           } else if (item.DiscountServiceType === null) {
             noServiceTypePrice = noServiceTypePrice + item.Price;
           }
-        } else if (item.DiscountServiceType === null) {
-          noServiceTypePrice = noServiceTypePrice + item.Price;
+        } else if (item.DiscountServiceType === null || +item.DiscountServiceType === 0) {
+          item.Price = String(item.Price).replace('-', '');
+          noServiceTypePrice = noServiceTypePrice + (+item.Price);
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
           + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice;
@@ -880,7 +893,7 @@ export class SalesComponent implements OnInit {
     this.discountList = this.discountList.filter(item => item.ServiceId !== +event.ServiceId);
     let discountAmount = 0;
     this.selectedDiscount.forEach(item => {
-      discountAmount = discountAmount + (+item.Cost);
+      discountAmount = discountAmount + (+item.Price);
     });
     this.discountAmount = discountAmount;
   }
