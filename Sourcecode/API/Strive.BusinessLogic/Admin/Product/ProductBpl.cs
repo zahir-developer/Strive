@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Product;
 using Strive.BusinessLogic.Document;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -17,10 +18,14 @@ namespace Strive.BusinessLogic
     {
         public ProductBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public Result AddProduct(Product product)
+        public Result AddProduct(ProductAddDto product)
         {
             string error = string.Empty;
-            (error, product.FileName, product.ThumbFileName) = UploadImage(product.Base64, product.FileName);
+            foreach (var item in product.Product)
+            {
+                 (error, item.FileName, item.ThumbFileName) = UploadImage(item.Base64, item.FileName);
+            }
+           
 
             if (error == string.Empty)
             {

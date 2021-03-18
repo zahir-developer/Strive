@@ -18,9 +18,9 @@ namespace Strive.ResourceAccess
     {
         public ProductRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddProduct(Product product)
+        public bool AddProduct(ProductAddDto product)
         {
-            return dbRepo.Insert(product);
+            return dbRepo.InsertPc(product.Product,"ProductId");
         }
 
         public bool UpdateProduct(Product product)
