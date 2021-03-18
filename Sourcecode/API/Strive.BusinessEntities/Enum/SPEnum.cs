@@ -472,6 +472,7 @@ namespace Strive.BusinessEntities
         uspGetClientAndVehicle,
         uspGetMembershipListByVehicleId,
         USPGETWASHTIMEBYLOCATIONID,
+        uspGetAllLocationWashTime,
 
 
         USPGETTICKETNUMBER,
