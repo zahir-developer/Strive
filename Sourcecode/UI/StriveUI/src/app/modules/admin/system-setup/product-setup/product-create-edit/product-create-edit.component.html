@@ -34,11 +34,12 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputLocation">Location<span class="required">*</span></label>
-            <select class="form-control" formControlName="locationName" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
-                <option value="" selected hidden>Choose </option>
-                <option *ngFor="let location of locationName" value="{{location.LocationId}}">
-                    {{location.LocationName}}</option>
-            </select>
+            <ng-multiselect-dropdown [placeholder]="'Select Location'"
+            [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }"
+            [disabled]="isEdit"
+            [settings]="dropdownSettings" [data]="location" formControlName="locationName">
+        </ng-multiselect-dropdown>
+           
             <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
                 <div *ngIf="f.locationName.errors.required">Name is required</div>
             </div>
