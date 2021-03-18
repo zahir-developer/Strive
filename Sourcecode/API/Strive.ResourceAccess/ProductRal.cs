@@ -20,7 +20,7 @@ namespace Strive.ResourceAccess
 
         public bool AddProduct(ProductAddDto product)
         {
-            return dbRepo.InsertPc(product.Product,"ProductId");
+            return dbRepo.InsertPc(product,"ProductId");
         }
 
         public bool UpdateProduct(Product product)
