@@ -23,9 +23,9 @@ namespace Strive.ResourceAccess
     {
         public ClientRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool InsertClientDetails(ClientDto client)
+        public int InsertClientDetails(ClientDto client)
         {
-            return dbRepo.InsertPc(client, "ClientId");
+            return dbRepo.InsertPK(client, "ClientId");
         }
         public bool UpdateClientVehicle(ClientDto client)
         {
