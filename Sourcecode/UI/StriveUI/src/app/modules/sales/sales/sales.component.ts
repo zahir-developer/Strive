@@ -20,6 +20,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { SaleGiftCardComponent } from './sale-gift-card/sale-gift-card.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { PaymentProcessComponent } from 'src/app/shared/components/payment-process/payment-process.component';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -913,8 +914,18 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total paid amount not matching with Total amount.' });
       return;
     }
-    if (this.ticketNumberGeneration == false) {
+    if (this.ticketNumberGeneration === false) {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber});
+      return;
+    }
+
+    if (this.credit !== 0) {
+      const ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'sm'
+      };
+      const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
       return;
     }
   
