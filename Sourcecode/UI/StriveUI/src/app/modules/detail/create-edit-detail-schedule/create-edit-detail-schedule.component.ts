@@ -99,6 +99,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   body: string;
   header: string;
   title: string;
+  generatedClientId: any;
+  selectclient: { id: any; name: string; };
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -1156,6 +1158,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     this.client.addClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
+        const id = JSON.parse(data.resultData)
+        this.generatedClientId = id?.Status[0];
+        this.getClientById(this.generatedClientId)
         this.toastr.success(MessageConfig.Client.Add, 'Success');
         this.closePopupEmitClient();
       } else {
@@ -1164,7 +1169,30 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       }
     });
   }
-
+  getClientById(id) {
+    this.spinner.show();
+    this.client.getClientById(id).subscribe(res => {
+      this.spinner.hide();
+      if (res.status === 'Success') {
+        const clientDetail = JSON.parse(res.resultData);
+        const selectedclient = clientDetail.Status[0];
+        this.selectclient= 
+    { id: selectedclient.ClientId,
+       name:selectedclient.FirstName + ' ' + selectedclient.LastName
+      }
+       
+       this.detailForm.patchValue({
+     
+      client: this.selectclient
+  
+     })
+     
+    this.selectedClient(this.selectclient)
+       
+    
+   } 
+    }) 
+  }
   assignEmployee() {
     this.showDialog = true;
   }

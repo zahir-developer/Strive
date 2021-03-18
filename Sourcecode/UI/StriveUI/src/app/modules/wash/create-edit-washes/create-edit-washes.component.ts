@@ -81,6 +81,7 @@ export class CreateEditWashesComponent implements OnInit {
   airFreshenerId: any;
   additionalId: any;
   selectclient: any;
+  generatedClientId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
     private landingservice: LandingService,
@@ -95,15 +96,6 @@ export class CreateEditWashesComponent implements OnInit {
     this.getJobStatus();
     this.isPrint = false;
     this.formInitialize();
-    // this.washForm.patchValue({
-     
-    //   client: { id: 1547, name: 'A ULMAN' }
-  
-    // })
-    // this.selectclient= 
-    // { id: 1547,
-    //    name: 'A ULMAN' }
-    // this.selectedClient(this.selectclient)
     this.timeInDate = new Date();
     this.Score = [{ CodeId: 1, CodeValue: "None" }, { CodeId: 2, CodeValue: "Option1" }, { CodeId: 3, CodeValue: "Option2" }];
     if (this.isView === true) {
@@ -855,6 +847,9 @@ export class CreateEditWashesComponent implements OnInit {
     }
     this.client.addClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
+        const id = JSON.parse(data.resultData)
+        this.generatedClientId = id?.Status[0];
+        this.getClientById(this.generatedClientId )
         this.toastr.success(MessageConfig.Client.Add, 'Success!');
         this.closePopupEmitClient();
       } else {
@@ -863,7 +858,30 @@ export class CreateEditWashesComponent implements OnInit {
       }
     });
   }
-
+  getClientById(id) {
+    this.spinner.show();
+    this.client.getClientById(id).subscribe(res => {
+      this.spinner.hide();
+      if (res.status === 'Success') {
+        const clientDetail = JSON.parse(res.resultData);
+        const selectedclient = clientDetail.Status[0];
+        this.selectclient= 
+    { id: selectedclient.ClientId,
+       name:selectedclient.FirstName + ' ' + selectedclient.LastName
+      }
+       
+       this.washForm.patchValue({
+     
+      client: this.selectclient
+  
+     })
+     
+    this.selectedClient(this.selectclient)
+       
+    
+   } 
+    }) 
+  }
   getJobStatus() {
     const jobStatus = this.codeValueService.getCodeValueByType('JobStatus');
     if (jobStatus.length > 0) {
