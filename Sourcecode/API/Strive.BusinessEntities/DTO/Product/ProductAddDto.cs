@@ -6,7 +6,7 @@ namespace Strive.BusinessEntities.ViewModel.Product
 {
     public class ProductAddDto
     {
-        public List<Model.Product> Product { get; set; }
+        public List<ProductsDto> Product { get; set; }
 
     }
 }

@@ -23,10 +23,9 @@ namespace Strive.BusinessLogic
             string error = string.Empty;
             foreach (var item in product.Product)
             {
-                 (error, item.FileName, item.ThumbFileName) = UploadImage(item.Base64, item.FileName);
+                    (error, item.Product.FileName, item.Product.ThumbFileName) = UploadImage(item.Product.Base64, item.Product.FileName);
+                
             }
-           
-
             if (error == string.Empty)
             {
                 return ResultWrap(new ProductRal(_tenant).AddProduct, product, "Status");

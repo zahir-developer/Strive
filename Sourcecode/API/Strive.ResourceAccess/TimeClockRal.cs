@@ -91,9 +91,10 @@ namespace Strive.ResourceAccess
 
         }
 
-        public List<TimeClockEmployeeDetailViewModel> GetClockedInDetailer(DateTime date)
+        public List<TimeClockEmployeeDetailViewModel> GetClockedInDetailer(TimeClockLocationDto timeclock)
         {
-            _prm.Add("DateTime", date);
+            _prm.Add("DateTime", timeclock.Date);
+            _prm.Add("DateTime", timeclock.LocationId);
             return db.Fetch<TimeClockEmployeeDetailViewModel>(EnumSP.ClockTime.USPGETCLOCKEDINDETAILER.ToString(), _prm);
         }                                                     
         
