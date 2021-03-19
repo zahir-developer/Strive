@@ -42,8 +42,8 @@ export class SalesService {
  rollback(ticketNo) {
   return this.http.delete(`${UrlConfig.sales.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
  }
- getServiceAndProduct() {
-  return this.http.get(`${UrlConfig.sales.getServiceAndProduct}`);
+ getServiceAndProduct(locID) {
+  return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locID);
  }
  updateProductItem(updateObj) {
   return this.http.post(`${UrlConfig.sales.updateProductObj}`, updateObj);

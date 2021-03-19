@@ -153,7 +153,8 @@ export class SalesComponent implements OnInit {
   }
 
   getAllServiceandProduct() {
-    this.salesService.getServiceAndProduct().subscribe(data => {
+    const locID = +localStorage.getItem('empLocationId');
+    this.salesService.getServiceAndProduct(locID).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
@@ -881,11 +882,17 @@ export class SalesComponent implements OnInit {
         return;
       }
     }
-    this.discounts.forEach(item => {
-      if (item.ServiceId === +event.target.value) {
-        this.selectedDiscount.push(item);
+    for ( const i of this.discounts ) {
+      if (i.ServiceId === +event.target.value) {
+        if (i.DiscountServiceType === 0 || i.DiscountServiceType === null) {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Discount Service & Discount Type'});
+          this.discount = '';
+          return;
+        } else {
+          this.selectedDiscount.push(i);
+        }
       }
-    });
+    }
   }
 
   deletediscount(event) {
