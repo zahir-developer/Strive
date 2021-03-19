@@ -103,9 +103,11 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public ServiceAndProductViewModel GetServicesAndProduct()
+        public ServiceAndProductViewModel GetServicesAndProduct( int id)
         {
-            return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
+
+            _prm.Add("@LocationId", id);
+            return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), _prm);
         }
 
         public bool UpdateJobPayement(int? jobId, int jobPaymentid)
