@@ -7,6 +7,8 @@ import { LocationService } from 'src/app/shared/services/data-service/location.s
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -37,6 +39,10 @@ export class ProductCreateEditComponent implements OnInit {
   base64Value = '';
   IsOtherSize: number;
   sizeId: number;
+  dropdownSettings: IDropdownSettings = {};
+  location: any;
+  productSetupList: any = [];
+
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -44,30 +50,37 @@ export class ProductCreateEditComponent implements OnInit {
     private product: ProductService,
     private getCode: GetCodeService,
     private spinner: NgxSpinnerService,
-    private codeService: CodeValueService
+    private codeService: CodeValueService,
+    private employeeService: EmployeeService
   ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
     this.textDisplay = false;
     this.getProductType();
-    this.getAllLocation();
     this.getAllVendor();
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
+    this.getLocation();
     if (this.isEdit === true) {
       this.productSetupForm.reset();
       this.getProductById();
       this.getSize();
+      this.productSetupForm.controls.locationName.disable();
+
+    }
+    else{
+      this.productSetupForm.controls.locationName.enable();
+
     }
   }
 
   formInitialize() {
     this.productSetupForm = this.fb.group({
       productType: ['', Validators.required],
-      locationName: ['', Validators.required],
+      locationName: [[], Validators.required],
       name: ['', Validators.required],
       size: ['',],
       quantity: ['',],
@@ -95,6 +108,31 @@ export class ProductCreateEditComponent implements OnInit {
       this.prodType = prodTypeCodes;
     }
     
+  }
+
+  getLocation() {
+    this.employeeService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+        this.location = this.location.map(item => {
+          return {
+            id: item.LocationId,
+            name: item.LocationName
+          };
+        });
+        this.dropdownSettings = {
+          singleSelection: false,
+          defaultOpen: false,
+          idField: 'id',
+          textField: 'name',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          itemsShowLimit: 3,
+          allowSearchFilter: false
+        };
+      }
+    });
   }
 
   // Get Size
@@ -214,35 +252,53 @@ export class ProductCreateEditComponent implements OnInit {
       }
       return;
     }
-    this.productSetupForm.controls.status.enable();
     const formObj = {
-      productCode: null,
-      productDescription: null,
-      productType: this.productSetupForm.value.productType,
-      productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-      locationId: this.productSetupForm.value.locationName,
-      productName: this.productSetupForm.value.name,
-      fileName: this.fileName,
-      OriginalFileName: this.fileName,
-      thumbFileName: this.fileThumb,
-      base64: this.fileUploadformData,
-      cost: this.productSetupForm.value.cost,
-      isTaxable: this.isChecked,
-      taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
-      size: this.productSetupForm.value.size,
-      sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
-      quantity: this.productSetupForm.value.quantity,
-      quantityDescription: null,
-      isActive: this.productSetupForm.value.status === 0 ? true : false,
-      vendorId: this.productSetupForm.value.vendor,
-      thresholdLimit: this.productSetupForm.value.thresholdAmount,
-      isDeleted: false,
-      createdBy: this.employeeId,
-      createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-      updatedBy: this.employeeId,
-      updatedDate: new Date(),
-      price: this.productSetupForm.value.suggested
+    
+      Product : this.productSetupList
+     
     };
+    if(this.productSetupForm.value.locationName){
+      this.productSetupForm.value.locationName.map(item => {
+      
+        this.productSetupList.push(
+       {
+        productCode: null,
+        productDescription: null,
+        productType: this.productSetupForm.value.productType,
+        productId: this.isEdit ? this.selectedProduct.ProductId : 0,
+        locationId: item.id,
+        productName: this.productSetupForm.value.name,
+        fileName: this.fileName,
+        OriginalFileName: this.fileName,
+        thumbFileName: this.fileThumb,
+        base64: this.fileUploadformData,
+        cost: this.productSetupForm.value.cost,
+        isTaxable: this.isChecked,
+        taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
+        size: this.productSetupForm.value.size,
+        sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
+        quantity: this.productSetupForm.value.quantity,
+        quantityDescription: null,
+        isActive: this.productSetupForm.value.status === 0 ? true : false,
+        vendorId: this.productSetupForm.value.vendor,
+        thresholdLimit: this.productSetupForm.value.thresholdAmount,
+        isDeleted: false,
+        createdBy: this.employeeId,
+        createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
+        updatedBy: this.employeeId,
+        updatedDate: new Date(),
+        price: this.productSetupForm.value.suggested
+          }
+        )
+
+
+        }
+        
+        )
+    }
+
+    this.productSetupForm.controls.status.enable();
+   
     if (this.isEdit === true) {
       this.spinner.show();
       this.product.updateProduct(formObj).subscribe(data => {
