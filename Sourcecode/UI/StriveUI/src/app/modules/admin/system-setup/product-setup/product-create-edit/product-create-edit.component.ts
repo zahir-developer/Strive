@@ -71,7 +71,7 @@ export class ProductCreateEditComponent implements OnInit {
       this.productSetupForm.controls.locationName.disable();
 
     }
-    else{
+    else {
       this.productSetupForm.controls.locationName.enable();
 
     }
@@ -107,7 +107,7 @@ export class ProductCreateEditComponent implements OnInit {
     if (prodTypeCodes.length > 0) {
       this.prodType = prodTypeCodes;
     }
-    
+
   }
 
   getLocation() {
@@ -121,18 +121,22 @@ export class ProductCreateEditComponent implements OnInit {
             name: item.LocationName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'id',
-          textField: 'name',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropdownSetting();
       }
     });
+  }
+
+  dropdownSetting() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: false
+    };
   }
 
   // Get Size
@@ -148,10 +152,17 @@ export class ProductCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
         this.Vendor = vendor.Vendor;
+        this.Vendor = this.Vendor.map(item => {
+          return {
+            id: item.VendorId,
+            name: item.VendorName
+          };
+        });
+        this.dropdownSetting();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    })
+    });
   }
   // Get All Location
   getAllLocation() {
@@ -253,52 +264,46 @@ export class ProductCreateEditComponent implements OnInit {
       return;
     }
     const formObj = {
-    
-      Product : this.productSetupList
-     
+      Product: this.productSetupList
     };
-    if(this.productSetupForm.value.locationName){
+
+    if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
       this.productSetupForm.value.locationName.map(item => {
-      
-        this.productSetupList.push(
-       {
-        productCode: null,
-        productDescription: null,
-        productType: this.productSetupForm.value.productType,
-        productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-        locationId: item.id,
-        productName: this.productSetupForm.value.name,
-        fileName: this.fileName,
-        OriginalFileName: this.fileName,
-        thumbFileName: this.fileThumb,
-        base64: this.fileUploadformData,
-        cost: this.productSetupForm.value.cost,
-        isTaxable: this.isChecked,
-        taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
-        size: this.productSetupForm.value.size,
-        sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
-        quantity: this.productSetupForm.value.quantity,
-        quantityDescription: null,
-        isActive: this.productSetupForm.value.status === 0 ? true : false,
-        vendorId: this.productSetupForm.value.vendor,
-        thresholdLimit: this.productSetupForm.value.thresholdAmount,
-        isDeleted: false,
-        createdBy: this.employeeId,
-        createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-        updatedBy: this.employeeId,
-        updatedDate: new Date(),
-        price: this.productSetupForm.value.suggested
-          }
-        )
-
-
-        }
-        
-        )
+        this.productSetupForm.value.vendor.forEach( vendor => {
+          this.productSetupList.push({
+            productCode: null,
+            productDescription: null,
+            productType: this.productSetupForm.value.productType,
+            productId: this.isEdit ? this.selectedProduct.ProductId : 0,
+            locationId: item.id,
+            productName: this.productSetupForm.value.name,
+            fileName: this.fileName,
+            OriginalFileName: this.fileName,
+            thumbFileName: this.fileThumb,
+            base64: this.fileUploadformData,
+            cost: this.productSetupForm.value.cost,
+            isTaxable: this.isChecked,
+            taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
+            size: this.productSetupForm.value.size,
+            sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
+            quantity: this.productSetupForm.value.quantity,
+            quantityDescription: null,
+            isActive: this.productSetupForm.value.status === 0 ? true : false,
+            vendorId: vendor.id,
+            thresholdLimit: this.productSetupForm.value.thresholdAmount,
+            isDeleted: false,
+            createdBy: this.employeeId,
+            createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
+            updatedBy: this.employeeId,
+            updatedDate: new Date(),
+            price: this.productSetupForm.value.suggested
+          });
+        });
+      });
     }
 
     this.productSetupForm.controls.status.enable();
-   
+
     if (this.isEdit === true) {
       this.spinner.show();
       this.product.updateProduct(formObj).subscribe(data => {
