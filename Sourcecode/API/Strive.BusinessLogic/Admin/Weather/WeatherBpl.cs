@@ -190,10 +190,10 @@ namespace Strive.BusinessLogic
             return decimal.Round((celsius * 9 / 5) + 32);
         }
 
-        public Result GetForcastedRainPercentage(ForecastedRainPercentageDto forecastedRainPercentage)
+        public Result GetForcastedCarEmployeehours(ForecastedRainPercentageDto forecastedRainPercentage)
         {
 
-            return ResultWrap(new WeatherRal(_tenant).GetForcastedRainPercentage, forecastedRainPercentage, "ForecastedRainpercentage");
+            return ResultWrap(new WeatherRal(_tenant).GetForcastedCarEmployeehours, forecastedRainPercentage, "ForecastedRainpercentage");
         }
     }
 

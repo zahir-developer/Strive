@@ -18,7 +18,7 @@ namespace Strive.BusinessLogic.Weather
 
         void SaveWeathertoDB_AutoProcess();
 
-        Result GetForcastedRainPercentage(ForecastedRainPercentageDto forecastedRainPercentage);
+        Result GetForcastedCarEmployeehours(ForecastedRainPercentageDto forecastedRainPercentage);
 
     }
 }

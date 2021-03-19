@@ -53,7 +53,7 @@ namespace Strive.ResourceAccess
 
             return WeatherPredictionId > 0;
         }
-        public List<WeatherPredictions> GetForcastedRainPercentage(ForecastedRainPercentageDto forecastedRainPercentage)
+        public List<ForcastedCarEmployeehoursViewModel> GetForcastedCarEmployeehours(ForecastedRainPercentageDto forecastedRainPercentage)
         {
 
             DateTime lastMonth = forecastedRainPercentage.Date.AddMonths(-1).Date;
@@ -66,7 +66,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
             _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
 
-            return db.Fetch<WeatherPredictions>(EnumSP.CashRegister.USPGETFORCASTEDRAINPERCENTAGE.ToString(), _prm);
+            return db.Fetch<ForcastedCarEmployeehoursViewModel>(EnumSP.CashRegister.USPGETFORCASTEDRAINPERCENTAGE.ToString(), _prm);
 
         }
     }

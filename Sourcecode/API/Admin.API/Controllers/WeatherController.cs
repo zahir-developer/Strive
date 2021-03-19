@@ -73,10 +73,10 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("GetForcastedRainTemperature")]
-        public Result GetForcastedRainPercentage([FromBody]ForecastedRainPercentageDto forecastedRainPercentage)
+        public Result GetForcastedCarEmployeehours([FromBody]ForecastedRainPercentageDto forecastedRainPercentage)
         {
 
-            return _weatherBpl.GetForcastedRainPercentage(forecastedRainPercentage);
+            return _weatherBpl.GetForcastedCarEmployeehours(forecastedRainPercentage);
         }
     }
 }

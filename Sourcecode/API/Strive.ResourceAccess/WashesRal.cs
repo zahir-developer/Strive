@@ -46,9 +46,18 @@ namespace Strive.ResourceAccess
         }
         public WashesDashboardViewModel GetDailyDashboard(WashesDashboardDto dashboard)
         {
+
+            DateTime lastMonth = dashboard.date.AddMonths(-1).Date;
+            DateTime lastweek = dashboard.date.AddDays(-7).Date;
+            DateTime lastThirdMonth = dashboard.date.AddMonths(-3).Date;
+
             _prm.Add("@LocationId",dashboard.id);
             _prm.Add("@CurrentDate",dashboard.date);
             _prm.Add("@JobType", dashboard.JobType);
+            //for forecasted car and employee
+            //_prm.Add("@lastweek", lastweek.ToString("yyyy-MM-dd"));
+            //_prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
+            //_prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
             var result =  db.FetchSingle<WashesDashboardViewModel>(SPEnum.USPGETWASHDASHBOARD.ToString(), _prm);
             return result;
         }
