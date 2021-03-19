@@ -52,9 +52,9 @@ namespace Admin.API.Controllers
 
        
 
-      [HttpGet]
+      [HttpPost]
         [Route("GetClockedInDetailer")]
-        public Result GetClockedInDetailer(TimeClockLocationDto timeclock) => _bplManager.GetClockedInDetailer(timeclock);
+        public Result GetClockedInDetailer([FromBody] TimeClockLocationDto timeclock) => _bplManager.GetClockedInDetailer(timeclock);
 
 
 
