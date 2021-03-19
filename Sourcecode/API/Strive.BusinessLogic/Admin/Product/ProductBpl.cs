@@ -21,14 +21,23 @@ namespace Strive.BusinessLogic
         public Result AddProduct(ProductAddDto product)
         {
             string error = string.Empty;
-            foreach (var item in product.Product)
+            var prodRal = new ProductRal(_tenant);
+            foreach (var prod in product.Product)
             {
-                    (error, item.Product.FileName, item.Product.ThumbFileName) = UploadImage(item.Product.Base64, item.Product.FileName);
-                
+                if (!string.IsNullOrEmpty(prod.Product.Base64))
+                    (error, prod.Product.FileName, prod.Product.ThumbFileName) = UploadImage(prod.Product.Base64, prod.Product.FileName);
+                if (prodRal.AddProduct(prod) > 0)
+                    continue;
+                else
+                {
+                    error = "Error inserting product.!";
+                    break;
+                }
             }
+
             if (error == string.Empty)
             {
-                return ResultWrap(new ProductRal(_tenant).AddProduct, product, "Status");
+                return ResultWrap(true, "Status", "Success");
             }
             else
             {
