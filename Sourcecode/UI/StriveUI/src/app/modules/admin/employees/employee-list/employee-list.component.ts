@@ -78,6 +78,8 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   edit(data) {
@@ -129,6 +131,8 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -144,7 +148,9 @@ export class EmployeeListComponent implements OnInit {
 
   confirmDelete(employeeDetail) {
     const id = employeeDetail.EmployeeId;
+    this.spinner.show();
     this.employeeService.deleteEmployee(id).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Employee.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
@@ -153,6 +159,9 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -183,6 +192,7 @@ export class EmployeeListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -193,6 +203,8 @@ export class EmployeeListComponent implements OnInit {
         const roles = JSON.parse(res.resultData);
         this.employeeRoles = roles.Codes;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -204,6 +216,9 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -215,6 +230,8 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -226,6 +243,9 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -237,6 +257,8 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -248,6 +270,8 @@ export class EmployeeListComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -279,6 +303,8 @@ export class EmployeeListComponent implements OnInit {
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

@@ -77,6 +77,8 @@ export class EmployeeCollisionComponent implements OnInit {
           this.setValue(detail);
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -102,6 +104,9 @@ export class EmployeeCollisionComponent implements OnInit {
         const dType = JSON.parse(data.resultData);
         this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === 'Collision')[0].CodeId;
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -110,6 +115,9 @@ export class EmployeeCollisionComponent implements OnInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -174,6 +182,9 @@ export class EmployeeCollisionComponent implements OnInit {
         } else {
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     } else {
       this.spinner.show();
@@ -185,6 +196,9 @@ export class EmployeeCollisionComponent implements OnInit {
         } else {
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     }
   }
@@ -203,6 +217,8 @@ export class EmployeeCollisionComponent implements OnInit {
           };
         });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -238,6 +254,9 @@ export class EmployeeCollisionComponent implements OnInit {
           this.collisionForm.patchValue({ vehicle: this.vehicleList[0].VehicleId });
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -247,6 +266,9 @@ export class EmployeeCollisionComponent implements OnInit {
         const make = JSON.parse(res.resultData);
         this.makeDropdownList = make.Codes;
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -256,6 +278,8 @@ export class EmployeeCollisionComponent implements OnInit {
         const model = JSON.parse(res.resultData);
         this.modelDropdownList = model.Codes;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -265,6 +289,9 @@ export class EmployeeCollisionComponent implements OnInit {
         const color = JSON.parse(res.resultData);
         this.colorDropdownList = color.Codes;
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

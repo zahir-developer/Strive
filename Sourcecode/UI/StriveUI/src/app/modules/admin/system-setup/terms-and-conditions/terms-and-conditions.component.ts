@@ -79,7 +79,9 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   confirmDelete(Id) {
+    this.spinner.show();
     this.documentService.deleteDocumentById(Id, 'TERMSANDCONDITION').subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.SystemSetup.TermsCondition.Delete, 'Success!');
         this.fileName = null;
@@ -87,6 +89,9 @@ export class TermsAndConditionsComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -119,6 +124,8 @@ export class TermsAndConditionsComponent implements OnInit {
           downloadLink.click();
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

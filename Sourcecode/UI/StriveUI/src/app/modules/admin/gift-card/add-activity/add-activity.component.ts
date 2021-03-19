@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-activity',
@@ -26,6 +27,7 @@ export class AddActivityComponent implements OnInit {
     private fb: FormBuilder,
     private giftCardService: GiftCardService,
     private toastr: ToastrService,
+    private spinner :NgxSpinnerService,
     private messageService: MessageServiceToastr
     ) { }
 
@@ -88,13 +90,18 @@ export class AddActivityComponent implements OnInit {
     const finalObj = {
       giftCardHistory: activityObj
     };
+    this.spinner.show();
     this.giftCardService.addCardHistory(finalObj).subscribe( res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.GiftCard.ActivityAdd, 'Success!');
         this.activeModal.close(true);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 

@@ -239,8 +239,9 @@ export class AdSetupCreateEditComponent implements OnInit {
           this.adSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
-        this.spinner.hide();
+      },  (err) => {
+this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
@@ -254,9 +255,10 @@ export class AdSetupCreateEditComponent implements OnInit {
           this.adSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     }
   }
   cancel() {

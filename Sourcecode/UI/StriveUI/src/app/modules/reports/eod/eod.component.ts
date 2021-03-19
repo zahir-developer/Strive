@@ -5,6 +5,8 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import * as moment from 'moment';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 
 @Component({
@@ -43,7 +45,8 @@ export class EodComponent implements OnInit, AfterViewInit {
     private cd: ChangeDetectorRef,
     private reportService: ReportsService,
     private excelService: ExcelService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -141,6 +144,8 @@ export class EodComponent implements OnInit, AfterViewInit {
           };
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -194,6 +199,8 @@ export class EodComponent implements OnInit, AfterViewInit {
                }
           
 
+        }, (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         })
         break;
       }
@@ -244,6 +251,7 @@ export class EodComponent implements OnInit, AfterViewInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getDailyStatusDetailInfo() {
@@ -258,7 +266,7 @@ export class EodComponent implements OnInit, AfterViewInit {
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
-
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -282,7 +290,7 @@ export class EodComponent implements OnInit, AfterViewInit {
         }
       }
     }, (err) => {
-
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -303,6 +311,8 @@ export class EodComponent implements OnInit, AfterViewInit {
         const saleReport = JSON.parse(res.resultData);
         this.salesReport = saleReport.GetEODSalesReport.EODSalesDetails;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

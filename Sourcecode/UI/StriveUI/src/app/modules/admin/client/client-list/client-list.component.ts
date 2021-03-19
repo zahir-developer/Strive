@@ -89,6 +89,7 @@ export class ClientListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -126,6 +127,8 @@ export class ClientListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   delete(data) {
@@ -141,7 +144,9 @@ export class ClientListComponent implements OnInit {
 
   // Delete Client
   confirmDelete(data) {
+    this.spinner.show();
     this.client.deleteClient(data.ClientId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Client.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
@@ -150,6 +155,9 @@ export class ClientListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
   closePopupEmit(event) {
@@ -197,6 +205,7 @@ export class ClientListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -240,6 +249,8 @@ export class ClientListComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

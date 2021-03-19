@@ -6,6 +6,7 @@ import { EmployeeCollisionComponent } from '../../employees/employee-collision/e
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-collision-list',
@@ -27,7 +28,8 @@ export class CollisionListComponent implements OnInit {
     private employeeService: EmployeeService,
     private modalService: NgbModal,
     private confirmationService: ConfirmationUXBDialogService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner : NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +74,8 @@ export class CollisionListComponent implements OnInit {
         }
         this.collistionGrid();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -90,13 +94,18 @@ export class CollisionListComponent implements OnInit {
 
   confirmDelete(collision) {
     const collisionId = collision.LiabilityId;
+    this.spinner.show();
     this.employeeService.deleteCollision(collisionId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Collision.Delete, 'Success!');
         this.employeeDetail();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -111,6 +120,9 @@ export class CollisionListComponent implements OnInit {
           this.collistionGrid();
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

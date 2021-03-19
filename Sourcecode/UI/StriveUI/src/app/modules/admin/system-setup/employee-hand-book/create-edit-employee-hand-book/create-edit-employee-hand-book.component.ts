@@ -98,7 +98,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    } ,  (err) => {
+                          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+                        });
   }
 
 
@@ -202,9 +204,12 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
-    }, (err) => {
+    } ,  
+    (err) => {
       this.spinner.hide();
-    });
+  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+      );
   }
 
   clearDocument() {

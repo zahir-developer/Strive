@@ -52,6 +52,8 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   formInitialize() {
@@ -155,6 +157,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

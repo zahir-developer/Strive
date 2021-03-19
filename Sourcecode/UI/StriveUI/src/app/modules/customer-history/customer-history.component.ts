@@ -4,6 +4,8 @@ import * as moment from 'moment';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { CheckoutService } from 'src/app/shared/services/data-service/checkout.service';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customer-history',
@@ -40,7 +42,8 @@ export class CustomerHistoryComponent implements OnInit {
   constructor(
     private checkout: CheckoutService,
     private router: Router
-    ,private landingservice:LandingService
+    ,private landingservice:LandingService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -109,6 +112,8 @@ export class CustomerHistoryComponent implements OnInit {
         this.historyList = history.CustomerHistory;
         this.collectionSize = Math.ceil(this.historyList.length / this.pageSize) * 10;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

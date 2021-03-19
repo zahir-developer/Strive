@@ -81,9 +81,9 @@ export class AdSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
+    },  (err) => {
       this.isLoading = false;
-      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -94,6 +94,9 @@ export class AdSetupListComponent implements OnInit {
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "Ads")[0].CodeId;
       } else {
       }
+    }
+    ,  (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   paginate(event) {
@@ -124,6 +127,9 @@ export class AdSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    ,  (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
 
 
@@ -141,13 +147,19 @@ export class AdSetupListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
+    this.spinner.show();
     this.adSetup.deleteAdSetup(data.AdSetupId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === "Success") {
         this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Delete, 'Success!');
         this.getAlladSetupDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    ,  (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -195,6 +207,9 @@ export class AdSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
 
+    }
+    ,  (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     })
   }
 

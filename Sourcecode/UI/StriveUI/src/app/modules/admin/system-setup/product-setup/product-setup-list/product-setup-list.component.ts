@@ -65,7 +65,8 @@ export class ProductSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.isLoading = false;
+this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -88,7 +89,8 @@ export class ProductSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.isLoading = false;
+this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
  
@@ -161,13 +163,18 @@ this.sorting(this.sortColumn)
 
   // Delete Product
   confirmDelete(data) {
+    this.spinner.show();
     this.productService.deleteProduct(data.ProductId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === "Success") {
         this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Delete, 'Success!');
         this.getAllproductSetupDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

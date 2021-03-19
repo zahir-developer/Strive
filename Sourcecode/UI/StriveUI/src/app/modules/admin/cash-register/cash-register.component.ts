@@ -129,8 +129,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-  }
+     }
 
   // Get CashInRegister By Date
   getCashRegister() {
@@ -157,15 +159,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
-          // const status = this.storeStatusList.filter(item => item.CodeId === +this.cashDetails.CashRegister.Status);
-          // let isOpen = false;
-          // if (status.length > 0) {
-          //   if (status[0].CodeValue === 'Open') {
-          //     isOpen = true;
-          //   } else {
-          //     isOpen = false;
-          //   }
-          // }
           this.storeStatus = this.cashDetails.CashRegister.StoreOpenCloseStatus !== null ?
            +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ?
@@ -226,17 +219,24 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         }
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
 
   // Get WeatherDetails
   getWeatherDetails = () => {
+    this.spinner.show();
     this.weatherService.data.subscribe((data: any) => {
+      this.spinner.hide();
       if (data !== undefined) {
         this.weatherDetails = data;
       }
-    });
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
+    }
+    );
   }
   getDocumentType() {
     this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
@@ -246,7 +246,11 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    );
   }
   // Add/Update CashInRegister
   submit() {
@@ -330,17 +334,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       checkinTime = this.storeTimeIn;
       checkoutTime = this.storeTimeOut;
     }
-
-    // const status = this.storeStatusList.filter(item => item.CodeId === +this.storeStatus);
-    // let isOpen = false;
-    // if (status.length > 0) {
-    //   if (status[0].CodeValue === 'Open') {
-    //     isOpen = true;
-    //   } else {
-    //     isOpen = false;
-    //   }
-    // }
-
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CahRegisterId,
@@ -375,6 +368,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
+      this.spinner.hide();
       this.submitted = false;
       if (data.status === 'Success') {
         this.spinner.hide();
@@ -399,7 +393,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
+    }
+    );
     this.toggleTab = 0;
   }
 
@@ -501,11 +500,15 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
         this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue === ApplicationConfig.storestatus.open);
-        console.log(dType, 'type');
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
+    }
+    );
   }
 
   inTime(event) {

@@ -7,6 +7,8 @@ declare var $: any;
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-daily-status',
   templateUrl: './daily-status.component.html',
@@ -35,7 +37,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   dailyStatusWashInfo: any;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef,
-              private datePipe: DatePipe, private spinner: NgxSpinnerService) {
+              private datePipe: DatePipe, private spinner: NgxSpinnerService,
+              private toastr : ToastrService) {
 
   }
 
@@ -72,6 +75,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   objConversion() {
@@ -149,6 +153,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getDailyStatusWashReport() {
@@ -175,6 +180,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getDailyStatusDetailInfo() {
@@ -192,7 +198,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
     }, (err) => {
-      this.spinner.show();
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   onLocationChange(event) {

@@ -66,9 +66,10 @@ export class MembershipListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
+    } ,(err) => {
       this.isLoading = false;
-    });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          });
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
@@ -147,14 +148,17 @@ export class MembershipListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
+    },(err) => {
       this.isLoading = false;
-    });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          });
   }
 
 
   delete(data) {
+    this.spinner.show();
     this.member.deleteRestrictionMembershipVehicle(data.MembershipId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         if (vehicle.VehicleMembershipByMembershipId == false ) {
@@ -177,22 +181,29 @@ export class MembershipListComponent implements OnInit {
   }
 
 
-});
+},(err) => {
+this.spinner.hide();
+  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
 
 
 }
 
   // Delete Membership
   confirmDelete(data) {
-    
+    this.spinner.show();
     this.member.deleteMembership(data.MembershipId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === "Success") {
         this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Delete,'Success');
         this.getAllMembershipDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    },(err) => {
+this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          });
   }
 
   closePopupEmit(event) {

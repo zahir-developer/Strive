@@ -5,6 +5,8 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 @Component({
   selector: 'app-monthly-sales',
@@ -34,7 +36,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   collectionSize: number;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private cd: ChangeDetectorRef,
-    private excelService: ExcelService, private spinner: NgxSpinnerService) { }
+    private excelService: ExcelService, private spinner: NgxSpinnerService,
+    private toastr : ToastrService) { }
 
   ngOnInit(): void {
     this.setMonth();
@@ -69,7 +72,10 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
           this.employeeListFilter(this.empCount);
         }
       }
-    }, (err) => { this.spinner.hide(); });
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
   count(action) {
     if (action === 'add') {

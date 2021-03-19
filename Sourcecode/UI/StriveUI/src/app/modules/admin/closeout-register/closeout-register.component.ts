@@ -189,6 +189,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         }
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -200,7 +201,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    );
   }
 
   // Add/Update CloseOutRegister
@@ -447,7 +451,11 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
-    });
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    
+    );
   }
 
   inTime(event) {

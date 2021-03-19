@@ -3,6 +3,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as _ from 'underscore';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-monthly-money-owned',
@@ -34,7 +36,8 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   constructor(
     private excelService: ExcelService,
     private reportsService: ReportsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -106,6 +109,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

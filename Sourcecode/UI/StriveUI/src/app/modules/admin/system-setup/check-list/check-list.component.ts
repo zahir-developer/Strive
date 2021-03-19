@@ -86,9 +86,10 @@ export class CheckListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
-      this.isLoading = false;
-    });
+    },  (err) => {
+     this.isLoading = false;
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
@@ -132,7 +133,10 @@ export class CheckListComponent implements OnInit {
           allowSearchFilter: false
         };
       }
-    });
+    }
+    ,  (err) => {
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
   delete(data) {
     this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this Check List? All related 
@@ -147,14 +151,19 @@ export class CheckListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
+    this.spinner.show();
     this.checkListSetup.deleteCheckListSetup(data.ChecklistId).subscribe(res => {
+      this.spinner.hide()
       if (res.status === "Success") {
         this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Delete, 'Success!');
         this.getAllcheckListDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    },  (err) => {
+      this.spinner.hide();
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
   add(data, serviceDetails?) {
     if (data === 'add') {
@@ -217,9 +226,10 @@ export class CheckListComponent implements OnInit {
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
         }
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     } else {
       this.spinner.show();
       this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
@@ -233,9 +243,10 @@ export class CheckListComponent implements OnInit {
         } else {
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     }
   }
   sort(property) {

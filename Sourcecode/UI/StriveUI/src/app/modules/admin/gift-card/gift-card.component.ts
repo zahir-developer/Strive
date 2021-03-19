@@ -93,6 +93,7 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
 
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -118,6 +119,8 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
         const cardHistory = JSON.parse(res.resultData);
         this.giftCardHistory = cardHistory.GiftCardHistory;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -152,6 +155,8 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -178,6 +183,8 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
       if (res.status === 'Success') {
         this.getAllGiftCardHistory(card.GiftCardId);
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -216,6 +223,8 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
           this.totalAmount = balanceAmount;
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

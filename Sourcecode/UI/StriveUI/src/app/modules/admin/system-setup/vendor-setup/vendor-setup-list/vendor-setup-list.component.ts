@@ -66,7 +66,8 @@ export class VendorSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.isLoading = false;
+     this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
  
@@ -131,7 +132,8 @@ export class VendorSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.isLoading = false;
+     this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   paginate(event) {
@@ -161,13 +163,18 @@ export class VendorSetupListComponent implements OnInit {
 
   // Delete Vendor
   confirmDelete(data) {
+    this.spinner.show();
     this.vendorService.deleteVendor(data.VendorId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === "Success") {
         this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Delete, 'Success!');
         this.getAllvendorSetupDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   closePopupEmit(event) {

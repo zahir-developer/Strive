@@ -123,6 +123,7 @@ export class TimeClockWeekComponent implements OnInit {
         }
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -278,11 +279,16 @@ export class TimeClockWeekComponent implements OnInit {
        employeeName : this.empClockInObj.firstName + ' ' + this.empClockInObj.lastName
       }
     };
+    this.spinner.show();
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.backToTimeClockPage();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 

@@ -14,6 +14,8 @@ import { threadId } from 'worker_threads';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 @Component({
@@ -66,7 +68,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     private scheduleService: ScheduleService,
     private employeeService: EmployeeService,
     private spinner: NgxSpinnerService,
-    private detailService: DetailService
+    private detailService: DetailService,
+    private toastr: ToastrService
   ) {
     this.dateTime = new Date();
   }
@@ -206,6 +209,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.empList = JSON.parse(data.resultData);
         this.setBoolean();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -225,6 +230,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   // Save Schedule
@@ -270,7 +277,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     const scheduleObj = {
       schedule
     };
+    this.spinner.show();
     this.scheduleService.saveSchedule(scheduleObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
         $('#calendarModal').modal('hide');
@@ -331,6 +340,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.removeDraggedEvent();
         this.retainUnclickedEvent();
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
   // Retain Unclicked EmployeeList
@@ -368,10 +381,14 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   // Delete Event
   deleteEvent(event) {
+    
     this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
       if (data.status === 'Success') {
         this.getSchedule();
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -389,6 +406,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
           });
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -419,6 +439,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
       }
 
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   splitEmpName(event) {
@@ -486,6 +509,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }

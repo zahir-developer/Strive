@@ -7,6 +7,7 @@ import { ViewDocumentComponent } from '../../employees/view-document/view-docume
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-document-list',
@@ -25,6 +26,7 @@ export class DocumentListComponent implements OnInit {
   employeeDocument = [];
   constructor(
     private modalService: NgbModal,
+    private spinner : NgxSpinnerService,
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
     private toastr: ToastrService
@@ -51,6 +53,9 @@ export class DocumentListComponent implements OnInit {
           this.documentList = employees.Employee.EmployeeDocument;
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -84,6 +89,9 @@ export class DocumentListComponent implements OnInit {
         const document = JSON.parse(res.resultData);
         this.documentList = document.GetAllDocuments;
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -102,13 +110,19 @@ export class DocumentListComponent implements OnInit {
 
   confirmDelete(documentList) {
     const docId = documentList.EmployeeDocumentId;
+    this.spinner.show();
     this.employeeService.deleteDocument(docId).subscribe( res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Document.Delete, 'Success!');
         this.employeeDetail();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -143,6 +157,8 @@ export class DocumentListComponent implements OnInit {
         downloadLink.download = fileName;
         downloadLink.click();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

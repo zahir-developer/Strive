@@ -3,6 +3,8 @@ import { LocalStorage } from '@ng-idle/core';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-messenger-employee-list',
@@ -19,7 +21,8 @@ export class MessengerEmployeeListComponent implements OnInit {
   @Output() recentlyMsgSent = new EventEmitter();
   employeeId: number = +localStorage.getItem('empId');
   selectedClass: string;
-  constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
+  constructor(private msgService: MessengerService, private signalrService: SignalRService,
+    private toastr : ToastrService) { }
   ngOnInit(): void {
     this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
@@ -38,6 +41,8 @@ export class MessengerEmployeeListComponent implements OnInit {
           this.setCommunicationId();
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getRecentChatHistory(employeeId) {
@@ -52,6 +57,8 @@ export class MessengerEmployeeListComponent implements OnInit {
           this.setUnreadMsgFlag();
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   setUnreadMsgFlag() {

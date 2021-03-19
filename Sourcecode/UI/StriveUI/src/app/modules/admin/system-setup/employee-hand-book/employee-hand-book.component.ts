@@ -77,7 +77,9 @@ export class EmployeeHandBookComponent implements OnInit {
       .catch(() => { });
   }
   confirmDelete(Id) {
+    this.spinner.show();
     this.documentService.deleteDocumentById(Id, 'EMPLOYEEHANDBOOK').subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Delete, 'Success!');
         this.fileName = null;
@@ -85,7 +87,11 @@ export class EmployeeHandBookComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    ,  (err) => {
+this.spinner.hide();
+             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+                  });
   }
   getDocumentType() {
     this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
@@ -96,7 +102,11 @@ export class EmployeeHandBookComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    ,  (err) => {
+this.spinner.hide();
+                    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+                  });
   }
   
   getDocument() {
@@ -134,7 +144,12 @@ export class EmployeeHandBookComponent implements OnInit {
           downloadLink.click();
         }
       }
-    });
+    },
+      (err) => {
+      this.spinner.hide();
+                          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+                        }
+    );
   }
   sort(property) {
     this.sortColumn ={
