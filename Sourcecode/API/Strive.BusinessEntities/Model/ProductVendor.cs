@@ -15,7 +15,6 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public int? VendorId { get; set; }
-        public int? VendorId { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
