@@ -64,9 +64,11 @@ export class LocationSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
-      this.isLoading = false;
-    });
+    },  
+    (err) => {
+     this.isLoading = false;
+  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   sort(property) {
     this.sortColumn ={
@@ -144,9 +146,11 @@ export class LocationSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
-      this.isLoading = false;
-    });
+    },  
+    (err) => {
+this.isLoading = false;
+  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   delete(data) {
@@ -162,14 +166,21 @@ export class LocationSetupListComponent implements OnInit {
 
   // Delete location
   confirmDelete(data) {
+    this.spinner.show();
     this.locationService.deleteLocation(data.LocationId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Delete, 'Success!');
         this.getAllLocationSetupDetails();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    ,  
+    (err) => {
+      this.spinner.hide();
+  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -204,9 +215,11 @@ export class LocationSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
+    },  
+    (err) => {
       this.spinner.hide();
-    });
+  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
  
 }

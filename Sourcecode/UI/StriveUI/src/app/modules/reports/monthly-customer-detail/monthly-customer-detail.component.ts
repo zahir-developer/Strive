@@ -7,6 +7,8 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 declare var $: any;
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-monthly-customer-detail',
   templateUrl: './monthly-customer-detail.component.html',
@@ -25,6 +27,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
   fileType: number;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private datePipe: DatePipe,
+    private toastr : ToastrService,
               private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -58,7 +61,10 @@ export class MonthlyCustomerDetailComponent implements OnInit {
     }, (err) => {
       this.selectedDate = this.month + '/' + this.year;
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
     });
+    
   }
   customizeObject() {
     if (this.customerDetailReport.length > 0) {

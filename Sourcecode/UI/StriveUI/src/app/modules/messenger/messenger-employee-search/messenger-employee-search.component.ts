@@ -23,7 +23,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   @Input() popupType: any = '';
   chatGroupId : number;
   constructor(private empService: EmployeeService, private messengerService: MessengerService,
-    private messageService: ToastrService) { }
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     $('#getGroupName').hide();
@@ -68,6 +68,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
         this.setDefaultBoolean(false);
         this.setName();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   setName() {
@@ -98,7 +100,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     this.groupname = '';
     const selectedEmp = this.getSelectedEmp();
     if (selectedEmp.length === 0) {
-      this.messageService.success(MessageConfig.Messenger.empselect, 'Success!');
+      this.toastr.success(MessageConfig.Messenger.empselect, 'Success!');
       return;
     } else if (this.popupType === 'newChat') {
       if (selectedEmp.length === 1) {
@@ -228,6 +230,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
             this.emitRefreshGroupUsers.emit(groupObject.Result.ChatGroupId);
           }
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
 
     }

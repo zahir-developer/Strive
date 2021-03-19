@@ -4,6 +4,8 @@ import { ReportsService } from 'src/app/shared/services/data-service/reports.ser
 import * as moment from 'moment';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-monthly-tip',
   templateUrl: './monthly-tip.component.html',
@@ -28,6 +30,7 @@ export class MonthlyTipComponent implements OnInit {
   fileTypeEvent: boolean = false;
   constructor(
     private excelService: ExcelService,
+    private toastr : ToastrService,
     private reportService: ReportsService,
     private spinner: NgxSpinnerService) { }
 
@@ -57,6 +60,7 @@ export class MonthlyTipComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   export() {

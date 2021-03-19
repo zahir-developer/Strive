@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-time-clock-maintenance',
@@ -48,6 +49,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private uiLoaderService: NgxUiLoaderService,
     private datePipe: DatePipe,
+    private spinner : NgxSpinnerService,
   ) { }
 
   ngOnInit(): void {
@@ -156,6 +158,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
       else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -180,8 +184,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
       locationId: obj.LocationId,
       employeeId: obj.EmployeeId
     };
-
+this.spinner.show();
     this.timeClockMaintenanceService.deleteTimeClockEmployee(this.objDelete).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.TimeClock.Delete, 'Success!');
         this.sortColumn ={
@@ -193,6 +198,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
       else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -218,6 +226,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.EmployeeList.Employee;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -242,7 +252,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
     const finalObj = {
       timeClock: {timeClock:employeeListObj}
     };
+    this.spinner.show();
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.selectedEmployee = '';
@@ -252,6 +264,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
          }
         this.getTimeClockEmployeeDetails();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 

@@ -4,6 +4,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-deal-setup',
@@ -21,6 +22,7 @@ export class DealSetupComponent implements OnInit {
   actionType: string;
   constructor(
     private Deals: DealsService,
+    private spinner :NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
   ) { }
@@ -72,9 +74,10 @@ export class DealSetupComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
-      this.isLoading = false;
-    });
+    },  (err) => {
+this.isLoading = false;
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
 
   dealChange(event) {
@@ -118,11 +121,17 @@ export class DealSetupComponent implements OnInit {
     const finalObj = {
       deal : dealObj
     };
+    this.spinner.show();
     this.Deals.addDealsSetup(finalObj).subscribe( res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.getDeals();
       }
-    });
+    },
+      (err) => {
+      this.spinner.hide();
+       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
 
 

@@ -152,6 +152,7 @@ export class VendorCreateEditComponent implements OnInit {
         }
       }, (err) => {
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
@@ -163,6 +164,7 @@ export class VendorCreateEditComponent implements OnInit {
         }
       }, (err) => {
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }

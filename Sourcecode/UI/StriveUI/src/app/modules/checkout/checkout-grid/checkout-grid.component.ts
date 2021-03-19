@@ -93,6 +93,7 @@ export class CheckoutGridComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   paginate(event) {
@@ -169,6 +170,7 @@ export class CheckoutGridComponent implements OnInit {
           }
         }, (err) => {
           this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
       }
       else {
@@ -191,6 +193,8 @@ export class CheckoutGridComponent implements OnInit {
 
         this.getAllUncheckedVehicleDetails();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -206,6 +210,8 @@ export class CheckoutGridComponent implements OnInit {
 
           this.getAllUncheckedVehicleDetails();
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }

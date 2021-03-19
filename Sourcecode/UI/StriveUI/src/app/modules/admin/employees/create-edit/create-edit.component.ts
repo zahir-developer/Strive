@@ -121,6 +121,9 @@ export class CreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -133,6 +136,9 @@ export class CreateEditComponent implements OnInit {
           this.employeeData = employees.EmployeeDetail[0];
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getSelectedStateId(event) {
@@ -224,6 +230,8 @@ export class CreateEditComponent implements OnInit {
           allowSearchFilter: false
         };
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -235,6 +243,8 @@ export class CreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -260,6 +270,8 @@ export class CreateEditComponent implements OnInit {
           allowSearchFilter: false
         };
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

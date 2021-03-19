@@ -9,6 +9,8 @@ import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 @Component({
   selector: 'app-hourly-wash',
@@ -48,7 +50,8 @@ export class HourlyWashComponent implements OnInit {
     private reportsService: ReportsService,
     private excelService: ExcelService,
     private datePipe: DatePipe,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr :ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -228,6 +231,7 @@ export class HourlyWashComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

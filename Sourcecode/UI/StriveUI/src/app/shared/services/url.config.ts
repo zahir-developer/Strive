@@ -203,7 +203,7 @@ export const UrlConfig = {
     rollbackTransaction: `Admin/Sales/RollBackPayment`,
     deleteTransaction: `Admin/Sales/DeleteTransactions`,
     getAccountDetails: `Admin/Sales/GetAccountDetails`,
-    getServiceAndProduct: `Admin/Sales/GetAllServiceAndProductList`,
+    getServiceAndProduct: `Admin/Sales/GetAllServiceAndProductList/`,
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
@@ -214,6 +214,7 @@ export const UrlConfig = {
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`,
     getAvailablilityScheduleTime: `Admin/Dashboard/GetAvailablilityScheduleTime`,
+    GetAllLocationWashTime : `Admin/Washes/GetAllLocationWashTime/`,
 
   },
   dashboardStatice: {

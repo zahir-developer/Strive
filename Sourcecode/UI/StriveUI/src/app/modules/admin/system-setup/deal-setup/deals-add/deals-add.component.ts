@@ -173,9 +173,10 @@ export class DealsAddComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
-    }, (err) => {
+    },  (err) => {
       this.spinner.hide();
-    });
+     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
 
 }

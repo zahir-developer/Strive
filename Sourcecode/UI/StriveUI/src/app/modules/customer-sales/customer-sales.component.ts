@@ -19,6 +19,8 @@ import { SaleGiftCardComponent } from '../sales/sales/sale-gift-card/sale-gift-c
 import { EditItemComponent } from '../sales/sales/edit-item/edit-item.component';
 import { PrintComponent } from '../sales/sales/print/print.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 @Component({
   selector: 'app-customer-sales',
   templateUrl: './customer-sales.component.html',
@@ -69,7 +71,8 @@ export class CustomerSalesComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private codes: GetCodeService) { }
+    private route: ActivatedRoute, private codes: GetCodeService
+    ,private toastr: ToastrService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -142,6 +145,8 @@ export class CustomerSalesComponent implements OnInit {
         }
         this.serviceAndProduct = this.services.concat(this.products);
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   
@@ -153,6 +158,8 @@ export class CustomerSalesComponent implements OnInit {
           this.discounts = services.ServiceSetup.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
  
@@ -192,8 +199,10 @@ export class CustomerSalesComponent implements OnInit {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account[0];
           this.isAccount = this.accountDetails?.CodeValue !== 'Comp' ? this.accountDetails?.IsAccount : false;
-          console.log(this.accountDetails);
         }
+      }, (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
       this.spinner.show();
       this.salesService.getItemByTicketNumber(ticketNumber).subscribe(data => {
@@ -254,6 +263,7 @@ export class CustomerSalesComponent implements OnInit {
       }, (err) => {
         this.enableAdd = false;
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }

@@ -292,9 +292,10 @@ export class BonusSetupComponent implements OnInit {
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
         this.getBonusList();
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     } else {
       this.spinner.show();
       this.bonusSetupService.editBonus(finalObj).subscribe(res => {
@@ -305,9 +306,10 @@ export class BonusSetupComponent implements OnInit {
         } else {
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     }
   }
 

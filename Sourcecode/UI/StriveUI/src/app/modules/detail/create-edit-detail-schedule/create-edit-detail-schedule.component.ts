@@ -1212,8 +1212,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    const date = this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss ');
-    this.detailService.getClockedInDetailer(date).subscribe(res => {
+    const  timeclock = {
+        date : this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss '),
+        LocationId :   +localStorage.getItem('empLocationId')   
+    }
+      this.detailService.getClockedInDetailer(timeclock).subscribe(res => {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.result;
@@ -1226,12 +1229,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (jobStatus.length > 0) {
       this.jobStatus = jobStatus;
     }
-    // this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
-    //   if (res.status === 'Success') {
-    //     const status = JSON.parse(res.resultData);
-    //     this.jobStatus = status.Codes;
-    //   }
-    // });
   }
 
   getPastClientNotesById(clientID) {

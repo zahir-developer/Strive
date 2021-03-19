@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client-history',
@@ -19,7 +21,8 @@ export class ClientHistoryComponent implements OnInit {
   constructor(
     private activeModal: NgbActiveModal,
     private client: ClientService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +40,8 @@ export class ClientHistoryComponent implements OnInit {
         this.historyGrid = history.VehicleHistory;
         this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create-document',
@@ -28,6 +29,7 @@ export class CreateDocumentComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private toastr: ToastrService,
+    private spinner : NgxSpinnerService,
     private messageService: MessageServiceToastr
   ) { }
 
@@ -135,13 +137,18 @@ export class CreateDocumentComponent implements OnInit {
     const finalObj = {
       employeeDocument: documentObj
     };
+    this.spinner.show();
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Document.upload, 'Success!');
         this.activeModal.close(true);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -150,6 +157,8 @@ export class CreateDocumentComponent implements OnInit {
       if (res.status === 'Success') {
         const document = JSON.parse(res.resultData);
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

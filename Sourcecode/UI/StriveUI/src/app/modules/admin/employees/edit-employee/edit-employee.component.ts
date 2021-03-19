@@ -10,6 +10,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-employee',
@@ -66,6 +67,7 @@ export class EditEmployeeComponent implements OnInit {
   selectedStateId: any;
   selectedCityId: any;
   constructor(
+    private spinner : NgxSpinnerService,
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
@@ -136,6 +138,8 @@ export class EditEmployeeComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -147,6 +151,8 @@ export class EditEmployeeComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getSelectedStateId(event) {
@@ -187,6 +193,9 @@ export class EditEmployeeComponent implements OnInit {
         }
         this.setValue();
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
  
@@ -283,6 +292,8 @@ export class EditEmployeeComponent implements OnInit {
         });
         this.dropdownSetting();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -339,6 +350,9 @@ export class EditEmployeeComponent implements OnInit {
           this.employeeCollision = employeesCollison.Collision;
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -356,6 +370,8 @@ export class EditEmployeeComponent implements OnInit {
         const document = JSON.parse(res.resultData);
         this.documentList = document.GetAllDocuments;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -541,6 +557,8 @@ export class EditEmployeeComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

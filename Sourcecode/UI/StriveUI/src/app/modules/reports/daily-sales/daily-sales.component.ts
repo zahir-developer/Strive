@@ -60,6 +60,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

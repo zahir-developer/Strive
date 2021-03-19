@@ -5,6 +5,8 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import * as moment from 'moment';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-daily-tip',
@@ -28,7 +30,8 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   totalHours: number = 0;
   fileTypeEvent: boolean = false;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
-    private excelService: ExcelService, private spinner: NgxSpinnerService) { }
+    private excelService: ExcelService, private spinner: NgxSpinnerService,
+    private toastr :ToastrService) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
@@ -67,6 +70,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   onLocationChange(event) {

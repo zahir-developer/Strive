@@ -102,6 +102,9 @@ export class AddGiftCardComponent implements OnInit {
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      
     });
   }
   selectedClient(event) {
@@ -150,6 +153,7 @@ export class AddGiftCardComponent implements OnInit {
         this.giftCardForm.reset();
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }

@@ -115,6 +115,7 @@ export class VehicleListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -134,6 +135,8 @@ export class VehicleListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -144,6 +147,8 @@ export class VehicleListComponent implements OnInit {
         this.originalImage = 'data:image/png;base64,' + image.VehicleThumbnails.Base64Thumbnail;
         this.isOpenImage = true;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -172,6 +177,7 @@ export class VehicleListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -204,7 +210,9 @@ export class VehicleListComponent implements OnInit {
 
   // Delete vehicle
   confirmDelete(data) {
+    this.spinner.show();
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
@@ -213,6 +221,9 @@ export class VehicleListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
   closePopupEmit(event) {
@@ -249,6 +260,8 @@ export class VehicleListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -259,6 +272,8 @@ export class VehicleListComponent implements OnInit {
         this.upchargeServices = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

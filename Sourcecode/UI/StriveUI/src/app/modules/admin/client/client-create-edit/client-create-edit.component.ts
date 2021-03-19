@@ -81,7 +81,12 @@ export class ClientCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
+    }
+    );
   }
 
   // Add/Update Client
@@ -89,9 +94,6 @@ export class ClientCreateEditComponent implements OnInit {
     this.clientFormComponent.submitted = true;
     this.clientFormComponent.stateDropdownComponent.submitted = true;
     this.clientFormComponent.clientForm.controls.status.enable();
-    // if (this.clientFormComponent.stateDropdownComponent.stateValueSelection == false ) {
-    //   return;
-    // }
    
     if (this.clientFormComponent.clientForm.invalid) {
       return;
@@ -176,6 +178,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.clientFormComponent.clientForm.reset();
         }
       }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.spinner.hide();
       });
     } else {
@@ -190,6 +193,7 @@ export class ClientCreateEditComponent implements OnInit {
           this.clientFormComponent.clientForm.reset();
         }
       }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.spinner.hide();
       });
     }
@@ -198,7 +202,6 @@ export class ClientCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   closePopupEmit(event) {
-    // this.vehicleDetails = [];
     if (event.status === 'saved') {
       this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
       if (this.clonedVehicleDetails.length > 0) {
@@ -264,7 +267,9 @@ export class ClientCreateEditComponent implements OnInit {
     if (!vehicle.hasOwnProperty('VehicleId')) {
       return;
     }
+
     this.vehicle.getVehicleById(vehicle.VehicleId).subscribe(res => {
+   
       if (res.status === 'Success') {
         const vehicleDetail = JSON.parse(res.resultData);
         this.selectedVehicle = vehicleDetail.Status;
@@ -276,7 +281,12 @@ export class ClientCreateEditComponent implements OnInit {
       } else {
         this.toastr.error('Communication Error', 'Error!');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    
+    }
+    );
   }
 
   // Add New Vehicle
@@ -307,13 +317,18 @@ export class ClientCreateEditComponent implements OnInit {
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
   }
 
-  getService() {
-    this.vehicle.getMembershipService().subscribe(res => {
-      if (res.status === 'Success') {
+  getService() {  
+    this.vehicle.getMembershipService().subscribe(res => {   
+     if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+     
+    }
+    );
   }
 
   changeSorting(column) {

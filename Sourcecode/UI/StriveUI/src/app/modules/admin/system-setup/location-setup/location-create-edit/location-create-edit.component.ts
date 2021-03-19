@@ -218,9 +218,11 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
+      },  
+      (err) => {
         this.spinner.hide();
-      });
+    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     } else {
       this.spinner.show();
       this.locationService.updateLocation(finalObj).subscribe(res => {
@@ -233,9 +235,11 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
+      },  
+      (err) => {
         this.spinner.hide();
-      });
+    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
   }
   cancel() {

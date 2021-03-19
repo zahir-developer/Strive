@@ -97,7 +97,11 @@ export class MembershipCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    ,  
+    (err) => {
+  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   get f() {
     return this.membershipForm.controls;
@@ -376,7 +380,8 @@ export class MembershipCreateEditComponent implements OnInit {
         }
       }, (err) => {
         this.spinner.hide();
-      });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
     } else {
       this.spinner.show();
       this.member.addMembership(formObj).subscribe(data => {
@@ -388,9 +393,9 @@ export class MembershipCreateEditComponent implements OnInit {
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.membershipForm.reset();
         }
-      }, (err) => {
-        this.spinner.hide();
-      });
+      } ,(err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
     }
   }
   cancel() {
