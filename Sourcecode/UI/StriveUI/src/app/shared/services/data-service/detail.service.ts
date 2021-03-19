@@ -75,7 +75,7 @@ export class DetailService {
   }
 
   getClockedInDetailer(obj) {
-    return this.http.get(`${UrlConfig.timeClock.getClockedInDetailer}` , obj);
+    return this.http.post(`${UrlConfig.timeClock.getClockedInDetailer}` , obj);
   }
 
 }
