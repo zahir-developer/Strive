@@ -43,7 +43,9 @@ export class SalesService {
   return this.http.delete(`${UrlConfig.sales.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
  }
  getServiceAndProduct() {
-  return this.http.get(`${UrlConfig.sales.getServiceAndProduct}`);
+  const locationId = localStorage.getItem('empLocationId');
+
+  return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locationId,{ params: { id: locationId } });
  }
  updateProductItem(updateObj) {
   return this.http.post(`${UrlConfig.sales.updateProductObj}`, updateObj);

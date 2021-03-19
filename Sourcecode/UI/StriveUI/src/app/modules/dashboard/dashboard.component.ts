@@ -6,6 +6,8 @@ import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.co
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 
 @Component({
@@ -53,7 +55,8 @@ export class DashboardComponent implements OnInit {
     private messageService: MessageServiceToastr,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService
-    ,private landingservice: LandingService
+    ,private landingservice: LandingService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +83,8 @@ export class DashboardComponent implements OnInit {
       this.currentCar = dashboardCount.Dashboard.Current.Current;
       this.foreCastedCar = dashboardCount.Dashboard.ForecastedCars.ForecastedCars;
       this.averageCarWashTime = dashboardCount.Dashboard.AverageWashTime.AverageWashTime;
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -123,6 +128,7 @@ export class DashboardComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -149,13 +155,15 @@ export class DashboardComponent implements OnInit {
 
   // Get All Location
   getLocationList() {
-    this.dashboardService.getLocation().subscribe(res => {
+    this.dashboardService.GetAllLocationWashTime().subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
-        this.location = location.Location;
+        this.location = location.Washes;
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
