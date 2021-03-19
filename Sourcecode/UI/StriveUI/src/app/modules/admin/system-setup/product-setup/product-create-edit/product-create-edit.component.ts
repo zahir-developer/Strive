@@ -266,47 +266,86 @@ export class ProductCreateEditComponent implements OnInit {
     const formObj = {
       Product: this.productSetupList
     };
-
+    const obj: any = {};
+    const productObj: any = {};
+    const vendorList = [];
+    const productList = [];
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
       this.productSetupForm.value.locationName.map(item => {
-        this.productSetupForm.value.vendor.forEach( vendor => {
-          this.productSetupList.push({
-            productCode: null,
-            productDescription: null,
-            productType: this.productSetupForm.value.productType,
+        this.productSetupForm.value.vendor.forEach(vendor => {
+          productObj.productCode = null;
+          productObj.productDescription = null;
+          productObj.productType = this.productSetupForm.value.productType;
+          productObj.productId = this.isEdit ? this.selectedProduct.ProductId : 0;
+          productObj.locationId = item.id;
+          productObj.productName = this.productSetupForm.value.name;
+          productObj.fileName = this.fileName;
+          productObj.OriginalFileName = this.fileName;
+          productObj.thumbFileName = this.fileThumb;
+          productObj.base64 = this.fileUploadformData;
+          productObj.cost = this.productSetupForm.value.cost;
+          productObj.isTaxable = this.isChecked;
+          productObj.taxAmount = this.isChecked ? this.productSetupForm.value.taxAmount : 0;
+          productObj.size = this.productSetupForm.value.size;
+          productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
+          productObj.quantity = this.productSetupForm.value.quantity;
+          productObj.quantityDescription = null;
+          productObj.isActive = this.productSetupForm.value.status === 0 ? true : false;
+          productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
+          productObj.isDeleted = false;
+          productObj.price = this.productSetupForm.value.suggested;
+          productObj.vendorId = vendor.id;
+          obj.product = productObj;
+          vendorList.push({
+            productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-            locationId: item.id,
-            productName: this.productSetupForm.value.name,
-            fileName: this.fileName,
-            OriginalFileName: this.fileName,
-            thumbFileName: this.fileThumb,
-            base64: this.fileUploadformData,
-            cost: this.productSetupForm.value.cost,
-            isTaxable: this.isChecked,
-            taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
-            size: this.productSetupForm.value.size,
-            sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
-            quantity: this.productSetupForm.value.quantity,
-            quantityDescription: null,
-            isActive: this.productSetupForm.value.status === 0 ? true : false,
-            vendorId: vendor.id,
-            thresholdLimit: this.productSetupForm.value.thresholdAmount,
+            vendorId: item.id,
+            isActive: true,
             isDeleted: false,
-            createdBy: this.employeeId,
-            createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-            updatedBy: this.employeeId,
-            updatedDate: new Date(),
-            price: this.productSetupForm.value.suggested
           });
+          obj.productVendor = vendorList;
+          productList.push(obj);
         });
       });
     }
+    const finalObj = {
+      Product: productList
+    };
+
+    // this.productSetupList.push({
+    //   productCode: null,
+    //   productDescription: null,
+    //   productType: this.productSetupForm.value.productType,
+    //   productId: this.isEdit ? this.selectedProduct.ProductId : 0,
+    //   locationId: item.id,
+    //   productName: this.productSetupForm.value.name,
+    //   fileName: this.fileName,
+    //   OriginalFileName: this.fileName,
+    //   thumbFileName: this.fileThumb,
+    //   base64: this.fileUploadformData,
+    //   cost: this.productSetupForm.value.cost,
+    //   isTaxable: this.isChecked,
+    //   taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
+    //   size: this.productSetupForm.value.size,
+    //   sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
+    //   quantity: this.productSetupForm.value.quantity,
+    //   quantityDescription: null,
+    //   isActive: this.productSetupForm.value.status === 0 ? true : false,
+    //   vendorId: vendor.id,
+    //   thresholdLimit: this.productSetupForm.value.thresholdAmount,
+    //   isDeleted: false,
+    //   createdBy: this.employeeId,
+    //   createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
+    //   updatedBy: this.employeeId,
+    //   updatedDate: new Date(),
+    //   price: this.productSetupForm.value.suggested
+    // });
 
     this.productSetupForm.controls.status.enable();
 
     if (this.isEdit === true) {
       this.spinner.show();
-      this.product.updateProduct(formObj).subscribe(data => {
+      this.product.updateProduct(finalObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Update, 'Success!');
@@ -321,7 +360,7 @@ export class ProductCreateEditComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.product.addProduct(formObj).subscribe(data => {
+      this.product.addProduct(finalObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Add, 'Success!');
