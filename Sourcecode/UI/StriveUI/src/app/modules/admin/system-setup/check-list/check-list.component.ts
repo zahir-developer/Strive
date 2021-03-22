@@ -153,11 +153,14 @@ export class CheckListComponent implements OnInit {
   confirmDelete(data) {
     this.spinner.show();
     this.checkListSetup.deleteCheckListSetup(data.ChecklistId).subscribe(res => {
-      this.spinner.hide()
       if (res.status === "Success") {
+        this.spinner.hide()
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Delete, 'Success!');
         this.getAllcheckListDetails();
       } else {
+        this.spinner.hide()
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     },  (err) => {
@@ -217,12 +220,15 @@ export class CheckListComponent implements OnInit {
       this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
-          this.spinner.hide();
           if (res.status === 'Success') {
+            this.spinner.hide();
+
             this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
             this.getAllcheckListDetails();
             this.selectedData = false;
           } else {
+            this.spinner.hide();
+
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
         }
@@ -241,6 +247,8 @@ export class CheckListComponent implements OnInit {
           this.checkListName = '';
           this.RoleId = [];
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       },  (err) => {

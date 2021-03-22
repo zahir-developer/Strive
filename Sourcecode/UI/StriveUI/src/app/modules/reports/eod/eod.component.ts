@@ -236,8 +236,9 @@ export class EodComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getDailyStatusReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const dailyStatusReport = JSON.parse(data.resultData);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
         if (this.dailyStatusReport.length > 0) {
@@ -248,6 +249,11 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.serviceTotal = this.washTotal + this.detailTotal;
     
         }
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

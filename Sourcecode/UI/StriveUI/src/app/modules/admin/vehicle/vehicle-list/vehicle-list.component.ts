@@ -96,8 +96,9 @@ export class VehicleListComponent implements OnInit {
     };
     this.spinner.show();
     this.vehicle.getVehicle(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.vehicleDetails = [];
         const vehicle = JSON.parse(data.resultData);
         let totalCount = 0;
@@ -112,6 +113,8 @@ export class VehicleListComponent implements OnInit {
           }
         }
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -163,8 +166,9 @@ export class VehicleListComponent implements OnInit {
     };
     this.spinner.show();
     this.vehicle.getVehicle(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Vehicle;
         if (this.vehicleDetails.length === 0) {
@@ -174,6 +178,8 @@ export class VehicleListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -212,13 +218,16 @@ export class VehicleListComponent implements OnInit {
   confirmDelete(data) {
     this.spinner.show();
     this.vehicle.deleteVehicle(data.ClientVehicleId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
 
         this.getAllVehicleDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

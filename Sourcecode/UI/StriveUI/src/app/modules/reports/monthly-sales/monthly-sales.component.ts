@@ -57,8 +57,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getMonthlySalesReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide()
         this.selectedDate = moment(this.fromDate).format('MM/YYYY');
         const monthlySalesReport = JSON.parse(data.resultData);
         if (monthlySalesReport?.GetMonthlySalesReport !== null) {
@@ -71,6 +71,11 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
           this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
           this.employeeListFilter(this.empCount);
         }
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

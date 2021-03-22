@@ -201,13 +201,13 @@ export class CustomerSalesComponent implements OnInit {
           this.isAccount = this.accountDetails?.CodeValue !== 'Comp' ? this.accountDetails?.IsAccount : false;
         }
       }, (err) => {
-        this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
       this.spinner.show();
       this.salesService.getItemByTicketNumber(ticketNumber).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
@@ -259,6 +259,11 @@ export class CustomerSalesComponent implements OnInit {
             this.showPopup = true;
             this.enableButton = false;
           }
+        }
+        else{
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
         }
       }, (err) => {
         this.enableAdd = false;

@@ -449,15 +449,21 @@ export class CreateEditComponent implements OnInit {
     };
     this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Employee.saved, 'Success' );
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
+        
         if (res.status === 'Fail' && res.errorMessage !== null) {
+          this.spinner.hide();
+
           this.toastr.error(res.errorMessage , 'Error!');
         }
         else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }

@@ -27,7 +27,7 @@ export class ClientListComponent implements OnInit {
   search: any = '';
   locationId = +localStorage.getItem('empLocationId');
   collectionSize: number = 0;
- 
+
   pageSizeList: number[];
   page: number;
   pageSize: number;
@@ -43,7 +43,7 @@ export class ClientListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+    this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
 
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -70,9 +70,9 @@ export class ClientListComponent implements OnInit {
     };
     this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
-        this.getJobType();
+        this.spinner.hide();
+      this.getJobType();
         this.clientDetails = [];
         const client = JSON.parse(data.resultData);
         if (client.Client.clientViewModel !== null) {
@@ -86,6 +86,8 @@ export class ClientListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -146,13 +148,16 @@ export class ClientListComponent implements OnInit {
   confirmDelete(data) {
     this.spinner.show();
     this.client.deleteClient(data.ClientId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Client.Delete, 'Success!');
-        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+        this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
 
         this.getAllClientDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -162,7 +167,7 @@ export class ClientListComponent implements OnInit {
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+      this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
 
       this.getAllClientDetails();
     }
@@ -184,8 +189,9 @@ export class ClientListComponent implements OnInit {
   getClientById(data, client) {
     this.spinner.show();
     this.client.getClientById(client.ClientId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const clientDetail = JSON.parse(res.resultData);
         this.selectedClient = clientDetail.Status[0];
         if (data === 'edit') {
@@ -202,6 +208,8 @@ export class ClientListComponent implements OnInit {
           this.showDialog = true;
         }
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -214,26 +222,26 @@ export class ClientListComponent implements OnInit {
     this.router.navigate(['/customer'], { queryParams: { clientId: client.ClientId } });
   }
 
-    changeSorting(column) {
-    this.sortColumn ={
-     sortBy: column,
-     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+  changeSorting(column) {
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
 
     this.selectedCls(this.sortColumn)
-   this.getAllClientDetails();
- }
+    this.getAllClientDetails();
+  }
 
- 
 
- selectedCls(column) {
-   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-     return 'fa-sort-desc';
-   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-     return 'fa-sort-asc';
-   }
-   return '';
- }
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
 
   getJobType() {
     this.detailService.getJobType().subscribe(res => {

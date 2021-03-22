@@ -186,8 +186,9 @@ export class TimeClockMaintenanceComponent implements OnInit {
     };
 this.spinner.show();
     this.timeClockMaintenanceService.deleteTimeClockEmployee(this.objDelete).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.TimeClock.Delete, 'Success!');
         this.sortColumn ={
           sortBy: ApplicationConfig.Sorting.SortBy.TimeClock,
@@ -196,6 +197,8 @@ this.spinner.show();
         this.getTimeClockEmployeeDetails();
       }
       else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -254,8 +257,9 @@ this.spinner.show();
     };
     this.spinner.show();
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.selectedEmployee = '';
         this.sortColumn ={
@@ -263,6 +267,11 @@ this.spinner.show();
           sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
          }
         this.getTimeClockEmployeeDetails();
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

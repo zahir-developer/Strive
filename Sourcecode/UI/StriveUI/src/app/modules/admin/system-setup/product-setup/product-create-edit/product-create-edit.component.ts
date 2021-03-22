@@ -188,8 +188,9 @@ export class ProductCreateEditComponent implements OnInit {
   getProductById() {
     this.spinner.show();
     this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
-      this.spinner.hide();
       if (data.status === "Success") {
+        this.spinner.hide();
+
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product;
         let name = '';
@@ -243,6 +244,8 @@ export class ProductCreateEditComponent implements OnInit {
         }
         this.change(this.selectedProduct.IsTaxable);
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -366,27 +369,36 @@ export class ProductCreateEditComponent implements OnInit {
           this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
         }
       }, (err) => {
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       });
     } else {
       this.spinner.show();
       this.product.addProduct(finalObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
         }
       }, (err) => {
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       });
     }
   }

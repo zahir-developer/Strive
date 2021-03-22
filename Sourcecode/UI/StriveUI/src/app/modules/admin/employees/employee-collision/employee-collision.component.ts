@@ -67,8 +67,9 @@ export class EmployeeCollisionComponent implements OnInit {
   getCollisionDetail() {
     this.spinner.show();
     this.employeeService.getDetailCollision(this.collisionId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const employeesCollison = JSON.parse(res.resultData);
         if (employeesCollison.Collision) {
           const detail = employeesCollison.Collision.Liability[0];
@@ -77,7 +78,13 @@ export class EmployeeCollisionComponent implements OnInit {
           this.setValue(detail);
         }
       }
+      else{
+        this.spinner.hide();
+
+      }
     }, (err) => {
+      this.spinner.hide();
+
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
@@ -175,11 +182,14 @@ export class EmployeeCollisionComponent implements OnInit {
     if (this.mode === 'create') {
       this.spinner.show();
       this.employeeService.saveCollision(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Collision.Add, 'Success!');
           this.activeModal.close(true);
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (err) => {
@@ -189,11 +199,14 @@ export class EmployeeCollisionComponent implements OnInit {
     } else {
       this.spinner.show();
       this.employeeService.updateCollision(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Collision.Update, 'Success!');
           this.activeModal.close(true);
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (err) => {

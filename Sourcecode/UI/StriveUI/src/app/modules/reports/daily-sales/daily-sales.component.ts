@@ -45,8 +45,9 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getDailySalesReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const sales = JSON.parse(data.resultData);
         this.dailySalesReport = sales.GetDailySalesReport;
         if (this.dailySalesReport.length === 0) {
@@ -56,6 +57,8 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
           this.isTableEmpty = false;
         }
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

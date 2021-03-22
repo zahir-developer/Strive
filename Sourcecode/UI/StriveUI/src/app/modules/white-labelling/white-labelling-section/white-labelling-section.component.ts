@@ -6,6 +6,7 @@ import { LogoService } from 'src/app/shared/services/common-service/logo.service
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -144,6 +145,8 @@ export class WhiteLabellingSectionComponent implements OnInit {
           this.fileName = label.WhiteLabelling.WhiteLabel?.LogoPath;
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -220,6 +223,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
       }
     }, (err) => {
       this.ngxService.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

@@ -62,7 +62,6 @@ export class CustomerDashboardComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
-      this.spinner.hide();
     });
   }
 
@@ -84,7 +83,6 @@ export class CustomerDashboardComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
-      this.spinner.hide();
     });
   }
 
@@ -139,7 +137,6 @@ export class CustomerDashboardComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
-      this.spinner.hide();
     });
   }
 
@@ -156,10 +153,17 @@ export class CustomerDashboardComponent implements OnInit {
   confirmDelete(jobID) {
     this.spinner.show();
     this.detailService.deleteDetail(jobID).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.getScheduleDetail();
         this.toastr.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Customer.Delete });
+      }
+      else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
+
+        this.spinner.hide();
+
       }
     }, (err) => {
       this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });

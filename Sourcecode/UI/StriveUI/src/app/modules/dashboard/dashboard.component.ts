@@ -100,8 +100,9 @@ export class DashboardComponent implements OnInit {
     };
     this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const dashboardCount = JSON.parse(res.resultData);
         this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
         this.dashboardStatistics.forEach(item => {
@@ -126,6 +127,9 @@ export class DashboardComponent implements OnInit {
           this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
         });
       } else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

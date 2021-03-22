@@ -51,18 +51,20 @@ export class TermsAndConditionsComponent implements OnInit {
   getDocument() {
     this.isLoading = true;
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
-      this.isLoading = false;
       if (data.status === 'Success') {
+        this.isLoading = false;
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
         this.sort(ApplicationConfig.Sorting.SortBy.TermsAndCondition)
 
       } else {
+        this.isLoading = false;
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       this.isLoading = false;
-      this.spinner.hide();
     });
   }
 
@@ -81,12 +83,15 @@ export class TermsAndConditionsComponent implements OnInit {
   confirmDelete(Id) {
     this.spinner.show();
     this.documentService.deleteDocumentById(Id, 'TERMSANDCONDITION').subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.TermsCondition.Delete, 'Success!');
         this.fileName = null;
         this.getDocument();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

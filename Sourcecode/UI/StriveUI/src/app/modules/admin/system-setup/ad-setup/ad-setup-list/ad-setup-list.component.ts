@@ -125,10 +125,14 @@ export class AdSetupListComponent implements OnInit {
         this.showDialog = true;
 
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
     ,  (err) => {
+      this.spinner.hide();
+
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
 
@@ -149,11 +153,14 @@ export class AdSetupListComponent implements OnInit {
   confirmDelete(data) {
     this.spinner.show();
     this.adSetup.deleteAdSetup(data.AdSetupId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === "Success") {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Delete, 'Success!');
         this.getAlladSetupDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }

@@ -49,14 +49,19 @@ export class MonthlyTipComponent implements OnInit {
     this.spinner.show();
     this.totalTip = 0;
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide()
         const dailytip = JSON.parse(res.resultData);
         this.monthlyTip = dailytip.GetEmployeeTipReport;
         this.monthlyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;
         });
         this.collectionSize = Math.ceil(this.monthlyTip.length / this.pageSize) * 10;
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

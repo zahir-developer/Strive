@@ -6,6 +6,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as _ from 'underscore';
 import { MessageConfig } from '../../services/messageConfig';
 import { ApplicationConfig } from '../../services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -44,7 +45,8 @@ export class VehicleCreateEditComponent implements OnInit {
   filteredModel: any = [];
   filteredcolor: any = [];
   filteredMake: any = [];
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
+    private spinner : NgxSpinnerService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -177,6 +179,8 @@ export class VehicleCreateEditComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -190,6 +194,8 @@ export class VehicleCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -293,6 +299,8 @@ export class VehicleCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -353,6 +361,8 @@ export class VehicleCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -386,6 +396,8 @@ export class VehicleCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -408,6 +420,8 @@ export class VehicleCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -547,13 +561,19 @@ export class VehicleCreateEditComponent implements OnInit {
         clientVehicleMembershipModel: model
       };
       this.vehicle.vehicleValue = value;
+      this.spinner.show();
       this.vehicle.updateVehicle(sourceObj).subscribe(data => {
         if (data.status === 'Success') {
+          this.spinner.hide();
           this.toastr.success(MessageConfig.Admin.Vehicle.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide()
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       const add = {
@@ -592,13 +612,19 @@ export class VehicleCreateEditComponent implements OnInit {
         vehicleImage: []
       };
       if (this.isAdd === true) {
+        this.spinner.show();
         this.vehicle.saveVehicle(formObj).subscribe(data => {
           if (data.status === 'Success') {
+            this.spinner.hide();
             this.toastr.success(MessageConfig.Admin.Vehicle.Add, 'Success!');
             this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           } else {
+            this.spinner.hide();
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
+        }, (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
       } else {
         this.vehicle.addVehicle = add;

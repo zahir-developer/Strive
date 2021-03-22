@@ -165,11 +165,14 @@ this.sorting(this.sortColumn)
   confirmDelete(data) {
     this.spinner.show();
     this.productService.deleteProduct(data.ProductId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === "Success") {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Delete, 'Success!');
         this.getAllproductSetupDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

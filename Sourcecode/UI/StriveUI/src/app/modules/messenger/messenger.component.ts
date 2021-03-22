@@ -305,7 +305,6 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       }
     }
     , (err) => {
-      this.spinner.hide();
       this.toastrService.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
@@ -346,13 +345,16 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   deleteGroupUser(groupChatUserId, chatGroupId) {
     this.spinner.show();
     this.msgService.removeGroupUser(groupChatUserId).subscribe(data => {
-      this.spinner.hide();
       const result = JSON.parse(data.resultData);
       if (result.ChatGroupUserDelete === true) {
+        this.spinner.hide();
+
         this.getGroupMembers(chatGroupId);
         this.toastrService.success('User removed from group successfully..!');
       }
       else {
+        this.spinner.hide();
+
         this.toastrService.error('Communication Error', 'Error removing user from Group!');
       }
 

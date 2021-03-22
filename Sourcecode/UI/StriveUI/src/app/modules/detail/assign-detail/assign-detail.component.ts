@@ -236,9 +236,17 @@ export class AssignDetailComponent implements OnInit {
     const finalObj = {
       jobServiceEmployee: assignServiceObj
     };
+    this.spinner.show();
     this.detailServices.saveEmployeeWithService(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.cancelAssignModel.emit();
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

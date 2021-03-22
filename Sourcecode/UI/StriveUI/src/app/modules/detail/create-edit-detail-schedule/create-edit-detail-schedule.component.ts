@@ -760,14 +760,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     this.spinner.show();
     this.detailService.updateDetail(formObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.isStart = false;
         this.isCompleted = true;
         this.detailForm.controls.inTime.disable();
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
@@ -819,14 +822,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     this.spinner.show();
     this.detailService.updateDetail(formObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.isCompleted = false;
         this.isStart = false;
         this.detailForm.controls.inTime.disable();
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -955,24 +961,28 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
-        this.spinner.hide();
-        if (res.status === 'Success') {
+        if (res.status === 'Success') {   
+             this.spinner.hide();
+
           this.toastr.success(MessageConfig.Detail.Update, 'Success!');
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
-      }, (error) => {
+      }, (err) => {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
       this.detailService.addDetail(formObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.isAssign = true;
           this.isStart = true;
           const jobID = JSON.parse(res.resultData);
@@ -983,6 +993,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.bay.disable();
           this.toastr.success(MessageConfig.Detail.Add, 'Success!');
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (error) => {
@@ -1024,7 +1036,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         }
       }
     }, (err) => {
-      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
@@ -1039,11 +1050,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.spinner.show();
     this.detailService.deleteDetail(this.selectedData.Details.JobId).subscribe(res => {
         // need to change
-      this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
         this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.refreshDetailGrid.emit();
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();
@@ -1170,14 +1187,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     this.spinner.show();
     this.client.addClient(myObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const id = JSON.parse(data.resultData)
         this.generatedClientId = id?.Status[0];
         this.getClientById(this.generatedClientId)
         this.toastr.success(MessageConfig.Client.Add, 'Success');
         this.closePopupEmitClient();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.clientFormComponent.clientForm.reset();
       }
@@ -1189,8 +1209,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getClientById(id) {
     this.spinner.show();
     this.client.getClientById(id).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const clientDetail = JSON.parse(res.resultData);
         const selectedclient = clientDetail.Status[0];
         this.selectclient= 
@@ -1208,6 +1229,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
        
     
    } 
+   else{
+    this.spinner.hide();
+
+   }
     }, (err) => {
       this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -1242,7 +1267,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.employeeList = employee.result;
       }
     }, (err) => {
-      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }

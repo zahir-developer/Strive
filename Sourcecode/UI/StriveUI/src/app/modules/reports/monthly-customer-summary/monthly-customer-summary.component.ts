@@ -41,8 +41,9 @@ locationId = +localStorage.getItem('empLocationId');
     };
     this.spinner.show();
     this.reportService.getCustomerSummaryReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.selectedDate = this.date;
         const customerSummaryReport = JSON.parse(data.resultData);
         if (customerSummaryReport?.GetCustomerSummaryReport !== null) {
@@ -52,6 +53,11 @@ locationId = +localStorage.getItem('empLocationId');
           this.originaldata =  sumReport;
           this.collectionSize = Math.ceil(this.customerSummaryReport.length / this.pageSize) * 10;
         }
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

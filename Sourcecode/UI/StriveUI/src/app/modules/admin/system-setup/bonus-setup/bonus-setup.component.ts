@@ -285,10 +285,13 @@ export class BonusSetupComponent implements OnInit {
     if (this.isEdit === false) {
       this.spinner.show();
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.BonusSetup.Add, 'Success!');
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
         this.getBonusList();
@@ -299,11 +302,14 @@ export class BonusSetupComponent implements OnInit {
     } else {
       this.spinner.show();
       this.bonusSetupService.editBonus(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.BonusSetup.Update, 'Success!');
           this.getBonusList();
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       },  (err) => {

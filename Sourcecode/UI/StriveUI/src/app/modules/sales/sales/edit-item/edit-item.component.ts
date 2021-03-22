@@ -77,11 +77,14 @@ export class EditItemComponent implements OnInit {
   updateServiceItem(updateObj) {
     this.spinner.show();
     this.salesService.updateItem(updateObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Sales.Add,'Success!');
         this.activeModal.close();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -92,11 +95,14 @@ export class EditItemComponent implements OnInit {
   updateProductItem(updateObj) {
     this.spinner.show();
     this.salesService.updateProductItem(updateObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Sales.Update,'Success!');
         this.activeModal.close();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

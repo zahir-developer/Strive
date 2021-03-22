@@ -192,14 +192,17 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     };
     this.spinner.show();
     this.document.addDocument(finalObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Add, 'Success!');
 
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.getDocumentType.emit();
         this.isLoading = false;
       } else {
+        this.spinner.hide();
+
         this.isLoading = false;
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;

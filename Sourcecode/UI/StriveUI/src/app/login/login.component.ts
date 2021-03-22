@@ -59,16 +59,16 @@ export class LoginComponent implements OnInit {
     this.spinner.show();
     this.authService.login(loginObj).subscribe(data => {
       this.isLoginLoading = false;
-      this.spinner.hide();
       if (data) {
         if (data.status === 'Success') {
-          const token = JSON.parse(data.resultData);
+          this.spinner.hide();
+      const token = JSON.parse(data.resultData);
           this.landing.loadTheLandingPage();
           this.getCodeValue();
           this.getThemeColor();
           this.msgService.startConnection();
-        } else {
-          this.errorFlag = true;
+        } else {    
+  this.errorFlag = true;
           this.isLoginLoading = false;
           this.spinner.hide();
         }

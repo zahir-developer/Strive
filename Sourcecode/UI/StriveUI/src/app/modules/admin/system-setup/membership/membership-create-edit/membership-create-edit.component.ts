@@ -371,11 +371,14 @@ export class MembershipCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.member.updateMembership(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (err) => {
@@ -385,15 +388,20 @@ export class MembershipCreateEditComponent implements OnInit {
     } else {
       this.spinner.show();
       this.member.addMembership(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.membershipForm.reset();
         }
       } ,(err) => {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
             });
     }

@@ -150,12 +150,15 @@ export class SaleGiftCardComponent implements OnInit {
     }
     this.spinner.show();
     this.salesService.addItem(formObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.submitted = false;
         this.saveGiftCard();
         this.activeModal.close(true);
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -185,11 +188,14 @@ export class SaleGiftCardComponent implements OnInit {
     };
     this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Sales.UpdateGiftCrd, 'Success!');
 
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.giftCardForm.reset();
       }

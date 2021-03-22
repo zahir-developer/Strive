@@ -138,8 +138,9 @@ export class ServiceCreateEditComponent implements OnInit {
   getServiceById() {
     this.spinner.show();
     this.serviceSetup.getServiceSetupById(this.selectedData.ServiceId).subscribe(data => {
-      this.spinner.hide();
       if (data.status === "Success") {
+        this.spinner.hide();
+
         const sType = JSON.parse(data.resultData);
         this.selectedService = sType.ServiceSetup;
         if (this.selectedService.Upcharges === '') {
@@ -178,6 +179,8 @@ export class ServiceCreateEditComponent implements OnInit {
         this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceTypeId);
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
       if (this.selectedService?.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
@@ -194,7 +197,7 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isAdditional = false;
       }
-    }, (err) => {
+    }, (err) => {   
       this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
@@ -410,11 +413,14 @@ export class ServiceCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
@@ -426,11 +432,14 @@ export class ServiceCreateEditComponent implements OnInit {
     } else {
       this.spinner.show();
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;

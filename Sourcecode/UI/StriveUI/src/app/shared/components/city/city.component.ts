@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { StateService } from '../../services/common-service/state.service';
 import * as _ from 'underscore';
 import { ChangeDetectorRef } from '@angular/core';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',
@@ -34,7 +36,8 @@ export class CityComponent implements OnInit, AfterViewChecked {
   cityId: any;
   city: { value: any; name: any; };
   selectValueCity: boolean;
-  constructor(private cdRef: ChangeDetectorRef, private stateService: StateService) { }
+  constructor(private cdRef: ChangeDetectorRef, private stateService: StateService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.submitted = false;
@@ -65,6 +68,7 @@ export class CityComponent implements OnInit, AfterViewChecked {
         this.setCity();
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

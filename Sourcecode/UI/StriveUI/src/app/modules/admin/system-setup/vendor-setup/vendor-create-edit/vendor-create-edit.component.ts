@@ -145,10 +145,15 @@ export class VendorCreateEditComponent implements OnInit {
     if (this.isEdit === false) {
       this.spinner.show();
       this.vendorService.saveVendor(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        }
+        else{
+          this.spinner.hide();
+
         }
       }, (err) => {
         this.spinner.hide();
@@ -157,10 +162,15 @@ export class VendorCreateEditComponent implements OnInit {
     } else {
       this.spinner.show();
       this.vendorService.updateVendor(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        }
+        else{
+          this.spinner.hide();
+
         }
       }, (err) => {
         this.spinner.hide();

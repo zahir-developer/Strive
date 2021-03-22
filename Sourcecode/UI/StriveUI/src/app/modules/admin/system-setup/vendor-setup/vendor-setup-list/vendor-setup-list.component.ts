@@ -165,11 +165,14 @@ export class VendorSetupListComponent implements OnInit {
   confirmDelete(data) {
     this.spinner.show();
     this.vendorService.deleteVendor(data.VendorId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === "Success") {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Delete, 'Success!');
         this.getAllvendorSetupDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -199,14 +202,17 @@ export class VendorSetupListComponent implements OnInit {
   getVendorById(data) {
     this.spinner.show();
     this.vendorService.getVendorById(data.VendorId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const vendor = JSON.parse(res.resultData);
         this.headerData = 'Edit Vendor';
         this.selectedData = vendor.VendorDetail[0];
         this.isEdit = true;
         this.showDialog = true;
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

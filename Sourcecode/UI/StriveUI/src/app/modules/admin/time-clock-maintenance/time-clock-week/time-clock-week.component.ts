@@ -65,8 +65,9 @@ export class TimeClockWeekComponent implements OnInit {
     };
     this.spinner.show();
     this.timeClockMaintenanceService.getTimeClockWeekDetails(inputParams).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const weekDetails = JSON.parse(res.resultData);
         if (weekDetails.Result.TimeClockWeek !== null) {
           this.totalWeekDetail = weekDetails.Result.TimeClockWeek;
@@ -121,6 +122,12 @@ export class TimeClockWeekComponent implements OnInit {
           this.replicateClockList = this.timeClockList;
           this.totalHoursCalculation();
         }
+      }
+      else{
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+        this.spinner.hide();
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -281,10 +288,16 @@ export class TimeClockWeekComponent implements OnInit {
     };
     this.spinner.show();
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.backToTimeClockPage();
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

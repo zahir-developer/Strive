@@ -146,13 +146,16 @@ export class ServiceSetupListComponent implements OnInit {
   confirmDelete(data) {
     this.spinner.show();
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
    this.getAllserviceSetupDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     },(err) => {

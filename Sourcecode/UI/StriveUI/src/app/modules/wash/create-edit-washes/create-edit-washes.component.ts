@@ -138,6 +138,8 @@ export class CreateEditWashesComponent implements OnInit {
             this.toastr.error(MessageConfig.TicketNumber, 'Error!');
 
           }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       })
     }
 
@@ -163,6 +165,8 @@ export class CreateEditWashesComponent implements OnInit {
           this.timeOutDate = dt.setMinutes(dt.getMinutes() + this.washTime);
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -221,6 +225,8 @@ export class CreateEditWashesComponent implements OnInit {
 
 
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     })
   }
   vehicleChange(id) {
@@ -252,6 +258,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -274,6 +282,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -304,6 +314,8 @@ export class CreateEditWashesComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getVehicleById(data) {
@@ -322,6 +334,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -383,6 +397,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -502,6 +518,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -556,6 +574,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -567,6 +587,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -586,6 +608,8 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -735,11 +759,14 @@ export class CreateEditWashesComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.wash.updateWashes(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Wash.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (error) => {
@@ -749,11 +776,14 @@ export class CreateEditWashesComponent implements OnInit {
     } else {
       this.spinner.show();
       this.wash.addWashes(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Wash.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.washForm.reset();
         }
@@ -845,8 +875,10 @@ export class CreateEditWashesComponent implements OnInit {
       clientVehicle: null,
       clientAddress: this.address
     }
+    this.spinner.show();
     this.client.addClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
         const id = JSON.parse(data.resultData)
         this.generatedClientId = id?.Status[0];
         this.getClientById(this.generatedClientId )
@@ -855,14 +887,19 @@ export class CreateEditWashesComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.clientFormComponent.clientForm.reset();
+        this.spinner.hide();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getClientById(id) {
     this.spinner.show();
     this.client.getClientById(id).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const clientDetail = JSON.parse(res.resultData);
         const selectedclient = clientDetail.Status[0];
         this.selectclient= 
@@ -880,6 +917,15 @@ export class CreateEditWashesComponent implements OnInit {
        
     
    } 
+   else{
+    this.spinner.hide();
+    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+   }
+    }, (err) => {
+      this.spinner.hide();
+
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     }) 
   }
   getJobStatus() {
@@ -890,13 +936,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.jobStatusId = this.jobStatus[0].CodeId;
       }
     }
-    // this.wash.getJobStatus('JOBSTATUS').subscribe(res => {
-    //   if (res.status === 'Success') {
-    //     const status = JSON.parse(res.resultData);
-    //     this.jobStatus = status.Codes.filter(item => item.CodeValue === 'In Progress');
-    //     this.jobStatusId = this.jobStatus[0].CodeId;
-    //   }
-    // });
+  
   }
 
   pay() {

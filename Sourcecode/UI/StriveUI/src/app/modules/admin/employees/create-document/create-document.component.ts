@@ -29,7 +29,7 @@ export class CreateDocumentComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private toastr: ToastrService,
-    private spinner : NgxSpinnerService,
+    private spinner: NgxSpinnerService,
     private messageService: MessageServiceToastr
   ) { }
 
@@ -109,7 +109,7 @@ export class CreateDocumentComponent implements OnInit {
   uploadDocument() {
     this.submitted = true;
     if (this.multipleFileUpload.length === 0) {
-      this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Document.fileRequired});
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Document.fileRequired });
       return;
     }
     if (this.passwordForm.invalid) {
@@ -120,12 +120,12 @@ export class CreateDocumentComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: '', 
+        filepath: '',
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: this.isPassword,
         password: this.passwordForm.value.confirm,
-        comments: '', 
+        comments: '',
         isActive: true,
         isDeleted: false,
         createdBy: this.employeeId,
@@ -139,11 +139,14 @@ export class CreateDocumentComponent implements OnInit {
     };
     this.spinner.show();
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Document.upload, 'Success!');
         this.activeModal.close(true);
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

@@ -104,8 +104,9 @@ export class PayrollsGridComponent implements OnInit {
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
     this.spinner.show();
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.editRestriction();
         const payRoll = JSON.parse(res.resultData);
         if (payRoll.Result.PayRollRateViewModel) {
@@ -117,6 +118,11 @@ export class PayrollsGridComponent implements OnInit {
         } else {
           this.isPayrollEmpty = true;
         }
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();
@@ -217,12 +223,18 @@ export class PayrollsGridComponent implements OnInit {
     });
     this.spinner.show();
     this.payrollsService.updateAdjustment(updateObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
         this.toastr.success(MessageConfig.PayRoll.Adjustment, 'Success!');
         this.runReport();
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();
@@ -267,14 +279,19 @@ export class PayrollsGridComponent implements OnInit {
 
 this.spinner.show();
     this.payrollsService.addPayRoll(obj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
 
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
 
         this.toastr.success(MessageConfig.PayRoll.Process, 'Success!');
         this.runReport();
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

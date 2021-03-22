@@ -79,12 +79,15 @@ export class EmployeeHandBookComponent implements OnInit {
   confirmDelete(Id) {
     this.spinner.show();
     this.documentService.deleteDocumentById(Id, 'EMPLOYEEHANDBOOK').subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Delete, 'Success!');
         this.fileName = null;
         this.getDocument();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
@@ -104,7 +107,6 @@ this.spinner.hide();
       }
     }
     ,  (err) => {
-this.spinner.hide();
                     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
                   });
   }
@@ -112,20 +114,24 @@ this.spinner.hide();
   getDocument() {
     this.isLoading = true;
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
-      this.isLoading = false;
       if (data.status === 'Success') {
+        this.isLoading = false;
+
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
         this.sort(ApplicationConfig.Sorting.SortBy.EmployeeHandbook)
 
       } else {
+        this.isLoading = false;
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       this.isLoading = false;
-      this.spinner.hide();
     });
   }
 
@@ -146,7 +152,6 @@ this.spinner.hide();
       }
     },
       (err) => {
-      this.spinner.hide();
                           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
                         }
     );

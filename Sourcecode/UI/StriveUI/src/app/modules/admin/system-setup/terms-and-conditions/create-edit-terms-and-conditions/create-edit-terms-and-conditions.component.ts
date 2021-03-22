@@ -147,11 +147,14 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     };
     this.spinner.show();
     this.document.addDocument(finalObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success( MessageConfig.Admin.SystemSetup.TermsCondition.Add, 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }

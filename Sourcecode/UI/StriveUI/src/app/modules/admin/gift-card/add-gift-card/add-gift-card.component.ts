@@ -143,12 +143,15 @@ export class AddGiftCardComponent implements OnInit {
     };
   this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.GiftCard.Add , 'Success!');
         this.activeModal.close(true);
         this.router.navigate(['/admin/gift-card']);
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.giftCardForm.reset();
       }
@@ -167,7 +170,6 @@ export class AddGiftCardComponent implements OnInit {
   }
 giftCardExist(event){
   this.giftCardService.GiftCardAlreadyExists(event).subscribe(res => {
-    this.spinner.hide();
     if (res.status === 'Success') {
     const GiftcardNumber = JSON.parse(res.resultData)
     this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable
@@ -185,14 +187,10 @@ giftCardExist(event){
     } 
     }else{
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
-      this.spinner.hide();
     }
    
   }, (err) => {
     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
-    this.spinner.hide();
   });
  
 }

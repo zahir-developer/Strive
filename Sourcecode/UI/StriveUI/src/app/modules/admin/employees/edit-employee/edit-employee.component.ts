@@ -551,11 +551,14 @@ export class EditEmployeeComponent implements OnInit {
     };
     this.spinner.show();
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Employee.Update , 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

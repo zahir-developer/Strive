@@ -92,11 +92,14 @@ export class AddActivityComponent implements OnInit {
     };
     this.spinner.show();
     this.giftCardService.addCardHistory(finalObj).subscribe( res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.GiftCard.ActivityAdd, 'Success!');
         this.activeModal.close(true);
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

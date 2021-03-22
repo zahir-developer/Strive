@@ -158,8 +158,9 @@ export class MembershipListComponent implements OnInit {
   delete(data) {
     this.spinner.show();
     this.member.deleteRestrictionMembershipVehicle(data.MembershipId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const vehicle = JSON.parse(res.resultData);
         if (vehicle.VehicleMembershipByMembershipId == false ) {
     this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
@@ -174,6 +175,8 @@ export class MembershipListComponent implements OnInit {
       }
   
    else {
+    this.spinner.hide();
+
     this.toastr.warning(MessageConfig.Admin.SystemSetup.MemberShipSetup.DeleteRestrict, 'Warning!' );
 
    }
@@ -193,11 +196,14 @@ this.spinner.hide();
   confirmDelete(data) {
     this.spinner.show();
     this.member.deleteMembership(data.MembershipId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === "Success") {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Delete,'Success');
         this.getAllMembershipDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     },(err) => {
@@ -228,8 +234,9 @@ this.spinner.hide();
   getMembershipById(det) {
     this.spinner.show();
     this.member.getMembershipById(det.MembershipId).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const membership = JSON.parse(data.resultData);
         const details = membership.MembershipAndServiceDetail;
         this.headerData = 'Edit Membership';
@@ -237,6 +244,8 @@ this.spinner.hide();
         this.isEdit = true;
         this.showDialog = true;
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {

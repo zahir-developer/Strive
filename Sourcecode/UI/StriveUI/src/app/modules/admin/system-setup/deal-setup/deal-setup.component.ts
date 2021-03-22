@@ -123,9 +123,14 @@ this.isLoading = false;
     };
     this.spinner.show();
     this.Deals.addDealsSetup(finalObj).subscribe( res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.getDeals();
+      }
+      else{
+        this.spinner.hide();
+
       }
     },
       (err) => {

@@ -118,8 +118,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.storeStatus = '';
     this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
-      this.spinner.hide();
       if (data.status === "Success") {
+        this.spinner.hide();
+
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
         if (this.closeOutDetails.CashRegister !== null) {
@@ -187,6 +188,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterBillForm.reset();
           this.cashRegisterRollForm.reset();
         }
+      }
+      else{
+        this.spinner.hide();
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -313,7 +318,6 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       this.submitted = false;
-      this.spinner.hide();
       if (data.status === "Success") {
         this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
 

@@ -162,13 +162,16 @@ export class DealsAddComponent implements OnInit {
 
     this.spinner.show();
     this.deals.addDealsSetup(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.Deal.Add, 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.getDeals.emit();
         this.isLoading = false;
       } else {
+        this.spinner.hide();
+
         this.isLoading = false;
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;

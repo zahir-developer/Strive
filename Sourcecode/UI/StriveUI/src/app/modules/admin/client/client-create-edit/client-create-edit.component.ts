@@ -84,7 +84,6 @@ export class ClientCreateEditComponent implements OnInit {
     }
     , (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      this.spinner.hide();
     }
     );
   }
@@ -160,8 +159,9 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.client.updateClient(myObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.deleteIds.forEach(element => {
             this.vehicle.deleteVehicle(element.VehicleId).subscribe(res => {
               if (res.status === 'Success') {
@@ -174,6 +174,8 @@ export class ClientCreateEditComponent implements OnInit {
           this.toastr.success(MessageConfig.Client.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
@@ -184,11 +186,14 @@ export class ClientCreateEditComponent implements OnInit {
     } else {
       this.spinner.show();
       this.client.addClient(myObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Client.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.clientFormComponent.clientForm.reset();
         }

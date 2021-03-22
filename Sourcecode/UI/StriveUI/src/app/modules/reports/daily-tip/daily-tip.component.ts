@@ -59,14 +59,20 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     this.totalTip = 0;
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const dailytip = JSON.parse(data.resultData);
         this.dailyTip = dailytip.GetEmployeeTipReport;
         this.dailyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;
         });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

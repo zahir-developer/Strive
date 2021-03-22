@@ -48,14 +48,17 @@ export class MonthlyCustomerDetailComponent implements OnInit {
     };
     this.spinner.show();
     this.reportService.getCustomerMonthlyDetailReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide()
         this.selectedDate = this.month + '/' + this.year;
         const customerDetailReport = JSON.parse(data.resultData);
         this.customerDetailReport = customerDetailReport?.GetCustomerMonthlyDetailReport ?
           customerDetailReport?.GetCustomerMonthlyDetailReport : [];
         this.customizeObject();
       } else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
         this.selectedDate = this.month + '/' + this.year;
       }
     }, (err) => {

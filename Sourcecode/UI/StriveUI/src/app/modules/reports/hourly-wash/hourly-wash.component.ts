@@ -101,8 +101,8 @@ export class HourlyWashComponent implements OnInit {
     };
     this.spinner.show();
     this.reportsService.getHourlyWashReport(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide()
         const hourlyRate = JSON.parse(res.resultData);
         this.salesDetails = [];
         this.totalWashCount = [];
@@ -228,6 +228,11 @@ export class HourlyWashComponent implements OnInit {
             });
           });
         }
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

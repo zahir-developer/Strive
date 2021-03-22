@@ -150,13 +150,16 @@ export class EmployeeListComponent implements OnInit {
     const id = employeeDetail.EmployeeId;
     this.spinner.show();
     this.employeeService.deleteEmployee(id).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Employee.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
 
         this.seachEmployee();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -180,8 +183,9 @@ export class EmployeeListComponent implements OnInit {
     };
     this.employeeDetails = [];
     this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const seachList = JSON.parse(res.resultData);
         if (seachList.EmployeeList.Employee !== null) {
           this.employeeDetails = seachList.EmployeeList.Employee;
@@ -189,6 +193,8 @@ export class EmployeeListComponent implements OnInit {
           this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
         }
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -218,7 +224,6 @@ export class EmployeeListComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      this.spinner.hide();
     });
   }
 
@@ -245,7 +250,6 @@ export class EmployeeListComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      this.spinner.hide();
     });
   }
 

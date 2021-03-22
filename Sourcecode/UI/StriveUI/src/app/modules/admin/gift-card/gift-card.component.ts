@@ -78,8 +78,9 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
     this.giftCardList = [];
     this.spinner.show();
     this.giftCardService.getAllGiftCard(obj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const giftcard = JSON.parse(res.resultData);
         if (giftcard.GiftCard.GiftCardViewModel !== null) {
           this.giftCardList = giftcard.GiftCard.GiftCardViewModel;
@@ -90,6 +91,10 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
           this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
           this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
         }
+
+      }
+      else{
+        this.spinner.hide();
 
       }
     }, (err) => {

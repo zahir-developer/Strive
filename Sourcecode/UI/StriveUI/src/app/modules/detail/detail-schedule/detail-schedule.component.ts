@@ -127,8 +127,9 @@ export class DetailScheduleComponent implements OnInit {
     //this.getDetailScheduleStatus();
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const scheduleDetails = JSON.parse(res.resultData);
         const bayList = scheduleDetails.GetBaySchedulesDetails.BayList;
         const bayScheduleDetails = scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails === null ? []
@@ -185,6 +186,11 @@ export class DetailScheduleComponent implements OnInit {
           }
         });
         this.todayScheduleComponent.getTodayDateScheduleList();
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (error) => {
       this.spinner.hide();

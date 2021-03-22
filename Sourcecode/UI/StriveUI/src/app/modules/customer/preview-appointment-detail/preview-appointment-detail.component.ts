@@ -105,22 +105,34 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     if (this.scheduleDetailObj.isEdit) {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.confirmation.emit();
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     } else {
       this.spinner.show();
       this.detailService.addDetail(formObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.confirmation.emit();
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     }
   }
@@ -141,6 +153,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -150,6 +164,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
         const status = JSON.parse(res.resultData);
         this.jobStatus = status.Codes;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

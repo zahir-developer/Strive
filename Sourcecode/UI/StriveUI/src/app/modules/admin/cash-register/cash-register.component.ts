@@ -132,7 +132,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-     }
+  }
 
   // Get CashInRegister By Date
   getCashRegister() {
@@ -153,14 +153,15 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.storeStatus = '';
     this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const cashIn = JSON.parse(data.resultData);
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
           this.storeStatus = this.cashDetails.CashRegister.StoreOpenCloseStatus !== null ?
-           +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
+            +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
           this.storeTimeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
@@ -210,13 +211,21 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             });
           }, 1200);
           this.getTotalCash();
-        } else {
+        } 
+        
+        
+        else {
+
           this.isUpdate = false;
           this.cashRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
           this.cashRegisterBillForm.reset();
           this.cashRegisterRollForm.reset();
         }
+      }
+      else{
+        this.spinner.hide();
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -228,9 +237,13 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   getWeatherDetails = () => {
     this.spinner.show();
     this.weatherService.data.subscribe((data: any) => {
-      this.spinner.hide();
       if (data !== undefined) {
+        this.spinner.hide();
+
         this.weatherDetails = data;
+      }else{
+        this.spinner.hide();
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -247,9 +260,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
     );
   }
   // Add/Update CashInRegister
@@ -368,7 +381,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
-      this.spinner.hide();
       this.submitted = false;
       if (data.status === 'Success') {
         this.spinner.hide();
@@ -379,7 +391,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             this.spinner.hide();
 
             this.toggleTab = 0;
-          
+
             this.weatherService.getWeather();
             this.getTargetBusinessData(this.locationId, this.Todaydate);
             this.getCashRegister();
@@ -394,10 +406,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      this.spinner.hide();
-    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
+      }
     );
     this.toggleTab = 0;
   }
@@ -499,15 +511,14 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
-        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue === ApplicationConfig.storestatus.open);
+        this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue === ApplicationConfig.storestatus.open);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      this.spinner.hide();
-    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
     );
   }
 

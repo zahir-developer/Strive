@@ -224,11 +224,14 @@ export class AdSetupCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.adSetup.updateAdSetup(objList).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.adSetupForm.reset();
           this.submitted = false;
@@ -240,11 +243,14 @@ this.spinner.hide();
     } else {
       this.spinner.show();
       this.adSetup.addAdSetup(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.adSetupForm.reset();
           this.submitted = false;

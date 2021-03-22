@@ -6,6 +6,8 @@ import { AuthService } from '../../services/common-service/auth.service';
 import { LandingService } from '../../services/common-service/landing.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
 import { UserDataService } from '../../util/user-data.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-session-logout',
@@ -27,7 +29,8 @@ export class SessionLogoutComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private getCodeService: GetCodeService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -76,6 +79,9 @@ export class SessionLogoutComponent implements OnInit {
         // this.landing.loadTheLandingPage();
         this.closeDialog.emit();
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -85,6 +91,8 @@ export class SessionLogoutComponent implements OnInit {
         const value = JSON.parse(res.resultData);
         localStorage.setItem('codeValue', JSON.stringify(value.Codes));
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { StateService } from '../../services/common-service/state.service';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-state-dropdown',
@@ -15,7 +17,8 @@ export class StateDropdownComponent implements OnInit, AfterViewChecked {
   states: any;
   state: { name: any; value: any; };
   stateValueSelection: boolean = false;
-  constructor(private stateService: StateService, private cdRef: ChangeDetectorRef) { }
+  constructor(private stateService: StateService, private cdRef: ChangeDetectorRef,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.submitted = false;
@@ -38,6 +41,7 @@ export class StateDropdownComponent implements OnInit, AfterViewChecked {
       });
       this.setValue();
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   stateSelection(event) {

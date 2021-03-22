@@ -54,8 +54,8 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
     const date = this.year + '-' + this.month;
     this.spinner.show();
     this.reportsService.getMonthlyMoneyOwnedReport(date, this.locationId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide()
         const monthlyReport = JSON.parse(res.resultData);
         this.uniqLocationName = [];
         this.ownedReportList = [];
@@ -106,6 +106,11 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
           });
           this.moontlyOwnedGrid(monthlyReport.GetMonthlyMoneyOwnedReport, uniqDate);
         }
+      }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
       this.spinner.hide();

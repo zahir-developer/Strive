@@ -1,5 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { WhiteLabelService } from 'src/app/shared/services/data-service/white-label.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-custom-theme',
@@ -22,7 +25,9 @@ export class CustomThemeComponent implements OnInit {
   @Output() closeColorPopup = new EventEmitter();
   @Input() customColor?: any;
   constructor(
-    private whiteLabelService: WhiteLabelService
+    private whiteLabelService: WhiteLabelService,
+    private spinner : NgxSpinnerService,
+    private  toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -70,10 +75,18 @@ export class CustomThemeComponent implements OnInit {
     const finalObj = {
       themes: customColorObj
     };
+    this.spinner.show();
     this.whiteLabelService.saveCustomColor(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
         this.closePopup();
       }
+      else{
+this.spinner.hide();
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

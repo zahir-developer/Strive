@@ -4,6 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/common-service/auth.service';
 import { LandingService } from '../../services/common-service/landing.service';
 import { UserDataService } from '../../util/user-data.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-idle-lockout',
@@ -24,7 +27,9 @@ export class IdleLockoutComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private fb: FormBuilder,
-    private landing: LandingService
+    private landing: LandingService,
+    private toastr: ToastrService,
+    private spinner :NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -63,11 +68,22 @@ export class IdleLockoutComponent implements OnInit {
       email: this.authentication.value.username,
       passwordHash: this.authentication.value.password
     };
+    this.spinner.show();
     this.authService.login(obj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.landing.loadTheLandingPage();
         this.closeDialog.emit();
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

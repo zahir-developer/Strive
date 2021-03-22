@@ -15,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class CollisionListComponent implements OnInit {
   @Input() employeeId?: any;
-  @Input() employeeCollision?: any ;
+  @Input() employeeCollision?: any;
   @Input() actionType?: any;
   @Input() isModal?: any;
   @Output() public reloadCollisionGrid = new EventEmitter();
@@ -29,7 +29,7 @@ export class CollisionListComponent implements OnInit {
     private modalService: NgbModal,
     private confirmationService: ConfirmationUXBDialogService,
     private toastr: ToastrService,
-    private spinner : NgxSpinnerService
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class CollisionListComponent implements OnInit {
         const employees = JSON.parse(res.resultData);
         this.employeeCollision = [];
         if (employees.Employee.EmployeeCollision !== null) {
-          this.employeeCollision = employees.Employee.EmployeeCollision;          
+          this.employeeCollision = employees.Employee.EmployeeCollision;
         }
         this.collistionGrid();
       }
@@ -96,11 +96,14 @@ export class CollisionListComponent implements OnInit {
     const collisionId = collision.LiabilityId;
     this.spinner.show();
     this.employeeService.deleteCollision(collisionId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Collision.Delete, 'Success!');
         this.employeeDetail();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -121,9 +124,9 @@ export class CollisionListComponent implements OnInit {
         }
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   closeModal() {

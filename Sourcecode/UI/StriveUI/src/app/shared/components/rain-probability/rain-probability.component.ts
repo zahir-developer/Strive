@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../../services/common-service/weather.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-rain-probability',
@@ -9,7 +11,8 @@ import { WeatherService } from '../../services/common-service/weather.service';
 export class RainProbabilityComponent implements OnInit {
   rainPrediction: any;
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getWeatherDetails();
@@ -20,6 +23,8 @@ export class RainProbabilityComponent implements OnInit {
       if (data !== undefined) {
       this.rainPrediction = data.currentWeather?.rainPercentage;
       }
+  }, (err) => {
+    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
   });
 }
 }

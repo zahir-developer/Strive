@@ -209,11 +209,14 @@ export class LocationCreateEditComponent implements OnInit {
     if (this.isEdit === false) {
       this.spinner.show();
       this.locationService.saveLocation(finalObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error('Communication Error', 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;
@@ -226,11 +229,14 @@ export class LocationCreateEditComponent implements OnInit {
     } else {
       this.spinner.show();
       this.locationService.updateLocation(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;

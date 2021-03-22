@@ -168,11 +168,14 @@ this.isLoading = false;
   confirmDelete(data) {
     this.spinner.show();
     this.locationService.deleteLocation(data.LocationId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Delete, 'Success!');
         this.getAllLocationSetupDetails();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }

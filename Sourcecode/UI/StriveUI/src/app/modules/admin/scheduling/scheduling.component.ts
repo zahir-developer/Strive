@@ -279,17 +279,22 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.scheduleService.saveSchedule(scheduleObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
         $('#calendarModal').modal('hide');
         this.getSchedule();
       } else {
+        this.spinner.hide();
+
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
         this.getSchedule();
         $('#calendarModal').modal('hide');
       }
     }, (err) => {
+      this.spinner.hide();
+
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       this.getSchedule();
       $('#calendarModal').modal('hide');
@@ -307,8 +312,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       endDate: this.endDate,
       locationId: this.locationId ? this.locationId : 0
     };
+    this.spinner.show();
     this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const empSchehdule = JSON.parse(data.resultData);
         if (empSchehdule.ScheduleDetail !== null) {
           this.totalHours = empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours ?
@@ -339,6 +347,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
         this.removeDraggedEvent();
         this.retainUnclickedEvent();
+      }
+      else{
+        this.spinner.hide();
+
       }
     }
     , (err) => {
@@ -498,14 +510,17 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     };
     this.getJobType();
     this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.empList = JSON.parse(res.resultData);
         const seachList = JSON.parse(res.resultData);
         if (seachList.EmployeeList.Employee !== null) {
           this.empList = seachList.EmployeeList.Employee;
         }
       } else {
+        this.spinner.hide();
+
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     }, (err) => {

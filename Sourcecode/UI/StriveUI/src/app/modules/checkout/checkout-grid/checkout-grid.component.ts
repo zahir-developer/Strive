@@ -78,8 +78,9 @@ export class CheckoutGridComponent implements OnInit {
     };
     this.spinner.show();
     this.checkout.getUncheckedVehicleDetails(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const uncheck = JSON.parse(data.resultData);
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
         if (this.uncheckedVehicleDetails == null) {
@@ -89,6 +90,8 @@ export class CheckoutGridComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -161,12 +164,17 @@ export class CheckoutGridComponent implements OnInit {
         };
         this.spinner.show();
         this.checkout.checkoutVehicle(finalObj).subscribe(res => {
-          this.spinner.hide();
           if (res.status === 'Success') {
+            this.spinner.hide();
+
             this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
             this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
 
             this.getAllUncheckedVehicleDetails();
+          }
+          else{
+            this.spinner.hide();
+
           }
         }, (err) => {
           this.spinner.hide();

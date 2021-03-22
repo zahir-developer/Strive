@@ -333,8 +333,8 @@ export class SalesComponent implements OnInit {
       });
       this.spinner.show();
       this.salesService.getItemByTicketNumber(ticketNumber).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
@@ -396,6 +396,11 @@ export class SalesComponent implements OnInit {
             this.enableButton = false;
           }
         }
+        else{
+          this.spinner.hide();
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+  
+        }
       }, (err) => {
         this.enableAdd = false;
         this.spinner.hide();
@@ -441,15 +446,20 @@ export class SalesComponent implements OnInit {
       ItemId: itemId,
       IsJobItem: data?.JobItemId ? true : false
     };
+    this.spinner.show();
     this.salesService.deleteItemById(deleteItem).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
         this.getDetailByTicket(false);
-      } else {
+      } else {       
+         this.spinner.hide();
+
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.spinner.hide();
+ this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
     });
   }
   openCash() {
@@ -1108,8 +1118,9 @@ export class SalesComponent implements OnInit {
 
     this.spinner.show();
     this.salesService.addPayemnt(paymentDetail).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+  
         if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel?.CodeValue === 'Comp') {
           const amt = (+this.accountDetails?.SalesAccountViewModel?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
           const obj = {
@@ -1125,6 +1136,8 @@ export class SalesComponent implements OnInit {
           this.router.navigate([`/checkout`], { relativeTo: this.route });
         }
       } else {
+        this.spinner.hide();
+  
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
       }
     }, (err) => {

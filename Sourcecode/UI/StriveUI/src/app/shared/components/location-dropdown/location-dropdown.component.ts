@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LocationService } from '../../services/data-service/location.service';
 import { MessageServiceToastr } from '../../services/common-service/message.service';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-location-dropdown',
@@ -12,7 +14,9 @@ export class LocationDropdownComponent implements OnInit {
   locationId: any;
   locationName = '';
   @Output() emitLocation = new EventEmitter();
-  constructor(private locationService: LocationService, private messageService: MessageServiceToastr) { }
+  constructor(private locationService: LocationService, private messageService: MessageServiceToastr,
+    private toastr: ToastrService,
+    ) { }
 
   ngOnInit(): void {
     this.locationId = +localStorage.getItem('empLocationId');
@@ -25,8 +29,10 @@ export class LocationDropdownComponent implements OnInit {
         this.location = location.Location;
         this.getLocationNameById(this.locationId);
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   changeLocation(event) {

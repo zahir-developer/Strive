@@ -115,8 +115,9 @@ export class WashesListComponent implements OnInit {
     };
     this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
-      this.spinner.hide();
+      
       if (data.status === 'Success') {
+        this.spinner.hide()
         const wash = JSON.parse(data.resultData);
         this.getJobType();
         if (wash.Washes !== null) {
@@ -177,11 +178,13 @@ export class WashesListComponent implements OnInit {
           }
         }
       } else {
-        this.isTableEmpty === false
+        this.isTableEmpty === false;
+        this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   edit(data) {
@@ -201,15 +204,21 @@ export class WashesListComponent implements OnInit {
 
   // Delete Wash
   confirmDelete(data) {
+    this.spinner.show();
     this.washes.deleteWash(data.JobId).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
         this.toastr.success(MessageConfig.Wash.Delete, 'Success!');
         this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Washes, sortOrder: ApplicationConfig.Sorting.SortOrder.Washes.order };
 
         this.getAllWashDetails();
       } else {
+        this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   closePopupEmit(event) {
@@ -243,6 +252,8 @@ export class WashesListComponent implements OnInit {
     this.spinner.show();
     this.washes.getWashById(washDet.JobId).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const wash = JSON.parse(data.resultData);
         if (label === 'edit') {
           this.headerData = 'Edit Service';
@@ -250,19 +261,20 @@ export class WashesListComponent implements OnInit {
           this.isEdit = true;
           this.isView = false;
           this.showDialog = true;
-          this.spinner.hide();
         } else {
           this.headerData = 'View Service';
           this.selectedData = wash.WashesDetail;
           this.isEdit = true;
           this.isView = true;
           this.showDialog = true;
-          this.spinner.hide();
         }
       } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -306,6 +318,8 @@ export class WashesListComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

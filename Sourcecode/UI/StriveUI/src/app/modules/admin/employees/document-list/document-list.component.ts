@@ -112,11 +112,14 @@ export class DocumentListComponent implements OnInit {
     const docId = documentList.EmployeeDocumentId;
     this.spinner.show();
     this.employeeService.deleteDocument(docId).subscribe( res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.toastr.success(MessageConfig.Document.Delete, 'Success!');
         this.getAllDocument();
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
