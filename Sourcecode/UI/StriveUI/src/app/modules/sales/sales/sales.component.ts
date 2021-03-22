@@ -926,15 +926,15 @@ export class SalesComponent implements OnInit {
       return;
     }
 
-    if (this.credit !== 0) {
-      const ngbModalOptions: NgbModalOptions = {
-        backdrop: 'static',
-        keyboard: false,
-        size: 'sm'
-      };
-      const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
-      return;
-    }
+    // if (this.credit !== 0) {
+    //   const ngbModalOptions: NgbModalOptions = {
+    //     backdrop: 'static',
+    //     keyboard: false,
+    //     size: 'sm'
+    //   };
+    //   const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+    //   return;
+    // }
   
     let giftcard = null;
     let discount = null;
