@@ -64,13 +64,12 @@ export class ServiceCreateEditComponent implements OnInit {
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
-    this.formInitialize();
     this.ctypeLabel = 'none';
-    this.getCommissionType();
-    this.getLocation();
     this.isChecked = false;
     this.submitted = false;
-    
+    this.getLocation();
+    this.formInitialize();
+    this.getCommissionType();
   }
 
   formInitialize() {
@@ -104,16 +103,7 @@ export class ServiceCreateEditComponent implements OnInit {
         name: item.LocationName
       };
     });
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
+    this.dropDownSetting();
   }
   getLocation() {
     this.employeeService.getLocation().subscribe(res => {
@@ -126,18 +116,22 @@ export class ServiceCreateEditComponent implements OnInit {
             name: item.LocationName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'id',
-          textField: 'name',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropDownSetting();
       }
     });
+  }
+
+  dropDownSetting() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: false
+    };
   }
 
   // Get Service By Id
@@ -164,6 +158,7 @@ export class ServiceCreateEditComponent implements OnInit {
         };
         const selectedLocation = [];
         selectedLocation.push(locObj);
+        this.dropDownSetting();
         this.serviceSetupForm.patchValue({
           serviceType: this.selectedService?.ServiceTypeId,
           name: this.selectedService?.ServiceName,
@@ -280,7 +275,6 @@ export class ServiceCreateEditComponent implements OnInit {
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
-
         }
         
       } else {
