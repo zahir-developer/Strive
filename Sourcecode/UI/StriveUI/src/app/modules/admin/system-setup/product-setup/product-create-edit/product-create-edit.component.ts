@@ -57,23 +57,17 @@ export class ProductCreateEditComponent implements OnInit {
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
     this.textDisplay = false;
-    this.getProductType();
+    this.getLocation();
     this.getAllVendor();
+    this.getProductType();
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
-    this.getLocation();
     if (this.isEdit === true) {
       this.productSetupForm.reset();
       this.getProductById();
       this.getSize();
-      this.productSetupForm.controls.locationName.disable();
-
-    }
-    else {
-      this.productSetupForm.controls.locationName.enable();
-
     }
   }
 
@@ -208,10 +202,24 @@ export class ProductCreateEditComponent implements OnInit {
           id : this.selectedProduct.LocationId,
           name
         };
+        const selectedLocation = [];
+        selectedLocation.push(locObj);
+        let vendorName = '';
+        this.Vendor.forEach( item => {
+          if (+item.id === +this.selectedProduct.VendorId) {
+            vendorName = item.name;
+          }
+        });
+        const vendorObj = {
+          id : this.selectedProduct.VendorId,
+          name: vendorName
+        };
+        const selectedVendor = [];
+        selectedVendor.push(vendorObj);
         this.dropdownSetting();
         this.productSetupForm.patchValue({
           productType: this.selectedProduct.ProductType,
-          locationName: locObj,
+          locationName: selectedLocation,
           name: this.selectedProduct.ProductName,
           cost: this.selectedProduct?.Cost?.toFixed(2),
           suggested: this.selectedProduct?.Price?.toFixed(2),
@@ -220,7 +228,7 @@ export class ProductCreateEditComponent implements OnInit {
           size: this.selectedProduct.Size,
           quantity: this.selectedProduct.Quantity,
           status: this.selectedProduct.IsActive ? 0 : 1,
-          vendor: this.selectedProduct.VendorId,
+          vendor: selectedVendor,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
         this.fileName = this.selectedProduct.FileName;
@@ -233,7 +241,6 @@ export class ProductCreateEditComponent implements OnInit {
             this.enableOtherSize(sizeObj);
           }
         }
-
         this.change(this.selectedProduct.IsTaxable);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -282,7 +289,7 @@ export class ProductCreateEditComponent implements OnInit {
     const vendorList = [];
     const productList = [];
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
-      this.productSetupForm.value.locationName.map(item => {
+      (this.productSetupForm.value.locationName || []).map(item => {
         this.productSetupForm.value.vendor.forEach(vendor => {
           productObj.productCode = null;
           productObj.productDescription = null;

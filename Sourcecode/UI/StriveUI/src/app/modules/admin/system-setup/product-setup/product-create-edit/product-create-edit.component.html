@@ -77,7 +77,7 @@
                 <option value="" selected hidden>Choose</option>
                 <option *ngFor="let vendor of Vendor" value="{{vendor.VendorId}}">{{vendor.VendorName}}</option>
             </select> -->
-            <ng-multiselect-dropdown [placeholder]="'Select Vendor'" [settings]="dropdownSettings" [data]="Vendor"
+            <ng-multiselect-dropdown [placeholder]="'Select Vendor'" [disabled]="isEdit" [settings]="dropdownSettings" [data]="Vendor"
                 formControlName="vendor">
             </ng-multiselect-dropdown>
         </div>
