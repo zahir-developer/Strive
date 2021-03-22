@@ -39,10 +39,7 @@ namespace Admin.API.Controllers
         {
             return _bplManager.DeleteItemById(itemDto);
         }
-
-        [HttpGet]
-        [Route("GetTicketNumber")]
-        public string GetTicketNumber() => _bplManager.GetTicketNumber();
+        
 
         [HttpPost]
         [Route("GetItemList")]
@@ -60,7 +57,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("AddPayment")]
-        public Result AddPayment([FromBody] SalesPaymentDto salesPayment) => _bplManager.AddPayment(salesPayment);
+        public Result AddPayment([FromBody] SalesPaymentDetailDto salesPayment) => _bplManager.AddPayment(salesPayment);
 
         [HttpPost]
         [Route("AddListItem")]
@@ -88,10 +85,10 @@ namespace Admin.API.Controllers
             return _bplManager.RollBackPayment(salesItemDeleteDto);
         }
         [HttpGet]
-        [Route("GetAllServiceAndProductList")]
-        public Result GetServicesAndProduct()
+        [Route("GetAllServiceAndProductList/{id}")]
+        public Result GetServicesAndProduct(int id)
         {
-            return _bplManager.GetServicesAndProduct();
+            return _bplManager.GetServicesAndProduct(id);
         }
     }
 }

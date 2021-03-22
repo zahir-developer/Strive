@@ -8,7 +8,8 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class RolePermissionViewModel
     {
-        public int EmployeeID { get; set; }       
+        public int EmployeeID { get; set; }      
+        public int ClientId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int RoleId { get; set; }

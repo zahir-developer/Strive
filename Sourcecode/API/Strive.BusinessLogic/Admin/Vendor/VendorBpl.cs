@@ -39,5 +39,10 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new VendorRal(_tenant).GetVendorSearch, search, "VendorSearch");
         }
+
+        public Result GetAllVendorName()
+        {
+            return ResultWrap(new VendorRal(_tenant).GetAllVendorName, "Vendor");
+        }
     }
 }

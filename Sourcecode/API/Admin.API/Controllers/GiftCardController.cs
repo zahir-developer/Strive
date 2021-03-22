@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Collision;
 using Strive.BusinessEntities.DTO.GiftCard;
 using Strive.BusinessLogic.GiftCard;
@@ -26,6 +27,7 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetGiftCard/{giftCardNumber}")]
         public Result GetGiftCardByGiftCardId(string giftCardNumber) => _bplManager.GetGiftCardByGiftCardId(giftCardNumber);
+
         [HttpGet]
         [Route("GetGiftCardHistoryByNumber/{giftCardNumber}")]
         public Result GetGiftCardHistoryByNumber(string giftCardNumber) => _bplManager.GetGiftCardHistoryByNumber(giftCardNumber);
@@ -67,14 +69,18 @@ namespace Admin.API.Controllers
 
         #endregion
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllGiftCard")]
-        public Result GetAllGiftCard(int locationId) => _bplManager.GetAllGiftCard();
+        public Result GetAllGiftCard([FromBody] SearchDto searchDto) => _bplManager.GetAllGiftCard(searchDto);
 
 
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteGiftCard(int id) => _bplManager.DeleteGiftCard(id);
+
+        [HttpGet]
+        [Route("IsGiftCardExist/{giftCardCode}")]
+        public Result IsGiftCardExist(string giftCardCode) => _bplManager.IsGiftCardExist(giftCardCode);
 
     }
 }

@@ -21,5 +21,7 @@ namespace Strive.BusinessLogic.Location
         Result GetAllLocationOffset();
 
         Result DeleteLocationOffset(int id);
+
+        Result GetAllLocationName();
     }
 }

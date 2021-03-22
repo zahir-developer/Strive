@@ -22,7 +22,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string Twitter { get; set; }
         public string Instagram { get; set; }
         public string WifiDetail { get; set; }
-        public int? WorkhourThreshold { get; set; }
+        public decimal? WorkhourThreshold { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
 

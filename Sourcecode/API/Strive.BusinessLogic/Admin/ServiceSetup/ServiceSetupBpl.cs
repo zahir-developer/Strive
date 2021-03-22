@@ -12,7 +12,7 @@ namespace Strive.BusinessLogic.ServiceSetup
         public ServiceSetupBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
 
-        public Result AddService(Service service)
+        public Result AddService(ServiceDto service)
         {
             return ResultWrap(new ServiceSetupRal(_tenant).AddService, service, "Status");
         }
@@ -42,9 +42,9 @@ namespace Strive.BusinessLogic.ServiceSetup
             return ResultWrap(new ServiceSetupRal(_tenant).DeleteServiceById, id, "ServiceDelete");
         }
        
-        public Result GetAllServiceDetail()
+        public Result GetAllServiceDetail(int locationId)
         {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceDetail, "AllServiceDetail");
+            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceDetail,locationId, "AllServiceDetail");
         }
         public Result GetServicesWithPrice()
         {

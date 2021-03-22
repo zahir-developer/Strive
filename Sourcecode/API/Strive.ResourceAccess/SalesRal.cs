@@ -53,13 +53,13 @@ namespace Strive.ResourceAccess
             var result = db.FetchSingle<SalesViewModel>(EnumSP.Sales.uspGetItemList.ToString(), _prm);
             return result;
         }
-        public List<SalesAccountViewModel> GetAccountDetails(SalesAccountDto salesAccountDto)
+        public SalesAccountDeatilViewModel GetAccountDetails(SalesAccountDto salesAccountDto)
         {
             _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
-            return  db.Fetch<SalesAccountViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
-            
-        }
+            return db.FetchMultiResult<SalesAccountDeatilViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
 
+        }
+       
         public string GetTicketNumber()
         {
             return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
@@ -103,9 +103,11 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public ServiceAndProductViewModel GetServicesAndProduct()
+        public ServiceAndProductViewModel GetServicesAndProduct( int id)
         {
-            return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), null);
+
+            _prm.Add("@LocationId", id);
+            return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), _prm);
         }
 
         public bool UpdateJobPayement(int? jobId, int jobPaymentid)
@@ -113,6 +115,14 @@ namespace Strive.ResourceAccess
             _prm.Add("JobId", jobId);
             _prm.Add("JobPaymentid", jobPaymentid);
             db.Save(EnumSP.Sales.USPUPDATEJOBPAYMENT.ToString(), _prm);
+            return true;
+        }
+
+        public bool UpdateProductQuantity(int? qaunatity, int? productId)
+        {
+            _prm.Add("Quantity", qaunatity);
+            _prm.Add("ProductId", productId);
+            db.Save(EnumSP.Sales.USPUPDATEPRODUCTQUANTITY.ToString(), _prm);
             return true;
         }
     }

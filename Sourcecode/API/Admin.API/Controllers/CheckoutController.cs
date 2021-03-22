@@ -19,16 +19,14 @@ namespace Admin.API.Controllers
     {
         public CheckoutController(ICheckoutBpl prdBpl) : base(prdBpl) { }
 
-        #region GET
+        #region POST
         /// <summary>
         /// Method to Get CheckedIn Vehicle Details.
         /// </summary>
         [HttpPost]
         [Route("GetAllCheckoutDetails")]
-        public Result GetAllCheckoutDetails([FromBody]CheckOutDto checkoutDto) => _bplManager.GetAllCheckoutDetails(checkoutDto);
-        #endregion
-
-        #region POST
+        public Result GetAllCheckoutDetails([FromBody]SearchDto checkoutDto) => _bplManager.GetAllCheckoutDetails(checkoutDto);
+      
         /// <summary>
         /// Method to Update Checkout Flag and Checkout Time
         /// </summary>
@@ -41,7 +39,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("UpdateJobStatusHold")]
-        public Result UpdateJobStatusHold([FromBody]JobIdDto jobIdDto) => _bplManager.UpdateJobStatusHold(jobIdDto);
+        public Result UpdateJobStatusHold([FromBody]CheckoutHoldDto checkoutHoldDto) => _bplManager.UpdateJobStatusHold(checkoutHoldDto);
 
         /// <summary>
         /// Method to Update Job Status AS COMPLETED

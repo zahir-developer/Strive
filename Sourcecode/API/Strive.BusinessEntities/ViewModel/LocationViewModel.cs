@@ -20,7 +20,7 @@ namespace Strive.BusinessEntities.DTO.Location
         public decimal? Latitude { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string WorkhourThreshold { get; set; }
+        public decimal? WorkhourThreshold { get; set; }
         public bool IsActive { get; set; }
         public bool IsFranchise { get; set; }
         public string Address1 { get; set; }

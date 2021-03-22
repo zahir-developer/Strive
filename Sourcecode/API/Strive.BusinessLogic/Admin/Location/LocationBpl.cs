@@ -8,7 +8,7 @@ using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
 using System.Net;
-
+using GoogleMaps.LocationServices;
 namespace Strive.BusinessLogic.Location
 {
     public class LocationBpl : Strivebase, ILocationBpl
@@ -37,8 +37,15 @@ namespace Strive.BusinessLogic.Location
             location.Drawer = CreateDrawer();
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            try
+            {
+                var LocationGeo = GetLocationGeo(location.LocationAddress);
 
-            //var LocationGeo = GetLocationGeo(location.LocationAddress);
+            }
+            catch (Exception ex)
+            {
+
+            }
             //var apiLocationId = CreateLocationForWeatherPortal();
 
             //location.Drawer = new BusinessEntities.Model.Drawer();
@@ -82,7 +89,12 @@ namespace Strive.BusinessLogic.Location
 
         private string GetLocationGeo(LocationAddress locationAddress)
         {
-            throw new NotImplementedException();
+            var locationService = new GoogleLocationService();
+            var point = locationService.GetLatLongFromAddress(locationAddress.Address1);
+            locationAddress.Latitude = point.Latitude.toDecimal();
+            var longitude = point.Longitude;
+            return "s";
+
         }
 
         //public async Task<Result> CreateLocationForWeatherPortal()
@@ -150,6 +162,12 @@ namespace Strive.BusinessLogic.Location
         {
 
             return ResultWrap(new LocationRal(_tenant).AddBaySolt, id, "bayslot");
+        }
+
+
+        public Result GetAllLocationName()
+        {
+            return ResultWrap(new LocationRal(_tenant).GetAllLocationName, "Location");
         }
     }
 }

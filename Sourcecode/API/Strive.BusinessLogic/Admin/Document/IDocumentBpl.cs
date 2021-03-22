@@ -21,7 +21,7 @@ namespace Strive.BusinessLogic.Document
         Result GetEmployeeDocumentByEmployeeId(int employeeId);
         Result DeleteEmployeeDocument(int documentId);
         void DeleteFile(GlobalUpload.DocumentType uploadFolder, string fileName);
-        void SaveThumbnail(int Width, int Height, string base64String, string saveFilePath);
+        string SaveThumbnail(GlobalUpload.DocumentType documentType, int Width, int Height, string base64String, string saveFilePath);
         string ValidateEmployeeFiles(List<EmployeeDocument> employeeDocument);
         int AddDocument(DocumentDto documentModel);
         Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
@@ -31,9 +31,7 @@ namespace Strive.BusinessLogic.Document
         bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType);
         Result GetDocumentByID(int documentTypeId, GlobalUpload.DocumentType documentType);
         Result GetAllDocument(int documentTypeId);
-        
-              Result DeleteDocumentByDocumentId (int documentId, GlobalUpload.DocumentType documentType);
-
+        Result DeleteDocumentByDocumentId(int documentId, GlobalUpload.DocumentType documentType);
 
     }
 }

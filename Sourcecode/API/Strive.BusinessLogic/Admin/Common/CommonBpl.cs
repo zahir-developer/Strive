@@ -100,6 +100,11 @@ namespace Strive.BusinessLogic.Common
             return lstGeocode;
         }
 
+        public void DeleteUser(int authId)
+        {
+            new CommonRal(_tenant, true).DeleteUser(authId);
+        }
+
         public Result GetCodesByCategory(int codeCategoryId)
         {
             try
@@ -208,8 +213,6 @@ namespace Strive.BusinessLogic.Common
 
         }
 
-
-
         public async Task<Result> GetAllWeatherLocations()
         {
             const string baseUrl = "https://api.climacell.co/";
@@ -275,7 +278,7 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public int CreateLogin(string emailId, string mobileNo)
+        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo)
         {
             string randomPassword = RandomString(6);
 
@@ -287,18 +290,16 @@ namespace Strive.BusinessLogic.Common
                 EmailId = emailId,
                 MobileNumber = mobileNo,
                 PasswordHash = passwordHash,
+                UserType = (int)userType,
                 SecurityStamp = "1",
                 LockoutEnabled = 0,
                 CreatedDate = DateTime.Now
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
-            if (authId > 0)
-            {
-                SendLoginCreationEmail(emailId, randomPassword);
-            }
-
-            return authId;
+            
+      
+            return (authId, randomPassword);
         }
 
         public bool Signup(UserSignupDto userSignup, Strive.BusinessEntities.Model.Client client)
@@ -338,7 +339,7 @@ namespace Strive.BusinessLogic.Common
             return detail;
         }
 
-
+   
 
         public Result SendOTP(string emailId)
         {
@@ -368,16 +369,49 @@ namespace Strive.BusinessLogic.Common
             }
             return _result;
         }
-        public void SendLoginCreationEmail(string emailId, string defaultPassword)
+        public void SendLoginCreationEmail(HtmlTemplate htmlTemplate,  string emailId, string defaultPassword)
         {
-            SendMail(emailId, @"<p> Welcome " + emailId + @",</p>
-            <p> You have successfully signed up with Strive.</p>
-            <p> Your login Credentials:</p>
-            <p> UserName: " + emailId + @".</p>
-            <p> Password: " + defaultPassword + @".</p>
-            <p> &nbsp;</p>
-            <p> Thanks,</p>
-            <p> Strive Team </p>", "Welcome to Strive");
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            keyValues.Add("{{emailId}}", emailId);
+            keyValues.Add("{{password}}", defaultPassword);
+
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
+
+            SendMail(emailId, emailContent, "Welcome to Strive !!!");
+        }
+
+        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues)
+        {
+            try
+            {
+                string emailContent = GetMailContent(htmlTemplate, keyValues);
+
+                SendMail(emailId, emailContent, "Welcome to Strive !!!");
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        public void SendHoldNotificationEmail(HtmlTemplate htmlTemplate,string emailId, string ticketNumber)
+        {
+
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            keyValues.Add("{emailId}", emailId);
+            keyValues.Add("{ticketNumber}", ticketNumber);
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
+            SendMail(emailId,emailContent, "Vehicle is on Hold");
+        }
+        public void SendProductThresholdEmail(HtmlTemplate htmlTemplate, string emailId, string productName)
+        {
+
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            keyValues.Add("{{emailId}}", emailId);
+            keyValues.Add("{{productName}}", productName);
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
+            SendMail(emailId, emailContent, "The Product has reached its threshold Limit");
         }
 
         private Result SendOtpEmail(string emailId, string otp)
@@ -426,5 +460,29 @@ namespace Strive.BusinessLogic.Common
 
         }
 
+        public string GetMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
+        {
+            string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
+
+            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
+
+            StreamReader str = new StreamReader(subPath);
+            string MailText = str.ReadToEnd();
+
+            foreach (var item in keyValues)
+            {
+
+                MailText = MailText.Replace(item.Key, item.Value);
+            }
+            str.Close();
+                 
+            return MailText;
+        }
+
+        public string GetTicketNumber(int locationId)
+        {
+            string ticketNumber = new CommonRal(_tenant, false).GetTicketNumber(locationId);
+            return ticketNumber;
+        }
     }
 }

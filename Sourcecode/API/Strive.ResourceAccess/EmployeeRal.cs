@@ -15,6 +15,7 @@ using System.Collections;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Employee;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.ResourceAccess
 {
@@ -34,10 +35,15 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<EmployeeListViewModel>(EnumSP.Employee.USPGETEMPLOYEELIST.ToString(), _prm);
         }
 
-        public List<EmployeeViewModel> GetAllEmployeeDetail(string employeeName)
+        public EmployeeViewModel GetAllEmployeeDetail(SearchDto searchDto)
         {
-            _prm.Add("@EmployeeName", employeeName);
-            return db.Fetch<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
+
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return db.FetchMultiResult<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
         }
 
         public bool AddEmployee(EmployeeModel employee)

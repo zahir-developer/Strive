@@ -286,7 +286,7 @@ namespace Strive.BusinessLogic.Document
             }
         }
 
-        private string GetUploadFolderPath(GlobalUpload.DocumentType module)
+        public string GetUploadFolderPath(GlobalUpload.DocumentType module)
         {
             string path = string.Empty;
             string subPath = string.Empty;
@@ -301,7 +301,9 @@ namespace Strive.BusinessLogic.Document
                 case GlobalUpload.DocumentType.LOGO:
                     subPath = _tenant.LogoImageFolder;
                     break;
-
+                case GlobalUpload.DocumentType.VEHICLEIMAGE:
+                    subPath = _tenant.VehicleImageFolder;
+                    break;
                 default:
                     subPath = _tenant.GeneralDocumentFolder + module.ToString() + "\\" ;
                     break;
@@ -313,8 +315,12 @@ namespace Strive.BusinessLogic.Document
 
         }
 
-        public void SaveThumbnail(int Width, int Height, string base64String, string saveFilePath)
+        public string SaveThumbnail(GlobalUpload.DocumentType documentType, int Width, int Height, string base64String, string fileName)
         {
+            string extension = Path.GetExtension(fileName);
+            string thumbFileName = fileName.Replace(extension, string.Empty) + "_Thumb" + extension;
+            string saveFilePath = GetUploadFolderPath(documentType) + thumbFileName;
+
             byte[] byteBuffer = Convert.FromBase64String(base64String);
 
             var streamImg = new MemoryStream(byteBuffer);
@@ -334,6 +340,8 @@ namespace Strive.BusinessLogic.Document
                     objBitmap.Save(saveFilePath);
                 }
             }
+
+            return thumbFileName;
         }
 
         public int AddDocument(DocumentDto documentModel)
