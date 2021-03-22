@@ -286,11 +286,11 @@ export class ProductCreateEditComponent implements OnInit {
     };
     const obj: any = {};
     const productObj: any = {};
-    const vendorList = [];
     const productList = [];
     this.productSetupForm.controls.status.enable();
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
       (this.productSetupForm.value.locationName || []).forEach(item => {
+        const vendorList = [];
         this.productSetupForm.value.vendor.forEach(vendor => {
           productObj.productCode = null;
           productObj.productDescription = null;
@@ -313,7 +313,6 @@ export class ProductCreateEditComponent implements OnInit {
           productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
           productObj.isDeleted = false;
           productObj.price = this.productSetupForm.value.suggested;
-          obj.product = productObj;
           vendorList.push({
             productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
@@ -321,9 +320,10 @@ export class ProductCreateEditComponent implements OnInit {
             isActive: true,
             isDeleted: false,
           });
-          obj.productVendor = vendorList;
-          productList.push(obj);
         });
+        obj.product = productObj;
+        obj.productVendor = vendorList;
+        productList.push(obj);
       });
     }
     const finalObj = {
