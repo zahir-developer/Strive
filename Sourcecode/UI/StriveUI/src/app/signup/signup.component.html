@@ -3,7 +3,6 @@
 
   <div>
     <input type="text" id="txtName" formControlName="userName" />
-    <!--<button (click)="CheckNames()">Check Name</button>-->
     <span *ngIf="!signupForm.get('userName').valid && signupForm.get('userName').touched" class="help-block">
       <span formControlName="unValidation" *ngIf="signupForm.get('userName').errors['required']">User Name is Required.</span>
       <span *ngIf="signupForm.get('userName').errors['nameIsForbidden']">User Name is not valid.</span>

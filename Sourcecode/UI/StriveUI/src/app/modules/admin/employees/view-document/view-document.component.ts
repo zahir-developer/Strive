@@ -49,11 +49,10 @@ export class ViewDocumentComponent implements OnInit {
     this.employeeService.getDocumentById(this.documentId, password).subscribe( res => {
       if (res.status === 'Success' && res.resultData !== 'Invalid Password !!!') {
         const documentDetail = JSON.parse(res.resultData);
-        console.log(documentDetail);
         const base64 = documentDetail.Document;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');
-        const fileName = 'file'; // documentDetail.DocumentDetail.FileName;
+        const fileName = 'file'; 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();

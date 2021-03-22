@@ -5,6 +5,8 @@ import { DocumentService } from 'src/app/shared/services/data-service/document.s
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-create-edit-terms-and-conditions',
@@ -26,7 +28,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   fileType: any;
   fileSize: number;
   localFileSize: any;
-  constructor(private fb: FormBuilder, private toastr: MessageServiceToastr,
+  constructor(private fb: FormBuilder, private toastr: ToastrService,
     private document: DocumentService, private getCode: GetCodeService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -48,8 +50,10 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
         const dType = JSON.parse(data.resultData);
         this.subdocumentType = dType.Codes;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   formInitialize() {
@@ -57,6 +61,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       createdDate: [''],
       createdName: [''],
       uploadBy: ['', Validators.required],
+      name: ['', Validators.required],
       subDocumentId: ['']
     });
   }
@@ -86,7 +91,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
           fileTosaveName = fileReader.result?.split(',')[1];
         }
         else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Upload Pdf Only' });
+          this.toastr.error(MessageConfig.Admin.SystemSetup.TermsCondition.FileType, 'Error!');
           this.clearDocument();
         }
         this.fileUploadformData = fileTosaveName;
@@ -108,10 +113,14 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     if (this.fileName === null) {
       return;
     }
+    if (this.termsForm.invalid) {
+
+      return;
+    }
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Maximum File Size 5MB' });
+      this.toastr.error(MessageConfig.Admin.SystemSetup.TermsCondition.FileSize, 'Error!' );
 
       return;
     }
@@ -129,6 +138,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
+      DocumentName:this.termsForm.controls['name'].value,
       DocumentSubType: this.termsForm.controls['subDocumentId'].value
     };
     const finalObj = {
@@ -137,16 +147,20 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
     };
     this.spinner.show();
     this.document.addDocument(finalObj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Saved Successfully' });
+        this.spinner.hide();
+
+        this.toastr.success( MessageConfig.Admin.SystemSetup.TermsCondition.Add, 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

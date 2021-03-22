@@ -1,7 +1,6 @@
 <div class="tab-content" id="v-pills-tabContent">
     <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
-        <h4>Employee Handbook Setup</h4>
-        <div class="card m-t-10 m-b-10">
+        <div class="card m-b-10">
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
@@ -12,18 +11,24 @@
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <!-- <div class="table-responsive" *ngIf="isLoading === false && fileName === null"> <span
-                                class="col-12 row d-block" style="text-align: center;">No Records Found</span>
-                            </div>  -->
+                           
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10">
+                                <table class="table  table-striped m-t-10" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Role</th>
-                                            <th>File Name</th>
-                                            <th> Created Date</th>
-                                            <!-- <th> Created By</th> -->
+                                            <th class="pointer" scope="col" (click)="changesort('DocumentName')">Name&nbsp; <i
+                                                class="fa" 
+                                                [ngClass]="selectedCls('DocumentName')"></i></th>
+                                        <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp; <i
+                                                class="fa" 
+                                                [ngClass]="selectedCls('RoleName')"></i></th>
+                                                <th class="pointer" scope="col" (click)="changesort('OriginalFileName')">File Name&nbsp; <i
+                                                    class="fa" 
+                                                    [ngClass]="selectedCls('OriginalFileName')"></i></th>
+                                                    <th class="pointer" (click)="changesort('CreatedDate')">Creation Date&nbsp; 
+                                                        <i class="fa"
+                                                        [ngClass]="selectedCls('CreatedDate')"></i></th>
+                                           
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -36,7 +41,6 @@
                                             <td scope="row" >{{doc.RoleName}}</td>
                                             <td scope="row" >{{doc.OriginalFileName}}</td>
                                             <td>{{doc.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
-                                            <!-- <td>{{Documents?.CreatedBy}}</td> -->
                                             <td>
                                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
                                                     pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(doc)"></em>
@@ -46,9 +50,11 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                             </div>
                         </div>
-                       
                     </div>
             </div>
         </div>

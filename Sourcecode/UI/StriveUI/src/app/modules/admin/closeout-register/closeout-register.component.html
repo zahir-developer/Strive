@@ -3,20 +3,52 @@
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item" appNavigatePage>Admin</li>
                     <li class="breadcrumb-item active" aria-current="page">Close Out Register</li>
                 </ol>
             </nav>
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Close Out Register&nbsp;-&nbsp;</h3>
-                <!-- <div id="datepicker" class="date d-inline-block " data-date-format="dd-mm-yyyy">
-                    <span class="datepick">{{selectDate}}</span>
-                </div> -->
-                <div id="datepicker" class="date d-inline-block datepicker-view " data-date-format="mm-dd-yyyy">
-                    <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()"
-                    [bsConfig]="bsConfig"  bsDatepicker [outsideClick]="true"><span class="input-group-addon">
-                        <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
-                    <!-- <span class="datepick">{{selectDate}}</span> -->
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="d-inline-block">Close Out Register&nbsp;-&nbsp;</h3>
+                        <div id="datepicker" class="date d-inline-block datepicker-view " data-date-format="mm-dd-yyyy">
+                            <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
+                                (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()"
+                                [bsConfig]="bsConfig" bsDatepicker [outsideClick]="true"><span
+                                class="input-group-addon">
+                                <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month"
+                                    (click)="dp.show()"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-2"></div>
+                            <div class="col-1"></div>
+                            <div class="col-7">
+                                <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
+                                    <ngx-timepicker-field [format]="24" (timeChanged)="outTime($event)"
+                                        [(ngModel)]="storeTimeOut" [defaultTime]="storeTimeOut ">
+                                    </ngx-timepicker-field>
+                                    <div *ngIf="submitted && storeTimeOut === ''" style="color: red;">
+                                        <div>Please enter the store close time</div>
+                                    </div>
+                                </div>
+                                <div class="d-inline-block">
+                                    <select class="form-control" [(ngModel)]="storeStatus">
+                                        <option value="" hidden selected>Select Status
+                                        </option>
+                                        <option *ngFor="let status of storeStatusList" value="{{status.CodeId}}">
+                                            {{status.CodeValue}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && storeStatus === ''" style="color: red;">
+                                        <div>Please select the store status</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12 p-l-0 p-r-0">
@@ -34,33 +66,43 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputpennies">Pennies</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="coinPennies"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalCoin('P',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="coinPennies" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalCoin('P',$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="inputnickels">Nickels </label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="coinNickels"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalCoin('N',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="coinNickels" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalCoin('N',$event.target.value)">
+                                                    </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputdimes">Dimes</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="coinDimes"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalCoin('D',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="coinDimes" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalCoin('D',$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="inputquarters">Quarters</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="coinQuaters"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalCoin('Q',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="coinQuaters" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalCoin('Q',$event.target.value)">
+                                                    </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputhalfdollars">Half Dollars</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="coinHalfDollars"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalCoin('H',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="coinHalfDollars" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalCoin('H',$event.target.value)">
+                                                    </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -76,36 +118,48 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="input1s">1's</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="billOnes"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalBill(1,$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="billOnes" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalBill(1,$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="input5s">5's </label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="billFives"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalBill(5,$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="billFives" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalBill(5,$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="input10s">10's </label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="billTens"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalBill(10,$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="billTens" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalBill(10,$event.target.value)">
+                                                    </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="input20s">20's</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="billTwenties"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalBill(20,$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="billTwenties" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalBill(20,$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="input50s">50's</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="billFifties"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalBill(50,$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="billFifties" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalBill(50,$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="input100s">100's </label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="billHundreds"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalBill(100,$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="billHundreds" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalBill(100,$event.target.value)">
+                                                    </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -123,26 +177,34 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputpennies">Pennies</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="pennieRolls"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalRoll('P',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="pennieRolls" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalRoll('P',$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="inputnickels">Nickels </label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="nickelRolls"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalRoll('N',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="nickelRolls" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalRoll('N',$event.target.value)">
+                                                    </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="inputdimes">Dimes</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="dimeRolls"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalRoll('D',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="dimeRolls" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalRoll('D',$event.target.value)">
+                                                    </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="inputquarters">Quarters</label>
-                                                        <input type="text" [appMaxLength]="9" numbersOnly formControlName="quaterRolls"
-                                                            class="form-control" placeholder="0"
-                                                            (change)="getTotalRoll('Q',$event.target.value)"> </div>
+                                                        <input type="text" [appMaxLength]="9" numbersOnly
+                                                            formControlName="quaterRolls" class="form-control"
+                                                            placeholder="0"
+                                                            (change)="getTotalRoll('Q',$event.target.value)">
+                                                    </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -159,8 +221,10 @@
                                                     <div class="form-group col-md-4">
                                                         <label for="inputwashes"> Credit Card/Debit Card
                                                             Amount</label>
-                                                        <input type="text" appTwoDecimalNumber formControlName="cardAmount"
-                                                            class="form-control" placeholder="$0.00" (change)="getTotalCash()"> </div>
+                                                        <input type="text" appTwoDecimalNumber
+                                                            formControlName="cardAmount" class="form-control"
+                                                            placeholder="$0.00" (change)="getTotalCash()">
+                                                    </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -194,8 +258,8 @@
                                                 </div>
                                                 <div class="col-lg-4 col-xl-6 text-center m-t-20">
                                                     <h6 class="font-weight-bold">Total Available Cash</h6> <span
-                                                        class="cash-box"> <span
-                                                            class="text-cash">{{totalCash | currency}} </span>
+                                                        class="cash-box"> <span class="text-cash">{{totalCash |
+                                                            currency}} </span>
                                                     </span>
                                                 </div>
                                             </div>

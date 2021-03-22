@@ -5,6 +5,10 @@ import * as _ from 'underscore';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-assign-detail',
@@ -31,19 +35,19 @@ export class AssignDetailComponent implements OnInit {
   @Output() cancelAssignModel = new EventEmitter();
   serviceType: any;
   constructor(
-    private fb: FormBuilder, private getCode:GetCodeService,
+    private fb: FormBuilder, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService,
-    private detailServices: DetailService
+    private detailServices: DetailService,
+    private spinner : NgxSpinnerService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.details, 'assignedDetailService');
     this.detailService = this.detailsJobServiceEmployee;
     this.getAllServiceType();
-    // this.employeeDetail();
-    console.log(this.detailService, this.detailsJobServiceEmployee, 'detailsJobServiceEmployee');
     if (this.detailService.length > 0) {
-      this.detailService.forEach((item, index) => {  // Adding Id to the grid
+      this.detailService.forEach((item, index) => {
+        // Adding Id to the grid
         item.detailServiceId = index + 1;
       });
     }
@@ -77,11 +81,6 @@ export class AssignDetailComponent implements OnInit {
     this.assignForm.value.serviceId.forEach(service => {
       this.clonedServices = this.clonedServices.filter(item => item.item_id !== service.item_id);
     });
-
-    console.log(this.details, 'details');
-
-    console.log(selectedService, 'selectedservices');
-
     selectedService.forEach(service => {
       this.assignForm.value.employeeId.forEach(emp => {
         const employeeService = {
@@ -106,7 +105,6 @@ export class AssignDetailComponent implements OnInit {
         this.detailService.push(employeeService);
       });
     });
-    // this.detailService = assignedService;
     this.assignForm.patchValue({
       employeeId: '',
       serviceId: ''
@@ -114,12 +112,10 @@ export class AssignDetailComponent implements OnInit {
     this.detailService.forEach((item, index) => {  // Adding Id to the grid
       item.detailServiceId = index + 1;
     });
-    console.log(this.detailService, 'assignedservice');
     this.collectionSize = Math.ceil(this.detailService.length / this.pageSize) * 10;
   }
 
   onItemSelect(item: any) {
-    console.log(item);
     this.employeeList = this.clonedEmployee;
     if (this.detailService.length > 0) {
       const assignedEmployee = _.where(this.detailService, { ServiceId: +item.item_id });
@@ -170,15 +166,12 @@ export class AssignDetailComponent implements OnInit {
   }
 
   serviceByEmployeeId(id) {
-    // this.details = this.clonedServices;
     if (this.detailService.length > 0) {
       const assignedEmployee = _.where(this.detailService, { EmployeeId: +id });
       if (assignedEmployee.length > 0) {
         assignedEmployee.forEach(item => {
           this.details = this.details.filter(elem => elem.ServiceId !== item.ServiceId);
         });
-      } else {
-        // this.details = this.clonedServices;
       }
     }
   }
@@ -243,10 +236,21 @@ export class AssignDetailComponent implements OnInit {
     const finalObj = {
       jobServiceEmployee: assignServiceObj
     };
+    this.spinner.show();
     this.detailServices.saveEmployeeWithService(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.cancelAssignModel.emit();
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -259,18 +263,19 @@ export class AssignDetailComponent implements OnInit {
   }
 
   getAllServiceType() {
-    this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
-      if (data.status === "Success") {
+    this.getCode.getCodeByCategory('SERVICETYPE').subscribe(data => {
+      if (data.status === 'Success') {
         const cType = JSON.parse(data.resultData);
-        this.serviceType = cType.Codes.filter(i => i.CodeValue === "Upcharges")[0];
+        this.serviceType = cType.Codes.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];
         this.getDetailService();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   getDetailService() {
     this.details = this.details.filter(i => i.ServiceTypeId !== this.serviceType.CodeId);
-    console.log(this.details);
     this.clonedServices = this.details.map(x => Object.assign({}, x));
     this.clonedServices = this.clonedServices.map(item => {
       return {

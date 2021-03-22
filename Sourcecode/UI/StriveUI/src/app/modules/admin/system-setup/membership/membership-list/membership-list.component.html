@@ -1,8 +1,7 @@
 <div class="tab-content" id="v-pills-tabContent">
     <div class="tab-pane fade show active" id="v-pills-membership" role="tabpanel"
         aria-labelledby="v-pills-membership-tab">
-        <h4>Membership Setup</h4>
-        <div class="card m-t-10 m-b-10">
+        <div class="card m-b-10">
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
@@ -20,12 +19,7 @@
                                                 class="form-control" [(ngModel)]="query" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Service Type"
                                                 (keyup)="$event.keyCode == 13 ? membershipSearch() : null"> </div>&nbsp;
-                                        <!-- <div class="form-group d-flex"> <select class="form-control"
-                                                [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
-                                                <option value="" selected hidden>Status</option>
-                                                <option *ngFor="let status of Status" value="{{status.id}}">
-                                                    {{status.Value}}</option>
-                                            </select> </div> -->
+                                     
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" (click)="membershipSearch()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
@@ -35,17 +29,21 @@
                             </div>
                            
                             <div class="table-responsive" >
-                                <table class="table  table-striped m-t-10 headerfix">
+                                <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="sort('MembershipName')">Name&nbsp; <i class="fa" *ngIf="column =='MembershipName'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('Services')">Services&nbsp; <i class="fa" *ngIf="column =='Services'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('CreatedDate')">Creation Date&nbsp; <i class="fa" *ngIf="column =='CreatedDate'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('IsActive')">Status&nbsp; <i class="fa" *ngIf="column =='IsActive'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="changesort('MembershipName')">Name&nbsp; 
+                                                <i class="fa" 
+                                                [ngClass]="selectedCls('MembershipName')"></i></th>
+                                            <th class="pointer" (click)="changesort('Services')">Services&nbsp; 
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('Services')"></i></th>
+                                            <th class="pointer" (click)="changesort('CreatedDate')">Creation Date&nbsp; 
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('CreatedDate')"></i></th>
+                                            <th class="pointer" (click)="changesort('IsActive')">Status&nbsp; 
+                                                <i class="fa" 
+                                                [ngClass]="selectedCls('IsActive')"></i></th>
 
                                             <th>Action</th>
                                         </tr>
@@ -56,7 +54,6 @@
                                             <th scope="row">{{membership.MembershipName}}</th>
                                             <td class="table-ellipsis">{{membership.Services}}</td>
                                             <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td>
-                                            <!--: 'dd/MM/yyyy'-->
                                             <td>{{membership.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
@@ -72,6 +69,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
                                         <ngb-pagination *ngIf="membershipDetails.length > 0"

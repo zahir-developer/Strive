@@ -5,6 +5,9 @@ import { CashRegisterService } from 'src/app/shared/services/data-service/cash-r
 import { ToastrService } from 'ngx-toastr';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-closeout-register',
@@ -43,13 +46,19 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   closeoutRegisterForm: FormGroup;
   date = moment(new Date()).format('MM/DD/YYYY');
   CloseRegisterId: any;
+  storeStatusList = [];
+  storeTimeIn = '';
+  storeStatus = '';
+  storeTimeOut = '';
   drawerId: any;
+  submitted = false;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
-    private cd: ChangeDetectorRef) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.getDocumentType()
+    this.getDocumentType();
+    this.getStoreStatusList();
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
@@ -88,7 +97,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.totalRoll = this.totalPennieRoll = this.totalQuaterRoll = this.totalNickelRoll = this.totalDimeRoll = 0;
     this.totalBill = this.totalOnes = this.totalFives = this.totalTens = this.totalTwenties = this.totalFifties = this.totalHunderds = 0;
     this.totalCash = 0;
-    this.getCloseOutRegister();
+    // this.getCloseOutRegister();
   }
 
   // Get CloseOutRegister By Date
@@ -104,12 +113,24 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.totalBill = 0;
     this.totalRoll = 0;
     this.totalCash = 0;
+    this.storeTimeOut = '';
+    this.storeTimeIn = '';
+    this.storeStatus = '';
+    this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === "Success") {
+        this.spinner.hide();
+
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
+          this.storeStatus = this.closeOutDetails.CashRegister.StoreOpenCloseStatus !== null ?
+            this.closeOutDetails.CashRegister.StoreOpenCloseStatus : '';
+          this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
+            moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
+          this.storeTimeOut = this.closeOutDetails.CashRegister.StoreTimeOut !== null ?
+            moment(this.closeOutDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.closeOutDetails.CashRegisterCoins.Pennies,
             coinNickels: this.closeOutDetails.CashRegisterCoins.Nickels,
@@ -168,6 +189,13 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterRollForm.reset();
         }
       }
+      else{
+        this.spinner.hide();
+
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
   getDocumentType() {
@@ -176,13 +204,20 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         const dType = JSON.parse(data.resultData);
         this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === "CloseOut")[0].CodeId;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    );
   }
 
   // Add/Update CloseOutRegister
   submit() {
+    this.submitted = true;
+    if (this.storeStatus === '' || this.storeTimeOut === '') {
+      return;
+    }
     const coin = {
       cashRegCoinId: this.isUpdate ? this.closeOutDetails.CashRegisterCoins.CashRegCoinId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
@@ -197,7 +232,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
-    }
+    };
     const bill = {
       cashRegBillId: this.isUpdate ? this.closeOutDetails.CashRegisterBills.CashRegBillId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
@@ -244,6 +279,19 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
+    let checkoutTime = '';
+    if (this.isUpdate) {
+      const time = this.storeTimeOut.split(':');
+      const hour = time[0];
+      const minutes = time[1];
+      const inTime: any = new Date(this.date);
+      inTime.setHours(hour);
+      inTime.setMinutes(minutes);
+      inTime.setSeconds('00');
+      checkoutTime = inTime;
+    } else {
+      checkoutTime = this.storeTimeOut;
+    }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CloseRegisterId,
@@ -256,25 +304,35 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
+      storeTimeIn: null,
+      storeTimeOut: moment(checkoutTime).format(),
+      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
     const formObj = {
-      cashregister: cashregister,
+      cashregister,
       cashRegisterCoins: coin,
       cashRegisterBills: bill,
       cashRegisterRolls: roll,
       cashregisterOthers: other
     }
+    this.spinner.show();
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
+      this.submitted = false;
       if (data.status === "Success") {
-        if (this.isUpdate) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
-        } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
-        }
+        this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
+
+        this.spinner.hide();
         this.getCloseOutRegister();
       } else {
-        this.toastr.error('Weather Communication Error', 'Error!');
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      this.submitted = false;
+      this.spinner.hide();
     });
   }
 
@@ -385,5 +443,45 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       }
     }
     this.getCloseOutRegister();
+  }
+
+  getStoreStatusList() {
+    this.getCode.getCodeByCategory('Storestatus').subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.storeStatusList = dType.Codes;
+        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue !== ApplicationConfig.storestatus.open);
+        console.log(dType, 'type');
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    
+    );
+  }
+
+  inTime(event) {
+    console.log(event, 'time');
+    const time = event.split(':');
+    const hour = time[0];
+    const minutes = time[1];
+    const checkinTime: any = new Date(this.date);
+    checkinTime.setHours(hour);
+    checkinTime.setMinutes(minutes);
+    checkinTime.setSeconds('00');
+    this.storeTimeIn = checkinTime;
+  }
+
+  outTime(event) {
+    const time = event.split(':');
+    const hour = time[0];
+    const minutes = time[1];
+    const checkoutTime: any = new Date(this.date);
+    checkoutTime.setHours(hour);
+    checkoutTime.setMinutes(minutes);
+    checkoutTime.setSeconds('00');
+    this.storeTimeOut = checkoutTime;
   }
 }

@@ -3,6 +3,8 @@ import { LocalStorage } from '@ng-idle/core';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { SignalRService } from 'src/app/shared/services/data-service/signal-r.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-messenger-employee-list',
@@ -19,7 +21,8 @@ export class MessengerEmployeeListComponent implements OnInit {
   @Output() recentlyMsgSent = new EventEmitter();
   employeeId: number = +localStorage.getItem('empId');
   selectedClass: string;
-  constructor(private msgService: MessengerService, private signalrService: SignalRService) { }
+  constructor(private msgService: MessengerService, private signalrService: SignalRService,
+    private toastr : ToastrService) { }
   ngOnInit(): void {
     this.getRecentChatHistory(this.employeeId);
     this.signalrService.communicationId.subscribe(data => {
@@ -38,13 +41,14 @@ export class MessengerEmployeeListComponent implements OnInit {
           this.setCommunicationId();
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getRecentChatHistory(employeeId) {
     this.msgService.GetEmployeeList(employeeId).subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
-        console.log(empList, 'emplist');
         if (empList.EmployeeList.ChatEmployeeList !== null) {
           this.empList = empList?.EmployeeList?.ChatEmployeeList;
           this.originalEmpList = this.empList;
@@ -53,6 +57,8 @@ export class MessengerEmployeeListComponent implements OnInit {
           this.setUnreadMsgFlag();
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   setUnreadMsgFlag() {
@@ -74,13 +80,6 @@ export class MessengerEmployeeListComponent implements OnInit {
     if (this.empList.length > 0) {
       this.empList[0].type = 'first Employee';
       this.emitLoadMessageChat.emit(this.empList[0]);
-      // this.empList.forEach(item => {
-      //   if (item.RecentChatMessage !== null && item.RecentChatMessage !== undefined) {
-      //     const recentMsg = item.RecentChatMessage.split(',');
-      //     item.RecentChatMessage = recentMsg[1];
-      //     item.createdDate = recentMsg[0];
-      //   }
-      // });
     }
   }
   SetUnreadMsgBool(empId, event, msg) {

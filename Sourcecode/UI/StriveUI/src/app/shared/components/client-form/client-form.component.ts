@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../services/data-service/client.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
 import { CityComponent } from '../city/city.component';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-client-form',
@@ -30,6 +31,7 @@ export class ClientFormComponent implements OnInit {
   city: any;
   selectedCityId: any;
   ClientNameAvailable: any;
+  ClientEmailAvailable: boolean;
   isAmount: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService) { }
@@ -56,12 +58,12 @@ export class ClientFormComponent implements OnInit {
     this.clientForm = this.fb.group({
       fName: ['', Validators.required],
       lName: ['', Validators.required],
-      address: ['', Validators.required],
-      zipcode: ['', [Validators.required, Validators.minLength(5)]],
+      address: ['', ],
+      zipcode: ['', [ Validators.minLength(5)]],
       state: ['',],
       city: ['',],
       phone1: ['', [Validators.required, Validators.minLength(14)]],
-      email: ['', Validators.email],
+      email: ['', Validators.required,Validators.email],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
@@ -81,6 +83,8 @@ export class ClientFormComponent implements OnInit {
   get f() {
     return this.clientForm.controls;
   }
+ 
+
   sameClientName() {
     const clientNameDto = {
       FirstName: this.clientForm.value.fName,
@@ -93,17 +97,19 @@ export class ClientFormComponent implements OnInit {
           const sameName = JSON.parse(res.resultData);
           if (sameName.IsClientNameAvailable === true) {
             this.ClientNameAvailable = true;
-            this.toastr.error('Client is Already Exists', 'Error!');
+            this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
 
-          } else {
-            this.ClientNameAvailable = false;
-
-          }
+        } else{
+          this.ClientNameAvailable = false;
+ 
         }
-      });
-    }
-
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
+}
+ 
   // Get Score
   getScore() {
     this.client.getClientScore().subscribe(data => {
@@ -111,8 +117,10 @@ export class ClientFormComponent implements OnInit {
         const client = JSON.parse(data.resultData);
         this.Score = client.ClientDetails;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -123,8 +131,10 @@ export class ClientFormComponent implements OnInit {
         const cType = JSON.parse(data.resultData);
         this.Type = cType.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getClientById() {
@@ -149,7 +159,7 @@ export class ClientFormComponent implements OnInit {
       email: this.selectedData.Email
     });
     this.clientId = this.selectedData.ClientId;
-    if (this.selectedData.NoEmail) {
+    if (this.selectedData.IsCreditAccount) {
       this.clientForm.controls.amount.enable();
     }
   }
@@ -168,12 +178,28 @@ export class ClientFormComponent implements OnInit {
   }
 
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
-  }
+    this.city = event;
+  } 
+  clientEmailExist() {
+     this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if(sameEmail.emailExist === true){
+          this.ClientEmailAvailable = true;
+          this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
 
+        } else{
+          this.ClientEmailAvailable = false;
+ 
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
 }

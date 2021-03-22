@@ -1,0 +1,16 @@
+<!-- <p-dialog styleClass="MyDialog" header="{{header}}" [(visible)]="dialogDisplay" [blockScroll]="true" [resizable]="true"
+    appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false"> -->
+<div *ngIf="dialogType === 'idle'">
+    <span>You'll be automatically locked out in {{countdown}} second(s).</span>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+            style="width: 100%" aria-valuenow="75" aria-label="test" aria-valuemax="100">
+        </div>
+    </div>
+    <div style="margin-top:10px;">
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-secondary" style="float: right;" (click)="idleClear()">Ok</button>
+        </div>
+    </div>
+</div>
+<!-- </p-dialog> -->

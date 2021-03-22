@@ -1,0 +1,62 @@
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
+        <div class="card m-b-10">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="title-border p-b-20 m-b-15">
+                        <h5 class="d-inline-block">Deals Setup</h5>&nbsp;
+                        <span *ngIf="!showDialog">
+                            <p-inputSwitch [(ngModel)]="dealStatus" (onChange)="dealChange($event)"></p-inputSwitch>
+                        </span>
+                        <button [hidden]="showDialog" type="button"
+                            class="btn theme-primary-button-color btn-md float-right"
+                            (click)="adddata()" [disabled]="!dealStatus">Add Deals
+                        </button>
+                    </div>
+                    <div class="setup-wrapper">
+                        <div class="setup-content" id="open-collapse">
+                            <app-deals-add *ngIf="showDialog" [actionType]="actionType" [DealsDetails]="DealsDetails" [selectedData]="selectedData"
+                                (closeDialog)="closePopupEmit($event)" (getDeals)="getDeals()">
+                            </app-deals-add>
+                            <div class="table-responsive" [hidden]="showDialog">
+                                <table class="table table-striped m-t-10" aria-labelledby="deal">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Deals Name</th>
+                                            <th scope="col">Time Period</th>
+                                            <th scope="col">Start Date</th>
+                                            <th scope="col">End Date</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngIf="DealsDetails?.length === 0">
+                                            <td colspan="12" class="text-center"> No Deals Available</td>
+                                        </tr>
+                                        <tr *ngFor="let deal of DealsDetails">
+                                            <td>{{deal.DealName}}</td>
+                                            <td>
+                                                <span *ngIf="deal.TimePeriod ==1">Monthly</span>
+                                                <span *ngIf="deal.TimePeriod ==2">Yearly</span>
+                                                <span *ngIf="deal.TimePeriod ==3">Custom</span>
+                                            </td>
+                                            <td>{{ deal.StartDate === 'None' ? deal.StartDate:  deal.StartDate | date : 'MM/dd/yyyy'}}</td>
+                                            <td>{{deal.EndDate === 'None' ? deal.EndDate :  deal.EndDate | date : 'MM/dd/yyyy'}}</td>
+                                            <td>
+                                                <em class="fa fa-pencil-square edit-list  m-r-10" style="cursor: pointer;"
+                                                    [ngClass]="{'theme-disabled-icon-color': !dealStatus, 'theme-secondary-icon-color': dealStatus  }"
+                                                    pTooltip="Edit" tooltipPosition="bottom" (click)="editDeal(deal)"></em>
+                                                <em class="fa fa-times-circle delete-list " style="cursor: pointer;"
+                                                    [ngClass]="{'theme-disabled-icon-color': !dealStatus, 'theme-optional-icon-color': dealStatus  }"
+                                                    pTooltip="Delete" tooltipPosition="bottom" (click)="delete(deal)"></em>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

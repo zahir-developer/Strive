@@ -32,7 +32,6 @@
                         <span *ngIf="emp?.IsGroup"
                             class="profile-image m-r-10  m-l-10 group-icon-color font-size-1-2 align-middle"><i
                                 class="mdi mdi-account-supervisor font-size-1-5"></i></span>
-                        <!-- <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle " [ngClass]="{'online-badge': emp.CommunicationId !== '0'}"></div>&nbsp;&nbsp;&nbsp; -->
                         <div class="Message-item-body">
                             <span class="float-right msg-date font-size--8"
                                 [ngClass]="[!emp.isRead ? 'bold-text': '']">{{emp?.CreatedDate | date: 'hh:mm aa'}}

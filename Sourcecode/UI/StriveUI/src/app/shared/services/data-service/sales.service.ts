@@ -11,48 +11,50 @@ export class SalesService {
 
   constructor(private http: HttpUtilsService) { }
   getItemByTicketNumber(ticketNo): Observable<any> {
-   return this.http.get(`${UrlConfig.totalUrl.getItemByTicketNumber}`, {params: {ticketNumber: ticketNo}});
+   return this.http.get(`${UrlConfig.sales.getItemByTicketNumber}`, {params: {ticketNumber: ticketNo}});
  }
  deleteItemById(deleteItem){
-  return this.http.delete(`${UrlConfig.totalUrl.deleteItemById}`, {params: {ItemId: deleteItem.ItemId, isJobItem: deleteItem.IsJobItem}});
+  return this.http.delete(`${UrlConfig.sales.deleteItemById}`, {params: {ItemId: deleteItem.ItemId, isJobItem: deleteItem.IsJobItem}});
  }
  addItem(addObj) {
-  return this.http.post(`${UrlConfig.totalUrl.addItem}`, addObj);
+  return this.http.post(`${UrlConfig.sales.addItem}`, addObj);
  }
  getService() {
-   return this.http.get(`${UrlConfig.totalUrl.getService}`);
+   return this.http.get(`${UrlConfig.ServiceSetup.getService}`);
  }
  getTicketNumber() {
-  return this.http.get(`${UrlConfig.totalUrl.getTicketNumberforItem}`);
+  const locationId = localStorage.getItem('empLocationId');
+
+  return this.http.get(`${UrlConfig.common.getTicketNumber}`+ locationId);
  }
  updateListItem(updateObj) {
-   return this.http.post(`${UrlConfig.totalUrl.updateListItem}`, updateObj);
+   return this.http.post(`${UrlConfig.sales.updateListItem}`, updateObj);
  }
  updateItem(updateObj) {
-  return this.http.post(`${UrlConfig.totalUrl.updateItem}`, updateObj);
+  return this.http.post(`${UrlConfig.sales.updateItem}`, updateObj);
  }
  addPayemnt(paymentObj) {
-  return this.http.post(`${UrlConfig.totalUrl.addPayment}`, paymentObj);
+  return this.http.post(`${UrlConfig.sales.addPayment}`, paymentObj);
  }
  deleteJob(ticketNo) {
-  return this.http.delete(`${UrlConfig.totalUrl.deleteJob}`, {params: {TicketNumber: ticketNo}});
+  return this.http.delete(`${UrlConfig.sales.deleteJob}`, {params: {TicketNumber: ticketNo}});
  }
  rollback(ticketNo) {
-  return this.http.delete(`${UrlConfig.totalUrl.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
+  return this.http.delete(`${UrlConfig.sales.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
  }
- getServiceAndProduct() {
-  return this.http.get(`${UrlConfig.totalUrl.getServiceAndProduct}`);
+ getServiceAndProduct(locID) {
+  return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locID);
  }
  updateProductItem(updateObj) {
-  return this.http.post(`${UrlConfig.totalUrl.updateProductObj}`, updateObj);
+  return this.http.post(`${UrlConfig.sales.updateProductObj}`, updateObj);
  }
  getAccountDetails(obj) {
-  return this.http.post(`${UrlConfig.totalUrl.getAccountDetails}`, obj);
+  return this.http.post(`${UrlConfig.sales.getAccountDetails}`, obj);
  } 
  updateAccountBalance(obj) {
-  return this.http.post(`${UrlConfig.totalUrl.updateAccountBalance}`, obj);
+  return this.http.post(`${UrlConfig.client.updateAccountBalance}`, obj);
  }
  getPaymentStatus(code) {
-  return this.http.get(`${UrlConfig.totalUrl.getPaymentStatus}` + code);
+  return this.http.get(`${UrlConfig.common.getPaymentStatus}` + code);
 }
 }

@@ -1,7 +1,6 @@
 <div class="tab-content" id="v-pills-tabContent">
     <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
-        <h4>Product Setup</h4>
-        <div class="card m-t-10 m-b-10">
+        <div class="card m-b-10">
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
@@ -28,22 +27,37 @@
                             </div>
                        
                             <div class="table-responsive" >
-                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list">
+                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list" *ngIf="!isLoading">
                                     <thead>
-                                        <tr>   <th class="pointer" (click)="sort('ProductName')">Name&nbsp; <i class="fa" *ngIf="column =='ProductName'" 
-                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('ProductTypeName')">Type&nbsp; <i class="fa" *ngIf="column =='ProductTypeName'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" (click)="sort('Cost')">Cost&nbsp; <i class="fa" *ngIf="column =='Cost'" 
-                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                <th class="pointer" (click)="sort('SizeName')">Size&nbsp; <i class="fa" *ngIf="column =='SizeName'" 
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                        <th class="pointer" (click)="sort('Quantity')">Quantity&nbsp; <i class="fa" *ngIf="column =='Quantity'" 
-                                                            [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                            <th class="pointer" (click)="sort('VendorName')">VendorName&nbsp; <i class="fa" *ngIf="column =='VendorName'" 
-                                                                [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                                                <th class="pointer" (click)="sort('Status')">Status&nbsp; <i class="fa" *ngIf="column =='Status'" 
-                                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                        <tr> 
+                                              <th class="pointer" (click)="changesort('ProductName')">Name&nbsp; 
+                                           
+                                        <i class="fa"   [ngClass]="selectedCls('ProductName')"></i>
+                                    </th>
+                                            <th class="pointer" (click)="changesort('ProductTypeName')">Type&nbsp;
+                                                 <i class="fa" 
+                                                 [ngClass]="selectedCls('ProductTypeName')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('Cost')">Cost&nbsp;
+                                                 <i class="fa"
+                                                [ngClass]="selectedCls('Cost')"></i>
+                                            </th>
+                                                <th class="pointer" (click)="changesort('SizeName')">Size&nbsp; 
+                                                    <i class="fa"
+                                                    [ngClass]="selectedCls('SizeName')"></i>
+                                                </th>
+                                                        <th class="pointer" (click)="changesort('Quantity')">Quantity&nbsp; 
+                                                            <i class="fa" 
+                                                            [ngClass]="selectedCls('Quantity')"></i>
+                                                        </th>
+                                                            <th class="pointer" (click)="changesort('VendorName')">VendorName&nbsp;
+                                                                 <i class="fa" 
+                                                                 [ngClass]="selectedCls('VendorName')"></i>
+                                                            </th>
+                                                                <th class="pointer" (click)="changesort('Status')">Status&nbsp; 
+                                                                    <i class="fa" 
+                                                                    [ngClass]="selectedCls('Status')"></i>
+                                                                </th>
                                          
                                             <th scope="col">Action</th>
                                         </tr>
@@ -55,7 +69,6 @@
                                             <td>{{productSetup.ProductTypeName}}</td>
                                             <td>{{productSetup.Cost | currency}}</td>
                                             <td>{{productSetup.SizeName}}</td>
-                                            <!-- <td>{{productSetup.Price | currency}}</td> -->
                                             <td>{{productSetup.Quantity}}</td>
                                             <td>{{productSetup.VendorName}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
@@ -73,6 +86,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
                                      <ngb-pagination  *ngIf="productSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"

@@ -8,6 +8,9 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 @Component({
   selector: 'app-hourly-wash',
@@ -46,7 +49,9 @@ export class HourlyWashComponent implements OnInit {
   constructor(
     private reportsService: ReportsService,
     private excelService: ExcelService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService,
+    private toastr :ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -78,7 +83,6 @@ export class HourlyWashComponent implements OnInit {
   }
 
   onValueChange(event) {
-    console.log(event, 'start');
     if (event !== null) {
       this.startDate = event[0];
       this.endDate = event[1];
@@ -90,14 +94,15 @@ export class HourlyWashComponent implements OnInit {
   }
 
   viewHourlyReport() {
-    // 2034, '2020-11-16', '2020-11-17'
     const finalObj = {
       locationId: +this.locationId,
       fromDate: moment(this.startDate).format(),
       endDate: moment(this.endDate).format()
     };
+    this.spinner.show();
     this.reportsService.getHourlyWashReport(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide()
         const hourlyRate = JSON.parse(res.resultData);
         this.salesDetails = [];
         this.totalWashCount = [];
@@ -186,7 +191,6 @@ export class HourlyWashComponent implements OnInit {
               });
             }
           });
-          console.log(this.salesDetails, 'salesdetail');
           this.salesDetails.forEach(item => {
             const manager = _.where(this.hourlyWashManager, { EventDate: item.JobDate });
             if (manager.length > 0) {
@@ -225,6 +229,14 @@ export class HourlyWashComponent implements OnInit {
           });
         }
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

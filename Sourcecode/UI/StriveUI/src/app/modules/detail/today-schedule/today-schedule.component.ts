@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-today-schedule',
@@ -17,13 +20,21 @@ export class TodayScheduleComponent implements OnInit {
   selectedData: any;
   isEdit: boolean;
   showDialog: boolean;
+  bay: any;
+  sort = { column: ApplicationConfig.Sorting.SortBy.Detail, descending: true };
+  sortColumn: { column: string; descending: boolean; };
+
+  sortDetail: any;
   constructor(
     private detailService: DetailService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private toastr :ToastrService,
+  
   ) { }
 
   ngOnInit(): void {
-    this.getTodayDateScheduleList();
+   
+    // this.getTodayDateScheduleList();
   }
 
   getTodayDateScheduleList() {
@@ -37,17 +48,16 @@ export class TodayScheduleComponent implements OnInit {
     this.detailService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
-        console.log(scheduleDetails, 'todayList');
         const detailGrid = scheduleDetails.DetailsGrid;
-        // this.bayDetail = detailGrid.BayDetailViewModel;
         const bayJobDetail = [];
         if (detailGrid.BayJobDetailViewModel !== null) {
+         this.sortDetail =  detailGrid.BayJobDetailViewModel
           detailGrid.BayDetailViewModel.forEach(item => {
             const isData = _.where(detailGrid.BayJobDetailViewModel, { BayId: item.BayId });
             if (isData.length > 0) {
               const services = [];
-              const detailService = _.where(isData, { ServiceTypeName: 'Details' });
-              const outsideService = _.where(isData, { ServiceTypeName: 'Outside Services' });
+              const detailService = _.where(isData, { ServiceTypeName:'Details'});
+              const outsideService = _.where(isData, { ServiceTypeName: ApplicationConfig.Enum.ServiceType.OutsideServices});
               detailService.forEach(service => {
                 const sameJobId = _.where(outsideService, { JobId: service.JobId });
                 services.push({
@@ -63,7 +73,6 @@ export class TodayScheduleComponent implements OnInit {
                   OutsideService: sameJobId.length > 0 ? sameJobId[0].ServiceName : 'None'
                 });
               });
-              console.log(services, 'servcei');
               bayJobDetail.push({
                 BayId: item.BayId,
                 BayDetail: isData
@@ -76,7 +85,7 @@ export class TodayScheduleComponent implements OnInit {
             }
           });
         } else if (detailGrid.BayJobDetailViewModel === null) {
-          detailGrid.BayDetailViewModel.forEach(item => {
+          detailGrid?.BayDetailViewModel?.forEach(item => {
             bayJobDetail.push({
               BayId: item.BayId,
               BayDetail: []
@@ -84,33 +93,45 @@ export class TodayScheduleComponent implements OnInit {
           });
         }
 
-        bayJobDetail.forEach( bay => {
+        bayJobDetail?.forEach( bay => {
           bay.totalCount = bay.BayDetail.length;
         });
-        // bayJobDetail.forEach(bay => {
-        //   let isJobID = false;
-        //   bay.BayDetail.forEach(detail => {
-        //     if (detail.JobId === null) {
-        //       isJobID = true;
-        //     } else {
-        //       isJobID = false;
-        //     }
-        //   });
-        //   if (isJobID) {
-        //     bay.totalCount = 0;
-        //     bay.BayDetail = [];
-        //   } else {
-        //     bay.totalCount = bay.BayDetail.length;
-        //   }
-        // });
-        console.log(bayJobDetail, 'bayjb');
         this.bayDetail = bayJobDetail;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+  changeSorting(column) {
+    this.changeSortingDescending(column, this.sort);
+    this.sortColumn = this.sort;
+  }
+
+  changeSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
+  sortedColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  selectedCls(column) {
+    return this.sortedColumnCls(column, this.sort);
+  }
+
 
   getDetailByID(bay) {
-    console.log(bay, bay.JobId);
     const currentDate = new Date();
     if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(this.selectedDate, 'dd-MM-yyyy')) {
       this.isView = false;
@@ -123,18 +144,19 @@ export class TodayScheduleComponent implements OnInit {
     this.detailService.getDetailById(bay.JobId).subscribe(res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
-        console.log(details, 'details');
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
         this.showDialog = true;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   closeModal() {
     this.showDialog = false;
     this.isEdit = false;
-    this.isView = false;    
+    this.isView = false;
     this.getTodayDateScheduleList();
   }
   closeDialog(event) {

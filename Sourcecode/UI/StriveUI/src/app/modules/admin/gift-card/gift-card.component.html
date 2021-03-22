@@ -2,14 +2,11 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
-                <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item">Admin</li>
+                <ol class="breadcrumb font-size-1">
+                    <li class="breadcrumb-item" appNavigatePage>Admin</li>
                     <li class="breadcrumb-item active" aria-current="page">Gift Cards</li>
                 </ol>
             </nav>
-            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Gift Cards &nbsp;&nbsp;</h3>
-            </div>
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
@@ -19,8 +16,7 @@
                                     role="tab" aria-controls="nav-home" aria-selected="true">Gift Card List</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
                                     role="tab" aria-controls="nav-profile" aria-selected="false">Add New Gift Card</a>
-                                <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
-                                    role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
+    
                             </div>
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
@@ -35,12 +31,15 @@
                                                         <div class="search-container pull-right">
                                                             <form>
                                                                 <div class="form-row">
-                                                                    <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span>  -->
-                                                                </div>
-                                                                <div class="form-group col-sm m-l-5">
-                                                                    <input type="search" class="form-control"
-                                                                        (input)="searchGift($event.target.value)"
-                                                                        placeholder="Search">
+                                                                    <div class="form-group d-flex"> <input type="search" class="form-control"
+                                                                            [(ngModel)]="query" size="40" name="search" id="inputSearch"
+                                                                            placeholder="Search"
+                                                                            (keyup)="$event.keyCode == 13 ? searchGift() : null"
+                                                                           > </div>
+                                                                    <div class="form-group col-sm m-l-5">
+                                                                        <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
+                                                                            (click)="searchGift()">Search</button>
+                                                                    </div>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -52,16 +51,22 @@
                                                         <tr>
                                                             <th scope="col" class="pointer"  (click)="changeSorting('GiftCardCode')">Gift Card No.&nbsp;<i class="fa" [ngClass]="selectedCls('GiftCardCode')"
                                                                 aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"  (click)="changeSorting('ExpiryDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ExpiryDate')"
+                                                                <th scope="col" class="pointer"  (click)="changeSorting('FirstName')">First Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
+                                                                    aria-hidden="true"></i></th>
+                                                                    <th scope="col" class="pointer"  (click)="changeSorting('LastName')">Last Name&nbsp;<i class="fa" [ngClass]="selectedCls('LastName')"
+                                                                        aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer"  (click)="changeSorting('ActivatedDate')">Activated Date&nbsp;<i class="fa" [ngClass]="selectedCls('ActivatedDate')"
                                                                 aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"  (click)="changeSorting('TotalAmount')">Amount&nbsp;<i class="fa" [ngClass]="selectedCls('TotalAmount')"
-                                                                aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer" (click)="changeSorting('TotalAmount')" >Amount&nbsp;<i class="fa"
+                                                                [ngClass]="selectedCls('TotalAmount')"        aria-hidden="true"></i></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
-                                                        <tr *ngFor="let card of giftCardList | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                        <tr *ngFor="let card of giftCardList">
                                                             <td>{{card.GiftCardCode}}</td>
-                                                            <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
+                                                            <td>{{card.FirstName}}</td>
+                                                            <td>{{card.LastName}}</td>
+                                                            <td>{{card.ActivationDate | date: 'MM/dd/yyyy'}}</td>
                                                             <td>{{card.TotalAmount | currency}}</td>
                                                         </tr>
                                                     </tbody>

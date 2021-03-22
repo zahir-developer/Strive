@@ -1,0 +1,12 @@
+<div class="modal-content">
+    <div class="modal-body">
+        <form name="tokenform" id="tokenform">
+            <iframe id="tokenFrame" name="tokenFrame" src="https://fts-uat.cardconnect.com/itoke/ajax-tokenizer.html?formatinput=true&useexpiry=true&usecvv=true" width="300" height="150" title=""></iframe>
+            <input type="hidden" name="mytoken" id="mytoken"/>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn theme-optional-button-color" (click)="process()">process</button>
+    <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
+</div>

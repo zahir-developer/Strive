@@ -61,7 +61,6 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   selectOption(event) {
-    console.log(event);
     this.submitted = false;
     if (event.target.value === 'email') {
       this.isEmail = true;
@@ -83,7 +82,6 @@ export class ForgotPasswordComponent implements OnInit {
   get f() { return this.forgotPasswordForm.controls; }
 
   submit(form) {
-    console.log(form);
     if (this.forgotPasswordForm.invalid) {
       this.submitted = true;
       return;
@@ -95,7 +93,6 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     this.forgotPasswordService.getOTPCode(this.userId).subscribe(res => {
-      console.log(res, 'OTP');
       if (res.status === 'Success') {
         this.isOTPScreen = true;
         this.isForgotPassword = false;
@@ -109,7 +106,6 @@ export class ForgotPasswordComponent implements OnInit {
     this.otpCode = form.value.otp;
 
     this.forgotPasswordService.verifyOtp(this.userId, this.otpCode).subscribe(res => {
-      console.log(res, 'res');
       if (res.status === 'Success') {
         this.isOTPScreen = false;
         this.isForgotPassword = false;
@@ -120,7 +116,6 @@ export class ForgotPasswordComponent implements OnInit {
 
   resendOtp() {
     this.forgotPasswordService.getOTPCode(this.userId).subscribe(res => {
-      console.log(res, 'OTP');
       if (res.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Your OTP has been Resent' });
       }

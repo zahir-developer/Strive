@@ -7,6 +7,8 @@ declare var $: any;
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-daily-status',
   templateUrl: './daily-status.component.html',
@@ -35,7 +37,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   dailyStatusWashInfo: any;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef,
-              private datePipe: DatePipe, private spinner: NgxSpinnerService) {
+              private datePipe: DatePipe, private spinner: NgxSpinnerService,
+              private toastr : ToastrService) {
 
   }
 
@@ -63,15 +66,22 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getDailyClockDetail(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const clockDetail = JSON.parse(data.resultData);
         this.clockDetail = clockDetail?.Result?.TimeClockEmployeeDetails ? clockDetail?.Result?.TimeClockEmployeeDetails : [];
         this.clockDetailValue = clockDetail?.Result?.TimeClockDetails ? clockDetail?.Result?.TimeClockDetails : [];
         this.objConversion();
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   objConversion() {
@@ -133,8 +143,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getDailyStatusReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const dailyStatusReport = JSON.parse(data.resultData);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
         this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
@@ -147,8 +158,14 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
           this.detailTotal = this.calculateTotal(this.details, 'detail');
         }
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getDailyStatusWashReport() {
@@ -162,8 +179,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getDailyStatusWashReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const dailyStatusReport = JSON.parse(data.resultData);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
 
@@ -173,8 +191,14 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
          
         }
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getDailyStatusDetailInfo() {
@@ -184,15 +208,22 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
         this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusDetailInfo;
        this.dailyStatusWashInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusWashInfo
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (err) => {
-      this.spinner.show();
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   onLocationChange(event) {
@@ -274,12 +305,6 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: {
-        // this.excelService.exportAsExcelFile(this.washes, 'DailyWashStatusReport_' +
-        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        // this.excelService.exportAsExcelFile(this.details, 'DailyDetailStatusReport_' +
-        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
-        // this.excelService.exportAsExcelFile(this.clockDetail, 'DailyEmployeeClockDetailsReport_' +
-        // moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
          const obj = {
           locationId: +this.locationId,
           date: moment(this.date).format('YYYY-MM-DD'),
@@ -293,10 +318,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
             return data; 
                }
-      //     this.download(data, 'excel', 'Escheatments');
-      // return data;       
-
-        })
+      })
       
         break;
       }

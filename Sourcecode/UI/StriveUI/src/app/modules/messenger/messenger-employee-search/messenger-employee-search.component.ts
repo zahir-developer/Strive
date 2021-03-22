@@ -2,6 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
   selector: 'app-messenger-employee-search',
@@ -21,7 +24,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   @Input() popupType: any = '';
   chatGroupId : number;
   constructor(private empService: EmployeeService, private messengerService: MessengerService,
-    private messageService: MessageServiceToastr) { }
+    private toastr: ToastrService,
+    private spinner : NgxSpinnerService) { }
 
   ngOnInit(): void {
     $('#getGroupName').hide();
@@ -46,14 +50,28 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   }
   getAllEmployees() {
     this.clearSelectAllFlag();
-    this.empService.searchEmployee(this.search).subscribe(data => {
+    const empObj = {
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: null,
+      pageSize: null,
+      query: this.search,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.empService.getAllEmployeeList(empObj).subscribe(data => {
       if (data.status === 'Success') {
         const empList = JSON.parse(data.resultData);
-        this.empList = empList.EmployeeList;
-        // this.removeSelectedEmployee();
+        if (empList.EmployeeList.Employee !== null) {
+          this.empList = empList.EmployeeList.Employee;
+        }
         this.setDefaultBoolean(false);
         this.setName();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   setName() {
@@ -84,7 +102,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
     this.groupname = '';
     const selectedEmp = this.getSelectedEmp();
     if (selectedEmp.length === 0) {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Please select the employees' });
+      this.toastr.success(MessageConfig.Messenger.empselect, 'Success!');
       return;
     } else if (this.popupType === 'newChat') {
       if (selectedEmp.length === 1) {
@@ -185,7 +203,9 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       if (this.selectedEmployee?.IsGroup === true && this.popupType === 'oldChat') {
         groupObj.chatGroup = null;
       }
+    this.spinner.show();
       this.messengerService.createGroup(groupObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           $('#getGroupName').modal('hide');
           const groupObject = JSON.parse(data.resultData);
@@ -214,6 +234,9 @@ export class MessengerEmployeeSearchComponent implements OnInit {
             this.emitRefreshGroupUsers.emit(groupObject.Result.ChatGroupId);
           }
         }
+      }, (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
 
     }

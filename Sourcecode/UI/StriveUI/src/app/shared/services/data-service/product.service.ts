@@ -10,25 +10,28 @@ import { UrlConfig } from '../url.config';
 export class ProductService {
 
   constructor(private http: HttpUtilsService) { }
-   getProduct(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getProduct}`);
+  getProduct(): Observable<any> {
+    return this.http.get(`${UrlConfig.product.getProduct}`);
   }
   addProduct(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.addProduct}`, obj);
+    return this.http.post(`${UrlConfig.product.addProduct}`, obj);
   }
   updateProduct(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateProduct}`, obj);
-  } 
-  deleteProduct(id : number){
-    return this.http.delete(`${UrlConfig.totalUrl.deleteProduct}`,  { params: { productId: id } });
+    return this.http.post(`${UrlConfig.product.updateProduct}`, obj);
   }
-  getProductById(id : number){
-    return this.http.get(`${UrlConfig.totalUrl.getProductById}`,  { params: { productId: id } });
-  } 
+  deleteProduct(id: number) {
+    return this.http.delete(`${UrlConfig.product.deleteProduct}`, { params: { productId: id } });
+  }
+  getProductById(id: number) {
+    return this.http.get(`${UrlConfig.product.getProductById}`, { params: { productId: id } });
+  }
   getVendor(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getVendor}`);
+    return this.http.get(`${UrlConfig.vendor.getALLVendorName}`);
   }
   ProductSearch(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getProductSearch}`, obj);
+    return this.http.post(`${UrlConfig.product.getProductSearch}`, obj);
+  }
+  getAllLocationName() {
+    return this.http.get(`${UrlConfig.location.getAllLocationName}`);
   }
 }
