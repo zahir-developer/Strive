@@ -259,6 +259,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -281,6 +283,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -442,31 +446,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-    // this.wash.getServices(serviceObj).subscribe(data => {
-    //   if (data.status === 'Success') {
-    //     const serviceDetails = JSON.parse(data.resultData);
-    //     this.outsideServices = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
-    //     this.details = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
-    //     this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-    //     this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-    //     this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-    //       item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
-    //     this.UpchargeType = this.upcharges;
-    //     this.additional.forEach(element => {
-    //       element.IsChecked = false;
-    //     });
-    //     if (this.isEdit === true) {
-    //       this.detailForm.reset();
-    //       this.getWashById();
-    //     }
-    //   } else {
-    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    //   }
-    // });
+    
   }
 
   getWashById() {
@@ -587,6 +567,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -669,6 +651,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -706,6 +690,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -725,6 +712,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -780,6 +770,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -835,6 +829,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1006,6 +1003,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
           this.selectedData.DetailsJobServiceEmployee : [];
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1024,6 +1023,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1034,12 +1036,18 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   confirmDelete() {
-    this.detailService.deleteDetail(this.selectedData.Details.JobId).subscribe(res => {  // need to change
-      if (res.status === 'Success') {
+    this.spinner.show();
+    this.detailService.deleteDetail(this.selectedData.Details.JobId).subscribe(res => {
+        // need to change
+      this.spinner.hide();
+        if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.refreshDetailGrid.emit();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1058,6 +1066,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1073,6 +1083,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1156,7 +1168,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       clientVehicle: null,
       clientAddress: this.address
     };
+    this.spinner.show();
     this.client.addClient(myObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         const id = JSON.parse(data.resultData)
         this.generatedClientId = id?.Status[0];
@@ -1167,6 +1181,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.clientFormComponent.clientForm.reset();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getClientById(id) {
@@ -1191,6 +1208,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
        
     
    } 
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     }) 
   }
   assignEmployee() {
@@ -1221,6 +1241,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.result;
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1243,6 +1266,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.isViewPastNotes = false;
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

@@ -7,6 +7,7 @@ import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sale-gift-card',
@@ -24,7 +25,8 @@ export class SaleGiftCardComponent implements OnInit {
     private fb: FormBuilder,
     private salesService: SalesService,
     private toastr: ToastrService,
-    private giftCardService: GiftCardService
+    private giftCardService: GiftCardService,
+    private spinner : NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -146,7 +148,9 @@ export class SaleGiftCardComponent implements OnInit {
     } else {
       formObj.jobItem = null;
     }
+    this.spinner.show();
     this.salesService.addItem(formObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.submitted = false;
         this.saveGiftCard();
@@ -154,6 +158,9 @@ export class SaleGiftCardComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -176,7 +183,9 @@ export class SaleGiftCardComponent implements OnInit {
     const finalObj = {
       giftCard: cardObj
     };
+    this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Sales.UpdateGiftCrd, 'Success!');
 
@@ -184,6 +193,9 @@ export class SaleGiftCardComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.giftCardForm.reset();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

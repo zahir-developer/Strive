@@ -10,6 +10,7 @@ import { MessengerEmployeeListComponent } from './messenger-employee-list/messen
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 declare var $: any;
 @Component({
@@ -184,6 +185,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.spinner.hide();
         this.toastrService.error('Communication Error', 'Error getting chat messages!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastrService.error(MessageConfig.CommunicationError, 'Error!');
     });
 
     if (this.isGroupChat) {
@@ -277,6 +281,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastrService.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   scrollToBottom(): void {
@@ -298,6 +303,10 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       else {
         this.toastrService.error('Communication Error', 'Error getting Group Members!');
       }
+    }
+    , (err) => {
+      this.spinner.hide();
+      this.toastrService.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -314,6 +323,10 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.spinner.hide();
         this.toastrService.error('Communication Error', 'Error getting Group Members!');
       }
+    },
+     (err) => {
+      this.spinner.hide();
+      this.toastrService.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -331,7 +344,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   deleteGroupUser(groupChatUserId, chatGroupId) {
+    this.spinner.show();
     this.msgService.removeGroupUser(groupChatUserId).subscribe(data => {
+      this.spinner.hide();
       const result = JSON.parse(data.resultData);
       if (result.ChatGroupUserDelete === true) {
         this.getGroupMembers(chatGroupId);
@@ -341,6 +356,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.toastrService.error('Communication Error', 'Error removing user from Group!');
       }
 
+    }, (err) => {
+      this.spinner.hide();
+      this.toastrService.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -351,6 +369,8 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       }
       else {
       }
+    }, (err) => {
+      this.toastrService.error(MessageConfig.CommunicationError, 'Error!');
     });
 
   }

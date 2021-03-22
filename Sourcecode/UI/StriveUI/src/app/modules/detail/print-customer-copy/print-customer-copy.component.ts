@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import * as _ from 'underscore';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-print-customer-copy',
@@ -16,6 +18,7 @@ export class PrintCustomerCopyComponent implements OnInit {
   upchargeService: any;
   constructor(
     private wash: WashService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +46,8 @@ export class PrintCustomerCopyComponent implements OnInit {
           }
         });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

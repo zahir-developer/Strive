@@ -6,6 +6,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-item',
@@ -17,7 +18,8 @@ export class EditItemComponent implements OnInit {
   @Input() ItemDetail: any;
   @Input() JobId: any;
   constructor(private fb: FormBuilder, private activeModal: NgbActiveModal, private salesService: SalesService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private spinner : NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.formInit();
@@ -73,7 +75,9 @@ export class EditItemComponent implements OnInit {
     }
   }
   updateServiceItem(updateObj) {
+    this.spinner.show();
     this.salesService.updateItem(updateObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.toastr.success(MessageConfig.Sales.Add,'Success!');
         this.activeModal.close();
@@ -81,11 +85,14 @@ export class EditItemComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   updateProductItem(updateObj) {
+    this.spinner.show();
     this.salesService.updateProductItem(updateObj).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.toastr.success(MessageConfig.Sales.Update,'Success!');
         this.activeModal.close();
@@ -93,6 +100,7 @@ export class EditItemComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }

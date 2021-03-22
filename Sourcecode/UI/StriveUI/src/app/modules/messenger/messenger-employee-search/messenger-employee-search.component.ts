@@ -4,6 +4,7 @@ import { MessengerService } from 'src/app/shared/services/data-service/messenger
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 @Component({
   selector: 'app-messenger-employee-search',
@@ -23,7 +24,8 @@ export class MessengerEmployeeSearchComponent implements OnInit {
   @Input() popupType: any = '';
   chatGroupId : number;
   constructor(private empService: EmployeeService, private messengerService: MessengerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private spinner : NgxSpinnerService) { }
 
   ngOnInit(): void {
     $('#getGroupName').hide();
@@ -201,7 +203,9 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       if (this.selectedEmployee?.IsGroup === true && this.popupType === 'oldChat') {
         groupObj.chatGroup = null;
       }
+    this.spinner.show();
       this.messengerService.createGroup(groupObj).subscribe(data => {
+        this.spinner.hide();
         if (data.status === 'Success') {
           $('#getGroupName').modal('hide');
           const groupObject = JSON.parse(data.resultData);
@@ -231,6 +235,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
           }
         }
       }, (err) => {
+        this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
 

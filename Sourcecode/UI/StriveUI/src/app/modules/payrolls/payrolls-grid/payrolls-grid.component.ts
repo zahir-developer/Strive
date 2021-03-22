@@ -120,6 +120,7 @@ export class PayrollsGridComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   editRestriction() {
@@ -225,6 +226,7 @@ export class PayrollsGridComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   addPayrollProcess() {
@@ -263,8 +265,9 @@ export class PayrollsGridComponent implements OnInit {
       });
     });
 
-
+this.spinner.show();
     this.payrollsService.addPayRoll(obj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
 
         this.isEditAdjustment = false;
@@ -273,6 +276,9 @@ export class PayrollsGridComponent implements OnInit {
         this.toastr.success(MessageConfig.PayRoll.Process, 'Success!');
         this.runReport();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
