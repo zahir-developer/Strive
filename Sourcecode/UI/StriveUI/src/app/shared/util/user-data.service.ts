@@ -13,8 +13,10 @@ export class UserDataService {
   userDetails: any = {};
   private header: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public headerName = this.header.asObservable();
+  private city: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public cityName = this.city.asObservable();
   private location: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  public locationName = this.header.asObservable();
+  public locationName = this.location.asObservable();
   private nav: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public navName = this.nav.asObservable();
   private unReadMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -34,12 +36,15 @@ export class UserDataService {
       localStorage.setItem('refreshToken', token.RefreshToken);
       if (token?.EmployeeDetails?.EmployeeLocations) {
         localStorage.setItem('empLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
+        this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
+        localStorage.setItem('employeeCityName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName));
+        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
+
       } 
       if (token?.EmployeeDetails?.EmployeeLocations) {
       if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
         localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
 
-        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
 
     
       } else {
@@ -94,6 +99,9 @@ export class UserDataService {
   }
   setHeaderName(headerName) {
     this.header.next(headerName);
+  }
+  setCityName(cityName) {
+    this.city.next(cityName);
   }
   setLocationName(Name) {
     this.location.next(Name);
