@@ -16,10 +16,9 @@ export class DashboardService {
   getDetailCount(obj) {
     return this.http.post(`${UrlConfig.washes.getDashBoardCount}`, obj);
   }
-  GetAllLocationWashTime(){
-    const locationId = localStorage.getItem('empLocationId');
 
-    return this.http.get(`${UrlConfig.dashboard.GetAllLocationWashTime}` + locationId,{ params: { id: locationId } });
+  getAllLocationWashTime(locationId){
+    return this.http.get(`${UrlConfig.dashboard.getAllLocationWashTime}` + locationId);
    }
    
   getLocation() {

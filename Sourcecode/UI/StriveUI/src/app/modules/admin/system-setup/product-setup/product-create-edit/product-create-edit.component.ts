@@ -198,9 +198,20 @@ export class ProductCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product;
+        let name = '';
+        this.location.forEach( item => {
+          if (+item.id === +this.selectedProduct.LocationId) {
+            name = item.name;
+          }
+        });
+        const locObj = {
+          id : this.selectedProduct.LocationId,
+          name
+        };
+        this.dropdownSetting();
         this.productSetupForm.patchValue({
           productType: this.selectedProduct.ProductType,
-          locationName: this.selectedProduct.LocationId,
+          locationName: locObj,
           name: this.selectedProduct.ProductName,
           cost: this.selectedProduct?.Cost?.toFixed(2),
           suggested: this.selectedProduct?.Price?.toFixed(2),

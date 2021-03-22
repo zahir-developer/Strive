@@ -49,14 +49,14 @@ export class DashboardComponent implements OnInit {
   thirdSectionToggle: boolean;
   fromDate: any;
   toDate: any;
-  locationId = 0;
+  locationId: any;
   constructor(
     public dashboardService: DashboardService,
     private messageService: MessageServiceToastr,
     private modalService: NgbModal,
-    private spinner: NgxSpinnerService
-    ,private landingservice: LandingService,
-    private toastr : ToastrService
+    private spinner: NgxSpinnerService,
+    private landingservice: LandingService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +67,8 @@ export class DashboardComponent implements OnInit {
     this.fromDate = moment(new Date()).format();
     this.toDate = moment(new Date()).format();
     this.getLocationList();
-    this.getDashboardStatistics(0);
+    this.locationId = localStorage.getItem('empLocationId');
+    this.getDashboardStatistics(this.locationId);
   }
 
   getDashboardCount() {
@@ -155,7 +156,8 @@ export class DashboardComponent implements OnInit {
 
   // Get All Location
   getLocationList() {
-    this.dashboardService.GetAllLocationWashTime().subscribe(res => {
+    const locationId = localStorage.getItem('empLocationId');
+    this.dashboardService.getAllLocationWashTime(locationId).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;
@@ -183,7 +185,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  landing(){
+  landing() {
     this.landingservice.loadTheLandingPage()
   }
   mainStreet() {
