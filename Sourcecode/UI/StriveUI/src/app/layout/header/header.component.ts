@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   weatherDetails: any;
   rainPrediction: any;
   temperature: number;
+  cityName: string;
   constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
               private route: ActivatedRoute, private msgService: MessengerService,
               private weatherService: WeatherService) { }
@@ -33,21 +34,33 @@ export class HeaderComponent implements OnInit {
     this.userService.headerName.subscribe(data => {
       this.empName = data;
     });
-    if(localStorage.getItem('empLocationName')){
-      this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
 
-    }
-    
+    this.userService.cityName.subscribe(data => {
+      if(data == null){
+        this.cityName = JSON.parse(localStorage.getItem('employeeCityName'));
+
+      }
       else{
+ this.cityName = data;
+      }
+     
+
+    });
+  
         this.userService.locationName.subscribe(data => {
-          if(data){
-            this.locationName = JSON.parse(data);
+          if(data == null){
+            this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
+
     
+          }
+          else{
+            this.locationName = data;
+
           }
       
         
     });
-  }
+  
   this.getWeatherDetails()
     this.getUnReadMessage();
   
