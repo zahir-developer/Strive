@@ -47,8 +47,8 @@ export class EmployeeCollisionComponent implements OnInit {
       dateOfCollision: ['', Validators.required],
       amount: ['', Validators.required],
       reason: ['', Validators.required],
-      client: [''],
-      vehicle: ['']
+      client: ['', Validators.required],
+      vehicle: ['', Validators.required]
     });
     this.getLiabilityType();
     this.getLiabilityDetailType();

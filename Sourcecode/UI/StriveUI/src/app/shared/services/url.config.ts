@@ -214,8 +214,7 @@ export const UrlConfig = {
     getTodayScheduleList: `Admin/Details/GetAllDetails`,
     getDashboardStatistics: `Admin/Dashboard/GetDashboardStatistics`,
     getAvailablilityScheduleTime: `Admin/Dashboard/GetAvailablilityScheduleTime`,
-    GetAllLocationWashTime : `Admin/Washes/GetAllLocationWashTime/`,
-
+    getAllLocationWashTime : `Admin/Washes/GetAllLocationWashTime/`,
   },
   dashboardStatice: {
     getDashboardStatistics: `Admin/DashboardStatistics/GetDashboardStatisticsForLocationId/`,

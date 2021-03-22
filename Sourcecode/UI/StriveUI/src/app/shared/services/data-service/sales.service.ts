@@ -42,10 +42,8 @@ export class SalesService {
  rollback(ticketNo) {
   return this.http.delete(`${UrlConfig.sales.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
  }
- getServiceAndProduct() {
-  const locationId = localStorage.getItem('empLocationId');
-
-  return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locationId,{ params: { id: locationId } });
+ getServiceAndProduct(locID) {
+  return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locID);
  }
  updateProductItem(updateObj) {
   return this.http.post(`${UrlConfig.sales.updateProductObj}`, updateObj);

@@ -109,7 +109,6 @@ export class EditEmployeeComponent implements OnInit {
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
-    
     this.getAllRoles();
     this.getLocation();
     this.dropdownSetting();

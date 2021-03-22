@@ -19,16 +19,19 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  Schedules-tab  mb-2">
                     <li>
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link active"
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link " [ngClass]="{ 'active': locationId === 0 }"
                             (click)="getDashboardStatistics(0)"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span
                                 class="text-center p-r-15 p-l-5">All</span> </a>
                     </li>
                     <li *ngFor="let loc of location">
-                        <a href="#all" data-toggle="tab" title="{{loc.LocationName}}" aria-expanded="false" class="nav-tab-link"
-                            (click)="getDashboardStatistics(loc.LocationId)"> 
+                        <a href="#all" data-toggle="tab" title="{{loc.LocationName}}" aria-expanded="false"
+                            class="nav-tab-link " [ngClass]="{ 'active': locationId !== 0 }"
+                            (click)="getDashboardStatistics(loc.LocationId)">
                             <i class="mdi mdi-store Schedules-tab-icon"></i>
-                            <span class="text-center p-r-15 p-l-5">{{loc.LocationName.slice(0, 20)}}{{ loc.LocationName.length > 20 ? '...' : ''}}</span> &nbsp;&nbsp; 
-                            <div class="badge Schedules-badge">{{loc.WashtimeMinutes}}&nbsp; mins</div></a>
+                            <span class="text-center p-r-15 p-l-5">{{loc.LocationName.slice(0, 20)}}{{
+                                loc.LocationName.length > 20 ? '...' : ''}}</span> &nbsp;&nbsp;
+                            <div class="badge Schedules-badge">{{loc.WashtimeMinutes}}&nbsp; mins</div>
+                        </a>
                     </li>
 
                 </ul>
