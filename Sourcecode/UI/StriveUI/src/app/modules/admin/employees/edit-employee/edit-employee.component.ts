@@ -549,7 +549,9 @@ export class EditEmployeeComponent implements OnInit {
       employeeLocation: newlyAddedLocation,
       employeeDocument: null 
     };
+    this.spinner.show();
     this.employeeService.updateEmployee(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Employee.Update , 'Success!');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
@@ -557,6 +559,7 @@ export class EditEmployeeComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }

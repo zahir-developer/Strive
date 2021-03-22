@@ -40,7 +40,6 @@ export class AdSetupCreateEditComponent implements OnInit {
     private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
-  this.selectedDate =  new Date();
 
     this.submitted = false;
     this.fileType = ApplicationConfig.UploadFileType.AdSetup;
@@ -48,6 +47,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     this.Status = [{ id: 0, Value: "Inactive" }, { id: 1, Value: "Active" }];
     this.formInitialize();
     this.employeeId = +localStorage.getItem('employeeId');
+   if (this.selectedData.AdSetupId){
     this.adSetup.getAdSetupById(this.selectedData.AdSetupId).subscribe(data => {
       if (data.status === "Success") {
   this.spinner.hide()
@@ -61,11 +61,13 @@ export class AdSetupCreateEditComponent implements OnInit {
       description: this.selectedData.Description,
       status: this.selectedData.Status == false ? 0 : 1,
       image: this.selectedData.OriginalFileName,
-      daterangepickerModel :moment(this.selectedData.LaunchDate).format('MM-DD-YYYY')
+      daterangepickerModel : this.selectedData.LaunchDate ? moment(this.selectedData.LaunchDate).format('MM-DD-YYYY') : null
     });
   
     this.fileName = this.selectedData.OriginalFileName,
       this.fileUploadformData = this.selectedData.base64
+   }
+   
   }
 
   formInitialize() {
@@ -74,7 +76,7 @@ export class AdSetupCreateEditComponent implements OnInit {
       name: ['', Validators.required],
       image: ['', Validators.required],
       status: ['',],
-      daterangepickerModel : new Date()
+      daterangepickerModel : ['',Validators.required]
     });
     this.adSetupForm.patchValue({ status: 1 });
   }
@@ -182,7 +184,7 @@ export class AdSetupCreateEditComponent implements OnInit {
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
-      LaunchDate: moment(this.selectedDate).format('MM-DD-YYYY')
+      LaunchDate: this.selectedDate ? moment(this.selectedDate).format('MM-DD-YYYY') : null
     }
 
 

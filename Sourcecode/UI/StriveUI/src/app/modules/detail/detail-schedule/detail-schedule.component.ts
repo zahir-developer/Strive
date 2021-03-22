@@ -104,6 +104,8 @@ export class DetailScheduleComponent implements OnInit {
         this.isEdit = true;
         this.showDialog = true;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -217,6 +219,8 @@ export class DetailScheduleComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -239,6 +243,8 @@ export class DetailScheduleComponent implements OnInit {
           this.dateCustomClasses = dateClass;
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

@@ -6,6 +6,9 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-assign-detail',
@@ -34,7 +37,9 @@ export class AssignDetailComponent implements OnInit {
   constructor(
     private fb: FormBuilder, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService,
-    private detailServices: DetailService
+    private detailServices: DetailService,
+    private spinner : NgxSpinnerService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -235,6 +240,9 @@ export class AssignDetailComponent implements OnInit {
       if (res.status === 'Success') {
         this.cancelAssignModel.emit();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -253,6 +261,8 @@ export class AssignDetailComponent implements OnInit {
         this.serviceType = cType.Codes.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];
         this.getDetailService();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

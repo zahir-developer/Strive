@@ -70,12 +70,7 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getLocation();
     this.isChecked = false;
     this.submitted = false;
-    if (this.isEdit !== true) {
-      this.serviceSetupForm.controls.location.enable();
-
-    } else {
-      this.serviceSetupForm.controls.location.disable();
-    }
+    
   }
 
   formInitialize() {
@@ -105,8 +100,8 @@ export class ServiceCreateEditComponent implements OnInit {
   locationDropDown() {
     this.location = this.location.map(item => {
       return {
-        item_id: item.LocationId,
-        item_text: item.LocationName
+       id: item.LocationId,
+        name: item.LocationName
       };
     });
     this.dropdownSettings = {
@@ -157,7 +152,18 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.get('upcharge').clearValidators();
           this.serviceSetupForm.get('upcharge').updateValueAndValidity();
         }
-
+        let name = '';
+        this.location.forEach( item => {
+          if (+item.id === +this.selectedService.LocationId) {
+            name = item.name;
+          }
+        });
+        const locObj = {
+          id : this.selectedService.LocationId,
+          name
+        };
+        const selectedLocation = [];
+        selectedLocation.push(locObj);
         this.serviceSetupForm.patchValue({
           serviceType: this.selectedService?.ServiceTypeId,
           name: this.selectedService?.ServiceName,
@@ -171,7 +177,8 @@ export class ServiceCreateEditComponent implements OnInit {
           upcharge: this.selectedService?.Upcharges,
           discountServiceType: this.selectedService?.DiscountServiceType,
           parentName: this.selectedService?.ParentServiceId,
-          status: this.selectedService.IsActive ? 0 : 1
+          status: this.selectedService.IsActive ? 0 : 1,
+          location: selectedLocation
         });
         this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceTypeId);
@@ -273,13 +280,9 @@ export class ServiceCreateEditComponent implements OnInit {
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
-          this.serviceSetupForm.controls.location.disable();
 
         }
-        else{
-          this.serviceSetupForm.controls.location.enable();
-    
-        }
+        
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }

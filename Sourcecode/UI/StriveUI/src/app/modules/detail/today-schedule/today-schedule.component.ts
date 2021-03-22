@@ -3,6 +3,8 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
 import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-today-schedule',
@@ -25,7 +27,9 @@ export class TodayScheduleComponent implements OnInit {
   sortDetail: any;
   constructor(
     private detailService: DetailService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private toastr :ToastrService,
+  
   ) { }
 
   ngOnInit(): void {
@@ -94,6 +98,8 @@ export class TodayScheduleComponent implements OnInit {
         });
         this.bayDetail = bayJobDetail;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   changeSorting(column) {
@@ -142,6 +148,8 @@ export class TodayScheduleComponent implements OnInit {
         this.isEdit = true;
         this.showDialog = true;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
