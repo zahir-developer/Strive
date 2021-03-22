@@ -47,15 +47,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     this.Status = [{ id: 0, Value: "Inactive" }, { id: 1, Value: "Active" }];
     this.formInitialize();
     this.employeeId = +localStorage.getItem('employeeId');
-   if (this.selectedData.AdSetupId){
-    this.adSetup.getAdSetupById(this.selectedData.AdSetupId).subscribe(data => {
-      if (data.status === "Success") {
-  this.spinner.hide()
-        const sType = JSON.parse(data.resultData);
-        this.selectedData = sType.GetAdSetupById;
-  
-      } 
-    });
+   if (this.selectedData){
     this.adSetupForm.patchValue({
       name: this.selectedData.Name,
       description: this.selectedData.Description,
