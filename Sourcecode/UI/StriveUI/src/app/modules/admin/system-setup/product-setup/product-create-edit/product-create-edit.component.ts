@@ -288,8 +288,9 @@ export class ProductCreateEditComponent implements OnInit {
     const productObj: any = {};
     const vendorList = [];
     const productList = [];
+    this.productSetupForm.controls.status.enable();
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
-      (this.productSetupForm.value.locationName || []).map(item => {
+      (this.productSetupForm.value.locationName || []).forEach(item => {
         this.productSetupForm.value.vendor.forEach(vendor => {
           productObj.productCode = null;
           productObj.productDescription = null;
@@ -312,12 +313,11 @@ export class ProductCreateEditComponent implements OnInit {
           productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
           productObj.isDeleted = false;
           productObj.price = this.productSetupForm.value.suggested;
-          productObj.vendorId = vendor.id;
           obj.product = productObj;
           vendorList.push({
             productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-            vendorId: item.id,
+            vendorId: vendor.id,
             isActive: true,
             isDeleted: false,
           });
@@ -358,9 +358,6 @@ export class ProductCreateEditComponent implements OnInit {
     //   updatedDate: new Date(),
     //   price: this.productSetupForm.value.suggested
     // });
-
-    this.productSetupForm.controls.status.enable();
-
     if (this.isEdit === true) {
       this.spinner.show();
       this.product.updateProduct(finalObj).subscribe(data => {

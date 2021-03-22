@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="form-group col-lg-4">
-                    <label for="inputClient">Client Name</label>
+                    <label for="inputClient">Client Name<span class="required">*</span></label>
                     <div class="ui-fluid">
                         <div class="p-grid forms-grid">
                             <div class="p-col-3 p-md-6">
@@ -35,18 +35,24 @@
                                     (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
                                     placeholder="Client Name" (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
                                 </p-autoComplete>
+                                <div *ngIf="submitted && f.client.errors">
+                                    <div *ngIf="f.client.errors.required" style="color: #dc3545;font-size: 80%;margin-top: .25rem;">Client Name is required</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group col-lg-4">
-                    <label for="inputVehicle">Vehicle</label>
-                    <select id="inputVehicle" class="form-control" formControlName="vehicle">
+                    <label for="inputVehicle">Vehicle<span class="required">*</span></label>
+                    <select id="inputVehicle" class="form-control" formControlName="vehicle" [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }">
                         <option value="" hidden selected>Choose</option>
                         <option *ngFor="let v of vehicleList" value="{{v.VehicleId}}">
                             {{v.VehicleMfr}},{{v.VehicleModel}},{{v.VehicleColor}}
                         </option>
                     </select>
+                    <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
+                        <div *ngIf="f.vehicle.errors.required">Vehicle is required</div>
+                    </div>
                 </div>
                 <div class="form-group col-lg-4">
                     <label for="inputamount">Amount<span class="required">*</span></label>
