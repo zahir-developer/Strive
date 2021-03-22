@@ -35,7 +35,7 @@ export class DocumentListComponent implements OnInit {
   ngOnInit(): void {
     this.isEditDocument = false;
     this.showCloseButton = false;
-    this.employeeDetail();
+    this.getAllDocument();
     if (this.isModal !== undefined) {
       this.showCloseButton = true;
     } else {
@@ -78,7 +78,7 @@ export class DocumentListComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.isEditDocument = false;
-        this.employeeDetail();
+        this.getAllDocument();
       }
     });
   }
@@ -115,7 +115,7 @@ export class DocumentListComponent implements OnInit {
       this.spinner.hide();
       if (res.status === 'Success') {
         this.toastr.success(MessageConfig.Document.Delete, 'Success!');
-        this.employeeDetail();
+        this.getAllDocument();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
