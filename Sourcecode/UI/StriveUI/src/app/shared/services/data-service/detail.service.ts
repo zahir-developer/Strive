@@ -11,62 +11,71 @@ export class DetailService {
   constructor(private http: HttpUtilsService) { }
 
   addDetail(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.addDetail}`, obj);
+    return this.http.post(`${UrlConfig.details.addDetail}`, obj);
   }
 
   getDetailById(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getDetailById}` + id);
+    return this.http.get(`${UrlConfig.details.getDetailById}` + id);
   }
   
   updateDetail(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateDetail}`, obj);
+    return this.http.post(`${UrlConfig.details.updateDetail}`, obj);
   }
 
   getAllBayById(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getAllBayById}` + id);
+    return this.http.get(`${UrlConfig.details.getAllBayById}` + id);
   }
 
   getScheduleDetailsByDate(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getScheduleDetailsByDate}`, obj);
+    return this.http.post(`${UrlConfig.details.getScheduleDetailsByDate}`, obj);
   }
 
   deleteDetail(id) {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteDetail}`, { params : { id } } );
+    return this.http.delete(`${UrlConfig.details.deleteDetail}`, { params : { id } } );
   }
 
   getJobType() {
-    return this.http.get(`${UrlConfig.totalUrl.getJobType}`);
+    return this.http.get(`${UrlConfig.details.getJobType}`);
   }
 
   getTodayDateScheduleList(JobDate, LocationId, ClientId) {
-    return this.http.get(`${UrlConfig.totalUrl.getTodayDateScheduleList}`, { params: { JobDate, LocationId, ClientId}});
+    return this.http.get(`${UrlConfig.details.getTodayDateScheduleList}`, { params: { JobDate, LocationId, ClientId}});
   }
 
   getAllEmployeeList() {
-    return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
+    return this.http.get(`${UrlConfig.employee.getEmployees}`);
   }
 
-  getWashTimeByLocationId(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getLocationById}`, { params: { id }});
+  getWashTimeByLocationId(washTimeDto) {
+    return this.http.post(`${UrlConfig.washes.getWashTimeByLocationId}`, washTimeDto);
   }
 
   getPastClientNotesById(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getPastClientNotesById}` + id);
+    return this.http.get(`${UrlConfig.details.getPastClientNotesById}` + id);
   }
 
   getAllEmplloyeeList() {
-    return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
+    return this.http.get(`${UrlConfig.employee.getEmployees}`);
   }
 
   saveEmployeeWithService(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.saveEmployeeWithService}`, obj);
+    return this.http.post(`${UrlConfig.details.saveEmployeeWithService}`, obj);
   }
 
   getJobStatus(code) {
-    return this.http.get(`${UrlConfig.totalUrl.getJobStatus}` + code);
+    return this.http.get(`${UrlConfig.common.getJobStatus}` + code);
   }
 
   getDetailCount(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj);
+    return this.http.post(`${UrlConfig.washes.getDashBoardCount}`, obj);
   }
+
+  getDetailScheduleStatus(LocationId, date) {
+    return this.http.get(`${UrlConfig.details.getDetailScheduleStatus}`, { params: { LocationId , Date: date } });
+  }
+
+  getClockedInDetailer(obj) {
+    return this.http.post(`${UrlConfig.timeClock.getClockedInDetailer}` , obj);
+  }
+
 }

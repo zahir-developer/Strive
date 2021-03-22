@@ -18,11 +18,11 @@ namespace Strive.ResourceAccess
         public TimeClockRal(ITenantHelper tenant) : base(tenant) { }
 
 
-        public bool SaveTimeClock(TimeClockModel timeClock)
+        public bool SaveTimeClock(TimeClockListModel timeClock)
         {
             try
             {
-                return dbRepo.SaveAll<BusinessEntities.Model.TimeClockModel>(timeClock, "TimeClockId");
+                return dbRepo.SaveAll(timeClock, "TimeClockId");
             }
             catch (Exception ex)
             {
@@ -78,6 +78,25 @@ namespace Strive.ResourceAccess
 
             return db.FetchMultiResult<TimeClockEmployeeHourViewModel>(EnumSP.ClockTime.USPGETTIMECLOCKEMPLOYEEHOURDETAIL.ToString(), _prm);
         }
+
+        public EmployeeThresholdHourViewModel GetEmployeeWeeklyTimeClockHour (TimeClockWeekDetailDto timeClockWeekDetailDto)
+        {
+            _prm.Add("EmployeeId", timeClockWeekDetailDto.EmployeeId);
+            _prm.Add("LocationId", timeClockWeekDetailDto.LocationId);
+            _prm.Add("StartDate", timeClockWeekDetailDto.StartDate);
+            _prm.Add("EndDate", timeClockWeekDetailDto.EndDate);
+
+            return db.FetchSingle<EmployeeThresholdHourViewModel>(EnumSP.ClockTime.USPGETEMPLOYEEWEEKLYTIMECLOCKHOUR.ToString(), _prm);
+
+
+        }
+
+        public List<TimeClockEmployeeDetailViewModel> GetClockedInDetailer(TimeClockLocationDto timeclock)
+        {
+            _prm.Add("DateTime", timeclock.Date);
+            _prm.Add("LocationId", timeclock.LocationId);
+            return db.Fetch<TimeClockEmployeeDetailViewModel>(EnumSP.ClockTime.USPGETCLOCKEDINDETAILER.ToString(), _prm);
+        }                                                     
         
     }
 }

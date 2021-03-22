@@ -1,6 +1,63 @@
-<p-confirmDialog [style]="{width: '20vw'}" [acceptIcon]="null" [rejectIcon]="null"
-    [acceptButtonStyleClass]="'theme-secondary-button-color'" [rejectButtonStyleClass]="'theme-optional-button-color'"
-    [closable]="false" [baseZIndex]="10000"></p-confirmDialog>
+<div class="modal" id="vehicleModal" tabindex="1" role="dialog" *ngIf="showVehicleDialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{headerData}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                        aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
+                [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber"
+                (closeDialog)="closePopupEmitVehicle($event)">
+            </app-vehicle-create-edit>
+            </div>
+          
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="clientModal" tabindex="1" role="dialog" *ngIf="showClientDialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{headerData}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                        aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button"  data-dismiss="modal" class="btn theme-optional-button-color"
+                (click)="closePopupEmitClient()">Cancel</button>&nbsp;
+            <button type="button" class="btn theme-primary-button-color"  data-dismiss="modal" (click)="saveClient()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="deleteModel" tabindex="-1" role="dialog" *ngIf="deleteDetailList">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                        aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <p>{{body}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn theme-optional-button-color" data-dismiss="modal">No</button>
+                <button type="button" class="btn theme-primary-button-color" data-dismiss="modal"
+                    (click)="confirmDelete()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="col-lg-12 p-l-0 p-r-0">
     <div>
         <div>
@@ -23,11 +80,7 @@
                             <div class="col-sm-1 text-right p-t-5"
                                 style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>In Time:</label>
-                                <!-- <div class="form-row">
-                                    <label class="col-sm-1 col-form-label" for="inTime">In:</label>
-                                    <input type="text" class="form-control col-sm-8" name="inTime" id="inTime"
-                                        formControlName="inTime" />
-                                </div> -->
+
                             </div>
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="inTime" id="inTime"
@@ -41,13 +94,7 @@
                                 <input type="text" class="form-control" name="dueTime" id="dueTime"
                                     formControlName="dueTime" />
                             </div>
-                            <!-- <div class="col-sm-4">
-                                <div class="form-row">
-                                    <label class="col-sm-4 col-form-label" for="dueTime">Due Time:</label>
-                                    <input type="text" class="form-control col-sm-8" name="dueTime" id="dueTime"
-                                        formControlName="dueTime" />
-                                </div>
-                            </div> -->
+
                         </div>
                     </div>
                 </div>
@@ -65,7 +112,7 @@
                                 <div class="p-col-3 p-md-6">
                                     <p-autoComplete field="name" [suggestions]="clientList"
                                         (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
-                                        placeholder="Client Name" (onSelect)="selectedClient($event)">
+                                        placeholder="Client Name" (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -90,14 +137,11 @@
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
                                 (click)="getByBarcode(detailForm.value.barcode)"
                                 [disabled]="isView">Select</button>&nbsp;
-                            <!-- <button type="button" class="btn theme-primary-button-color btn-responsive">Add
-                                Client</button>&nbsp;
-                            <button type="button" class="btn theme-primary-button-color btn-responsive">Add
-                                Vehicle</button> -->
+
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addClient()" [disabled]="isView">Add Client</button>&nbsp;
+                                (click)="addClient()" data-toggle="modal" data-target="#clientModal" [disabled]="isView">Add Client</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addVehicle()" [disabled]="isView || clientId === undefined">Add
+                                (click)="addVehicle()" data-toggle="modal" data-target="#vehicleModal" [disabled]="isView || clientId === undefined">Add
                                 Vehicle</button>
                         </div>
                     </div>
@@ -105,17 +149,13 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputType">Type</label>
-                        <!-- <select class="form-control" formControlName="type">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of type" value="{{score.CodeId}}">{{score.CodeValue}}
-                            </option>
-                        </select> -->
+
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
                                     <p-autoComplete field="name" [suggestions]="filteredMake"
-                                        (completeMethod)="filterMake($event)" [size]="10" formControlName="type"
-                                        placeholder="Make">
+                                        (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10"
+                                        formControlName="type" placeholder="Make">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -123,17 +163,13 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputModel">Model</label>
-                        <!-- <select class="form-control" formControlName="model">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of model" value="{{score.CodeId}}">{{score.CodeValue}}
-                            </option>
-                        </select> -->
+
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
                                     <p-autoComplete field="name" [suggestions]="filteredModel"
-                                        (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
-                                        placeholder="Model">
+                                        (onBlur)="checkValue('model')" (completeMethod)="filterModel($event)"
+                                        [size]="10" formControlName="model" placeholder="Model">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -141,17 +177,13 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputColor">Color</label>
-                        <!-- <select class="form-control" formControlName="color">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
-                            </option>
-                        </select> -->
+
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
                                     <p-autoComplete field="name" [suggestions]="filteredcolor"
-                                        (completeMethod)="filterColor($event)" [size]="10" formControlName="color"
-                                        placeholder="Color">
+                                        (onBlur)="checkValue('color')" (completeMethod)="filterColor($event)"
+                                        [size]="10" formControlName="color" placeholder="Color">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -214,20 +246,7 @@
                         </select>
                     </div>
                 </div>
-                <!-- <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label>Notes</label>
-                            <textarea class="form-control m-t-5 notes-textarea" rows="4"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label> View Past Client Notes</label>
-                            <textarea class="form-control m-t-5 notes-textarea" rows="4"></textarea>
-                        </div>
-                    </div>
-                </div> -->
+
             </form>
             <div class="form-row">
                 <div class="col-sm-8 border " style="height: 225px">
@@ -271,28 +290,11 @@
                                 [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
                         </span>
                     </div>
-                    <!-- <div class="row"> [disabled]="!isAssign && !isView"
-                        <div class="col-sm-3">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
-                                (click)="saveDetail()">Save</button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5"
-                                [disabled]="!isEdit" (click)="deleteDetail()">Delete</button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Customer
-                            </button>
-                        </div>
-                        <div class="col-sm-3" style="padding-left: 0% !important;">
-                            <button type="button" class="btn theme-primary-button-color btn-block m-b-5">Vehicle
-                            </button>
-                        </div>
-                    </div> -->
+
                 </div>
             </div>
-            <div class="m-t-12">
-                <span class="mw-100">
+            <div class="m-t-12 row">
+                <div class="col-sm-8">
                     <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="!isEdit"
                         (click)="printCustomerCopy()">Customer
                         Copy</button>
@@ -300,15 +302,24 @@
                         [disabled]="!isEdit">Vehicle Copy</button>
                     <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes"
                         (click)="pastNotes()">View Past Client Notes</button>
-                </span>
-                <span style="float: right; margin-right: 125px;">   
-                    <button type="button" style =  "margin-left: 360px;" class="btn theme-primary-button-color "
-                        [disabled]="!isEdit || isView" (click)="pay()">Pay</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color " (click)="saveDetail()"
-                        [disabled]="isView">Save</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color " [disabled]="!isEdit && !isView"
-                        (click)="deleteDetail()">Delete</button>
-                </span>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <span class="col-2"></span>
+                        <span class="col-10" style="padding-left: 5px !important;">
+                            <button type="button" class="btn theme-primary-button-color col-3"
+                                [disabled]="!isEdit || isView" (click)="pay()">Pay</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
+                                [disabled]="isView">Save</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color col-3"
+                                [disabled]="!isEdit && !isView" data-toggle="modal" data-target="#deleteModel"
+                                (click)="deleteDetail()">Delete</button>
+                        </span>
+                    </div>
+                </div>
+                <!-- <span style="float: right; margin-right: 125px;">
+
+                </span> -->
             </div>
         </div>
     </div>
@@ -334,7 +345,8 @@
     <app-view-past-notes *ngIf="viewNotesDialog" [viewNotes]="viewNotes"></app-view-past-notes>
 </p-dialog>
 
-<p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
+
+<!-- <p-dialog header="{{headerData}}" [(visible)]="showClientDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
     <app-client-form *ngIf="showClientDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"></app-client-form>
     <p-footer>
@@ -342,12 +354,11 @@
             (click)="closePopupEmitClient()">Cancel</button>&nbsp;
         <button type="button" class="btn theme-primary-button-color" (click)="saveClient()">Save</button>
     </p-footer>
-</p-dialog>
+</p-dialog> -->
 
-<p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
+<!-- <p-dialog header="{{headerData}}" [(visible)]="showVehicleDialog" [blockScroll]="true" [modal]="true"
     [focusOnShow]="false" [closable]="false">
-    <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
-        [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber"
-        (closeDialog)="closePopupEmitVehicle($event)">
-    </app-vehicle-create-edit>
-</p-dialog>
+  
+</p-dialog> -->
+
+

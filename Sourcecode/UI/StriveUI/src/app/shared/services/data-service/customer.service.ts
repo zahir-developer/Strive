@@ -15,15 +15,15 @@ export class CustomerService {
   }
 
   getLocation(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getLocation}`);
+    return this.http.get(`${UrlConfig.location.getAllLocationName}`);
   }
 
   getServices(obj): Observable<any> {
-    return this.http.post(`${UrlConfig.totalUrl.getServiceSetup}`, obj);
+    return this.http.post(`${UrlConfig.ServiceSetup.getServiceSetup}`, obj);
   }
 
   getVehicleByClientId(clientId: number) {
-    return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });
+    return this.http.get(`${UrlConfig.vehicle.getVehicleByClientId}`, { params: { id: clientId } });
   }
 
   getAvailablilityScheduleTime(obj) {
@@ -31,6 +31,6 @@ export class CustomerService {
   }
 
   getWashTimeByLocationId(id) {
-    return this.http.get(`${UrlConfig.totalUrl.getLocationById}`, { params: { id }});
+    return this.http.get(`${UrlConfig.location.getLocationById}`, { params: { id }});
   }
 }

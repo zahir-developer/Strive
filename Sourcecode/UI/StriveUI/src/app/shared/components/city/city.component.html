@@ -1,7 +1,11 @@
-<select name="city" [disabled]="isView"  [(ngModel)]="city" class="form-control" (change)="selectedCity($event)" [ngClass]="{'is-invalid': city === '' && submitted}">
+<!-- <select name="city" [disabled]="isView"  [(ngModel)]="city" class="form-control" (change)="selectedCity($event)" [ngClass]="{'is-invalid': city === '' && submitted}">
     <option value="" selected hidden>Choose </option>
     <option *ngFor="let city of cities" value="{{city.value}}">{{city.name}}</option>
-</select>
-<div *ngIf="submitted && city === ''" class="invalid-feedback">
+</select> -->
+<p-dropdown [options]="cities" styleClass="col-12" name="city" [ngClass]="{ 'is-invalid': submitted &&  selectValueCity == false }" [disabled]="isView"  [(ngModel)]="city"
+optionLabel="name" [filter]="true"  placeholder="Choose"
+(onChange)="selectedCity($event)">
+</p-dropdown>
+<div *ngIf="submitted && selectValueCity == false" class="invalid-feedback">
     City is required
 </div>

@@ -1,28 +1,4 @@
- /* @import './assets/scss/mixins.scss';
-@import './assets/scss/themes.scss'; */
-/* @import "themes/style.scss";  */
-/* body .fc .fc-toolbar .fc-button {
-    color: black !important;
-    background-color: white !important;
-    border: 1px solid gray !important;
-   
-}
-.fc-toolbar {
-    display: flex;
-    justify-content: space-evenly !important;
-    align-items: center;
-}
-body .fc .fc-toolbar .fc-button:enabled:hover {
-    background-color: #8080808a !important;
-}
-.fc-event-time, .fc-event-title {
-    padding: 0 1px;
-    white-space: nowrap;
-    } */
-    
-    /* .fc-title {
-    white-space: normal;
-    } */
+
     body .fc .fc-toolbar .fc-button {
         background-color: transparent ; 
         border: 1px solid #dddddd;

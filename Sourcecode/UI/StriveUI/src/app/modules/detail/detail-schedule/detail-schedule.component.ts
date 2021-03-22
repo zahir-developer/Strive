@@ -1,10 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import { TodayScheduleComponent } from '../today-schedule/today-schedule.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no-of-details.component';
+import { DatepickerDateCustomClasses, BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 
 @Component({
   selector: 'app-detail-schedule',
@@ -12,6 +17,8 @@ import { NoOfDetailsComponent } from 'src/app/shared/components/no-of-details/no
   styleUrls: ['./detail-schedule.component.css']
 })
 export class DetailScheduleComponent implements OnInit {
+  @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  bsConfig: Partial<BsDatepickerConfig>;
   showDialog: boolean;
   selectedData: any;
   isEdit: boolean;
@@ -24,23 +31,32 @@ export class DetailScheduleComponent implements OnInit {
   eveningBaySchedule: any = [];
   actionType: string;
   isView: boolean;
+  dateCustomClasses: DatepickerDateCustomClasses[];
   time = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'];
   @ViewChild(TodayScheduleComponent) todayScheduleComponent: TodayScheduleComponent;
   @ViewChild(NoOfDetailsComponent) noOfDetailsComponent: NoOfDetailsComponent;
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  scheduleDate = [];
+  jobTypeId: any;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe,
     private spinner: NgxSpinnerService,
-    private toastr: MessageServiceToastr
-  ) { }
+    private message: MessageServiceToastr,
+    private toastr: ToastrService,
+    private landingservice: LandingService) {
+  }
 
   ngOnInit(): void {
     this.actionType = '';
     this.showDialog = false;
     this.isEdit = false;
     this.isView = false;
-    // this.getScheduleDetailsByDate(this.selectedDate);
-    // this.getTodayDateScheduleList();
+    this.getJobType();
+  }
+
+  landing() {
+    this.landingservice.loadTheLandingPage();
   }
 
   addNewDetail(schedule) {
@@ -50,7 +66,7 @@ export class DetailScheduleComponent implements OnInit {
     } else if (currentDate < this.selectedDate) {
       this.bayAddDetail(schedule);
     } else {
-      this.toastr.showMessage({ severity: 'info', title: 'Info', body: 'New schedule is not allowed for passed dates.' });
+      this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Schedule.pastDates });
       return;
     }
   }
@@ -81,16 +97,20 @@ export class DetailScheduleComponent implements OnInit {
       this.isView = true;
     }
     this.actionType = 'Edit Detail';
-    console.log(this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd'), 'date changing');
     this.detailService.getDetailById(bay.jobId).subscribe(res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
-        console.log(details, 'details');
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
         this.showDialog = true;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  onValueChange(date) {
+    this.getScheduleDetailsByDate(date);
   }
 
   getScheduleDetailsByDate(date) {
@@ -104,13 +124,13 @@ export class DetailScheduleComponent implements OnInit {
       jobDate: scheduleDate,
       locationId
     };
-    // document.documentElement.style.setProperty(`--primary-color`, '#FFFFFF');
+    //this.getDetailScheduleStatus();
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const scheduleDetails = JSON.parse(res.resultData);
-        console.log(scheduleDetails, 'details');
         const bayList = scheduleDetails.GetBaySchedulesDetails.BayList;
         const bayScheduleDetails = scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails === null ? []
           : scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails;
@@ -138,37 +158,43 @@ export class DetailScheduleComponent implements OnInit {
               }
             });
           } else {
-            bayList.forEach(bay => {
-              baySchedule.push({
-                bayId: bay.BayId,
-                isSchedule: false,
-                time: item
+            if (bayList) {
+              bayList.forEach(bay => {
+                baySchedule.push({
+                  bayId: bay.BayId,
+                  isSchedule: false,
+                  time: item
+                });
               });
-            });
+            }
           }
           baySheduled.push({
             time: item,
             bay: baySchedule
           });
         });
-        console.log(baySheduled, 'bayLogic');
         baySheduled.forEach(item => {
           if (item.time === '07:00' || item.time === '07:30' || item.time === '08:00' || item.time === '08:30' ||
-          item.time === '09:00' || item.time === '09:30' || item.time === '10:00' || item.time === '10:30') {
+            item.time === '09:00' || item.time === '09:30' || item.time === '10:00' || item.time === '10:30') {
             this.morningBaySchedule.push(item);
-          } else if ( item.time === '11:00' || item.time ===  '11:30' || item.time === '12:00' || item.time === '12:30' ||
-          item.time === '13:00' || item.time === '13:30' || item.time === '14:00' || item.time === '14:30') {
+          } else if (item.time === '11:00' || item.time === '11:30' || item.time === '12:00' || item.time === '12:30' ||
+            item.time === '13:00' || item.time === '13:30' || item.time === '14:00' || item.time === '14:30') {
             this.afternoonBaySchedue.push(item);
-          } else if ( item.time === '15:00' || item.time === '15:30' || item.time === '16:00' || item.time === '16:30' ||
-          item.time === '17:00' || item.time === '17:30' || item.time === '18:00' || item.time === '18:30') {
+          } else if (item.time === '15:00' || item.time === '15:30' || item.time === '16:00' || item.time === '16:30' ||
+            item.time === '17:00' || item.time === '17:30' || item.time === '18:00' || item.time === '18:30') {
             this.eveningBaySchedule.push(item);
           }
         });
         this.todayScheduleComponent.getTodayDateScheduleList();
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (error) => {
       this.spinner.hide();
-      this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -182,7 +208,49 @@ export class DetailScheduleComponent implements OnInit {
   refreshDetailGrid() {
     this.getScheduleDetailsByDate(this.selectedDate);
     this.todayScheduleComponent.getTodayDateScheduleList();
-    this.noOfDetailsComponent.getDashboardDetails();
+    this.dashboardStaticsComponent.getDashboardDetails();
   }
 
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Detail') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+  getDetailScheduleStatus() {
+    const locId = localStorage.getItem('empLocationId');
+    const date = this.datePipe.transform(this.selectedDate, 'yyyy-MM');
+    this.detailService.getDetailScheduleStatus(locId, date).subscribe(res => {
+      if (res.status === 'Success') {
+        const scheduleStatus = JSON.parse(res.resultData);
+        console.log(scheduleStatus, 'ststus');
+        if (scheduleStatus.Status.length > 0) {
+          const dateClass = [];
+          this.scheduleDate = scheduleStatus.Status;
+          this.scheduleDate.forEach(item => {
+            dateClass.push({
+              date: new Date(item.JobDate),
+              classes: ['text-danger']
+            });
+          });
+          this.dateCustomClasses = dateClass;
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
 }

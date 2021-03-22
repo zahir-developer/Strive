@@ -31,7 +31,6 @@ export class AuthGuard implements CanActivate {
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):
    Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (localStorage.getItem('isAuthenticated') === 'true') {
-      console.log(childRoute.data, 'URL CHAnges');
       if (childRoute.data.authorization) {
         if (!this.authorizeService.routingLevelAccess(childRoute.data.authorization)) {
           this.router.navigate(['/login']);

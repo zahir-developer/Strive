@@ -4,19 +4,17 @@
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
-                <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a>Admin</a></li>
+                <ol class="breadcrumb font-size-1">
+                    <li class="breadcrumb-item"><a appNavigatePage>Admin</a></li>
                     <li class="breadcrumb-item"><a (click)="navigatePage()">Employees</a></li>
                     <li class="breadcrumb-item active" aria-current="page">View/Edit Employee</li>
                 </ol>
             </nav>
             <!--bread crumb-->
-            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3>View/Edit Employee
-                    <button *ngIf="actionType === 'view'" type="button"
+            <!-- <div *ngIf="actionType === 'view'" class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                    <button type="button"
                         class="btn theme-optional-button-color float-right" (click)="backToGrid()">Back</button>
-                </h3>
-            </div>
+            </div> -->
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
@@ -165,15 +163,7 @@
                                         <div *ngIf="g.emailId.errors.email">Email must be a valid email address</div>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group col-md-3">
-                                    <label for="inputPassword">Password <span class="required">*</span></label>
-                                    <input type="password" class="form-control" id="inputPassword"
-                                        formControlName="password" [appMaxLength]="10" placeholder="Password"
-                                        [ngClass]="{ 'is-invalid': submitted && g.password.errors }">
-                                    <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
-                                        <div *ngIf="g.password.errors.required">Password is required</div>
-                                    </div>
-                                </div> -->
+                              
                                 <div class="form-group col-md-3">
                                     <label>Date of Hire <span class="required">*</span></label>
                                     <input type="text" class="form-control" placeholder="Date of Hire" bsDatepicker
@@ -192,25 +182,7 @@
                                         <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate is required</div>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group col-md-3">
-                                    <label for="inputcommission">Detail Commission <span class="required"
-                                            *ngIf="isRequired === true">*</span></label>
-                                    <select id="inputcommission" class="form-control" formControlName="comType"
-                                        (change)="getCtype($event.target.value)"
-                                        [ngClass]="{ 'is-invalid': submitted && g.comType.errors }">
-                                        <option value="0" selected>Select Commission</option>
-                                        <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
-                                        </option>
-                                    </select>
-                                    <div *ngIf="submitted && g.comType.errors" class="invalid-feedback">
-                                        <div *ngIf="g.comType.errors">Detail Commission is required</div>
-                                    </div>
-                                </div> -->
-                                <!-- <div class="form-group col-md-3" *ngIf="isHourlyRate === true">
-                                    <label for="inputhourdetail">Hourly Rate-Details</label>
-                                    <input type="text" class="form-control" [appMaxLength]="9" appTwoDecimalNumber
-                                        placeholder="0.00" formControlName="hourlyRateDetail">
-                                </div> -->
+                               
                                 <div class="form-group col-md-3" *ngIf="ctypeLabel !== 'none'">
                                     <label for="inputUpcharge">{{ctypeLabel}}</label>
                                     <input type="text" class="form-control" formControlName="comRate"

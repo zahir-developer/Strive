@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as _ from 'underscore';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-monthly-money-owned',
@@ -32,7 +35,9 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   owedLocationName = [];
   constructor(
     private excelService: ExcelService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    private spinner: NgxSpinnerService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -47,10 +52,11 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
 
   getMoneyOwnedReportList() {
     const date = this.year + '-' + this.month;
+    this.spinner.show();
     this.reportsService.getMonthlyMoneyOwnedReport(date, this.locationId).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide()
         const monthlyReport = JSON.parse(res.resultData);
-        console.log(monthlyReport, 'monthlyrEport');
         this.uniqLocationName = [];
         this.ownedReportList = [];
         this.locationTotalValue = [];
@@ -98,10 +104,17 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
               this.owedLocationName.push(uniq);
             }
           });
-          console.log(this.owedLocationName, 'first');
           this.moontlyOwnedGrid(monthlyReport.GetMonthlyMoneyOwnedReport, uniqDate);
         }
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -159,7 +172,6 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         gridRecord.push(finalObj);
       }
     });
-    console.log(gridRecord, 'grid');
     this.ownedReportList = gridRecord;
     this.ownedReportList.forEach(item => {
       this.accountAmount = this.accountAmount + item.AccountAmount;
@@ -195,7 +207,6 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         totalOwnedValue
       });
     });
-    console.log(this.locationTotalValue, 'totalvalue');
   }
 
   onMonthChange(event) {

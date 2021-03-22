@@ -10,6 +10,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { CreateEditComponent } from './employees/create-edit/create-edit.component';
 import { DialogModule } from 'primeng/dialog';
+import {InputSwitchModule} from 'primeng/inputswitch';
+
 import { SchedulingComponent } from './scheduling/scheduling.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SetupComponent } from './system-setup/setup.component';
@@ -71,6 +73,8 @@ import { AdSetupComponent } from './system-setup/ad-setup/ad-setup.component';
 import { AdSetupListComponent } from './system-setup/ad-setup/ad-setup-list/ad-setup-list.component';
 import { AdSetupCreateEditComponent } from './system-setup/ad-setup/ad-setup-create-edit/ad-setup-create-edit.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { DealSetupComponent } from './system-setup/deal-setup/deal-setup.component';
+import { DealsAddComponent } from './system-setup/deal-setup/deals-add/deals-add.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -86,7 +90,7 @@ import { DropdownModule } from 'primeng/dropdown';
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent
 ],
   imports: [
     CommonModule,
@@ -98,6 +102,7 @@ import { DropdownModule } from 'primeng/dropdown';
     TableModule,
     DialogModule,
     DropdownModule,
+    InputSwitchModule,
     NgxMaterialTimepickerModule,
     SharedModule,
     NgbPaginationModule,

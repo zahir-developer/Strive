@@ -1,7 +1,6 @@
 <div class="tab-content" id="v-pills-tabContent">
     <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
-        <h4>Bonus Setup</h4>
-        <div class="card m-t-10 m-b-10">
+        <div class="card m-b-10">
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
@@ -20,11 +19,6 @@
                                         </app-location-dropdown>
                                     </div>
 
-                                    <!-- <div class="form-group col-lg-2">
-                                        <label>Month/Year:</label>
-                                        <input type="text" placeholder="Month/Year" [(ngModel)]="selectedDate"
-                                            class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'MMMM, YYYY',showWeekNumbers: false }" (bsValueChange)="getBonusList()">
-                                    </div> -->
                                     <div class="form-group col-lg-offset-1 col-lg-2 m-l-60">
                                         <label>Month:</label>
 
@@ -44,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10" aria-labelledby="bonus-setup">
+                                <table class="table  table-striped m-t-10" aria-labelledby="bonus-setup" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-center">Min</th>
@@ -67,12 +61,7 @@
                                                 <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
                                                 </div>
-                                                <!-- <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
-                                                    Enter Min value
-                                                </div> -->
-                                                <!-- <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i" class="invalid-feedback">
-                                                    Min value greater than Max value
-                                                </div> -->
+                                              
                                             </td>
                                             <td>
                                                 <input type="text" numbersOnly [(ngModel)]="bonus.Max"
@@ -118,6 +107,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                                 <table class="table timeclcok-tb" aria-labelledby="summary">
                                     <thead>
                                         <th scope="col"></th>

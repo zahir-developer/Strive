@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.GiftCard;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
@@ -27,7 +28,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@GiftCardNumber", giftCardNumber);
             return db.Fetch<GiftCardBalanceViewModel>(EnumSP.GiftCard.uspGetGiftCardBalance.ToString(), _prm);
         }
-        
+
         public List<GiftCardViewModel> GetGiftCardByGiftCardId(string giftCardNumber)
         {
             _prm.Add("@GiftCardCode", giftCardNumber);
@@ -40,7 +41,7 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<GiftCardViewModel>(EnumSP.GiftCard.uspGetGiftCardHistoryByNumber.ToString(), _prm);
             return result;
         }
-        
+
         public List<GiftCardHistoryViewModel> GetAllGiftCardHistory(string giftCardNumber)
         {
 
@@ -59,7 +60,7 @@ namespace Strive.ResourceAccess
         }
         public bool AddGiftCard(GiftCardDto giftCardDto)
         {
-            return dbRepo.SavePc(giftCardDto, "GiftCardId");
+            return dbRepo.InsertPc(giftCardDto, "GiftCardId");
         }
         public bool UpdateGiftCard(GiftCardDto giftCardDto)
         {
@@ -73,10 +74,20 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.SavePc(giftCardHistoryDto, "GiftCardHistoryId");
         }
-        public List<GiftCardViewModel> GetAllGiftCard()
+        public GiftCardCountViewModel GetAllGiftCard(SearchDto searchDto)
         {
-            return  db.Fetch<GiftCardViewModel>(EnumSP.GiftCard.USPGETALLGIFTCARDS.ToString(), _prm);
-            
+
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+
+            _prm.Add("@EndDate", searchDto.EndDate);
+            var result = db.FetchMultiResult<GiftCardCountViewModel>(EnumSP.GiftCard.USPGETALLGIFTCARDS.ToString(), _prm);
+            return result;
+
         }
 
         public bool DeleteGiftCard(int id)
@@ -84,6 +95,19 @@ namespace Strive.ResourceAccess
             _prm.Add("GiftCardId", id.toInt());
             db.Save(EnumSP.GiftCard.USPDELETEGIFTCARD.ToString(), _prm);
             return true;
+        }
+        public bool IsGiftCardExist(string giftCardCode)
+        {
+            _prm.Add("@GiftCardCode", giftCardCode);
+            var result = db.Fetch<GiftCardViewModel>(EnumSP.GiftCard.USPISGIFTCARDEXIST.ToString(), _prm);
+            if(result.Count > 0)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+
         }
     }
 }

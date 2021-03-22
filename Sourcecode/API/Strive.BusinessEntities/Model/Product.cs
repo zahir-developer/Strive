@@ -37,9 +37,7 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public int? LocationId { get; set; }
-
-        [Column]
-        public int? VendorId { get; set; }
+        
 
         [Column]
         public int? Size { get; set; }
@@ -48,7 +46,7 @@ namespace Strive.BusinessEntities.Model
         public string SizeDescription { get; set; }
 
         [Column]
-        public short? Quantity { get; set; }
+        public decimal? Quantity { get; set; }
 
         [Column]
         public string QuantityDescription { get; set; }

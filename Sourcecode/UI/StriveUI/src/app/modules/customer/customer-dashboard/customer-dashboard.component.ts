@@ -8,6 +8,7 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -58,8 +59,9 @@ export class CustomerDashboardComponent implements OnInit {
       if (res.status === 'Success') {
         const sales = JSON.parse(res.resultData);
         this.serviceList = sales.GetDailySalesReport;
-        console.log(sales, 'customer');
       }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
     });
   }
 
@@ -78,13 +80,13 @@ export class CustomerDashboardComponent implements OnInit {
           item.VechicleName = item.VehicleMfr + ' ' + item.VehicleModel + ' ' + item.VehicleColor;
         });
         this.clonedVechicleList = this.vechicleList.map(x => Object.assign({}, x));
-        console.log(vechicle, 'vechicle');
       }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
     });
   }
 
   searchVechicleList(text) {
-    console.log(text);
     if (text.length > 0) {
       this.vechicleList = this.clonedVechicleList.filter(item => item.VechicleName.toLowerCase().includes(text));
     } else {
@@ -104,18 +106,15 @@ export class CustomerDashboardComponent implements OnInit {
 
   getScheduleDetail() {
     const currentDate = new Date();
-    const todayDate = null; // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-    const locationId = null; // 2033;
+    const todayDate = null;
+    const locationId = null;
     const clientID = this.clientID ? this.clientID : 0;
-    this.spinner.show();
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         this.pastScheduleDetail = [];
         this.todayScheduleDetail = [];
         if (scheduleDetails.DetailsGrid.BayJobDetailViewModel !== null) {
-          // this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
           scheduleDetails.DetailsGrid.BayJobDetailViewModel.forEach(item => {
             if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(item.JobDate, 'dd-MM-yyyy')) {
               this.todayScheduleDetail.push(item);
@@ -125,7 +124,6 @@ export class CustomerDashboardComponent implements OnInit {
               this.pastScheduleDetail.push(item);
             }
           });
-          console.log(this.todayScheduleDetail, this.pastScheduleDetail, 'scheduleDetails');
           if (this.pastScheduleDetail.length > 0) {
             this.pastScheduleDetail.forEach(item => {
               item.searchData = item.TicketNumber + ' ' + this.datePipe.transform(item.JobDate, 'MM/dd/yyyy') + ' ' + item.LocationName
@@ -135,6 +133,10 @@ export class CustomerDashboardComponent implements OnInit {
           }
         }
       }
+      else {
+      }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
     });
   }
 
@@ -149,11 +151,23 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   confirmDelete(jobID) {
+    this.spinner.show();
     this.detailService.deleteDetail(jobID).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.getScheduleDetail();
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Customer.Delete });
       }
+      else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
+
+        this.spinner.hide();
+
+      }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
+      this.spinner.hide();
     });
   }
 

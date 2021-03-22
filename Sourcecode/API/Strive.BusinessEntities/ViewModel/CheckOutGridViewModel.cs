@@ -9,6 +9,6 @@ namespace Strive.BusinessEntities.ViewModel
    public class CheckOutGridViewModel
     {
         public List<CheckOutViewModel> checkOutViewModel { get; set; }
-        public CheckOutCountViewModel Count { get; set; }
+        public CountViewModel Count { get; set; }
     }
 }

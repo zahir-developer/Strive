@@ -8,7 +8,10 @@ public class GiftCard
 {
 
 	[Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-	public int GiftCardId { get; set; }
+        public int? ClientId { get; set; }
+
+        [Column]
+        public int GiftCardId { get; set; }
 
 	[Column]
 	public int? LocationId { get; set; }
@@ -20,7 +23,7 @@ public class GiftCard
 	public string GiftCardName { get; set; }
 
 	[Column]
-	public DateTimeOffset? ExpiryDate { get; set; }
+	public DateTimeOffset? ActivationDate { get; set; }
     [Column]
     public decimal TotalAmount { get; set; }
     [Column]

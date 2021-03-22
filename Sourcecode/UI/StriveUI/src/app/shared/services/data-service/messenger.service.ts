@@ -20,7 +20,6 @@ export class MessengerService {
         };
 
         this.UpdateChatCommunication(commObj).subscribe(data => {
-            console.log(data);
         });
 
         this.signalRService.stopConnection();
@@ -52,10 +51,7 @@ export class MessengerService {
     }
 
     ReceivePrivateMessage(msg) {
-        console.log("ReceivePrivateMessage");
-        console.log(msg.ConnectionId);
-
-        console.log(msg);
+     
     }
     createGroup(groupMsgObj) {
         return this.http.post(`${UrlConfig.Messenger.createGroup}`, groupMsgObj);

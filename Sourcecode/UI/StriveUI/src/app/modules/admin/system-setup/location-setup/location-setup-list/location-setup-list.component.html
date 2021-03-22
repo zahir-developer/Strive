@@ -1,7 +1,6 @@
 <div class="tab-content" id="v-pills-tabContent">
     <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
-        <h4>Basic Setup</h4>
-        <div class="card m-t-10 m-b-10">
+        <div class="card m-b-10">
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
@@ -19,7 +18,7 @@
                                                 [(ngModel)]="search" size="40" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Address, Phone, Email"
                                                 (keyup)="$event.keyCode == 13 ? locationSearch() : null"
-                                                (clear)="clearSearch()"> </div>
+                                               > </div>
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
                                                 (click)="locationSearch()">Search</button>
@@ -29,24 +28,26 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10 headerfix">
+                                <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" scope="col" (click)="sort('LocationName')">Name&nbsp; <i
-                                                    class="fa" *ngIf="column =='LocationName'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('Address1')">Address&nbsp; <i
-                                                    class="fa" *ngIf="column =='Address1'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('IsFranchise')">
-                                                Franchise&nbsp; <i class="fa" *ngIf="column =='IsFranchise'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('PhoneNumber')">Phone
-                                                Number&nbsp; <i class="fa" *ngIf="column =='PhoneNumber'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
-                                            <th class="pointer" scope="col" (click)="sort('Email')">Email&nbsp; <i
-                                                    class="fa" *ngIf="column =='Email'"
-                                                    [ngClass]="{'fa-sort-desc':!isDesc,'fa-sort-asc':isDesc}"></i></th>
+                                            <th class="pointer" (click)="changesort('LocationName')">Name&nbsp;
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('LocationName')"></i></th>
+                                           <th class="pointer" (click)="changesort('Address1')">Address&nbsp; 
+                                             <i class="fa"
+                                             [ngClass]="selectedCls('Address1')"></i></th>
+                                          
+                                           <th class="pointer" (click)="changesort('IsFranchise')">Franchise&nbsp;
+                                              <i class="fa"
+                                              [ngClass]="selectedCls('IsFranchise')"></i></th>
+                                              <th class="pointer" (click)="changesort('PhoneNumber')">Phone Number&nbsp; 
+                                                <i class="fa"
+                                                [ngClass]="selectedCls('PhoneNumber')"></i></th>
+                                           <th class="pointer" (click)="changesort('Email')">Email&nbsp; 
+                                             <i class="fa" 
+                                             [ngClass]="selectedCls('Email')"></i></th>
+                                          
 
                                             <th scope="col">Action</th>
                                         </tr>
@@ -57,7 +58,7 @@
                                             <td scope="row">{{locationSetup.LocationName}}</td>
                                             <td title="{{locationSetup.Address1}}">
                                                 {{locationSetup.Address1 | slice:0:15}}
-                                                {{(locationSetup.Address1!== null) ?locationSetup.Address1.length <= 15 ? '': '...':''}}
+                                                {{(locationSetup.Address1 !== null) ? locationSetup.Address1.length <= 15 ? '' : '...':''}}
                                             </td>
                                             <td>{{locationSetup.IsFranchise === true ? "Yes" : "No"}}</td>
                                             <td>{{locationSetup.PhoneNumber}}</td>
@@ -76,6 +77,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="loadingDiv" *ngIf="isLoading">
+                                    <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
+                                </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
                                         <ngb-pagination *ngIf="locationSetupDetails.length > 0"

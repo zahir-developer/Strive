@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DetailService } from '../../services/data-service/detail.service';
 import { WashService } from '../../services/data-service/wash.service';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-no-of-washes',
@@ -12,7 +14,8 @@ export class NoOfWashesComponent implements OnInit {
   jobTypeId: any;
   constructor(
     private wash: WashService,
-    private detail: DetailService
+    private detail: DetailService,
+    private toastr :ToastrService
     ) { }
 
   ngOnInit() {
@@ -45,6 +48,8 @@ export class NoOfWashesComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

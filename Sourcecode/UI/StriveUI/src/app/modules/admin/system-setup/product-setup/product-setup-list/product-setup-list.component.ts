@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-product-setup-list',
@@ -14,97 +15,135 @@ export class ProductSetupListComponent implements OnInit {
   productSetupDetails = [];
   showDialog = false;
   selectedData: any;
-  isDesc: boolean = false;
-  column: string = 'ProductName';
+
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  search : any = '';
+  search: any = '';
   collectionSize: number = 0;
   pageSize: number;
   pageSizeList: number[];
   page: number;
+  isLoading: boolean;
+  isDesc: boolean;
+  sortBy: string;
+  sortColumn: { sortBy: any; sortOrder: string; };
   constructor(private productService: ProductService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ProductSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order };
+
+    this.isLoading = false;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getAllproductSetupDetails();
 
   }
 
-  productSearch(){
+  productSearch() {
     this.page = 1;
-    const obj ={
+    const obj = {
       productSearch: this.search
-   }
-   this.productService.ProductSearch(obj).subscribe(data => {
-     if (data.status === 'Success') {
-       const location = JSON.parse(data.resultData);
-       this.productSetupDetails = location.ProductSearch;
-       if (this.productSetupDetails.length === 0) {
-         this.isTableEmpty = true;
-       } else {
-         this.sort('ProductName')
-         this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
-         this.isTableEmpty = false;
-       }
-     } else {
-       this.toastr.error('Communication Error', 'Error!');
-     }
-   });
+    };
+    this.isLoading = true;
+    this.productService.ProductSearch(obj).subscribe(data => {
+      this.isLoading = false;
+      if (data.status === 'Success') {
+        const location = JSON.parse(data.resultData);
+        this.productSetupDetails = location.ProductSearch;
+        if (this.productSetupDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
+          this.sort(ApplicationConfig.Sorting.SortBy.ProductSetup)
+          this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
+          this.isTableEmpty = false;
+        }
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 
   // Get All Product
   getAllproductSetupDetails() {
-    this.spinner.show();
+    this.isLoading = true;
     this.productService.getProduct().subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
         this.productSetupDetails = product.Product;
-        console.log(this.productSetupDetails);
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.productSetupDetails.length/this.pageSize) * 10;
+          this.sort(ApplicationConfig.Sorting.SortBy.ProductSetup)
+          this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.spinner.hide();
+this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
-  sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-   
-    this.productSetupDetails.sort(function (a, b) {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
-        return 1 * direction;
-      }
-      else {
-        return 0;
-      }
-    });
+ 
+ sort(property) {
+  this.sortColumn ={
+    sortBy: property,
+    sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order
+   }
+   this.sorting(this.sortColumn)
+   this.selectedCls(this.sortColumn)
+ 
+}
+sorting(sortColumn){
+  let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+let property = sortColumn.sortBy;
+  this.productSetupDetails.sort(function (a, b) {
+    if (a[property] < b[property]) {
+      return -1 * direction;
+    }
+    else if (a[property] > b[property]) {
+      return 1 * direction;
+    }
+    else {
+      return 0;
+    }
+  });
+}
+  changesort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+     }
+ 
+     this.selectedCls(this.sortColumn)
+this.sorting(this.sortColumn)
+    
+  }
+  selectedCls(column) {
+    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
-    this.page = event ;
+    this.page = event;
     this.getAllproductSetupDetails();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page =  this.page;
+    this.page = this.page;
     this.getAllproductSetupDetails();
   }
   edit(data) {
@@ -124,13 +163,21 @@ export class ProductSetupListComponent implements OnInit {
 
   // Delete Product
   confirmDelete(data) {
+    this.spinner.show();
     this.productService.deleteProduct(data.ProductId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Delete, 'Success!');
         this.getAllproductSetupDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

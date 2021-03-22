@@ -9,6 +9,7 @@ import { ClientStatementComponent } from '../client-statement/client-statement.c
 import { ClientHistoryComponent } from '../client-history/client-history.component';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-client-create-edit',
@@ -38,6 +39,9 @@ export class ClientCreateEditComponent implements OnInit {
   sort = { column: 'VehicleNumber', descending: true };
   sortColumn: { column: string; descending: boolean; };
   employeeId: number;
+  showDialog = false;
+  vehicleDetail: any;
+  isVehicleEdit: boolean;
   clonedVehicleDetails = [];
   constructor(private toastr: ToastrService, private client: ClientService,
     private confirmationService: ConfirmationUXBDialogService, private spinner: NgxSpinnerService,
@@ -45,7 +49,8 @@ export class ClientCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
-
+    this.isVehicleEdit = false;
+    this.getService();
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
     }
@@ -65,39 +70,54 @@ export class ClientCreateEditComponent implements OnInit {
           this.isTableEmpty = true;
           this.vehicleNumber = 1;
         } else {
+          this.vehicleDetails.forEach( item => {
+            item.isAddedVehicle = true;
+          });
           let len = this.vehicleDetails.length;
           this.vehicleNumber = this.vehicleDetails.length + 1;
-          console.log(this.vehicleNumber);
           this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    );
   }
 
   // Add/Update Client
   submit() {
     this.clientFormComponent.submitted = true;
     this.clientFormComponent.stateDropdownComponent.submitted = true;
+    this.clientFormComponent.clientForm.controls.status.enable();
+   
     if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
-    if (this.clientFormComponent.ClientNameAvailable == true) {
-      this.toastr.error('Client Name is Already Entered', 'Error!');
+    if (this.clientFormComponent.ClientEmailAvailable == true) {
+      this.toastr.error(MessageConfig.Client.emailExist, 'Warning!');
 
       return;
     }
+
+    if (this.clientFormComponent.ClientNameAvailable == true) {
+      this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
+
+      return;
+    }
+  
     this.address = [{
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
       clientAddressId: this.isEdit ? this.selectedData.ClientAddressId : 0,
-      address1: this.clientFormComponent.clientForm.value.address,
+      address1: this.clientFormComponent.clientForm.value.address ? this.clientFormComponent.clientForm.value.address: null,
       address2: null,
       phoneNumber2: this.clientFormComponent.clientForm.value.phone2,
       isActive: true,
-      zip: this.clientFormComponent.clientForm.value.zipcode,
-      state: this.clientFormComponent.State,
+      zip: this.clientFormComponent.clientForm.value.zipcode ? this.clientFormComponent.clientForm.value.zipcode : null,
+      state: this.clientFormComponent.State ? this.clientFormComponent.State : null,
       city: this.clientFormComponent.city == 0 ? null : this.clientFormComponent.city,
       country: null,
       phoneNumber: this.clientFormComponent.clientForm.value.phone1,
@@ -126,7 +146,7 @@ export class ClientCreateEditComponent implements OnInit {
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
       score: (this.clientFormComponent.clientForm.value.score === '' || this.clientFormComponent.clientForm.value.score == null) ?
        0 : this.clientFormComponent.clientForm.value.score,
-      noEmail: this.clientFormComponent.clientForm.value.creditAccount,
+       isCreditAccount: this.clientFormComponent.clientForm.value.creditAccount,
       clientType: (this.clientFormComponent.clientForm.value.type === '' || this.clientFormComponent.clientForm.value.type == null) ?
        0 : this.clientFormComponent.clientForm.value.type,
       amount: this.clientFormComponent.clientForm.value.amount
@@ -139,38 +159,46 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.client.updateClient(myObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.deleteIds.forEach(element => {
             this.vehicle.deleteVehicle(element.VehicleId).subscribe(res => {
               if (res.status === 'Success') {
-                this.toastr.success('Vehicle Deleted Successfully!!', 'Success!');
+                this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
               } else {
-                this.toastr.error('Communication Error', 'Error!');
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
               }
             });
           })
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Client.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
       }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.spinner.hide();
       });
     } else {
       this.spinner.show();
       this.client.addClient(myObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Client.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.clientFormComponent.clientForm.reset();
         }
       }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.spinner.hide();
       });
     }
@@ -189,11 +217,27 @@ export class ClientCreateEditComponent implements OnInit {
       }
       let len = this.vehicleDetails.length;
       this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
-      console.log(this.vehicleDetails, 'vedel');
       this.vehicleDet.push(this.vehicle.addVehicle);
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
+    } else if (event.status === 'edit') {
+      this.vehicleDetails.forEach( item => {
+        if (item.VehicleId === this.vehicle.vehicleValue.ClientVehicleId) {
+          item.VehicleColor = this.vehicle.vehicleValue.VehicleColor;
+          item.VehicleMfr = this.vehicle.vehicleValue. VehicleMfr;
+          item.VehicleModel = this.vehicle.vehicleValue.VehicleModel;
+          item.Barcode = this.vehicle.vehicleValue.Barcode;
+          item.MembershipName = this.vehicle.vehicleValue.MembershipName;
+        }
+      });
     }
+    this.vehicleDetails.forEach( item => {
+      if (item.hasOwnProperty('VehicleId')) {
+        item.isAddedVehicle = true;
+      } else {
+        item.isAddedVehicle = false;
+      }
+    });
     this.showVehicleDialog = event.isOpenPopup;
   }
   delete(data) {
@@ -216,15 +260,43 @@ export class ClientCreateEditComponent implements OnInit {
     let len = this.vehicleDetails.length;
     this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
-    this.toastr.success('Record Deleted Successfully!!', 'Success!');
+    this.toastr.success(MessageConfig.Client.Delete, 'Success!');
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
     if (data.ClientVehicleId !== 0) {
       this.deleteIds.push(data);
     }
   }
 
+  editVehicle(vehicle) {
+    console.log(vehicle, 'vehicle');
+    if (!vehicle.hasOwnProperty('VehicleId')) {
+      return;
+    }
+
+    this.vehicle.getVehicleById(vehicle.VehicleId).subscribe(res => {
+   
+      if (res.status === 'Success') {
+        const vehicleDetail = JSON.parse(res.resultData);
+        this.selectedVehicle = vehicleDetail.Status;
+        this.headerData = 'Edit Vehicle';
+        this.vehicleDetail = this.selectedVehicle;
+        this.isVehicleEdit = true;
+        this.isView = false;
+        this.showVehicleDialog = true;
+      } else {
+        this.toastr.error('Communication Error', 'Error!');
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    
+    }
+    );
+  }
+
   // Add New Vehicle
   add() {
+    this.isVehicleEdit = false;
     this.headerData = 'Add New vehicle';
     this.showVehicleDialog = true;
     this.clientId = this.selectedData.ClientId;
@@ -250,13 +322,18 @@ export class ClientCreateEditComponent implements OnInit {
     modalRef.componentInstance.clientId = this.selectedData.ClientId;
   }
 
-  getService() {
-    this.vehicle.getMembershipService().subscribe(res => {
-      if (res.status === 'Success') {
+  getService() {  
+    this.vehicle.getMembershipService().subscribe(res => {   
+     if (res.status === 'Success') {
         const membership = JSON.parse(res.resultData);
         this.additionalService = membership.ServicesWithPrice.filter(item => item.ServiceTypeName === 'Additional Services');
       }
-    });
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+     
+    }
+    );
   }
 
   changeSorting(column) {

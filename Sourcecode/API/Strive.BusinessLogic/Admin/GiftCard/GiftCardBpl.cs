@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.GiftCard;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -62,14 +63,18 @@ namespace Strive.BusinessLogic.GiftCard
             return ResultWrap(new GiftCardRal(_tenant).GetGiftCardBalance, giftCardNumber, "GiftCardDetail");
         }
 
-        public Result GetAllGiftCard()
+        public Result GetAllGiftCard(SearchDto searchDto)
         {
-            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCard, "GiftCard");
+            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCard,searchDto, "GiftCard");
         }
 
         public Result DeleteGiftCard(int id)
         {
             return ResultWrap(new GiftCardRal(_tenant).DeleteGiftCard,id, "GiftCard");
+        }
+        public Result IsGiftCardExist (string giftCardCode)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).IsGiftCardExist, giftCardCode, "IsGiftCardAvailable");
         }
     }
 }

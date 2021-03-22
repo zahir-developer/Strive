@@ -18,6 +18,9 @@ import { PrintComponent } from './print/print.component';
 import { element } from 'protractor';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { SaleGiftCardComponent } from './sale-gift-card/sale-gift-card.component';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { PaymentProcessComponent } from 'src/app/shared/components/payment-process/payment-process.component';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -57,7 +60,7 @@ export class SalesComponent implements OnInit {
   itemList: any;
   originalGrandTotal = 0;
   JobId: any;
-  newTicketNumber: any;
+  newTicketNumber: any = '';
   selectedService: any;
   balance: number;
   PaymentType: any;
@@ -65,6 +68,8 @@ export class SalesComponent implements OnInit {
   accountDetails: any;
   isAccount: any;
   discountList: any = [];
+  isAccountButton = false;
+  ticketNumberGeneration: boolean;
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -148,7 +153,8 @@ export class SalesComponent implements OnInit {
   }
 
   getAllServiceandProduct() {
-    this.salesService.getServiceAndProduct().subscribe(data => {
+    const locID = +localStorage.getItem('empLocationId');
+    this.salesService.getServiceAndProduct(locID).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
@@ -209,19 +215,20 @@ export class SalesComponent implements OnInit {
   getServiceForDiscount() {
     const serviceObj = {
       locationId: +localStorage.getItem('empLocationId'),
-      pageNo: 1,
-      pageSize: 10,
+      pageNo: null,
+      pageSize: null,
       query: null,
       sortOrder: null,
       sortBy: null,
       status: null
     };
-    this.service.getServiceSetup(serviceObj).subscribe(data => {
+    this.service.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
-        if (services.ServiceSetup.getAllServiceViewModel !== null ) {
-          this.discounts = services.ServiceSetup.filter(item => item.ServiceType === 'Discounts');
-          console.log(this.discounts, 'discount');
+        console.log(services, 'discount');
+        if (services.AllServiceDetail !== null) {
+          this.discounts = services.AllServiceDetail.filter(item =>
+            item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
         }
       }
     });
@@ -276,8 +283,10 @@ export class SalesComponent implements OnInit {
       this.ticketNumber = '';
     } else {
       this.ticketNumber = '';
-      this.messageService.showMessage({ severity: 'info', title: 'Infor', body: 'Ticket Already Added' });
-    }
+      this.messageService.showMessage({ severity: 'info', title: 'Information', body: 'Ticket Already Added' });
+  
+  return;
+  }
 
     if (this.multipleTicketNumber.length > 10) {
       this.isTenTicketNumber = true;
@@ -293,6 +302,9 @@ export class SalesComponent implements OnInit {
       this.isTenTicketNumber = true;
     } else {
       this.isTenTicketNumber = false;
+    }
+    if (this.multipleTicketNumber.length === 0) {
+      this.enableAdd = false;
     }
     this.getDetailByTicket(false);
   }
@@ -314,40 +326,39 @@ export class SalesComponent implements OnInit {
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
-          this.accountDetails = accountDetails.Account[0];
-          this.isAccount = this.accountDetails?.CodeValue === 'Comp' && this.accountDetails?.IsAccount === true || this.accountDetails?.MembershipId > 0;
-          console.log(this.accountDetails);
+          this.accountDetails = accountDetails.Account;
+          this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
+            this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
         }
       });
       this.spinner.show();
       this.salesService.getItemByTicketNumber(ticketNumber).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
-          console.log(this.itemList, 'item');
-          // if (this.itemList.Status.PaymentStatusViewModel === null) {
-          //   this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket Number' });
-          //   return;
-          // } else {
-          //   this.JobId = this.itemList?.Status?.PaymentStatusViewModel?.JobId;
-          // }
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
-              this.washes = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Wash Package');
+              this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
               this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Additonal Services');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Upcharges');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge ||
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge);
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Outside Services');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.OutsideServices);
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Air Fresheners');
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === 'Discounts');
-              console.log(this.washes);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
+              this.itemList.Status.SalesItemViewModel.map(item => {
+                if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
+
+                }
+              });
             }
           } else {
             this.showPopup = false;
@@ -368,12 +379,14 @@ export class SalesComponent implements OnInit {
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
             if (+this.account === 0.00) {
-              this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
+              this.account = this.accountDetails?.SalesAccountViewModel?.IsAccount === true &&
+               this.accountDetails?.SalesAccountViewModel?.CodeValue === 'Comp' ? +this.grandTotal : 0;
               this.calculateTotalpaid(+this.account);
             }
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
+            console.log(this.Products, 'products');
           }
           if (this.itemList?.Status?.PaymentStatusViewModel?.IsProcessed === true) {
             this.showPopup = false;
@@ -382,6 +395,11 @@ export class SalesComponent implements OnInit {
             this.showPopup = true;
             this.enableButton = false;
           }
+        }
+        else{
+          this.spinner.hide();
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+  
         }
       }, (err) => {
         this.enableAdd = false;
@@ -428,15 +446,20 @@ export class SalesComponent implements OnInit {
       ItemId: itemId,
       IsJobItem: data?.JobItemId ? true : false
     };
+    this.spinner.show();
     this.salesService.deleteItemById(deleteItem).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
         this.getDetailByTicket(false);
-      } else {
+      } else {       
+         this.spinner.hide();
+
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.spinner.hide();
+ this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
     });
   }
   openCash() {
@@ -602,7 +625,6 @@ export class SalesComponent implements OnInit {
           jobItemId: 0,
           jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
           serviceId: this.selectedService?.id,
-          // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
           commission: 0,
           price: this.selectedService?.price,
           quantity: +this.addItemForm.controls.quantity.value,
@@ -705,14 +727,18 @@ export class SalesComponent implements OnInit {
   getTicketNumber() {
     this.isSelected = false;
     this.ticketNumber = '';
-    this.newTicketNumber = Math.floor(100000 + Math.random() * 900000);
+    this.salesService.getTicketNumber().subscribe(item => {
+      if(item){
+        this.ticketNumberGeneration = true
+        this.newTicketNumber = item;
+      }
+      else{
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
+  }
+    });
     this.enableAdd = true;
     this.clearpaymentField();
     this.clearGridItems();
-    // this.salesService.getTicketNumber().subscribe(data => {
-    //   this.newTicketNumber = data;
-
-    // });
   }
   creditProcess() {
     this.removAddedAmount(this.credit);
@@ -752,6 +778,7 @@ export class SalesComponent implements OnInit {
       let upchargeDiscountPrice = 0;
       let airfreshnerDiscountPrice = 0;
       let outsideDiscountPrice = 0;
+      let noServiceTypePrice = 0;
       this.selectedDiscount.forEach(item => {
         const serviceType = this.serviceType.filter(type => +type.CodeId === +item.DiscountServiceType);
         if (serviceType.length > 0) {
@@ -761,72 +788,88 @@ export class SalesComponent implements OnInit {
           let upchargeCost = 0;
           let airfreshnerCost = 0;
           let outsideCost = 0;
-          if (serviceType[0].CodeValue === 'Washes') {
+          if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage) {
             this.washes.forEach(wash => {
               washCost = washCost + wash.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
-              washDiscountPrice = washDiscountPrice + item.Cost;
+              washDiscountPrice = washDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              washDiscountPrice = washDiscountPrice + (washCost * item.Cost / 100);
-              item.Cost = (washCost * item.Cost / 100);
+              washDiscountPrice = washDiscountPrice + (washCost * item.Price / 100);
+              item.Price = (washCost * item.Price / 100);
             }
           } else if (serviceType[0].CodeValue === 'Details') {
             this.details.forEach(detail => {
               detailCost = detailCost + detail.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
-              detailDiscountPrice = detailDiscountPrice + item.Cost;
+              detailDiscountPrice = detailDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              detailDiscountPrice = detailDiscountPrice + (detailCost * item.Cost / 100);
-              item.Cost = (detailCost * item.Cost / 100);
+              detailDiscountPrice = detailDiscountPrice + (detailCost * item.Price / 100);
+              item.Price = (detailCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Additional Services') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
             this.additionalService.forEach(additional => {
               additionalCost = additionalCost + additional.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
-              additionalDiscountPrice = additionalDiscountPrice + item.Cost;
+              additionalDiscountPrice = additionalDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Cost / 100);
-              item.Cost = (additionalCost * item.Cost / 100);
+              additionalDiscountPrice = additionalDiscountPrice + (additionalCost * item.Price / 100);
+              item.Price = (additionalCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Air Fresheners') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners) {
             this.airfreshnerService.forEach(airFreshner => {
               airfreshnerCost = airfreshnerCost + airFreshner.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
-              airfreshnerDiscountPrice = airfreshnerDiscountPrice + item.Cost;
+              airfreshnerDiscountPrice = airfreshnerDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              airfreshnerDiscountPrice = airfreshnerDiscountPrice + (airfreshnerCost * item.Cost / 100);
-              item.Cost = (airfreshnerCost * item.Cost / 100);
+              airfreshnerDiscountPrice = airfreshnerDiscountPrice + (airfreshnerCost * item.Price / 100);
+              item.Price = (airfreshnerCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Outside Services') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices) {
             this.outsideServices.forEach(outside => {
               outsideCost = outsideCost + outside.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
-              outsideDiscountPrice = outsideDiscountPrice + item.Cost;
+              outsideDiscountPrice = outsideDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Cost / 100);
-              item.Cost = (outsideCost * item.Cost / 100);
+              outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Price / 100);
+              item.Price = (outsideCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Upcharges') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
             this.upCharges.forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
             if (item.DiscountType === 'Flat Fee') {
-              upchargeDiscountPrice = upchargeDiscountPrice + item.Cost;
+              upchargeDiscountPrice = upchargeDiscountPrice + item.Price;
             } else if (item.DiscountType === 'Percentage') {
-              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Cost / 100);
-              item.Cost = (upchargeCost * item.Cost / 100);
+              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
+              item.Price = (upchargeCost * item.Price / 100);
             }
+          } else if (item.DiscountServiceType === null) {
+            noServiceTypePrice = noServiceTypePrice + item.Price;
           }
+        } else if (item.DiscountServiceType === null || +item.DiscountServiceType === 0) {
+          item.Price = String(item.Price).replace('-', '');
+          noServiceTypePrice = noServiceTypePrice + (+item.Price);
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
-          + upchargeDiscountPrice + outsideDiscountPrice;
+          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice;
       });
-      // discountValue = this.selectedDiscount.reduce((accum, item) => accum + (+item.Cost), 0);
       this.discountAmount = discountValue;
     } else {
       this.discountAmount = 0;
@@ -834,8 +877,6 @@ export class SalesComponent implements OnInit {
     this.selectedDiscount.forEach(item => {
       this.discountList.push(item);
     });
-    // this.discountList = this.selectedDiscount;
-    //this.updateListItem(formObj, false);
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
@@ -853,28 +894,26 @@ export class SalesComponent implements OnInit {
         return;
       }
     }
-    this.discounts.forEach(item => {
-      if (item.ServiceId === +event.target.value) {
-        this.selectedDiscount.push(item);
+    for ( const i of this.discounts ) {
+      if (i.ServiceId === +event.target.value) {
+        if (i.DiscountServiceType === 0 || i.DiscountServiceType === null) {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Discount Service & Discount Type'});
+          this.discount = '';
+          return;
+        } else {
+          this.selectedDiscount.push(i);
+        }
       }
-    });
+    }
   }
-  // getPaymentStatus() {
-  //   this.salesService.getPaymentStatus('PAYMENTSTATUS').subscribe(res => {
-  //     if (res.status === 'Success') {
-  //       const status = JSON.parse(res.resultData);
-  //       this.paymentStatus = status.Codes.filter(item => item.CodeValue === 'Success');
-  //       this.paymentStatusId = this.paymentStatus[0].CodeId;
-  //     }
-  //   });
-  // }
+
   deletediscount(event) {
     const index = this.selectedDiscount.findIndex(item => item.ServiceId === +event.ServiceId);
     this.selectedDiscount.splice(index, 1);
     this.discountList = this.discountList.filter(item => item.ServiceId !== +event.ServiceId);
     let discountAmount = 0;
     this.selectedDiscount.forEach(item => {
-      discountAmount = discountAmount + (+item.Cost);
+      discountAmount = discountAmount + (+item.Price);
     });
     this.discountAmount = discountAmount;
   }
@@ -894,6 +933,21 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total paid amount not matching with Total amount.' });
       return;
     }
+    if (this.ticketNumberGeneration === false) {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber});
+      return;
+    }
+
+    // if (this.credit !== 0) {
+    //   const ngbModalOptions: NgbModalOptions = {
+    //     backdrop: 'static',
+    //     keyboard: false,
+    //     size: 'sm'
+    //   };
+    //   const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+    //   return;
+    // }
+  
     let giftcard = null;
     let discount = null;
     giftcard = this.giftcards.map(item => {
@@ -928,7 +982,7 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       }
     });
-    let discountPayType = this.PaymentType.filter(i => i.CodeValue === "Discount")[0].CodeId;
+    const discountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Discount)[0].CodeId;
     const discountDet = this.selectedDiscount.map(item => {
       return {
         jobPaymentDetailId: 0,
@@ -949,7 +1003,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(element);
     })
     if (this.cash !== 0) {
-      let cashPayType = this.PaymentType.filter(i => i.CodeValue === "Cash")[0].CodeId;
+      const cashPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Cash)[0].CodeId;
       const det = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
@@ -967,9 +1021,9 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(det);
     }
     if (this.account !== 0) {
-      let accountPayType = this.PaymentType.filter(i => i.CodeValue === "Account")[0].CodeId;
-      if (this.accountDetails?.CodeValue !== "Comp") {
-        accountPayType = this.PaymentType.filter(i => i.CodeValue === "Membership")[0].CodeId;
+      let accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
+      if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== 'Comp') {
+        accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
       }
       const accountDet = {
         jobPaymentDetailId: 0,
@@ -988,7 +1042,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(accountDet);
     }
     if (this.credit !== 0) {
-      let creditPayType = this.PaymentType.filter(i => i.CodeValue === "Credit")[0].CodeId;
+      const creditPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Card)[0].CodeId;
       const credit = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
@@ -1006,7 +1060,7 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(credit);
     }
     if (this.giftCard !== 0) {
-      let giftPayType = this.PaymentType.filter(i => i.CodeValue === "GiftCard")[0].CodeId;
+      const giftPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.GiftCard)[0].CodeId;
       const gift = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
@@ -1026,7 +1080,7 @@ export class SalesComponent implements OnInit {
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
-        membershipId: this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null,
+        membershipId: this.isAccountButton ? this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
         jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,
@@ -1045,43 +1099,45 @@ export class SalesComponent implements OnInit {
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
       jobPaymentCreditCard: null
-      /*{
-        jobPaymentCreditCardId: 0,
-        jobPaymentId: 0,
-        cardTypeId: null,
-        cardCategoryId: null,
-        cardNumber: '',
-        creditCardTransactionTypeId: null,
-        amount: this.credit ? +this.credit : 0,
-        tranRefNo: '',
-        tranRefDetails: '',
-        isActive: true,
-        isDeleted: false,
-        createdBy: null,
-        createdDate: new Date(),
-        updatedBy: null,
-        updatedDate: new Date()
-      }*/,
-      //jobPaymentDiscount: discount.length === 0 ? null : discount,
-
     };
+
+    const jobProductItem = [];
+    this.Products.forEach( item => {
+      jobProductItem.push({
+        productId: item.ProductId,
+        quantity: item.Quantity,
+        productName: item.ProductName
+      });
+    });
+
+    const paymentDetail = {
+      SalesPaymentDto : paymentObj,
+      SalesProductItemDto: jobProductItem.length > 0 ?  { jobProductItem } : null,
+      locationId : +localStorage.getItem('locationId')
+    };
+
     this.spinner.show();
-    this.salesService.addPayemnt(paymentObj).subscribe(data => {
-      this.spinner.hide();
+    this.salesService.addPayemnt(paymentDetail).subscribe(data => {
       if (data.status === 'Success') {
-        if (this.accountDetails !== null && this.accountDetails?.CodeValue === "Comp") {
-          const amt = (+this.accountDetails?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
+        this.spinner.hide();
+  
+        if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel?.CodeValue === 'Comp') {
+          const amt = (+this.accountDetails?.SalesAccountViewModel?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
           const obj = {
-            clientId: this.accountDetails?.ClientId,
+            clientId: this.accountDetails?.SalesAccountViewModel?.ClientId,
             amount: amt
-          }
-          this.salesService.updateAccountBalance(obj).subscribe(data => {
+          };
+          this.salesService.updateAccountBalance(obj).subscribe(res => {
           });
         }
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
         this.getDetailByTicket(false);
-        this.router.navigate([`/checkout`], { relativeTo: this.route });
+        if (this.newTicketNumber === '') {
+          this.router.navigate([`/checkout`], { relativeTo: this.route });
+        }
       } else {
+        this.spinner.hide();
+  
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
       }
     }, (err) => {
@@ -1132,9 +1188,7 @@ export class SalesComponent implements OnInit {
         this.balance = currentAmount - enteredAmount;
       }
     }
-    // if (!moment(today).isBefore(giftcardexpiryDate)) {
-    //   this.isInvalidGiftcard = true;
-    // }
+
   }
   rollBack() {
     if (this.multipleTicketNumber.length > 0) {
@@ -1142,7 +1196,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
-          this.router.navigate([`/checkout`], { relativeTo: this.route });
+          // this.router.navigate([`/checkout`], { relativeTo: this.route });
         } else {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
         }
@@ -1153,6 +1207,7 @@ export class SalesComponent implements OnInit {
   }
 
   processAccount() {
+    this.isAccountButton = !this.isAccountButton;
     if (this.isAccount) {
       this.removAddedAmount(+this.account);
       this.account = +this.washes[0].Price;

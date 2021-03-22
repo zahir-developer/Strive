@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
@@ -6,6 +6,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 
 @Component({
   selector: 'app-client-list',
@@ -24,19 +27,24 @@ export class ClientListComponent implements OnInit {
   search: any = '';
   locationId = +localStorage.getItem('empLocationId');
   collectionSize: number = 0;
-  sort = { column: 'IsActive', descending: true };
-  sortColumn: { column: string; descending: boolean; };
+
   pageSizeList: number[];
   page: number;
   pageSize: number;
+  jobTypeId: any;
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
     private spinner: NgxSpinnerService, private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private detailService: DetailService
   ) { }
 
   ngOnInit() {
+    this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -57,13 +65,14 @@ export class ClientListComponent implements OnInit {
       PageNo: this.page,
       PageSize: this.pageSize,
       Query: this.search,
-      SortOrder: null,
-      SortBy: null
+      SortOrder: this.sortColumn.sortOrder,
+      SortBy: this.sortColumn.sortBy
     };
     this.spinner.show();
     this.client.getClient(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+      this.getJobType();
         this.clientDetails = [];
         const client = JSON.parse(data.resultData);
         if (client.Client.clientViewModel !== null) {
@@ -77,9 +86,12 @@ export class ClientListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -100,8 +112,8 @@ export class ClientListComponent implements OnInit {
       PageNo: this.page,
       PageSize: this.pageSize,
       Query: this.search,
-      SortOrder: null,
-      SortBy: null
+      SortOrder: this.sortColumn.sortOrder,
+      SortBy: this.sortColumn.sortBy
     };
     this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
@@ -115,8 +127,10 @@ export class ClientListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   delete(data) {
@@ -132,17 +146,29 @@ export class ClientListComponent implements OnInit {
 
   // Delete Client
   confirmDelete(data) {
+    this.spinner.show();
     this.client.deleteClient(data.ClientId).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Client.Delete, 'Success!');
+        this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
         this.getAllClientDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
       this.getAllClientDetails();
     }
     this.showDialog = event.isOpenPopup;
@@ -163,8 +189,9 @@ export class ClientListComponent implements OnInit {
   getClientById(data, client) {
     this.spinner.show();
     this.client.getClientById(client.ClientId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const clientDetail = JSON.parse(res.resultData);
         this.selectedClient = clientDetail.Status[0];
         if (data === 'edit') {
@@ -181,9 +208,12 @@ export class ClientListComponent implements OnInit {
           this.showDialog = true;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
   }
@@ -193,30 +223,42 @@ export class ClientListComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    return sortingInfo;
+
+    this.selectedCls(this.sortColumn)
+    this.getAllClientDetails();
   }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
+
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
       return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
       return 'fa-sort-asc';
     }
     return '';
   }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Wash') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 }

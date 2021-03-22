@@ -14,10 +14,12 @@
             class="fa fa-2x fa-user-o"></i>Admin</a></li>
       <li class="" *ngIf = "payRollModule == true"><a [routerLink]='["./payrolls"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar" ></i>Payroll</a></li>
       <li class="" *ngIf = "checkOutModule == true"><a [routerLink]='["./checkout"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-flag-checkered" ></i>Checkout</a></li>
-     
+      <li class="" ><a [routerLink]='["./Customer-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar" ></i>Customer Sales</a></li>
+
       <li class="" *ngIf = "whiteLabellingModule == true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-square-edit-outline" ></i>While Labelling</a></li>
       <li class="" *ngIf = "messengerModule == true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>Messenger</a></li>
       <li class="" *ngIf = "customerModule == true"><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>Customer</a></li>
+      <li class=""><a [routerLink]='["./customer-history"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>History</a></li>
     </ul>
   </div>
   <div id="reportSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block"> 
@@ -79,7 +81,7 @@
       <li class="" *ngIf = "messengerModule == true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="fa-2x  mdi mdi-message" ></i>Messenger</a></li>
 
       <li *ngIf = "whiteLabellingModule == true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="mdi mdi-square-edit-outline" ></i>While Labelling</a></li>
-      <!-- <li ><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="mdi mdi-square-edit-outline" ></i>Customer</a></li> -->
+      <li class=""><a [routerLink]='["./customer-history"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="fa-2x  mdi mdi-message" ></i>History</a></li>
     </ul>
     <div id="show-submenu" class="hide">
       <a href="#" class="back-to-list"> <em class="fa fa-arrow-left"></em> Back</a>

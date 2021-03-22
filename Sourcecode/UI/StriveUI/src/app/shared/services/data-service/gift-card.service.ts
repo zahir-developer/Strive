@@ -9,29 +9,32 @@ import { UrlConfig } from '../url.config';
 export class GiftCardService {
 
   constructor(private http: HttpUtilsService) { }
+  GiftCardAlreadyExists(cardNumber){
+    return this.http.get(`${UrlConfig.giftCard.giftCardExist}` + cardNumber,{ params: { giftCardCode: cardNumber } });
 
-  getAllGiftCard(locationId): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getAllGiftCard}` + locationId);
+  }
+  getAllGiftCard(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.giftCard.getAllGiftCard}` , obj );
   }
   getAllGiftCardHistory(giftCardId) {
-    return this.http.get(`${UrlConfig.totalUrl.getAllGiftCardHistory}` + giftCardId);
+    return this.http.get(`${UrlConfig.giftCard.getAllGiftCardHistory}` + giftCardId);
   }
   getGiftCard(giftCardId) {
-    return this.http.get(`${UrlConfig.totalUrl.getGiftCard}` + giftCardId);
+    return this.http.get(`${UrlConfig.giftCard.getGiftCard}` + giftCardId);
   }
   saveGiftCard(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.saveGiftCard}` , obj);
+    return this.http.post(`${UrlConfig.giftCard.saveGiftCard}` , obj);
   }
   updateStatus(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateStatus}` , obj);
+    return this.http.post(`${UrlConfig.giftCard.updateStatus}` , obj);
   }
   addCardHistory(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.addCardHistory}` , obj);
+    return this.http.post(`${UrlConfig.giftCard.addCardHistory}` , obj);
   }
   updateBalance(giftCardId) {
-    return this.http.post(`${UrlConfig.totalUrl.updateBalance}`, null, { params : { giftCardId }});
+    return this.http.post(`${UrlConfig.giftCard.updateBalance}`, null, { params : { giftCardId }});
   }
   getBalance(giftCardNumber) {
-    return this.http.get(`${UrlConfig.totalUrl.getBalance}` + giftCardNumber);
+    return this.http.get(`${UrlConfig.giftCard.getBalance}` + giftCardNumber);
   }
 }

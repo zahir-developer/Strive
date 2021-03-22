@@ -87,7 +87,7 @@ namespace Strive.ResourceAccess
 
             result.Latitude = locationAddress.Latitude;
             result.Longitude = locationAddress.Longitude;
-            result.WeatherLocationId = locationAddress.WeatherLocationId;
+            result.WeatherLocationId = locationAddress.WeatherLocationId;         
 
             return result;
         }
@@ -115,6 +115,11 @@ namespace Strive.ResourceAccess
             _prm.Add("LocationId", id.toInt());
             db.Save(EnumSP.Location.USPADDBAYSLOT.ToString(), _prm);
             return true;
+        }
+
+        public List<LocationNameViewModel> GetAllLocationName()
+        {
+            return db.Fetch<LocationNameViewModel>(EnumSP.Location.USPGETALLLOCATIONNAME.ToString(), _prm);
         }
 
     }

@@ -8,13 +8,13 @@ namespace Strive.BusinessLogic
 {
     public interface IServiceSetupBpl
     {
-        Result AddService(Service service);
+        Result AddService(ServiceDto service);
         Result UpdateService(Service service);
         Result GetAllServiceType();
         Result GetAllServiceSetup(SearchDto searchDto);
         Result GetServiceSetupById(int id);
         Result DeleteServiceById(int id);
-        Result GetAllServiceDetail();
+        Result GetAllServiceDetail(int locationId);
         Result GetServicesWithPrice();
     }
 }

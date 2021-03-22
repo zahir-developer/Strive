@@ -20,7 +20,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public Result AddService([FromBody] Service serviceSetup) => _bplManager.AddService(serviceSetup);
+        public Result AddService([FromBody] ServiceDto serviceSetup) => _bplManager.AddService(serviceSetup);
 
         [HttpPost]
         [Route("Update")]
@@ -44,7 +44,7 @@ namespace Admin.API.Controllers
       
         [HttpGet]
         [Route("GetAllServiceDetail")]
-        public Result GetAllServiceDetail() => _bplManager.GetAllServiceDetail();
+        public Result GetAllServiceDetail(int locationId) => _bplManager.GetAllServiceDetail(locationId);
 
         [HttpGet]
         [Route("GetService")]

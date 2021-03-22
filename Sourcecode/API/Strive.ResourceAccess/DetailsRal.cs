@@ -76,6 +76,14 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Details.USPDELETEDETAILSCHEDULE.ToString(), _prm);
             return true;
         }
-       
+
+        public List<DetailScheduleStatusViewModel> GetDetailScheduleStatus(DetailScheduleDto scheduleDto)
+        {
+            _prm.Add("LocationId", scheduleDto.LocationId);
+            _prm.Add("Date", scheduleDto.Date);
+            var result = db.Fetch<DetailScheduleStatusViewModel>(EnumSP.Details.USPGETDETAILSCHEDULESTATUS.ToString(), _prm);
+            return result;
+        }
+
     }
 }

@@ -4,6 +4,7 @@ import { BonusSetupService } from 'src/app/shared/services/data-service/bonus-se
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-bonus-setup',
@@ -21,7 +22,7 @@ export class BonusSetupComponent implements OnInit {
   collisionDeduction: any;
   totalBonusAmount: any;
   selectedDate: any = new Date();
-  selectedMonth: any = new Date().getMonth();
+  selectedMonth: any = new Date().getMonth() + 1;
   selectedYear: any = new Date().getFullYear();
   submitted: boolean;
   isValueMax: boolean;
@@ -34,29 +35,26 @@ export class BonusSetupComponent implements OnInit {
   negativecollisionDeduction: string;
   negativebadReviewDeduction: string;
   employeeId: number;
+  isLoading: boolean;
   constructor(
     private confirmationService: ConfirmationUXBDialogService,
     private bonusSetupService: BonusSetupService,
     private datePipe: DatePipe,
-    private toastr: ToastrService,
+     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = false;
     this.employeeId = +localStorage.getItem('empId');
     this.bonusId = 0;
     this.submitted = false;
     this.isValueMax = false;
     this.locationId = localStorage.getItem('empLocationId');
     this.isEdit = false;
-    // this.noOfBadReviews = 0;
-    // this.badReviewDeductionAmount = 0;
-    // this.noOfCollisions = 0;
-    // this.collisionDeductionAmount = 0;
     this.badReviewDeduction = 0;
     this.collisionDeduction = 0;
     this.totalBonusAmount = 0;
-    // this.getBonusFirstList();
     this.getBonusList();
   }
 
@@ -205,7 +203,6 @@ export class BonusSetupComponent implements OnInit {
     let totalAmount = 0;
     let deduction: any;
     for (let i = 0; i < this.monthBonusList.length; i++) {
-      // this.monthBonusList[i].Total = this.monthBonusList[i].BonusAmount;
       totalAmount += (+this.monthBonusList[i].Total);
       deduction = Math.abs(this.collisionDeduction + this.badReviewDeduction)
       this.totalBonusAmount = totalAmount - deduction;
@@ -221,7 +218,6 @@ export class BonusSetupComponent implements OnInit {
     this.getBonusList();
   }
   saveBonus() {
-    console.log(this.monthBonusList, this.selectedDate, 'multi');
     this.submitted = false;
     this.isValueMax = false;
     let checkValue = true;
@@ -262,8 +258,8 @@ export class BonusSetupComponent implements OnInit {
         Total: item.Total,
         IsActive: true,
         IsDeleted: item.IsDeleted
-      }
-    })
+      };
+    });
     const bonus = {
       bonusId: this.bonusId,
       locationId: this.locationId,
@@ -286,33 +282,40 @@ export class BonusSetupComponent implements OnInit {
       bonus,
       bonusRange: bounsRange
     };
-    console.log(finalObj, 'finalObj');
     if (this.isEdit === false) {
       this.spinner.show();
       this.bonusSetupService.saveBonus(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Bonus setup saved successfully! ', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BonusSetup.Add, 'Success!');
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
         this.getBonusList();
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     } else {
       this.spinner.show();
       this.bonusSetupService.editBonus(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Bonus setup saved successfully! ', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BonusSetup.Update, 'Success!');
           this.getBonusList();
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     }
   }
 
@@ -322,9 +325,9 @@ export class BonusSetupComponent implements OnInit {
       bonusYear: this.selectedYear,
       locationId: this.locationId
     };
-    this.spinner.show();
+    this.isLoading = true;
     this.bonusSetupService.getBonusList(finalObj).subscribe(res => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (res.status === 'Success') {
         const bonus = JSON.parse(res.resultData);
         if (bonus?.BonusDetails?.Bonus !== null) {
@@ -390,7 +393,6 @@ export class BonusSetupComponent implements OnInit {
             break;
           }
         }
-        console.log(bonus, 'bonusList');
         let totalAmount = 0;
         let deduction: any;
         for (const list of this.monthBonusList) {
@@ -400,12 +402,12 @@ export class BonusSetupComponent implements OnInit {
         this.totalBonusAmount = totalAmount - deduction;
       }
       else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.getBonusFirstList();
       }
     }, (error) => {
-      this.toastr.error('Communication Error', 'Error!');
-      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.isLoading = false;
       this.getBonusFirstList();
     });
   }

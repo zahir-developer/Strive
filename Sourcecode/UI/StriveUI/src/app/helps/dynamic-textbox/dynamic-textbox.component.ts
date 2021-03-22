@@ -25,17 +25,13 @@ export class DynamicTextboxComponent implements OnInit {
   addInput() { (this.formName.get('controllerArray') as FormArray).push(this.fb.group({ controlerInputName1: '' })) }
 
   removeInput(index) {
-    console.log(index);
     this.formName.controls.controllerArray['controls'].splice(index, 1);
   }
   submit() {
     this.address = [];
-    console.log(this.formName.value);
     this.formName.controls.controllerArray['controls'].forEach(i => {
       this.address.push(i.controls.controlerInputName1.value);
     });
-    console.log(this.address);
   }
-  // get controllerArray { return this.formName.get('controllerArray'); }
 
 }

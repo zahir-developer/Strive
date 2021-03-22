@@ -51,7 +51,6 @@ Color
 .theme-secondary-icon-color,
 .setup-list ul li a.active::before
 {
-	/* color: #1DC9B7 !important; */
 	color: var(--primary-color) !important;
 }
 
@@ -90,13 +89,7 @@ Color
 	background-color: var(--primary-color);
 }
 
-/*.theme-secondary-background.active a
-.theme-secondary-background.active a:active,
-.theme-secondary-background.active a:hover,
-.theme-secondary-background.active a:focus
-{
-	color: #ffffff !important;
-}*/
+
 .theme-light-yellow-color {
 	color: #FFB822 !important;
 }

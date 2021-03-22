@@ -48,6 +48,10 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
             return result;
         }
+        public List<VendorNameViewModel> GetAllVendorName()
+        {
+            return db.Fetch<VendorNameViewModel>(SPEnum.USPGETALLVENDORNAME.ToString(), null);
+        }
     }
 
 }

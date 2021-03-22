@@ -21,8 +21,8 @@ namespace Strive.Common
         string DocumentFormat { get; set; }
         string ProductImageFolder { get; set; }
         string ProductImageFormat { get; set; }
-        int ProductThumbHeight { get; set; }
-        int ProductThumbWidth { get; set; }
+        int ImageThumbHeight { get; set; }
+        int ImageThumbWidth { get; set; }
         string LogoImageFolder { get; set; }
         string LogoImageFormat { get; set; }
         int LogoThumbHeight { get; set; }
@@ -31,7 +31,9 @@ namespace Strive.Common
         string TermsAndCondition { get; set; }
         string EmployeeHandbook { get; set; }
         string GeneralDocumentFolder { get; set; }
+        string HtmlTemplates { get; set; }
 
+        string VehicleImageFolder { get; set; }
         IDbConnection db();
         IDbConnection dbAuth();
         void SetConnection(string con);
@@ -64,8 +66,8 @@ namespace Strive.Common
         public string DocumentFormat{ get; set; }
         public string ProductImageFolder { get; set; }
         public string ProductImageFormat { get; set; }
-        public int ProductThumbHeight { get; set; }
-        public int ProductThumbWidth { get; set; }
+        public int ImageThumbHeight { get; set; }
+        public int ImageThumbWidth { get; set; }
         public string LogoImageFolder { get; set; }
         public string LogoImageFormat { get; set; }
         public int LogoThumbHeight { get; set; }
@@ -75,6 +77,9 @@ namespace Strive.Common
         public string EmployeeHandbook { get; set; }
         public string GeneralDocumentFolder { get; set; }
 
+        public string HtmlTemplates { get; set; }
+
+        public string VehicleImageFolder { get; set; }
         public TenantHelper(IDistributedCache cache)
         {
             _cache = cache;

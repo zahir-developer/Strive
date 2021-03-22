@@ -15,6 +15,7 @@ using Strive.BusinessEntities.Code;
 using Strive.RepositoryCqrs;
 using Strive.BusinessEntities.DTO.Sales;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessLogic.DTO.Client;
 
 namespace Strive.ResourceAccess
 {
@@ -22,9 +23,9 @@ namespace Strive.ResourceAccess
     {
         public ClientRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool InsertClientDetails(ClientDto client)
+        public int InsertClientDetails(ClientDto client)
         {
-            return dbRepo.InsertPc(client, "ClientId");
+            return dbRepo.InsertPK(client, "ClientId");
         }
         public bool UpdateClientVehicle(ClientDto client)
         {
@@ -50,6 +51,13 @@ namespace Strive.ResourceAccess
             return result;
             
         }
+
+        public ClientLoginViewModel GetClientByAuthId(int authId)
+        {
+            _prm.Add("@AuthId", authId);
+            return db.FetchMultiResult<ClientLoginViewModel>(EnumSP.Authentication.USPGETCLIENTUSERBYAUTHID.ToString(), _prm);
+        }
+
         public List<ClientDetailViewModel> GetClientById(int clientId)
         {
             _prm.Add("@ClientId", clientId);
@@ -125,6 +133,25 @@ namespace Strive.ResourceAccess
             _prm.Add("Name", name);
             return db.Fetch<ClientNameViewModel>(SPEnum.USPGETALLCLIENTNAME.ToString(), _prm);
         }
+        public bool ClientEmailExist(string email)
+        {
+
+            _prm.Add("Email", email);
+
+            var result = db.Fetch<ClientEmailValidationViewModel>(EnumSP.Client.USPCLIENTEMAILEXIST.ToString(), _prm);
+            if (result.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
+
 
     }
 }

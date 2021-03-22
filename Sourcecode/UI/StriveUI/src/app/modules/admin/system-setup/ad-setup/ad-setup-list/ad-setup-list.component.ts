@@ -5,6 +5,7 @@ import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.se
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-ad-setup-list',
@@ -33,13 +34,17 @@ export class AdSetupListComponent implements OnInit {
   documentTypeId: any;
   pdfData: any;
   serviceDetails: any;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.isLoading = false;
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.AdSetup,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.AdSetup.order
+     }
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -52,34 +57,33 @@ export class AdSetupListComponent implements OnInit {
 
   // Get All Services
   getAlladSetupDetails() {
-    this.spinner.show();
+    this.isLoading = true;
     this.adSetup.getAdSetup().subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
-        
-       this.serviceDetails = JSON.parse(data.resultData);
-       if(this.serviceDetails){
-        this.adSetupDetails = this.serviceDetails.GetAllAdSetup;
+        this.serviceDetails = JSON.parse(data.resultData);
+        if (this.serviceDetails.GetAllAdSetup !== null) {
+          this.adSetupDetails = this.serviceDetails.GetAllAdSetup;
+          this.sort(ApplicationConfig.Sorting.SortBy.AdSetup)
 
-       }
-     
-       
+        }
         if (this.adSetupDetails.length === 0) {
-          this.adSetupDetails.forEach( ad => {
+          this.isTableEmpty = true;
+        } else {
+
+          this.adSetupDetails.forEach(ad => {
             ad.serupName = ad.Name + '' + ad.Description;
           });
           this.clonedadSetupDetails = this.adSetupDetails.map(x => Object.assign({}, x));
-        
-          this.isTableEmpty = true;
-        } else {
           this.collectionSize = Math.ceil(this.adSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
-      this.spinner.hide();
+    },  (err) => {
+      this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -88,11 +92,11 @@ export class AdSetupListComponent implements OnInit {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
         this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "Ads")[0].CodeId;
-        console.log(this.documentTypeId);
-
-
       } else {
       }
+    }
+    ,  (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   paginate(event) {
@@ -109,27 +113,34 @@ export class AdSetupListComponent implements OnInit {
     this.getAlladSetupDetails()
   }
 
-   // Get Service By Id
+  // Get Service By Id
 
   edit(data) {
     this.spinner.show()
-  this.adSetup.getAdSetupById(data.AdSetupId).subscribe(data => {
-    if (data.status === "Success") {
-this.spinner.hide()
-      const sType = JSON.parse(data.resultData);
-      this.selectedData = sType.GetAdSetupById;
-      this.showDialog = true;
+    this.adSetup.getAdSetupById(data.AdSetupId).subscribe(data => {
+      if (data.status === "Success") {
+        this.spinner.hide()
+        const sType = JSON.parse(data.resultData);
+        this.selectedData = sType.GetAdSetupById;
+        this.showDialog = true;
 
-    } else {
-      this.toastr.error('Communication Error', 'Error!');
+      } else {
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
     }
-  });
+    ,  (err) => {
+      this.spinner.hide();
+
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
 
 
   }
   delete(data) {
-    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
-  information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this Ad Setup? All related 
+  information will be deleted and the Ad Setup cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
@@ -140,13 +151,22 @@ this.spinner.hide()
 
   // Delete Service
   confirmDelete(data) {
+    this.spinner.show();
     this.adSetup.deleteAdSetup(data.AdSetupId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Delete, 'Success!');
         this.getAlladSetupDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    ,  (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -164,7 +184,7 @@ this.spinner.hide()
       this.showDialog = true;
     } else {
       this.headerData = 'Edit AdSetup';
-    this.edit(serviceDetails)
+      this.edit(serviceDetails)
       this.isEdit = true;
     }
   }
@@ -191,11 +211,56 @@ this.spinner.hide()
         downloadLink.download = fileName;
         downloadLink.click();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-   
-  })
-}
 
+    }
+    ,  (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    })
+  }
+
+  sort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.AdSetup.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
+    this.adSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
 }
 

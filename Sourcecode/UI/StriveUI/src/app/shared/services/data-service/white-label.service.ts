@@ -11,20 +11,20 @@ export class WhiteLabelService {
   constructor(private http: HttpUtilsService) { }
 
   getAllWhiteLabelDetail() {
-    return this.http.get(`${UrlConfig.totalUrl.getAllWhiteLabelDetail}`);
+    return this.http.get(`${UrlConfig.whiteLabelling.getAllWhiteLabelDetail}`);
   }
 
   addWhiteLabelDetail(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.addWhiteLabelDetail}`, obj);
+    return this.http.post(`${UrlConfig.whiteLabelling.addWhiteLabelDetail}`, obj);
   }
 
   updateWhiteLabelDetail(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateWhiteLabelDetail}`, obj);
+    return this.http.post(`${UrlConfig.whiteLabelling.updateWhiteLabelDetail}`, obj);
   }
   saveCustomColor(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.saveCustomColor}`, obj);
+    return this.http.post(`${UrlConfig.whiteLabelling.saveCustomColor}`, obj);
   }
   uploadWhiteLabel(uploadObj) {
-    return this.http.post(`${UrlConfig.totalUrl.uploadWhiteLabel}`, uploadObj);
+    return this.http.post(`${UrlConfig.whiteLabelling.uploadWhiteLabel}`, uploadObj);
   }
 }
