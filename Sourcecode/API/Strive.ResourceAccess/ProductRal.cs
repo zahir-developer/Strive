@@ -36,7 +36,7 @@ namespace Strive.ResourceAccess
         public ProductDetailViewModel GetProductById(int? productId)
         {
             _prm.Add("@ProductId", productId);
-            return db.FetchSingle<ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
+            return db.FetchSingle<ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTBYID.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)
