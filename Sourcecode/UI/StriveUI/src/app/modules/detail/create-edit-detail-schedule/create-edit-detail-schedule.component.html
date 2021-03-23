@@ -106,14 +106,17 @@
                             (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="inputClient">Client</label>
+                        <label for="inputClient">Client<span class="required">*</span></label>
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="clientList"
+                                    <p-autoComplete field="name" [suggestions]="clientList" [ngClass]="{ 'is-invalid': submitted && f.client.errors }"
                                         (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
                                         placeholder="Client Name" (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
                                     </p-autoComplete>
+                                    <div *ngIf="submitted && f.client.errors" class="invalid-feedback">
+                                        <div *ngIf="f.client.errors?.required">Client is required</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

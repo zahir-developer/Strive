@@ -194,14 +194,23 @@ export class CheckoutGridComponent implements OnInit {
     if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
       return;
     }
+    this.spinner.show();
     this.checkout.holdVehicle(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
         this.toastr.success(MessageConfig.checkOut.Hold, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
 
         this.getAllUncheckedVehicleDetails();
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (err) => {
+      this.spinner.hide();
+
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
@@ -211,14 +220,24 @@ export class CheckoutGridComponent implements OnInit {
       const finalObj = {
         id: checkout.JobId
       };
+      this.spinner.show();
       this.checkout.completedVehicle(finalObj).subscribe(res => {
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.checkOut.Complete, 'Success!');
           this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
 
           this.getAllUncheckedVehicleDetails();
         }
+        else{
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+        }
       }, (err) => {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }

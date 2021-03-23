@@ -109,7 +109,7 @@ export class CreateEditWashesComponent implements OnInit {
   formInitialize() {
 
     this.washForm = this.fb.group({
-      client: ['',],
+      client: ['',Validators.required],
       vehicle: ['', Validators.required],
       type: ['',],
       barcode: ['',],
