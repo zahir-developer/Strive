@@ -30,6 +30,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string MakeName { get; set; }
         public string ModelName { get; set; }
         public string ColorName { get; set; }
-
+        public string PhoneNumber { get; set; }
+        public string Email { get; set }
     }
 }
