@@ -20,7 +20,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public Result AddService([FromBody] ServiceDto serviceSetup) => _bplManager.AddService(serviceSetup);
+        public Result AddService([FromBody] Service serviceSetup) => _bplManager.AddService(serviceSetup);
 
         [HttpPost]
         [Route("Update")]
