@@ -15,9 +15,9 @@ namespace Strive.ResourceAccess
     {
         public ServiceSetupRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddService(ServiceDto service)
+        public bool AddService(Service service)
         {
-            return dbRepo.InsertPc(service,"ServiceId");
+            return dbRepo.Insert(service);
         }
 
         public bool UpdateService(Service service)

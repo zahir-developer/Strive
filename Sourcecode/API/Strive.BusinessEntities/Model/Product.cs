@@ -37,7 +37,9 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public int? LocationId { get; set; }
-        
+
+        [Column]
+        public int? VendorId { get; set; }
 
         [Column]
         public int? Size { get; set; }
