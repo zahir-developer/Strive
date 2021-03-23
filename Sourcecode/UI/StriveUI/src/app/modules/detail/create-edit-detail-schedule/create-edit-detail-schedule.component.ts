@@ -128,7 +128,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isCompleted = false;
     this.formInitialize();
     this.getJobStatus();
-    // this.getEmployeeList();
+     this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
     this.getJobType();
@@ -1265,6 +1265,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.result;
+        console.log(this.employeeList, 'det')
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
