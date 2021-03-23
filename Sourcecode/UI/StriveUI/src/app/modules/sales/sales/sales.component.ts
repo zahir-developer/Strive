@@ -304,6 +304,7 @@ export class SalesComponent implements OnInit {
       this.isTenTicketNumber = false;
     }
     if (this.multipleTicketNumber.length === 0) {
+      this.discountList = [];
       this.enableAdd = false;
     }
     this.getDetailByTicket(false);
