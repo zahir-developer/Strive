@@ -136,7 +136,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   formInitialize() {
     this.detailForm = this.fb.group({
-      client: ['',],
+      client: ['',Validators.required],
       vehicle: ['', Validators.required],
       type: ['',],
       barcode: ['',],
