@@ -64,10 +64,10 @@ export class DashboardComponent implements OnInit {
     this.firstSectionTogggle = false;
     this.secondSectionToggle = false;
     this.thirdSectionToggle = false;
+    this.locationId = +localStorage.getItem('empLocationId');
     this.fromDate = moment(new Date()).format();
     this.toDate = moment(new Date()).format();
     this.getLocationList();
-    this.locationId = localStorage.getItem('empLocationId');
     this.getDashboardStatistics(this.locationId);
   }
 
@@ -161,10 +161,10 @@ export class DashboardComponent implements OnInit {
   // Get All Location
   getLocationList() {
     const locationId = localStorage.getItem('empLocationId');
-    this.dashboardService.getAllLocationWashTime(locationId).subscribe(res => {
+    this.dashboardService.getLocation().subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
-        this.location = location.Washes;
+        this.location = location.Location;
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }

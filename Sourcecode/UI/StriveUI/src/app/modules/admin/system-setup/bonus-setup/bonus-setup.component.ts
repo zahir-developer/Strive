@@ -102,12 +102,17 @@ export class BonusSetupComponent implements OnInit {
         this.isValueObj = { isValueMax: false, index: i };
       }
     }
+
+    let washCount = '';
+    if (this.monthBonusList.length === 1) {
+      washCount = '0';
+    }
     this.monthBonusList.push({
       BonusRangeId: 0,
       BonusId: this.bonusId,
       Min: '',
       Max: '',
-      noOfWashes: '',
+      noOfWashes: washCount,
       BonusAmount: '',
       Total: '',
       IsActive: true,
