@@ -31,6 +31,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string ModelName { get; set; }
         public string ColorName { get; set; }
         public string PhoneNumber { get; set; }
-        public string Email { get; set }
+        public string Email { get; set; }
     }
 }
