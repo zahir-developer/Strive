@@ -1,7 +1,9 @@
 <div id="print-section">
     <div class="row">
         <div class="col-12">
-            <p>Client:</p>
+            
+            <p>Client: &nbsp;&nbsp; {{selectedData?.Details?.ClientName}}</p>
+
         </div>
     </div>
     <div class="row">
@@ -64,27 +66,29 @@
     
     <br/>
     <div class="row">
-        <div class="col-1"></div>
-        <div class="col-1">
-            Name:
+      
+        <div class="col-12">
+            <div> Name: &nbsp;  {{selectedData?.Details?.ClientName}}</div>
+        
         </div>
-        <div class=" col-8 border-bottom"></div>
+      
     </div>
     <br/>
     <div class="row">
-        <div class="col-1"></div>
-        <div class="col-1">
-            Phone:
+       
+        <div class="col-12">
+            <div> Phone: &nbsp; {{selectedData?.Details?.PhoneNumber}}</div>
         </div>
-        <div class=" col-8 border-bottom"></div>
+       
     </div>
     <br/>
     <div class="row">
-        <div class="col-1"></div>
-        <div class="col-1">
-            Email:
+      
+        <div class="col-12">
+            <div> Email: &nbsp; {{selectedData?.Details?.Email}}</div>
+       
         </div>
-        <div class=" col-8 border-bottom"></div>
+    
     </div>
     <br/>
     <br/>

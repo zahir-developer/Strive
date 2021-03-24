@@ -12,6 +12,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cash-register',
@@ -63,14 +64,16 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   storeStatus: any = '';
   storeTimeOut = '';
   submitted = false;
+  isTimechange: boolean;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService,
-    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
     this.locationId = localStorage.getItem('empLocationId');
     this.employeeId = localStorage.getItem('empId');
+    this.isTimechange = false;
     this.getDocumentType();
     this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
@@ -211,11 +214,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             });
           }, 1200);
           this.getTotalCash();
-        } 
-        
-        
+        }
         else {
-
           this.isUpdate = false;
           this.cashRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
@@ -334,7 +334,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     };
     let checkinTime = '';
     let checkoutTime = '';
-    if (this.isUpdate) {
+    if (this.isUpdate && !this.isTimechange) {
       const intime = this.storeTimeIn.split(':');
       const inhour = intime[0];
       const inminutes = intime[1];
@@ -342,9 +342,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       inTime.setHours(inhour);
       inTime.setMinutes(inminutes);
       inTime.setSeconds('00');
-      checkinTime = inTime;
+      checkinTime = this.datePipe.transform(inTime, 'MM/dd/yyyy HH:mm');
     } else {
-      checkinTime = this.storeTimeIn;
+      checkinTime = this.datePipe.transform(this.storeTimeIn, 'MM/dd/yyyy HH:mm');
       checkoutTime = this.storeTimeOut;
     }
     const cashregister = {
@@ -359,7 +359,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      storeTimeIn: checkinTime !== '' ? moment(checkinTime).format() : null,
+      storeTimeIn: checkinTime !== '' ? checkinTime : null,
       storeTimeOut: null,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
@@ -382,10 +382,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     this.registerService.saveCashRegister(formObj, 'CASHIN').subscribe(data => {
       this.submitted = false;
+      this.isTimechange = false;
       if (data.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
-
         this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
           if (response.status === 'Success') {
             this.spinner.hide();
@@ -523,6 +523,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   }
 
   inTime(event) {
+    this.isTimechange = true;
     const time = event.split(':');
     const hour = time[0];
     const minutes = time[1];

@@ -102,8 +102,10 @@ export class SalesComponent implements OnInit {
   multipleTicketNumber = [];
   isTenTicketNumber: boolean;
   serviceType: any = [];
+  locationId: number;
   ngOnInit(): void {
     this.isTenTicketNumber = false;
+    this.locationId = +localStorage.getItem('empLocationId');
     this.giftCardFromInit();
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
@@ -116,6 +118,7 @@ export class SalesComponent implements OnInit {
     this.getPaymentStatus();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
+
   }
 
   getServiceType() {
@@ -153,7 +156,7 @@ export class SalesComponent implements OnInit {
   }
 
   getAllServiceandProduct() {
-    const locID = +localStorage.getItem('empLocationId');
+    const locID = this.locationId;
     this.salesService.getServiceAndProduct(locID).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
@@ -214,7 +217,7 @@ export class SalesComponent implements OnInit {
   }
   getServiceForDiscount() {
     const serviceObj = {
-      locationId: +localStorage.getItem('empLocationId'),
+      locationId: this.locationId,
       pageNo: null,
       pageSize: null,
       query: null,
@@ -222,7 +225,7 @@ export class SalesComponent implements OnInit {
       sortBy: null,
       status: null
     };
-    this.service.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(data => {
+    this.service.getAllServiceDetail(this.locationId).subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         console.log(services, 'discount');
@@ -321,7 +324,7 @@ export class SalesComponent implements OnInit {
       const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
         : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
-        ticketNumber
+        ticketNumber: ticketNumber,
       };
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
@@ -332,7 +335,14 @@ export class SalesComponent implements OnInit {
         }
       });
       this.spinner.show();
-      this.salesService.getItemByTicketNumber(ticketNumber).subscribe(data => {
+
+      const salesObj = 
+      {
+        TicketNumber: ticketNumber,
+        LocationId: this.locationId
+      };
+
+      this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
           this.enableAdd = true;
@@ -353,7 +363,7 @@ export class SalesComponent implements OnInit {
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
               this.itemList.Status.SalesItemViewModel.map(item => {
                 if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
 
@@ -601,7 +611,7 @@ export class SalesComponent implements OnInit {
         job: {
           jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
           ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
-          locationId: +localStorage.getItem('empLocationId'),
+          locationId: this.locationId,
           clientId: null,
           vehicleId: null,
           make: 0,
@@ -954,7 +964,7 @@ export class SalesComponent implements OnInit {
       return {
         giftCardHistoryId: 1,
         giftCardId: item.id,
-        locationId: +localStorage.getItem('empLocationId'),
+        locationId: this.locationId,
         transactionType: 1,
         transactionAmount: -(+item.amount),
         transactionDate: new Date(),
@@ -1192,7 +1202,14 @@ export class SalesComponent implements OnInit {
   }
   rollBack() {
     if (this.multipleTicketNumber.length > 0) {
-      this.salesService.rollback(this.multipleTicketNumber.toString()).subscribe(data => {
+
+      const rollbackObj = 
+      {
+        TicketNumber: this.multipleTicketNumber.toString(),
+        LocationId: this.locationId
+      };
+
+      this.salesService.rollback(rollbackObj).subscribe(data => {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });

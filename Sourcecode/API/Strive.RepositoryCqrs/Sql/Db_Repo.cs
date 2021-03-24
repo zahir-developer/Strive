@@ -272,6 +272,7 @@ namespace Strive.RepositoryCqrs
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
             int primeId = 0;
+            int pkId = 0;
             using (var dbcon = new SqlConnection(cs).EnsureOpen())
             {
 
@@ -280,6 +281,7 @@ namespace Strive.RepositoryCqrs
                 bool primInsert = false;
                 bool isGeneric = false;
                 int insertId = 0;
+                int genericInsertId = 0;
                 using (var transaction = dbcon.BeginTransaction())
                 {
                     try
@@ -323,12 +325,13 @@ namespace Strive.RepositoryCqrs
                             {
                                 var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
                                 if (dynamicListObject.Count > 0)
-                                    insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+                                    genericInsertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
                                 isGeneric = false;
                             }
                             else
                             {
                                 insertId = (int)dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                pkId = Convert.ToInt32(insertId);
                             }
 
                             primeId = (!primInsert) ? insertId : primeId;
@@ -343,7 +346,7 @@ namespace Strive.RepositoryCqrs
                     transaction.Commit();
                 }
             }
-            return primeId;
+            return primeId > 0 ? primeId : pkId;
         }
 
 

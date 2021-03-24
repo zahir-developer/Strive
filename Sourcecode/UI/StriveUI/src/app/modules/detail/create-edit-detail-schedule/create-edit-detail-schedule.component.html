@@ -7,12 +7,10 @@
                         aria-hidden="true">&times;</span> </button>
             </div>
             <div class="modal-body">
-                <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false"
-                [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber"
-                (closeDialog)="closePopupEmitVehicle($event)">
-            </app-vehicle-create-edit>
+                <app-vehicle-create-edit *ngIf="showVehicleDialog" [selectedData]="[]" [isEdit]="false" [isView]="false" [clientId]="clientId" [isAdd]="true" [vehicleNumber]="vehicleNumber" (closeDialog)="closePopupEmitVehicle($event)">
+                </app-vehicle-create-edit>
             </div>
-          
+
         </div>
     </div>
 </div>
@@ -30,9 +28,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button"  data-dismiss="modal" class="btn theme-optional-button-color"
-                (click)="closePopupEmitClient()">Cancel</button>&nbsp;
-            <button type="button" class="btn theme-primary-button-color"  data-dismiss="modal" (click)="saveClient()">Save</button>
+                <button type="button" data-dismiss="modal" class="btn theme-optional-button-color" (click)="closePopupEmitClient()">Cancel</button>&nbsp;
+                <button type="button" class="btn theme-primary-button-color" data-dismiss="modal" (click)="saveClient()">Save</button>
             </div>
         </div>
     </div>
@@ -51,8 +48,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn theme-optional-button-color" data-dismiss="modal">No</button>
-                <button type="button" class="btn theme-primary-button-color" data-dismiss="modal"
-                    (click)="confirmDelete()">Yes</button>
+                <button type="button" class="btn theme-primary-button-color" data-dismiss="modal" (click)="confirmDelete()">Yes</button>
             </div>
         </div>
     </div>
@@ -64,8 +60,7 @@
             <form [formGroup]="detailForm">
                 <div class="form-row border-bottom m-b-8">
                     <div class="form-group col-xl-3">
-                        <h5 class="d-inline-block font-weight-600">Ticket No. <span
-                                style="color: #1dc5b3;">{{ticketNumber}}</span>
+                        <h5 class="d-inline-block font-weight-600">Ticket No. <span style="color: #1dc5b3;">{{ticketNumber}}</span>
                         </h5> <span class="font-size-1 font-weight-600"></span>
                     </div>
                     <div class="form-group col-xl-9">
@@ -77,22 +72,18 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-sm-1 text-right p-t-5"
-                                style="padding-right: 0px !important; padding-left: 0px !important;">
+                            <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>In Time:</label>
 
                             </div>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" name="inTime" id="inTime"
-                                    formControlName="inTime" />
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="inTime" id="inTime" formControlName="inTime" />
                             </div>
-                            <div class="col-sm-1 text-right p-t-5"
-                                style="padding-right: 0px !important; padding-left: 0px !important;">
+                            <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>Due Time:</label>
                             </div>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" name="dueTime" id="dueTime"
-                                    formControlName="dueTime" />
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="dueTime" id="dueTime" formControlName="dueTime" />
                             </div>
 
                         </div>
@@ -101,28 +92,26 @@
                 <div class="form-row border-bottom m-b-8">
                     <div class="form-group col-lg-2 col-md-2 col-xl-3">
                         <label for="inputBarcode">Barcode</label>
-                        <input type="text" maxlength="100" class="form-control" formControlName="barcode"
-                            placeholder="BarCode"
-                            (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
+                        <input type="text" maxlength="100" class="form-control" formControlName="barcode" placeholder="BarCode" (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="inputClient">Client</label>
+                        <label for="inputClient">Client<span class="required">*</span></label>
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="clientList"
-                                        (completeMethod)="filterClient($event)" [size]="10" formControlName="client"
-                                        placeholder="Client Name" (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
+                                    <p-autoComplete field="name" [suggestions]="clientList" [ngClass]="{ 'is-invalid': submitted && f.client.errors }" (completeMethod)="filterClient($event)" [size]="10" formControlName="client" placeholder="Client Name" (onSelect)="selectedClient($event)"
+                                        (onKeyUp)="onKeyUp($event)">
                                     </p-autoComplete>
+                                    <div *ngIf="submitted && f.client.errors" class="invalid-feedback">
+                                        <div *ngIf="f.client.errors?.required">Client is required</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputVehicle">Vehicle<span class="required">*</span></label>
-                        <select class="form-control" formControlName="vehicle"
-                            [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }"
-                            (change)="vehicleChange($event.target.value)">
+                        <select class="form-control" formControlName="vehicle" [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }" (change)="vehicleChange($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
                                 {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
@@ -134,14 +123,10 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-4 col-xl-3 m-t-31 p-l-0 p-r-0">
                         <div class="pull-right">
-                            <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="getByBarcode(detailForm.value.barcode)"
-                                [disabled]="isView">Select</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color btn-responsive" (click)="getByBarcode(detailForm.value.barcode)" [disabled]="isView">Select</button>&nbsp;
 
-                            <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addClient()" data-toggle="modal" data-target="#clientModal" [disabled]="isView">Add Client</button>&nbsp;
-                            <button type="button" class="btn theme-primary-button-color btn-responsive"
-                                (click)="addVehicle()" data-toggle="modal" data-target="#vehicleModal" [disabled]="isView || clientId === undefined">Add
+                            <button type="button" class="btn theme-primary-button-color btn-responsive" (click)="addClient()" data-toggle="modal" data-target="#clientModal" [disabled]="isView">Add Client</button>&nbsp;
+                            <button type="button" class="btn theme-primary-button-color btn-responsive" (click)="addVehicle()" data-toggle="modal" data-target="#vehicleModal" [disabled]="isView || clientId === undefined">Add
                                 Vehicle</button>
                         </div>
                     </div>
@@ -153,9 +138,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredMake"
-                                        (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10"
-                                        formControlName="type" placeholder="Make">
+                                    <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10" formControlName="type" placeholder="Make">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -167,9 +150,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredModel"
-                                        (onBlur)="checkValue('model')" (completeMethod)="filterModel($event)"
-                                        [size]="10" formControlName="model" placeholder="Model">
+                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')" (completeMethod)="filterModel($event)" [size]="10" formControlName="model" placeholder="Model">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -181,9 +162,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredcolor"
-                                        (onBlur)="checkValue('color')" (completeMethod)="filterColor($event)"
-                                        [size]="10" formControlName="color" placeholder="Color">
+                                    <p-autoComplete field="name" [suggestions]="filteredcolor" (onBlur)="checkValue('color')" (completeMethod)="filterColor($event)" [size]="10" formControlName="color" placeholder="Color">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -191,9 +170,7 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputWashes">Details<span class="required">*</span></label>
-                        <select class="form-control" formControlName="washes"
-                            [ngClass]="{ 'is-invalid': submitted && f.washes.errors }"
-                            (change)="washService($event.target.value)">
+                        <select class="form-control" formControlName="washes" [ngClass]="{ 'is-invalid': submitted && f.washes.errors }" (change)="washService($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of details" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
@@ -207,8 +184,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputUpchargeType">Upcharge Type</label>
-                        <select class="form-control" formControlName="upchargeType"
-                            (change)="upchargeService($event.target.value)">
+                        <select class="form-control" formControlName="upchargeType" (change)="upchargeService($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
@@ -217,8 +193,7 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputUpcharges">Upcharges</label>
-                        <select class="form-control" formControlName="upcharges"
-                            (change)="upchargeService($event.target.value)">
+                        <select class="form-control" formControlName="upcharges" (change)="upchargeService($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
                                 {{score.Upcharges}}
@@ -227,8 +202,7 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputAirFreshners">Air Freshners</label>
-                        <select class="form-control" formControlName="airFreshners"
-                            (change)="airService($event.target.value)">
+                        <select class="form-control" formControlName="airFreshners" (change)="airService($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of airFreshner" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
@@ -237,8 +211,7 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label>Outside Service</label>
-                        <select class="form-control" formControlName="outsideServie"
-                            (change)="outSideService($event.target.value)">
+                        <select class="form-control" formControlName="outsideServie" (change)="outSideService($event.target.value)">
                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of outsideServices" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
@@ -257,11 +230,8 @@
                         <div class="row">
                             <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
-                                    <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                                        (change)="change(addService)" [checked]="addService.IsChecked"
-                                        [disabled]="isView" />
-                                    <label class="custom-control-label"
-                                        for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+                                    <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}" (change)="change(addService)" [checked]="addService.IsChecked" [disabled]="isView" />
+                                    <label class="custom-control-label" for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                                 </div>
                             </div>
                         </div>
@@ -273,8 +243,7 @@
                             <h5 class="d-inline-block font-weight-600">Notes</h5>
                         </div>
                         <div>
-                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" [disabled]="isView" name="note"
-                                [(ngModel)]="note" rows="8"></textarea>
+                            <textarea class="form-control m-t-5 m-b-5 notes-textarea" [disabled]="isView" name="note" [(ngModel)]="note" rows="8"></textarea>
                         </div>
                     </div>
 
@@ -295,13 +264,10 @@
             </div>
             <div class="m-t-12 row">
                 <div class="col-sm-8">
-                    <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="!isEdit"
-                        (click)="printCustomerCopy()">Customer
+                    <button type="button" class="btn theme-primary-button-color m-r-5" [disabled]="!isEdit" (click)="printCustomerCopy()">Customer
                         Copy</button>
-                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="print()"
-                        [disabled]="!isEdit">Vehicle Copy</button>
-                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes"
-                        (click)="pastNotes()">View Past Client Notes</button>
+                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="print()" [disabled]="!isEdit">Vehicle Copy</button>
+                    <button type="button" class="btn theme-primary-button-color" [disabled]="!isViewPastNotes" (click)="pastNotes()">View Past Client Notes</button>
                 </div>
                 <div class="col-sm-4">
                     <div class="row">
@@ -330,18 +296,11 @@
         <app-print-customer-copy *ngIf="isEdit" [selectedData]="selectedData"></app-print-customer-copy>
     </div>
 </div>
-<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body"
-    [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000"
-    appendTo="body">
-    <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)" [isView]="isView"
-        (closeAssignModel)="closeAssignModel()" [details]="detailItems"
-        [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList"
-        (cancelAssignModel)="cancelAssignModel()"></app-assign-detail>
+<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
+    <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)" [isView]="isView" (closeAssignModel)="closeAssignModel()" [details]="detailItems" [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList" (cancelAssignModel)="cancelAssignModel()"></app-assign-detail>
 </p-dialog>
 
-<p-dialog [(visible)]="viewNotesDialog" header="Past Notes" [blockScroll]="true" [resizable]="true" appendTo="body"
-    [modal]="true" [focusOnShow]="false" [closable]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
-    appendTo="body">
+<p-dialog [(visible)]="viewNotesDialog" header="Past Notes" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
     <app-view-past-notes *ngIf="viewNotesDialog" [viewNotes]="viewNotes"></app-view-past-notes>
 </p-dialog>
 
@@ -360,5 +319,3 @@
     [focusOnShow]="false" [closable]="false">
   
 </p-dialog> -->
-
-

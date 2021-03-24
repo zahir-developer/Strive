@@ -112,7 +112,7 @@ export const ApplicationConfig = {
         ServiceType:
         {
             WashPackage: 'Wash Package',
-            AdditonalServices: 'Additonal Services',
+            AdditonalServices: 'Additional Services',
             ServiceDiscounts: 'Service Discounts',
             OutsideServices: 'Outside Services',
             WashUpcharge: 'Wash-Upcharge',

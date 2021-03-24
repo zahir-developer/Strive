@@ -10,8 +10,8 @@ import { HttpParams } from '@angular/common/http';
 export class SalesService {
 
   constructor(private http: HttpUtilsService) { }
-  getItemByTicketNumber(ticketNo): Observable<any> {
-   return this.http.get(`${UrlConfig.sales.getItemByTicketNumber}`, {params: {ticketNumber: ticketNo}});
+  getItemByTicketNumber(salesObj) {
+   return this.http.post(`${UrlConfig.sales.getItemByTicketNumber}`, salesObj);
  }
  deleteItemById(deleteItem){
   return this.http.delete(`${UrlConfig.sales.deleteItemById}`, {params: {ItemId: deleteItem.ItemId, isJobItem: deleteItem.IsJobItem}});
@@ -39,8 +39,8 @@ export class SalesService {
  deleteJob(ticketNo) {
   return this.http.delete(`${UrlConfig.sales.deleteJob}`, {params: {TicketNumber: ticketNo}});
  }
- rollback(ticketNo) {
-  return this.http.delete(`${UrlConfig.sales.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
+ rollback(rollBack) {
+  return this.http.post(`${UrlConfig.sales.rollbackTransaction}`, rollBack);
  }
  getServiceAndProduct(locID) {
   return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locID);

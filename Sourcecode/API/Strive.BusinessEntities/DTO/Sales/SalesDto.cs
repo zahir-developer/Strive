@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO.Sales
 {
-    public class SalesItemDeleteDto
+    public class SalesDto
     {
-        public string TicketNumber { get; set; }
-
         public int LocationId { get; set; }
+
+        public string TicketNumber { get; set; }
     }
 }

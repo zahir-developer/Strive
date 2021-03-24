@@ -78,15 +78,15 @@ export const MessageConfig = {
       Process: 'PayRoll Processed successfully !',
    },
    Messenger: {
-      empselect: 'Please select the employees'
+      empselect: 'Please select am employee'
    },
    checkOut:
    {
-      Add: 'CheckOut  successfully !',
-      Hold: 'Hold  successfully !',
-      Complete: 'Completed  successfully !',
-      checkoutRestriction: 'Checkout should allow only completed tickets',
-      paidTicket: 'Checkout can be done only for paid tickets.'
+      Add: 'CheckOut action successfully !',
+      Hold: 'Hold action successfully !',
+      Complete: 'Completed successfully !',
+      checkoutRestriction: 'Checkout allowed only for completed tickets',
+      unPaidTicket: 'Checkout can be done only for paid tickets.'
    },
    Admin: {
       TimeClock:

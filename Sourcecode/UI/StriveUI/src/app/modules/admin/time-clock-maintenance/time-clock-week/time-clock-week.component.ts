@@ -123,7 +123,7 @@ export class TimeClockWeekComponent implements OnInit {
           this.totalHoursCalculation();
         }
       }
-      else{
+      else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
         this.spinner.hide();
@@ -231,19 +231,19 @@ export class TimeClockWeekComponent implements OnInit {
       }
     });
     if (replication) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.sameDay ,'Warning!');
+      this.toastr.warning(MessageConfig.Admin.TimeClock.sameDay, 'Warning!');
       return;
     }
     if (checkIn.length !== 0) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHour ,'Warning!');
+      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHour, 'Warning!');
 
       return;
     } else if (negativeHrs.length !== 0) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHourNegative ,'Warning!');
+      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHourNegative, 'Warning!');
 
       return;
     }
- const weekDetailObj = [];
+    const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
         const inEventDate = new Date(time.EventDate);
@@ -258,14 +258,16 @@ export class TimeClockWeekComponent implements OnInit {
         inEventDate.setMinutes(inTimeMins);
         outEventDate.setHours(outTimeHours);
         outEventDate.setMinutes(outTimeMins);
+        const inTimeFormat = this.datePipe.transform(inEventDate, 'MM/dd/yyyy HH:mm');
+        const outTimeFormat = this.datePipe.transform(outEventDate, 'MM/dd/yyyy HH:mm');
         weekDetailObj.push({
           timeClockId: time.TimeClockId,
           employeeId: time.employeeId,
           locationId: time.locationId,
           roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
           eventDate: time.EventDate,
-          inTime: time.InTime ? moment(inEventDate).format() : '', 
-          outTime: time.OutTime ? moment(outEventDate).format() : '', 
+          inTime: time.InTime ? inTimeFormat : '',
+          outTime: time.OutTime ? outTimeFormat : '',
           eventType: null,
           updatedFrom: '',
           status: true,
@@ -276,14 +278,14 @@ export class TimeClockWeekComponent implements OnInit {
       });
     });
     const finalObj = {
-      timeClock:{timeClock:weekDetailObj} ,
-      TimeClockWeekDetailDto : {
+      timeClock: { timeClock: weekDetailObj },
+      TimeClockWeekDetailDto: {
 
-        employeeId : this.empClockInObj.employeeID,
-        locationId : this.empClockInObj.locationId,
-       startDate : this.datePipe.transform(this.empClockInObj.startDate, 'yyyy-MM-dd'),
-       endDate : this.datePipe.transform(this.empClockInObj.endDate, 'yyyy-MM-dd'),
-       employeeName : this.empClockInObj.firstName + ' ' + this.empClockInObj.lastName
+        employeeId: this.empClockInObj.employeeID,
+        locationId: this.empClockInObj.locationId,
+        startDate: this.datePipe.transform(this.empClockInObj.startDate, 'yyyy-MM-dd'),
+        endDate: this.datePipe.transform(this.empClockInObj.endDate, 'yyyy-MM-dd'),
+        employeeName: this.empClockInObj.firstName + ' ' + this.empClockInObj.lastName
       }
     };
     this.spinner.show();
@@ -294,7 +296,7 @@ export class TimeClockWeekComponent implements OnInit {
         this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.backToTimeClockPage();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -306,7 +308,7 @@ export class TimeClockWeekComponent implements OnInit {
   }
 
   inTime(event, currentTime) {
- if (currentTime.OutTime !== "") {
+    if (currentTime.OutTime !== "") {
 
       const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime;
       const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime;
@@ -436,6 +438,6 @@ export class TimeClockWeekComponent implements OnInit {
 
   }
 
- 
+
 
 }

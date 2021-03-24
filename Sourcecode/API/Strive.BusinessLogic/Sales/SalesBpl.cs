@@ -70,9 +70,9 @@ namespace Strive.BusinessLogic.Sales
             return ResultWrap(new SalesRal(_tenant).GetAccountDetails, salesAccountDto, "Account");
         }
 
-        public Result GetScheduleByTicketNumber(string ticketNumber)
+        public Result GetScheduleByTicketNumber(SalesDto salesDto)
         {
-            return ResultWrap(new SalesRal(_tenant).GetScheduleByTicketNumber, ticketNumber, "Status");
+            return ResultWrap(new SalesRal(_tenant).GetScheduleByTicketNumber, salesDto, "Status");
         }
         public Result AddPayment(SalesPaymentDetailDto salesPayment)
         {
