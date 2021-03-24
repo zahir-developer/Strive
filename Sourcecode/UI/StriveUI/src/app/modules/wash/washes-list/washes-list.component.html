@@ -16,29 +16,27 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="p-b-10">
-                                    <div class="search-container ">
+                                    <div class="search-container">
                                         <form>
-                                          <div class="form-row ">
-                                            <div class="form-row ">
-                                              <h4 class="d-inline-block  m-b-5">Washes - &nbsp;</h4>
-                                              <div class="input-icon-right date-pick m-r-320">
-                                                <i class="mdi mdi-calendar-range"></i>
-                                                
-                                                <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control" 
-                                                [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
-                                                 [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : false}">
-                                              </div>
+                                            <div class="form-row">
+                                                <div class="form-row ">
+                                                    <h4 class="d-inline-block m-l-12 m-b-5 m-t-3">Washes&nbsp;</h4>
+                                                    <div class="input-icon-right date-pick m-r-320">
+                                                        <i class="mdi mdi-calendar-range"></i>
 
+                                                        <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control" [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)" [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : false}">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-4"></div>
+                                                <div class="form-group d-flex">
+                                                    <input type="search" class="form-control" size="25" [(ngModel)]="search" name="search" id="inputSearchbyName" placeholder="Search" (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
+                                                <div class="form-group col-sm m-l-5">
+                                                    <button type="button" class="btn theme-primary-button-color  btn-sm" (click)="getAllWashDetails()">Search</button>
+                                                </div>
+                                                <div class=" card-widgets"><button type="button" class="btn theme-primary-button-color btn-sm" (click)="add('add',[])">Add New Wash</button>
+                                                </div>
                                             </div>
-                                            <div class="col-4"></div>
-                                            <div class="form-group d-flex">
-                                              <input type="search" class="form-control" size="25" [(ngModel)]="search" name="search" id="inputSearchbyName" placeholder="Search" (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
-                                            <div class="form-group col-sm m-l-5">
-                                              <button type="button" class="btn theme-primary-button-color  btn-sm" (click)="getAllWashDetails()">Search</button>
-                                            </div>
-                                            <div class=" card-widgets"><button type="button" class="btn theme-primary-button-color btn-sm" (click)="add('add',[])">Add New Wash</button>
-                                            </div>
-                                          </div>
                                         </form>
                                     </div>
                                 </div>
@@ -54,8 +52,8 @@
                                                         <i class="fa" [ngClass]="selectedCls('TicketNumber')" aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer" (click)="changeSorting('FirstName')">Client Name&nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('FirstName')" aria-hidden="true"></i> </th>
-                                                    <th scope="col" >
-                                                        Make/Model/  Color </th>
+                                                    <th scope="col">
+                                                        Make/Model/ Color </th>
                                                     <th scope="col" class="pointer" (click)="changeSorting('TimeIn')">Time In&nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('TimeIn')" aria-hidden="true"></i> </th>
                                                     <th scope="col" class="pointer" (click)="changeSorting('EstimatedTimeOut')">Est. Time Out&nbsp;<i class="fa" [ngClass]="selectedCls('EstimatedTimeOut')" aria-hidden="true"></i> </th>
@@ -65,12 +63,12 @@
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
-                                          
+
                                             <tr colspan="11" class="text-center" *ngIf="isTableEmpty === true">
                                                 <td colspan="9" class="text-center">
-                                                No Records Found
-                                            </td>
-                                        </tr>
+                                                    No Records Found
+                                                </td>
+                                            </tr>
                                             <tbody class="bodyfix" *ngIf="isTableEmpty === false">
                                                 <tr *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
