@@ -10,8 +10,8 @@ import { HttpParams } from '@angular/common/http';
 export class SalesService {
 
   constructor(private http: HttpUtilsService) { }
-  getItemByTicketNumber(ticketNo): Observable<any> {
-   return this.http.get(`${UrlConfig.sales.getItemByTicketNumber}`, {params: {ticketNumber: ticketNo}});
+  getItemByTicketNumber(salesObj) {
+   return this.http.post(`${UrlConfig.sales.getItemByTicketNumber}`, salesObj);
  }
  deleteItemById(deleteItem){
   return this.http.delete(`${UrlConfig.sales.deleteItemById}`, {params: {ItemId: deleteItem.ItemId, isJobItem: deleteItem.IsJobItem}});

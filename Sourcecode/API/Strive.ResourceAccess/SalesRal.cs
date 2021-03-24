@@ -60,14 +60,10 @@ namespace Strive.ResourceAccess
 
         }
        
-        public string GetTicketNumber()
+        public SalesItemListViewModel GetScheduleByTicketNumber(SalesDto salesDto)
         {
-            return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
-
-        }
-        public SalesItemListViewModel GetScheduleByTicketNumber(string ticketNumber)
-        {
-            _prm.Add("@TicketNumber", ticketNumber);
+            _prm.Add("@TicketNumber", salesDto.TicketNumber);
+            _prm.Add("@LocationId", salesDto.LocationId);
             return db.FetchMultiResult<SalesItemListViewModel>(EnumSP.Sales.uspGetItemListByTicketNumber.ToString(), _prm);
 
         }
