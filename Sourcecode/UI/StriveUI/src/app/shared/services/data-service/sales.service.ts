@@ -39,8 +39,8 @@ export class SalesService {
  deleteJob(ticketNo) {
   return this.http.delete(`${UrlConfig.sales.deleteJob}`, {params: {TicketNumber: ticketNo}});
  }
- rollback(ticketNo) {
-  return this.http.delete(`${UrlConfig.sales.rollbackTransaction}`, {params: {TicketNumber: ticketNo}});
+ rollback(rollBack) {
+  return this.http.post(`${UrlConfig.sales.rollbackTransaction}`, rollBack);
  }
  getServiceAndProduct(locID) {
   return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locID);
