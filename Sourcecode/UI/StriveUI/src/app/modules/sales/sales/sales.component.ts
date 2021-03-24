@@ -363,7 +363,7 @@ export class SalesComponent implements OnInit {
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.Discounts);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
               this.itemList.Status.SalesItemViewModel.map(item => {
                 if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
 
