@@ -53,11 +53,13 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   storeTimeOut = '';
   drawerId: any;
   submitted = false;
+  isTimechange: boolean;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
 
   ngOnInit() {
+    this.isTimechange = false;
     this.getDocumentType();
     this.getStoreStatusList();
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
@@ -281,7 +283,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedDate: new Date(),
     }
     let checkoutTime = '';
-    if (this.isUpdate) {
+    if (this.isUpdate && !this.isTimechange) {
       const time = this.storeTimeOut.split(':');
       const hour = time[0];
       const minutes = time[1];
@@ -289,7 +291,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       inTime.setHours(hour);
       inTime.setMinutes(minutes);
       inTime.setSeconds('00');
-      checkoutTime = inTime;
+      checkoutTime = this.datePipe.transform(inTime, 'MM/dd/yyyy HH:mm');
     } else {
       checkoutTime = this.datePipe.transform(this.storeTimeOut, 'MM/dd/yyyy HH:mm');
     }
@@ -306,7 +308,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
-      storeTimeOut: moment(checkoutTime).format(),
+      storeTimeOut: checkoutTime,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
     const formObj = {
@@ -476,6 +478,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   }
 
   outTime(event) {
+    this.isTimechange = true;
     const time = event.split(':');
     const hour = time[0];
     const minutes = time[1];
