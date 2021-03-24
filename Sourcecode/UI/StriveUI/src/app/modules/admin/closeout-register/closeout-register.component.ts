@@ -8,6 +8,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-closeout-register',
@@ -54,7 +55,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   submitted = false;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
-    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.getDocumentType();
@@ -290,7 +291,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       inTime.setSeconds('00');
       checkoutTime = inTime;
     } else {
-      checkoutTime = this.storeTimeOut;
+      checkoutTime = this.datePipe.transform(this.storeTimeOut, 'MM/dd/yyyy HH:mm');
     }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,

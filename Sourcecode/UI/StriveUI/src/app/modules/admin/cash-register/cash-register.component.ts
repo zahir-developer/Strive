@@ -12,6 +12,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cash-register',
@@ -65,7 +66,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   submitted = false;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService,
-    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
@@ -211,11 +212,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             });
           }, 1200);
           this.getTotalCash();
-        } 
-        
-        
+        }
         else {
-
           this.isUpdate = false;
           this.cashRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
@@ -344,7 +342,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       inTime.setSeconds('00');
       checkinTime = inTime;
     } else {
-      checkinTime = this.storeTimeIn;
+      checkinTime = this.datePipe.transform(this.storeTimeIn, 'MM/dd/yyyy HH:mm');
       checkoutTime = this.storeTimeOut;
     }
     const cashregister = {
