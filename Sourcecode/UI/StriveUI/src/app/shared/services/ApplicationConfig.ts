@@ -121,6 +121,7 @@ export const ApplicationConfig = {
             AirFresheners: 'Air Fresheners',
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
+            DetailPackage: 'Detail Package'
         },
     },
 

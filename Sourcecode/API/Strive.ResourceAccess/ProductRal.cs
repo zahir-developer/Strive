@@ -18,9 +18,9 @@ namespace Strive.ResourceAccess
     {
         public ProductRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddProduct(Product product)
+        public int AddProduct(ProductsDto product)
         {
-            return dbRepo.Insert(product);
+            return dbRepo.InsertPK(product,"ProductId");
         }
 
         public bool UpdateProduct(Product product)
@@ -36,7 +36,7 @@ namespace Strive.ResourceAccess
         public ProductDetailViewModel GetProductById(int? productId)
         {
             _prm.Add("@ProductId", productId);
-            return db.FetchSingle<ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
+            return db.FetchSingle<ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTBYID.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)

@@ -307,6 +307,7 @@ export class SalesComponent implements OnInit {
       this.isTenTicketNumber = false;
     }
     if (this.multipleTicketNumber.length === 0) {
+      this.discountList = [];
       this.enableAdd = false;
     }
     this.getDetailByTicket(false);
@@ -812,7 +813,7 @@ export class SalesComponent implements OnInit {
               washDiscountPrice = washDiscountPrice + (washCost * item.Price / 100);
               item.Price = (washCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Details') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage) {
             this.details.forEach(detail => {
               detailCost = detailCost + detail.Price;
             });

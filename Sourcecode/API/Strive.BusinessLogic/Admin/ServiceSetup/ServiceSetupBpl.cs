@@ -12,7 +12,7 @@ namespace Strive.BusinessLogic.ServiceSetup
         public ServiceSetupBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
 
-        public Result AddService(Service service)
+        public Result AddService(ServiceDto service)
         {
             return ResultWrap(new ServiceSetupRal(_tenant).AddService, service, "Status");
         }

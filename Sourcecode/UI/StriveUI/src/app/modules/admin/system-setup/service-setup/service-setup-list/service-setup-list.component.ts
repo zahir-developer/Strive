@@ -87,6 +87,7 @@ export class ServiceSetupListComponent implements OnInit {
       }
     }, (err) => {
       this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   paginate(event) {
@@ -122,6 +123,7 @@ export class ServiceSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.isLoading = false;
     });
   }
@@ -142,6 +144,7 @@ export class ServiceSetupListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
+    this.spinner.show();
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
@@ -155,7 +158,10 @@ export class ServiceSetupListComponent implements OnInit {
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    },(err) => {
+      this.spinner.hide();
+       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+           });
   }
 
   changeSorting(column) {

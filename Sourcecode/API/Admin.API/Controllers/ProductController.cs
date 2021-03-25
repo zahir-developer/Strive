@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Product;
 using Strive.BusinessLogic;
 using Strive.Common;
 using System;
@@ -22,7 +23,7 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public Result Add([FromBody] Product product) => _bplManager.AddProduct(product);
+        public Result Add([FromBody] ProductAddDto product) => _bplManager.AddProduct(product);
 
 
         [HttpPost]

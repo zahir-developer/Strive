@@ -128,7 +128,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isCompleted = false;
     this.formInitialize();
     this.getJobStatus();
-     this.getEmployeeList();
+    this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
     this.getJobType();
@@ -136,7 +136,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   formInitialize() {
     this.detailForm = this.fb.group({
-      client: ['', Validators.required],
+      client: ['',Validators.required],
       vehicle: ['', Validators.required],
       type: ['',],
       barcode: ['',],
@@ -159,10 +159,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getTicketNumber() {
     if (!this.isEdit) {
       this.wash.getTicketNumber().subscribe(item => {
-        if(item){
+        if (item) {
           this.ticketNumber = item;
         }
-        else{
+        else {
           this.toastr.error(MessageConfig.TicketNumber, 'Error!');
 
         }
@@ -396,11 +396,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
     if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
-      this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
-      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
-      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
-      this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
+      this.detailId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)[0]?.CodeId;
+      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0]?.CodeId;
+      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0]?.CodeId;
+      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
+      this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices)[0]?.CodeId;
       this.getAllServices();
     }
 
@@ -443,7 +443,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-    
+
   }
 
   getWashById() {
@@ -571,7 +571,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.target.value === '') {
-      this.detailForm.patchValue({ vehicle: '' , barcode: '' , type: '', model: '', color: '' });
+      this.detailForm.patchValue({ vehicle: '', barcode: '', type: '', model: '', color: '' });
     }
   }
 
@@ -688,9 +688,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   // Get Vehicle By ClientId
@@ -710,9 +710,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   start() {
@@ -771,10 +771,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.spinner.hide();
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   completed() {
@@ -845,7 +845,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     if (!this.ticketNumber) {
       this.toastr.error(MessageConfig.TicketNumber, 'Error!');
-  return;
+      return;
 
     }
     this.detailForm.controls.inTime.enable();
@@ -958,8 +958,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
-        if (res.status === 'Success') {   
-             this.spinner.hide();
+        if (res.status === 'Success') {
+          this.spinner.hide();
 
           this.toastr.success(MessageConfig.Detail.Update, 'Success!');
           this.detailForm.controls.inTime.disable();
@@ -1046,15 +1046,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   confirmDelete() {
     this.spinner.show();
     this.detailService.deleteDetail(this.selectedData.Details.JobId).subscribe(res => {
-        // need to change
-        if (res.status === 'Success') {
-          this.spinner.hide();
+      // need to change
+      if (res.status === 'Success') {
+        this.spinner.hide();
 
         this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.refreshDetailGrid.emit();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -1211,29 +1211,30 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
         const clientDetail = JSON.parse(res.resultData);
         const selectedclient = clientDetail.Status[0];
-        this.selectclient= 
-    { id: selectedclient.ClientId,
-       name:selectedclient.FirstName + ' ' + selectedclient.LastName
-      }
-       
-       this.detailForm.patchValue({
-     
-      client: this.selectclient
-  
-     })
-     
-    this.selectedClient(this.selectclient)
-       
-    
-   } 
-   else{
-    this.spinner.hide();
+        this.selectclient =
+        {
+          id: selectedclient.ClientId,
+          name: selectedclient.FirstName + ' ' + selectedclient.LastName
+        }
 
-   }
+        this.detailForm.patchValue({
+
+          client: this.selectclient
+
+        })
+
+        this.selectedClient(this.selectclient)
+
+
+      }
+      else {
+        this.spinner.hide();
+
+      }
     }, (err) => {
       this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    }) 
+    })
   }
   assignEmployee() {
     this.showDialog = true;
@@ -1254,11 +1255,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    const  timeclock = {
-        date : this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss '),
-        LocationId :   +localStorage.getItem('empLocationId')   
+    const timeclock = {
+      date: this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss '),
+      LocationId: +localStorage.getItem('empLocationId')
     }
-      this.detailService.getClockedInDetailer(timeclock).subscribe(res => {
+    this.detailService.getClockedInDetailer(timeclock).subscribe(res => {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.result;
