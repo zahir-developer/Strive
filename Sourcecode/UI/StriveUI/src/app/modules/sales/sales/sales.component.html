@@ -21,20 +21,22 @@
                                             style="padding-top: 1.5%;">Ticket #</label>
                                         <div class="col-sm-10">
                                             <div>
+                                                <form (ngSubmit)="addTicketNumber()">
                                                 <input type="text" maxlength="9" id="ticketNumber"
-                                                    (focus)="quantityFocus($event)" *ngIf="isSelected"
+                                                    (focus)="quantityFocus($event)" *ngIf="isSelected" name ="ticketNumber"
                                                     class="form-control inputSize  d-inline-block w-23 align-middle"
-                                                    [(ngModel)]="ticketNumber" (keypress)="allowNumbersOnly($event)"
+                                                    [(ngModel)]="ticketNumber" (keyenter) = "addTicketNumber()" (keypress)="allowNumbersOnly($event)"
                                                     (clear)="clearpaymentField()">&nbsp;
                                                 <span class="p-r-71" *ngIf="!isSelected">{{newTicketNumber}}</span>
-                                                <button type="button" class="btn theme-primary-button-color"
+                                                <button type="submit" class="btn theme-primary-button-color"
                                                     (click)="addTicketNumber()"
                                                     [disabled]="(ticketNumber === '' || ticketNumber === undefined) || isTenTicketNumber"><i
                                                         class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;
+                                           
                                                 <button type="button" [disabled]="(ticketNumber !== '')"
                                                     class="btn theme-primary-button-color "
                                                     (click)="getTicketNumber();">New</button>&nbsp;
-
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
