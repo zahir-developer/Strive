@@ -102,8 +102,8 @@
                                     <p-autoComplete field="name" [suggestions]="clientList" [ngClass]="{ 'is-invalid': submitted && f.client.errors }" (completeMethod)="filterClient($event)" [size]="10" formControlName="client" placeholder="Client Name" (onSelect)="selectedClient($event)"
                                         (onKeyUp)="onKeyUp($event)">
                                     </p-autoComplete>
-                                    <div *ngIf="submitted && f.client.errors" class="invalid-feedback">
-                                        <div *ngIf="f.client.errors?.required">Client is required</div>
+                                    <div *ngIf="submitted && f.client.errors">
+                                        <div *ngIf="f.client.errors.required" style="color: #dc3545;font-size: 80%;margin-top: .25rem;">Client Name is required</div>
                                     </div>
                                 </div>
                             </div>
