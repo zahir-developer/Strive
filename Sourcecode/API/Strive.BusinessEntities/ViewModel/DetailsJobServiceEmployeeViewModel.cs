@@ -16,8 +16,6 @@ namespace Strive.BusinessEntities.ViewModel
         public int? EmployeeId { get; set; }
         public decimal? CommissionAmount { get; set; }
         public string EmployeeName { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
 
     }
 }
