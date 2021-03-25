@@ -237,7 +237,7 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isAdditional = false;
       }
-      if (type === 'Details') {
+      if (type === ApplicationConfig.Enum.ServiceType.DetailPackage) {
         this.isDetails = true;
       } else {
         this.isDetails = false;
