@@ -152,11 +152,9 @@ namespace Strive.ResourceAccess
 
         }
 
-        public List<EmailListViewModel> GetEmailIdByRole()//(int locationId, string roles)
+        public List<EmailListViewModel> GetEmailIdByRole()
         {
-        //    _prm.Add("@LocationId", locationId);
-
-        //    _prm.Add("@Roles", roles);
+    
 
             return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
 
