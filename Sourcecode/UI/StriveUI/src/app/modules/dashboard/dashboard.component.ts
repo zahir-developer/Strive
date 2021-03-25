@@ -160,10 +160,11 @@ export class DashboardComponent implements OnInit {
 
   // Get All Location
   getLocationList() {
-    this.dashboardService.getLocation().subscribe(res => {
+    const locID = 0;
+    this.dashboardService.getAllLocationWashTime(locID).subscribe(res => {
             if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
-        this.location = location.Location;
+        this.location = location.Washes;
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
