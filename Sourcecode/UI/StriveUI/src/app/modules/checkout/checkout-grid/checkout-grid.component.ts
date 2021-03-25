@@ -41,7 +41,7 @@ export class CheckoutGridComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
 
     this.startDate = new Date();
     this.endDate = new Date();
@@ -114,133 +114,151 @@ export class CheckoutGridComponent implements OnInit {
     this.getAllUncheckedVehicleDetails();
   }
   changeSorting(column) {
-    this.sortColumn ={
-     sortBy: column,
-     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
 
     this.selectedCls(this.sortColumn)
-   this.getAllUncheckedVehicleDetails();
- }
+    this.getAllUncheckedVehicleDetails();
+  }
 
- 
 
- selectedCls(column) {
-   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-     return 'fa-sort-desc';
-   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-     return 'fa-sort-asc';
-   }
-   return '';
- }
- statusConfirmation(data,checkout) {
-  this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' +data, 'Yes', 'No')
-    .then((confirmed) => {
-      if (confirmed === true && data === 'Check Out') {
-        
-        this.checkoutVehicle(checkout);
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+  statusConfirmation(data, checkout) {
+
+    if (data === 'Check Out') {
+      this.checkoutVehicle(data, checkout);
+    }
+    else if (data === 'Hold') {
+      this.hold(data, checkout);
+    }
+    else if (data === 'Complete') {
+      this.complete(data, checkout);
+    }
+
+  }
+
+  // Delete Product
+
+  checkoutVehicle(data, checkout) {
+
+    if (checkout.valuedesc === 'Completed') {
+
+      if (checkout.MembershipNameOrPaymentStatus == 'Paid') {
+
+        this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
+          .then((confirmed) => {
+            const finalObj = {
+              id: checkout.JobId,
+              checkOut: true,
+              actualTimeOut: new Date()
+            };
+            this.spinner.show();
+            this.checkout.checkoutVehicle(finalObj).subscribe(res => {
+              if (res.status === 'Success') {
+                this.spinner.hide();
+
+                this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
+                this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+
+                this.getAllUncheckedVehicleDetails();
+              }
+              else {
+                this.spinner.hide();
+
+              }
+            }, (err) => {
+              this.spinner.hide();
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
+
+          })
+          .catch(() => { });
       }
-      else if (confirmed === true && data === 'Hold') {
-        this.hold(checkout);
+      else {
+        this.message.showMessage({ severity: 'warning', title: 'Not Paid', body: MessageConfig.checkOut.unPaidTicket });
       }
-      else  if (confirmed === true && data === 'Complete') {
-        this.complete(checkout);
-      }
-    })
-    .catch(() => { });
-}
+    }
+    else {
+      this.message.showMessage({ severity: 'info', title: 'In-Progress', body: MessageConfig.checkOut.checkoutRestriction });
+    }
 
-// Delete Product
+  }
 
-  checkoutVehicle(checkout) {
-    if (checkout.JobPaymentId === 0) {
-      this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.checkOut.paidTicket });
-    } else {
-      if (checkout.valuedesc === 'Completed') {
+  hold(data, checkout) {
+    this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
+      .then((confirmed) => {
         const finalObj = {
-          id: checkout.JobId,
-          checkOut: true,
-          actualTimeOut: new Date()
+          id: checkout.JobId
         };
+        if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
+          return;
+        }
         this.spinner.show();
-        this.checkout.checkoutVehicle(finalObj).subscribe(res => {
+        this.checkout.holdVehicle(finalObj).subscribe(res => {
           if (res.status === 'Success') {
             this.spinner.hide();
-
-            this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
-            this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+            this.toastr.success(MessageConfig.checkOut.Hold, 'Success!');
+            this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
 
             this.getAllUncheckedVehicleDetails();
           }
-          else{
+          else {
             this.spinner.hide();
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
           }
         }, (err) => {
           this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
-      }
-      else {
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.checkOut.checkoutRestriction });
-      }
-    }
+      })
+      .catch(() => { });
+
   }
 
-  hold(checkout) {
-    const finalObj = {
-      id: checkout.JobId
-    };
-    if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
-      return;
-    }
-    this.spinner.show();
-    this.checkout.holdVehicle(finalObj).subscribe(res => {
-      if (res.status === 'Success') {
-        this.spinner.hide();
-        this.toastr.success(MessageConfig.checkOut.Hold, 'Success!');
-        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
+  complete(data, checkout) {
 
-        this.getAllUncheckedVehicleDetails();
-      }
-      else{
-        this.spinner.hide();
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
+      .then((confirmed) => {
 
-      }
-    }, (err) => {
-      this.spinner.hide();
+        if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
+          const finalObj = {
+            id: checkout.JobId
+          };
+          this.spinner.show();
+          this.checkout.completedVehicle(finalObj).subscribe(res => {
+            if (res.status === 'Success') {
+              this.spinner.hide();
 
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
-  }
+              this.toastr.success(MessageConfig.checkOut.Complete, 'Success!');
+              this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
 
-  complete(checkout) {
-    if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
-      const finalObj = {
-        id: checkout.JobId
-      };
-      this.spinner.show();
-      this.checkout.completedVehicle(finalObj).subscribe(res => {
-        if (res.status === 'Success') {
-          this.spinner.hide();
+              this.getAllUncheckedVehicleDetails();
+            }
+            else {
+              this.spinner.hide();
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
-          this.toastr.success(MessageConfig.checkOut.Complete, 'Success!');
-          this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
+            }
+          }, (err) => {
+            this.spinner.hide();
 
-          this.getAllUncheckedVehicleDetails();
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          });
         }
-        else{
-          this.spinner.hide();
-          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      })
+      .catch(() => { });
 
-        }
-      }, (err) => {
-        this.spinner.hide();
-
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
-    }
   }
-
 }

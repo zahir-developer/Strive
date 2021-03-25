@@ -78,9 +78,9 @@ namespace Admin.API.Controllers
             return _bplManager.DeleteJob(salesItemDeleteDto);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("RollBackPayment")]
-        public Result RollBackPayment(SalesItemDeleteDto salesItemDeleteDto)
+        public Result RollBackPayment([FromBody] SalesItemDeleteDto salesItemDeleteDto)
         {
             return _bplManager.RollBackPayment(salesItemDeleteDto);
         }

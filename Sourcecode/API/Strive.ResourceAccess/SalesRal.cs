@@ -95,6 +95,7 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@TicketNumber", salesItemDeleteDto.TicketNumber);
+            dynParams.Add("@LocationId", salesItemDeleteDto.LocationId);
             CommandDefinition cmd = new CommandDefinition(EnumSP.Sales.USPROLLBACKPAYMENT.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;

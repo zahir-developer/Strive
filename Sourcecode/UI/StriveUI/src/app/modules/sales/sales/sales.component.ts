@@ -1202,7 +1202,14 @@ export class SalesComponent implements OnInit {
   }
   rollBack() {
     if (this.multipleTicketNumber.length > 0) {
-      this.salesService.rollback(this.multipleTicketNumber.toString()).subscribe(data => {
+
+      const rollbackObj = 
+      {
+        TicketNumber: this.multipleTicketNumber.toString(),
+        LocationId: this.locationId
+      };
+
+      this.salesService.rollback(rollbackObj).subscribe(data => {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
           this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });

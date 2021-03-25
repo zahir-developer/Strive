@@ -71,7 +71,7 @@
                                                     <td>{{checkout.Checkin}}</td>
                                                     <td>{{checkout.Checkout}}</td>
                                                     <td class="table-ellipsis" pTooltip="{{checkout.Services}}" tooltipPosition="top">{{checkout.Services}}</td>
-                                                    <td class="table-ellipsis" pTooltip="{{checkout.AdditionalServices}}" tooltipPosition="top">{{checkout.AdditionalServices | slice:0:15 }} {{checkout.AdditionalServices != null ? checkout.AdditionalServices.length > 20 ? '...' : '' : ''}} </td>
+                                                    <td class="table-ellipsis" pTooltip="{{checkout.AdditionalServices}}" tooltipPosition="top">{{checkout.AdditionalServices | slice:0:20 }}{{checkout.AdditionalServices != null ? checkout.AdditionalServices.length > 20 ? '...' : '' : ''}} </td>
                                                     <td>{{checkout.Cost | currency}}</td>
                                                     <td class="table-ellipsis text-center" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top">
                                                         <em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark font-size-1-5 " style="color: #FFA500;"></em>{{checkout.MembershipName}}
