@@ -8,6 +8,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-service-create-edit',
@@ -42,6 +44,10 @@ export class ServiceCreateEditComponent implements OnInit {
   priceErrMsg: boolean;
   serviceEnum: any;
   additional: any;
+  location: any;
+  dropdownSettings: IDropdownSettings = {};
+  locationId: any = [];
+  serviceSetupList: any = [];
 
 
 
@@ -51,17 +57,19 @@ export class ServiceCreateEditComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private codeValueService: CodeValueService
+    private codeValueService: CodeValueService,
+    private employeeService : EmployeeService
   ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
-    this.formInitialize();
     this.ctypeLabel = 'none';
-    this.getCommissionType();
     this.isChecked = false;
     this.submitted = false;
+    this.getLocation();
+    this.formInitialize();
+    this.getCommissionType();
   }
 
   formInitialize() {
@@ -79,7 +87,8 @@ export class ServiceCreateEditComponent implements OnInit {
       parentName: ['',],
       status: ['',],
       fee: ['',],
-      suggested: ['']
+      suggested: [''],
+      location: [[]]
     });
     this.serviceSetupForm.patchValue({ status: 0 });
   }
@@ -87,19 +96,70 @@ export class ServiceCreateEditComponent implements OnInit {
   get f() {
     return this.serviceSetupForm.controls;
   }
+  locationDropDown() {
+    this.location = this.location.map(item => {
+      return {
+       id: item.LocationId,
+        name: item.LocationName
+      };
+    });
+    this.dropDownSetting();
+  }
+  getLocation() {
+    this.employeeService.getLocation().subscribe(res => {
+      if (res.status === 'Success') {
+        const location = JSON.parse(res.resultData);
+        this.location = location.Location;
+        this.location = this.location.map(item => {
+          return {
+            id: item.LocationId,
+            name: item.LocationName
+          };
+        });
+        this.dropDownSetting();
+      }
+    });
+  }
+
+  dropDownSetting() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      defaultOpen: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: false
+    };
+  }
 
   // Get Service By Id
   getServiceById() {
     this.spinner.show();
     this.serviceSetup.getServiceSetupById(this.selectedData.ServiceId).subscribe(data => {
-      this.spinner.hide();
       if (data.status === "Success") {
+        this.spinner.hide();
+
         const sType = JSON.parse(data.resultData);
         this.selectedService = sType.ServiceSetup;
         if (this.selectedService.Upcharges === '') {
           this.serviceSetupForm.get('upcharge').clearValidators();
           this.serviceSetupForm.get('upcharge').updateValueAndValidity();
         }
+        let name = '';
+        this.location.forEach( item => {
+          if (+item.id === +this.selectedService.LocationId) {
+            name = item.name;
+          }
+        });
+        const locObj = {
+          id : this.selectedService.LocationId,
+          name
+        };
+        const selectedLocation = [];
+        selectedLocation.push(locObj);
+        this.dropDownSetting();
         this.serviceSetupForm.patchValue({
           serviceType: this.selectedService?.ServiceTypeId,
           name: this.selectedService?.ServiceName,
@@ -113,11 +173,14 @@ export class ServiceCreateEditComponent implements OnInit {
           upcharge: this.selectedService?.Upcharges,
           discountServiceType: this.selectedService?.DiscountServiceType,
           parentName: this.selectedService?.ParentServiceId,
-          status: this.selectedService.IsActive ? 0 : 1
+          status: this.selectedService.IsActive ? 0 : 1,
+          location: selectedLocation
         });
         this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceTypeId);
       } else {
+        this.spinner.hide();
+
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
       if (this.selectedService?.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
@@ -134,7 +197,7 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isAdditional = false;
       }
-    }, (err) => {
+    }, (err) => {   
       this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
@@ -152,7 +215,9 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    },(err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          });
   }
 
   // Get ParentType
@@ -214,10 +279,13 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.reset();
           this.getServiceById();
         }
+        
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    },(err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          });
   }
 
   checkService(typeID) {
@@ -303,57 +371,83 @@ export class ServiceCreateEditComponent implements OnInit {
       return;
     }
     const formObj = {
-      serviceType: this.serviceSetupForm.value.serviceType,
-      serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
-      serviceName: this.serviceSetupForm.value.name,
-      description: this.serviceSetupForm.value.description,
-      cost: this.serviceSetupForm.value.cost,
-      price: this.serviceSetupForm.value.price,
-      commision: this.isChecked,
-      commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : null,
-      upcharges: this.serviceSetupForm.value.upcharge,
-      parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
-      isActive: this.serviceSetupForm.value.status == 0 ? true : false,
-      locationId: +localStorage.getItem('empLocationId'),
-      commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
-      isDeleted: false,
-      createdBy: this.employeeId,
-      createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
-      updatedBy: this.employeeId,
-      updatedDate: new Date(),
-      discountServiceType: this.serviceSetupForm.value.discountServiceType,
-      discountType: this.serviceSetupForm.value.discountType,
+    
+      service : this.serviceSetupList
+     
     };
+    if(this.serviceSetupForm.value.location){
+      this.serviceSetupForm.value.location.map(item => {
+      
+        this.serviceSetupList.push(
+       {
+            serviceType: this.serviceSetupForm.value.serviceType,
+            serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
+            serviceName: this.serviceSetupForm.value.name,
+            description: this.serviceSetupForm.value.description,
+            cost: this.serviceSetupForm.value.cost,
+            price: this.serviceSetupForm.value.price,
+            commision: this.isChecked,
+            commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : null,
+            upcharges: this.serviceSetupForm.value.upcharge,
+            parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
+            isActive: this.serviceSetupForm.value.status == 0 ? true : false,
+            locationId: item.id,
+            commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
+            isDeleted: false,
+            createdBy: this.employeeId,
+            createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
+            updatedBy: this.employeeId,
+            updatedDate: new Date(),
+            discountServiceType: this.serviceSetupForm.value.discountServiceType,
+            discountType: this.serviceSetupForm.value.discountType,
+          }
+        )
+
+
+        }
+        
+        )
+    }
+    
+    
     if (this.isEdit === true) {
       this.spinner.show();
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
+      },(err) => {
         this.spinner.hide();
-      });
+         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+             });
     } else {
       this.spinner.show();
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
+          this.spinner.hide();
+
           this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
-        this.spinner.hide();
-      });
+      },(err) => {
+       this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
     }
   }
   cancel() {
