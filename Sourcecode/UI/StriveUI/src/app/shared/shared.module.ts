@@ -58,6 +58,7 @@ import { IdleLockoutComponent } from './components/idle-lockout/idle-lockout.com
 import { SessionLogoutComponent } from './components/session-logout/session-logout.component';
 import { DashboardStaticsComponent } from './components/dashboard-statics/dashboard-statics.component';
 import { PaymentProcessComponent } from './components/payment-process/payment-process.component';
+import { QRCodeModule } from 'angular2-qrcode';
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import { PaymentProcessComponent } from './components/payment-process/payment-pr
     FormsModule,
     PopoverModule.forRoot(),
     NgbModule,
+    QRCodeModule,
     HttpClientModule,
     NgxUiLoaderModule,
     FullCalendarModule,
@@ -95,7 +97,7 @@ import { PaymentProcessComponent } from './components/payment-process/payment-pr
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
     ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
-    AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
+    AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,QRCodeModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
