@@ -211,17 +211,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (type === 'make') {
       if (!this.detailForm.value.type.hasOwnProperty('id')) {
         this.detailForm.patchValue({ type: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.type });
       }
     } else if (type === 'model') {
       if (!this.detailForm.value.model.hasOwnProperty('id')) {
         this.detailForm.patchValue({ model: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.model });
       }
     } else if (type === 'color') {
       if (!this.detailForm.value.color.hasOwnProperty('id')) {
         this.detailForm.patchValue({ color: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.color });
       }
     }
   }
