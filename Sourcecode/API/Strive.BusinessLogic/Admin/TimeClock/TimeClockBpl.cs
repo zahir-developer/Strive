@@ -29,22 +29,22 @@ namespace Strive.BusinessLogic.TimeClock
         {
            var result=new TimeClockRal(_tenant).SaveTimeClock( timeClock.TimeClock);
 
-            //if (timeClock.TimeClockWeekDetailDto != null)
-            //{
-            //    var thresholdHours = new TimeClockRal(_tenant).GetEmployeeWeeklyTimeClockHour(timeClock.TimeClockWeekDetailDto);
+            if (timeClock.TimeClockWeekDetailDto != null)
+            {
+                var thresholdHours = new TimeClockRal(_tenant).GetEmployeeWeeklyTimeClockHour(timeClock.TimeClockWeekDetailDto);
 
-            //    if (thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
-            //    {
-            //        var emailId = new SalesRal(_tenant).GetEmailId();
-            //        foreach (var item in emailId)
-            //        {
-            //            Dictionary<string, string> keyValues = new Dictionary<string, string>();
-            //            keyValues.Add("{{emailId}}", item.Email);
-            //            keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
-            //            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues);
-            //        }
-            //    }
-            //}
+                if (thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
+                {
+                    var emailId = new CommonRal(_tenant).GetEmailIdByRole();
+                    foreach (var item in emailId)
+                    {
+                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                        keyValues.Add("{{emailId}}", item.Email);
+                        keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
+                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues);
+                    }
+                }
+            }
 
             return ResultWrap(result, "Status");
         }
