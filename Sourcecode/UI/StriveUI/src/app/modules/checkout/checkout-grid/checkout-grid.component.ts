@@ -8,6 +8,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -26,16 +27,17 @@ export class CheckoutGridComponent implements OnInit {
   query = '';
   startDate: Date;
   endDate: Date;
-  daterangepickerModel = new Date();
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   sortColumn: { sortBy: string; sortOrder: string; };
+  currentWeek: Date;
+  daterangepickerModel: Date[];
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
-
+    private datePipe: DatePipe,
     private landingservice: LandingService,
     private spinner: NgxSpinnerService
   ) { }
@@ -43,8 +45,14 @@ export class CheckoutGridComponent implements OnInit {
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
 
-    this.startDate = new Date();
+    const currentDate = new Date();
+    const first = currentDate.getDate();
+    const last = first - 7;
+    this.startDate = new Date(currentDate.setDate(last));
+    this.currentWeek = this.startDate;
+    const lastDate = new Date();
     this.endDate = new Date();
+    this.daterangepickerModel = [this.startDate, this.endDate];
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -54,8 +62,8 @@ export class CheckoutGridComponent implements OnInit {
   }
   onValueChange(event) {
     if (event !== null) {
-      this.startDate = event;
-      this.endDate = event;
+      this.startDate = event[0];
+      this.endDate = event[1];
       this.getAllUncheckedVehicleDetails();
     }
     else {
@@ -67,8 +75,8 @@ export class CheckoutGridComponent implements OnInit {
   getAllUncheckedVehicleDetails() {
     const obj = {
       locationId: localStorage.getItem('empLocationId'),
-      startDate: this.startDate,
-      endDate: this.endDate,
+      StartDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
+      EndDate: this.datePipe.transform(this.endDate, 'yyyy-MM-dd'),
       pageNo: this.page,
       pageSize: this.pageSize,
       query: this.search == "" ? null : this.search,
@@ -83,6 +91,11 @@ export class CheckoutGridComponent implements OnInit {
 
         const uncheck = JSON.parse(data.resultData);
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
+        if (this.uncheckedVehicleDetails?.length > 0) {
+          for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
+            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel =  'Unk' : this.uncheckedVehicleDetails[i].VehicleModel ;
+          }
+        }
         if (this.uncheckedVehicleDetails == null) {
           this.isTableEmpty = true;
         } else {

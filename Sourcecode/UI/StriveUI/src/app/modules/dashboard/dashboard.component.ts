@@ -64,10 +64,10 @@ export class DashboardComponent implements OnInit {
     this.firstSectionTogggle = false;
     this.secondSectionToggle = false;
     this.thirdSectionToggle = false;
+    this.locationId = +localStorage.getItem('empLocationId');
     this.fromDate = moment(new Date()).format();
     this.toDate = moment(new Date()).format();
     this.getLocationList();
-    this.locationId = +localStorage.getItem('empLocationId');
     this.getDashboardStatistics(this.locationId);
   }
 

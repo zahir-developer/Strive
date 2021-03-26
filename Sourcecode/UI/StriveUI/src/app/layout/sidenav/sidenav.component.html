@@ -2,7 +2,7 @@
   <!--Sidebar-->
   <div class="menu  d-none d-sm-none d-md-block d-lg-block d-xl-block" *ngIf="localStorageUpdation === 'localStorageUpdation1'">
     <ul>
-      <li class="logo-container"><a><i><img [src]="logoBase64"
+      <li class="logo-container"><a><i><img src="{{logoBase64}}"
         alt="" width="50" /></i>{{logoName}}</a> </li>
       <li class="p-t-10" *ngIf = "dashBoardModule == true"><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closeNav()" ><i class="fa-2x mdi mdi-view-dashboard" ></i>Dashboard</a></li>
       <li class="active" *ngIf = "washModule == true"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"  ><i

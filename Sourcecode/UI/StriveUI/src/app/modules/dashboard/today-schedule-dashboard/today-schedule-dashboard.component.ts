@@ -32,6 +32,11 @@ export class TodayScheduleDashboardComponent implements OnInit {
         const scheduleDetails = JSON.parse(res.resultData);
         if (scheduleDetails.DetailsGrid.BayJobDetailViewModel !== null) {
           this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
+          if (this.todayScheduleDetail?.length > 0) {
+            for (let i = 0; i < this.todayScheduleDetail.length; i++) {
+              this.todayScheduleDetail[i].VehicleModel == 'None' ? this.todayScheduleDetail[i].VehicleModel =  'Unk' : this.todayScheduleDetail[i].VehicleModel ;
+            }
+          }
         }
       }
     }, (err) => {

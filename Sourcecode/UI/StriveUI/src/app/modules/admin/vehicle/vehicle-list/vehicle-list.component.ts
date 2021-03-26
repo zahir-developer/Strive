@@ -102,8 +102,14 @@ export class VehicleListComponent implements OnInit {
         this.vehicleDetails = [];
         const vehicle = JSON.parse(data.resultData);
         let totalCount = 0;
+
         if (vehicle.Vehicle.clientViewModel !== null) {
           this.vehicleDetails = vehicle.Vehicle.clientViewModel;
+          if (this.vehicleDetails?.length > 0) {
+            for (let i = 0; i < this.vehicleDetails.length; i++) {
+              this.vehicleDetails[i].ModelName == 'None' ? this.vehicleDetails[i].ModelName =  'Unk' : this.vehicleDetails[i].ModelName ;
+            }
+          }
           totalCount = vehicle.Vehicle.Count.Count;
           if (this.vehicleDetails.length === 0) {
             this.isTableEmpty = true;
