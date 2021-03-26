@@ -9,5 +9,6 @@ namespace Strive.BusinessEntities.DTO.GiftCard
     public class GiftCardDto
     {
         public Model.GiftCard GiftCard { get; set; }
+        public List<GiftCardHistoryDto> GiftCardHistory { get; set; }
     }
 }
