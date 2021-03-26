@@ -333,34 +333,6 @@ export class ProductCreateEditComponent implements OnInit {
       Product: productList
     };
 
-    // this.productSetupList.push({
-    //   productCode: null,
-    //   productDescription: null,
-    //   productType: this.productSetupForm.value.productType,
-    //   productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-    //   locationId: item.id,
-    //   productName: this.productSetupForm.value.name,
-    //   fileName: this.fileName,
-    //   OriginalFileName: this.fileName,
-    //   thumbFileName: this.fileThumb,
-    //   base64: this.fileUploadformData,
-    //   cost: this.productSetupForm.value.cost,
-    //   isTaxable: this.isChecked,
-    //   taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
-    //   size: this.productSetupForm.value.size,
-    //   sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
-    //   quantity: this.productSetupForm.value.quantity,
-    //   quantityDescription: null,
-    //   isActive: this.productSetupForm.value.status === 0 ? true : false,
-    //   vendorId: vendor.id,
-    //   thresholdLimit: this.productSetupForm.value.thresholdAmount,
-    //   isDeleted: false,
-    //   createdBy: this.employeeId,
-    //   createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-    //   updatedBy: this.employeeId,
-    //   updatedDate: new Date(),
-    //   price: this.productSetupForm.value.suggested
-    // });
     if (this.isEdit === true) {
       this.spinner.show();
       this.product.updateProduct(finalObj).subscribe(data => {

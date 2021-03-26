@@ -172,7 +172,7 @@ export class CustomerSalesComponent implements OnInit {
       this.ticketNumber = '';
     } else {
       this.ticketNumber = '';
-      this.messageService.showMessage({ severity: 'info', title: 'Information', body: 'Ticket Already Added' });
+      this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.Ticket });
     }
 
     if (this.multipleTicketNumber.length > 10) {

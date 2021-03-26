@@ -166,7 +166,7 @@ export class DashboardComponent implements OnInit {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

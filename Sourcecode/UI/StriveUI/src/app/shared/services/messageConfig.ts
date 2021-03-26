@@ -5,12 +5,18 @@ export const MessageConfig = {
    Mandatory: 'Please Enter Mandatory fields',
    TicketNumber : 'Ticket Number is Empty',
    locationError: 'No location assigned, Pls contact Administrator..!!!',
+   Reset : 'Reset Successfully !!',
+   save :'Saved Successfully !!',
 
    Schedule:
    {
       Add: 'Schedule added successfully !',
       Update: 'Schedule updated successfully !',
-      pastDates: 'New schedule is not allowed for passed dates.'
+      save : 'Schedule Saved Successfully!' ,
+      pastDates: 'New schedule is not allowed for passed dates.',
+      schedulePassDate: 'Schedule can not be added for Past Date/Time.',
+      passedDateTime :'Past Date  Should not allow to Schedule',
+      sameTime : 'Can not able to schedule at the same time'
    },
    Employee:
    {
@@ -68,6 +74,26 @@ export const MessageConfig = {
       Update: 'Item updated successfully !',
       UpdateGiftCrd: 'Sales Gift Card Saved successfully !',
       Delete: 'Sales deleted successfully !',
+      Ticket :'Ticket Already Added',
+      InvalidTicket : 'Invalid Ticket',
+      ItemDelete :'Item deleted successfully',
+      quantity: 'Please enter quantity',
+      validItem :'Please enter valid ItemName',
+      creditAmount : 'Credit amount exceeds the balance amount!',
+      duplicate : 'Duplicate Discount',
+     discountExist: 'selected discount already applied!',
+     invalidDiscount :'Invalid Discount Service & Discount Type',
+    payment : 'Add any cash/credit payment and proceed',
+    total : 'Total paid amount not matching with Total amount.',
+    rollback : 'Rollbacked Successfully' ,
+    paymentComplete :'Unable to complete payment, please try again.' ,
+    jobDelete : 'Job Deleted Successfully'
+   },
+   Messenger : {
+Message :'Please enter a message..!!!',
+empselect: 'Please select am employee',
+add : 'Group user added successfully..!!!'
+
    },
    PayRoll:
    {
@@ -77,9 +103,7 @@ export const MessageConfig = {
       Adjustment: 'Saved Successfully!',
       Process: 'PayRoll Processed successfully !',
    },
-   Messenger: {
-      empselect: 'Please select am employee'
-   },
+  
    checkOut:
    {
       Add: 'CheckOut action successfully !',

@@ -136,7 +136,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         const selectedDate = eventReceiveEvent.event.start;
         const currentDate: any = new Date();
         if (Date.parse(selectedDate) < Date.parse(currentDate)) {
-          this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Schedule can not be added for Past Date/Time.' });
+          this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Schedule.schedulePassDate });
           this.cancel();
         } else {
           this.buttonText = 'Add';
@@ -228,7 +228,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -243,7 +243,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       return;
     }
     if (this.dateTime > this.startTime) {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Past Date  Should not allow to Schedule' });
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Schedule.passedDateTime });
       return;
     }
     let alreadyScheduled = false;
@@ -256,7 +256,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     });
     if (alreadyScheduled) {
-      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Can not able to schedule at the same time' });
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body:MessageConfig.Schedule.sameTime });
       return;
     }
     const form = {
@@ -282,20 +282,20 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         this.spinner.hide();
 
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body:MessageConfig.Schedule.save });
         $('#calendarModal').modal('hide');
         this.getSchedule();
       } else {
         this.spinner.hide();
 
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
         this.getSchedule();
         $('#calendarModal').modal('hide');
       }
     }, (err) => {
       this.spinner.hide();
 
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       this.getSchedule();
       $('#calendarModal').modal('hide');
     });
@@ -521,7 +521,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       } else {
         this.spinner.hide();
 
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-select-services',
@@ -61,7 +62,7 @@ export class SelectServicesComponent implements OnInit {
 
         const serviceDetails = JSON.parse(res.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
-          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Details');
+          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.Details );
           this.patchServiceValue();
         }
       }

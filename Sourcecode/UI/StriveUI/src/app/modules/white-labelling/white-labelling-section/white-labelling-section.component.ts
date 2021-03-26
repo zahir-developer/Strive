@@ -151,7 +151,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
   }
 
   CancelChanges() {
-    this.toastr.success(this.msgType + ' Reset Successfully!!', 'Success!');
+    this.toastr.success(this.msgType + MessageConfig.Reset, 'Success!');
     this.getAllWhiteLabelDetail();
   }
 
@@ -216,7 +216,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
     this.whiteLabelService.updateWhiteLabelDetail(uploadObj).subscribe(data => {
       this.ngxService.hide();
       if (data.status === 'Success') {
-        this.toastr.success(this.msgType + ' Saved successfully!', 'Success!');
+        this.toastr.success(this.msgType + MessageConfig.save, 'Success!');
         this.getAllWhiteLabelDetail();
       } else {
         this.ngxService.hide();

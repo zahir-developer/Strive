@@ -454,9 +454,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
         this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue !== ApplicationConfig.storestatus.open);
-        console.log(dType, 'type');
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

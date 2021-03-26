@@ -127,7 +127,7 @@ export class SalesComponent implements OnInit {
         const sType = JSON.parse(res.resultData);
         this.serviceType = sType.Codes;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     });
   }
@@ -139,7 +139,7 @@ export class SalesComponent implements OnInit {
         const sType = JSON.parse(data.resultData);
         this.PaymentType = sType.Codes;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     });
   }
@@ -150,7 +150,7 @@ export class SalesComponent implements OnInit {
         const sType = JSON.parse(data.resultData);
         this.PaymentStatus = sType.Codes;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     });
   }
@@ -286,7 +286,7 @@ export class SalesComponent implements OnInit {
       this.ticketNumber = '';
     } else {
       this.ticketNumber = '';
-      this.messageService.showMessage({ severity: 'info', title: 'Information', body: 'Ticket Already Added' });
+      this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.Ticket });
   
   return;
   }
@@ -353,7 +353,7 @@ export class SalesComponent implements OnInit {
               this.showPopup = true;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
-              this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === 'Details');
+              this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.Details);
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -372,7 +372,7 @@ export class SalesComponent implements OnInit {
               });
             }
           } else {
-            this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket' });
+            this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
 
             this.showPopup = false;
           }
@@ -411,7 +411,7 @@ export class SalesComponent implements OnInit {
         }
         else{
           this.spinner.hide();
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
   
         }
       }, (err) => {
@@ -463,12 +463,12 @@ export class SalesComponent implements OnInit {
     this.salesService.deleteItemById(deleteItem).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item deleted successfully' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body:  MessageConfig.Sales.ItemDelete});
         this.getDetailByTicket(false);
       } else {       
          this.spinner.hide();
 
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.spinner.hide();
@@ -604,10 +604,10 @@ export class SalesComponent implements OnInit {
         return;
       }
       if (this.addItemForm.invalid) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter quantity' });
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.quantity });
         return;
       } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter valid ItemName' });
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.validItem });
         return;
       }
       const formObj = {
@@ -676,7 +676,7 @@ export class SalesComponent implements OnInit {
       } else {
         this.salesService.addItem(formObj).subscribe(data => {
           if (data.status === 'Success') {
-            this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+            this.messageService.showMessage({ severity: 'success', title: 'Success', body:MessageConfig.Sales.Add });
             this.isSelected = true;
             this.ticketNumber = this.newTicketNumber;
             this.getDetailByTicket(false);
@@ -684,7 +684,7 @@ export class SalesComponent implements OnInit {
             this.addItemFormInit();
             this.submitted = false;
           } else {
-            this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+            this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
           }
         });
       }
@@ -693,13 +693,13 @@ export class SalesComponent implements OnInit {
   updateListItem(formObj, flag) {
     this.salesService.updateListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item added successfully' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success',  body:MessageConfig.Sales.Add});
         this.getDetailByTicket(flag);
         this.addItemForm.controls.quantity.enable();
         this.addItemFormInit();
         this.submitted = false;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     });
   }
@@ -759,7 +759,7 @@ export class SalesComponent implements OnInit {
     if (this.credit > (this.originalGrandTotal - this.totalPaid - this.discountAmount + this.credit)) {
       this.credit = 0;
       this.creditcashback = 0;
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Credit amount exceeds the balance amount!' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body:MessageConfig.Sales.creditAmount  });
       return;
     }
     this.calculateTotalpaid(this.credit);
@@ -896,21 +896,21 @@ export class SalesComponent implements OnInit {
     if (this.selectedDiscount.length > 0) {
       const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
       if (dup.length > 0) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Duplicate discount' });
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate});
         return;
       }
     }
     if (this.discountService.length > 0) {
       const duplicatecheck = this.discountService.filter(selectedDis => +selectedDis.ServiceId === +this.discount);
       if (duplicatecheck.length > 0) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'selected discount already applied!' });
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.discountExist});
         return;
       }
     }
     for ( const i of this.discounts ) {
       if (i.ServiceId === +event.target.value) {
         if (i.DiscountServiceType === 0 || i.DiscountServiceType === null) {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Discount Service & Discount Type'});
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount});
           this.discount = '';
           return;
         } else {
@@ -939,11 +939,11 @@ export class SalesComponent implements OnInit {
     let paymentDetailObj = [];
     const balancedue = this.getBalanceDue();
     if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Add any cash/credit payment and proceed' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment});
       return;
     }
     if (balancedue !== 0) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Total paid amount not matching with Total amount.' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.total});
       return;
     }
     if (this.ticketNumberGeneration === false) {
@@ -951,15 +951,6 @@ export class SalesComponent implements OnInit {
       return;
     }
 
-    // if (this.credit !== 0) {
-    //   const ngbModalOptions: NgbModalOptions = {
-    //     backdrop: 'static',
-    //     keyboard: false,
-    //     size: 'sm'
-    //   };
-    //   const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
-    //   return;
-    // }
   
     let giftcard = null;
     let discount = null;
@@ -1151,10 +1142,10 @@ export class SalesComponent implements OnInit {
       } else {
         this.spinner.hide();
   
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body:MessageConfig.Sales.paymentComplete });
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Unable to complete payment, please try again.' });
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.paymentComplete });
       this.spinner.hide();
     });
 
@@ -1163,14 +1154,14 @@ export class SalesComponent implements OnInit {
     if (this.multipleTicketNumber.length > 0) {
       this.salesService.deleteJob(this.multipleTicketNumber.toString()).subscribe(data => {
         if (data.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Job deleted successfully' });
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.jobDelete });
           this.getDetailByTicket(false);
           this.ticketNumber = '';
         } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
         }
       }, (err) => {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       });
     }
   }
@@ -1215,13 +1206,12 @@ export class SalesComponent implements OnInit {
       this.salesService.rollback(rollbackObj).subscribe(data => {
         if (data.status === 'Success') {
           this.getDetailByTicket(false);
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Rollbacked Successfully' });
-          // this.router.navigate([`/checkout`], { relativeTo: this.route });
+          this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.rollback });
         } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
         }
       }, (err) => {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       });
     }
   }

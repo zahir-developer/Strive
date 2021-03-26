@@ -135,7 +135,7 @@ export class EditEmployeeComponent implements OnInit {
         this.dropdownSetting();
         this.employeeDetail();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

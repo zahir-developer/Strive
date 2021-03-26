@@ -100,7 +100,7 @@ export class AddGiftCardComponent implements OnInit {
           };
         });
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
