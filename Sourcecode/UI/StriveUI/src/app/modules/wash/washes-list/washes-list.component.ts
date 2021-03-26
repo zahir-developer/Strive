@@ -125,6 +125,8 @@ export class WashesListComponent implements OnInit {
           const totalRowCount = wash?.Washes?.Count?.Count;
           if (this.washDetails?.length > 0) {
             for (let i = 0; i < this.washDetails.length; i++) {
+              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model =  'Unk' : this.washDetails[i].Model ;
+
               let hh = this.washDetails[i].TimeIn.substring(13, 11);
               let m = this.washDetails[i].TimeIn.substring(16, 14);
               var s = this.washDetails[i].TimeIn.substring(19, 17);

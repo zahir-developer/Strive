@@ -372,6 +372,8 @@ export class SalesComponent implements OnInit {
               });
             }
           } else {
+            this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Ticket' });
+
             this.showPopup = false;
           }
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {

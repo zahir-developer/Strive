@@ -66,12 +66,18 @@ export class ClientCreateEditComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.vehicleDetails = vehicle.Status;
         this.clonedVehicleDetails = this.vehicleDetails.map(x => Object.assign({}, x));
+       
         if (this.vehicleDetails.length === 0) {
           this.isTableEmpty = true;
           this.vehicleNumber = 1;
         } else {
           this.vehicleDetails.forEach( item => {
             item.isAddedVehicle = true;
+             if (this.vehicleDetails?.length > 0) {
+          for (let i = 0; i < this.vehicleDetails.length; i++) {
+            this.vehicleDetails[i].VehicleModel == 'None' ? this.vehicleDetails[i].VehicleModel =  'Unk' : this.vehicleDetails[i].VehicleModel ;
+          }
+        }
           });
           let len = this.vehicleDetails.length;
           this.vehicleNumber = this.vehicleDetails.length + 1;

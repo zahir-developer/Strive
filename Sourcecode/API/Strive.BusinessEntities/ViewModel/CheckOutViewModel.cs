@@ -16,7 +16,10 @@ namespace Strive.BusinessEntities.ViewModel
         public string CustomerFirstName { get; set; }
 
         public string CustomerLastName { get; set; }
-       
+        public string VehicleMake { get; set; }
+        public string VehicleModel { get; set; }
+        public string VehicleColor { get; set; }
+
         public string VehicleDescription { get; set; }
         public string AdditionalServices { get; set; }
         public string Services { get; set; }
