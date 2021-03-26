@@ -40,7 +40,7 @@ export const MessageConfig = {
       fileRequired: 'Please Choose file to upload',
       Add: 'Document added successfully !',
       upload: 'Document upload successfully !',
-      fileSize: 'Document upload successfully !',
+      fileSize: 'Maximum File Size is 10MB',
       Delete: 'Document deleted successfully !'
    },
    Wash:
