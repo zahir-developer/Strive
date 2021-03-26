@@ -34,5 +34,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string ProductTypeName { get; set; }
         public string SizeName { get; set; }
         public string Base64 { get; set; }
+
+        public string PhoneNumber { get; set; }
     }
 }
