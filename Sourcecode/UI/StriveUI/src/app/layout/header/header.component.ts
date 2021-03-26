@@ -23,9 +23,10 @@ export class HeaderComponent implements OnInit {
   rainPrediction: any;
   temperature: number;
   cityName: string;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
-              private route: ActivatedRoute, private msgService: MessengerService,
-              private weatherService: WeatherService) { }
+    private route: ActivatedRoute, private msgService: MessengerService,
+    private weatherService: WeatherService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
@@ -36,34 +37,34 @@ export class HeaderComponent implements OnInit {
     });
 
     this.userService.cityName.subscribe(data => {
-      if(data == null){
+      if (data == null) {
         this.cityName = JSON.parse(localStorage.getItem('employeeCityName'));
 
       }
-      else{
- this.cityName = data;
+      else {
+        this.cityName = data;
       }
-     
+
 
     });
-  
-        this.userService.locationName.subscribe(data => {
-          if(data == null){
-            this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
 
-    
-          }
-          else{
-            this.locationName = data;
+    this.userService.locationName.subscribe(data => {
+      if (data == null) {
+        this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
 
-          }
-      
-        
+
+      }
+      else {
+        this.locationName = data;
+
+      }
+
+
     });
-  
-  this.getWeatherDetails()
+
+    this.getWeatherDetails()
     this.getUnReadMessage();
-  
+
   }
   // Get WeatherDetails
   getWeatherDetails = () => {
@@ -77,17 +78,18 @@ export class HeaderComponent implements OnInit {
     });
   }
   logout() {
+    // this.favIcon.href = 'assets/img/Strive-Logo-login.png';
     this.msgService.closeConnection();
     this.authService.logout();
   }
   openmbsidebar() {
     document.getElementById('mySidenav').style.width = '200px';
-    $(document).ready(function() {
-      $('.mobile-view-title').click(function() {
+    $(document).ready(function () {
+      $('.mobile-view-title').click(function () {
         $('#hide-mainmenu').hide();
         $('#show-submenu').show();
       });
-      $('.back-to-list').click(function() {
+      $('.back-to-list').click(function () {
         $('#hide-mainmenu').show();
         $('#show-submenu').hide();
       });
@@ -95,7 +97,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getUnReadMessage() {
-    this.userService.unReadMessageDetail.subscribe( res => {
+    this.userService.unReadMessageDetail.subscribe(res => {
       this.unReadMessageDetail = res;
       if (res === null) {
         this.unReadMessageDetail = [];
