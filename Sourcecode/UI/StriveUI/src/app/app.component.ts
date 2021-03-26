@@ -114,7 +114,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.countdown = countdown;
       this.sessionLogoutComponent.dialogType = 'idle';
       this.sessionLogoutComponent.header = 'Session Timeout';
-      this.header = 'Session Timeout Warning..!';
+      this.header = 'Session Timeout Warning';
     }
     );
     idle.onTimeout.subscribe(() => {
@@ -123,7 +123,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.dialogType = 'timeout';
       this.sessionLogoutComponent.dialogDisplay = true;
       this.sessionLogoutComponent.header = 'Locked Out';
-      this.header = 'Session expired..!';
+      this.header = 'Session Expired';
       this.authService.refreshLogout();
       clearInterval(this.intervalId);
     });
