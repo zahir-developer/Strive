@@ -36,7 +36,7 @@ export class PrintCustomerCopyComponent implements OnInit {
         this.selectedData?.DetailsItem.forEach(item => {
           const serviceType = _.where(this.serviceEnum, { CodeId: item.ServiceTypeId });
           if (serviceType.length > 0) {
-            if (serviceType[0].CodeValue === 'Details') {
+            if (serviceType[0].CodeValue === ApplicationConfig.CodeValue.Details) {
               this.detailService = item.ServiceName + '$' + item.Cost;
             } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
               this.upchargeService = item.ServiceName + '$' + item.Cost;

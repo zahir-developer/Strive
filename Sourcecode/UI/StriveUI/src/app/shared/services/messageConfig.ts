@@ -87,7 +87,8 @@ export const MessageConfig = {
     total : 'Total paid amount not matching with Total amount.',
     rollback : 'Rollbacked Successfully' ,
     paymentComplete :'Unable to complete payment, please try again.' ,
-    jobDelete : 'Job Deleted Successfully'
+    jobDelete : 'Job Deleted Successfully',
+    paymentSave : 'Payment completed successfully'
    },
    Messenger : {
 Message :'Please enter a message..!!!',

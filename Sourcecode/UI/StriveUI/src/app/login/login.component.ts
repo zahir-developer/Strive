@@ -12,6 +12,7 @@ import { LandingService } from '../shared/services/common-service/landing.servic
 import { GetCodeService } from '../shared/services/data-service/getcode.service';
 import { CodeValueService } from '../shared/common-service/code-value.service';
 import { tap, mapTo, share } from 'rxjs/operators';
+import { ApplicationConfig } from '../shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-login',
@@ -106,7 +107,7 @@ export class LoginComponent implements OnInit {
   }
 
   getCodeValue() {
-    this.getCodeService.getCodeByCategory('ALL').subscribe( res => {
+    this.getCodeService.getCodeByCategory(ApplicationConfig.Category.all).subscribe( res => {
       if (res.status === 'Success') {
         const value = JSON.parse(res.resultData);
         localStorage.setItem('codeValue', JSON.stringify(value.Codes));

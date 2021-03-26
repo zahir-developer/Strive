@@ -122,7 +122,7 @@ export class SalesComponent implements OnInit {
   }
 
   getServiceType() {
-    this.codes.getCodeByCategory('SERVICETYPE').subscribe(res => {
+    this.codes.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(res => {
       if (res.status === 'Success') {
         const sType = JSON.parse(res.resultData);
         this.serviceType = sType.Codes;
@@ -134,7 +134,7 @@ export class SalesComponent implements OnInit {
 
 
   getPaymentType() {
-    this.codes.getCodeByCategory("PAYMENTTYPE").subscribe(data => {
+    this.codes.getCodeByCategory(ApplicationConfig.Category.paymentType).subscribe(data => {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.PaymentType = sType.Codes;
@@ -145,7 +145,7 @@ export class SalesComponent implements OnInit {
   }
 
   getPaymentStatus() {
-    this.codes.getCodeByCategory("PAYMENTSTATUS").subscribe(data => {
+    this.codes.getCodeByCategory(ApplicationConfig.Category.paymentStatus).subscribe(data => {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.PaymentStatus = sType.Codes;
@@ -393,7 +393,7 @@ export class SalesComponent implements OnInit {
             this.totalPaid = +summary?.TotalPaid;
             if (+this.account === 0.00) {
               this.account = this.accountDetails?.SalesAccountViewModel?.IsAccount === true &&
-               this.accountDetails?.SalesAccountViewModel?.CodeValue === 'Comp' ? +this.grandTotal : 0;
+               this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp ? +this.grandTotal : 0;
               this.calculateTotalpaid(+this.account);
             }
           }
@@ -1026,7 +1026,7 @@ export class SalesComponent implements OnInit {
     }
     if (this.account !== 0) {
       let accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
-      if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== 'Comp') {
+      if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== ApplicationConfig.CodeValue.Comp) {
         accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
       }
       const accountDet = {
@@ -1125,7 +1125,7 @@ export class SalesComponent implements OnInit {
       if (data.status === 'Success') {
         this.spinner.hide();
   
-        if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel?.CodeValue === 'Comp') {
+        if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp) {
           const amt = (+this.accountDetails?.SalesAccountViewModel?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
           const obj = {
             clientId: this.accountDetails?.SalesAccountViewModel?.ClientId,
@@ -1134,7 +1134,7 @@ export class SalesComponent implements OnInit {
           this.salesService.updateAccountBalance(obj).subscribe(res => {
           });
         }
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Payment completed successfully' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.paymentSave });
         this.getDetailByTicket(false);
         if (this.newTicketNumber === '') {
           this.router.navigate([`/checkout`], { relativeTo: this.route });

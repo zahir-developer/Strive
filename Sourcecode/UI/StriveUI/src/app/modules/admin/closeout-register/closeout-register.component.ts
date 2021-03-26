@@ -202,10 +202,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === "CloseOut")[0].CodeId;
+        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CloseOut)[0].CodeId;
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -449,7 +449,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   }
 
   getStoreStatusList() {
-    this.getCode.getCodeByCategory('Storestatus').subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;

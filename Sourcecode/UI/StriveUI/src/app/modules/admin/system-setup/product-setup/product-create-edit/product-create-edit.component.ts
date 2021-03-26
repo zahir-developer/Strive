@@ -9,6 +9,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -97,7 +98,7 @@ export class ProductCreateEditComponent implements OnInit {
   // Get ProductType
   getProductType() {
 
-    const prodTypeCodes = this.codeService.getCodeValueByType('ProductType');
+    const prodTypeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.ProductType);
     if (prodTypeCodes.length > 0) {
       this.prodType = prodTypeCodes;
     }
@@ -135,7 +136,7 @@ export class ProductCreateEditComponent implements OnInit {
 
   // Get Size
   getSize() {
-    const sizeCodes = this.codeService.getCodeValueByType('Size');
+    const sizeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.Size);
     if (sizeCodes.length > 0) {
       this.size = sizeCodes;
     }
@@ -171,7 +172,7 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   showText(data) {
-    const size = this.size.filter(item => item.CodeValue === 'Other');
+    const size = this.size.filter(item => item.CodeValue === ApplicationConfig.CodeValue.Other);
     if (size.length > 0) {
       const id = size[0].CodeId;
       if (+data === id) {

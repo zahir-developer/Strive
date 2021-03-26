@@ -10,6 +10,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-employee-collision',
@@ -106,10 +107,10 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   getLiabilityType() {
-    this.getCode.getCodeByCategory('LIABILITYTYPE').subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.liablityType).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
-        this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === 'Collision')[0].CodeId;
+        this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Collision)[0].CodeId;
       }
     }
     , (err) => {
@@ -118,7 +119,7 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   getLiabilityDetailType() {
-    this.getCode.getCodeByCategory('LIABILITYDETAILTYPE').subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.LiablityDetailType).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
       }
