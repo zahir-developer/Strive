@@ -40,7 +40,7 @@ export const MessageConfig = {
       fileRequired: 'Please Choose file to upload',
       Add: 'Document added successfully !',
       upload: 'Document upload successfully !',
-      fileSize: 'Document upload successfully !',
+      fileSize: 'Maximum File Size is 10MB',
       Delete: 'Document deleted successfully !'
    },
    Wash:
@@ -87,7 +87,8 @@ export const MessageConfig = {
     total : 'Total paid amount not matching with Total amount.',
     rollback : 'Rollbacked Successfully' ,
     paymentComplete :'Unable to complete payment, please try again.' ,
-    jobDelete : 'Job Deleted Successfully'
+    jobDelete : 'Job Deleted Successfully',
+    paymentSave : 'Payment completed successfully'
    },
    Messenger : {
 Message :'Please enter a message..!!!',

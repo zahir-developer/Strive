@@ -91,7 +91,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   }
 
   getDocumentSubType() {
-    this.getCode.getCodeByCategory("DocumentSubType").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentSubType).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
         this.subdocumentType = dType.Codes;

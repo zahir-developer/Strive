@@ -11,6 +11,7 @@ import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown
 import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-edit-employee',
@@ -128,7 +129,7 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   getImmigrationStatus() {
-    this.getCode.getCodeByCategory("IMMIGRATIONSTATUS").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.imigirationStatus = cType.Codes;

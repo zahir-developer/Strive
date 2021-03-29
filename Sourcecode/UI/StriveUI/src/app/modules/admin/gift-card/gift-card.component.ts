@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -30,7 +30,8 @@ export class GiftCardComponent implements OnInit {
   clonedGiftCardList = [];
   search = '';
   collectionSize: number;
- 
+  @ViewChild(AddGiftCardComponent) addGiftCardComponent: AddGiftCardComponent;
+
   page: number;
   pageSize: number;
   pageSizeList: number[];
@@ -175,6 +176,10 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
     modalRef.result.then((result) => {
       if (result) {
         this.getAllGiftCard();
+         this.giftCardForm.patchValue({
+number : result
+         })
+        this.getGiftCardDetail()
       }
     });
   }

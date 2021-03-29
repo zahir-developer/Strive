@@ -393,7 +393,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getServiceType() {
-    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
     if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
       this.detailId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)[0]?.CodeId;
@@ -449,14 +449,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   getWashById() {
     const isJobStatus = _.where(this.jobStatus, { CodeId: this.selectedData?.Details?.JobStatus });
     if (isJobStatus.length > 0) {
-      if (isJobStatus[0].CodeValue === 'In Progress') {
+      if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.inProgress) {
         this.isCompleted = true;
         this.jobStatusID = isJobStatus[0].CodeId;
-      } else if (isJobStatus[0].CodeValue === 'Completed') {
+      } else if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.Completed) {
         this.isCompleted = true;
         this.isStart = true;
         this.jobStatusID = isJobStatus[0].CodeId;
-      } else if (isJobStatus[0].CodeValue === 'Waiting') {
+      } else if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.Waiting) {
         this.isStart = true;
         this.isCompleted = false;
         this.jobStatusID = isJobStatus[0].CodeId;
@@ -716,7 +716,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   start() {
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'In Progress' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.inProgress });
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
@@ -778,7 +778,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   completed() {
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Completed' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.Completed });
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
@@ -856,7 +856,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(element);
       }
     });
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Waiting' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue:ApplicationConfig.CodeValue.Waiting});
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
@@ -1270,7 +1270,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getJobStatus() {
-    const jobStatus = this.codeValueService.getCodeValueByType('JobStatus');
+    const jobStatus = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.JobStatus);
     if (jobStatus.length > 0) {
       this.jobStatus = jobStatus;
     }
