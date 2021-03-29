@@ -24,6 +24,8 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetChecklist")]
         public Result GetChecklist() => _bplManager.GetChecklist();
+
+        
         #endregion
 
         #region POST

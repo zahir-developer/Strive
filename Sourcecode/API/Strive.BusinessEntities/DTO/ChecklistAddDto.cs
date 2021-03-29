@@ -9,5 +9,7 @@ namespace Strive.BusinessEntities.DTO
     public class ChecklistAddDto
     {
         public Model.Checklist Checklist { get; set; }
+
+        public Model.CheckListNotification CheckListNotification { get; set; }
     }
 }
