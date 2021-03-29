@@ -17,9 +17,9 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<ChecklistViewModel>(EnumSP.Checklist.USPGETCHECKLIST.ToString(), _prm);
         }
-        public bool AddChecklist(ChecklistAddDto checklistAdd)
+        public int AddChecklist(ChecklistAddDto checklistAdd)
         {
-            return dbRepo.SavePc(checklistAdd, "ChecklistId");
+            return dbRepo.InsertPK(checklistAdd, "ChecklistId");
         }
         public bool DeleteChecklist(int id)
         {
