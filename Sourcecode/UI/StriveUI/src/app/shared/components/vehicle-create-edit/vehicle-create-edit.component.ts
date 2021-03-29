@@ -190,7 +190,6 @@ export class VehicleCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.Membership;
-        this.membership = this.membership.filter(item => item.IsActive === true);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -218,6 +217,8 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   membershipChange(data) {
+    this.vehicleForm.get('monthlyCharge').reset();
+
     if (this.memberOnchangePatchedService.length !== 0) {
       this.memberOnchangePatchedService.forEach(element => {
         this.selectedservice = this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
