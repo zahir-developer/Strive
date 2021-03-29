@@ -18,7 +18,7 @@ namespace Strive.BusinessEntities.Model
         public int? CheckListId { get; set; }
 
         [Column]
-        public DateTime NotificationTime { get; set; }
+        public TimeSpan NotificationTime { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
