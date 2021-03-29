@@ -28,8 +28,8 @@ namespace Strive.BusinessLogic.Checkout
         {
 
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
-            keyValues.Add("{emailId}", checkoutHoldDto.emailId);
-            keyValues.Add("{ticketNumber}", checkoutHoldDto.TicketNumber);
+            keyValues.Add("{{emailId}}", checkoutHoldDto.emailId);
+            keyValues.Add("{{ticketNumber}}", checkoutHoldDto.TicketNumber);
 
             new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.VehicleHold, checkoutHoldDto.emailId, keyValues);
 
