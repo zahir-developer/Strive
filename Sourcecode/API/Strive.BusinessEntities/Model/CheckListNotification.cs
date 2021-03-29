@@ -15,7 +15,7 @@ namespace Strive.BusinessEntities.Model
 
 
         [Column]
-        public int? CheckListId { get; set; }
+        public int? ChecklistId { get; set; }
 
         [Column]
         public TimeSpan NotificationTime { get; set; }

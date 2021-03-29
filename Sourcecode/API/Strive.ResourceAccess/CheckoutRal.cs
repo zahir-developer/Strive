@@ -39,7 +39,9 @@ namespace Strive.ResourceAccess
         }
         public bool UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
         {
-            _prm.Add("JobId", checkoutHoldDto .id); 
+            _prm.Add("JobId", checkoutHoldDto .id);
+
+            _prm.Add("IsHold", checkoutHoldDto.IsHold);
             db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
           
             return true;
