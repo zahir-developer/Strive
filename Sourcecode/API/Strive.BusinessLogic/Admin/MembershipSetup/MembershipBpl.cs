@@ -57,5 +57,9 @@ namespace Strive.BusinessLogic.MembershipSetup
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetVehicleMembershipByMembershipId, membershipId, "VehicleMembershipByMembershipId");
         }
+        public Result GetAllMembershipName()
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetAllMembershipName, "MembershipName");
+        }
     }
 }
