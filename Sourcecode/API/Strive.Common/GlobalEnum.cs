@@ -56,7 +56,8 @@ namespace Strive.Common
         ClientSignUp,
         VehicleHold,
         ProductThreshold,
-        EmployeeThreshold
+        EmployeeThreshold,
+        GiftCardDetails
     }
 
     public enum Roles

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.GiftCard;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -42,7 +43,23 @@ namespace Strive.BusinessLogic.GiftCard
         }
         public Result AddGiftCard(GiftCardDto giftCardDto)
         {
-            return ResultWrap(new GiftCardRal(_tenant).AddGiftCard, giftCardDto, "Status");
+            var giftcard =new GiftCardRal(_tenant).AddGiftCard(giftCardDto);
+            var client = new ClientRal(_tenant).GetClientById(giftCardDto.GiftCard.ClientId);
+            
+            var comBpl = new CommonBpl(_cache, _tenant);
+
+            foreach (var clientemail in client)
+            {
+
+                if (giftcard > 0)
+                {
+                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                    keyValues.Add("{{emailId}}", clientemail.Email);
+                    keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
+                    comBpl.SendEmail(HtmlTemplate.GiftCardDetails, clientemail.Email, keyValues);
+                }
+            }
+            return ResultWrap(giftcard, "Status");
         }
 
         public Result UpdateGiftCard(GiftCardDto giftCardDto)

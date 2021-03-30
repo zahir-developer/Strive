@@ -130,7 +130,7 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetAllClient, searchDto, "Client");
         }
-        public Result GetClientById(int clientId)
+        public Result GetClientById(int? clientId)
         {
             return ResultWrap(new ClientRal(_tenant).GetClientById, clientId, "Status");
         }

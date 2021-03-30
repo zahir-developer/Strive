@@ -58,7 +58,7 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<ClientLoginViewModel>(EnumSP.Authentication.USPGETCLIENTUSERBYAUTHID.ToString(), _prm);
         }
 
-        public List<ClientDetailViewModel> GetClientById(int clientId)
+        public List<ClientDetailViewModel> GetClientById(int? clientId)
         {
             _prm.Add("@ClientId", clientId);
             return db.Fetch<ClientDetailViewModel>(SPEnum.USPGETCLIENT.ToString(), _prm);
