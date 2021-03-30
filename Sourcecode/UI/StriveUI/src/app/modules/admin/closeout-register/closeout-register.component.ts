@@ -77,7 +77,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       coinNickels: ['',],
       coinDimes: ['',],
       coinQuaters: ['',],
-      coinHalfDollars: ['',]
+      coinHalfDollars: ['',],
+      Tips: ['']
     });
     this.cashRegisterBillForm = this.fb.group({
       billOnes: ['',],
@@ -308,6 +309,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
+      Tips: this.cashRegisterCoinForm.value.Tips,
       storeTimeOut: checkoutTime,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
