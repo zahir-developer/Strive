@@ -82,9 +82,8 @@
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputWorkThreshold">Work Hour Threshold</label>
-                        <input type="number" class="form-control" formControlName="workHourThreshold"
-                             [appMaxLength]="9" step="0.25"
-                            placeholder="0.00">
+                        <input type="number" class="form-control" formControlName="workHourThreshold" [appMaxLength]="9"
+                            step="0.25" placeholder="0.00">
                     </div>
                     <div class="form-group col-lg-3">
                         <label></label>
@@ -104,64 +103,73 @@
                     <div>
                         <label>Offset1On</label>
                         <span style="padding-left: 29px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1On"></p-inputSwitch>
+                            <p-inputSwitch [style]="{'font-size':'10px'}" (onChange)="handleChange($event)"
+                                [(ngModel)]="offset1On"></p-inputSwitch>
                         </span>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <div>
-                        <label>Offset1</label>
-                        <span style="padding-left: 50px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1"></p-inputSwitch>
-                        </span>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Offset1</label>
+                        <div class="col-sm-8 m-l-35">
+                            <input type="text" class="form-control" [(ngModel)]="offset1" [disabled]="!isOffset"
+                                placeholder="0.00">
+                        </div>
+                    </div>
+                    <!-- <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1"></p-inputSwitch> -->
+                </div>
+                <div class="form-group col-lg-3">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">offsetA</label>
+                        <div class="col-sm-8 m-l-35">
+                            <input type="text" class="form-control" [(ngModel)]="offsetA"
+                                placeholder="0.00">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <div>
-                        <label>OffsetA</label>
-                        <span style="padding-left: 50px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetA"></p-inputSwitch>
-                        </span>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">offsetB</label>
+                        <div class="col-sm-8 m-l-35">
+                            <input type="text" class="form-control" [(ngModel)]="offsetB"
+                                placeholder="0.00">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <div>
-                        <label>OffsetB</label>
-                        <span style="padding-left: 50px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetB"></p-inputSwitch>
-                        </span>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">offsetC</label>
+                        <div class="col-sm-8 m-l-35">
+                            <input type="text" class="form-control" [(ngModel)]="offsetC"
+                                placeholder="0.00">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <div>
-                        <label>OffsetC</label>
-                        <span style="padding-left: 50px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetC"></p-inputSwitch>
-                        </span>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">offsetD</label>
+                        <div class="col-sm-8 m-l-35">
+                            <input type="text" class="form-control" [(ngModel)]="offsetD"
+                                placeholder="0.00">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <div>
-                        <label>OffsetD</label>
-                        <span style="padding-left: 50px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetD"></p-inputSwitch>
-                        </span>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">offsetE</label>
+                        <div class="col-sm-8 m-l-35">
+                            <input type="text" class="form-control" [(ngModel)]="offsetE"
+                                placeholder="0.00">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
-                    <div>
-                        <label>OffsetE</label>
-                        <span style="padding-left: 50px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetE"></p-inputSwitch>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group col-lg-3">
-                    <div>
-                        <label>OffsetF</label>
-                        <span style="padding-left: 50px;">
-                            <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offsetF"></p-inputSwitch>
-                        </span>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">offsetF</label>
+                        <div class="col-sm-8 m-l-35">
+                            <input type="text" class="form-control" [(ngModel)]="offsetF"
+                                placeholder="0.00">
+                        </div>
                     </div>
                 </div>
             </div>

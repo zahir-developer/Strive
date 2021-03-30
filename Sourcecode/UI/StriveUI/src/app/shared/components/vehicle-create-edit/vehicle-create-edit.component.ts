@@ -46,7 +46,7 @@ export class VehicleCreateEditComponent implements OnInit {
   filteredcolor: any = [];
   filteredMake: any = [];
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
-    private spinner : NgxSpinnerService) { }
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -190,7 +190,6 @@ export class VehicleCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.Membership;
-        this.membership = this.membership.filter(item => item.IsActive === true);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -218,6 +217,8 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   membershipChange(data) {
+    this.vehicleForm.get('monthlyCharge').reset();
+
     if (this.memberOnchangePatchedService.length !== 0) {
       this.memberOnchangePatchedService.forEach(element => {
         this.selectedservice = this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
@@ -411,12 +412,14 @@ export class VehicleCreateEditComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.vehicle.getUpchargeService(serviceObj).subscribe(data => {
+    const locationID = localStorage.getItem('empLocationId');
+    this.vehicle.getUpchargeService(locationID).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        this.upchargeType = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.IsActive === true && item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
-        this.washesDropdown = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
+        this.upchargeType = serviceDetails.AllServiceDetail.filter(item =>
+          item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+        this.washesDropdown = serviceDetails.AllServiceDetail.filter(item =>
+          item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }

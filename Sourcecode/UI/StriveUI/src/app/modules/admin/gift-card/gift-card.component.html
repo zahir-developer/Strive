@@ -12,9 +12,9 @@
                     <div class="card-body">
                         <nav aria-label="gift-card">
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+                                <a class="nav-item nav-link active" (click)  = "getAllGiftCard()" id="nav-home-tab" data-toggle="tab" href="#nav-home"
                                     role="tab" aria-controls="nav-home" aria-selected="true">Gift Card List</a>
-                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                                <a class="nav-item nav-link" (click) ="cancelActvity()" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
                                     role="tab" aria-controls="nav-profile" aria-selected="false">Add New Gift Card</a>
     
                             </div>
@@ -195,16 +195,16 @@
                                                                     <th scope="col">Amount</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody *ngIf="giftCardHistory.length > 0" class="bodyfix">
-                                                                <tr *ngFor="let card of giftCardHistory">
+                                                            <tbody *ngIf="getGiftCardDetails.length > 0" class="bodyfix">
+                                                                <tr *ngFor="let card of getGiftCardDetails">
                                                                     <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
                                                                     </td>
                                                                     <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
-                                                                    <td>{{card.GiftCardHistoryId}}</td>
+                                                                    <td>{{card.GiftCardId}}</td>
                                                                     <td>{{card.TransactionAmount | currency}}</td>
                                                                 </tr>
                                                             </tbody>
-                                                            <tbody *ngIf="giftCardHistory.length === 0">
+                                                            <tbody *ngIf="getGiftCardDetails.length === 0">
                                                                 <tr>
                                                                     <td colspan="5" class="text-center">
                                                                         No activity available

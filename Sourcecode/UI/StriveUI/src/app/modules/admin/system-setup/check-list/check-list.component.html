@@ -13,30 +13,47 @@
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
                             <div class="search-container  " *ngIf="checklistAdd">
-                                <form>
-                                    <div class="title-border m-b-22"></div>
-                                    <div class="form-row">
-                                        <div class="form-group col-3 "> <input type="text" class="form-control"
-                                                name="CheckList" [(ngModel)]="checkListName" maxlength="100"
-                                                placeholder="Enter Check List"> </div>&nbsp;
-                                        <div class="form-group col-3 m-l-80">
-                                            <select name="Roles" class="form-control" [(ngModel)]="RoleId"
-                                                placeholder="Select Role">
-                                                <option value='' selected hidden>Select Role</option>
-                                                <option *ngFor="let role of rollList" value="{{role.RoleMasterId}}">
-                                                    {{role.RoleName}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-2 m-l-90 ">
-                                            <button type="button" style="margin-left: 5%;"
-                                                class="btn theme-primary-button-color btn-md float-right"
-                                                (click)="checklistcancel()">Cancel</button>
-                                            <button type="button"
-                                                class="btn theme-primary-button-color btn-md float-right"
-                                                (click)="add('add',[])">Save</button>
-                                        </div>
+                                <div class="title-border m-b-22"></div>
+                                <div class="form-row">
+                                    <div class="form-group col-2 "> <input type="text" class="form-control"
+                                            name="CheckList" [(ngModel)]="checkListName" maxlength="100"
+                                            placeholder="Enter Check List"> </div>&nbsp;
+                                    <div class="form-group col-2 m-l-20">
+                                        <select name="Roles" class="form-control" [(ngModel)]="RoleId"
+                                            placeholder="Select Role">
+                                            <option value='' selected hidden>Select Role</option>
+                                            <option *ngFor="let role of rollList" value="{{role.RoleMasterId}}">
+                                                {{role.RoleName}}</option>
+                                        </select>
                                     </div>
-                                </form>
+                                    <div class="form-group col-4">
+                                        <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
+                                            <ngx-timepicker-field [format]="24" [(ngModel)]="notificationTime" (timeChanged)="inTime($event)">
+                                            </ngx-timepicker-field>
+                                        </div>
+                                        <button type="button" style="margin-left: 5%;"
+                                            [disabled]="isNotificationTimeLimit || notificationTime === ''"
+                                            class="btn theme-primary-button-color btn-sm" (click)="addTime()"><i
+                                                class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <div class="form-group row m-t-10">
+                                            <span *ngFor="let time of notificationTimeList"
+                                                style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
+                                                class="badge badge-secondary"
+                                                [disabled]="isNotificationTimeLimit"><span>{{time.time}}</span><em
+                                                    class="fa fa-times-circle" (click)="removeTime(time)"></em></span>
+                                        </div>
+                                        <!-- <input type="text" class="form-control" name="time" placeholder="Time"
+                                                [(ngModel)]="notificationTime" [disabled]="isNotificationTimeLimit"> -->
+
+                                    </div>
+                                    <div class="form-group col-2 m-l-40 ">
+                                        <button type="button" style="margin-left: 5%;"
+                                            class="btn theme-primary-button-color btn-sm float-right"
+                                            (click)="checklistcancel()">Cancel</button>
+                                        <button type="button" class="btn theme-primary-button-color btn-sm float-right"
+                                            (click)="add('add',[])">Save</button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="table-responsive">
@@ -44,11 +61,13 @@
                                     <thead>
                                         <tr>
                                             <th class="pointer" scope="col" (click)="changesort('Name')">Name&nbsp; <i
-                                                    class="fa" 
-                                                    [ngClass]="selectedCls('Name')"></i></th>
-                                            <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp; <i
-                                                    class="fa" 
-                                                    [ngClass]="selectedCls('RoleName')"></i></th>
+                                                    class="fa" [ngClass]="selectedCls('Name')"></i></th>
+                                            <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp;
+                                                <i class="fa" [ngClass]="selectedCls('RoleName')"></i>
+                                            </th>
+                                            <th scope="col">
+                                                Notification Time
+                                            </th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -59,20 +78,19 @@
                                                 <span *ngIf="selectedData != checkList.ChecklistId">
                                                     <span title="{{checkList.Name}}">
                                                         {{checkList.Name | slice:0:15}}
-                                                        {{(checkList.Name!== null) ? checkList.Name.length <= 15 ? '': '...':''}}
+                                                        {{(checkList.Name!== null) ? checkList.Name.length <= 15 ? ''
+                                                            : '...' :''}} </span>
                                                     </span>
-                                                </span>
-                                                <span *ngIf="selectedData == checkList.ChecklistId">
+                                                    <span *ngIf="selectedData == checkList.ChecklistId">
 
-                                                    <input type="text" maxlength="100" class="form-control"
-                                                        name="CheckList" [(ngModel)]="checkList.Name"
-                                                        placeholder="Enter Check List">
-                                                </span>
+                                                        <input type="text" maxlength="100" class="form-control"
+                                                            name="CheckList" [(ngModel)]="checkList.Name"
+                                                            placeholder="Enter Check List">
+                                                    </span>
                                             </td>
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
                                                     <div class="form-group d-flex">
-
                                                         <select name="Roles" [(ngModel)]="checkList.RoleId"
                                                             class="form-control" [placeholder]="'Select Role'">
                                                             <option *ngFor="let role of rollList"
@@ -86,13 +104,22 @@
                                             </td>
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
-
+                                                    <div class="form-group d-flex">
+                                                        <ngx-timepicker-field [format]="24" [(ngModel)]="notificationTime" (timeChanged)="inTime($event)">
+                                                        </ngx-timepicker-field>
+                                                    </div>
+                                                </span>
+                                                <span *ngIf="selectedData != checkList.ChecklistId">
+                                                    {{checkList.NotificationTime | date: 'hh:mm a'}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span *ngIf="selectedData == checkList.ChecklistId">
                                                     <em class="fa fa-floppy-o  theme-secondary-icon-color m-r-10 m-t-8"
                                                         style="color:green" pTooltip="Save" tooltipPosition="bottom"
                                                         (click)="submit(checkList)"></em>&nbsp;&nbsp;
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
-
                                                     <em class="fa fa-ban  theme-optional-icon-color m-t-8"
                                                         style="color:red" pTooltip="Cancel" tooltipPosition="bottom"
                                                         (click)="cancel()"></em>
