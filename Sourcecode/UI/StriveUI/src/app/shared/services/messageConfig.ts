@@ -178,6 +178,7 @@ add : 'Group user added successfully..!!!'
          },
          MemberShipSetup:
          {
+            MemberShipName : "MembershipName should not be None or Unk",
             Add: 'MemberShip added successfully !',
             Update: 'MemberShip updated successfully !',
             Delete: 'MemberShip deleted successfully !',

@@ -14,5 +14,7 @@ namespace Strive.BusinessEntities.DTO
 
         public string TicketNumber { get; set; }
 
+        public bool IsHold { get; set; }
+
     }
 }

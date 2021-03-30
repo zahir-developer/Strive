@@ -19,5 +19,9 @@ namespace Strive.BusinessEntities.ViewModel
         public bool IsDeleted { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int? TransactionType { get; set; }
+        public decimal? TransactionAmount { get; set; }
+        public DateTime? TransactionDate { get; set; }
+        public string TicketNumber { get; set; }
     }
 }

@@ -202,6 +202,14 @@ export class MembershipCreateEditComponent implements OnInit {
   // Add/Update Membership
   submit() {
     this.submitted = true;
+    
+      if (this.membershipForm.value.membershipName.toLowerCase() == "none" || this.membershipForm.value.membershipName.toLowerCase() == "unk")
+       {
+        this.toastr.error(MessageConfig.Admin.SystemSetup.MemberShipSetup.MemberShipName, 'Error!');
+        return;
+        
+      }
+    
     if (this.membershipForm.invalid) {
       if (this.membershipForm.value.price !== "") {
         if (Number(this.membershipForm.value.price) <= 0) {
