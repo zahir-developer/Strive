@@ -95,7 +95,9 @@ export class CreateEditComponent implements OnInit {
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
-      permitDate: ['']
+      permitDate: [''],
+      Tips :['']
+
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -107,8 +109,7 @@ export class CreateEditComponent implements OnInit {
       status: ['Active'],
       exemptions: [''],
       roles: [[]],
-      location: [[]],
-      Tips :['']
+      location: [[]]
 
     });
     this.emplistform.controls.status.disable();

@@ -93,7 +93,9 @@ export class EditEmployeeComponent implements OnInit {
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
-      permitDate: ['']
+      permitDate: [''],
+      Tips :['']
+
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -107,8 +109,7 @@ export class EditEmployeeComponent implements OnInit {
       exemptions: [''],
       roles: [[]],
       location: [[]],
-      employeeCode: [''],
-      Tips :['']
+      employeeCode: ['']
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
@@ -258,6 +259,7 @@ export class EditEmployeeComponent implements OnInit {
       mobile: employeeInfo.PhoneNumber ? employeeInfo.PhoneNumber : '',
       immigrationStatus: employeeInfo.ImmigrationStatus ? employeeInfo.ImmigrationStatus : '',
       ssn: employeeInfo.SSNo ? employeeInfo.SSNo : '',
+      Tips : employeeInfo?.Tips,
       alienNumber: employeeInfo.AlienNo ? employeeInfo.AlienNo : '',
       permitDate: employeeInfo.WorkPermit ? moment(employeeInfo.WorkPermit).toDate() : '',
     });
