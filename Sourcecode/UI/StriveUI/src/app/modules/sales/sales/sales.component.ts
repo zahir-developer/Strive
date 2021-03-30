@@ -70,6 +70,7 @@ export class SalesComponent implements OnInit {
   discountList: any = [];
   isAccountButton = false;
   ticketNumberGeneration: boolean;
+  allService = [];
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -256,6 +257,7 @@ export class SalesComponent implements OnInit {
     this.airfreshnerService = [];
     this.outsideServices = [];
     this.discountService = [];
+    this.allService = [];
     this.Products = [];
     if (this.itemList?.Status?.SalesSummaryViewModel) {
       this.itemList.Status.SalesSummaryViewModel = {};
@@ -351,9 +353,11 @@ export class SalesComponent implements OnInit {
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
               this.showPopup = true;
+              this.allService = this.itemList.Status.SalesItemViewModel;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
-              this.details = this.itemList.Status.SalesItemViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.Details);
+              this.details = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.Details);
               this.additionalService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -792,6 +796,7 @@ export class SalesComponent implements OnInit {
       let airfreshnerDiscountPrice = 0;
       let outsideDiscountPrice = 0;
       let noServiceTypePrice = 0;
+      let allServiceDiscountPrice = 0;
       this.selectedDiscount.forEach(item => {
         const serviceType = this.serviceType.filter(type => +type.CodeId === +item.DiscountServiceType);
         if (serviceType.length > 0) {
@@ -801,6 +806,7 @@ export class SalesComponent implements OnInit {
           let upchargeCost = 0;
           let airfreshnerCost = 0;
           let outsideCost = 0;
+          let allServiceCost = 0;
           if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage) {
             this.washes.forEach(wash => {
               washCost = washCost + wash.Price;
@@ -875,13 +881,25 @@ export class SalesComponent implements OnInit {
             }
           } else if (item.DiscountServiceType === null) {
             noServiceTypePrice = noServiceTypePrice + item.Price;
+          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.ServiceDiscounts) {
+            this.allService.forEach( service => {
+              allServiceCost = allServiceCost + service.Price;
+            });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
+            if (item.DiscountType === 'Flat Fee') {
+              allServiceDiscountPrice = allServiceDiscountPrice + item.Price;
+            } else if (item.DiscountType === 'Percentage') {
+              allServiceDiscountPrice = allServiceDiscountPrice + (allServiceCost * item.Price / 100);
+              item.Price = (allServiceCost * item.Price / 100);
+            }
           }
         } else if (item.DiscountServiceType === null || +item.DiscountServiceType === 0) {
           item.Price = String(item.Price).replace('-', '');
           noServiceTypePrice = noServiceTypePrice + (+item.Price);
         }
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
-          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice;
+          + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice + allServiceDiscountPrice;
       });
       this.discountAmount = discountValue;
     } else {
