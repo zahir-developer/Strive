@@ -159,6 +159,10 @@ export class LocationCreateEditComponent implements OnInit {
       this.selectTab(0);
       return;
     }
+    if (this.errorMessage ==  true) {
+      return;
+    }
+ 
     const sourceObj = [];
     this.address = {
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,

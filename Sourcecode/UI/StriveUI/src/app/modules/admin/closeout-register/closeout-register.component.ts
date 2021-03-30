@@ -54,6 +54,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   drawerId: any;
   submitted = false;
   isTimechange: boolean;
+  tips: any;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
@@ -77,8 +78,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       coinNickels: ['',],
       coinDimes: ['',],
       coinQuaters: ['',],
-      coinHalfDollars: ['',],
-      Tips: ['']
+      coinHalfDollars: ['',]
     });
     this.cashRegisterBillForm = this.fb.group({
       billOnes: ['',],
@@ -129,6 +129,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.closeOutDetails = closeOut.CashRegister;
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
+          this.tips = this.closeOutDetails.CashRegister.Tips
           this.storeStatus = this.closeOutDetails.CashRegister.StoreOpenCloseStatus !== null ?
             this.closeOutDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
@@ -309,7 +310,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
-      Tips: this.cashRegisterCoinForm.value.Tips,
+      Tips: this.tips,
       storeTimeOut: checkoutTime,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };

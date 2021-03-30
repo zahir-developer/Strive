@@ -9,7 +9,7 @@
             </nav>
             <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 m-t-25">
                         <h3 class="d-inline-block">Close Out Register&nbsp;-&nbsp;</h3>
                         <div id="datepicker" class="date d-inline-block datepicker-view " data-date-format="mm-dd-yyyy">
                             <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
@@ -20,12 +20,18 @@
                                     (click)="dp.show()"></i></span>
                         </div>
                     </div>
+              
                     <div class="col-6">
-                        <div class="row">
-                            <div class="col-2"></div>
-                            <div class="col-2"></div>
-                            <div class="col-1"></div>
-                            <div class="col-7">
+                            <div class="d-inline-block col-3" >
+                                <label for="inputCost">Tips</label>
+                
+                                <input type="text" appTwoDecimalNumber class="form-control" 
+                                [(ngModel)]="tips" placeholder="$0.00">
+                
+        
+                
+                                
+                            </div>          
                                 <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
                                     <ngx-timepicker-field [format]="24" (timeChanged)="outTime($event)"
                                         [(ngModel)]="storeTimeOut" [defaultTime]="storeTimeOut ">
@@ -46,8 +52,6 @@
                                         <div>Please select the store status</div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -103,16 +107,7 @@
                                                             placeholder="0"
                                                             (change)="getTotalCoin('H',$event.target.value)">
                                                     </div>
-                                                    <div class="form-group col-md-6" >
-                                                        <label for="inputCost">Tips</label>
-                                        
-                                                        <input type="text" appTwoDecimalNumber class="form-control" 
-                                                        formControlName="tips" placeholder="$0.00">
-                                        
-                                
-                                        
-                                                        
-                                                    </div>
+                                                   
                                                 </div>
                                            
                                             </form>
@@ -236,6 +231,7 @@
                                                             formControlName="cardAmount" class="form-control"
                                                             placeholder="$0.00" (change)="getTotalCash()">
                                                     </div>
+                                                    
                                                 </div>
                                             </form>
                                         </div>
