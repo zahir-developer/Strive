@@ -109,6 +109,7 @@ namespace Strive.BusinessEntities
             USPGETMEMBERSHIPSERVICEBYVEHICLEID,
             USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
             uspGetMembershipListByVehicleId,
+            USPGETALLMEMBERSHIPNAME,
         }
 
         public enum Checklist

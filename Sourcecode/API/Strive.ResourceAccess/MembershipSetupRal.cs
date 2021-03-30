@@ -72,5 +72,11 @@ namespace Strive.ResourceAccess
                 return false;
             }
         }
+
+        public List<MembershipNameViewModel> GetAllMembershipName()
+        {
+            return db.Fetch<MembershipNameViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIPNAME.ToString(), null);
+        }
+
     }
 }

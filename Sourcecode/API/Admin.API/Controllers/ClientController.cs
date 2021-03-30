@@ -41,7 +41,7 @@ namespace Admin.API.Controllers
 
         [HttpGet]
         [Route("GetClientById/{clientId}")]
-        public Result GetClientById(int clientId)
+        public Result GetClientById(int? clientId)
         {
             return _bplManager.GetClientById(clientId);
         }

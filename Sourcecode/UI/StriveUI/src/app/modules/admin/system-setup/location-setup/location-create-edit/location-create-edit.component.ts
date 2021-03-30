@@ -113,6 +113,11 @@ export class LocationCreateEditComponent implements OnInit {
     });
     if (this.selectedData.LocationOffset !== null) {
       this.offset1On = this.selectedData.LocationOffset.OffSet1On;
+      if (this.offset1On) {
+        this.isOffset = true;
+      } else {
+        this.isOffset = false;
+      }
       this.offset1 = this.selectedData.LocationOffset.OffSet1;
       this.offsetA = this.selectedData.LocationOffset.OffSetA;
       this.offsetB = this.selectedData.LocationOffset.OffSetB;
