@@ -189,7 +189,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getVehicleMembership().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.membership = vehicle.Membership;
+        this.membership = vehicle.MembershipName;
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
