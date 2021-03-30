@@ -35,7 +35,9 @@ export class CheckListComponent implements OnInit {
   pageSize: any;
   pageSizeList: any;
   sortColumn: { sortBy: string; sortOrder: string; };
- 
+  notificationTimeList: any = [];
+  notificationTime = '';
+  isNotificationTimeLimit: boolean;
   constructor(
     private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
@@ -47,14 +49,15 @@ export class CheckListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.checklistSetup,
       sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
-     }
+    };
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    this.isNotificationTimeLimit = false;
     this.getAllRoles();
     this.getAllcheckListDetails();
   }
@@ -86,10 +89,10 @@ export class CheckListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },  (err) => {
-     this.isLoading = false;
-              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-            });
+    }, (err) => {
+      this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
@@ -134,9 +137,9 @@ export class CheckListComponent implements OnInit {
         };
       }
     }
-    ,  (err) => {
-              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-            });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   delete(data) {
     this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this Check List? All related 
@@ -163,10 +166,10 @@ export class CheckListComponent implements OnInit {
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },  (err) => {
+    }, (err) => {
       this.spinner.hide();
-              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-            });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
   add(data, serviceDetails?) {
     if (data === 'add') {
@@ -180,15 +183,38 @@ export class CheckListComponent implements OnInit {
   }
   cancel() {
     this.selectedData = false;
+  }
 
+  addTime() {
+    if (this.notificationTimeList.length >= 5) {
+      this.isNotificationTimeLimit = true;
+      this.notificationTime = '';
+      return;
+    }
+    this.notificationTimeList.push({
+      time: this.notificationTime
+    });
+    this.notificationTimeList.forEach((item, index) => {
+      item.id = index;
+    });
+    // this.notificationTime = '';
+  }
+
+  removeTime(time) {
+    this.notificationTimeList = this.notificationTimeList.filter(item => item.id !== time.id);
+    if (this.notificationTimeList.length < 5) {
+      this.isNotificationTimeLimit = false;
+    }
+  }
+
+  inTime(event) {
+    console.log(event, 'event');
   }
 
   submit(data) {
-
     if (data.RoleId === undefined && this.RoleId.length === 0) {
       this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.roleNameValidation, 'Warning!');
       return;
-
     }
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
 
@@ -211,6 +237,13 @@ export class CheckListComponent implements OnInit {
         RoleId: data.RoleId ? data.RoleId : this.RoleId,
         IsDeleted: false,
         IsActive: true,
+      },
+      checkListNotification: {
+        checkListNotificationId: 0,
+        checkListId: 0,
+        notificationTime: this.notificationTime,
+        isActive: true,
+        isDeleted: false,
       }
 
 
@@ -232,10 +265,10 @@ export class CheckListComponent implements OnInit {
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
         }
-      },  (err) => {
+      }, (err) => {
         this.spinner.hide();
-                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-              });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     } else {
       this.spinner.show();
       this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
@@ -251,24 +284,24 @@ export class CheckListComponent implements OnInit {
 
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
-      },  (err) => {
+      }, (err) => {
         this.spinner.hide();
-                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-              });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     }
   }
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.checkListDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -281,24 +314,24 @@ export class CheckListComponent implements OnInit {
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
 
 
 }

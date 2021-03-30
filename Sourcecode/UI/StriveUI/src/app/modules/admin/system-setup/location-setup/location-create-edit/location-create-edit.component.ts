@@ -34,13 +34,14 @@ export class LocationCreateEditComponent implements OnInit {
   city: any;
   selectedCityId: any;
   offset1On = false;
-  offset1 = false;
-  offsetA = false;
-  offsetB = false;
-  offsetC = false;
-  offsetD = false;
-  offsetE = false;
-  offsetF = false;
+  offset1 = '';
+  offsetA = '';
+  offsetB = '';
+  offsetC = '';
+  offsetD = '';
+  offsetE = '';
+  offsetF = '';
+  isOffset: boolean;
   employeeId: number;
   constructor(
     private fb: FormBuilder,
@@ -51,7 +52,7 @@ export class LocationCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
-
+    this.isOffset = false;
     this.formInitialize();
     this.submitted = false;
     this.Country = null;
@@ -108,6 +109,15 @@ export class LocationCreateEditComponent implements OnInit {
 
   change(data) {
     this.locationSetupForm.value.franchise = data;
+  }
+
+  handleChange(event) {
+    console.log(event, 'event');
+    if (event.checked) {
+      this.isOffset = true;
+    } else {
+      this.isOffset = false;
+    }
   }
 
   get f() {
@@ -221,10 +231,10 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      },  
-      (err) => {
-        this.spinner.hide();
-    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
     } else {
       this.spinner.show();
@@ -241,10 +251,10 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      },  
-      (err) => {
-        this.spinner.hide();
-    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
     }
   }
