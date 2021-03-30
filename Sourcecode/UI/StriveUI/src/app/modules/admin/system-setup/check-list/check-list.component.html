@@ -65,6 +65,9 @@
                                             <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp;
                                                 <i class="fa" [ngClass]="selectedCls('RoleName')"></i>
                                             </th>
+                                            <th scope="col">
+                                                Notification Time
+                                            </th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -88,7 +91,6 @@
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
                                                     <div class="form-group d-flex">
-
                                                         <select name="Roles" [(ngModel)]="checkList.RoleId"
                                                             class="form-control" [placeholder]="'Select Role'">
                                                             <option *ngFor="let role of rollList"
@@ -102,13 +104,22 @@
                                             </td>
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
-
+                                                    <div class="form-group d-flex">
+                                                        <ngx-timepicker-field [format]="24" [(ngModel)]="notificationTime" (timeChanged)="inTime($event)">
+                                                        </ngx-timepicker-field>
+                                                    </div>
+                                                </span>
+                                                <span *ngIf="selectedData != checkList.ChecklistId">
+                                                    {{checkList.NotificationTime | date: 'hh:mm a'}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span *ngIf="selectedData == checkList.ChecklistId">
                                                     <em class="fa fa-floppy-o  theme-secondary-icon-color m-r-10 m-t-8"
                                                         style="color:green" pTooltip="Save" tooltipPosition="bottom"
                                                         (click)="submit(checkList)"></em>&nbsp;&nbsp;
                                                 </span>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
-
                                                     <em class="fa fa-ban  theme-optional-icon-color m-t-8"
                                                         style="color:red" pTooltip="Cancel" tooltipPosition="bottom"
                                                         (click)="cancel()"></em>

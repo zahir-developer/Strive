@@ -8,6 +8,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-check-list',
@@ -45,7 +46,7 @@ export class CheckListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -78,11 +79,20 @@ export class CheckListComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
+        this.checkListDetails.forEach( item => {
+          const time = item.NotificationTime.split(':');
+          const hours = time[0];
+          const min = time[1];
+          const todayDate: any = new Date();
+          todayDate.setHours(hours);
+          todayDate.setMinutes(min);
+          todayDate.setSeconds('00');
+          item.NotificationTime = todayDate;
+        });
         if (this.checkListDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
           this.sort(ApplicationConfig.Sorting.SortBy.checklistSetup);
-
           this.collectionSize = Math.ceil(this.checkListDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -118,7 +128,7 @@ export class CheckListComponent implements OnInit {
     this.employeeService.getAllRoles().subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
-        this.rollList = roles.EmployeeRoles
+        this.rollList = roles.EmployeeRoles;
         this.employeeRoles = roles.EmployeeRoles.map(item => {
           return {
             item_id: item.RoleMasterId,
@@ -177,6 +187,7 @@ export class CheckListComponent implements OnInit {
       this.submit(serviceDetails);
     } else {
       this.selectedData = serviceDetails.ChecklistId;
+      this.notificationTime = this.datePipe.transform(serviceDetails.NotificationTime, 'HH:mm');
       this.isEdit = true;
       this.checklistAdd = false;
     }
@@ -240,13 +251,11 @@ export class CheckListComponent implements OnInit {
       },
       checkListNotification: {
         checkListNotificationId: 0,
-        checkListId: 0,
+        checkListId: data.ChecklistId ? data.ChecklistId : 0,
         notificationTime: this.notificationTime,
         isActive: true,
         isDeleted: false,
       }
-
-
     };
     if (data.ChecklistId) {
       this.spinner.show();
@@ -255,13 +264,11 @@ export class CheckListComponent implements OnInit {
           this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
           if (res.status === 'Success') {
             this.spinner.hide();
-
             this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
             this.getAllcheckListDetails();
             this.selectedData = false;
           } else {
             this.spinner.hide();
-
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
         }
