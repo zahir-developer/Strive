@@ -67,6 +67,7 @@ export class EditEmployeeComponent implements OnInit {
   city: any;
   selectedStateId: any;
   selectedCityId: any;
+  isChecked: boolean;
   constructor(
     private spinner : NgxSpinnerService,
     private fb: FormBuilder,
@@ -106,7 +107,8 @@ export class EditEmployeeComponent implements OnInit {
       exemptions: [''],
       roles: [[]],
       location: [[]],
-      employeeCode: ['']
+      employeeCode: [''],
+      Tips :['']
     });
     this.roleId = localStorage.getItem('roleId');
     this.locationId = localStorage.getItem('empLocationId');
@@ -180,7 +182,15 @@ export class EditEmployeeComponent implements OnInit {
       }
     }
   }
-
+  change(data) {
+    if (data === true) {
+      this.isChecked = true;
+      
+    } else {
+      this.isChecked = false;
+     
+    }
+  }
   employeeDetail() {
     this.dropdownSetting();
     const id = this.employeeId;
@@ -486,6 +496,7 @@ export class EditEmployeeComponent implements OnInit {
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
       lrt: null, 
+
       exemptions: +this.emplistform.value.exemptions,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
@@ -527,6 +538,8 @@ export class EditEmployeeComponent implements OnInit {
       }
     });
     const employeeObj = {
+      Tips: this.isChecked ? this.isChecked : null,
+
       employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
       middleName: null,  
