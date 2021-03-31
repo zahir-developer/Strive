@@ -66,6 +66,7 @@ export class CreateEditComponent implements OnInit {
   isCitizen: boolean = true;
   isHourlyRate: boolean = false;
   isRequired: boolean = false;
+  isChecked: boolean;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -94,7 +95,9 @@ export class CreateEditComponent implements OnInit {
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
-      permitDate: ['']
+      permitDate: [''],
+      Tips :['']
+
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -107,6 +110,7 @@ export class CreateEditComponent implements OnInit {
       exemptions: [''],
       roles: [[]],
       location: [[]]
+
     });
     this.emplistform.controls.status.disable();
     this.documentForm = this.fb.group({
@@ -187,7 +191,17 @@ export class CreateEditComponent implements OnInit {
       allowSearchFilter: false
     };
   }
-
+  change(data) {
+   
+    if (data === true) {
+      this.isChecked = true;
+    
+      }
+    else {
+      this.isChecked = false;
+     
+    }
+  }
   immigrationChange(data) {
     const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
     if (temp.length !== 0) {
@@ -416,7 +430,8 @@ export class CreateEditComponent implements OnInit {
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
       birthDate: null,  
-      workPermit: this.isDate ? this.personalform.value.permitDate : '',
+      Tips: this.isChecked ? this.isChecked : null,
+     workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
       isDeleted: false,
