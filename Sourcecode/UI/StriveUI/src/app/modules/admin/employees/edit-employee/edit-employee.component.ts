@@ -67,6 +67,7 @@ export class EditEmployeeComponent implements OnInit {
   city: any;
   selectedStateId: any;
   selectedCityId: any;
+  isChecked: boolean;
   constructor(
     private spinner : NgxSpinnerService,
     private fb: FormBuilder,
@@ -92,7 +93,9 @@ export class EditEmployeeComponent implements OnInit {
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
-      permitDate: ['']
+      permitDate: [''],
+      Tips :['']
+
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -180,7 +183,15 @@ export class EditEmployeeComponent implements OnInit {
       }
     }
   }
-
+  change(data) {
+    if (data === true) {
+      this.isChecked = true;
+      
+    } else {
+      this.isChecked = false;
+     
+    }
+  }
   employeeDetail() {
     this.dropdownSetting();
     const id = this.employeeId;
@@ -248,6 +259,7 @@ export class EditEmployeeComponent implements OnInit {
       mobile: employeeInfo.PhoneNumber ? employeeInfo.PhoneNumber : '',
       immigrationStatus: employeeInfo.ImmigrationStatus ? employeeInfo.ImmigrationStatus : '',
       ssn: employeeInfo.SSNo ? employeeInfo.SSNo : '',
+      Tips : employeeInfo?.Tips,
       alienNumber: employeeInfo.AlienNo ? employeeInfo.AlienNo : '',
       permitDate: employeeInfo.WorkPermit ? moment(employeeInfo.WorkPermit).toDate() : '',
     });
@@ -486,6 +498,7 @@ export class EditEmployeeComponent implements OnInit {
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
       lrt: null, 
+
       exemptions: +this.emplistform.value.exemptions,
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
@@ -527,6 +540,8 @@ export class EditEmployeeComponent implements OnInit {
       }
     });
     const employeeObj = {
+      Tips: this.isChecked ? this.isChecked : null,
+
       employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
       middleName: null,  

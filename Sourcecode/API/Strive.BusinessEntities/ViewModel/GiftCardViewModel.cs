@@ -9,7 +9,6 @@ namespace Strive.BusinessEntities.ViewModel
     public class GiftCardViewModel
     {
         public int GiftCardId { get; set; }
-        public int LocationId { get; set; }
         public string GiftCardCode { get; set; }
         public string GiftCardName { get; set; }
         public DateTimeOffset? ActivationDate { get; set; }
@@ -19,9 +18,5 @@ namespace Strive.BusinessEntities.ViewModel
         public bool IsDeleted { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int? TransactionType { get; set; }
-        public decimal? TransactionAmount { get; set; }
-        public DateTime? TransactionDate { get; set; }
-        public string TicketNumber { get; set; }
     }
 }

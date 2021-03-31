@@ -26,5 +26,7 @@ namespace Strive.BusinessLogic.GiftCard
         Result GetAllGiftCard(SearchDto searchDto);
         Result DeleteGiftCard(int id);
         Result IsGiftCardExist(string giftCardCode);
+
+        Result GetGiftCardBalanceHistory(string giftCardNumber);
     }
 }

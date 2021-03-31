@@ -8,8 +8,8 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class GiftCardBalanceViewModel
     {
-        public int GiftCardId { get; set; }
-        public decimal BalaceAmount { get; set; }
-        public DateTimeOffset ActiveDate { get; set; }
+        public int? GiftCardId { get; set; }
+        public decimal? BalanceAmount { get; set; }
+        public DateTimeOffset? ActivationDate { get; set; }
     }
 }

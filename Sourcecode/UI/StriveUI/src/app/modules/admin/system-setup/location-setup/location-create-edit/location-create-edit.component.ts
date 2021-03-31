@@ -41,8 +41,10 @@ export class LocationCreateEditComponent implements OnInit {
   offsetD = '';
   offsetE = '';
   offsetF = '';
+  emailPattern : '^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$'
   isOffset: boolean;
   employeeId: number;
+  errorMessage: boolean = false;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -71,12 +73,26 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', Validators.email],
+      email: [['']],
       franchise: ['',],
       workHourThreshold: ['',]
     });
   }
+  testMail(event) {
+    
+    if(!this.validateEmail( this.locationSetupForm.value.email)) {
+       this.errorMessage =  true;
+    }
+    else{
+      this.errorMessage =  false;
 
+    }
+  }
+  
+  validateEmail(email) {
+     var re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/
+     return re.test(String(email).toLowerCase());
+ }
   getLocationById() {
     const locationAddress = this.selectedData.LocationAddress;
     this.selectedStateId = locationAddress.State;
@@ -143,6 +159,10 @@ export class LocationCreateEditComponent implements OnInit {
       this.selectTab(0);
       return;
     }
+    if (this.errorMessage ==  true) {
+      return;
+    }
+ 
     const sourceObj = [];
     this.address = {
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,

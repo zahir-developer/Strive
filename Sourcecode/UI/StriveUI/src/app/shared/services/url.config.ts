@@ -127,6 +127,9 @@ export const UrlConfig = {
     getAllLocationName: `Admin/Location/GetAllLocationName`
   },
   MembershipSetup: {
+    getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName`,
+
+   
     getMembershipById: `Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,
     addMembership: `Admin/MembershipSetup/Add`,
     updateMembership: `Admin/MembershipSetup/Update`,
