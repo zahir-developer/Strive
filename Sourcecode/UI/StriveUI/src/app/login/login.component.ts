@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
   isLoginLoading: boolean;
   whiteLabelDetail: any;
   colorTheme: any;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+
   dashBoardModule: boolean;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
@@ -69,7 +71,6 @@ export class LoginComponent implements OnInit {
           this.getCodeValue();
           this.getThemeColor();
           this.msgService.startConnection();
-          this.weatherService.getWeather()
         } else {    
   this.errorFlag = true;
           this.isLoginLoading = false;
@@ -91,6 +92,9 @@ export class LoginComponent implements OnInit {
       this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
         if (res.status === 'Success') {
           const label = JSON.parse(res.resultData);
+          const base64 = 'data:image/png;base64,';
+          const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
+          this.favIcon.href = logoBase64;
           this.colorTheme = label.WhiteLabelling.Theme;
           this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
           this.colorTheme.forEach(item => {
