@@ -64,3 +64,8 @@
   .uploader img.loaded {
     opacity: 1;
   }
+
+  .box-width{
+    width: 93.5%;
+
+}
