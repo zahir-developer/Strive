@@ -82,5 +82,11 @@ namespace Admin.API.Controllers
         [Route("IsGiftCardExist/{giftCardCode}")]
         public Result IsGiftCardExist(string giftCardCode) => _bplManager.IsGiftCardExist(giftCardCode);
 
+
+
+        [HttpGet]
+        [Route("GetGiftCardBalanceHistory/{giftCardNumber}")]
+        public Result GetGiftCardBalanceHistory(string giftCardNumber) => _bplManager.GetGiftCardBalanceHistory(giftCardNumber);
+
     }
 }

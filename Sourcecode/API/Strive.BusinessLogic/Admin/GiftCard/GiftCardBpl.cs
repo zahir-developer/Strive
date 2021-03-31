@@ -54,7 +54,7 @@ namespace Strive.BusinessLogic.GiftCard
                 if (giftcard > 0)
                 {
                     Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                    keyValues.Add("{{emailId}}", clientemail.Email);
+                    keyValues.Add("{{emailId}}", clientemail.FirstName);
                     keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
                     comBpl.SendEmail(HtmlTemplate.GiftCardDetails, clientemail.Email, keyValues);
                 }
@@ -92,6 +92,11 @@ namespace Strive.BusinessLogic.GiftCard
         public Result IsGiftCardExist (string giftCardCode)
         {
             return ResultWrap(new GiftCardRal(_tenant).IsGiftCardExist, giftCardCode, "IsGiftCardAvailable");
+        }
+
+        public Result GetGiftCardBalanceHistory(string giftCardNumber)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).GetGiftCardBalanceHistory, giftCardNumber, "GiftCardDetail");
         }
     }
 }
