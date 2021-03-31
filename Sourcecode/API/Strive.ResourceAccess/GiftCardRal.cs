@@ -109,5 +109,11 @@ namespace Strive.ResourceAccess
             }
 
         }
+        public GiftCardBalanceHistoryViewModel GetGiftCardBalanceHistory(string giftCardNumber)
+        {
+            _prm.Add("@GiftCardCode", giftCardNumber);
+            var result = db.FetchMultiResult<GiftCardBalanceHistoryViewModel>(EnumSP.GiftCard.USPGETGIFTCARDBALANCEHISTORY.ToString(), _prm);
+            return result;
+        }
     }
 }

@@ -19,7 +19,7 @@
                 <tbody>
                     <tr
                         *ngFor="let history of historyGrid ">
-                        <td>{{history.TicketNumber}}</td>
+                        <td ><span (click)="openHistory()">{{history.TicketNumber}}</span></td>
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
                         <td>{{history.Amount | currency}}</td>

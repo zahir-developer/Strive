@@ -10,8 +10,6 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public int EmployeeID { get; set; }      
         public int ClientId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; set; }
         public string ModuleName { get; set; }

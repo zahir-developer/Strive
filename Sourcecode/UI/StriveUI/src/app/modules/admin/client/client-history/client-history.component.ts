@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ServiceListComponent } from '../service-list/service-list.component';
 
 @Component({
   selector: 'app-client-history',
@@ -22,7 +23,8 @@ export class ClientHistoryComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private client: ClientService,
     private spinner: NgxSpinnerService,
-    private toastr : ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -45,5 +47,16 @@ export class ClientHistoryComponent implements OnInit {
     });
   }
 
- 
+  openHistory() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'xl'
+    };
+    const modalRef = this.modalService.open(ServiceListComponent, ngbModalOptions);
+    modalRef.componentInstance.isEdit = true;
+    modalRef.componentInstance.isView = true;
+  }
+
+
 }

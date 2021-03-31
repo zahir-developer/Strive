@@ -75,6 +75,7 @@ import { AdSetupCreateEditComponent } from './system-setup/ad-setup/ad-setup-cre
 import { DropdownModule } from 'primeng/dropdown';
 import { DealSetupComponent } from './system-setup/deal-setup/deal-setup.component';
 import { DealsAddComponent } from './system-setup/deal-setup/deals-add/deals-add.component';
+import { ServiceListComponent } from './client/service-list/service-list.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -90,7 +91,7 @@ import { DealsAddComponent } from './system-setup/deal-setup/deals-add/deals-add
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent
 ],
   imports: [
     CommonModule,
