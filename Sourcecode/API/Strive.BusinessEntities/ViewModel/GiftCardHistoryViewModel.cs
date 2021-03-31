@@ -8,8 +8,8 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class GiftCardHistoryViewModel
     {
-        public int GiftCardHistoryId { get; set; }
-        public int GiftCardId { get; set; }
+        public int? GiftCardHistoryId { get; set; }
+        public int? GiftCardId { get; set; }
         public int? TransactionType { get; set; }
         public decimal? TransactionAmount { get; set; }
         public DateTime? TransactionDate { get; set; }
