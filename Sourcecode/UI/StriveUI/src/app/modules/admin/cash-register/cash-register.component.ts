@@ -252,10 +252,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     );
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === "CashIn")[0].CodeId;
+        this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CashIn)[0].CodeId;
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -507,7 +507,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   }
 
   getStoreStatusList() {
-    this.getCode.getCodeByCategory('Storestatus').subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;

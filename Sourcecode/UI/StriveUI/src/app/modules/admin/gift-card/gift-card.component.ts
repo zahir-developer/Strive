@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -30,13 +30,15 @@ export class GiftCardComponent implements OnInit {
   clonedGiftCardList = [];
   search = '';
   collectionSize: number;
- 
+  @ViewChild(AddGiftCardComponent) addGiftCardComponent: AddGiftCardComponent;
+
   page: number;
   pageSize: number;
   pageSizeList: number[];
   query = '';
   sortColumn: { sortBy: string; sortOrder: string; };
   startDate: Date;
+  getGiftCardDetails = [];
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -118,16 +120,48 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
     this.getAllGiftCard();
   }
 
-  getAllGiftCardHistory(giftCardNumber) {
-    this.giftCardService.getAllGiftCardHistory(giftCardNumber).subscribe(res => {
-      if (res.status === 'Success') {
-        const cardHistory = JSON.parse(res.resultData);
-        this.giftCardHistory = cardHistory.GiftCardHistory;
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
-  }
+//   getAllGiftCardHistory(giftCardNumber) {
+  
+//     const obj = {
+//       locationId: localStorage.getItem('empLocationId'),
+//       startDate: this.startDate,
+//       endDate: new Date(),
+//       pageNo: this.page,
+//       pageSize: this.pageSize,
+//       query: this.search == '' ? null : this.search ,
+//       sortOrder: this.sortColumn.sortOrder,
+//       sortBy: this.sortColumn.sortBy,
+//       status: true
+//     };
+//     this.giftCardList = [];
+//     this.spinner.show();
+//     this.giftCardService.getAllGiftCard(obj).subscribe(res => {
+//       if (res.status === 'Success') {
+//         this.spinner.hide();
+
+//         const giftcard = JSON.parse(res.resultData);
+//         if (giftcard.GiftCard.GiftCardViewModel !== null) {
+//           this.giftCardHistory = giftcard.GiftCard.GiftCardViewModel;
+         
+         
+//           this.giftCardHistory.forEach(item => {
+//             if(item){
+//               item.GiftCardCode = giftCardNumber
+// console.log(item ,'item')
+//             }
+//           });
+//                }
+
+//       }
+//       else{
+//         this.spinner.hide();
+
+//       }
+//     }, (err) => {
+//       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+//       this.spinner.hide();
+//     });
+//   }
 
   get f() {
     return this.giftCardForm.controls;
@@ -139,29 +173,78 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Mandatory });
       return;
     }
-    const giftCardNumber = +this.giftCardForm.value.number;
-    this.giftCardService.getGiftCard(giftCardNumber).subscribe(res => {
+    const giftCardNumber = this.giftCardForm.value.number;
+    // this.giftCardService.getGiftCard(giftCardNumber).subscribe(res => {
+    //   if (res.status === 'Success') {
+    //     const giftcardDetail = JSON.parse(res.resultData);
+    //     if (giftcardDetail.GiftCardDetail.length > 0) {
+    //       this.activeDate = moment(giftcardDetail.GiftCardDetail[0].ExpiryDate).format('MM/DD/YYYY');
+    //       this.totalAmount = giftcardDetail.GiftCardDetail[0].TotalAmount;
+    //       this.giftCardID = giftcardDetail.GiftCardDetail[0].GiftCardId;
+    //       this.isActivity = true;
+    //       this.updateBalance();
+    //       this.getAllGiftCardHistory(giftCardNumber);
+    //     } else {
+    //       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Admin.GiftCard.invalidCard });
+    //       this.isActivity = false;
+    //       this.activeDate = 'none';
+    //       this.totalAmount = 0;
+    //       this.giftCardHistory = [];
+    //     }
+    //   } else {
+    //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    //   }
+    // }, (err) => {
+    //   this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    // });
+    const obj = {
+      locationId: localStorage.getItem('empLocationId'),
+      startDate: this.startDate,
+      endDate: new Date(),
+      pageNo: null,
+      pageSize: null,
+      query: giftCardNumber == '' ? null : this.search ,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
+      status: true
+    };
+    this.giftCardList = [];
+    this.spinner.show();
+    this.giftCardService.getAllGiftCard(obj).subscribe(res => {
       if (res.status === 'Success') {
-        const giftcardDetail = JSON.parse(res.resultData);
-        if (giftcardDetail.GiftCardDetail.length > 0) {
-          this.activeDate = moment(giftcardDetail.GiftCardDetail[0].ExpiryDate).format('MM/DD/YYYY');
-          this.totalAmount = giftcardDetail.GiftCardDetail[0].TotalAmount;
-          this.giftCardID = giftcardDetail.GiftCardDetail[0].GiftCardId;
+        this.spinner.hide();
+   
           this.isActivity = true;
-          this.updateBalance();
-          this.getAllGiftCardHistory(giftCardNumber);
-        } else {
-          this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Admin.GiftCard.invalidCard });
-          this.isActivity = false;
-          this.activeDate = 'none';
-          this.totalAmount = 0;
-          this.giftCardHistory = [];
+        const giftcard = JSON.parse(res.resultData);
+        if (giftcard.GiftCard.GiftCardViewModel !== null) {
+          this.giftCardHistory = giftcard.GiftCard.GiftCardViewModel;
+
+          this.getGiftCardDetails = [];
+        
+           this.giftCardHistory.forEach(item => {
+            if(  item.GiftCardCode == giftCardNumber){
+              this.updateBalance();
+
+              this.getGiftCardDetails.push(
+                item
+                
+          
+              )
+            }
+            this.activeDate = moment(this.getGiftCardDetails[0]?.ActivationDate).format('MM/DD/YYYY');
+            this.totalAmount = this.getGiftCardDetails[0]?.TotalAmount;
+            this.giftCardID = this.getGiftCardDetails[0]?.GiftCardId;
+          });
         }
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+      else{
+        this.spinner.hide();
+
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -174,24 +257,27 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
     const modalRef = this.modalService.open(AddGiftCardComponent, ngbModalOptions);
     modalRef.result.then((result) => {
       if (result) {
-        this.getAllGiftCard();
+         this.giftCardForm.patchValue({
+number : result
+         })
+         this.getGiftCardDetail();
       }
     });
   }
 
-  statusUpdate(card) {
-    const finalObj = {
-      giftCardId: card.GiftCardId,
-      isActive: card.IsActive ? false : true
-    };
-    this.giftCardService.updateStatus(finalObj).subscribe(res => {
-      if (res.status === 'Success') {
-        this.getAllGiftCardHistory(card.GiftCardId);
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
-  }
+  // statusUpdate(card) {
+  //   const finalObj = {
+  //     giftCardId: card.GiftCardId,
+  //     isActive: card.IsActive ? false : true
+  //   };
+  //   this.giftCardService.updateStatus(finalObj).subscribe(res => {
+  //     if (res.status === 'Success') {
+  //       this.getAllGiftCardHistory(card.GiftCardId);
+  //     }
+  //   }, (err) => {
+  //     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+  //   });
+  // }
 
   addActivity() {
     const ngbModalOptions: NgbModalOptions = {
@@ -206,8 +292,7 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
     modalRef.componentInstance.giftCardId = this.giftCardID;
     modalRef.result.then((result) => {
       if (result) {
-        this.getAllGiftCardHistory(+this.giftCardForm.value.number);
-        this.updateBalance();
+        this.getGiftCardDetail();
       }
     });
   }
@@ -217,6 +302,7 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
     this.totalAmount = 0;
     this.isActivity = false;
     this.giftCardForm.reset();
+    this.getGiftCardDetails = [];
   }
 
   updateBalance() {

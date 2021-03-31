@@ -127,6 +127,9 @@ export const UrlConfig = {
     getAllLocationName: `Admin/Location/GetAllLocationName`
   },
   MembershipSetup: {
+    getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName`,
+
+   
     getMembershipById: `Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,
     addMembership: `Admin/MembershipSetup/Add`,
     updateMembership: `Admin/MembershipSetup/Update`,
@@ -134,6 +137,7 @@ export const UrlConfig = {
     getMembershipService: `Admin/ServiceSetup/GetService`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getAllMembership: `Admin/MembershipSetup/GetAll`,
+    getAllMembershipName: `Admin/MembershipSetup/GetAllMembershipName`,
     deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,},
 
   Messenger:

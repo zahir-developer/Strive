@@ -24,6 +24,7 @@ export class AddGiftCardComponent implements OnInit {
   isOtherAmount: boolean;
   submitted: boolean;
   GiftcardNumberExist: any;
+  giftCardCode: any;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -100,7 +101,7 @@ export class AddGiftCardComponent implements OnInit {
           };
         });
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -138,16 +139,34 @@ export class AddGiftCardComponent implements OnInit {
       updatedDate: moment(new Date()),
       clientId : this.clientId
     };
+    const activityObj = {
+      giftCardHistoryId: 0,
+      giftCardId: 0,
+      locationId: +localStorage.getItem('empLocationId'),
+      transactionType: null,
+      transactionAmount:  this.giftCardForm.value.amount,
+      transactionDate: moment(new Date()),
+      comments: null,
+      isActive: true,
+      isDeleted: false,
+      createdBy: +localStorage.getItem('empId'),
+      createdDate: moment(new Date()),
+      updatedBy: +localStorage.getItem('empId'),
+      updatedDate: moment(new Date())
+    };
+   
     const finalObj = {
-      giftCard: cardObj
+      giftCard: cardObj,
+      giftCardHistory: activityObj
+
     };
   this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
+      
         this.toastr.success(MessageConfig.Admin.GiftCard.Add , 'Success!');
-        this.activeModal.close(true);
+        this.activeModal.close(+this.giftCardForm.value.number);
         this.router.navigate(['/admin/gift-card']);
       } else {
         this.spinner.hide();

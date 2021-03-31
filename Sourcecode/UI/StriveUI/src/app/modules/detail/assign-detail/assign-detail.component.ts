@@ -273,7 +273,7 @@ export class AssignDetailComponent implements OnInit {
   }
 
   getAllServiceType() {
-    this.getCode.getCodeByCategory('SERVICETYPE').subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(data => {
       if (data.status === 'Success') {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];

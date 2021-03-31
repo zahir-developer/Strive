@@ -34,14 +34,17 @@ export class LocationCreateEditComponent implements OnInit {
   city: any;
   selectedCityId: any;
   offset1On = false;
-  offset1 = false;
-  offsetA = false;
-  offsetB = false;
-  offsetC = false;
-  offsetD = false;
-  offsetE = false;
-  offsetF = false;
+  offset1 = '';
+  offsetA = '';
+  offsetB = '';
+  offsetC = '';
+  offsetD = '';
+  offsetE = '';
+  offsetF = '';
+  emailPattern : '^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$'
+  isOffset: boolean;
   employeeId: number;
+  errorMessage: boolean = false;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -51,7 +54,7 @@ export class LocationCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
-
+    this.isOffset = false;
     this.formInitialize();
     this.submitted = false;
     this.Country = null;
@@ -70,12 +73,26 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', Validators.email],
+      email: [['']],
       franchise: ['',],
       workHourThreshold: ['',]
     });
   }
+  testMail(event) {
+    
+    if(!this.validateEmail( this.locationSetupForm.value.email)) {
+       this.errorMessage =  true;
+    }
+    else{
+      this.errorMessage =  false;
 
+    }
+  }
+  
+  validateEmail(email) {
+     var re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/
+     return re.test(String(email).toLowerCase());
+ }
   getLocationById() {
     const locationAddress = this.selectedData.LocationAddress;
     this.selectedStateId = locationAddress.State;
@@ -96,6 +113,11 @@ export class LocationCreateEditComponent implements OnInit {
     });
     if (this.selectedData.LocationOffset !== null) {
       this.offset1On = this.selectedData.LocationOffset.OffSet1On;
+      if (this.offset1On) {
+        this.isOffset = true;
+      } else {
+        this.isOffset = false;
+      }
       this.offset1 = this.selectedData.LocationOffset.OffSet1;
       this.offsetA = this.selectedData.LocationOffset.OffSetA;
       this.offsetB = this.selectedData.LocationOffset.OffSetB;
@@ -108,6 +130,15 @@ export class LocationCreateEditComponent implements OnInit {
 
   change(data) {
     this.locationSetupForm.value.franchise = data;
+  }
+
+  handleChange(event) {
+    console.log(event, 'event');
+    if (event.checked) {
+      this.isOffset = true;
+    } else {
+      this.isOffset = false;
+    }
   }
 
   get f() {
@@ -128,6 +159,10 @@ export class LocationCreateEditComponent implements OnInit {
       this.selectTab(0);
       return;
     }
+    if (this.errorMessage ==  true) {
+      return;
+    }
+ 
     const sourceObj = [];
     this.address = {
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,
@@ -221,10 +256,10 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      },  
-      (err) => {
-        this.spinner.hide();
-    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
     } else {
       this.spinner.show();
@@ -241,10 +276,10 @@ export class LocationCreateEditComponent implements OnInit {
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      },  
-      (err) => {
-        this.spinner.hide();
-    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
     }
   }

@@ -9,6 +9,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -97,7 +98,7 @@ export class ProductCreateEditComponent implements OnInit {
   // Get ProductType
   getProductType() {
 
-    const prodTypeCodes = this.codeService.getCodeValueByType('ProductType');
+    const prodTypeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.ProductType);
     if (prodTypeCodes.length > 0) {
       this.prodType = prodTypeCodes;
     }
@@ -135,7 +136,7 @@ export class ProductCreateEditComponent implements OnInit {
 
   // Get Size
   getSize() {
-    const sizeCodes = this.codeService.getCodeValueByType('Size');
+    const sizeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.Size);
     if (sizeCodes.length > 0) {
       this.size = sizeCodes;
     }
@@ -171,7 +172,7 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   showText(data) {
-    const size = this.size.filter(item => item.CodeValue === 'Other');
+    const size = this.size.filter(item => item.CodeValue === ApplicationConfig.CodeValue.Other);
     if (size.length > 0) {
       const id = size[0].CodeId;
       if (+data === id) {
@@ -333,34 +334,6 @@ export class ProductCreateEditComponent implements OnInit {
       Product: productList
     };
 
-    // this.productSetupList.push({
-    //   productCode: null,
-    //   productDescription: null,
-    //   productType: this.productSetupForm.value.productType,
-    //   productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-    //   locationId: item.id,
-    //   productName: this.productSetupForm.value.name,
-    //   fileName: this.fileName,
-    //   OriginalFileName: this.fileName,
-    //   thumbFileName: this.fileThumb,
-    //   base64: this.fileUploadformData,
-    //   cost: this.productSetupForm.value.cost,
-    //   isTaxable: this.isChecked,
-    //   taxAmount: this.isChecked ? this.productSetupForm.value.taxAmount : 0,
-    //   size: this.productSetupForm.value.size,
-    //   sizeDescription: this.textDisplay ? this.productSetupForm.value.other : null,
-    //   quantity: this.productSetupForm.value.quantity,
-    //   quantityDescription: null,
-    //   isActive: this.productSetupForm.value.status === 0 ? true : false,
-    //   vendorId: vendor.id,
-    //   thresholdLimit: this.productSetupForm.value.thresholdAmount,
-    //   isDeleted: false,
-    //   createdBy: this.employeeId,
-    //   createdDate: this.isEdit ? this.selectedProduct.CreatedDate : new Date(),
-    //   updatedBy: this.employeeId,
-    //   updatedDate: new Date(),
-    //   price: this.productSetupForm.value.suggested
-    // });
     if (this.isEdit === true) {
       this.spinner.show();
       this.product.updateProduct(finalObj).subscribe(data => {

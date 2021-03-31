@@ -54,6 +54,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   drawerId: any;
   submitted = false;
   isTimechange: boolean;
+  tips: any;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
@@ -128,6 +129,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.closeOutDetails = closeOut.CashRegister;
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
+          this.tips = this.closeOutDetails.CashRegister.Tips
           this.storeStatus = this.closeOutDetails.CashRegister.StoreOpenCloseStatus !== null ?
             this.closeOutDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
@@ -202,10 +204,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory("CASHREGISTERTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === "CloseOut")[0].CodeId;
+        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CloseOut)[0].CodeId;
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -308,6 +310,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
+      Tips: this.tips,
       storeTimeOut: checkoutTime,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
@@ -449,14 +452,13 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   }
 
   getStoreStatusList() {
-    this.getCode.getCodeByCategory('Storestatus').subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
         this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue !== ApplicationConfig.storestatus.open);
-        console.log(dType, 'type');
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

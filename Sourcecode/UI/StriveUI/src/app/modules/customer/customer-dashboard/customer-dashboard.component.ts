@@ -118,6 +118,12 @@ export class CustomerDashboardComponent implements OnInit {
           scheduleDetails.DetailsGrid.BayJobDetailViewModel.forEach(item => {
             if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(item.JobDate, 'dd-MM-yyyy')) {
               this.todayScheduleDetail.push(item);
+              if (this.todayScheduleDetail?.length > 0) {
+                for (let i = 0; i < this.todayScheduleDetail.length; i++) {
+                  this.todayScheduleDetail[i].VehicleModel == 'None' ? this.todayScheduleDetail[i].VehicleModel =  'Unk' : this.todayScheduleDetail[i].VehicleModel ;
+                }
+              }
+            
             } else if (currentDate < new Date(item.JobDate)) {
               this.todayScheduleDetail.push(item);
             } else {

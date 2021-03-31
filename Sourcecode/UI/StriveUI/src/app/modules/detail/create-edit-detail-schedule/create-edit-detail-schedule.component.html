@@ -254,7 +254,7 @@
                             <button type="button" class="btn theme-primary-button-color col-3"
                                 [disabled]="!isStart || isView" (click)="start()">Start</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"
-                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>&nbsp;
+                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit || isView">Assign</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-4"
                                 [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
                         </span>
@@ -274,7 +274,7 @@
                         <span class="col-2"></span>
                         <span class="col-10" style="padding-left: 5px !important;">
                             <button type="button" class="btn theme-primary-button-color col-3"
-                                [disabled]="!isEdit || isView" (click)="pay()">Pay</button>&nbsp;
+                                [disabled]="!isEdit" (click)="pay()">Pay</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
                                 [disabled]="isView">Save</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"

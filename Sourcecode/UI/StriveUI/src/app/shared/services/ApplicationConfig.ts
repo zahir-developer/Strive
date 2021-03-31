@@ -121,9 +121,47 @@ export const ApplicationConfig = {
             AirFresheners: 'Air Fresheners',
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
+            Details :'Details',
+            DetailPackage: 'Detail Package'
         },
     },
-
+Category : {
+documentType : 'DOCUMENTTYPE',
+all : 'ALL',
+cashRegister: 'CASHREGISTERTYPE',
+storeStatus: 'Storestatus',
+immigrationStatus: 'IMMIGRATIONSTATUS',
+liablityType: 'LIABILITYTYPE',
+documentSubType:'DocumentSubType',
+serviceType: 'SERVICETYPE',
+LiablityDetailType: 'LIABILITYDETAILTYPE',
+CommisionType: "COMMISIONTYPE",
+paymentType : 'PAYMENTTYPE',
+paymentStatus:'PAYMENTSTATUS',
+ClientType: 'CLIENTTYPE'
+},
+CodeValue :{
+    EmployeeHandBook: 'EmployeeHandBook',
+    CashIn: 'CashIn',
+    CloseOut: 'CloseOut',
+    Collision: 'Collision',
+    Ads: 'Ads',
+    Other:'Other',
+    TermsAndCondition: 'TermsAndCondition',
+    inProgress: 'In Progress',
+    Comp : 'Comp',
+    Completed : 'Completed',
+    Waiting : 'Waiting',
+    Details : 'Details',
+    Washes:'Washes',
+    additionalServices: 'Additional Services',
+},
+CodeValueByType : {
+    ProductType: 'ProductType',
+    Size : 'Size',
+    serviceType: 'ServiceType',
+    JobStatus: 'JobStatus'
+},
     dealTimePeriods: [
         {
             name: 'Monthly',

@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-preview-appointment-detail',
@@ -36,7 +37,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   }
 
   bookNow() {
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Waiting' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.Waiting });
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;

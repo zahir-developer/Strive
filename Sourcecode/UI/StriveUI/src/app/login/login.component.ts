@@ -12,6 +12,8 @@ import { LandingService } from '../shared/services/common-service/landing.servic
 import { GetCodeService } from '../shared/services/data-service/getcode.service';
 import { CodeValueService } from '../shared/common-service/code-value.service';
 import { tap, mapTo, share } from 'rxjs/operators';
+import { ApplicationConfig } from '../shared/services/ApplicationConfig';
+import { WeatherService } from '../shared/services/common-service/weather.service';
 
 @Component({
   selector: 'app-login',
@@ -30,8 +32,9 @@ export class LoginComponent implements OnInit {
   dashBoardModule: boolean;
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
-    private msgService: MessengerService, private user: UserDataService, private spinner: NgxSpinnerService
-    , private landing: LandingService, private codeValueService: CodeValueService) { }
+    private msgService: MessengerService, private user: UserDataService,
+     private spinner: NgxSpinnerService, private weatherService: WeatherService,
+     private landing: LandingService, private codeValueService: CodeValueService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
@@ -41,7 +44,6 @@ export class LoginComponent implements OnInit {
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required)
     });
-    this.msgService.closeConnection();
   }
   get f() { return this.loginForm.controls; }
   LoginSubmit(): void {
@@ -67,6 +69,7 @@ export class LoginComponent implements OnInit {
           this.getCodeValue();
           this.getThemeColor();
           this.msgService.startConnection();
+          this.weatherService.getWeather()
         } else {    
   this.errorFlag = true;
           this.isLoginLoading = false;
@@ -106,7 +109,7 @@ export class LoginComponent implements OnInit {
   }
 
   getCodeValue() {
-    this.getCodeService.getCodeByCategory('ALL').subscribe( res => {
+    this.getCodeService.getCodeByCategory(ApplicationConfig.Category.all).subscribe( res => {
       if (res.status === 'Success') {
         const value = JSON.parse(res.resultData);
         localStorage.setItem('codeValue', JSON.stringify(value.Codes));

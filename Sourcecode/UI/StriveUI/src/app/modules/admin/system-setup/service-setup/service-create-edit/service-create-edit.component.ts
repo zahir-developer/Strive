@@ -205,7 +205,7 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get CommisionType
   getCommissionType() {
-    this.getCode.getCodeByCategory("COMMISIONTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.CommisionType).subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.CommissionType = cType.Codes;
@@ -222,7 +222,7 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get ParentType
   getParentType() {
-    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
     if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
       const serviceDetails = this.serviceEnum;
@@ -269,8 +269,8 @@ export class ServiceCreateEditComponent implements OnInit {
 
   // Get ServiceType
   getAllServiceType() {
-    const check = this.codeValueService.getCodeValueByType('ServiceType');
-    this.getCode.getCodeByCategory("SERVICETYPE").subscribe(data => {
+    const check = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes;
@@ -305,7 +305,7 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isAdditional = false;
       }
-      if (type === 'Details') {
+      if (type === ApplicationConfig.Enum.ServiceType.DetailPackage) {
         this.isDetails = true;
       } else {
         this.isDetails = false;

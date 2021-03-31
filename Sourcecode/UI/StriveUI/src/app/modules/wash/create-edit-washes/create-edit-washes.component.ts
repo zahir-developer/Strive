@@ -289,7 +289,7 @@ export class CreateEditWashesComponent implements OnInit {
 
 
   getServiceType() {
-    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
     if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
       this.washId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.WashPackage)[0]?.CodeId;
@@ -926,9 +926,9 @@ export class CreateEditWashesComponent implements OnInit {
     }) 
   }
   getJobStatus() {
-    const jobStatus = this.codeValueService.getCodeValueByType('JobStatus');
+    const jobStatus = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.JobStatus);
     if (jobStatus.length > 0) {
-      this.jobStatus = jobStatus.filter(item => item.CodeValue === 'In Progress');
+      this.jobStatus = jobStatus.filter(item => item.CodeValue ===  ApplicationConfig.CodeValue.inProgress);
       if (this.jobStatus.length > 0) {
         this.jobStatusId = this.jobStatus[0].CodeId;
       }

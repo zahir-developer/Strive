@@ -31,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   TimeoutPeriod = 30;
   intervalId: any;
   subscriptionAuthenticate: Subscription;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -40,8 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private idle: Idle) {
     this.isUserAuthenticated = this.user.isAuthenticated;
     this.subscriptionAuthenticate = this.authenticate.getIsAuthenticate().subscribe(isAuthenticate => {
-      if (isAuthenticate)  {
-       this.initializeTimeOut();
+      if (isAuthenticate) {
+        this.initializeTimeOut();
       } else {
         this.idle.stop();
       }
@@ -113,7 +114,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.countdown = countdown;
       this.sessionLogoutComponent.dialogType = 'idle';
       this.sessionLogoutComponent.header = 'Session Timeout';
-      this.header = 'Session Timeout Warning..!';
+      this.header = 'Session Timeout Warning';
     }
     );
     idle.onTimeout.subscribe(() => {
@@ -122,7 +123,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.dialogType = 'timeout';
       this.sessionLogoutComponent.dialogDisplay = true;
       this.sessionLogoutComponent.header = 'Locked Out';
-      this.header = 'Session expired..!';
+      this.header = 'Session Expired';
       this.authService.refreshLogout();
       clearInterval(this.intervalId);
     });
@@ -176,6 +177,9 @@ export class AppComponent implements OnInit, OnDestroy {
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
           this.logoService.setTitle(label.WhiteLabelling.WhiteLabel?.Title);
+          const base64 = 'data:image/png;base64,';
+          const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
+          this.favIcon.href = logoBase64;
           if (label.WhiteLabelling.Theme !== null) {
             label.WhiteLabelling.Theme.forEach(item => {
               if (label.WhiteLabelling.WhiteLabel?.ThemeId === item.ThemeId) {

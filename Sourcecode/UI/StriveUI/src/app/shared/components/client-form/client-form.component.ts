@@ -6,6 +6,7 @@ import { ClientService } from '../../services/data-service/client.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
 import { CityComponent } from '../city/city.component';
 import { MessageConfig } from '../../services/messageConfig';
+import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-form',
@@ -126,7 +127,7 @@ export class ClientFormComponent implements OnInit {
 
   // Get ClientType
   getClientType() {
-    this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.Type = cType.Codes;
