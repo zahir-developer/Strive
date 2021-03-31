@@ -16,6 +16,9 @@ export class GiftCardService {
   getAllGiftCard(obj): Observable<any> {
     return this.http.post(`${UrlConfig.giftCard.getAllGiftCard}` , obj );
   }
+  getGiftCardHistoryByTicketNumber(cardNumber) {
+    return this.http.get(`${UrlConfig.giftCard.getGiftCardHistoryByTicketNmber}`  + cardNumber,{ params: { giftCardCode: cardNumber } });
+  }
   getAllGiftCardHistory(giftCardId) {
     return this.http.get(`${UrlConfig.giftCard.getAllGiftCardHistory}` + giftCardId);
   }
