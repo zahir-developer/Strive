@@ -34,6 +34,17 @@ namespace Strive.Common
         string HtmlTemplates { get; set; }
 
         string VehicleImageFolder { get; set; }
+
+
+        #region CardConnect
+
+        string CCUrl { get; set; }
+        string CCUserName { get; set; }
+        string CCPassword { get; set; }
+        string MID { get; set; }
+
+        #endregion
+
         IDbConnection db();
         IDbConnection dbAuth();
         void SetConnection(string con);
@@ -80,6 +91,18 @@ namespace Strive.Common
         public string HtmlTemplates { get; set; }
 
         public string VehicleImageFolder { get; set; }
+
+        #region
+
+        public string CCUrl { get; set; }
+
+        public string CCUserName { get; set; }
+
+        public string CCPassword { get; set; }
+
+        public string MID { get; set; }
+
+        #endregion
         public TenantHelper(IDistributedCache cache)
         {
             _cache = cache;
