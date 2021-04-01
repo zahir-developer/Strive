@@ -10,21 +10,21 @@
                     <tr>
                         <th scope="col" >Ticket#&nbsp;</th>
                         <th scope="col">Date&nbsp;</th>
-                        <th scope="col">Serive Completed&nbsp;</th>
-                        <th scope="col" >Amount&nbsp;</th>
-                        <th scope="col">Price&nbsp;</th>
-                        <th scope="col">Comm&nbsp;</th>
+                        <th scope="col">Serive Type&nbsp;</th>
+                        <th scope="col" >Total Amount&nbsp;</th>
+                        <!-- <th scope="col">Price&nbsp;</th>
+                        <th scope="col">Comm&nbsp;</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let history of historyGrid ">
-                        <td ><span (click)="openHistory()">{{history.TicketNumber}}</span></td>
+                        *ngFor="let history of historyGrid |slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <td ><span (click)="openHistory(history)">{{history.TicketNumber}}</span></td>
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
                         <td>{{history.Amount | currency}}</td>
-                        <td>{{history.Price | currency}}</td>
-                        <td>{{history.Comm | currency}}</td>
+                        <!-- <td>{{history.Price | currency}}</td>
+                        <td>{{history.Comm | currency}}</td> -->
                     </tr>
                     <tr *ngIf="historyGrid.length === 0">
                         <td colspan="12" class="text-center">
@@ -33,12 +33,12 @@
                     </tr>
                 </tbody>
             </table>
-            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
-                [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+            <ngb-pagination *ngIf="historyGrid.length > 10" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end" (pageChange) = "paginate($event)">
             </ngb-pagination>
             <div class="pull-right mw-100 m-t-5">
                 <button type="button" class="btn theme-optional-button-color"
-                    (click)="closeHistoryModel()">Done</button>
+                    (click)="closeHistoryModel()">Close</button>
             </div>
         </div>
     </div>

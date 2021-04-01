@@ -128,7 +128,7 @@
                                                             <div class="col-sm-4">
                                                                 <button type="button" [disabled]="giftCardForm.invalid"
                                                                     class="btn theme-primary-button-color btn-md m-l-10"
-                                                                    (click)="getGiftCardDetail()">Select
+                                                                    (click)="getGiftCardHistoryByTicketNumer()">Select
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -195,8 +195,8 @@
                                                                     <th scope="col">Amount</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody *ngIf="getGiftCardDetails.length > 0" class="bodyfix">
-                                                                <tr *ngFor="let card of getGiftCardDetails">
+                                                            <tbody *ngIf="giftCardHistory.length > 0" class="bodyfix">
+                                                                <tr *ngFor="let card of giftCardHistory">
                                                                     <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
                                                                     </td>
                                                                     <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
@@ -204,7 +204,7 @@
                                                                     <td>{{card.TransactionAmount | currency}}</td>
                                                                 </tr>
                                                             </tbody>
-                                                            <tbody *ngIf="getGiftCardDetails.length === 0">
+                                                            <tbody *ngIf="giftCardHistory.length === 0">
                                                                 <tr>
                                                                     <td colspan="5" class="text-center">
                                                                         No activity available
