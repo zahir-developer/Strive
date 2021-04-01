@@ -22,28 +22,31 @@ export class MessengerEmployeeListComponent implements OnInit {
   employeeId: number = +localStorage.getItem('empId');
   selectedClass: string;
   constructor(private msgService: MessengerService, private signalrService: SignalRService,
-    private toastr : ToastrService) { }
+    private toastr: ToastrService) { }
   ngOnInit(): void {
     this.getRecentChatHistory(this.employeeId);
-    this.signalrService.communicationId.subscribe(data => {
-      if (data !== null) {
-        this.empOnlineStatus = data;
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      this.signalrService.communicationId.subscribe(data => {
+        if (data !== null) {
+          this.empOnlineStatus = data;
 
-        const commObj = {
-          EmployeeId: +data[0],
-          CommunicationId: data[1]
-        };
+          const commObj = {
+            EmployeeId: +data[0],
+            CommunicationId: data[1]
+          };
 
-        this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
-        });
+          this.msgService.UpdateChatCommunication(commObj).subscribe(data => {
+          });
 
-        if (this.empList.length > 0) {
-          this.setCommunicationId();
+          if (this.empList.length > 0) {
+            this.setCommunicationId();
+          }
         }
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
+
   }
   getRecentChatHistory(employeeId) {
     this.msgService.GetEmployeeList(employeeId).subscribe(data => {
