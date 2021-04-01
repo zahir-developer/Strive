@@ -13,5 +13,7 @@ namespace Strive.BusinessLogic.PaymentGateway
 
         Result VoidTrasaction(CreditCardDto cardDto);
 
+        Result authTransactionWithUserFields(PaymentDto paymentDto);
+
     }
 }
