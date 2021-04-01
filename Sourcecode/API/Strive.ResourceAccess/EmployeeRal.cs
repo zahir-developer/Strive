@@ -85,6 +85,12 @@ namespace Strive.ResourceAccess
             var lstResult = db.FetchMultiResult<EmployeeRoleViewModel>(EnumSP.Employee.USPGETEMPLOYEEROLEBYID.ToString(), _prm);
             return lstResult;
         }
+        public List<EmployeeNameDto> GetAllEmployeeName(int locationId)
+        {
+            _prm.Add("@LocationId", locationId);
+            var lstResult = db.Fetch<EmployeeNameDto>(EnumSP.Employee.USPGETALLEMPLOYEE.ToString(), _prm);
+            return lstResult;
+        }
 
 
     }
