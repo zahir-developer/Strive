@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ServiceListComponent } from '../service-list/service-list.component';
 
 @Component({
   selector: 'app-client-history',
@@ -14,7 +15,7 @@ export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
   historyGrid: any = [];
   page = 1;
-  pageSize = 5;
+  pageSize = 10;
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
@@ -22,7 +23,8 @@ export class ClientHistoryComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private client: ClientService,
     private spinner: NgxSpinnerService,
-    private toastr : ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -45,5 +47,22 @@ export class ClientHistoryComponent implements OnInit {
     });
   }
 
- 
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+  }
+
+  openHistory(data) {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const ticketDetail = this.historyGrid.filter( item => item.TicketNumber === data.TicketNumber );
+    const modalRef = this.modalService.open(ServiceListComponent, ngbModalOptions);
+    modalRef.componentInstance.historyGrid = ticketDetail;
+    modalRef.componentInstance.ticketNumber = data.TicketNumber;
+  }
+
+
 }

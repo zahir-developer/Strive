@@ -211,14 +211,14 @@ namespace Admin.API
             app.UseAuthentication();
             app.UseStatusCodePages();
             //app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000","http://14.141.185.75:5003","http://localhost:4200","http://40.114.79.101:5003").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
-            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
 
             // global cors policy
-            app.UseCors(x => x
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true) // allow any origin
-                .AllowCredentials()); // allow credentials
+            //app.UseCors(x => x
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader()
+            //    .SetIsOriginAllowed(origin => true) // allow any origin
+            //    .AllowCredentials()); // allow credentials
 
             //app.UseSecureHeadersMiddleware(CustomSecureHeaderExtensions.CustomConfiguration());
             //app.UseSecureHeadersMiddleware(secureHeaderSettings.Value); 

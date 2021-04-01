@@ -5,6 +5,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import {  Subject } from 'rxjs';
 
 @Component({
   selector: 'app-service-setup-list',
@@ -12,13 +14,11 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   styleUrls: ['./service-setup-list.component.css']
 })
 export class ServiceSetupListComponent implements OnInit {
-  serviceSetupDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  search: any = '';
   searchStatus: any;
   collectionSize: number = 0;
   Status: any;
@@ -29,7 +29,9 @@ export class ServiceSetupListComponent implements OnInit {
   totalRowCount = 0;
   isLoading: boolean;
   sortColumn: { sortBy: string; sortOrder: string; };
-
+  public serviceSetupDetails: string[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
 
   
   constructor(
@@ -37,7 +39,16 @@ export class ServiceSetupListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService
-  ) { }
+  ) {
+        // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllserviceSetupDetails();
+      });
+  }
+   
 
   ngOnInit() {
     this.isLoading = false;
@@ -67,10 +78,12 @@ export class ServiceSetupListComponent implements OnInit {
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
-        
+
         this.totalRowCount = 0;
         this.serviceSetupDetails = [];
         const serviceDetails = JSON.parse(data.resultData);
+        console.log(serviceDetails, 'service')
+
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
 
           this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;
@@ -100,7 +113,15 @@ export class ServiceSetupListComponent implements OnInit {
     this.page = this.page;
     this.getAllserviceSetupDetails();
   }
-
+  searchKeyup(event){
+    if(event){
+      setTimeout(() => {
+        this.getAllserviceSetupDetails();
+      }, 5000);
+    }
+   
+  }
+ 
   serviceSearch() {
     this.page = 1;
     const obj = {
