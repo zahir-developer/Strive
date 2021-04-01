@@ -21,9 +21,16 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("VoidTrasaction")]
-        public Result VoidTrasaction([FromBody]CreditCardDto creditCardDto)
+        public Result VoidTrasaction([FromBody] CreditCardDto creditCardDto)
         {
             return _bplManager.VoidTrasaction(creditCardDto);
+        }
+
+        [HttpPost]
+        [Route("TrasactionWithUserFields")]
+        public Result TrasactionWithUserFields([FromBody] PaymentDto paymentDto)
+        {
+            return _bplManager.authTransactionWithUserFields(paymentDto);
         }
     }
 }

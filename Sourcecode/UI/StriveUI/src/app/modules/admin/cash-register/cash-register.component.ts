@@ -511,7 +511,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
-        this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue === ApplicationConfig.storestatus.open);
+        // this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue === ApplicationConfig.storestatus.open);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }

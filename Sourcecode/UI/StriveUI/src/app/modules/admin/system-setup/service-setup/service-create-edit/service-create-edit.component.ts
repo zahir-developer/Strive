@@ -274,7 +274,7 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes;
-        this.discountServiceType = cType.Codes;
+        this.discountServiceType = cType.Codes.filter( item => item.CodeValue !== ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
