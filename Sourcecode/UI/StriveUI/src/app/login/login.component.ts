@@ -14,6 +14,7 @@ import { CodeValueService } from '../shared/common-service/code-value.service';
 import { tap, mapTo, share } from 'rxjs/operators';
 import { ApplicationConfig } from '../shared/services/ApplicationConfig';
 import { WeatherService } from '../shared/services/common-service/weather.service';
+import { LogoService } from '../shared/services/common-service/logo.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
     private msgService: MessengerService, private user: UserDataService,
+    private logoService : LogoService,
      private spinner: NgxSpinnerService, private weatherService: WeatherService,
      private landing: LandingService, private codeValueService: CodeValueService) { }
 
@@ -92,6 +94,7 @@ export class LoginComponent implements OnInit {
       this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
         if (res.status === 'Success') {
           const label = JSON.parse(res.resultData);
+          this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
           const base64 = 'data:image/png;base64,';
           const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
           this.favIcon.href = logoBase64;
