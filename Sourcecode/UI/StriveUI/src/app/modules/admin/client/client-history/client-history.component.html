@@ -8,10 +8,10 @@
             <table aria-describedby="statement-grid" class="table border table-hover table-striped">
                 <thead>
                     <tr>
-                        <th scope="col" >Ticket#&nbsp;</th>
+                        <th scope="col">Ticket#&nbsp;</th>
                         <th scope="col">Date&nbsp;</th>
                         <th scope="col">Serive Type&nbsp;</th>
-                        <th scope="col" >Total Amount&nbsp;</th>
+                        <th scope="col">Total Amount&nbsp;</th>
                         <!-- <th scope="col">Price&nbsp;</th>
                         <th scope="col">Comm&nbsp;</th> -->
                     </tr>
@@ -19,7 +19,8 @@
                 <tbody>
                     <tr
                         *ngFor="let history of historyGrid |slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                        <td ><span (click)="openHistory(history)">{{history.TicketNumber}}</span></td>
+                        <td><span class="text-underline theme-primary-color font-size--9" style="cursor: pointer;"
+                                (click)="openHistory(history)">{{history.TicketNumber}}</span></td>
                         <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
                         <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
                         <td>{{history.Amount | currency}}</td>
@@ -33,8 +34,9 @@
                     </tr>
                 </tbody>
             </table>
-            <ngb-pagination *ngIf="historyGrid.length > 10" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
-                [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end" (pageChange) = "paginate($event)">
+            <ngb-pagination *ngIf="historyGrid.length > 10" [collectionSize]="collectionSize" [(page)]="page"
+                [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                class="d-flex justify-content-end" (pageChange)="paginate($event)">
             </ngb-pagination>
             <div class="pull-right mw-100 m-t-5">
                 <button type="button" class="btn theme-optional-button-color"
