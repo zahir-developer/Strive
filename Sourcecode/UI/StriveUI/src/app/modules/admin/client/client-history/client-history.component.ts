@@ -15,7 +15,7 @@ export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;
   historyGrid: any = [];
   page = 1;
-  pageSize = 5;
+  pageSize = 10;
   collectionSize: number;
   sort = { column: 'Date', descending: true };
   sortColumn: { column: string; descending: boolean; };
@@ -47,15 +47,21 @@ export class ClientHistoryComponent implements OnInit {
     });
   }
 
-  openHistory() {
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+  }
+
+  openHistory(data) {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size: 'xl'
+      size: 'lg'
     };
+    const ticketDetail = this.historyGrid.filter( item => item.TicketNumber === data.TicketNumber );
     const modalRef = this.modalService.open(ServiceListComponent, ngbModalOptions);
-    modalRef.componentInstance.isEdit = true;
-    modalRef.componentInstance.isView = true;
+    modalRef.componentInstance.historyGrid = ticketDetail;
+    modalRef.componentInstance.ticketNumber = data.TicketNumber;
   }
 
 

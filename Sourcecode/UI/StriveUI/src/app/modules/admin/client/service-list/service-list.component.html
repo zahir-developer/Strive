@@ -1,162 +1,42 @@
-<div class="col-lg-12 p-l-0 p-r-0">
-    <div class="card">
-        <div class="card-body">
-            <form [formGroup]="washForm">
-                <div class="form-row border-bottom m-b-8">
-                    <div class="form-group col-xl-3">
-                        <h5 class="d-inline-block font-weight-600">Ticket No. <span
-                                style="color: #1dc5b3;">{{ticketNumber}}</span></h5> <span
-                            class="font-size-1 font-weight-600"></span>
-                    </div>
-                    <div class="form-group col-xl-9">
-                        <div class="pull-right">
-                            <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Time in:
-                                {{ timeInDate | date:'MM-dd-yyyy, HH:mm'}}</p>
-                            <p class="theme-font-color border-right m-r-10 p-r-10 d-inline-block">Est.Time
-                                {{ timeOutDate | date:'MM-dd-yyyy, HH:mm' }}</p>
-                            <p class="theme-font-color m-r-10 p-r-10 d-inline-block">Est.Min:
-                                {{washTime}}min</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-lg-2 col-md-2 col-xl-3">
-                        <label for="inputBarcode">Barcode</label>
-                        <input type="text" maxlength="100" class="form-control" formControlName="barcode"
-                            placeholder="BarCode">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputClient">Client<span class="required">*</span></label>
-                        <div class="ui-fluid">
-                            <div class="p-grid forms-grid">
-                                <div class="p-col-3 p-md-6">
-                                    <input type="text" maxlength="100" class="form-control" formControlName="client"
-                                        placeholder="Client Name">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputVehicle">Vehicle<span class="required">*</span></label>
-                        <select class="form-control" formControlName="vehicle">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
-                                {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputType">Type</label>
-                        <div class="ui-fluid">
-                            <div class="p-grid forms-grid">
-                                <div class="p-col-3 p-md-6">
-                                    <input type="text" maxlength="100" class="form-control" formControlName="type"
-                                        placeholder="Make">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputModel">Model</label>
-                        <div class="ui-fluid">
-                            <div class="p-grid forms-grid">
-                                <div class="p-col-3 p-md-6">
-                                    <input type="text" maxlength="100" class="form-control" formControlName="model"
-                                        placeholder="Model">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputColor">Color</label>
-                        <div class="ui-fluid">
-                            <div class="p-grid forms-grid">
-                                <div class="p-col-3 p-md-6">
-                                    <input type="text" maxlength="100" class="form-control" formControlName="color"
-                                        placeholder="Color">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputWashes">Washes<span class="required">*</span></label>
-                        <select class="form-control" formControlName="washes">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of washes" value="{{score.ServiceId}}">
-                                {{score.ServiceName}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputUpchargeType">Upcharge Type</label>
-                        <select class="form-control" formControlName="upchargeType">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
-                                {{score.ServiceName}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputUpcharges">Upcharges</label>
-                        <select class="form-control" formControlName="upcharges">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
-                                {{score.Upcharges}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="inputAirFreshners">Air Freshners</label>
-                        <select class="form-control" formControlName="airFreshners">
-                            <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of airFreshner" value="{{score.ServiceId}}">
-                                {{score.ServiceName}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label for="inputNotes">Notes</label>
-                            <textarea rows="4" class="form-control m-t-5 notes-textarea" placeholder="Notes"
-                                formControlName="notes"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <div class="title-border p-b-5 m-b-5">
-                <h5 class="d-inline-block font-weight-600">Additional Service </h5>
-            </div>
-            <div class="row">
-                <div class="col-md-3" *ngFor="let addService of additional">
-                    <div class="custom-control custom-checkbox m-t-10">
-                        <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}"
-                            [disabled]="isView" [checked]="addService.IsChecked" />
-                        <label class="custom-control-label"
-                            for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
-                    </div>
-                </div>
-            </div>
-            <div class="m-t-20 mw-100">
-                <div class="pull-right mw-100 m-t-5">
-                    <button type="button" class="btn theme-optional-button-color"
-                        (click)="closeHistoryModel()">Close</button>
-                </div>
-                <!-- <span *ngIf="isEdit">
-                    <button type="button" class="btn theme-primary-button-color"
-                        (click)="pay()">Pay</button>&nbsp;
-                    <button type="button" class="btn theme-primary-button-color"
-                        (click)="print()">Print</button>
-                </span>
-                <span class="pull-right">
-                    <button type="button" class="btn theme-optional-button-color"
-                        (click)="cancel()">Cancel</button>&nbsp;
-                    <button *ngIf="!isView" type="button" class="btn theme-primary-button-color"
-                        (click)="submit()">Save</button>
-                </span> -->
+<div class="card  m-b-10">
+    <div class="card-body">
+        <div class="title-border p-b-5 m-b-5 m-t-10">
+            <h6 class="d-inline-block font-weight-600">Ticket Detail - {{ticketNumber}}
+            </h6>
+        </div>
+        <div class="table-responsive m-t-10">
+            <table aria-describedby="statement-grid" class="table border table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Date&nbsp;</th>
+                        <th scope="col">Serive Completed&nbsp;</th>
+                        <!-- <th scope="col" >Amount&nbsp;</th> -->
+                        <th scope="col">Price&nbsp;</th>
+                        <th scope="col">Comm&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let history of historyGrid |slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <td>{{history.Date | date: 'MM/dd/yyyy'}}</td>
+                        <td class="table-ellipsis">{{history.ServiceCompleted}}</td>
+                        <!-- <td>{{history.Amount | currency}}</td> -->
+                        <td>{{history.Price | currency}}</td>
+                        <td>{{history.Comm | currency}}</td>
+                    </tr>
+                    <tr *ngIf="historyGrid.length === 0">
+                        <td colspan="12" class="text-center">
+                            No Records Found
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination *ngIf="historyGrid.length > 10" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+            </ngb-pagination>
+            <div class="pull-right mw-100 m-t-5">
+                <button type="button" class="btn theme-optional-button-color"
+                    (click)="closeHistoryModel()">Close</button>
             </div>
         </div>
     </div>
