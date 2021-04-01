@@ -18,5 +18,6 @@ namespace Strive.BusinessEntities.ViewModel
         public int JobId { get; set; }
 
         public string JobType { get; set; }
+        public string ServiceType { get; set; }
     }
 }
