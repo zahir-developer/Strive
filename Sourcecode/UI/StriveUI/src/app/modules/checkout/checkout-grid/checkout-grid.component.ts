@@ -248,7 +248,7 @@ export class CheckoutGridComponent implements OnInit {
         if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
           const finalObj = {
             jobId: checkout.JobId,
-            actualTimeOut: new Date()
+            ActualTimeOut: new Date()
           };
           this.spinner.show();
           this.checkout.completedVehicle(finalObj).subscribe(res => {
