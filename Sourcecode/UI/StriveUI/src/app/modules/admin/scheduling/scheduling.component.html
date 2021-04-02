@@ -1,4 +1,4 @@
- <div id="page-content">
+<div id="page-content">
     <!--page Content-->
     <div class="container-fluid">
         <div class="row">
@@ -13,12 +13,19 @@
             <div class="col-lg-12 p-l-0 p-r-0">
                 <ul class="nav  Schedules-tab  mb-2">
                     <li>
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" [ngClass]="{ 'active': locationId === 0 }" (click)="getAll()"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >All</span> </a>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link"
+                            [ngClass]="{ 'active': locationId === 0 }" (click)="getAll()"> <i
+                                class="mdi mdi-store Schedules-tab-icon"></i> <span
+                                class="text-center p-r-15 p-l-5">All</span> </a>
                     </li>
                     <li *ngFor="let loc of location">
-                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link" [ngClass]="{ 'active': locationId === loc.LocationId }" (click)="getLocationId(loc)"> <i class="mdi mdi-store Schedules-tab-icon"></i> <span class="text-center p-r-15 p-l-5" >{{loc.LocationName}}</span> &nbsp;&nbsp; <div class="badge Schedules-badge">{{loc.WashtimeMinutes}}&nbsp; mins</div></a>
+                        <a href="#all" data-toggle="tab" aria-expanded="false" class="nav-tab-link"
+                            [ngClass]="{ 'active': locationId === loc.LocationId }" (click)="getLocationId(loc)"> <i
+                                class="mdi mdi-store Schedules-tab-icon"></i> <span
+                                class="text-center p-r-15 p-l-5">{{loc.LocationName}}</span> &nbsp;&nbsp; <div
+                                class="badge Schedules-badge">{{loc.WashtimeMinutes}}&nbsp; mins</div></a>
                     </li>
-           
+
                 </ul>
                 <div class="tab-content">
                     <app-dashboard-statics [jobTypeId]="jobTypeId"></app-dashboard-statics>
@@ -26,19 +33,29 @@
                         <div class="col-xl-3">
                             <div class="card">
                                 <div class="card-body p-0">
-   
-                                    <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon" (click)="searchEmployee()"></i>
-                                        <input type="text" class="form-control rounded-0" placeholder="Search Employee" [(ngModel)]="search" (focus)="searchFocus()" (keyup)="searchEmployee()"> </div>
-                                      
-                                    <div class="Search-box " #draggable_people>
-                                        <div *ngFor="let emp of this.empList" >
-                                        <div class="fc-event Search-item border-top " style=" display: flex;background-color: transparent; color:black !important;border-top: 1px solid #dddd!important;"> <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40" alt="Search image">
-                                            <div class="Search-item-body"> <span class="float-right"><div class="custom-control custom-checkbox">
-                                                <input type="checkbox" [(ngModel)]="emp.selected">
-                                            </div></span>
-                                                <h6 class="theme-mid-black" style="font-size: 20px;">{{emp.FirstName}} {{emp.LastName }}</h6> <span class="theme-mid-black font-size-7">{{emp.EmployeeId}}</span> </div>
-                                        </div>
+
+                                    <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon"
+                                            (click)="searchEmployee()"></i>
+                                        <input type="text" class="form-control rounded-0" placeholder="Search Employee"
+                                            (input)=searchVechicleList($event.target.value)>
                                     </div>
+                                    <div class="Search-box " #draggable_people>
+                                        <div *ngFor="let emp of empList">
+                                            <div class="fc-event Search-item border-top "
+                                                style=" display: flex;background-color: transparent; color:black !important;border-top: 1px solid #dddd!important;">
+                                                <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40"
+                                                    alt="Search image">
+                                                <div class="Search-item-body"> <span class="float-right">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" [(ngModel)]="emp.selected">
+                                                        </div>
+                                                    </span>
+                                                    <h6 class="theme-mid-black" style="font-size: 20px;">
+                                                        {{emp.FirstName}} {{emp.LastName }}</h6> <span
+                                                        class="theme-mid-black font-size-7">{{emp.EmployeeId}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- end card-body -->
@@ -50,18 +67,23 @@
                                 <div class="card-body m-b-3">
                                     <div class="title-border p-b-5 m-b-14">
                                         <h4 class="d-inline-block align-middle m-r-10">Today Schedule </h4>
-                                        <p class="theme-font-color border-right m-r-10 p-r-10 font-size--9 d-inline-block font-weight-700 align-middle m-t-4">Total: {{totalHours}}hrs</p>
-                                        <p class="theme-font-color  m-r-10 p-r-10 d-inline-block font-size--9 font-weight-700 align-middle m-t-4">No. of employees: {{EmpCount}}</p>
+                                        <p
+                                            class="theme-font-color border-right m-r-10 p-r-10 font-size--9 d-inline-block font-weight-700 align-middle m-t-4">
+                                            Total: {{totalHours}}hrs</p>
+                                        <p
+                                            class="theme-font-color  m-r-10 p-r-10 d-inline-block font-size--9 font-weight-700 align-middle m-t-4">
+                                            No. of employees: {{EmpCount}}</p>
                                     </div>
-                                    <div  id='calendar-container'>
-                                        <p-fullCalendar #fc *ngIf="options"[events]="events" [options]="options" ></p-fullCalendar>
+                                    <div id='calendar-container'>
+                                        <p-fullCalendar #fc *ngIf="options" [events]="events" [options]="options">
+                                        </p-fullCalendar>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane active" id="all"> 
-                    
+                    <div class="tab-pane active" id="all">
+
                     </div>
                     <div class="tab-pane show" id="business-goal"> </div>
                 </div>
@@ -70,42 +92,55 @@
     </div>
 </div>
 <!--page Content-->
-<div class="modal fade show" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="deletedclientModal" aria-modal="true">
+<div class="modal fade show" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="deletedclientModal"
+    aria-modal="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><span id="name">{{empName}}</span>- <span id="empId">{{empId}}</span></h5>
-                <button type="button" class="close" (click)="cancel()" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                <button type="button" class="close" (click)="cancel()" aria-label="Close"> <span
+                        aria-hidden="true">×</span> </button>
             </div>
             <div class="modal-body" id="modalBody">
                 <!--modal body-->
                 <form>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label >Start Time</label>
+                            <label>Start Time</label>
                             <ng-template #popTemplate>
-                                <timepicker id="timeStart"  [(ngModel)]="startTime" [ngModelOptions]="{standalone: true}" [showMeridian]="true" [showMinutes]="true"></timepicker>
+                                <timepicker id="timeStart" [(ngModel)]="startTime" [ngModelOptions]="{standalone: true}"
+                                    [showMeridian]="true" [showMinutes]="true"></timepicker>
                             </ng-template>
-                            <input type="text"  id="startTime"  class="form-control"  [ngModel]="startTime | date:'hh:mm aa'" [ngModelOptions]="{standalone: true}" (ngModelChange)="startTime=$event" [popover]="popTemplate" [outsideClick]="true" placement="bottom" [appMaxLength]="5" />
-                        </div> 
+                            <input type="text" id="startTime" class="form-control"
+                                [ngModel]="startTime | date:'hh:mm aa'" [ngModelOptions]="{standalone: true}"
+                                (ngModelChange)="startTime=$event" [popover]="popTemplate" [outsideClick]="true"
+                                placement="bottom" [appMaxLength]="5" />
+                        </div>
                         <div class="form-group col-md-6">
                             <label>End Time</label>
                             <ng-template #popTemplateEnd>
-                                <timepicker  id="timeEnd" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}" [showMeridian]="true" [showMinutes]="true" ></timepicker>
+                                <timepicker id="timeEnd" [(ngModel)]="endTime" [ngModelOptions]="{standalone: true}"
+                                    [showMeridian]="true" [showMinutes]="true"></timepicker>
                             </ng-template>
-                            <input id="endTime" type="text"  class="form-control" [ngModel]="endTime | date:'hh:mm aa'"  [ngModelOptions]="{standalone: true}" (ngModelChange)="endTime=$event" [popover]="popTemplateEnd" [outsideClick]="true" placement="bottom" [appMaxLength]="5"/>
-                         </div>
+                            <input id="endTime" type="text" class="form-control" [ngModel]="endTime | date:'hh:mm aa'"
+                                [ngModelOptions]="{standalone: true}" (ngModelChange)="endTime=$event"
+                                [popover]="popTemplateEnd" [outsideClick]="true" placement="bottom"
+                                [appMaxLength]="5" />
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <input type="checkbox" id="isleave" [(ngModel)]="isLeave" [ngModelOptions]="{standalone: true}" (change)="isAbsentChange($event)">&nbsp;
-                            <label >Not Available</label>
+                            <input type="checkbox" id="isleave" [(ngModel)]="isLeave"
+                                [ngModelOptions]="{standalone: true}" (change)="isAbsentChange($event)">&nbsp;
+                            <label>Not Available</label>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="Location">Location</label>
-                            <select id ="location" class="form-control" [(ngModel)]="empLocation" name="location" (change)="getLocation($event)" (focus)="locationFlag = false"  [ngClass]="{ 'is-invalid': submitted && locationFlag}">
+                            <select id="location" class="form-control" [(ngModel)]="empLocation" name="location"
+                                (change)="getLocation($event)" (focus)="locationFlag = false"
+                                [ngClass]="{ 'is-invalid': submitted && locationFlag}">
                                 <option selected hidden>Select</option>
                                 <option *ngFor="let location of location" value="{{location.LocationId}}">
                                     {{location.LocationName}}</option>
@@ -118,9 +153,9 @@
             <!--modal body-->
             <div class="modal-footer">
                 <button type="button" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-                <button type="button" class="btn theme-primary-button-color" (click)="addSchedule()">{{buttonText}}</button>
+                <button type="button" class="btn theme-primary-button-color"
+                    (click)="addSchedule()">{{buttonText}}</button>
             </div>
         </div>
     </div>
 </div>
-

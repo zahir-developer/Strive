@@ -61,6 +61,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   totalHours: any;
   EmpCount: any;
   jobTypeId: any;
+  clonedEmpList = [];
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
   constructor(
     private empService: EmployeeService,
@@ -513,18 +514,21 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       status: true
     };
     this.getJobType();
-    this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
+    this.employeeService.getAllEmployeeName(this.locationId).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
-        this.empList = JSON.parse(res.resultData);
+        // this.empList = JSON.parse(res.resultData);
         const seachList = JSON.parse(res.resultData);
-        if (seachList.EmployeeList.Employee !== null) {
-          this.empList = seachList.EmployeeList.Employee;
-        }
+        this.empList = seachList.EmployeeName;
+        this.empList.forEach( item => {
+          item.employeeName = item.FirstName + '' + item.LastName;
+        });
+        this.clonedEmpList = this.empList.map(x => Object.assign({}, x));
+        // if (seachList.EmployeeList.Employee !== null) {
+        //   this.empList = seachList.EmployeeList.Employee;
+        // }
       } else {
         this.spinner.hide();
-
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
@@ -540,5 +544,14 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   searchFocus() {
     this.search = this.search.trim();
+  }
+
+  searchVechicleList(text) {
+    if (text.length > 0) {
+      this.empList = this.clonedEmpList.filter(item => item.employeeName.toLowerCase().includes(text));
+    } else {
+      this.empList = [];
+      this.empList = this.clonedEmpList;
+    }
   }
 }
