@@ -42,15 +42,15 @@ namespace Strive.ResourceAccess
             _prm.Add("JobId", checkoutHoldDto .id);
 
             _prm.Add("IsHold", checkoutHoldDto.IsHold);
-            db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
+            db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSHOLD.ToString(), _prm);
           
             return true;
         }
         public bool UpdateJobStatusComplete(JobCompleteDto jobCompleteDto)
         {
             _prm.Add("JobId", jobCompleteDto.JobId);
-            _prm.Add("ActualTimeout", jobCompleteDto.ActualTimout);
-            db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
+            _prm.Add("ActualTimeout", jobCompleteDto.ActualTimeOut);
+            db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSCOMPLETE.ToString(), _prm);
           
             return true;
         }
