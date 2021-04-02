@@ -60,15 +60,18 @@
                             <table class="table border table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Payee</th>
-                                        <th scope="col">Hours</th>
-                                        <th scope="col" class="w-10">Tip</th>
+                                        <th >Payee</th>
+                                        <th style="padding-right: 20px;">Hours</th>
+                                        <th  >Tip</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr
                                         *ngFor="let monthlytip of monthlyTip | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                        <td>{{monthlytip?.EmployeeName}}</td>
+                                        <td><span title="{{monthlytip?.EmployeeName}}">
+                                            {{monthlytip?.EmployeeName | slice:0:15}}
+                                            {{(monthlytip?.EmployeeName!== null) ? monthlytip?.EmployeeName?.length <= 15 ? ''
+                                                : '..' :''}} </span></td>
                                         <td>{{monthlytip?.HoursPerDay}}</td>
                                         <td>{{monthlytip?.Tip}}</td>
                                     </tr>
