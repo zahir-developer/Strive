@@ -53,6 +53,10 @@ namespace Strive.BusinessEntities.Model
         public int? StoreOpenCloseStatus { get; set; }
         [Column]
         public decimal? Tips { get; set; }
+        [Column]
+        public decimal? WashTips { get; set; }
+        [Column]
+        public decimal? DetailTips { get; set; }
 
     }
 }

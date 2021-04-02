@@ -20,5 +20,9 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime? StoreTimeOut { get; set; }
         public int? StoreOpenCloseStatus { get; set; }
         public decimal? Tips { get; set; }
+        public decimal? WashTips { get; set; }
+        public decimal? DetailTips { get; set; }
+
+
     }
 }

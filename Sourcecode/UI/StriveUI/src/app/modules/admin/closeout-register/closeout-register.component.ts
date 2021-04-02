@@ -95,7 +95,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       quaterRolls: ['',],
     });
     this.closeoutRegisterForm = this.fb.group({
-      cardAmount: ['',]
+      cardAmount: ['',],
+      washTips : [''],
+      detailTips: ['']
+
     });
     this.totalCoin = this.totalPennie = this.totalQuater = this.totalNickel = this.totalDime = this.totalHalf = 0;
     this.totalRoll = this.totalPennieRoll = this.totalQuaterRoll = this.totalNickelRoll = this.totalDimeRoll = 0;
@@ -177,7 +180,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
-            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1
+            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1,
+            washTips : this.closeOutDetails.CashRegister.WashTips,
+            detailTips :  this.closeOutDetails.CashRegister.DetailTips
+
           });
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
           || this.closeOutDetails.CashRegisterRolls === null || this.closeOutDetails.CashRegisterBills === null) {
@@ -310,7 +316,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
-      Tips: this.tips,
+      Tips: this.tips, 
+       WashTips: this.closeoutRegisterForm.value.washTips,
+       DetailTips:  this.closeoutRegisterForm.value.detailTips,
       storeTimeOut: checkoutTime,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
