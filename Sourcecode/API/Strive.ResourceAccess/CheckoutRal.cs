@@ -1,6 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
-using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Checkout;
 using Strive.BusinessEntities.DTO.Report;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
@@ -29,12 +29,12 @@ namespace Strive.ResourceAccess
             var result =  db.FetchMultiResult<CheckOutGridViewModel>(EnumSP.Checkout.USPGETAllCHECKOUTDETAILS.ToString(), _prm);
             return result;
         }
-        public bool UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry)
+        public bool UpdateCheckoutDetails(CheckOutDto checkoutDto)
         {
-            _prm.Add("JobId", checkoutEntry.id);
-            _prm.Add("CheckOut", checkoutEntry.CheckOut);
-            _prm.Add("ActualTimeOut", checkoutEntry.ActualTimeOut);
-            db.Save(EnumSP.Checkout.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
+            _prm.Add("JobId", checkoutDto.JobId);
+            _prm.Add("CheckOut", checkoutDto.CheckOut);
+            _prm.Add("CheckOutTime", checkoutDto.CheckOutTime);
+            db.Save(EnumSP.Checkout.USPUPDATECHECKOUTDETAIL.ToString(), _prm);
             return true;
         }
         public bool UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
@@ -46,9 +46,10 @@ namespace Strive.ResourceAccess
           
             return true;
         }
-        public bool UpdateJobStatusComplete(JobIdDto jobIdDto)
+        public bool UpdateJobStatusComplete(JobCompleteDto jobCompleteDto)
         {
-            _prm.Add("JobId", jobIdDto.id);
+            _prm.Add("JobId", jobCompleteDto.JobId);
+            _prm.Add("ActualTimeout", jobCompleteDto.ActualTimout);
             db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
           
             return true;

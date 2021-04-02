@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.DTO.CheckoutEntry
+namespace Strive.BusinessEntities.DTO.Checkout
 {
-    public class CheckoutEntryDto
+   public class CheckOutDto
     {
-        public int id { get; set; }
+        public int JobId { get; set; }
         public bool CheckOut { get; set; }
-        public DateTime ActualTimeOut { get; set; }
+        public DateTime CheckOutTime { get; set; }
     }
+
 }
