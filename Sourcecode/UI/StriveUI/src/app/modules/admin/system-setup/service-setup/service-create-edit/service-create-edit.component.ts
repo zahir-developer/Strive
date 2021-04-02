@@ -58,7 +58,7 @@ export class ServiceCreateEditComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private codeValueService: CodeValueService,
-    private employeeService : EmployeeService
+    private employeeService: EmployeeService
   ) { }
 
   ngOnInit() {
@@ -99,7 +99,7 @@ export class ServiceCreateEditComponent implements OnInit {
   locationDropDown() {
     this.location = this.location.map(item => {
       return {
-       id: item.LocationId,
+        id: item.LocationId,
         name: item.LocationName
       };
     });
@@ -148,13 +148,13 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.get('upcharge').updateValueAndValidity();
         }
         let name = '';
-        this.location.forEach( item => {
+        this.location.forEach(item => {
           if (+item.id === +this.selectedService.LocationId) {
             name = item.name;
           }
         });
         const locObj = {
-          id : this.selectedService.LocationId,
+          id: this.selectedService.LocationId,
           name
         };
         const selectedLocation = [];
@@ -197,7 +197,7 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isAdditional = false;
       }
-    }, (err) => {   
+    }, (err) => {
       this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
@@ -211,41 +211,35 @@ export class ServiceCreateEditComponent implements OnInit {
         this.CommissionType = cType.Codes;
         this.discountType = cType.Codes;
         this.getAllServiceType();
-        this.getParentType();
+
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },(err) => {
+    }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-          });
+    });
   }
 
   // Get ParentType
   getParentType() {
-    const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
-    if (serviceTypeValue.length > 0) {
-      this.serviceEnum = serviceTypeValue;
-      const serviceDetails = this.serviceEnum;
-      if (serviceDetails !== null) {
-        this.parent = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
-        this.getAllServices();
-      }
+    this.serviceEnum = this.serviceType;
+    this.parent = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
+    this.getAllServices();
+    // const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
+    // if (serviceTypeValue.length > 0) {
+    //   this.serviceEnum = serviceTypeValue;
+    //   const serviceDetails = this.serviceEnum;
+    //   if (serviceDetails !== null) {
 
-    } else {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    }
+    //   }
+
+    // } else {
+    //   this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    // }
   }
   getAllServices() {
-    const serviceObj = {
-      locationId: +localStorage.getItem('empLocationId'),
-      pageNo: null,
-      pageSize: null,
-      query: null,
-      sortOrder: null,
-      sortBy: null,
-      status: true
-    };
-    this.serviceSetup.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(res => {
+    const locID = +localStorage.getItem('empLocationId');
+    this.serviceSetup.getAllServiceDetail(locID).subscribe(res => {
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
         if (serviceDetails.AllServiceDetail !== null) {
@@ -274,18 +268,18 @@ export class ServiceCreateEditComponent implements OnInit {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes;
-        this.discountServiceType = cType.Codes;
+        this.discountServiceType = cType.Codes.filter(item => item.CodeValue !== ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
+        this.getParentType();
         if (this.isEdit === true) {
           this.serviceSetupForm.reset();
           this.getServiceById();
         }
-        
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },(err) => {
+    }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-          });
+    });
   }
 
   checkService(typeID) {
@@ -293,7 +287,7 @@ export class ServiceCreateEditComponent implements OnInit {
     if (serviceType.length > 0) {
       const type = serviceType[0].CodeValue;
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
-         type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
+        type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
       } else {
         this.isUpcharge = false;
@@ -371,15 +365,15 @@ export class ServiceCreateEditComponent implements OnInit {
       return;
     }
     const formObj = {
-    
-      service : this.serviceSetupList
-     
+
+      service: this.serviceSetupList
+
     };
-    if(this.serviceSetupForm.value.location){
+    if (this.serviceSetupForm.value.location) {
       this.serviceSetupForm.value.location.map(item => {
-      
+
         this.serviceSetupList.push(
-       {
+          {
             serviceType: this.serviceSetupForm.value.serviceType,
             serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
             serviceName: this.serviceSetupForm.value.name,
@@ -404,12 +398,12 @@ export class ServiceCreateEditComponent implements OnInit {
         )
 
 
-        }
-        
-        )
+      }
+
+      )
     }
-    
-    
+
+
     if (this.isEdit === true) {
       this.spinner.show();
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
@@ -425,10 +419,10 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
-      },(err) => {
+      }, (err) => {
         this.spinner.hide();
-         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-             });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     } else {
       this.spinner.show();
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
@@ -444,10 +438,10 @@ export class ServiceCreateEditComponent implements OnInit {
           this.serviceSetupForm.reset();
           this.submitted = false;
         }
-      },(err) => {
-       this.spinner.hide();
+      }, (err) => {
+        this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-            });
+      });
     }
   }
   cancel() {

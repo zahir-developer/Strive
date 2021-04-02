@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit {
 
     });
 
-    this.getWeatherDetails()
+    this.getWeatherDetails();
     this.getUnReadMessage();
 
   }

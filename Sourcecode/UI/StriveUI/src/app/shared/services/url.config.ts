@@ -104,6 +104,7 @@ export const UrlConfig = {
     getAllEmployeeDocument: `Admin/Document/GetEmployeeDocument/`,
     getEmployeeDocumentById: `Admin/Document/GetEmployeeDocumentById/`,
     deleteEmployeeDocument: `Admin/Document/DeleteEmployeeDocument/`,
+    getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`
   },
 
   giftCard: {

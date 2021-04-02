@@ -81,4 +81,8 @@ export class EmployeeService {
   getAllEmployeeList(obj) {
     return this.http.post(`${UrlConfig.employee.getAllEmployeeList}`, obj);
   }
+
+  getAllEmployeeName(id) {
+    return this.http.get(`${UrlConfig.employee.getAllEmployeeName}`, { params: { id } });
+  }
 }

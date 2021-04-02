@@ -56,6 +56,10 @@ namespace Admin.Api.Controllers
         [Route("GetEmployeeRoleById")]
         public Result GetEmployeeRoleById(int id) => _bplManager.GetEmployeeRoleById(id);
 
+        [HttpGet]
+        [Route("GetAllEmployeeName")]
+        public Result GetAllEmployeeName(int id) => _bplManager.GetAllEmployeeName(id);
+
 
         #endregion
 

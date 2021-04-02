@@ -53,11 +53,10 @@ export class SetupComponent implements OnInit {
     else if (event.target.value == 11) {
       this.router.navigate([`/admin/setup/terms&condition`], { relativeTo: this.route });
     }
-    
+
   }
 
-  subMenuClick(e)
-  {
-    this.subModule = e.target.outerText+ ' ' + 'Setup';
+  subMenuClick(menu) {
+    this.subModule = menu + ' ' + 'Setup';
   }
 }

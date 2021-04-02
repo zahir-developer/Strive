@@ -134,5 +134,9 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeRoleById, employeeId, "EmployeeRole");
         }
+        public Result GetAllEmployeeName(int id)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeName, id, "EmployeeName");
+        }
     }
 }
