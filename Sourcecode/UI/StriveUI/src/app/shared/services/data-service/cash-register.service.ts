@@ -14,6 +14,13 @@ export class CashRegisterService {
     return this.http.get(`${UrlConfig.cashRegister.getCashRegister}`,
     { params: { cashRegisterType: type, locationId: locId, dateTime: date } });
   }
+  getTips( locId: number, date: Date) {
+  const  tipdetailDto = {
+      locationId: locId, 
+      date: date 
+    }
+    return this.http.post(`${UrlConfig.cashRegister.getTips}`,tipdetailDto)
+  }
 
   saveCashRegister(obj, cashRegisterType: string) {
     return this.http.post(`${UrlConfig.cashRegister.saveCashRegister}`, obj, cashRegisterType);

@@ -55,6 +55,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   submitted = false;
   isTimechange: boolean;
   tips: any;
+  TipsDto: any;
+  washTips: any;
+  detailTip: any;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
@@ -96,8 +99,6 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     });
     this.closeoutRegisterForm = this.fb.group({
       cardAmount: ['',],
-      washTips : [''],
-      detailTips: ['']
 
     });
     this.totalCoin = this.totalPennie = this.totalQuater = this.totalNickel = this.totalDime = this.totalHalf = 0;
@@ -454,8 +455,27 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       }
     }
     this.getCloseOutRegister();
-  }
+    this.getTips();
 
+  }
+  getTips() {
+    const today: Date  = new Date();
+    const locationId = +localStorage.getItem('empLocationId');
+    this.registerService.getTips(locationId, today).subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.TipsDto = dType.CashRegister;
+        this.washTips = this.TipsDto.washTip.WashTips
+        this.detailTip = this.TipsDto.detailerTips
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    
+    );
+  }
   getStoreStatusList() {
     this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
       if (data.status === 'Success') {
