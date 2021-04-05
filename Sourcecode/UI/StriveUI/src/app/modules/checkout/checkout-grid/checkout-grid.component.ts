@@ -171,9 +171,9 @@ export class CheckoutGridComponent implements OnInit {
         this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
           .then((confirmed) => {
             const finalObj = {
-              id: checkout.JobId,
+              jobId: checkout.JobId,
               checkOut: true,
-              actualTimeOut: new Date()
+              CheckoutTimeOut: new Date()
             };
             this.spinner.show();
             this.checkout.checkoutVehicle(finalObj).subscribe(res => {
@@ -247,7 +247,8 @@ export class CheckoutGridComponent implements OnInit {
 
         if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
           const finalObj = {
-            id: checkout.JobId
+            jobId: checkout.JobId,
+            ActualTimeOut: new Date()
           };
           this.spinner.show();
           this.checkout.completedVehicle(finalObj).subscribe(res => {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
-using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Checkout;
 using Strive.BusinessEntities.DTO.Report;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
@@ -20,7 +20,7 @@ namespace Strive.BusinessLogic.Checkout
         {
             return ResultWrap(new CheckoutRal(_tenant).GetAllCheckoutDetails,checkoutDto, "GetCheckedInVehicleDetails");
         }
-        public Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry)
+        public Result UpdateCheckoutDetails(CheckOutDto checkoutEntry)
         {
             return ResultWrap(new CheckoutRal(_tenant).UpdateCheckoutDetails,checkoutEntry, "SaveCheckoutTime");
         }
@@ -41,7 +41,7 @@ namespace Strive.BusinessLogic.Checkout
             
 
         }
-        public Result UpdateJobStatusComplete(JobIdDto jobIdDto)
+        public Result UpdateJobStatusComplete(JobCompleteDto jobIdDto)
         {
             return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatusComplete, jobIdDto, "UpdateJobStatus");
         }

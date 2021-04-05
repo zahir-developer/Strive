@@ -64,7 +64,7 @@ namespace Strive.ResourceAccess
 
             _prm.Add("@LocationId", DailyStatusReport.LocationId);
             _prm.Add("@Date", DailyStatusReport.Date);
-            _prm.Add("@ClientId", DailyStatusReport.ClientId);
+            //_prm.Add("@ClientId", DailyStatusReport.ClientId);
             var result = db.Fetch<DailyStatusReportViewModel>(EnumSP.SalesReport.uspGetDailyStatusReport.ToString(), _prm);
 
             return result;
