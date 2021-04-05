@@ -218,7 +218,7 @@
                                                     <div class="form-group col-md-12">
                                                         <label for="inputwashes"> Credit Card/Debit Card
                                                             Amount</label>
-                                                        <input type="text" appTwoDecimalNumber
+                                                        <input type="text" appTwoDecimalNumber 
                                                             formControlName="cardAmount" class="form-control"
                                                             placeholder="$0.00" (change)="getTotalCash()">
                                                     </div>
@@ -239,7 +239,7 @@
                                                     <tr>
                                                         <td class = "row">
                                                             <label for="inputCost"> Cash Tips : &nbsp;&nbsp;</label>
-                                                            <input type="text" appTwoDecimalNumber class="form-control col-5"
+                                                            <input type="text" appTwoDecimalNumber class="form-control col-5" [disabled] = "!cashTipsEnable"
                                                             [(ngModel)]="tips" placeholder="$0.00">
 
                                                         </td>
@@ -267,7 +267,17 @@
                                                        
 
                                                     </tr>
+                                                    <tr *ngFor ="let tip of detailTip">
+                                                        <th >{{tip.FirstName}}  {{tip.LastName}}</th>
+                                                        <td>
+                                                            {{tip.DetailerTip}}
+                                                        </td>
+                                                       
 
+                                                    </tr>
+                                                    <tr *ngIf="detailTip == null">
+                                                        <td colspan="7" class="text-center">No Tips Found</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
 

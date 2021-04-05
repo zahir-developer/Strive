@@ -58,6 +58,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   TipsDto: any;
   washTips: any;
   detailTip: any;
+  today: Date;
+  locationId: number;
+  cashTipsEnable: boolean;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
@@ -191,6 +194,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterBillForm.enable();
           this.cashRegisterRollForm.enable();
           this.closeoutRegisterForm.enable();
+          this.cashTipsEnable = true;
+
           this.isUpdate = false;
         } else {
           this.isUpdate = false;
@@ -198,6 +203,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterCoinForm.reset();
           this.cashRegisterBillForm.reset();
           this.cashRegisterRollForm.reset();
+          this.tips = ''
         }
       }
       else{
@@ -438,6 +444,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       this.selectDate = selectedDate;
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
       if (moment(today).isSame(selectedDate)) {
+        this.cashTipsEnable = true;
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
@@ -446,22 +453,26 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
         this.cashRegisterRollForm.disable();
+        this.cashTipsEnable = false;
         this.closeoutRegisterForm.disable();
       } else {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
         this.closeoutRegisterForm.enable();
+        this.cashTipsEnable = true;
       }
     }
     this.getCloseOutRegister();
-    this.getTips();
+    this.getTips(this.selectDate);
 
   }
-  getTips() {
-    const today: Date  = new Date();
-    const locationId = +localStorage.getItem('empLocationId');
-    this.registerService.getTips(locationId, today).subscribe(data => {
+  getTips(selectDate) {
+    const  tipdetailDto = {
+      locationId: +localStorage.getItem('empLocationId'),
+      date: selectDate ? selectDate : new Date()
+    }
+    this.registerService.getTips(tipdetailDto).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.TipsDto = dType.CashRegister;
