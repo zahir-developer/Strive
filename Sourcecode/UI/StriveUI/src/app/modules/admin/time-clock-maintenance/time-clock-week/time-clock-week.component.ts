@@ -82,13 +82,15 @@ export class TimeClockWeekComponent implements OnInit {
                 const inTime = new Date(inTimeHour[0]);
                 const outTimeHour = item.OutTime.split('+');
                 const outTime = new Date(outTimeHour[0]);
+                const hours = item.TotalHours.split('+');
+                const totalHours = new Date(hours[0]);
                 dayDetails.push({
                   EventDate: item.EventDate,
                   InTime: item.InTime ? moment(inTime).format('HH:mm') : '',
                   OutTime: item.OutTime ? moment(outTime).format('HH:mm') : '',
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
-                  TotalHours: moment(item.TotalHours).format('HH:mm'),
+                  TotalHours: moment(totalHours).format('HH:mm'),
                   employeeId: this.empClockInObj.employeeID,
                   locationId: this.empClockInObj.locationId,
                   isDeleted: false
