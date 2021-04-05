@@ -181,8 +181,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
             cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1,
-            washTips : this.closeOutDetails.CashRegister.WashTips,
-            detailTips :  this.closeOutDetails.CashRegister.DetailTips
+         
 
           });
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
@@ -316,9 +315,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
-      Tips: this.tips, 
-       WashTips: this.closeoutRegisterForm.value.washTips,
-       DetailTips:  this.closeoutRegisterForm.value.detailTips,
+       Tips: this.tips, 
       storeTimeOut: checkoutTime,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
@@ -474,7 +471,6 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     
     );
   }
-
   inTime(event) {
     console.log(event, 'time');
     const time = event.split(':');
