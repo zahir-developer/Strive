@@ -51,7 +51,6 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public int? StoreOpenCloseStatus { get; set; }
-        [Column]
      
 
     }
