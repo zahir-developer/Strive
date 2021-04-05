@@ -236,25 +236,12 @@ export class LocationCreateEditComponent implements OnInit {
       updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
-    const bay = [
-      {
-        bayId: 0,
-        locationId: 1,
-        bayName: "string",
-        isActive: true,
-        isDeleted: false,
-        createdBy: this.employeeId,
-        createdDate: moment(new Date()).format('YYYY-MM-DD'),
-        updatedBy: this.employeeId,
-        updatedDate: moment(new Date()).format('YYYY-MM-DD')
-      }
-    ] 
+    
     const finalObj = {
       location: formObj,
       locationAddress: this.address,
       locationOffset,
-      // bay : bay,
-      // drawer: drawer,
+     
     };
     if (this.isEdit === false) {
       this.spinner.show();
