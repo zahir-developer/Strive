@@ -14,11 +14,8 @@ export class CashRegisterService {
     return this.http.get(`${UrlConfig.cashRegister.getCashRegister}`,
     { params: { cashRegisterType: type, locationId: locId, dateTime: date } });
   }
-  getTips( locId: number, date: Date) {
-  const  tipdetailDto = {
-      locationId: locId, 
-      date: date 
-    }
+  getTips( tipdetailDto) {
+  
     return this.http.post(`${UrlConfig.cashRegister.getTips}`,tipdetailDto)
   }
 

@@ -242,6 +242,8 @@ add : 'Group user added successfully..!!!'
             Add: 'Vendor added successfully !',
             Update: 'Vendor updated successfully !',
             Delete: 'Vendor Deleted Successfully !',
+            Email : "Maximum 5 EmailId's  Only Allowed",
+            InvalidEmail :"Invalid Email"
          },
       }
    }
