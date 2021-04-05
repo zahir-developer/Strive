@@ -9,7 +9,7 @@ namespace Strive.BusinessEntities.ViewModel
     public class TipDetailViewModel
     {
         public WashTipViewModel washTip { get; set; }
-        public DetailerTipsViewModel detailerTips { get; set; }
+        public List<DetailerTipsViewModel> detailerTips { get; set; }
 
     }
 }
