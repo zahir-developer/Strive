@@ -6,5 +6,6 @@ namespace Strive.BusinessEntities.Vendor
     {
         public Model.Vendor Vendor { get; set; }
         public Model.VendorAddress VendorAddress { get; set; }
+        public Model.VendorEmailAddress VendorEmailAddress { get; set; }
     }
 }
