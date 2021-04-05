@@ -231,25 +231,7 @@
                                                             formControlName="cardAmount" class="form-control"
                                                             placeholder="$0.00" (change)="getTotalCash()">
                                                     </div>
-                                                    <div class="form-group col-md-4 m-t-20" >
-                                                        <label for="inputCost">Wash Tips</label>
-                                        
-                                                        <input type="text" appTwoDecimalNumber class="form-control" 
-                                                        formControlName="washTips" placeholder="$0.00">
-                                        
-                                
-                                        
-                                                        
-                                                    </div>       <div class="form-group col-md-4 m-t-20" >
-                                                        <label for="inputCost">Detail Tips</label>
-                                        
-                                                        <input type="text" appTwoDecimalNumber class="form-control" 
-                                                        formControlName="detailTips" placeholder="$0.00">
-                                        
-                                
-                                        
-                                                        
-                                                    </div> 
+                                                   
                                                 </div>
                                             </form>
                                         </div>
@@ -280,6 +262,28 @@
                                                         <label class="default-amount">
                                                             {{totalRoll | currency}}</label>
                                                     </div>
+                                                    <div class="row">
+                                                    <div class="form-group col-md-4 m-t-20" >
+                                                        <label for="inputCost">Wash Tips</label>
+                                        
+                                                        <input type="text" appTwoDecimalNumber class="form-control" 
+                                                        formControlName="washTips" placeholder="$0.00">
+                                        
+                                
+                                        
+                                                        
+                                                    </div>   
+                                                    
+                                                    <div class="form-group col-md-4 m-t-20" >
+                                                        <label for="inputCost">Detail Tips</label>
+                                        
+                                                        <input type="text" appTwoDecimalNumber class="form-control" 
+                                                        formControlName="detailTips" placeholder="$0.00">
+                                        
+                                
+                                        </div>
+                                                        
+                                                    </div> 
                                                 </div>
                                                 <div class="col-lg-4 col-xl-6 text-center m-t-20">
                                                     <h6 class="font-weight-bold">Total Available Cash</h6> <span
