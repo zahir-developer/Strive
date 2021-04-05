@@ -31,7 +31,7 @@ namespace Admin.API.Controllers
             return _bplManager.GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetTips")]
         public Result GetTipDetail([FromBody]TipdetailDto tipdetailDto)
         {
