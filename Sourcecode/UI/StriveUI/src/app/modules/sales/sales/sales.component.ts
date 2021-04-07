@@ -976,7 +976,7 @@ tips = 0;
       const ngbModalOptions: NgbModalOptions = {
         backdrop: 'static',
         keyboard: false,
-        size: '500px'
+        size: 'lg'
       };
       const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
       modalRef.componentInstance.clientId = this.clientId;
