@@ -102,6 +102,11 @@ export const ApplicationConfig = {
         EmployeeHandbook: ['pdf', 'docx', 'doc'],
         TermsAndCondition: ['pdf']
     },
+   
+    EmailSize: {
+VendorSetup : 5
+    },
+    
     UploadSize:
     {
         AdSetup: 5120,

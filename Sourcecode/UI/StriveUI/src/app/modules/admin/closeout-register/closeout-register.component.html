@@ -20,38 +20,29 @@
                                     (click)="dp.show()"></i></span>
                         </div>
                     </div>
-              
+
                     <div class="col-6">
-                            <div class="d-inline-block col-3" >
-                                <label for="inputCost">Tips</label>
-                
-                                <input type="text" appTwoDecimalNumber class="form-control" 
-                                [(ngModel)]="tips" placeholder="$0.00">
-                
-        
-                
-                                
-                            </div>          
-                                <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
-                                    <ngx-timepicker-field [format]="24" (timeChanged)="outTime($event)"
-                                        [(ngModel)]="storeTimeOut" [defaultTime]="storeTimeOut ">
-                                    </ngx-timepicker-field>
-                                    <div *ngIf="submitted && storeTimeOut === ''" style="color: red;">
-                                        <div>Please enter the store close time</div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block">
-                                    <select class="form-control" [(ngModel)]="storeStatus">
-                                        <option value="" hidden selected>Select Status
-                                        </option>
-                                        <option *ngFor="let status of storeStatusList" value="{{status.CodeId}}">
-                                            {{status.CodeValue}}
-                                        </option>
-                                    </select>
-                                    <div *ngIf="submitted && storeStatus === ''" style="color: red;">
-                                        <div>Please select the store status</div>
-                                    </div>
-                                </div>
+
+                        <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
+                            <ngx-timepicker-field [format]="24" (timeChanged)="outTime($event)"
+                                [(ngModel)]="storeTimeOut" [defaultTime]="storeTimeOut ">
+                            </ngx-timepicker-field>
+                            <div *ngIf="submitted && storeTimeOut === ''" style="color: red;">
+                                <div>Please enter the store close time</div>
+                            </div>
+                        </div>
+                        <div class="d-inline-block">
+                            <select class="form-control" [(ngModel)]="storeStatus">
+                                <option value="" hidden selected>Select Status
+                                </option>
+                                <option *ngFor="let status of storeStatusList" value="{{status.CodeId}}">
+                                    {{status.CodeValue}}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && storeStatus === ''" style="color: red;">
+                                <div>Please select the store status</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,9 +98,9 @@
                                                             placeholder="0"
                                                             (change)="getTotalCoin('H',$event.target.value)">
                                                     </div>
-                                                   
+
                                                 </div>
-                                           
+
                                             </form>
                                         </div>
                                     </div>
@@ -216,7 +207,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-7 no-space">
+                                <div class="col-xl-3 no-space">
                                     <div class="card">
                                         <div class="card-body tl-card">
                                             <div class="title-border p-b-5 m-b-5">
@@ -224,34 +215,72 @@
                                             </div>
                                             <form [formGroup]="closeoutRegisterForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-4">
+                                                    <div class="form-group col-md-12">
                                                         <label for="inputwashes"> Credit Card/Debit Card
                                                             Amount</label>
-                                                        <input type="text" appTwoDecimalNumber
+                                                        <input type="text" appTwoDecimalNumber 
                                                             formControlName="cardAmount" class="form-control"
                                                             placeholder="$0.00" (change)="getTotalCash()">
                                                     </div>
-                                                    <div class="form-group col-md-4 m-t-20" >
-                                                        <label for="inputCost">Wash Tips</label>
-                                        
-                                                        <input type="text" appTwoDecimalNumber class="form-control" 
-                                                        formControlName="washTips" placeholder="$0.00">
-                                        
-                                
-                                        
-                                                        
-                                                    </div>       <div class="form-group col-md-4 m-t-20" >
-                                                        <label for="inputCost">Detail Tips</label>
-                                        
-                                                        <input type="text" appTwoDecimalNumber class="form-control" 
-                                                        formControlName="detailTips" placeholder="$0.00">
-                                        
-                                
-                                        
-                                                        
-                                                    </div> 
+
                                                 </div>
                                             </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 no-space">
+                                    <div class="card">
+                                        <div class="card-body tl-card">
+                                            <div class=" p-b-5 m-b-5">
+                                                <h4 class="d-inline-block">Tips</h4>
+                                            </div>
+                                            <table class="table  table-striped m-t-12">
+                                                <thead>
+                                                    <tr>
+                                                        <td class = "row">
+                                                            <label for="inputCost"> Cash Tips : &nbsp;&nbsp;</label>
+                                                            <input type="text" appTwoDecimalNumber class="form-control col-5" [disabled] = "!cashTipsEnable"
+                                                            [(ngModel)]="tips" placeholder="$0.00">
+
+                                                        </td>
+                                                        
+                                                   
+                                                        <td>
+                                                            Wash Tips : {{washTips | currency}}                                                    
+                                                        </td>
+                                                      
+                                                    </tr>
+                                                    <tr>
+                                                        <th  >Employee Name
+                                                            </th>
+                                                        <th  >
+                                                            DetailerTip</th>
+                                                      
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor ="let tip of detailTip">
+                                                        <th >{{tip.FirstName}}  {{tip.LastName}}</th>
+                                                        <td>
+                                                            {{tip.DetailerTip}}
+                                                        </td>
+                                                       
+
+                                                    </tr>
+                                                    <tr *ngFor ="let tip of detailTip">
+                                                        <th >{{tip.FirstName}}  {{tip.LastName}}</th>
+                                                        <td>
+                                                            {{tip.DetailerTip}}
+                                                        </td>
+                                                       
+
+                                                    </tr>
+                                                    <tr *ngIf="detailTip == null">
+                                                        <td colspan="7" class="text-center">No Tips Found</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
                                         </div>
                                     </div>
                                 </div>
@@ -280,6 +309,7 @@
                                                         <label class="default-amount">
                                                             {{totalRoll | currency}}</label>
                                                     </div>
+                        
                                                 </div>
                                                 <div class="col-lg-4 col-xl-6 text-center m-t-20">
                                                     <h6 class="font-weight-bold">Total Available Cash</h6> <span

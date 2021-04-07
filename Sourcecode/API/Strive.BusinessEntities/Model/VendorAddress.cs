@@ -24,9 +24,7 @@ public class VendorAddress
 
 	[Column]
 	public string PhoneNumber2 { get; set; }
-
-	[Column]
-	public string Email { get; set; }
+        
 
 	[Column]
 	public int? City { get; set; }
