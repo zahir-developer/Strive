@@ -78,18 +78,18 @@ export class CityComponent implements OnInit, AfterViewChecked {
   }
   setCity() {
     if (this.selectedCityId !== undefined) {
-       this.selectValueCity = true;
+      this.selectValueCity = true;
 
-   
-        this.cities.map(item => {
-          if(item.value == this.selectedCityId){
-          this.city =  {
+
+      this.cities.map(item => {
+        if (item.value == this.selectedCityId) {
+          this.city = {
             value: item.value,
             name: item.name
           };
         }
-        });
-      
+      });
+
     }
   }
 }

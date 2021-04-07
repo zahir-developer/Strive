@@ -71,6 +71,7 @@ export class SalesComponent implements OnInit {
   isAccountButton = false;
   ticketNumberGeneration: boolean;
   allService = [];
+  clientId: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -333,6 +334,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account;
+          this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
           this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
             this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
         }
@@ -966,6 +968,18 @@ export class SalesComponent implements OnInit {
     }
     if (this.ticketNumberGeneration === false) {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber});
+      return;
+    }
+
+    if (this.credit !== 0) {
+      const ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        size: '500px'
+      };
+      const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+      modalRef.componentInstance.clientId = this.clientId;
+      modalRef.componentInstance.totalAmount = this.credit;
       return;
     }
 
