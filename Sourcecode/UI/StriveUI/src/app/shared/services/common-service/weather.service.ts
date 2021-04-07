@@ -22,16 +22,19 @@ public data: BehaviorSubject<string> = new BehaviorSubject('');
   }
 getWeather() {
   const locationId = localStorage.getItem('empLocationId');
-  this.http.get(`${UrlConfig.weather.getWeather}` + locationId).subscribe((data: any) => {
-    this.weatherData = data;
-    this.weatherWeekData = data?.lastWeekWeather;
-     this.weatherMonthData = data?.lastMonthWeather;
+  if(locationId != null){
+    this.http.get(`${UrlConfig.weather.getWeather}` + locationId).subscribe((data: any) => {
+      this.weatherData = data;
+      this.weatherWeekData = data?.lastWeekWeather;
+       this.weatherMonthData = data?.lastMonthWeather;
+  
+      this.data.next(this.weatherData);
+      
+  
+  
+    });
+  }
 
-    this.data.next(this.weatherData);
-    
-
-
-  });
 }
 UpdateWeather(obj){
   return this.http.post(`${UrlConfig.weather.saveWeather}`, obj);

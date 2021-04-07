@@ -40,6 +40,7 @@ export class SalesComponent implements OnInit {
   Products = [];
   isInvalidGiftcard = false;
   discount = '';
+tips = 0;
   discountCash = 0;
   isDisableService = false;
   discounts = [];
@@ -71,6 +72,7 @@ export class SalesComponent implements OnInit {
   isAccountButton = false;
   ticketNumberGeneration: boolean;
   allService = [];
+  clientId: number;
   constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
@@ -333,6 +335,7 @@ export class SalesComponent implements OnInit {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account;
+          this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
           this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
             this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
         }
@@ -969,6 +972,18 @@ export class SalesComponent implements OnInit {
       return;
     }
 
+    if (this.credit !== 0) {
+      const ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'lg'
+      };
+      const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+      modalRef.componentInstance.clientId = this.clientId;
+      modalRef.componentInstance.totalAmount = this.credit;
+      return;
+    }
+
   
     let giftcard = null;
     let discount = null;
@@ -1025,6 +1040,8 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(element);
     })
     if (this.cash !== 0) {
+      console.log(   this.tips)
+   
       const cashPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Cash)[0].CodeId;
       const det = {
         jobPaymentDetailId: 0,
@@ -1041,6 +1058,24 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       };
       paymentDetailObj.push(det);
+    }
+    if (this.tips !== 0) {
+      const TipsPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Tips)[0].CodeId;
+      const Tips = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: TipsPayType,
+        amount: this.tips ? +this.tips : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: null,
+        createdDate: new Date(),
+        updatedBy: null,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(Tips);
     }
     if (this.account !== 0) {
       let accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
@@ -1099,6 +1134,7 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
+   
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,

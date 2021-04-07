@@ -102,6 +102,11 @@ export const ApplicationConfig = {
         EmployeeHandbook: ['pdf', 'docx', 'doc'],
         TermsAndCondition: ['pdf']
     },
+   
+    EmailSize: {
+VendorSetup : 5
+    },
+    
     UploadSize:
     {
         AdSetup: 5120,
@@ -203,7 +208,8 @@ CodeValueByType : {
         Payroll: 'From Payroll',
         GiftCard: 'GiftCard',
         Membership: 'Membership',
-        OnlinePayment: 'OnlinePayment'
+        OnlinePayment: 'OnlinePayment',
+        Tips: 'Tips'
     },
 Roles: {
 Admin:'Admin',

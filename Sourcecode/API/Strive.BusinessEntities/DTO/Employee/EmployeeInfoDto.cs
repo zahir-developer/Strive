@@ -14,7 +14,7 @@ namespace Strive.BusinessEntities.DTO.Employee
         public int? Gender { get; set; }
         public string Address1 { get; set; }
         public string PhoneNumber { get; set; }
-        public int ImmigrationStatus { get; set; }
+        public int? ImmigrationStatus { get; set; }
         public string AlienNo { get; set; }
         public DateTime? WorkPermit { get; set; }
         public string SSNo { get; set; }
