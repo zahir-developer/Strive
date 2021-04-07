@@ -159,5 +159,12 @@ namespace Strive.ResourceAccess
             return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
 
         }
+
+
+        public List<ModelDto> GetModelByMakeId(int makeId)
+        {
+            _prm.Add("makeId", makeId);
+            return db.Fetch<ModelDto>(EnumSP.Employee.USPGETMODELBYMAKE.ToString(), _prm);
+        }
     }
 }
