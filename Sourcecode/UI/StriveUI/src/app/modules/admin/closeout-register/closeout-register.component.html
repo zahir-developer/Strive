@@ -167,7 +167,7 @@
                             <div class="row">
                                 <div class="col-xl-4 no-space">
                                     <div class="card">
-                                        <div class="card-body tl-card">
+                                        <div class="card-body">
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Cards</h4>
                                             </div>
@@ -179,13 +179,22 @@
                                                         <input type="text" appTwoDecimalNumber formControlName="cardAmount" class="form-control" placeholder="$0.00" (change)="getTotalCash()">
                                                     </div>
                                                 </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 no-space">
                                     <div class="card">
-                                        <div class="card-body tl-card">
+                                        <div class="card-body">
                                             <div class="title-border p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Tips</h4>
                                             </div>
@@ -206,13 +215,16 @@
                                                         <input type="text" appTwoDecimalNumber class="form-control" [disabled]="!cashTipsEnable" [(ngModel)]="tips" placeholder="$0.00">
                                                     </div>
                                                 </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 no-space">
                                     <div class="card">
-                                        <div class="card-body tl-card">
+                                        <div class="card-body">
                                             <div class=" p-b-5 m-b-5">
                                                 <h4 class="d-inline-block">Detailer Tips</h4>
                                             </div>
