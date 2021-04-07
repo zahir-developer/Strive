@@ -40,6 +40,7 @@ export class SalesComponent implements OnInit {
   Products = [];
   isInvalidGiftcard = false;
   discount = '';
+tips = 0;
   discountCash = 0;
   isDisableService = false;
   discounts = [];
@@ -1039,6 +1040,8 @@ export class SalesComponent implements OnInit {
       paymentDetailObj.push(element);
     })
     if (this.cash !== 0) {
+      console.log(   this.tips)
+   
       const cashPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Cash)[0].CodeId;
       const det = {
         jobPaymentDetailId: 0,
@@ -1055,6 +1058,24 @@ export class SalesComponent implements OnInit {
         updatedDate: new Date()
       };
       paymentDetailObj.push(det);
+    }
+    if (this.tips !== 0) {
+      const TipsPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Tips)[0].CodeId;
+      const Tips = {
+        jobPaymentDetailId: 0,
+        jobPaymentId: 0,
+        paymentType: TipsPayType,
+        amount: this.tips ? +this.tips : 0,
+        taxAmount: 0,
+        signature: '',
+        isActive: true,
+        isDeleted: false,
+        createdBy: null,
+        createdDate: new Date(),
+        updatedBy: null,
+        updatedDate: new Date()
+      };
+      paymentDetailObj.push(Tips);
     }
     if (this.account !== 0) {
       let accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
@@ -1113,6 +1134,7 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(gift);
     }
+   
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
