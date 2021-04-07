@@ -73,7 +73,7 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: [['']],
+      email: [''],
       franchise: ['',],
       workHourThreshold: ['',]
     });
@@ -236,10 +236,12 @@ export class LocationCreateEditComponent implements OnInit {
       updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    
     const finalObj = {
       location: formObj,
       locationAddress: this.address,
-      locationOffset
+      locationOffset,
+     
     };
     if (this.isEdit === false) {
       this.spinner.show();

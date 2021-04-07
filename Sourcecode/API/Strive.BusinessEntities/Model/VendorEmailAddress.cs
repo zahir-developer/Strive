@@ -3,24 +3,18 @@ using System;
 
 namespace Strive.BusinessEntities.Model
 {
-    [OverrideName("tblCashRegister")]
-    public class CashRegister
+    [OverrideName("tblVendorEmailAddress")]
+    public class VendorEmailAddress
     {
 
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-        public int CashRegisterId { get; set; }
+        public int VendorEmailAddressId { get; set; }
 
         [Column]
-        public int? CashRegisterType { get; set; }
+        public int VendorId { get; set; }
 
         [Column]
-        public int? LocationId { get; set; }
-
-        [Column]
-        public int? DrawerId { get; set; }
-
-        [Column, PrimaryKey]
-        public DateTime? CashRegisterDate { get; set; }
+        public string VendorEmail { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }

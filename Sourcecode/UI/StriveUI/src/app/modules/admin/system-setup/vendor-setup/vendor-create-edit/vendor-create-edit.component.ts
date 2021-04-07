@@ -8,6 +8,7 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -31,6 +32,8 @@ export class VendorCreateEditComponent implements OnInit {
   selectedCountryId: any;
   selectedCityId: any;
   employeeId: number;
+  emailList = [];
+  emailAddress = [];
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -89,7 +92,31 @@ export class VendorCreateEditComponent implements OnInit {
   get f() {
     return this.vendorSetupForm.controls;
   }
+  addEmail() {
+    if (this.emailList.length >= ApplicationConfig.EmailSize.VendorSetup) {
+      this.toastr.error(MessageConfig.Admin.SystemSetup.Vendor.Email, 'Error!');
+      return;
+    }
+    
+    var re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if(!re.test(this.vendorSetupForm.value.email)){
+      this.toastr.error(MessageConfig.Admin.SystemSetup.Vendor.InvalidEmail, 'Error!');
 
+     return 
+    }
+    this.emailList.push({
+      email: this.vendorSetupForm.value.email
+    });
+    this.emailList.forEach((item, index) => {
+      item.id = index;
+    });
+    this.vendorSetupForm.controls.email.reset();
+
+  }
+  removeEmail(email) {
+    this.emailList = this.emailList.filter(item => item.id !== email.id);
+
+  }
   // Add/Update Vendor
   submit() {
     this.submitted = true;
@@ -138,9 +165,32 @@ export class VendorCreateEditComponent implements OnInit {
       updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    
+      this.emailList.forEach((item, index) => {
+        item.id = index;
+        this.emailAddress.push({
+          vendorEmailAddressId: 0,
+          vendorId: 0,
+          vendorEmail: item.email,
+          isActive: true,
+          isDeleted: false,
+          createdBy: this.employeeId,
+          createdDate: moment(new Date()).format('YYYY-MM-DD'),
+          updatedBy: this.employeeId,
+          updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+          storeTimeIn: new Date(),
+          storeTimeOut: new Date(),
+          storeOpenCloseStatus: 0,
+          tips: 0
+        }
+          
+        )
+      });
+    
     const finalObj = {
       vendor: vendorObj,
-      vendorAddress: addressObj
+      vendorAddress: addressObj,
+      VendorEmailAddress: this.emailAddress
     };
     if (this.isEdit === false) {
       this.spinner.show();

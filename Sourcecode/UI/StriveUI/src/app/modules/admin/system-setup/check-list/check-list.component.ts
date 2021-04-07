@@ -74,12 +74,14 @@ export class CheckListComponent implements OnInit {
   // Get All Services
   getAllcheckListDetails() {
     this.isLoading = true;
+    this.notificationTime = '';
+    this.notificationTimeList = [];
     this.checkListSetup.getCheckListSetup().subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
-        this.checkListDetails.forEach( item => {
+        this.checkListDetails.forEach(item => {
           const time = item.NotificationTime.split(':');
           const hours = time[0];
           const min = time[1];
@@ -208,7 +210,7 @@ export class CheckListComponent implements OnInit {
     this.notificationTimeList.forEach((item, index) => {
       item.id = index;
     });
-    // this.notificationTime = '';
+    this.notificationTime = '';
   }
 
   removeTime(time) {
@@ -252,7 +254,7 @@ export class CheckListComponent implements OnInit {
       checkListNotification: {
         checkListNotificationId: 0,
         checkListId: data.ChecklistId ? data.ChecklistId : 0,
-        notificationTime: this.notificationTime,
+        notificationTime: this.notificationTimeList[this.notificationTimeList.length - 1].time,
         isActive: true,
         isDeleted: false,
       }

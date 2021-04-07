@@ -197,7 +197,8 @@ namespace Strive.BusinessEntities
             USPSAVECASHREGISTER,
             USPGETCASHREGISTER,
             USPGETPASTWEATHERINFO,
-            USPGETFORCASTEDRAINPERCENTAGE
+            USPGETFORCASTEDRAINPERCENTAGE,
+            USPGETTIPDETAIL,
         }
         public enum Collision
         {            //Collison
@@ -295,8 +296,8 @@ namespace Strive.BusinessEntities
             //CHECKOUT
             USPGETAllCHECKOUTDETAILS,
             USPUPDATECHECKOUTDETAIL,
-            USPUPDATEJOBSTATUSHOLDBYJOBID,
-            USPUPDATEJOBSTATUSCOMPLETEBYJOBID,
+            USPUPDATEJOBSTATUSHOLD,
+            USPUPDATEJOBSTATUSCOMPLETE,
             USPGETCUSTOMERHISTORY
         }
 

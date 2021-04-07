@@ -26,6 +26,7 @@ export const UrlConfig = {
   cashRegister: {
     getCashRegister: `Admin/CashRegister/Get`,
     saveCashRegister: `Admin/CashRegister/Save`,
+    getTips : `Admin/CashRegister/GetTips`,
   },
   common: {
     getCode: `Admin/Common/GetCodesByCategory/`,
