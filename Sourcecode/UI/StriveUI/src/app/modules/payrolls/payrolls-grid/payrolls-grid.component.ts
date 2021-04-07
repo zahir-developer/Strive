@@ -35,9 +35,10 @@ export class PayrollsGridComponent implements OnInit {
   maxDate = new Date();
   minDate: any;
   isLoading: boolean;
-  isEditRestriction: boolean;
+  isEditRestriction: boolean = false;
   employeeId: string;
   sortColumn: { sortBy: string; sortOrder: string; };
+  processLabel: string = "Process";
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -137,12 +138,14 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.editRestriction(empId, startDate, endDate).subscribe(res => {
       const edit = JSON.parse(res.resultData);
       if (res.status === 'Success') {
-        if (edit.Result === 'false') {
+        if (edit.Result == false) {
 
-          this.isEditRestriction = edit.Result;
-
+          this.isEditRestriction = false;
+this.processLabel = "Process";
         } else {
-          this.isEditRestriction = edit.Result;
+          this.isEditRestriction = true;
+          this.processLabel = "Processed";
+
         }
 
       }
