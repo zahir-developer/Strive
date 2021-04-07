@@ -975,7 +975,7 @@ export class SalesComponent implements OnInit {
       const ngbModalOptions: NgbModalOptions = {
         backdrop: 'static',
         keyboard: false,
-        size: '500px'
+        size: 'lg'
       };
       const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
       modalRef.componentInstance.clientId = this.clientId;

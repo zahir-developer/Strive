@@ -39,7 +39,7 @@
                         Total Amount Due:
                     </div>
                     <div class="col-5">
-                       <strong>{{totalAmount | currency}}</strong> 
+                        <strong>{{totalAmount | currency}}</strong>
                     </div>
                 </div>
                 <br>
@@ -84,7 +84,6 @@
                 <br>
                 <form [formGroup]="billingForm">
                     <div class="row">
-                        <div class="col-1"></div>
                         <div class="col-4 form-group">
                             Company Name
                         </div>
@@ -94,112 +93,114 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">First Name<span class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" formControlName="firstName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Last Name<span class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" formControlName="lastName">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-4 form-group">
                             First Name<span class="required">*</span>
                         </div>
                         <div class="col-5">
                             <input type="text" class="form-control" formControlName="firstName">
+                        </div> -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Address 1<span class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" formControlName="address1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Address 2<span class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" formControlName="address2">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            Last Name<span class="required">*</span>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">State<span class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <app-state-dropdown *ngIf="isStateLoaded" [selectedStateId]="selectedStateId"
+                                        (stateId)="getSelectedStateId($event)">
+                                    </app-state-dropdown>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" formControlName="lastName">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            Address 1<span class="required">*</span>
-                        </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" formControlName="address1">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            Address 2
-                        </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" formControlName="address2">
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">City<span class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <app-city [State]="State" *ngIf="isStateLoaded" (selectCity)="selectCity($event)"
+                                        [selectedCityId]="selectedCityId" [selectedStateId]="selectedStateId">
+                                    </app-city>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            State<span class="required">*</span>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Zip/Postal Code<span
+                                        class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" formControlName="zip">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-5">
-                            <!-- <input type="text" class="form-control" formControlName="state"> -->
-                            <app-state-dropdown *ngIf="isStateLoaded" [selectedStateId]="selectedStateId"
-                                (stateId)="getSelectedStateId($event)">
-                            </app-state-dropdown>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            City<span class="required">*</span>
-                        </div>
-                        <div class="col-5">
-                            <!-- <input type="text" class="form-control" formControlName="city"> -->
-                            <app-city [State]="State" *ngIf="isStateLoaded" (selectCity)="selectCity($event)"
-                                [selectedCityId]="selectedCityId" [selectedStateId]="selectedStateId">
-                            </app-city>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Country<span
+                                        class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <app-country-dropdown *ngIf="isStateLoaded" [selectedCountryId]="selectedCountryId">
+                                    </app-country-dropdown>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            Zip/Postal Code<span class="required">*</span>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Email Address<span
+                                        class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" formControlName="email">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" formControlName="zip">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            Country<span class="required">*</span>
-                        </div>
-                        <div class="col-5">
-                            <!-- <input type="text" class="form-control" formControlName="country"> -->
-                            <app-country-dropdown *ngIf="isStateLoaded" [selectedCountryId]="selectedCountryId">
-                            </app-country-dropdown>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Phone#<span class="required">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" formControlName="phone">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            Email Address<span class="required">*</span>
-                        </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" formControlName="email">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-4 form-group">
-                            Phone#
-                        </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" formControlName="phone">
-                        </div>
-                    </div>
                 </form>
             </tab>
         </tabset>
