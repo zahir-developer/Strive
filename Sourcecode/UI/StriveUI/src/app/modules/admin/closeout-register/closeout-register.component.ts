@@ -137,12 +137,12 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
           this.tips = this.closeOutDetails.CashRegister.Tips
-          this.storeStatus = this.closeOutDetails.CashRegister.StoreOpenCloseStatus !== null ?
-            this.closeOutDetails.CashRegister.StoreOpenCloseStatus : '';
-          this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
-            moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
-          this.storeTimeOut = this.closeOutDetails.CashRegister.StoreTimeOut !== null ?
-            moment(this.closeOutDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+          // this.storeStatus = this.closeOutDetails.CashRegister.StoreOpenCloseStatus !== null ?
+          //   this.closeOutDetails.CashRegister.StoreOpenCloseStatus : '';
+          // this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
+          //   moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
+          // this.storeTimeOut = this.closeOutDetails.CashRegister.StoreTimeOut !== null ?
+          //   moment(this.closeOutDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.closeOutDetails.CashRegisterCoins.Pennies,
             coinNickels: this.closeOutDetails.CashRegisterCoins.Nickels,
@@ -232,9 +232,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   // Add/Update CloseOutRegister
   submit() {
     this.submitted = true;
-    if (this.storeStatus === '' || this.storeTimeOut === '') {
-      return;
-    }
+    // if (this.storeStatus === '' || this.storeTimeOut === '') {
+    //   return;
+    // }
     const coin = {
       cashRegCoinId: this.isUpdate ? this.closeOutDetails.CashRegisterCoins.CashRegCoinId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
@@ -322,9 +322,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
-       Tips: this.tips, 
-      storeTimeOut: checkoutTime,
-      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
+       Tips: this.tips,
+      storeTimeOut: null, // checkoutTime,
+      storeOpenCloseStatus: null // this.storeStatus === '' ? null : +this.storeStatus
     };
     const formObj = {
       cashregister,

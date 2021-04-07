@@ -163,12 +163,22 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
+          const storeStatus = this.storeStatusList.filter( item =>  item.CodeId === this.cashDetails.CashRegister.StoreOpenCloseStatus);
+          let isStatus = false;
+          if (storeStatus.length > 0) {
+            if (storeStatus[0].CodeValue === 'Open') {
+              isStatus = true;
+            } else {
+              isStatus = false;
+            }
+          }
           this.storeStatus = this.cashDetails.CashRegister.StoreOpenCloseStatus !== null ?
             +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
-          this.storeTimeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ?
-            moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
-          this.storeTimeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
+          this.storeTimeIn = isStatus ? this.cashDetails.CashRegister.StoreTimeIn !== null ?
+            moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '' : this.cashDetails.CashRegister.StoreTimeOut !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+          // this.storeTimeIn  = this.cashDetails.CashRegister.StoreTimeOut !== null ?
+          //   moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails.CashRegisterCoins.Pennies,
             coinNickels: this.cashDetails.CashRegisterCoins.Nickels,
@@ -347,6 +357,15 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       checkinTime = this.datePipe.transform(this.storeTimeIn, 'MM/dd/yyyy HH:mm');
       checkoutTime = this.storeTimeOut;
     }
+    const storeStatus = this.storeStatusList.filter( item => item.CodeId === +this.storeStatus);
+    let isStatus = false;
+    if (storeStatus.length > 0) {
+      if (storeStatus[0].CodeValue === 'Open') {
+        isStatus = true;
+      } else {
+        isStatus = false;
+      }
+    }
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CahRegisterId,
@@ -359,8 +378,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      storeTimeIn: checkinTime !== '' ? checkinTime : null,
-      storeTimeOut: null,
+      storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : null,
+      storeTimeOut: !isStatus ? checkinTime !== '' ? checkinTime : null : null,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
     };
     const formObj = {

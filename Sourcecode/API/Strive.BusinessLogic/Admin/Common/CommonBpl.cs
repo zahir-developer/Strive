@@ -484,5 +484,11 @@ namespace Strive.BusinessLogic.Common
             string ticketNumber = new CommonRal(_tenant, false).GetTicketNumber(locationId);
             return ticketNumber;
         }
+
+        public Result GetModelByMakeId(int makeId)
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetModelByMakeId,makeId, "Model");
+
+        }
     }
 }
