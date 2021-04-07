@@ -47,7 +47,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
 
                 // in case of 403 http error (refresh token failed)
-                if (err instanceof HttpErrorResponse && err.status === 404) {
+                if (err instanceof HttpErrorResponse && err.status === 403) {
 
                     // logout and redirect to login page
                     return this.logoutAndRedirect(err);
