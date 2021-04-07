@@ -20,27 +20,27 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="form-row">
-                                        <label class="col-sm-2 col-form-label" for="inTime">From:</label>
-                                        <input type="text" class="form-control col-sm-10" formControlName="fromDate"
+                                        <label class="col-sm-3 col-form-label" for="inTime">From:</label>
+                                        <input type="text" class="form-control col-sm-9" formControlName="fromDate"
                                             [maxDate]="MaxDate" bsDatepicker [bsConfig]="{ showWeekNumbers: false }"
                                             name="inTime" id="inTime" />
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-row">
-                                        <label class="col-sm-2 col-form-label" for="inTime">To:</label>
-                                        <input type="text" class="form-control col-sm-10" formControlName="toDate"
+                                        <label class="col-sm-3 col-form-label" for="inTime">To:</label>
+                                        <input type="text" class="form-control col-sm-9" formControlName="toDate"
                                             bsDatepicker
                                             [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }"
                                             name="inTime" id="inTime" />
                                     </div>
                                 </div>
-                                <div class="col-4 pull-right ">
+                                <div class="col-5 pull-right ">
                                     <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                                         [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
                                         Report</button>
-                                    <button type="button" *ngIf="!isEditAdjustment"
-                                        [disabled]="isPayrollEmpty || isEditRestriction"
+                                    <button type="button" *ngIf="!isEditRestriction"
+                                        [disabled]="isPayrollEmpty "
                                         class="btn theme-primary-button-color btn-md m-l-10"
                                         (click)="editAdjustemt();">Edit</button>
                                     <button type="button" *ngIf="isEditAdjustment"
@@ -51,9 +51,10 @@
                                     <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                                         [disabled]="isEditAdjustment || isPayrollEmpty || !payrollDateForm.valid"
                                         (click)="processPayrolls()">Export</button>
-                                    <button type="button" *ngIf="isEditAdjustment" [disabled]="isPayrollEmpty"
+                                    <button type="button" [disabled]="isPayrollEmpty || isEditRestriction"
                                         class="btn theme-primary-button-color btn-md m-l-10"
-                                        (click)="addPayrollProcess()">Process</button>
+                                        (click)="addPayrollProcess()">{{processLabel}}</button>
+                                        
                                 </div>
                             </div>
                         </form>
@@ -76,7 +77,7 @@
                                         <th scope="col" class="pointer" (click)="changeSorting('WashRate')">Rate&nbsp;<i
                                                 class="fa" [ngClass]="selectedCls('WashRate')" aria-hidden="true"></i>
                                         </th>
-                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Reg
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Reg.
                                             pay&nbsp;<i class="fa" [ngClass]="selectedCls('WashAmount')"
                                                 aria-hidden="true"></i></th>
                                         <th scope="col" class="pointer" (click)="changeSorting('OverTimeHours')">OT
