@@ -37,6 +37,7 @@ import { SelectLocationComponent } from './select-location/select-location.compo
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { CodeValueService } from './shared/common-service/code-value.service';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -87,6 +88,7 @@ const load = (http: HttpClient) => {
     DynamicTextboxComponent,
     ForgotPasswordComponent,
     SelectLocationComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     BrowserModule,
