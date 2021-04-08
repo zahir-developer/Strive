@@ -6,6 +6,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-location-setup-list',
@@ -17,7 +19,6 @@ export class LocationSetupListComponent implements OnInit {
   showDialog = false;
   selectedData: any;
   headerData: string;
-  search: any = '';
   isEdit: boolean;
   isTableEmpty: boolean;
   selectedLocation: any;
@@ -29,10 +30,21 @@ export class LocationSetupListComponent implements OnInit {
   column: string = 'LocationName';
   isLoading: boolean;
   sortColumn: { sortBy: string; sortOrder: string; };
+  public adSetupDetails: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(private locationService: LocationService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
 
-    private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
+    private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) {
+        // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.location),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.locationSearch();
+      });
+     }
 
   ngOnInit() {
     this.sortColumn ={

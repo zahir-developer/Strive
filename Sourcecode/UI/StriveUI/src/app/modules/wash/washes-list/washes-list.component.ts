@@ -14,6 +14,8 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-washes-list',
@@ -33,12 +35,10 @@ export class WashesListComponent implements OnInit {
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
   TimeInFormat: any;
-  washListDetails = [];
 
   pageSizeList: number[];
   page: number;
   pageSize: number;
-  search: any = null;
 
   jobTypeId: any;
   maxDate = new Date()
@@ -48,11 +48,22 @@ export class WashesListComponent implements OnInit {
   startDate: any;
   endDate: any;
   sortColumn: { sortBy: string; sortOrder: string; };
+  public washListDetails: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe, private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router
     , private landingservice: LandingService, private detailService: DetailService,
-    private cd: ChangeDetectorRef,) { }
+    private cd: ChangeDetectorRef,) {
+       // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.Washes),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllWashDetails();
+      });
+     }
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Washes, sortOrder: ApplicationConfig.Sorting.SortOrder.Washes.order };

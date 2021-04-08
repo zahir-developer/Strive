@@ -9,6 +9,9 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -17,7 +20,6 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 })
 export class CustomerDashboardComponent implements OnInit {
   @Output() selectServcie = new EventEmitter();
-  vechicleList: any = [];
   @Input() scheduleDetailObj?: any;
   serviceList: any = [];
   todayScheduleDetail: any = [];
@@ -27,9 +29,15 @@ export class CustomerDashboardComponent implements OnInit {
   sortColumn: { column: string; descending: boolean; };
   pastSort = { column: 'JobDate', descending: true };
   pastSortColumn: { column: string; descending: boolean; };
-  pastScheduleDetail = [];
   clonedPastScheduleDetail = [];
   clientID: any;
+  public pastScheduleDetail: any[] = [];
+
+    public searchVechicle: string;
+    public vechicleList: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
+  vehicleSearchUpdate = new Subject<string>();
   constructor(
     private customerService: CustomerService,
     private datePipe: DatePipe,
@@ -39,7 +47,22 @@ export class CustomerDashboardComponent implements OnInit {
     private toastr: MessageServiceToastr,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService
-  ) { }
+  ) { 
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.Client),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.searchHistory(value);
+      });
+       // Debounce search.
+    this.vehicleSearchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.Client),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.searchVechicleList(value);
+      });
+  }
 
   ngOnInit(): void {
     const paramsData = this.route.snapshot.queryParamMap.get('clientId');

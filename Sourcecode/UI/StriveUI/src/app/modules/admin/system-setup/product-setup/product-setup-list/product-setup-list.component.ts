@@ -5,6 +5,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-setup-list',
@@ -12,14 +14,12 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   styleUrls: ['./product-setup-list.component.css']
 })
 export class ProductSetupListComponent implements OnInit {
-  productSetupDetails = [];
   showDialog = false;
   selectedData: any;
 
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  search: any = '';
   collectionSize: number = 0;
   pageSize: number;
   pageSizeList: number[];
@@ -28,9 +28,20 @@ export class ProductSetupListComponent implements OnInit {
   isDesc: boolean;
   sortBy: string;
   sortColumn: { sortBy: any; sortOrder: string; };
+  public productSetupDetails: string[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(private productService: ProductService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) {
+            // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.ProductSetup),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.productSearch();
+      });
+     }
 
   ngOnInit() {
     this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ProductSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order };

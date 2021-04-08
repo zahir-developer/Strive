@@ -6,6 +6,8 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-membership-list',
@@ -13,7 +15,6 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   styleUrls: ['./membership-list.component.css']
 })
 export class MembershipListComponent implements OnInit {
-  membershipDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
@@ -28,9 +29,20 @@ export class MembershipListComponent implements OnInit {
   pageSizeList: any;
   isLoading: boolean;
   sortColumn: { sortBy: any; sortOrder: string; };
+  public   membershipDetails   : any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
+    private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) {
+         // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.MemberShipSetup),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.membershipSearch();
+      });
+     }
 
   ngOnInit() {
     this.isLoading = false;

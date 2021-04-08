@@ -10,6 +10,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-gift-card',
@@ -28,7 +30,6 @@ export class GiftCardComponent implements OnInit {
   isActivityCollapsed = false;
   giftCardList = [];
   clonedGiftCardList = [];
-  search = '';
   collectionSize: number;
   @ViewChild(AddGiftCardComponent) addGiftCardComponent: AddGiftCardComponent;
 
@@ -38,7 +39,9 @@ export class GiftCardComponent implements OnInit {
   query = '';
   sortColumn: { sortBy: string; sortOrder: string; };
   startDate: Date;
-  getGiftCardDetails = [];
+  public getGiftCardDetails: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -46,7 +49,15 @@ export class GiftCardComponent implements OnInit {
     private toastr: ToastrService,
     private messageService: MessageServiceToastr,
     private spinner: NgxSpinnerService
-  ) { }
+  ) { 
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.Client),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.searchGift();
+      });
+  }
 
   ngOnInit(): void {
   this.startDate = new Date();

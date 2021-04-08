@@ -30,15 +30,16 @@
                                                 <form>
                                                     <div class="form-row">
                                                         <div class="form-group d-flex"> <input type="search"
-                                                                class="form-control" size="31" [(ngModel)]="search"
+                                                                class="form-control" size="20" [(ngModel)]="search"
                                                                 name="search" id="inputSearchbyName"
-                                                                placeholder="Search by First name and Last name"
-                                                                (keyup)="$event.keyCode == 13 ? getAllClientDetails() : null">
+                                                                placeholder="Search"
+                                                                (ngModelChange)="this.searchUpdate.next($event)"
+                                                                >
                                                         </div>
                                                         <div class="form-group col-sm m-l-5">
                                                             <button type="button"
                                                                 class="btn theme-primary-button-color btn-sm m-l-10"
-                                                                (click)="getAllClientDetails()">Search</button>
+                                                              title="Search by First name and Last name"  (click)="getAllClientDetails()">Search</button>
                                                         </div>
                                                     </div>
                                                 </form>

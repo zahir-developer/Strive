@@ -30,7 +30,10 @@
 
                                             <div class="form-group d-flex">
 
-                                                <input type="search" class="form-control" [(ngModel)]="query" size="25" name="search" id="inputSearch" placeholder="Search" (keyup)="$event.keyCode == 13 ? checkOutSearch() : null"> </div>
+                                                <input type="search" class="form-control"
+                                                 [(ngModel)]="query" size="20" name="search"
+                                                 (ngModelChange)="this.searchUpdate.next($event)"
+                                                  id="inputSearch" placeholder="Search"> </div>
 
                                             <div class="form-group d-flex col-sm m-l-5">
                                                 <button type="button" class="btn theme-primary-button-color btn-sm m-l-10" (click)="checkOutSearch()">Search</button>

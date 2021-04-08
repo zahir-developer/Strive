@@ -42,7 +42,7 @@ export class ServiceSetupListComponent implements OnInit {
   ) {
         // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.DebounceTime.ServiceSetup),
       distinctUntilChanged())
       .subscribe(value => {
         this.getAllserviceSetupDetails();

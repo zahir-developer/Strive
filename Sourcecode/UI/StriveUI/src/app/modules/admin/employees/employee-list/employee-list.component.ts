@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-employee-list',
@@ -19,7 +21,6 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
-  employeeDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
@@ -37,11 +38,13 @@ export class EmployeeListComponent implements OnInit {
   location: any;
   public isCollapsed = false;
   collectionSize: number;
-  search = '';
  page: any;
   pageSize: any;
   pageSizeList: any[];
   sortColumn: { sortBy: string; sortOrder: string; };
+  public employeeDetails: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
@@ -50,7 +53,15 @@ export class EmployeeListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private messageService: MessageServiceToastr,
     private router: Router
-  ) { }
+  ) { 
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.Employee),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.seachEmployee();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
