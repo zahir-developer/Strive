@@ -1,5 +1,9 @@
-﻿CREATE  procedure [StriveCarSalon].[uspUpdateEmployeeAdjustment]  --75,'85.00' 
-(@EmployeeId int, @Adjustment decimal)    
+﻿
+
+
+
+CREATE  procedure [StriveCarSalon].[uspUpdateEmployeeAdjustment] --[StriveCarSalon].[uspUpdateEmployeeAdjustment] 105,'122.50' 
+(@EmployeeId int, @Adjustment decimal(9,2))    
 AS    
 -- =============================================================    
 -- Author:  Vineeth.B    
@@ -12,6 +16,8 @@ DECLARE @COUNT int;
 Declare @LiabilityId int
 Declare @AdjusmentId int
 Declare @EmpLiablityId int
+
+DECLARE @AdjustmentLiabilityId INT =(SELECT valueid FROM GetTable('LiabilityType') WHERE valuedesc='Adjustment');
   
 			 --Set @Count=(SELECT Count(tblCV.id) FROM tblCodeCategory tblCC JOIN tblCodeValue tblCV ON tblcc.id=tblcv.CategoryId 
 			 --Inner Join tblEmployeeLiabilityDetail tblel ON tblCV.id = tblel.LiabilityDetailType
@@ -39,20 +45,25 @@ Declare @EmpLiablityId int
 			
 
 
-             Insert into tblEmployeeLiability(EmployeeId,LiabilityType) values 
-			             (@EmployeeId,102)
+             Insert into tblEmployeeLiability(EmployeeId,LiabilityType,IsActive,IsDeleted) values 
+			             (@EmployeeId,102,1,0)
              
 			 --select * from tblEmployeeLiability order by LiabilityId desc
 
              --Select Top(1) @EmpLiablityId=[EmployeeId] from tblEmployeeLiability  order by EmployeeId desc
 
-		     Insert into tblEmployeeLiabilityDetail(LiabilityId,LiabilityDetailType,Amount,PaymentType) values 
-			             (SCOPE_IDENTITY(),@AdjusmentId,@Adjustment,1)  				  
+		     Insert into tblEmployeeLiabilityDetail(LiabilityId,LiabilityDetailType,Amount,PaymentType,IsActive,IsDeleted) values 
+			             (SCOPE_IDENTITY(),@AdjusmentId,@Adjustment,1,1,0)  				  
 		 end
 else
  begin
-    UPDATE tbleld set tbleld.Amount=@Adjustment FROM tblEmployeeLiability tblel INNER JOIN
+    UPDATE tbleld set tbleld.Amount=@Adjustment,tbleld.IsActive=1,tbleld.IsDeleted=0 FROM tblEmployeeLiability tblel INNER JOIN
     tblEmployeeLiabilityDetail tbleld ON(tblel.LiabilityId = tbleld.LiabilityId) 
-	Where tblel.employeeid=@EmployeeId ---and tblel.LiabilityType=@LiabilityCategoryId  
+	Where tblel.employeeid=@EmployeeId and tblel.LiabilityType= @AdjustmentLiabilityId ---and tblel.LiabilityType=@LiabilityCategoryId  
+
+	  UPDATE tblel set tblel.IsActive=1,tblel.IsDeleted=0 FROM tblEmployeeLiability tblel INNER JOIN
+    tblEmployeeLiabilityDetail tbleld ON(tblel.LiabilityId = tbleld.LiabilityId) 
+	Where tblel.employeeid=@EmployeeId and tblel.LiabilityType= @AdjustmentLiabilityId
+
  end
 END

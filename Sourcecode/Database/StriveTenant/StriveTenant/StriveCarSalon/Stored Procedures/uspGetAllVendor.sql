@@ -4,11 +4,12 @@ AS
 BEGIN
 SELECT 
 Distinct
-V.VendorId
-,V.VendorName
-,V.IsActive
-,VA.PhoneNumber	 
-,VA.Email	 
+V.VendorId,
+V.VendorName,
+V.VendorAlias,
+VA.PhoneNumber,
+VA.Email,
+V.IsActive
 FROM  [StriveCarSalon].[tblVendor] V
 Inner Join [StriveCarSalon].[tblVendorAddress] VA
  On V.VendorId=VA.VendorId

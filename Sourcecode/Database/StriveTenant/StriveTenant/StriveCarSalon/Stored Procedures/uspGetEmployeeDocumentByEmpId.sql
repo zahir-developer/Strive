@@ -11,6 +11,7 @@ EmployeeDocumentId
 ,IsPasswordProtected
 ,Comments
 ,IsActive
+,CreatedDate
 from [StriveCarSalon].[tblEmployeeDocument]
 WHERE EmployeeId=@EmployeeId AND (IsDeleted = 0 OR IsDeleted IS NULL)
 end

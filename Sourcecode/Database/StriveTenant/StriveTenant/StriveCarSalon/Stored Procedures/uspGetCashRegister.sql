@@ -1,6 +1,4 @@
 ﻿
-
-
 CREATE PROC [StriveCarSalon].[uspGetCashRegister] --1,'CLOSEOUT','2020-08-26'
 (
 @LocationId int,
@@ -27,7 +25,7 @@ CR.DrawerId,
 CR.CashRegisterDate ,
 CR.StoreTimeIn,
 CR.StoreTimeOut,
-CR.Status
+CR.StoreOpenCloseStatus 
 FROM 
 strivecarsalon.tblCashRegister CR 
 WHERE
