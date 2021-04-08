@@ -161,7 +161,12 @@ export class ClientFormComponent implements OnInit {
     });
     this.clientId = this.selectedData.ClientId;
     if (this.selectedData.IsCreditAccount) {
+      this.isAmount = true;
+      this.clientForm.get('amount').setValidators([Validators.required]);
       this.clientForm.controls.amount.enable();
+    } else {
+      this.isAmount = false;
+      this.clientForm.get('amount').clearValidators();
     }
   }
 
@@ -172,8 +177,12 @@ export class ClientFormComponent implements OnInit {
   change(data) {
     this.clientForm.value.creditAccount = data;
     if (data) {
+      this.isAmount = true;
+      this.clientForm.get('amount').setValidators([Validators.required]);
       this.clientForm.controls.amount.enable();
     } else {
+      this.isAmount = false;
+      this.clientForm.get('amount').clearValidators();
       this.clientForm.controls.amount.disable();
     }
   }
