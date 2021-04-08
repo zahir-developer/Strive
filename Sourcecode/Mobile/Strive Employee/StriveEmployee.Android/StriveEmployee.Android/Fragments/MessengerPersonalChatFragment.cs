@@ -260,7 +260,7 @@ namespace StriveEmployee.Android.Fragments
                 sortBy = null,
                 status = true,
             });
-            var selectedData = data.Employee.Find(x => x.EmployeeId == MessengerTempData.RecipientID);
+            var selectedData = data.EmployeeList.Employee.Find(x => x.EmployeeId == MessengerTempData.RecipientID);
             if (selectedData != null)
             {
                 MessengerTempData.ConnectionID = selectedData.CommunicationId;

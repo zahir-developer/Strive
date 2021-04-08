@@ -78,9 +78,9 @@ namespace StriveEmployee.Android.Fragments
             if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
                 var employeeLists = await ViewModel.GetContactsList();
-                if(MessengerTempData.EmployeeLists != null || employeeLists != null ||employeeLists.Employee != null || employeeLists.Employee.Count != 0)
+                //if(MessengerTempData.employeeList_Contact != null || employeeLists != null ||employeeLists.Employee != null || employeeLists.Employee.Count != 0)
                 {
-                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, MessengerTempData.EmployeeLists.EmployeeList);
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, employeeLists.EmployeeList.Employee);
                     var layoutManager = new LinearLayoutManager(Context);
                     contacts_RecyclerView.SetLayoutManager(layoutManager);
                     contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);

@@ -5,10 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using EmployeeList = Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList;
-using EmployeesList = Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeLists;
-
-
+using EmployeeList = Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeMessengerContacts;
 
 namespace Strive.Core.ViewModels.Employee
 {
@@ -44,9 +41,11 @@ namespace Strive.Core.ViewModels.Employee
             else
             {
                 EmployeeLists = new EmployeeList();
-                EmployeeLists.Employee = new List<Models.Employee.Messenger.MessengerContacts.Contacts.Employee>();
-                MessengerTempData.employeeList_Contact = new Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList();
-                MessengerTempData.employeeList_Contact.Employee = new List<Models.Employee.Messenger.MessengerContacts.Contacts.Employee>();
+                EmployeeLists.EmployeeList = new Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList();
+                EmployeeLists.EmployeeList.Employee = new List<Models.Employee.Messenger.MessengerContacts.Contacts.Employee>();
+                MessengerTempData.employeeList_Contact = new EmployeeList();
+                MessengerTempData.employeeList_Contact.EmployeeList = new Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList();
+                MessengerTempData.employeeList_Contact.EmployeeList.Employee = new List<Models.Employee.Messenger.MessengerContacts.Contacts.Employee>();
                 EmployeeLists = contactList;
                 MessengerTempData.employeeList_Contact = contactList;
                 MessengerTempData.ChatParticipants = new Dictionary<int, int>();

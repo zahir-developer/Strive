@@ -16,7 +16,7 @@ namespace Strive.Core.Services.Interfaces
     public interface IMessengerService
     {
         Task<EmployeeLists> GetRecentContacts(int employeeId);
-        Task<Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList> GetContacts(GetAllEmployeeDetail_Request employeeContacts);
+        Task<Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeMessengerContacts> GetContacts(GetAllEmployeeDetail_Request employeeContacts);
         Task<EmployeeLists> GetParticipants(int GroupID);
         Task<PersonalChatMessages> GetPersonalChatMessages(ChatDataRequest chatData);
         Task<PostResponseBool> SendChatMessage(SendChatMessage chatMessage);

@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Models.Employee.PersonalDetails;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace Strive.Core.Utils.Employee
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
-        public static EmployeeList_Contact employeeList_Contact { get; set; }
+        public static EmployeeMessengerContacts employeeList_Contact { get; set; }
         public static Dictionary<string, string> RecipientsConnectionID { get; set; }
 
         #endregion Properties

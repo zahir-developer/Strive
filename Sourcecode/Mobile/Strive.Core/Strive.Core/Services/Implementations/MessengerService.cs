@@ -19,9 +19,10 @@ namespace Strive.Core.Services.Implementations
     {
         public IRestClient _restClient = Mvx.IoCProvider.Resolve<IRestClient>();
 
-        public async Task<Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList> GetContacts(Models.Employee.Messenger.MessengerContacts.GetAllEmployeeDetail_Request employeeContacts)
+        public async Task<Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeMessengerContacts> GetContacts(Models.Employee.Messenger.MessengerContacts.GetAllEmployeeDetail_Request employeeContacts)
         {
-            return await _restClient.MakeApiCall<Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList>(ApiUtils.URL_MESSENGER_CONTACTS, HttpMethod.Post, employeeContacts);
+            var data = await _restClient.MakeApiCall<Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeMessengerContacts>(ApiUtils.URL_MESSENGER_CONTACTS, HttpMethod.Post, employeeContacts);
+            return data;//await _restClient.MakeApiCall<Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList>(ApiUtils.URL_MESSENGER_CONTACTS, HttpMethod.Post, employeeContacts);
         }
 
         public async Task<PersonalChatMessages> GetPersonalChatMessages(ChatDataRequest chatData)
