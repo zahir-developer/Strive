@@ -55,15 +55,15 @@ export class WashesListComponent implements OnInit {
     private datePipe: DatePipe, private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router
     , private landingservice: LandingService, private detailService: DetailService,
-    private cd: ChangeDetectorRef,) {
-       // Debounce search.
+    private cd: ChangeDetectorRef) {
+    // Debounce search.
     this.searchUpdate.pipe(
       debounceTime(ApplicationConfig.DebounceTime.Washes),
       distinctUntilChanged())
       .subscribe(value => {
         this.getAllWashDetails();
       });
-     }
+  }
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Washes, sortOrder: ApplicationConfig.Sorting.SortOrder.Washes.order };
@@ -84,7 +84,7 @@ export class WashesListComponent implements OnInit {
       date: new Date()
     };
     // this.washes.getDashBoard(obj);
-    this.getAllWashDetails();
+    // this.getAllWashDetails();
   }
   landing() {
     this.landingservice.loadTheLandingPage();
@@ -100,6 +100,11 @@ export class WashesListComponent implements OnInit {
     this.pageSize = +event.target.value;
     this.page = this.page;
     this.getAllWashDetails();
+    // this.searchUpdate.next($event)
+  }
+
+  searchCall(event) {
+    console.log(event, 'event');
   }
   onValueChange(event) {
     if (event !== null) {
@@ -126,7 +131,7 @@ export class WashesListComponent implements OnInit {
     };
     this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
-      
+
       if (data.status === 'Success') {
         this.spinner.hide()
         const wash = JSON.parse(data.resultData);
@@ -136,7 +141,7 @@ export class WashesListComponent implements OnInit {
           const totalRowCount = wash?.Washes?.Count?.Count;
           if (this.washDetails?.length > 0) {
             for (let i = 0; i < this.washDetails.length; i++) {
-              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model =  'Unk' : this.washDetails[i].Model ;
+              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
 
               let hh = this.washDetails[i].TimeIn.substring(13, 11);
               let m = this.washDetails[i].TimeIn.substring(16, 14);
