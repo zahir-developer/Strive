@@ -77,7 +77,7 @@ namespace Strive.Core.Utils
 
         public const string URL_MESSENGER_RECENT_CONTACTS = "/Admin/Messenger/GetChatEmployeeList/{0}";
 
-        public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail/{0}";
+        public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail";
 
         public const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage"; 
         

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EmployeeList = Strive.Core.Models.Employee.Messenger.EmployeeList;
+using EmployeeList_Contact = Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList;
 namespace Strive.Core.Utils.Employee
 {
     // Employee Temp Data
@@ -47,6 +48,7 @@ namespace Strive.Core.Utils.Employee
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
+        public static EmployeeList_Contact employeeList_Contact { get; set; }
         public static Dictionary<string, string> RecipientsConnectionID { get; set; }
 
         #endregion Properties

@@ -137,14 +137,14 @@ namespace StriveEmployee.Android.Fragments
                 foreach (var data in MessengerTempData.ExistingParticipants.ChatEmployeeList)
                 {
                     var participant = MessengerTempData.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.Id);
-                    ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+                   // ViewModel.EmployeeLists.Employee.Remove(participant);
                 }
                 foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
                 {
-                    var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.EmployeeId);
-                    ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+                    //var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.EmployeeId);
+                    //ViewModel.EmployeeLists.EmployeeList.Remove(participant);
                 }
-                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
+              //  messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
             }
 
             if(MessengerTempData.EmployeeLists.EmployeeList != null && MessengerTempData.ExistingParticipants == null)
