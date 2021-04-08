@@ -15,14 +15,17 @@ namespace Strive.ResourceAccess
     public class CheckoutRal : RalBase
     {
         public CheckoutRal(ITenantHelper tenant) : base(tenant) { }
-        public CheckOutGridViewModel GetAllCheckoutDetails(CheckOutDto checkoutDto)
+        public CheckOutGridViewModel GetAllCheckoutDetails(SearchDto checkoutDto)
         {
             _prm.Add("locationid", checkoutDto.LocationId);
             _prm.Add("PageNo", checkoutDto.PageNo);
-
             _prm.Add("PageSize", checkoutDto.PageSize);
-            
-          
+            _prm.Add("@Query", checkoutDto.Query);
+            _prm.Add("@SortOrder", checkoutDto.SortOrder);
+            _prm.Add("@SortBy", checkoutDto.SortBy);
+            _prm.Add("@StartDate", checkoutDto.StartDate);
+            _prm.Add("@EndDate", checkoutDto.EndDate);
+
             var result =  db.FetchMultiResult<CheckOutGridViewModel>(EnumSP.Checkout.USPGETAllCHECKOUTDETAILS.ToString(), _prm);
             return result;
         }
@@ -34,16 +37,18 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Checkout.USPUPDATECHECKOUTDETAILFORJOBID.ToString(), _prm);
             return true;
         }
-        public bool UpdateJobStatusHold(JobIdDto jobIdDto)
+        public bool UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
         {
-            _prm.Add("JobId", jobIdDto.id); 
+            _prm.Add("JobId", checkoutHoldDto .id); 
             db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSHOLDBYJOBID.ToString(), _prm);
+          
             return true;
         }
         public bool UpdateJobStatusComplete(JobIdDto jobIdDto)
         {
             _prm.Add("JobId", jobIdDto.id);
             db.Save(EnumSP.Checkout.USPUPDATEJOBSTATUSCOMPLETEBYJOBID.ToString(), _prm);
+          
             return true;
         }
 

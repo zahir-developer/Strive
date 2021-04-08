@@ -32,9 +32,11 @@ namespace Admin.API.Controllers
         [Route("GetMembershipListByVehicleId/{vehicleId}")]
         public Result GetMembershipListByVehicleId(int vehicleId) => _bplManager.GetMembershipListByVehicleId(vehicleId);
 
+
         [HttpGet]
-        [Route("GetTicketNumber")]
-        public string GetTicketNumber() => _bplManager.GetTicketNumber();
+        [Route("GetAllLocationWashTime/{id}")]
+        public Result GetAllLocationWashTime(int id) => _bplManager.GetAllLocationWashTime(id);
+
 
         #endregion
 
@@ -61,5 +63,12 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteWashes(int id) => _bplManager.DeleteWashes(id);
+
+
+        [HttpPost]
+        [Route("GetWashTimeByLocationId")]
+        public Result GetLocationById([FromBody] WashTimeDto washTimeDto) => _bplManager.GetWashTimeByLocationId(washTimeDto);
+
+
     }
 }

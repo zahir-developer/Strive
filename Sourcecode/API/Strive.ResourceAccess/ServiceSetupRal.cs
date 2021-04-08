@@ -57,8 +57,10 @@ namespace Strive.ResourceAccess
             return true;
         }
        
-        public List<ServiceDetailViewModel> GetAllServiceDetail()
+        public List<ServiceDetailViewModel> GetAllServiceDetail(int locationId)
         {
+
+            _prm.Add("@locationId", locationId);
             return db.Fetch<ServiceDetailViewModel>(SPEnum.USPGETALLSERVICEDETAIL.ToString(), _prm);
         }
 

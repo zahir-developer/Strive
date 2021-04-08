@@ -13,66 +13,68 @@ export class WashService {
   constructor(private http: HttpUtilsService) {
   }
   getAllWashes(obj): Observable<any> {
-    return this.http.post(`${UrlConfig.totalUrl.getAllWash}` , obj);
+    return this.http.post(`${UrlConfig.washes.getAllWash}` , obj);
   }
   updateWashes(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.updateWash}`, obj);
+    return this.http.post(`${UrlConfig.washes.updateWash}`, obj);
   }
   getJobStatus(code) {
-    return this.http.get(`${UrlConfig.totalUrl.getJobStatus}` + code);
+    return this.http.get(`${UrlConfig.common.getJobStatus}` + code);
   }
   addWashes(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.addWash}`, obj);
+    return this.http.post(`${UrlConfig.washes.addWash}`, obj);
   }
   getWashById(id: number) {
-    return this.http.get(`${UrlConfig.totalUrl.getWashById}` + id);
+    return this.http.get(`${UrlConfig.washes.getWashById}` + id);
   }
   getByBarcode(id: number) {
-    return this.http.get(`${UrlConfig.totalUrl.getByBarcode}` + id);
+    return this.http.get(`${UrlConfig.washes.getByBarcode}` + id);
   }
   deleteWash(washId: number) {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteWash}`, { params: { id: washId } });
+    return this.http.delete(`${UrlConfig.washes.deleteWash}`, { params: { id: washId } });
   }
   getServices(obj): Observable<any> {
-    return this.http.post(`${UrlConfig.totalUrl.getServiceSetup}`, obj);
+    return this.http.post(`${UrlConfig.ServiceSetup.getServiceSetup}`, obj);
   }
   getServiceType(obj: string) {
-    return this.http.get(`${UrlConfig.totalUrl.getCode}` + obj);
+    return this.http.get(`${UrlConfig.common.getCode}` + obj);
   }
   getVehicleColor() {
-    return this.http.post(`${UrlConfig.totalUrl.getVehicleCodes}`);
+    return this.http.post(`${UrlConfig.vehicle.getVehicleCodes}`);
   }
   getTicketNumber(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getTicketNumber}`);
+ const locationId = localStorage.getItem('empLocationId');
+
+    return this.http.get(`${UrlConfig.common.getTicketNumber}`+locationId);
   }
   getJobType() {
-    return this.http.get(`${UrlConfig.totalUrl.getJobType}`);
+    return this.http.get(`${UrlConfig.details.getJobType}`);
   }
   getMembership(vehicleId: number) {
-    return this.http.get(`${UrlConfig.totalUrl.getMembershipByVehicle}`, { params: { id: vehicleId } });
+    return this.http.get(`${UrlConfig.vehicle.getMembershipByVehicle}`, { params: { id: vehicleId } });
   }
   getAllClient(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getClient}`);
+    return this.http.get(`${UrlConfig.client.getClient}`);
   }
   getAllClientName(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getClientName}`,name);
+    return this.http.get(`${UrlConfig.client.getClientName}`,name);
   }
   getAllClients(name): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getClientName}`+ name,{ params: { name: name } });
+    return this.http.get(`${UrlConfig.client.getClientName}`+ name,{ params: { name: name } });
   }
   getVehicleByClientId(clientId: number) {
-    return this.http.get(`${UrlConfig.totalUrl.getVehicleByClientId}`, { params: { id: clientId } });
+    return this.http.get(`${UrlConfig.vehicle.getVehicleByClientId}`, { params: { id: clientId } });
   }
   getMembershipById(id: number) {
-    return this.http.get(`${UrlConfig.totalUrl.getMembershipById}` + id);
+    return this.http.get(`${UrlConfig.MembershipSetup.getMembershipById}` + id);
   }
   getVehicleById(vehicleId: number) {
-      return this.http.get(`${UrlConfig.totalUrl.getVehicleById}`, { params: { id: vehicleId } });
+      return this.http.get(`${UrlConfig.vehicle.getVehicleById}`, { params: { id: vehicleId } });
   }
 
   // Get Dashboard Count
   getDashBoard(obj) {
-    this.http.post(`${UrlConfig.totalUrl.getDashBoardCount}`, obj).subscribe((data: any) => {
+    this.http.post(`${UrlConfig.washes.getDashBoardCount}`, obj).subscribe((data: any) => {
       const wash = JSON.parse(data.resultData);
       this.dashBoardDetails = wash.Dashboard;
       this.data.next(this.dashBoardDetails);

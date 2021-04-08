@@ -68,9 +68,30 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetMembershipDetailsByVehicleId")]
         public Result GetMembershipDetailsByVehicleId(int id) => _bplManager.GetMembershipDetailsByVehicleId(id);
+
         [HttpGet]
         [Route("GetPastDetails/{clientId}")]
         public Result GetPastDetails(int clientId) => _bplManager.GetPastDetails(clientId);
+
+        /// <summary>
+        /// Returns list of vehicle thumbnail images associated with vehicle 
+        /// </summary>
+        /// <param name="vehicleId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetAllVehicleThumbnail/{vehicleId}")]
+        public Result GetAllVehicleThumbnail(int vehicleId) => _bplManager.GetAllVehicleThumbnail(vehicleId);
+
+        [HttpGet]
+        [Route("GetVehicleImageById/{vehicleImageId}")]
+        public Result GetVehicleImageById(int vehicleImageId) => _bplManager.GetVehicleImageById(vehicleImageId);
+
+
+
+        [HttpDelete]
+        [Route("DeleteVehicleImage")]
+        public Result DeleteVehicleImage(int id) => _bplManager.DeleteVehicleImage(id);
+
 
     }
 }

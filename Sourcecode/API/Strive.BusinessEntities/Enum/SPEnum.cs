@@ -23,6 +23,8 @@ namespace Strive.BusinessEntities
             USPSAVEOTP,
             USPRESETPASSWORD,
             USPVERIFYOTP,
+            USPDELETEUSER,
+            USPGETCLIENTUSERBYAUTHID
         }
 
         public enum ClockTime
@@ -31,7 +33,9 @@ namespace Strive.BusinessEntities
             USPGETTIMECLOCKEMPLOYEEDETAILS,
             USPGETTIMECLOCKWEEKDETAILS,
             USPDELETETIMECLOCKEMPLOYEE,
-            USPGETTIMECLOCKEMPLOYEEHOURDETAIL
+            USPGETTIMECLOCKEMPLOYEEHOURDETAIL,
+            USPGETEMPLOYEEWEEKLYTIMECLOCKHOUR,
+            USPGETCLOCKEDINDETAILER
         }
         public enum SalesReport
         {
@@ -142,6 +146,7 @@ namespace Strive.BusinessEntities
             uspGetGiftCardHistoryByNumber,
             uspGetGiftCardByLocation,
             uspGetGiftCardBalance,
+            USPISGIFTCARDEXIST,
         }
 
         public enum Location
@@ -154,7 +159,8 @@ namespace Strive.BusinessEntities
             USPGETLOCATIONBYID,
             USPGETALLLOCATIONOFFSET,
             USPDELETELOCATIONOFFSET,
-            USPADDBAYSLOT
+            USPADDBAYSLOT,
+            USPGETALLLOCATIONNAME
         }
         public enum ServiceSetup
         {
@@ -187,7 +193,8 @@ namespace Strive.BusinessEntities
             USPSAVECASHREGISTERROLLS,
             USPSAVECASHREGISTER,
             USPGETCASHREGISTER,
-            USPGETPASTWEATHERINFO
+            USPGETPASTWEATHERINFO,
+            USPGETFORCASTEDRAINPERCENTAGE
         }
         public enum Collision
         {            //Collison
@@ -243,6 +250,8 @@ namespace Strive.BusinessEntities
             USPGETJOBTYPE,
             USPDELETEDETAILSCHEDULE,
             USPGETALLDETAILS,
+
+            USPGETDETAILSCHEDULESTATUS,
         }
         public enum Schedule
         {
@@ -265,6 +274,8 @@ namespace Strive.BusinessEntities
             uspGetServiceByItemList,
             USPDELETEJOBITEMS,
             USPROLLBACKPAYMENT,
+            USPUPDATEPRODUCTQUANTITY,
+            USPGETEMAILID,
         }
 
         public enum Payroll
@@ -324,6 +335,8 @@ namespace Strive.BusinessEntities
         USPSAVELOGIN,
         USPSAVETENANTUSERMAP,
         USPGETALLEMAIL,
+        USPGETALLDEALS,
+        USPUPDATETOGGLEDEALSTATUS,
 
         //Employee
         USPGETEMPLOYEELIST,
@@ -406,6 +419,8 @@ namespace Strive.BusinessEntities
         USPGETMEMBERSHIPSERVICEBYVEHICLEID,
         USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
         //Vehicle
+
+        USPGETVEHICLE,
         USPGETALLVEHICLE,
         USPUPDATEVEHICLE,
         USPDELETECLIENTVEHICLE,
@@ -421,11 +436,14 @@ namespace Strive.BusinessEntities
         uspGetVehicleCodes,
         USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
         USPGETMEMBERSHIPBYVEHICLEID,
+        USPGETALLVEHICLEIMAGEBYID,
+        USPGETVEHICLEIMAGEBYID,
+        USPDELETECLIENTVEHICLEIMAGE,
         //Vendor
         USPGETALLVENDOR,
         USPGETVENDORBYID,
         USPDELETEVENDOR,
-        USPGETVEHICLE,
+        USPGETALLVENDORNAME,
         //Washes
         USPGETJOBBYID,
         USPGETALLJOB,
@@ -453,7 +471,10 @@ namespace Strive.BusinessEntities
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
         uspGetMembershipListByVehicleId,
-        
+        USPGETWASHTIMEBYLOCATIONID,
+        uspGetAllLocationWashTime,
+
+
         USPGETTICKETNUMBER,
         USPCREATETENANT,
         uspGetServiceByItemList,

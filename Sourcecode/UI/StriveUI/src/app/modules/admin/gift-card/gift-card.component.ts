@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-gift-card',
@@ -26,70 +28,94 @@ export class GiftCardComponent implements OnInit {
   isActivityCollapsed = false;
   giftCardList = [];
   clonedGiftCardList = [];
- 
+  search = '';
   collectionSize: number;
-  sort = { column: 'GiftCardCode', descending: true };
-  sortColumn: { column: string; descending: boolean; };
+ 
   page: number;
   pageSize: number;
   pageSizeList: number[];
+  query = '';
+  sortColumn: { sortBy: string; sortOrder: string; };
+  startDate: Date;
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
+  this.startDate = new Date();
+var amountOfYearsRequired = 5;
+this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired);
     this.submitted = false;
     this.isActivity = false;
     this.giftCardForm = this.fb.group({
       number: ['', Validators.required]
     });
-    this.page= ApplicationConfig.PaginationConfig.page;
+    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.GiftCard, sortOrder: ApplicationConfig.Sorting.SortOrder.GiftCard.order };
+
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    
     this.getAllGiftCard();
   }
 
   getAllGiftCard() {
-    const locationId = +localStorage.getItem('empLocationId');
-    this.giftCardService.getAllGiftCard(locationId).subscribe(res => {
+    const obj = {
+      locationId: localStorage.getItem('empLocationId'),
+      startDate: this.startDate,
+      endDate: new Date(),
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search == '' ? null : this.search ,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
+      status: true
+    };
+    this.giftCardList = [];
+    this.spinner.show();
+    this.giftCardService.getAllGiftCard(obj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const giftcard = JSON.parse(res.resultData);
-        console.log(giftcard, 'giftCard');
-        this.giftCardList = giftcard.GiftCard;
-        this.giftCardList.forEach( item => {
-          item.searchName = item.GiftCardCode + '' + item.GiftCardName;
-        });
-        this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
-        this.collectionSize = Math.ceil(this.giftCardList.length / this.pageSize) * 10;
+        if (giftcard.GiftCard.GiftCardViewModel !== null) {
+          this.giftCardList = giftcard.GiftCard.GiftCardViewModel;
+          const totalCount = giftcard.GiftCard.Count.Count;
+          this.giftCardList.forEach(item => {
+            item.searchName = item.GiftCardCode + '' + item.GiftCardName;
+          });
+          this.clonedGiftCardList = this.giftCardList.map(x => Object.assign({}, x));
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        }
+
       }
+      else{
+        this.spinner.hide();
+
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllGiftCard()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllGiftCard();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllGiftCard()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllGiftCard();
   }
-  searchGift(text) {
-    if (text.length > 0) {
-      this.giftCardList = this.clonedGiftCardList.filter(item => item.searchName.toLowerCase().includes(text));
-    } else {
-      this.giftCardList = [];
-      this.giftCardList = this.clonedGiftCardList;
-    }
+  searchGift() {
+    this.search = this.query;
+    this.getAllGiftCard();
   }
 
   getAllGiftCardHistory(giftCardNumber) {
@@ -98,6 +124,8 @@ export class GiftCardComponent implements OnInit {
         const cardHistory = JSON.parse(res.resultData);
         this.giftCardHistory = cardHistory.GiftCardHistory;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -108,7 +136,7 @@ export class GiftCardComponent implements OnInit {
   getGiftCardDetail() {
     this.submitted = true;
     if (this.giftCardForm.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Mandatory });
       return;
     }
     const giftCardNumber = +this.giftCardForm.value.number;
@@ -123,15 +151,17 @@ export class GiftCardComponent implements OnInit {
           this.updateBalance();
           this.getAllGiftCardHistory(giftCardNumber);
         } else {
-          this.messageService.showMessage({ severity: 'info', title: 'Information', body: 'Invalid Card Number' });
+          this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Admin.GiftCard.invalidCard });
           this.isActivity = false;
           this.activeDate = 'none';
           this.totalAmount = 0;
           this.giftCardHistory = [];
         }
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -158,6 +188,8 @@ export class GiftCardComponent implements OnInit {
       if (res.status === 'Success') {
         this.getAllGiftCardHistory(card.GiftCardId);
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -193,11 +225,11 @@ export class GiftCardComponent implements OnInit {
         const giftcardBalance = JSON.parse(res.resultData);
         if (giftcardBalance.GiftCardDetail.length > 0) {
           const balanceAmount = giftcardBalance.GiftCardDetail[0].BalaceAmount;
-          //if (balanceAmount > 0.00) {
-            this.totalAmount = balanceAmount;
-          //}
+          this.totalAmount = balanceAmount;
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -210,31 +242,24 @@ export class GiftCardComponent implements OnInit {
   }
 
   changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-  }
-
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
+    this.sortColumn ={
+     sortBy: column,
+     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    return sortingInfo;
-  }
 
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
+    this.selectedCls(this.sortColumn)
+   this.getAllGiftCard();
+ }
 
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
+ 
+
+ selectedCls(column) {
+   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+     return 'fa-sort-desc';
+   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+     return 'fa-sort-asc';
+   }
+   return '';
+ }
 
 }

@@ -2,19 +2,14 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
-                <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item">Home</li>
-                    <li class="breadcrumb-item"><a (click)="cancel()">Wash</a></li>
+                <ol class="breadcrumb font-size-1">
+                    <li class="breadcrumb-item" (click) = "landing()">Home</li>
+                    <li class="breadcrumb-item"><a (click)="cancel()">Washes</a></li>
                     <li *ngIf="!isEdit" class="breadcrumb-item active" aria-current="page">New Wash</li>
                     <li *ngIf="isEdit && !isView" class="breadcrumb-item active" aria-current="page">Edit Wash</li>
                     <li *ngIf="isEdit && isView" class="breadcrumb-item active" aria-current="page">View Wash</li>
                 </ol>
             </nav>
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 *ngIf="!isEdit" class="d-inline-block">New Wash</h3>
-                <h3 *ngIf="isEdit && !isView" class="d-inline-block">Edit Wash</h3>
-                <h3 *ngIf="isEdit && isView" class="d-inline-block">View Wash</h3>
-            </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="card">
                     <div class="card-body">
@@ -44,15 +39,19 @@
                                         (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputClient">Client</label>
+                                    <label for="inputClient">Client<span class="required">*</span></label>
                                     <div class="ui-fluid">
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="clientList"
+                                                [ngClass]="{ 'is-invalid': submitted && f.client.errors }"
                                                     (completeMethod)="filterClient($event)" [size]="10"
                                                     formControlName="client" placeholder="Client Name"
-                                                    (onSelect)="selectedClient($event)">
+                                                    (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
                                                 </p-autoComplete>
+                                                <div *ngIf="submitted && f.client.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.client.errors.required">Client is required</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -87,17 +86,13 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputType">Type</label>
-                                    <!-- <select class="form-control" formControlName="type">
-                                        <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of type" value="{{score.CodeId}}">{{score.CodeValue}}
-                                        </option>
-                                    </select> -->
+
                                     <div class="ui-fluid">
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredMake"
-                                                    (completeMethod)="filterMake($event)" [size]="10"
-                                                    formControlName="type" placeholder="Make">
+                                                    (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)"
+                                                    [size]="10" formControlName="type" placeholder="Make">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
@@ -109,17 +104,14 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredModel"
+                                                    (onBlur)="checkValue('model')"
                                                     (completeMethod)="filterModel($event)" [size]="10"
                                                     formControlName="model" placeholder="Model">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <select class="form-control" formControlName="model">
-                                        <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of model" value="{{score.CodeId}}">{{score.CodeValue}}
-                                        </option>
-                                    </select> -->
+
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputColor">Color</label>
@@ -127,17 +119,14 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                                    (onBlur)="checkValue('color')"
                                                     (completeMethod)="filterColor($event)" [size]="10"
                                                     formControlName="color" placeholder="Color">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <select class="form-control" formControlName="color">
-                                        <option hidden selected value="">Choose</option>
-                                        <option *ngFor="let score of color" value="{{score.CodeId}}">{{score.CodeValue}}
-                                        </option>
-                                    </select> -->
+
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputWashes">Washes<span class="required">*</span></label>

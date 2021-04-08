@@ -10,6 +10,6 @@ namespace Strive.BusinessEntities.DTO.PayRoll
    public class PayrollProcessAddDto
     {
         public PayrollProcess PayrollProcess { get; set; }
-        public PayrollEmployee PayrollEmployee { get; set; }
+        public List<PayrollEmployee> PayrollEmployee { get; set; }
     }
 }

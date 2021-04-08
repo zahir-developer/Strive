@@ -9,6 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 
 declare var $: any;
 @Component({
@@ -21,7 +23,7 @@ export class CreateEditComponent implements OnInit {
   @ViewChild(CityComponent) cityComponent: CityComponent;
   State: any;
   city: any;
-
+  @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   sampleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
@@ -94,7 +96,7 @@ export class CreateEditComponent implements OnInit {
       permitDate: ['']
     });
     this.emplistform = this.fb.group({
-      emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      emailId: ['', [Validators.required, Validators.email]],
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
@@ -117,8 +119,11 @@ export class CreateEditComponent implements OnInit {
         const cType = JSON.parse(data.resultData);
         this.imigirationStatus = cType.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -127,20 +132,22 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
@@ -149,7 +156,6 @@ export class CreateEditComponent implements OnInit {
         item_text: item.CodeValue
       };
     });
-    console.log(this.employeeRoles, 'employeerolesmuliti');
     this.dropdownSettings = {
       singleSelection: false,
       defaultOpen: false,
@@ -224,18 +230,21 @@ export class CreateEditComponent implements OnInit {
           allowSearchFilter: false
         };
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   getGenderDropdownValue() {
     this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      console.log(res, 'gender');
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -261,6 +270,8 @@ export class CreateEditComponent implements OnInit {
           allowSearchFilter: false
         };
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -276,14 +287,13 @@ export class CreateEditComponent implements OnInit {
       const sizeFixed = (fileSize / 1048576);
       const sizeFixedValue = +sizeFixed.toFixed(1);
       if (sizeFixedValue > 1) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'File size cannot be more than 10MB' });
+        this.toastr.warning(MessageConfig.Document.fileSize, 'Warning!');
         this.isLoading = false;
         return;
       }
       const fReader = new FileReader();
       fReader.readAsDataURL(file);
       fReader.onloadend = (event: any) => {
-        console.log(file.size, 'size');
         this.fileName = file.name;
         const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
@@ -296,13 +306,11 @@ export class CreateEditComponent implements OnInit {
         };
         this.multipleFileUpload.push(fileObj);
         this.isLoading = false;
-        console.log(this.multipleFileUpload, 'fileupload');
       };
     } catch (error) {
       this.fileName = null;
       this.fileUploadformData = null;
       this.isLoading = false;
-      console.log('no file was selected...');
     }
   }
 
@@ -330,18 +338,22 @@ export class CreateEditComponent implements OnInit {
   }
 
   saveEmployee() {
-    console.log(this.emplistform, 'empdorm');
     this.emplistform.controls.status.enable();
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
-    if (this.cityComponent.city === '') {
+    if (this.stateDropdownComponent.stateValueSelection === false ) {
       return;
     }
+    if (this.cityComponent.selectValueCity === false ) {
+      return;
+    }
+
     if (this.personalform.invalid || this.emplistform.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+      this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
     }
+    
     const sourceObj = [];
     const employeeDetails = [];
     const employeAddress = [];
@@ -350,14 +362,14 @@ export class CreateEditComponent implements OnInit {
       employeeAddressId: 0,
       employeeId: this.employeeId,
       address1: this.personalform.value.address,
-      address2: null, // ''
+      address2: null,
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: null, // ''
+      phoneNumber2: null, 
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null,  // ''
-      country: null // 38
+      zip: null, 
+      country: null 
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
@@ -371,13 +383,13 @@ export class CreateEditComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: 0,
       employeeId: this.employeeId,
-      employeeCode: null, // ''
+      employeeCode: null, 
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
-      lrt: null, // '2020 - 08 - 06T19: 24: 48.817Z',
+      lrt: null,
       exemptions: +this.emplistform.value.exemptions,
       isActive: true,
       isDeleted: false,
@@ -389,19 +401,20 @@ export class CreateEditComponent implements OnInit {
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
+        hourlyWashRate: +this.emplistform.value.hourlyRateWash
       };
     });
     const employeeObj = {
       employeeId: this.employeeId,
       firstName: this.personalform.value.firstName,
-      middleName: null,  // ''
+      middleName: null, 
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: null, // ''
+      maritalStatus: null, 
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: null,  // ''
+      birthDate: null,  
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
@@ -412,12 +425,12 @@ export class CreateEditComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: null,  // '',
+        filepath: null,  
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: false,
-        password: null, // ''
-        comments: null, // ''
+        password: null, 
+        comments: null,
         isActive: true,
         isDeleted: false,
         createdBy:  +localStorage.getItem('empId'),
@@ -436,21 +449,27 @@ export class CreateEditComponent implements OnInit {
     };
     this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfully!' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Employee.saved, 'Success' );
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
+        
         if (res.status === 'Fail' && res.errorMessage !== null) {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.errorMessage });
+          this.spinner.hide();
+
+          this.toastr.error(res.errorMessage , 'Error!');
         }
         else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }
     }, (error) => {
       this.spinner.hide();
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

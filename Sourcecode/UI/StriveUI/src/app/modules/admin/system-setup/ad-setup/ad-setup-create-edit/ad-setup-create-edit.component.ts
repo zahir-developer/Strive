@@ -6,6 +6,8 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ad-setup-create-edit',
@@ -33,33 +35,31 @@ export class AdSetupCreateEditComponent implements OnInit {
   fileType: string[];
   fileSize: number;
   localFileSize: any;
-
+  selectedDate: Date;
   constructor(private adSetup: AdSetupService, private spinner: NgxSpinnerService,
     private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit() {
+
+    this.submitted = false;
     this.fileType = ApplicationConfig.UploadFileType.AdSetup;
     this.fileSize = ApplicationConfig.UploadSize.AdSetup
     this.Status = [{ id: 0, Value: "Inactive" }, { id: 1, Value: "Active" }];
     this.formInitialize();
-    this.submitted = false;
     this.employeeId = +localStorage.getItem('employeeId');
-    this.adSetup.getAdSetupById(this.selectedData.AdSetupId).subscribe(data => {
-      if (data.status === "Success") {
-  this.spinner.hide()
-        const sType = JSON.parse(data.resultData);
-        this.selectedData = sType.GetAdSetupById;
-  
-      } 
-    });
+   if (this.selectedData){
     this.adSetupForm.patchValue({
       name: this.selectedData.Name,
       description: this.selectedData.Description,
       status: this.selectedData.Status == false ? 0 : 1,
-      image: this.selectedData.OriginalFileName
+      image: this.selectedData.OriginalFileName,
+      daterangepickerModel : this.selectedData.LaunchDate ? moment(this.selectedData.LaunchDate).format('MM-DD-YYYY') : null
     });
+  
     this.fileName = this.selectedData.OriginalFileName,
       this.fileUploadformData = this.selectedData.base64
+   }
+   
   }
 
   formInitialize() {
@@ -68,6 +68,7 @@ export class AdSetupCreateEditComponent implements OnInit {
       name: ['', Validators.required],
       image: ['', Validators.required],
       status: ['',],
+      daterangepickerModel : ['',Validators.required]
     });
     this.adSetupForm.patchValue({ status: 1 });
   }
@@ -84,7 +85,17 @@ export class AdSetupCreateEditComponent implements OnInit {
   }
   
 
+  onValueChange(event) {
+   this.selectedDate = event;
+    if (this.selectedDate !== null) {
+      this.selectedDate = event
+     
+    }
+    else{
+      this.selectedDate = null;
 
+    }
+  }
 
   fileNameChanged() {
     let filesSelected: any;
@@ -111,7 +122,7 @@ export class AdSetupCreateEditComponent implements OnInit {
           fileTosaveName = fileReader.result?.split(',')[1];
         }
         else {
-          this.toastr.error('Upload Image Only');
+          this.toastr.error(MessageConfig.Admin.SystemSetup.AdSetup.FileType, 'Error!');
           this.clearDocument();
         }
         this.fileUploadformData = fileTosaveName;
@@ -131,7 +142,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.error('Maximum Image Size 5MB');
+      this.toastr.error(MessageConfig.Admin.SystemSetup.AdSetup.FileSize, 'Error!');
       return;
     }
     const obj = {
@@ -148,7 +159,8 @@ export class AdSetupCreateEditComponent implements OnInit {
         createdBy: this.employeeId,
         createdDate: new Date(),
         updatedBy: this.employeeId,
-        updatedDate: new Date()
+        updatedDate: new Date(),
+      
       },
       documentType: "ADS",
 
@@ -163,8 +175,8 @@ export class AdSetupCreateEditComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: new Date()
-
+      updatedDate: new Date(),
+      LaunchDate: this.selectedDate ? moment(this.selectedDate).format('MM-DD-YYYY') : null
     }
 
 
@@ -212,33 +224,41 @@ export class AdSetupCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.adSetup.updateAdSetup(objList).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.adSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
-        this.spinner.hide();
+      },  (err) => {
+this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
       this.adSetup.addAdSetup(formObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.adSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
+      },  (err) => {
         this.spinner.hide();
-      });
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     }
   }
   cancel() {

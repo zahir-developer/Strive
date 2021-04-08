@@ -9,5 +9,7 @@ namespace Strive.BusinessEntities.DTO.Sales
     public class SalesItemDeleteDto
     {
         public string TicketNumber { get; set; }
+
+        public int LocationId { get; set; }
     }
 }

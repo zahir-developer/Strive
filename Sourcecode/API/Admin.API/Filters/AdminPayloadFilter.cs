@@ -125,6 +125,7 @@ namespace Admin.API.Filters
             _tenant.LogoImageFolder = Pick("FolderPath", "LogoImage");
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
             _tenant.GeneralDocumentFolder = Pick("FolderPath", "GeneralDocument");
+            _tenant.VehicleImageFolder = Pick("FolderPath", "VehicleImage");
             
             //File Format
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");
@@ -134,11 +135,13 @@ namespace Admin.API.Filters
             _tenant.TermsAndCondition = Pick("FileFormat", "TermsAndCondition");
 
             //Image Size
-            _tenant.ProductThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
-            _tenant.ProductThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
+            _tenant.ImageThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
+            _tenant.ImageThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
             _tenant.LogoThumbWidth = Convert.ToInt32(Pick("ImageThumb", "Width"));
             _tenant.LogoThumbHeight = Convert.ToInt32(Pick("ImageThumb", "Height"));
 
+            //HTML Template Url
+            _tenant.HtmlTemplates = Pick("FolderPath", "HtmlTemplate");
         }
     }
 }

@@ -17,5 +17,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string Base64 { get; set; }
 
         public string OriginalFileName { get; set; }
+
+
+        public DateTime? LaunchDate { get; set; }
     }
 }

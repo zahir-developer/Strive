@@ -50,7 +50,7 @@ namespace Strive.BusinessEntities.Model
         public string WifiDetail { get; set; }
 
         [Column]
-        public int? WorkhourThreshold { get; set; }
+        public decimal? WorkhourThreshold { get; set; }
 
         [Column]
         public DateTimeOffset? StartTime { get; set; }

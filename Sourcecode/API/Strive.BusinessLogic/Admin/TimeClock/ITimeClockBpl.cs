@@ -21,6 +21,9 @@ namespace Strive.BusinessLogic.TimeClock
         Result DeleteTimeClockEmployee(TimeClockDeleteDto timeClockDeleteDto);
 
         Result TimeClockEmployeeHourDetail(TimeClockLocationDto timeClockLocationDto);
+        Result GetClockedInDetailer(TimeClockLocationDto timeclock);
+
+
 
     }
 }

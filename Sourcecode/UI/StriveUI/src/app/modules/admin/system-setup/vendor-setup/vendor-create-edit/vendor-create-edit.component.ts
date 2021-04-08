@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -59,7 +60,7 @@ export class VendorCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', [Validators.email, Validators.required]],
+      email: [''],
       fax: ['',],
       website: ['']
     });
@@ -92,16 +93,17 @@ export class VendorCreateEditComponent implements OnInit {
   // Add/Update Vendor
   submit() {
     this.submitted = true;
+   
     if (this.vendorSetupForm.invalid) {
-      if (this.stateDropdownComponent.state === '') {
-        this.stateDropdownComponent.submitted = true;
-      }
+    
       return;
     }
-    if (this.stateDropdownComponent.state === '') {
-      this.stateDropdownComponent.submitted = true;
+    if (this.stateDropdownComponent.stateValueSelection == false ) {
+      this.toastr.error('State is Required', 'Error!');
+
       return;
     }
+    
     const vendorObj = {
       vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       vin: this.vendorSetupForm.value.vin,
@@ -143,24 +145,36 @@ export class VendorCreateEditComponent implements OnInit {
     if (this.isEdit === false) {
       this.spinner.show();
       this.vendorService.saveVendor(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        }
+        else{
+          this.spinner.hide();
+
         }
       }, (err) => {
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
       this.vendorService.updateVendor(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.Vendor.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+        }
+        else{
+          this.spinner.hide();
+
         }
       }, (err) => {
         this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }
@@ -168,14 +182,14 @@ export class VendorCreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
 }

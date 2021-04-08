@@ -4,6 +4,10 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterDashboardComponent } from './filter-dashboard/filter-dashboard.component';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
 
 @Component({
@@ -45,11 +49,14 @@ export class DashboardComponent implements OnInit {
   thirdSectionToggle: boolean;
   fromDate: any;
   toDate: any;
-  locationId = 0;
+  locationId: any;
   constructor(
     public dashboardService: DashboardService,
     private messageService: MessageServiceToastr,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService,
+    private landingservice: LandingService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +67,8 @@ export class DashboardComponent implements OnInit {
     this.fromDate = moment(new Date()).format();
     this.toDate = moment(new Date()).format();
     this.getLocationList();
-    this.getDashboardStatistics(0);
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.getDashboardStatistics(this.locationId);
   }
 
   getDashboardCount() {
@@ -76,11 +84,12 @@ export class DashboardComponent implements OnInit {
       this.currentCar = dashboardCount.Dashboard.Current.Current;
       this.foreCastedCar = dashboardCount.Dashboard.ForecastedCars.ForecastedCars;
       this.averageCarWashTime = dashboardCount.Dashboard.AverageWashTime.AverageWashTime;
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   getDashboardStatistics(locationID) {
-    // const locationId = localStorage.getItem('empLocationId');
     this.locationId = locationID;
     this.dashboardStatistics = [];
     this.resetValue();
@@ -89,10 +98,12 @@ export class DashboardComponent implements OnInit {
       fromDate: this.fromDate,
       toDate: this.toDate
     };
+    this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const dashboardCount = JSON.parse(res.resultData);
-        console.log(dashboardCount, 'dashboard');
         this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
         this.dashboardStatistics.forEach(item => {
           this.washesCount = this.washesCount + item.WashesCount;
@@ -116,8 +127,13 @@ export class DashboardComponent implements OnInit {
           this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
         });
       } else {
-        //this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -145,12 +161,14 @@ export class DashboardComponent implements OnInit {
   // Get All Location
   getLocationList() {
     this.dashboardService.getLocation().subscribe(res => {
-      if (res.status === 'Success') {
+            if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
       } else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -159,7 +177,7 @@ export class DashboardComponent implements OnInit {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size: 'sm'
+      size: '750px'
     };
     const modalRef = this.modalService.open(FilterDashboardComponent, ngbModalOptions);
     modalRef.componentInstance.filterDashboard.subscribe((receivedEntry) => {
@@ -170,7 +188,9 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
+  landing() {
+    this.landingservice.loadTheLandingPage()
+  }
   mainStreet() {
     this.firstSectionTogggle = !this.firstSectionTogggle;
   }

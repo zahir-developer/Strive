@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-select-services',
@@ -19,11 +21,11 @@ export class SelectServicesComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private fb: FormBuilder,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.scheduleDetailObj, 'schedule');
     this.serviceForm = this.fb.group({
       serviceID: ['', Validators.required]
     });
@@ -35,7 +37,6 @@ export class SelectServicesComponent implements OnInit {
   }
 
   nextPage() {
-    console.log(this.serviceForm, 'selectedServcie');
     const services = this.detailService.filter(item => item.ServiceId === +this.serviceForm.value.serviceID);
     if (services.length > 0) {
       this.scheduleDetailObj.serviceobj = services[0];
@@ -55,16 +56,23 @@ export class SelectServicesComponent implements OnInit {
     };
     this.spinner.show();
     this.customerService.getServices(serviceObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const serviceDetails = JSON.parse(res.resultData);
-        console.log(serviceDetails, 'service');
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
           this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === 'Details');
           this.patchServiceValue();
         }
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       this.spinner.hide();
     });
   }

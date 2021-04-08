@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client-statement',
@@ -20,7 +22,7 @@ export class ClientStatementComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
-
+private toastr : ToastrService,
     private client: ClientService
   ) { }
 
@@ -38,37 +40,13 @@ export class ClientStatementComponent implements OnInit {
         const statement = JSON.parse(res.resultData);
         this.statementGrid = statement.VehicleStatement;
         this.collectionSize = Math.ceil(this.statementGrid.length / this.pageSize) * 10;
-        console.log(statement, 'statement');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
-  changeSorting(column) {
-    this.changeSortingDescending(column, this.sort);
-    this.sortColumn = this.sort;
-  }
+ 
 
-  changeSortingDescending(column, sortingInfo) {
-    if (sortingInfo.column === column) {
-      sortingInfo.descending = !sortingInfo.descending;
-    } else {
-      sortingInfo.column = column;
-      sortingInfo.descending = false;
-    }
-    return sortingInfo;
-  }
-
-  sortedColumnCls(column, sortingInfo) {
-    if (column === sortingInfo.column && sortingInfo.descending) {
-      return 'fa-sort-desc';
-    } else if (column === sortingInfo.column && !sortingInfo.descending) {
-      return 'fa-sort-asc';
-    }
-    return '';
-  }
-
-  selectedCls(column) {
-    return this.sortedColumnCls(column, this.sort);
-  }
-
+ 
 }

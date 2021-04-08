@@ -5,6 +5,9 @@ import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { GiftCardService } from 'src/app/shared/services/data-service/gift-card.service';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sale-gift-card',
@@ -21,8 +24,9 @@ export class SaleGiftCardComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private salesService: SalesService,
-    private messageService: MessageServiceToastr,
-    private giftCardService: GiftCardService
+    private toastr: ToastrService,
+    private giftCardService: GiftCardService,
+    private spinner : NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -111,7 +115,6 @@ export class SaleGiftCardComponent implements OnInit {
         jobItemId: 0,
         jobId: 0,
         serviceId: this.ItemDetail.selectedService?.id,
-        // itemTypeId: this.selectedService.type === 'product' ? 6 : 3,
         commission: 0,
         price: this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
         quantity: +this.ItemDetail.quantity,
@@ -145,14 +148,22 @@ export class SaleGiftCardComponent implements OnInit {
     } else {
       formObj.jobItem = null;
     }
+    this.spinner.show();
     this.salesService.addItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         this.submitted = false;
         this.saveGiftCard();
         this.activeModal.close(true);
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -175,12 +186,22 @@ export class SaleGiftCardComponent implements OnInit {
     const finalObj = {
       giftCard: cardObj
     };
+    this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Sales.UpdateGiftCrd, 'Success!');
+
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.giftCardForm.reset();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

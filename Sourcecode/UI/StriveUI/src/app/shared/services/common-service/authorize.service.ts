@@ -14,21 +14,20 @@ export class AuthorizeService {
   ) { }
 
   routingLevelAccess(routingPageId) {
-    console.log(routingPageId, this.userDataService.isAuthenticated, this.userDataService, 'authrize');
     if (localStorage.getItem('isAuthenticated') === 'true') {
-    if (routingPageId !== undefined) {
-      const roleViews = JSON.parse(localStorage.getItem('views'));
-      if (_.findWhere(roleViews, { ModuleName: routingPageId })) {
-        return true;
+      if (routingPageId !== undefined) {
+        const roleViews = JSON.parse(localStorage.getItem('views'));
+        if (true) {
+          return true;
+        }
+        else {
+          return false;
+        }
       }
-     else{
+    } else {
+      this.router.navigate(['/login']);
       return false;
-     } 
     }
-  }else {
-    this.router.navigate(['/login']);
-    return false;
+
   }
- 
-}
 }

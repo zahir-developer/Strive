@@ -1,46 +1,50 @@
-<!-- *ngIf="isLoggedIn$ | async as isLoggedIn" -->
 <nav class="nav navbar p-0" *ngIf="isLoggedIn$ | async as isLoggedIn">
-  <!--header-->
-  <ul class="w-100 bg-light">
-    <!--mobile-nav-trigger-->
-    <li class="mobile-nav-trigger d-none d-block d-md-none d-lg-none d-xl-none">
-      <ul>
-        <li>
-          <button class="d-flex d-block float-left button-menu-mobile nav-link p-t-20" (click)="openmbsidebar()"> <i
+    <!--header-->
+    <ul class="w-100 bg-light">
+        <!--mobile-nav-trigger-->
+        <li class="mobile-nav-trigger d-none d-block d-md-none d-lg-none d-xl-none">
+            <ul>
+                <li>
+                    <button class="d-flex d-block float-left button-menu-mobile nav-link p-t-20" (click)="openmbsidebar()"> <i
               class="fa fa-bars font-size-1-2 theme-primary-color"></i> </button>
+                </li>
+                <li class="mobile-logo-wrapper">
+                    <ul>
+                        <li class="mobile-logo"> <span> <img src="assets/img/strive-mobile-logo-blue.png" alt=""> </span> </li>
+                    </ul>
+                </li>
+            </ul>
         </li>
-        <li class="mobile-logo-wrapper">
-          <ul>
-            <li class="mobile-logo"> <span> <img src="assets/img/strive-mobile-logo-blue.png" alt=""> </span> </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <!--mobile-nav-trigger-->
+        <!--mobile-nav-trigger-->
 
-    <li class="admin-menu">
-      <ul class="d-flex float-right align-self-center m-r-20">
-        <li> <a href="#"><i class="fa fa-gear"></i></a> </li>
-        <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow"
-            id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span
-              class="badge position-absolute theme-notification-background-icon-color">{{unReadMessageDetail?.length}}</span>
+        <li class="admin-menu">
+            <ul class="d-flex float-right align-self-center m-r-20">
+                <li class="p-5 mob-washes-notification">
+                    <p class="mb-0 text-muted bg-white weather-notification"> <span class="mr-2">
+            <i class="mdi mdi-weather-partly-cloudy theme-light-yellow-color"></i> {{temperature ? temperature : 0}}°/{{rainPrediction ? rainPrediction: 0}}%</span>
+                        <span class="text-nowrap"> <span class="text-capital" title="{{locationName}}">{{locationName | slice:0:11}}{{(locationName!== null) ? locationName?.length >= 11 ? '...': '':''}}</span>,&nbsp;{{cityName}}</span>
+                    </p>
+                </li>
+                <!-- <li> <a href="#"><i class="fa fa-gear"></i></a> </li> -->
+                <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span
+              class="badge position-absolute theme-notification-background-icon-color" [hidden]="unReadMessageDetail?.length === 0">{{unReadMessageDetail?.length}}</span>
             <span class="sr-only ">unread messages</span></a>
-          <div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
-            <h6 class="font-weight-bold font-size--8"> Message Notification</h6>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item  p-0 m-t-5 font-size--8" *ngFor="let unread of unReadMessageDetail"><i
+                    <div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
+                        <h6 class="font-weight-bold font-size--8"> Message Notification</h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item  p-0 m-t-5 font-size--8" *ngFor="let unread of unReadMessageDetail"><i
                 class="fa fa-user-md"></i><span style="cursor: pointer;" (click)="navigateToMessage(unread)">{{unread.SenderName}}</span> </a>
-                <div *ngIf="unReadMessageDetail?.length === 0">No new messages</div>
-          </div>
+                        <div *ngIf="unReadMessageDetail?.length === 0">No new messages</div>
+                    </div>
+                </li>
+                <li class="admin">
+                    <a href="#" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle" data-toggle="dropdown"> <i class="fa fa-user-circle"><span
+                class="i-text web-display text-capital">{{empName}}</span></i></a>
+                    <div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle">
+                        <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out" (click)="logout()"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
         </li>
-        <li class="admin"> <a href="#" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle"
-            data-toggle="dropdown"> <i class="fa fa-user-circle"><span
-                class="i-text web-display">{{empName}}</span></i></a>
-          <div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle"> 
-            <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out" (click)="logout()"></i> Logout</a>
-          </div>
-        </li>
-      </ul>
-    </li>
-  </ul>
+    </ul>
 </nav>

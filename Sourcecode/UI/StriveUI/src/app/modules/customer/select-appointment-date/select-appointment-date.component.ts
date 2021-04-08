@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-select-appointment-date',
@@ -11,7 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class SelectAppointmentDateComponent implements OnInit {
   @Output() previewAppointment = new EventEmitter();
   @Output() locationPage = new EventEmitter();
-  selectedDate: any; // = new Date();
+  selectedDate: any; 
   @Input() scheduleDetailObj?: any;
   activeSlot: any;
   timeSlot: any = [];
@@ -21,7 +23,8 @@ export class SelectAppointmentDateComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private datePipe: DatePipe,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -45,8 +48,9 @@ export class SelectAppointmentDateComponent implements OnInit {
     };
     this.spinner.show();
     this.customerService.getAvailablilityScheduleTime(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const slot = JSON.parse(res.resultData);
         this.timeSlot = slot.GetTimeInDetails.reduce((unique, o) => {
           if (!unique.some(obj => obj.TimeIn === o.TimeIn)) {
@@ -65,8 +69,16 @@ export class SelectAppointmentDateComponent implements OnInit {
           item.dateTime = date;
         });
         const sortedActivities = this.timeSlot.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
-        console.log(sortedActivities, 'slot');
       }
+      else{
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+        this.spinner.hide();
+
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -113,6 +125,8 @@ export class SelectAppointmentDateComponent implements OnInit {
         const washTime = JSON.parse(res.resultData);
         this.WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

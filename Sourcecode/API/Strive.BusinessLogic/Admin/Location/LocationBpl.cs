@@ -8,7 +8,7 @@ using Strive.ResourceAccess;
 using System;
 using System.Collections.Generic;
 using System.Net;
-
+using GoogleMaps.LocationServices;
 namespace Strive.BusinessLogic.Location
 {
     public class LocationBpl : Strivebase, ILocationBpl
@@ -17,9 +17,9 @@ namespace Strive.BusinessLogic.Location
         private List<Bay> CreateBay()
         {
             List<Bay> bay = new List<Bay>();
-            bay.Add(new Bay() { BayName = "Bay1", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
-            bay.Add(new Bay() { BayName = "Bay2", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
-            bay.Add(new Bay() { BayName = "Bay3", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
+            bay.Add(new Bay() { BayName = "Detail Bay 1", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
+            bay.Add(new Bay() { BayName = "Detail Bay 2", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
+            bay.Add(new Bay() { BayName = "Detail Bay 3", IsActive = true, IsDeleted = false, CreatedBy = _tenant.EmployeeId.toInt(), CreatedDate = DateTime.UtcNow });
             return bay;
         }
         private Drawer CreateDrawer()
@@ -37,8 +37,15 @@ namespace Strive.BusinessLogic.Location
             location.Drawer = CreateDrawer();
             ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
             ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            try
+            {
+                var LocationGeo = GetLocationGeo(location.LocationAddress);
 
-            //var LocationGeo = GetLocationGeo(location.LocationAddress);
+            }
+            catch (Exception ex)
+            {
+
+            }
             //var apiLocationId = CreateLocationForWeatherPortal();
 
             //location.Drawer = new BusinessEntities.Model.Drawer();
@@ -82,7 +89,12 @@ namespace Strive.BusinessLogic.Location
 
         private string GetLocationGeo(LocationAddress locationAddress)
         {
-            throw new NotImplementedException();
+            var locationService = new GoogleLocationService();
+            var point = locationService.GetLatLongFromAddress(locationAddress.Address1);
+            locationAddress.Latitude = point.Latitude.toDecimal();
+            var longitude = point.Longitude;
+            return "s";
+
         }
 
         //public async Task<Result> CreateLocationForWeatherPortal()
@@ -150,6 +162,12 @@ namespace Strive.BusinessLogic.Location
         {
 
             return ResultWrap(new LocationRal(_tenant).AddBaySolt, id, "bayslot");
+        }
+
+
+        public Result GetAllLocationName()
+        {
+            return ResultWrap(new LocationRal(_tenant).GetAllLocationName, "Location");
         }
     }
 }

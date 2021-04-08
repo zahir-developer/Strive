@@ -5,10 +5,9 @@ import { ExcelService } from 'src/app/shared/services/common-service/excel.servi
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 declare var $: any;
-// import * as jsPDF from 'jspdf';
-// import 'jspdf-autotable';
-// declare let jsPDF;
 @Component({
   selector: 'app-monthly-sales',
   templateUrl: './monthly-sales.component.html',
@@ -37,7 +36,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   collectionSize: number;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private cd: ChangeDetectorRef,
-    private excelService: ExcelService, private spinner: NgxSpinnerService) { }
+    private excelService: ExcelService, private spinner: NgxSpinnerService,
+    private toastr : ToastrService) { }
 
   ngOnInit(): void {
     this.setMonth();
@@ -57,8 +57,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getMonthlySalesReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide()
         this.selectedDate = moment(this.fromDate).format('MM/YYYY');
         const monthlySalesReport = JSON.parse(data.resultData);
         if (monthlySalesReport?.GetMonthlySalesReport !== null) {
@@ -72,7 +72,15 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
           this.employeeListFilter(this.empCount);
         }
       }
-    }, (err) => { this.spinner.hide(); });
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
   count(action) {
     if (action === 'add') {
@@ -91,7 +99,6 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
       this.empName = this.employees[count - 1]?.EmployeeName;
       this.monthlySalesReport = this.monthlySalesReport.filter(emp => emp.EmployeeId === this.employees[count - 1].EmployeeId);
       this.collectionSize = Math.ceil(this.monthlySalesReport.length / this.pageSize) * 10;
-      // this.calculatePrice();
     }
     this.calculatePrice();
   }

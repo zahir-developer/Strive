@@ -65,5 +65,9 @@ namespace Admin.API.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetTicketNumber/{locationId}")]
+        public string GetTicketNumber(int locationId) => _commonBpl.GetTicketNumber(locationId);
+
     }
 }

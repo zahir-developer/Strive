@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -13,6 +14,7 @@ using Android.Widget;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
+using Environment = System.Environment;
 
 namespace StriveEmployee.Android.Adapter.MyProfile.Documents
 {
@@ -112,7 +114,22 @@ namespace StriveEmployee.Android.Adapter.MyProfile.Documents
                 MyProfileTempData.EmployeeDocumentID = employeeDocuments[position].EmployeeDocumentId;
                 MyProfileTempData.DocumentPassword = "string";
                 DocumentsViewModel docsViewModel = new DocumentsViewModel();
-                await docsViewModel.DownloadDocument(employeeDocuments[position].EmployeeDocumentId, "string");
+                var fileBase64 = await docsViewModel.DownloadDocument(employeeDocuments[position].EmployeeDocumentId, "string");
+
+                var backingFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "codex.txt"); //fileBase64.Document.FileName + "." + fileBase64.Document.FileType);
+
+                File.WriteAllBytes(backingFile,Convert.FromBase64String(fileBase64.Document.Base64Url.ToString()));
+
+                //fileBase64.Document.Base64Url.ToString()
+  
+
+                //string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                //string localFilename = "downloaded.jpg";
+                //string localPath = Path.Combine(documentsPath, localFilename);
+
+                //byte[] fileBytes = Convert.FromBase64String(fileBase64.Document.Base64Url);
+
+                //File.WriteAllBytes(localPath, fileBytes);
             }
             else
             {

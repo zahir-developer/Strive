@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
 import { DatePipe } from '@angular/common';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-today-schedule-dashboard',
@@ -13,7 +15,8 @@ export class TodayScheduleDashboardComponent implements OnInit {
   @Input() locationId?: any;
   constructor(
     public dashboardService: DashboardService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private toastr: ToastrService
     ) { }
 
   ngOnInit(): void {
@@ -22,7 +25,7 @@ export class TodayScheduleDashboardComponent implements OnInit {
 
   getScheduleDetailsByDate() {
     const todayDate = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
-    const locationId = this.locationId === 0 ? null : this.locationId; // localStorage.getItem('empLocationId');
+    const locationId = this.locationId === 0 ? null : this.locationId;
     const clientID = null;
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe( res => {
       if (res.status === 'Success') {
@@ -31,7 +34,9 @@ export class TodayScheduleDashboardComponent implements OnInit {
           this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
         }
       }
-    });
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    })
   }
 
 }

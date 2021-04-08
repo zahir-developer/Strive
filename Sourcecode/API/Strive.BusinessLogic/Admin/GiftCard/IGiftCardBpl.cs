@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.DTO.GiftCard;
+﻿using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.GiftCard;
 using Strive.Common;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,8 @@ namespace Strive.BusinessLogic.GiftCard
         Result UpdateGiftCardHistory(GiftCardHistoryDto updateGiftCardHistory);
         Result GetGiftCardBalance(string giftCardNumber);
 
-        Result GetAllGiftCard();
+        Result GetAllGiftCard(SearchDto searchDto);
         Result DeleteGiftCard(int id);
+        Result IsGiftCardExist(string giftCardCode);
     }
 }

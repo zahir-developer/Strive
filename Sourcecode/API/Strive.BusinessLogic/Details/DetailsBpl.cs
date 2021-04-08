@@ -61,5 +61,11 @@ namespace Strive.BusinessLogic.Details
         {
             return ResultWrap(new DetailsRal(_tenant).DeleteDetails,id, "DeleteRespectiveDetail");
         }
+
+        public Result GetDetailScheduleStatus(DetailScheduleDto scheduleDto)
+        {
+            return ResultWrap(new DetailsRal(_tenant).GetDetailScheduleStatus, scheduleDto, "Status");
+        }
+
     }
 }

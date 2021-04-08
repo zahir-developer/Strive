@@ -24,7 +24,6 @@ export class ExcelService {
     useTextFile: false,
     useBom: true,
     useKeysAsHeaders: true,
-    // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
   };
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     this.spinner.show();

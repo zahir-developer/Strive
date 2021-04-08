@@ -37,6 +37,10 @@
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -70,6 +74,7 @@
     <Compile Include="Adapter\MessengerFinalizeGroupAdapter.cs" />
     <Compile Include="Adapter\MessengerGroupChatAdapter.cs" />
     <Compile Include="Adapter\MessengerRecentContactsAdapter.cs" />
+    <Compile Include="Adapter\MessengerSearchAdapter.cs" />
     <Compile Include="Adapter\MessengerViewParticipantsAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Collision\CollisionAdapter.cs" />
     <Compile Include="Adapter\MyProfile\Documents\AddDocumentsAdapter.cs" />
@@ -942,6 +947,9 @@
     <AndroidResource Include="Resources\layout\AllTickets_ItemView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\racing_flag.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

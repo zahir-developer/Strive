@@ -7,6 +7,7 @@ import { CheckListService } from 'src/app/shared/services/data-service/check-lis
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-check-list',
@@ -19,7 +20,6 @@ export class CheckListComponent implements OnInit {
   isLoading: boolean;
   checkListDetails: any = [];
   isTableEmpty: boolean;
-
   collectionSize: number = 0;
   selectedData: boolean = false;
   isEdit: boolean;
@@ -34,18 +34,24 @@ export class CheckListComponent implements OnInit {
   page: any;
   pageSize: any;
   pageSizeList: any;
-  isDesc: boolean = false;
-  column: string = 'Name';
+  sortColumn: { sortBy: string; sortOrder: string; };
+ 
   constructor(
     private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
     private httpClient: HttpClient,
-    private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+
   ) { }
 
   ngOnInit(): void {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.checklistSetup,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
+     }
+    this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -63,31 +69,27 @@ export class CheckListComponent implements OnInit {
   }
   // Get All Services
   getAllcheckListDetails() {
-    // this.httpClient.get('assets/json/checkList.json').toPromise()
-    // .then((data: any) => {
-    //   this.checkListDetails = data.Checklist;
-    //   console.log(this.checkListDetails)
-    // });
-    this.spinner.show();
+    this.isLoading = true;
     this.checkListSetup.getCheckListSetup().subscribe(data => {
-      this.spinner.hide();
+      this.isLoading = false;
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
-        console.log(data);
         if (this.checkListDetails.length === 0) {
-          this.sort('Name');
           this.isTableEmpty = true;
         } else {
+          this.sort(ApplicationConfig.Sorting.SortBy.checklistSetup);
+
           this.collectionSize = Math.ceil(this.checkListDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
-      this.spinner.hide();
-    });
+    },  (err) => {
+     this.isLoading = false;
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
@@ -131,11 +133,14 @@ export class CheckListComponent implements OnInit {
           allowSearchFilter: false
         };
       }
-    });
+    }
+    ,  (err) => {
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
   delete(data) {
-    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this service? All related 
-  information will be deleted and the service cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Service', `Are you sure you want to delete this Check List? All related 
+  information will be deleted and the Check List cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.confirmDelete(data);
@@ -146,16 +151,22 @@ export class CheckListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
-
-
+    this.spinner.show();
     this.checkListSetup.deleteCheckListSetup(data.ChecklistId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.spinner.hide()
+
+        this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Delete, 'Success!');
         this.getAllcheckListDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide()
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    },  (err) => {
+      this.spinner.hide();
+              this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+            });
   }
   add(data, serviceDetails?) {
     if (data === 'add') {
@@ -171,39 +182,27 @@ export class CheckListComponent implements OnInit {
     this.selectedData = false;
 
   }
-  //   onItemSelect(employeeRoles){
-  // console.log(employeeRoles)
 
-  //   this.employeeRoleId.push(employeeRoles.item_id);
-
-  //   }
   submit(data) {
-    // this.submitted = true;
-    // if (this.serviceSetupForm.invalid) {
-    //   return;
-    // }
 
-    if (data.RoleId == undefined && this.RoleId.length == 0) {
-      this.toastr.warning('Role Name is Required', 'Warning!');
-      return
+    if (data.RoleId === undefined && this.RoleId.length === 0) {
+      this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.roleNameValidation, 'Warning!');
+      return;
 
     }
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
 
     if (data.Name !== undefined) {
       if (!pattern.test(data.Name) || data.Name === undefined) {
-        this.toastr.warning('Checklist name is Required', 'Warning!');
-        return
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
+        return;
       };
     } else {
       if (!pattern.test(this.checkListName) || this.checkListName === undefined) {
-        this.toastr.warning('Checklist name is Required', 'Warning!');
-        return
-      };
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
+        return;
+      }
     }
-
-
-
 
     const formObj = {
       checkList: {
@@ -217,39 +216,59 @@ export class CheckListComponent implements OnInit {
 
     };
     if (data.ChecklistId) {
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+      this.spinner.show();
+      this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
+          if (res.status === 'Success') {
+            this.spinner.hide();
 
-          this.getAllcheckListDetails();
-         
-          this.selectedData = false;
+            this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
+            this.getAllcheckListDetails();
+            this.selectedData = false;
+          } else {
+            this.spinner.hide();
 
-        } else {
-          this.toastr.error('Communication Error', 'Error!');
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          }
         }
-      });
+      },  (err) => {
+        this.spinner.hide();
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     } else {
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(data => {
-        if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+      this.spinner.show();
+      this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.spinner.hide();
+          this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Add, 'Success!');
           this.getAllcheckListDetails();
-          this.checklistcancel()
+          this.checklistcancel();
           this.checkListName = '';
           this.RoleId = [];
-
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
 
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
-      });
+      },  (err) => {
+        this.spinner.hide();
+                this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+              });
     }
   }
   sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
     this.checkListDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -262,4 +281,24 @@ export class CheckListComponent implements OnInit {
       }
     });
   }
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
+
+
 }

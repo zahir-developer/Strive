@@ -4,6 +4,9 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeCollisionComponent } from '../../employees/employee-collision/employee-collision.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-collision-list',
@@ -12,7 +15,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 })
 export class CollisionListComponent implements OnInit {
   @Input() employeeId?: any;
-  @Input() employeeCollision?: any ;
+  @Input() employeeCollision?: any;
   @Input() actionType?: any;
   @Input() isModal?: any;
   @Output() public reloadCollisionGrid = new EventEmitter();
@@ -25,7 +28,8 @@ export class CollisionListComponent implements OnInit {
     private employeeService: EmployeeService,
     private modalService: NgbModal,
     private confirmationService: ConfirmationUXBDialogService,
-    private messageService: MessageServiceToastr
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -35,9 +39,6 @@ export class CollisionListComponent implements OnInit {
     } else {
       this.showCloseButton = false;
     }
-    console.log(this.employeeCollision,this.actionType, 'collision');
-    // this.getAllCollision();
-    // this.collistionGrid();
     this.employeeDetail();
   }
 
@@ -69,10 +70,12 @@ export class CollisionListComponent implements OnInit {
         const employees = JSON.parse(res.resultData);
         this.employeeCollision = [];
         if (employees.Employee.EmployeeCollision !== null) {
-          this.employeeCollision = employees.Employee.EmployeeCollision;          
+          this.employeeCollision = employees.Employee.EmployeeCollision;
         }
         this.collistionGrid();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -91,14 +94,21 @@ export class CollisionListComponent implements OnInit {
 
   confirmDelete(collision) {
     const collisionId = collision.LiabilityId;
+    this.spinner.show();
     this.employeeService.deleteCollision(collisionId).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Collision Deleted Successfully!' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Collision.Delete, 'Success!');
         this.employeeDetail();
-        //this.collistionGrid();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -108,13 +118,15 @@ export class CollisionListComponent implements OnInit {
         const employeesCollison = JSON.parse(res.resultData);
         this.employeeCollision = [];
         this.collisionList = [];
-        console.log(employeesCollison, 'employeDeatil');
         if (employeesCollison.Collision.length > 0) {
           this.employeeCollision = employeesCollison.Collision;
           this.collistionGrid();
         }
       }
-    });
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   closeModal() {

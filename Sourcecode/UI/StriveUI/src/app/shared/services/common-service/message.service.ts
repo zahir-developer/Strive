@@ -30,14 +30,11 @@ export class MessageServiceToastr {
             case 4:     // Error
             case '4':
             case 'error':
-                return this.toastr.error(body, title, ); // return this.toastr.error(body, title);
+                return this.toastr.error(body, title, ); 
             case 5:     // Hard Stop
             case '5':
-              //  alert(title + '\r\n\r\n' + body);
                 return;
-            //  break;
             default:
-            // todo
         }
     
     }

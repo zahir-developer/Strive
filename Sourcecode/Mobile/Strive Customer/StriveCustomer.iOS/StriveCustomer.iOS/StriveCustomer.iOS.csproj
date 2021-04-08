@@ -46,9 +46,9 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>iPhone Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>StriveCustomerMobile</CodesignProvision>
+        <CodesignProvision>StriveCustomerRelease</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -58,7 +58,8 @@
         <WarningLevel>4</WarningLevel>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <MtouchArch>ARM64</MtouchArch>
-        <CodesignKey>iPhone Developer</CodesignKey>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignProvision>StriveCustomerRelease</CodesignProvision>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -220,6 +221,10 @@
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120-1.png" />
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\180.png" />
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\appstore.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-car.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-car.imageset\Icon_car_wash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-car.imageset\Icon_car_wash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-car.imageset\Icon_car_wash%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -256,6 +261,7 @@
         <Folder Include="Views\Schedule\" />
         <Folder Include="Resources\Assets.xcassets\icon-back.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-back-arrow.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-car.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

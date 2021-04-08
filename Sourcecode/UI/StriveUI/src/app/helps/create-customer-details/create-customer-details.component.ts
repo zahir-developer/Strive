@@ -1,6 +1,5 @@
 
 import { Component, OnInit, Input } from '@angular/core';
-// import { SharedService } from './../../services/shared.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
@@ -19,9 +18,7 @@ export class CreateCustomerDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private customerService: CrudOperationService,
     private toastr: ToastrService,
-    // private sharedService: SharedService
   ) {
-    // sharedService.setViewCustomerId(0);
     this.createCustomerForm = formBuilder.group({
       name: ['', Validators.required],
       phone: ['', [Validators.pattern('^[0-9]*')]],
@@ -58,7 +55,6 @@ export class CreateCustomerDetailsComponent implements OnInit {
 
       };
       this.customerService.customerdetails.push(formObj);
-      console.log(this.customerService.getCustomerDetails());
       this.toastr.success('This is a vaild form.', 'Success!');
     } else {
       this.toastr.success('This is not a valid form.', 'Alert!');

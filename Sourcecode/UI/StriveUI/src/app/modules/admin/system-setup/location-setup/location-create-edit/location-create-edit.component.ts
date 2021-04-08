@@ -8,6 +8,7 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -54,7 +55,6 @@ export class LocationCreateEditComponent implements OnInit {
     this.formInitialize();
     this.submitted = false;
     this.Country = null;
-    console.log(this.selectedData);
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
       this.getLocationById();
@@ -116,12 +116,11 @@ export class LocationCreateEditComponent implements OnInit {
 
   // Add / Update location 
   submit() {
-    console.log(this.offset1, 'offset');
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
     this.countryDropdownComponent.submitted = true;
-    if (this.cityComponent.city === '') {
+    if (this.cityComponent.selectValueCity == false) {
       this.selectTab(0);
       return;
     }
@@ -210,41 +209,51 @@ export class LocationCreateEditComponent implements OnInit {
     if (this.isEdit === false) {
       this.spinner.show();
       this.locationService.saveLocation(finalObj).subscribe(data => {
-        this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error('Communication Error', 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
+      },  
+      (err) => {
         this.spinner.hide();
-      });
+    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     } else {
       this.spinner.show();
       this.locationService.updateLocation(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      }, (err) => {
+      },  
+      (err) => {
         this.spinner.hide();
-      });
+    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
-    this.cityComponent.getCity(event.target.value);
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
@@ -252,7 +261,7 @@ export class LocationCreateEditComponent implements OnInit {
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
 
   selectTab(tabId: number) {

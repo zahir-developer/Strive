@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { StateService } from '../../services/common-service/state.service';
 import * as _ from 'underscore';
 import { ChangeDetectorRef } from '@angular/core';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',
@@ -16,7 +18,6 @@ export class CityComponent implements OnInit, AfterViewChecked {
   @Input() State?: any;
 
   @Output() selectCity = new EventEmitter();
-  city = '';
   submitted: boolean;
   cities: any = [];
   states: string[] = [
@@ -33,10 +34,14 @@ export class CityComponent implements OnInit, AfterViewChecked {
     'Hawaii',
     'Idaho'];
   cityId: any;
-  constructor(private cdRef: ChangeDetectorRef, private stateService: StateService) { }
+  city: { value: any; name: any; };
+  selectValueCity: boolean;
+  constructor(private cdRef: ChangeDetectorRef, private stateService: StateService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.submitted = false;
+    this.selectValueCity = false;
     if (this.selectedStateId !== undefined) {
       this.getCity(this.selectedStateId);
     }
@@ -63,15 +68,28 @@ export class CityComponent implements OnInit, AfterViewChecked {
         this.setCity();
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   selectedCity(event) {
-    this.selectCity.emit(event);
+    this.selectValueCity = true;
+    this.selectCity.emit(event.value.value);
   }
   setCity() {
     if (this.selectedCityId !== undefined) {
-      this.city = this.selectedCityId;
+       this.selectValueCity = true;
+
+   
+        this.cities.map(item => {
+          if(item.value == this.selectedCityId){
+          this.city =  {
+            value: item.value,
+            name: item.name
+          };
+        }
+        });
+      
     }
   }
 }

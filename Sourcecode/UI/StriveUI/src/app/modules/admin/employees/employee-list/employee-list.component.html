@@ -4,15 +4,15 @@
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
-                <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a>Admin</a></li>
+                <ol class="breadcrumb font-size-1">
+                    <li class="breadcrumb-item"><a appNavigatePage>Admin</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Employees</li>
                 </ol>
             </nav>
             <!--bread crumb-->
-            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+            <!-- <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
                 <h3>Employees</h3>
-            </div>
+            </div> -->
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
@@ -75,7 +75,7 @@
                                         </thead>
                                         <tbody class="bodyfix">
                                             <tr
-                                                *ngFor="let employee of employeeDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                                *ngFor="let employee of employeeDetails">
                                                 <td>{{employee.FirstName}}</td>
                                                 <td>{{employee.LastName}}</td>
                                                 <td>{{employee.MobileNo}}</td>

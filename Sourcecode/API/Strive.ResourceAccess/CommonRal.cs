@@ -12,6 +12,7 @@ using Strive.BusinessEntities.City;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.DTO.Employee;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.ResourceAccess
 {
@@ -108,6 +109,17 @@ namespace Strive.ResourceAccess
             }
         }
 
+        public void DeleteUser(int authId)
+        {
+            DynamicParameters dynamic = new DynamicParameters();
+            dynamic.Add("@AuthId", authId);
+            
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Authentication.USPDELETEUSER.ToString(), dynamic, commandType: CommandType.StoredProcedure);
+
+            db.Save(cmd);
+
+        }
+
         public int VerifyOTP(string emailId, string otp)
         {
             DynamicParameters dynParams = new DynamicParameters();
@@ -131,6 +143,23 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("stateId", stateId);
             return db.Fetch<CityDto>(EnumSP.Employee.USPGETCITYBYSTATE.ToString(), _prm);
+        }
+
+        public string GetTicketNumber(int locationId)
+        {
+            _prm.Add("@locationId", locationId);
+            return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
+
+        }
+
+        public List<EmailListViewModel> GetEmailIdByRole()//(int locationId, string roles)
+        {
+        //    _prm.Add("@LocationId", locationId);
+
+        //    _prm.Add("@Roles", roles);
+
+            return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
+
         }
     }
 }

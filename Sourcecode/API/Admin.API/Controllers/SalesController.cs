@@ -39,10 +39,7 @@ namespace Admin.API.Controllers
         {
             return _bplManager.DeleteItemById(itemDto);
         }
-
-        [HttpGet]
-        [Route("GetTicketNumber")]
-        public string GetTicketNumber() => _bplManager.GetTicketNumber();
+        
 
         [HttpPost]
         [Route("GetItemList")]
@@ -54,13 +51,13 @@ namespace Admin.API.Controllers
         public Result GetAccountDetails([FromBody] SalesAccountDto salesAccountDto) => _bplManager.GetAccountDetails(salesAccountDto);
         
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetScheduleByTicketNumber")]
-        public Result GetScheduleByTicketNumber(string ticketNumber) => _bplManager.GetScheduleByTicketNumber(ticketNumber);
+        public Result GetScheduleByTicketNumber([FromBody] SalesDto salesDto) => _bplManager.GetScheduleByTicketNumber(salesDto);
 
         [HttpPost]
         [Route("AddPayment")]
-        public Result AddPayment([FromBody] SalesPaymentDto salesPayment) => _bplManager.AddPayment(salesPayment);
+        public Result AddPayment([FromBody] SalesPaymentDetailDto salesPayment) => _bplManager.AddPayment(salesPayment);
 
         [HttpPost]
         [Route("AddListItem")]
@@ -81,17 +78,17 @@ namespace Admin.API.Controllers
             return _bplManager.DeleteJob(salesItemDeleteDto);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("RollBackPayment")]
-        public Result RollBackPayment(SalesItemDeleteDto salesItemDeleteDto)
+        public Result RollBackPayment([FromBody] SalesItemDeleteDto salesItemDeleteDto)
         {
             return _bplManager.RollBackPayment(salesItemDeleteDto);
         }
         [HttpGet]
-        [Route("GetAllServiceAndProductList")]
-        public Result GetServicesAndProduct()
+        [Route("GetAllServiceAndProductList/{id}")]
+        public Result GetServicesAndProduct(int id)
         {
-            return _bplManager.GetServicesAndProduct();
+            return _bplManager.GetServicesAndProduct(id);
         }
     }
 }

@@ -13,6 +13,11 @@ import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { PrintCustomerCopyComponent } from '../print-customer-copy/print-customer-copy.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
+import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -90,20 +95,29 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   upchargeId: any;
   airFreshenerId: any;
   additionalId: any;
+  deleteDetailList: boolean;
+  body: string;
+  header: string;
+  title: string;
+  generatedClientId: any;
+  selectclient: { id: any; name: string; };
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
-    private toastr: MessageServiceToastr,
+    private message: MessageServiceToastr,
+    private toastr: ToastrService,
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
     private client: ClientService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+
+    private codeValueService: CodeValueService,
+    private serviceSetupService: ServiceSetupService
   ) { }
 
   ngOnInit(): void {
-    console.log(localStorage.getItem('empLocationId'), 'locationId');
     this.isSaveClick = false;
     this.showDialog = false;
     this.submitted = false;
@@ -112,16 +126,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.viewNotesDialog = false;
     this.isStart = false;
     this.isCompleted = false;
-    this.getJobStatus();
-    this.getEmployeeList();
     this.formInitialize();
+    this.getJobStatus();
+     this.getEmployeeList();
     this.getAllBayById();
+    this.getTicketNumber();
     this.getJobType();
   }
 
   formInitialize() {
     this.detailForm = this.fb.group({
-      client: ['',],
+      client: ['', Validators.required],
       vehicle: ['', Validators.required],
       type: ['',],
       barcode: ['',],
@@ -139,28 +154,23 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isView) {
       this.detailForm.disable();
     }
-    if (!this.isEdit) {
-      this.getTicketNumber();
-    } else {
-      this.getAllList();
-    }
-  }
-
-  getAllList() {
-    this.assignDate();
-    this.getColor();
-    // this.getAllClient();
-    this.getServiceType();
   }
 
   getTicketNumber() {
-    this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
-    // this.wash.getTicketNumber().subscribe(data => {
-    //   this.ticketNumber = data;
-    // });
+    if (!this.isEdit) {
+      this.wash.getTicketNumber().subscribe(item => {
+        if(item){
+          this.ticketNumber = item;
+        }
+        else{
+          this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+
+        }
+
+      });
+    }
     this.assignDate();
     this.getColor();
-    this.getAllClient();
     this.getServiceType();
   }
 
@@ -177,38 +187,49 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.bayScheduleObj.date.setMinutes(minutes);
       this.bayScheduleObj.date.setSeconds('00');
       const inTime = this.datePipe.transform(this.bayScheduleObj.date, 'MM/dd/yyyy HH:mm');
-      this.getWashTimeByLocationID();
+      this.addDueTime();
       this.detailForm.patchValue({
         bay: this.bayScheduleObj.bayId,
         inTime
       });
       this.detailForm.controls.bay.disable();
       this.detailForm.controls.inTime.disable();
-      console.log(this.bayScheduleObj, 'bayScheduleObj');
+      this.getEmployeeList();
     }
   }
 
-  getWashTimeByLocationID() {
-    const locationId = localStorage.getItem('empLocationId');
-    this.detailService.getWashTimeByLocationId(locationId).subscribe(res => {
-      if (res.status === 'Success') {
-        const washTime = JSON.parse(res.resultData);
-        const WashTimeMinutes = washTime.Location.Location.WashTimeMinutes;
-        // dt.setMinutes(dt.getMinutes() + 30);
-        let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + WashTimeMinutes);
-        outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
-        this.detailForm.patchValue({
-          dueTime: outTime
-        });
-        this.detailForm.controls.dueTime.disable();
-        console.log(washTime, 'washTime');
-      }
+  addDueTime() {
+    let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + 30);
+    outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
+    this.detailForm.patchValue({
+      dueTime: outTime
     });
+    this.detailForm.controls.dueTime.disable();
   }
+
+  checkValue(type) {
+    if (type === 'make') {
+      if (!this.detailForm.value.type.hasOwnProperty('id')) {
+        this.detailForm.patchValue({ type: '' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.type });
+      }
+    } else if (type === 'model') {
+      if (!this.detailForm.value.model.hasOwnProperty('id')) {
+        this.detailForm.patchValue({ model: '' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.model });
+      }
+    } else if (type === 'color') {
+      if (!this.detailForm.value.color.hasOwnProperty('id')) {
+        this.detailForm.patchValue({ color: '' });
+        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.color });
+      }
+    }
+  }
+
 
   getByBarcode(barcode) {
     if (barcode === '') {
-      this.toastr.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter Barcode' });
+      this.toastr.warning(MessageConfig.Detail.BarCode, 'Warning!');
       return;
     }
     this.wash.getByBarcode(barcode).subscribe(data => {
@@ -223,9 +244,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             this.detailForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
               vehicle: this.barcodeDetails.VehicleId,
-              // model: this.barcodeDetails.VehicleModelId,
-              // color: this.barcodeDetails.VehicleColor,
-              // type: this.barcodeDetails.VehicleMfr
             });
             this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
@@ -233,14 +251,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           const barCode = this.detailForm.value.barcode;
           this.detailForm.reset();
           this.detailForm.patchValue({ barcode: barCode });
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Invalid Barcode' });
+          this.toastr.warning(MessageConfig.Detail.InvalidBarCode, 'Warning');
           this.additional.forEach(element => {
             element.IsChecked = false;
           });
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -259,12 +279,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
               });
             }
           });
-        } else {
-          // this.detailForm.get('washes').reset();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -288,7 +308,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceWash[0]);
       }
     }
-    console.log(this.additionalService, this.washItem);
   }
 
   outSideService(data) {
@@ -314,7 +333,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       }
     }
     this.detailForm.patchValue({ outsideServie: +data });
-    console.log(this.additionalService, this.washItem);
   }
 
   upchargeService(data) {
@@ -341,7 +359,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     this.detailForm.patchValue({ upcharges: +data });
     this.detailForm.patchValue({ upchargeType: +data });
-    console.log(this.additionalService, this.washItem);
   }
 
   change(data) {
@@ -356,8 +373,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           }
         });
       }
-      // this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted = this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted ? false : true;
-      console.log(this.washItem);
     } else {
       data.IsChecked = data.IsChecked ? false : true;
     }
@@ -370,7 +385,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         client.ClientName.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
-        console.log(client, 'client');
         this.clientList = client.ClientName.map(item => {
           return {
             id: item.ClientId,
@@ -382,20 +396,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getServiceType() {
-    this.wash.getServiceType('SERVICETYPE').subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.serviceEnum = sType.Codes;
-        this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
-        this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
-        this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-        this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additonal Services')[0]?.CodeId;
-        this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
-        this.getAllServices();
-      } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
-      }
-    });
+    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    if (serviceTypeValue.length > 0) {
+      this.serviceEnum = serviceTypeValue;
+      this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
+      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
+      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
+      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
+      this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
+      this.getAllServices();
+    }
+
   }
 
   getAllServices() {
@@ -408,36 +419,37 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.wash.getServices(serviceObj).subscribe(data => {
-      if (data.status === 'Success') {
-        const serviceDetails = JSON.parse(data.resultData);
-        this.outsideServices = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.outsideServiceId);
-        this.details = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.detailId);
-        this.additional = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.additionalId);
-        this.upcharges = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.upchargeId);
-        this.airFreshner = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
-          item.IsActive === true && Number(item.ServiceTypeId) === this.airFreshenerId);
-        this.UpchargeType = this.upcharges;
-        // this.upcharges = this.upcharges.filter(item => Number(item.ParentServiceId) !== 0);
-        this.additional.forEach(element => {
-          element.IsChecked = false;
-        });
-        if (this.isEdit === true) {
-          this.detailForm.reset();
-          this.getWashById();
+    this.serviceSetupService.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(res => {
+      if (res.status === 'Success') {
+        const serviceDetails = JSON.parse(res.resultData);
+        if (serviceDetails.AllServiceDetail !== null) {
+          this.outsideServices = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.outsideServiceId);
+          this.details = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.detailId);
+          this.additional = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.additionalId);
+          this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.upchargeId);
+          this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.airFreshenerId);
+          this.UpchargeType = this.upcharges;
+          this.additional.forEach(element => {
+            element.IsChecked = false;
+          });
+          if (this.isEdit === true) {
+            this.detailForm.reset();
+            this.getWashById();
+          }
         }
-      } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+    
   }
 
   getWashById() {
-    console.log(this.additional);
     const isJobStatus = _.where(this.jobStatus, { CodeId: this.selectedData?.Details?.JobStatus });
     if (isJobStatus.length > 0) {
       if (isJobStatus[0].CodeValue === 'In Progress') {
@@ -481,10 +493,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
-    // this.getByBarcode(this.selectedData?.Details?.Barcode);
     this.ticketNumber = this.selectedData?.Details?.TicketNumber;
     this.washItem = this.selectedData.DetailsItem;
-    console.log(this.washItem);
     this.washItem.forEach(element => {
       if (this.additional.filter(item => item.ServiceId === element.ServiceId)[0] !== undefined) {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
@@ -534,7 +544,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           };
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
@@ -548,7 +558,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         client.ClientName.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
-        console.log(client, 'client');
         this.clientList = client.ClientName.map(item => {
           return {
             id: item.ClientId,
@@ -556,16 +565,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           };
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-    // for (const i of this.clientList) {
-    //   const client = i;
-    //   if (client.name.toLowerCase().includes(query.toLowerCase())) {
-    //     filtered.push(client);
-    //   }
-    // }
-    // this.filteredClient = filtered;
+  }
+
+  onKeyUp(event) {
+    if (event.target.value === '') {
+      this.detailForm.patchValue({ vehicle: '' , barcode: '' , type: '', model: '', color: '' });
+    }
   }
 
   filterModel(event) {
@@ -639,8 +649,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           color: { id: vData.ColorId, name: vData.Color }
         });
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -668,7 +680,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       }
     }
     this.detailForm.patchValue({ airfreshners: +data });
-    console.log(this.additionalService, this.washItem);
   }
 
   getVehicleList(id) {
@@ -677,8 +688,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -688,7 +702,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
-        if (this.vehicle.length !== 0) { // && !this.isBarcode
+        if (this.vehicle.length !== 0) {
           this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
           this.getVehicleById(+this.vehicle[0].VehicleId);
           this.getMembership(+this.vehicle[0].VehicleId);
@@ -696,8 +710,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.get('vehicle').reset();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -733,7 +750,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       checkOut: false,
       createdBy: 0,
       updatedBy: 0,
-      // barcode: this.detailForm.value.barcode,
       notes: this.note
     };
     const formObj = {
@@ -744,16 +760,23 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     this.spinner.show();
     this.detailService.updateDetail(formObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.isStart = false;
         this.isCompleted = true;
         this.detailForm.controls.inTime.disable();
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -789,7 +812,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       checkOut: true,
       createdBy: 0,
       updatedBy: 0,
-      // barcode: this.detailForm.value.barcode,
       notes: this.note
     };
     const formObj = {
@@ -800,16 +822,22 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     this.spinner.show();
     this.detailService.updateDetail(formObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.isCompleted = false;
         this.isStart = false;
         this.detailForm.controls.inTime.disable();
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -817,6 +845,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.submitted = true;
     if (this.detailForm.invalid) {
       return;
+    }
+    if (!this.ticketNumber) {
+      this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+  return;
+
     }
     this.detailForm.controls.inTime.enable();
     this.detailForm.controls.dueTime.enable();
@@ -850,7 +883,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       isDeleted: false,
       createdBy: 0,
       updatedBy: 0,
-      // barcode: this.detailForm.value.barcode,
       notes: this.note
     };
     const jobDetail = {
@@ -885,7 +917,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         isActive: true,
         isDeleted: false,
         commission: 0,
-        price: item.Cost,
+        price: item.Price,
         quantity: 1,
         createdBy: 0,
         updatedBy: 0
@@ -899,7 +931,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         isActive: true,
         isDeleted: false,
         commission: 0,
-        price: element.Cost,
+        price: element.Price,
         quantity: 1,
         createdBy: 0,
         updatedBy: 0
@@ -915,7 +947,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         createdBy: 0,
         updatedBy: 0,
         commission: 0,
-        price: item.Cost,
+        price: item.Price,
         quantity: 1,
         employeeId: item.EmployeeId
       });
@@ -929,43 +961,45 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
-        this.spinner.hide();
-        if (res.status === 'Success') {
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Updated Successfully!!' });
+        if (res.status === 'Success') {   
+             this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Detail.Update, 'Success!');
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
-      }, (error) => {
+      }, (err) => {
         this.spinner.hide();
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       this.spinner.show();
       this.detailService.addDetail(formObj).subscribe(res => {
-        this.spinner.hide();
-        console.log(res);
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.isAssign = true;
           this.isStart = true;
-          // this.isEdit = true;
           const jobID = JSON.parse(res.resultData);
           this.getDetailByID(jobID.Status);
           this.jobID = jobID.Status;
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
-          this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Detail Added Successfully!!' });
-          // this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-          // this.refreshDetailGrid.emit();
+          this.toastr.success(MessageConfig.Detail.Add, 'Success!');
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (error) => {
         this.spinner.hide();
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }
@@ -981,6 +1015,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
           this.selectedData.DetailsJobServiceEmployee : [];
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -999,35 +1035,36 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   deleteDetail() {
-    console.log(this.selectedData);
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to delete?',
-      header: 'Confirmation',
-      acceptLabel: 'Confirm',
-      rejectLabel: 'Cancel',
-      acceptIcon: null,
-      rejectIcon: null,
-      acceptButtonStyleClass: 'theme-secondary-button-color',
-      rejectButtonStyleClass: 'theme-optional-button-color',
-      icon: null,
-      accept: () => {
-        this.confirmDelete(this.selectedData.Details.JobId);
-      },
-      reject: () => { }
-    });
+    this.deleteDetailList = true
+    this.body = 'Are you sure you want to Detail this Detail? All related information will be deleted and the Detail cannot be retrieved?',
+      this.title = 'Delete Detail'
   }
 
-  confirmDelete(jobID) {
-    this.detailService.deleteDetail(jobID).subscribe(res => {  // need to change
-      if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
+  confirmDelete() {
+    this.spinner.show();
+    this.detailService.deleteDetail(this.selectedData.Details.JobId).subscribe(res => {
+        // need to change
+        if (res.status === 'Success') {
+          this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.refreshDetailGrid.emit();
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1041,15 +1078,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           const washService = this.memberService.filter(i => Number(i.ServiceTypeId) === this.detailId);
           if (washService.length !== 0) {
             this.washService(washService[0].ServiceId);
-          } else {
-            // this.detailForm.get('washes').reset();
           }
-        } else {
-          // this.detailForm.get('washes').reset();
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1065,6 +1100,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -1116,9 +1153,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       phoneNumber: this.clientFormComponent.clientForm.value.phone1,
       email: this.clientFormComponent.clientForm.value.email,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: null,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: null,
       updatedDate: new Date()
     }];
     const formObj = {
@@ -1129,35 +1166,78 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       gender: 1,
       maritalStatus: 1,
       birthDate: this.isEdit ? this.selectedData.BirthDate : new Date(),
-      isActive: this.clientFormComponent.clientForm.value.status == 0 ? true : false,
+      isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: null,
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
-      updatedBy: 1,
+      updatedBy: null,
       updatedDate: new Date(),
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
-      score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
+      score: (this.clientFormComponent.clientForm.value.score === '' ||
+        this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
       noEmail: this.clientFormComponent.clientForm.value.creditAccount,
-      clientType: (this.clientFormComponent.clientForm.value.type == "" || this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
+      clientType: (this.clientFormComponent.clientForm.value.type === '' ||
+        this.clientFormComponent.clientForm.value.type == null) ? 0 : this.clientFormComponent.clientForm.value.type
     };
     const myObj = {
       client: formObj,
       clientVehicle: null,
       clientAddress: this.address
     };
+    this.spinner.show();
     this.client.addClient(myObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record Updated Successfully!!' });
+        this.spinner.hide();
+
+        const id = JSON.parse(data.resultData)
+        this.generatedClientId = id?.Status[0];
+        this.getClientById(this.generatedClientId)
+        this.toastr.success(MessageConfig.Client.Add, 'Success');
         this.closePopupEmitClient();
-        this.getAllClient();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.clientFormComponent.clientForm.reset();
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+  getClientById(id) {
+    this.spinner.show();
+    this.client.getClientById(id).subscribe(res => {
+      if (res.status === 'Success') {
+        this.spinner.hide();
 
+        const clientDetail = JSON.parse(res.resultData);
+        const selectedclient = clientDetail.Status[0];
+        this.selectclient= 
+    { id: selectedclient.ClientId,
+       name:selectedclient.FirstName + ' ' + selectedclient.LastName
+      }
+       
+       this.detailForm.patchValue({
+     
+      client: this.selectclient
+  
+     })
+     
+    this.selectedClient(this.selectclient)
+       
+    
+   } 
+   else{
+    this.spinner.hide();
+
+   }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }) 
+  }
   assignEmployee() {
     this.showDialog = true;
   }
@@ -1177,22 +1257,25 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    this.detailService.getAllEmployeeList().subscribe(res => {
+    const  timeclock = {
+        date : this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss '),
+        LocationId :   +localStorage.getItem('empLocationId')   
+    }
+      this.detailService.getClockedInDetailer(timeclock).subscribe(res => {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
-        this.employeeList = employee.EmployeeList.Employee;
+        this.employeeList = employee.result;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   getJobStatus() {
-    this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
-      if (res.status === 'Success') {
-        const status = JSON.parse(res.resultData);
-        this.jobStatus = status.Codes;
-        console.log(status, 'status');
-      }
-    });
+    const jobStatus = this.codeValueService.getCodeValueByType('JobStatus');
+    if (jobStatus.length > 0) {
+      this.jobStatus = jobStatus;
+    }
   }
 
   getPastClientNotesById(clientID) {
@@ -1207,6 +1290,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.isViewPastNotes = false;
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

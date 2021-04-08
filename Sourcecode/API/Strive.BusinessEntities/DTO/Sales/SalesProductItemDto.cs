@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Strive.BusinessEntities.DTO.Sales
 {
     public class SalesProductItemDto
     {
-        public List<JobProductItem> JobProductItem { get; set; }
+        public List<JobProductViewModel> JobProductItem { get; set; }
     }
 }

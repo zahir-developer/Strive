@@ -9,7 +9,7 @@
         android:id="@+id/dealsInfoCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/vehicleInfoCardColor"
+        app:cardBackgroundColor="#F2FCFE"
         app:cardElevation="@dimen/five"
         app:cardUseCompatPadding="true">
         <LinearLayout
@@ -19,12 +19,18 @@
             android:layout_marginTop="@dimen/ten"
             android:layout_marginBottom="@dimen/ten"
             android:weightSum="2">
-            <ImageView
-                android:id="@+id/collisions_ImageView"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_height="match_parent"
-                android:background="@drawable/circular_imageview"/>
+             <Button   
+                android:id="@+id/contact_ImageView" 
+                android:clickable="false"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop = "@dimen/ten"
+                android:layout_marginBottom = "@dimen/ten"
+                android:layout_marginLeft = "@dimen/ten"
+                android:textColor="@color/profileQColor"
+                android:fontFamily="@font/opensans_semibold"
+                android:background="@drawable/profileavatar_button"/>
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="0dp"
@@ -60,19 +66,20 @@
                 android:orientation="horizontal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="0.8"
+                android:gravity="center_vertical|right"
                 android:layout_marginRight="@dimen/ten">
                 <ImageButton
                     android:id="@+id/collisionEdit_Button"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/five"
                     android:src="@drawable/edit"
                     android:background="@android:color/transparent" />
                 <ImageButton
                     android:id="@+id/collisionDelete_Button"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/delete_circle"
                     android:background="@android:color/transparent" />
             </LinearLayout>

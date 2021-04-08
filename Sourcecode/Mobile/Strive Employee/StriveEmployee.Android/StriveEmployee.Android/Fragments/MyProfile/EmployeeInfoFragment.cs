@@ -51,10 +51,6 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             this.ViewModel = new EmployeeInfoViewModel();
             GetEmployeeDetails();
 
-            personalDetailEdit_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.PersonalEdit_ImageButton);
-
-            employeeDetailEdit_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.employeeEdit_ImageButton);
-
             FirstName_TextView = rootView.FindViewById<TextView>(Resource.Id.employeeFirstName_TextView);
             LastName_TextView = rootView.FindViewById<TextView>(Resource.Id.employeeLastName_TextView);
             Gender_TextView = rootView.FindViewById<TextView>(Resource.Id.gender_TextView);
@@ -67,31 +63,9 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             Status_TextView = rootView.FindViewById<TextView>(Resource.Id.status_TextView);
             Exemptions_TextVIew = rootView.FindViewById<TextView>(Resource.Id.exemptions_TextVIew);
 
-            personalDetailEdit_ImageButton.Click += PersonalDetailEdit_ImageButton_Click; ;
-
-            employeeDetailEdit_ImageButton.Click += EmployeeDetailEdit_ImageButton_Click; ;
- 
-
-           
-           
             return rootView;
         }
 
-
-        private void EmployeeDetailEdit_ImageButton_Click(object sender, EventArgs e)
-        {
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            employeeDetails_Fragment = new EditEmployeeDetailFragment();
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, employeeDetails_Fragment).Commit();
-        }
-
-
-        private void PersonalDetailEdit_ImageButton_Click(object sender, EventArgs e)
-        {
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            personalDetails_Fragment = new EditPersonalDetailsFragment();
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, personalDetails_Fragment).Commit();
-        }
         private void FillEmployeeDetails()
         {
             EmployeePersonalDetails.FirstName = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
@@ -120,7 +94,11 @@ namespace StriveEmployee.Android.Fragments.MyProfile
                 FillEmployeeDetails();
                 FirstName_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
                 LastName_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
-                Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                if(this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != null)
+                {
+                    Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                }
+                
                 ContactNo_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.PhoneNumber;
                 SSN_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.SSNo;
 

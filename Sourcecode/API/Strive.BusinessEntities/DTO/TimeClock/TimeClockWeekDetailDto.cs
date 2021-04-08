@@ -15,5 +15,7 @@ namespace Strive.BusinessEntities.DTO.TimeClock
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+
+        public string EmployeeName { get; set; }
     }
 }

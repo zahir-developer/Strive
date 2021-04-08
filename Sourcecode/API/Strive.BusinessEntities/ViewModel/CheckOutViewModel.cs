@@ -13,7 +13,10 @@ namespace Strive.BusinessEntities.ViewModel
         public int? JobPaymentId { get; set; }
         public string OutsideService { get; set; }
         public string TicketNumber { get; set; }
-        public string CustomerName { get; set; }
+        public string CustomerFirstName { get; set; }
+
+        public string CustomerLastName { get; set; }
+       
         public string VehicleDescription { get; set; }
         public string AdditionalServices { get; set; }
         public string Services { get; set; }

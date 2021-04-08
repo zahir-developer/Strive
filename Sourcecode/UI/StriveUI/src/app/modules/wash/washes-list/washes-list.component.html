@@ -5,188 +5,101 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a (click)="landing()">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Washes</li>
                 </ol>
             </nav>
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Washes</h3>
-            </div>
             <div class="col-lg-12 p-l-0 p-r-0">
-                <div class="row no-gutter mob-goal">
-                    <div class="col-lg-12">
-                        <div class="list-group  m-b-10">
-                            <a href="#" class="list-group-item weather-goal">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="font-weight-600">
-                                        <em
-                                            class="mdi mdi-car-multiple font-size-1-5 theme-optional-icon-color align-mid"></em>
-                                        No. of Washes</h6> <span class="font-size-1 font-weight-bold">15</span>
-                                </div>
-                            </a>
-                            <a href="#" class="list-group-item weather-goal">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="font-weight-600">
-                                        <em
-                                            class="mdi mdi-car-wash font-size-1-5 theme-light-yellow-color align-mid"></em>
-                                        No.of Details</h6> <span class="font-size-1 font-weight-bold">10</span>
-                                </div>
-                            </a>
-                            <a href="#" class="list-group-item weather-goal">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="font-weight-600">
-                                        <em
-                                            class="mdi mdi-account-outline font-size-1-5 theme-primary-color align-mid"></em>
-                                        Wash Employees </h6> <span class="font-size-1 font-weight-bold">15</span>
-                                </div>
-                            </a>
-                            <a href="#" class="list-group-item weather-goal">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="font-weight-600">
-                                        <em
-                                            class="mdi mdi-weather-rainy font-size-1-5 theme-light-blue-color align-mid"></em>
-                                        Score</h6> <span class="font-size-1 font-weight-bold">100</span>
-                                </div>
-                            </a>
-                            <a href="#" class="list-group-item weather-goal">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="font-weight-600">
-                                        <em class="mdi mdi-car-back font-size-1-5 theme-secondary-color align-mid"></em>
-                                        Current /Forecasted Cars</h6> <span
-                                        class="font-size-1 font-weight-bold">25/25</span>
-                                </div>
-                            </a>
-                            <a href="#" class="list-group-item weather-goal">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="font-weight-600">
-                                        <em class="mdi mdi-car-back font-size-1-5 theme-voilet-color align-mid"></em>
-                                        Average Car wash Time</h6> <span
-                                        class="font-size-1 font-weight-bold">30min</span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row no-gutter web-goal">
-                    <div class="col-lg-6 col-xl-2">
-                        <app-no-of-washes></app-no-of-washes>
-                    </div>
-                    <div class="col-lg-6 col-xl-2">
-                        <app-no-of-details></app-no-of-details>
-                    </div>
-                    <div class="col-lg-6 col-xl-2">
-                        <app-wash-employees></app-wash-employees>
-                    </div>
-                    <div class="col-lg-6 col-xl-2">
-                        <app-score></app-score>
-                    </div>
-                    <div class="col-lg-6 col-xl-2">
-                        <app-forecasted-cars></app-forecasted-cars>
-                    </div>
-                    <div class="col-lg-6 col-xl-2">
-                        <app-average-wash-time></app-average-wash-time>
-                    </div>
-                </div>
+                <app-dashboard-statics [jobTypeId]="jobTypeId"></app-dashboard-statics>
                 <div class="row no-gutter">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="p-b-20">
-                                    <h4 class="d-inline-block align-middle">Washes &nbsp;<span
-                                            class="text-muted font-size-1"></span></h4>
-                                    <div class="pull-right card-widgets"><button type="button"
-                                            class="btn theme-primary-button-color  mw-100"
-                                            (click)="add('add',[])">Add New Wash</button>
-                                    </div>
-                                </div>
-                                <div class="setup-content" >
-                                    <div class="search-container  pull-right" *ngIf="isTableEmpty === false">
+                                <div class="p-b-10">
+                                    <div class="search-container">
                                         <form>
                                             <div class="form-row">
-                                                <div class="form-group d-flex"> <input type="search"
-                                                        class="form-control" size="31" [(ngModel)]="search" name="search"
-                                                        id="inputSearchbyName" placeholder="Search"
-                                                        (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
+                                                <div class="form-row ">
+                                                    <h4 class="d-inline-block m-l-12 m-b-5 m-t-3">Washes&nbsp;</h4>
+                                                    <div class="input-icon-right date-pick m-r-320">
+                                                        <i class="mdi mdi-calendar-range"></i>
+
+                                                        <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control" [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)" [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : false}">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-4"></div>
+                                                <div class="form-group d-flex">
+                                                    <input type="search" class="form-control" size="25" [(ngModel)]="search" name="search" id="inputSearchbyName" placeholder="Search" (keyup)="$event.keyCode == 13 ? getAllWashDetails() : null"> </div>
                                                 <div class="form-group col-sm m-l-5">
-                                                    <button type="button"
-                                                        class="btn theme-primary-button-color btn-sm m-l-10"
-                                                        (click)="getAllWashDetails()">Search</button>
+                                                    <button type="button" class="btn theme-primary-button-color  btn-sm" (click)="getAllWashDetails()">Search</button>
+                                                </div>
+                                                <div class=" card-widgets"><button type="button" class="btn theme-primary-button-color btn-sm" (click)="add('add',[])">Add New Wash</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                     <span
-                                        class="col-12 row d-block " *ngIf="isTableEmpty === true">No Washes Found</span></div>
-                                <div class="setup-content" *ngIf="isTableEmpty === false">
+                                </div>
+                                <div class="setup-content">
+
+                                </div>
+                                <div class="setup-content">
                                     <div class="table-responsive">
                                         <table class="table table-striped headerfix">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('TicketNumber')">Ticket
-                                                        No&nbsp;<i class="fa" [ngClass]="selectedCls('TicketNumber')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('ClientName')">Client
-                                                        Name&nbsp;<i class="fa" [ngClass]="selectedCls('ClientName')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('VehicleName')">
-                                                        Make/Model/Color&nbsp;<i class="fa"
-                                                            [ngClass]="selectedCls('VehicleName')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('TimeInFormat')">Time
-                                                        In&nbsp;<i class="fa" [ngClass]="selectedCls('TimeInFormat')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('EstimatedTimeOutFormat')">Estimated
-                                                        Time Out&nbsp;<i class="fa"
-                                                            [ngClass]="selectedCls('EstimatedTimeOutFormat')"
-                                                            aria-hidden="true"></i> </th>
-                                                    <th scope="col" class="pointer"  (click)="changeSorting('ServiceName')">
-                                                        Services&nbsp;<i class="fa"
-                                                            [ngClass]="selectedCls('ServiceName')"
-                                                            aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('TicketNumber')">Ticket No&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('TicketNumber')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('FirstName')">Client Name&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('FirstName')" aria-hidden="true"></i> </th>
+                                                    <th scope="col">
+                                                        Make/Model/ Color </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('TimeIn')">Time In&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('TimeIn')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('EstimatedTimeOut')">Est. Time Out&nbsp;<i class="fa" [ngClass]="selectedCls('EstimatedTimeOut')" aria-hidden="true"></i> </th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('ServiceName')">
+                                                        Services&nbsp;<i class="fa" [ngClass]="selectedCls('ServiceName')" aria-hidden="true"></i> </th>
                                                     <th scope="col">Pay</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="bodyfix">
-                                                <tr
-                                                    *ngFor="let wash of washDetails | orderBy:sort.column:'sequence':sort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ">
+
+                                            <tr colspan="11" class="text-center" *ngIf="isTableEmpty === true">
+                                                <td colspan="9" class="text-center">
+                                                    No Records Found
+                                                </td>
+                                            </tr>
+                                            <tbody class="bodyfix" *ngIf="isTableEmpty === false">
+                                                <tr *ngFor="let wash of washDetails">
                                                     <th scope="row">{{wash.TicketNumber}}</th>
-                                                    <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">{{wash.ClientName}}</td>
+                                                    <td pTooltip="{{wash.PhoneNumber}}" tooltipPosition="top">
+                                                        {{wash.ClientName}}</td>
                                                     <td>{{wash.VehicleName}}</td>
-                                                    <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}</td>
+                                                    <td class="font-weight-600">{{wash.TimeIn | date : 'hh:mm:ss aa' }}
+                                                    </td>
                                                     <td class="font-weight-600">
                                                         {{wash.EstimatedTimeOut | date : 'hh:mm:ss aa'}}</td>
                                                     <td>{{wash.ServiceName}}</td>
                                                     <td>
-                                                        <button type="button"
-                                                            class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12"
-                                                            (click)="pay(wash)">Pay</button>
+                                                        <button type="button" class="btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12" (click)="pay(wash)">Pay</button>
                                                     </td>
-                                                    <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('view',wash)" pTooltip="View"
-                                                            tooltipPosition="bottom"></i>
-                                                        <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"
-                                                            (click)="add('edit',wash)" pTooltip="Edit"
-                                                            tooltipPosition="bottom"></i>
-                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
-                                                            (click)="delete(wash)" pTooltip="Delete"
-                                                            tooltipPosition="bottom"></i>
+                                                    <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1" (click)="add('view',wash)" pTooltip="View" tooltipPosition="bottom"></i>
+                                                        <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1" (click)="add('edit',wash)" pTooltip="Edit" tooltipPosition="bottom"></i>
+                                                        <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="delete(wash)" pTooltip="Delete" tooltipPosition="bottom"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div class="row pull-right" >
+                                        <div class="row pull-right" *ngIf="isTableEmpty === false">
                                             <div class="col-6">
-                                             <ngb-pagination  [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
-                                                 [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
-                                                 [boundaryLinks]="true" class="d-flex justify-content-end">
-                                             </ngb-pagination> 
-                                             </div>
-                                             <select  class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
+                                                <ngb-pagination [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                </ngb-pagination>
+                                            </div>
+                                            <select class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                                  <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
          
                                              </select>
-                                         </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +111,6 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView"
-        (closeDialog)="closePopupEmit($event)">
+    <app-create-edit-washes *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" [isView]="isView" (closeDialog)="closePopupEmit($event)">
     </app-create-edit-washes>
 </div>

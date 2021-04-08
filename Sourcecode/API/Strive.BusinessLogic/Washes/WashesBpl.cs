@@ -41,7 +41,7 @@ namespace Strive.BusinessLogic.Washes
         }
         public Result GetDailyDashboard(WashesDashboardDto dashboard)
         {
-            return ResultWrap(new WashesRal(_tenant).GetDailyDashboard,dashboard, "Dashboard");
+            return ResultWrap(new WashesRal(_tenant).GetDailyDashboard, dashboard, "Dashboard");
         }
         public Result GetByBarCode(string barcode)
         {
@@ -51,15 +51,22 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).GetMembershipListByVehicleId, vehicleId, "VehicleMembershipDetail");
         }
-        
+
         public Result DeleteWashes(int id)
         {
             return ResultWrap(new WashesRal(_tenant).DeleteWashes, id, "Status");
         }
-        public string GetTicketNumber()
+
+
+        public Result GetWashTimeByLocationId(WashTimeDto washTimeDto)
         {
-            var ticketNumberGenerator = new CommonBpl(_cache, _tenant).RandomNumber(6);
-            return ticketNumberGenerator;
+            return ResultWrap(new WashesRal(_tenant).GetWashTime, washTimeDto, "WashTime");
+        }
+
+        public Result GetAllLocationWashTime(int id)
+        {
+
+            return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, id, "Washes");
         }
     }
 }

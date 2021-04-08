@@ -87,40 +87,75 @@ namespace StriveEmployee.Android.Fragments
 
         private async void selectGroupChatEntry()
         {
-            await ViewModel.GetContactsList();
-           
-            if(ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
+            //await ViewModel.GetContactsList();
+
+            //if (ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
+            //{
+            //    if (MessengerTempData.ExistingParticipants != null)
+            //    {
+            //        MessengerTempData.IsCreateGroup = false;
+            //        if (MessengerTempData.SelectedParticipants == null)
+            //        {
+            //            MessengerTempData.SelectedParticipants = new Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeLists();
+            //            MessengerTempData.SelectedParticipants.EmployeeList = new List<Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList>();
+            //        }
+            //        foreach (var data in MessengerTempData.ExistingParticipants.ChatEmployeeList)
+            //        {
+            //            var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.Id);
+            //            ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+            //        }
+            //        foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
+            //        {
+            //            var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.EmployeeId);
+            //            ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+            //        }
+            //        messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
+            //    }
+            //    else
+            //    {
+            //        MessengerTempData.IsCreateGroup = true;
+            //        messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
+            //    }
+
+            //    var layoutManager = new LinearLayoutManager(Context);
+            //    createGroup_RecyclerView.SetLayoutManager(layoutManager);
+            //    createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
+            //}
+            if (MessengerTempData.EmployeeLists.EmployeeList == null)
             {
-                if (MessengerTempData.ExistingParticipants != null)
-                {
-                    MessengerTempData.IsCreateGroup = false;
-                    if(MessengerTempData.SelectedParticipants == null)
-                    {
-                        MessengerTempData.SelectedParticipants = new Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeLists();
-                        MessengerTempData.SelectedParticipants.EmployeeList = new List<Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList>();
-                    }                 
-                    foreach (var data in MessengerTempData.ExistingParticipants.ChatEmployeeList)
-                    {
-                        var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.Id);
-                        ViewModel.EmployeeLists.EmployeeList.Remove(participant);
-                    }
-                    foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
-                    {
-                        var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.EmployeeId);
-                        ViewModel.EmployeeLists.EmployeeList.Remove(participant);
-                    }
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
-                }
-                else
-                {
-                    MessengerTempData.IsCreateGroup = true;
-                    messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
-                }
-                
-                var layoutManager = new LinearLayoutManager(Context);
-                createGroup_RecyclerView.SetLayoutManager(layoutManager);
-                createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
+                await ViewModel.GetContactsList();
             }
+
+            if(MessengerTempData.ExistingParticipants != null)
+            {
+                MessengerTempData.IsCreateGroup = false;
+                if (MessengerTempData.SelectedParticipants == null)
+                {
+                    MessengerTempData.SelectedParticipants = new Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeLists();
+                    MessengerTempData.SelectedParticipants.EmployeeList = new List<Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList>();
+                }
+                foreach (var data in MessengerTempData.ExistingParticipants.ChatEmployeeList)
+                {
+                    var participant = MessengerTempData.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.Id);
+                    ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+                }
+                foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
+                {
+                    var participant = ViewModel.EmployeeLists.EmployeeList.Find(x => x.EmployeeId == data.EmployeeId);
+                    ViewModel.EmployeeLists.EmployeeList.Remove(participant);
+                }
+                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList);
+            }
+
+            if(MessengerTempData.EmployeeLists.EmployeeList != null && MessengerTempData.ExistingParticipants == null)
+            {
+                MessengerTempData.IsCreateGroup = true;
+                messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, MessengerTempData.EmployeeLists.EmployeeList);
+            }
+            var layoutManager = new LinearLayoutManager(Context);
+            createGroup_RecyclerView.SetLayoutManager(layoutManager);
+            createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
+
         }
     }
 }

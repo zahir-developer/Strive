@@ -5,6 +5,9 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ViewDocumentComponent } from '../../employees/view-document/view-document.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-document-list',
@@ -23,15 +26,16 @@ export class DocumentListComponent implements OnInit {
   employeeDocument = [];
   constructor(
     private modalService: NgbModal,
+    private spinner : NgxSpinnerService,
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
-    private messageService: MessageServiceToastr
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.isEditDocument = false;
     this.showCloseButton = false;
-    this.employeeDetail();
+    this.getAllDocument();
     if (this.isModal !== undefined) {
       this.showCloseButton = true;
     } else {
@@ -49,6 +53,9 @@ export class DocumentListComponent implements OnInit {
           this.documentList = employees.Employee.EmployeeDocument;
         }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -71,18 +78,20 @@ export class DocumentListComponent implements OnInit {
     modalRef.result.then((result) => {
       if (result) {
         this.isEditDocument = false;
-        this.employeeDetail();
+        this.getAllDocument();
       }
     });
   }
 
   getAllDocument() {
     this.employeeService.getAllDocument(this.employeeId).subscribe(res => {
-      console.log(res, 'allDocument');
       if (res.status === 'Success') {
         const document = JSON.parse(res.resultData);
         this.documentList = document.GetAllDocuments;
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -101,13 +110,22 @@ export class DocumentListComponent implements OnInit {
 
   confirmDelete(documentList) {
     const docId = documentList.EmployeeDocumentId;
+    this.spinner.show();
     this.employeeService.deleteDocument(docId).subscribe( res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document Deleted Successfully!' });
-        this.employeeDetail();
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Document.Delete, 'Success!');
+        this.getAllDocument();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -134,7 +152,6 @@ export class DocumentListComponent implements OnInit {
     this.employeeService.getDocumentById(this.documentId, 'string').subscribe( res => {
       if (res.status === 'Success') {
         const documentDetail = JSON.parse(res.resultData);
-        console.log(documentDetail);
         const base64 = documentDetail.Document.Base64Url;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');
@@ -143,6 +160,8 @@ export class DocumentListComponent implements OnInit {
         downloadLink.download = fileName;
         downloadLink.click();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

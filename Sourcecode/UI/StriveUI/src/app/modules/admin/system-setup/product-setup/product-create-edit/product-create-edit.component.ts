@@ -5,6 +5,8 @@ import { ProductService } from 'src/app/shared/services/data-service/product.ser
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-product-create-edit',
@@ -32,14 +34,18 @@ export class ProductCreateEditComponent implements OnInit {
   costErrMsg: boolean = false;
   priceErrMsg: boolean = false;
   employeeId: number;
+  base64Value = '';
+  IsOtherSize: number;
+  sizeId: number;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
     private locationService: LocationService,
     private product: ProductService,
     private getCode: GetCodeService,
-    private spinner: NgxSpinnerService
-    ) { }
+    private spinner: NgxSpinnerService,
+    private codeService: CodeValueService
+  ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -54,6 +60,7 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.productSetupForm.reset();
       this.getProductById();
+      this.getSize();
     }
   }
 
@@ -82,56 +89,46 @@ export class ProductCreateEditComponent implements OnInit {
   }
   // Get ProductType
   getProductType() {
-    this.getCode.getCodeByCategory("PRODUCTTYPE").subscribe(data => {
-      if (data.status === "Success") {
-        const pType = JSON.parse(data.resultData);
-        this.prodType = pType.Codes;
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
-    this.getSize();
+
+    const prodTypeCodes = this.codeService.getCodeValueByType('ProductType');
+    if (prodTypeCodes.length > 0) {
+      this.prodType = prodTypeCodes;
+    }
+    
   }
+
   // Get Size
   getSize() {
-    this.getCode.getCodeByCategory("SIZE").subscribe(data => {
-      if (data.status === "Success") {
-        const pSize = JSON.parse(data.resultData);
-        this.size = pSize.Codes;
-        const other = this.size.filter(i => i.CodeValue === "Other")[0];
-        this.size = this.size.filter(i => i.CodeValue !== "Other");
-        this.size.push(other);
-        console.log(this.size, 'size');
-      } else {
-        this.toastr.error('Communication Error', 'Error!');
-      }
-    });
+    const sizeCodes = this.codeService.getCodeValueByType('Size');
+    if (sizeCodes.length > 0) {
+      this.size = sizeCodes;
+    }
   }
   // Get All Vendors
   getAllVendor() {
     this.product.getVendor().subscribe(data => {
       if (data.status === 'Success') {
         const vendor = JSON.parse(data.resultData);
-        this.Vendor = vendor.Vendor.filter(item => item.IsActive === 'True');
+        this.Vendor = vendor.Vendor;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     })
   }
   // Get All Location
   getAllLocation() {
-    this.locationService.getLocation().subscribe(data => {
+    this.product.getAllLocationName().subscribe(data => {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
-        this.locationName = location.Location.filter(item => item.IsActive === true);
+        this.locationName = location.Location;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
 
   showText(data) {
-    const size = this.size.filter( item => item.CodeValue === 'Other');
+    const size = this.size.filter(item => item.CodeValue === 'Other');
     if (size.length > 0) {
       const id = size[0].CodeId;
       if (+data === id) {
@@ -146,7 +143,9 @@ export class ProductCreateEditComponent implements OnInit {
   }
   // Get Product By Id
   getProductById() {
+    this.spinner.show();
     this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
+      this.spinner.hide();
       if (data.status === "Success") {
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product;
@@ -165,15 +164,23 @@ export class ProductCreateEditComponent implements OnInit {
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
         this.fileName = this.selectedProduct.FileName;
+        this.base64Value = this.selectedProduct.Base64;
         this.fileUploadformData = this.selectedProduct.Base64;
-        if (this.selectedProduct.Size === 33) {
-          this.textDisplay = true;
-          this.productSetupForm.controls['other'].patchValue(this.selectedProduct.SizeDescription);
+        if (this.selectedProduct.Size !== null) {
+          this.sizeId = this.selectedProduct.Size;
+          const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
+          if (sizeObj !== null) {
+            this.enableOtherSize(sizeObj);
+          }
         }
+
         this.change(this.selectedProduct.IsTaxable);
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -216,6 +223,7 @@ export class ProductCreateEditComponent implements OnInit {
       locationId: this.productSetupForm.value.locationName,
       productName: this.productSetupForm.value.name,
       fileName: this.fileName,
+      OriginalFileName: this.fileName,
       thumbFileName: this.fileThumb,
       base64: this.fileUploadformData,
       cost: this.productSetupForm.value.cost,
@@ -240,10 +248,10 @@ export class ProductCreateEditComponent implements OnInit {
       this.product.updateProduct(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
         }
@@ -255,10 +263,10 @@ export class ProductCreateEditComponent implements OnInit {
       this.product.addProduct(formObj).subscribe(data => {
         this.spinner.hide();
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
         }
@@ -289,8 +297,7 @@ export class ProductCreateEditComponent implements OnInit {
         fileTosaveName = fileReader.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
-        console.log(this.fileName, this.fileUploadformData.length);
-      }, 5000);
+      }, 500);
     }
   }
 
@@ -301,5 +308,23 @@ export class ProductCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  downloadImage() {
+    const linkSource = 'data:application/image;base64,' + this.base64Value;
+    const downloadLink = document.createElement('a');
+    const fileName = this.fileName;
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  }
+
+  enableOtherSize(sizeObj) {
+    let descriptionName = '';
+    descriptionName = sizeObj[0].CodeValue;
+    if (descriptionName === 'Other') {
+      this.textDisplay = true;
+      this.productSetupForm.patchValue({ other: this.selectedProduct.SizeDescription });
+    }
   }
 }
