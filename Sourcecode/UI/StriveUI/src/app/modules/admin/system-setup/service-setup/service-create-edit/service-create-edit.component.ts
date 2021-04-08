@@ -78,7 +78,7 @@ export class ServiceCreateEditComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       price: ['', Validators.required],
-      cost: ['', Validators.required],
+      cost: [''],
       commission: ['',],
       commissionType: ['',],
       discountType: ['',],
@@ -346,14 +346,7 @@ export class ServiceCreateEditComponent implements OnInit {
   submit() {
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {
-      if (this.serviceSetupForm.value.cost !== "") {
-        if (Number(this.serviceSetupForm.value.cost) <= 0) {
-          this.costErrMsg = true;
-          return;
-        } else {
-          this.costErrMsg = false;
-        }
-      }
+      
       if (this.serviceSetupForm.value.price !== "") {
         if (Number(this.serviceSetupForm.value.price) <= 0) {
           this.priceErrMsg = true;

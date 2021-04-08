@@ -2,6 +2,13 @@
     <form [formGroup]="serviceSetupForm">
         <div class="form-row">
             <div class="form-group col-lg-4">
+                <label for="inputName">Name<span class="required">*</span></label>
+                <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Name" [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
+                <div *ngIf="submitted  && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
                 <label for="inputServiceType"> Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="serviceType" (change)="checkService($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
                     <option value="" selected hidden>Choose </option>
@@ -12,13 +19,7 @@
                     <div *ngIf="f.serviceType.errors.required">Type is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-4">
-                <label for="inputName">Name<span class="required">*</span></label>
-                <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Name" [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
-                <div *ngIf="submitted  && f.name.errors" class="invalid-feedback">
-                    <div *ngIf="f.name.errors.required">Name is required</div>
-                </div>
-            </div>
+         
             <div class="form-group col-lg-4" *ngIf="isDiscounts">
                 <label for="inputServiceType">Discount Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="discountServiceType" [ngClass]="{ 'is-invalid': submitted && f.discountServiceType.errors }">
@@ -44,7 +45,19 @@
                     <div *ngIf="f.discountType.errors.required">Discount Type is required</div>
                 </div>
             </div>
-
+            <div class="form-group col-md-4">
+                <label class="d-block">Location </label>
+                <ng-multiselect-dropdown [placeholder]="'Select Location'"
+                [disabled]="isEdit"
+                    [settings]="dropdownSettings" [data]="location" formControlName="location">
+                </ng-multiselect-dropdown>
+            </div>
+         
+            <div class="form-group col-lg-4">
+                <label for="inputCost">Cost</label>
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost" placeholder="$0.00" >
+               
+            </div>
             <div class="form-group col-lg-4" *ngIf="!isDiscounts">
                 <label for="inputCost">Price<span class="required">*</span></label>
 
@@ -63,22 +76,6 @@
 
 
                 </div>
-            </div>
-            <div class="form-group col-lg-4">
-                <label for="inputCost">Cost<span class="required">*</span></label>
-                <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost" placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted  && f.cost.errors }">
-                <div *ngIf="submitted  && f.cost.errors" class="invalid-feedback">
-                    <div *ngIf="f.cost.errors.required">Cost is required</div>
-                </div>
-                <div *ngIf="submitted  && costErrMsg" style="font-size: small;color: #dc3545;">Cost should not be 0
-                </div>
-            </div>
-            <div class="form-group col-md-4">
-                <label class="d-block">Location </label>
-                <ng-multiselect-dropdown [placeholder]="'Select Location'"
-                [disabled]="isEdit"
-                    [settings]="dropdownSettings" [data]="location" formControlName="location">
-                </ng-multiselect-dropdown>
             </div>
             <div class="form-group col-lg-4" *ngIf="isDetails">
                 <label for="inputDescription">Description</label>
