@@ -59,12 +59,12 @@ export class ClientFormComponent implements OnInit {
     this.clientForm = this.fb.group({
       fName: ['', Validators.required],
       lName: ['', Validators.required],
-      address: ['', ],
-      zipcode: ['', [ Validators.minLength(5)]],
+      address: ['',],
+      zipcode: ['', [Validators.minLength(5)]],
       state: ['',],
       city: ['',],
       phone1: ['', [Validators.required, Validators.minLength(14)]],
-      email: ['', Validators.required,Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
@@ -84,7 +84,7 @@ export class ClientFormComponent implements OnInit {
   get f() {
     return this.clientForm.controls;
   }
- 
+
 
   sameClientName() {
     const clientNameDto = {
@@ -100,17 +100,17 @@ export class ClientFormComponent implements OnInit {
             this.ClientNameAvailable = true;
             this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
 
-        } else{
-          this.ClientNameAvailable = false;
- 
+          } else {
+            this.ClientNameAvailable = false;
+
+          }
         }
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
-}
- 
+
   // Get Score
   getScore() {
     this.client.getClientScore().subscribe(data => {
@@ -194,18 +194,20 @@ export class ClientFormComponent implements OnInit {
 
   selectCity(event) {
     this.city = event;
-  } 
+  }
   clientEmailExist() {
-     this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
+    if (this.clientForm.controls.email.errors !== null) {
+      return;
+    }
+    this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
-        if(sameEmail.emailExist === true){
+        if (sameEmail.emailExist === true) {
           this.ClientEmailAvailable = true;
           this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
-
-        } else{
+        } else {
           this.ClientEmailAvailable = false;
- 
+
         }
       }
     }, (err) => {

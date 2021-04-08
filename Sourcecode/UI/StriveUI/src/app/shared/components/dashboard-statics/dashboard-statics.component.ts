@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { DetailService } from '../../services/data-service/detail.service';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-dashboard-statics',
@@ -16,7 +18,8 @@ export class DashboardStaticsComponent implements OnInit {
   forecastedCar: any;
   averageTime: any;
   constructor(
-    private detail: DetailService
+    private detail: DetailService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +43,8 @@ export class DashboardStaticsComponent implements OnInit {
         this.forecastedCar = wash.Dashboard.ForecastedCars;
         this.averageTime = wash.Dashboard.AverageWashTime;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
