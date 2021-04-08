@@ -35,7 +35,7 @@ export class CheckoutGridComponent implements OnInit {
   daterangepickerModel: Date[];
   public uncheckedVehicleDetails: any[] = [];
   public search: string;
-  searchUpdate = new Subject<string>();
+  checkOutSearchUpdate = new Subject<string>();
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
@@ -44,12 +44,10 @@ export class CheckoutGridComponent implements OnInit {
     private datePipe: DatePipe,
     private landingservice: LandingService,
     private spinner: NgxSpinnerService
-  ) { 
-     // Debounce search.
-     this.searchUpdate.pipe(
-      debounceTime(ApplicationConfig.DebounceTime.CheckOut),
-      distinctUntilChanged())
-      .subscribe(value => {
+  ) {
+    // Debounce search.
+    this.checkOutSearchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.CheckOut), distinctUntilChanged()).subscribe(value => {
         this.checkOutSearch();
       });
   }
@@ -105,7 +103,7 @@ export class CheckoutGridComponent implements OnInit {
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
         if (this.uncheckedVehicleDetails?.length > 0) {
           for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
-            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel =  'Unk' : this.uncheckedVehicleDetails[i].VehicleModel ;
+            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
           }
         }
         if (this.uncheckedVehicleDetails == null) {
