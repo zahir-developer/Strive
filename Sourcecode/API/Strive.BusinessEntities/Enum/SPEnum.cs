@@ -76,6 +76,7 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEROLEBYID,
             USPGETCITYBYSTATE,
             USPGETEMPLOYEEBYID,
+            USPGETMODELBYMAKE,
         }
 
         public enum DashboardStatistics

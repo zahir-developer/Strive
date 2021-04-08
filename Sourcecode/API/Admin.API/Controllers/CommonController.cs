@@ -69,5 +69,12 @@ namespace Admin.API.Controllers
         [Route("GetTicketNumber/{locationId}")]
         public string GetTicketNumber(int locationId) => _commonBpl.GetTicketNumber(locationId);
 
+        [HttpGet]
+        [Route("GetModelByMakeId/{makeId}")]
+        public Result GetModelByMakeId(int makeId)
+        {
+            return _commonBpl.GetModelByMakeId(makeId);
+        }
+
     }
 }

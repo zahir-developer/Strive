@@ -51,7 +51,7 @@ section#login button[type="submit"] {
     content: "\F0140";
 }
 
-.card .card-widgets-view > a.collapsed i:before {
+.card .card-widgets-view>a.collapsed i:before {
     content: "\F0B26";
 }
 
