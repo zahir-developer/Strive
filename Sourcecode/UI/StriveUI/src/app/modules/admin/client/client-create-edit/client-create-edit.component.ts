@@ -97,7 +97,6 @@ export class ClientCreateEditComponent implements OnInit {
   // Add/Update Client
   submit() {
     this.clientFormComponent.submitted = true;
-    this.clientFormComponent.stateDropdownComponent.submitted = true;
     this.clientFormComponent.clientForm.controls.status.enable();
    
     if (this.clientFormComponent.clientForm.invalid) {
