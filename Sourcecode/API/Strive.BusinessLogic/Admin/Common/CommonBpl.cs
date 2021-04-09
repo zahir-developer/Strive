@@ -489,6 +489,13 @@ namespace Strive.BusinessLogic.Common
         {
             return ResultWrap(new CommonRal(_tenant, false).GetModelByMakeId,makeId, "Model");
 
+
         }
+        public Result GetUpchargeTypeByModel(int modelId)
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetUpchargeTypeByModel, modelId, "upcharge");
+
+        }
+       
     }
 }

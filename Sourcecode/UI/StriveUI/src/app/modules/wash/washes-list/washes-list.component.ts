@@ -327,11 +327,8 @@ export class WashesListComponent implements OnInit {
           jobtype.GetJobType.forEach(item => {
             if (item.valuedesc === 'Wash') {
               this.jobTypeId = item.valueid;
-              if (this.dashboardStaticsComponent?.jobTypeId) {
-                this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
-                this.dashboardStaticsComponent.getDashboardDetails();
-
-              }
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
             }
           });
         }

@@ -35,12 +35,11 @@ export const UrlConfig = {
     cityList: `Admin/Common/GetCodesByCategory/`,
     cityByStateId: `Admin/Common/GetCityByStateId/`,
     modelByMakeId: `Admin/Common/GetModelByMakeId/`,
-
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
     countryList: `Admin/Common/CountryList`,
     getTicketNumber: `Admin/Common/GetTicketNumber/`,
-
+    getUpchargeTypeByModel: `Admin/Common/GetUpchargeTypeByModel/`
   },
   collision: {
     getVechileList: `Admin/Collision/GetVehicleListByClientId/`,
