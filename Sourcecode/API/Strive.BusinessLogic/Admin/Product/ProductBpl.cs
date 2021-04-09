@@ -45,9 +45,9 @@ namespace Strive.BusinessLogic
             }
         }
 
-        public Result GetProductSearch(ProductSearchDto search)
+        public Result GetAllProduct(ProductSearchDto search)
         {
-            return ResultWrap(new ProductRal(_tenant).GetProductSearch, search, "ProductSearch");
+            return ResultWrap(new ProductRal(_tenant).GetAllProduct, search, "ProductSearch");
         }
 
         public Result UpdateProduct(Product product)
@@ -58,9 +58,9 @@ namespace Strive.BusinessLogic
             return ResultWrap(new ProductRal(_tenant).UpdateProduct, product, "Status");
         }
 
-        public Result GetAllProduct()
+        public Result GetAllProductAndImage(ProductSearchDto search)
         {
-            var products = new ProductRal(_tenant).GetAllProduct();
+            var products = new ProductRal(_tenant).GetAllProduct(search);
 
             foreach (var prod in products)
             {

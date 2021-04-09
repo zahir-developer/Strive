@@ -35,16 +35,16 @@ namespace Admin.Api.Controllers
         [Route("Delete")]
         public Result DeleteProduct(int productId, string fileName = null) => _bplManager.DeleteProduct(productId, fileName);
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAll")]
-        public Result GetAllProduct() => _bplManager.GetAllProduct();
+        public Result GetAllProduct([FromBody] ProductSearchDto search) => _bplManager.GetAllProduct(search);
 
         [HttpGet]
         [Route("GetProductById")]
         public Result GetProduct(int productId) => _bplManager.GetProduct(productId);
 
         [HttpPost]
-        [Route("GetProductSearch")]
-        public Result GetProductSearch([FromBody] ProductSearchDto search) => _bplManager.GetProductSearch(search);
+        [Route("GetAllProductImage")]
+        public Result GetAllProductImage([FromBody] ProductSearchDto search) => _bplManager.GetAllProductAndImage(search);
     }
 }

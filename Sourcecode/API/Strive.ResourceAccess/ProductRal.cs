@@ -28,15 +28,16 @@ namespace Strive.ResourceAccess
             return dbRepo.Update(product);
         }
 
-        public List<ProductViewModel> GetAllProduct()
+        public List<ProductViewModel> GetAllProduct(ProductSearchDto search)
         {
+            _prm.Add("@ProductSearch", search.ProductSearch);
             return db.Fetch<ProductViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
 
         public ProductDetailViewModel GetProductById(int? productId)
         {
             _prm.Add("@ProductId", productId);
-            return db.FetchSingle<ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTBYID.ToString(), _prm);
+            return db.FetchSingle<BusinessEntities.ViewModel.ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTBYID.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)
@@ -45,10 +46,6 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Product.USPDELETEPRODUCT.ToString(), _prm);
             return true;
         }
-        public List<ProductSearchViewModel> GetProductSearch(ProductSearchDto search)
-        {
-            _prm.Add("@ProductSearch", search.ProductSearch);
-            return db.Fetch<ProductSearchViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
-        }
+        
     }
 }

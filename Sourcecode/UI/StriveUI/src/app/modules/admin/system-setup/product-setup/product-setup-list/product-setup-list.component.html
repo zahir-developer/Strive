@@ -5,8 +5,7 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Product List</h5>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="add('add',[])">Add
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add
                             New Product</button>
                     </div>
                     <div class="setup-wrapper">
@@ -14,71 +13,56 @@
                             <div class="search-container  pull-right">
                                 <form>
                                     <div class="form-row">
-                                        <div class="form-group d-flex"> <input type="search" class="form-control"
-                                                [(ngModel)]="search" size="40" name="search" id="inputSearch"
-                                                placeholder="Search by Name, Vendor, Type, Size"
-                                                (keyup)="$event.keyCode == 13 ? productSearch() : null"> </div>
+                                        <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="search" size="40" name="search" id="inputSearch" placeholder="Search by Name, Vendor, Type, Size" (keyup)="$event.keyCode == 13 ? productSearch() : null"> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
-                                                (click)="productSearch()">Search</button>
+                                            <button type="button" class="btn theme-primary-button-color btn-sm m-l-10" (click)="productSearch()">Search</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                       
-                            <div class="table-responsive" >
+
+                            <div class="table-responsive">
                                 <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list" *ngIf="!isLoading">
                                     <thead>
-                                        <tr> 
-                                              <th class="pointer" (click)="changesort('ProductName')">Name&nbsp; 
-                                           
-                                        <i class="fa"   [ngClass]="selectedCls('ProductName')"></i>
-                                    </th>
-                                            <th class="pointer" (click)="changesort('ProductTypeName')">Type&nbsp;
-                                                 <i class="fa" 
-                                                 [ngClass]="selectedCls('ProductTypeName')"></i>
+                                        <tr>
+                                            <th class="pointer" (click)="changesort('ProductName')">Name
+                                                <i class="fa" [ngClass]="selectedCls('ProductName')"></i>
                                             </th>
-                                            <th class="pointer" (click)="changesort('Cost')">Cost&nbsp;
-                                                 <i class="fa"
-                                                [ngClass]="selectedCls('Cost')"></i>
+                                            <th class="pointer" (click)="changesort('ProductTypeName')">Type
+                                                <i class="fa" [ngClass]="selectedCls('ProductTypeName')"></i>
                                             </th>
-                                                <th class="pointer" (click)="changesort('SizeName')">Size&nbsp; 
-                                                    <i class="fa"
-                                                    [ngClass]="selectedCls('SizeName')"></i>
-                                                </th>
-                                                        <th class="pointer" (click)="changesort('Quantity')">Quantity&nbsp; 
-                                                            <i class="fa" 
-                                                            [ngClass]="selectedCls('Quantity')"></i>
-                                                        </th>
-                                                            <th class="pointer" (click)="changesort('VendorName')">VendorName&nbsp;
-                                                                 <i class="fa" 
-                                                                 [ngClass]="selectedCls('VendorName')"></i>
-                                                            </th>
-                                                                <th class="pointer" (click)="changesort('Status')">Status&nbsp; 
-                                                                    <i class="fa" 
-                                                                    [ngClass]="selectedCls('Status')"></i>
-                                                                </th>
-                                         
+                                            <th class="pointer" (click)="changesort('Cost')">Cost
+                                                <i class="fa" [ngClass]="selectedCls('Cost')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('SizeName')">Size
+                                                <i class="fa" [ngClass]="selectedCls('SizeName')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('Quantity')">Quantity
+                                                <i class="fa" [ngClass]="selectedCls('Quantity')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('VendorName')">Vendor Name
+                                                <i class="fa" [ngClass]="selectedCls('VendorName')"></i>
+                                            </th>
+                                            <th>Vendor Phone</th>
+                                            <th class="pointer" (click)="changesort('Status')">Status
+                                                <i class="fa" [ngClass]="selectedCls('Status')"></i>
+                                            </th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody  class="bodyfix">
-                                        <tr
-                                            *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                    <tbody class="bodyfix">
+                                        <tr *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>
                                             <td>{{productSetup.ProductTypeName}}</td>
                                             <td>{{productSetup.Cost | currency}}</td>
                                             <td>{{productSetup.SizeName}}</td>
                                             <td>{{productSetup.Quantity}}</td>
                                             <td>{{productSetup.VendorName}}</td>
+                                            <td>{{productSetup.VendorPhone}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
-                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                                    style="color:green" pTooltip="Edit" tooltipPosition="bottom"
-                                                    (click)="add('edit', productSetup)"></em>&nbsp;&nbsp;
-                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                    style="color:red" pTooltip="Delete" tooltipPosition="bottom"
-                                                    (click)="delete(productSetup)"></em>
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green" pTooltip="Edit" tooltipPosition="bottom" (click)="add('edit', productSetup)"></em>&nbsp;&nbsp;
+                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color" style="color:red" pTooltip="Delete" tooltipPosition="bottom" (click)="delete(productSetup)"></em>
                                             </td>
                                         </tr>
                                         <tr *ngIf="productSetupDetails.length == 0">
@@ -91,28 +75,24 @@
                                 </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                     <ngb-pagination  *ngIf="productSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
-                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
-                                         [boundaryLinks]="true" class="d-flex justify-content-end">
-                                     </ngb-pagination> 
-                                     </div>
-                                     <select  *ngIf="productSetupDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
-                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
-                  
-                                     </select>
-                                 </div>
+                                        <ngb-pagination *ngIf="productSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="productSetupDetails.length > 0" class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
-    [responsive]="true" [focusOnShow]="false" [closable]="false">
-    <app-product-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
-        (closeDialog)="closePopupEmit($event)">
+<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+    <app-product-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
     </app-product-create-edit>
 </p-dialog>

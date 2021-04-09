@@ -180,9 +180,7 @@ export const UrlConfig = {
     getProductById: `Admin/Product/GetProductById`,
     addProduct: `Admin/Product/Add`,
     updateProduct: `Admin/Product/Update`,
-    deleteProduct: `Admin/Product/Delete`,
-    getProductSearch: `Admin/Product/GetProductSearch`,
-
+    deleteProduct: `Admin/Product/Delete`
   },
   reports: {
     getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,

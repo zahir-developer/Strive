@@ -39,7 +39,7 @@ export class ProductSetupListComponent implements OnInit {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.getAllproductSetupDetails();
+    this.productSearch();
 
   }
 
@@ -49,7 +49,7 @@ export class ProductSetupListComponent implements OnInit {
       productSearch: this.search
     };
     this.isLoading = true;
-    this.productService.ProductSearch(obj).subscribe(data => {
+    this.productService.getProduct(obj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
@@ -72,8 +72,11 @@ this.isLoading = false;
 
   // Get All Product
   getAllproductSetupDetails() {
+    const obj = {
+      productSearch: this.search
+    };
     this.isLoading = true;
-    this.productService.getProduct().subscribe(data => {
+    this.productService.getProduct(obj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);

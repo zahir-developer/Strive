@@ -11,9 +11,9 @@ namespace Strive.BusinessLogic
     {
         Result AddProduct(ProductAddDto product);
         Result UpdateProduct(Product product);
-        Result GetAllProduct();
+        Result GetAllProduct(ProductSearchDto search);
         Result GetProduct(int productId);
         Result DeleteProduct(int productId, string fileName = null);
-        Result GetProductSearch(ProductSearchDto search);
+        Result GetAllProductAndImage(ProductSearchDto search);
     }
 }

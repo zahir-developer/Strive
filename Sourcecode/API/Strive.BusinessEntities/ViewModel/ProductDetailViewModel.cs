@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cocoon.ORM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class ProductSearchViewModel
+    public class ProductDetailViewModel
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
@@ -16,12 +17,10 @@ namespace Strive.BusinessEntities.ViewModel
         public string FileName { get; set; }
 
         public string OriginalFileName { get; set; }
-
         public string ThumbFileName { get; set; }
         public int LocationId { get; set; }
         public int VendorId { get; set; }
         public int Size { get; set; }
-        public string SizeDescription { get; set; }
         public decimal Quantity { get; set; }
         public string QuantityDescription { get; set; }
         public decimal Cost { get; set; }
@@ -35,5 +34,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string ProductTypeName { get; set; }
         public string SizeName { get; set; }
         public string Base64 { get; set; }
+
+        public string PhoneNumber { get; set; }
     }
 }
