@@ -92,7 +92,7 @@
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredMake"
                                                     (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)"
-                                                    [size]="10" formControlName="type" placeholder="Make">
+                                                    (onSelect)="selectedModel($event)"     [size]="10" formControlName="type" placeholder="Make">
                                                 </p-autoComplete>
                                             </div>
                                         </div>

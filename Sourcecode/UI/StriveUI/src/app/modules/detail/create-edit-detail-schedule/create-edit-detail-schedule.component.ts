@@ -18,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { ModelService } from 'src/app/shared/services/common-service/model.service';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -112,7 +113,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private client: ClientService,
     private confirmationService: ConfirmationService,
     private router: Router,
-
+private modelService : ModelService,
     private codeValueService: CodeValueService,
     private serviceSetupService: ServiceSetupService
   ) { }
@@ -502,8 +503,32 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
     }
+
+    this.getModel(this.selectedData?.Details?.Model)
+  }
+  selectedModel(event) {
+    const id = event.id;
+    if(id !== null){
+      this.getModel(id)
+    }
   }
 
+  getModel(id){
+    this.modelService.getModelByMakeId(id).subscribe( res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelName
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
       if (data.status === 'Success') {
@@ -522,12 +547,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             }
           });
         }
-        this.model = this.model.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,

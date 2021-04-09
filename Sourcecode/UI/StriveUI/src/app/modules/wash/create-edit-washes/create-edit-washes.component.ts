@@ -16,6 +16,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { ModelService } from 'src/app/shared/services/common-service/model.service';
 declare var $: any;
 
 @Component({
@@ -84,6 +85,7 @@ export class CreateEditWashesComponent implements OnInit {
   generatedClientId: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
+    private modelService : ModelService,
     private landingservice: LandingService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
     private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService) { }
@@ -200,6 +202,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
     });
+    this.getModel(this.selectedData.Washes[0].Make)
 
   }
   getClientPastNotes(Id) {
@@ -472,6 +475,30 @@ export class CreateEditWashesComponent implements OnInit {
       data.IsChecked = data.IsChecked ? false : true;
     }
   }
+  selectedModel(event) {
+    const id = event.id;
+    if(id !== null){
+      this.getModel(id)
+    }
+  }
+
+  getModel(id){
+    this.modelService.getModelByMakeId(id).subscribe( res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelName
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  
 
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
@@ -497,12 +524,7 @@ export class CreateEditWashesComponent implements OnInit {
             };
           }
         }
-        this.model = this.model.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+        
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,
