@@ -96,8 +96,11 @@
                                             <form>
                                                 <div class="form-row">
                                                     <div class="form-group col-sm m-l-5">
-                                                        <input type="search" class="form-control" placeholder="Search"
-                                                            (input)=searchVechicleList($event.target.value)>
+                                                        <input type="search"
+                                                        name="search" [(ngModel)] = "searchVechicle" name = "searchVechicle"
+                                                        size="20" class="form-control" placeholder="Search"
+                                                        (ngModelChange)="this.vehicleSearchUpdate.next($event)"   
+                                                          >
                                                     </div>
                                                 </div>
                                             </form>
@@ -141,8 +144,9 @@
                                                 <div class="form-row">
                                                 </div>
                                                 <div class="form-group col-sm m-l-5">
-                                                    <input type="search" class="form-control" placeholder="Search"
-                                                        (input)=searchHistory($event.target.value)>
+                                                    <input type="search" name="search" [(ngModel)] = "search"
+                                                    size="20" class="form-control" placeholder="Search"
+                                                    (ngModelChange)="this.searchUpdate.next($event)" >
                                                 </div>
                                             </form>
                                         </div>

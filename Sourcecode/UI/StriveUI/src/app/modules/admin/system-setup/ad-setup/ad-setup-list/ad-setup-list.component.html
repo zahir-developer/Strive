@@ -16,7 +16,8 @@
                                     <div class="form-row">
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                  size="35" name="search" id="inputSearch"
-                                                placeholder="Search by Name, Description" (input)=searchAdList($event.target.value)> </div>&nbsp;
+                                                  (ngModelChange)="this.searchUpdate.next($event)"
+                                                placeholder="Search by Name, Description" > </div>&nbsp;
                                     </div>
                                 </form>
                             </div>

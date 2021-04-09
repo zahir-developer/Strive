@@ -14,6 +14,8 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-washes-list',
@@ -33,12 +35,10 @@ export class WashesListComponent implements OnInit {
   dashboardDetails: any;
   locationId = +localStorage.getItem('empLocationId');
   TimeInFormat: any;
-  washListDetails = [];
 
   pageSizeList: number[];
   page: number;
   pageSize: number;
-  search: any = null;
 
   jobTypeId: any;
   maxDate = new Date()
@@ -48,11 +48,22 @@ export class WashesListComponent implements OnInit {
   startDate: any;
   endDate: any;
   sortColumn: { sortBy: string; sortOrder: string; };
+  public washListDetails: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe, private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private router: Router
     , private landingservice: LandingService, private detailService: DetailService,
-    private cd: ChangeDetectorRef,) { }
+    private cd: ChangeDetectorRef) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.Washes),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllWashDetails();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Washes, sortOrder: ApplicationConfig.Sorting.SortOrder.Washes.order };
@@ -73,7 +84,7 @@ export class WashesListComponent implements OnInit {
       date: new Date()
     };
     // this.washes.getDashBoard(obj);
-    this.getAllWashDetails();
+    // this.getAllWashDetails();
   }
   landing() {
     this.landingservice.loadTheLandingPage();
@@ -89,6 +100,11 @@ export class WashesListComponent implements OnInit {
     this.pageSize = +event.target.value;
     this.page = this.page;
     this.getAllWashDetails();
+    // this.searchUpdate.next($event)
+  }
+
+  searchCall(event) {
+    console.log(event, 'event');
   }
   onValueChange(event) {
     if (event !== null) {
@@ -115,7 +131,7 @@ export class WashesListComponent implements OnInit {
     };
     this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
-      
+
       if (data.status === 'Success') {
         this.spinner.hide()
         const wash = JSON.parse(data.resultData);
@@ -125,7 +141,7 @@ export class WashesListComponent implements OnInit {
           const totalRowCount = wash?.Washes?.Count?.Count;
           if (this.washDetails?.length > 0) {
             for (let i = 0; i < this.washDetails.length; i++) {
-              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model =  'Unk' : this.washDetails[i].Model ;
+              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
 
               let hh = this.washDetails[i].TimeIn.substring(13, 11);
               let m = this.washDetails[i].TimeIn.substring(16, 14);
@@ -311,11 +327,8 @@ export class WashesListComponent implements OnInit {
           jobtype.GetJobType.forEach(item => {
             if (item.valuedesc === 'Wash') {
               this.jobTypeId = item.valueid;
-              if (this.dashboardStaticsComponent?.jobTypeId) {
-                this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
-                this.dashboardStaticsComponent.getDashboardDetails();
-
-              }
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
             }
           });
         }

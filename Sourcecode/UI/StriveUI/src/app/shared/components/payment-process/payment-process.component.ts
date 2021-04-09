@@ -96,12 +96,7 @@ export class PaymentProcessComponent implements OnInit {
   }
 
   process() {
-    const obj = {
-
-    };
-    this.paymentService.post(obj).subscribe(res => {
-
-    });
+    this.activeModal.close(true);
   }
 
 }

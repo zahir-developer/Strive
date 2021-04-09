@@ -34,6 +34,7 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(this.addAuthorizationHeader(req, accessToken)).pipe(
             catchError(err => {
                 // in case of 401 http error 
+                console.log(err, 'error');
                 if (err instanceof HttpErrorResponse && err.status === 401) {
                     // get refresh tokens
                     const refreshToken = localStorage.getItem('refreshToken');
@@ -41,13 +42,13 @@ export class TokenInterceptor implements HttpInterceptor {
                     // if there are tokens then send refresh token request
                     if (refreshToken && accessToken) {
                         return this.refreshToken(req, next);
-                    }                    
+                    }
                     // otherwise logout and redirect to login page
                     return this.logoutAndRedirect(err);
                 }
 
                 // in case of 403 http error (refresh token failed)
-                if (err instanceof HttpErrorResponse && err.status === 404) {
+                if (err instanceof HttpErrorResponse && err.status === 403) {
 
                     // logout and redirect to login page
                     return this.logoutAndRedirect(err);

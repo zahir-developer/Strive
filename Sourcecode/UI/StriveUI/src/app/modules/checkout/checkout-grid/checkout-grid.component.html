@@ -16,12 +16,12 @@
                             <div class="card-body">
                                 <h4 class="d-inline-block m-b-5">Checkout - </h4>
                                 <div class="date d-inline-block datepicker-view " data-date-format="dd/mm/yyyy">
-                                    <input type="text" placeholder="Daterangepicker" name="dateRange" 
-                                    class="form-control" [(ngModel)]="daterangepickerModel"
-                                     bsDaterangepicker (bsValueChange)="onValueChange($event)"
-                                      [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : false}">
+                                    <input type="text" placeholder="Daterangepicker" name="dateRange"
+                                        class="form-control" [(ngModel)]="daterangepickerModel" bsDaterangepicker
+                                        (bsValueChange)="onValueChange($event)"
+                                        [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : false}">
 
-                                    
+
                                 </div>
                                 <div class="search-container  pull-right">
                                     <form>
@@ -30,10 +30,16 @@
 
                                             <div class="form-group d-flex">
 
-                                                <input type="search" class="form-control" [(ngModel)]="query" size="25" name="search" id="inputSearch" placeholder="Search" (keyup)="$event.keyCode == 13 ? checkOutSearch() : null"> </div>
+                                                <input type="search" class="form-control" [(ngModel)]="search" 
+                                                  (ngModelChange)="this.checkOutSearchUpdate.next($event)"
+                                                 size="20"
+                                                    name="search" 
+                                                    id="inputSearch" placeholder="Search"> </div>
 
                                             <div class="form-group d-flex col-sm m-l-5">
-                                                <button type="button" class="btn theme-primary-button-color btn-sm m-l-10" (click)="checkOutSearch()">Search</button>
+                                                <button type="button"
+                                                    class="btn theme-primary-button-color btn-sm m-l-10"
+                                                    (click)="checkOutSearch()">Search</button>
                                             </div>
                                         </div>
                                     </form>
@@ -46,17 +52,35 @@
                                         <table class="table border table-striped m-t-10 headerfix">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" class="pointer" (click)="changeSorting('TicketNumber')">Ticket No&nbsp; <i class="fa" [ngClass]="selectedCls('TicketNumber')"></i></th>
-                                                    <th scope="col" class="pointer" (click)="changeSorting('CustomerFirstName')">Cus. First Name&nbsp; <i class="fa" [ngClass]="selectedCls('CustomerFirstName')"></i></th>
-                                                    <th scope="col" class="pointer" (click)="changeSorting('CustomerLastName')">Cus. Last Name&nbsp; <i class="fa" [ngClass]="selectedCls('CustomerLastName')"></i></th>
-                                                    <th scope="col" class="pointer">Make/ Model/ Color&nbsp; <i class="fa"></i></th>
-                                                    <th scope="col" class="pointer" (click)="changeSorting('Checkin')">CheckIn&nbsp; <i class="fa" [ngClass]="selectedCls('Checkin')"></i></th>
-                                                    <th scope="col" class="pointer" (click)="changeSorting('Checkout')">Est. CheckOut&nbsp; <i class="fa" [ngClass]="selectedCls('Checkout')"></i></th>
-                                                    <th scope="col" class="pointer">Service&nbsp; <i class="fa"></i></th>
-                                                    <th scope="col" class="pointer">Additional Services&nbsp; <i class="fa"></i></th>
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('TicketNumber')">Ticket No&nbsp; <i
+                                                            class="fa" [ngClass]="selectedCls('TicketNumber')"></i></th>
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('CustomerFirstName')">Cus. First
+                                                        Name&nbsp; <i class="fa"
+                                                            [ngClass]="selectedCls('CustomerFirstName')"></i></th>
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('CustomerLastName')">Cus. Last Name&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('CustomerLastName')"></i>
+                                                    </th>
+                                                    <th scope="col" class="pointer">Make/ Model/ Color&nbsp; <i
+                                                            class="fa"></i></th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('Checkin')">
+                                                        CheckIn&nbsp; <i class="fa"
+                                                            [ngClass]="selectedCls('Checkin')"></i></th>
+                                                    <th scope="col" class="pointer" (click)="changeSorting('Checkout')">
+                                                        Est. CheckOut&nbsp; <i class="fa"
+                                                            [ngClass]="selectedCls('Checkout')"></i></th>
+                                                    <th scope="col" class="pointer">Service&nbsp; <i class="fa"></i>
+                                                    </th>
+                                                    <th scope="col" class="pointer">Additional Services&nbsp; <i
+                                                            class="fa"></i></th>
 
                                                     <th scope="col" class="pointer">Pay&nbsp; <i class="fa"></i></th>
-                                                    <th scope="col" class="pointer" (click)="changeSorting('MembershipName')">Membership<i class="fa" [ngClass]="selectedCls('MembershipName')"></i></th>
+                                                    <th scope="col" class="pointer"
+                                                        (click)="changeSorting('MembershipName')">Membership<i
+                                                            class="fa" [ngClass]="selectedCls('MembershipName')"></i>
+                                                    </th>
                                                     <th scope="col" class="pointer">Status&nbsp; <i class="fa"></i></th>
 
                                                     <th scope="col">Action</th>
@@ -64,28 +88,48 @@
                                             </thead>
                                             <tbody class="bodyfix">
                                                 <tr *ngFor="let checkout of uncheckedVehicleDetails">
-                                                    <th scope="row" style="border-left:5px solid" [ngStyle]="{'color': checkout.ColorCode, 'border-right-color': checkout.ColorCode}">
+                                                    <th scope="row" style="border-left:5px solid"
+                                                        [ngStyle]="{'color': checkout.ColorCode, 'border-right-color': checkout.ColorCode}">
                                                         {{checkout.TicketNumber}}</th>
                                                     <td>{{checkout.CustomerFirstName}}</td>
                                                     <td>{{checkout.CustomerLastName}}</td>
 
-                                                    <td class="table-ellipsis" pTooltip="{{checkout.VehicleDescription}}" tooltipPosition="top">{{checkout.VehicleMake}}, {{checkout.VehicleModel}}, {{checkout.VehicleColor}}</td>
+                                                    <td class="table-ellipsis"
+                                                        pTooltip="{{checkout.VehicleDescription}}"
+                                                        tooltipPosition="top">{{checkout.VehicleMake}},
+                                                        {{checkout.VehicleModel}}, {{checkout.VehicleColor}}</td>
                                                     <td>{{checkout.Checkin}}</td>
                                                     <td>{{checkout.Checkout}}</td>
-                                                    <td class="table-ellipsis" pTooltip="{{checkout.Services}}" tooltipPosition="top">{{checkout.Services}}</td>
-                                                    <td class="table-ellipsis" pTooltip="{{checkout.AdditionalServices}}" tooltipPosition="top">{{checkout.AdditionalServices | slice:0:20 }}{{checkout.AdditionalServices != null ? checkout.AdditionalServices.length > 20 ? '...' : '' : ''}} </td>
+                                                    <td class="table-ellipsis" pTooltip="{{checkout.Services}}"
+                                                        tooltipPosition="top">{{checkout.Services}}</td>
+                                                    <td class="table-ellipsis"
+                                                        pTooltip="{{checkout.AdditionalServices}}"
+                                                        tooltipPosition="top">
+                                                        {{checkout.AdditionalServices | slice:0:20 }}{{checkout.AdditionalServices != null ? checkout.AdditionalServices.length > 20 ? '...' : '' : ''}}
+                                                    </td>
                                                     <td>{{checkout.Cost | currency}}</td>
-                                                    <td class="table-ellipsis text-center" pTooltip="{{checkout.MembershipName}}" tooltipPosition="top">
-                                                        <em *ngIf="checkout.MembershipName !== ''" class="mdi mdi-bookmark font-size-1-5 " style="color: #FFA500;"></em>{{checkout.MembershipName}}
+                                                    <td class="table-ellipsis text-center"
+                                                        pTooltip="{{checkout.MembershipName}}" tooltipPosition="top">
+                                                        <em *ngIf="checkout.MembershipName !== ''"
+                                                            class="mdi mdi-bookmark font-size-1-5 "
+                                                            style="color: #FFA500;"></em>{{checkout.MembershipName}}
                                                     </td>
-                                                    <td [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'Paid' ? 'Green' : 'none'}">
-                                                        <span *ngIf="checkout.MembershipNameOrPaymentStatus == 'Paid'">{{checkout.MembershipNameOrPaymentStatus}}</span>
+                                                    <td
+                                                        [ngStyle]="{'color': checkout.MembershipNameOrPaymentStatus === 'Paid' ? 'Green' : 'none'}">
+                                                        <span
+                                                            *ngIf="checkout.MembershipNameOrPaymentStatus == 'Paid'">{{checkout.MembershipNameOrPaymentStatus}}</span>
                                                     </td>
-                                                    <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer" pTooltip="Checkout" tooltipPosition="top" (click)="statusConfirmation('Check Out',checkout)"></em>
-                                                        <em class="mdi mdi-file-clock font-size-1-5 pointer" [ngClass]="{ 'theme-primary-color': checkout.MembershipNameOrPaymentStatus !== 'Hold', 'theme-disabled-icon-color':checkout.MembershipNameOrPaymentStatus === 'Hold' }" pTooltip="Hold" tooltipPosition="top"
+                                                    <td><em class="mdi mdi-cart theme-secondary-icon-color font-size-1-5 pointer"
+                                                            pTooltip="Checkout" tooltipPosition="top"
+                                                            (click)="statusConfirmation('Check Out',checkout)"></em>
+                                                        <em class="mdi mdi-file-clock font-size-1-5 pointer"
+                                                            [ngClass]="{ 'theme-primary-color': checkout.MembershipNameOrPaymentStatus !== 'Hold', 'theme-disabled-icon-color':checkout.MembershipNameOrPaymentStatus === 'Hold' }"
+                                                            pTooltip="Hold" tooltipPosition="top"
                                                             (click)="statusConfirmation('Hold',checkout)"></em>
-                                                        <em class="mdi mdi-checkbox-marked  font-size-1-5 pointer" *ngIf="(checkout.MembershipNameOrPaymentStatus !== 'Completed' && checkout.valuedesc !== 'Completed') || (checkout.MembershipNameOrPaymentStatus !== 'PAID' && checkout.valuedesc !== 'Completed')"
-                                                            pTooltip="Complete" tooltipPosition="top" (click)="statusConfirmation('Complete',checkout)"></em>
+                                                        <em class="mdi mdi-checkbox-marked  font-size-1-5 pointer"
+                                                            *ngIf="(checkout.MembershipNameOrPaymentStatus !== 'Completed' && checkout.valuedesc !== 'Completed') || (checkout.MembershipNameOrPaymentStatus !== 'PAID' && checkout.valuedesc !== 'Completed')"
+                                                            pTooltip="Complete" tooltipPosition="top"
+                                                            (click)="statusConfirmation('Complete',checkout)"></em>
 
                                                     </td>
                                                 </tr>
@@ -98,13 +142,18 @@
                                         </table>
                                         <div class="row pull-right">
                                             <div class="col-6">
-                                                <ngb-pagination [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                <ngb-pagination [collectionSize]="collectionSize"
+                                                    (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3"
+                                                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                                                    class="d-flex justify-content-end">
                                                 </ngb-pagination>
                                             </div>
-                                            <select class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
-                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+                                            <select class="form-control col-4" name="paginate" [(ngModel)]="pageSize"
+                                                (change)="paginatedropdown($event)">
+                                                <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}
+                                                </option>
 
-                                    </select>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

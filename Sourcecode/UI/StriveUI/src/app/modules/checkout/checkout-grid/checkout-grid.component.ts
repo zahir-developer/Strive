@@ -9,6 +9,9 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { DatePipe } from '@angular/common';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { AnyAaaaRecord } from 'dns';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -16,13 +19,11 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./checkout-grid.component.css']
 })
 export class CheckoutGridComponent implements OnInit {
-  uncheckedVehicleDetails: any = [];
   isTableEmpty: boolean;
   page: any;
   pageSize: any;
   pageSizeList: any;
   collectionSize: number = 0;
-  search = '';
 
   query = '';
   startDate: Date;
@@ -32,6 +33,9 @@ export class CheckoutGridComponent implements OnInit {
   sortColumn: { sortBy: string; sortOrder: string; };
   currentWeek: Date;
   daterangepickerModel: Date[];
+  public uncheckedVehicleDetails: any[] = [];
+  public search: string;
+  checkOutSearchUpdate = new Subject<string>();
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
@@ -40,7 +44,13 @@ export class CheckoutGridComponent implements OnInit {
     private datePipe: DatePipe,
     private landingservice: LandingService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    // Debounce search.
+    this.checkOutSearchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.CheckOut), distinctUntilChanged()).subscribe(value => {
+        this.checkOutSearch();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
@@ -93,7 +103,7 @@ export class CheckoutGridComponent implements OnInit {
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
         if (this.uncheckedVehicleDetails?.length > 0) {
           for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
-            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel =  'Unk' : this.uncheckedVehicleDetails[i].VehicleModel ;
+            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
           }
         }
         if (this.uncheckedVehicleDetails == null) {

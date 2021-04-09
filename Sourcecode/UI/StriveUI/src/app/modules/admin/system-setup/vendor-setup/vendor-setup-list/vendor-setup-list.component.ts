@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vendor-setup-list',
@@ -12,25 +14,35 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   styleUrls: ['./vendor-setup-list.component.css']
 })
 export class VendorSetupListComponent implements OnInit {
-  vendorSetupDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  search: any = '';
   collectionSize: number = 0;
   page: any;
   pageSize: number;
   pageSizeList: number[];
   EmitPopup: boolean = true;
   sortColumn: { sortBy: any; sortOrder: any; };
+  public vendorSetupDetails: string[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
+
   constructor(
     private vendorService: VendorService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService) {
+      // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.ServiceSetup),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.vendorSearch();
+      });
+     }
 
   ngOnInit() {
     this.sortColumn ={

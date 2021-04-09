@@ -6,6 +6,8 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ad-setup-list',
@@ -14,14 +16,12 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 })
 export class AdSetupListComponent implements OnInit {
 
-  adSetupDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
   isLoading = true;
-  search: any = '';
   searchStatus: any;
   recordCount: any;
   page: any;
@@ -35,10 +35,21 @@ export class AdSetupListComponent implements OnInit {
   pdfData: any;
   serviceDetails: any;
   sortColumn: { sortBy: string; sortOrder: string; };
+   public adSetupDetails: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private getCode: GetCodeService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService) {
+       // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.AdSetup),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.searchAdList(value);
+      });
+     }
 
   ngOnInit() {
     this.sortColumn ={

@@ -17,7 +17,11 @@ export class AuthorizeService {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       if (routingPageId !== undefined) {
         const roleViews = JSON.parse(localStorage.getItem('views'));
-        if (true) {
+        console.log(roleViews, 'views');
+        console.log(this.userDataService.userDetails, 'module');
+        if (_.findWhere(roleViews, { ModuleName: routingPageId })) {
+          return true;
+        } else if (_.findWhere(roleViews, { ViewName: routingPageId })) {
           return true;
         }
         else {

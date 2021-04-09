@@ -9,6 +9,8 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-client-list',
@@ -16,7 +18,6 @@ import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-s
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
-  clientDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
@@ -24,7 +25,6 @@ export class ClientListComponent implements OnInit {
   isTableEmpty: boolean;
   isView: boolean;
   selectedClient: any;
-  search: any = '';
   locationId = +localStorage.getItem('empLocationId');
   collectionSize: number = 0;
 
@@ -34,13 +34,24 @@ export class ClientListComponent implements OnInit {
   jobTypeId: any;
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
   sortColumn: { sortBy: string; sortOrder: string; };
+  public clientDetails: any[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
     private spinner: NgxSpinnerService, private router: Router,
     private route: ActivatedRoute,
     private detailService: DetailService
-  ) { }
+  ) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.Client),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllClientDetails();
+      });
+   }
 
   ngOnInit() {
     this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };

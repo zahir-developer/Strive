@@ -1,5 +1,26 @@
 export const ApplicationConfig = {
 
+    DebounceTime : {
+        ServiceSetup: 1000,
+            ProductSetup: 1000,
+            VendorSetup: 1000,
+            checklistSetup: 1000,
+            MemberShipSetup: 1000,
+            Deals: 1000,
+            AdSetup: 1000,
+            location:1000,
+            TermsAndCondition: 1000,
+            EmployeeHandbook: 1000,
+            Employee: 1000,
+            Vehicle: 1000,
+            TimeClock: 1000,
+            Client: 1000,
+            PayRoll: 1000,
+            CheckOut: 1000,
+            Washes: 1000,
+            GiftCard: 1000,
+            customerHistory: 1000,
+    },
 
     PaginationConfig: {
         page: 1,

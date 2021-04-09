@@ -6,6 +6,8 @@ import { CheckoutService } from 'src/app/shared/services/data-service/checkout.s
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-history',
@@ -21,9 +23,10 @@ export class CustomerHistoryComponent implements OnInit {
   pageSize: any;
   pageSizeList: any;
   collectionSize: number;
-  historyList: any = [];
   offset1 = false;
-  searchQery: any = '';
+  public historyList: any[] = [];
+  public searchQery: string;
+  searchUpdate = new Subject<string>();
   months = [
     { val: '0', name: 'All' },
     { val: '1', name: 'Jan' },
@@ -44,7 +47,15 @@ export class CustomerHistoryComponent implements OnInit {
     private router: Router
     ,private landingservice:LandingService,
     private toastr : ToastrService
-  ) { }
+  ) { 
+     // Debounce search.
+     this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.DebounceTime.customerHistory),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.search();
+      });
+  }
 
   ngOnInit(): void {
     this.month = '0';
