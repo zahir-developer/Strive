@@ -13,4 +13,8 @@ export class ModelService {
   getModelByMakeId(Id) {
     return this.http.get(`${UrlConfig.common.modelByMakeId}`+  Id ,  { params: { makeId: Id } });
   }
+
+  getUpchargeTypeByModel(modalId) {
+    return this.http.get(`${UrlConfig.common.modelByMakeId}` +  modalId );
+  }
 }

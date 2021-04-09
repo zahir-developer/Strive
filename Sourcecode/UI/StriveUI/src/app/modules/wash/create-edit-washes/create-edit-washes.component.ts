@@ -16,6 +16,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { ModelService } from 'src/app/shared/services/common-service/model.service';
 declare var $: any;
 
 @Component({
@@ -86,7 +87,9 @@ export class CreateEditWashesComponent implements OnInit {
     private message: MessageServiceToastr,
     private landingservice: LandingService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
-    private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService) { }
+    private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService,
+    private modelService: ModelService
+    ) { }
 
   ngOnInit() {
 
@@ -357,11 +360,11 @@ export class CreateEditWashesComponent implements OnInit {
             Number(item.ServiceTypeId) === this.additionalId);
           this.washes = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.washId);
-          this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
-            Number(item.ServiceTypeId) === this.upchargeId);
+          // this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
+          //   Number(item.ServiceTypeId) === this.upchargeId);
           this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.airFreshenerId);
-          this.UpchargeType = this.upcharges;
+          // this.UpchargeType = this.upcharges;
           this.additional.forEach(element => {
             element.IsChecked = false;
           });
@@ -375,6 +378,19 @@ export class CreateEditWashesComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
 
+  }
+
+  getUpcharge(value) {
+    // console.log(value, 'upcharge');
+    const modalID = value.id;
+    this.modelService.getUpchargeTypeByModel(modalID).subscribe( res => {
+      if (res.status === 'Success') {
+        const upchargesList = JSON.parse(res.resultData);
+        console.log(upchargesList, 'upcharge');
+        this.UpchargeType = upchargesList.Model;
+        this.upcharges = upchargesList.Model;
+      }
+    });
   }
 
 
