@@ -329,7 +329,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceAir[0]);
       }
     }
-    this.detailForm.patchValue({ outsideServie: +data });
+    this.detailForm.patchValue({ outsideServie: +data ? +data : '' });
   }
 
   upchargeService(data) {
@@ -354,8 +354,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-    this.detailForm.patchValue({ upcharges: +data });
-    this.detailForm.patchValue({ upchargeType: +data });
+    this.detailForm.patchValue({ upcharges: +data ? +data : ''});
+    this.detailForm.patchValue({ upchargeType: +data ? +data : ''});
   }
 
   change(data) {
@@ -479,11 +479,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       type: { id: this.selectedData.Details.Make, name: this.selectedData?.Details?.vehicleMake },
       model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.vehicleModel },
       color: { id: this.selectedData.Details.Color, name: this.selectedData?.Details?.vehicleColor },
-      washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId,
-      upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
-      upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
-      airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId,
-      outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
+      washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId : '',
+      upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '',
+      upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '',
+      airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId : '',
+      outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId : ''
     });
     this.clientId = this.selectedData?.Details?.ClientId;
 
