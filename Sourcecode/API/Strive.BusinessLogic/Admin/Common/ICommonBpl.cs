@@ -17,5 +17,6 @@ namespace Strive.BusinessLogic.Common
 
         string GetTicketNumber(int locationId);
         Result GetModelByMakeId(int makeId);
+        Result GetUpchargeTypeByModel(int modelId);
     }
 }

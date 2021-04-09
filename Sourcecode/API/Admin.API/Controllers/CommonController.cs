@@ -75,6 +75,11 @@ namespace Admin.API.Controllers
         {
             return _commonBpl.GetModelByMakeId(makeId);
         }
-
+        [HttpGet]
+        [Route("GetUpchargeTypeByModel/{modelId}")]
+        public Result GetUpchargeTypeByModel(int modelId)
+        {
+            return _commonBpl.GetUpchargeTypeByModel(modelId);
+        }
     }
 }
