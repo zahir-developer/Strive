@@ -73,7 +73,7 @@ export class WashesListComponent implements OnInit {
       date: new Date()
     };
     // this.washes.getDashBoard(obj);
-    this.getAllWashDetails();
+    // this.getAllWashDetails();
   }
   landing() {
     this.landingservice.loadTheLandingPage();
