@@ -115,9 +115,9 @@ namespace StriveEmployee.Android.Adapter
 
             MessengerTempData.IsGroup = false;
 
-            MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName + " " + MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
+            MessengerTempData.RecipientName = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).FirstName + " " + MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).LastName;
             MessengerTempData.GroupUniqueID = null;
-            MessengerTempData.RecipientID = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).EmployeeId;
+            MessengerTempData.RecipientID = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).EmployeeId;
 
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();

@@ -11,7 +11,7 @@ namespace Strive.Core.Utils.Employee
     // Employee Temp Data
     public static class EmployeeTempData
     {
-        public static int EmployeeID { get; set; }
+        public static int EmployeeID { get; set; } = 1463;
         public static string MessengerTabHeader { get; set; }
         public static PersonalDetails EmployeePersonalDetails { get; set; }
         public static void ResetAll()
