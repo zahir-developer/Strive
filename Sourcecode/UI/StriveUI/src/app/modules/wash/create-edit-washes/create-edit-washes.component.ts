@@ -182,10 +182,14 @@ export class CreateEditWashesComponent implements OnInit {
       model: { id: this.selectedData?.Washes[0]?.Model, name: this.selectedData?.Washes[0]?.vehicleModel },
       color: { id: this.selectedData.Washes[0].Color, name: this.selectedData?.Washes[0]?.vehicleColor },
       notes: this.selectedData.Washes[0].ReviewNote,
-      washes: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId,
-      upchargeType: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId,
-      upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId,
-      airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId,
+      washes: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId ?
+      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId : '',
+      upchargeType: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId ?
+      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
+      upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId ?
+      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
+      airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId ?
+      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId : '',
     });
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
@@ -630,7 +634,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceWash[0]);
       }
     }
-    this.washForm.patchValue({ washes: +data });
+    this.washForm.patchValue({ washes: +data ? +data : '' });
   }
 
   upchargeService(data) {
@@ -655,8 +659,8 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-    this.washForm.patchValue({ upcharges: +data });
-    this.washForm.patchValue({ upchargeType: +data });
+    this.washForm.patchValue({ upcharges: +data ? +data : '' });
+    this.washForm.patchValue({ upchargeType: +data ? +data : '' });
   }
 
   airService(data) {

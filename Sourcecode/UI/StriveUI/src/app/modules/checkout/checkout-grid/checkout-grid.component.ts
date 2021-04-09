@@ -9,6 +9,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -93,7 +94,7 @@ export class CheckoutGridComponent implements OnInit {
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
         if (this.uncheckedVehicleDetails?.length > 0) {
           for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
-            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel =  'Unk' : this.uncheckedVehicleDetails[i].VehicleModel ;
+            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
           }
         }
         if (this.uncheckedVehicleDetails == null) {
@@ -170,18 +171,21 @@ export class CheckoutGridComponent implements OnInit {
 
         this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
           .then((confirmed) => {
+            const checkoutTime = new Date();
             const finalObj = {
               jobId: checkout.JobId,
               checkOut: true,
-              CheckoutTimeOut: new Date()
+              checkOutTime: checkoutTime
             };
             this.spinner.show();
             this.checkout.checkoutVehicle(finalObj).subscribe(res => {
               if (res.status === 'Success') {
                 this.spinner.hide();
-
                 this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
-                this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+                this.sortColumn = {
+                  sortBy: ApplicationConfig.Sorting.SortBy.Vehicle,
+                  sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order
+                };
 
                 this.getAllUncheckedVehicleDetails();
               }
