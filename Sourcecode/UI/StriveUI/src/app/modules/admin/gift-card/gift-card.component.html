@@ -199,7 +199,7 @@
                                                                 <tr *ngFor="let card of giftCardHistory">
                                                                     <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
                                                                     </td>
-                                                                    <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
+                                                                    <td>{{card.Status ? 'Active' : 'InActive'}}</td>
                                                                     <td>{{card.GiftCardId}}</td>
                                                                     <td>{{card.TransactionAmount | currency}}</td>
                                                                 </tr>

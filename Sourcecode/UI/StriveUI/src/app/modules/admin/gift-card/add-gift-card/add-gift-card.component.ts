@@ -144,7 +144,7 @@ export class AddGiftCardComponent implements OnInit {
       giftCardId: 0,
       locationId: +localStorage.getItem('empLocationId'),
       transactionType: null,
-      transactionAmount:  this.giftCardForm.value.amount,
+      transactionAmount:  this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
       transactionDate: moment(new Date()),
       comments: null,
       isActive: true,
