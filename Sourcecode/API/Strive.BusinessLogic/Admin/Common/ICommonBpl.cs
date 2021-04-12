@@ -14,8 +14,7 @@ namespace Strive.BusinessLogic.Common
         Result GetSearchResult<T>(string searchTerm);
         Result GetEmailIdExist(string emailId);
         Result GetCityByStateId(int stateId);
-
-        string GetTicketNumber(int locationId);
+        Result GetTicketNumber(int locationId);
         Result GetModelByMakeId(int makeId);
     }
 }
