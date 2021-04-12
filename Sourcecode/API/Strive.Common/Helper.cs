@@ -37,7 +37,9 @@ namespace Strive.Common
         {
             return new Result()
             {
-                ResultData = JsonConvert.SerializeObject(resultContent)
+                ResultData = JsonConvert.SerializeObject(resultContent),
+                Status = GlobalEnum.Success.ToString(),
+                StatusCode = HttpStatusCode.OK
             };
         }
 
@@ -45,7 +47,9 @@ namespace Strive.Common
         {
             return new Result()
             {
-                ResultData = errorText
+                ResultData = errorText,
+                Status = GlobalEnum.Fail.ToString(),
+                StatusCode = HttpStatusCode.Accepted
             };
         }
 

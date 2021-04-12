@@ -8,6 +8,5 @@ namespace Strive.BusinessEntities.Vendor
     {
         public Model.Vendor Vendor { get; set; }
         public Model.VendorAddress VendorAddress { get; set; }
-        public List<VendorEmailAddress> VendorEmailAddress { get; set; }
     }
 }
