@@ -97,7 +97,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DeleteResponse> DeleteDocuments(int documentID);
 
-        Task<CheckOutVehicleDetails> CheckOutVehicleDetails(GetAllEmployeeDetail_Request EmployeeID);
+        Task<CheckoutDetails> CheckOutVehicleDetails(GetAllEmployeeDetail_Request EmployeeID);
         
         Task<ScheduleModel> GetSchedulePastService(int clientID);
         

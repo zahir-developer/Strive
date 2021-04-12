@@ -14,7 +14,7 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
     {
         #region Properties
 
-        public CheckOutVehicleDetails CheckOutVehicleDetails { get; set; }
+        public CheckoutDetails CheckOutVehicleDetails { get; set; }
         #endregion Properties
 
         #region Commands
@@ -40,8 +40,9 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
             }
             else
             {
-                CheckOutVehicleDetails = new CheckOutVehicleDetails();
-                CheckOutVehicleDetails.GetCheckedInVehicleDetails = new List<GetCheckedInVehicleDetails>();
+                CheckOutVehicleDetails = new CheckoutDetails();
+                CheckOutVehicleDetails.GetCheckedInVehicleDetails = new GetCheckedInVehicleDetails();
+                CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel = new List<checkOutViewModel>();
                 CheckOutVehicleDetails = result;
             }
             _userDialog.HideLoading();
