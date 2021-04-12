@@ -6,6 +6,6 @@ namespace Strive.Core.Models.Customer
 {
     public class AddCustomerVehicle
     {
-        public List<clientVehicle> clientVehicle { get; set; }
+        public clientVehicle clientVehicle { get; set; }
     }
 }
