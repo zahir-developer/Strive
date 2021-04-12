@@ -45,42 +45,42 @@ namespace StriveEmployee.Android.Fragments
             contact_SearchView = rootView.FindViewById<SearchView>(Resource.Id.contacts_SearchView);
             contact_SearchView.QueryTextChange += Contact_SearchView_QueryTextChange; 
             searchAdapter = new MessengerSearchAdapter();
-            getContacts("%20");
+            getContacts();
             return rootView;
         }
 
         private async void Contact_SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeLists != null)
-            {
-               // getContacts(e.NewText);
-                var sortedResult = searchAdapter.SearchContacts(ViewModel.EmployeeLists.EmployeeList, e.NewText);
-                if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
-                {
-                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult);
-                    var layoutManager = new LinearLayoutManager(Context);
-                    contacts_RecyclerView.SetLayoutManager(layoutManager);
-                    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
-                }
-            }
-            else
-            {
-               // getContacts("%20");
-                messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList);
-                var layoutManager = new LinearLayoutManager(Context);
-                contacts_RecyclerView.SetLayoutManager(layoutManager);
-                contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
-            }
+            //if (!string.IsNullOrEmpty(e.NewText) && ViewModel.EmployeeLists != null)
+            //{
+            //   // getContacts(e.NewText);
+            //    var sortedResult = searchAdapter.SearchContacts(ViewModel.EmployeeLists.Employee, e.NewText);
+            //    if (sortedResult.Count >= 0 || string.IsNullOrEmpty(e.NewText))
+            //    {
+            //        messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, sortedResult);
+            //        var layoutManager = new LinearLayoutManager(Context);
+            //        contacts_RecyclerView.SetLayoutManager(layoutManager);
+            //        contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+            //    }
+            //}
+            //else
+            //{
+            //   // getContacts("%20");
+            //    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, ViewModel.EmployeeLists.EmployeeList);
+            //    var layoutManager = new LinearLayoutManager(Context);
+            //    contacts_RecyclerView.SetLayoutManager(layoutManager);
+            //    contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
+            //}
         }
 
-        private async void getContacts(string employeeName)
+        private async void getContacts()
         {
             if(MessengerTempData.EmployeeLists == null || MessengerTempData.ContactsCount < MessengerTempData.EmployeeLists.EmployeeList.Count)
             {
-                await ViewModel.GetContactsList(employeeName);
-                if(MessengerTempData.EmployeeLists != null || ViewModel.EmployeeLists != null || ViewModel.EmployeeLists.EmployeeList.Count != 0)
+                var employeeLists = await ViewModel.GetContactsList();
+                if(MessengerTempData.employeeList_Contact != null || employeeLists != null ||employeeLists.EmployeeList != null || employeeLists.EmployeeList.Employee != null)
                 {
-                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, MessengerTempData.EmployeeLists.EmployeeList);
+                    messengerContacts_Adapter = new MessengerContactsAdapter(this.Context, employeeLists.EmployeeList.Employee);
                     var layoutManager = new LinearLayoutManager(Context);
                     contacts_RecyclerView.SetLayoutManager(layoutManager);
                     contacts_RecyclerView.SetAdapter(messengerContacts_Adapter);
