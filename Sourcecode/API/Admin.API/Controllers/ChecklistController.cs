@@ -25,7 +25,10 @@ namespace Admin.API.Controllers
         [Route("GetChecklist")]
         public Result GetChecklist() => _bplManager.GetChecklist();
 
-        
+        [HttpGet]
+        [Route("GetChecklistById")]
+        public Result GetChecklistById(int id) => _bplManager.GetChecklistById(id);
+
         #endregion
 
         #region POST
@@ -42,5 +45,7 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteChecklist(int id) => _bplManager.DeleteChecklist(id);
+
+        
     }
 }

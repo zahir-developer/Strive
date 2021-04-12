@@ -116,7 +116,8 @@ namespace Strive.BusinessEntities
         public enum Checklist
         {
             USPGETCHECKLIST,
-            USPDELETECHECKLIST
+            USPDELETECHECKLIST,
+            USPGETCHECKLISTBYID,
         }
 
         public enum Client
