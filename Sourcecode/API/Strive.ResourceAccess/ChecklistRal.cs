@@ -27,10 +27,10 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Checklist.USPDELETECHECKLIST.ToString(), _prm);
             return true;
         }
-        public List<ChecklistViewModel> GetChecklistById(int id)
+        public List<ChecklistDetailViewModel> GetChecklistById(int id)
         {
             _prm.Add("ChecklistId", id.toInt());
-            return db.Fetch<ChecklistViewModel>(EnumSP.Checklist.USPGETCHECKLISTBYID.ToString(), _prm);
+            return db.Fetch<ChecklistDetailViewModel>(EnumSP.Checklist.USPGETCHECKLISTBYID.ToString(), _prm);
         }
     }
 }
