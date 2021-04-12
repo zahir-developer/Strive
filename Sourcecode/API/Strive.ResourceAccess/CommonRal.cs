@@ -145,10 +145,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<CityDto>(EnumSP.Employee.USPGETCITYBYSTATE.ToString(), _prm);
         }
 
-        public string GetTicketNumber(int locationId)
+        public TicketDto GetTicketNumber(int locationId)
         {
             _prm.Add("@locationId", locationId);
-            return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
+            return db.FetchSingle<TicketDto>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
 
         }
 

@@ -479,10 +479,10 @@ namespace Strive.BusinessLogic.Common
             return MailText;
         }
 
-        public string GetTicketNumber(int locationId)
+        public Result GetTicketNumber(int locationId)
         {
-            string ticketNumber = new CommonRal(_tenant, false).GetTicketNumber(locationId);
-            return ticketNumber;
+            return ResultWrap(new CommonRal(_tenant, false).GetTicketNumber, locationId, "GetTicketNumber");
+            
         }
 
         public Result GetModelByMakeId(int makeId)
