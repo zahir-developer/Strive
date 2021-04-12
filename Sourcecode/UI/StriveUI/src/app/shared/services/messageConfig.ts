@@ -169,6 +169,8 @@ add : 'Group user added successfully..!!!'
             Add: 'Location added successfully !',
             Update: 'Location updated successfully !',
             Delete: 'Location deleted successfully !',
+            Email : "Maximum 5 EmailId's  Only Allowed",
+            InvalidEmail :"Invalid Email"
          },
          ServiceSetup:
          {
@@ -242,8 +244,7 @@ add : 'Group user added successfully..!!!'
             Add: 'Vendor added successfully !',
             Update: 'Vendor updated successfully !',
             Delete: 'Vendor Deleted Successfully !',
-            Email : "Maximum 5 EmailId's  Only Allowed",
-            InvalidEmail :"Invalid Email"
+          
          },
       }
    }

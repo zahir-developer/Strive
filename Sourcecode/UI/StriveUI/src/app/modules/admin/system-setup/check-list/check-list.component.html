@@ -105,10 +105,17 @@
                                                             [(ngModel)]="notificationTime"
                                                             (timeChanged)="inTime($event)">
                                                         </ngx-timepicker-field>
-                                                    </div>
+                                                        <div >
+                                                         
+                                                            {{checkList.NotificationTime}}
+                                                        </div>
+                                                        <em
+                                                        class="fa fa-times-circle" ></em>  </div>
                                                 </span>
-                                                <span *ngIf="selectedData != checkList.ChecklistId">
-                                                    {{checkList.NotificationTime | date: 'hh:mm a'}}
+                                                <span title="{{checkList.NotificationTime}}" *ngIf="selectedData != checkList.ChecklistId">
+                                                    {{checkList.NotificationTime | slice:0:20}}
+                                                    {{(checkList.NotificationTime!== null) ? checkList.NotificationTime.length <= 20 ? ''
+                                                        : '...' :''}}
                                                 </span>
                                             </td>
                                             <td>

@@ -20,4 +20,8 @@ export class CheckListService {
     
     return this.http.delete(`${UrlConfig.Checklist.DeleteCheckList}`, { params: { id: id } });
   }
+  getById(id) {
+    
+    return this.http.get(`${UrlConfig.Checklist.getById}`, { params: { id: id } });
+  }
 }
