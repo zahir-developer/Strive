@@ -38,7 +38,7 @@ namespace StriveEmployee.Android.Fragments.MyTicket
             this.ViewModel = new AllTicketsViewModel();
             allTickets_RecyclerView = rootView.FindViewById<RecyclerView>(Resource.Id.allTickets_RecyclerView);
 
-            GetTickets();
+           // GetTickets();
 
            
 

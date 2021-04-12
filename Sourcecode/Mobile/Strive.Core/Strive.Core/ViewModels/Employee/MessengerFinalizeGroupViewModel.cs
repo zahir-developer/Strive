@@ -44,7 +44,7 @@ namespace Strive.Core.ViewModels.Employee
             groupChatInfo.chatUserGroup = new List<chatUserGroup>();
             AddCreatingUser();
 
-            foreach(var data in MessengerTempData.SelectedParticipants.EmployeeList)
+            foreach(var data in MessengerTempData.SelectedParticipants.EmployeeList.Employee)
             {
                 var participants = new chatUserGroup()
                 {

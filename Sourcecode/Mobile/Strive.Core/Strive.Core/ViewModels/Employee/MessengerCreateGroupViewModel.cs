@@ -52,8 +52,9 @@ namespace Strive.Core.ViewModels.Employee
 
                 if (MessengerTempData.SelectedParticipants == null)
                 {
-                    MessengerTempData.SelectedParticipants = new EmployeeLists();
-                    MessengerTempData.SelectedParticipants.EmployeeList = new List<Strive.Core.Models.Employee.Messenger.MessengerContacts.EmployeeList>();
+                    MessengerTempData.SelectedParticipants = new EmployeeList();
+                    MessengerTempData.SelectedParticipants.EmployeeList = new Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList();
+                    MessengerTempData.SelectedParticipants.EmployeeList.Employee = new List<Models.Employee.Messenger.MessengerContacts.Contacts.Employee>();
                 }
                
             }

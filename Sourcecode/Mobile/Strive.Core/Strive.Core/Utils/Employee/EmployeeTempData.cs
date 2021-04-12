@@ -44,8 +44,8 @@ namespace Strive.Core.Utils.Employee
         public static int ContactsCount { get; set; }
         public static bool IsCreateGroup { get; set; } = false;
         public static Dictionary<int, int> ChatParticipants { get; set; }
-        public static EmployeeLists SelectedParticipants { get; set; }
-        public static EmployeeList ExistingParticipants { get; set; }
+        public static EmployeeMessengerContacts SelectedParticipants { get; set; }
+        public static EmployeeMessengerContacts ExistingParticipants { get; set; }
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
