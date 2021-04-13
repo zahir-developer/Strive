@@ -8,7 +8,7 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ChecklistDetailViewModel
     {
-        public int ChecklistNotificationId { get; set; }
-        public DateTime NotificationTime { get; set; }
+        public ChecklistViewModel ChecklistDetail { get; set; }
+        public List<ChecklistNotificationViewModel> ChecklistNotificationTime { get; set; }
     }
 }
