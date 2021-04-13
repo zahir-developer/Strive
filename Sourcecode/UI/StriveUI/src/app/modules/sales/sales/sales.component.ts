@@ -748,10 +748,12 @@ tips = 0;
   getTicketNumber() {
     this.isSelected = false;
     this.ticketNumber = '';
-    this.salesService.getTicketNumber().subscribe(item => {
-      if(item){
+    this.salesService.getTicketNumber().subscribe(data => {
+      const ticket = JSON.parse(data.resultData);
+      if (data.status === 'Success') {
+        const ticket = JSON.parse(data.resultData);
         this.ticketNumberGeneration = true
-        this.newTicketNumber = item;
+        this.newTicketNumber = ticket.GetTicketNumber.TicketNumber;
       }
       else{
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
