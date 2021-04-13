@@ -42,6 +42,7 @@
                                             [disabled]="isNotificationTimeLimit"><span>{{time.time}}</span><em
                                                 class="fa fa-times-circle" (click)="removeTime(time)"></em></span>
                                     </div>
+
                                     <div class="form-group col-2 m-l-40 ">
                                         <button type="button" style="margin-left: 5%;"
                                             class="btn theme-primary-button-color btn-sm float-right"
@@ -105,18 +106,24 @@
                                                             [(ngModel)]="notificationTime"
                                                             (timeChanged)="inTime($event)">
                                                         </ngx-timepicker-field>
-                                                        <div >
-                                                         
-                                                            {{checkList.NotificationTime}}
-                                                        </div>
-                                                        <em
-                                                        class="fa fa-times-circle" ></em>  </div>
+                                                        <button type="button" style="margin-left: 5%;"
+                                                            [disabled]="isNotificationTimeLimit || notificationTime === ''"
+                                                            class="btn theme-primary-button-color btn-sm"
+                                                            (click)="editTime(checkList)"><i class="fa fa-plus"
+                                                                aria-hidden="true"></i></button>
+                                                    </div>
+                                                    <span *ngFor="let time of NotificationList"
+                                                        style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
+                                                        class="badge badge-secondary m-t-5 m-l-25"
+                                                        [disabled]="isNotificationTimeLimit"><span>{{time.NotificationTime}}</span>
+                                                    </span>
+                                                    <!-- <em class="fa fa-times-circle" (click)="deleteTime()"></em> -->
                                                 </span>
-                                                <span title="{{checkList.NotificationTime}}" *ngIf="selectedData != checkList.ChecklistId">
+                                                <span title="{{checkList.NotificationTime}}"
+                                                    *ngIf="selectedData != checkList.ChecklistId">
                                                     {{checkList.NotificationTime | slice:0:20}}
-                                                    {{(checkList.NotificationTime!== null) ? checkList.NotificationTime.length <= 20 ? ''
-                                                        : '...' :''}}
-                                                </span>
+                                                    {{(checkList.NotificationTime!== null) ?
+                                                    checkList.NotificationTime.length <= 20 ? '' : '...' :''}} </span>
                                             </td>
                                             <td>
                                                 <span *ngIf="selectedData == checkList.ChecklistId">
