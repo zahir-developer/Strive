@@ -22,7 +22,7 @@ namespace Strive.Core.ViewModels.Customer
         public CustomerUpdateVehicle updateVehicle { get; set; }
         public VehicleList vehicleDetails { get; set; }        
         public clientVehicle clientVehicle { get; set; }
-        public AddCustomerVehicle clientVehicles { get; set; }
+        public CustomerVehicles clientVehicles { get; set; }
         public VehicleList vehicleLists { get; set; }
 
 
@@ -148,20 +148,38 @@ namespace Strive.Core.ViewModels.Customer
                 if(CheckSaveVehicle())
                 {
                     _userDialog.ShowLoading(Strings.Loading);
-                    clientVehicles = new AddCustomerVehicle();
-                    clientVehicles.clientVehicle = new List<clientVehicle>();
-                    var selectedvehicle = new clientVehicle();
-                    selectedvehicle.clientId = CustomerInfo.ClientID;
-                    selectedvehicle.locationId = 1;
-                    selectedvehicle.vehicleModelNo = 0;
-                    selectedvehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
-                    selectedvehicle.vehicleModel = MembershipDetails.modelNumber;
-                    selectedvehicle.vehicleColor = MembershipDetails.colorNumber;
-                    selectedvehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
-                    selectedvehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
-                    selectedvehicle.isActive = true;
-                    selectedvehicle.isDeleted = false;
-                    clientVehicles.clientVehicle.Add(selectedvehicle);
+                    clientVehicles = new CustomerVehicles();
+                    clientVehicles.clientVehicle = new clientVehicle();
+                    clientVehicles.vehicleImage = new List<vehicleImage>();
+                    clientVehicles.clientVehicle = new clientVehicle();
+                   
+                    clientVehicles.clientVehicle.clientId = CustomerInfo.ClientID;
+                    clientVehicles.clientVehicle.locationId = 1;
+                    clientVehicles.clientVehicle.vehicleModelNo = 0;
+                    clientVehicles.clientVehicle.vehicleMfr = MembershipDetails.vehicleMakeNumber;
+                    clientVehicles.clientVehicle.vehicleModel = MembershipDetails.modelNumber;
+                    clientVehicles.clientVehicle.vehicleColor = MembershipDetails.colorNumber;
+                    clientVehicles.clientVehicle.createdDate = DateUtils.ConvertDateTimeWithZ();
+                    clientVehicles.clientVehicle.updatedDate = DateUtils.ConvertDateTimeWithZ();
+                    clientVehicles.clientVehicle.isActive = true;
+                    clientVehicles.clientVehicle.isDeleted = false;
+
+                    //var vehicleImage = new vehicleImage();
+                    //vehicleImage.vehicleImageId = 0;
+                    //vehicleImage.vehicleId = 0;
+                    //vehicleImage.imageName = "";
+                    //vehicleImage.originalImageName = "";
+                    //vehicleImage.thumbnailFileName = "";
+                    //vehicleImage.filePath = "";
+                    //vehicleImage.base64 = "";
+                    //vehicleImage.isActive = true;
+                    //vehicleImage.isDeleted = false;
+                    //vehicleImage.createdDate = DateUtils.ConvertDateTimeWithZ();
+                    //vehicleImage.createdBy = 0;
+                    //vehicleImage.updatedDate = DateUtils.ConvertDateTimeWithZ();
+                    //vehicleImage.updatedBy = 0;
+
+                    //clientVehicles.vehicleImage.Add(vehicleImage);
 
                     var data = await AdminService.AddCustomerVehicle(clientVehicles);
                     if (data == null)

@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Fragments;
@@ -54,11 +55,11 @@ namespace StriveEmployee.Android.Adapter
 
         Context context;
         private MessengerContactsRecycleHolder contactsRecycleHolder;
-        private List<EmployeeList> contacts = new List<EmployeeList>();
+        private List<Employee> contacts = new List<Employee>();
         private char[] firstInitial;
         private char[] secondInitial;
         public IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
-        public MessengerContactsAdapter(Context context, List<EmployeeList> contacts)
+        public MessengerContactsAdapter(Context context, List<Employee> contacts)
         {
             this.context = context;
             this.contacts = contacts;
@@ -114,9 +115,9 @@ namespace StriveEmployee.Android.Adapter
 
             MessengerTempData.IsGroup = false;
 
-            MessengerTempData.RecipientName = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).FirstName + " " + MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).LastName;
+            MessengerTempData.RecipientName = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).FirstName + " " + MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).LastName;
             MessengerTempData.GroupUniqueID = null;
-            MessengerTempData.RecipientID = MessengerTempData.EmployeeLists.EmployeeList.ElementAt(position).EmployeeId;
+            MessengerTempData.RecipientID = MessengerTempData.employeeList_Contact.EmployeeList.Employee.ElementAt(position).EmployeeId;
 
             AppCompatActivity activity = (AppCompatActivity)itemView.Context;
             MessengerPersonalChatFragment messengerPersonalChatFragment = new MessengerPersonalChatFragment();
