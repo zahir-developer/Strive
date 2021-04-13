@@ -158,15 +158,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   getTicketNumber() {
     if (!this.isEdit) {
-      this.wash.getTicketNumber().subscribe(item => {
-        if (item) {
-          this.ticketNumber = item;
+      this.wash.getTicketNumber().subscribe(data => {
+        const ticket = JSON.parse(data.resultData);
+        if (data.status === 'Success') {
+          const ticket = JSON.parse(data.resultData);
+          this.ticketNumber = ticket.GetTicketNumber.TicketNumber;
         }
         else {
           this.toastr.error(MessageConfig.TicketNumber, 'Error!');
-
         }
-
       });
     }
     this.assignDate();

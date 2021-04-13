@@ -109,7 +109,7 @@ export class CreateEditWashesComponent implements OnInit {
   formInitialize() {
 
     this.washForm = this.fb.group({
-      client: ['',Validators.required],
+      client: ['', Validators.required],
       vehicle: ['', Validators.required],
       type: ['',],
       barcode: ['',],
@@ -130,14 +130,15 @@ export class CreateEditWashesComponent implements OnInit {
 
   getTicketNumber() {
     if (!this.isEdit) {
-      this.wash.getTicketNumber().subscribe(item => {
-          if(item){
-            this.ticketNumber = item;
-          }
-          else{
-            this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+      this.wash.getTicketNumber().subscribe(data => {
+        if (data.status === 'Success') {
+          const ticket = JSON.parse(data.resultData);
+          this.ticketNumber = ticket.GetTicketNumber.TicketNumber;
+        }
+        else {
+          this.toastr.error(MessageConfig.TicketNumber, 'Error!');
 
-          }
+        }
       }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       })
@@ -152,8 +153,8 @@ export class CreateEditWashesComponent implements OnInit {
 
     const washTimeObj =
     {
-        locationId: +localStorage.getItem('empLocationId'),
-        dateTime: moment(new Date()).format()
+      locationId: +localStorage.getItem('empLocationId'),
+      dateTime: moment(new Date()).format()
     }
     this.detailService.getWashTimeByLocationId(washTimeObj).subscribe(res => {
       if (res.status === 'Success') {
@@ -183,13 +184,13 @@ export class CreateEditWashesComponent implements OnInit {
       color: { id: this.selectedData.Washes[0].Color, name: this.selectedData?.Washes[0]?.vehicleColor },
       notes: this.selectedData.Washes[0].ReviewNote,
       washes: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId ?
-      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId : '',
+        this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId : '',
       upchargeType: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId ?
-      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
+        this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
       upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId ?
-      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
+        this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
       airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId ?
-      this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId : '',
+        this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId : '',
     });
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
@@ -408,7 +409,7 @@ export class CreateEditWashesComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.target.value === '') {
-      this.washForm.patchValue({ vehicle: '' , barcode: '' , type: '', model: '', color: '', pastNotes: '' });
+      this.washForm.patchValue({ vehicle: '', barcode: '', type: '', model: '', color: '', pastNotes: '' });
       this.washForm.get('pastNotes').enable();
     }
   }
@@ -694,10 +695,10 @@ export class CreateEditWashesComponent implements OnInit {
     if (this.washForm.invalid) {
       return;
     }
- 
-     if (!this.ticketNumber) {
+
+    if (!this.ticketNumber) {
       this.toastr.error(MessageConfig.TicketNumber, 'Error!');
-  return;
+      return;
 
     }
     this.additional.forEach(element => {
@@ -882,7 +883,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.spinner.hide();
         const id = JSON.parse(data.resultData)
         this.generatedClientId = id?.Status[0];
-        this.getClientById(this.generatedClientId )
+        this.getClientById(this.generatedClientId)
         this.toastr.success(MessageConfig.Client.Add, 'Success!');
         this.closePopupEmitClient();
       } else {
@@ -903,41 +904,42 @@ export class CreateEditWashesComponent implements OnInit {
 
         const clientDetail = JSON.parse(res.resultData);
         const selectedclient = clientDetail.Status[0];
-        this.selectclient= 
-    { id: selectedclient.ClientId,
-       name:selectedclient.FirstName + ' ' + selectedclient.LastName
-      }
-       
-       this.washForm.patchValue({
-     
-      client: this.selectclient
-  
-     })
-     
-    this.selectedClient(this.selectclient)
-       
-    
-   } 
-   else{
-    this.spinner.hide();
-    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.selectclient =
+        {
+          id: selectedclient.ClientId,
+          name: selectedclient.FirstName + ' ' + selectedclient.LastName
+        }
 
-   }
+        this.washForm.patchValue({
+
+          client: this.selectclient
+
+        })
+
+        this.selectedClient(this.selectclient)
+
+
+      }
+      else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
     }, (err) => {
       this.spinner.hide();
 
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    }) 
+    })
   }
   getJobStatus() {
     const jobStatus = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.JobStatus);
     if (jobStatus.length > 0) {
-      this.jobStatus = jobStatus.filter(item => item.CodeValue ===  ApplicationConfig.CodeValue.inProgress);
+      this.jobStatus = jobStatus.filter(item => item.CodeValue === ApplicationConfig.CodeValue.inProgress);
       if (this.jobStatus.length > 0) {
         this.jobStatusId = this.jobStatus[0].CodeId;
       }
     }
-  
+
   }
 
   pay() {
