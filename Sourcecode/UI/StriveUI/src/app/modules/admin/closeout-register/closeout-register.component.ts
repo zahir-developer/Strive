@@ -296,19 +296,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
-    let checkoutTime = '';
-    if (this.isUpdate && !this.isTimechange) {
-      const time = this.storeTimeOut.split(':');
-      const hour = time[0];
-      const minutes = time[1];
-      const inTime: any = new Date(this.date);
-      inTime.setHours(hour);
-      inTime.setMinutes(minutes);
-      inTime.setSeconds('00');
-      checkoutTime = this.datePipe.transform(inTime, 'MM/dd/yyyy HH:mm');
-    } else {
-      checkoutTime = this.datePipe.transform(this.storeTimeOut, 'MM/dd/yyyy HH:mm');
-    }
+   
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CloseRegisterId,
@@ -432,10 +420,15 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.getTotalCash();
   }
 
-  // Calculate TotalCash
-  getTotalCash() {
-    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
+  tipsEvent(event){
+    this.tips = +event;
+    this.getTotalCash();
+  
   }
+    // Calculate TotalCash
+    getTotalCash() {
+      this.totalCash = this.tips+ this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
+    }
   onValueChange(event) {
     let selectedDate = event;
     let today;
@@ -502,27 +495,5 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     
     );
   }
-  inTime(event) {
-    console.log(event, 'time');
-    const time = event.split(':');
-    const hour = time[0];
-    const minutes = time[1];
-    const checkinTime: any = new Date(this.date);
-    checkinTime.setHours(hour);
-    checkinTime.setMinutes(minutes);
-    checkinTime.setSeconds('00');
-    this.storeTimeIn = checkinTime;
-  }
-
-  outTime(event) {
-    this.isTimechange = true;
-    const time = event.split(':');
-    const hour = time[0];
-    const minutes = time[1];
-    const checkoutTime: any = new Date(this.date);
-    checkoutTime.setHours(hour);
-    checkoutTime.setMinutes(minutes);
-    checkoutTime.setSeconds('00');
-    this.storeTimeOut = checkoutTime;
-  }
+ 
 }

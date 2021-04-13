@@ -104,7 +104,8 @@ export const ApplicationConfig = {
     },
    
     EmailSize: {
-VendorSetup : 5
+VendorSetup : 5,
+location: 5
     },
     
     UploadSize:

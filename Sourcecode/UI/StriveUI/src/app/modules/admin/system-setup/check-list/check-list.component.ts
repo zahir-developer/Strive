@@ -39,6 +39,7 @@ export class CheckListComponent implements OnInit {
   notificationTimeList: any = [];
   notificationTime = '';
   isNotificationTimeLimit: boolean;
+  NotificationList = [];
   constructor(
     private employeeService: EmployeeService,
     private checkListSetup: CheckListService,
@@ -76,6 +77,7 @@ export class CheckListComponent implements OnInit {
     this.isLoading = true;
     this.notificationTime = '';
     this.notificationTimeList = [];
+    this.NotificationList = [];
     this.checkListSetup.getCheckListSetup().subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
@@ -89,7 +91,6 @@ export class CheckListComponent implements OnInit {
           todayDate.setHours(hours);
           todayDate.setMinutes(min);
           todayDate.setSeconds('00');
-          item.NotificationTime = todayDate;
         });
         if (this.checkListDetails.length === 0) {
           this.isTableEmpty = true;
@@ -126,6 +127,7 @@ export class CheckListComponent implements OnInit {
     }
 
   }
+
   getAllRoles() {
     this.employeeService.getAllRoles().subscribe(res => {
       if (res.status === 'Success') {
@@ -188,10 +190,33 @@ export class CheckListComponent implements OnInit {
       this.isEdit = false;
       this.submit(serviceDetails);
     } else {
-      this.selectedData = serviceDetails.ChecklistId;
-      this.notificationTime = this.datePipe.transform(serviceDetails.NotificationTime, 'HH:mm');
-      this.isEdit = true;
-      this.checklistAdd = false;
+      this.checkListSetup.getById(serviceDetails.ChecklistId).subscribe(data => {
+        if (data.status === "Success") {
+          this.selectedData = serviceDetails.ChecklistId;
+          this.isEdit = true;
+          this.checklistAdd = false;       
+          const sType = JSON.parse(data.resultData);
+          this.selectedData = sType.ChecklistById;
+          this.NotificationList = [];
+          
+  
+        } else {
+          this.spinner.hide();
+  
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }
+      ,  (err) => {
+        this.spinner.hide();
+  
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+  
+  
+    
+
+  
+    
     }
   }
   cancel() {
@@ -199,7 +224,7 @@ export class CheckListComponent implements OnInit {
   }
 
   addTime() {
-    if (this.notificationTimeList.length >= 5) {
+    if (this.notificationTimeList.length >= 10) {
       this.isNotificationTimeLimit = true;
       this.notificationTime = '';
       return;
@@ -242,7 +267,17 @@ export class CheckListComponent implements OnInit {
         return;
       }
     }
-
+    this.notificationTimeList.forEach(element => {
+      this.NotificationList.push({
+        checkListNotificationId: 0,
+        checkListId: data.ChecklistId ? data.ChecklistId : 0,
+        notificationTime: element.time,
+        isActive: true,
+        isDeleted: false,
+      })
+     
+    });
+    
     const formObj = {
       checkList: {
         ChecklistId: data.ChecklistId ? data.ChecklistId : 0,
@@ -251,13 +286,7 @@ export class CheckListComponent implements OnInit {
         IsDeleted: false,
         IsActive: true,
       },
-      checkListNotification: {
-        checkListNotificationId: 0,
-        checkListId: data.ChecklistId ? data.ChecklistId : 0,
-        notificationTime: this.notificationTimeList[this.notificationTimeList.length - 1].time,
-        isActive: true,
-        isDeleted: false,
-      }
+      checkListNotification: this.NotificationList
     };
     if (data.ChecklistId) {
       this.spinner.show();
