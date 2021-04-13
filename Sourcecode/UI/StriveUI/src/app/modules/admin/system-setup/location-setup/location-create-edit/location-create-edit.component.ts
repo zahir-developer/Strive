@@ -9,6 +9,7 @@ import { CountryDropdownComponent } from 'src/app/shared/components/country-drop
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -45,6 +46,8 @@ export class LocationCreateEditComponent implements OnInit {
   isOffset: boolean;
   employeeId: number;
   errorMessage: boolean = false;
+  emailList = [];
+  emailAddress = [];
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -73,26 +76,38 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: [''],
+      email: '',
       franchise: ['',],
       workHourThreshold: ['',]
     });
   }
-  testMail(event) {
-    
-    if(!this.validateEmail( this.locationSetupForm.value.email)) {
-       this.errorMessage =  true;
-    }
-    else{
-      this.errorMessage =  false;
-
-    }
-  }
+ 
   
-  validateEmail(email) {
-     var re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/
-     return re.test(String(email).toLowerCase());
- }
+  addEmail() {
+    if (this.emailList.length >= ApplicationConfig.EmailSize.location) {
+      this.toastr.error(MessageConfig.Admin.SystemSetup.BasicSetup.Email, 'Error!');
+      return;
+    }
+    
+    var re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if(!re.test(this.locationSetupForm.value.email)){
+      this.toastr.error(MessageConfig.Admin.SystemSetup.BasicSetup.InvalidEmail, 'Error!');
+
+     return 
+    }
+    this.emailList.push({
+      email: this.locationSetupForm.value.email
+    });
+    this.emailList.forEach((item, index) => {
+      item.id = index;
+    });
+    this.locationSetupForm.controls.email.reset();
+
+  }
+  removeEmail(email) {
+    this.emailList = this.emailList.filter(item => item.id !== email.id);
+
+  }
   getLocationById() {
     const locationAddress = this.selectedData.LocationAddress;
     this.selectedStateId = locationAddress.State;
@@ -159,10 +174,24 @@ export class LocationCreateEditComponent implements OnInit {
       this.selectTab(0);
       return;
     }
-    if (this.errorMessage ==  true) {
-      return;
-    }
- 
+    
+    this.emailList.forEach((item, index) => {
+      item.id = index;
+      this.emailAddress.push({
+        locationEmailId: 0,
+        locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+        emailAddress: item.email,
+        isActive: true,
+        isDeleted: false,
+        createdBy: this.employeeId,
+        createdDate: moment(new Date()).format('YYYY-MM-DD'),
+        updatedBy: this.employeeId,
+        updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+     
+      }
+        
+      )
+    });
     const sourceObj = [];
     this.address = {
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,
@@ -171,7 +200,7 @@ export class LocationCreateEditComponent implements OnInit {
       address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber: this.locationSetupForm.value.phoneNumber,
       phoneNumber2: '',
-      email: this.locationSetupForm.value.email,
+      email: null,
       city: this.city,
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
@@ -241,6 +270,7 @@ export class LocationCreateEditComponent implements OnInit {
       location: formObj,
       locationAddress: this.address,
       locationOffset,
+      locationEmail: this.emailAddress
      
     };
     if (this.isEdit === false) {

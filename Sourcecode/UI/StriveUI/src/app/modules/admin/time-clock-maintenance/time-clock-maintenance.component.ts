@@ -235,6 +235,9 @@ this.spinner.show();
   }
 
   addEmployee() {
+    if(this.selectedEmployee.EmployeeId == null){
+return
+    }
     const employeeObj = {
       timeClockId: 0,
       employeeId: this.selectedEmployee.EmployeeId,
