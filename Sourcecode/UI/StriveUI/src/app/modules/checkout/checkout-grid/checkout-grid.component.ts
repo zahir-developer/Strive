@@ -48,7 +48,7 @@ export class CheckoutGridComponent implements OnInit {
 
     const currentDate = new Date();
     const first = currentDate.getDate();
-    const last = first - 7;
+    const last = currentDate.getDate();
     this.startDate = new Date(currentDate.setDate(last));
     this.currentWeek = this.startDate;
     const lastDate = new Date();
