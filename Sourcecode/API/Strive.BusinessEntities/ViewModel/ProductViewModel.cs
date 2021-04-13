@@ -23,5 +23,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string VendorName { get; set; }
         public string VendorPhone { get; set; }
         public string Base64 { get; set; }
+        public string ProductTypeName { get; set; }
     }
 }
