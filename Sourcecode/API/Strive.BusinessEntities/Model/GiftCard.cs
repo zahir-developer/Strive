@@ -32,6 +32,9 @@ namespace Strive.BusinessEntities.Model
         public string Comments { get; set; }
 
         [Column]
+        public string Email { get; set; }
+
+        [Column]
         public bool? IsActive { get; set; }
 
         [Column]
