@@ -75,21 +75,16 @@
                     <div class="form-group col-lg-3">
                         <label for="inputEmail">Email</label>
                         <div class="form-row">
-                            <input type="email" maxlength="50" class="col-10 form-control" formControlName="email" placeholder="Email">
-                            <button type="button"
-                            style="margin-top : -36px; margin-left : 159px"
-                            class="btn theme-primary-button-color col-2 btn-sm" (click)="addEmail()"><i
-                                class="fa fa-plus" aria-hidden="true"></i></button>  
+                            <input type="email" maxlength="50" class="col-10 form-control" formControlName="email"
+                                placeholder="Email">
+                            <button type="button" style="margin-top : -36px; margin-left : 159px"
+                                class="btn theme-primary-button-color col-2 btn-sm" (click)="addEmail()"><i
+                                    class="fa fa-plus"  aria-hidden="true"></i></button>
                         </div>
-                               
-                                  <span *ngFor="let time of emailList"
-                        style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
-                        class="badge badge-secondary"
-                      ><span>{{time.email}}</span>
-                      <em
-                            class="fa fa-times-circle" (click)="removeEmail(time)"></em></span>
-        
-                        
+                        <span *ngFor="let time of emailList"
+                            style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
+                            class="badge badge-secondary m-t-5"><span>{{time.EmailAddress}}</span>
+                            <em class="fa fa-times-circle" *ngIf="isEdit"  (click)="removeEmail(time)"></em></span>
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputWorkThreshold">Work Hour Threshold</label>
@@ -133,8 +128,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetA</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" class="form-control" [(ngModel)]="offsetA"
-                                placeholder="0.00">
+                            <input type="text" class="form-control" [(ngModel)]="offsetA" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -142,8 +136,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetB</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" class="form-control" [(ngModel)]="offsetB"
-                                placeholder="0.00">
+                            <input type="text" class="form-control" [(ngModel)]="offsetB" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -151,8 +144,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetC</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" class="form-control" [(ngModel)]="offsetC"
-                                placeholder="0.00">
+                            <input type="text" class="form-control" [(ngModel)]="offsetC" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -160,8 +152,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetD</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" class="form-control" [(ngModel)]="offsetD"
-                                placeholder="0.00">
+                            <input type="text" class="form-control" [(ngModel)]="offsetD" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -169,8 +160,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetE</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" class="form-control" [(ngModel)]="offsetE"
-                                placeholder="0.00">
+                            <input type="text" class="form-control" [(ngModel)]="offsetE" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -178,8 +168,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetF</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" class="form-control" [(ngModel)]="offsetF"
-                                placeholder="0.00">
+                            <input type="text" class="form-control" [(ngModel)]="offsetF" placeholder="0.00">
                         </div>
                     </div>
                 </div>
