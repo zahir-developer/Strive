@@ -24,5 +24,6 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? TotalPaid { get; set; }
         public bool? IsProcessed { get; set; }
         public bool? IsRollBack { get; set; }
+        public decimal? Tips { get; set; }
     }
 }
