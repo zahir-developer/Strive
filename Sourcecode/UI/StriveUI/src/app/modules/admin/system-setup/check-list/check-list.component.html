@@ -36,12 +36,13 @@
                                             [disabled]="isNotificationTimeLimit || notificationTime === ''"
                                             class="btn theme-primary-button-color btn-sm" (click)="addTime()"><i
                                                 class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <span *ngFor="let time of notificationTimeList"
+                                            style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
+                                            class="badge badge-secondary m-t-5 m-l-25"
+                                            [disabled]="isNotificationTimeLimit"><span>{{time.time}}</span><em
+                                                class="fa fa-times-circle" (click)="removeTime(time)"></em></span>
                                     </div>
-                                    <span *ngFor="let time of notificationTimeList"
-                                        style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
-                                        class="badge badge-secondary m-t-5 m-l-25"
-                                        [disabled]="isNotificationTimeLimit"><span>{{time.time}}</span><em
-                                            class="fa fa-times-circle" (click)="removeTime(time)"></em></span>
+
                                     <div class="form-group col-2 m-l-40 ">
                                         <button type="button" style="margin-left: 5%;"
                                             class="btn theme-primary-button-color btn-sm float-right"
