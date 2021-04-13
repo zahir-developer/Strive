@@ -190,33 +190,23 @@ export class CheckListComponent implements OnInit {
       this.isEdit = false;
       this.submit(serviceDetails);
     } else {
-      this.checkListSetup.getById(serviceDetails.ChecklistId).subscribe(data => {
-        if (data.status === "Success") {
+      this.checkListSetup.getById(serviceDetails.ChecklistId).subscribe(res => {
+        if (res.status === "Success") {
           this.selectedData = serviceDetails.ChecklistId;
           this.isEdit = true;
-          this.checklistAdd = false;       
-          const sType = JSON.parse(data.resultData);
-          this.selectedData = sType.ChecklistById;
+          this.checklistAdd = false;
+          const sType = JSON.parse(res.resultData);
+          // this.selectedData = sType.ChecklistById;
           this.NotificationList = [];
-          
-  
         } else {
           this.spinner.hide();
-  
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }
       ,  (err) => {
         this.spinner.hide();
-  
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
-  
-  
-    
-
-  
-    
     }
   }
   cancel() {

@@ -393,6 +393,7 @@ tips = 0;
             this.cash = +summary?.Cash;
             this.account = +summary?.Account;
             this.credit = +summary?.Credit;
+            this.tips = +summary?.Tips;
             this.discountAmount = summary?.Discount;
             this.originalGrandTotal = +this.grandTotal;
             this.giftCard = Math.abs(+summary?.GiftCard);
