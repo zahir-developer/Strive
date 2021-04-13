@@ -9,6 +9,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-check-list',
@@ -83,15 +84,15 @@ export class CheckListComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
-        this.checkListDetails.forEach(item => {
-          const time = item.NotificationTime.split(':');
-          const hours = time[0];
-          const min = time[1];
-          const todayDate: any = new Date();
-          todayDate.setHours(hours);
-          todayDate.setMinutes(min);
-          todayDate.setSeconds('00');
-        });
+        // this.checkListDetails.forEach(item => {
+        //   const time = item.NotificationTime.split(':');
+        //   const hours = time[0];
+        //   const min = time[1];
+        //   const todayDate: any = new Date();
+        //   todayDate.setHours(hours);
+        //   todayDate.setMinutes(min);
+        //   todayDate.setSeconds('00');
+        // });
         if (this.checkListDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -197,16 +198,31 @@ export class CheckListComponent implements OnInit {
           this.checklistAdd = false;
           const sType = JSON.parse(res.resultData);
           // this.selectedData = sType.ChecklistById;
-          this.NotificationList = [];
+          this.NotificationList = sType.ChecklistById.ChecklistNotificationTime;
+          this.NotificationList.forEach(item => {
+            const date = item.NotificationTime.split(':');
+            const hours = date[0];
+            const min = date[1];
+            const todayDate: any = new Date();
+            todayDate.setHours(hours);
+            todayDate.setMinutes(min);
+            todayDate.setSeconds('00');
+            item.NotificationTime = this.datePipe.transform(todayDate, 'HH:mm');
+          });
+          if (this.NotificationList.length >= 5) {
+            this.isNotificationTimeLimit = true;
+          } else {
+            this.isNotificationTimeLimit = false;
+          }
         } else {
           this.spinner.hide();
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }
-      ,  (err) => {
-        this.spinner.hide();
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
+        , (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
   }
   cancel() {
@@ -224,6 +240,22 @@ export class CheckListComponent implements OnInit {
     });
     this.notificationTimeList.forEach((item, index) => {
       item.id = index;
+    });
+    this.notificationTime = '';
+  }
+
+  editTime(checkList) {
+    if (this.NotificationList.length >= 10) {
+      this.isNotificationTimeLimit = true;
+      this.notificationTime = '';
+      return;
+    }
+    this.NotificationList.push({
+      checkListNotificationId: 0,
+      checkListId: checkList.ChecklistId,
+      NotificationTime: this.notificationTime,
+      isActive: true,
+      isDeleted: false,
     });
     this.notificationTime = '';
   }
@@ -264,10 +296,8 @@ export class CheckListComponent implements OnInit {
         notificationTime: element.time,
         isActive: true,
         isDeleted: false,
-      })
-     
+      });
     });
-    
     const formObj = {
       checkList: {
         ChecklistId: data.ChecklistId ? data.ChecklistId : 0,
@@ -282,7 +312,6 @@ export class CheckListComponent implements OnInit {
       this.spinner.show();
       this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
           if (res.status === 'Success') {
             this.spinner.hide();
             this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
