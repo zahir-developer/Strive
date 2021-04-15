@@ -39,7 +39,7 @@ export class ProductSetupListComponent implements OnInit {
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
-    this.productSearch();
+    this.getAllproductSetupDetails();
 
   }
 
