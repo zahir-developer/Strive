@@ -72,21 +72,21 @@
                                         <tr
                                             *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
-                                                <span *ngIf="selectedData != checkList.ChecklistId">
+                                                <span >
                                                     <span title="{{checkList.Name}}">
                                                         {{checkList.Name | slice:0:15}}
                                                         {{(checkList.Name!== null) ? checkList.Name.length <= 15 ? ''
                                                             : '...' :''}} </span>
                                                     </span>
-                                                    <span *ngIf="selectedData == checkList.ChecklistId">
+                                                    <!-- <span *ngIf="selectedData == checkList.ChecklistId">
 
                                                         <input type="text" maxlength="100" class="form-control"
                                                             name="CheckList" [(ngModel)]="checkList.Name"
                                                             placeholder="Enter Check List">
-                                                    </span>
+                                                    </span> -->
                                             </td>
                                             <td>
-                                                <span *ngIf="selectedData == checkList.ChecklistId">
+                                                <!-- <span *ngIf="selectedData == checkList.ChecklistId">
                                                     <div class="form-group d-flex">
                                                         <select name="Roles" [(ngModel)]="checkList.RoleId"
                                                             class="form-control" [placeholder]="'Select Role'">
@@ -94,13 +94,13 @@
                                                                 value="{{role.RoleMasterId}}">{{role.RoleName}}</option>
                                                         </select>
                                                     </div>
-                                                </span>
-                                                <span *ngIf="selectedData != checkList.ChecklistId">
+                                                </span> -->
+                                                <span>
                                                     {{checkList.RoleName}}
                                                 </span>
                                             </td>
                                             <td>
-                                                <span *ngIf="selectedData == checkList.ChecklistId">
+                                                <!-- <span *ngIf="selectedData == checkList.ChecklistId">
                                                     <div class="form-group d-flex">
                                                         <ngx-timepicker-field [format]="24"
                                                             [(ngModel)]="notificationTime"
@@ -116,17 +116,16 @@
                                                         style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
                                                         class="badge badge-secondary m-t-5 m-l-25"
                                                         [disabled]="isNotificationTimeLimit"><span>{{time.NotificationTime}}</span>
-                                                    </span>
-                                                    <!-- <em class="fa fa-times-circle" (click)="deleteTime()"></em> -->
-                                                </span>
-                                                <span title="{{checkList.NotificationTime}}"
-                                                    *ngIf="selectedData != checkList.ChecklistId">
+                                                    </span> *ngIf="selectedData != checkList.ChecklistId"
+                                                    
+                                                </span> -->
+                                                <span title="{{checkList.NotificationTime}}">
                                                     {{checkList.NotificationTime | slice:0:20}}
                                                     {{(checkList.NotificationTime!== null) ?
                                                     checkList.NotificationTime.length <= 20 ? '' : '...' :''}} </span>
                                             </td>
                                             <td>
-                                                <span *ngIf="selectedData == checkList.ChecklistId">
+                                                <!-- <span >
                                                     <em class="fa fa-floppy-o  theme-secondary-icon-color m-r-10 m-t-8"
                                                         style="color:green" pTooltip="Save" tooltipPosition="bottom"
                                                         (click)="submit(checkList)"></em>&nbsp;&nbsp;
@@ -135,9 +134,8 @@
                                                     <em class="fa fa-ban  theme-optional-icon-color m-t-8"
                                                         style="color:red" pTooltip="Cancel" tooltipPosition="bottom"
                                                         (click)="cancel()"></em>
-                                                </span>
-                                                <span *ngIf="selectedData != checkList.ChecklistId">
-
+                                                </span> -->
+                                                <span>
                                                     <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                         style="color:green" pTooltip="Edit" tooltipPosition="bottom"
                                                         (click)="add('edit', checkList)"></em>&nbsp;&nbsp;
