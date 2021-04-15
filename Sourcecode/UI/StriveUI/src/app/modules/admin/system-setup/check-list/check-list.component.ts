@@ -10,6 +10,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { EditChecklistComponent } from './edit-checklist/edit-checklist.component';
 
 @Component({
   selector: 'app-check-list',
@@ -23,7 +25,7 @@ export class CheckListComponent implements OnInit {
   checkListDetails: any = [];
   isTableEmpty: boolean;
   collectionSize: number = 0;
-  selectedData: boolean = false;
+  selectedData: any;
   isEdit: boolean;
   checkListName: any;
   RoleId = [];
@@ -48,7 +50,8 @@ export class CheckListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +69,6 @@ export class CheckListComponent implements OnInit {
   }
   checlist() {
     this.checklistAdd = true;
-    this.selectedData = false;
   }
   checklistcancel() {
     this.checkListName = '';
@@ -193,11 +195,12 @@ export class CheckListComponent implements OnInit {
     } else {
       this.checkListSetup.getById(serviceDetails.ChecklistId).subscribe(res => {
         if (res.status === "Success") {
-          this.selectedData = serviceDetails.ChecklistId;
+          // this.selectedData = serviceDetails.ChecklistId;
           this.isEdit = true;
           this.checklistAdd = false;
           const sType = JSON.parse(res.resultData);
           // this.selectedData = sType.ChecklistById;
+          this.selectedData = sType.ChecklistById;
           this.NotificationList = sType.ChecklistById.ChecklistNotificationTime;
           this.NotificationList.forEach(item => {
             const date = item.NotificationTime.split(':');
@@ -209,11 +212,21 @@ export class CheckListComponent implements OnInit {
             todayDate.setSeconds('00');
             item.NotificationTime = this.datePipe.transform(todayDate, 'HH:mm');
           });
-          if (this.NotificationList.length >= 5) {
-            this.isNotificationTimeLimit = true;
-          } else {
-            this.isNotificationTimeLimit = false;
-          }
+          const ngbModalOptions: NgbModalOptions = {
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg'
+          };
+          const modalRef = this.modalService.open(EditChecklistComponent, ngbModalOptions);
+          modalRef.componentInstance.NotificationList = this.NotificationList;
+          modalRef.componentInstance.selectedData = this.selectedData;
+          modalRef.componentInstance.rollList = this.rollList;
+          modalRef.result.then((result) => {
+            if (result) {
+              this.isNotificationTimeLimit = false;
+              this.getAllcheckListDetails();
+            }
+          });
         } else {
           this.spinner.hide();
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
