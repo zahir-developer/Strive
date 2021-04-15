@@ -51,8 +51,8 @@ export class EditChecklistComponent implements OnInit {
       return;
     }
     this.NotificationList.push({
-      checkListNotificationId: 0,
-      checkListId: this.selectedData.ChecklistDetail.ChecklistId,
+      ChecklistNotificationId: 0,
+      CheckListId: this.selectedData.ChecklistDetail.ChecklistId,
       NotificationTime: this.notificationTime,
       isActive: true,
       isDeleted: false,
@@ -120,7 +120,7 @@ export class EditChecklistComponent implements OnInit {
       checkListNotification: notificationTimeList
     };
     this.spinner.show();
-    this.checkListSetup.addCheckListSetup(finalObj).subscribe(res => {
+    this.checkListSetup.updateChecklist(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
