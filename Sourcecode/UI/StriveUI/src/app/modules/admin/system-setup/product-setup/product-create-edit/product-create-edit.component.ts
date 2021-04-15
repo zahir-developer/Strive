@@ -68,7 +68,6 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       this.productSetupForm.reset();
       this.getProductById();
-      this.getSize();
     }
   }
 
@@ -137,9 +136,12 @@ export class ProductCreateEditComponent implements OnInit {
   // Get Size
   getSize() {
     const sizeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.Size);
-    if (sizeCodes.length > 0) {
-      this.size = sizeCodes;
-    }
+    this.getCode.getCodeByCategory(ApplicationConfig.CodeValueByType.Size).subscribe(res => {
+      if (res.status === 'Success') {
+        const code = JSON.parse(res.resultData);
+        this.size = code.Codes;
+      }
+    });
   }
   // Get All Vendors
   getAllVendor() {
@@ -153,6 +155,7 @@ export class ProductCreateEditComponent implements OnInit {
             name: item.VendorName
           };
         });
+        this.getSize();
         this.dropdownSetting();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -195,25 +198,25 @@ export class ProductCreateEditComponent implements OnInit {
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product;
         let name = '';
-        this.location.forEach( item => {
+        this.location.forEach(item => {
           if (+item.id === +this.selectedProduct.LocationId) {
             name = item.name;
           }
         });
         const locObj = {
-          id : this.selectedProduct.LocationId,
+          id: this.selectedProduct.LocationId,
           name
         };
         const selectedLocation = [];
         selectedLocation.push(locObj);
         let vendorName = '';
-        this.Vendor.forEach( item => {
+        this.Vendor.forEach(item => {
           if (+item.id === +this.selectedProduct.VendorId) {
             vendorName = item.name;
           }
         });
         const vendorObj = {
-          id : this.selectedProduct.VendorId,
+          id: this.selectedProduct.VendorId,
           name: vendorName
         };
         const selectedVendor = [];
@@ -295,28 +298,28 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
       (this.productSetupForm.value.locationName || []).forEach(item => {
         const vendorList = [];
-        this.productSetupForm.value.vendor.forEach(vendor => {
-          productObj.productCode = null;
-          productObj.productDescription = null;
-          productObj.productType = this.productSetupForm.value.productType;
-          productObj.productId = this.isEdit ? this.selectedProduct.ProductId : 0;
-          productObj.locationId = item.id;
-          productObj.productName = this.productSetupForm.value.name;
-          productObj.fileName = this.fileName;
-          productObj.OriginalFileName = this.fileName;
-          productObj.thumbFileName = this.fileThumb;
-          productObj.base64 = this.fileUploadformData;
-          productObj.cost = this.productSetupForm.value.cost;
-          productObj.isTaxable = this.isChecked;
-          productObj.taxAmount = this.isChecked ? this.productSetupForm.value.taxAmount : 0;
-          productObj.size = this.productSetupForm.value.size;
-          productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
-          productObj.quantity = this.productSetupForm.value.quantity;
-          productObj.quantityDescription = null;
-          productObj.isActive = this.productSetupForm.value.status === 0 ? true : false;
-          productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
-          productObj.isDeleted = false;
-          productObj.price = this.productSetupForm.value.suggested;
+        productObj.productCode = null;
+        productObj.productDescription = null;
+        productObj.productType = this.productSetupForm.value.productType;
+        productObj.productId = this.isEdit ? this.selectedProduct.ProductId : 0;
+        productObj.locationId = item.id;
+        productObj.productName = this.productSetupForm.value.name;
+        productObj.fileName = this.fileName;
+        productObj.OriginalFileName = this.fileName;
+        productObj.thumbFileName = this.fileThumb;
+        productObj.base64 = this.fileUploadformData;
+        productObj.cost = this.productSetupForm.value.cost;
+        productObj.isTaxable = this.isChecked;
+        productObj.taxAmount = this.isChecked ? this.productSetupForm.value.taxAmount : 0;
+        productObj.size = this.productSetupForm.value.size;
+        productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
+        productObj.quantity = this.productSetupForm.value.quantity;
+        productObj.quantityDescription = null;
+        productObj.isActive = this.productSetupForm.value.status === 0 ? true : false;
+        productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
+        productObj.isDeleted = false;
+        productObj.price = this.productSetupForm.value.suggested;
+        (this.productSetupForm.value.vendor || []).forEach(vendor => {
           vendorList.push({
             productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
