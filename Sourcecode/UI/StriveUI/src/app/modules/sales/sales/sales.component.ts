@@ -341,7 +341,6 @@ export class SalesComponent implements OnInit {
         }
       });
       this.spinner.show();
-
       const salesObj =
       {
         TicketNumber: ticketNumber,

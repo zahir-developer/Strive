@@ -12,7 +12,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   encapsulation: ViewEncapsulation.None
 })
 export class EditChecklistComponent implements OnInit {
-  notificationTime: any = '';
+  notificationTime = '';
   roleId: any = '';
   checkListName: any;
   isNotificationTimeLimit: boolean;
@@ -45,6 +45,9 @@ export class EditChecklistComponent implements OnInit {
   }
 
   editTime() {
+    if (this.notificationTime === '') {
+      return;
+    }
     if (this.NotificationList.length >= 10) {
       this.isNotificationTimeLimit = true;
       this.notificationTime = '';
