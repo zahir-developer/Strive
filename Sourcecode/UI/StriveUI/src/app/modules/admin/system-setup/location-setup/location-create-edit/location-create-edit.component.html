@@ -64,8 +64,8 @@
                         <label for="inputPhoneNumber">Phone Number</label>
                         <input appPhoneMask type="text" maxlength="14" class="form-control"
                             formControlName="phoneNumber" placeholder="(XXX) XXX-XXXX"
-                            [ngClass]="{ 'is-invalid':submitted  && f.phoneNumber.errors }">
-                        <div *ngIf="submitted  && f.phoneNumber.errors" class="invalid-feedback">
+                            [ngClass]="{ 'is-invalid':f.phoneNumber.errors }">
+                        <div *ngIf=" f.phoneNumber.errors" class="invalid-feedback">
                             <div *ngIf="f.phoneNumber.errors.minlength">Phone number must be 10 digits</div>
                         </div>
                     </div>
