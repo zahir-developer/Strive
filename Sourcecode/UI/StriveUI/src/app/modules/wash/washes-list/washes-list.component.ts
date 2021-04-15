@@ -59,7 +59,7 @@ export class WashesListComponent implements OnInit {
 
     const currentDate = new Date();
     const first = currentDate.getDate();
-    const last = first - 7;
+    const last = first - 1;
     this.startDate = new Date(currentDate.setDate(last));
     this.currentWeek = this.startDate;
     const lastDate = new Date();
@@ -306,16 +306,14 @@ export class WashesListComponent implements OnInit {
   getJobType() {
     this.detailService.getJobType().subscribe(res => {
       if (res.status === 'Success') {
+        
         const jobtype = JSON.parse(res.resultData);
         if (jobtype.GetJobType.length > 0) {
           jobtype.GetJobType.forEach(item => {
             if (item.valuedesc === 'Wash') {
               this.jobTypeId = item.valueid;
-              if (this.dashboardStaticsComponent?.jobTypeId) {
-                this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
-                this.dashboardStaticsComponent.getDashboardDetails();
-
-              }
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
             }
           });
         }
