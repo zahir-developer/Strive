@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Strive.BusinessEntities.ViewModel.Product
 {
-    public class ProductAddDto
+    public class ProductListDto
     {
         public List<ProductsDto> Product { get; set; }
 

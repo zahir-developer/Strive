@@ -98,8 +98,8 @@ export const ApplicationConfig = {
     },
     UploadFileType:
     {
-        AdSetup: ['png', 'jpeg', 'jpg'],
-        EmployeeHandbook: ['pdf', 'docx', 'doc'],
+        AdSetup: ['png ', 'jpg ', 'jpeg'],
+        EmployeeHandbook: ['pdf ', 'doc ', 'docx'],
         TermsAndCondition: ['pdf']
     },
    

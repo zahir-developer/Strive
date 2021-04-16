@@ -23,12 +23,12 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public Result Add([FromBody] ProductAddDto product) => _bplManager.AddProduct(product);
+        public Result Add([FromBody] ProductListDto product) => _bplManager.AddProduct(product);
 
 
         [HttpPost]
         [Route("Update")]
-        public Result Update([FromBody] Product product) => _bplManager.UpdateProduct(product);
+        public Result Update([FromBody] ProductListDto product) => _bplManager.UpdateProduct(product);
 
 
         [HttpDelete]
@@ -42,6 +42,10 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetProductById")]
         public Result GetProduct(int productId) => _bplManager.GetProduct(productId);
+
+        [HttpGet]
+        [Route("GetProductDetailById")]
+        public Result GetProductDetail(int productId) => _bplManager.GetProductDetail(productId);
 
         [HttpPost]
         [Route("GetAllProductImage")]

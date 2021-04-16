@@ -177,6 +177,7 @@ export const UrlConfig = {
   product: {
     getProduct: `Admin/Product/GetAll`,
     getProductById: `Admin/Product/GetProductById`,
+    getProductDetailById: `Admin/Product/GetProductDetailById`,
     addProduct: `Admin/Product/Add`,
     updateProduct: `Admin/Product/Update`,
     deleteProduct: `Admin/Product/Delete`

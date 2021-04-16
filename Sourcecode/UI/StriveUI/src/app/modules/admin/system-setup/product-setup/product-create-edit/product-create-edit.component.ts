@@ -43,6 +43,7 @@ export class ProductCreateEditComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   location: any;
   productSetupList: any = [];
+  productVendorList: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -188,37 +189,45 @@ export class ProductCreateEditComponent implements OnInit {
   // Get Product By Id
   getProductById() {
     this.spinner.show();
-    this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
+    this.product.getProductDetailById(this.selectedData.ProductId).subscribe(data => {
       if (data.status === "Success") {
         this.spinner.hide();
 
         const pType = JSON.parse(data.resultData);
-        this.selectedProduct = pType.Product;
+        this.selectedProduct = pType.Product.ProductDetail;
+        const Vendors = pType.Product.ProductVendor
         let name = '';
-        this.location.forEach( item => {
-          if (+item.id === +this.selectedProduct.LocationId) {
-            name = item.name;
-          }
-        });
-        const locObj = {
-          id : this.selectedProduct.LocationId,
-          name
-        };
+
+        //location 
         const selectedLocation = [];
-        selectedLocation.push(locObj);
-        let vendorName = '';
-        this.Vendor.forEach( item => {
-          if (+item.id === +this.selectedProduct.VendorId) {
-            vendorName = item.name;
-          }
-        });
-        const vendorObj = {
-          id : this.selectedProduct.VendorId,
-          name: vendorName
+        const locObj = {
+          id: this.selectedProduct.LocationId,
+          name: this.selectedProduct.LocationName,
         };
-        const selectedVendor = [];
-        selectedVendor.push(vendorObj);
+
+        selectedLocation.push(locObj);
+
+        //Vendor
+        const selectedVendors = [];
+        Vendors.forEach(item => {
+          selectedVendors.push(
+            {
+              id: item.VendorId,
+              name: item.VendorName
+            });
+
+          this.productVendorList.push(
+            {
+              ProductVendorId: item.ProductVendorId,
+              ProductId: item.ProductId,
+              VendorId: item.VendorId,
+              IsActive: true,
+              IsDeleted: false
+            });
+        });
+
         this.dropdownSetting();
+
         this.productSetupForm.patchValue({
           productType: this.selectedProduct.ProductType,
           locationName: selectedLocation,
@@ -230,7 +239,7 @@ export class ProductCreateEditComponent implements OnInit {
           size: this.selectedProduct.Size,
           quantity: this.selectedProduct.Quantity,
           status: this.selectedProduct.IsActive ? 0 : 1,
-          vendor: selectedVendor,
+          vendor: selectedVendors,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
         this.fileName = this.selectedProduct.FileName;
@@ -285,9 +294,8 @@ export class ProductCreateEditComponent implements OnInit {
       }
       return;
     }
-    const formObj = {
-      Product: this.productSetupList
-    };
+
+
     const obj: any = {};
     const productObj: any = {};
     const productList = [];
@@ -317,6 +325,7 @@ export class ProductCreateEditComponent implements OnInit {
           productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
           productObj.isDeleted = false;
           productObj.price = this.productSetupForm.value.suggested;
+
           vendorList.push({
             productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
