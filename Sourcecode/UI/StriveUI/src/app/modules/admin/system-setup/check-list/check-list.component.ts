@@ -131,6 +131,18 @@ export class CheckListComponent implements OnInit {
 
   }
 
+  dropdownSetting() {
+    this.dropdownSettings = {
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
+    };
+  }
+
   getAllRoles() {
     this.employeeService.getAllRoles().subscribe(res => {
       if (res.status === 'Success') {
@@ -142,16 +154,7 @@ export class CheckListComponent implements OnInit {
             item_text: item.RoleName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropdownSetting();
       }
     }
       , (err) => {

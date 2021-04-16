@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" >Edit Checklist </h5>
+        <h5 class="modal-title">Edit Checklist </h5>
     </div>
     <div class="modal-body">
         <div class="form-row">
@@ -22,12 +22,15 @@
                 </div>
                 <button type="button" style="margin-left: 5%;"
                     [disabled]="isNotificationTimeLimit || notificationTime === ''"
-                    class="btn theme-primary-button-color btn-sm"><i class="fa fa-plus" aria-hidden="true" (click)="editTime()"></i></button>
-                <span *ngFor="let time of NotificationList"
-                    style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
-                    class="badge badge-secondary m-t-5 m-l-25"
-                    [disabled]="isNotificationTimeLimit"><span>{{time.NotificationTime}}</span><em
-                        class="fa fa-times-circle" (click)="removeTime(time)"></em></span>
+                    class="btn theme-primary-button-color btn-sm"><i class="fa fa-plus" aria-hidden="true"
+                        (click)="editTime()"></i></button>
+                <div class="form-group row">
+                    <span *ngFor="let time of NotificationList"
+                        style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
+                        class="badge badge-secondary m-t-5 m-l-10"
+                        [disabled]="isNotificationTimeLimit"><span>{{time.NotificationTime}}</span><em
+                            class="fa fa-times-circle" (click)="removeTime(time)"></em></span>
+                </div>
             </div>
         </div>
     </div>

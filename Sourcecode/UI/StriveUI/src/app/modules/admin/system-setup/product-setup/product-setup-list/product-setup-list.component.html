@@ -5,7 +5,8 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Product List</h5>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="add('add',[])">Add
                             New Product</button>
                     </div>
                     <div class="setup-wrapper">
@@ -13,16 +14,21 @@
                             <div class="search-container  pull-right">
                                 <form>
                                     <div class="form-row">
-                                        <div class="form-group d-flex"> <input type="search" class="form-control" [(ngModel)]="search" size="40" name="search" id="inputSearch" placeholder="Search by Name, Vendor, Type, Size" (keyup)="$event.keyCode == 13 ? productSearch() : null"> </div>
+                                        <div class="form-group d-flex"> <input type="search" class="form-control"
+                                                [(ngModel)]="search" size="40" name="search" id="inputSearch"
+                                                placeholder="Search by Name, Vendor, Type, Size"
+                                                (keyup)="$event.keyCode == 13 ? productSearch() : null"> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button" class="btn theme-primary-button-color btn-sm m-l-10" (click)="productSearch()">Search</button>
+                                            <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
+                                                (click)="getAllproductSetupDetails()">Search</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list" *ngIf="!isLoading">
+                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list"
+                                    *ngIf="!isLoading">
                                     <thead>
                                         <tr>
                                             <th class="pointer" (click)="changesort('ProductName')">Name
@@ -54,7 +60,8 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bodyfix">
-                                        <tr *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                        <tr
+                                            *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>
                                             <td title="{{productSetup.LocationName}}">{{productSetup.LocationName | slice: 0:19}} {{productSetup.LocationName !== null ? (productSetup.LocationName.length > 19 ? '...': '') : ''}}</td>
                                             <td>{{productSetup.ProductTypeName}}</td>
@@ -65,11 +72,15 @@
                                             <td title="{{productSetup.VendorPhone}}">{{productSetup.VendorPhone | slice:0:26 }} {{ (productSetup.VendorPhone !== null) ? (productSetup.VendorPhone.lenghth > 26 ? '...' : '') : ''}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
-                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green" pTooltip="Edit" tooltipPosition="bottom" (click)="add('edit', productSetup)"></em>&nbsp;&nbsp;
-                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color" style="color:red" pTooltip="Delete" tooltipPosition="bottom" (click)="delete(productSetup)"></em>
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
+                                                    style="color:green" pTooltip="Edit" tooltipPosition="bottom"
+                                                    (click)="add('edit', productSetup)"></em>&nbsp;&nbsp;
+                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                    style="color:red" pTooltip="Delete" tooltipPosition="bottom"
+                                                    (click)="delete(productSetup)"></em>
                                             </td>
                                         </tr>
-                                        <tr *ngIf="productSetupDetails.length == 0">
+                                        <tr *ngIf="productSetupDetails?.length == 0">
                                             <td colspan="12" class="text-center"> No Records Found</td>
                                         </tr>
                                     </tbody>
@@ -79,10 +90,10 @@
                                 </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                        <ngb-pagination *ngIf="productSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        <ngb-pagination *ngIf="productSetupDetails?.length > 0" [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
                                     </div>
-                                    <select *ngIf="productSetupDetails.length > 0" class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                    <select *ngIf="productSetupDetails?.length > 0" class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                         <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
 
                                     </select>
@@ -96,7 +107,9 @@
         </div>
     </div>
 </div>
-<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
-    <app-product-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
+<p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
+    [responsive]="true" [focusOnShow]="false" [closable]="false">
+    <app-product-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
+        (closeDialog)="closePopupEmit($event)">
     </app-product-create-edit>
 </p-dialog>

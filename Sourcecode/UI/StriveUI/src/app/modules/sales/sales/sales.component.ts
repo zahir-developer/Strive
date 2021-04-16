@@ -40,7 +40,7 @@ export class SalesComponent implements OnInit {
   Products = [];
   isInvalidGiftcard = false;
   discount = '';
-tips = 0;
+  tips = 0;
   discountCash = 0;
   isDisableService = false;
   discounts = [];
@@ -106,8 +106,10 @@ tips = 0;
   isTenTicketNumber: boolean;
   serviceType: any = [];
   locationId: number;
+  isCreditPay: boolean;
   ngOnInit(): void {
     this.isTenTicketNumber = false;
+    this.isCreditPay = false;
     this.locationId = +localStorage.getItem('empLocationId');
     this.giftCardFromInit();
     this.addItemFormInit();
@@ -284,6 +286,9 @@ tips = 0;
   }
 
   addTicketNumber() {
+    if (this.ticketNumber === '') {
+      return;
+    }
     const alreadyAdded = this.multipleTicketNumber.filter(item => item === this.ticketNumber);
     if (alreadyAdded.length === 0) {
       this.multipleTicketNumber.push(this.ticketNumber);
@@ -291,9 +296,9 @@ tips = 0;
     } else {
       this.ticketNumber = '';
       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.Ticket });
-  
-  return;
-  }
+
+      return;
+    }
 
     if (this.multipleTicketNumber.length > 10) {
       this.isTenTicketNumber = true;
@@ -329,7 +334,7 @@ tips = 0;
       const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
         : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
-        ticketNumber: ticketNumber,
+        ticketNumber
       };
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
@@ -341,8 +346,7 @@ tips = 0;
         }
       });
       this.spinner.show();
-
-      const salesObj = 
+      const salesObj =
       {
         TicketNumber: ticketNumber,
         LocationId: this.locationId
@@ -401,7 +405,7 @@ tips = 0;
             this.totalPaid = +summary?.TotalPaid;
             if (+this.account === 0.00) {
               this.account = this.accountDetails?.SalesAccountViewModel?.IsAccount === true &&
-               this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp ? +this.grandTotal : 0;
+                this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp ? +this.grandTotal : 0;
               this.calculateTotalpaid(+this.account);
             }
           }
@@ -417,10 +421,10 @@ tips = 0;
             this.enableButton = false;
           }
         }
-        else{
+        else {
           this.spinner.hide();
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-  
+
         }
       }, (err) => {
         this.enableAdd = false;
@@ -471,16 +475,16 @@ tips = 0;
     this.salesService.deleteItemById(deleteItem).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body:  MessageConfig.Sales.ItemDelete});
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.ItemDelete });
         this.getDetailByTicket(false);
-      } else {       
-         this.spinner.hide();
+      } else {
+        this.spinner.hide();
 
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.spinner.hide();
- this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
     });
   }
   openCash() {
@@ -684,9 +688,10 @@ tips = 0;
       } else {
         this.salesService.addItem(formObj).subscribe(data => {
           if (data.status === 'Success') {
-            this.messageService.showMessage({ severity: 'success', title: 'Success', body:MessageConfig.Sales.Add });
+            this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
             this.isSelected = true;
-            this.ticketNumber = this.newTicketNumber;
+            // this.ticketNumber = this.newTicketNumber;
+            this.multipleTicketNumber.push(this.newTicketNumber);
             this.getDetailByTicket(false);
             this.addItemForm.controls.quantity.enable();
             this.addItemFormInit();
@@ -701,7 +706,7 @@ tips = 0;
   updateListItem(formObj, flag) {
     this.salesService.updateListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success',  body:MessageConfig.Sales.Add});
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
         this.getDetailByTicket(flag);
         this.addItemForm.controls.quantity.enable();
         this.addItemFormInit();
@@ -755,9 +760,9 @@ tips = 0;
         this.ticketNumberGeneration = true
         this.newTicketNumber = ticket.GetTicketNumber.TicketNumber;
       }
-      else{
+      else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
-  }
+      }
     });
     this.enableAdd = true;
     this.clearpaymentField();
@@ -769,7 +774,7 @@ tips = 0;
     if (this.credit > (this.originalGrandTotal - this.totalPaid - this.discountAmount + this.credit)) {
       this.credit = 0;
       this.creditcashback = 0;
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body:MessageConfig.Sales.creditAmount  });
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.creditAmount });
       return;
     }
     this.calculateTotalpaid(this.credit);
@@ -888,7 +893,7 @@ tips = 0;
           } else if (item.DiscountServiceType === null) {
             noServiceTypePrice = noServiceTypePrice + item.Price;
           } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.ServiceDiscounts) {
-            this.allService.forEach( service => {
+            this.allService.forEach(service => {
               allServiceCost = allServiceCost + service.Price;
             });
             item.Price = String(item.Price).replace('-', '');
@@ -920,21 +925,21 @@ tips = 0;
     if (this.selectedDiscount.length > 0) {
       const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
       if (dup.length > 0) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate});
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
         return;
       }
     }
     if (this.discountService.length > 0) {
       const duplicatecheck = this.discountService.filter(selectedDis => +selectedDis.ServiceId === +this.discount);
       if (duplicatecheck.length > 0) {
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.discountExist});
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.discountExist });
         return;
       }
     }
-    for ( const i of this.discounts ) {
+    for (const i of this.discounts) {
       if (i.ServiceId === +event.target.value) {
         if (i.DiscountServiceType === 0 || i.DiscountServiceType === null) {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount});
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount });
           this.discount = '';
           return;
         } else {
@@ -963,19 +968,20 @@ tips = 0;
     let paymentDetailObj = [];
     const balancedue = this.getBalanceDue();
     if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment});
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment });
       return;
     }
     if (balancedue !== 0) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.total});
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.total });
       return;
     }
     if (this.ticketNumberGeneration === false) {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber});
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
       return;
     }
 
-    if (this.credit !== 0) {
+    if (this.credit !== 0 && !this.isCreditPay) {
+      this.isCreditPay = true;
       const ngbModalOptions: NgbModalOptions = {
         backdrop: 'static',
         keyboard: false,
@@ -984,10 +990,17 @@ tips = 0;
       const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
       modalRef.componentInstance.clientId = this.clientId;
       modalRef.componentInstance.totalAmount = this.credit;
+      modalRef.result.then((result) => {
+        if (result.status) {
+          this.isCreditPay = true;
+          this.tips = result.tipAmount;
+          this.addPayment();
+        }
+      });
       return;
     }
 
-  
+
     let giftcard = null;
     let discount = null;
     giftcard = this.giftcards.map(item => {
@@ -1043,8 +1056,8 @@ tips = 0;
       paymentDetailObj.push(element);
     })
     if (this.cash !== 0) {
-      console.log(   this.tips)
-   
+      console.log(this.tips)
+
       const cashPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Cash)[0].CodeId;
       const det = {
         jobPaymentDetailId: 0,
@@ -1062,7 +1075,7 @@ tips = 0;
       };
       paymentDetailObj.push(det);
     }
-    if (this.tips !== 0) {
+    if (+this.tips !== 0) {
       const TipsPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Tips)[0].CodeId;
       const Tips = {
         jobPaymentDetailId: 0,
@@ -1137,7 +1150,7 @@ tips = 0;
       };
       paymentDetailObj.push(gift);
     }
-   
+
     const paymentObj = {
       jobPayment: {
         jobPaymentId: 0,
@@ -1163,7 +1176,7 @@ tips = 0;
     };
 
     const jobProductItem = [];
-    this.Products.forEach( item => {
+    this.Products.forEach(item => {
       jobProductItem.push({
         productId: item.ProductId,
         quantity: item.Quantity,
@@ -1172,16 +1185,16 @@ tips = 0;
     });
 
     const paymentDetail = {
-      SalesPaymentDto : paymentObj,
-      SalesProductItemDto: jobProductItem.length > 0 ?  { jobProductItem } : null,
-      locationId : +localStorage.getItem('locationId')
+      SalesPaymentDto: paymentObj,
+      SalesProductItemDto: jobProductItem.length > 0 ? { jobProductItem } : null,
+      locationId: +localStorage.getItem('locationId')
     };
 
     this.spinner.show();
     this.salesService.addPayemnt(paymentDetail).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-  
+
         if (this.accountDetails !== null && this.accountDetails?.SalesAccountViewModel?.CodeValue === ApplicationConfig.CodeValue.Comp) {
           const amt = (+this.accountDetails?.SalesAccountViewModel?.Amount.toFixed(2) - +this.account.toFixed(2)).toFixed(2);
           const obj = {
@@ -1198,8 +1211,8 @@ tips = 0;
         }
       } else {
         this.spinner.hide();
-  
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body:MessageConfig.Sales.paymentComplete });
+
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.paymentComplete });
       }
     }, (err) => {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.paymentComplete });
@@ -1254,7 +1267,7 @@ tips = 0;
   rollBack() {
     if (this.multipleTicketNumber.length > 0) {
 
-      const rollbackObj = 
+      const rollbackObj =
       {
         TicketNumber: this.multipleTicketNumber.toString(),
         LocationId: this.locationId

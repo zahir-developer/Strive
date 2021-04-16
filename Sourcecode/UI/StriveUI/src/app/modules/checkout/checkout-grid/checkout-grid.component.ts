@@ -33,6 +33,7 @@ export class CheckoutGridComponent implements OnInit {
   sortColumn: { sortBy: string; sortOrder: string; };
   currentWeek: Date;
   daterangepickerModel: Date[];
+  timeOut: Date;
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
@@ -45,6 +46,7 @@ export class CheckoutGridComponent implements OnInit {
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
+    this.timeOut = new Date();
 
     const currentDate = new Date();
     const first = currentDate.getDate();
@@ -252,7 +254,7 @@ export class CheckoutGridComponent implements OnInit {
         if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
           const finalObj = {
             jobId: checkout.JobId,
-            ActualTimeOut: new Date()
+            ActualTimeOut: moment(this.timeOut).format()
           };
           this.spinner.show();
           this.checkout.completedVehicle(finalObj).subscribe(res => {

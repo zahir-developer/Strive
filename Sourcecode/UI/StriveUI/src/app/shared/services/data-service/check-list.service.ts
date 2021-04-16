@@ -21,4 +21,8 @@ export class CheckListService {
   getById(id) {
     return this.http.get(`${UrlConfig.Checklist.getById}`, { params: { id } });
   }
+
+  updateChecklist(obj) {
+    return this.http.post(`${UrlConfig.Checklist.updateChecklist}`, obj);
+  }
 }

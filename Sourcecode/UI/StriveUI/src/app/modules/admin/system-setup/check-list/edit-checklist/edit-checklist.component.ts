@@ -12,7 +12,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   encapsulation: ViewEncapsulation.None
 })
 export class EditChecklistComponent implements OnInit {
-  notificationTime: any = '';
+  notificationTime = '';
   roleId: any = '';
   checkListName: any;
   isNotificationTimeLimit: boolean;
@@ -45,14 +45,17 @@ export class EditChecklistComponent implements OnInit {
   }
 
   editTime() {
+    if (this.notificationTime === '') {
+      return;
+    }
     if (this.NotificationList.length >= 10) {
       this.isNotificationTimeLimit = true;
       this.notificationTime = '';
       return;
     }
     this.NotificationList.push({
-      checkListNotificationId: 0,
-      checkListId: this.selectedData.ChecklistDetail.ChecklistId,
+      ChecklistNotificationId: 0,
+      CheckListId: this.selectedData.ChecklistDetail.ChecklistId,
       NotificationTime: this.notificationTime,
       isActive: true,
       isDeleted: false,
@@ -120,7 +123,7 @@ export class EditChecklistComponent implements OnInit {
       checkListNotification: notificationTimeList
     };
     this.spinner.show();
-    this.checkListSetup.addCheckListSetup(finalObj).subscribe(res => {
+    this.checkListSetup.updateChecklist(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');

@@ -29,6 +29,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   tipAmount: number;
   totalHours: number = 0;
   fileTypeEvent: boolean = false;
+  tips: number =0;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
     private excelService: ExcelService, private spinner: NgxSpinnerService,
     private toastr :ToastrService) { }
@@ -66,6 +67,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
         this.dailyTip = dailytip.GetEmployeeTipReport;
         this.dailyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;
+          
         });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
       }
@@ -135,12 +137,14 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     this.totalHours = 0;
     this.totalTip = 0;
     if (this.tipAmount !== 0) {
+      this.tips = this.tipAmount
       this.dailyTip.forEach(s => { this.totalHours = this.totalHours + s.HoursPerDay });
 
       const hourTip = +this.tipAmount / this.totalHours;
       this.dailyTip.forEach(item => {
         item.Tip = (item.HoursPerDay * hourTip).toFixed(2);
         this.totalTip += +item.Tip;
+
       });
     }
   }

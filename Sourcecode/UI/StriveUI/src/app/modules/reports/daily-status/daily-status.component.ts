@@ -106,6 +106,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   generateTable() {
     let tableheader = '';
     let tableBody = '';
+    this.washHours = 0;
+    this.detailHours = 0;
     const count = Math.max(...this.clockDetail?.map(val => val.count));
     tableheader = `<tr><th scope="col">Employee Name</th><th scope="col">Wash Hours</th><th scope="col">Detail Hours</th>
     <th scope="col">Total Hours</th>`

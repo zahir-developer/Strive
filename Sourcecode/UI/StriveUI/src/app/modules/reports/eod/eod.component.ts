@@ -242,6 +242,8 @@ export class EodComponent implements OnInit, AfterViewInit {
         const dailyStatusReport = JSON.parse(data.resultData);
         this.dailyStatusReport = dailyStatusReport.GetDailyStatusReport;
         if (this.dailyStatusReport.length > 0) {
+          this.washes = [];
+          this.details = []
           this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
           this.washTotal = this.calculateTotal(this.washes, 'wash');
