@@ -50,7 +50,7 @@
                     <div id="dailyreport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Daily Tip Report </span>
-                            <div class="d-inline-block"><input type="text" id="tipTotal" class="form-control" [(ngModel)]="tipAmount" size="2" appTwoDecimalNumber placeholder="Tip Total">
+                            <div class="d-inline-block"><input type="text" id="tipTotal" class="form-control" [(ngModel)]="tipAmount" size="7" appTwoDecimalNumber placeholder="Tip Total">
                             </div>
                             &nbsp;<button type="button" id="tipSubmit" class="btn theme-primary-button-color" [disabled]="!tipAmount" (click)="submit()">Submit</button>
                         </h4>
@@ -87,7 +87,7 @@
                                 <tfoot class="table-foot font-weight-700" *ngIf="dailyTip?.length > 0">
                                     <tr>
                                         <td colspan="2"  class="font-weight-700 text-right">Tip Total </td>
-                                        <td>{{totalTip | currency}}</td>
+                                        <td>{{tips | currency}}</td>
                                     </tr>
                                 </tfoot>
                             </table>

@@ -28,6 +28,7 @@ export class MonthlyTipComponent implements OnInit {
   tipAmount: number;
   totalHours = 0;
   fileTypeEvent: boolean = false;
+  tips: number = 0;
   constructor(
     private excelService: ExcelService,
     private toastr : ToastrService,
@@ -135,6 +136,7 @@ export class MonthlyTipComponent implements OnInit {
   submit() {
     this.totalHours = 0;
     this.totalTip = 0;
+    this.tips = this.tipAmount
     if (this.tipAmount !== 0) {
       this.monthlyTip.forEach(s => {
         this.totalHours = this.totalHours + s.HoursPerDay;
