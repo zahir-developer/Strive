@@ -111,8 +111,8 @@ export class ProductCreateEditComponent implements OnInit {
         this.location = location.Location;
         this.location = this.location.map(item => {
           return {
-            id: item.LocationId,
-            name: item.LocationName
+            item_id: item.LocationId,
+            item_text: item.LocationName
           };
         });
         this.dropdownSetting();
@@ -122,14 +122,13 @@ export class ProductCreateEditComponent implements OnInit {
 
   dropdownSetting() {
     this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 1,
-      allowSearchFilter: false
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
     };
   }
 
@@ -151,8 +150,8 @@ export class ProductCreateEditComponent implements OnInit {
         this.Vendor = vendor.Vendor;
         this.Vendor = this.Vendor.map(item => {
           return {
-            id: item.VendorId,
-            name: item.VendorName
+            item_id: item.VendorId,
+            item_text: item.VendorName
           };
         });
         this.getSize();
@@ -194,30 +193,29 @@ export class ProductCreateEditComponent implements OnInit {
     this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
       if (data.status === "Success") {
         this.spinner.hide();
-
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product;
         let name = '';
         this.location.forEach(item => {
-          if (+item.id === +this.selectedProduct.LocationId) {
-            name = item.name;
+          if (+item.item_id === +this.selectedProduct.LocationId) {
+            name = item.item_text;
           }
         });
         const locObj = {
-          id: this.selectedProduct.LocationId,
-          name
+          item_id: this.selectedProduct.LocationId,
+          item_text: name
         };
         const selectedLocation = [];
         selectedLocation.push(locObj);
         let vendorName = '';
         this.Vendor.forEach(item => {
-          if (+item.id === +this.selectedProduct.VendorId) {
-            vendorName = item.name;
+          if (+item.item_id === +this.selectedProduct.VendorId) {
+            vendorName = item.item_text;
           }
         });
         const vendorObj = {
-          id: this.selectedProduct.VendorId,
-          name: vendorName
+          item_id: this.selectedProduct.VendorId,
+          item_text: vendorName
         };
         const selectedVendor = [];
         selectedVendor.push(vendorObj);
@@ -302,7 +300,7 @@ export class ProductCreateEditComponent implements OnInit {
         productObj.productDescription = null;
         productObj.productType = this.productSetupForm.value.productType;
         productObj.productId = this.isEdit ? this.selectedProduct.ProductId : 0;
-        productObj.locationId = item.id;
+        productObj.locationId = item.item_id;
         productObj.productName = this.productSetupForm.value.name;
         productObj.fileName = this.fileName;
         productObj.OriginalFileName = this.fileName;
@@ -323,7 +321,7 @@ export class ProductCreateEditComponent implements OnInit {
           vendorList.push({
             productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-            vendorId: vendor.id,
+            vendorId: vendor.item_id,
             isActive: true,
             isDeleted: false,
           });

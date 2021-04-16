@@ -85,6 +85,18 @@ export class VehicleCreateEditComponent implements OnInit {
     return this.vehicleForm.controls;
   }
 
+  dropDownSetting() {
+    this.dropdownSettings = {
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
+    };
+  }
+
   getVehicleById() {
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
@@ -165,15 +177,7 @@ export class VehicleCreateEditComponent implements OnInit {
               item_text: item.item_text
             };
           });
-          this.dropdownSettings = {
-            singleSelection: false,
-            defaultOpen: false,
-            idField: 'item_id',
-            textField: 'item_text',
-            itemsShowLimit: 1,
-            enableCheckAll: false,
-            allowSearchFilter: true
-          };
+          this.dropDownSetting();
           this.vehicleForm.patchValue({
             services: this.memberService
           });
@@ -205,15 +209,7 @@ export class VehicleCreateEditComponent implements OnInit {
         item_text: item.ServiceName
       };
     });
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      itemsShowLimit: 2,
-      enableCheckAll: false,
-      allowSearchFilter: true
-    };
+    this.dropDownSetting();
   }
 
   membershipChange(data) {
@@ -288,15 +284,7 @@ export class VehicleCreateEditComponent implements OnInit {
             services: ''
           });
         }
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          itemsShowLimit: 2,
-          enableCheckAll: false,
-          allowSearchFilter: true,
-        };
+        this.dropDownSetting();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
