@@ -80,16 +80,7 @@ export class MembershipCreateEditComponent implements OnInit {
             item_text: item.ServiceName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropdownSetting();
         if (this.isEdit === true) {
           this.membershipForm.reset();
           this.getMembershipById();
@@ -105,6 +96,18 @@ export class MembershipCreateEditComponent implements OnInit {
   }
   get f() {
     return this.membershipForm.controls;
+  }
+
+  dropdownSetting() {
+    this.dropdownSettings = {
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
+    };
   }
 
   calculate(data, name) {

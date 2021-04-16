@@ -77,8 +77,8 @@
                 <option value="" selected hidden>Choose</option>
                 <option *ngFor="let vendor of Vendor" value="{{vendor.VendorId}}">{{vendor.VendorName}}</option>
             </select> -->
-            <ng-multiselect-dropdown [placeholder]="'Select Vendor'" [disabled]="isEdit" [settings]="dropdownSettings" [data]="Vendor"
-                formControlName="vendor">
+            <ng-multiselect-dropdown [placeholder]="'Select Vendor'" [disabled]="isEdit" [settings]="dropdownSettings"
+                [data]="Vendor" formControlName="vendor">
             </ng-multiselect-dropdown>
         </div>
         <div class="form-group col-lg-3">
@@ -123,16 +123,18 @@
                 <div class="loadingDiv" *ngIf="isLoading">
                     <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                 </div>
+                <span *ngIf="!isLoading">{{fileName}}</span>
+                <span *ngIf="fileName && !isLoading" style="padding-left: 10px;padding-right: 10px;"><em
+                        class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
+                        (click)="clearDocument()"></em>
+                        <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc" style="cursor: pointer;" (click)="downloadImage()"></em>
+                </span>
+                <!-- <span *ngIf="fileName && !isLoading" class="text-underline theme-primary-color font-size--9"
+                    style="cursor: pointer;" (click)="downloadImage()">Download</span> -->
             </div>
         </div>
         <div>
-            <span *ngIf="!isLoading">{{fileName}}</span>
-            <span *ngIf="fileName && !isLoading" style="padding-left: 10px;padding-right: 10px;"><em
-                    class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                    (click)="clearDocument()"></em>
-            </span>
-            <span *ngIf="fileName && !isLoading" class="text-underline theme-primary-color font-size--9"
-                style="cursor: pointer;" (click)="downloadImage()">Download</span>
+
         </div>
     </div>
 </form>

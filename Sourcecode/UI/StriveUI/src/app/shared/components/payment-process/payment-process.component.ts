@@ -23,6 +23,7 @@ export class PaymentProcessComponent implements OnInit {
   selectedCityId: any;
   isStateLoaded: boolean;
   selectedCountryId: any;
+  tipAmount = '';
   constructor(
     private activeModal: NgbActiveModal,
     private paymentService: PaymentService,
@@ -38,7 +39,11 @@ export class PaymentProcessComponent implements OnInit {
 
   closeModal() {
     this.isStateLoaded = false;
-    this.activeModal.close();
+    const obj = {
+      status: false,
+      tipAmount: this.tipAmount
+    };
+    this.activeModal.close(obj);
   }
 
   formInitialize() {
@@ -97,11 +102,10 @@ export class PaymentProcessComponent implements OnInit {
 
   process() {
     const obj = {
-
+      status: true,
+      tipAmount: this.tipAmount
     };
-    this.paymentService.post(obj).subscribe(res => {
-
-    });
+    this.activeModal.close(obj);
   }
 
 }

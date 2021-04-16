@@ -45,16 +45,16 @@ export class EmployeeHandBookComponent implements OnInit {
 
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.EmployeeHandbook,
       sortOrder: ApplicationConfig.Sorting.SortOrder.EmployeeHandbook.order
-     }
+    }
     this.isLoading = false;
     this.getDocumentType();
   }
 
   adddata(data, handbookDetails?) {
-  
+
     this.selectedData = handbookDetails;
     this.showDialog = true;
   }
@@ -91,10 +91,10 @@ export class EmployeeHandBookComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  (err) => {
-this.spinner.hide();
-             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-                  });
+      , (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   getDocumentType() {
     this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
@@ -106,11 +106,11 @@ this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  (err) => {
-                    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-                  });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
-  
+
   getDocument() {
     this.isLoading = true;
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
@@ -152,22 +152,22 @@ this.spinner.hide();
       }
     },
       (err) => {
-                          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-                        }
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
     );
   }
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.EmployeeHandbook.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.document.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -180,23 +180,23 @@ this.spinner.hide();
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
 
 }

@@ -151,6 +151,10 @@ export class CreateEditComponent implements OnInit {
     this.cityComponent.getCity(event);
   }
 
+  dropDownSetting() {
+    this.dropdownSettings = ApplicationConfig.dropdownSettings;
+  }
+
   selectCity(event) {
     this.city = event;
   }
@@ -161,16 +165,7 @@ export class CreateEditComponent implements OnInit {
         item_text: item.CodeValue
       };
     });
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
+    this.dropDownSetting();
   }
 
   locationDropDown() {
@@ -180,16 +175,7 @@ export class CreateEditComponent implements OnInit {
         item_text: item.LocationName
       };
     });
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
+    this.dropDownSetting();
   }
   change(data) {
    
@@ -234,16 +220,7 @@ export class CreateEditComponent implements OnInit {
             item_text: item.RoleName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropDownSetting();
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -274,16 +251,7 @@ export class CreateEditComponent implements OnInit {
             item_text: item.LocationName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropDownSetting();
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

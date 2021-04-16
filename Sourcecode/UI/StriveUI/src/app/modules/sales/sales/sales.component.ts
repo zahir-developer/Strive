@@ -106,8 +106,10 @@ export class SalesComponent implements OnInit {
   isTenTicketNumber: boolean;
   serviceType: any = [];
   locationId: number;
+  isCreditPay: boolean;
   ngOnInit(): void {
     this.isTenTicketNumber = false;
+    this.isCreditPay = false;
     this.locationId = +localStorage.getItem('empLocationId');
     this.giftCardFromInit();
     this.addItemFormInit();
@@ -284,6 +286,9 @@ export class SalesComponent implements OnInit {
   }
 
   addTicketNumber() {
+    if (this.ticketNumber === '') {
+      return;
+    }
     const alreadyAdded = this.multipleTicketNumber.filter(item => item === this.ticketNumber);
     if (alreadyAdded.length === 0) {
       this.multipleTicketNumber.push(this.ticketNumber);
@@ -975,7 +980,8 @@ export class SalesComponent implements OnInit {
       return;
     }
 
-    if (this.credit !== 0) {
+    if (this.credit !== 0 && !this.isCreditPay) {
+      this.isCreditPay = true;
       const ngbModalOptions: NgbModalOptions = {
         backdrop: 'static',
         keyboard: false,
@@ -984,6 +990,13 @@ export class SalesComponent implements OnInit {
       const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
       modalRef.componentInstance.clientId = this.clientId;
       modalRef.componentInstance.totalAmount = this.credit;
+      modalRef.result.then((result) => {
+        if (result.status) {
+          this.isCreditPay = true;
+          this.tips = result.tipAmount;
+          this.addPayment();
+        }
+      });
       return;
     }
 
@@ -1062,7 +1075,7 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(det);
     }
-    if (this.tips !== 0) {
+    if (+this.tips !== 0) {
       const TipsPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Tips)[0].CodeId;
       const Tips = {
         jobPaymentDetailId: 0,
