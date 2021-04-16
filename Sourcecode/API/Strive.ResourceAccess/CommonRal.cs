@@ -166,5 +166,10 @@ namespace Strive.ResourceAccess
             _prm.Add("makeId", makeId);
             return db.Fetch<ModelDto>(EnumSP.Employee.USPGETMODELBYMAKE.ToString(), _prm);
         }
+
+        public List<MakeDto> GetAllMake()
+        {
+            return db.Fetch<MakeDto>(EnumSP.Employee.USPGETALLMAKE.ToString(), _prm);
+        }
     }
 }

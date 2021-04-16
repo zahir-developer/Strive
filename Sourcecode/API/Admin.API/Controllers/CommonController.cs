@@ -75,6 +75,11 @@ namespace Admin.API.Controllers
         {
             return _commonBpl.GetModelByMakeId(makeId);
         }
-
+        [HttpGet]
+        [Route("GetAllMake")]
+        public Result GetAllMake()
+        {
+            return _commonBpl.GetAllMake();
+        }
     }
 }

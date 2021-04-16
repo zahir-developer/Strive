@@ -490,5 +490,10 @@ namespace Strive.BusinessLogic.Common
             return ResultWrap(new CommonRal(_tenant, false).GetModelByMakeId,makeId, "Model");
 
         }
+
+        public Result GetAllMake()
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetAllMake, "");
+        }
     }
 }

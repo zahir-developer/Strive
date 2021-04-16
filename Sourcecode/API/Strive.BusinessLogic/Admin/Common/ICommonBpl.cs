@@ -16,5 +16,6 @@ namespace Strive.BusinessLogic.Common
         Result GetCityByStateId(int stateId);
         Result GetTicketNumber(int locationId);
         Result GetModelByMakeId(int makeId);
+        Result GetAllMake();
     }
 }
