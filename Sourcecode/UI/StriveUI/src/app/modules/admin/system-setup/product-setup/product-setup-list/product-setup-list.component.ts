@@ -80,7 +80,7 @@ this.isLoading = false;
       this.isLoading = false;
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
-        this.productSetupDetails = product.Product;
+        this.productSetupDetails = product.ProductSearch;
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
