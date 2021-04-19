@@ -587,7 +587,7 @@ export class SalesComponent implements OnInit {
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
-    this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
+    // this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
   }
