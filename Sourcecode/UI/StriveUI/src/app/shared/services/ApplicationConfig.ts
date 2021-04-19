@@ -128,7 +128,8 @@ export const ApplicationConfig = {
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
             Details: 'Details',
-            DetailPackage: 'Detail Package'
+            DetailPackage: 'Detail Package',
+            GiftCard: 'Gift Card'
         },
     },
     Category: {

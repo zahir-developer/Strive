@@ -73,7 +73,9 @@ export class SalesComponent implements OnInit {
   ticketNumberGeneration: boolean;
   allService = [];
   clientId: number;
-  constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
+  giftCardList = [];
+  constructor(
+    private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
@@ -107,9 +109,11 @@ export class SalesComponent implements OnInit {
   serviceType: any = [];
   locationId: number;
   isCreditPay: boolean;
+  isGiftCard: boolean;
   ngOnInit(): void {
     this.isTenTicketNumber = false;
     this.isCreditPay = false;
+    this.isGiftCard = false;
     this.locationId = +localStorage.getItem('empLocationId');
     this.giftCardFromInit();
     this.addItemFormInit();
@@ -376,6 +380,8 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
+              this.giftCardList = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.GiftCard);
               this.itemList.Status.SalesItemViewModel.map(item => {
                 if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
 
