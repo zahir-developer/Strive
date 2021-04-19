@@ -34,6 +34,9 @@
                                             <th class="pointer" (click)="changesort('ProductName')">Name
                                                 <i class="fa" [ngClass]="selectedCls('ProductName')"></i>
                                             </th>
+                                            <th class="pointer" (click)="changesort('ProductName')">Location
+                                                <i class="fa" [ngClass]="selectedCls('ProductName')"></i>
+                                            </th>
                                             <th class="pointer" (click)="changesort('ProductTypeName')">Type
                                                 <i class="fa" [ngClass]="selectedCls('ProductTypeName')"></i>
                                             </th>
@@ -60,12 +63,13 @@
                                         <tr
                                             *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>
+                                            <td title="{{productSetup.LocationName}}">{{productSetup.LocationName | slice: 0:19}} {{productSetup.LocationName !== null ? (productSetup.LocationName.length > 19 ? '...': '') : ''}}</td>
                                             <td>{{productSetup.ProductTypeName}}</td>
                                             <td>{{productSetup.Cost | currency}}</td>
                                             <td>{{productSetup.SizeName}}</td>
                                             <td>{{productSetup.Quantity}}</td>
                                             <td>{{productSetup.VendorName}}</td>
-                                            <td>{{productSetup.VendorPhone}}</td>
+                                            <td title="{{productSetup.VendorPhone}}">{{productSetup.VendorPhone | slice:0:26 }} {{ (productSetup.VendorPhone !== null) ? (productSetup.VendorPhone.lenghth > 26 ? '...' : '') : ''}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
