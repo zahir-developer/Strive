@@ -6,6 +6,8 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-membership-list',
@@ -28,16 +30,26 @@ export class MembershipListComponent implements OnInit {
   pageSizeList: any;
   isLoading: boolean;
   sortColumn: { sortBy: any; sortOrder: string; };
-  constructor(private toastr: ToastrService,
+  searchUpdate = new Subject<string>();
+  constructor(
+    private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
+    private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.membershipSearch();
+      });
+  }
 
   ngOnInit() {
     this.isLoading = false;
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.MemberShipSetup,
       sortOrder: ApplicationConfig.Sorting.SortOrder.MemberShipSetup.order
-     }
+    }
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -66,10 +78,10 @@ export class MembershipListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    } ,(err) => {
+    }, (err) => {
       this.isLoading = false;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-          });
+    });
   }
   paginate(event) {
     this.pageSize = +this.pageSize;
@@ -81,19 +93,19 @@ export class MembershipListComponent implements OnInit {
     this.page = this.page;
     this.getAllMembershipDetails();
   }
- 
+
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.MemberShipSetup.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.membershipDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -106,24 +118,24 @@ export class MembershipListComponent implements OnInit {
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
 
 
   membershipSearch() {
@@ -148,10 +160,10 @@ export class MembershipListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },(err) => {
+    }, (err) => {
       this.isLoading = false;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-          });
+    });
   }
 
 
@@ -162,35 +174,35 @@ export class MembershipListComponent implements OnInit {
         this.spinner.hide();
 
         const vehicle = JSON.parse(res.resultData);
-        if (vehicle.VehicleMembershipByMembershipId == false ) {
-    this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
+        if (vehicle.VehicleMembershipByMembershipId == false) {
+          this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
   information will be deleted and the membership cannot be retrieved?`, 'Yes', 'No')
-      .then((confirmed) => {
-        if (confirmed === true) {
-          this.confirmDelete(data);
+            .then((confirmed) => {
+              if (confirmed === true) {
+                this.confirmDelete(data);
+              }
+
+            })
+            .catch(() => { });
         }
-       
-      })
-      .catch(() => { });
+
+        else {
+          this.spinner.hide();
+
+          this.toastr.warning(MessageConfig.Admin.SystemSetup.MemberShipSetup.DeleteRestrict, 'Warning!');
+
+        }
+
       }
-  
-   else {
-    this.spinner.hide();
 
-    this.toastr.warning(MessageConfig.Admin.SystemSetup.MemberShipSetup.DeleteRestrict, 'Warning!' );
 
-   }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+
 
   }
-
-
-},(err) => {
-this.spinner.hide();
-  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
-
-
-}
 
   // Delete Membership
   confirmDelete(data) {
@@ -199,17 +211,17 @@ this.spinner.hide();
       if (res.status === "Success") {
         this.spinner.hide();
 
-        this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Delete,'Success');
+        this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Delete, 'Success');
         this.getAllMembershipDetails();
       } else {
         this.spinner.hide();
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },(err) => {
-this.spinner.hide();
+    }, (err) => {
+      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-          });
+    });
   }
 
   closePopupEmit(event) {
