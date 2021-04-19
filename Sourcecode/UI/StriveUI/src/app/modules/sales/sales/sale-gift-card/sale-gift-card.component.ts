@@ -26,7 +26,7 @@ export class SaleGiftCardComponent implements OnInit {
     private salesService: SalesService,
     private toastr: ToastrService,
     private giftCardService: GiftCardService,
-    private spinner : NgxSpinnerService
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -87,6 +87,10 @@ export class SaleGiftCardComponent implements OnInit {
 
   save() {
     this.submitted = true;
+    if (this.giftCardForm.invalid) {
+      this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
+      return;
+    }
     const formObj = {
       job: {
         jobId: 0,
