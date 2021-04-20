@@ -240,7 +240,8 @@ export class SaleGiftCardComponent implements OnInit {
         const card = JSON.parse(res.resultData);
         const giftCardObj = {
           status: true,
-          cardId: card.Status
+          cardId: card.Status,
+          cardNumber: this.giftCardForm.value.number
         };
         this.activeModal.close(giftCardObj);
         this.toastr.success(MessageConfig.Sales.UpdateGiftCrd, 'Success!');

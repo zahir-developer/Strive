@@ -111,6 +111,7 @@ export class SalesComponent implements OnInit {
   locationId: number;
   isCreditPay: boolean;
   isGiftCard: boolean;
+  giftcardNumber: any = '';
   ngOnInit(): void {
     this.isTenTicketNumber = false;
     this.isCreditPay = false;
@@ -626,6 +627,7 @@ export class SalesComponent implements OnInit {
           this.isSelected = true;
           this.ticketNumber = this.newTicketNumber;
           this.giftCardID = result.cardId;
+          this.giftcardNumber = result.cardNumber;
           this.getDetailByTicket(false);
           this.addItemForm.controls.quantity.enable();
           this.addItemFormInit();
@@ -1260,6 +1262,13 @@ export class SalesComponent implements OnInit {
   }
   validateGiftcard() {
     const gNo = this.giftCardForm.value.giftCardNumber;
+    if (this.giftcardNumber !== '') {
+      if (gNo === this.giftcardNumber) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.purchasedGiftcard });
+        return;
+      }
+    }
+
     this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
         this.validGiftcard = JSON.parse(data.resultData);
