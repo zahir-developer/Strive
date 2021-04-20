@@ -49,15 +49,15 @@ export class GiftCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  this.startDate = new Date();
-var amountOfYearsRequired = 5;
-this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired);
+    this.startDate = new Date();
+    var amountOfYearsRequired = 5;
+    this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired);
     this.submitted = false;
     this.isActivity = false;
     this.giftCardForm = this.fb.group({
       number: ['', Validators.required]
     });
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.GiftCard, sortOrder: ApplicationConfig.Sorting.SortOrder.GiftCard.order };
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.GiftCard, sortOrder: ApplicationConfig.Sorting.SortOrder.GiftCard.order };
 
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -72,7 +72,7 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
       endDate: new Date(),
       pageNo: this.page,
       pageSize: this.pageSize,
-      query: this.search == '' ? null : this.search ,
+      query: this.search == '' ? null : this.search,
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
       status: true
@@ -95,7 +95,7 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
         }
 
       }
-      else{
+      else {
         this.spinner.hide();
 
       }
@@ -126,7 +126,7 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Mandatory });
       return;
     }
-  
+
     this.spinner.show();
     const giftCardNumber = this.giftCardForm.value.number;
     this.giftCardService.getGiftCardHistoryByTicketNumber(giftCardNumber).subscribe(res => {
@@ -134,32 +134,32 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
         this.spinner.hide();
 
         const giftcard = JSON.parse(res.resultData);
-        
+
         if (giftcard.GiftCardDetail !== null) {
 
           if (giftcard.GiftCardDetail.GiftCardHistoryViewModel !== null) {
-          this.giftCardHistory = giftcard.GiftCardDetail.GiftCardHistoryViewModel;
-                    this.isActivity = true;
+            this.giftCardHistory = giftcard.GiftCardDetail.GiftCardHistoryViewModel;
+            this.isActivity = true;
 
-        }else{
+          } else {
             this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Admin.GiftCard.invalidCard });
             this.isActivity = false;
             this.activeDate = 'none';
             this.totalAmount = 0;
             this.giftCardHistory = [];
           }
-            this.activeDate = moment(giftcard.GiftCardDetail.GiftCardBalanceViewModel?.ActivationDate).format('MM/DD/YYYY');
-            this.totalAmount = giftcard.GiftCardDetail.GiftCardBalanceViewModel?.BalanceAmount;
-            this.giftCardID =  giftcard.GiftCardDetail.GiftCardBalanceViewModel?.GiftCardId;
-               }else {
-                      this.isActivity = false;
-                      this.activeDate = 'none';
-                      this.totalAmount = 0;
-                      this.giftCardHistory = [];
-                    }
+          this.activeDate = moment(giftcard.GiftCardDetail.GiftCardBalanceViewModel?.ActivationDate).format('MM/DD/YYYY');
+          this.totalAmount = giftcard.GiftCardDetail.GiftCardBalanceViewModel?.BalanceAmount;
+          this.giftCardID = giftcard.GiftCardDetail.GiftCardBalanceViewModel?.GiftCardId;
+        } else {
+          this.isActivity = false;
+          this.activeDate = 'none';
+          this.totalAmount = 0;
+          this.giftCardHistory = [];
+        }
 
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -219,22 +219,22 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
   //   this.giftCardService.getAllGiftCard(obj).subscribe(res => {
   //     if (res.status === 'Success') {
   //       this.spinner.hide();
-   
+
   //         this.isActivity = true;
   //       const giftcard = JSON.parse(res.resultData);
   //       if (giftcard.GiftCard.GiftCardViewModel !== null) {
   //         this.getGiftCardDetails = giftcard.GiftCard.GiftCardViewModel;
 
-          
-        
+
+
   //         //  this.getGiftCardDetails.forEach(item => {
   //         //   if(  item.GiftCardCode == giftCardNumber){
   //         //     this.updateBalance();
 
   //         //     this.getGiftCardDetails.push(
   //         //       item
-                
-          
+
+
   //         //     )
   //         //   }
   //         //   this.activeDate = moment(this.getGiftCardDetails[0]?.ActivationDate).format('MM/DD/YYYY');
@@ -263,15 +263,15 @@ this.startDate.setFullYear(this.startDate.getFullYear() - amountOfYearsRequired)
     const modalRef = this.modalService.open(AddGiftCardComponent, ngbModalOptions);
     modalRef.result.then((result) => {
       if (result) {
-         this.giftCardForm.patchValue({
-number : result
-         })
-         this.getGiftCardHistoryByTicketNumer();
+        this.giftCardForm.patchValue({
+          number: result
+        })
+        this.getGiftCardHistoryByTicketNumer();
       }
     });
   }
 
-  
+
 
   addActivity() {
     const ngbModalOptions: NgbModalOptions = {
@@ -322,24 +322,24 @@ number : result
   }
 
   changeSorting(column) {
-    this.sortColumn ={
-     sortBy: column,
-     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
 
     this.selectedCls(this.sortColumn)
-   this.getAllGiftCard();
- }
+    this.getAllGiftCard();
+  }
 
- 
 
- selectedCls(column) {
-   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-     return 'fa-sort-desc';
-   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-     return 'fa-sort-asc';
-   }
-   return '';
- }
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
 
 }
