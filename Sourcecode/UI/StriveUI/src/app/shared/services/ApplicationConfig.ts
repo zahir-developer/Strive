@@ -8,6 +8,11 @@ export const ApplicationConfig = {
         PageSize: 10
     },
 
+    ChecklistNotification:
+    {
+        MaxLength: 7 
+    },
+
     Sorting:
     {
         SortOrder: {
@@ -98,8 +103,8 @@ export const ApplicationConfig = {
     },
     UploadFileType:
     {
-        AdSetup: ['png ', 'jpg ', 'jpeg'],
-        EmployeeHandbook: ['pdf ', 'doc ', 'docx'],
+        AdSetup: ['png', ' jpg', ' jpeg'],
+        EmployeeHandbook: ['pdf', ' doc', ' docx'],
         TermsAndCondition: ['pdf']
     },
 
@@ -111,7 +116,7 @@ export const ApplicationConfig = {
     UploadSize:
     {
         AdSetup: 5120,
-        EmployeeHandbook: 5120,
+        EmployeeHandbook: 10240,
         TermsAndCondition: 5120
     },
     Enum: {

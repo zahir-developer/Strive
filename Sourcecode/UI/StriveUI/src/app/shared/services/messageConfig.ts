@@ -198,7 +198,7 @@ export const MessageConfig = {
             Add: 'Ad Setup added successfully !',
             Update: 'Ad Setup updated successfully !',
             Delete: 'Ad Setup Deleted Successfully !',
-            FileType: 'Upload Image Only',
+            FileType: 'Invalid file type uploaded. ',
             FileSize: 'Maximum Size 5 MB'
          },
          BonusSetup:
@@ -229,15 +229,15 @@ export const MessageConfig = {
             Update: 'Employee HandBook updated successfully !',
             Delete: 'Employee HandBook Deleted Successfully !',
             nameValidation: '',
-            FileSize: 'Maximum Size 5 MB',
-            FileType: 'Upload DOC,DOCX,PDF Only'
+            FileSize: 'Maximum file size is 10 MB',
+            FileType: 'Invalid file type uploaded. '
          },
          TermsCondition:
          {
             Add: 'Terms & Condition added successfully !',
             Update: 'Terms & Condition updated successfully !',
             Delete: 'Terms & Condition Deleted Successfully !',
-            FileType: 'Upload Pdf Only',
+            FileType: 'Invalid file type uploaded ',
             FileSize: 'Maximum Size 5 MB'
          },
          Vendor:
