@@ -73,7 +73,10 @@ export class SalesComponent implements OnInit {
   ticketNumberGeneration: boolean;
   allService = [];
   clientId: number;
-  constructor(private membershipService: MembershipService, private salesService: SalesService, private router: Router,
+  giftCardList = [];
+  giftCardID: any;
+  constructor(
+    private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
@@ -107,9 +110,11 @@ export class SalesComponent implements OnInit {
   serviceType: any = [];
   locationId: number;
   isCreditPay: boolean;
+  isGiftCard: boolean;
   ngOnInit(): void {
     this.isTenTicketNumber = false;
     this.isCreditPay = false;
+    this.isGiftCard = false;
     this.locationId = +localStorage.getItem('empLocationId');
     this.giftCardFromInit();
     this.addItemFormInit();
@@ -351,7 +356,14 @@ export class SalesComponent implements OnInit {
         TicketNumber: ticketNumber,
         LocationId: this.locationId
       };
-
+      this.giftCardList = [];
+      this.washes = [];
+      this.details = [];
+      this.additionalService = [];
+      this.upCharges = [];
+      this.outsideServices = [];
+      this.discountService = [];
+      this.airfreshnerService = [];
       this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
@@ -376,6 +388,8 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AirFresheners);
               this.discountService = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.ServiceDiscounts);
+              this.giftCardList = this.itemList.Status.SalesItemViewModel.filter(item =>
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.GiftCard);
               this.itemList.Status.SalesItemViewModel.map(item => {
                 if (item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
 
@@ -475,11 +489,11 @@ export class SalesComponent implements OnInit {
     this.salesService.deleteItemById(deleteItem).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
+        this.deleteGiftCard();
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.ItemDelete });
         this.getDetailByTicket(false);
       } else {
         this.spinner.hide();
-
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
@@ -487,6 +501,14 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
     });
   }
+
+  deleteGiftCard() {
+    const cardId = this.giftCardID;
+    this.giftcardService.deleteGiftCard(cardId).subscribe( res => {
+
+    });
+  }
+
   openCash() {
     const cashTotal = this.cash !== 0 ? this.cash : this.getBalanceDue();
     this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
@@ -581,7 +603,7 @@ export class SalesComponent implements OnInit {
     this.giftcards.reduce(item => +item.amount);
     gc = this.giftcards.reduce((accum, item) => accum + (+item.amount), 0);
     this.giftCard = gc;
-    this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
+    // this.originalGrandTotal = this.originalGrandTotal + this.giftCard;
     this.calculateTotalpaid(this.giftCard);
     document.getElementById('Giftcardpopup').style.width = '0';
   }
@@ -600,9 +622,10 @@ export class SalesComponent implements OnInit {
       const modalRef = this.modalService.open(SaleGiftCardComponent, ngbModalOptions);
       modalRef.componentInstance.ItemDetail = productObj;
       modalRef.result.then((result) => {
-        if (result) {
+        if (result.status) {
           this.isSelected = true;
           this.ticketNumber = this.newTicketNumber;
+          this.giftCardID = result.cardId;
           this.getDetailByTicket(false);
           this.addItemForm.controls.quantity.enable();
           this.addItemFormInit();

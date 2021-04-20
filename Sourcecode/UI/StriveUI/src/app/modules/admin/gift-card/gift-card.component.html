@@ -190,7 +190,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Date</th>
-                                                                    <th scope="col">Status</th>
+                                                                    <!-- <th scope="col">Status</th> -->
                                                                     <th scope="col">Ticket # </th>
                                                                     <th scope="col">Amount</th>
                                                                 </tr>
@@ -199,8 +199,8 @@
                                                                 <tr *ngFor="let card of giftCardHistory">
                                                                     <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
                                                                     </td>
-                                                                    <td>{{card.Status ? 'Active' : 'InActive'}}</td>
-                                                                    <td>{{card.GiftCardId}}</td>
+                                                                    <!-- <td>{{card.Status ? 'Active' : 'InActive'}}</td> -->
+                                                                    <td>{{card.TicketNumber}}</td>
                                                                     <td>{{card.TransactionAmount | currency}}</td>
                                                                 </tr>
                                                             </tbody>

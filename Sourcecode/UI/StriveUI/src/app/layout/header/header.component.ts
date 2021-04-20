@@ -24,7 +24,8 @@ export class HeaderComponent implements OnInit {
   temperature: number;
   cityName: string;
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
-  constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
+  constructor(
+    private authService: AuthService, private userService: UserDataService, private router: Router,
     private route: ActivatedRoute, private msgService: MessengerService,
     private weatherService: WeatherService) { }
 
@@ -78,10 +79,10 @@ export class HeaderComponent implements OnInit {
     });
   }
   logout() {
-    // this.favIcon.href = 'assets/img/Strive-Logo-login.png';
     this.msgService.closeConnection();
     this.authService.logout();
   }
+
   openmbsidebar() {
     document.getElementById('mySidenav').style.width = '200px';
     $(document).ready(function () {

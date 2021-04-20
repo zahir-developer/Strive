@@ -301,7 +301,8 @@
                                             <label for="colFormLabelSm" class="font-weight-600 font-size-2-2">Item
                                                 List</label>
                                         </div>
-                                        <div class="form-group col-md-4" *ngIf="(enableAdd === true && !enableButton) || (enableAdd === true && newTicketNumber !== '')">
+                                        <div class="form-group col-md-4"
+                                            *ngIf="(enableAdd === true && !enableButton) || (enableAdd === true && newTicketNumber !== '')">
                                             <form [formGroup]="addItemForm">
                                                 <div class="ui-fluid">
                                                     <div class="p-grid forms-grid">
@@ -313,7 +314,8 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="form-group col-md-5" *ngIf="(enableAdd === true && !enableButton) || (enableAdd === true && newTicketNumber !== '')">
+                                        <div class="form-group col-md-5"
+                                            *ngIf="(enableAdd === true && !enableButton) || (enableAdd === true && newTicketNumber !== '')">
                                             <div class=" ">
                                                 <form [formGroup]="addItemForm">
                                                     <input type="text" id="quantity" pattern="\d*" maxlength="9" (focus)="quantityFocus($event)" class="form-control d-inline-block w-23 align-middle" [disabled]='isDisableService' placeholder="Qty" formControlName="quantity" (keypress)="allowNumbersOnly($event)"
@@ -355,6 +357,18 @@
                                                     <td (dblclick)="editItem(wash)">
                                                         {{wash?.Quantity * wash?.Price | currency}}</td>
                                                     <td (dblclick)="editItem(wash)"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash, 'deleteItem')"></i></td>
+                                                </tr>
+                                                <!-- <tr *ngIf="giftCardList.length>0">
+                                                    <th scope="row" colspan="5">Gift card</th>
+                                                </tr> -->
+                                                <tr *ngFor="let giftCard of giftCardList">
+                                                    <td class="pointer">
+                                                        {{giftCard?.ServiceName}}</td>
+                                                    <td>{{giftCard?.Quantity}}</td>
+                                                    <td>
+                                                        {{giftCard?.Quantity * giftCard?.Price | currency}}</td>
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                            (click)="deleteItem(giftCard, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="additionalService.length > 0">
                                                     <th scope="row" colspan="5">Additional Services </th>

@@ -14,6 +14,8 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-washes-list',
@@ -48,11 +50,21 @@ export class WashesListComponent implements OnInit {
   startDate: any;
   endDate: any;
   sortColumn: { sortBy: string; sortOrder: string; };
-  constructor(private washes: WashService, private toastr: ToastrService,
+  searchUpdate = new Subject<string>();
+  constructor(
+    private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe, private spinner: NgxSpinnerService,
-    private confirmationService: ConfirmationUXBDialogService, private router: Router
-    , private landingservice: LandingService, private detailService: DetailService,
-    private cd: ChangeDetectorRef,) { }
+    private confirmationService: ConfirmationUXBDialogService, private router: Router,
+    private landingservice: LandingService, private detailService: DetailService,
+    private cd: ChangeDetectorRef) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllWashDetails();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Washes, sortOrder: ApplicationConfig.Sorting.SortOrder.Washes.order };
@@ -107,7 +119,7 @@ export class WashesListComponent implements OnInit {
       LocationId: this.locationId,
       PageNo: this.page,
       PageSize: this.pageSize,
-      Query: this.search == "" ? null : this.search,
+      Query: this.search === '' ? null : this.search,
       SortOrder: this.sortColumn.sortOrder,
       SortBy: this.sortColumn.sortBy,
       StartDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
@@ -115,9 +127,9 @@ export class WashesListComponent implements OnInit {
     };
     this.spinner.show();
     this.washes.getAllWashes(obj).subscribe(data => {
-      
+
       if (data.status === 'Success') {
-        this.spinner.hide()
+        this.spinner.hide();
         const wash = JSON.parse(data.resultData);
         this.getJobType();
         if (wash.Washes !== null) {
@@ -125,7 +137,7 @@ export class WashesListComponent implements OnInit {
           const totalRowCount = wash?.Washes?.Count?.Count;
           if (this.washDetails?.length > 0) {
             for (let i = 0; i < this.washDetails.length; i++) {
-              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model =  'Unk' : this.washDetails[i].Model ;
+              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
 
               let hh = this.washDetails[i].TimeIn.substring(13, 11);
               let m = this.washDetails[i].TimeIn.substring(16, 14);
@@ -306,7 +318,7 @@ export class WashesListComponent implements OnInit {
   getJobType() {
     this.detailService.getJobType().subscribe(res => {
       if (res.status === 'Success') {
-        
+
         const jobtype = JSON.parse(res.resultData);
         if (jobtype.GetJobType.length > 0) {
           jobtype.GetJobType.forEach(item => {
