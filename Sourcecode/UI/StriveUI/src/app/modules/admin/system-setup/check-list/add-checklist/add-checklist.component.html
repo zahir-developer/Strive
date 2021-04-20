@@ -5,8 +5,7 @@
     <div class="modal-body">
         <div class="form-row">
             <div class="form-group col-lg-4">
-                <input type="text" maxlength="100" class="form-control" name="CheckList" [(ngModel)]="checkListName"
-                    placeholder="Enter Check List">
+                <input type="text" maxlength="100" class="form-control" name="CheckList" [(ngModel)]="checkListName" placeholder="Enter Check List">
             </div>
             <div class="form-group col-lg-4">
                 <select name="Roles" class="form-control" [(ngModel)]="roleId" placeholder="Select Role">
@@ -20,16 +19,13 @@
                     <ngx-timepicker-field [format]="24" [(ngModel)]="notificationTime">
                     </ngx-timepicker-field>
                 </div>
-                <button type="button" style="margin-left: 5%;"
-                    [disabled]="isNotificationTimeLimit || notificationTime === ''"
-                    class="btn theme-primary-button-color btn-sm"><i class="fa fa-plus" aria-hidden="true"
+                <button type="button" style="margin-left: 5%;" [disabled]="isNotificationTimeLimit || notificationTime === ''" class="btn theme-primary-button-color btn-sm"><i class="fa fa-plus" aria-hidden="true"
                         (click)="addTime()"></i></button>
-                <div class="form-group row">
-                    <span *ngFor="let time of notificationTimeList"
-                        style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
-                        class="badge badge-secondary m-t-5 m-l-10"
-                        [disabled]="isNotificationTimeLimit"><span>{{time.time}}</span><em
-                            class="fa fa-times-circle" (click)="removeTime(time)"></em></span>
+                <div class="form-group row p-l-20">
+                    <span *ngFor="let time of notificationTimeList" style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;" class="badge badge-secondary m-t-5 m-l-10" [disabled]="isNotificationTimeLimit"><span>{{time.time}}</span>
+                    <em
+                        class="fa fa-times-circle" (click)="removeTime(time)"></em>
+                        </span>
                 </div>
             </div>
         </div>

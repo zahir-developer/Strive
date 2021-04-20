@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { CheckListService } from 'src/app/shared/services/data-service/check-list.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
@@ -48,10 +49,12 @@ export class EditChecklistComponent implements OnInit {
     if (this.notificationTime === '') {
       return;
     }
-    if (this.NotificationList.length >= 10) {
-      this.isNotificationTimeLimit = true;
-      this.notificationTime = '';
-      return;
+    if (this.NotificationList !== null) {
+      if (this.NotificationList.length >= ApplicationConfig.ChecklistNotification.MaxLength) {
+        this.isNotificationTimeLimit = true;
+        this.notificationTime = '';
+        return;
+      }
     }
     this.NotificationList.push({
       ChecklistNotificationId: 0,
@@ -60,9 +63,12 @@ export class EditChecklistComponent implements OnInit {
       isActive: true,
       isDeleted: false,
     });
-    this.NotificationList.forEach((item, index) => {
-      item.id = index;
-    });
+
+    if (this.NotificationList !== null) {
+      this.NotificationList.forEach((item, index) => {
+        item.id = index;
+      });
+    }
     this.notificationTime = '';
   }
 
@@ -73,7 +79,7 @@ export class EditChecklistComponent implements OnInit {
       this.NotificationList = this.NotificationList.filter(item => item.ChecklistNotificationId !== time.ChecklistNotificationId);
       this.deletedTime.push(time);
     }
-    if (this.NotificationList.length <= 10) {
+    if (this.NotificationList.length <= ApplicationConfig.ChecklistNotification.MaxLength) {
       this.isNotificationTimeLimit = false;
     }
   }
@@ -91,25 +97,29 @@ export class EditChecklistComponent implements OnInit {
     }
 
     const notificationTimeList = [];
-    this.NotificationList.forEach(item => {
-      notificationTimeList.push({
-        checkListNotificationId: item.ChecklistNotificationId,
-        checklistId: item.CheckListId,
-        notificationTime: item.NotificationTime,
-        isActive: true,
-        isDeleted: false,
+    if (this.NotificationList !== null) {
+      this.NotificationList.forEach(item => {
+        notificationTimeList.push({
+          checkListNotificationId: item.ChecklistNotificationId,
+          checklistId: item.CheckListId,
+          notificationTime: item.NotificationTime,
+          isActive: true,
+          isDeleted: false,
+        });
       });
-    });
+    }
 
-    this.deletedTime.forEach(item => {
-      notificationTimeList.push({
-        checkListNotificationId: item.ChecklistNotificationId,
-        checklistId: item.CheckListId,
-        notificationTime: item.NotificationTime,
-        isActive: true,
-        isDeleted: true,
+    if (this.deletedTime !== null) {
+      this.deletedTime.forEach(item => {
+        notificationTimeList.push({
+          checkListNotificationId: item.ChecklistNotificationId,
+          checklistId: item.CheckListId,
+          notificationTime: item.NotificationTime,
+          isActive: true,
+          isDeleted: true,
+        });
       });
-    });
+    }
 
     const checkListObj = {
       checklistId: this.selectedData.ChecklistDetail.ChecklistId,

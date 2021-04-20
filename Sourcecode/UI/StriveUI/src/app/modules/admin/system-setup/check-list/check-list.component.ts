@@ -12,7 +12,6 @@ import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EditChecklistComponent } from './edit-checklist/edit-checklist.component';
-import { AddChecklistComponent } from './add-checklist/add-checklist.component';
 
 @Component({
   selector: 'app-check-list',
@@ -61,7 +60,6 @@ export class CheckListComponent implements OnInit {
       sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
     };
     this.isLoading = false;
-    this.checklistAdd = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -70,20 +68,7 @@ export class CheckListComponent implements OnInit {
     this.getAllcheckListDetails();
   }
   checlist() {
-    // this.checklistAdd = true;
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg'
-    };
-    const modalRef = this.modalService.open(AddChecklistComponent, ngbModalOptions);
-    modalRef.componentInstance.rollList = this.rollList;
-    modalRef.result.then((result) => {
-      if (result) {
-        this.isNotificationTimeLimit = false;
-        this.getAllcheckListDetails();
-      }
-    });
+    this.checklistAdd = true;
   }
   checklistcancel() {
     this.checkListName = '';
@@ -101,6 +86,7 @@ export class CheckListComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
+
         // this.checkListDetails.forEach(item => {
         //   const time = item.NotificationTime.split(':');
         //   const hours = time[0];
@@ -220,16 +206,22 @@ export class CheckListComponent implements OnInit {
           // this.selectedData = sType.ChecklistById;
           this.selectedData = sType.ChecklistById;
           this.NotificationList = sType.ChecklistById.ChecklistNotificationTime;
-          this.NotificationList.forEach(item => {
-            const date = item.NotificationTime.split(':');
-            const hours = date[0];
-            const min = date[1];
-            const todayDate: any = new Date();
-            todayDate.setHours(hours);
-            todayDate.setMinutes(min);
-            todayDate.setSeconds('00');
-            item.NotificationTime = this.datePipe.transform(todayDate, 'HH:mm');
-          });
+
+          if (this.NotificationList === null)
+            this.NotificationList = [];
+
+          if (this.NotificationList != null) {
+            this.NotificationList.forEach(item => {
+              const date = item.NotificationTime.split(':');
+              const hours = date[0];
+              const min = date[1];
+              const todayDate: any = new Date();
+              todayDate.setHours(hours);
+              todayDate.setMinutes(min);
+              todayDate.setSeconds('00');
+              item.NotificationTime = this.datePipe.transform(todayDate, 'HH:mm');
+            });
+          }
           const ngbModalOptions: NgbModalOptions = {
             backdrop: 'static',
             keyboard: false,
@@ -261,7 +253,7 @@ export class CheckListComponent implements OnInit {
   }
 
   addTime() {
-    if (this.notificationTimeList.length >= 10) {
+    if (this.notificationTimeList.length >= ApplicationConfig.ChecklistNotification.MaxLength) {
       this.isNotificationTimeLimit = true;
       this.notificationTime = '';
       return;
@@ -276,8 +268,9 @@ export class CheckListComponent implements OnInit {
   }
 
   editTime(checkList) {
-    if (this.NotificationList.length >= 10) {
-      this.isNotificationTimeLimit = true;
+    if (this.NotificationList != null) {
+      if (this.NotificationList.length >= ApplicationConfig.ChecklistNotification.MaxLength)
+        this.isNotificationTimeLimit = true;
       this.notificationTime = '';
       return;
     }
