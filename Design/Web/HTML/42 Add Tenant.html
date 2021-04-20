@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Strive - Professional Car Cleaning Service</title>
+        <!-- Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" rel="stylesheet" type="text/css" />
+        <link href="https://cdn.materialdesignicons.com/4.5.95/" rel="stylesheet" type="text/css" />
+        <link href="assets/css/style.css" rel="stylesheet" />
+        <link href="assets/css/sidebar.css" rel="stylesheet" />
+        <link href="assets/css/layout.css" rel="stylesheet" />
+        <link href="assets/css/responsive.css" rel="stylesheet" />
+        <link href="assets/css/color.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" />
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <!--Wrapper-->
+            <section class="navbar-nav web-nav theme-primary-background-color">
+                <!--Sidebar-->
+                <div class="menu d-none d-sm-none d-md-block d-lg-block d-xl-block">
+                    <ul>
+                        <li class="logo-container">
+                            <a href="#" class="navbar-brand p-10"><img src="assets/img/w-strive-logo@2x.png" alt="" width="50" /></a>
+                        </li>
+                        <li class="p-t-10">
+                            <a href="#"><i class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a>
+                        </li>
+                        <li class="">
+                            <a href="#"><i class="fa-2x mdi mdi-car-wash"></i>Washes</a>
+                        </li>
+                        <li class="">
+                            <a href="#"><i class="fa-2x fa fa-drivers-license-o"></i>Details</a>
+                        </li>
+                        <li class="">
+                            <a href="#"><i class="fa-2x mdi mdi-cash-usd-outline"></i>Sales</a>
+                        </li>
+                        <li class="">
+                            <a href="#"><i class="fa-2x mdi mdi-file-document"></i>Reports</a>
+                        </li>
+                        <li class="active">
+                            <a href="#" onclick="openNav()"><i class="fa-2x mdi mdi-account-circle"></i>Admin</a>
+                        </li>
+                        <li class="">
+                            <a href="#"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a>
+                        </li>
+                        <li class="">
+                            <a href="#"><i class="fa fa-2x fa-dollar"></i>Payroll</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color d-none d-sm-none d-md-block d-lg-block d-xl-block">
+                    <a href="#" class="closebtn" onclick="closeNav()">×</a>
+                    <div class="p-l-15 p-r-15 m-b-10">
+                        <h5 class="m-t-50 p-b-10 p-r-10 text-white nav-slider-menu-title">Admin</h5>
+                    </div>
+                    <ul class="nav-slider-menu-items">
+                        <li><a href="#">Cash Register Setup</a></li>
+                        <li><a href="#">Close Out Register</a></li>
+                        <li><a href="#">Time Clock Maintenance</a></li>
+                        <li><a href="#">Employees</a></li>
+                        <li><a href="#">Clients</a></li>
+                        <li><a href="#">Vehicles</a></li>
+                        <li><a href="#">Schedules</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                        <li><a href="#">System Setup</a></li>
+						<li><a href="#">Tenant Setup</a></li>
+                    </ul>
+                </div>
+                <div id="mySidenav" class="mobile-view-nav">
+                    <a href="#" class="closebtn" onclick="closembsidebar()"><i class="fa fa-close"></i></a>
+                    <ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
+                        <li>
+                            <a href="#"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="mdi mdi-car-wash"></i><span>Washes</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-drivers-license-o"></i><span>Details</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="mdi mdi-cash-usd-outline"></i><span>Sales</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="mdi mdi-file-document"></i><span>Reports</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="mdi mdi-account-circle"></i><span>Admin</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-flag-checkered"></i><span>Checkout</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-dollar"></i><span>Payroll</span></a>
+                        </li>
+                    </ul>
+                    <div id="show-submenu" class="hide">
+                        <a href="#" class="back-to-list"> <i class="fa fa-arrow-left"></i> Back</a>
+                        <h5 class="m-r-14 m-l-20 m-t-12 text-white">Admin</h5>
+                        <ul class="mobile-view-title mb-view" id="hide-mainmenu">
+                            <li><a href="#">Cash Register Setup</a></li>
+                            <li><a href="#">Close Out Register</a></li>
+                            <li><a href="#">Time Clock Maintenance</a></li>
+                            <li><a href="#">Employees</a></li>
+                            <li><a href="#">Clients</a></li>
+                            <li><a href="#">Vehicles</a></li>
+                            <li><a href="#">Schedules</a></li>
+                            <li><a href="#">Gift Cards</a></li>
+                            <li><a href="#">System Setup</a></li>
+							<li><a href="#">Tenant Setup</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="content-wrapper" class="d-flex flex-column">
+                <!--Content Wrapper-->
+                <div id="content">
+                    <!--Content-->
+                    <nav class="nav navbar p-0">
+                        <!--header-->
+                        <ul class="w-100 bg-light">
+                            <!--mobile-nav-trigger-->
+                            <li class="mobile-nav-trigger d-none d-block d-md-none d-lg-none d-xl-none">
+                                <ul>
+                                    <li>
+                                        <button class="d-flex d-block float-left button-menu-mobile nav-link p-t-20" onclick="openmbsidebar()"><i class="fa fa-bars font-size-1-2 theme-primary-color"></i></button>
+                                    </li>
+                                    <li class="mobile-logo-wrapper">
+                                        <ul>
+                                            <li class="mobile-logo">
+                                                <span> <img src="assets/img/strive-mobile-logo-blue.png" alt="" /> </span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--mobile-nav-trigger-->
+                            <li class="admin-menu">
+                                <ul class="d-flex float-right align-self-center m-r-20">
+                                    <li>
+                                        <a href="#"><i class="fa fa-gear"></i></a>
+                                    </li>
+                                    <li class="message-notification">
+                                        <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown">
+                                            <i class="fa fa-comment"></i> <span class="badge position-absolute theme-notification-background-icon-color">1</span> <span class="sr-only">unread messages</span>
+                                        </a>
+                                        <div class="dropdown-menu animated" aria-labelledby="MessageNotificationMenuToggle">
+                                            <h6 class="font-weight-bold font-size--8">Message Notification</h6>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item p-0 m-t-5 font-size--8" href="#"><i class="fa fa-user-md"></i>unread messgage john doe</a>
+                                        </div>
+                                    </li>
+                                    <li class="admin">
+                                        <a href="#" class="admin dropdown dropdown-toggle hide-arrow" id="adminMenuToggle" data-toggle="dropdown">
+                                            <i class="fa fa-user-circle"><span class="i-text web-display">Admin</span></i>
+                                        </a>
+                                        <div class="dropdown-menu font-size--9 animated" aria-labelledby="adminMenuToggle">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-user-md"></i> Edit Profile</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!--header-->
+                    <div id="page-content">
+                        <!--page Content-->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <nav class="col-12 p-0" aria-label="breadcrumb">
+                                    <!--bread crumb-->
+                                    <ol class="breadcrumb font-size--9">
+                                        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                                        <li class="breadcrumb-item"><a href="#">Tenant Setup</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Add Tenant</li>
+                                    </ol>
+                                </nav>
+                                <!--bread crumb-->
+                                <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                                    <h3>Add New Tenant</h3>
+                                </div>
+                                <div class="col-12 p-l-0 p-r-0">
+                                    <!-- 	<div class="row"> -->
+                                    <div class="card m-b-10">
+                                        <div class="card-body">
+                                            <div class="title-border p-b-5 m-b-5">
+                                                <h6 class="d-inline-block font-weight-600">Personal Details</h6>
+                                                <div class="pull-right m-t-4 pointer">
+                                                    <a id="personaltoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
+                                                </div>
+                                            </div>
+                                            <form id="personalform">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label for="inputFirstName">First Name</label>
+                                                        <input type="number" class="form-control" id="inputFirstName" placeholder="First Name" />
+                                                    </div>
+													<div class="form-group col-md-3">
+                                                        <label for="inputaddress">Address</label>
+                                                        <input type="text" class="form-control" id="inputaddress" />
+                                                    </div>
+													<div class="form-group col-md-3">
+                                                        <label for="inputEmail">Email</label>
+                                                        <input type="phone" class="form-control" id="inputEmail" />
+                                                    </div>
+													     <div class="form-group col-md-3">
+                                                        <label for="inputmobile">Mobile Number</label>
+                                                        <input type="phone" class="form-control" id="inputmobile" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                               
+                                                      <div class="form-group col-md-3">
+                                                        <label for="inputPhone">Phone Number</label>
+                                                        <input type="phone" class="form-control" id="inputPhone" />
+                                                    </div>
+                                                   
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="card m-b-10">
+                                        <div class="card-body">
+                                            <div class="title-border p-b-5 m-b-5">
+                                                <h6 class="d-inline-block font-weight-600">Company Details</h6>
+                                                <div class="pull-right m-t-4 pointer">
+                                                    <a id="Employeelisttoggle"> <i class="fa fa-angle-up font-size-1-4"></i> </a>
+                                                </div>
+                                            </div>
+                                            <form id="emplistform">
+                                                <div class="form-row">
+													       <div class="form-group col-md-3">
+                                                        <label for="inputCompany">Company Name</label>
+                                                        <select id="inputCompany" class="form-control">
+                                                            <option selected>Choose...</option>
+                                                            <option>...</option>
+                                                        </select>
+                                                    </div>
+												         <div class="form-group col-md-3">
+                                                        <label>Date of Subscription</label>
+                                                        <input type="text" class="form-control date datepicker-view" data-toggle="date-picker" data-single-date-picker="true" />
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label>No of Locations</label>
+                                                        <input type="text" class="form-control"   />
+                                                    </div>
+                                                   	         <div class="form-group col-md-3">
+                                                        <label>Payment Date</label>
+                                                        <input type="text" class="form-control date datepicker-view" data-toggle="date-picker" data-single-date-picker="true" />
+                                                    </div>
+                                           
+                                       
+                                                </div>
+                                    
+                                
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+									<div class="card m-b-10">
+											<div class="card-body">
+												<div class="title-border p-b-5 m-b-10">
+												<h6 class="d-inline-block font-weight-600">Modules</h6>
+													<div class="custom-control custom-checkbox  d-inline-block p-l-50">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-1">
+													<label class="custom-control-label font-size-1" for="Additionalservice-1">Select All</label>
+												</div>
+													<div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Clientlist" role="button" aria-expanded="false" aria-controls="Clientlist"><i class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
+												</div>
+												<div id="Clientlist" class="collapse show">
+													<div class="row">
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice1">
+													<label class="custom-control-label" for="Additionalservice1">Washes</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-2">
+													<label class="custom-control-label" for="Additionalservice-2">Client</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-3">
+													<label class="custom-control-label" for="Additionalservice-3">Messenger</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additionalservice-4">
+													<label class="custom-control-label" for="Additionalservice-4">Payroll</label>
+												</div>
+
+											</div>
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-1">
+													<label class="custom-control-label" for="Additional-Service-1">White Labelling</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-2">
+													<label class="custom-control-label" for="Additional-Service-2">System Setup</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-3">
+													<label class="custom-control-label" for="Additional-Service-3">Sales</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional-Service-4">
+													<label class="custom-control-label" for="Additional-Service-4">Reports</label>
+												</div>
+						
+											</div>
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-19">
+													<label class="custom-control-label" for="Additional Service-19">Checkout</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-20">
+													<label class="custom-control-label" for="Additional Service-20">Cash Register Setup</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-21">
+													<label class="custom-control-label" for="Additional Service-21">Close Out Register</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Additional Service-22">
+													<label class="custom-control-label" for="Additional Service-22">Time Clock Maintenance</label>
+												</div>
+			
+											</div>
+											<div class="col-md-3">
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-1">
+													<label class="custom-control-label" for="Service-1">Employees</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-2">
+													<label class="custom-control-label" for="Service-2">Vehicles</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-3">
+													<label class="custom-control-label" for="Service-3">Scheduling</label>
+												</div>
+												<div class="custom-control custom-checkbox m-t-10">
+													<input type="checkbox" class="custom-control-input" id="Service-4">
+													<label class="custom-control-label" for="Service-4">Gift Cards</label>
+												</div>
+			
+											</div>
+										</div>
+												</div>
+											</div>
+											<!-- end card-body -->
+										</div>
+                                    <div class="m-t-12 pull-right mw-100">
+                                        <button type="button" class="btn theme-optional-button-color">Cancel</button>
+                                        <button type="button" class="btn theme-primary-button-color">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Add modal--->
+                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="addmakeModal" aria-hidden="true">
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--modal body-->
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Location</label>
+                                                    <input type="text" class="form-control" placeholder="Main Street" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Pay Per Hour Setup</label>
+                                                    <input type="text" class="form-control" placeholder="$10" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--modal body-->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn theme-optional-button-color" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn theme-primary-button-color">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Add modal--->
+                            <!--delete modal--->
+                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete Rate per Location</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--modal body-->
+                                            <p>Are you sure you want to delete this Location and Rate? All related information will be deleted and the document cannot be retrieved?</p>
+                                        </div>
+                                        <!--modal body-->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn theme-optional-button-color" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn theme-primary-button-color">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- delete modal --->
+                        </div>
+                    </div>
+                    <!--page Content-->
+                </div>
+                <!--Content-->
+            </section>
+            <!--Content Wrapper-->
+        </div>
+        <!--Wrapper-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/default.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+    </body>
+</html>
