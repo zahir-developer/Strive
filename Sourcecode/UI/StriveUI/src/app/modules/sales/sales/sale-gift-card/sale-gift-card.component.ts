@@ -23,6 +23,7 @@ export class SaleGiftCardComponent implements OnInit {
   @Input() ItemDetail?: any;
   clientList: any;
   clientId: any;
+  GiftcardNumberExist: any;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -71,7 +72,7 @@ export class SaleGiftCardComponent implements OnInit {
 
   closeModal() {
     const giftCardObj = {
-      status : false
+      status: false
     };
     this.activeModal.close(giftCardObj);
   }
@@ -93,6 +94,7 @@ export class SaleGiftCardComponent implements OnInit {
     this.giftCardForm.patchValue({
       number: cardNumber
     });
+    this.giftCardExist(this.giftCardForm.value.number);
   }
 
   filterClient(event) {
@@ -127,6 +129,11 @@ export class SaleGiftCardComponent implements OnInit {
     if (this.giftCardForm.invalid) {
       this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
+    }
+    if (this.GiftcardNumberExist === true) {
+      this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists, 'Warning!');
+      return;
+
     }
     const formObj = {
       job: {
@@ -232,8 +239,9 @@ export class SaleGiftCardComponent implements OnInit {
       if (res.status === 'Success') {
         const card = JSON.parse(res.resultData);
         const giftCardObj = {
-          status : true,
-          cardId: card.Status
+          status: true,
+          cardId: card.Status,
+          cardNumber: this.giftCardForm.value.number
         };
         this.activeModal.close(giftCardObj);
         this.toastr.success(MessageConfig.Sales.UpdateGiftCrd, 'Success!');
@@ -246,6 +254,32 @@ export class SaleGiftCardComponent implements OnInit {
       this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  giftCardExist(event) {
+    this.giftCardService.GiftCardAlreadyExists(event).subscribe(res => {
+      if (res.status === 'Success') {
+        const GiftcardNumber = JSON.parse(res.resultData);
+        this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable;
+        if (this.GiftcardNumberExist === true) {
+          this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists, 'Warning!');
+          this.giftCardForm.patchValue({
+            number: ''
+          });
+        }
+        else {
+          this.giftCardForm.patchValue({
+            number: event
+          });
+        }
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+
   }
 
 }

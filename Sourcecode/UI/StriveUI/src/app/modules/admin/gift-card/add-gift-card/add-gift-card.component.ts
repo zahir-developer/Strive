@@ -184,16 +184,16 @@ export class AddGiftCardComponent implements OnInit {
 
   generateNumber() {
     const cardNumber = Math.floor(100000 + Math.random() * 900000);
-
     this.giftCardForm.patchValue({
       number: cardNumber
     });
+    this.giftCardExist(this.giftCardForm.value.number);
   }
   giftCardExist(event) {
     this.giftCardService.GiftCardAlreadyExists(event).subscribe(res => {
       if (res.status === 'Success') {
-        const GiftcardNumber = JSON.parse(res.resultData)
-        this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable
+        const GiftcardNumber = JSON.parse(res.resultData);
+        this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable;
         if (this.GiftcardNumberExist === true) {
           this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists, 'Warning!');
           this.giftCardForm.patchValue({
@@ -201,7 +201,6 @@ export class AddGiftCardComponent implements OnInit {
           });
         }
         else {
-
           this.giftCardForm.patchValue({
             number: event
           });
