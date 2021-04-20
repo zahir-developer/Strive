@@ -94,6 +94,7 @@ export class ProductCreateEditComponent implements OnInit {
     } else {
       this.productSetupForm.controls.status.enable();
     }
+    this.getSize();
   }
   // Get ProductType
   getProductType() {
@@ -155,7 +156,7 @@ export class ProductCreateEditComponent implements OnInit {
             item_text: item.VendorName
           };
         });
-        
+
         this.dropdownSetting();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -206,32 +207,35 @@ export class ProductCreateEditComponent implements OnInit {
           item_text: this.selectedProduct.LocationName,
         };
 
-        this.getSize();
+
 
         selectedLocation.push(locObj);
 
         //Vendor
         const selectedVendors = [];
-        Vendors.forEach(item => {
-          selectedVendors.push(
-            {
-              vendorId: item.VendorId,
-              productId: item.ProductId,
-              productVendorId: item.ProductVendorId,
-              isDeleted: item.IsDeleted,
-              item_id: item.VendorId,
-              item_text: item.VendorName
-            });
 
-          this.productVendorList.push(
-            {
-              ProductVendorId: item.ProductVendorId,
-              ProductId: item.ProductId,
-              VendorId: item.VendorId,
-              IsActive: true,
-              IsDeleted: false
-            });
-        });
+        if (Vendors !== null) {
+          Vendors.forEach(item => {
+            selectedVendors.push(
+              {
+                vendorId: item.VendorId,
+                productId: item.ProductId,
+                productVendorId: item.ProductVendorId,
+                isDeleted: item.IsDeleted,
+                item_id: item.VendorId,
+                item_text: item.VendorName
+              });
+
+            this.productVendorList.push(
+              {
+                ProductVendorId: item.ProductVendorId,
+                ProductId: item.ProductId,
+                VendorId: item.VendorId,
+                IsActive: true,
+                IsDeleted: false
+              });
+          });
+        }
 
         this.dropdownSetting();
 
@@ -291,17 +295,14 @@ export class ProductCreateEditComponent implements OnInit {
     }
   }
 
-  onVendorDeSelect(vendor)
-  {
-    if(this.productVendorList.length > 0)
-    {
-      const prodVendor = this.productVendorList.filter(item=> item.ProductVendorId === vendor.item_id);
-      prodVendor.IsDeleted = true;
+  onVendorDeSelect(vendor) {
+    if (this.productVendorList.length > 0) {
+      this.productVendorList.forEach(item => {
+        if (item.VendorId === vendor.item_id) {
+          item.IsDeleted = true;
+        }
+      });
     }
-    console.log(vendor);
-    
-    console.log(this.productVendorList);
-    
   }
 
   // Add/Update Product
@@ -350,13 +351,24 @@ export class ProductCreateEditComponent implements OnInit {
         productObj.price = this.productSetupForm.value.suggested;
         (this.productSetupForm.value.vendor || []).forEach(vendor => {
           vendorList.push({
-            productVendorId: this.isEdit ? vendor.productVendorId : 0,
-            productId: this.isEdit ? vendor.productId : 0,
+            productVendorId: this.isEdit && vendor.productVendorId !== undefined ? vendor.productVendorId : 0,
+            productId: this.isEdit ? this.selectedProduct.ProductId : 0,
             vendorId: vendor.item_id,
             isActive: true,
-            isDeleted: vendor.isDeleted,
+            isDeleted: false,
           });
         });
+
+        if (this.productVendorList.length > 0) {
+          const deletedVendors = this.productVendorList.filter(s => s.IsDeleted == true);
+
+          if (deletedVendors.length > 0) {
+            deletedVendors.forEach(vendor => {
+              vendorList.push(vendor);
+            });
+          }
+        }
+
         obj.product = productObj;
         obj.productVendor = vendorList;
         productList.push(obj);
