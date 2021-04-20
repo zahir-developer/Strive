@@ -121,7 +121,7 @@ export const UrlConfig = {
     updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`,
     getBalance: `Admin/GiftCard/GetGiftCardBalance/`,
     getGiftCardHistoryByTicketNmber: `Admin/GiftCard/GetGiftCardBalanceHistory/`,
-
+    deleteGiftCard: `Admin/GiftCard/Delete`
   },
   location: {
     getLocation: `Admin/Location/GetAll`,

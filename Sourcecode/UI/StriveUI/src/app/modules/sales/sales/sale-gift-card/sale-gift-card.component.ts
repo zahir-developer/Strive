@@ -8,6 +8,7 @@ import { SalesService } from 'src/app/shared/services/data-service/sales.service
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-sale-gift-card',
@@ -20,13 +21,17 @@ export class SaleGiftCardComponent implements OnInit {
   isOtherAmount: boolean;
   submitted: boolean;
   @Input() ItemDetail?: any;
+  clientList: any;
+  clientId: any;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private salesService: SalesService,
     private toastr: ToastrService,
     private giftCardService: GiftCardService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private wash: WashService,
+    private messageService: MessageServiceToastr
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +41,9 @@ export class SaleGiftCardComponent implements OnInit {
       number: ['', Validators.required],
       activeDate: ['', Validators.required],
       amount: ['', Validators.required],
-      others: ['']
+      others: [''],
+      clientId: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
     });
     this.amountList = [
       {
@@ -63,7 +70,10 @@ export class SaleGiftCardComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    const giftCardObj = {
+      status : false
+    };
+    this.activeModal.close(giftCardObj);
   }
 
   selectedAmount(event) {
@@ -83,6 +93,33 @@ export class SaleGiftCardComponent implements OnInit {
     this.giftCardForm.patchValue({
       number: cardNumber
     });
+  }
+
+  filterClient(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+    });
+  }
+  selectedClient(event) {
+    this.clientId = event.id;
   }
 
   save() {
@@ -156,13 +193,10 @@ export class SaleGiftCardComponent implements OnInit {
     this.salesService.addItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         this.submitted = false;
         this.saveGiftCard();
-        this.activeModal.close(true);
       } else {
         this.spinner.hide();
-
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -185,21 +219,26 @@ export class SaleGiftCardComponent implements OnInit {
       createdBy: 0,
       createdDate: moment(new Date()),
       updatedBy: 0,
-      updatedDate: moment(new Date())
+      updatedDate: moment(new Date()),
+      clientId: this.clientId,
+      email: this.giftCardForm.value.email,
     };
     const finalObj = {
       giftCard: cardObj
     };
     this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
-        this.spinner.hide();
-
+        const card = JSON.parse(res.resultData);
+        const giftCardObj = {
+          status : true,
+          cardId: card.Status
+        };
+        this.activeModal.close(giftCardObj);
         this.toastr.success(MessageConfig.Sales.UpdateGiftCrd, 'Success!');
-
       } else {
         this.spinner.hide();
-
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.giftCardForm.reset();
       }

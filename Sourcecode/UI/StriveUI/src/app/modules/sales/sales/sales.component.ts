@@ -74,6 +74,7 @@ export class SalesComponent implements OnInit {
   allService = [];
   clientId: number;
   giftCardList = [];
+  giftCardID: any;
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -355,7 +356,14 @@ export class SalesComponent implements OnInit {
         TicketNumber: ticketNumber,
         LocationId: this.locationId
       };
-
+      this.giftCardList = [];
+      this.washes = [];
+      this.details = [];
+      this.additionalService = [];
+      this.upCharges = [];
+      this.outsideServices = [];
+      this.discountService = [];
+      this.airfreshnerService = [];
       this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
@@ -481,11 +489,11 @@ export class SalesComponent implements OnInit {
     this.salesService.deleteItemById(deleteItem).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
+        this.deleteGiftCard();
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.ItemDelete });
         this.getDetailByTicket(false);
       } else {
         this.spinner.hide();
-
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
@@ -493,6 +501,14 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
     });
   }
+
+  deleteGiftCard() {
+    const cardId = this.giftCardID;
+    this.giftcardService.deleteGiftCard(cardId).subscribe( res => {
+
+    });
+  }
+
   openCash() {
     const cashTotal = this.cash !== 0 ? this.cash : this.getBalanceDue();
     this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
@@ -606,9 +622,10 @@ export class SalesComponent implements OnInit {
       const modalRef = this.modalService.open(SaleGiftCardComponent, ngbModalOptions);
       modalRef.componentInstance.ItemDetail = productObj;
       modalRef.result.then((result) => {
-        if (result) {
+        if (result.status) {
           this.isSelected = true;
           this.ticketNumber = this.newTicketNumber;
+          this.giftCardID = result.cardId;
           this.getDetailByTicket(false);
           this.addItemForm.controls.quantity.enable();
           this.addItemFormInit();

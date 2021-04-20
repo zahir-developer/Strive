@@ -474,13 +474,12 @@
                                                     <th scope="row" colspan="5">Gift card</th>
                                                 </tr> -->
                                                 <tr *ngFor="let giftCard of giftCardList">
-                                                    <td class="pointer" (dblclick)="editItem(giftCard)">
+                                                    <td class="pointer">
                                                         {{giftCard?.ServiceName}}</td>
-                                                    <td (dblclick)="editItem(giftCard)">{{giftCard?.Quantity}}</td>
-                                                    <td (dblclick)="editItem(giftCard)">
+                                                    <td>{{giftCard?.Quantity}}</td>
+                                                    <td>
                                                         {{giftCard?.Quantity * giftCard?.Price | currency}}</td>
-                                                    <td (dblclick)="editItem(giftCard)"> <i
-                                                            class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
+                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
                                                             (click)="deleteItem(giftCard, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="additionalService.length > 0">
