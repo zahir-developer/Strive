@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EditChecklistComponent } from './edit-checklist/edit-checklist.component';
+import { AddChecklistComponent } from './add-checklist/add-checklist.component';
 
 @Component({
   selector: 'app-check-list',
@@ -60,6 +61,7 @@ export class CheckListComponent implements OnInit {
       sortOrder: ApplicationConfig.Sorting.SortOrder.checklistSetup.order
     };
     this.isLoading = false;
+    this.checklistAdd = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -68,7 +70,20 @@ export class CheckListComponent implements OnInit {
     this.getAllcheckListDetails();
   }
   checlist() {
-    this.checklistAdd = true;
+    // this.checklistAdd = true;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(AddChecklistComponent, ngbModalOptions);
+    modalRef.componentInstance.rollList = this.rollList;
+    modalRef.result.then((result) => {
+      if (result) {
+        this.isNotificationTimeLimit = false;
+        this.getAllcheckListDetails();
+      }
+    });
   }
   checklistcancel() {
     this.checkListName = '';
