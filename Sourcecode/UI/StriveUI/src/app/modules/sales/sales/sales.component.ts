@@ -521,7 +521,7 @@ export class SalesComponent implements OnInit {
     this.giftCardForm.reset();
     this.isInvalidGiftcard = false;
     if (this.validGiftcard !== undefined) {
-      this.validGiftcard.GiftCardDetail[0].BalaceAmount = 0;
+      this.validGiftcard.GiftCardDetail[0].BalanceAmount = 0;
     }
     this.balance = 0;
     document.getElementById('Giftcardpopup').style.width = '450px';
@@ -591,7 +591,7 @@ export class SalesComponent implements OnInit {
       this.giftcards.push({ id: this.validGiftcard?.GiftCardDetail[0]?.GiftCardId, number: giftCardNumber, amount: giftCardAmount });
       this.giftCardForm.reset();
       this.balance = 0;
-      this.validGiftcard.GiftCardDetail[0].BalaceAmount = 0;
+      this.validGiftcard.GiftCardDetail[0].BalanceAmount = 0;
       this.giftcardsubmitted = false;
     } else {
       return;
@@ -1274,7 +1274,7 @@ export class SalesComponent implements OnInit {
   validateAmount() {
     this.isInvalidGiftcard = false;
     const enteredAmount = this.giftCardForm.value.giftCardAmount;
-    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalaceAmount;
+    const currentAmount = this.validGiftcard?.GiftCardDetail[0]?.BalanceAmount;
     const today = new Date();
     const giftcardexpiryDate = this.validGiftcard?.GiftCardDetail[0]?.ActiveDate;
     if (enteredAmount !== undefined && currentAmount !== undefined) {

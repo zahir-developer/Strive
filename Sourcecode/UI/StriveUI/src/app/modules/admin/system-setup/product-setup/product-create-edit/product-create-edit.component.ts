@@ -62,7 +62,7 @@ export class ProductCreateEditComponent implements OnInit {
     this.getLocation();
     this.getAllVendor();
     this.getProductType();
-    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
+    this.Status = [{ id: 1, Value: "Active" }, { id: 0, Value: "Inactive" }];
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
@@ -78,8 +78,8 @@ export class ProductCreateEditComponent implements OnInit {
       locationName: [[], Validators.required],
       name: ['', Validators.required],
       size: ['',],
-      quantity: ['',],
-      cost: ['', Validators.required],
+      quantity: ['', Validators.required],
+      cost: ['',],
       taxable: ['',],
       taxAmount: ['',],
       status: ['',],
@@ -88,7 +88,7 @@ export class ProductCreateEditComponent implements OnInit {
       other: ['',],
       suggested: ['', Validators.required]
     });
-    this.productSetupForm.patchValue({ status: 0 });
+    this.productSetupForm.patchValue({ status: 1 });
     if (this.isEdit !== true) {
       this.productSetupForm.controls.status.disable();
     } else {
@@ -155,7 +155,7 @@ export class ProductCreateEditComponent implements OnInit {
             item_text: item.VendorName
           };
         });
-        this.getSize();
+        
         this.dropdownSetting();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -202,9 +202,11 @@ export class ProductCreateEditComponent implements OnInit {
         //location 
         const selectedLocation = [];
         const locObj = {
-          id: this.selectedProduct.LocationId,
-          name: this.selectedProduct.LocationName,
+          item_id: this.selectedProduct.LocationId,
+          item_text: this.selectedProduct.LocationName,
         };
+
+        this.getSize();
 
         selectedLocation.push(locObj);
 
@@ -213,8 +215,12 @@ export class ProductCreateEditComponent implements OnInit {
         Vendors.forEach(item => {
           selectedVendors.push(
             {
-              id: item.VendorId,
-              name: item.VendorName
+              vendorId: item.VendorId,
+              productId: item.ProductId,
+              productVendorId: item.ProductVendorId,
+              isDeleted: item.IsDeleted,
+              item_id: item.VendorId,
+              item_text: item.VendorName
             });
 
           this.productVendorList.push(
@@ -243,14 +249,18 @@ export class ProductCreateEditComponent implements OnInit {
           vendor: selectedVendors,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
+
         this.fileName = this.selectedProduct.FileName;
         this.base64Value = this.selectedProduct.Base64;
         this.fileUploadformData = this.selectedProduct.Base64;
+
         if (this.selectedProduct.Size !== null) {
           this.sizeId = this.selectedProduct.Size;
-          const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
-          if (sizeObj !== null) {
-            this.enableOtherSize(sizeObj);
+          if (this.size !== undefined) {
+            const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
+            if (sizeObj !== null) {
+              this.enableOtherSize(sizeObj);
+            }
           }
         }
         this.change(this.selectedProduct.IsTaxable);
@@ -279,6 +289,19 @@ export class ProductCreateEditComponent implements OnInit {
       this.productSetupForm.get('taxAmount').clearValidators();
       this.productSetupForm.get('taxAmount').reset();
     }
+  }
+
+  onVendorDeSelect(vendor)
+  {
+    if(this.productVendorList.length > 0)
+    {
+      const prodVendor = this.productVendorList.filter(item=> item.ProductVendorId === vendor.item_id);
+      prodVendor.IsDeleted = true;
+    }
+    console.log(vendor);
+    
+    console.log(this.productVendorList);
+    
   }
 
   // Add/Update Product
@@ -321,17 +344,17 @@ export class ProductCreateEditComponent implements OnInit {
         productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
         productObj.quantity = this.productSetupForm.value.quantity;
         productObj.quantityDescription = null;
-        productObj.isActive = this.productSetupForm.value.status === 0 ? true : false;
+        productObj.isActive = this.productSetupForm.value.status === 1 ? true : false;
         productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
         productObj.isDeleted = false;
         productObj.price = this.productSetupForm.value.suggested;
         (this.productSetupForm.value.vendor || []).forEach(vendor => {
           vendorList.push({
-            productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
-            productId: this.isEdit ? this.selectedProduct.ProductId : 0,
+            productVendorId: this.isEdit ? vendor.productVendorId : 0,
+            productId: this.isEdit ? vendor.productId : 0,
             vendorId: vendor.item_id,
             isActive: true,
-            isDeleted: false,
+            isDeleted: vendor.isDeleted,
           });
         });
         obj.product = productObj;
