@@ -504,10 +504,11 @@ export class SalesComponent implements OnInit {
   }
 
   deleteGiftCard() {
-    const cardId = this.giftCardID;
-    this.giftcardService.deleteGiftCard(cardId).subscribe( res => {
-
-    });
+    if (this.giftCardID !== undefined) {
+      const cardId = this.giftCardID;
+      this.giftcardService.deleteGiftCard(cardId).subscribe(res => {
+      });
+    }
   }
 
   openCash() {
