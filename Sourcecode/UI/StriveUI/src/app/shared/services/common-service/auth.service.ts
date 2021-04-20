@@ -86,7 +86,7 @@ export class AuthService {
     this.loggedIn.next(false);
     localStorage.removeItem('views');
     localStorage.removeItem('navName');
-    localStorage.clear();
+    // localStorage.clear();
     this.stopRefreshTokenTimer();
     document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
