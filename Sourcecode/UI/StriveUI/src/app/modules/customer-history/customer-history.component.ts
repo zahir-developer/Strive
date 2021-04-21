@@ -53,6 +53,10 @@ export class CustomerHistoryComponent implements OnInit {
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.year = this.date.getFullYear();
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.customerHistory,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.customerHistory.order
+     }
     this.getCustomerHistory();
   
   }
@@ -66,10 +70,7 @@ export class CustomerHistoryComponent implements OnInit {
   getCustomerHistory() {
     // 2053 ,2020-12-01,2021-01-21
     let finalObj: any = {};
-    this.sortColumn ={
-      sortBy: ApplicationConfig.Sorting.SortBy.customerHistory,
-      sortOrder: ApplicationConfig.Sorting.SortOrder.customerHistory.order
-     }
+    
     if (this.month === '0') {
       const fromDate = new Date();
       fromDate.setFullYear(this.year);
@@ -115,7 +116,7 @@ export class CustomerHistoryComponent implements OnInit {
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
         console.log(history, 'history');
-        this.historyList = history.CustomerHistory;
+        this.historyList = history.CustomerHistory.customerHistoryViewModel;
         this.collectionSize = Math.ceil(this.historyList.length / this.pageSize) * 10;
       }
     }, (err) => {

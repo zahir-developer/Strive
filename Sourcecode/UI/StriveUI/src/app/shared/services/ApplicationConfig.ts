@@ -97,7 +97,7 @@ export const ApplicationConfig = {
             Washes: 'TicketNumber',
             Detail: 'TicketNumber',
             GiftCard: 'GiftCardCode',
-            customerHistory :'CustomerName'
+            customerHistory :'ClientId'
 
         }
     },

@@ -5,7 +5,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size-1">
-                    <li class="breadcrumb-item"><a (click) = "landing()">Home</a></li>
+                    <li class="breadcrumb-item"><a (click)="landing()">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Customer-History</li>
                 </ol>
             </nav>
@@ -37,16 +37,18 @@
                                         <form>
                                             <div class="form-row">
                                                 <div class="form-group col-sm-1 m-r-10 m-t-10">
-                                                    <p-inputSwitch [style]="{'font-size':'10px'}" name="driveup" [(ngModel)]="offset1"></p-inputSwitch>
+                                                    <p-inputSwitch [style]="{'font-size':'10px'}" name="driveup"
+                                                        [(ngModel)]="offset1"></p-inputSwitch>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="search"
-                                                        class="form-control"  name="search" id="inputSearch" [(ngModel)]="searchQery"
-                                                        placeholder="Search"> </div>
+                                                    <input type="search" class="form-control" name="search"
+                                                        id="inputSearch" [(ngModel)]="searchQery" placeholder="Search">
+                                                </div>
                                                 <div class="form-group col-sm m-l-5">
                                                     <button type="button"
-                                                        class="btn theme-primary-button-color btn-sm m-l-10" (click)="search()">Search</button>
-                                                        <button type="button"
+                                                        class="btn theme-primary-button-color btn-sm m-l-10"
+                                                        (click)="search()">Search</button>
+                                                    <button type="button"
                                                         class="btn theme-primary-button-color btn-sm m-l-10">Reset</button>
                                                 </div>
                                             </div>
@@ -58,37 +60,40 @@
                                         <table class="table border table-striped m-t-10 headerfix">
                                             <thead>
                                                 <tr>
-                                                   
-                                                    <th class="pointer" (click)="changeSorting('ServiceDate')"> Service Date&nbsp; 
-                                                        <i class="fa" [ngClass]="selectedCls('ServiceDate')"></i></th>
-                                                  
-                                                        <th class="pointer" (click)="changeSorting('CustomerId')">   Customer ID&nbsp; 
-                                                            <i class="fa" [ngClass]="selectedCls('CustomerId')"></i></th>     
-                                                            <th class="pointer" (click)="changeSorting('CustomerName')">    Customer Name&nbsp; 
-                                                                <i class="fa" [ngClass]="selectedCls('CustomerName')"></i></th> 
-                                                                <th class="pointer" (click)="changeSorting('VehicleId')">                                                           Vehicle ID
-                                                                    Vehicle ID
-                                                                    &nbsp; 
-                                                                    <i class="fa" [ngClass]="selectedCls('VehicleId')"></i></th> 
-                                                  
-                                                                    <th class="pointer" (click)="changeSorting('Barcode')">                                                           Vehicle ID
-                                                                        Barcode
-                                                                        &nbsp; 
-                                                                        <i class="fa" [ngClass]="selectedCls('Barcode')"></i></th>  
-                                                                        <th class="pointer" (click)="changeSorting('Membership')">                                                           Vehicle ID
-                                                                            Membership
-                                                                            &nbsp; 
-                                                                            <i class="fa" [ngClass]="selectedCls('Membership')"></i></th> 
-                                                                            <th class="pointer" (click)="changeSorting('TicketNumber')">                                                           Vehicle ID
-                                                                                Ticket No
-                                                                                &nbsp; 
-                                                                                <i class="fa" [ngClass]="selectedCls('TicketNumber')"></i></th> 
-                                                                                <th class="pointer" (click)="changeSorting('Service')">                                                           Vehicle ID
-                                                                                    Ticket No
-                                                                                    &nbsp; 
-                                                                                    <i class="fa" [ngClass]="selectedCls('Service')"></i></th> 
-                                                   
-                                                    <!-- <th scope="col" class="pointer">Additional Services
+
+                                                    <th > Service
+                                                        Date&nbsp;
+                                                  </th>
+
+                                                    <th class="pointer" (click)="changeSorting('ClientId')"> Customer
+                                                        ID&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('ClientId')"></i></th>
+                                                    <th class="pointer" (click)="changeSorting('FirstName')"> Customer
+                                                        Name&nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('FirstName')"></i></th>
+                                                    <th class="pointer" (click)="changeSorting('VehicleId')">
+                                                        Vehicle ID
+                                                        &nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('VehicleId')"></i></th>
+
+                                                    <th class="pointer" (click)="changeSorting('BarCode')">
+                                                        Barcode
+                                                        &nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('BarCode')"></i></th>
+                                                    <th class="pointer" (click)="changeSorting('MembershipName')">
+                                                        Membership
+                                                        &nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('MembershipName')"></i></th>
+                                                    <th class="pointer" (click)="changeSorting('TicketNumber')">
+                                                        Ticket No
+                                                        &nbsp;
+                                                        <i class="fa" [ngClass]="selectedCls('TicketNumber')"></i></th>
+                                                    <th>
+                                                        Service
+                                                        &nbsp;
+
+
+                                                        <!-- <th scope="col" class="pointer">Additional Services
                                                     </th>
                                                     <th scope="col" class="pointer">Amount
                                                     </th> -->
@@ -97,16 +102,18 @@
                                             </thead>
                                             <tbody class="bodyfix">
                                                 <tr *ngFor="let history of historyList">
-                                                    <td>2020-12-1</td>
+                                                    <td>{{history.ServiceDate | date : 'MM/dd/yyyy'}}</td>
                                                     <td class="text-underline theme-primary-color font-size--9"
-                                                        style="cursor: pointer;" (click)="navigateToClient()">88</td>
-                                                    <td>{{history.CustomerName}}</td>
+                                                        style="cursor: pointer;" (click)="navigateToClient()">
+                                                        {{history.ClientId}}</td>
+                                                    <td>{{history.FirstName}} {{history.LastName}}</td>
                                                     <td class="text-underline theme-primary-color font-size--9"
-                                                        style="cursor: pointer;" (click)="navigateToVehicle()">36</td>
-                                                    <td>78899</td>
+                                                        style="cursor: pointer;" (click)="navigateToVehicle()">
+                                                        {{history.VehicleId}}</td>
+                                                    <td>{{history.BarCode}}</td>
                                                     <td>{{history.MembershipName}}</td>
                                                     <td>{{history.TicketNumber}}</td>
-                                                    <td>{{history.Services}}</td>
+                                                    <td>{{history.AdditionalServices}}</td>
                                                 </tr>
                                                 <tr *ngIf="historyList.length === 0">
                                                     <td colspan="8" class="text-center">
