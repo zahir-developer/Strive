@@ -18,6 +18,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string MembershipName { get; set; }
         public string BarCode { get; set; }
         public string AdditionalServices { get; set; }
-        public string Services { get; set; 
+        public string Services { get; set; }
     }
 }
