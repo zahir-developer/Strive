@@ -406,7 +406,7 @@ export class ServiceCreateEditComponent implements OnInit {
     if (this.isEdit === true) {
       const formObj = this.serviceSetupList[0];
       this.spinner.show();
-      this.serviceSetup.updateServiceSetup(service).subscribe(data => {
+      this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
           this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Update, 'Success!');
