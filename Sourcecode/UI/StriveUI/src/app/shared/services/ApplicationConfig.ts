@@ -144,7 +144,8 @@ LiablityDetailType: 'LIABILITYDETAILTYPE',
 CommisionType: "COMMISIONTYPE",
 paymentType : 'PAYMENTTYPE',
 paymentStatus:'PAYMENTSTATUS',
-ClientType: 'CLIENTTYPE'
+ClientType: 'CLIENTTYPE',
+ServiceCategory : 'ServiceCategory'
 },
 CodeValue :{
     EmployeeHandBook: 'EmployeeHandBook',

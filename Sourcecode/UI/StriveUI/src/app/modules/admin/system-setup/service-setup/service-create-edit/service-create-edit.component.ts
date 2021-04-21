@@ -48,6 +48,9 @@ export class ServiceCreateEditComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   locationId: any = [];
   serviceSetupList: any = [];
+  codeCategory: any;
+  isCeramic: boolean = false;
+  isWash: boolean;
 
 
 
@@ -70,6 +73,7 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getLocation();
     this.formInitialize();
     this.getCommissionType();
+    this.getCategory()
   }
 
   formInitialize() {
@@ -88,6 +92,8 @@ export class ServiceCreateEditComponent implements OnInit {
       status: ['',],
       fee: ['',],
       suggested: [''],
+      serviceCategory: [''],
+      isCeramic: [''],
       location: [[]]
     });
     this.serviceSetupForm.patchValue({ status: 0 });
@@ -167,6 +173,8 @@ export class ServiceCreateEditComponent implements OnInit {
           cost: this.selectedService?.Cost,
           price: this.selectedService?.Price,
           commission: this.selectedService?.Commision,
+          serviceCategory: this.selectedService?.ServiceCategory,
+          isCeramic: this.selectedService?.IsCeramic,
           commissionType: this.selectedService?.CommissionTypeId,
           fee: this.selectedService?.CommissionCost,
           discountType: this.selectedService?.DiscountType,
@@ -315,8 +323,11 @@ export class ServiceCreateEditComponent implements OnInit {
         this.isDiscounts = false;
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashPackage) {
+        this.isWash = true;
         this.isCommisstionShow = false;
       } else {
+        this.isWash = false;
+
         this.isCommisstionShow = true;
       }
     }
@@ -341,6 +352,16 @@ export class ServiceCreateEditComponent implements OnInit {
       this.serviceSetupForm.get('fee').reset();
     }
   }
+  changeCeramic(data) {
+    this.serviceSetupForm.value.commission = data;
+    if (data === true) {
+      this.isCeramic = true;
+      
+    } else {
+      this.isCeramic = false;
+    
+    }
+  }
 
   // Add/Update Service
   submit() {
@@ -362,6 +383,8 @@ export class ServiceCreateEditComponent implements OnInit {
       service: this.serviceSetupList
 
     };
+ 
+    
     if (this.serviceSetupForm.value.location) {
       this.serviceSetupForm.value.location.map(item => {
 
@@ -380,6 +403,8 @@ export class ServiceCreateEditComponent implements OnInit {
             isActive: this.serviceSetupForm.value.status == 0 ? true : false,
             locationId: item.id,
             commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
+            serviceCategory : this.serviceSetupForm.value.serviceCategory,
+            isCeramic : this.isCeramic,
             isDeleted: false,
             createdBy: this.employeeId,
             createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
@@ -395,11 +420,35 @@ export class ServiceCreateEditComponent implements OnInit {
 
       )
     }
-
+    const
+    service = {
+      serviceType: this.serviceSetupForm.value.serviceType,
+      serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
+      serviceName: this.serviceSetupForm.value.name,
+      description: this.serviceSetupForm.value.description,
+      cost: this.serviceSetupForm.value.cost,
+      price: this.serviceSetupForm.value.price,
+      commision: this.isChecked,
+      commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : null,
+      upcharges: this.serviceSetupForm.value.upcharge,
+      parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
+      isActive: this.serviceSetupForm.value.status == 0 ? true : false,
+      locationId: this.selectedService.LocationId,
+      commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
+      serviceCategory : this.serviceSetupForm.value.serviceCategory,
+      isCeramic : this.isCeramic,
+      isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
+      updatedBy: this.employeeId,
+      updatedDate: new Date(),
+      discountServiceType: this.serviceSetupForm.value.discountServiceType,
+      discountType: this.serviceSetupForm.value.discountType,
+    }
 
     if (this.isEdit === true) {
       this.spinner.show();
-      this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
+      this.serviceSetup.updateServiceSetup(service).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
 
@@ -439,5 +488,14 @@ export class ServiceCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+   // Get Category
+   getCategory() {
+    const sizeCodes = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.ServiceCategory);
+    if (sizeCodes.length > 0) {
+      this.codeCategory = sizeCodes;
+      console.log(this.codeCategory)
+    }
   }
 }
