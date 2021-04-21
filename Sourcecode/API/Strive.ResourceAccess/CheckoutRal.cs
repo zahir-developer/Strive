@@ -55,7 +55,7 @@ namespace Strive.ResourceAccess
             return true;
         }
 
-        public List<CheckOutViewModel> GetCustomerHistory(CustomerHistorySearchDto salesReportDto)
+        public CustomerHistoryGridViewModel GetCustomerHistory(CustomerHistorySearchDto salesReportDto)
         {
             _prm.Add("locationid", salesReportDto.LocationId);
             _prm.Add("fromDate", salesReportDto.FromDate);
@@ -66,7 +66,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@SortOrder", salesReportDto.SortOrder);
             _prm.Add("@SortBy", salesReportDto.SortBy);
 
-            return db.Fetch<CheckOutViewModel>(EnumSP.Checkout.USPGETCUSTOMERHISTORY.ToString(), _prm);
+            return db.FetchMultiResult<CustomerHistoryGridViewModel>(EnumSP.Checkout.USPGETCUSTOMERHISTORY.ToString(), _prm);
 
         }
     }
