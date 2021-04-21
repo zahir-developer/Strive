@@ -47,7 +47,7 @@
                     <div id="monthlyReport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Tip Report </span>
-                            <div class="d-inline-block"><input type="text" id='monthlyTipTotal' class="form-control" [(ngModel)]="tipAmount" appTwoDecimalNumber size="2" placeholder="Tip Total">
+                            <div class="d-inline-block"><input type="text" id='monthlyTipTotal' class="form-control" [(ngModel)]="tipAmount" appTwoDecimalNumber size="7" placeholder="Tip Total">
                             </div>
                             &nbsp;<button type="button" id='monthlyTip' class="btn theme-primary-button-color" [disabled]="!tipAmount" (click)="submit()">Submit</button>
                         </h4>
@@ -84,7 +84,7 @@
                                 <tfoot class="table-foot font-weight-700" *ngIf="monthlyTip?.length > 0">
                                     <tr>
                                         <td colspan="2" class="font-weight-700 text-right">Tip Total </td>
-                                        <td>{{totalTip | currency}}</td>
+                                        <td>{{tips | currency}}</td>
                                     </tr>
                                 </tfoot>
                             </table>

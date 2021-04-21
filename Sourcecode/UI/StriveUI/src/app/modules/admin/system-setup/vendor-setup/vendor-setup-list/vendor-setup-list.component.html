@@ -15,7 +15,7 @@
                   <div class="form-row">
                     <div class="form-group d-flex"> <input type="search" size="25" class="form-control" [(ngModel)]="search"
                         name="search" id="inputSearch" placeholder="Search by Name, Email"
-                        (keyup)="$event.keyCode == 13 ? vendorSearch() : null"> </div>
+                        (ngModelChange)="this.searchUpdate.next($event)"> </div>
                     <div class="form-group col-sm m-l-5">
                       <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
                         (click)="vendorSearch()">Search</button>

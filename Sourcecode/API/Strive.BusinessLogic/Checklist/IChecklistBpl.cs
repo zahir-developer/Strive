@@ -11,7 +11,8 @@ namespace Strive.BusinessLogic.Checklist
     public interface IChecklistBpl
     {
         Result GetChecklist();
-        Result AddChecklist(ChecklistAddDto checklistAdd);
+        Result AddChecklist(ChecklistDto checklistAdd);
+        Result UpdateChecklist(ChecklistDto checklistUpdate);
         Result DeleteChecklist(int id);
         Result GetChecklistById(int id);
     }

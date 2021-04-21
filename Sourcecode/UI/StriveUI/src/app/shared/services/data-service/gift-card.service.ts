@@ -40,4 +40,7 @@ export class GiftCardService {
   getBalance(giftCardNumber) {
     return this.http.get(`${UrlConfig.giftCard.getBalance}` + giftCardNumber);
   }
+  deleteGiftCard(id) {
+    return this.http.delete(`${UrlConfig.giftCard.deleteGiftCard}` , { params : { id }} );
+  }
 }

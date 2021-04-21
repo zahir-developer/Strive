@@ -29,7 +29,7 @@
                         Tip Amount<span class="required">*</span>
                     </div>
                     <div class="col-5">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" [(ngModel)]="tipAmount">
                     </div>
                 </div>
                 <br>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Address 2<span class="required">*</span></label>
+                                <label class="col-sm-4 col-form-label">Address 2</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" formControlName="address2">
                                 </div>

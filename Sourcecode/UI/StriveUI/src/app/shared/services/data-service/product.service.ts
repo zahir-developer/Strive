@@ -22,8 +22,8 @@ export class ProductService {
   deleteProduct(id: number) {
     return this.http.delete(`${UrlConfig.product.deleteProduct}`, { params: { productId: id } });
   }
-  getProductById(id: number) {
-    return this.http.get(`${UrlConfig.product.getProductById}`, { params: { productId: id } });
+  getProductDetailById(id: number) {
+    return this.http.get(`${UrlConfig.product.getProductDetailById}`, { params: { productId: id } });
   }
   getVendor(): Observable<any> {
     return this.http.get(`${UrlConfig.vendor.getALLVendorName}`);

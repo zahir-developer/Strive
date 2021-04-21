@@ -54,7 +54,8 @@ export const UrlConfig = {
     getCheckList: `Admin/Checklist/GetChecklist`,
     addCheckList: `Admin/Checklist/Add`,
     DeleteCheckList: `Admin/Checklist/Delete`,
-    getById : `Admin/Checklist/GetChecklistById`
+    getById : `Admin/Checklist/GetChecklistById`,
+    updateChecklist: `Admin/Checklist/Update`
   },
   checkOut: {
     getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails`,
@@ -120,7 +121,7 @@ export const UrlConfig = {
     updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`,
     getBalance: `Admin/GiftCard/GetGiftCardBalance/`,
     getGiftCardHistoryByTicketNmber: `Admin/GiftCard/GetGiftCardBalanceHistory/`,
-
+    deleteGiftCard: `Admin/GiftCard/Delete`
   },
   location: {
     getLocation: `Admin/Location/GetAll`,
@@ -177,6 +178,7 @@ export const UrlConfig = {
   product: {
     getProduct: `Admin/Product/GetAll`,
     getProductById: `Admin/Product/GetProductById`,
+    getProductDetailById: `Admin/Product/GetProductDetailById`,
     addProduct: `Admin/Product/Add`,
     updateProduct: `Admin/Product/Update`,
     deleteProduct: `Admin/Product/Delete`

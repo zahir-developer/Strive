@@ -10,6 +10,8 @@ import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/da
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -33,6 +35,8 @@ export class CheckoutGridComponent implements OnInit {
   sortColumn: { sortBy: string; sortOrder: string; };
   currentWeek: Date;
   daterangepickerModel: Date[];
+  timeOut: Date;
+  searchUpdate = new Subject<string>();
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
@@ -41,11 +45,19 @@ export class CheckoutGridComponent implements OnInit {
     private datePipe: DatePipe,
     private landingservice: LandingService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllUncheckedVehicleDetails();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
-
+    this.timeOut = new Date();
     const currentDate = new Date();
     const first = currentDate.getDate();
     const last = currentDate.getDate();
@@ -80,7 +92,7 @@ export class CheckoutGridComponent implements OnInit {
       EndDate: this.datePipe.transform(this.endDate, 'yyyy-MM-dd'),
       pageNo: this.page,
       pageSize: this.pageSize,
-      query: this.search == "" ? null : this.search,
+      query: this.search === '' ? null : this.search,
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
       status: true
@@ -131,7 +143,7 @@ export class CheckoutGridComponent implements OnInit {
     this.sortColumn = {
       sortBy: column,
       sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-    }
+    };
 
     this.selectedCls(this.sortColumn)
     this.getAllUncheckedVehicleDetails();
@@ -252,7 +264,7 @@ export class CheckoutGridComponent implements OnInit {
         if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
           const finalObj = {
             jobId: checkout.JobId,
-            ActualTimeOut: new Date()
+            ActualTimeOut: moment(this.timeOut).format()
           };
           this.spinner.show();
           this.checkout.completedVehicle(finalObj).subscribe(res => {

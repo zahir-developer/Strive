@@ -95,7 +95,6 @@ export class EditEmployeeComponent implements OnInit {
       alienNumber: [''],
       permitDate: [''],
       Tips :['']
-
     });
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -120,14 +119,13 @@ export class EditEmployeeComponent implements OnInit {
 
   dropdownSetting() {
     this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 2,
-      allowSearchFilter: false
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
     };
   }
 
@@ -186,10 +184,8 @@ export class EditEmployeeComponent implements OnInit {
   change(data) {
     if (data === true) {
       this.isChecked = true;
-      
     } else {
       this.isChecked = false;
-     
     }
   }
   employeeDetail() {
@@ -490,7 +486,7 @@ export class EditEmployeeComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: this.employeeDetailId,
       employeeId: this.employeeId,
-      employeeCode: null,  
+      employeeCode: null,
       authId: this.authId,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,

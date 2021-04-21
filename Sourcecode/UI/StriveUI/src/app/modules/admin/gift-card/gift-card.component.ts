@@ -317,7 +317,7 @@ export class GiftCardComponent implements OnInit {
       if (res.status === 'Success') {
         const giftcardBalance = JSON.parse(res.resultData);
         if (giftcardBalance.GiftCardDetail.length > 0) {
-          const balanceAmount = giftcardBalance.GiftCardDetail[0].BalaceAmount;
+          const balanceAmount = giftcardBalance.GiftCardDetail[0].BalanceAmount;
           this.totalAmount = balanceAmount;
         }
       }

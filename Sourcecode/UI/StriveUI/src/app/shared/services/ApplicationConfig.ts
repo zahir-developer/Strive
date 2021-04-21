@@ -8,6 +8,11 @@ export const ApplicationConfig = {
         PageSize: 10
     },
 
+    ChecklistNotification:
+    {
+        MaxLength: 7 
+    },
+
     Sorting:
     {
         SortOrder: {
@@ -98,20 +103,20 @@ export const ApplicationConfig = {
     },
     UploadFileType:
     {
-        AdSetup: ['png', 'jpeg', 'jpg'],
-        EmployeeHandbook: ['pdf', 'docx', 'doc'],
+        AdSetup: ['png', ' jpg', ' jpeg'],
+        EmployeeHandbook: ['pdf', ' doc', ' docx'],
         TermsAndCondition: ['pdf']
     },
-   
+
     EmailSize: {
-VendorSetup : 5,
-location: 5
+        VendorSetup: 5,
+        location: 5
     },
-    
+
     UploadSize:
     {
         AdSetup: 5120,
-        EmployeeHandbook: 5120,
+        EmployeeHandbook: 10240,
         TermsAndCondition: 5120
     },
     Enum: {
@@ -127,8 +132,9 @@ location: 5
             AirFresheners: 'Air Fresheners',
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
-            Details :'Details',
-            DetailPackage: 'Detail Package'
+            Details: 'Details',
+            DetailPackage: 'Detail Package',
+            GiftCard: 'Gift Card'
         },
     },
 Category : {
@@ -144,7 +150,8 @@ LiablityDetailType: 'LIABILITYDETAILTYPE',
 CommisionType: "COMMISIONTYPE",
 paymentType : 'PAYMENTTYPE',
 paymentStatus:'PAYMENTSTATUS',
-ClientType: 'CLIENTTYPE'
+ClientType: 'CLIENTTYPE',
+ServiceCategory : 'ServiceCategory'
 },
 CodeValue :{
     EmployeeHandBook: 'EmployeeHandBook',
@@ -212,14 +219,24 @@ CodeValueByType : {
         OnlinePayment: 'OnlinePayment',
         Tips: 'Tips'
     },
-Roles: {
-Admin:'Admin',
-Manager: 'Manager',
-Operator: 'Operator',
-Cashier : 'Cashier',
-Detailer : 'Detailer',
-Wash :'Wash',
-Client :'Client'
-}
+    Roles: {
+        Admin: 'Admin',
+        Manager: 'Manager',
+        Operator: 'Operator',
+        Cashier: 'Cashier',
+        Detailer: 'Detailer',
+        Wash: 'Wash',
+        Client: 'Client'
+    },
+
+    dropdownSettings: {
+        singleSelection: false,
+        defaultOpen: false,
+        idField: 'item_id',
+        textField: 'item_text',
+        itemsShowLimit: 1,
+        enableCheckAll: false,
+        allowSearchFilter: true
+    }
 };
 
