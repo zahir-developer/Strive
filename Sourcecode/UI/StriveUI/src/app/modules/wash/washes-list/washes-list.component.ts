@@ -51,6 +51,7 @@ export class WashesListComponent implements OnInit {
   endDate: any;
   sortColumn: { sortBy: string; sortOrder: string; };
   searchUpdate = new Subject<string>();
+  MakeModelColorLabel: string;
   constructor(
     private washes: WashService, private toastr: ToastrService,
     private datePipe: DatePipe, private spinner: NgxSpinnerService,
@@ -138,7 +139,12 @@ export class WashesListComponent implements OnInit {
           if (this.washDetails?.length > 0) {
             for (let i = 0; i < this.washDetails.length; i++) {
               this.washDetails[i].Model == 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
-
+if(this.washDetails[i].Model == null && this.washDetails[i].Make == null && this.washDetails[i].Color == null){
+this.washDetails[i].MakeModelColorLabel = 'None';
+}
+else{
+  this.washDetails[i].MakeModelColorLabel =  this.washDetails[i].Make + ',' + this.washDetails[i].Model + ',' + this.washDetails[i].Color 
+}
               let hh = this.washDetails[i].TimeIn.substring(13, 11);
               let m = this.washDetails[i].TimeIn.substring(16, 14);
               var s = this.washDetails[i].TimeIn.substring(19, 17);
