@@ -39,6 +39,7 @@ export class CustomerHistoryComponent implements OnInit {
     { val: '11', name: 'Nov' },
     { val: '12', name: 'Dec' }
   ];
+  sortColumn: { sortBy: any; sortOrder: string; };
   constructor(
     private checkout: CheckoutService,
     private router: Router
@@ -53,6 +54,7 @@ export class CustomerHistoryComponent implements OnInit {
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.year = this.date.getFullYear();
     this.getCustomerHistory();
+  
   }
   landing(){
     this.landingservice.loadTheLandingPage()
@@ -64,6 +66,10 @@ export class CustomerHistoryComponent implements OnInit {
   getCustomerHistory() {
     // 2053 ,2020-12-01,2021-01-21
     let finalObj: any = {};
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.customerHistory,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.customerHistory.order
+     }
     if (this.month === '0') {
       const fromDate = new Date();
       fromDate.setFullYear(this.year);
@@ -80,8 +86,8 @@ export class CustomerHistoryComponent implements OnInit {
         pageNo: this.page,
         pageSize: this.pageSize,
         query: this.searchQery !== '' ? this.searchQery : null,
-        sortOrder: null,
-        sortBy: null
+        sortOrder: this.sortColumn.sortOrder,
+        sortBy: this.sortColumn.sortBy
       };
     } else {
       const fromDate = new Date();
@@ -101,8 +107,8 @@ export class CustomerHistoryComponent implements OnInit {
         pageNo: this.page,
         pageSize: this.pageSize,
         query: this.searchQery !== '' ? this.searchQery : null,
-        sortOrder: null,
-        sortBy: null
+        sortOrder: this.sortColumn.sortOrder,
+        sortBy: this.sortColumn.sortBy
       };
     }
     this.checkout.getCustomerHistory(finalObj).subscribe(res => {
@@ -147,5 +153,25 @@ export class CustomerHistoryComponent implements OnInit {
   search() {
     this.getCustomerHistory();
   }
+  changeSorting(column) {
+    this.sortColumn ={
+     sortBy: column,
+     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    }
+
+    this.selectedCls(this.sortColumn)
+   this.getCustomerHistory();
+ }
+
+ 
+
+ selectedCls(column) {
+   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+     return 'fa-sort-desc';
+   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+     return 'fa-sort-asc';
+   }
+   return '';
+ }
 
 }

@@ -58,30 +58,36 @@
                                         <table class="table border table-striped m-t-10 headerfix">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" class="pointer">
-                                                        Service Date
-                                                    </th>
-                                                    <th scope="col" class="pointer">
-                                                        Customer ID
-                                                    </th>
-                                                    <th scope="col" class="pointer">
-                                                        Customer Name
-                                                    </th>
-                                                    <th scope="col" class="pointer">
-                                                        Vehicle ID
-                                                    </th>
-                                                    <th scope="col" class="pointer">
-                                                        Barcode
-                                                    </th>
-                                                    <th scope="col" class="pointer">
-                                                        Membership
-                                                    </th>
-                                                    <th scope="col" class="pointer">
-                                                        Ticket No
-                                                    </th>
-                                                    <th scope="col" class="pointer">
-                                                        Service
-                                                    </th>
+                                                   
+                                                    <th class="pointer" (click)="changeSorting('ServiceDate')"> Service Date&nbsp; 
+                                                        <i class="fa" [ngClass]="selectedCls('ServiceDate')"></i></th>
+                                                  
+                                                        <th class="pointer" (click)="changeSorting('CustomerId')">   Customer ID&nbsp; 
+                                                            <i class="fa" [ngClass]="selectedCls('CustomerId')"></i></th>     
+                                                            <th class="pointer" (click)="changeSorting('CustomerName')">    Customer Name&nbsp; 
+                                                                <i class="fa" [ngClass]="selectedCls('CustomerName')"></i></th> 
+                                                                <th class="pointer" (click)="changeSorting('VehicleId')">                                                           Vehicle ID
+                                                                    Vehicle ID
+                                                                    &nbsp; 
+                                                                    <i class="fa" [ngClass]="selectedCls('VehicleId')"></i></th> 
+                                                  
+                                                                    <th class="pointer" (click)="changeSorting('Barcode')">                                                           Vehicle ID
+                                                                        Barcode
+                                                                        &nbsp; 
+                                                                        <i class="fa" [ngClass]="selectedCls('Barcode')"></i></th>  
+                                                                        <th class="pointer" (click)="changeSorting('Membership')">                                                           Vehicle ID
+                                                                            Membership
+                                                                            &nbsp; 
+                                                                            <i class="fa" [ngClass]="selectedCls('Membership')"></i></th> 
+                                                                            <th class="pointer" (click)="changeSorting('TicketNumber')">                                                           Vehicle ID
+                                                                                Ticket No
+                                                                                &nbsp; 
+                                                                                <i class="fa" [ngClass]="selectedCls('TicketNumber')"></i></th> 
+                                                                                <th class="pointer" (click)="changeSorting('Service')">                                                           Vehicle ID
+                                                                                    Ticket No
+                                                                                    &nbsp; 
+                                                                                    <i class="fa" [ngClass]="selectedCls('Service')"></i></th> 
+                                                   
                                                     <!-- <th scope="col" class="pointer">Additional Services
                                                     </th>
                                                     <th scope="col" class="pointer">Amount
