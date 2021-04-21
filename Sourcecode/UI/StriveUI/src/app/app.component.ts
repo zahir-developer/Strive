@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   dialogDisplay = false;
   header: string;
   dialogType: string;
-  countdown?: number;
+  countdown: number;
   TimeoutPeriod = 30;
   intervalId: any;
   subscriptionAuthenticate: Subscription;
@@ -93,7 +93,8 @@ export class AppComponent implements OnInit, OnDestroy {
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(seconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
-    idle.setTimeout(60);  // 60
+    const timer = 60;
+    idle.setTimeout(timer);  // 60
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     idle.onIdleEnd.subscribe(() => {
@@ -130,7 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
     idle.onIdleStart.subscribe(() => {
       //  console.log('onIdleStart');
       clearInterval(this.intervalId);
-      this.timeCounter();
+      this.timeCounter(timer);
     }
     );
     this.reset();
@@ -146,7 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /*
   * countdown starter
   */
-  timeCounter(counter = this.TimeoutPeriod) {
+  timeCounter(counter) {
     this.intervalId = setInterval(() => {
       counter = counter - 1;
       this.sessionLogoutComponent.countdown = counter;

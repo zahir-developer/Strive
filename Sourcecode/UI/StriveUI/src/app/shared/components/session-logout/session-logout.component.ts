@@ -19,7 +19,7 @@ export class SessionLogoutComponent implements OnInit {
   @Input() dialogDisplay = false;
   @Input() header: string;
   @Input() dialogType: string;
-  @Input() countdown?: number;
+  countdown?: number;
   @Output() closeDialog = new EventEmitter();
   authentication: FormGroup;
   submitted = false;
