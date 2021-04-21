@@ -5,48 +5,19 @@
                 <div class="tab-content">
                     <div class=" p-b-20 m-b-15">
                         <h5 class="d-inline-block">Check List</h5>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="checlist()">Add New Item
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="checlist()">Add New Item
                         </button>
 
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                            <div class="search-container  " *ngIf="checklistAdd">
-                                <div class="title-border m-b-22"></div>
-                                <div class="form-row">
-                                    <div class="form-group col-2 "> <input type="text" class="form-control" name="CheckList" [(ngModel)]="checkListName" maxlength="100" placeholder="Enter Check List"> </div>&nbsp;
-                                    <div class="form-group col-2 m-l-20">
-                                        <select name="Roles" class="form-control" [(ngModel)]="RoleId" placeholder="Select Role">
-                                            <option value='' selected hidden>Select Role</option>
-                                            <option *ngFor="let role of rollList" value="{{role.RoleMasterId}}">
-                                                {{role.RoleName}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;">
-                                            <ngx-timepicker-field [format]="24" [(ngModel)]="notificationTime" (timeChanged)="inTime($event)">
-                                            </ngx-timepicker-field>
-                                        </div>
-                                        <button type="button" style="margin-left: 5%;" [disabled]="isNotificationTimeLimit || notificationTime === ''" class="btn theme-primary-button-color btn-sm" (click)="addTime()"><i
-                                                class="fa fa-plus" aria-hidden="true"></i></button>
-                                        <div class="form-group row">
-                                            <span *ngFor="let time of notificationTimeList" style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;" class="badge badge-secondary m-t-5 m-l-10" [disabled]="isNotificationTimeLimit"><span>{{time.time}}</span>
-                                            <em class="fa fa-times-circle" (click)="removeTime(time)"></em>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-2 m-l-40 ">
-                                        <button type="button" style="margin-left: 5%;" class="btn theme-primary-button-color btn-sm float-right" (click)="checklistcancel()">Cancel</button>
-                                        <button type="button" class="btn theme-primary-button-color btn-sm float-right" (click)="add('add',[])">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="table-responsive">
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" scope="col" (click)="changesort('Name')">Name&nbsp; <i class="fa" [ngClass]="selectedCls('Name')"></i></th>
+                                            <th class="pointer" scope="col" (click)="changesort('Name')">Name&nbsp; <i
+                                                    class="fa" [ngClass]="selectedCls('Name')"></i></th>
                                             <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp;
                                                 <i class="fa" [ngClass]="selectedCls('RoleName')"></i>
                                             </th>
@@ -57,55 +28,22 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bodyfix">
-                                        <tr *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                        <tr
+                                            *ngFor="let checkList of checkListDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <td>
                                                 <span>
                                                     <span title="{{checkList.Name}}">
                                                         {{checkList.Name | slice:0:15}}
                                                         {{(checkList.Name!== null) ? checkList.Name.length <= 15 ? ''
                                                             : '...' :''}} </span>
-                                                </span>
-                                                <!-- <span *ngIf="selectedData == checkList.ChecklistId">
-
-                                                        <input type="text" maxlength="100" class="form-control"
-                                                            name="CheckList" [(ngModel)]="checkList.Name"
-                                                            placeholder="Enter Check List">
-                                                    </span> -->
+                                                    </span>
                                             </td>
                                             <td>
-                                                <!-- <span *ngIf="selectedData == checkList.ChecklistId">
-                                                    <div class="form-group d-flex">
-                                                        <select name="Roles" [(ngModel)]="checkList.RoleId"
-                                                            class="form-control" [placeholder]="'Select Role'">
-                                                            <option *ngFor="let role of rollList"
-                                                                value="{{role.RoleMasterId}}">{{role.RoleName}}</option>
-                                                        </select>
-                                                    </div>
-                                                </span> -->
                                                 <span>
                                                     {{checkList.RoleName}}
                                                 </span>
                                             </td>
                                             <td>
-                                                <!-- <span *ngIf="selectedData == checkList.ChecklistId">
-                                                    <div class="form-group d-flex">
-                                                        <ngx-timepicker-field [format]="24"
-                                                            [(ngModel)]="notificationTime"
-                                                            (timeChanged)="inTime($event)">
-                                                        </ngx-timepicker-field>
-                                                        <button type="button" style="margin-left: 5%;"
-                                                            [disabled]="isNotificationTimeLimit || notificationTime === ''"
-                                                            class="btn theme-primary-button-color btn-sm"
-                                                            (click)="editTime(checkList)"><i class="fa fa-plus"
-                                                                aria-hidden="true"></i></button>
-                                                    </div>
-                                                    <span *ngFor="let time of NotificationList"
-                                                        style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
-                                                        class="badge badge-secondary m-t-5 m-l-25"
-                                                        [disabled]="isNotificationTimeLimit"><span>{{time.NotificationTime}}</span>
-                                                    </span> *ngIf="selectedData != checkList.ChecklistId"
-                                                    
-                                                </span> -->
                                                 <span title="{{checkList.NotificationTime}}">
                                                     {{checkList.NotificationTime | slice:0:20}}
                                                     {{(checkList.NotificationTime!== null) ?
@@ -133,16 +71,19 @@
                                 </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                        <ngb-pagination *ngIf="checkListDetails.length > 0" [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        <ngb-pagination *ngIf="checkListDetails.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
                                     </div>
-                                    <select *ngIf="checkListDetails.length > 0" class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                    <select *ngIf="checkListDetails.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
                                         <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
