@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Strive.Common;
 using Strive.BusinessLogic.Common;
+using Strive.BusinessEntities.City;
 
 namespace Admin.API.Controllers
 {
@@ -70,16 +71,24 @@ namespace Admin.API.Controllers
         public Result GetTicketNumber(int locationId) => _commonBpl.GetTicketNumber(locationId);
 
         [HttpGet]
-        [Route("GetModelByMakeId/{makeId}")]
+        [Route("GetModelById/{makeId}")]
         public Result GetModelByMakeId(int makeId)
         {
             return _commonBpl.GetModelByMakeId(makeId);
         }
+
         [HttpGet]
         [Route("GetAllMake")]
         public Result GetAllMake()
         {
             return _commonBpl.GetAllMake();
+        }
+
+        [HttpPost]
+        [Route("GetUpchargeType")]
+        public Result GetUpchargeByType([FromBody]UpchargeDto upchargeDto)
+        {
+            return _commonBpl.GetUpchargeByType(upchargeDto);
         }
     }
 }

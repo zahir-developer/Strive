@@ -171,5 +171,14 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<MakeDto>(EnumSP.Employee.USPGETALLMAKE.ToString(), _prm);
         }
+
+        public List<UpchargeViewModel> GetUpchargeByType(UpchargeDto upchargeDto)
+        {
+            _prm.Add("ModelId", upchargeDto.ModelId);
+            _prm.Add("ServiceType", upchargeDto.UpchargeServiceType);
+            return db.Fetch<UpchargeViewModel>(EnumSP.Employee.USPGETUPCHARGEBYTYPE.ToString(), _prm);
+        }
+
+
     }
 }

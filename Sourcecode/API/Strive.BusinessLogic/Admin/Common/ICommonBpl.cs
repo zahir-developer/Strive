@@ -1,4 +1,5 @@
-﻿using Strive.Common;
+﻿using Strive.BusinessEntities.City;
+using Strive.Common;
 using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.Common
@@ -17,5 +18,6 @@ namespace Strive.BusinessLogic.Common
         Result GetTicketNumber(int locationId);
         Result GetModelByMakeId(int makeId);
         Result GetAllMake();
+        Result GetUpchargeByType(UpchargeDto upchargeDto);
     }
 }

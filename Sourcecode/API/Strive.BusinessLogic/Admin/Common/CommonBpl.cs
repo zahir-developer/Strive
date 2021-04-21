@@ -4,6 +4,7 @@ using MimeKit;
 using MimeKit.Text;
 using Newtonsoft.Json;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.City;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.Model;
@@ -297,8 +298,8 @@ namespace Strive.BusinessLogic.Common
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
-            
-      
+
+
             return (authId, randomPassword);
         }
 
@@ -339,7 +340,7 @@ namespace Strive.BusinessLogic.Common
             return detail;
         }
 
-   
+
 
         public Result SendOTP(string emailId)
         {
@@ -369,7 +370,7 @@ namespace Strive.BusinessLogic.Common
             }
             return _result;
         }
-        public void SendLoginCreationEmail(HtmlTemplate htmlTemplate,  string emailId, string defaultPassword)
+        public void SendLoginCreationEmail(HtmlTemplate htmlTemplate, string emailId, string defaultPassword)
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
             keyValues.Add("{{emailId}}", emailId);
@@ -395,14 +396,14 @@ namespace Strive.BusinessLogic.Common
             }
         }
 
-        public void SendHoldNotificationEmail(HtmlTemplate htmlTemplate,string emailId, string ticketNumber)
+        public void SendHoldNotificationEmail(HtmlTemplate htmlTemplate, string emailId, string ticketNumber)
         {
 
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
             keyValues.Add("{emailId}", emailId);
             keyValues.Add("{ticketNumber}", ticketNumber);
             string emailContent = GetMailContent(htmlTemplate, keyValues);
-            SendMail(emailId,emailContent, "Vehicle is on Hold");
+            SendMail(emailId, emailContent, "Vehicle is on Hold");
         }
         public void SendProductThresholdEmail(HtmlTemplate htmlTemplate, string emailId, string productName)
         {
@@ -475,25 +476,33 @@ namespace Strive.BusinessLogic.Common
                 MailText = MailText.Replace(item.Key, item.Value);
             }
             str.Close();
-                 
+
             return MailText;
         }
 
         public Result GetTicketNumber(int locationId)
         {
             return ResultWrap(new CommonRal(_tenant, false).GetTicketNumber, locationId, "GetTicketNumber");
-            
+
         }
 
         public Result GetModelByMakeId(int makeId)
         {
-            return ResultWrap(new CommonRal(_tenant, false).GetModelByMakeId,makeId, "Model");
+            return ResultWrap(new CommonRal(_tenant, false).GetModelByMakeId, makeId, "Model");
 
         }
 
         public Result GetAllMake()
         {
             return ResultWrap(new CommonRal(_tenant, false).GetAllMake, "");
+        }
+
+
+        public Result GetUpchargeByType(UpchargeDto upchargeDto)
+
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetUpchargeByType, upchargeDto, "upcharge");
+
         }
     }
 }
