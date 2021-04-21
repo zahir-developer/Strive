@@ -18,8 +18,8 @@
                                         <div class="form-group d-flex"> <input type="search" size="35"
                                                 class="form-control" [(ngModel)]="query" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Service Type"
-                                                (keyup)="$event.keyCode == 13 ? membershipSearch() : null"> </div>&nbsp;
-                                     
+                                                (ngModelChange)="this.searchUpdate.next($event)"> </div>&nbsp;
+
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" (click)="membershipSearch()"
                                                 class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
@@ -27,23 +27,23 @@
                                     </div>
                                 </form>
                             </div>
-                           
-                            <div class="table-responsive" >
+
+                            <div class="table-responsive">
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="changesort('MembershipName')">Name&nbsp; 
-                                                <i class="fa" 
-                                                [ngClass]="selectedCls('MembershipName')"></i></th>
-                                            <th class="pointer" (click)="changesort('Services')">Services&nbsp; 
-                                                <i class="fa"
-                                                [ngClass]="selectedCls('Services')"></i></th>
-                                            <th class="pointer" (click)="changesort('CreatedDate')">Creation Date&nbsp; 
-                                                <i class="fa"
-                                                [ngClass]="selectedCls('CreatedDate')"></i></th>
-                                            <th class="pointer" (click)="changesort('IsActive')">Status&nbsp; 
-                                                <i class="fa" 
-                                                [ngClass]="selectedCls('IsActive')"></i></th>
+                                            <th class="pointer" (click)="changesort('MembershipName')">Name&nbsp;
+                                                <i class="fa" [ngClass]="selectedCls('MembershipName')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('Services')">Services&nbsp;
+                                                <i class="fa" [ngClass]="selectedCls('Services')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('CreatedDate')">Creation Date&nbsp;
+                                                <i class="fa" [ngClass]="selectedCls('CreatedDate')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('IsActive')">Status&nbsp;
+                                                <i class="fa" [ngClass]="selectedCls('IsActive')"></i>
+                                            </th>
 
                                             <th>Action</th>
                                         </tr>
@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>

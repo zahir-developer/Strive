@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.DTO
 {
-    public class ChecklistAddDto
+    public class ChecklistDto
     {
         public Model.Checklist Checklist { get; set; }
 

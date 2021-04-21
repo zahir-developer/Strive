@@ -21,12 +21,12 @@ export class TokenInterceptor implements HttpInterceptor {
     private accessTokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
     constructor(
-        private router: Router, 
-        private route: ActivatedRoute, 
+        private router: Router,
+        private route: ActivatedRoute,
         private loginService: LoginService,
         private authService: AuthService,
         private messageService: MessageServiceToastr
-        ) { }
+    ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const accessToken = localStorage.getItem('authorizationToken');
@@ -37,12 +37,12 @@ export class TokenInterceptor implements HttpInterceptor {
                 console.log(err, 'error');
                 if (err instanceof HttpErrorResponse && err.status === 401) {
                     // get refresh tokens
-                    //const refreshToken = localStorage.getItem('refreshToken');
+                    // const refreshToken = localStorage.getItem('refreshToken');
 
                     // if there are tokens then send refresh token request
-                    //if (refreshToken && accessToken) {
+                    // if (refreshToken && accessToken) {
                     //    return this.refreshToken(req, next);
-                    //}
+                    // }
                     // otherwise logout and redirect to login page
                     return this.logoutAndRedirect(err);
                 }
@@ -69,16 +69,14 @@ export class TokenInterceptor implements HttpInterceptor {
 
     private logoutAndRedirect(err): Observable<HttpEvent<any>> {
 
-        if(err.status === 404)
-        {
+        if (err.status === 404) {
             this.messageService.showMessage({ severity: 'error', title: 'Authentication refresh token failed.', body: 'Please relogin and try again.!' });
         }
-        else if(err.status === 401)
-        {
+        else if (err.status === 401) {
             this.messageService.showMessage({ severity: 'error', title: 'Access Denied.', body: 'UnAuthenticated access. Please relogin and try again.!' });
-        }           
+        }
         this.authService.logout();
-        //this.router.navigateByUrl('/login');
+        // this.router.navigateByUrl('/login');
 
         return throwError(err);
     }
@@ -91,7 +89,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 switchMap((res) => {
                     console.log(res, 'refresh')
                     this.refreshingInProgress = false;
-                    const  token = JSON.parse(res.resultData);
+                    const token = JSON.parse(res.resultData);
                     this.accessTokenSubject.next(token.Token);
                     // repeat failed request with new token
                     return next.handle(this.addAuthorizationHeader(request, token.Token));

@@ -3,20 +3,20 @@ export const MessageConfig = {
 
    CommunicationError: 'Communication Error !',
    Mandatory: 'Please Enter Mandatory fields',
-   TicketNumber : 'Ticket Number is Empty',
+   TicketNumber: 'Ticket Number is Empty',
    locationError: 'No location assigned, Pls contact Administrator..!!!',
-   Reset : 'Reset Successfully !!',
-   save :'Saved Successfully !!',
+   Reset: 'Reset Successfully !!',
+   save: 'Saved Successfully !!',
 
    Schedule:
    {
       Add: 'Schedule added successfully !',
       Update: 'Schedule updated successfully !',
-      save : 'Schedule Saved Successfully!' ,
+      save: 'Schedule Saved Successfully!',
       pastDates: 'New schedule is not allowed for passed dates.',
       schedulePassDate: 'Schedule can not be added for Past Date/Time.',
-      passedDateTime :'Past Date  Should not allow to Schedule',
-      sameTime : 'Can not able to schedule at the same time'
+      passedDateTime: 'Past Date  Should not allow to Schedule',
+      sameTime: 'Can not able to schedule at the same time'
    },
    Employee:
    {
@@ -74,26 +74,27 @@ export const MessageConfig = {
       Update: 'Item updated successfully !',
       UpdateGiftCrd: 'Sales Gift Card Saved successfully !',
       Delete: 'Sales deleted successfully !',
-      Ticket :'Ticket Already Added',
-      InvalidTicket : 'Invalid Ticket',
-      ItemDelete :'Item deleted successfully',
+      Ticket: 'Ticket Already Added',
+      InvalidTicket: 'Invalid Ticket',
+      ItemDelete: 'Item deleted successfully',
       quantity: 'Please enter quantity',
-      validItem :'Please enter valid ItemName',
-      creditAmount : 'Credit amount exceeds the balance amount!',
-      duplicate : 'Duplicate Discount',
-     discountExist: 'selected discount already applied!',
-     invalidDiscount :'Invalid Discount Service & Discount Type',
-    payment : 'Add any cash/credit payment and proceed',
-    total : 'Total paid amount not matching with Total amount.',
-    rollback : 'Rollbacked Successfully' ,
-    paymentComplete :'Unable to complete payment, please try again.' ,
-    jobDelete : 'Job Deleted Successfully',
-    paymentSave : 'Payment completed successfully'
+      validItem: 'Please enter valid ItemName',
+      creditAmount: 'Credit amount exceeds the balance amount!',
+      duplicate: 'Duplicate Discount',
+      discountExist: 'selected discount already applied!',
+      invalidDiscount: 'Invalid Discount Service & Discount Type',
+      payment: 'Add any cash/credit payment and proceed',
+      total: 'Total paid amount not matching with Total amount.',
+      rollback: 'Rollbacked Successfully',
+      paymentComplete: 'Unable to complete payment, please try again.',
+      jobDelete: 'Job Deleted Successfully',
+      paymentSave: 'Payment completed successfully',
+      purchasedGiftcard: 'Currently purchased giftcard can\'t be used for payment'
    },
-   Messenger : {
-Message :'Please enter a message..!!!',
-empselect: 'Please select am employee',
-add : 'Group user added successfully..!!!'
+   Messenger: {
+      Message: 'Please enter a message..!!!',
+      empselect: 'Please select am employee',
+      add: 'Group user added successfully..!!!'
 
    },
    PayRoll:
@@ -104,7 +105,7 @@ add : 'Group user added successfully..!!!'
       Adjustment: 'Saved Successfully!',
       Process: 'PayRoll Processed successfully !',
    },
-  
+
    checkOut:
    {
       Add: 'CheckOut action successfully !',
@@ -169,8 +170,8 @@ add : 'Group user added successfully..!!!'
             Add: 'Location added successfully !',
             Update: 'Location updated successfully !',
             Delete: 'Location deleted successfully !',
-            Email : "Maximum 5 EmailId's  Only Allowed",
-            InvalidEmail :"Invalid Email"
+            Email: "Maximum 5 EmailId's  Only Allowed",
+            InvalidEmail: "Invalid Email"
          },
          ServiceSetup:
          {
@@ -180,7 +181,7 @@ add : 'Group user added successfully..!!!'
          },
          MemberShipSetup:
          {
-            MemberShipName : "MembershipName should not be None or Unk",
+            MemberShipName: "MembershipName should not be None or Unk",
             Add: 'MemberShip added successfully !',
             Update: 'MemberShip updated successfully !',
             Delete: 'MemberShip deleted successfully !',
@@ -197,8 +198,8 @@ add : 'Group user added successfully..!!!'
             Add: 'Ad Setup added successfully !',
             Update: 'Ad Setup updated successfully !',
             Delete: 'Ad Setup Deleted Successfully !',
-           FileType : 'Upload Image Only',
-           FileSize: 'Maximum Size 5 MB'
+            FileType: 'Invalid file type uploaded. ',
+            FileSize: 'Maximum Size 5 MB'
          },
          BonusSetup:
          {
@@ -228,15 +229,15 @@ add : 'Group user added successfully..!!!'
             Update: 'Employee HandBook updated successfully !',
             Delete: 'Employee HandBook Deleted Successfully !',
             nameValidation: '',
-            FileSize: 'Maximum Size 5 MB',
-            FileType: 'Upload DOC,DOCX,PDF Only'
+            FileSize: 'Maximum file size is 10 MB',
+            FileType: 'Invalid file type uploaded. '
          },
          TermsCondition:
          {
             Add: 'Terms & Condition added successfully !',
             Update: 'Terms & Condition updated successfully !',
             Delete: 'Terms & Condition Deleted Successfully !',
-            FileType: 'Upload Pdf Only',
+            FileType: 'Invalid file type uploaded ',
             FileSize: 'Maximum Size 5 MB'
          },
          Vendor:
@@ -244,7 +245,7 @@ add : 'Group user added successfully..!!!'
             Add: 'Vendor added successfully !',
             Update: 'Vendor updated successfully !',
             Delete: 'Vendor Deleted Successfully !',
-          
+
          },
       }
    }

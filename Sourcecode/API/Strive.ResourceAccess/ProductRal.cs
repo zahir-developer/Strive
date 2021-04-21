@@ -23,9 +23,9 @@ namespace Strive.ResourceAccess
             return dbRepo.InsertPK(product,"ProductId");
         }
 
-        public bool UpdateProduct(Product product)
+        public bool UpdateProduct(ProductsDto product)
         {
-            return dbRepo.Update(product);
+            return dbRepo.UpdatePc(product);
         }
 
         public List<ProductViewModel> GetAllProduct(ProductSearchDto search)
@@ -38,6 +38,12 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@ProductId", productId);
             return db.FetchSingle<BusinessEntities.ViewModel.ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTBYID.ToString(), _prm);
+        }
+
+        public ProductEditViewModel GetProductDetailById(int? productId)
+        {
+            _prm.Add("@ProductId", productId);
+            return db.FetchMultiResult<ProductEditViewModel>(EnumSP.Product.USPGETPRODUCTDETAILBYID.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)

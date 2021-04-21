@@ -2,23 +2,26 @@
     <!--Sidebar-->
     <div class="menu  d-none d-sm-none d-md-block d-lg-block d-xl-block" *ngIf="localStorageUpdation === 'localStorageUpdation1'">
         <ul>
-            <li class="logo-container"><a><i><img src="{{logoBase64}}"
-        alt="" width="50" /></i>{{logoName}}</a> </li>
-            <li class="p-t-10" *ngIf="dashBoardModule == true"><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-view-dashboard" ></i>Dashboard</a></li>
-            <li class="active" *ngIf="washModule == true"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
-            class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
-            <li class="" routerLinkActive="active-route" *ngIf="detailModule == true "><a [routerLink]='["./detail"]' (click)="closeNav()"><i class="fa-2x mdi mdi-car-back"  ></i>Details</a></li>
-            <li class="" routerLinkActive="active-route" *ngIf="salesModule == true "><a [routerLink]='["./sales"]' (click)="closeNav()"><i class="fa-2x mdi mdi-cash-usd" ></i>Sales</a></li>
-            <li class="" *ngIf="reportModule == true "><a style="cursor: pointer;" (click)="openNav('reports')"><i class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
+            <li class="logo-container"><a><i><img src="{{logoBase64}}" alt="" width="50" /></i>{{logoName}}</a> </li>
+            <li class="p-t-10" *ngIf="dashBoardModule == true"><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
+            class="fa-2x mdi mdi-view-dashboard"></i>Dashboard</a></li>
+            <li class="active" *ngIf="washModule == true"><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-car-wash"></i>Washes</a></li>
+            <li class="" routerLinkActive="active-route" *ngIf="detailModule == true "><a [routerLink]='["./detail"]' (click)="closeNav()"><i class="fa-2x mdi mdi-car-back"></i>Details</a></li>
+            <li class="" routerLinkActive="active-route" *ngIf="salesModule == true "><a [routerLink]='["./sales"]' (click)="closeNav()"><i class="fa-2x mdi mdi-cash-usd"></i>Sales</a></li>
+            <li class="" *ngIf="reportModule == true "><a style="cursor: pointer;" (click)="openNav('reports')"><i
+            class="fa-2x mdi mdi-file-document"></i>Reports</a></li>
             <li class="active" *ngIf="adminModule == true"><a style="cursor: pointer;" (click)="openNav('admin')"><i
             class="fa fa-2x fa-user-o"></i>Admin</a></li>
-            <li class="" *ngIf="payRollModule == true"><a [routerLink]='["./payrolls"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar" ></i>Payroll</a></li>
-            <li class="" *ngIf="checkOutModule == true"><a [routerLink]='["./checkout"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-flag-checkered" ></i>Checkout</a></li>
-            <li class="" *ngIf="false"><a [routerLink]='["./Customer-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar" ></i>Customer Sales</a></li>
-            <li class="" *ngIf="whiteLabellingModule == true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x mdi mdi-square-edit-outline" ></i>While Labelling</a></li>
-            <li class="" *ngIf="messengerModule == true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>Messenger</a></li>
-            <li class="" *ngIf="false"><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message" ></i>Customer</a></li>
-            <li class=""><a [routerLink]='["./customer-history"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-account-group" ></i>Customer History</a></li>
+            <li class="" *ngIf="payRollModule == true"><a [routerLink]='["./payrolls"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar"></i>Payroll</a></li>
+            <li class="" *ngIf="checkOutModule == true"><a [routerLink]='["./checkout"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-flag-checkered"></i>Checkout</a></li>
+            <li class="" *ngIf="false"><a [routerLink]='["./Customer-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar"></i>Customer Sales</a></li>
+            <li class="" *ngIf="whiteLabellingModule == true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
+            class="fa-2x mdi mdi-square-edit-outline"></i>While Labelling</a></li>
+            <li class="" *ngIf="false"><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message"></i>Customer</a></li>
+            <li class=""><a [routerLink]='["./customer-history"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
+            class="fa-2x  mdi mdi-account-group"></i>Customer History</a></li>
+            <li class="" *ngIf="messengerModule == true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message"></i>Messenger</a>
+            </li>
         </ul>
     </div>
     <div id="reportSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block">
@@ -33,7 +36,7 @@
             <li *ngIf="monthlyTipView == true"><a [routerLink]='["./reports/monthly-tip"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Tip</a></li>
             <li *ngIf="monthlySalesView == true"><a [routerLink]='["./reports/monthly-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Sales</a></li>
             <li *ngIf="monthlyCustomerSummaryView == true"> <a [routerLink]='["./reports/monthly-customer-summary"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Customer Summary</a></li>
-            <li *ngIf="monthlyMoneyOwnedView == true"><a [routerLink]='["./reports/monthly-money-owned"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthy Money Owned</a></li>
+            <li *ngIf="monthlyMoneyOwnedView == true"><a [routerLink]='["./reports/monthly-money-owned"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthy Money Owed</a></li>
             <li *ngIf="monthlyCustomerDetailView == true"><a [routerLink]='["./reports/monthly-customer-detail"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Customer Detail</a></li>
             <li *ngIf="hourlyWashReportView == true"><a [routerLink]='["./reports/hourly-wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Hourly Wash Report</a></li>
             <li *ngIf="dailyTipReportView == true"><a [routerLink]='["./reports/daily-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Daily Sales Report</a></li>
@@ -67,17 +70,18 @@
     <div id="mySidenav" class="mobile-view-nav">
         <span class="closebtn" (click)="closembsidebar()"><em class="fa fa-close"></em></span>
         <ul class="m-t-22 mobile-view-title" id="hide-mainmenu">
-            <li *ngIf="dashBoardModule == true "><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-view-dashboard" ></em><span>Dashboard</span></a></li>
-            <li *ngIf="washModule == true "><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em
-            class="mdi mdi-car-wash"></em><span>Washes</span></a></li>
+            <li *ngIf="dashBoardModule == true "><a [routerLink]='["./dashboard"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-view-dashboard"></em><span>Dashboard</span></a></li>
+            <li *ngIf="washModule == true "><a [routerLink]='["./wash"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-car-wash"></em><span>Washes</span></a></li>
             <li *ngIf="detailModule == true "><a [routerLink]='["./detail"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="mdi mdi-car-back"></em><span>Details</span></a></li>
             <li *ngIf="salesModule == true "><a href="#"><em class="mdi mdi-cash-usd"></em><span>Sales</span></a></li>
-            <li *ngIf="adminModule == true "><a><em class="fa fa-user-o" ></em><span>Admin</span></a></li>
+            <li *ngIf="adminModule == true "><a><em class="fa fa-user-o"></em><span>Admin</span></a></li>
             <li *ngIf="payRollModule == true"><a [routerLink]='["./payrolls"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="fa fa-dollar"></em><span>Payroll</span></a></li>
             <li *ngIf="checkOutModule == true"><a [routerLink]='["./checkout"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><em class="fa fa-flag-checkered"></em><span>Checkout</span></a></li>
-            <li class="" *ngIf="messengerModule == true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="fa-2x  mdi mdi-message" ></i>Messenger</a></li>
-            <li *ngIf="whiteLabellingModule == true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="mdi mdi-square-edit-outline" ></i>While Labelling</a></li>
-            <li class=""><a [routerLink]='["./customer-history"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="fa-2x mdi-account-group" ></i>Customer History</a></li>
+            <li *ngIf="whiteLabellingModule == true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i
+            class="mdi mdi-square-edit-outline"></i>While Labelling</a></li>
+            <li class=""><a [routerLink]='["./customer-history"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i class="fa-2x mdi-account-group"></i>Customer History</a></li>
+            <li class="" *ngIf="messengerModule == true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()"><i
+            class="fa-2x  mdi mdi-message"></i>Messenger</a></li>
         </ul>
         <div id="show-submenu" class="hide">
             <a href="#" class="back-to-list"> <em class="fa fa-arrow-left"></em> Back</a>
