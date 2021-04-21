@@ -34,5 +34,7 @@ namespace Strive.BusinessEntities.ViewModel
     
         public string PastHistoryNote { get; set; }
 
+        public string IsPaid { get; set; }
+
     }
 }

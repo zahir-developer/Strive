@@ -20,5 +20,7 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTimeOffset TimeIn { get; set; }
         public DateTimeOffset? EstimatedTimeOut { get; set; }
         public string ServiceName { get; set; }
+
+        public string IsPaid { get; set; } 
     }
 }
