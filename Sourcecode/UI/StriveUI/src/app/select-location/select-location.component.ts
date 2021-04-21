@@ -5,7 +5,6 @@ import { LoginComponent } from '../login/login.component';
 import { UserDataService } from '../shared/util/user-data.service';
 import { LandingService } from '../shared/services/common-service/landing.service';
 import { WeatherService } from '../shared/services/common-service/weather.service';
-
 @Component({
   selector: 'app-select-location',
   templateUrl: './select-location.component.html',
@@ -13,20 +12,22 @@ import { WeatherService } from '../shared/services/common-service/weather.servic
 })
 export class SelectLocationComponent implements OnInit {
   empName: any;
-  location: any;
+  locations: any;
   locationId = '';
   @ViewChild(LoginComponent) login: LoginComponent;
   roleAccess = [];
   dashBoardModule: boolean = false;
-
+  empLocation = [];
+ 
   constructor(private user: UserDataService,
     private landingservice: LandingService,
     private weatherService : WeatherService,
+    private userService: UserDataService,
     private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.empName = localStorage.getItem('employeeName');
-    this.location = JSON.parse(localStorage.getItem('empLocation'));
+    this.locations = JSON.parse(localStorage.getItem('empLocation'));
     this.locationId = JSON.parse(localStorage.getItem('empLocation'))[0].LocationId;
 
   }
@@ -36,6 +37,17 @@ export class SelectLocationComponent implements OnInit {
 
       const Id = this.locationId
       localStorage.setItem('empLocationId', Id);
+      this.locations.forEach(element => {
+        if(element.LocationId == this.locationId){
+          this.empLocation.push(
+element
+            );
+            localStorage.setItem('empLocationName',JSON.stringify(this.empLocation[0]?.LocationName));
+            this.setLocationName(this.empLocation[0]?.LocationName)
+        }
+      });
+     
+
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
       this.weatherService.getWeather();
@@ -43,5 +55,9 @@ export class SelectLocationComponent implements OnInit {
 
       
   }
+}
+
+setLocationName(Name) {
+  this.userService.setLocationName(Name);
 }
 }

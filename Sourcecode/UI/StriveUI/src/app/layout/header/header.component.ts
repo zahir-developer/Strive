@@ -50,13 +50,10 @@ export class HeaderComponent implements OnInit {
 
     this.userService.locationName.subscribe(data => {
       if (data == null) {
-        this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
-
-
+        this.locationName = JSON.parse(localStorage.getItem('empLocationName'))
       }
       else {
         this.locationName = data;
-
       }
 
 

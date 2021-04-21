@@ -35,10 +35,9 @@ export class UserDataService {
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
       if (token?.EmployeeDetails?.EmployeeLocations) {
-        localStorage.setItem('empLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
+     
         this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
         localStorage.setItem('employeeCityName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName));
-        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
 
       } 
       if (token?.EmployeeDetails?.EmployeeLocations) {
@@ -48,7 +47,10 @@ export class UserDataService {
 
     
       } else {
+        localStorage.setItem('empLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
         localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
+   this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
+
         this.weatherService.getWeather()
 
       }
