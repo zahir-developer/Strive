@@ -10,6 +10,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { EditChecklistComponent } from './edit-checklist/edit-checklist.component';
+import { AddChecklistComponent } from './add-checklist/add-checklist.component';
 
 @Component({
   selector: 'app-check-list',
@@ -23,7 +26,7 @@ export class CheckListComponent implements OnInit {
   checkListDetails: any = [];
   isTableEmpty: boolean;
   collectionSize: number = 0;
-  selectedData: boolean = false;
+  selectedData: any;
   isEdit: boolean;
   checkListName: any;
   RoleId = [];
@@ -48,7 +51,8 @@ export class CheckListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -65,8 +69,21 @@ export class CheckListComponent implements OnInit {
     this.getAllcheckListDetails();
   }
   checlist() {
-    this.checklistAdd = true;
-    this.selectedData = false;
+    // this.checklistAdd = true;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(AddChecklistComponent, ngbModalOptions);
+    modalRef.componentInstance.rollList = this.rollList;
+    modalRef.result.then((result) => {
+      if (result) {
+        this.isNotificationTimeLimit = false;
+        this.getAllcheckListDetails();
+      }
+    });
+
   }
   checklistcancel() {
     this.checkListName = '';
@@ -84,15 +101,6 @@ export class CheckListComponent implements OnInit {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.checkListDetails = serviceDetails.GetChecklist;
-        // this.checkListDetails.forEach(item => {
-        //   const time = item.NotificationTime.split(':');
-        //   const hours = time[0];
-        //   const min = time[1];
-        //   const todayDate: any = new Date();
-        //   todayDate.setHours(hours);
-        //   todayDate.setMinutes(min);
-        //   todayDate.setSeconds('00');
-        // });
         if (this.checkListDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -122,11 +130,20 @@ export class CheckListComponent implements OnInit {
     if (this.RoleId) {
       this.employeeRole = this.employeeRole.filter(item => item.item_id !== event.item_id);
       this.employeeRole.push(event);
-
       this.roles = this.employeeRole;
-
     }
+  }
 
+  dropdownSetting() {
+    this.dropdownSettings = {
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
+    };
   }
 
   getAllRoles() {
@@ -140,16 +157,7 @@ export class CheckListComponent implements OnInit {
             item_text: item.RoleName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropdownSetting();
       }
     }
       , (err) => {
@@ -172,12 +180,11 @@ export class CheckListComponent implements OnInit {
     this.spinner.show();
     this.checkListSetup.deleteCheckListSetup(data.ChecklistId).subscribe(res => {
       if (res.status === "Success") {
-        this.spinner.hide()
-
+        this.spinner.hide();
         this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Delete, 'Success!');
         this.getAllcheckListDetails();
       } else {
-        this.spinner.hide()
+        this.spinner.hide();
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -187,18 +194,17 @@ export class CheckListComponent implements OnInit {
     });
   }
   add(data, serviceDetails?) {
-    if (data === 'add') {
-      this.isEdit = false;
-      this.submit(serviceDetails);
-    } else {
-      this.checkListSetup.getById(serviceDetails.ChecklistId).subscribe(res => {
-        if (res.status === "Success") {
-          this.selectedData = serviceDetails.ChecklistId;
-          this.isEdit = true;
-          this.checklistAdd = false;
-          const sType = JSON.parse(res.resultData);
-          // this.selectedData = sType.ChecklistById;
-          this.NotificationList = sType.ChecklistById.ChecklistNotificationTime;
+    this.checkListSetup.getById(serviceDetails.ChecklistId).subscribe(res => {
+      if (res.status === 'Success') {
+        this.isEdit = true;
+        this.checklistAdd = false;
+        const sType = JSON.parse(res.resultData);
+        this.selectedData = sType.ChecklistById;
+        this.NotificationList = sType.ChecklistById.ChecklistNotificationTime;
+        if (this.NotificationList === null) {
+          this.NotificationList = [];
+        }
+        if (this.NotificationList != null) {
           this.NotificationList.forEach(item => {
             const date = item.NotificationTime.split(':');
             const hours = date[0];
@@ -209,144 +215,33 @@ export class CheckListComponent implements OnInit {
             todayDate.setSeconds('00');
             item.NotificationTime = this.datePipe.transform(todayDate, 'HH:mm');
           });
-          if (this.NotificationList.length >= 5) {
-            this.isNotificationTimeLimit = true;
-          } else {
+        }
+        const ngbModalOptions: NgbModalOptions = {
+          backdrop: 'static',
+          keyboard: false,
+          size: 'lg'
+        };
+        const modalRef = this.modalService.open(EditChecklistComponent, ngbModalOptions);
+        modalRef.componentInstance.NotificationList = this.NotificationList;
+        modalRef.componentInstance.selectedData = this.selectedData;
+        modalRef.componentInstance.rollList = this.rollList;
+        modalRef.result.then((result) => {
+          if (result) {
             this.isNotificationTimeLimit = false;
-          }
-        } else {
-          this.spinner.hide();
-          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-        }
-      }
-        , (err) => {
-          this.spinner.hide();
-          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-        });
-    }
-  }
-  cancel() {
-    this.selectedData = false;
-  }
-
-  addTime() {
-    if (this.notificationTimeList.length >= 10) {
-      this.isNotificationTimeLimit = true;
-      this.notificationTime = '';
-      return;
-    }
-    this.notificationTimeList.push({
-      time: this.notificationTime
-    });
-    this.notificationTimeList.forEach((item, index) => {
-      item.id = index;
-    });
-    this.notificationTime = '';
-  }
-
-  editTime(checkList) {
-    if (this.NotificationList.length >= 10) {
-      this.isNotificationTimeLimit = true;
-      this.notificationTime = '';
-      return;
-    }
-    this.NotificationList.push({
-      checkListNotificationId: 0,
-      checkListId: checkList.ChecklistId,
-      NotificationTime: this.notificationTime,
-      isActive: true,
-      isDeleted: false,
-    });
-    this.notificationTime = '';
-  }
-
-  removeTime(time) {
-    this.notificationTimeList = this.notificationTimeList.filter(item => item.id !== time.id);
-    if (this.notificationTimeList.length < 5) {
-      this.isNotificationTimeLimit = false;
-    }
-  }
-
-  inTime(event) {
-    console.log(event, 'event');
-  }
-
-  submit(data) {
-    if (data.RoleId === undefined && this.RoleId.length === 0) {
-      this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.roleNameValidation, 'Warning!');
-      return;
-    }
-    const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
-
-    if (data.Name !== undefined) {
-      if (!pattern.test(data.Name) || data.Name === undefined) {
-        this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
-        return;
-      };
-    } else {
-      if (!pattern.test(this.checkListName) || this.checkListName === undefined) {
-        this.toastr.warning(MessageConfig.Admin.SystemSetup.CheckList.CheckListNameValidation, 'Warning!');
-        return;
-      }
-    }
-    this.notificationTimeList.forEach(element => {
-      this.NotificationList.push({
-        checkListNotificationId: 0,
-        checkListId: data.ChecklistId ? data.ChecklistId : 0,
-        notificationTime: element.time,
-        isActive: true,
-        isDeleted: false,
-      });
-    });
-    const formObj = {
-      checkList: {
-        ChecklistId: data.ChecklistId ? data.ChecklistId : 0,
-        Name: data.Name ? data.Name : this.checkListName,
-        RoleId: data.RoleId ? data.RoleId : this.RoleId,
-        IsDeleted: false,
-        IsActive: true,
-      },
-      checkListNotification: this.NotificationList
-    };
-    if (data.ChecklistId) {
-      this.spinner.show();
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
-        if (res.status === 'Success') {
-          if (res.status === 'Success') {
-            this.spinner.hide();
-            this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Update, 'Success!');
             this.getAllcheckListDetails();
-            this.selectedData = false;
-          } else {
-            this.spinner.hide();
-            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
-        }
-      }, (err) => {
+        });
+      } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
-    } else {
-      this.spinner.show();
-      this.checkListSetup.addCheckListSetup(formObj).subscribe(res => {
-        if (res.status === 'Success') {
-          this.spinner.hide();
-          this.toastr.success(MessageConfig.Admin.SystemSetup.CheckList.Add, 'Success!');
-          this.getAllcheckListDetails();
-          this.checklistcancel();
-          this.checkListName = '';
-          this.RoleId = [];
-        } else {
-          this.spinner.hide();
-
-          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-        }
-      }, (err) => {
-        this.spinner.hide();
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
+      }
     }
+      , (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
+
   sort(property) {
     this.sortColumn = {
       sortBy: property,

@@ -186,6 +186,7 @@ namespace Strive.BusinessEntities
             USPDELETEPRODUCT,
             USPGETAllPRODUCT,
             USPGETPRODUCTBYID,
+            USPGETPRODUCTDETAILBYID
         }
         public enum CashRegister
         {

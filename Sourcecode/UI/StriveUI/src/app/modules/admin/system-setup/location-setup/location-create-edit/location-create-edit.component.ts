@@ -90,26 +90,28 @@ export class LocationCreateEditComponent implements OnInit {
     }
 
     var re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    if (!re.test(this.locationSetupForm.value.email)) {
+    if (!re.test(this.locationSetupForm.value.email) && this.locationSetupForm.value.email !== '') {
       this.toastr.error(MessageConfig.Admin.SystemSetup.BasicSetup.InvalidEmail, 'Error!');
       return;
     }
-    this.emailList.push({
-      locationEmailId: 0,
-      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-      EmailAddress: this.locationSetupForm.value.email,
-      isActive: true,
-      isDeleted: false,
-      createdBy: this.employeeId,
-      createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: this.employeeId,
-      updatedDate: moment(new Date()).format('YYYY-MM-DD')
-    });
-    this.emailList.forEach((item, index) => {
-      item.id = index;
-    });
-    this.locationSetupForm.controls.email.reset();
 
+    if (this.locationSetupForm.value.email !== '') {
+      this.emailList.push({
+        locationEmailId: 0,
+        locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+        EmailAddress: this.locationSetupForm.value.email,
+        isActive: true,
+        isDeleted: false,
+        createdBy: this.employeeId,
+        createdDate: moment(new Date()).format('YYYY-MM-DD'),
+        updatedBy: this.employeeId,
+        updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      });
+      this.emailList.forEach((item, index) => {
+        item.id = index;
+      });
+      this.locationSetupForm.controls.email.reset();
+    }
   }
   removeEmail(email) {
     if (email.locationEmailId === 0) {
@@ -175,6 +177,7 @@ export class LocationCreateEditComponent implements OnInit {
 
   // Add / Update location 
   submit() {
+    this.addEmail();
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
@@ -187,13 +190,12 @@ export class LocationCreateEditComponent implements OnInit {
       this.selectTab(0);
       return;
     }
-
     this.emailList.forEach((item, index) => {
       item.id = index;
       this.emailAddress.push({
         locationEmailId: 0,
         locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-        emailAddress: item.email,
+        emailAddress: item.EmailAddress,
         isActive: true,
         isDeleted: false,
         createdBy: this.employeeId,

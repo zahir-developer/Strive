@@ -9,9 +9,10 @@ namespace Strive.BusinessLogic
 {
     public interface IProductBpl
     {
-        Result AddProduct(ProductAddDto product);
-        Result UpdateProduct(Product product);
+        Result AddProduct(ProductListDto products);
+        Result UpdateProduct(ProductListDto products);
         Result GetAllProduct(ProductSearchDto search);
+        Result GetProductDetail(int productId);
         Result GetProduct(int productId);
         Result DeleteProduct(int productId, string fileName = null);
         Result GetAllProductAndImage(ProductSearchDto search);
