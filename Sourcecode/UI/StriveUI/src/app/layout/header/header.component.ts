@@ -58,12 +58,14 @@ export class HeaderComponent implements OnInit {
       }
     });
 
-    this.selectLocation.obsCityName.subscribe(city=> {
-      this.cityName = city;
+    this.selectLocation.obsCityName.subscribe(city => {
+      if (city !== null)
+        this.cityName = city;
     });
 
-    this.selectLocation.obsLocationName.subscribe(location=> {
-      this.locationName = location
+    this.selectLocation.obsLocationName.subscribe(location => {
+      if (location !== null)
+        this.locationName = location
     });
 
     this.getWeatherDetails();

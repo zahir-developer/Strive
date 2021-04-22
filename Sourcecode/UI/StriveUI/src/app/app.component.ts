@@ -72,7 +72,11 @@ export class AppComponent implements OnInit, OnDestroy {
   setHeaderName() {
     if (localStorage.getItem('employeeName') !== undefined) {
       const headerName = localStorage.getItem('employeeName');
+      const locationName = localStorage.getItem('empLocationName');
+      const cityName = localStorage.getItem('employeeCityName');
       this.userService.setHeaderName(headerName);
+      this.userService.setLocationName(locationName);
+      this.userService.setCityName(cityName);
     }
   }
 
