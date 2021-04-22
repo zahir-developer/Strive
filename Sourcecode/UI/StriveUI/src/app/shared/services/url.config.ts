@@ -34,6 +34,8 @@ export const UrlConfig = {
     getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     cityList: `Admin/Common/GetCodesByCategory/`,
     cityByStateId: `Admin/Common/GetCityByStateId/`,
+    modelByMakeId: `Admin/Common/GetModelByMakeId/`,
+
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
     countryList: `Admin/Common/CountryList`,
