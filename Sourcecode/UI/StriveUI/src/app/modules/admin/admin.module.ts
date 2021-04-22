@@ -18,7 +18,6 @@ import { SetupComponent } from './system-setup/setup.component';
 import { ConfirmationService } from 'primeng/api';
 import { ThemeComponent } from './theme/theme.component';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
-import { HeaderComponent } from './header/header.component';
 import { CardComponent } from './card/card.component';
 import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
@@ -81,7 +80,7 @@ import { AddChecklistComponent } from './system-setup/check-list/add-checklist/a
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
-    ThemeComponent, HeaderComponent, CardComponent, CashinRegisterComponent, CloseoutRegisterComponent,
+    ThemeComponent, CardComponent, CashinRegisterComponent, CloseoutRegisterComponent,
     LocationSetupComponent, LocationCreateEditComponent, LocationSetupListComponent,
     ServiceCreateEditComponent, ServiceSetupListComponent, ServiceSetupComponent, ProductSetupComponent,
     ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
