@@ -17,6 +17,8 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime? EventDate { get; set; }
         public DateTimeOffset? InTime { get; set; }
         public DateTimeOffset? OutTime { get; set; }
+        public TimeSpan? TimeIn { get; set; }
+        public TimeSpan? TimeOut { get; set; }
         public DateTimeOffset? TotalHours { get; set; }
         public int? EventType { get; set; }
         public bool Status { get; set; }
