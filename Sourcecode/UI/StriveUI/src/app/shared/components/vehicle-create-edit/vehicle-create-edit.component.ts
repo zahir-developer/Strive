@@ -8,6 +8,8 @@ import { MessageConfig } from '../../services/messageConfig';
 import { ApplicationConfig } from '../../services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModelService } from '../../services/common-service/model.service';
+import { EmployeeService } from '../../services/data-service/employee.service';
+import { MakeService } from '../../services/common-service/make.service';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -48,8 +50,9 @@ export class VehicleCreateEditComponent implements OnInit {
   filteredMake: any = [];
   models: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
-    private spinner: NgxSpinnerService,
-    private modelService: ModelService) { }
+    private spinner: NgxSpinnerService,private employeeService: EmployeeService,
+    private modelService: ModelService,
+    private makeService: MakeService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -80,6 +83,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
     this.vehicleForm.controls.vehicleNumber.disable();
     this.getVehicleCodes();
+    this.getAllMake();
     this.getVehicleMembership();
     this.getMembershipService();
   }
@@ -373,7 +377,7 @@ export class VehicleCreateEditComponent implements OnInit {
           this.model = this.model.map(item => {
           return {
             id: item.ModelId,
-            name: item.ModelName
+            name: item.ModelValue
           };
         });
       }
@@ -382,13 +386,29 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
   
+  getAllMake() {
+    this.makeService.getMake().subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        const makes = make.Make;
+        this.make = makes.map(item => {
+          return {
+            id: item.MakeId,
+            name: item.MakeValue
+          };
+        });
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
 
   // Get vehicleCodes
   getVehicleCodes() {
     this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.make = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
         this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
       
         this.color = this.color.map(item => {
@@ -397,12 +417,7 @@ export class VehicleCreateEditComponent implements OnInit {
             name: item.CodeValue
           };
         });
-        this.make = this.make.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
         this.upchargeService();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');

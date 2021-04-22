@@ -18,6 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
+import { MakeService } from 'src/app/shared/services/common-service/make.service';
+import { ModelService } from 'src/app/shared/services/common-service/model.service';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -102,6 +105,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   generatedClientId: any;
   selectclient: { id: any; name: string; };
   paidLabel: string = 'Pay';
+  upchargeList: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -110,10 +114,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
+    private makeService: MakeService,
+    private modelService : ModelService,
     private client: ClientService,
     private confirmationService: ConfirmationService,
     private router: Router,
-
+private GetUpchargeService: GetUpchargeService,
     private codeValueService: CodeValueService,
     private serviceSetupService: ServiceSetupService
   ) { }
@@ -129,6 +135,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isCompleted = false;
     this.formInitialize();
     this.getJobStatus();
+    this.getAllMake();
     this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
@@ -498,7 +505,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId : ''
     });
     this.clientId = this.selectedData?.Details?.ClientId;
-
+this.getModel(this.selectedData?.Details?.Model?.id)
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -521,8 +528,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
-        this.type = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
-        this.model = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleModel');
+
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
             if (this.selectedData.Details.Make === item.CodeId) {
@@ -534,24 +540,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             }
           });
         }
-        this.model = this.model.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,
             name: item.CodeValue
           };
         });
-        this.type = this.type.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -1319,5 +1315,62 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   printCustomerCopy() {
     this.printCustomerCopyComponent.print();
+  }
+  getModel(id){
+    this.modelService.getModelByMakeId(id).subscribe( res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelValue
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  
+  getAllMake() {
+    this.makeService.getMake().subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        const makes = make.Make;
+        this.type = makes.map(item => {
+          return {
+            id: item.MakeId,
+            name: item.MakeValue
+          };
+        });
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  selectedModel(event) {
+    const id = event.id;
+    if(id !== null){
+      this.getModel(id)
+    }
+  }
+   // To get upcharge
+   getUpcharge() {
+
+    const obj = {
+      "upchargeServiceType": this.upchargeId,
+  "modelId": this.detailForm.value.model?.id
+    }
+    this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        this.upchargeList = jobtype.upcharge;
+      console.log(jobtype)
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 }
