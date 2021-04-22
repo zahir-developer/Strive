@@ -32,5 +32,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string ColorName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string IsPaid { get; set; }
     }
 }
