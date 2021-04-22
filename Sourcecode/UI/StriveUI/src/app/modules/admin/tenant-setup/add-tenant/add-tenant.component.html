@@ -1,0 +1,119 @@
+<div id="page-content">
+    <!--page Content-->
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-12 p-0" aria-label="breadcrumb">
+                <!--bread crumb-->
+                <ol class="breadcrumb font-size--9">
+                    <li class="breadcrumb-item"><a appNavigatePage>Admin</a></li>
+                    <li class="breadcrumb-item"><a>Tenant Setup</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Tenant
+                    </li>
+                </ol>
+            </nav>
+            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
+                <h3>Add New Tenant</h3>
+            </div>
+            <div class="col-12 p-l-0 p-r-0">
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5">
+                            <h6 class="d-inline-block font-weight-600">Personal Details</h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a> <em class="fa fa-angle-up font-size-1-4"></em> </a>
+                            </div>
+                        </div>
+                        <form>
+                            <div class="form-row">
+                                <div class="col-md-3 form-group">
+                                    <label>First Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" name="inputFirstName" [appMaxLength]="50">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Last Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" name="inputLastName" [appMaxLength]="50">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Address<span class="required">*</span></label>
+                                    <input type="text" class="form-control" name="address" [appMaxLength]="200">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="inputState">State&nbsp;</label>
+                                    <app-state-dropdown [isdisable]="true" (stateId)="getSelectedStateId($event)">
+                                    </app-state-dropdown>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>City</label>
+                                    <app-city [State]="State" (selectCity)="selectCity($event)"></app-city>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>ZipCode</label>
+                                    <input type="text" class="form-control" name="zipcode" [appMaxLength]="5">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" name="email">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Mobile No</label>
+                                    <input type="text" class="form-control" name="mobile">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Phone No</label>
+                                    <input type="text" class="form-control" name="phone">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Company Details </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a> <em class="fa fa-angle-up font-size-1-4"></em> </a>
+                            </div>
+                        </div>
+                        <form>
+                            <div class="form-row">
+                                <div class="col-md-3 form-group">
+                                    <label>Company Name<span class="required">*</span></label>
+                                    <input type="text" class="form-control" name="company" [appMaxLength]="50">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Date Of Subscription</label>
+                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" class="form-control"
+                                        bsDatepicker #dp="bsDatepicker" (focus)="dp.show()">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>No of Locations</label>
+                                    <input type="text" class="form-control" name="location">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Payment Date</label>
+                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" class="form-control"
+                                        bsDatepicker #dp="bsDatepicker" (focus)="dp.show()">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Deactivation Date</label>
+                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" class="form-control"
+                                        bsDatepicker #dp="bsDatepicker" (focus)="dp.show()">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Modules </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a> <em class="fa fa-angle-up font-size-1-4"></em> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

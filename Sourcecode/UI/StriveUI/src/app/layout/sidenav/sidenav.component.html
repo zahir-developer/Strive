@@ -64,6 +64,8 @@
           Cards</a></li>
             <li *ngIf="systemSetupView == true"><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">System
           Setup</a></li>
+          <li ><a [routerLink]='["./admin/tenant"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Tenant
+            Setup</a></li>
         </ul>
     </div>
 
@@ -98,6 +100,8 @@
                 <li *ngIf="giftCardsView == true"><a [routerLink]='["./admin/gift-card"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">Gift
             Cards</a></li>
                 <li *ngIf="systemSetupView == true"><a [routerLink]='["./admin/setup/location"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">System Setup</a></li>
+                <li ><a [routerLink]='["./admin/tenant"]' [routerLinkActive]='["link-active"]' (click)="closembsidebar()">Tenant
+                    Setup</a></li>
             </ul>
         </div>
     </div>
