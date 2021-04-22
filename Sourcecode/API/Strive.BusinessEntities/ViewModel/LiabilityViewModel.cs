@@ -11,6 +11,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string LiabilityId { get; set; }
         public int? EmployeeId { get; set; }
         public int? ClientId { get; set; }
+        public string ClientFirstName { get; set; }
+        public string ClientLastName { get; set; }
         public int? VehicleId { get; set; }
         public int? TypeId { get; set; }
         public string LiabilityType { get; set; }
