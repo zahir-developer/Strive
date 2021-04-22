@@ -389,7 +389,7 @@ namespace Strive.BusinessLogic.Common
                 SendMail(emailId, emailContent, "Welcome to Strive !!!");
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
@@ -443,8 +443,15 @@ namespace Strive.BusinessLogic.Common
                 client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
 
                 // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("autonotify@telliant.com", _tenant.SMTPPassword);
+                try
+                {
+                    client.Authenticate(_tenant.FromMailAddress, _tenant.SMTPPassword);
+                }
+                catch (Exception ex)
+                {
 
+                }
+                
                 client.Send(message);
                 client.Disconnect(true);
             }
