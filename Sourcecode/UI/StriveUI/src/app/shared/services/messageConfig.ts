@@ -4,9 +4,9 @@ export const MessageConfig = {
    CommunicationError: 'Communication Error !',
    Mandatory: 'Please Enter Mandatory fields',
    TicketNumber: 'Ticket Number is Empty',
-   locationError: 'No location assigned, Pls contact Administrator..!!!',
-   Reset: 'Reset Successfully !!',
-   save: 'Saved Successfully !!',
+   locationError: 'No location assigned, Pls contact Administrator..!',
+   Reset: 'Reset Successfully !',
+   save: 'Saved Successfully !',
 
    Schedule:
    {
@@ -138,7 +138,7 @@ export const MessageConfig = {
 
       GiftCard:
       {
-         GiftCardAlreadyExists: 'GiftCard Already Exist !',
+         GiftCardAlreadyExists: 'Gift Card Already Exists !',
          Add: 'Gift Card added successfully !',
          Update: 'Gift Card updated successfully !',
          Delete: 'Gift Card deleted successfully !',
@@ -149,8 +149,8 @@ export const MessageConfig = {
 
       CashRegister:
       {
-         Add: 'CashRegister added successfully !',
-         Update: 'CashRegister Updated Successfully!',
+         Add: 'Cash Register added successfully !',
+         Update: 'Cash Register Updated Successfully!',
       },
       CloseRegister:
       {

@@ -120,6 +120,11 @@ export const ApplicationConfig = {
         TermsAndCondition: 5120
     },
     Enum: {
+        JobType:
+        {
+            DetailJob: 'Detail',
+            WashJob:  'Wash'
+        },
         ServiceType:
         {
             WashPackage: 'Wash Package',
@@ -132,7 +137,7 @@ export const ApplicationConfig = {
             AirFresheners: 'Air Fresheners',
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
-            Details: 'Details',
+            
             DetailPackage: 'Detail Package',
             GiftCard: 'Gift Card'
         },
@@ -224,7 +229,7 @@ export const ApplicationConfig = {
         Operator: 'Operator',
         Cashier: 'Cashier',
         Detailer: 'Detailer',
-        Wash: 'Wash',
+        Wash: 'Washer',
         Client: 'Client'
     },
 
