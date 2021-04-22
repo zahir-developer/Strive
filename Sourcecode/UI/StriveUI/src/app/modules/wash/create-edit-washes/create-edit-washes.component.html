@@ -208,9 +208,10 @@
                         </div>
                         <div class="m-t-20 mw-100">
                             <span *ngIf="isEdit">
-                                <span *ngIf = "paidLabel === 'Paid'" [ngStyle]="{'color': paidLabel === 'Paid' ? 'Green' : 'none'}">{{paidLabel}}</span>
-                                <button type="button" *ngIf = "paidLabel !== 'Paid'" class="btn theme-primary-button-color"
-                                    (click)="pay()" >{{paidLabel}}</button>&nbsp;
+                                <button type="button"  (click)="pay()"  class="btn theme-primary-button-color"> 
+                                    <span  [ngStyle]="{'color': paidLabel === 'Paid' ? 'Green' : 'none'}">{{paidLabel}}</span></button>
+                               
+                              &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="print()">Print</button>
                             </span>
