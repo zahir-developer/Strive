@@ -24,6 +24,7 @@ import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions
 import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
 import { AdSetupComponent } from './system-setup/ad-setup/ad-setup.component';
 import { DealSetupComponent } from './system-setup/deal-setup/deal-setup.component';
+import { TenantSetupComponent } from './tenant-setup/tenant-setup.component';
 
 
 const adminRoutes: Routes = [
@@ -40,6 +41,7 @@ const adminRoutes: Routes = [
     { path: 'gift-card', component: GiftCardComponent },
     { path: 'time-clock', component: TimeClockMaintenanceComponent },
     { path: 'time-clock-week', component: TimeClockWeekComponent },
+    { path: 'tenant', component: TenantSetupComponent },
     {
       path: 'setup', component: SetupComponent, children: [
         { path: '', redirectTo: 'location' },
