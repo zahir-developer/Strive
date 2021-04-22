@@ -101,6 +101,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   title: string;
   generatedClientId: any;
   selectclient: { id: any; name: string; };
+  paidLabel: string = 'Pay';
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -469,6 +470,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.jobID = this.selectedData.Details.JobId;
     this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
       this.selectedData.DetailsJobServiceEmployee : [];
+      if( this.selectedData?.Details?.IsPaid == "True"){
+        this.paidLabel = 'Paid'
+      }
+      else{
+        this.paidLabel = 'Pay'
+      }
     this.detailForm.patchValue({
       barcode: this.selectedData.Details.Barcode,
       bay: this.selectedData.Details.BayId,

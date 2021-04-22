@@ -82,6 +82,7 @@ export class CreateEditWashesComponent implements OnInit {
   additionalId: any;
   selectclient: any;
   generatedClientId: any;
+  paidLabel: string;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
     private landingservice: LandingService,
@@ -175,6 +176,13 @@ export class CreateEditWashesComponent implements OnInit {
 
     this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
     this.getClientPastNotes(this.selectedData?.Washes[0]?.ClientId);
+
+    if(this.selectedData?.Washes[0].IsPaid == "True"){
+      this.paidLabel = 'Paid'
+    }
+    else{
+      this.paidLabel = 'Pay'
+    }
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },

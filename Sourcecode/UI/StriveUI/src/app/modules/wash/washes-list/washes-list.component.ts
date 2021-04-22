@@ -145,6 +145,12 @@ this.washDetails[i].MakeModelColorLabel = 'None';
 else{
   this.washDetails[i].MakeModelColorLabel =  this.washDetails[i].Make + ',' + this.washDetails[i].Model + ',' + this.washDetails[i].Color 
 }
+if(this.washDetails[i].IsPaid == "True"){
+  this.washDetails[i].paidLabel = 'Paid'
+}
+else{
+  this.washDetails[i].paidLabel = 'Pay'
+}
               let hh = this.washDetails[i].TimeIn.substring(13, 11);
               let m = this.washDetails[i].TimeIn.substring(16, 14);
               var s = this.washDetails[i].TimeIn.substring(19, 17);
