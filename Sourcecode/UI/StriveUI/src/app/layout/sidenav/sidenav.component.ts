@@ -47,6 +47,9 @@ export class SidenavComponent implements OnInit {
   monthlyMoneyOwnedView: boolean = false
   monthlyCustomerDetailView: boolean = false
   hourlyWashReportView: boolean = false
+  customerHistoryView: boolean = false
+  customerView: boolean = false
+
   roles = [];
   newRolePermission: string;
   @Input() localStorageUpdation: string = 'localStorageUpdation';
@@ -64,34 +67,6 @@ export class SidenavComponent implements OnInit {
 
     this.user.navName.subscribe((data = []) => {
       this.roles = [];
-      this.salesModule = false
-      this.adminModule = false
-      this.detailModule = false
-      this.washModule = false
-      this.dashBoardModule = false
-      this.systemSetupView = false
-      this.giftCardsView = false
-      this.SchedulesView = false
-      this.vechiclesView = false
-      this.employeesView = false
-      this.clientsView = false
-      this.cashRegisterSetupView = false
-      this.closeOutRegisterView = false
-      this.timeClockMaintenanceView = false
-      this.reportModule = false
-      this.whiteLabellingModule = false
-      this.payRollModule = false
-      this.checkOutModule = false
-      this.messengerModule = false
-      this.dailyStatusView = false
-      this.eodReportView = false
-      this.dailyTipReportView = false
-      this.monthlyTipView = false
-      this.monthlySalesView = false
-      this.monthlyCustomerSummaryView = false
-      this.monthlyMoneyOwnedView = false
-      this.monthlyCustomerDetailView = false
-      this.hourlyWashReportView = false
       this.localStorageUpdation = 'localStorageUpdation'
       if (data) {
         const newparsedData = JSON.parse(data);
@@ -129,28 +104,28 @@ export class SidenavComponent implements OnInit {
       if (viewNameLocal === 'SystemSetup') {
         this.systemSetupView = true;
       }
-      if (viewNameLocal === 'GiftCards') {
+      else if (viewNameLocal === 'GiftCards') {
         this.giftCardsView = true;
       }
-      if (viewNameLocal === 'Schedules') {
+      else if (viewNameLocal === 'Schedules') {
         this.SchedulesView = true;
       }
-      if (viewNameLocal === 'Vehicles') {
+      else if (viewNameLocal === 'Vehicles') {
         this.vechiclesView = true;
       }
-      if (viewNameLocal === 'Clients') {
+      else if (viewNameLocal === 'Clients') {
         this.clientsView = true;
       }
-      if (viewNameLocal === 'Employees') {
+      else if (viewNameLocal === 'Employees') {
         this.employeesView = true;
       }
-      if (viewNameLocal === 'TimeClockMaintenance') {
+      else if (viewNameLocal === 'TimeClockMaintenance') {
         this.timeClockMaintenanceView = true;
       }
-      if (viewNameLocal === 'CloseOutRegister') {
+      else if (viewNameLocal === 'CloseOutRegister') {
         this.closeOutRegisterView = true;
       }
-      if (viewNameLocal === 'CashRegisterSetup') {
+      else if (viewNameLocal === 'CashRegisterSetup') {
         this.cashRegisterSetupView = true;
       }
     }
@@ -159,15 +134,15 @@ export class SidenavComponent implements OnInit {
       this.detailModule = true;
     }
     // Wash Module
-    if (ModuleNameLocal === "Washes") {
+    else if (ModuleNameLocal === "Washes") {
       this.washModule = true;
     }
     //DashBoard Module
-    if (ModuleNameLocal === "Dashboard") {
+    else if (ModuleNameLocal === "Dashboard") {
       this.dashBoardModule = true;
     }
     // Customer
-    if (ModuleNameLocal === "Customer") {
+    else if (ModuleNameLocal === "Customer") {
       this.customerModule = true;
     }
     //Report Module
@@ -177,31 +152,31 @@ export class SidenavComponent implements OnInit {
       if (viewNameLocal === 'DailyStatusScreen') {
         this.dailyStatusView = true;
       }
-      if (viewNameLocal === 'EODReport') {
+      else if (viewNameLocal === 'EODReport') {
         this.eodReportView = true;
       }
-      if (viewNameLocal === 'DailyTipreport') {
+      else if (viewNameLocal === 'DailyTipreport') {
         this.dailyTipReportView = true;
       }
-      if (viewNameLocal === 'MonthlyTipreport') {
+      else if (viewNameLocal === 'MonthlyTipreport') {
         this.monthlyTipView = true;
       }
-      if (viewNameLocal === 'MonthlySalesReport') {
+      else if (viewNameLocal === 'MonthlySalesReport') {
         this.monthlySalesView = true;
       }
-      if (viewNameLocal === 'MonthlyCustomerSummaryReport') {
+      else if (viewNameLocal === 'MonthlyCustomerSummaryReport') {
         this.monthlyCustomerSummaryView = true;
       }
-      if (viewNameLocal === 'MonthlyMoneyOwedReport') {
+      else if (viewNameLocal === 'MonthlyMoneyOwedReport') {
         this.monthlyMoneyOwnedView = true;
       }
-      if (viewNameLocal === 'MonthlyCustomerDetailReport') {
+      else if (viewNameLocal === 'MonthlyCustomerDetailReport') {
         this.monthlyCustomerDetailView = true;
       }
-      if (viewNameLocal === 'HourlyWashreport') {
+      else if (viewNameLocal === 'HourlyWashreport') {
         this.hourlyWashReportView = true;
       }
-      if (viewNameLocal === 'DailySalesreport') {
+      else if (viewNameLocal === 'DailySalesreport') {
         this.dailyTipReportView = true;
       }
     }
@@ -221,6 +196,14 @@ export class SidenavComponent implements OnInit {
     //Messenger
     if (ModuleNameLocal === "Messenger") {
       this.messengerModule = true;
+    }
+    //Customer
+    if (ModuleNameLocal === "Customer") {
+      this.customerView = true;
+    }
+    //CustomerHistory
+    if (ModuleNameLocal === "CustomerHistory") {
+      this.customerHistoryView = true;
     }
   }
 
