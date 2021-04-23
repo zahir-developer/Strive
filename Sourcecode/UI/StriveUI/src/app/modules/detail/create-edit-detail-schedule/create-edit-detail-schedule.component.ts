@@ -107,7 +107,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   paidLabel: string = 'Pay';
   upchargeList: any;
   ceramicUpchargeId: any;
-  UpchargeTypeList: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -316,13 +315,13 @@ private GetUpchargeService: GetUpchargeService,
       }
     }
     if(this.additionalService[0].IsCeramic == false){
-      this.UpchargeTypeList = this.upcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+      this.UpchargeType = this.upcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
     }
     else{
-      this.UpchargeTypeList =   this.upcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+      this.UpchargeType =   this.upcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
 
     }
-    console.log(  this.UpchargeTypeList, 'lis')
+    console.log(  this.UpchargeType, 'lis')
     console.log(this.additionalService)
   }
 
@@ -515,8 +514,14 @@ private GetUpchargeService: GetUpchargeService,
       color: { id: this.selectedData?.Details?.Color, name: this.selectedData?.Details?.vehicleColor },
       washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId : '',
-      upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
-      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '',
+      upchargeType: this.selectedData.DetailsItem.IsCeramic === false ?
+      
+      
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : ''  :     this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId : '' ,
+ 
+     
       upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '',
       airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId ?
@@ -540,6 +545,14 @@ this.getModel(this.selectedData?.Details?.Model?.id)
       this.detailForm.get('vehicle').disable();
     } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
+    }
+
+    if(this.selectedData.DetailsItem.IsCeramic == false){
+      this.UpchargeType = this.upcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+    }
+    else{
+      this.UpchargeType =   this.upcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+
     }
   }
 
