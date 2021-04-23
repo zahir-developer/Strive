@@ -16,6 +16,9 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
+import { MakeService } from 'src/app/shared/services/common-service/make.service';
+import { ModelService } from 'src/app/shared/services/common-service/model.service';
 declare var $: any;
 
 @Component({
@@ -83,17 +86,22 @@ export class CreateEditWashesComponent implements OnInit {
   selectclient: any;
   generatedClientId: any;
   paidLabel: string;
+  upchargeList: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
     private landingservice: LandingService,
+ private makeService: MakeService,
+ private modelService :ModelService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
-    private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService) { }
+    private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService
+    ,private GetUpchargeService: GetUpchargeService,
+    ) { }
 
   ngOnInit() {
 
 
     this.getTicketNumber();
-
+    this.getAllMake()
     this.getJobStatus();
     this.isPrint = false;
     this.formInitialize();
@@ -183,6 +191,7 @@ export class CreateEditWashesComponent implements OnInit {
     else{
       this.paidLabel = 'Pay'
     }
+
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
@@ -195,11 +204,13 @@ export class CreateEditWashesComponent implements OnInit {
         this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.washId)[0]?.ServiceId : '',
       upchargeType: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId ?
         this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
-      upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId ?
-        this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
+      // upcharges: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId ?
+      //   this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0]?.ServiceId : '',
       airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId ?
         this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId : '',
     });
+    this.getModel(this.selectedData.Washes[0].Make.id)
+
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();
@@ -331,6 +342,8 @@ export class CreateEditWashesComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
+  
   getVehicleById(data) {
     this.wash.getVehicleById(data).subscribe(res => {
       if (res.status === 'Success') {
@@ -445,7 +458,7 @@ export class CreateEditWashesComponent implements OnInit {
     }
     this.filteredcolor = filtered;
   }
-
+ 
   filterMake(event) {
     const filtered: any[] = [];
     const query = event.query;
@@ -485,14 +498,51 @@ export class CreateEditWashesComponent implements OnInit {
       data.IsChecked = data.IsChecked ? false : true;
     }
   }
-
+  getModel(id){
+    this.modelService.getModelByMakeId(id).subscribe( res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelValue
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  
+  getAllMake() {
+    this.makeService.getMake().subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        const makes = make.Make;
+        this.type = makes.map(item => {
+          return {
+            id: item.MakeId,
+            name: item.MakeValue
+          };
+        });
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  selectedModel(event) {
+    const id = event.id;
+    if(id !== null){
+      this.getModel(id)
+    }
+  }
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
-        this.type = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
-        this.model = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleModel');
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
             if (+this.selectedData.Washes[0].Make === item.CodeId) {
@@ -510,24 +560,14 @@ export class CreateEditWashesComponent implements OnInit {
             };
           }
         }
-        this.model = this.model.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,
             name: item.CodeValue
           };
         });
-        this.type = this.type.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -668,7 +708,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-    this.washForm.patchValue({ upcharges: +data ? +data : '' });
+    // this.washForm.patchValue({ upcharges: +data ? +data : '' });
     this.washForm.patchValue({ upchargeType: +data ? +data : '' });
   }
 
@@ -968,6 +1008,23 @@ export class CreateEditWashesComponent implements OnInit {
   print() {
     this.isPrint = true;
     this.printWashComponent.print();
+  }
+   // To get upcharge
+   getUpcharge() {
+
+    const obj = {
+      "upchargeServiceType": this.upchargeId,
+  "modelId": this.washForm.value.model?.id
+    }
+    this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        this.upchargeList = jobtype.upcharge;
+      console.log(jobtype)
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 }
 

@@ -51,6 +51,8 @@ export class ServiceCreateEditComponent implements OnInit {
   codeCategory: any;
   isCeramic: boolean = false;
   isWash: boolean;
+  washUpcharge: boolean;
+  detailUpcharge: boolean;
 
 
 
@@ -308,6 +310,16 @@ export class ServiceCreateEditComponent implements OnInit {
         this.isDetails = true;
       } else {
         this.isDetails = false;
+      }
+      if (type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
+        this.washUpcharge = true;
+      } else {
+        this.washUpcharge = false;
+      }
+      if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
+        this.detailUpcharge = true;
+      } else {
+        this.detailUpcharge = false;
       }
       if (type === ApplicationConfig.Enum.ServiceType.ServiceDiscounts) {
         this.isDiscounts = true;
