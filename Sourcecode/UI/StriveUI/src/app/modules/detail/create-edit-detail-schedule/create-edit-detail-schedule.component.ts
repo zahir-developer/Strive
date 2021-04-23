@@ -106,6 +106,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   selectclient: { id: any; name: string; };
   paidLabel: string = 'Pay';
   upchargeList: any;
+  ceramicUpchargeId: any;
+  UpchargeTypeList: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -313,6 +315,15 @@ private GetUpchargeService: GetUpchargeService,
         this.additionalService.push(serviceWash[0]);
       }
     }
+    if(this.additionalService[0].IsCeramic == false){
+      this.UpchargeTypeList = this.upcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+    }
+    else{
+      this.UpchargeTypeList =   this.upcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+
+    }
+    console.log(  this.UpchargeTypeList, 'lis')
+    console.log(this.additionalService)
   }
 
   outSideService(data) {
@@ -352,6 +363,7 @@ private GetUpchargeService: GetUpchargeService,
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
         const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
         if (serviceUpcharge.length !== 0) {
+
           this.additionalService.push(serviceUpcharge[0]);
         }
       }
@@ -362,8 +374,10 @@ private GetUpchargeService: GetUpchargeService,
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
+
+ 
     this.detailForm.patchValue({ upcharges: +data ? +data : ''});
-    this.detailForm.patchValue({ upchargeType: +data ? +data : ''});
+    this.detailForm.patchValue({   UpchargeType: +data ? +data : ''});
   }
 
   change(data) {
@@ -406,6 +420,8 @@ private GetUpchargeService: GetUpchargeService,
       this.serviceEnum = serviceTypeValue;
       this.detailId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)[0]?.CodeId;
       this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0]?.CodeId;
+      this.ceramicUpchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge)[0]?.CodeId;
+
       this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0]?.CodeId;
       this.additionalId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
       this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices)[0]?.CodeId;
@@ -434,8 +450,12 @@ private GetUpchargeService: GetUpchargeService,
             Number(item.ServiceTypeId) === this.detailId);
           this.additional = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.additionalId);
-          this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
+         const upcharges = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.upchargeId);
+            const ceramicupcharges = serviceDetails.AllServiceDetail.filter(item =>
+              Number(item.ServiceTypeId) === this.ceramicUpchargeId);
+              this.upcharges = upcharges.concat(ceramicupcharges);
+              console.log(this.upcharges, 'up')
           this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.airFreshenerId);
           this.UpchargeType = this.upcharges;
@@ -472,9 +492,9 @@ private GetUpchargeService: GetUpchargeService,
     }
     this.getVehicleList(this.selectedData?.Details?.ClientId);
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
-    this.note = this.selectedData.Details.Notes;
-    this.detailItems = this.selectedData.DetailsItem;
-    this.jobID = this.selectedData.Details.JobId;
+    this.note = this.selectedData?.Details?.Notes;
+    this.detailItems = this.selectedData?.DetailsItem;
+    this.jobID = this.selectedData?.Details?.JobId;
     this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
       this.selectedData.DetailsJobServiceEmployee : [];
       if( this.selectedData?.Details?.IsPaid == "True"){
@@ -484,15 +504,15 @@ private GetUpchargeService: GetUpchargeService,
         this.paidLabel = 'Pay'
       }
     this.detailForm.patchValue({
-      barcode: this.selectedData.Details.Barcode,
-      bay: this.selectedData.Details.BayId,
-      inTime: this.datePipe.transform(this.selectedData.Details.TimeIn, 'MM/dd/yyyy HH:mm'),
-      dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
-      client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details.ClientName },
-      vehicle: this.selectedData.Details.VehicleId,
-      type: { id: this.selectedData.Details.Make, name: this.selectedData?.Details?.vehicleMake },
+      barcode: this.selectedData?.Details?.Barcode,
+      bay: this.selectedData?.Details?.BayId,
+      inTime: this.datePipe.transform(this.selectedData?.Details?.TimeIn, 'MM/dd/yyyy HH:mm'),
+      dueTime: this.datePipe.transform(this.selectedData?.Details?.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
+      client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details?.ClientName },
+      vehicle: this.selectedData?.Details?.VehicleId,
+      type: { id: this.selectedData?.Details?.Make, name: this.selectedData?.Details?.vehicleMake },
       model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.vehicleModel },
-      color: { id: this.selectedData.Details.Color, name: this.selectedData?.Details?.vehicleColor },
+      color: { id: this.selectedData?.Details?.Color, name: this.selectedData?.Details?.vehicleColor },
       washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId : '',
       upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
@@ -531,11 +551,11 @@ this.getModel(this.selectedData?.Details?.Model?.id)
 
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
-            if (this.selectedData.Details.Make === item.CodeId) {
+            if (this.selectedData?.Details?.Make === item.CodeId) {
               this.selectedData.Details.vehicleMake = item.CodeValue;
-            } else if (this.selectedData.Details.Model === item.CodeId) {
+            } else if (this.selectedData?.Details?.Model === item.CodeId) {
               this.selectedData.Details.vehicleModel = item.CodeValue;
-            } else if (this.selectedData.Details.Color === item.CodeId) {
+            } else if (this.selectedData?.Details?.Color === item.CodeId) {
               this.selectedData.Details.vehicleColor = item.CodeValue;
             }
           });
@@ -1360,7 +1380,7 @@ this.getModel(this.selectedData?.Details?.Model?.id)
    getUpcharge() {
 
     const obj = {
-      "upchargeServiceType": this.upchargeId,
+      "upchargeServiceType": this.additionalService[0].IsCeramic == false ? this.upchargeId : this.ceramicUpchargeId,
   "modelId": this.detailForm.value.model?.id
     }
     this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
