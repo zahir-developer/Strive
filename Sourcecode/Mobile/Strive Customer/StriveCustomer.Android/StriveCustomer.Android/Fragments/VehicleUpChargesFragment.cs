@@ -83,7 +83,7 @@ namespace StriveCustomer.Android.Fragments
             {
                 foreach(var result in MembershipDetails.filteredList.ServicesWithPrice)
                 {
-                    if(string.Equals(result.ServiceTypeName, "Upcharges"))
+                    if(!string.IsNullOrEmpty(result.Upcharges))
                     {
                         RadioButton upChargeRadio = new RadioButton(Context);
                         layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);

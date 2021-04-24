@@ -101,7 +101,7 @@ namespace Strive.Core.Services.Interfaces
         
         Task<ScheduleModel> GetSchedulePastService(int clientID);
         
-        Task<AvailableScheduleServicesModel> GetScheduleServices();
+        Task<AvailableServicesModel> GetScheduleServices(int LocationID);
         
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
 
