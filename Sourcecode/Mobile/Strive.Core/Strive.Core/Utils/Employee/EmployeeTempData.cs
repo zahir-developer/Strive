@@ -73,6 +73,7 @@ namespace Strive.Core.Utils.Employee
             ExistingParticipants = null;
             ChatParticipants = null;
             IsCreateGroup = false;
+            employeeList_Contact = null;
         }
 
         

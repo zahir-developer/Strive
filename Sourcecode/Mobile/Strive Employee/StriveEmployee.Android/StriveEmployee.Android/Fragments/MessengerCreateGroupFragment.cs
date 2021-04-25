@@ -117,15 +117,8 @@ namespace StriveEmployee.Android.Fragments
                     MessengerTempData.IsCreateGroup = true;
                     messengerCreateGroup_Adapter = new MessengerCreateGroupAdapter(Context, ViewModel.EmployeeLists.EmployeeList.Employee);
                 }
-
-                //var layoutManager = new LinearLayoutManager(Context);
-                //createGroup_RecyclerView.SetLayoutManager(layoutManager);
-                //createGroup_RecyclerView.SetAdapter(messengerCreateGroup_Adapter);
             }
-            //if (MessengerTempData.EmployeeLists.EmployeeList == null)
-            //{
-            //    await ViewModel.GetContactsList();
-            //}
+
 
             if(MessengerTempData.ExistingParticipants != null)
             {

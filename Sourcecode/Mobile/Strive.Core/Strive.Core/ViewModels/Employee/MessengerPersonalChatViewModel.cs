@@ -104,14 +104,21 @@ namespace Strive.Core.ViewModels.Employee
                 sendChat.firstName = MessengerTempData.RecipientName;
                 sendChat.chatMessageRecipient.recipientGroupId = MessengerTempData.GroupID;
                 sendChat.groupId = MessengerTempData.GroupUniqueID;
-                sendChat.connectionId = null;
+                sendChat.connectionId = "";
                 sendChat.fullName = MessengerTempData.FirstName;
             }
             else
             {
                 sendChat.chatMessageRecipient.recipientId = MessengerTempData.RecipientID;
                 sendChat.firstName = MessengerTempData.RecipientName;
-                sendChat.connectionId = MessengerTempData.ConnectionID;
+                if(string.IsNullOrEmpty(MessengerTempData.ConnectionID))
+                {
+                    sendChat.connectionId = "";
+                }
+                else
+                {
+                    sendChat.connectionId = MessengerTempData.ConnectionID;
+                }
                 sendChat.chatMessageRecipient.recipientGroupId = null;
                 sendChat.groupId = null;
                 sendChat.fullName = MessengerTempData.FirstName;
