@@ -46,5 +46,10 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
             }
             return _result;
         }
+        public Result GetAllTenant()
+        {
+            return ResultWrap(new SuperAdminRal(_tenant, true).GetAllTenant,"");
+        }
+        
     }
 }

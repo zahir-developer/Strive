@@ -6,5 +6,6 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
      public interface ISuperAdminBpl
     {
         Result CreateTenant(TenantViewModel tenant);
+        Result GetAllTenant();
     }
 }

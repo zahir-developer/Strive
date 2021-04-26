@@ -32,5 +32,18 @@ namespace Admin.API.Controllers
         }
         #endregion
 
+        #region GET
+
+        /// <summary>
+        /// GetAllclient
+        /// </summary>
+        [HttpPost]
+        [Route("AllTenant")]
+        public Result GetAllTenant()
+        {
+            return _bplManager.GetAllTenant();
+        }
+        #endregion
+
     }
 }
