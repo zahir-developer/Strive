@@ -50,6 +50,10 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         {
             return ResultWrap(new SuperAdminRal(_tenant, true).GetAllTenant,"");
         }
-        
+        public Result GetTenantById(int id)
+        {
+            return ResultWrap(new SuperAdminRal(_tenant, true).GetTenantById,id,"TenantById");
+        }
+
     }
 }

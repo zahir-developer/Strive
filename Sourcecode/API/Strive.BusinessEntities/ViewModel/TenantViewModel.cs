@@ -10,12 +10,15 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public string FirstName { get; set; }
         public string Address { get; set; }
+        public string TenantEmail { get; set; }
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
         public int SubscriptionId { get; set; }
         public string TenantName { get; set; }
         public string PasswordHash { get; set; }
-        public string TenantEmail { get; set; }
         public DateTime ExpiryDate { get; set; }
+        public DateTime SubscriptionDate { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public int Locations { get; set; }
     }
 }

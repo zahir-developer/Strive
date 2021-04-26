@@ -37,13 +37,24 @@ namespace Admin.API.Controllers
         /// <summary>
         /// GetAllclient
         /// </summary>
-        [HttpPost]
+        [HttpGet]
         [Route("AllTenant")]
         public Result GetAllTenant()
         {
             return _bplManager.GetAllTenant();
         }
+
+        /// <summary>
+        /// GetTanantbyId
+        /// </summary>
+        [HttpGet]
+        [Route("TenantById/{id}")]
+        public Result GetTenantById(int id)
+        {
+            return _bplManager.GetTenantById(id);
+        }
         #endregion
+
 
     }
 }
