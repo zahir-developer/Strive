@@ -19,6 +19,10 @@ namespace Strive.ResourceAccess
 
         public bool CreateTenant(TenantViewModel tenant)
         {
+            _prm.Add("@FirstName", tenant.FirstName);
+            _prm.Add("@Address", tenant.Address);
+            _prm.Add("@MobileNumber", tenant.MobileNumber);
+            _prm.Add("@PhoneNumber", tenant.PhoneNumber);
             _prm.Add("@TenantName", tenant.TenantName);
             _prm.Add("@TenantEmail", tenant.TenantEmail);
             _prm.Add("@Subscriptionid", tenant.SubscriptionId);

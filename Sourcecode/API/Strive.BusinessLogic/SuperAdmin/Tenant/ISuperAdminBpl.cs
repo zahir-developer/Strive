@@ -3,7 +3,7 @@ using Strive.Common;
 
 namespace Strive.BusinessLogic.SuperAdmin.Tenant
 {
-    interface ISuperAdminBpl
+     public interface ISuperAdminBpl
     {
         Result CreateTenant(TenantViewModel tenant);
     }

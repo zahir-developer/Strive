@@ -35,7 +35,7 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
             <p>Thanks,</p>
             <p>Strive Team.</p>";
 
-                common.SendMail(tenant.TenantEmail, bodyMsg, subject);
+                //common.SendMail(tenant.TenantEmail, bodyMsg, subject);
 
                 _resultContent.Add(saveStatus.WithName("SaveStatus"));
                 _result = Helper.BindSuccessResult(_resultContent);
