@@ -98,6 +98,22 @@ export class AddTenantComponent implements OnInit {
     return this.companyform.controls;
   }
 
+  selectAll(event) {
+    if (event.target.checked) {
+      this.moduleList.forEach( item => {
+        item.isChecked = true;
+      });
+    } else {
+      this.moduleList.forEach( item => {
+        item.isChecked = false;
+      });
+    }
+  }
+
+  selectModule(module) {
+    module.IsChecked = module.IsChecked ? false : true;
+  }
+
   addTenant() {
     this.submitted = true;
     // this.stateDropdownComponent.submitted = true;
@@ -113,6 +129,41 @@ export class AddTenantComponent implements OnInit {
       this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
     }
+
+
+    const personalDetailObj = {
+      firstName: '',
+      lastName: '',
+      address: '',
+      state: '',
+      city: '',
+      zipcode: '',
+      email: '',
+      mobileNo: '',
+      phoneNo: ''
+    };
+    const companyObj = {
+      companyName: '',
+      dateOfSubscription: '',
+      noOfLocation: '',
+      paymentDate: '',
+      deactivationDate: ''
+    };
+
+    const moduleObj = [];
+    this.moduleList.forEach( item => {
+      if (item.isChecked) {
+        moduleObj.push({
+          tenantModuleId: 0,
+          moduleId: item.moduleId,
+        });
+      }
+    });
+    const finalObj = {
+      personalDetail: personalDetailObj,
+      companyDetail: companyObj,
+      modules: moduleObj
+    };
   }
 
 

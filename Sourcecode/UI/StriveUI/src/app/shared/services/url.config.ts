@@ -316,5 +316,11 @@ export const UrlConfig = {
 
   customerHistory: {
     getCustomerHistory: `Admin/Checkout/GetCustomerHistory`
+  },
+
+  tenantSetup: {
+    getModuleList: ``,
+    addTenantSetup: ``,
+    getTenantSetupList: ''
   }
 };
