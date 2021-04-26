@@ -136,7 +136,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10" formControlName="type" placeholder="Make">
+                                    <p-autoComplete field="name" (onSelect)="selectedModel($event)" [suggestions]="filteredMake" (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10" formControlName="type" placeholder="Make">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')" (completeMethod)="filterModel($event)" [size]="10" formControlName="model" placeholder="Model">
+                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"  (completeMethod)="filterModel($event)" [size]="10" formControlName="model" placeholder="Model" (onSelect)="getUpcharge()">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -182,9 +182,9 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputUpchargeType">Upcharge Type</label>
-                        <select class="form-control" formControlName="upchargeType" (change)="upchargeService($event.target.value)">
+                        <select class="form-control" formControlName="upchargeType" (change)="upchargeService($event.target.value);getUpcharge();">
                             <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
+                            <option *ngFor="let score of  UpchargeType" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
                             </option>
                         </select>
@@ -193,7 +193,7 @@
                         <label for="inputUpcharges">Upcharges</label>
                         <select class="form-control" formControlName="upcharges" (change)="upchargeService($event.target.value)">
                             <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
+                            <option *ngFor="let score of upchargeList" value="{{score.ServiceId}}">
                                 {{score.Upcharges}}
                             </option>
                         </select>
@@ -272,7 +272,7 @@
                         <span class="col-2"></span>
                         <span class="col-10" style="padding-left: 5px !important;">
                             <button type="button" class="btn theme-primary-button-color col-3"
-                                [disabled]="!isEdit" (click)="pay()">Pay</button>&nbsp;
+                                [disabled]="!isEdit" (click)="pay()" ><span [ngStyle]="{'color': paidLabel === 'Paid' ? 'Green' : 'none'}">{{paidLabel}}</span></button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
                                 [disabled]="isView">Save</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"

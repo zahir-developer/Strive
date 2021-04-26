@@ -18,6 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
+import { MakeService } from 'src/app/shared/services/common-service/make.service';
+import { ModelService } from 'src/app/shared/services/common-service/model.service';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -101,6 +104,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   title: string;
   generatedClientId: any;
   selectclient: { id: any; name: string; };
+  paidLabel: string = 'Pay';
+  upchargeList: any;
+  ceramicUpchargeId: any;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -109,10 +115,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
+    private makeService: MakeService,
+    private modelService : ModelService,
     private client: ClientService,
     private confirmationService: ConfirmationService,
     private router: Router,
-
+private GetUpchargeService: GetUpchargeService,
     private codeValueService: CodeValueService,
     private serviceSetupService: ServiceSetupService
   ) { }
@@ -128,6 +136,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isCompleted = false;
     this.formInitialize();
     this.getJobStatus();
+    this.getAllMake();
     this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
@@ -305,6 +314,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceWash[0]);
       }
     }
+    if(this.additionalService[0].IsCeramic == false){
+      this.UpchargeType = this.upcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+    }
+    else{
+      this.UpchargeType =   this.upcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+
+    }
+    console.log(  this.UpchargeType, 'lis')
+    console.log(this.additionalService)
   }
 
   outSideService(data) {
@@ -344,6 +362,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
         const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
         if (serviceUpcharge.length !== 0) {
+
           this.additionalService.push(serviceUpcharge[0]);
         }
       }
@@ -354,8 +373,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
+
+ 
     this.detailForm.patchValue({ upcharges: +data ? +data : ''});
-    this.detailForm.patchValue({ upchargeType: +data ? +data : ''});
+    this.detailForm.patchValue({   UpchargeType: +data ? +data : ''});
   }
 
   change(data) {
@@ -398,6 +419,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.serviceEnum = serviceTypeValue;
       this.detailId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)[0]?.CodeId;
       this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0]?.CodeId;
+      this.ceramicUpchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge)[0]?.CodeId;
+
       this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0]?.CodeId;
       this.additionalId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
       this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices)[0]?.CodeId;
@@ -426,8 +449,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             Number(item.ServiceTypeId) === this.detailId);
           this.additional = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.additionalId);
-          this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
+         const upcharges = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.upchargeId);
+            const ceramicupcharges = serviceDetails.AllServiceDetail.filter(item =>
+              Number(item.ServiceTypeId) === this.ceramicUpchargeId);
+              this.upcharges = upcharges.concat(ceramicupcharges);
+              console.log(this.upcharges, 'up')
           this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.airFreshenerId);
           this.UpchargeType = this.upcharges;
@@ -464,25 +491,37 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     this.getVehicleList(this.selectedData?.Details?.ClientId);
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
-    this.note = this.selectedData.Details.Notes;
-    this.detailItems = this.selectedData.DetailsItem;
-    this.jobID = this.selectedData.Details.JobId;
+    this.note = this.selectedData?.Details?.Notes;
+    this.detailItems = this.selectedData?.DetailsItem;
+    this.jobID = this.selectedData?.Details?.JobId;
     this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
       this.selectedData.DetailsJobServiceEmployee : [];
+      if( this.selectedData?.Details?.IsPaid == "True"){
+        this.paidLabel = 'Paid'
+      }
+      else{
+        this.paidLabel = 'Pay'
+      }
     this.detailForm.patchValue({
-      barcode: this.selectedData.Details.Barcode,
-      bay: this.selectedData.Details.BayId,
-      inTime: this.datePipe.transform(this.selectedData.Details.TimeIn, 'MM/dd/yyyy HH:mm'),
-      dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
-      client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details.ClientName },
-      vehicle: this.selectedData.Details.VehicleId,
-      type: { id: this.selectedData.Details.Make, name: this.selectedData?.Details?.vehicleMake },
+      barcode: this.selectedData?.Details?.Barcode,
+      bay: this.selectedData?.Details?.BayId,
+      inTime: this.datePipe.transform(this.selectedData?.Details?.TimeIn, 'MM/dd/yyyy HH:mm'),
+      dueTime: this.datePipe.transform(this.selectedData?.Details?.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
+      client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details?.ClientName },
+      vehicle: this.selectedData?.Details?.VehicleId,
+      type: { id: this.selectedData?.Details?.Make, name: this.selectedData?.Details?.vehicleMake },
       model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.vehicleModel },
-      color: { id: this.selectedData.Details.Color, name: this.selectedData?.Details?.vehicleColor },
+      color: { id: this.selectedData?.Details?.Color, name: this.selectedData?.Details?.vehicleColor },
       washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId : '',
-      upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
-      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '',
+      upchargeType: this.selectedData.DetailsItem.IsCeramic === false ?
+      
+      
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : ''  :     this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId : '' ,
+ 
+     
       upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '',
       airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId ?
@@ -491,7 +530,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId : ''
     });
     this.clientId = this.selectedData?.Details?.ClientId;
-
+this.getModel(this.selectedData?.Details?.Model?.id)
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -507,6 +546,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
     }
+
+    if(this.selectedData.DetailsItem.IsCeramic == false){
+      this.UpchargeType = this.upcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+    }
+    else{
+      this.UpchargeType =   this.upcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+
+    }
   }
 
   getColor() {
@@ -514,37 +561,26 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
-        this.type = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
-        this.model = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleModel');
+
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
-            if (this.selectedData.Details.Make === item.CodeId) {
+            if (this.selectedData?.Details?.Make === item.CodeId) {
               this.selectedData.Details.vehicleMake = item.CodeValue;
-            } else if (this.selectedData.Details.Model === item.CodeId) {
+            } else if (this.selectedData?.Details?.Model === item.CodeId) {
               this.selectedData.Details.vehicleModel = item.CodeValue;
-            } else if (this.selectedData.Details.Color === item.CodeId) {
+            } else if (this.selectedData?.Details?.Color === item.CodeId) {
               this.selectedData.Details.vehicleColor = item.CodeValue;
             }
           });
         }
-        this.model = this.model.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,
             name: item.CodeValue
           };
         });
-        this.type = this.type.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -1312,5 +1348,62 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   printCustomerCopy() {
     this.printCustomerCopyComponent.print();
+  }
+  getModel(id){
+    this.modelService.getModelByMakeId(id).subscribe( res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelValue
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  
+  getAllMake() {
+    this.makeService.getMake().subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        const makes = make.Make;
+        this.type = makes.map(item => {
+          return {
+            id: item.MakeId,
+            name: item.MakeValue
+          };
+        });
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  selectedModel(event) {
+    const id = event.id;
+    if(id !== null){
+      this.getModel(id)
+    }
+  }
+   // To get upcharge
+   getUpcharge() {
+
+    const obj = {
+      "upchargeServiceType": this.additionalService[0].IsCeramic == false ? this.upchargeId : this.ceramicUpchargeId,
+  "modelId": this.detailForm.value.model?.id
+    }
+    this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        this.upchargeList = jobtype.upcharge;
+      console.log(jobtype)
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 }

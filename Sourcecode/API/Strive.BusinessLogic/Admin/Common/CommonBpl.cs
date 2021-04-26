@@ -494,7 +494,7 @@ namespace Strive.BusinessLogic.Common
 
         public Result GetAllMake()
         {
-            return ResultWrap(new CommonRal(_tenant, false).GetAllMake, "");
+            return ResultWrap(new CommonRal(_tenant, false).GetAllMake, "Make");
         }
 
 

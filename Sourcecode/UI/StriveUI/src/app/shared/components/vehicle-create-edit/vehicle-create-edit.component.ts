@@ -7,6 +7,9 @@ import * as _ from 'underscore';
 import { MessageConfig } from '../../services/messageConfig';
 import { ApplicationConfig } from '../../services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ModelService } from '../../services/common-service/model.service';
+import { EmployeeService } from '../../services/data-service/employee.service';
+import { MakeService } from '../../services/common-service/make.service';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -45,8 +48,11 @@ export class VehicleCreateEditComponent implements OnInit {
   filteredModel: any = [];
   filteredcolor: any = [];
   filteredMake: any = [];
+  models: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,private employeeService: EmployeeService,
+    private modelService: ModelService,
+    private makeService: MakeService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -77,6 +83,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
     this.vehicleForm.controls.vehicleNumber.disable();
     this.getVehicleCodes();
+    this.getAllMake();
     this.getVehicleMembership();
     this.getMembershipService();
   }
@@ -109,6 +116,7 @@ export class VehicleCreateEditComponent implements OnInit {
       monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2),
       membership: ''
     });
+    this.getModel(this.selectedData.VehicleMakeId)
   }
 
   viewVehicle() {
@@ -145,7 +153,7 @@ export class VehicleCreateEditComponent implements OnInit {
     for (const i of this.make) {
       const make = i;
       if (make.name.toLowerCase().includes(query.toLowerCase())) {
-        filtered.push(make);
+        filtered.push(make);     
       }
     }
     this.filteredMake = filtered;
@@ -354,33 +362,62 @@ export class VehicleCreateEditComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+  selectedModel(event) {
+    const id = event.id;
+    if(id !== null){
+      this.getModel(id)
+    }
+  }
+
+  getModel(id){
+    this.modelService.getModelByMakeId(id).subscribe( res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelValue
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  
+  getAllMake() {
+    this.makeService.getMake().subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        const makes = make.Make;
+        this.make = makes.map(item => {
+          return {
+            id: item.MakeId,
+            name: item.MakeValue
+          };
+        });
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
 
   // Get vehicleCodes
   getVehicleCodes() {
     this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.make = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
-        this.model = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleModel');
         this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
-        this.model = this.model.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+      
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,
             name: item.CodeValue
           };
         });
-        this.make = this.make.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+       
         this.upchargeService();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
