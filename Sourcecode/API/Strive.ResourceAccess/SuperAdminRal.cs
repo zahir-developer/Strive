@@ -40,6 +40,28 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(module, "ModuleId");
         }
+        public bool UpdateTenant(TenantViewModel tenant)
+        {
+            _prm.Add("@FirstName", tenant.FirstName);
+            _prm.Add("@Address", tenant.Address);
+            _prm.Add("@MobileNumber", tenant.MobileNumber);
+            _prm.Add("@PhoneNumber", tenant.PhoneNumber);
+            _prm.Add("@TenantName", tenant.TenantName);
+            _prm.Add("@SubscriptionDate", tenant.SubscriptionDate);
+            _prm.Add("@Locations", tenant.Locations);
+            _prm.Add("@PaymentDate", tenant.PaymentDate);
+            _prm.Add("@ExpiryDate", tenant.ExpiryDate);
+            _prm.Add("@ClientId", tenant.ClientId);
+            _prm.Add("@TenantId", tenant.TenantId);
+
+            CommandDefinition cmd = new CommandDefinition(SPEnum.USPUPDATETENANT.ToString(), _prm, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
+        public bool UpdateModule(TenantListModuleViewModel module)
+        {
+            return dbRepo.UpdatePc(module);
+        }
         public List<ClientTenantViewModel> GetAllTenant()
         {           
             return db.Fetch<ClientTenantViewModel>(SPEnum.uspGetTenant.ToString(), _prm);
