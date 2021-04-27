@@ -33,7 +33,7 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                 keyValues.Add("{{password}}", newPassword);
                 
 
-                common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantEmail, newPassword);
+                //common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantEmail, newPassword);
 
                 _resultContent.Add(saveStatus.WithName("SaveStatus"));
                 _result = Helper.BindSuccessResult(_resultContent);

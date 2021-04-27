@@ -26,6 +26,9 @@ namespace Strive.ResourceAccess
             _prm.Add("@TenantName", tenant.TenantName);
             _prm.Add("@TenantEmail", tenant.TenantEmail);
             _prm.Add("@Subscriptionid", tenant.SubscriptionId);
+            _prm.Add("@SubscriptionDate", tenant.SubscriptionDate);
+            _prm.Add("@Locations", tenant.Locations);
+            _prm.Add("@PaymentDate", tenant.PaymentDate);
             _prm.Add("@SchemaPasswordHash", tenant.PasswordHash);
             _prm.Add("@ExpiryDate", tenant.ExpiryDate);
 
