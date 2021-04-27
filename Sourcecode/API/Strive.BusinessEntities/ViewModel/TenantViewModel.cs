@@ -8,6 +8,8 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class TenantViewModel
     {
+        public int ClientId { get; set; }
+        public int TenantId { get; set; }
         public string FirstName { get; set; }
         public string Address { get; set; }
         public string TenantEmail { get; set; }

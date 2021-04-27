@@ -319,8 +319,9 @@ export const UrlConfig = {
   },
 
   tenantSetup: {
-    getModuleList: ``,
-    addTenantSetup: ``,
-    getTenantSetupList: ''
+    getModuleList: `Admin/Tenant/AllModule`,
+    addTenantSetup: `Admin/Tenant/CreateTenant`,
+    getTenantSetupList: `Admin/Tenant/AllTenant`,
+    getTenantDetailById: `Admin/Tenant/TenantById/`
   }
 };

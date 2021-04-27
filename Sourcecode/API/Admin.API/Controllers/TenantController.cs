@@ -22,26 +22,47 @@ namespace Admin.API.Controllers
         #region POST
 
         /// <summary>
-        /// Login for Employee and Client.
+        /// Create Tenant
         /// </summary>
         [HttpPost]
         [Route("CreateTenant")]
-        public Result CreateTenant([FromBody] TenantViewModel tenant)
+        public Result CreateTenant([FromBody] TenantCreateViewModel tenant)
         {
             return _bplManager.CreateTenant(tenant);
+        }
+
+
+        /// <summary>
+        /// Update tenant
+        /// </summary>
+        [HttpPost]
+        [Route("UpdateTenant")]
+        public Result UpdateTenant([FromBody] TenantCreateViewModel tenant)
+        {
+            return _bplManager.UpdateTenant(tenant);
         }
         #endregion
 
         #region GET
 
         /// <summary>
-        /// GetAllclient
+        /// GetAllTenant
         /// </summary>
         [HttpGet]
         [Route("AllTenant")]
         public Result GetAllTenant()
         {
             return _bplManager.GetAllTenant();
+        }
+
+        /// <summary>
+        /// GetAllModule
+        /// </summary>
+        [HttpGet]
+        [Route("AllModule")]
+        public Result GetAllModule()
+        {
+            return _bplManager.GetAllModule();
         }
 
         /// <summary>

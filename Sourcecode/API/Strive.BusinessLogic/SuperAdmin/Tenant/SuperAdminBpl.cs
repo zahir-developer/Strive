@@ -18,22 +18,25 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
     {
         public SuperAdminBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public Result CreateTenant(TenantViewModel tenant)
+        public Result CreateTenant(TenantCreateViewModel tenant)
         {
             try
             {
                 var common = new CommonBpl(_cache, _tenant);
                 var newPassword = common.RandomString(6);
                 var hashPassword = Pass.Hash(newPassword);
-                tenant.PasswordHash = hashPassword;
-                var saveStatus = new SuperAdminRal(_tenant, true).CreateTenant(tenant);
+                tenant.TenantViewModel.PasswordHash = hashPassword;
+                var saveStatus = new SuperAdminRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
+
+                //Add Module
+                var tenantModule = new SuperAdminRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
 
                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                keyValues.Add("{{emailId}}", tenant.TenantEmail);
+                keyValues.Add("{{emailId}}", tenant.TenantViewModel.TenantEmail);
                 keyValues.Add("{{password}}", newPassword);
-                
 
-                common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantEmail, newPassword);
+
+                //common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantEmail, newPassword);
 
                 _resultContent.Add(saveStatus.WithName("SaveStatus"));
                 _result = Helper.BindSuccessResult(_resultContent);
@@ -46,11 +49,22 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         }
         public Result GetAllTenant()
         {
-            return ResultWrap(new SuperAdminRal(_tenant, true).GetAllTenant,"AllClients");
+            return ResultWrap(new SuperAdminRal(_tenant, true).GetAllTenant, "AllTenant");
         }
         public Result GetTenantById(int id)
         {
-            return ResultWrap(new SuperAdminRal(_tenant, true).GetTenantById,id,"TenantById");
+            return ResultWrap(new SuperAdminRal(_tenant, true).GetTenantById, id, "TenantById");
+        }
+        public Result GetAllModule()
+        {
+            return ResultWrap(new SuperAdminRal(_tenant, true).GetAllModule, "AllModule");
+        }
+        public Result UpdateTenant(TenantCreateViewModel tenant)
+        {
+            //Edit Module
+            var tenantModule = new SuperAdminRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel);
+
+            return ResultWrap(new SuperAdminRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
         }
 
     }
