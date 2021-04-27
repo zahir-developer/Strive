@@ -28,14 +28,12 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                 tenant.PasswordHash = hashPassword;
                 var saveStatus = new SuperAdminRal(_tenant, true).CreateTenant(tenant);
 
-                var subject = "Login has been created for " + tenant.TenantName;
+                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                keyValues.Add("{{emailId}}", tenant.TenantEmail);
+                keyValues.Add("{{password}}", newPassword);
+                
 
-                var bodyMsg = @",</p>
-            <p>Login has been created. Login use 'UserName: " + tenant.TenantEmail + "'Password:" + newPassword + @"'.</p>
-            <p>Thanks,</p>
-            <p>Strive Team.</p>";
-
-                //common.SendMail(tenant.TenantEmail, bodyMsg, subject);
+                common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantEmail, newPassword);
 
                 _resultContent.Add(saveStatus.WithName("SaveStatus"));
                 _result = Helper.BindSuccessResult(_resultContent);
