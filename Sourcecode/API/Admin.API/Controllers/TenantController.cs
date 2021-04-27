@@ -26,7 +26,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("CreateTenant")]
-        public Result CreateTenant([FromBody] TenantViewModel tenant)
+        public Result CreateTenant([FromBody] TenantCreateViewModel tenant)
         {
             return _bplManager.CreateTenant(tenant);
         }

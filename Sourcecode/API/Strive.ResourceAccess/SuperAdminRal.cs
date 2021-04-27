@@ -36,6 +36,10 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
+        public bool AddModule(TenantListModuleViewModel module)
+        {
+            return dbRepo.InsertPc(module, "ModuleId");
+        }
         public List<ClientTenantViewModel> GetAllTenant()
         {           
             return db.Fetch<ClientTenantViewModel>(SPEnum.uspGetTenant.ToString(), _prm);

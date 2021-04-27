@@ -18,18 +18,21 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
     {
         public SuperAdminBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public Result CreateTenant(TenantViewModel tenant)
+        public Result CreateTenant(TenantCreateViewModel tenant)
         {
             try
             {
                 var common = new CommonBpl(_cache, _tenant);
                 var newPassword = common.RandomString(6);
                 var hashPassword = Pass.Hash(newPassword);
-                tenant.PasswordHash = hashPassword;
-                var saveStatus = new SuperAdminRal(_tenant, true).CreateTenant(tenant);
+                tenant.TenantViewModel.PasswordHash = hashPassword;
+                var saveStatus = new SuperAdminRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
+
+                //Add Module
+                var tenantModule = new SuperAdminRal(_tenant,false).AddModule(tenant.TenantModuleViewModel);
 
                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                keyValues.Add("{{emailId}}", tenant.TenantEmail);
+                keyValues.Add("{{emailId}}", tenant.TenantViewModel.TenantEmail);
                 keyValues.Add("{{password}}", newPassword);
                 
 
