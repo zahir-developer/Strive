@@ -35,13 +35,23 @@ namespace Admin.API.Controllers
         #region GET
 
         /// <summary>
-        /// GetAllclient
+        /// GetAllTenant
         /// </summary>
         [HttpGet]
         [Route("AllTenant")]
         public Result GetAllTenant()
         {
             return _bplManager.GetAllTenant();
+        }
+
+        /// <summary>
+        /// GetAllModule
+        /// </summary>
+        [HttpGet]
+        [Route("AllModule")]
+        public Result GetAllModule()
+        {
+            return _bplManager.GetAllModule();
         }
 
         /// <summary>

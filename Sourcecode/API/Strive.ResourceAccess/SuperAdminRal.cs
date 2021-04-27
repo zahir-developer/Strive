@@ -46,5 +46,9 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", id);
             return db.Fetch<ClientTenantViewModel>(SPEnum.uspGetTenantById.ToString(), _prm);
         }
+        public List<TenantModuleViewModel> GetAllModule()
+        {
+            return db.Fetch<TenantModuleViewModel>(SPEnum.uspGetAllModule.ToString(), _prm);
+        }
     }
 }

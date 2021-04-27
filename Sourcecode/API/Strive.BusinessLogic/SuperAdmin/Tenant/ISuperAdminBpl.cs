@@ -8,5 +8,6 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         Result CreateTenant(TenantViewModel tenant);
         Result GetAllTenant();
         Result GetTenantById(int id);
+        Result GetAllModule();
     }
 }

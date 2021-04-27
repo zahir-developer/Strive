@@ -495,6 +495,7 @@ namespace Strive.BusinessEntities
         USPUPDATEJOBPAYMENT,
         uspGetTenant,
         uspGetTenantById,
+        uspGetAllModule,
         //CHECKOUT
         USPGETAllCHECKOUTDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,
