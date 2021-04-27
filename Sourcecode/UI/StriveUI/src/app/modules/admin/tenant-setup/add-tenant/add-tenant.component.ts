@@ -1,10 +1,13 @@
-import { ViewChild } from '@angular/core';
+import { EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import { TenantSetupService } from 'src/app/shared/services/data-service/tenant-setup.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-tenant',
@@ -20,9 +23,15 @@ export class AddTenantComponent implements OnInit {
   companyform: FormGroup;
   moduleList = [];
   submitted: boolean;
+  @Output() closePopup = new EventEmitter();
+  @Output() reloadGrid = new EventEmitter();
+  @Input() isEdit?: any;
+  @Input() tenantDetail?: any;
   constructor(
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private tenantSetupService: TenantSetupService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -55,40 +64,6 @@ export class AddTenantComponent implements OnInit {
     this.city = event;
   }
 
-  getModuleList() {
-    this.moduleList = [
-      {
-        tenantModuleId: 0,
-        moduleId: 1,
-        isChecked: false,
-        moduleName: 'Washes'
-      },
-      {
-        tenantModuleId: 0,
-        moduleId: 2,
-        isChecked: false,
-        moduleName: 'Details'
-      },
-      {
-        tenantModuleId: 0,
-        moduleId: 3,
-        isChecked: false,
-        moduleName: 'Checkout'
-      },
-      {
-        tenantModuleId: 0,
-        moduleId: 4,
-        isChecked: false,
-        moduleName: 'Sales'
-      },
-      {
-        tenantModuleId: 0,
-        moduleId: 5,
-        isChecked: false,
-        moduleName: 'Payroll'
-      }
-    ];
-  }
 
   get f() {
     return this.personalform.controls;
@@ -100,18 +75,56 @@ export class AddTenantComponent implements OnInit {
 
   selectAll(event) {
     if (event.target.checked) {
-      this.moduleList.forEach( item => {
-        item.isChecked = true;
+      this.moduleList.forEach(item => {
+        item.IsChecked = true;
       });
     } else {
-      this.moduleList.forEach( item => {
-        item.isChecked = false;
+      this.moduleList.forEach(item => {
+        item.IsChecked = false;
       });
     }
   }
 
   selectModule(module) {
     module.IsChecked = module.IsChecked ? false : true;
+  }
+
+  getModuleList() {
+    this.spinner.show();
+    this.tenantSetupService.getModuleList().subscribe( res => {
+      this.spinner.hide();
+      if (res.status === 'Success') {
+        const modules = JSON.parse(res.resultData);
+        console.log(modules, 'module');
+        if (modules.AllModule !== null) {
+          this.moduleList = modules.AllModule;
+          this.moduleList.forEach( item => {
+            item.IsChecked = false;
+          });
+        }
+        if (this.isEdit) {
+          this.setValue();
+        }
+      }
+    }, (err) => {
+      this.spinner.hide();
+    });
+  }
+
+  setValue() {
+    const detail = this.tenantDetail[0];
+    this.personalform.patchValue({
+      firstName: detail.ClientName,
+      address: '',
+      email: detail.ClientEmail,
+      mobile: detail.MobileNumber
+    });
+    this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
+      company: detail.CompanyName,
+      dateOfSubscription: detail.SubscriptionDate ? moment(detail.SubscriptionDate).toDate() : '',
+      paymentDate: detail.PaymentDate ? moment(detail.PaymentDate).toDate() : '',
+      deactivation: detail.ExpiryDate ? moment(detail.ExpiryDate).toDate() : ''
+    });
   }
 
   addTenant() {
@@ -130,40 +143,50 @@ export class AddTenantComponent implements OnInit {
       return;
     }
 
-
-    const personalDetailObj = {
-      firstName: '',
-      lastName: '',
-      address: '',
-      state: '',
-      city: '',
-      zipcode: '',
-      email: '',
-      mobileNo: '',
-      phoneNo: ''
-    };
-    const companyObj = {
-      companyName: '',
-      dateOfSubscription: '',
-      noOfLocation: '',
-      paymentDate: '',
-      deactivationDate: ''
-    };
-
     const moduleObj = [];
-    this.moduleList.forEach( item => {
-      if (item.isChecked) {
+    this.moduleList.forEach(item => {
+      if (item.IsChecked) {
         moduleObj.push({
-          tenantModuleId: 0,
-          moduleId: item.moduleId,
+          moduleId: item.ModuleId,
+          moduleName: item.ModuleName,
+          isActive: true
         });
       }
     });
-    const finalObj = {
-      personalDetail: personalDetailObj,
-      companyDetail: companyObj,
-      modules: moduleObj
+    const module = {
+      module: moduleObj
     };
+    const tenantObj = {
+      firstName: this.personalform.value.firstName,
+      address: this.personalform.value.address,
+      tenantEmail: this.personalform.value.email,
+      phoneNumber: this.personalform.value.phone,
+      mobileNumber: this.personalform.value.mobile,
+      subscriptionId: 0,
+      tenantName: this.companyform.value.company,
+      passwordHash: '',
+      expiryDate: moment(this.companyform.value.deactivation).format(),
+      subscriptionDate: moment(this.companyform.value.dateOfSubscription).format(),
+      paymentDate: moment(this.companyform.value.paymentDate).format(),
+      locations: +this.companyform.value.noOfLocation
+    };
+    const finalObj = {
+      tenantViewModel: tenantObj,
+      tenantModuleViewModel: module
+    };
+    this.tenantSetupService.addTenant(finalObj).subscribe( res => {
+      if (res.status === 'Success') {
+        this.navigate();
+      }
+    });
+  }
+
+  cancel() {
+    this.closePopup.emit();
+  }
+
+  navigate() {
+    this.reloadGrid.emit();
   }
 
 
