@@ -21,4 +21,8 @@ export class TenantSetupService {
   getTenantList() {
     return this.http.get(`${UrlConfig.tenantSetup.getTenantSetupList}`);
   }
+
+  getTenantDetailById(id) {
+    return this.http.get(`${UrlConfig.tenantSetup.getTenantDetailById}` + id);
+  }
 }
