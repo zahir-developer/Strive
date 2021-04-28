@@ -51,9 +51,9 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         {
             return ResultWrap(new TenantRal(_tenant, true).GetAllTenant, "AllTenant");
         }
-        public TenantByIdViewModel GetTenantById(int id)
+        public TenantModulesViewModel GetTenantById(int id)
         {
-            var result = new TenantByIdViewModel();
+            var result = new TenantModulesViewModel();
             result.TenantViewModel = new TenantRal(_tenant, true).GetTenantById(id);
             result.TenantModuleViewModel = new TenantRal(_tenant, false).GetModuleById(result.TenantViewModel.TenantId);
             return result;

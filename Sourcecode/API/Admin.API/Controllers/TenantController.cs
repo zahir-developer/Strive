@@ -70,7 +70,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpGet]
         [Route("TenantById/{id}")]
-        public TenantByIdViewModel GetTenantById(int id)
+        public TenantModulesViewModel GetTenantById(int id)
         {
             return _bplManager.GetTenantById(id);
         }
