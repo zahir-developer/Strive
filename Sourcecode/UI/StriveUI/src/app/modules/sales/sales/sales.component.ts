@@ -462,6 +462,9 @@ export class SalesComponent implements OnInit {
     this.filteredItem = filtered;
   }
   deleteItem(data, type) {
+    if(this.enableButton == true){
+      return
+          }
     const title = type === 'deleteItem' ? 'Delete Item' : type === 'rollback' ? 'RollBacK' : 'Delete Ticket';
     const message = type === 'deleteItem' ? 'Are you sure you want to delete the selected Item?' : type === 'rollback' ? 'Are you sure you want to Rollback the transaction?' : 'Are you sure you want to delete the Ticket?';
     this.confirmationService.confirm(title, message, 'Yes', 'No', '', '500px')
@@ -563,6 +566,9 @@ export class SalesComponent implements OnInit {
     document.getElementById('creditcardpopup').style.width = '0';
   }
   editItem(event) {
+    if(this.enableButton == true){
+return
+    }
     const itemId = event.JobId;
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
