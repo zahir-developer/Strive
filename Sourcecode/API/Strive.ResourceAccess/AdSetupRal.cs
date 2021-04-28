@@ -15,12 +15,9 @@ namespace Strive.ResourceAccess
 {
     public class AdSetupRal : RalBase
     {
-        private readonly Db _db;
-
         public AdSetupRal(ITenantHelper tenant) : base(tenant)
         {
-            var dbConnection = tenant.db();
-            _db = new Db(dbConnection);
+           
         }
         public bool AddAdSetup(AdSetupAddDto adSetup)
         {

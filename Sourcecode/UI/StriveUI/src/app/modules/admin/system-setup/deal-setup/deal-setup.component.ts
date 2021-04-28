@@ -93,9 +93,7 @@ this.isLoading = false;
   }
 
   delete(data) {
-    if (!data.Deals) {
-      return;
-    }
+   
     this.confirmationService.confirm('Delete Deals', `Are you sure you want to delete this deal? All related 
     information will be deleted and the client cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {

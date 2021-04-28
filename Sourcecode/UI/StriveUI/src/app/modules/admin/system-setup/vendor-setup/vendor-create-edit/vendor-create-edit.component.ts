@@ -59,7 +59,7 @@ export class VendorCreateEditComponent implements OnInit {
       vin: ['', Validators.required],
       vendorAlias: [''],
       name: ['', Validators.required],
-      supplierAddress: ['', Validators.required],
+      supplierAddress: [''],
       zipcode: ['', [Validators.required]],
       state: ['',],
       country: ['',],

@@ -64,8 +64,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   @Input() bayScheduleObj?: any;
+  @Input() jobTypeId?: any;
   baylist: any = [];
-  jobTypeId: any;
+  // jobTypeId: any;
   isBarcode = false;
   memberService: any[];
   note = '';
@@ -140,7 +141,7 @@ private GetUpchargeService: GetUpchargeService,
     this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
-    this.getJobType();
+    // this.getJobType();
   }
 
   formInitialize() {
@@ -1297,9 +1298,9 @@ this.getModel(this.selectedData?.Details?.Model?.id)
 
   getEmployeeList() {
     const timeclock = {
-      date: this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss '),
-      LocationId: +localStorage.getItem('empLocationId')
-    }
+      date: moment(new Date()).format(),
+      locationId: +localStorage.getItem('empLocationId')
+    };
     this.detailService.getClockedInDetailer(timeclock).subscribe(res => {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);

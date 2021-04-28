@@ -53,6 +53,8 @@ export class ServiceCreateEditComponent implements OnInit {
   isWash: boolean;
   washUpcharge: boolean;
   detailUpcharge: boolean;
+  CategoryName: any;
+  Category: any[];
 
 
 
@@ -75,7 +77,21 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getLocation();
     this.formInitialize();
     this.getCommissionType();
-    this.getCategory()
+    this.getCategory();
+  
+   
+         if (this.isEdit === true) {
+           
+      this.serviceSetupForm.controls.upcharge.disable();
+    }
+    else{
+      this.serviceSetupForm.patchValue({
+        serviceCategory: this.codeCategory[0]
+      }) 
+    
+      this.serviceSetupForm.controls.upcharge.disable();
+  
+    }
   }
 
   formInitialize() {
@@ -89,14 +105,14 @@ export class ServiceCreateEditComponent implements OnInit {
       commissionType: ['',],
       discountType: ['',],
       discountServiceType: ['',],
-      upcharge: ['', Validators.required],
+      upcharge: [''],
       parentName: ['',],
       status: ['',],
       fee: ['',],
       suggested: [''],
       serviceCategory: [''],
       isCeramic: [''],
-      location: [[]]
+      location: [[], Validators.required]
     });
     this.serviceSetupForm.patchValue({ status: 0 });
   }
@@ -164,16 +180,24 @@ export class ServiceCreateEditComponent implements OnInit {
           item_text: name
         };
         const selectedLocation = [];
+        this.Category = []
+        this.CategoryName  = ''
         selectedLocation.push(locObj);
         this.dropDownSetting();
+        this.codeCategory.forEach(element => {
+          if(this.selectedService?.ServiceCategory == element.CodeId){
+        this.Category = element;
+          }
+        });
         this.serviceSetupForm.patchValue({
+          
           serviceType: this.selectedService?.ServiceTypeId,
           name: this.selectedService?.ServiceName,
           description: this.selectedService?.Description,
           cost: this.selectedService?.Cost,
           price: this.selectedService?.Price,
           commission: this.selectedService?.Commision,
-          serviceCategory: this.selectedService?.ServiceCategory,
+          serviceCategory:  this.Category,
           isCeramic: this.selectedService?.IsCeramic,
           commissionType: this.selectedService?.CommissionTypeId,
           fee: this.selectedService?.CommissionCost,
@@ -296,6 +320,8 @@ export class ServiceCreateEditComponent implements OnInit {
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
         type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
+        this.categoryName()
+
       } else {
         this.isUpcharge = false;
         this.serviceSetupForm.get('upcharge').clearValidators();
@@ -313,6 +339,7 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.washUpcharge = true;
+        
       } else {
         this.washUpcharge = false;
       }
@@ -371,7 +398,14 @@ export class ServiceCreateEditComponent implements OnInit {
     
     }
   }
-
+categoryName(){
+  const upcharge =  this.serviceSetupForm.controls['serviceCategory'].value.CodeValue 
+   
+ const price = this.serviceSetupForm.controls['price'].value !== "" ? this.serviceSetupForm.controls['price'].value : '0'
+   this.serviceSetupForm.patchValue({
+    upcharge:  upcharge + ' -  $' + price
+   })
+}
   // Add/Update Service
   submit() {
     this.submitted = true;
@@ -387,6 +421,10 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       return;
     }
+ 
+      this.serviceSetupForm.get('upcharge').enable();
+     
+    
     if (this.serviceSetupForm.value.location) {
       this.serviceSetupForm.value.location.map(item => {
         this.serviceSetupList.push({
@@ -398,12 +436,12 @@ export class ServiceCreateEditComponent implements OnInit {
             price: this.serviceSetupForm.value.price,
             commision: this.isChecked,
             commisionType: this.isChecked === true ? this.serviceSetupForm.value.commissionType : null,
-            upcharges: this.serviceSetupForm.value.upcharge,
+            upcharges:this.serviceSetupForm.value.upcharge,
             parentServiceId: this.serviceSetupForm.value.parentName === '' ? 0 : this.serviceSetupForm.value.parentName,
             isActive: this.serviceSetupForm.value.status === 0 ? true : false,
             locationId: item.item_id,
             commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
-            serviceCategory : this.serviceSetupForm.value.serviceCategory,
+            serviceCategory : this.serviceSetupForm.value.serviceCategory.CodeId,
             isCeramic : this.isCeramic,
             isDeleted: false,
             createdBy: this.employeeId,
