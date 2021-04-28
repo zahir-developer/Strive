@@ -11,9 +11,9 @@ using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.ResourceAccess
 {
-    public class SuperAdminRal : RalBase
+    public class TenantRal : RalBase
     {
-        public SuperAdminRal(ITenantHelper tenant, bool isAuth = false) : base(tenant, isAuth)
+        public TenantRal(ITenantHelper tenant, bool isAuth = false) : base(tenant, isAuth)
         {
         }
 
@@ -66,15 +66,21 @@ namespace Strive.ResourceAccess
         {           
             return db.Fetch<ClientTenantViewModel>(SPEnum.uspGetTenant.ToString(), _prm);
         }
-        public List<ClientTenantViewModel> GetTenantById(int id)
+        public ClientTenantViewModel GetTenantById(int id)
         {
 
             _prm.Add("ClientId", id);
-            return db.Fetch<ClientTenantViewModel>(SPEnum.uspGetTenantById.ToString(), _prm);
+            return db.FetchSingle<ClientTenantViewModel>(SPEnum.uspGetTenantById.ToString(), _prm);
         }
         public List<TenantModuleViewModel> GetAllModule()
         {
             return db.Fetch<TenantModuleViewModel>(SPEnum.uspGetAllModule.ToString(), _prm);
+        }
+        public List<TenantModuleViewModel> GetModuleById(int id)
+        {
+
+            _prm.Add("@TenantId", id);
+            return db.Fetch<TenantModuleViewModel>(SPEnum.uspGetModuleById.ToString(), _prm);
         }
     }
 }

@@ -3,11 +3,11 @@ using Strive.Common;
 
 namespace Strive.BusinessLogic.SuperAdmin.Tenant
 {
-     public interface ISuperAdminBpl
+     public interface ITenantBpl
     {
         Result CreateTenant(TenantCreateViewModel tenant);
         Result GetAllTenant();
-        Result GetTenantById(int id);
+        TenantByIdViewModel GetTenantById(int id);
         Result GetAllModule();
         Result UpdateTenant(TenantCreateViewModel tenant);
     }

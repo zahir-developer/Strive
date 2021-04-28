@@ -14,9 +14,9 @@ namespace SuperAdmin.Api.Controllers
 {
     [Authorize]
     [Route("/SuperAuth/")]
-    public class SuperAdminController : StriveControllerBase<SuperAdminBpl>
+    public class SuperAdminController : StriveControllerBase<TenantBpl>
     {
-        public SuperAdminController(SuperAdminBpl tenantManager, IConfiguration config) : base(tenantManager, config) { }
+        public SuperAdminController(TenantBpl tenantManager, IConfiguration config) : base(tenantManager, config) { }
 
         #region POST
 
