@@ -66,20 +66,24 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>ZipCode</label>
-                                    <input type="text" class="form-control" formControlName="zipcode"
+                                    <input type="text" numbersOnly class="form-control" maxlength="5" minlength="5" formControlName="zipcode"
                                         [appMaxLength]="5">
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Email</label>
-                                    <input type="text" class="form-control" formControlName="email">
+                                    <input type="text" (change)="testMail($event)" class="form-control" formControlName="email"
+                                        [ngClass]="{ 'is-invalid': errorMessage }">
+                                    <div *ngIf="errorMessage" class="invalid-feedback">
+                                        <div *ngIf="errorMessage">Please enter valid email address</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Mobile No</label>
-                                    <input type="text" class="form-control" formControlName="mobile">
+                                    <input type="text" class="form-control" numbersOnly [appMaxLength]="10" formControlName="mobile">
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Phone No</label>
-                                    <input type="text" class="form-control" formControlName="phone">
+                                    <input type="text" class="form-control" appPhoneMask formControlName="phone">
                                 </div>
                             </div>
                         </form>
@@ -114,7 +118,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>No of Locations</label>
+                                    <label>No. of Locations</label>
                                     <input type="text" class="form-control" formControlName="noOfLocation">
                                 </div>
                                 <div class="col-md-3 form-group">
@@ -165,7 +169,8 @@
                     </div>
                 </div>
                 <div class="m-t-12 pull-right mw-100">
-                    <button type="button" class="btn theme-optional-button-color m-r-5" (click)="cancel()">Cancel</button>
+                    <button type="button" class="btn theme-optional-button-color m-r-5"
+                        (click)="cancel()">Cancel</button>
                     <button type="button" class="btn theme-primary-button-color" (click)="addTenant()">Save</button>
                 </div>
             </div>

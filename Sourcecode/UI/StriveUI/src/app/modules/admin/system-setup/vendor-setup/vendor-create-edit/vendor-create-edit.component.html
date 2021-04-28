@@ -74,10 +74,10 @@
             <div class="form-group col-md-3 ">
                 <label for="inputEmail">Email</label>
 
-              
 
-                    <input type="email" (change) = "testMail($event)" multiple maxlength="50" class="form-control" formControlName="email"
-                    placeholder="Email" [ngClass]="{ 'is-invalid': errorMessage }">
+
+                <input type="email" (change)="testMail($event)" multiple maxlength="50" class="form-control"
+                    formControlName="email" placeholder="Email" [ngClass]="{ 'is-invalid': errorMessage }">
                 <div *ngIf="errorMessage" class="invalid-feedback">
                     <div *ngIf="errorMessage">Please enter valid email address</div>
                 </div>

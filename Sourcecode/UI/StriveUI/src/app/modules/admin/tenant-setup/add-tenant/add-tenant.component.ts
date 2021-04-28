@@ -27,6 +27,7 @@ export class AddTenantComponent implements OnInit {
   @Output() reloadGrid = new EventEmitter();
   @Input() isEdit?: any;
   @Input() tenantDetail?: any;
+  errorMessage: boolean;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -91,14 +92,14 @@ export class AddTenantComponent implements OnInit {
 
   getModuleList() {
     this.spinner.show();
-    this.tenantSetupService.getModuleList().subscribe( res => {
+    this.tenantSetupService.getModuleList().subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const modules = JSON.parse(res.resultData);
         console.log(modules, 'module');
         if (modules.AllModule !== null) {
           this.moduleList = modules.AllModule;
-          this.moduleList.forEach( item => {
+          this.moduleList.forEach(item => {
             item.IsChecked = false;
           });
         }
@@ -143,6 +144,10 @@ export class AddTenantComponent implements OnInit {
       return;
     }
 
+    if (this.errorMessage ===  true) {
+      return;
+    }
+
     const moduleObj = [];
     this.moduleList.forEach(item => {
       if (item.IsChecked) {
@@ -174,7 +179,7 @@ export class AddTenantComponent implements OnInit {
       tenantViewModel: tenantObj,
       tenantModuleViewModel: module
     };
-    this.tenantSetupService.addTenant(finalObj).subscribe( res => {
+    this.tenantSetupService.addTenant(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.navigate();
       }
@@ -188,6 +193,20 @@ export class AddTenantComponent implements OnInit {
   navigate() {
     this.reloadGrid.emit();
   }
+
+  testMail(event) {
+    if (!this.validateEmail(this.personalform.value.email)) {
+      this.errorMessage = true;
+    }
+    else {
+      this.errorMessage = false;
+    }
+  }
+
+  validateEmail(email) {
+    const re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/;
+    return re.test(String(email).toLowerCase());
+}
 
 
 
