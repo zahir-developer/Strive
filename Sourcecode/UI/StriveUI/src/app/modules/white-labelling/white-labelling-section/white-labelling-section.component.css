@@ -2,9 +2,9 @@
 
 .uploader input {
     display: none;
-  }
-  
-  .uploader {
+}
+
+.uploader {
     -webkit-align-items: center;
     align-items: center;
     background-color: #efefef;
@@ -18,30 +18,29 @@
     outline: 3px dashed #ccc;
     outline-offset: 5px;
     position: relative;
-    width: 426px;
-  }
-  
-  .uploader img,
-  .uploader .icon {
+}
+
+.uploader img,
+.uploader .icon {
     pointer-events: none;
-  }
-  
-  .uploader,
-  .uploader .icon {
+}
+
+.uploader,
+.uploader .icon {
     -webkit-transition: all 100ms ease-in;
     -moz-transition: all 100ms ease-in;
     -ms-transition: all 100ms ease-in;
     -o-transition: all 100ms ease-in;
     transition: all 100ms ease-in;
-  }
-  
-  .uploader .icon {
+}
+
+.uploader .icon {
     color: #eee;
     color: rgba(0, 0, 0, 0.2);
     font-size: 5em;
-  }
-  
-  .uploader img {
+}
+
+.uploader img {
     left: 50%;
     max-height: 100%;
     max-width: 100%;
@@ -57,15 +56,16 @@
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-  }
-  .uploadIcon {
+}
+
+.uploadIcon {
     font-size: 67px;
-  }
-  .uploader img.loaded {
+}
+
+.uploader img.loaded {
     opacity: 1;
-  }
+}
 
-  .box-width{
+.box-width {
     width: 93.5%;
-
 }

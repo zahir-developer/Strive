@@ -92,10 +92,17 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
           item.EmployeeName = item.FirstName + ' ' + item.LastName;
           const Intime = 'Intime' + i;
           const Outtime = 'Outtime' + i;
+          
           const RoleName = 'RoleName' + i;
+          const TimeIn = 'TimeIn' + i;
+          const TimeOut = 'TimeOut' + i;
+          
           item[Intime] = data.InTime;
           item[Outtime] = data.OutTime;
           item[RoleName] = data.RoleName;
+          item[TimeIn] = data.TimeIn;
+          item[TimeOut] = data.TimeOut;
+          
           item.count = i;
           i++;
         }
@@ -123,9 +130,17 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         const Intime = 'Intime' + i;
         const Outtime = 'Outtime' + i;
         const RoleName = 'RoleName' + i;
-        tableBody += `<td>` + (item[Intime] !== undefined ? this.datePipe.transform(item[Intime] , 'hh:mm:ss') : '') + `</td><td>`
-        + (item[Outtime] !== undefined ? this.datePipe.transform(item[Outtime] , 'hh:mm:ss') : '') + `</td><td>` +
-        (item[RoleName] !== undefined ? item[RoleName] : '') + `</td>`;
+
+        const TimeIn = 'TimeIn' + i;
+        const TimeOut = 'TimeOut' + i;
+        // tableBody += `<td>` + (item[Intime] !== undefined ? this.datePipe.transform(item[Intime] , 'hh:mm:ss') : '') + `</td><td>`+ 
+        // (item[Outtime] !== undefined ? this.datePipe.transform(item[Outtime] , 'hh:mm:ss') : '') + `</td><td>` +
+        // (item[RoleName] !== undefined ? item[RoleName] : '') + `</td>`;
+
+         tableBody += `<td>` + 
+         item[TimeIn] + `</td><td>` +
+         item[TimeOut] + `</td><td>` +
+         item[RoleName] + `</td>`;
       }
       this.washHours += item.WashHours;
       this.detailHours += item.DetailHours;

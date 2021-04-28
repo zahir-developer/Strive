@@ -2,9 +2,7 @@
     <h3 class="d-inline-block">Daily Status Screen - </h3>
     <div class="date d-inline-block datepicker-view" data-date-format="dd/mm/yyyy">
 
-        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
-            (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
-            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig" bsDatepicker [outsideClick]="true"><span class="input-group-addon">
             <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
     </div>
 </div>
@@ -30,12 +28,9 @@
                                 <div class="d-inline-block align-middle">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent"
-                                    (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="dailyStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"
-                                    (click)="preview()">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color" [disabled]="!fileTypeEvent" (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="dailyStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="preview()">Refresh</button>
                             </div>
                         </div>
                     </div>
@@ -48,8 +43,7 @@
                             <div class="col-12 text-left  font-weight-700 font-size-1-5">
                                 Report Date - {{date | date: 'MM/dd/yyyy'}}
                             </div>
-                            <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2"
-                                style="display: none;">Daily Stats Report</div>
+                            <div id="printReport" class="col-12 text-center  font-weight-700 font-size-1-2" style="display: none;">Daily Stats Report</div>
                             <div class="col-lg-6">
                                 <!-- end card-->
                                 <div class="card m-t-10">
@@ -58,8 +52,7 @@
                                             <table class="table table-striped m-b-0 dailyreport">
                                                 <thead *ngIf="washes?.length === 0 && details?.length=== 0">
                                                     <tr>
-                                                        <th scope="col" colspan="2"
-                                                            class="font-size-1-5 font-weight-700">Washes</th>
+                                                        <th scope="col" colspan="2" class="font-size-1-5 font-weight-700">Washes</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -70,10 +63,9 @@
                                                     </tr>
                                                     <tr *ngFor="let wash of washes">
                                                         <td class="pointer" title="{{wash?.ServiceName}}">
-                                                            {{wash?.ServiceName | slice:0:15}}
-                                                            {{(wash?.ServiceName!== null) ?wash?.ServiceName.length <= 15 ? '': '...':''}}
-                                                        </td>
-                                                        <td>{{wash?.Number}}</td>
+                                                            {{wash?.ServiceName | slice:0:40}} {{(wash?.ServiceName!== null) ?wash?.ServiceName.length
+                                                            <=40 ? '' : '...' : '' }} </td>
+                                                                <td>{{wash?.Number}}</td>
                                                     </tr>
 
                                                     <tr *ngIf="details?.length > 0">
@@ -83,14 +75,12 @@
                                                     </tr>
                                                     <tr *ngFor="let detail of details">
                                                         <td class="pointer" title="{{detail?.ServiceName}}">
-                                                            {{detail?.ServiceName | slice:0:15}}
-                                                            {{(detail?.ServiceName!== null) ?detail?.ServiceName.length <= 15 ? '': '...':''}}
-                                                        </td>
-                                                        <td>{{detail?.Number}}</td>
+                                                            {{detail?.ServiceName | slice:0:20}} {{(detail?.ServiceName!== null) ? detail?.ServiceName.length
+                                                            <=20 ? '' : '...' : '' }} </td>
+                                                                <td>{{detail?.Number}}</td>
                                                     </tr>
                                                 </tbody>
-                                                <tfoot class="font-weight-700"
-                                                    *ngIf="washes.length > 0 || details.length >0">
+                                                <tfoot class="font-weight-700" *ngIf="washes.length > 0 || details.length >0">
                                                     <tr>
                                                         <td class="text-right">Total: </td>
                                                         <td>{{washTotal + detailTotal}}</td>
@@ -98,8 +88,7 @@
                                                     </tr>
                                                 </tfoot>
                                             </table>
-                                            <div *ngIf="(washes?.length === 0 && details?.length === 0)"
-                                                class="noRecords m-t-49">
+                                            <div *ngIf="(washes?.length === 0 && details?.length === 0)" class="noRecords m-t-49">
                                                 <span> No Records Found</span>
                                             </div>
                                         </div>
@@ -108,14 +97,14 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                
+
                                 <!-- end card-->
                                 <div class="card m-t-10">
                                     <div class="card-body p-t-10">
                                         <div class="table-responsive scroll">
                                             <table class="table table-striped m-b-0 dailyreport">
                                                 <thead>
-                                                    <tr >
+                                                    <tr>
                                                         <td colspan="2" class="font-weight-700 bg-white font-size-1-5">
                                                             Washes Info </td>
 
@@ -126,22 +115,23 @@
 
                                                         <th scope="col" class="font-weight-1200">Amount</th>
                                                     </tr>
-                                                    <tr >
-                                                        <td style="margin-left: 120px;">{{dailyStatusWashInfo?.WashEmployeeCount}}</td>
-                                                       <td></td>
-                                                        <td style="text-align: left;" class="m-l-120">{{dailyStatusWashInfo?.WashExpense}}</td>
+                                                    <tr>
+                                                        <td style="margin-left: 120px;">
+                                                            {{dailyStatusWashInfo?.WashEmployeeCount}}</td>
+                                                        <td></td>
+                                                        <td style="text-align: left;" class="m-l-120">
+                                                            {{dailyStatusWashInfo?.WashExpense}}</td>
                                                     </tr>
                                                     <div [hidden]="dailyStatusWashInfo" style="text-align: center;" class="m-t-30 m-l-190">
-                                                <span >No Records Found</span>
+                                                        <span>No Records Found</span>
                                                     </div>
                                                     <br><br>
                                                 </thead>
                                                 <thead>
 
-                                                    
+
                                                     <tr>
-                                                        <th colspan="3"
-                                                            class="font-weight-700 bg-white font-size-1-5 border-bottom-1">
+                                                        <th colspan="3" class="font-weight-700 bg-white font-size-1-5 border-bottom-1">
                                                             Detail Info</th>
 
                                                     </tr>
@@ -153,24 +143,22 @@
                                                     </tr>
 
                                                 </thead>
-                                              
-                                                    
-                                                    
-                                               
+
+
+
+
                                                 <tbody>
 
                                                     <tr *ngFor="let detailInfo of dailyStatusDetailInfo">
                                                         <td class="pointer" title="{{detailInfo?.ServiceName}}">
-                                                            {{detailInfo?.EmployeeName | slice:0:15}}
-                                                            {{(detailInfo?.EmployeeName !== null) ?detailInfo?.EmployeeName?.length <= 15 ? '': '...':''}}
-                                                        </td>
-                                                        <td>{{detailInfo?.TicketNumber}}</td>
-                                                        <td>{{detailInfo?.Commission}}</td>
+                                                            {{detailInfo?.EmployeeName | slice:0:15}} {{(detailInfo?.EmployeeName !== null) ?detailInfo?.EmployeeName?.length
+                                                            <=15 ? '' : '...' : '' }} </td>
+                                                                <td>{{detailInfo?.TicketNumber}}</td>
+                                                                <td>{{detailInfo?.Commission}}</td>
                                                     </tr>
-                                                  
+
                                                 </tbody>
-                                                <tfoot class="font-weight-700"
-                                                    *ngIf="dailyStatusDetailInfo?.length > 0">
+                                                <tfoot class="font-weight-700" *ngIf="dailyStatusDetailInfo?.length > 0">
                                                     <tr>
                                                         <td colspan="2" class="text-right"> Total Expenses:</td>
                                                         <td> {{detailInfoTotal?.toFixed(2)}} </td>
@@ -182,7 +170,7 @@
                                                 <span> No Records Found</span>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <!-- end card-body -->
                                 </div>

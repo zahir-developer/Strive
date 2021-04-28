@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
         if (data.status === 'Success') {
           this.spinner.hide();
           const token = JSON.parse(data.resultData);
-          this.landing.loadTheLandingPage();
+          this.landing.loadTheLandingPage(true);
           this.getCodeValue();
           this.getThemeColor();
           this.msgService.startConnection();
