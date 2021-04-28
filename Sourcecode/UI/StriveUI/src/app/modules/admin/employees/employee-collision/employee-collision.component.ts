@@ -91,19 +91,21 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   setValue(detail) {
-    const clientName = _.where(this.clientList, { id: detail.ClientId });
-    if (clientName.length > 0) {
-      this.selectedClient(clientName[0]);
-      this.collisionForm.patchValue({
-        client: clientName[0]
-      });
-    }
+    // const clientName = _.where(this.clientList, { id: detail.ClientId });
+    // if (clientName.length > 0) {
+    //   this.selectedClient(clientName[0]);
+    //   this.collisionForm.patchValue({
+    //     client: clientName[0]
+    //   });
+    // }
+    const clientName = detail.ClientFirstName + '' + detail.ClientLastName;
     this.collisionForm.patchValue({
       dateOfCollision: moment(detail.CreatedDate).toDate(),
       amount: this.liabilityDetail.Amount.toFixed(2),
       reason: this.liabilityDetail.Description,
-      vehicle: detail.VehicleId
+      client: { id: detail.ClientId , name: clientName }
     });
+    this.selectedClient(detail.ClientId);
   }
 
   getLiabilityType() {
@@ -258,8 +260,7 @@ export class EmployeeCollisionComponent implements OnInit {
   
   }
 
-  selectedClient(event) {
-    const clientId = event.id;
+  selectedClient(clientId) {
     this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);

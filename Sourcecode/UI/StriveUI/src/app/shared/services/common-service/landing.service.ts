@@ -14,9 +14,9 @@ export class LandingService {
 
   constructor(private toastr: ToastrService,
     private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
-  loadTheLandingPage(): void {
+  loadTheLandingPage(isFromLogin? : boolean): void {
     const location = localStorage.getItem('empLocation');
-    if (location?.length > 1) {
+    if (location?.length > 1 && isFromLogin) {
      
       this.router.navigate([`/location`], { relativeTo: this.route });
       

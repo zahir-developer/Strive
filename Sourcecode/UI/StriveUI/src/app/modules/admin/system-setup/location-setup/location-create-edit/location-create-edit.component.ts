@@ -177,7 +177,6 @@ export class LocationCreateEditComponent implements OnInit {
 
   // Add / Update location 
   submit() {
-    this.addEmail();
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
