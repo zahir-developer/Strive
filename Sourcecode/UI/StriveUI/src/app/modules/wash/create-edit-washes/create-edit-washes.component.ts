@@ -87,6 +87,7 @@ export class CreateEditWashesComponent implements OnInit {
   generatedClientId: any;
   paidLabel: string;
   upchargeList: any;
+  jobID: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
     private landingservice: LandingService,
@@ -143,6 +144,7 @@ export class CreateEditWashesComponent implements OnInit {
         if (data.status === 'Success') {
           const ticket = JSON.parse(data.resultData);
           this.ticketNumber = ticket.GetTicketNumber.TicketNumber;
+          this.jobID = ticket.GetTicketNumber.JobId
         }
         else {
           this.toastr.error(MessageConfig.TicketNumber, 'Error!');
@@ -764,7 +766,7 @@ export class CreateEditWashesComponent implements OnInit {
     const currentTime = new Date();
     const outTime = currentTime.setMinutes(currentTime.getMinutes() + this.washTime);
     const job = {
-      jobId: this.isEdit ? this.selectedData.Washes[0].JobId : 0,
+      jobId: this.isEdit ? this.selectedData.Washes[0].JobId : this.jobID,
       ticketNumber: this.ticketNumber,
       locationId: +localStorage.getItem('empLocationId'),
       clientId: this.washForm.value.client.id,
@@ -792,7 +794,7 @@ export class CreateEditWashesComponent implements OnInit {
     this.jobItems = this.additionalService.map(item => {
       return {
         jobItemId: 0,
-        jobId: this.isEdit ? +this.selectedData.Washes[0].JobId : 0,
+        jobId: this.isEdit ? +this.selectedData.Washes[0].JobId : this.jobID,
         serviceId: item.ServiceId,
         commission: 0,
         price: item.Price,
@@ -1029,19 +1031,30 @@ if(!this.upchargeId || !this.washForm.value.model?.id){
     this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
-        this.upcharges = jobtype.upcharge;
+        this.upchargeList = jobtype.upcharge;
         if(this.upcharges){
           this.upcharges.forEach(element => {
-            if(element.ServiceId == this.upchargeList[0].ServiceId){
+            if(this.upchargeList.length > 0){
+              this.upchargeList.forEach(item => {
+                if(element.ServiceId == item.ServiceId){
+                  this.washForm.patchValue({
+                    upcharges : element.ServiceId,
+      
+                    upchargeType:  element.ServiceId
+                    
+                  })
+                }
+              });
+            }
+            else{
               this.washForm.patchValue({
-                upcharges : element.ServiceId,
-  
-                upchargeType:  element.ServiceId
+                upcharges : '',
+    
+                upchargeType: ''
                 
               })
-            }
-          });
-         
+            } 
+        });
          }
          else{
           this.washForm.patchValue({
@@ -1058,4 +1071,3 @@ if(!this.upchargeId || !this.washForm.value.model?.id){
     });
   }
 }
-
