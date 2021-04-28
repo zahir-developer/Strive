@@ -16,9 +16,9 @@ namespace Admin.API.Controllers
 {
     [Authorize]
     [Route("Admin/[Controller]")]
-    public class TenantController : StriveControllerBase<ISuperAdminBpl>
+    public class TenantController : StriveControllerBase<ITenantBpl>
     {
-        public TenantController(ISuperAdminBpl bonBpl, IConfiguration config) : base(bonBpl,config) { }
+        public TenantController(ITenantBpl bonBpl, IConfiguration config) : base(bonBpl,config) { }
         #region POST
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpGet]
         [Route("TenantById/{id}")]
-        public Result GetTenantById(int id)
+        public TenantByIdViewModel GetTenantById(int id)
         {
             return _bplManager.GetTenantById(id);
         }

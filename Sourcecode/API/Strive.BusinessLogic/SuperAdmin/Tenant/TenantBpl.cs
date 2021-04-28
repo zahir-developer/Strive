@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.SuperAdmin.Tenant
 {
-    public class SuperAdminBpl : Strivebase, ISuperAdminBpl
+    public class TenantBpl : Strivebase, ITenantBpl
     {
-        public SuperAdminBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
+        public TenantBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
         public Result CreateTenant(TenantCreateViewModel tenant)
         {
@@ -26,10 +26,10 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                 var newPassword = common.RandomString(6);
                 var hashPassword = Pass.Hash(newPassword);
                 tenant.TenantViewModel.PasswordHash = hashPassword;
-                var saveStatus = new SuperAdminRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
+                var saveStatus = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
 
                 //Add Module
-                var tenantModule = new SuperAdminRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
+                var tenantModule = new TenantRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
 
                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
                 keyValues.Add("{{emailId}}", tenant.TenantViewModel.TenantEmail);
@@ -49,22 +49,26 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         }
         public Result GetAllTenant()
         {
-            return ResultWrap(new SuperAdminRal(_tenant, true).GetAllTenant, "AllTenant");
+            return ResultWrap(new TenantRal(_tenant, true).GetAllTenant, "AllTenant");
         }
-        public Result GetTenantById(int id)
+        public TenantByIdViewModel GetTenantById(int id)
         {
-            return ResultWrap(new SuperAdminRal(_tenant, true).GetTenantById, id, "TenantById");
+            var result = new TenantByIdViewModel();
+            result.TenantViewModel = new TenantRal(_tenant, true).GetTenantById(id);
+            result.TenantModuleViewModel = new TenantRal(_tenant, false).GetModuleById(result.TenantViewModel.TenantId);
+            return result;
+
         }
         public Result GetAllModule()
         {
-            return ResultWrap(new SuperAdminRal(_tenant, true).GetAllModule, "AllModule");
+            return ResultWrap(new TenantRal(_tenant, true).GetAllModule, "AllModule");
         }
         public Result UpdateTenant(TenantCreateViewModel tenant)
         {
             //Edit Module
-            var tenantModule = new SuperAdminRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel);
+            var tenantModule = new TenantRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel);
 
-            return ResultWrap(new SuperAdminRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
+            return ResultWrap(new TenantRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
         }
 
     }
