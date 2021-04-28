@@ -102,7 +102,7 @@ namespace Admin.API
             services.AddTransient<IAdSetupBpl, AdSetupBpl>();
             services.AddTransient<IdealSetupBpl, DealSetupBpl>();
             services.AddTransient<IPaymentGatewayBpl, PaymentGatewayBpl>();
-            services.AddTransient<ISuperAdminBpl, SuperAdminBpl>();
+            services.AddTransient<ITenantBpl, TenantBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

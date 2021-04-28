@@ -427,7 +427,13 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   }
     // Calculate TotalCash
     getTotalCash() {
-      this.totalCash = this.tips+ this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
+
+      if(this.tips === undefined || this.tips === null)
+      {
+        this.tips = 0;
+      }
+
+      this.totalCash = this.tips + this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
     }
   onValueChange(event) {
     let selectedDate = event;

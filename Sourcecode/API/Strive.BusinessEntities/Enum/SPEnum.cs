@@ -496,6 +496,7 @@ namespace Strive.BusinessEntities
         uspGetTenant,
         uspGetTenantById,
         uspGetAllModule,
+        uspGetModuleById,
         USPUPDATETENANT,
         //CHECKOUT
         USPGETAllCHECKOUTDETAILS,
