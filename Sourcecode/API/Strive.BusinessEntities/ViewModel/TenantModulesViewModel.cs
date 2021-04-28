@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class TenantByIdViewModel
+    public class TenantModulesViewModel
     {
         public ClientTenantViewModel TenantViewModel { get; set; }
         public List<TenantModuleViewModel> TenantModuleViewModel { get; set; }
