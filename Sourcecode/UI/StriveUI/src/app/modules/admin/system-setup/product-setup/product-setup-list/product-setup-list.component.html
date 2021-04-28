@@ -40,8 +40,8 @@
                                             <th class="pointer" (click)="changesort('ProductTypeName')">Type
                                                 <i class="fa" [ngClass]="selectedCls('ProductTypeName')"></i>
                                             </th>
-                                            <th class="pointer" (click)="changesort('Cost')">Cost
-                                                <i class="fa" [ngClass]="selectedCls('Cost')"></i>
+                                            <th class="pointer" (click)="changesort('Price')">Price
+                                                <i class="fa" [ngClass]="selectedCls('Price')"></i>
                                             </th>
                                             <th class="pointer" (click)="changesort('SizeName')">Size
                                                 <i class="fa" [ngClass]="selectedCls('SizeName')"></i>
@@ -65,7 +65,7 @@
                                             <th scope="row">{{productSetup.ProductName}}</th>
                                             <td title="{{productSetup.LocationName}}">{{productSetup.LocationName | slice: 0:19}} {{productSetup.LocationName !== null ? (productSetup.LocationName.length > 19 ? '...': '') : ''}}</td>
                                             <td>{{productSetup.ProductTypeName}}</td>
-                                            <td>{{productSetup.Cost | currency}}</td>
+                                            <td>{{productSetup.Price | currency}}</td>
                                             <td>{{productSetup.SizeName}}</td>
                                             <td>{{productSetup.Quantity}}</td>
                                             <td>{{productSetup.VendorName}}</td>
