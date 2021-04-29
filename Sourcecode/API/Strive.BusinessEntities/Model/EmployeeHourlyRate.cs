@@ -3,21 +3,21 @@ using System;
 
 namespace Strive.BusinessEntities.Model
 {
-    [OverrideName("tblEmployeeHourRate")]
-    public class EmployeeHourRate
+    [OverrideName("tblEmployeeHourlyRate")]
+    public class EmployeeHourlyRate
     {
 
         [Column, PrimaryKey, IgnoreOnInsert, IgnoreOnUpdate]
-        public int EmployeeHourRateId { get; set; }
+        public int EmployeeHourlyRateId { get; set; }
 
         [Column]
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
        [Column]
-        public int RoleId { get; set; }
+        public int? RoleId { get; set; }
 
         [Column]
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
 
         [Column]
         public int HourlyRate{ get; set; }
