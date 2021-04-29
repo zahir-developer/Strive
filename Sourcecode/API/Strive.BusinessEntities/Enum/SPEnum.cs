@@ -78,7 +78,8 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEBYID,
             USPGETMODELBYMAKE,
             USPGETALLMAKE,
-            USPGETUPCHARGEBYTYPE
+            USPGETUPCHARGEBYTYPE,
+            uspGetEmployeeHourlyRateById,
         }
 
         public enum DashboardStatistics
