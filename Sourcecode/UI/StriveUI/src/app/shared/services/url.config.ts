@@ -111,7 +111,8 @@ export const UrlConfig = {
     getAllEmployeeDocument: `Admin/Document/GetEmployeeDocument/`,
     getEmployeeDocumentById: `Admin/Document/GetEmployeeDocumentById/`,
     deleteEmployeeDocument: `Admin/Document/DeleteEmployeeDocument/`,
-    getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`
+    getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`,
+    getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`
   },
 
   giftCard: {
@@ -322,6 +323,7 @@ export const UrlConfig = {
     getModuleList: `Admin/Tenant/AllModule`,
     addTenantSetup: `Admin/Tenant/CreateTenant`,
     getTenantSetupList: `Admin/Tenant/AllTenant`,
-    getTenantDetailById: `Admin/Tenant/TenantById/`
+    getTenantDetailById: `Admin/Tenant/TenantById/`,
+    updateTenant: `Admin/Tenant/UpdateTenant`
   }
 };
