@@ -7,6 +7,17 @@ namespace Strive.BusinessEntities
 
     public class EnumSP
     {
+        public enum Tenant
+        {
+            USPCREATETENANT,
+            USPGETTENANT,
+            USPGETTENANTBYID,
+            USPGETALLMODULE,
+            USPGETMODULEBYID,
+            USPUPDATETENANT,
+            USPTENANTADMINLOGIN
+        }
+
         public enum Authentication
         {
             USPLOGIN,
@@ -26,6 +37,8 @@ namespace Strive.BusinessEntities
             USPDELETEUSER,
             USPGETCLIENTUSERBYAUTHID
         }
+
+
 
         public enum ClockTime
         {
@@ -484,7 +497,7 @@ namespace Strive.BusinessEntities
 
 
         USPGETTICKETNUMBER,
-        USPCREATETENANT,
+        
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
         USPROLLBACKPAYMENT,
@@ -493,11 +506,7 @@ namespace Strive.BusinessEntities
         USPUPDATEADJUSMENT,
         USPUPDATEEMPLOYEEADJUSTMENT,
         USPUPDATEJOBPAYMENT,
-        uspGetTenant,
-        uspGetTenantById,
-        uspGetAllModule,
-        uspGetModuleById,
-        USPUPDATETENANT,
+       
         //CHECKOUT
         USPGETAllCHECKOUTDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,
