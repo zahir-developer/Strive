@@ -79,6 +79,7 @@ import { EditChecklistComponent } from './system-setup/check-list/edit-checklist
 import { AddChecklistComponent } from './system-setup/check-list/add-checklist/add-checklist.component';
 import { TenantSetupComponent } from './tenant-setup/tenant-setup.component';
 import { AddTenantComponent } from './tenant-setup/add-tenant/add-tenant.component';
+import { EmployeeHourlyRateComponent } from './employees/employee-hourly-rate/employee-hourly-rate.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
@@ -94,7 +95,7 @@ import { AddTenantComponent } from './tenant-setup/add-tenant/add-tenant.compone
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent, EditChecklistComponent, AddChecklistComponent, TenantSetupComponent, AddTenantComponent
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent, EditChecklistComponent, AddChecklistComponent, TenantSetupComponent, AddTenantComponent, EmployeeHourlyRateComponent
 ],
   imports: [
     CommonModule,

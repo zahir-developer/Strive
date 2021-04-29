@@ -24,6 +24,7 @@ export class PaymentProcessComponent implements OnInit {
   isStateLoaded: boolean;
   selectedCountryId: any;
   tipAmount = '';
+  submitted: boolean = false;
   constructor(
     private activeModal: NgbActiveModal,
     private paymentService: PaymentService,
@@ -53,13 +54,16 @@ export class PaymentProcessComponent implements OnInit {
       lastName: ['', Validators.required],
       address1: ['', Validators.required],
       address2: [''],
-      // city: ['', Validators.required],
-      // state: ['', Validators.required],
+       city: ['', Validators.required],
+       state: ['', Validators.required],
       zip: ['', Validators.required],
-      // country: ['', Validators.required],
+       country: ['', Validators.required],
       email: ['', Validators.required],
-      phone: ['']
+      phone: ['', Validators.required]
     });
+  }
+  get f() {
+    return this.billingForm.controls;
   }
 
   getClientDetail() {
@@ -101,6 +105,10 @@ export class PaymentProcessComponent implements OnInit {
   }
 
   process() {
+    this.submitted = true;
+  if(this.billingForm.invalid){
+    return;
+  }
     const obj = {
       status: true,
       tipAmount: this.tipAmount

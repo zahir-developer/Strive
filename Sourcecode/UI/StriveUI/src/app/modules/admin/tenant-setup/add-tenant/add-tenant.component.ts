@@ -27,7 +27,9 @@ export class AddTenantComponent implements OnInit {
   @Output() reloadGrid = new EventEmitter();
   @Input() isEdit?: any;
   @Input() tenantDetail?: any;
+  @Input() tenantModule?: any;
   errorMessage: boolean;
+  newModuleChanges = [];
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -75,19 +77,36 @@ export class AddTenantComponent implements OnInit {
   }
 
   selectAll(event) {
-    if (event.target.checked) {
-      this.moduleList.forEach(item => {
-        item.IsChecked = true;
-      });
+    if (this.isEdit) {
+      if (event.target.checked) {
+
+      }
     } else {
-      this.moduleList.forEach(item => {
-        item.IsChecked = false;
-      });
+      if (event.target.checked) {
+        this.moduleList.forEach(item => {
+          item.IsChecked = true;
+        });
+      } else {
+        this.moduleList.forEach(item => {
+          item.IsChecked = false;
+        });
+      }
     }
   }
 
   selectModule(module) {
-    module.IsChecked = module.IsChecked ? false : true;
+    if (this.isEdit) {
+      const modules = this.moduleList.filter(item => item.ModuleId === module.ModuleId);
+      if (modules.length > 0) {
+        modules[0].IsChecked = modules[0].IsChecked ? false : true;
+        this.newModuleChanges.push(modules[0]);
+      } else {
+        module.IsChecked = module.IsChecked ? false : true;
+        this.newModuleChanges.push(modules[0]);
+      }
+    } else {
+      module.IsChecked = module.IsChecked ? false : true;
+    }
   }
 
   getModuleList() {
@@ -113,19 +132,45 @@ export class AddTenantComponent implements OnInit {
   }
 
   setValue() {
-    const detail = this.tenantDetail[0];
+    const detail = this.tenantDetail;
     this.personalform.patchValue({
-      firstName: detail.ClientName,
+      firstName: detail.clientName,
       address: '',
-      email: detail.ClientEmail,
-      mobile: detail.MobileNumber
+      email: detail.clientEmail,
+      mobile: detail.mobileNumber
     });
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
-      company: detail.CompanyName,
-      dateOfSubscription: detail.SubscriptionDate ? moment(detail.SubscriptionDate).toDate() : '',
-      paymentDate: detail.PaymentDate ? moment(detail.PaymentDate).toDate() : '',
-      deactivation: detail.ExpiryDate ? moment(detail.ExpiryDate).toDate() : ''
+      company: detail.companyName,
+      dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
+      paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : '',
+      deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
     });
+    this.tenantModule.forEach(item => {
+      if (item.isActive) {
+        item.IsChecked = true;
+      } else {
+        item.IsChecked = false;
+      }
+    });
+    const modules = [];
+    this.tenantModule.forEach(item => {
+      modules.push({
+        ModuleId: item.moduleId,
+        ModuleName: item.moduleName,
+        IsActive: item.isActive,
+        IsChecked: item.IsChecked
+      });
+    });
+    this.moduleList = modules;
+    // this.tenantModule.forEach( item => {
+    //   this.moduleList.forEach( mod => {
+    //     if (mod.ModuleId === item.moduleId && item.isActive) {
+    //       mod.IsChecked = true;
+    //     } else if (mod.ModuleId === item.moduleId && !item.isActive) {
+    //       mod.IsChecked = false;
+    //     }
+    //   });
+    // });
   }
 
   addTenant() {
@@ -144,24 +189,45 @@ export class AddTenantComponent implements OnInit {
       return;
     }
 
-    if (this.errorMessage ===  true) {
+    if (this.errorMessage === true) {
       return;
     }
 
     const moduleObj = [];
-    this.moduleList.forEach(item => {
-      if (item.IsChecked) {
-        moduleObj.push({
-          moduleId: item.ModuleId,
-          moduleName: item.ModuleName,
-          isActive: true
-        });
-      }
-    });
+    if (this.isEdit) {
+      this.newModuleChanges.forEach( item => {
+        if (item.IsChecked) {
+          moduleObj.push({
+            moduleId: item.ModuleId,
+            moduleName: item.ModuleName,
+            isActive: true
+          });
+        } else {
+          moduleObj.push({
+            moduleId: item.ModuleId,
+            moduleName: item.ModuleName,
+            isActive: false
+          });
+        }
+      });
+    } else {
+      this.moduleList.forEach(item => {
+        if (item.IsChecked) {
+          moduleObj.push({
+            moduleId: item.ModuleId,
+            moduleName: item.ModuleName,
+            isActive: true
+          });
+        }
+      });
+    }
+
     const module = {
       module: moduleObj
     };
     const tenantObj = {
+      tenantId: this.isEdit ? this.tenantDetail.tenantId : 0,
+      clientId: this.isEdit ? this.tenantDetail.clientId : 0,
       firstName: this.personalform.value.firstName,
       address: this.personalform.value.address,
       tenantEmail: this.personalform.value.email,
@@ -179,11 +245,19 @@ export class AddTenantComponent implements OnInit {
       tenantViewModel: tenantObj,
       tenantModuleViewModel: module
     };
-    this.tenantSetupService.addTenant(finalObj).subscribe(res => {
-      if (res.status === 'Success') {
-        this.navigate();
-      }
-    });
+    if (this.isEdit) {
+      this.tenantSetupService.updateTenant(finalObj).subscribe(res =>  {
+        if (res.status === 'Success') {
+          this.navigate();
+        }
+      });
+    } else {
+      this.tenantSetupService.addTenant(finalObj).subscribe(res => {
+        if (res.status === 'Success') {
+          this.navigate();
+        }
+      });
+    }
   }
 
   cancel() {
@@ -206,7 +280,7 @@ export class AddTenantComponent implements OnInit {
   validateEmail(email) {
     const re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/;
     return re.test(String(email).toLowerCase());
-}
+  }
 
 
 

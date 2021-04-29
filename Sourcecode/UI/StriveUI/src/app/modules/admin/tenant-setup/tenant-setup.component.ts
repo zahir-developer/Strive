@@ -18,6 +18,7 @@ export class TenantSetupComponent implements OnInit {
   collectionSize: number;
   tenantDetail: any;
   isEdit: boolean;
+  tenantModule: any;
   constructor(
     private tenantSetupService: TenantSetupService,
     private spinner: NgxSpinnerService
@@ -38,7 +39,7 @@ export class TenantSetupComponent implements OnInit {
 
   getTenantList() {
     this.spinner.show();
-    this.tenantSetupService.getTenantList().subscribe( res => {
+    this.tenantSetupService.getTenantList().subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const tenant = JSON.parse(res.resultData);
@@ -54,16 +55,18 @@ export class TenantSetupComponent implements OnInit {
 
   editTenant(tenant) {
     this.spinner.show();
-    this.tenantSetupService.getTenantDetailById(tenant.ClientId).subscribe( res => {
+    this.tenantSetupService.getTenantDetailById(tenant.ClientId).subscribe(res => {
       this.spinner.hide();
-      if (res.status === 'Success') {
-        const tenantDetail = JSON.parse(res.resultData);
-        if (tenantDetail.TenantById) {
-          this.showDialog = true;
-          this.isEdit = true;
-          this.tenantDetail = tenantDetail.TenantById;
-        }
-      }
+      this.showDialog = true;
+      this.isEdit = true;
+      this.tenantDetail = res.tenantViewModel;
+      this.tenantModule = res.tenantModuleViewModel;
+      // if (res.status === 'Success') {
+      //   const tenantDetail = JSON.parse(res.resultData);
+      //   if (tenantDetail.TenantById) {
+
+      //   }
+      // }
     }, (err) => {
       this.spinner.hide();
     });

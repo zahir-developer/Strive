@@ -579,9 +579,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       dueTime: this.datePipe.transform(this.selectedData?.Details?.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
       client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details?.ClientName },
       vehicle: this.selectedData?.Details?.VehicleId,
-      type: { id: this.selectedData?.Details?.Make, name: this.selectedData?.Details?.vehicleMake },
-      model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.vehicleModel },
-      color: { id: this.selectedData?.Details?.Color, name: this.selectedData?.Details?.vehicleColor },
+      type: { id: this.selectedData?.Details?.Make, name: this.selectedData?.Details?.VehicleMake },
+      model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.VehicleModel },
+      color: { id: this.selectedData?.Details?.Color, name: this.selectedData?.Details?.VehicleColor },
       washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
         this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId : '',
       upchargeType: washes[0].IsCeramic === false ?
@@ -1477,38 +1477,49 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
         this.upchargeList = jobtype.upcharge;
-        if (this.upcharges) {
-          this.upcharges.forEach(element => {
-            if (this.upchargeList.length > 0) {
-              this.upchargeList.forEach(item => {
-                if (element.ServiceId == item.ServiceId) {
-                  this.detailForm.patchValue({
-                    upcharges: element.ServiceId,
-
-                    upchargeType: element.ServiceId
-
-                  })
-                }
-              });
-            }
-            else {
-              this.detailForm.patchValue({
-                upcharges: '',
-
-                upchargeType: ''
-
-              })
-            }
-          });
-        }
-        else {
+        if(this.upchargeList?.length > 0){
           this.detailForm.patchValue({
-            upcharges: '',
-
-            upchargeType: ''
-
+            upcharges : this.upchargeList[this.upchargeList.length - 1].ServiceId,
+  
+            upchargeType:  this.upchargeList[this.upchargeList.length - 1].ServiceId
+            
           })
+         
+          this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
+
+        // if (this.upcharges) {
+        //   this.upcharges.forEach(element => {
+        //     if (this.upchargeList.length > 0) {
+        //       this.upchargeList.forEach(item => {
+        //         if (element.ServiceId == item.ServiceId) {
+        //           this.detailForm.patchValue({
+        //             upcharges: element.ServiceId,
+
+        //             upchargeType: element.ServiceId
+
+        //           })
+        //         }
+        //       });
+        //     }
+        //     else {
+        //       this.detailForm.patchValue({
+        //         upcharges: '',
+
+        //         upchargeType: ''
+
+        //       })
+        //     }
+        //   });
+        // }
+        // else {
+        //   this.detailForm.patchValue({
+        //     upcharges: '',
+
+        //     upchargeType: ''
+
+        //   })
+        // }
 
       }
     }, (err) => {

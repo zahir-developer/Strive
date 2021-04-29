@@ -9,5 +9,6 @@ namespace Strive.BusinessEntities.ViewModel
     public class EmailListViewModel
     {
         public string Email { get; set; }
+        public string FirstName { get; set; }
     }
 }

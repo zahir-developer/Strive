@@ -24,7 +24,7 @@ namespace SuperAdmin.Api.Controllers
         /// Login for Employee and Client.
         /// </summary>
         [HttpPost, Route("CreateTenant")]
-        public Result CreateTenant([FromBody] TenantViewModel tenant)
+        public Result CreateTenant([FromBody] TenantCreateViewModel tenant)
         {
             return new Result();
         }

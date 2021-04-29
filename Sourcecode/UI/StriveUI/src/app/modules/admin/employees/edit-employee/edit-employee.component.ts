@@ -68,6 +68,12 @@ export class EditEmployeeComponent implements OnInit {
   selectedStateId: any;
   selectedCityId: any;
   isChecked: boolean;
+  hourlyLocationId = '';
+  locationRate = '';
+  locationRateList = [];
+  locationList = [];
+  isHourEdit = 0;
+  selectedLocationHour = '';
   constructor(
     private spinner : NgxSpinnerService,
     private fb: FormBuilder,
@@ -243,6 +249,7 @@ export class EditEmployeeComponent implements OnInit {
           item_text: item.LocationName
         };
       });
+      this.locationList = this.employeeLocation.map(x => Object.assign({}, x));
     }
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
     this.selectedLocation = employeeInfo?.EmployeeLocations;
@@ -585,6 +592,45 @@ export class EditEmployeeComponent implements OnInit {
 
   detailCollapsed() {
     this.isDetailCollapsed = !this.isDetailCollapsed;
+  }
+
+  deleteLocationHour(loc) {
+    this.locationRateList = this.locationRateList.filter(item => item.locationId !== loc.locationId);
+    this.locationList.unshift({
+      item_id: loc.locationId,
+      item_text: loc.locationName
+    });
+    this.locationList = _.sortBy(this.locationList, 'item_id');
+  }
+
+  editLocationHour(loc) {
+    this.isHourEdit = loc.locationId;
+    this.selectedLocationHour = loc.ratePerHour;
+  }
+
+  submit() {
+    this.isHourEdit = 0;
+    this.selectedLocationHour = '';
+  }
+
+  cancelHour(loc) {
+    this.isHourEdit = 0;
+    loc.ratePerHour = this.selectedLocationHour;
+  }
+
+  addRate() {
+    const loc = _.where(this.locationList, { item_id: +this.locationId });
+    if (loc.length > 0) {
+      this.locationList = this.locationList.filter(item => item.item_id !== +this.locationId);
+      const locName = loc[0].item_text;
+      this.locationRateList.push({
+        locationId: loc[0].item_id,
+        locationName: loc[0].item_text,
+        ratePerHour: this.locationRate
+      });
+      this.hourlyLocationId = '';
+      this.locationRate = '';
+    }
   }
 
 }

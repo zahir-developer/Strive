@@ -60,6 +60,9 @@ namespace Admin.Api.Controllers
         [Route("GetAllEmployeeName")]
         public Result GetAllEmployeeName(int id) => _bplManager.GetAllEmployeeName(id);
 
+        [HttpGet]
+        [Route("GetEmployeeHourlyRateById")]
+        public Result GetEmployeeHourlyRateById(int id) => _bplManager.GetEmployeeHourlyRateById(id);
 
         #endregion
 

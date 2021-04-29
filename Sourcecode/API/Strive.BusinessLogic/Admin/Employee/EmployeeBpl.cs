@@ -68,17 +68,27 @@ namespace Strive.BusinessLogic
 
                 //Add Employee
                 var employeeResult = new EmployeeRal(_tenant).AddEmployee(employee);
-
-                if (employeeResult)
+                var emailId = new CommonRal(_tenant).GetEmailIdByRole();
+                
+                    if (employeeResult)
                 {
-                    //Send Email
+                    //Send Email to employee
 
                     Dictionary<string, string> keyValues = new Dictionary<string, string>();
                     keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
                     keyValues.Add("{{password}}", createLogin.password);
                     commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues);
 
-                   // commonBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, employee.EmployeeAddress.Email, createLogin.password);
+                    //Send Email to Manager
+                    foreach (var item in emailId)
+                    {
+                        Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
+                        keyValues.Add("{{Manager/Operator}}", item.FirstName);
+                        keyValues.Add("{{employeeName}}", employee.Employee.FirstName);
+                        commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, item.Email, keyValues1);
+                    }
+
+
                     success = true;
                 }
                 else if(createLogin.authId > 0)
@@ -138,5 +148,10 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeName, id, "EmployeeName");
         }
+        public Result GetEmployeeHourlyRateById(int employeeId)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeHourlyRateById, employeeId, "Employee");
+        }
+
     }
 }

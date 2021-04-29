@@ -25,4 +25,8 @@ export class TenantSetupService {
   getTenantDetailById(id) {
     return this.http.get(`${UrlConfig.tenantSetup.getTenantDetailById}` + id);
   }
+
+  updateTenant(obj) {
+    return this.http.post(`${UrlConfig.tenantSetup.updateTenant}`, obj);
+  }
 }
