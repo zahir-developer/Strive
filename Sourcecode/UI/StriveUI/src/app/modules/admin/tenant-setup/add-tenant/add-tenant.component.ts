@@ -27,6 +27,7 @@ export class AddTenantComponent implements OnInit {
   @Output() reloadGrid = new EventEmitter();
   @Input() isEdit?: any;
   @Input() tenantDetail?: any;
+  @Input() tenantModule?: any;
   errorMessage: boolean;
   constructor(
     private fb: FormBuilder,
@@ -113,19 +114,45 @@ export class AddTenantComponent implements OnInit {
   }
 
   setValue() {
-    const detail = this.tenantDetail[0];
+    const detail = this.tenantDetail;
     this.personalform.patchValue({
-      firstName: detail.ClientName,
+      firstName: detail.clientName,
       address: '',
-      email: detail.ClientEmail,
-      mobile: detail.MobileNumber
+      email: detail.clientEmail,
+      mobile: detail.mobileNumber
     });
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
-      company: detail.CompanyName,
-      dateOfSubscription: detail.SubscriptionDate ? moment(detail.SubscriptionDate).toDate() : '',
-      paymentDate: detail.PaymentDate ? moment(detail.PaymentDate).toDate() : '',
-      deactivation: detail.ExpiryDate ? moment(detail.ExpiryDate).toDate() : ''
+      company: detail.companyName,
+      dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
+      paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : '',
+      deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
     });
+    this.tenantModule.forEach( item => {
+      if (item.isActive) {
+        item.IsChecked = true;
+      } else {
+        item.IsChecked = false;
+      }
+    });
+    const modules = [];
+    this.tenantModule.forEach( item => {
+      modules.push({
+        ModuleId: item.moduleId,
+        ModuleName: item.moduleName,
+        IsActive: item.isActive,
+        IsChecked: item.IsChecked
+      });
+    });
+    this.moduleList = modules;
+    // this.tenantModule.forEach( item => {
+    //   this.moduleList.forEach( mod => {
+    //     if (mod.ModuleId === item.moduleId && item.isActive) {
+    //       mod.IsChecked = true;
+    //     } else if (mod.ModuleId === item.moduleId && !item.isActive) {
+    //       mod.IsChecked = false;
+    //     }
+    //   });
+    // });
   }
 
   addTenant() {
