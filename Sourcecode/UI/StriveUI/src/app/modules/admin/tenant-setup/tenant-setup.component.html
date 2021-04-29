@@ -103,6 +103,6 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <app-add-tenant *ngIf="showDialog" [isEdit]="isEdit" [tenantDetail]="tenantDetail" (closePopup)="closePopup()"
+    <app-add-tenant *ngIf="showDialog" [isEdit]="isEdit" [tenantDetail]="tenantDetail" [tenantModule]="tenantModule" (closePopup)="closePopup()"
         (reloadGrid)="reloadGrid()"></app-add-tenant>
 </div>
