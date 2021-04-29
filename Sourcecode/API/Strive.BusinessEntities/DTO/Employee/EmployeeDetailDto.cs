@@ -13,5 +13,6 @@ namespace Strive.BusinessEntities.DTO.Employee
         public List<EmployeeLiabilityDto> EmployeeCollision { get; set; }
         public List<EmployeeRoleDto> EmployeeRoles { get; set; }
         public List<EmployeeLocationDto> EmployeeLocations { get; set; }
+        public List<EmployeeHourlyRateDto> EmployeeHourlyRate { get; set; }
     }
 }
