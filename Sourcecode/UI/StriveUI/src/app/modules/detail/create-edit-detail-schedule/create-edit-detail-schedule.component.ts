@@ -1477,38 +1477,49 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
         this.upchargeList = jobtype.upcharge;
-        if (this.upcharges) {
-          this.upcharges.forEach(element => {
-            if (this.upchargeList.length > 0) {
-              this.upchargeList.forEach(item => {
-                if (element.ServiceId == item.ServiceId) {
-                  this.detailForm.patchValue({
-                    upcharges: element.ServiceId,
-
-                    upchargeType: element.ServiceId
-
-                  })
-                }
-              });
-            }
-            else {
-              this.detailForm.patchValue({
-                upcharges: '',
-
-                upchargeType: ''
-
-              })
-            }
-          });
-        }
-        else {
+        if(this.upchargeList?.length > 0){
           this.detailForm.patchValue({
-            upcharges: '',
-
-            upchargeType: ''
-
+            upcharges : this.upchargeList[this.upchargeList.length - 1].ServiceId,
+  
+            upchargeType:  this.upchargeList[this.upchargeList.length - 1].ServiceId
+            
           })
+         
+          this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
+
+        // if (this.upcharges) {
+        //   this.upcharges.forEach(element => {
+        //     if (this.upchargeList.length > 0) {
+        //       this.upchargeList.forEach(item => {
+        //         if (element.ServiceId == item.ServiceId) {
+        //           this.detailForm.patchValue({
+        //             upcharges: element.ServiceId,
+
+        //             upchargeType: element.ServiceId
+
+        //           })
+        //         }
+        //       });
+        //     }
+        //     else {
+        //       this.detailForm.patchValue({
+        //         upcharges: '',
+
+        //         upchargeType: ''
+
+        //       })
+        //     }
+        //   });
+        // }
+        // else {
+        //   this.detailForm.patchValue({
+        //     upcharges: '',
+
+        //     upchargeType: ''
+
+        //   })
+        // }
 
       }
     }, (err) => {

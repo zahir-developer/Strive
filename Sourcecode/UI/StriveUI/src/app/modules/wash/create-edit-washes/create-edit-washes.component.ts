@@ -1032,38 +1032,47 @@ if(!this.upchargeId || !this.washForm.value.model?.id){
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
         this.upchargeList = jobtype.upcharge;
-        if(this.upcharges){
-          this.upcharges.forEach(element => {
-            if(this.upchargeList.length > 0){
-              this.upchargeList.forEach(item => {
-                if(element.ServiceId == item.ServiceId){
-                  this.washForm.patchValue({
-                    upcharges : element.ServiceId,
-      
-                    upchargeType:  element.ServiceId
-                    
-                  })
-                }
-              });
-            }
-            else{
-              this.washForm.patchValue({
-                upcharges : '',
-    
-                upchargeType: ''
-                
-              })
-            } 
-        });
-         }
-         else{
+        if(this.upchargeList?.length > 0){
           this.washForm.patchValue({
-            upcharges : '',
-
-            upchargeType: ''
+            upcharges : this.upchargeList[this.upchargeList.length - 1].ServiceId,
+  
+            upchargeType:  this.upchargeList[this.upchargeList.length - 1].ServiceId
             
           })
+         
+          this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
+
+       
+        // if(this.upcharges){
+        //   this.upcharges.forEach(element => {
+        //     if(this.upchargeList.length > 0){
+        //       this.upchargeList.forEach(item => {
+        //         if(element.ServiceId == item.ServiceId){
+                 
+                 
+                  
+        //         }
+        //       });
+        //     }
+        //     else{
+        //       this.washForm.patchValue({
+        //         upcharges : '',
+    
+        //         upchargeType: ''
+                
+        //       })
+        //     } 
+        // });
+        //  }
+        //  else{
+        //   this.washForm.patchValue({
+        //     upcharges : '',
+
+        //     upchargeType: ''
+            
+        //   })
+        // }
        
       }
     }, (err) => {
