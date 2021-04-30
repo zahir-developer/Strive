@@ -9,6 +9,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 })
 export class EmployeeHourlyRateComponent implements OnInit {
   @Input() employeeId?: any;
+  employeeHourlyRateList = [];
   constructor(
     private employeeService: EmployeeService,
     private modalService: NgbModal
@@ -25,7 +26,10 @@ export class EmployeeHourlyRateComponent implements OnInit {
   getEmployeeHourlyRateById() {
     const id = this.employeeId;
     this.employeeService.getEmployeeHourlyRateById(id).subscribe( res => {
-
+      if (res.status === 'Success') {
+        const employeeRate = JSON.parse(res.resultData);
+        this.employeeHourlyRateList = employeeRate.Employee;
+      }
     });
   }
 
