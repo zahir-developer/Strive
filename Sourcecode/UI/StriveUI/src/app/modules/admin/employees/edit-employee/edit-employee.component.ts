@@ -251,6 +251,25 @@ export class EditEmployeeComponent implements OnInit {
       });
       this.locationList = this.employeeLocation.map(x => Object.assign({}, x));
     }
+
+    if (employee.EmployeeHourlyRate !== null) {
+      const locationHourlyWash = [];
+      employee.EmployeeHourlyRate.forEach( item => {
+        locationHourlyWash.push({
+          locationId: item.LocationId,
+          locationName: item.LocationName,
+          ratePerHour: item.HourlyRate,
+          roleName: item.RoleName,
+          employeeId: item.EmployeeId,
+          employeeHourlyRateId: item.EmployeeHourlyRateId
+        });
+      });
+      this.locationRateList = locationHourlyWash;
+    }
+    // locationId: loc[0].item_id,
+    //     locationName: loc[0].item_text,
+    //     ratePerHour: this.locationRate
+
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
     this.selectedLocation = employeeInfo?.EmployeeLocations;
     this.immigrationChange(employeeInfo.ImmigrationStatus);
@@ -560,13 +579,26 @@ export class EditEmployeeComponent implements OnInit {
       isActive: this.emplistform.value.status === 'Active' ? true : false,
       isDeleted: false,
     };
+    const locHour = [];
+    this.locationRateList.forEach(item => {
+      locHour.push({
+        employeeHourRateId: item.employeeHourlyRateId,
+        employeeId: item.employeeId,
+        roleId: null,
+        locationId: item.locationId,
+        hourlyRate: item.ratePerHour,
+        isActive: true,
+        isDeleted: false,
+      });
+    });
     const finalObj = {
       employee: employeeObj,
       employeeDetail: employeeDetailObj,
       employeeAddress: employeeAddressObj,
       employeeRole: newlyAddedRole,
       employeeLocation: newlyAddedLocation,
-      employeeDocument: null 
+      employeeDocument: null,
+      employeeHourlyRate: locHour
     };
     this.spinner.show();
     this.employeeService.updateEmployee(finalObj).subscribe(res => {

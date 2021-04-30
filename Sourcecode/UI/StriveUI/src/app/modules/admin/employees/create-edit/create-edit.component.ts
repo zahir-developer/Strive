@@ -13,6 +13,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import * as _ from 'underscore';
+import { NullLogger } from '@aspnet/signalr';
 
 declare var $: any;
 @Component({
@@ -463,7 +464,7 @@ export class CreateEditComponent implements OnInit {
       employeeRole: employeeRoleObj,
       employeeLocation: locationObj,
       employeeDocument: documentObj,
-      employeeHourRate: locHour
+      employeeHourlyRate: locHour
     };
     this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {

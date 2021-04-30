@@ -30,6 +30,7 @@ export class AddTenantComponent implements OnInit {
   @Input() tenantModule?: any;
   errorMessage: boolean;
   newModuleChanges = [];
+  isSelectAll: boolean;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -44,7 +45,7 @@ export class AddTenantComponent implements OnInit {
       lastName: ['', Validators.required],
       address: ['', Validators.required],
       zipcode: [''],
-      email: [''],
+      email: ['', [Validators.required, Validators.email]],
       mobile: [''],
       phone: ['']
     });
@@ -107,6 +108,12 @@ export class AddTenantComponent implements OnInit {
     } else {
       module.IsChecked = module.IsChecked ? false : true;
     }
+    const isAllModuleSelect = this.moduleList.filter(item => !item.IsChecked);
+    if (isAllModuleSelect.length === 0) {
+      this.isSelectAll = true;
+    } else {
+      this.isSelectAll = false;
+    }
   }
 
   getModuleList() {
@@ -118,8 +125,9 @@ export class AddTenantComponent implements OnInit {
         console.log(modules, 'module');
         if (modules.AllModule !== null) {
           this.moduleList = modules.AllModule;
+          this.isSelectAll = true;
           this.moduleList.forEach(item => {
-            item.IsChecked = false;
+            item.IsChecked = true;
           });
         }
         if (this.isEdit) {
@@ -161,6 +169,12 @@ export class AddTenantComponent implements OnInit {
         IsChecked: item.IsChecked
       });
     });
+    const isAllModuleSelect = this.tenantModule.filter(item => !item.IsChecked);
+    if (isAllModuleSelect.length === 0) {
+      this.isSelectAll = true;
+    } else {
+      this.isSelectAll = false;
+    }
     this.moduleList = modules;
     // this.tenantModule.forEach( item => {
     //   this.moduleList.forEach( mod => {
@@ -189,13 +203,10 @@ export class AddTenantComponent implements OnInit {
       return;
     }
 
-    if (this.errorMessage === true) {
-      return;
-    }
 
     const moduleObj = [];
     if (this.isEdit) {
-      this.newModuleChanges.forEach( item => {
+      this.newModuleChanges.forEach(item => {
         if (item.IsChecked) {
           moduleObj.push({
             moduleId: item.ModuleId,
@@ -246,7 +257,7 @@ export class AddTenantComponent implements OnInit {
       tenantModuleViewModel: module
     };
     if (this.isEdit) {
-      this.tenantSetupService.updateTenant(finalObj).subscribe(res =>  {
+      this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
         if (res.status === 'Success') {
           this.navigate();
         }
