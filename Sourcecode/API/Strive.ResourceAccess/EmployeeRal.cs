@@ -95,7 +95,7 @@ namespace Strive.ResourceAccess
         public List<EmployeeHourlyRateDto> GetEmployeeHourlyRateById(int employeeId)
         {
             _prm.Add("EmployeeId", employeeId);
-            var lstResult = db.Fetch<EmployeeHourlyRateDto>(EnumSP.Employee.USPGETEMPLOYEEBYID.ToString(), _prm);
+            var lstResult = db.Fetch<EmployeeHourlyRateDto>(EnumSP.Employee.uspGetEmployeeHourlyRateById.ToString(), _prm);
             return lstResult;
         }
 

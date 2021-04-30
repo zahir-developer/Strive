@@ -59,6 +59,7 @@ namespace Strive.Common
         EmployeeThreshold,
         GiftCardDetails,
         SuperAdmin,
+        NewEmployeeInfo,
     }
 
     public enum Roles

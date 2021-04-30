@@ -39,7 +39,7 @@ namespace Strive.BusinessLogic.TimeClock
                     foreach (var item in emailId)
                     {
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                        keyValues.Add("{{emailId}}", item.Email);
+                        keyValues.Add("{{Manager/Operator}}", item.FirstName);
                         keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
                         new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues);
                     }
