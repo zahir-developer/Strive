@@ -1488,38 +1488,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
 
-        // if (this.upcharges) {
-        //   this.upcharges.forEach(element => {
-        //     if (this.upchargeList.length > 0) {
-        //       this.upchargeList.forEach(item => {
-        //         if (element.ServiceId == item.ServiceId) {
-        //           this.detailForm.patchValue({
-        //             upcharges: element.ServiceId,
+        else{
+          this.detailForm.patchValue({
+            upcharges : '',
 
-        //             upchargeType: element.ServiceId
-
-        //           })
-        //         }
-        //       });
-        //     }
-        //     else {
-        //       this.detailForm.patchValue({
-        //         upcharges: '',
-
-        //         upchargeType: ''
-
-        //       })
-        //     }
-        //   });
-        // }
-        // else {
-        //   this.detailForm.patchValue({
-        //     upcharges: '',
-
-        //     upchargeType: ''
-
-        //   })
-        // }
+            upchargeType: ''
+            
+          })
+        } 
 
       }
     }, (err) => {
