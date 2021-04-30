@@ -60,6 +60,7 @@ import { DashboardStaticsComponent } from './components/dashboard-statics/dashbo
 import { PaymentProcessComponent } from './components/payment-process/payment-process.component';
 import { QRCodeModule } from 'angular2-qrcode';
 import {KeyFilterModule} from 'primeng/keyfilter';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import {KeyFilterModule} from 'primeng/keyfilter';
     NgbPaginationModule,
     ChartsModule,
     DropdownModule,
+    InputMaskModule,
     InputSwitchModule,
     TabsModule.forRoot()
   ],
@@ -107,7 +109,7 @@ import {KeyFilterModule} from 'primeng/keyfilter';
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, ExportFiletypeComponent,
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
       OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective,
-      KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent],
+      InputMaskModule,  KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 
