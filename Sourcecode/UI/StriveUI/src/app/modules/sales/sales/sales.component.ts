@@ -75,6 +75,7 @@ export class SalesComponent implements OnInit {
   clientId: number;
   giftCardList = [];
   giftCardID: any;
+  multipleTicketSequence: boolean = false;
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -315,6 +316,9 @@ export class SalesComponent implements OnInit {
   }
 
   removeTicketNumber(ticket) {
+    if (this.multipleTicketNumber.length > 1) {
+    this.multipleTicketSequence = false;
+    }
     this.multipleTicketNumber = this.multipleTicketNumber.filter(item => item !== ticket);
     if (this.multipleTicketNumber.length > 10) {
       this.isTenTicketNumber = true;
@@ -335,8 +339,10 @@ export class SalesComponent implements OnInit {
     } else {
       this.clearGridItems();
     }
+   
     if ((this.multipleTicketNumber.length > 0) ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
+
       const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
         : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
@@ -347,8 +353,16 @@ export class SalesComponent implements OnInit {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account;
           this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
-          this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
+        if(this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount &&
+          this.accountDetails.SalesAccountViewModel?.MembershipId){
+            this.isAccount =  this.accountDetails.SalesAccountViewModel?.MembershipId;
+          }
+          else{
+            this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
             this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
+          }
+        
+         
         }
       });
       this.spinner.show();
@@ -367,11 +381,16 @@ export class SalesComponent implements OnInit {
       this.airfreshnerService = [];
       this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
+          
           this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
+            if (this.multipleTicketNumber.length > 1) {
+              this.multipleTicketSequence = true;
+              }
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
+             
               this.showPopup = true;
               this.allService = this.itemList.Status.SalesItemViewModel;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -462,9 +481,9 @@ export class SalesComponent implements OnInit {
     this.filteredItem = filtered;
   }
   deleteItem(data, type) {
-    if(this.enableButton == true){
+    if (this.enableButton == true) {
       return
-          }
+    }
     const title = type === 'deleteItem' ? 'Delete Item' : type === 'rollback' ? 'RollBacK' : 'Delete Ticket';
     const message = type === 'deleteItem' ? 'Are you sure you want to delete the selected Item?' : type === 'rollback' ? 'Are you sure you want to Rollback the transaction?' : 'Are you sure you want to delete the Ticket?';
     this.confirmationService.confirm(title, message, 'Yes', 'No', '', '500px')
@@ -566,8 +585,8 @@ export class SalesComponent implements OnInit {
     document.getElementById('creditcardpopup').style.width = '0';
   }
   editItem(event) {
-    if(this.enableButton == true){
-return
+    if (this.enableButton == true) {
+      return
     }
     const itemId = event.JobId;
     const ngbModalOptions: NgbModalOptions = {
@@ -1326,6 +1345,7 @@ return
   }
 
   processAccount() {
+    console.log('true')
     this.isAccountButton = !this.isAccountButton;
     if (this.isAccount) {
       this.removAddedAmount(+this.account);
