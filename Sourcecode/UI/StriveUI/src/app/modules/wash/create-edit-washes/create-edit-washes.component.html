@@ -90,7 +90,7 @@
                                     <div class="ui-fluid">
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
-                                                <p-autoComplete field="name" [suggestions]="filteredMake"
+                                                <p-autoComplete field="name" [suggestions]="filteredMake" 
                                                     (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)"
                                                     (onSelect)="selectedModel($event)"   [size]="10" formControlName="type" placeholder="Make">
                                                 </p-autoComplete>
@@ -208,9 +208,9 @@
                         </div>
                         <div class="m-t-20 mw-100">
                             <span *ngIf="isEdit">
-                                <button type="button"  (click)="pay()"  class="btn theme-primary-button-color"> 
-                                    <span  [ngStyle]="{'color': paidLabel === 'Paid' ? 'Green' : 'none'}">{{paidLabel}}</span></button>
-                               
+                                <button type="button"  (click)="pay()"  [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled' : 'btn theme-primary-button-color '"> 
+                                   {{paidLabel}}</button>
+                                 
                               &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="print()">Print</button>
