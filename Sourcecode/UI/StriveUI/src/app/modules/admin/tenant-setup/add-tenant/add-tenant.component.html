@@ -70,12 +70,13 @@
                                         [appMaxLength]="5">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Email</label>
-                                    <input type="text" (change)="testMail($event)" class="form-control" formControlName="email"
-                                        [ngClass]="{ 'is-invalid': errorMessage }">
-                                    <div *ngIf="errorMessage" class="invalid-feedback">
-                                        <div *ngIf="errorMessage">Please enter valid email address</div>
-                                    </div>
+                                    <label>Email<span class="required">*</span></label>
+                                    <input type="text"  class="form-control" formControlName="email"
+                                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                            <div *ngIf="f.email.errors.required">Email Id is required</div>
+                                            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                        </div>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Mobile No</label>
@@ -108,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Date Of Subscription</label>
+                                    <label>Date Of Subscription<span class="required">*</span></label>
                                     <input type="text" [bsConfig]="{ showWeekNumbers: false }" class="form-control"
                                         bsDatepicker formControlName="dateOfSubscription"
                                         [ngClass]="{ 'is-invalid': submitted && g.dateOfSubscription.errors }">
@@ -119,10 +120,10 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>No. of Locations</label>
-                                    <input type="text" class="form-control" formControlName="noOfLocation">
+                                    <input type="text" class="form-control" numbersOnly [appMaxLength]="2" formControlName="noOfLocation">
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Payment Date</label>
+                                    <label>Payment Date<span class="required">*</span></label>
                                     <input type="text" [bsConfig]="{ showWeekNumbers: false }"
                                         formControlName="paymentDate" class="form-control" bsDatepicker
                                         [ngClass]="{ 'is-invalid': submitted && g.paymentDate.errors }">
@@ -146,7 +147,7 @@
                             </h6>
                             <div class="d-inline-block custom-control custom-checkbox m-l-40">
                                 <input class="custom-control-input" type="checkbox" id="flexCheckDefault"
-                                    (change)="selectAll($event)">
+                                [checked]="isSelectAll" (change)="selectAll($event)">
                                 <label class="custom-control-label" for="flexCheckDefault">
                                     Select All
                                 </label>

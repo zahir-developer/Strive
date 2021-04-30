@@ -2,15 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Strive.BusinessEntities.DTO.BonusSetup;
-using Strive.BusinessLogic.BonusSetup;
 using Strive.BusinessLogic.SuperAdmin.Tenant;
 using Strive.Common;
 using Strive.BusinessEntities.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Admin.API.Controllers
 {
@@ -28,7 +22,7 @@ namespace Admin.API.Controllers
         [Route("CreateTenant")]
         public Result CreateTenant([FromBody] TenantCreateViewModel tenant)
         {
-            return _bplManager.CreateTenant(tenant);
+            return _bplManager.CreateTenant(tenant, GetTenantConnection());
         }
 
 

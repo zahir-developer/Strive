@@ -195,7 +195,8 @@
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Location </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Location'"
-                                        [settings]="dropdownSettings" [data]="location" formControlName="location">
+                                        [settings]="dropdownSettings" [data]="location" formControlName="location" (onSelect)="selectedLocation($event)"
+                                        (onDeSelect)="deselectLocation($event)">
                                     </ng-multiselect-dropdown>
                                 </div>
 
@@ -233,16 +234,16 @@
                             </div>
                             <div class="form-group col-md-1 m-t-30 text-center">
                                 <button type="button" class="btn theme-primary-button-color" (click)="addRate()"
-                                    [disabled]="locationId == '' || locationRate == ''">Add</button>
+                                    [disabled]="locationId == '' || locationRate == '' || locationList.length === 0">Add</button>
                             </div>
-                            <!-- <div class="form-group col-md-5 m-t-40">
+                            <div class="form-group col-md-5 m-t-40">
                                 <div class="custom-control custom-checkbox m-l-40">
                                     <input class="custom-control-input" type="checkbox" id="flexCheckDefault">
                                     <label class="custom-control-label" for="flexCheckDefault">
                                         Same rate across all locations
                                     </label>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="table-responsive m-t-10" id="collisionform">
                             <table aria-describedby="collision-grid" class="table border table-hover table-striped">

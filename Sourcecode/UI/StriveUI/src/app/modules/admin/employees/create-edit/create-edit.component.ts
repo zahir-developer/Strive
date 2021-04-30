@@ -13,6 +13,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import * as _ from 'underscore';
+import { NullLogger } from '@aspnet/signalr';
 
 declare var $: any;
 @Component({
@@ -259,12 +260,20 @@ export class CreateEditComponent implements OnInit {
             item_text: item.LocationName
           };
         });
-        this.locationList = this.location.map(x => Object.assign({}, x));
+        // this.locationList = this.location.map(x => Object.assign({}, x));
         this.dropDownSetting();
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  selectedLocation(event) {
+    this.locationList.push(event);
+  }
+
+  deselectLocation(event) {
+    this.locationList = this.locationList.filter( item => item.item_id !== event.item_id);
   }
 
   upload() {
@@ -356,7 +365,7 @@ export class CreateEditComponent implements OnInit {
     const employeeRoles = [];
     const employeeAddressObj = {
       employeeAddressId: 0,
-      employeeId: this.employeeId,
+      employeeId: 0,
       address1: this.personalform.value.address,
       address2: null,
       phoneNumber: this.personalform.value.mobile,
@@ -370,7 +379,7 @@ export class CreateEditComponent implements OnInit {
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
         employeeRoleId: 0,
-        employeeId: this.employeeId,
+        employeeId: 0,
         roleId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -378,7 +387,7 @@ export class CreateEditComponent implements OnInit {
     });
     const employeeDetailObj = {
       employeeDetailId: 0,
-      employeeId: this.employeeId,
+      employeeId: 0,
       employeeCode: null,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
@@ -393,7 +402,7 @@ export class CreateEditComponent implements OnInit {
     const locationObj = this.emplistform.value.location.map(item => {
       return {
         employeeLocationId: 0,
-        employeeId: this.employeeId,
+        employeeId: 0,
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -401,7 +410,7 @@ export class CreateEditComponent implements OnInit {
       };
     });
     const employeeObj = {
-      employeeId: this.employeeId,
+      employeeId: 0,
       firstName: this.personalform.value.firstName,
       middleName: null,
       lastName: this.personalform.value.lastName,
@@ -420,7 +429,7 @@ export class CreateEditComponent implements OnInit {
     const documentObj = this.multipleFileUpload.map(item => {
       return {
         employeeDocumentId: 0,
-        employeeId: this.employeeId,
+        employeeId: 0,
         filename: item.fileName,
         filepath: null,
         base64: item.fileUploadDate,
@@ -441,7 +450,7 @@ export class CreateEditComponent implements OnInit {
       locHour.push({
         employeeHourRateId: 0,
         employeeId: 0,
-        roleId: 0,
+        roleId: null,
         locationId: item.locationId,
         hourlyRate: item.ratePerHour,
         isActive: true,
@@ -455,7 +464,7 @@ export class CreateEditComponent implements OnInit {
       employeeRole: employeeRoleObj,
       employeeLocation: locationObj,
       employeeDocument: documentObj,
-      employeeHourRate: locHour
+      employeeHourlyRate: locHour
     };
     this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
