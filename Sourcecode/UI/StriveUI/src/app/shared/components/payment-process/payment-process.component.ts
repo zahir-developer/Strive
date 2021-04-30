@@ -25,6 +25,7 @@ export class PaymentProcessComponent implements OnInit {
   isStateLoaded: boolean;
   selectedCountryId: any;
   tipAmount = '';
+  ccRegex: RegExp = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/; 
   submitted: boolean = false;
   card: string;
   constructor(
@@ -119,9 +120,8 @@ export class PaymentProcessComponent implements OnInit {
 
   process() {
     this.submitted = true;
+  
   if(this.billingForm.invalid && this.paymentForm.invalid){
-    return;
-  }
   this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
     if (this.stateDropdownComponent.stateValueSelection === false) {
@@ -130,6 +130,10 @@ export class PaymentProcessComponent implements OnInit {
     if (this.cityComponent.selectValueCity === false) {
       return;
     }
+  }
+  if(this.billingForm.invalid && this.paymentForm.invalid){
+    return;
+  }
     const obj = {
       status: true,
       tipAmount: this.paymentForm.value.tipAmount
