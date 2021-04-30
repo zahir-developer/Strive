@@ -217,12 +217,16 @@ this.processLabel = "Process";
   }
 
   updateAdjustment() {
+    
     const updateObj = [];
     this.payRollList.forEach(item => {
+      
+     
       updateObj.push({
         id: item.EmployeeId,
         adjustment: +item.Adjustment
       });
+    
     });
     this.spinner.show();
     this.payrollsService.updateAdjustment(updateObj).subscribe(res => {

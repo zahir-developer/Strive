@@ -42,6 +42,7 @@ export class EmployeeCollisionComponent implements OnInit {
   vehicleList: any = [];
   liabilityDetail: any;
   liabilityTypeId: any;
+  liabilityDetailTypeId: any;
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
@@ -122,6 +123,7 @@ export class EmployeeCollisionComponent implements OnInit {
     this.getCode.getCodeByCategory(ApplicationConfig.Category.LiablityDetailType).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
+        this.liabilityDetailTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.adjustment)[0].CodeId;
       }
     }
     , (err) => {
@@ -147,7 +149,7 @@ export class EmployeeCollisionComponent implements OnInit {
     const liabilityDetailObj = {
       liabilityDetailId: this.mode === 'edit' ? this.liabilityDetail.LiabilityDetailId : 0,
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
-      liabilityDetailType: 1,
+      liabilityDetailType: this.liabilityDetailTypeId,
       amount: +this.collisionForm.value.amount,
       paymentType: 1,
       documentPath: null, 
