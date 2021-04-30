@@ -81,10 +81,12 @@
                                                         {{wash.EstimatedTimeOut | date : 'hh:mm:ss aa'}}</td>
                                                     <td>{{wash.ServiceName}}</td>
                                                     <td>
-                                                        <button type="button" class="btn theme-primary-button-color
-                                                         btn-sm pt-0 pb-0 p-l-12 p-r-12" (click)="pay(wash)">
-                                                         <span  [ngStyle]="{'color': wash.paidLabel === 'Paid' ? 'Green' : 'none'}">{{wash.paidLabel}}</span></button>
-                                                    </td>
+                                                        <span >
+                                                        <button type="button"   [ngClass]="wash.paidLabel === 'Paid' ? 'btn btn-success disabled btn-sm pt-0 pb-0 p-l-12 p-r-12' : 'btn theme-primary-button-color btn-sm pt-0 pb-0 p-l-12 p-r-12'" (click)="pay(wash)">
+                                                       {{wash.paidLabel}}</button></span>
+ </td>
+                                                                                                         <!--   class="btn theme-primary-button-color 
+                                                    btn-sm pt-0 pb-0 p-l-12 p-r-12" -->
                                                     <td><i class="mdi mdi-eye-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1" (click)="add('view',wash)" pTooltip="View" tooltipPosition="bottom"></i>
                                                         <i class="mdi mdi-pencil-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1" (click)="add('edit',wash)" pTooltip="Edit" tooltipPosition="bottom"></i>
                                                         <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="delete(wash)" pTooltip="Delete" tooltipPosition="bottom"></i>
