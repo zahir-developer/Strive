@@ -104,10 +104,11 @@ namespace Strive.BusinessLogic.Sales
                                 {
                                     foreach (var item in emailId)
                                     {
+                                        var subject = "Product threshold limit";
                                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                                         keyValues.Add("{{emailId}}", item.Email);
                                         keyValues.Add("{{productName}}", product.ProductName);
-                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues);
+                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues, subject);
                                     }
 
                                 }

@@ -76,10 +76,11 @@ namespace Strive.BusinessLogic
                             var clientSignup = new ClientRal(_tenant).InsertClientDetails(client);
                             if (clientSignup > 0)
                             {
+                                var subject = "welcom To Strive";
                                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
                                 keyValues.Add("{{emailId}}",item.Email);
                                 keyValues.Add("{{password}}",clientLogin.password);
-                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues);
+                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues,subject);
                                // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
                                 clientId.Add(clientSignup);
                             }

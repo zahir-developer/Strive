@@ -51,10 +51,11 @@ namespace Strive.BusinessLogic.GiftCard
             {
                 if (giftcard > 0)
                 {
+                    var subject = "Gift card details";
                     Dictionary<string, string> keyValues = new Dictionary<string, string>();
                     keyValues.Add("{{emailId}}", giftCardDto.GiftCard.Email);
                     keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
-                    comBpl.SendEmail(HtmlTemplate.GiftCardDetails, giftCardDto.GiftCard.Email, keyValues);
+                    comBpl.SendEmail(HtmlTemplate.GiftCardDetails, giftCardDto.GiftCard.Email, keyValues,subject);
                 }
             }
             else
@@ -65,10 +66,11 @@ namespace Strive.BusinessLogic.GiftCard
 
                     if (giftcard > 0)
                     {
+                        var subject = "Gift card details";
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                         keyValues.Add("{{emailId}}", clientemail.FirstName);
                         keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
-                        comBpl.SendEmail(HtmlTemplate.GiftCardDetails, clientemail.Email, keyValues);
+                        comBpl.SendEmail(HtmlTemplate.GiftCardDetails, clientemail.Email, keyValues,subject);
                     }
                 }
             }

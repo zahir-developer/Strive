@@ -38,10 +38,13 @@ namespace Strive.BusinessLogic.TimeClock
                     var emailId = new CommonRal(_tenant).GetEmailIdByRole();
                     foreach (var item in emailId)
                     {
+                        string subject= "Threshold Work Limit";
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                         keyValues.Add("{{Manager/Operator}}", item.FirstName);
                         keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
-                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues);
+                        keyValues.Add("{{totalHours}}", thresholdHours.EmployeeWorkMinutes.ToString());
+                        keyValues.Add("{{locationName}}", thresholdHours.LocationName);
+                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues,subject);
                     }
                 }
             }

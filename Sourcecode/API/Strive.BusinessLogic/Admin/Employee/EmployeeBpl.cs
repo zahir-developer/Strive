@@ -70,22 +70,63 @@ namespace Strive.BusinessLogic
                 var employeeResult = new EmployeeRal(_tenant).AddEmployee(employee);
                 var emailId = new CommonRal(_tenant).GetEmailIdByRole();
                 
-                    if (employeeResult)
+                    if (employeeResult >0)
                 {
-                    //Send Email to employee
+                    var employeeLocationRole = new EmployeeRal(_tenant).GetEmployeeById(employeeResult);
+                    {
+                       
+                        //Send Email to employee
+                        string subject = " Welcome to Strive !";
+                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
 
-                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                    keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
-                    keyValues.Add("{{password}}", createLogin.password);
-                    commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues);
+                        keyValues.Add("{{employeeName}}", employee.Employee.FirstName);
+                        string emplocation = string.Empty;
+                        foreach (var empLoc in employeeLocationRole.EmployeeLocations)
+                        {
+                            emplocation += empLoc.LocationName + ", ";
+                        }
+                        char[] chars = { ',' };
+                        emplocation = emplocation.TrimEnd(chars);
+                        keyValues.Add("{{locationList}}", emplocation);
+                        string emprole = string.Empty;
+                        foreach (var empRole in employeeLocationRole.EmployeeRoles)
+                        {
+                            emprole += empRole.RoleName + ", ";
+                        }
+                        char[] comma = { ',' };
+                        emprole = emprole.TrimEnd(comma);
+                        keyValues.Add("{{roleList}}", emprole);
+                        keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
+                        keyValues.Add("{{password}}", createLogin.password);
+                        commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues, subject);
+                    }
 
                     //Send Email to Manager
-                    foreach (var item in emailId)
                     {
-                        Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
-                        keyValues.Add("{{Manager/Operator}}", item.FirstName);
-                        keyValues.Add("{{employeeName}}", employee.Employee.FirstName);
-                        commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, item.Email, keyValues1);
+                        foreach (var item in emailId)
+                        {
+                            string sub = "New Employee Info!";
+                            Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
+                            keyValues1.Add("{{Manager/Operator}}", item.FirstName);
+                            keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
+                            string location = string.Empty;
+                            foreach (var empLoc in employeeLocationRole.EmployeeLocations)
+                            {
+                                location += empLoc.LocationName + ", ";
+                            }
+                            char[] charsToTrim = { ',' };
+                            location = location.TrimEnd(charsToTrim);
+                            keyValues1.Add("{{locationList}}", location);
+                            string role = string.Empty;
+                            foreach (var empRole in employeeLocationRole.EmployeeRoles)
+                            {
+                                role += empRole.RoleName + ", ";
+                            }
+                            char[] charToTrim = { ',' };
+                            role = role.TrimEnd(charToTrim);
+                            keyValues1.Add("{{roleList}}", role);
+                            commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, item.Email, keyValues1, sub);
+                        }
                     }
 
 
