@@ -12,6 +12,7 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import * as _ from 'underscore';
 
 declare var $: any;
 @Component({
@@ -67,6 +68,14 @@ export class CreateEditComponent implements OnInit {
   isHourlyRate: boolean = false;
   isRequired: boolean = false;
   isChecked: boolean;
+  locationId = '';
+  locationRate = '';
+  locationRateList = [];
+  locationList = [];
+  isHourEdit = 0;
+  selectedLocationHour = '';
+  isRateAllLocation: boolean;
+  errorMessage: boolean;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -80,6 +89,8 @@ export class CreateEditComponent implements OnInit {
     this.isLoading = false;
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
+    this.isRateAllLocation = false;
+    this.errorMessage = false;
     this.getGenderDropdownValue();
     this.getAllRoles();
     this.getLocation();
@@ -96,7 +107,7 @@ export class CreateEditComponent implements OnInit {
       ssn: [''],
       alienNumber: [''],
       permitDate: [''],
-      Tips :['']
+      Tips: ['']
 
     });
     this.emplistform = this.fb.group({
@@ -127,9 +138,9 @@ export class CreateEditComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   employeeDetail() {
@@ -142,9 +153,9 @@ export class CreateEditComponent implements OnInit {
         }
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   getSelectedStateId(event) {
     this.State = event;
@@ -178,14 +189,14 @@ export class CreateEditComponent implements OnInit {
     this.dropDownSetting();
   }
   change(data) {
-   
+
     if (data === true) {
       this.isChecked = true;
-    
-      }
+
+    }
     else {
       this.isChecked = false;
-     
+
     }
   }
   immigrationChange(data) {
@@ -251,11 +262,20 @@ export class CreateEditComponent implements OnInit {
             item_text: item.LocationName
           };
         });
+        // this.locationList = this.location.map(x => Object.assign({}, x));
         this.dropDownSetting();
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  selectedLocation(event) {
+    this.locationList.push(event);
+  }
+
+  deselectLocation(event) {
+    this.locationList = this.locationList.filter(item => item.item_id !== event.item_id);
   }
 
   upload() {
@@ -325,10 +345,10 @@ export class CreateEditComponent implements OnInit {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
-    if (this.stateDropdownComponent.stateValueSelection === false ) {
+    if (this.stateDropdownComponent.stateValueSelection === false) {
       return;
     }
-    if (this.cityComponent.selectValueCity === false ) {
+    if (this.cityComponent.selectValueCity === false) {
       return;
     }
 
@@ -336,28 +356,32 @@ export class CreateEditComponent implements OnInit {
       this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
     }
-    
+
+    if (this.locationRateList.length === 0) {
+      return;
+    }
+
     const sourceObj = [];
     const employeeDetails = [];
     const employeAddress = [];
     const employeeRoles = [];
     const employeeAddressObj = {
       employeeAddressId: 0,
-      employeeId: this.employeeId,
+      employeeId: 0,
       address1: this.personalform.value.address,
       address2: null,
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: null, 
+      phoneNumber2: null,
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null, 
-      country: null 
+      zip: null,
+      country: null
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
         employeeRoleId: 0,
-        employeeId: this.employeeId,
+        employeeId: 0,
         roleId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -365,8 +389,8 @@ export class CreateEditComponent implements OnInit {
     });
     const employeeDetailObj = {
       employeeDetailId: 0,
-      employeeId: this.employeeId,
-      employeeCode: null, 
+      employeeId: 0,
+      employeeCode: null,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
       DetailRate: null,
@@ -380,7 +404,7 @@ export class CreateEditComponent implements OnInit {
     const locationObj = this.emplistform.value.location.map(item => {
       return {
         employeeLocationId: 0,
-        employeeId: this.employeeId,
+        employeeId: 0,
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
@@ -388,18 +412,18 @@ export class CreateEditComponent implements OnInit {
       };
     });
     const employeeObj = {
-      employeeId: this.employeeId,
+      employeeId: 0,
       firstName: this.personalform.value.firstName,
-      middleName: null, 
+      middleName: null,
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: null, 
+      maritalStatus: null,
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: null,  
+      birthDate: null,
       Tips: this.isChecked ? this.isChecked : null,
-     workPermit: this.isDate ? this.personalform.value.permitDate : '',
+      workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
       isDeleted: false,
@@ -407,21 +431,33 @@ export class CreateEditComponent implements OnInit {
     const documentObj = this.multipleFileUpload.map(item => {
       return {
         employeeDocumentId: 0,
-        employeeId: this.employeeId,
+        employeeId: 0,
         filename: item.fileName,
-        filepath: null,  
+        filepath: null,
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: false,
-        password: null, 
+        password: null,
         comments: null,
         isActive: true,
         isDeleted: false,
-        createdBy:  +localStorage.getItem('empId'),
+        createdBy: +localStorage.getItem('empId'),
         createdDate: moment(new Date()).format('YYYY-MM-DD'),
-        updatedBy:  +localStorage.getItem('empId'),
+        updatedBy: +localStorage.getItem('empId'),
         updatedDate: moment(new Date()).format('YYYY-MM-DD')
       };
+    });
+    const locHour = [];
+    this.locationRateList.forEach(item => {
+      locHour.push({
+        employeeHourRateId: 0,
+        employeeId: 0,
+        roleId: null,
+        locationId: item.locationId,
+        hourlyRate: item.ratePerHour,
+        isActive: true,
+        isDeleted: false,
+      });
     });
     const finalObj = {
       employee: employeeObj,
@@ -429,21 +465,22 @@ export class CreateEditComponent implements OnInit {
       employeeAddress: employeeAddressObj,
       employeeRole: employeeRoleObj,
       employeeLocation: locationObj,
-      employeeDocument: documentObj
+      employeeDocument: documentObj,
+      employeeHourlyRate: locHour
     };
     this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 
-        this.toastr.success(MessageConfig.Employee.saved, 'Success' );
+        this.toastr.success(MessageConfig.Employee.saved, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
-        
+
         if (res.status === 'Fail' && res.errorMessage !== null) {
           this.spinner.hide();
 
-          this.toastr.error(res.errorMessage , 'Error!');
+          this.toastr.error(res.errorMessage, 'Error!');
         }
         else {
           this.spinner.hide();
@@ -471,5 +508,76 @@ export class CreateEditComponent implements OnInit {
 
   navigatePage() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  rateAllLocation(event) {
+    this.isRateAllLocation = event.target.checked;
+  }
+
+  addRate() {
+    if (+this.locationRate === 0) {
+      this.errorMessage = true;
+      // this.toastr.info(MessageConfig.Employee.hourlyRate , 'Information!');
+      return;
+    } else {
+      this.errorMessage = false;
+    }
+    console.log(this.isRateAllLocation, 'isRate');
+    if (this.isRateAllLocation) {
+      this.locationList.forEach(item => {
+        this.locationRateList.push({
+          locationId: item.item_id,
+          locationName: item.item_text,
+          ratePerHour: this.locationRate
+        });
+      });
+      this.locationList = [];
+      this.locationRate = '';
+      this.locationId = '';
+    } else {
+      const loc = _.where(this.locationList, { item_id: +this.locationId });
+      if (loc.length > 0) {
+        this.locationList = this.locationList.filter(item => item.item_id !== +this.locationId);
+        const locName = loc[0].item_text;
+        this.locationRateList.push({
+          locationId: loc[0].item_id,
+          locationName: loc[0].item_text,
+          ratePerHour: this.locationRate
+        });
+        this.locationId = '';
+        this.locationRate = '';
+      }
+    }
+  }
+
+  deleteLocationHour(loc) {
+    this.locationRateList = this.locationRateList.filter(item => item.locationId !== loc.locationId);
+    this.locationList.unshift({
+      item_id: loc.locationId,
+      item_text: loc.locationName
+    });
+    this.locationList = _.sortBy(this.locationList, 'item_id');
+  }
+
+  editLocationHour(loc) {
+    this.isHourEdit = loc.locationId;
+    this.selectedLocationHour = loc.ratePerHour;
+  }
+
+  submit(loc) {
+    if (+loc.ratePerHour === 0) {
+      this.errorMessage = true;
+      // this.toastr.info(MessageConfig.Employee.hourlyRate , 'Information!');
+      return;
+    } else {
+      this.errorMessage = false;
+    }
+    this.isHourEdit = 0;
+    this.selectedLocationHour = '';
+  }
+
+  cancelHour(loc) {
+    this.isHourEdit = 0;
+    loc.ratePerHour = this.selectedLocationHour;
   }
 }

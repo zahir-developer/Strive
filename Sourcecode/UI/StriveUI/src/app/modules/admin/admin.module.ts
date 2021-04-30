@@ -18,7 +18,6 @@ import { SetupComponent } from './system-setup/setup.component';
 import { ConfirmationService } from 'primeng/api';
 import { ThemeComponent } from './theme/theme.component';
 import { ThemeService } from 'src/app/shared/common-service/theme.service';
-import { HeaderComponent } from './header/header.component';
 import { CardComponent } from './card/card.component';
 import { CashinRegisterComponent } from './cash-register/cash-register.component';
 import { CloseoutRegisterComponent } from './closeout-register/closeout-register.component';
@@ -80,10 +79,11 @@ import { EditChecklistComponent } from './system-setup/check-list/edit-checklist
 import { AddChecklistComponent } from './system-setup/check-list/add-checklist/add-checklist.component';
 import { TenantSetupComponent } from './tenant-setup/tenant-setup.component';
 import { AddTenantComponent } from './tenant-setup/add-tenant/add-tenant.component';
+import { EmployeeHourlyRateComponent } from './employees/employee-hourly-rate/employee-hourly-rate.component';
 
 @NgModule({
   declarations: [AdminComponent, EmployeesComponent, EmployeeListComponent, CreateEditComponent, SchedulingComponent,
-    ThemeComponent, HeaderComponent, CardComponent, CashinRegisterComponent, CloseoutRegisterComponent,
+    ThemeComponent, CardComponent, CashinRegisterComponent, CloseoutRegisterComponent,
     LocationSetupComponent, LocationCreateEditComponent, LocationSetupListComponent,
     ServiceCreateEditComponent, ServiceSetupListComponent, ServiceSetupComponent, ProductSetupComponent,
     ProductSetupListComponent, ProductCreateEditComponent, VendorSetupComponent, VendorCreateEditComponent,
@@ -95,7 +95,7 @@ import { AddTenantComponent } from './tenant-setup/add-tenant/add-tenant.compone
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent, EditChecklistComponent, AddChecklistComponent, TenantSetupComponent, AddTenantComponent
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent, EditChecklistComponent, AddChecklistComponent, TenantSetupComponent, AddTenantComponent, EmployeeHourlyRateComponent
 ],
   imports: [
     CommonModule,

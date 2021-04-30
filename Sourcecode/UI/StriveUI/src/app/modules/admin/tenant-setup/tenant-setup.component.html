@@ -19,7 +19,8 @@
                                     </span>
                                 </h5>
                                 <div class="pull-right m-t-4 pointer">
-                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10" (click)="addTenant()">Add New
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
+                                        (click)="addTenant()">Add New
                                         Tenant</button>
                                     &nbsp;&nbsp;
                                     <a> <em class="font-size-1-4 fa fa-angle-up"></em>
@@ -56,7 +57,7 @@
                                                     Email
                                                 </th>
                                                 <th scope="col">
-                                                    Modile#
+                                                    Mobile#
                                                 </th>
                                                 <th scope="col">
                                                     Subscrb. Date
@@ -76,17 +77,18 @@
                                             </tr>
                                         </thead>
                                         <tbody class="bodyfix">
-                                            <tr>
-                                                <td>Otto</td>
-                                                <td>ABC Car Wash</td>
-                                                <td>abc@gmail.com</td>
-                                                <td>123-456-7890</td>
-                                                <td>04/04/2021</td>
-                                                <td>04/04/2021</td>
-                                                <td>05/04/2021</td>
-                                                <td>Active</td>
+                                            <tr *ngFor="let tenant of tenantList">
+                                                <td>{{tenant.ClientName}}</td>
+                                                <td>{{tenant.CompanyName}}</td>
+                                                <td>{{tenant.ClientEmail}}</td>
+                                                <td>{{tenant.MobileNumber}}</td>
+                                                <td>{{tenant.SubscriptionDate | date : 'MM/dd/yyyy'}}</td>
+                                                <td>{{tenant.PaymentDate | date : 'MM/dd/yyyy'}}</td>
+                                                <td>{{tenant.ExpiryDate | date : 'MM/dd/yyyy'}}</td>
+                                                <td>{{tenant.IsActive ? 'Active' : 'Inactive'}}</td>
                                                 <td><em class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
-                                                        pTooltip="Edit" tooltipPosition="bottom"></em>
+                                                        pTooltip="Edit" tooltipPosition="bottom"
+                                                        (click)="editTenant(tenant)"></em>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -101,5 +103,6 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <app-add-tenant *ngIf="showDialog"></app-add-tenant>
+    <app-add-tenant *ngIf="showDialog" [isEdit]="isEdit" [tenantDetail]="tenantDetail" [tenantModule]="tenantModule" (closePopup)="closePopup()"
+        (reloadGrid)="reloadGrid()"></app-add-tenant>
 </div>

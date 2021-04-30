@@ -10,7 +10,7 @@ export const ApplicationConfig = {
 
     ChecklistNotification:
     {
-        MaxLength: 7 
+        MaxLength: 7
     },
 
     Sorting:
@@ -120,6 +120,11 @@ export const ApplicationConfig = {
         TermsAndCondition: 5120
     },
     Enum: {
+        JobType:
+        {
+            DetailJob: 'Detail',
+            WashJob: 'Wash'
+        },
         ServiceType:
         {
             WashPackage: 'Wash Package',
@@ -132,50 +137,49 @@ export const ApplicationConfig = {
             AirFresheners: 'Air Fresheners',
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
-            Details: 'Details',
+
             DetailPackage: 'Detail Package',
             GiftCard: 'Gift Card'
         },
     },
-Category : {
-documentType : 'DOCUMENTTYPE',
-all : 'ALL',
-cashRegister: 'CASHREGISTERTYPE',
-storeStatus: 'Storestatus',
-immigrationStatus: 'IMMIGRATIONSTATUS',
-liablityType: 'LIABILITYTYPE',
-documentSubType:'DocumentSubType',
-serviceType: 'SERVICETYPE',
-LiablityDetailType: 'LIABILITYDETAILTYPE',
-CommisionType: "COMMISIONTYPE",
-paymentType : 'PAYMENTTYPE',
-paymentStatus:'PAYMENTSTATUS',
-ClientType: 'CLIENTTYPE',
-ServiceCategory : 'ServiceCategory'
-},
-CodeValue :{
-    EmployeeHandBook: 'EmployeeHandBook',
-    CashIn: 'CashIn',
-    CloseOut: 'CloseOut',
-    Collision: 'Collision',
-    Ads: 'Ads',
-    Other:'Other',
-    TermsAndCondition: 'TermsAndCondition',
-    inProgress: 'In Progress',
-    Comp : 'Comp',
-    Completed : 'Completed',
-    Waiting : 'Waiting',
-    Details : 'Details',
-    Washes:'Washes',
-    additionalServices: 'Additional Services',
-    adjustment: 'Adjustment'
-},
-CodeValueByType : {
-    ProductType: 'ProductType',
-    Size : 'Size',
-    serviceType: 'ServiceType',
-    JobStatus: 'JobStatus'
-},
+    Category: {
+        documentType: 'DOCUMENTTYPE',
+        all: 'ALL',
+        cashRegister: 'CASHREGISTERTYPE',
+        storeStatus: 'Storestatus',
+        immigrationStatus: 'IMMIGRATIONSTATUS',
+        liablityType: 'LIABILITYTYPE',
+        documentSubType: 'DocumentSubType',
+        serviceType: 'SERVICETYPE',
+        LiablityDetailType: 'LIABILITYDETAILTYPE',
+        CommisionType: "COMMISIONTYPE",
+        paymentType: 'PAYMENTTYPE',
+        paymentStatus: 'PAYMENTSTATUS',
+        ClientType: 'CLIENTTYPE',
+        ServiceCategory: 'ServiceCategory'
+    },
+    CodeValue: {
+        EmployeeHandBook: 'EmployeeHandBook',
+        CashIn: 'CashIn',
+        CloseOut: 'CloseOut',
+        Collision: 'Collision',
+        Ads: 'Ads',
+        Other: 'Other',
+        TermsAndCondition: 'TermsAndCondition',
+        inProgress: 'In Progress',
+        Comp: 'Comp',
+        Completed: 'Completed',
+        Waiting: 'Waiting',
+        Details: 'Details',
+        Washes: 'Washes',
+        additionalServices: 'Additional Services',
+    },
+    CodeValueByType: {
+        ProductType: 'ProductType',
+        Size: 'Size',
+        serviceType: 'ServiceType',
+        JobStatus: 'JobStatus'
+    },
     dealTimePeriods: [
         {
             name: 'Monthly',
@@ -226,7 +230,7 @@ CodeValueByType : {
         Operator: 'Operator',
         Cashier: 'Cashier',
         Detailer: 'Detailer',
-        Wash: 'Wash',
+        Wash: 'Washer',
         Client: 'Client'
     },
 

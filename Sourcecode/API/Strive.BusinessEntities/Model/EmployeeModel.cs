@@ -12,5 +12,7 @@ namespace Strive.BusinessEntities.Model
         public List<EmployeeDocument> EmployeeDocument { get; set; }
         public List<EmployeeLiability> EmployeeLiability { get; set; }
         public List<EmployeeRole> EmployeeRole { get; set; }
+
+        public List<EmployeeHourlyRate> EmployeeHourlyRate { get; set; }
     }
 }

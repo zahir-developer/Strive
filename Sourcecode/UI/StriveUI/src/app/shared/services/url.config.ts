@@ -111,7 +111,8 @@ export const UrlConfig = {
     getAllEmployeeDocument: `Admin/Document/GetEmployeeDocument/`,
     getEmployeeDocumentById: `Admin/Document/GetEmployeeDocumentById/`,
     deleteEmployeeDocument: `Admin/Document/DeleteEmployeeDocument/`,
-    getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`
+    getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`,
+    getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`
   },
 
   giftCard: {
@@ -311,10 +312,18 @@ export const UrlConfig = {
     saveTimeClock: `Admin/TimeClock/Save`,
     getTimeClockEmployeeDetails: `Admin/TimeClock/GetTimeClockEmployeeDetails`,
     deleteTimeClockEmployee: `Admin/TimeClock/DeleteTimeClockEmployee`,
-    getClockedInDetailer: `Admin/TimeClock/GetClockedInDetailer/`
+    getClockedInDetailer: `Admin/TimeClock/GetClockedInDetailer`
   },
 
   customerHistory: {
     getCustomerHistory: `Admin/Checkout/GetCustomerHistory`
+  },
+
+  tenantSetup: {
+    getModuleList: `Admin/Tenant/AllModule`,
+    addTenantSetup: `Admin/Tenant/CreateTenant`,
+    getTenantSetupList: `Admin/Tenant/AllTenant`,
+    getTenantDetailById: `Admin/Tenant/TenantById/`,
+    updateTenant: `Admin/Tenant/UpdateTenant`
   }
 };

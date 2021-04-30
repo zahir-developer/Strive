@@ -71,7 +71,7 @@
                                         <div class="icon-btn col-sm" [class.disabled]="enableButton" [ngClass]="{'disable': enableButton, 'enable': !enableButton}" (click)="showPopup? opendiscount(): closediscount()"> <img src="assets/img/Discount.png" alt="" />
                                             <div> Discount </div>
                                         </div>
-                                        <div class="icon-btn col-sm" [class.disabled]="enableButton || !isAccount" [ngClass]="{'disable': enableButton || !isAccount, 'enable': !enableButton || isAccount}" (click)="processAccount()">
+                                        <div class="icon-btn col-sm" [class.disabled]="enableButton || !isAccount || multipleTicketSequence" [ngClass]="{'disable': enableButton || !isAccount || multipleTicketSequence, 'enable': !enableButton || isAccount || !multipleTicketSequence}" (click)="processAccount()">
                                             <img src="assets/img/Account.png" alt="" />
                                             <div> Account </div>
                                         </div>
@@ -82,7 +82,7 @@
                                     <div class="row no-gutters m-t-7 payment">
                                         <button type="button" class="btn col-sm btn-payment actived" [disabled]='enableButton' (click)="addPayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment actived" [disabled]="!enableButton || multipleTicketNumber.length === 0" (click)="deleteItem('', 'rollback')">RollBack</button>
-                                        <button type="button" class="btn col-sm btn-payment actived" [disabled]="!enableButton || multipleTicketNumber.length === 0" (click)="deleteItem('', 'deleteJob')">Del</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" [disabled]="enableButton || multipleTicketNumber.length === 0" (click)="deleteItem('', 'deleteJob')">Del</button>
                                         <button type="button" class="btn col-sm btn-payment actived m-r-0" [disabled]="!enableButton || multipleTicketNumber.length === 0" (click)="print()">Print</button>
                                     </div>
                                     <div id="Giftcardpopup" class="gift-card"> <span class="closebtn" (click)="closegiftcard()">&times;</span>
@@ -326,7 +326,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive m-t-10 scrollbar">
-                                        <table class="table  table-striped">
+                                        <table class="table  table-striped" >
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Item</th>
@@ -339,7 +339,7 @@
                                                 <tr *ngIf="details?.length>0">
                                                     <th scope="row" colspan="5">Details</th>
                                                 </tr>
-                                                <tr *ngFor="let detail of details">
+                                                <tr *ngFor="let detail of details" [attr.disabled]="enableButton? true : null"   >
                                                     <td class="pointer" (dblclick)="editItem(detail)">
                                                         {{detail?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(detail)">{{detail?.Quantity}}</td>
@@ -356,7 +356,7 @@
                                                     <td (dblclick)="editItem(wash)">{{wash?.Quantity}}</td>
                                                     <td (dblclick)="editItem(wash)">
                                                         {{wash?.Quantity * wash?.Price | currency}}</td>
-                                                    <td (dblclick)="editItem(wash)"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(wash, 'deleteItem')"></i></td>
+                                                    <td (dblclick)="editItem(wash)"> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" [disabled]='enableButton' (click)="deleteItem(wash, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <!-- <tr *ngIf="giftCardList.length>0">
                                                     <th scope="row" colspan="5">Gift card</th>
@@ -384,13 +384,13 @@
                                                 <tr *ngIf="upCharges.length > 0">
                                                     <th scope="row" colspan="5">UpCharges </th>
                                                 </tr>
-                                                <tr *ngFor="let upcharge of upCharges">
+                                                <tr *ngFor="let upcharge of upCharges" [readonly]="enableButton" >
                                                     <td class="pointer" (dblclick)="editItem(upcharge)">
                                                         {{upcharge?.ServiceName}}</td>
                                                     <td (dblclick)="editItem(upcharge)">{{upcharge?.Quantity}}</td>
                                                     <td (dblclick)="editItem(upcharge)">
                                                         {{upcharge?.Quantity * upcharge?.Price | currency}}</td>
-                                                    <td> <i class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(upcharge, 'deleteItem')"></i></td>
+                                                    <td> <i [class.disabled]="enableButton ? null: true"  class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1" (click)="deleteItem(upcharge, 'deleteItem')"></i></td>
                                                 </tr>
                                                 <tr *ngIf="outsideServices.length > 0">
                                                     <th scope="row" colspan="5">Outside Services </th>

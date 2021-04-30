@@ -18,6 +18,6 @@
 </ngx-spinner>
 <p-dialog width="30" height="20" styleClass="SessionTimeoutDialog" header="{{header}}" [(visible)]="dialogDisplay" [blockScroll]="true" [resizable]="true"
    [modal]="true" [focusOnShow]="false" [closable]="false" [baseZIndex]="10000">
-  <app-session-logout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header" [countdown]="countdown" (closeDialog)="closeDialog()">
+  <app-session-logout [dialogDisplay]="dialogDisplay" [dialogType]="dialogType" [header]="header"  (closeDialog)="closeDialog()">
   </app-session-logout>
 </p-dialog>

@@ -50,6 +50,7 @@ using Strive.BusinessLogic.BonusSetup;
 using Strive.BusinessLogic.AdSetup;
 using Strive.BusinessLogic.DealSetup;
 using Strive.BusinessLogic.PaymentGateway;
+using Strive.BusinessLogic.SuperAdmin.Tenant;
 
 namespace Admin.API
 {
@@ -101,6 +102,7 @@ namespace Admin.API
             services.AddTransient<IAdSetupBpl, AdSetupBpl>();
             services.AddTransient<IdealSetupBpl, DealSetupBpl>();
             services.AddTransient<IPaymentGatewayBpl, PaymentGatewayBpl>();
+            services.AddTransient<ITenantBpl, TenantBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
