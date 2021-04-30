@@ -85,7 +85,7 @@ export class CreateEditWashesComponent implements OnInit {
   additionalId: any;
   selectclient: any;
   generatedClientId: any;
-  paidLabel: string;
+  paidLabel: string = 'Pay';
   upchargeList: any;
   jobID: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
@@ -183,10 +183,6 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashById() {
-
-    this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
-    this.getClientPastNotes(this.selectedData?.Washes[0]?.ClientId);
-
     if(this.selectedData?.Washes[0].IsPaid == "True"){
       this.paidLabel = 'Paid'
     }
@@ -194,6 +190,10 @@ export class CreateEditWashesComponent implements OnInit {
       this.paidLabel = 'Pay'
     }
 
+    this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
+    this.getClientPastNotes(this.selectedData?.Washes[0]?.ClientId);
+
+   
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
@@ -508,13 +508,13 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const makeModel = JSON.parse(res.resultData);
         this.model = makeModel.Model;
-          this.model = this.model.map(item => {
-          return {
-            id: item.ModelId,
-            name: item.ModelValue
-          };         
-        });
-      }
+              this.model = this.model.map(item => {
+            return {
+              id: item.ModelId,
+              name: item.ModelValue
+            };         
+          });
+        }      
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
@@ -541,7 +541,7 @@ export class CreateEditWashesComponent implements OnInit {
     const id = event.id;
     if(id !== null){
       this.getModel(id)
-    }
+    }    
   }
   getColor() {
     this.wash.getVehicleColor().subscribe(data => {
@@ -1043,7 +1043,14 @@ if(!this.upchargeId || !this.washForm.value.model?.id){
          
           this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
-
+        else{
+                this.washForm.patchValue({
+                  upcharges : '',
+      
+                  upchargeType: ''
+                  
+                })
+              } 
        
         // if(this.upcharges){
         //   this.upcharges.forEach(element => {
