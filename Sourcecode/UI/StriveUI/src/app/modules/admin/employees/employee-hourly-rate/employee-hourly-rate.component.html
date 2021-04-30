@@ -9,16 +9,19 @@
             <table aria-describedby="collision-grid" class="table border table-hover table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Roles</th>
+                        <!-- <th scope="col">Roles</th> -->
                         <th scope="col">Location</th>
                         <th scope="col">Rate Per Hour (in $)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr *ngFor="let employee of employeeHourlyRateList">
+                        <!-- <td>{{employee.LocationName}}</td> -->
+                        <td>{{employee.LocationName}}</td>
+                        <td>{{employee.HourlyRate | currency}}</td>
+                    </tr>
+                    <tr *ngIf="employeeHourlyRateList.length === 0">
+                        <td colspan="2" class="text-center">No Record Found</td>
                     </tr>
                 </tbody>
             </table>

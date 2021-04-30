@@ -211,8 +211,9 @@ export class CreateEditWashesComponent implements OnInit {
       airFreshners: this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId ?
         this.selectedData.WashItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0]?.ServiceId : '',
     });
-    this.getModel(this.selectedData.Washes[0].Make)
-   
+    this.getModel(this.selectedData.Washes[0].Make);
+    this.timeInDate = this.selectedData.Washes[0].TimeIn;
+    this.timeOutDate = this.selectedData.Washes[0].EstimatedTimeOut;
     this.clientId = this.selectedData?.Washes[0]?.ClientId;
     if (this.selectedData?.Washes[0]?.ClientName.toLowerCase().startsWith('drive')) {
       this.washForm.get('vehicle').disable();

@@ -25,7 +25,8 @@ export const MessageConfig = {
       Delete: 'Employee deleted successfully !',
       saved: 'Employee saved successfully !',
       role: 'Current role in location cannot be removed',
-      location: 'Current logged in location cannot be removed'
+      location: 'Current logged in location cannot be removed',
+      hourlyRate: 'Hourly Rate value should not be 0'
    },
    Customer:
    {
