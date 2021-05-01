@@ -21,12 +21,17 @@ export class ServiceListComponent implements OnInit {
   page = 1;
   pageSize = 10;
   collectionSize: number;
+  Date: any;
   constructor(
     private activeModal: NgbActiveModal
   ) { }
 
   ngOnInit(): void {
     this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
+    if(this.historyGrid.length > 0){
+      this.Date = this.historyGrid[0]?.Date;
+    }
+   
   }
 
   closeHistoryModel() {

@@ -79,7 +79,7 @@ export class ProductCreateEditComponent implements OnInit {
       name: ['', Validators.required],
       size: ['',],
       quantity: ['', Validators.required],
-      cost: ['',],
+      cost: ['', Validators.required],
       taxable: ['',],
       taxAmount: ['',],
       status: ['',],

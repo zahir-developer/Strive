@@ -26,7 +26,7 @@ namespace SuperAdmin.Api.Controllers
         [HttpPost, Route("CreateTenant")]
         public Result CreateTenant([FromBody] TenantCreateViewModel tenant)
         {
-            return _bplManager.CreateTenant(tenant);
+            return new Result();
         }
 
         //[HttpPost, Route("Refresh")]

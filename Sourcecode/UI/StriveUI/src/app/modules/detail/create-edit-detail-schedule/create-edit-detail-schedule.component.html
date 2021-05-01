@@ -275,8 +275,8 @@
                     <div class="row">
                         <span class="col-2"></span>
                         <span class="col-10" style="padding-left: 5px !important;">
-                            <button type="button" class="btn theme-primary-button-color col-3"
-                                [disabled]="!isEdit" (click)="pay()" ><span [ngStyle]="{'color': paidLabel === 'Paid' ? 'Green' : 'none'}">{{paidLabel}}</span></button>&nbsp;
+                            <button type="button" 
+                                [disabled]="!isEdit" (click)="pay()" [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled col-3' : 'btn theme-primary-button-color col-3'">{{paidLabel}}</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
                                 [disabled]="isView">Save</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"

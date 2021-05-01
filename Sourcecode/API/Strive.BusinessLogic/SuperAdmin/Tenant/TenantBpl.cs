@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using Strive.BusinessEntities.Client;
+using Strive.BusinessEntities;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
@@ -18,27 +18,32 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
     {
         public TenantBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public Result CreateTenant(TenantCreateViewModel tenant)
+        public Result CreateTenant(TenantCreateViewModel tenant, string connection)
         {
             try
             {
                 var common = new CommonBpl(_cache, _tenant);
-                var newPassword = common.RandomString(6);
-                var hashPassword = Pass.Hash(newPassword);
+                string newPassword = common.RandomString(6);
+                string hashPassword = Pass.Hash(newPassword);
                 tenant.TenantViewModel.PasswordHash = hashPassword;
-                var saveStatus = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
+
+                string tenantGuid = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
+
+                //Change Tenant Connection
+                Guid guid = new Guid(tenantGuid);
+                TenantSchema tSchema = new TenantRal(_tenant, true).TenantAdminLogin(guid);
+                CacheLogin(tSchema, connection);
 
                 //Add Module
                 var tenantModule = new TenantRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
 
+                //Send email
                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
                 keyValues.Add("{{emailId}}", tenant.TenantViewModel.TenantEmail);
                 keyValues.Add("{{password}}", newPassword);
+                common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantViewModel.TenantEmail, newPassword);
 
-
-                //common.SendLoginCreationEmail(HtmlTemplate.SuperAdmin, tenant.TenantEmail, newPassword);
-
-                _resultContent.Add(saveStatus.WithName("SaveStatus"));
+                _resultContent.Add(true.WithName("SaveStatus"));
                 _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
@@ -70,6 +75,11 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
 
             return ResultWrap(new TenantRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
         }
+        private void CacheLogin(TenantSchema tSchema, string tcon)
+        {
+            SetTenantSchematoCache(tSchema);
+            _tenant.SetConnection(GetTenantConnectionString(tSchema, tcon));
 
+        }
     }
 }

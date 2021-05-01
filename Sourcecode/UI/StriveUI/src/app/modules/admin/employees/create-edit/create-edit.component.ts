@@ -74,7 +74,8 @@ export class CreateEditComponent implements OnInit {
   locationList = [];
   isHourEdit = 0;
   selectedLocationHour = '';
-
+  isRateAllLocation: boolean;
+  errorMessage: boolean;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -88,6 +89,8 @@ export class CreateEditComponent implements OnInit {
     this.isLoading = false;
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
+    this.isRateAllLocation = false;
+    this.errorMessage = false;
     this.getGenderDropdownValue();
     this.getAllRoles();
     this.getLocation();
@@ -272,7 +275,7 @@ export class CreateEditComponent implements OnInit {
   }
 
   deselectLocation(event) {
-    this.locationList = this.locationList.filter( item => item.item_id !== event.item_id);
+    this.locationList = this.locationList.filter(item => item.item_id !== event.item_id);
   }
 
   upload() {
@@ -463,7 +466,7 @@ export class CreateEditComponent implements OnInit {
       employeeRole: employeeRoleObj,
       employeeLocation: locationObj,
       employeeDocument: documentObj,
-      employeeHourRate: locHour
+      employeeHourlyRate: locHour
     };
     this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
@@ -507,19 +510,43 @@ export class CreateEditComponent implements OnInit {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 
+  rateAllLocation(event) {
+    this.isRateAllLocation = event.target.checked;
+  }
 
   addRate() {
-    const loc = _.where(this.locationList, { item_id: +this.locationId });
-    if (loc.length > 0) {
-      this.locationList = this.locationList.filter(item => item.item_id !== +this.locationId);
-      const locName = loc[0].item_text;
-      this.locationRateList.push({
-        locationId: loc[0].item_id,
-        locationName: loc[0].item_text,
-        ratePerHour: this.locationRate
+    if (+this.locationRate === 0) {
+      this.errorMessage = true;
+      // this.toastr.info(MessageConfig.Employee.hourlyRate , 'Information!');
+      return;
+    } else {
+      this.errorMessage = false;
+    }
+    console.log(this.isRateAllLocation, 'isRate');
+    if (this.isRateAllLocation) {
+      this.locationList.forEach(item => {
+        this.locationRateList.push({
+          locationId: item.item_id,
+          locationName: item.item_text,
+          ratePerHour: this.locationRate
+        });
       });
-      this.locationId = '';
+      this.locationList = [];
       this.locationRate = '';
+      this.locationId = '';
+    } else {
+      const loc = _.where(this.locationList, { item_id: +this.locationId });
+      if (loc.length > 0) {
+        this.locationList = this.locationList.filter(item => item.item_id !== +this.locationId);
+        const locName = loc[0].item_text;
+        this.locationRateList.push({
+          locationId: loc[0].item_id,
+          locationName: loc[0].item_text,
+          ratePerHour: this.locationRate
+        });
+        this.locationId = '';
+        this.locationRate = '';
+      }
     }
   }
 
@@ -537,7 +564,14 @@ export class CreateEditComponent implements OnInit {
     this.selectedLocationHour = loc.ratePerHour;
   }
 
-  submit() {
+  submit(loc) {
+    if (+loc.ratePerHour === 0) {
+      this.errorMessage = true;
+      // this.toastr.info(MessageConfig.Employee.hourlyRate , 'Information!');
+      return;
+    } else {
+      this.errorMessage = false;
+    }
     this.isHourEdit = 0;
     this.selectedLocationHour = '';
   }
