@@ -317,6 +317,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       endDate: this.endDate,
       locationId: this.locationId ? this.locationId : 0
     };
+    $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+    $('.fc-day-header').prop('title', 'No of Forecasted Cars: 4\nNo of Forecasted Hours: 120\nNo of Current Employees: 10\nNo of Current Hours: 24');
     this.spinner.show();
     this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
@@ -520,7 +522,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         // this.empList = JSON.parse(res.resultData);
         const seachList = JSON.parse(res.resultData);
         this.empList = seachList.EmployeeName;
-        this.empList.forEach( item => {
+        this.empList.forEach(item => {
           item.employeeName = item.FirstName + '' + item.LastName;
         });
         this.clonedEmpList = this.empList.map(x => Object.assign({}, x));

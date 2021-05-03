@@ -173,6 +173,7 @@ export const ApplicationConfig = {
         Details: 'Details',
         Washes: 'Washes',
         additionalServices: 'Additional Services',
+        adjustment: 'Adjustment'
     },
     CodeValueByType: {
         ProductType: 'ProductType',
