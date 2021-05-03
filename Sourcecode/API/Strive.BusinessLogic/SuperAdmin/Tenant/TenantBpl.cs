@@ -81,5 +81,15 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
             _tenant.SetConnection(GetTenantConnectionString(tSchema, tcon));
 
         }
+        public Result GetState()
+        {
+            return ResultWrap(new TenantRal(_tenant, true).GetState, "Allstate");
+        }
+        public Result GetCityByStateId(int stateId)
+        {
+            return ResultWrap(new TenantRal(_tenant, true).GetCityByStateId, stateId, "cities");
+
+        }
+
     }
 }

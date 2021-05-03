@@ -11,5 +11,7 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         TenantModulesViewModel GetTenantById(int id);
         Result GetAllModule();
         Result UpdateTenant(TenantCreateViewModel tenant);
+        Result GetState();
+        Result GetCityByStateId(int id);
     }
 }
