@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="form-group col-lg-6">
             <label for="inputName"> Name<span class="required">*</span></label>
-            <input type="text" maxlength="60" class="form-control" formControlName="name" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <input type="text" maxlength="60" class="form-control" formControlName="name"  pInputText pKeyFilter="alphanum" placeholder="Terms & Condition Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
             <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                 <div *ngIf="f.name.errors.required">Name is required</div>
             </div>

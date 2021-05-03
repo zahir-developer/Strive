@@ -9,7 +9,7 @@
                     <div class="col-4 form-group">
                         Customer Name
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <input type="text" name = "customerName" class="form-control" 
                         formControlName="customerName">
                        
@@ -21,7 +21,7 @@
                     <div class="col-4 form-group">
                         Tip Amount<span class="required">*</span>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <input type="text" name = "tipAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted  && payment.tipAmount.errors }" 
                         formControlName="tipAmount">
                         <div *ngIf="submitted  && payment.tipAmount.errors" class="invalid-feedback">
@@ -52,21 +52,24 @@
                     <div class="col-4 form-group">
                         Card Number<span class="required">*</span>
                     </div>
-                    <div class="col-5">
-                        <input type="text"  name = "cardNumber" class="form-control" (change) = "getCardType($event)" [ngClass]="{ 'is-invalid': submitted  && payment.cardNumber.errors }" 
+                    <div class="col-4">
+                        <input type="text"  name = "cardNumber" maxlength="16"
+                      placeholder="1234-1234-1234-1234" class="form-control" 
+                        (change) = "getCardType($event.target.value)" [ngClass]="{ 'is-invalid': submitted  && payment.cardNumber.errors }" 
                         formControlName="cardNumber">
                         <div *ngIf="submitted  && payment.cardNumber.errors" class="invalid-feedback">
                             <div *ngIf="payment.cardNumber.errors.required">Card Number is required</div>
                         </div>
-                        <div *ngIf= "card == 'AMEX'"><i class="fab fa-cc-amex"></i></div>
-                        <div *ngIf= "card == 'Discover'"><i class="fab fa-cc-discover"></i></div>
-                        <div *ngIf= "card == 'Diners'"><i class="fab fa-cc-diners-club"></i></div>
-                        <div *ngIf= "card == 'Diners - Carte Blanche'"><i class="fab fa-cc-diners-club"></i></div>
-                        <div *ngIf= "card == 'JCB'"><i class="fab fa-cc-jcb"></i></div>
-                        <div *ngIf= "card == 'Mastercard'"><i class="fab fa-cc-mastercard"></i></div>
-
-                        <div *ngIf= "card == 'Visa'"><i class="fab fa-cc-visa"></i></div>
-                    </div>
+                            </div>
+                            <div class="col-3" *ngIf= "card == 'AMEX'"><i class="fa  fa-cc-amex" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                            <div class="col-3" *ngIf= "card == 'Discover'"><i class="fa fa-cc-discover" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                            <div class="col-3" *ngIf= "card == 'Diners'"><i class="fa fa-cc-diners" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                            <div class="col-3" *ngIf= "card == 'Diners - Carte Blanche'"><i class="fa fa-cc-diners-club" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                            <div class="col-3" *ngIf= "card == 'JCB'"><i class="fa fa-cc-jcb" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                            <div class="col-3" *ngIf= "card == 'Mastercard'"><i class="fa fa-cc-mastercard" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+    
+                            <div class="col-3" *ngIf= "card == 'Visa'"><i class="fa fa-cc-visa" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                   
                 </div>
                 <br>
                 <div class="row">
@@ -74,9 +77,11 @@
                     <div class="col-4 form-group">
                         Expiration Date<span class="required">*</span>
                     </div>
-                    <div class="col-5">
-                        <input type="text"  name = "expiryDate" class="form-control" [ngClass]="{ 'is-invalid': submitted  && payment.expiryDate.errors }" 
-                        formControlName="expiryDate">
+                    <div class="col-4">
+                        <p-inputMask mask="99/99/9999" size="26"  name = "expiryDate" 
+                        [ngClass]="{ 'is-invalid': submitted  && payment.expiryDate.errors }" 
+                        formControlName="expiryDate" placeholder="99/99/9999" slotChar="mm/dd/yyyy"></p-inputMask>
+                       
                         <div *ngIf="submitted  && payment.expiryDate.errors" class="invalid-feedback">
                             <div *ngIf="payment.expiryDate.errors.required">Expiration Date is required</div>
                         </div>
@@ -88,8 +93,8 @@
                     <div class="col-4 form-group">
                     Security Code(CVV)<span class="required">*</span>
                     </div>
-                    <div class="col-5">
-                        <input type="text"  name = "ccv" class="form-control" [ngClass]="{ 'is-invalid': submitted  && payment.ccv.errors }" 
+                    <div class="col-4">
+                        <input type="text" maxlength="5"  name = "ccv" class="form-control" [ngClass]="{ 'is-invalid': submitted  && payment.ccv.errors }" 
                         formControlName="ccv">
                         <div *ngIf="submitted  && payment.ccv.errors" class="invalid-feedback">
                             <div *ngIf="payment.ccv.errors.required">Security Code(CVV) is required</div>

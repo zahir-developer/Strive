@@ -219,6 +219,7 @@ export class PayrollsGridComponent implements OnInit {
   }
 
   updateAdjustment() {
+    
     const updateObj = [];
 
 

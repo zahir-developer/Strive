@@ -381,13 +381,14 @@ namespace Strive.BusinessLogic.Common
             SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
-        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues)
+        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues,string sub)
         {
             try
             {
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
+                SendMail(emailId, emailContent, sub);
 
-                SendMail(emailId, emailContent, "Welcome to Strive !!!");
+                //SendMail(emailId, emailContent, "Welcome to Strive !!!");
 
             }
             catch (Exception ex)
@@ -471,6 +472,8 @@ namespace Strive.BusinessLogic.Common
         public string GetMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
         {
             string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
+
+
 
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 

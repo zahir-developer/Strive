@@ -111,7 +111,9 @@ export class VendorCreateEditComponent implements OnInit {
   // Add/Update Vendor
   submit() {
     this.submitted = true;
-   
+    if (this.errorMessage ===  true) {
+      return;
+    }
     if (this.vendorSetupForm.invalid) {
     
       return;
@@ -121,9 +123,7 @@ export class VendorCreateEditComponent implements OnInit {
 
       return;
     }
-    if (this.errorMessage ==  true) {
-      return;
-    }
+  
     const vendorObj = {
       vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       vin: this.vendorSetupForm.value.vin,

@@ -26,12 +26,12 @@ namespace Strive.BusinessLogic.Checkout
         }
         public Result UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
         {
-
+            var subject = "Vehicle is oh Hold!!";
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
             keyValues.Add("{{emailId}}", checkoutHoldDto.emailId);
             keyValues.Add("{{ticketNumber}}", checkoutHoldDto.TicketNumber);
 
-            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.VehicleHold, checkoutHoldDto.emailId, keyValues);
+            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.VehicleHold, checkoutHoldDto.emailId, keyValues,subject);
 
             
 
