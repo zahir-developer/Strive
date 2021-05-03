@@ -68,13 +68,14 @@ namespace Strive.BusinessLogic
 
                 //Add Employee
                 var employeeResult = new EmployeeRal(_tenant).AddEmployee(employee);
-                var emailId = new CommonRal(_tenant).GetEmailIdByRole();
-                
-                    if (employeeResult >0)
+
+
+
+                if (employeeResult > 0)
                 {
                     var employeeLocationRole = new EmployeeRal(_tenant).GetEmployeeById(employeeResult);
                     {
-                       
+
                         //Send Email to employee
                         string subject = " Welcome to Strive !";
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
@@ -103,41 +104,48 @@ namespace Strive.BusinessLogic
 
                     //Send Email to Manager
                     {
-                        foreach (var item in emailId)
+                        foreach (var item in employee.EmployeeLocation)
                         {
-                            string sub = "New Employee Info!";
-                            Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
-                            keyValues1.Add("{{Manager/Operator}}", item.FirstName);
-                            keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
-                            string location = string.Empty;
-                            foreach (var empLoc in employeeLocationRole.EmployeeLocations)
+                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(item.LocationId);
+
+
+                            foreach (var email in emailId)
                             {
-                                location += empLoc.LocationName + ", ";
+                                string sub = "New Employee Info!";
+                                Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
+                                keyValues1.Add("{{Manager/Operator}}", email.FirstName);
+                                keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
+                                string location = string.Empty;
+                                foreach (var empLoc in employeeLocationRole.EmployeeLocations)
+                                {
+                                    location += empLoc.LocationName + ", ";
+                                }
+                                char[] charsToTrim = { ',' };
+                                location = location.TrimEnd(charsToTrim);
+                                keyValues1.Add("{{locationList}}", location);
+                                string role = string.Empty;
+                                foreach (var empRole in employeeLocationRole.EmployeeRoles)
+                                {
+                                    role += empRole.RoleName + ", ";
+                                }
+                                char[] charToTrim = { ',' };
+                                role = role.TrimEnd(charToTrim);
+                                keyValues1.Add("{{roleList}}", role);
+                                commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, email.Email, keyValues1, sub);
                             }
-                            char[] charsToTrim = { ',' };
-                            location = location.TrimEnd(charsToTrim);
-                            keyValues1.Add("{{locationList}}", location);
-                            string role = string.Empty;
-                            foreach (var empRole in employeeLocationRole.EmployeeRoles)
-                            {
-                                role += empRole.RoleName + ", ";
-                            }
-                            char[] charToTrim = { ',' };
-                            role = role.TrimEnd(charToTrim);
-                            keyValues1.Add("{{roleList}}", role);
-                            commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, item.Email, keyValues1, sub);
                         }
+
+
+                        success = true;
                     }
-
-
-                    success = true;
                 }
-                else if(createLogin.authId > 0)
+
+                else if (createLogin.authId > 0)
                 {
                     //Delete AuthMaster record from AuthDatabase
                     commonBpl.DeleteUser(createLogin.authId);
                 }
-                
+
             }
 
             return ResultWrap(success, "Status");
