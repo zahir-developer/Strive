@@ -255,6 +255,7 @@ export const UrlConfig = {
     getSchedule: `Admin/Schedule/GetSchedule`,
     deleteSchedule: `Admin/Schedule/DeleteSchedule`,
     getScheduleById: `Admin/Schedule/GetScheduleById`,
+    getScheduleAndForcasted: `Admin/Schedule/GetScheduleAndForcasted`
   },
   vendor: {
     getALLVendorName: `Admin/Vendor/GetAllVendorName`,

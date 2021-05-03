@@ -22,5 +22,8 @@ export class ScheduleService {
   getScheduleById(id) {
     return this.http.get(`${UrlConfig.schedule.getScheduleById}`, {params: {scheduleId: id}});
   }
+  getScheduleAndForcasted(getScheduleObj) {
+    return this.http.post(`${UrlConfig.schedule.getScheduleAndForcasted}`, getScheduleObj);
+  }
 }
 
