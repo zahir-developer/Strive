@@ -257,16 +257,28 @@ export class AddTenantComponent implements OnInit {
       tenantModuleViewModel: module
     };
     if (this.isEdit) {
+      this.spinner.show();
       this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
           this.navigate();
         }
+      }, (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
+      this.spinner.show();
       this.tenantSetupService.addTenant(finalObj).subscribe(res => {
+        this.spinner.hide();
         if (res.status === 'Success') {
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
           this.navigate();
         }
+      }, (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
   }

@@ -305,7 +305,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     console.log(data, 'washservice')
     this.isDetails = true;
     if (this.isEdit) {
-
       this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = true;
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
@@ -315,19 +314,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
-          if (serviceWash[0].IsCeramic == false) {
+          if (serviceWash[0].IsCeramic === false) {
             console.log(this.additionalService[0], 'this.additionalService[0]')
             this.isCeramic = false;
-            this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
-  
-            this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+            this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+            this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
           }
           else {
             this.isCeramic = true;
-            this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
-  
-            this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
-  
+            this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+            this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
           }
         }
       }
@@ -335,28 +331,24 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
       const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
       if (serviceWash.length !== 0) {
-
         this.additionalService.push(serviceWash[0]);
-        if (serviceWash[0].IsCeramic == false) {
+        if (serviceWash[0].IsCeramic === false) {
           console.log(this.additionalService[0], 'this.additionalService[0]')
           this.isCeramic = false;
-          this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
-
-          this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+          this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+          this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
         }
         else {
           this.isCeramic = true;
-          this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
-
-          this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
-
+          this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+          this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
         }
       }
     }
 
     this.detailForm.patchValue({ upcharges: +data ? +data : '' });
     this.detailForm.patchValue({ upchargeType: +data ? +data : '' });
-    this.getUpcharge()
+    this.getUpcharge();
   }
 
   outSideService(data) {
@@ -385,23 +377,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   upchargeService(data) {
-    if (this.isCeramic == false) {
-
-
-      this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
-
-      this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+    if (this.isCeramic === false) {
+      this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+      this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
     }
     else {
-
-      this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
-
-      this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
-
+      this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+      this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
     }
     if (this.isEdit) {
-
-
       if (this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0] !== undefined) {
         this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = true;
       }
@@ -412,7 +396,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
         const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
         if (serviceUpcharge.length !== 0) {
-
           this.additionalService.push(serviceUpcharge[0]);
         }
       }
@@ -423,8 +406,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-
-
     this.detailForm.patchValue({ upcharges: +data ? +data : '' });
     this.detailForm.patchValue({ upchargeType: +data ? +data : '' });
   }
@@ -1041,7 +1022,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         jobId: element.JobId ? element.JobId : this.jobID,
         serviceId: element.ServiceId,
         isActive: true,
-        isDeleted: false,
+        isDeleted: element.IsDeleted ? element.IsDeleted : false,
         commission: 0,
         price: element.Price,
         quantity: 1,
@@ -1460,43 +1441,36 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   selectedModel(event) {
     const id = event.id;
     if (id !== null) {
-      this.getModel(id)
+      this.getModel(id);
     }
   }
   // To get upcharge
   getUpcharge() {
     if ((!this.ceramicUpchargeId || !this.upchargeId) && !this.detailForm.value.model?.id) {
-      return
+      return;
     }
     const obj = {
       "upchargeServiceType": this.isCeramic === false ? this.upchargeId : this.ceramicUpchargeId,
       "modelId": this.detailForm.value.model?.id
-    }
+    };
 
     this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
         this.upchargeList = jobtype.upcharge;
-        if(this.upchargeList?.length > 0){
+        if (this.upchargeList?.length > 0) {
           this.detailForm.patchValue({
-            upcharges : this.upchargeList[this.upchargeList.length - 1].ServiceId,
-  
-            upchargeType:  this.upchargeList[this.upchargeList.length - 1].ServiceId
-            
-          })
-         
+            upcharges: this.upchargeList[this.upchargeList.length - 1].ServiceId,
+            upchargeType: this.upchargeList[this.upchargeList.length - 1].ServiceId
+          });
           this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
-
-        else{
+        else {
           this.detailForm.patchValue({
-            upcharges : '',
-
+            upcharges: '',
             upchargeType: ''
-            
-          })
-        } 
-
+          });
+        }
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
