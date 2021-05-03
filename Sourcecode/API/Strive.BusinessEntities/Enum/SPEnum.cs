@@ -283,6 +283,7 @@ namespace Strive.BusinessEntities
             USPGETSCHEDULEBYSCHEDULEID,
             uspDeleteSchedule,
             USPGETSCHEDULE,
+            USPGETSCHEDULEANDFORCASTED,
         }
 
         public enum Sales
