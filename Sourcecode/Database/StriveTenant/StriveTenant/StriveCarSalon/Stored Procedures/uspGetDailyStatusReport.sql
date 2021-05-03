@@ -3,7 +3,7 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [StriveCarSalon].[uspGetDailyStatusReport] -- strivecarsalon.uspGetDailyStatusReport 2034,'2021-01-04',0
+CREATE PROCEDURE [StriveCarSalon].[uspGetDailyStatusReport] -- strivecarsalon.uspGetDailyStatusReport 20,'2021-03-15',0
 	@LocationId INT,
 	@Date datetime,
 	@ClientId INT
@@ -16,7 +16,7 @@ INNER join tblJobItem JI on J.JobId = JI.JobId
 INNER join tblClient Cl on j.ClientId= Cl.ClientId
 INNER join tblService S on S.ServiceId = JI.ServiceId
 INNER join GetTable('JobType') JT on JT.valueId = J.JobType-- and GT.valuedesc = 'Completed'
-INNER join GetTable('ServiceType') ST on ST.valueId = S.ServiceType AND (ST.valuedesc = 'Washes' OR ST.valuedesc = 'Details')-- and GT.valuedesc = 'Completed'
+INNER join GetTable('ServiceType') ST on ST.valueId = S.ServiceType AND (ST.valuedesc = 'Wash Package' OR ST.valuedesc = 'Details')-- and GT.valuedesc = 'Completed'
 where  JobDate = @Date  and (J.LocationId = @LocationId or @LocationId = 0 )and( j.ClientId =@ClientId or @ClientId=0)
 group by S.ServiceName, JT.valueid, JT.valuedesc, JobDate,j.ClientId,j.LocationId
 

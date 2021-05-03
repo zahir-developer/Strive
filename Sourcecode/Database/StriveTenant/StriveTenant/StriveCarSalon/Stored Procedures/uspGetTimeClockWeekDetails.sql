@@ -78,7 +78,8 @@ AND  ISNULL(tblTC.IsDeleted,0) = 0
 
 
 -- Detail Amount Sum
-DROP TABLE IF EXISTS #DetailAmount
+
+/*DROP TABLE IF EXISTS #DetailAmount
 
 SELECT 
 	  tblJI.EmployeeId
@@ -95,6 +96,16 @@ INNER JOIN
 ON		tblCV.id=tblJ.JobType
 WHERE tblJI.EmployeeId = @EmployeeId AND tblJ.LocationId=@LocationId AND tblJ.JobDate BETWEEN @StartDate AND @EndDate AND tblCV.CodeValue='Detail' 
 GROUP BY tblJI.EmployeeId
+*/
+
+--Detail Rate
+
+DROP TABLE IF EXISTS #DetailCommission
+
+Select jse.EmployeeId, SUM(jse.CommissionAmount) as CommissionAmount INTO #DetailCommission from tblJobServiceEmployee jse
+INNER JOIN tblTimeClock tc on tc.EmployeeId = jse.EmployeeId
+where (tc.EventDate BETWEEN @StartDate AND @EndDate) AND (jse.CreatedDate BETWEEN @StartDate AND @EndDate)
+GROUP BY jse.EmployeeId
 
 -- Rate Calculation
 DROP TABLE IF EXISTS #Rate
@@ -167,12 +178,14 @@ SELECT
 	ER.*,
 	R.WashRate AS WashRate,
 	R.DetailRate AS DetailRate,
-	(ER.TotalWashHours* r.WashRate)  AS [WashAmount],
+	(ER.TotalWashHours * r.WashRate)  AS [WashAmount],
+	DC.CommissionAmount AS DetailAmount,
 	--(ER.TotalDetaileHours* r.DetailRate) AS [Detail Total],
-	CASE	WHEN R.[Detail Desc]='Hourly Rate' THEN (ER.TotalDetailHours* r.DetailRate) 
-			WHEN R.[Detail Desc]='Flat Fee' THEN r.DetailRate
-			WHEN R.[Detail Desc]='Percentage' THEN ((DA.DetailAmount* r.DetailRate)/100)
-			END AS [DetailAmount],
+	--CASE	WHEN R.[Detail Desc]='Hourly Rate' THEN (ER.TotalDetailHours* r.DetailRate) 
+	--		WHEN R.[Detail Desc]='Flat Fee' THEN r.DetailRate
+	--		WHEN R.[Detail Desc]='Percentage' THEN ((DA.DetailAmount* r.DetailRate)/100)
+	--		END AS [DetailAmount],
+	
 	((ER.OverTimeHours*1.5)*r.WashRate) AS OverTimePay, ISNULL(@CollisionAmount,'0.00')  AS CollisionAmount
 INTO 
 	#FinResult
@@ -182,8 +195,8 @@ LEFT JOIN
 	#Rate R
 ON		R.EmployeeId=ER.EmployeeId
 LEFT JOIN 
-	#DetailAmount DA
-ON		DA.EmployeeId=ER.EmployeeId
+	#DetailCommission DC
+ON		DC.EmployeeId=ER.EmployeeId
 
 -- Result
 

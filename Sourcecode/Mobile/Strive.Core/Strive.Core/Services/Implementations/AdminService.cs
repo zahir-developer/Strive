@@ -182,7 +182,7 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
         }
-        public async Task<GeneralResponse> AddCustomerVehicle(AddCustomerVehicle addVehicle)
+        public async Task<GeneralResponse> AddCustomerVehicle(CustomerVehicles addVehicle)
         {
             return await _restClient.MakeApiCall<GeneralResponse>(ApiUtils.URL_ADD_VEHICLE_INFO, HttpMethod.Post, addVehicle);
         }
@@ -239,9 +239,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_ADD, HttpMethod.Post, documents);
         }
 
-        public async Task<CheckOutVehicleDetails> CheckOutVehicleDetails(int EmployeeID)
+        public async Task<CheckoutDetails> CheckOutVehicleDetails(Models.Employee.Messenger.MessengerContacts.GetAllEmployeeDetail_Request CheckoutInfo)
         {
-            return await _restClient.MakeApiCall<CheckOutVehicleDetails>(ApiUtils.URL_CHECKOUT_DETAILS + EmployeeID, HttpMethod.Get);
+            return await _restClient.MakeApiCall<CheckoutDetails>(ApiUtils.URL_CHECKOUT_DETAILS, HttpMethod.Post, CheckoutInfo);
         }
 
         public async Task<ScheduleModel> GetSchedulePastService(int clientID)
@@ -249,9 +249,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<ScheduleModel>(ApiUtils.URL_SCHEDULE_PAST_SERVICE+ "?ClientId=" +clientID, HttpMethod.Get);
         }
 
-        public async Task<AvailableScheduleServicesModel> GetScheduleServices()
+        public async Task<AvailableServicesModel> GetScheduleServices(int LocationID)
         {
-            return await _restClient.MakeApiCall<AvailableScheduleServicesModel>(ApiUtils.URL_SCHEDULE_SERVICES_AVAILABLE,HttpMethod.Get);
+            return await _restClient.MakeApiCall<AvailableServicesModel>(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES_LIST+ "?locationId="+LocationID, HttpMethod.Get);
         }
 
         public async Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo )

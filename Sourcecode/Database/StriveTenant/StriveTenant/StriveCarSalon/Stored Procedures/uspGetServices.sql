@@ -1,5 +1,5 @@
 ﻿CREATE proc [StriveCarSalon].[uspGetServices]
---EXEC [StriveCarSalon].[uspGetServices] null,null,null,null,null,'ASC','ServiceName',1
+--EXEC [StriveCarSalon].[uspGetServices] null,null,'list2',null,null,'ASC','ServiceName',1
 (@ServiceId int =NULL,
 @locationId int =NULL,
 @Query NVARCHAR(50) = NULL,
@@ -39,14 +39,16 @@ SELECT
 	svc.Upcharges,
 	svc.ServiceName,
 	svc.Cost,
+	svc.LocationId,
 	--added price
 		svc.Price,
 	svc.Description,	
 	svc.DiscountServiceType,
 	svc.DiscountType,
 	isnull(svc.IsActive,1) as IsActive
-	--into #GetAllServices
+	into #GetAllServices
 	FROM [StriveCarSalon].tblService svc 
+	INNER JOIN [StriveCarSalon].[tblLocation] as loc ON (svc.LocationId = loc.LocationId)
 	LEFT JOIN [striveCarSalon].GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
 	LEFT JOIN [striveCarSalon].GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
 	LEFT JOIN [striveCarSalon].GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
@@ -68,7 +70,7 @@ AND
 	svc.Upcharges,
 	svc.ServiceName,
 	svc.Cost,
-
+	svc.LocationId,
 	--added price
 		svc.Price,
 	svc.Description,	
@@ -99,9 +101,20 @@ CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN svc.ServiceId END DESC
   
 OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
 
---select * from #GetAllServices
+select * from #GetAllServices
 
-select count(*) as Count from StriveCarSalon.tblService where ISNULL(IsDeleted,0) = 0 
+
+IF @Query IS NULL OR @Query = ''
+BEGIN 
+select count(1) as Count from StriveCarSalon.tblService where 
+ISNULL(IsDeleted,0) = 0 
+
+END
+
+IF @Query IS Not NULL AND @Query != ''
+BEGIN
+select count(1) as Count from #GetAllServices
+END
 
 
 end

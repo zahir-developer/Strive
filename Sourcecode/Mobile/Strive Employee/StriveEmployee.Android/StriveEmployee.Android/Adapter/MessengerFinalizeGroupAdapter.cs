@@ -11,6 +11,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Listeners;
 
@@ -52,11 +53,12 @@ namespace StriveEmployee.Android.Adapter
         private MessengerFinalizeGroupViewHolder MessengerFinalizeGroup;
         private char[] firstInitial;
         private char[] secondInitial;
-        private EmployeeLists selectedParticipants = new EmployeeLists();
-        public MessengerFinalizeGroupAdapter(Context context, EmployeeLists selectedParticipants)
+        private EmployeeMessengerContacts selectedParticipants = new EmployeeMessengerContacts();
+        public MessengerFinalizeGroupAdapter(Context context, EmployeeMessengerContacts selectedParticipants)
         {
             this.context = context;
-            this.selectedParticipants.EmployeeList = new List<EmployeeList>();
+            this.selectedParticipants.EmployeeList = new Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList();
+            this.selectedParticipants.EmployeeList.Employee = new List<Employee>();
             this.selectedParticipants = selectedParticipants;
         }
 
@@ -64,7 +66,7 @@ namespace StriveEmployee.Android.Adapter
         {
             get
             {
-                return this.selectedParticipants.EmployeeList.Count;
+                return this.selectedParticipants.EmployeeList.Employee.Count;
             }        
         }
 
@@ -72,18 +74,18 @@ namespace StriveEmployee.Android.Adapter
         {
             MessengerFinalizeGroup = holder as MessengerFinalizeGroupViewHolder;
 
-            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList[position].FirstName))
+            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList.Employee[position].FirstName))
             {
-                firstInitial = selectedParticipants.EmployeeList[position].FirstName.ToCharArray();
+                firstInitial = selectedParticipants.EmployeeList.Employee[position].FirstName.ToCharArray();
             }
             else
             {
                 firstInitial = null;
 
             }
-            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList[position].LastName))
+            if (!String.IsNullOrEmpty(selectedParticipants.EmployeeList.Employee[position].LastName))
             {
-                secondInitial = selectedParticipants.EmployeeList[position].LastName.ToCharArray();
+                secondInitial = selectedParticipants.EmployeeList.Employee[position].LastName.ToCharArray();
             }
             else
             {
@@ -92,17 +94,17 @@ namespace StriveEmployee.Android.Adapter
             if (firstInitial != null && secondInitial != null)
             {
                 MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
-                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList[position].FirstName + " " + selectedParticipants.EmployeeList[position].LastName;
+                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList.Employee[position].FirstName + " " + selectedParticipants.EmployeeList.Employee[position].LastName;
             }
             else if(firstInitial != null)
             {
                 MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = firstInitial.ElementAt(0).ToString();
-                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList[position].FirstName;
+                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList.Employee[position].FirstName;
             }
             else
             {
                 MessengerFinalizeGroup.FinalizeGroupProfile_ImageButton.Text = secondInitial.ElementAt(0).ToString();
-                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList[position].LastName;
+                MessengerFinalizeGroup.ParticipantName_TextView.Text = selectedParticipants.EmployeeList.Employee[position].LastName;
             }
             MessengerFinalizeGroup.SetItemClickListener(this);
         }
@@ -111,9 +113,9 @@ namespace StriveEmployee.Android.Adapter
         {
             if(MessengerTempData.ClickAction == 1)
             {
-                MessengerTempData.SelectedParticipants.EmployeeList.RemoveAt(position);
+                MessengerTempData.SelectedParticipants.EmployeeList.Employee.RemoveAt(position);
                 NotifyItemRemoved(position);
-                NotifyItemRangeChanged(position, selectedParticipants.EmployeeList.Count);
+                NotifyItemRangeChanged(position, selectedParticipants.EmployeeList.Employee.Count);
                 MessengerTempData.ClickAction = 0;
             }
         }

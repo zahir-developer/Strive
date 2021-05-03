@@ -1,4 +1,4 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetVehicle] --[StriveCarSalon].[uspGetVehicle] null,1,10,'asc','Vehiclenumber'
+﻿CREATE PROC [StriveCarSalon].[uspGetVehicle] --[StriveCarSalon].[uspGetVehicle] 'bobcat',1,10,'asc','Vehiclenumber'
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
 @PageSize INT = NULL,	
@@ -22,6 +22,7 @@ Print @PageNo
 Print @Skip
 END
 
+Drop TABLE IF EXISTS #GetAllVehicle
 SELECT
 	cvl.VehicleId AS ClientVehicleId
 	,cl.ClientId
@@ -35,18 +36,17 @@ SELECT
 	,cvl.VehicleColor AS ColorId
 	,cvl.Upcharge
 	,cvl.Barcode
-	,tblm.MembershipName
+	,tblm.MembershipName  into #GetAllVehicle
 FROM
 strivecarsalon.tblclient cl
-INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId
-LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
-left join strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
+INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
+LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 0 AND ISNULL(cvmd.IsActive,1) = 1
+LEFT JOIN strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId AND ISNULL(tblm.IsDeleted, 0) = 0 AND ISNULL(tblm.IsActive,1) = 1  
 INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
 INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND
 
-WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND ISNULL(cvl.IsActive,1)=1 AND
-ISNULL(cvl.IsDeleted,0)=0 AND
  ((@Query is null or cl.FirstName  like '%'+@Query+'%') OR
   (@Query is null or cl.LastName  like '%'+@Query+'%') OR
   (@Query is null or cvl.Barcode  like '%'+@Query+'%') OR
@@ -97,8 +97,21 @@ CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN cl.ClientId END DESC
   
 
 OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
+select * from #GetAllVehicle
 
-select count(*) as Count from StriveCarSalon.tblClientVehicle where ISNULL(IsDeleted,0) = 0 
+
+IF @Query IS NULL OR @Query = ''
+BEGIN 
+select count(1) as Count from StriveCarSalon.tblClientVehicle where 
+ISNULL(IsDeleted,0) = 0 
+
+END
+
+IF @Query IS Not NULL AND @Query != ''
+BEGIN
+select count(1) as Count from #GetAllVehicle
+END
+
 
 
 END

@@ -76,6 +76,11 @@
       <DependentUpon>LoginView.cs</DependentUpon>
     </Compile>
     <Compile Include="SceneDelegate.cs" />
+    <InterfaceDefinition Include="Views\DashboardView.xib" />
+    <Compile Include="Views\DashboardView.cs" />
+    <Compile Include="Views\DashboardView.designer.cs">
+      <DependentUpon>DashboardView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -149,6 +154,46 @@
     <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Icon ionic-ios-checkbox %282%29.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile.imageset\Account.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile.imageset\Account%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile.imageset\Account%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile-active.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile-active.imageset\Account-active.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile-active.imageset\Account-active%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-profile-active.imageset\Account-active%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 370.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 370%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 370%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule-active.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule.imageset\Icon awesome-clock.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule.imageset\Icon awesome-clock%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule.imageset\Icon awesome-clock%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule-active.imageset\Schedule.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule-active.imageset\Schedule%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-schedule-active.imageset\Schedule%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket.imageset\Icon awesome-ticket-alt.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket.imageset\Icon awesome-ticket-alt%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket.imageset\Icon awesome-ticket-alt%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -158,6 +203,16 @@
     <Folder Include="UIUtils\" />
     <Folder Include="Views\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-profile.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-profile-active.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-message.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-message-active.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-schedule.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-schedule-active.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-ticket.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-ticket-active.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

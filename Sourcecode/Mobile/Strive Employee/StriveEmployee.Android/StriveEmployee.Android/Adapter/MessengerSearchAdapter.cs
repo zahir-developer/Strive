@@ -47,7 +47,7 @@ namespace StriveEmployee.Android.Adapter
             }
             return sortedRecentContacts;
         }
-        public List<EmployeeList> SearchContacts(List<EmployeeList> contacts, string queryString)
+        public List<EmployeeList> SearchContacts(List<Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.Employee> contacts, string queryString)
         {
             sortedContacts = new List<EmployeeList>();
             this.queryString = queryString;
@@ -60,7 +60,7 @@ namespace StriveEmployee.Android.Adapter
                 var lastName = data.LastName.ToLower();
                 if (firstName.Contains(AllSmall) || lastName.Contains(AllSmall))
                 {
-                    sortedContacts.Add(data);
+                   // sortedContacts.Add(data);
                 }
             }
 

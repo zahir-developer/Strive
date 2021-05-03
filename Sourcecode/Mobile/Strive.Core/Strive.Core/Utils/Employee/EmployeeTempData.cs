@@ -1,15 +1,17 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Models.Employee.PersonalDetails;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using EmployeeList = Strive.Core.Models.Employee.Messenger.EmployeeList;
+using EmployeeList_Contact = Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList;
 namespace Strive.Core.Utils.Employee
 {
     // Employee Temp Data
     public static class EmployeeTempData
     {
-        public static int EmployeeID { get; set; }
+        public static int EmployeeID { get; set; } = 1463;
         public static string MessengerTabHeader { get; set; }
         public static PersonalDetails EmployeePersonalDetails { get; set; }
         public static void ResetAll()
@@ -42,11 +44,12 @@ namespace Strive.Core.Utils.Employee
         public static int ContactsCount { get; set; }
         public static bool IsCreateGroup { get; set; } = false;
         public static Dictionary<int, int> ChatParticipants { get; set; }
-        public static EmployeeLists SelectedParticipants { get; set; }
-        public static EmployeeList ExistingParticipants { get; set; }
+        public static EmployeeMessengerContacts SelectedParticipants { get; set; }
+        public static EmployeeMessengerContacts ExistingParticipants { get; set; }
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
+        public static EmployeeMessengerContacts employeeList_Contact { get; set; }
         public static Dictionary<string, string> RecipientsConnectionID { get; set; }
 
         #endregion Properties
