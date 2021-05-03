@@ -246,8 +246,12 @@ export const MessageConfig = {
             Add: 'Vendor added successfully !',
             Update: 'Vendor updated successfully !',
             Delete: 'Vendor Deleted Successfully !',
-
          },
+         TenantSetup: {
+            Add: 'Tenant added successfully !',
+            Update: 'Tenant updated successfully !',
+            Email: 'Email Id Already exists.'
+         }
       }
    }
 }
