@@ -5,6 +5,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-service-setup-list',
@@ -12,13 +14,11 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
   styleUrls: ['./service-setup-list.component.css']
 })
 export class ServiceSetupListComponent implements OnInit {
-  serviceSetupDetails = [];
   showDialog = false;
   selectedData: any;
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  search: any = '';
   searchStatus: any;
   collectionSize: number = 0;
   Status: any;
@@ -29,21 +29,32 @@ export class ServiceSetupListComponent implements OnInit {
   totalRowCount = 0;
   isLoading: boolean;
   sortColumn: { sortBy: string; sortOrder: string; };
-
-
+  public serviceSetupDetails: string[] = [];
+  public search: string;
+  searchUpdate = new Subject<string>();
   
   constructor(
     private serviceSetup: ServiceSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService
-  ) { }
+  ) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllserviceSetupDetails();
+      });
+  }
+
 
   ngOnInit() {
     this.isLoading = false;
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
-     this.page = ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
@@ -67,10 +78,12 @@ export class ServiceSetupListComponent implements OnInit {
     this.serviceSetup.getServiceSetup(serviceObj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
-        
+
         this.totalRowCount = 0;
         this.serviceSetupDetails = [];
         const serviceDetails = JSON.parse(data.resultData);
+        console.log(serviceDetails, 'service')
+
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
 
           this.serviceSetupDetails = serviceDetails.ServiceSetup.getAllServiceViewModel;
@@ -87,6 +100,7 @@ export class ServiceSetupListComponent implements OnInit {
       }
     }, (err) => {
       this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   paginate(event) {
@@ -98,6 +112,14 @@ export class ServiceSetupListComponent implements OnInit {
     this.pageSize = +event.target.value;
     this.page = this.page;
     this.getAllserviceSetupDetails();
+  }
+  searchKeyup(event) {
+    if (event) {
+      setTimeout(() => {
+        this.getAllserviceSetupDetails();
+      }, 5000);
+    }
+
   }
 
   serviceSearch() {
@@ -122,6 +144,7 @@ export class ServiceSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.isLoading = false;
     });
   }
@@ -142,38 +165,42 @@ export class ServiceSetupListComponent implements OnInit {
 
   // Delete Service
   confirmDelete(data) {
+    this.spinner.show();
     this.serviceSetup.deleteServiceSetup(data.ServiceId).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Delete, 'Success!');
-        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+        this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
-   this.getAllserviceSetupDetails();
+        this.getAllserviceSetupDetails();
       } else {
         this.spinner.hide();
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   changeSorting(column) {
-     this.sortColumn ={
+    this.sortColumn = {
       sortBy: column,
       sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-     }
+    }
 
-     this.selectedCls(this.sortColumn)
+    this.selectedCls(this.sortColumn)
     this.getAllserviceSetupDetails();
   }
 
-  
+
 
   selectedCls(column) {
-    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
       return 'fa-sort-desc';
-    } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
       return 'fa-sort-asc';
     }
     return '';
@@ -182,7 +209,7 @@ export class ServiceSetupListComponent implements OnInit {
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+      this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
       this.getAllserviceSetupDetails();
     }

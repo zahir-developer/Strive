@@ -17,13 +17,22 @@ namespace Strive.BusinessLogic.Checklist
         {
             return ResultWrap(new ChecklistRal(_tenant).GetChecklist, "GetChecklist");
         }
-        public Result AddChecklist(ChecklistAddDto checklistAdd)
+        public Result AddChecklist(ChecklistDto checklistAdd)
         {
             return ResultWrap(new ChecklistRal(_tenant).AddChecklist, checklistAdd, "Status");
+        }
+        public Result UpdateChecklist(ChecklistDto checklistUpdate)
+        {
+            return ResultWrap(new ChecklistRal(_tenant).UpdateChecklist, checklistUpdate, "Status");
         }
         public Result DeleteChecklist(int id)
         {
             return ResultWrap(new ChecklistRal(_tenant).DeleteChecklist, id, "DeleteChecklist");
+        }
+
+        public Result GetChecklistById(int id)
+        {
+            return ResultWrap(new ChecklistRal(_tenant).GetChecklistById, id, "ChecklistById");
         }
     }
 }

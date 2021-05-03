@@ -8,6 +8,7 @@ import { GetCodeService } from '../../services/data-service/getcode.service';
 import { UserDataService } from '../../util/user-data.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from '../../services/messageConfig';
+import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-session-logout',
@@ -18,7 +19,7 @@ export class SessionLogoutComponent implements OnInit {
   @Input() dialogDisplay = false;
   @Input() header: string;
   @Input() dialogType: string;
-  @Input() countdown?: number;
+  countdown?: number;
   @Output() closeDialog = new EventEmitter();
   authentication: FormGroup;
   submitted = false;
@@ -86,7 +87,7 @@ export class SessionLogoutComponent implements OnInit {
   }
 
   getCodeValue() {
-    this.getCodeService.getCodeByCategory('ALL').subscribe(res => {
+    this.getCodeService.getCodeByCategory(ApplicationConfig.Category.all).subscribe(res => {
       if (res.status === 'Success') {
         const value = JSON.parse(res.resultData);
         localStorage.setItem('codeValue', JSON.stringify(value.Codes));

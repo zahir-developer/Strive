@@ -78,13 +78,19 @@ export class TimeClockWeekComponent implements OnInit {
             const dayDetails = [];
             if (days.length > 0) {
               days.forEach(item => {
+                const inTimeHour = item.InTime.split('+');
+                const inTime = new Date(inTimeHour[0]);
+                const outTimeHour = item.OutTime.split('+');
+                const outTime = new Date(outTimeHour[0]);
+                const hours = item.TotalHours.split('+');
+                const totalHours = new Date(hours[0]);
                 dayDetails.push({
                   EventDate: item.EventDate,
-                  InTime: item.InTime ? moment(item.InTime).format('HH:mm') : '',
-                  OutTime: item.OutTime ? moment(item.OutTime).format('HH:mm') : '',
+                  InTime: item.InTime ? moment(inTime).format('HH:mm') : '',
+                  OutTime: item.OutTime ? moment(outTime).format('HH:mm') : '',
                   RoleId: item.RoleId,
                   TimeClockId: item.TimeClockId,
-                  TotalHours: moment(item.TotalHours).format('HH:mm'),
+                  TotalHours: moment(totalHours).format('HH:mm'),
                   employeeId: this.empClockInObj.employeeID,
                   locationId: this.empClockInObj.locationId,
                   isDeleted: false
@@ -265,9 +271,9 @@ export class TimeClockWeekComponent implements OnInit {
           employeeId: time.employeeId,
           locationId: time.locationId,
           roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
-          eventDate: time.EventDate,
-          inTime: time.InTime ? inTimeFormat : '',
-          outTime: time.OutTime ? outTimeFormat : '',
+          eventDate: time.EventDate, // time.EventDate,
+          inTime: time.InTime ? inTimeFormat : null,
+          outTime: time.OutTime ? outTimeFormat : null,
           eventType: null,
           updatedFrom: '',
           status: true,
@@ -373,12 +379,7 @@ export class TimeClockWeekComponent implements OnInit {
       else {
         currentTime.TotalHours = HHMM;
         this.inCorrectTotalHours = false;
-
       }
-
-
-
-
       this.totalHoursCalculation();
 
     }

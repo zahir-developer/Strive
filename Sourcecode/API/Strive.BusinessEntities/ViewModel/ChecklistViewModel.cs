@@ -12,5 +12,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string Name { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; set; }
+        public string NotificationTime { get; set; }
     }
 }

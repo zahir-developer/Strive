@@ -8,8 +8,8 @@ namespace Strive.BusinessEntities.DTO.Schedule
 {
     public class ScheduleDetailDto
     {
-        public DateTime? startDate { get; set; }
-        public DateTime? endDate { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
         public  int locationId { get; set; }
     }
 }

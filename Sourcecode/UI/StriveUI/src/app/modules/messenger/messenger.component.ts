@@ -183,7 +183,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       }
       else {
         this.spinner.hide();
-        this.toastrService.error('Communication Error', 'Error getting chat messages!');
+        this.toastrService.error(MessageConfig.CommunicationError, 'Error getting chat messages!');
       }
     }, (err) => {
       this.spinner.hide();
@@ -205,7 +205,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
   sendMessage(override = false) {
     if (this.messageBody.trim() === '' && override) {
-      this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: 'Please enter a message..!!!' });
+      this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Messenger.Message });
       return;
     }
 
@@ -277,7 +277,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       }
       else {
         this.spinner.hide();
-        this.toastrService.error('Communication Error', 'Error sending message!');
+        this.toastrService.error(MessageConfig.CommunicationError, 'Error sending message!');
       }
     }, (err) => {
       this.spinner.hide();
@@ -301,7 +301,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
       }
       else {
-        this.toastrService.error('Communication Error', 'Error getting Group Members!');
+        this.toastrService.error(MessageConfig.CommunicationError, 'Error getting Group Members!');
       }
     }
     , (err) => {
@@ -316,11 +316,11 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
         const employeeListData = JSON.parse(data.resultData);
         this.groupEmpList = employeeListData?.EmployeeList?.ChatEmployeeList;
         this.spinner.hide();
-        this.toastrService.success('Group user added successfully..!!!');
+        this.toastrService.success(MessageConfig.Messenger.add);
       }
       else {
         this.spinner.hide();
-        this.toastrService.error('Communication Error', 'Error getting Group Members!');
+        this.toastrService.error(MessageConfig.CommunicationError, 'Error getting Group Members!');
       }
     },
      (err) => {
@@ -355,7 +355,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
       else {
         this.spinner.hide();
 
-        this.toastrService.error('Communication Error', 'Error removing user from Group!');
+        this.toastrService.error(MessageConfig.CommunicationError, 'Error removing user from Group!');
       }
 
     }, (err) => {

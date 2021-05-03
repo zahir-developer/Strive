@@ -16,10 +16,12 @@
                             <div class="card-body">
                                 <h4 class="d-inline-block m-b-5">Checkout - </h4>
                                 <div class="date d-inline-block datepicker-view " data-date-format="dd/mm/yyyy">
+                                    <input type="text" placeholder="Daterangepicker" name="dateRange" 
+                                    class="form-control" [(ngModel)]="daterangepickerModel"
+                                     bsDaterangepicker (bsValueChange)="onValueChange($event)"
+                                      [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : false}">
 
-                                    <input type="text" class="datepick" [(ngModel)]="daterangepickerModel" #dp="bsDatepicker" (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig" bsDatepicker [outsideClick]="true">
-                                    <span class="input-group-addon">
-                                        <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+                                    
                                 </div>
                                 <div class="search-container  pull-right">
                                     <form>
@@ -28,7 +30,7 @@
 
                                             <div class="form-group d-flex">
 
-                                                <input type="search" class="form-control" [(ngModel)]="query" size="25" name="search" id="inputSearch" placeholder="Search" (keyup)="$event.keyCode == 13 ? checkOutSearch() : null"> </div>
+                                                <input type="search" class="form-control" [(ngModel)]="query" size="25" name="search" id="inputSearch" placeholder="Search" (ngModelChange)="this.searchUpdate.next($event)"> </div>
 
                                             <div class="form-group d-flex col-sm m-l-5">
                                                 <button type="button" class="btn theme-primary-button-color btn-sm m-l-10" (click)="checkOutSearch()">Search</button>
@@ -37,9 +39,6 @@
                                     </form>
                                 </div>
                                 <div id="Checkoutlist" class="collapse show">
-
-
-
                                     <div class="table-responsive" style="overflow-x: scroll;">
                                         <table class="table border table-striped m-t-10 headerfix">
                                             <thead>
@@ -67,7 +66,7 @@
                                                     <td>{{checkout.CustomerFirstName}}</td>
                                                     <td>{{checkout.CustomerLastName}}</td>
 
-                                                    <td class="table-ellipsis" pTooltip="{{checkout.VehicleDescription}}" tooltipPosition="top">{{checkout.VehicleDescription}}</td>
+                                                    <td class="table-ellipsis" pTooltip="{{checkout.VehicleDescription}}" tooltipPosition="top">{{checkout.VehicleMake}}, {{checkout.VehicleModel}}, {{checkout.VehicleColor}}</td>
                                                     <td>{{checkout.Checkin}}</td>
                                                     <td>{{checkout.Checkout}}</td>
                                                     <td class="table-ellipsis" pTooltip="{{checkout.Services}}" tooltipPosition="top">{{checkout.Services}}</td>

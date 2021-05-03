@@ -142,6 +142,12 @@ namespace Admin.API.Filters
 
             //HTML Template Url
             _tenant.HtmlTemplates = Pick("FolderPath", "HtmlTemplate");
+
+            //Card Connect
+            _tenant.CCUrl = Pick("CardConnect", "Url");
+            _tenant.CCUserName = Pick("CardConnect", "UserName");
+            _tenant.CCPassword = Pick("CardConnect", "Password");
+            _tenant.MID = Pick("CardConnect", "MID");
         }
     }
 }

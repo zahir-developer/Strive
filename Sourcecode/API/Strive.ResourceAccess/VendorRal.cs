@@ -20,9 +20,9 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), null);
         }
-        public bool AddVendor(VendorDTO vendor)
+        public int AddVendor(VendorDTO vendor)
         {
-            return dbRepo.SavePc(vendor, "VendorId");
+            return dbRepo.InsertPK(vendor, "VendorId");
         }
         public bool UpdateVendor(VendorDTO vendor)
         {

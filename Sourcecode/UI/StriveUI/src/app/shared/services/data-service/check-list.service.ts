@@ -13,11 +13,16 @@ export class CheckListService {
     return this.http.get(`${UrlConfig.Checklist.getCheckList}`);
   }
   addCheckListSetup(obj) {
-    
     return this.http.post(`${UrlConfig.Checklist.addCheckList}`,obj);
   }
   deleteCheckListSetup(id) {
-    
-    return this.http.delete(`${UrlConfig.Checklist.DeleteCheckList}`, { params: { id: id } });
+    return this.http.delete(`${UrlConfig.Checklist.DeleteCheckList}`, { params: { id } });
+  }
+  getById(id) {
+    return this.http.get(`${UrlConfig.Checklist.getById}`, { params: { id } });
+  }
+
+  updateChecklist(obj) {
+    return this.http.post(`${UrlConfig.Checklist.updateChecklist}`, obj);
   }
 }

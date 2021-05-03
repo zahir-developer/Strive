@@ -9,7 +9,6 @@ namespace Strive.BusinessEntities.ViewModel
     public class GiftCardViewModel
     {
         public int GiftCardId { get; set; }
-        public int LocationId { get; set; }
         public string GiftCardCode { get; set; }
         public string GiftCardName { get; set; }
         public DateTimeOffset? ActivationDate { get; set; }

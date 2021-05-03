@@ -9,11 +9,11 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ForcastedCarEmployeehoursViewModel
     {
-        public decimal ForcastedCars { get; set; }
+        public decimal? ForcastedCars { get; set; }
 
-        public decimal ForcastedEmployeeHours { get; set; } 
+        public decimal? ForcastedEmployeeHours { get; set; } 
 
-        public int RainPrecipitation { get; set; }
+        public int? RainPrecipitation { get; set; }
 
     }
 

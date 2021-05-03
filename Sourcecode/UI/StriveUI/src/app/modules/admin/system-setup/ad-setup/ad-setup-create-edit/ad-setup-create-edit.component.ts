@@ -33,6 +33,7 @@ export class AdSetupCreateEditComponent implements OnInit {
   employeeId: number;
   documentClear: boolean = false;
   fileType: string[];
+  fileTypes: string;
   fileSize: number;
   localFileSize: any;
   selectedDate: Date;
@@ -43,6 +44,7 @@ export class AdSetupCreateEditComponent implements OnInit {
 
     this.submitted = false;
     this.fileType = ApplicationConfig.UploadFileType.AdSetup;
+    this.fileTypes = this.fileType.toString();
     this.fileSize = ApplicationConfig.UploadSize.AdSetup
     this.Status = [{ id: 0, Value: "Inactive" }, { id: 1, Value: "Active" }];
     this.formInitialize();
@@ -51,7 +53,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     this.adSetupForm.patchValue({
       name: this.selectedData.Name,
       description: this.selectedData.Description,
-      status: this.selectedData.Status == false ? 0 : 1,
+      status: this.selectedData.IsActive === false ? 0 : 1,
       image: this.selectedData.OriginalFileName,
       daterangepickerModel : this.selectedData.LaunchDate ? moment(this.selectedData.LaunchDate).format('MM-DD-YYYY') : null
     });
@@ -106,6 +108,14 @@ export class AdSetupCreateEditComponent implements OnInit {
       this.localFileSize = fileToLoad.size
       this.fileName = fileToLoad.name;
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+
+      let lowercaseFileThumb = this.fileThumb.toLowerCase()
+      if ((lowercaseFileThumb !== this.fileType[0].trim()) && (lowercaseFileThumb !== this.fileType[1].trim()) && (lowercaseFileThumb !== this.fileType[2].trim())) {
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.AdSetup.FileType + 'Allowed file types: ' + ApplicationConfig.UploadFileType.AdSetup.toString(), 'Warning!');
+        this.clearDocument();
+        return;
+      }
+
       let fileReader: any;
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
@@ -117,18 +127,12 @@ export class AdSetupCreateEditComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
-        let lowercaseFileThumb = this.fileThumb.toLowerCase()
-        if ((lowercaseFileThumb == this.fileType[0]) || (lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2])) {
-          fileTosaveName = fileReader.result?.split(',')[1];
-        }
-        else {
-          this.toastr.error(MessageConfig.Admin.SystemSetup.AdSetup.FileType, 'Error!');
-          this.clearDocument();
-        }
+       
+        fileTosaveName = fileReader.result?.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
 
-      }, 5000);
+      }, 500);
     }
   }
 
@@ -142,7 +146,7 @@ export class AdSetupCreateEditComponent implements OnInit {
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.error(MessageConfig.Admin.SystemSetup.AdSetup.FileSize, 'Error!');
+      this.toastr.warning(MessageConfig.Admin.SystemSetup.AdSetup.FileSize, 'Warning!');
       return;
     }
     const obj = {

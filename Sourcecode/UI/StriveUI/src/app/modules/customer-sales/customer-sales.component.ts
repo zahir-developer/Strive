@@ -172,7 +172,7 @@ export class CustomerSalesComponent implements OnInit {
       this.ticketNumber = '';
     } else {
       this.ticketNumber = '';
-      this.messageService.showMessage({ severity: 'info', title: 'Information', body: 'Ticket Already Added' });
+      this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.Ticket });
     }
 
     if (this.multipleTicketNumber.length > 10) {
@@ -198,7 +198,7 @@ export class CustomerSalesComponent implements OnInit {
         if (data.status === 'Success') {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account[0];
-          this.isAccount = this.accountDetails?.CodeValue !== 'Comp' ? this.accountDetails?.IsAccount : false;
+          this.isAccount = this.accountDetails?.CodeValue !== ApplicationConfig.CodeValue.Comp ? this.accountDetails?.IsAccount : false;
         }
       }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -246,7 +246,7 @@ export class CustomerSalesComponent implements OnInit {
             this.balance = +summary?.Balance;
             this.totalPaid = +summary?.TotalPaid;
             if (+this.account === 0.00) {
-              this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === 'Comp' ? +this.grandTotal : 0;
+              this.account = this.accountDetails?.IsAccount === true && this.accountDetails?.CodeValue === ApplicationConfig.CodeValue.Comp ? +this.grandTotal : 0;
             }
           }
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
@@ -292,7 +292,7 @@ export class CustomerSalesComponent implements OnInit {
           let upchargeCost = 0;
           let airfreshnerCost = 0;
           let outsideCost = 0;
-          if (serviceType[0].CodeValue ==='Washes') {
+          if (serviceType[0].CodeValue ===ApplicationConfig.CodeValue.Washes) {
             this.washes.forEach(wash => {
               washCost = washCost + wash.Price;
             });
@@ -302,7 +302,7 @@ export class CustomerSalesComponent implements OnInit {
               washDiscountPrice = washDiscountPrice + (washCost * item.Cost / 100);
               item.Cost = (washCost * item.Cost / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Details') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.CodeValue.Details) {
             this.details.forEach(detail => {
               detailCost = detailCost + detail.Price;
             });
@@ -312,7 +312,7 @@ export class CustomerSalesComponent implements OnInit {
               detailDiscountPrice = detailDiscountPrice + (detailCost * item.Cost / 100);
               item.Cost = (detailCost * item.Cost / 100);
             }
-          } else if (serviceType[0].CodeValue === 'Additional Services') {
+          } else if (serviceType[0].CodeValue === ApplicationConfig.CodeValue.additionalServices) {
             this.additionalService.forEach(additional => {
               additionalCost = additionalCost + additional.Price;
             });

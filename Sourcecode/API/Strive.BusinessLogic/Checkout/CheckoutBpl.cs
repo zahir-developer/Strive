@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities.DTO;
-using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Checkout;
 using Strive.BusinessEntities.DTO.Report;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
@@ -20,18 +20,18 @@ namespace Strive.BusinessLogic.Checkout
         {
             return ResultWrap(new CheckoutRal(_tenant).GetAllCheckoutDetails,checkoutDto, "GetCheckedInVehicleDetails");
         }
-        public Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry)
+        public Result UpdateCheckoutDetails(CheckOutDto checkoutEntry)
         {
             return ResultWrap(new CheckoutRal(_tenant).UpdateCheckoutDetails,checkoutEntry, "SaveCheckoutTime");
         }
         public Result UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto)
         {
-
+            var subject = "Vehicle is oh Hold!!";
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
-            keyValues.Add("{emailId}", checkoutHoldDto.emailId);
-            keyValues.Add("{ticketNumber}", checkoutHoldDto.TicketNumber);
+            keyValues.Add("{{emailId}}", checkoutHoldDto.emailId);
+            keyValues.Add("{{ticketNumber}}", checkoutHoldDto.TicketNumber);
 
-            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.VehicleHold, checkoutHoldDto.emailId, keyValues);
+            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.VehicleHold, checkoutHoldDto.emailId, keyValues,subject);
 
             
 
@@ -41,7 +41,7 @@ namespace Strive.BusinessLogic.Checkout
             
 
         }
-        public Result UpdateJobStatusComplete(JobIdDto jobIdDto)
+        public Result UpdateJobStatusComplete(JobCompleteDto jobIdDto)
         {
             return ResultWrap(new CheckoutRal(_tenant).UpdateJobStatusComplete, jobIdDto, "UpdateJobStatus");
         }

@@ -14,9 +14,14 @@ export class LandingService {
 
   constructor(private toastr: ToastrService,
     private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
-  loadTheLandingPage(): void {
-    const location = localStorage.getItem('empLocationId');
-    if (location) {
+  loadTheLandingPage(isFromLogin? : boolean): void {
+    const location = localStorage.getItem('empLocation');
+    if (location?.length > 1 && isFromLogin) {
+     
+      this.router.navigate([`/location`], { relativeTo: this.route });
+      
+    }
+     else {
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
       this.user.navName.subscribe((data) => {
@@ -50,13 +55,11 @@ export class LandingService {
         this.routingPage();
 
       }
-    }
-     else {
-      this.toastr.error(MessageConfig.locationError, 'Error!');
-      // this.router.navigate([`/location`], { relativeTo: this.route });
+    //  this.toastr.error(MessageConfig.locationError, 'Error!');
     }
   }
   routingPage() {
+
     const Roles = localStorage.getItem('empRoles');
     if (Roles) {
       if (Roles === ApplicationConfig.Roles.Admin) {

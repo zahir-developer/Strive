@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessengerService } from 'src/app/shared/services/data-service/messenger.service';
 import { WeatherService } from 'src/app/shared/services/common-service/weather.service';
+import { SelectLocationService } from 'src/app/shared/services/common-service/select-location.service';
 declare var $: any;
 @Component({
   selector: 'app-header',
@@ -23,9 +24,12 @@ export class HeaderComponent implements OnInit {
   rainPrediction: any;
   temperature: number;
   cityName: string;
-  constructor(private authService: AuthService, private userService: UserDataService, private router: Router,
-              private route: ActivatedRoute, private msgService: MessengerService,
-              private weatherService: WeatherService) { }
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+  constructor(
+    private authService: AuthService, private userService: UserDataService, private router: Router,
+    private route: ActivatedRoute, private msgService: MessengerService,
+    private weatherService: WeatherService,
+    private selectLocation: SelectLocationService) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
@@ -36,34 +40,37 @@ export class HeaderComponent implements OnInit {
     });
 
     this.userService.cityName.subscribe(data => {
-      if(data == null){
+      if (data == null) {
         this.cityName = JSON.parse(localStorage.getItem('employeeCityName'));
 
       }
-      else{
- this.cityName = data;
+      else {
+        this.cityName = data;
       }
-     
-
     });
-  
-        this.userService.locationName.subscribe(data => {
-          if(data == null){
-            this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
 
-    
-          }
-          else{
-            this.locationName = data;
-
-          }
-      
-        
+    this.userService.locationName.subscribe(data => {
+      if (data == null) {
+        this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
+      }
+      else {
+        this.locationName = data;
+      }
     });
-  
-  this.getWeatherDetails()
+
+    this.selectLocation.obsCityName.subscribe(city => {
+      if (city !== null)
+        this.cityName = city;
+    });
+
+    this.selectLocation.obsLocationName.subscribe(location => {
+      if (location !== null)
+        this.locationName = location
+    });
+
+    this.getWeatherDetails();
     this.getUnReadMessage();
-  
+
   }
   // Get WeatherDetails
   getWeatherDetails = () => {
@@ -80,14 +87,15 @@ export class HeaderComponent implements OnInit {
     this.msgService.closeConnection();
     this.authService.logout();
   }
+
   openmbsidebar() {
     document.getElementById('mySidenav').style.width = '200px';
-    $(document).ready(function() {
-      $('.mobile-view-title').click(function() {
+    $(document).ready(function () {
+      $('.mobile-view-title').click(function () {
         $('#hide-mainmenu').hide();
         $('#show-submenu').show();
       });
-      $('.back-to-list').click(function() {
+      $('.back-to-list').click(function () {
         $('#hide-mainmenu').show();
         $('#show-submenu').hide();
       });
@@ -95,7 +103,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getUnReadMessage() {
-    this.userService.unReadMessageDetail.subscribe( res => {
+    this.userService.unReadMessageDetail.subscribe(res => {
       this.unReadMessageDetail = res;
       if (res === null) {
         this.unReadMessageDetail = [];

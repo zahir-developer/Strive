@@ -50,9 +50,16 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
 
         const sales = JSON.parse(data.resultData);
         this.dailySalesReport = sales.GetDailySalesReport;
+        
         if (this.dailySalesReport.length === 0) {
           this.isTableEmpty = true;
+          
         } else {
+          if (this.dailySalesReport?.length > 0) {
+            for (let i = 0; i < this.dailySalesReport.length; i++) {
+              this.dailySalesReport[i].Model == 'None' ? this.dailySalesReport[i].Model =  'Unk' : this.dailySalesReport[i].Model ;
+            }
+          }
           this.collectionSize = Math.ceil(this.dailySalesReport.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.GiftCard;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -31,7 +32,7 @@ namespace Strive.BusinessLogic.GiftCard
         {
             return ResultWrap(new GiftCardRal(_tenant).GetGiftCardHistoryByNumber, giftCardNumber, "GiftCardDetail");
         }
-        
+
         public Result GetAllGiftCardHistory(string giftCardNumber)
         {
             return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCardHistory, giftCardNumber, "GiftCardHistory");
@@ -42,7 +43,38 @@ namespace Strive.BusinessLogic.GiftCard
         }
         public Result AddGiftCard(GiftCardDto giftCardDto)
         {
-            return ResultWrap(new GiftCardRal(_tenant).AddGiftCard, giftCardDto, "Status");
+            var giftcard = new GiftCardRal(_tenant).AddGiftCard(giftCardDto);          
+
+            var comBpl = new CommonBpl(_cache, _tenant);
+
+            if (!string.IsNullOrEmpty(giftCardDto.GiftCard.Email))
+            {
+                if (giftcard > 0)
+                {
+                    var subject = "Gift card details";
+                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                    keyValues.Add("{{emailId}}", giftCardDto.GiftCard.Email);
+                    keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
+                    comBpl.SendEmail(HtmlTemplate.GiftCardDetails, giftCardDto.GiftCard.Email, keyValues,subject);
+                }
+            }
+            else
+            {
+                var client = new ClientRal(_tenant).GetClientById(giftCardDto.GiftCard.ClientId);
+                foreach (var clientemail in client)
+                {
+
+                    if (giftcard > 0)
+                    {
+                        var subject = "Gift card details";
+                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                        keyValues.Add("{{emailId}}", clientemail.FirstName);
+                        keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
+                        comBpl.SendEmail(HtmlTemplate.GiftCardDetails, clientemail.Email, keyValues,subject);
+                    }
+                }
+            }
+            return ResultWrap(giftcard, "Status");
         }
 
         public Result UpdateGiftCard(GiftCardDto giftCardDto)
@@ -65,16 +97,21 @@ namespace Strive.BusinessLogic.GiftCard
 
         public Result GetAllGiftCard(SearchDto searchDto)
         {
-            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCard,searchDto, "GiftCard");
+            return ResultWrap(new GiftCardRal(_tenant).GetAllGiftCard, searchDto, "GiftCard");
         }
 
         public Result DeleteGiftCard(int id)
         {
-            return ResultWrap(new GiftCardRal(_tenant).DeleteGiftCard,id, "GiftCard");
+            return ResultWrap(new GiftCardRal(_tenant).DeleteGiftCard, id, "GiftCard");
         }
-        public Result IsGiftCardExist (string giftCardCode)
+        public Result IsGiftCardExist(string giftCardCode)
         {
             return ResultWrap(new GiftCardRal(_tenant).IsGiftCardExist, giftCardCode, "IsGiftCardAvailable");
+        }
+
+        public Result GetGiftCardBalanceHistory(string giftCardNumber)
+        {
+            return ResultWrap(new GiftCardRal(_tenant).GetGiftCardBalanceHistory, giftCardNumber, "GiftCardDetail");
         }
     }
 }

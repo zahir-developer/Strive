@@ -2,6 +2,13 @@
     <form [formGroup]="serviceSetupForm">
         <div class="form-row">
             <div class="form-group col-lg-4">
+                <label for="inputName">Name<span class="required">*</span></label>
+                <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Service Name"  pInputText pKeyFilter="alphanum" [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
+                <div *ngIf="submitted  && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
                 <label for="inputServiceType"> Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="serviceType" (change)="checkService($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
                     <option value="" selected hidden>Choose </option>
@@ -12,13 +19,7 @@
                     <div *ngIf="f.serviceType.errors.required">Type is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-4">
-                <label for="inputName">Name<span class="required">*</span></label>
-                <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Name" [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
-                <div *ngIf="submitted  && f.name.errors" class="invalid-feedback">
-                    <div *ngIf="f.name.errors.required">Name is required</div>
-                </div>
-            </div>
+         
             <div class="form-group col-lg-4" *ngIf="isDiscounts">
                 <label for="inputServiceType">Discount Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="discountServiceType" [ngClass]="{ 'is-invalid': submitted && f.discountServiceType.errors }">
@@ -44,11 +45,27 @@
                     <div *ngIf="f.discountType.errors.required">Discount Type is required</div>
                 </div>
             </div>
-
+            <div class="form-group col-md-4">
+                <label class="d-block">Location  <span class="required">*</span></label>
+                <ng-multiselect-dropdown [placeholder]="'Select Location'"
+                [disabled]="isEdit"
+                [ngClass]="{ 'is-invalid': submitted && f.location?.errors }"
+                    [settings]="dropdownSettings" [data]="location" formControlName="location">
+                </ng-multiselect-dropdown>
+                <div *ngIf="submitted && f.location?.errors" class="invalid-feedback">
+   <div *ngIf="f.location.errors?.required">Location is required</div>
+                </div>
+            </div>
+         
+            <div class="form-group col-lg-4">
+                <label for="inputCost">Cost</label>
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost" placeholder="$0.00" >
+               
+            </div>
             <div class="form-group col-lg-4" *ngIf="!isDiscounts">
                 <label for="inputCost">Price<span class="required">*</span></label>
 
-                <input type="text" appTwoDecimalNumber class="form-control" formControlName="price" placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted  && f.price.errors }">
+                <input type="text" appTwoDecimalNumber class="form-control" formControlName="price" placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted  && f.price.errors }" (change) = "categoryName()">
 
                 <div *ngIf="submitted  && f.price.errors" class="invalid-feedback">
                     <div *ngIf="f.price.errors.required">
@@ -62,15 +79,6 @@
                     </div>
 
 
-                </div>
-            </div>
-            <div class="form-group col-lg-4">
-                <label for="inputCost">Cost<span class="required">*</span></label>
-                <input type="text" appTwoDecimalNumber class="form-control" formControlName="cost" placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted  && f.cost.errors }">
-                <div *ngIf="submitted  && f.cost.errors" class="invalid-feedback">
-                    <div *ngIf="f.cost.errors.required">Cost is required</div>
-                </div>
-                <div *ngIf="submitted  && costErrMsg" style="font-size: small;color: #dc3545;">Cost should not be 0
                 </div>
             </div>
             <div class="form-group col-lg-4" *ngIf="isDetails">
@@ -103,7 +111,7 @@
 
 
 
-            <div class="form-group col-lg-3" *ngIf="isDetails">
+            <div class="form-group col-lg-4" *ngIf="isDetails">
                 <label></label>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" formControlName="commission" (change)="change($event.target.checked)">
@@ -128,11 +136,19 @@
                     <div *ngIf="f.fee.errors.required">{{ctypeLabel}} is required</div>
                 </div>
             </div>
+            <div class="form-group col-lg-4"  *ngIf="isUpcharge">
+                <label for="inputStatus">Category</label>
+                <select class="form-control" formControlName="serviceCategory" (change) = "categoryName()">
+
+                    <option *ngFor="let status of codeCategory" [ngValue]="status">{{status.CodeValue}}</option>
+                        </select>
+            </div>
             <div class="form-group col-lg-4" *ngIf="isUpcharge">
                 <label for="inputUpcharge">Upcharge</label>
-                <input type="text" maxlength="100" class="form-control" formControlName="upcharge" placeholder="Upcharge" [ngClass]="{ 'is-invalid': submitted  && f.upcharge.errors }">
+                <input type="text" maxlength="100" class="form-control" 
+                formControlName="upcharge" [ngClass]="{ 'is-invalid': submitted  && f.upcharge.errors }">
                 <div *ngIf="submitted && f.upcharge.errors" class="invalid-feedback">
-                    <div *ngIf="f.upcharge.errors.required">Upcharge is required</div>
+                    <!-- <div *ngIf="f.upcharge.errors.required">Upcharge is required</div> -->
                 </div>
             </div>
             <div class="form-group col-lg-4" *ngIf="isAdditional">
@@ -144,7 +160,16 @@
                             </option>
                         </select>
             </div>
-            <div class="form-group col-lg-3">
+            
+            
+            <div class="form-group col-lg-4" *ngIf="isDetails">
+                <label></label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="isCeramic" (change)="changeCeramic($event.target.checked)">
+                    <label class="form-check-label" for="gridCheck">Is Ceramic</label>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
                 <label for="inputStatus">Status</label>
                 <select class="form-control" formControlName="status">
                             <option *ngFor="let status of Status" value="{{status.id}}">{{status.Value}}</option>

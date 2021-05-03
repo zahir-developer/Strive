@@ -1,14 +1,11 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Strive.BusinessEntities.CashRegister;
 using Strive.BusinessEntities.CashRegister.DTO;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessLogic.CashRegister;
 using Strive.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Admin.API.Controllers
 {
@@ -32,6 +29,13 @@ namespace Admin.API.Controllers
         public Result GetCashRegisterDetails(CashRegisterType cashRegisterType, int locationId, DateTime dateTime)
         {
             return _bplManager.GetCashRegisterDetails(cashRegisterType, locationId, dateTime);
+        }
+
+        [HttpPost]
+        [Route("GetTips")]
+        public Result GetTipDetail([FromBody]TipdetailDto tipdetailDto)
+        {
+            return _bplManager.GetTipDetail(tipdetailDto);
         }
     }
 }

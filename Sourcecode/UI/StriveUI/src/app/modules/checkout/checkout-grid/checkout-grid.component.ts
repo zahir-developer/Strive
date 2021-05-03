@@ -8,6 +8,10 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-checkout-grid',
@@ -26,25 +30,42 @@ export class CheckoutGridComponent implements OnInit {
   query = '';
   startDate: Date;
   endDate: Date;
-  daterangepickerModel = new Date();
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   sortColumn: { sortBy: string; sortOrder: string; };
+  currentWeek: Date;
+  daterangepickerModel: Date[];
+  timeOut: Date;
+  searchUpdate = new Subject<string>();
   constructor(
     private checkout: CheckoutService,
     private message: MessageServiceToastr,
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
-
+    private datePipe: DatePipe,
     private landingservice: LandingService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllUncheckedVehicleDetails();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.CheckOut, sortOrder: ApplicationConfig.Sorting.SortOrder.CheckOut.order };
-
-    this.startDate = new Date();
+    this.timeOut = new Date();
+    const currentDate = new Date();
+    const first = currentDate.getDate();
+    const last = currentDate.getDate();
+    this.startDate = new Date(currentDate.setDate(last));
+    this.currentWeek = this.startDate;
+    const lastDate = new Date();
     this.endDate = new Date();
+    this.daterangepickerModel = [this.startDate, this.endDate];
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -54,8 +75,8 @@ export class CheckoutGridComponent implements OnInit {
   }
   onValueChange(event) {
     if (event !== null) {
-      this.startDate = event;
-      this.endDate = event;
+      this.startDate = event[0];
+      this.endDate = event[1];
       this.getAllUncheckedVehicleDetails();
     }
     else {
@@ -67,11 +88,11 @@ export class CheckoutGridComponent implements OnInit {
   getAllUncheckedVehicleDetails() {
     const obj = {
       locationId: localStorage.getItem('empLocationId'),
-      startDate: this.startDate,
-      endDate: this.endDate,
+      StartDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
+      EndDate: this.datePipe.transform(this.endDate, 'yyyy-MM-dd'),
       pageNo: this.page,
       pageSize: this.pageSize,
-      query: this.search == "" ? null : this.search,
+      query: this.search === '' ? null : this.search,
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
       status: true
@@ -83,6 +104,11 @@ export class CheckoutGridComponent implements OnInit {
 
         const uncheck = JSON.parse(data.resultData);
         this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
+        if (this.uncheckedVehicleDetails?.length > 0) {
+          for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
+            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
+          }
+        }
         if (this.uncheckedVehicleDetails == null) {
           this.isTableEmpty = true;
         } else {
@@ -117,7 +143,7 @@ export class CheckoutGridComponent implements OnInit {
     this.sortColumn = {
       sortBy: column,
       sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-    }
+    };
 
     this.selectedCls(this.sortColumn)
     this.getAllUncheckedVehicleDetails();
@@ -157,18 +183,21 @@ export class CheckoutGridComponent implements OnInit {
 
         this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
           .then((confirmed) => {
+            const checkoutTime = new Date();
             const finalObj = {
-              id: checkout.JobId,
+              jobId: checkout.JobId,
               checkOut: true,
-              actualTimeOut: new Date()
+              checkOutTime: checkoutTime
             };
             this.spinner.show();
             this.checkout.checkoutVehicle(finalObj).subscribe(res => {
               if (res.status === 'Success') {
                 this.spinner.hide();
-
                 this.toastr.success(MessageConfig.checkOut.Add, 'Success!');
-                this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
+                this.sortColumn = {
+                  sortBy: ApplicationConfig.Sorting.SortBy.Vehicle,
+                  sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order
+                };
 
                 this.getAllUncheckedVehicleDetails();
               }
@@ -234,7 +263,8 @@ export class CheckoutGridComponent implements OnInit {
 
         if (checkout.MembershipNameOrPaymentStatus !== 'Completed') {
           const finalObj = {
-            id: checkout.JobId
+            jobId: checkout.JobId,
+            ActualTimeOut: moment(this.timeOut).format()
           };
           this.spinner.show();
           this.checkout.completedVehicle(finalObj).subscribe(res => {

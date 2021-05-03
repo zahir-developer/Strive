@@ -7,6 +7,7 @@ import { AuthGuard } from './shared/guards/auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SelectLocationComponent } from './select-location/select-location.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
@@ -22,7 +23,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule)
   },
   {
-    path: 'detail', data: { label: 'Detail', title: 'Detail', authorization: 'Detail' },
+    path: 'detail', canActivate: [AuthGuard],  data: { label: 'Detail', title: 'Detail', authorization: 'Detail' },
     loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule)
   },
   {
@@ -59,11 +60,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/customer/customer.module').then(mod => mod.CustomerModule)
   },
   {
-    path: 'customer-history',  data: { label: 'Customer-History', title: 'Customer-History' },
+    path: 'customer-history', data: { label: 'Customer-History', title: 'Customer-History' },
     loadChildren: () => import('./modules/customer-history/customer-history.module').then(mod => mod.CustomerHistoryModule)
   },
-  {path: 'Customer-sales', data: { label: 'Customer-sales', title: 'Customer-sales', authorization: 'Customer-sales' }, loadChildren: () => import('./modules/customer-sales/customer-sales.module').then(mod => mod.CustomerSalesModule)},
-
+  {
+    path: 'Customer-sales', data: { label: 'Customer-sales', title: 'Customer-sales', authorization: 'Customer-sales' },
+    loadChildren: () => import('./modules/customer-sales/customer-sales.module').then(mod => mod.CustomerSalesModule)
+  },
+  { path: 'unauthorized', component: UnauthorizedComponent, data: { label: 'unauthorized', title: 'unauthorized' } },
   {
     path: '',
     redirectTo: '',

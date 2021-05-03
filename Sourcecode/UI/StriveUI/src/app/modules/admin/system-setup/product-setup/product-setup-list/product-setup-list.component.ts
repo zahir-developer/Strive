@@ -5,6 +5,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-setup-list',
@@ -28,12 +30,24 @@ export class ProductSetupListComponent implements OnInit {
   isDesc: boolean;
   sortBy: string;
   sortColumn: { sortBy: any; sortOrder: string; };
-  constructor(private productService: ProductService,
+  searchUpdate = new Subject<string>();
+  constructor(
+    private productService: ProductService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) { }
+    private toastr: ToastrService, private confirmationService: ConfirmationUXBDialogService) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllproductSetupDetails();
+      });
+  }
 
   ngOnInit() {
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ProductSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order };
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.ProductSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order
+    };
 
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
@@ -49,7 +63,7 @@ export class ProductSetupListComponent implements OnInit {
       productSearch: this.search
     };
     this.isLoading = true;
-    this.productService.ProductSearch(obj).subscribe(data => {
+    this.productService.getProduct(obj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
@@ -65,23 +79,26 @@ export class ProductSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-this.isLoading = false;
+      this.isLoading = false;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   // Get All Product
   getAllproductSetupDetails() {
+    const obj = {
+      productSearch: this.search
+    };
     this.isLoading = true;
-    this.productService.getProduct().subscribe(data => {
+    this.productService.getProduct(obj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const product = JSON.parse(data.resultData);
-        this.productSetupDetails = product.Product;
+        this.productSetupDetails = product.ProductSearch;
         if (this.productSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.sort(ApplicationConfig.Sorting.SortBy.ProductSetup)
+          this.sort(ApplicationConfig.Sorting.SortBy.ProductSetup);
           this.collectionSize = Math.ceil(this.productSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -89,49 +106,49 @@ this.isLoading = false;
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-this.isLoading = false;
+      this.isLoading = false;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
- 
- sort(property) {
-  this.sortColumn ={
-    sortBy: property,
-    sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order
-   }
-   this.sorting(this.sortColumn)
-   this.selectedCls(this.sortColumn)
- 
-}
-sorting(sortColumn){
-  let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-let property = sortColumn.sortBy;
-  this.productSetupDetails.sort(function (a, b) {
-    if (a[property] < b[property]) {
-      return -1 * direction;
+
+  sort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order
     }
-    else if (a[property] > b[property]) {
-      return 1 * direction;
-    }
-    else {
-      return 0;
-    }
-  });
-}
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
+  }
+  sorting(sortColumn) {
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+    let property = sortColumn.sortBy;
+    this.productSetupDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
   changesort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-     }
- 
-     this.selectedCls(this.sortColumn)
-this.sorting(this.sortColumn)
-    
+    }
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
   }
   selectedCls(column) {
-    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
       return 'fa-sort-desc';
-    } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
       return 'fa-sort-asc';
     }
     return '';

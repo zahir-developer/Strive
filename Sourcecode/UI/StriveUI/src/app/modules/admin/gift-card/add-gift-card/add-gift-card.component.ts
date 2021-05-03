@@ -24,6 +24,7 @@ export class AddGiftCardComponent implements OnInit {
   isOtherAmount: boolean;
   submitted: boolean;
   GiftcardNumberExist: any;
+  giftCardCode: any;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -31,9 +32,9 @@ export class AddGiftCardComponent implements OnInit {
     private toastr: ToastrService,
     private messageService: MessageServiceToastr,
     private router: Router,
-    private wash : WashService,
+    private wash: WashService,
     private spinner: NgxSpinnerService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.submitted = false;
@@ -44,6 +45,7 @@ export class AddGiftCardComponent implements OnInit {
       amount: ['', Validators.required],
       others: [''],
       clientId: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
     });
     this.amountList = [
       {
@@ -100,11 +102,11 @@ export class AddGiftCardComponent implements OnInit {
           };
         });
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      
+
     });
   }
   selectedClient(event) {
@@ -114,11 +116,11 @@ export class AddGiftCardComponent implements OnInit {
   saveGiftCard() {
     this.submitted = true;
     if (this.giftCardForm.invalid) {
-      this.toastr.warning( MessageConfig.Mandatory ,'Warning!');
+      this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
       return;
     }
-    if(this.GiftcardNumberExist === true){
-      this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists , 'Warning!');
+    if (this.GiftcardNumberExist === true) {
+      this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists, 'Warning!');
       return;
 
     }
@@ -129,6 +131,7 @@ export class AddGiftCardComponent implements OnInit {
       giftCardName: null,
       activationDate: moment(this.giftCardForm.value.activeDate),
       comments: null,
+      email: this.giftCardForm.value.email,
       isActive: true,
       isDeleted: false,
       totalAmount: this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
@@ -136,18 +139,36 @@ export class AddGiftCardComponent implements OnInit {
       createdDate: moment(new Date()),
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()),
-      clientId : this.clientId
+      clientId: this.clientId
     };
+    const activityObj = {
+      giftCardHistoryId: 0,
+      giftCardId: 0,
+      locationId: +localStorage.getItem('empLocationId'),
+      transactionType: null,
+      transactionAmount: this.isOtherAmount ? this.giftCardForm.value.others : this.giftCardForm.value.amount,
+      transactionDate: moment(new Date()),
+      comments: null,
+      isActive: true,
+      isDeleted: false,
+      createdBy: +localStorage.getItem('empId'),
+      createdDate: moment(new Date()),
+      updatedBy: +localStorage.getItem('empId'),
+      updatedDate: moment(new Date())
+    };
+
     const finalObj = {
-      giftCard: cardObj
+      giftCard: cardObj,
+      giftCardHistory: activityObj
+
     };
-  this.spinner.show();
+    this.spinner.show();
     this.giftCardService.saveGiftCard(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 
-        this.toastr.success(MessageConfig.Admin.GiftCard.Add , 'Success!');
-        this.activeModal.close(true);
+        this.toastr.success(MessageConfig.Admin.GiftCard.Add, 'Success!');
+        this.activeModal.close(+this.giftCardForm.value.number);
         this.router.navigate(['/admin/gift-card']);
       } else {
         this.spinner.hide();
@@ -163,36 +184,35 @@ export class AddGiftCardComponent implements OnInit {
 
   generateNumber() {
     const cardNumber = Math.floor(100000 + Math.random() * 900000);
-    
     this.giftCardForm.patchValue({
       number: cardNumber
     });
+    this.giftCardExist(this.giftCardForm.value.number);
   }
-giftCardExist(event){
-  this.giftCardService.GiftCardAlreadyExists(event).subscribe(res => {
-    if (res.status === 'Success') {
-    const GiftcardNumber = JSON.parse(res.resultData)
-    this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable
-      if(this.GiftcardNumberExist === true){
-        this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists , 'Warning!');
-        this.giftCardForm.patchValue({
-          number: ''
-        });
+  giftCardExist(event) {
+    this.giftCardService.GiftCardAlreadyExists(event).subscribe(res => {
+      if (res.status === 'Success') {
+        const GiftcardNumber = JSON.parse(res.resultData);
+        this.GiftcardNumberExist = GiftcardNumber.IsGiftCardAvailable;
+        if (this.GiftcardNumberExist === true) {
+          this.toastr.warning(MessageConfig.Admin.GiftCard.GiftCardAlreadyExists, 'Warning!');
+          this.giftCardForm.patchValue({
+            number: ''
+          });
+        }
+        else {
+          this.giftCardForm.patchValue({
+            number: event
+          });
+        }
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-      else {
-      
-        this.giftCardForm.patchValue({
-          number: event
-        });
-    } 
-    }else{
+
+    }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    }
-   
-  }, (err) => {
-    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-  });
- 
-}
+    });
+
+  }
 
 }

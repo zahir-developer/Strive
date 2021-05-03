@@ -12,7 +12,7 @@ import { AuthenticateObservableService } from '../../observable-service/authenti
 export class AuthService {
   userDetails: any;
   public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+  refreshTokenTimeout;
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
@@ -27,6 +27,7 @@ export class AuthService {
       if (user !== null && user !== undefined) {
         if (user.status === 'Success') {
           this.userService.setUserSettings(user.resultData);
+          this.startRefreshTokenTimer();
           return user;
         }
       }
@@ -45,10 +46,23 @@ export class AuthService {
           const token = JSON.parse(user.resultData);
           localStorage.setItem('authorizationToken', token.Token);
           localStorage.setItem('refreshToken', token.RefreshToken);
+          this.startRefreshTokenTimer();
         }
       }
     }));
   }
+
+  startRefreshTokenTimer() {
+    // set a timeout to refresh the token a minute before it expires
+    // const expires = new Date(1618587325 * 1000);
+    // const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    const timeSecs = 19 * 60 * 1000;
+    this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeSecs);
+  }
+
+  private stopRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimeout);
+}
 
   // refreshToken(): Observable<{accessToken: string; refreshToken: string}> {
   //   const refreshToken = localStorage.getItem('refreshToken');
@@ -72,8 +86,8 @@ export class AuthService {
     this.loggedIn.next(false);
     localStorage.removeItem('views');
     localStorage.removeItem('navName');
-    localStorage.clear();
-
+    // localStorage.clear();
+    this.stopRefreshTokenTimer();
     document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
     document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
     document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');

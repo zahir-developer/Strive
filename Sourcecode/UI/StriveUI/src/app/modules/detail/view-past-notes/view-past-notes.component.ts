@@ -14,6 +14,11 @@ export class ViewPastNotesComponent implements OnInit {
 
   ngOnInit(): void {
     this.collectionSize = Math.ceil(this.viewNotes.length / this.pageSize) * 10;
+    if (this.viewNotes?.length > 0) {
+      for (let i = 0; i < this.viewNotes.length; i++) {
+        this.viewNotes[i].VehicleModel == 'None' ? this.viewNotes[i].VehicleModel =  'Unk' : this.viewNotes[i].VehicleModel ;
+      }
+    }
   }
 
 }

@@ -52,8 +52,8 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   getMonthlySalesReport() {
     const obj = {
       locationId: this.locationId,
-      fromDate: this.fromDate,
-      endDate: this.endDate
+      fromDate:moment(this.fromDate).format(),
+      endDate: moment(this.endDate).format(),
     };
     this.spinner.show();
     this.reportService.getMonthlySalesReport(obj).subscribe(data => {
@@ -158,10 +158,13 @@ return monthlySales;
     }
   }
   onMonthChange(event) {
-    this.fromDate.setMonth(event - 1);
-    this.endDate.setMonth(event - 1);
-    this.fromDate = moment(this.fromDate).startOf('month').toDate();
-    this.endDate = moment(this.endDate).endOf('month').toDate();
+  
+    var date = new Date();
+   date.setMonth(event - 1);
+   date.setMonth(event - 1);
+    this.fromDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.endDate  = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+   
   }
   onYearChange(event) {
     this.fromDate.setFullYear(event);

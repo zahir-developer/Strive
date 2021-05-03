@@ -59,12 +59,12 @@
         <div>
             <form [formGroup]="detailForm">
                 <div class="form-row border-bottom m-b-8">
-                    <div class="form-group col-xl-3">
-                        <h5 class="d-inline-block font-weight-600">Ticket No. <span style="color: #1dc5b3;">{{ticketNumber}}</span>
-                        </h5> <span class="font-size-1 font-weight-600"></span>
-                    </div>
-                    <div class="form-group col-xl-9">
+                    <div class="form-group col-xl-12">
                         <div class="row">
+                            <div class="form-group col-sm-3 p-t-5">
+                                <h5 class="d-inline-block font-weight-600">Ticket No. <span style="color: #1dc5b3;">{{ticketNumber}}</span>
+                                </h5> <span class="font-size-1 font-weight-600"></span>
+                            </div>
                             <div class="col-sm-2">
                                 <select class="form-control" formControlName="bay">
                                     <option *ngFor="let b of baylist" value="{{b.id}}">
@@ -74,18 +74,16 @@
                             </div>
                             <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>In Time:</label>
-
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="text" class="form-control" name="inTime" id="inTime" formControlName="inTime" />
                             </div>
                             <div class="col-sm-1 text-right p-t-5" style="padding-right: 0px !important; padding-left: 0px !important;">
                                 <label>Due Time:</label>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <input type="text" class="form-control" name="dueTime" id="dueTime" formControlName="dueTime" />
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -102,8 +100,8 @@
                                     <p-autoComplete field="name" [suggestions]="clientList" [ngClass]="{ 'is-invalid': submitted && f.client.errors }" (completeMethod)="filterClient($event)" [size]="10" formControlName="client" placeholder="Client Name" (onSelect)="selectedClient($event)"
                                         (onKeyUp)="onKeyUp($event)">
                                     </p-autoComplete>
-                                    <div *ngIf="submitted && f.client.errors" class="invalid-feedback">
-                                        <div *ngIf="f.client.errors?.required">Client is required</div>
+                                    <div *ngIf="submitted && f.client.errors">
+                                        <div *ngIf="f.client.errors.required" style="color: #dc3545;font-size: 80%;margin-top: .25rem;">Client Name is required</div>
                                     </div>
                                 </div>
                             </div>
@@ -133,12 +131,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label for="inputType">Type</label>
+                        <label for="inputType">Make</label>
 
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredMake" (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10" formControlName="type" placeholder="Make">
+                                    <p-autoComplete field="name" (onSelect)="selectedModel($event)" [suggestions]="filteredMake" (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)" [size]="10" formControlName="type" placeholder="Make">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -150,7 +148,7 @@
                         <div class="ui-fluid">
                             <div class="p-grid forms-grid">
                                 <div class="p-col-3 p-md-6">
-                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')" (completeMethod)="filterModel($event)" [size]="10" formControlName="model" placeholder="Model">
+                                    <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"  (completeMethod)="filterModel($event)" [size]="10" formControlName="model" placeholder="Model" (onSelect)="getUpcharge()">
                                     </p-autoComplete>
                                 </div>
                             </div>
@@ -184,20 +182,24 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="inputUpchargeType">Upcharge Type</label>
-                        <select class="form-control" formControlName="upchargeType" (change)="upchargeService($event.target.value)">
+                        <select class="form-control" formControlName="upchargeType" (change)="upchargeService($event.target.value);">
+                          
                             <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
+                            <option *ngFor="let score of  UpchargeType" value="{{score.ServiceId}}">
                                 {{score.ServiceName}}
                             </option>
+                           
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputUpcharges">Upcharges</label>
                         <select class="form-control" formControlName="upcharges" (change)="upchargeService($event.target.value)">
-                            <option hidden selected value="">Choose</option>
+                          
+                             <option hidden selected value="">Choose</option>
                             <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
                                 {{score.Upcharges}}
                             </option>
+                          
                         </select>
                     </div>
                     <div class="form-group col-md-3">
@@ -226,7 +228,7 @@
                     <div class="title-border p-b-5 m-b-5">
                         <h5 class="d-inline-block font-weight-600">Additional Service</h5>
                     </div>
-                    <div style="height: 150px;overflow-y: scroll;">
+                    <div style="height: 90%; overflow-y: scroll;">
                         <div class="row">
                             <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
@@ -254,7 +256,7 @@
                             <button type="button" class="btn theme-primary-button-color col-3"
                                 [disabled]="!isStart || isView" (click)="start()">Start</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"
-                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit">Assign</button>&nbsp;
+                                (click)="assignEmployee()" [disabled]="!isAssign && !isEdit || isView">Assign</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-4"
                                 [disabled]="!isCompleted || isView" (click)="completed()">Complete</button>
                         </span>
@@ -273,8 +275,8 @@
                     <div class="row">
                         <span class="col-2"></span>
                         <span class="col-10" style="padding-left: 5px !important;">
-                            <button type="button" class="btn theme-primary-button-color col-3"
-                                [disabled]="!isEdit || isView" (click)="pay()">Pay</button>&nbsp;
+                            <button type="button" 
+                                [disabled]="!isEdit" (click)="pay()" [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled col-3' : 'btn theme-primary-button-color col-3'">{{paidLabel}}</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3" (click)="saveDetail()"
                                 [disabled]="isView">Save</button>&nbsp;
                             <button type="button" class="btn theme-primary-button-color col-3"

@@ -16,6 +16,8 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string Upcharges { get; set; }
         public decimal Price { get; set; }
         public string DiscountType { get; set; }
+        public bool IsCeramic { get; set; }
+
 
     }
 }

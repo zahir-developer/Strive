@@ -11,5 +11,7 @@ namespace Strive.BusinessEntities.DTO.Location
         public int LocationId { get; set; }
        
         public string LocationName { get; set; }
+
+        public string WashTimeMinutes { get; set; }
     }
 }

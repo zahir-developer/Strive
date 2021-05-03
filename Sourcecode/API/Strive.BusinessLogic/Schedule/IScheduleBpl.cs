@@ -14,6 +14,7 @@ namespace Strive.BusinessLogic.Schedule
         Result DeleteSchedule(int scheduleId);
         Result GetScheduleById(int scheduleId);
         Result GetSchedule(ScheduleDetailDto scheduleDetail);
+        Result GetScheduleAndForcasted(ScheduleDetailDto scheduleDetail);
 
     }
 }

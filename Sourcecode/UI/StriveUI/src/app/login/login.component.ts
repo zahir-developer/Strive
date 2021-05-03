@@ -12,6 +12,9 @@ import { LandingService } from '../shared/services/common-service/landing.servic
 import { GetCodeService } from '../shared/services/data-service/getcode.service';
 import { CodeValueService } from '../shared/common-service/code-value.service';
 import { tap, mapTo, share } from 'rxjs/operators';
+import { ApplicationConfig } from '../shared/services/ApplicationConfig';
+import { WeatherService } from '../shared/services/common-service/weather.service';
+import { LogoService } from '../shared/services/common-service/logo.service';
 
 @Component({
   selector: 'app-login',
@@ -27,21 +30,46 @@ export class LoginComponent implements OnInit {
   isLoginLoading: boolean;
   whiteLabelDetail: any;
   colorTheme: any;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   dashBoardModule: boolean;
-  constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
+  isRememberMe: boolean;
+  constructor(
+    private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
-    private msgService: MessengerService, private user: UserDataService, private spinner: NgxSpinnerService
-    , private landing: LandingService, private codeValueService: CodeValueService) { }
+    private msgService: MessengerService, private user: UserDataService,
+    private logoService: LogoService,
+    private spinner: NgxSpinnerService, private weatherService: WeatherService,
+    private landing: LandingService, private codeValueService: CodeValueService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
     });
     this.authService.logout();
+    console.log(localStorage.getItem('isRemember'));
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+      isRemember: new FormControl(false)
     });
-    this.msgService.closeConnection();
+    this.bindValue();
+  }
+
+  bindValue() {
+    if (localStorage.getItem('isRemember') !== null) {
+      if (localStorage.getItem('isRemember') === 'true') {
+        this.loginForm.patchValue({
+          isRemember: localStorage.getItem('isRemember'),
+          username: localStorage.getItem('username'),
+          password: localStorage.getItem('password')
+        });
+      } else {
+        this.loginForm.patchValue({
+          isRemember: false,
+          username: '',
+          password: ''
+        });
+      }
+    }
   }
   get f() { return this.loginForm.controls; }
   LoginSubmit(): void {
@@ -55,6 +83,14 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.value.username,
       passwordHash: this.loginForm.value.password
     };
+    // console.log(localStorage.getItem('isRemember'));
+    if (localStorage.getItem('isRemember') === 'true') {
+      localStorage.setItem('username', this.loginForm.value.username);
+      localStorage.setItem('password', this.loginForm.value.password);
+    } else {
+      localStorage.removeItem('username');
+      localStorage.removeItem('password');
+    }
     this.isLoginLoading = true;
     this.spinner.show();
     this.authService.login(loginObj).subscribe(data => {
@@ -62,13 +98,13 @@ export class LoginComponent implements OnInit {
       if (data) {
         if (data.status === 'Success') {
           this.spinner.hide();
-      const token = JSON.parse(data.resultData);
-          this.landing.loadTheLandingPage();
+          const token = JSON.parse(data.resultData);
+          this.landing.loadTheLandingPage(true);
           this.getCodeValue();
           this.getThemeColor();
           this.msgService.startConnection();
-        } else {    
-  this.errorFlag = true;
+        } else {
+          this.errorFlag = true;
           this.isLoginLoading = false;
           this.spinner.hide();
         }
@@ -77,6 +113,11 @@ export class LoginComponent implements OnInit {
       this.spinner.hide();
       this.isLoginLoading = false;
     });
+  }
+
+  rememberMe(event) {
+    console.log(event);
+    localStorage.setItem('isRemember', event.target.checked);
   }
 
   forgotPassword() {
@@ -88,6 +129,10 @@ export class LoginComponent implements OnInit {
       this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
         if (res.status === 'Success') {
           const label = JSON.parse(res.resultData);
+          this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+          const base64 = 'data:image/png;base64,';
+          const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
+          this.favIcon.href = logoBase64;
           this.colorTheme = label.WhiteLabelling.Theme;
           this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
           this.colorTheme.forEach(item => {
@@ -106,7 +151,7 @@ export class LoginComponent implements OnInit {
   }
 
   getCodeValue() {
-    this.getCodeService.getCodeByCategory('ALL').subscribe( res => {
+    this.getCodeService.getCodeByCategory(ApplicationConfig.Category.all).subscribe(res => {
       if (res.status === 'Success') {
         const value = JSON.parse(res.resultData);
         localStorage.setItem('codeValue', JSON.stringify(value.Codes));

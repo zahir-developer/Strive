@@ -9,13 +9,12 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
-import { element } from 'protractor';
-import { threadId } from 'worker_threads';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
 
 declare var $: any;
 @Component({
@@ -54,13 +53,18 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
   empList: any;
   showDialog: boolean;
-  locationId = 0;
+  locationId: any;
   scheduleId: any;
   scheduleType: any;
   totalHours: any;
   EmpCount: any;
   jobTypeId: any;
+  clonedEmpList = [];
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  noOfForcastedCars = 0;
+  noOfForcastedHours = 0;
+  noOfCurrentEmployee = 0;
+  noOfCurrentHours = 0;
   constructor(
     private empService: EmployeeService,
     private locationService: LocationService,
@@ -69,7 +73,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     private employeeService: EmployeeService,
     private spinner: NgxSpinnerService,
     private detailService: DetailService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public dashboardService: DashboardService
   ) {
     this.dateTime = new Date();
   }
@@ -88,6 +93,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit(): void {
+    this.locationId = +localStorage.getItem('empLocationId');
     this.searchEmployee();
     this.getLocationList();
 
@@ -136,7 +142,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         const selectedDate = eventReceiveEvent.event.start;
         const currentDate: any = new Date();
         if (Date.parse(selectedDate) < Date.parse(currentDate)) {
-          this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Schedule can not be added for Past Date/Time.' });
+          this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Schedule.schedulePassDate });
           this.cancel();
         } else {
           this.buttonText = 'Add';
@@ -223,12 +229,13 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   // Get All Location
   getLocationList() {
-    this.locationService.getLocation().subscribe(res => {
+    const locID = 0;
+    this.dashboardService.getAllLocationWashTime(locID).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
-        this.location = location.Location;
+        this.location = location.Washes;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -243,7 +250,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       return;
     }
     if (this.dateTime > this.startTime) {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Past Date  Should not allow to Schedule' });
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Schedule.passedDateTime });
       return;
     }
     let alreadyScheduled = false;
@@ -256,7 +263,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
     });
     if (alreadyScheduled) {
-      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Can not able to schedule at the same time' });
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Schedule.sameTime });
       return;
     }
     const form = {
@@ -282,20 +289,20 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         this.spinner.hide();
 
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Schedule.save });
         $('#calendarModal').modal('hide');
         this.getSchedule();
       } else {
         this.spinner.hide();
 
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
         this.getSchedule();
         $('#calendarModal').modal('hide');
       }
     }, (err) => {
       this.spinner.hide();
 
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       this.getSchedule();
       $('#calendarModal').modal('hide');
     });
@@ -316,8 +323,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         const empSchehdule = JSON.parse(data.resultData);
+        this.getScheduleAndForcasted(getScheduleObj);
         if (empSchehdule.ScheduleDetail !== null) {
           this.totalHours = empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours ?
             empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours : 0;
@@ -348,14 +355,33 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.removeDraggedEvent();
         this.retainUnclickedEvent();
       }
-      else{
+      else {
         this.spinner.hide();
 
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      this.spinner.hide();
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
+      });
+  }
+
+  getScheduleAndForcasted(getScheduleObj) {
+    this.scheduleService.getScheduleAndForcasted(getScheduleObj).subscribe(res => {
+      if (res.status === 'Success') {
+        const scheduleDetail = JSON.parse(res.resultData);
+        this.noOfForcastedCars = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars ?
+          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars : 0;
+        this.noOfForcastedHours = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours ?
+          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours : 0;
+        this.noOfCurrentEmployee = scheduleDetail.ScheduleForcastedDetail.ScheduleEmployeeViewModel.TotalEmployees;
+        this.noOfCurrentHours = scheduleDetail.ScheduleForcastedDetail.ScheduleHoursViewModel.Totalhours;
+        $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+        $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
+      }
+    }, (err) => {
+      $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+      $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
     });
   }
   // Retain Unclicked EmployeeList
@@ -393,15 +419,15 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   // Delete Event
   deleteEvent(event) {
-    
+
     this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
       if (data.status === 'Success') {
         this.getSchedule();
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   getJobType() {
@@ -419,9 +445,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   getLocationId(event) {
@@ -452,9 +478,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       }
 
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   splitEmpName(event) {
     const str = event.event.title.split('\n');
@@ -509,19 +535,22 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       status: true
     };
     this.getJobType();
-    this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
+    this.employeeService.getAllEmployeeName(this.locationId).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
-        this.empList = JSON.parse(res.resultData);
+        // this.empList = JSON.parse(res.resultData);
         const seachList = JSON.parse(res.resultData);
-        if (seachList.EmployeeList.Employee !== null) {
-          this.empList = seachList.EmployeeList.Employee;
-        }
+        this.empList = seachList.EmployeeName;
+        this.empList.forEach(item => {
+          item.employeeName = item.FirstName + '' + item.LastName;
+        });
+        this.clonedEmpList = this.empList.map(x => Object.assign({}, x));
+        // if (seachList.EmployeeList.Employee !== null) {
+        //   this.empList = seachList.EmployeeList.Employee;
+        // }
       } else {
         this.spinner.hide();
-
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -536,5 +565,14 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   searchFocus() {
     this.search = this.search.trim();
+  }
+
+  searchVechicleList(text) {
+    if (text.length > 0) {
+      this.empList = this.clonedEmpList.filter(item => item.employeeName.toLowerCase().includes(text));
+    } else {
+      this.empList = [];
+      this.empList = this.clonedEmpList;
+    }
   }
 }
