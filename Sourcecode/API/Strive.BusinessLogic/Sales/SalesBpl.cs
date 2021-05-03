@@ -96,7 +96,7 @@ namespace Strive.BusinessLogic.Sales
 
                             //var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId, roles);
 
-                            var emailId = new CommonRal(_tenant).GetEmailIdByRole();
+                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId);
 
                             if (product != null && product.Quantity != null)
                             {
@@ -104,10 +104,11 @@ namespace Strive.BusinessLogic.Sales
                                 {
                                     foreach (var item in emailId)
                                     {
+                                        var subject = "Product threshold limit";
                                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                                         keyValues.Add("{{emailId}}", item.Email);
                                         keyValues.Add("{{productName}}", product.ProductName);
-                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues);
+                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues, subject);
                                     }
 
                                 }

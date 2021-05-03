@@ -6,9 +6,10 @@ begin
 	from StriveCarSalon.tblCodeCategory cat inner join StriveCarSalon.tblCodeValue val on
 	cat.id=val.categoryid
 	where 
-	(@Category is null or Category = @Category)
+	(@Category is null or Category = @Category or (Category = 'ALL' AND Category != 'City'))
 	and 
 	(@CategoryId is null or CategoryId = @CategoryId)
 	and ISNULL(val.IsDeleted,0) =0
 	order by SortOrder,val.CodeValue
+
 end

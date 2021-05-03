@@ -97,7 +97,7 @@ tblb.BayName
 --,tblji.JobItemId
 ,ISnULL(sp.Price, 0) AS Cost
 ,SUBSTRING(CONVERT(VARCHAR(8),tblj.TimeIn,108),0,6) AS TimeIn
-,CONCAT(tblc.FirstName,'',tblc.LastName) AS ClientName
+,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
 ,SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6) AS EstimatedTimeOut
 ,(det.ServiceTypeName)ServiceTypeName

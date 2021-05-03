@@ -24,6 +24,7 @@ using PopupMenu = Android.Widget.PopupMenu;
 using IList = System.Collections.IList;
 using System.Collections.ObjectModel;
 using Strive.Core.Services.Implementations;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 
 namespace StriveEmployee.Android.Fragments
 {
@@ -247,8 +248,19 @@ namespace StriveEmployee.Android.Fragments
         private async void getCommunicationID()
         {
             MessengerService messengerService = new MessengerService();
-            var data = await messengerService.GetContacts("%20");
-            var selectedData = data.EmployeeList.Find(x => x.EmployeeId == MessengerTempData.RecipientID);
+            var data = await messengerService.GetContacts(new GetAllEmployeeDetail_Request
+            {
+                startDate = null,
+                endDate = null,
+                locationId = null,
+                pageNo = null,
+                pageSize = null,
+                query = "",
+                sortOrder = null,
+                sortBy = null,
+                status = true,
+            });
+            var selectedData = data.EmployeeList.Employee.Find(x => x.EmployeeId == MessengerTempData.RecipientID);
             if (selectedData != null)
             {
                 MessengerTempData.ConnectionID = selectedData.CommunicationId;

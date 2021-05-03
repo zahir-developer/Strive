@@ -42,11 +42,20 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetSchedule(scheduleDetail);
         }
+        [HttpPost]
+        [Route("GetScheduleAndForcasted")]
+        public Result GetScheduleAndForcasted([FromBody] ScheduleDetailDto scheduleDetail)
+        {
+            return _bplManager.GetScheduleAndForcasted(scheduleDetail);
+        }
         #endregion
         [HttpGet]
         [Route("GetScheduleById")]
         public Result GetScheduleById(int scheduleId) => _bplManager.GetScheduleById(scheduleId);
 
-        
+       
+
+
+
     }
 }

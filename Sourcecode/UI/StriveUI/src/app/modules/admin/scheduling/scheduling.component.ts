@@ -9,8 +9,6 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
-import { element } from 'protractor';
-import { threadId } from 'worker_threads';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
@@ -63,6 +61,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   jobTypeId: any;
   clonedEmpList = [];
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  noOfForcastedCars = 0;
+  noOfForcastedHours = 0;
+  noOfCurrentEmployee = 0;
+  noOfCurrentHours = 0;
   constructor(
     private empService: EmployeeService,
     private locationService: LocationService,
@@ -321,8 +323,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         const empSchehdule = JSON.parse(data.resultData);
+        this.getScheduleAndForcasted(getScheduleObj);
         if (empSchehdule.ScheduleDetail !== null) {
           this.totalHours = empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours ?
             empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours : 0;
@@ -362,6 +364,25 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.spinner.hide();
       });
+  }
+
+  getScheduleAndForcasted(getScheduleObj) {
+    this.scheduleService.getScheduleAndForcasted(getScheduleObj).subscribe(res => {
+      if (res.status === 'Success') {
+        const scheduleDetail = JSON.parse(res.resultData);
+        this.noOfForcastedCars = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars ?
+          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars : 0;
+        this.noOfForcastedHours = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours ?
+          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours : 0;
+        this.noOfCurrentEmployee = scheduleDetail.ScheduleForcastedDetail.ScheduleEmployeeViewModel.TotalEmployees;
+        this.noOfCurrentHours = scheduleDetail.ScheduleForcastedDetail.ScheduleHoursViewModel.Totalhours;
+        $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+        $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
+      }
+    }, (err) => {
+      $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+      $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
+    });
   }
   // Retain Unclicked EmployeeList
   retainUnclickedEvent() {
@@ -520,7 +541,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         // this.empList = JSON.parse(res.resultData);
         const seachList = JSON.parse(res.resultData);
         this.empList = seachList.EmployeeName;
-        this.empList.forEach( item => {
+        this.empList.forEach(item => {
           item.employeeName = item.FirstName + '' + item.LastName;
         });
         this.clonedEmpList = this.empList.map(x => Object.assign({}, x));
