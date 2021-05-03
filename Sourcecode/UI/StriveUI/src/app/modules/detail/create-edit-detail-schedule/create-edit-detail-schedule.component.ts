@@ -306,10 +306,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isDetails = true;
     if (this.isEdit) {
 
-      this.detailItems.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = true;
-      if (this.detailItems.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
+      this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = true;
+      if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
-        this.detailItems.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = false;
+        this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = false;
       } else {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
         const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
@@ -361,12 +361,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   outSideService(data) {
     if (this.isEdit) {
-      if (this.detailItems.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0] !== undefined) {
-        this.detailItems.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0].IsDeleted = true;
+      if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0] !== undefined) {
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0].IsDeleted = true;
       }
-      if (this.detailItems.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
+      if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
-        this.detailItems.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0].IsDeleted = false;
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.outsideServiceId)[0].IsDeleted = false;
       } else {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.outsideServiceId);
         const serviceAir = this.outsideServices.filter(item => item.ServiceId === Number(data));
@@ -402,12 +402,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isEdit) {
 
 
-      if (this.detailItems.filter(i => i.ServiceTypeId === this.upchargeId)[0] !== undefined) {
-        this.detailItems.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = true;
+      if (this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0] !== undefined) {
+        this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = true;
       }
-      if (this.detailItems.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
+      if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
-        this.detailItems.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = false;
+        this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = false;
       } else {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.upchargeId);
         const serviceUpcharge = this.upcharges.filter(item => item.ServiceId === Number(data));
@@ -430,10 +430,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   change(data) {
-    const temp = this.detailItems.filter(item => item.ServiceId === data.ServiceId);
+    const temp = this.washItem.filter(item => item.ServiceId === data.ServiceId);
     if (temp.length !== 0) {
       if (data.IsChecked) {
-        this.detailItems.forEach(item => {
+        this.washItem.forEach(item => {
           if (item.ServiceId === data.ServiceId) {
             item.IsDeleted = true;
           } else {
@@ -505,6 +505,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             Number(item.ServiceTypeId) === this.upchargeId);
           this.ceramicUpcharges = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.ceramicUpchargeId);
+
+
 
           this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.airFreshenerId);
@@ -607,8 +609,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
     this.ticketNumber = this.selectedData?.Details?.TicketNumber;
-    this.detailItems = this.selectedData.DetailsItem;
-    this.detailItems.forEach(element => {
+    this.washItem = this.selectedData.DetailsItem;
+    this.washItem.forEach(element => {
       if (this.additional.filter(item => item.ServiceId === element.ServiceId)[0] !== undefined) {
         this.additional.filter(item => item.ServiceId === element.ServiceId)[0].IsChecked = true;
       }
@@ -769,12 +771,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   airService(data) {
     if (this.isEdit) {
-      if (this.detailItems.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0] !== undefined) {
-        this.detailItems.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = true;
+      if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0] !== undefined) {
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = true;
       }
-      if (this.detailItems.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
+      if (this.washItem.filter(i => Number(i.ServiceId) === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
-        this.detailItems.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = false;
+        this.washItem.filter(i => Number(i.ServiceTypeId) === this.airFreshenerId)[0].IsDeleted = false;
       } else {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.airFreshenerId);
         const serviceAir = this.airFreshner.filter(item => item.ServiceId === Number(data));
@@ -961,9 +963,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       return;
 
     }
-
-    this.selectedData.Detail
-
     this.detailForm.controls.inTime.enable();
     this.detailForm.controls.dueTime.enable();
     this.detailForm.controls.bay.enable();
@@ -1019,7 +1018,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       createdBy: 0,
       updatedBy: 0,
     };
-    this.detailItems.forEach(element => {
+    this.washItem.forEach(element => {
       this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
     });
     this.jobItems = this.additionalService.map(item => {
@@ -1036,7 +1035,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         updatedBy: 0
       };
     });
-    this.detailItems.forEach(element => {
+    this.washItem.forEach(element => {
       this.jobItems.push({
         jobItemId: element.JobItemId,
         jobId: element.JobId ? element.JobId : this.jobID,
@@ -1123,6 +1122,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const details = JSON.parse(res.resultData);
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
+        this.washItem = this.selectedData.DetailsItem;
         this.detailItems = this.selectedData.DetailsItem;
         this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
           this.selectedData.DetailsJobServiceEmployee : [];

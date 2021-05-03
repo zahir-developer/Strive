@@ -124,7 +124,7 @@ export class DetailScheduleComponent implements OnInit {
       jobDate: scheduleDate,
       locationId
     };
-    this.getDetailScheduleStatus();
+    //this.getDetailScheduleStatus();
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       if (res.status === 'Success') {
@@ -242,6 +242,7 @@ export class DetailScheduleComponent implements OnInit {
           this.scheduleDate = scheduleStatus.Status;
           this.scheduleDate.forEach(item => {
             dateClass.push({
+              date: new Date(item.JobDate),
               classes: ['text-danger']
             });
           });
