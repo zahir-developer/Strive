@@ -301,7 +301,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
               'Employee Name': this.clockDetail[i].EmployeeName,
               'Wash Hours': this.clockDetail[i].WashHours,
               'Detail Hours' : this.clockDetail[i].DetailHours,
-              'Total Hours': this.clockDetail[i].EmployeeName,
+              'Total Hours': this.clockDetail[i].WashHours + this.clockDetail[i].DetailHours,
               'In': this.clockDetail[i].Intime1 ? this.datePipe.transform( this.clockDetail[i].Intime1, 'hh:mm:ss') : '' ,
               'Out' :this.clockDetail[i].Outtime1 ? this.datePipe.transform( this.clockDetail[i].Outtime1, 'hh:mm:ss'): '' ,
               'Role' : this.clockDetail[i].RoleName1,
