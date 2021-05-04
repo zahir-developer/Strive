@@ -3,6 +3,7 @@
 
 
 
+
 -- ================================================
 -- Author:		Benny Johnson
 -- Create date: 01-08-2020
@@ -47,26 +48,30 @@ SELECT
 	cl.FirstName,
 	cl.MiddleName,
 	cl.LastName,
+	cl.Amount,
 	cl.Gender,
 	cl.BirthDate,
 	cvl.VehicleId,
 	cvl.VehicleNumber,
 	cvMfr.valuedesc AS VehicleMfr,
-	cvl.VehicleModelNo AS VehicleModelId,
+	cvl.VehicleModel AS VehicleModelId,
 	cvMo.valuedesc AS VehicleModel,
 	cvCo.valuedesc AS VehicleColor,
-	cvl.VehicleModelNo AS VehicleModelNo,
+	cvl.VehicleMfr AS VehicleMakeId,
+	cvl.VehicleColor as VehicleColorId,
 	cvl.VehicleYear,
 	cvl.Upcharge,
 	cvl.Barcode,
 	cvl.Notes,
 	cvl.IsActive,
 	cvl.MonthlyCharge,
-	@IsMembership as IsMembership
+	@IsMembership as IsMembership,
+	tblm.MembershipName
 FROM 
 strivecarsalon.tblclient cl
 INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId
 LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
+left join strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
 LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid

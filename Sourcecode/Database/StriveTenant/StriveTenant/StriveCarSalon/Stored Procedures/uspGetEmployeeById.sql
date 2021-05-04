@@ -13,6 +13,9 @@ emp.Gender,
 empAdd.EmployeeAddressId,
 empAdd.Address1,
 empAdd.PhoneNumber,
+--add state city column
+empAdd.State,
+empAdd.City,
 emp.ImmigrationStatus,
 emp.AlienNo,
 emp.WorkPermit,
@@ -27,11 +30,14 @@ empDetail.AuthId,
 emp.IsActive as Status,
 empDetail.Tip,
 empDetail.Exemptions,
-empDetail.ComType
+empDetail.ComType,
+emp.Tips
 from StriveCarSalon.tblEmployee emp
 left join strivecarsalon.tblEmployeeAddress empAdd on emp.EmployeeId= empAdd.EmployeeId
 left join StriveCarSalon.tblEmployeeDetail empDetail on emp.EmployeeId = empDetail.EmployeeId
-where isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and emp.EmployeeId = @EmployeeId 
+where emp.EmployeeId = @EmployeeId 
+--isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and 
+
 
 
 select row_number() OVER (
@@ -51,12 +57,16 @@ select row_number() OVER (
 	ORDER BY  empLi.LiabilityId
    ) CollisionSequence,
     empli.EmployeeId,
-   empLi.LiabilityId,
+	empli.ClientId,
+tblcl.FirstName + ' '+ tblcl.LastName as ClientName,
+	empLi.VehicleId,
+	cvMfr.valuedesc + ' '+	cvmo.valuedesc + ' '+ cvCo.valuedesc AS VehicleName,
+  empLi.LiabilityId,
    empLiD.liabilityDetailId,
    lcv.valuedesc as LiabilityType,
    dcv.valuedesc as LiabilityDetailType,
    empLi.LiabilityDescription,
-   empLiD.Amount,
+   empLiD.Amount,   
    empLiD.LiabilityDetailType as LiabilityDetailTypeId,
    empLi.CreatedDate
    from 
@@ -66,6 +76,16 @@ select row_number() OVER (
    StriveCarSalon.tblEmployeeLiabilityDetail empLid on empLi.LiabilityId = empLid.LiabilityId
    LEFT join
    [StriveCarSalon].[GetTable]('LiabilityDetailType') dcv on empLid.LiabilityDetailType = dcv.valueid
+   
+   LEFT JOIN 
+   StriveCarSalon.tblClient tblcl on empLi.ClientId = tblcl.ClientId
+
+   LEFT JOIN strivecarsalon.tblClientVehicle cvl ON empLi.VehicleId = cvl.VehicleId
+ 
+  LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
+LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
+LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+
    where isnull(empLi.IsActive,1)=1 and isnull(empLi.IsDeleted,0)=0  and empLi.EmployeeId = @EmployeeId  
 
    select rm.RoleMasterId, empr.EmployeeId,empr.EmployeeRoleId, empr.roleid,rm.RoleName as rolename from strivecarsalon.tblEmployeeRole empr inner join

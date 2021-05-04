@@ -5,6 +5,9 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 import { MustMatch } from 'src/app/shared/Validator/must-match.validator';
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create-document',
@@ -25,8 +28,10 @@ export class CreateDocumentComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private employeeService: EmployeeService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private messageService: MessageServiceToastr
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.isLoading = false;
@@ -49,7 +54,6 @@ export class CreateDocumentComponent implements OnInit {
   }
 
   protectPassword(event) {
-    console.log(event, 'event');
     if (event.target.checked === true) {
       this.isPassword = true;
       this.passwordForm.get('password').setValidators([Validators.required]);
@@ -61,26 +65,25 @@ export class CreateDocumentComponent implements OnInit {
     }
   }
 
-  fileNameChanged() {
-    let filesSelected: any;
-    filesSelected = document.getElementById('customFile');
-    filesSelected = filesSelected.files;
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;
-      const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-      let fileReader: any;
-      fileReader = new FileReader();
-      fileReader.onload = function (fileLoadedEventTigger) {
-        let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('customFile');
-        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
-      };
-      fileReader.readAsDataURL(fileToLoad);
-      this.isLoading = true;
-      setTimeout(() => {
+  fileNameChanged(e: any) {
+    this.isLoading = true;
+    try {
+      const file = e.target.files[0];
+      const fileSize = + file.size;
+      const sizeFixed = (fileSize / 1048576);
+      const sizeFixedValue = +sizeFixed.toFixed(1);
+      if (sizeFixedValue > 10) {
+        this.toastr.warning(MessageConfig.Document.fileSize, 'Warning!');
+        this.isLoading = false;
+        return;
+      }
+      const fReader = new FileReader();
+      fReader.readAsDataURL(file);
+      fReader.onloadend = (event: any) => {
+        this.fileName = file.name;
+        const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
+        fileTosaveName = event.target.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         const fileObj = {
           fileName: this.fileName,
@@ -89,8 +92,11 @@ export class CreateDocumentComponent implements OnInit {
         };
         this.multipleFileUpload.push(fileObj);
         this.isLoading = false;
-        console.log(this.multipleFileUpload, 'fileupload');
-      }, 5000);
+      };
+    } catch (error) {
+      this.fileName = null;
+      this.fileUploadformData = null;
+      this.isLoading = false;
     }
   }
 
@@ -103,7 +109,7 @@ export class CreateDocumentComponent implements OnInit {
   uploadDocument() {
     this.submitted = true;
     if (this.multipleFileUpload.length === 0) {
-      this.messageService.showMessage({ severity: 'info', title: 'Info', body: 'Please Choose file to upload' });
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Document.fileRequired });
       return;
     }
     if (this.passwordForm.invalid) {
@@ -114,41 +120,48 @@ export class CreateDocumentComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: this.employeeId,
         filename: item.fileName,
-        filepath: 'string',
+        filepath: '',
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: this.isPassword,
         password: this.passwordForm.value.confirm,
-        comments: 'string',
+        comments: '',
         isActive: true,
         isDeleted: false,
-        createdBy: 0,
+        createdBy: this.employeeId,
         createdDate: moment(new Date()),
-        updatedBy: 0,
+        updatedBy: this.employeeId,
         updatedDate: moment(new Date())
       };
     });
     const finalObj = {
       employeeDocument: documentObj
     };
-    console.log(finalObj, 'obj');
+    this.spinner.show();
     this.employeeService.uploadDocument(finalObj).subscribe(res => {
-      console.log(res, 'uploadDcument');
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Document upload Successfully!' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Document.upload, 'Success!');
         this.activeModal.close(true);
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
   getAllDocument() {
     this.employeeService.getAllDocument(this.employeeId).subscribe(res => {
-      console.log(res, 'allDocument');
       if (res.status === 'Success') {
         const document = JSON.parse(res.resultData);
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

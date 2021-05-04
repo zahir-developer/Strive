@@ -69,7 +69,7 @@ namespace StriveCustomer.Android.Fragments
 
         private async void SaveButton_Click(object sender, EventArgs e)
         {
-            await ViewModel.SaveVehicle();
+          await this.ViewModel.SaveVehicle();
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -130,6 +130,7 @@ namespace StriveCustomer.Android.Fragments
                 if(MembershipDetails.vehicleMakeNumber == makeName.Key)
                 {
                     MembershipDetails.selectedMake = preselectedManufacturer;
+                  
                 }
                 preselectedManufacturer++;
             }
@@ -140,6 +141,7 @@ namespace StriveCustomer.Android.Fragments
                 if (MembershipDetails.colorNumber == colorName.Key)
                 {
                     MembershipDetails.selectedColor = preselectedColor;
+                 
                 }
                 preselectedColor++; 
             }
@@ -150,6 +152,7 @@ namespace StriveCustomer.Android.Fragments
                 if (MembershipDetails.modelNumber == modelName.Key)
                 {
                     MembershipDetails.selectedModel = preselectedModel;
+                   
                 }
                 preselectedModel++;
                 

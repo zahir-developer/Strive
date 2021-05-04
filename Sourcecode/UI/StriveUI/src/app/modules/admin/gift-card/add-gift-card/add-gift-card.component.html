@@ -12,15 +12,13 @@
                             <label class="float-left">Number<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" formControlName="number" numbersOnly
-                                [ngClass]="{ 'is-invalid': submitted && f.number.errors }" />
+                            <input type="text" (change)="giftCardExist($event.target.value)" class="form-control" formControlName="number" numbersOnly [ngClass]="{ 'is-invalid': submitted && f.number.errors }" />
                             <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
                                 <div *ngIf="f.number.errors.required">Card Number is required</div>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <button type="button" class="btn theme-primary-button-color button-size btn-sm m-l-10 "
-                                (click)="generateNumber()">Generate Gift
+                            <button type="button" class="btn theme-primary-button-color button-size btn-sm m-l-10 " (click)="generateNumber()">Generate Gift
                                 Card
                             </button>
                         </div>
@@ -28,20 +26,43 @@
                 </div>
             </div>
             <br />
-            <!-- <div class="form-row">
+            <div class="form-row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
                     <div class="form-row">
                         <div class="col-sm-3">
-                            <label class="float-left">Barcode</label>
+                            <label class="float-left">Client<span class="required">*</span></label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p-autoComplete field="name" [suggestions]="clientList" [ngClass]="{ 'is-invalid': submitted && f.clientId.errors }" (completeMethod)="filterClient($event)" formControlName="clientId" placeholder="Client Name" (onSelect)="selectedClient($event)">
+                            </p-autoComplete>
+                            <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+                                <div *ngIf="f.clientId.errors.required">Client is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div class="form-row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="form-row">
+                        <div class="col-sm-3">
+                            <label class="float-left">Email ID<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" formControlName="barcode">
+                            <input type="text" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.required">Email ID is required</div>
+                                <div *ngIf="f.email.errors.email">Please enter valid email address</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <br /> -->
+            <br />
             <div class="form-row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
@@ -50,9 +71,7 @@
                             <label class="float-left">Active Date<span class="required">*</span></label>
                         </div>
                         <div class="input-group col-sm-5" id="datepicker">
-                            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
-                                formControlName="activeDate" [outsideClick]="true"
-                                [ngClass]="{ 'is-invalid': submitted && f.activeDate.errors }">
+                            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="activeDate" [outsideClick]="true" [ngClass]="{ 'is-invalid': submitted && f.activeDate.errors }">
                             <div class="input-group-append">
                                 <span class="input-group-text"><em
                                         class="font-size-1-0 theme-secondary-color mdi mdi-calendar-month"
@@ -65,6 +84,7 @@
                     </div>
                 </div>
             </div>
+
             <br />
             <div class="form-row">
                 <div class="col-sm-2"></div>
@@ -74,9 +94,7 @@
                             <label class="float-left">Amount<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <select id="inputgender" class="form-control" formControlName="amount"
-                                (change)="selectedAmount($event)"
-                                [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
+                            <select id="inputgender" class="form-control" formControlName="amount" (change)="selectedAmount($event)" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
                                 <option selected hidden>Choose...</option>
                                 <option *ngFor="let a of amountList" value="{{a.value}}">{{a.label}}</option>
                             </select>
@@ -86,8 +104,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="m-l-10" *ngIf="isOtherAmount">
-                                <input type="text" class="form-control" appTwoDecimalNumber placeholder="$0.00"
-                                    formControlName="others">
+                                <input type="text" class="form-control" appTwoDecimalNumber placeholder="$0.00" formControlName="others">
                             </div>
                         </div>
                     </div>

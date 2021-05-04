@@ -5,6 +5,9 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-time-clock-maintenance',
@@ -15,8 +18,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
 
   timeClockEmployeeDetails = [];
   isLoading = true;
-  page = 1;
-  pageSize = 5;
+
   collectionSize: number = 0;
   isTimeClockEmpty = false;
   timeClockEmployeeDetailDto =
@@ -36,20 +38,84 @@ export class TimeClockMaintenanceComponent implements OnInit {
   endDate: any;
   dateRange: any = [];
   isView: boolean = false;
+
+  pageSizeList: number[];
+  page: number;
+  pageSize: number;
+  sortColumn: { sortBy: any; sortOrder: string; };
   constructor(
     private timeClockMaintenanceService: TimeClockMaintenanceService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
     private uiLoaderService: NgxUiLoaderService,
     private datePipe: DatePipe,
+    private spinner : NgxSpinnerService,
   ) { }
 
   ngOnInit(): void {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.TimeClock,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+     }
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.selectedEmployee = '';
     this.isTimeClockWeekPage = false;
     this.weeklyDateAssign();
-    // this.getEmployeeList();
-    // this.getTimeClockEmployeeDetails();
+
+  }
+  sort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
+    this.timeClockEmployeeDetails.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+  changeSorting(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.weeklyDateAssign();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.weeklyDateAssign();
   }
 
   weeklyDateAssign() {
@@ -58,9 +124,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
     const last = first + 6;
     this.startDate = new Date(currentDate.setDate(first));
     this.currentWeek = this.startDate;
-    this.endDate = new Date(currentDate.setDate(last));
-    // this.endDate = this.endDate.setDate( this.startDate.getDate() + 6);
-    this.endDate = new Date(moment(this.endDate).format());
+    const lastDate = new Date();
+    this.endDate = new Date(lastDate.setDate(last));
     this.daterangepickerModel = [this.startDate, this.endDate];
     this.getTimeClockEmployeeDetails();
   }
@@ -77,23 +142,24 @@ export class TimeClockMaintenanceComponent implements OnInit {
     this.timeClockMaintenanceService.getTimeClockEmployeeDetails(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         const timeClock = JSON.parse(data.resultData);
-        this.timeClockEmployeeDetails = timeClock.Result.TimeClockEmployeeDetailViewModel !== null ? 
-        timeClock.Result.TimeClockEmployeeDetailViewModel : [];
+        this.timeClockEmployeeDetails = timeClock.Result.TimeClockEmployeeDetailViewModel !== null ?
+          timeClock.Result.TimeClockEmployeeDetailViewModel : [];
         this.employeeList = timeClock.Result.EmployeeViewModel;
+        this.sort(ApplicationConfig.Sorting.SortBy.TimeClock);
+
         if (this.timeClockEmployeeDetails.length === 0) {
           this.isTimeClockEmpty = true;
-          console.log(this.timeClockEmployeeDetails);
         }
         else {
           this.collectionSize = Math.ceil(this.timeClockEmployeeDetails.length / this.pageSize) * 10;
           this.isTimeClockEmpty = false;
-          console.log(this.timeClockEmployeeDetails);
         }
-        //this.onValueChange
       }
       else {
-        this.toastr.error('Communication Error', 'Error !!!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -101,8 +167,8 @@ export class TimeClockMaintenanceComponent implements OnInit {
     if (this.isView) {
       return;
     }
-    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this location? All related 
-      information will be deleted and the location cannot be retrieved?`, 'Yes', 'No')
+    this.confirmationService.confirm('Delete Location', `Are you sure you want to delete this Time Clock? All related 
+      information will be deleted and the Time Clock cannot be retrieved?`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
           this.deleteTimeClockEmployee(obj);
@@ -118,20 +184,30 @@ export class TimeClockMaintenanceComponent implements OnInit {
       locationId: obj.LocationId,
       employeeId: obj.EmployeeId
     };
-
+this.spinner.show();
     this.timeClockMaintenanceService.deleteTimeClockEmployee(this.objDelete).subscribe(data => {
       if (data.status === 'Success') {
-        this.toastr.success('Employee record deleted successfully!!', 'Success!');
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Admin.TimeClock.Delete, 'Success!');
+        this.sortColumn ={
+          sortBy: ApplicationConfig.Sorting.SortBy.TimeClock,
+          sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+         }
         this.getTimeClockEmployeeDetails();
       }
       else {
-        this.toastr.error('Communication Error', 'Error !!!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
   employeeCheckInDetail(empDetail) {
-    console.log(empDetail, 'detail');
     this.isTimeClockWeekPage = true;
     this.empClockInObj = {
       employeeID: empDetail.EmployeeId,
@@ -153,10 +229,15 @@ export class TimeClockMaintenanceComponent implements OnInit {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.EmployeeList.Employee;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   addEmployee() {
+    if(this.selectedEmployee.EmployeeId == null){
+return
+    }
     const employeeObj = {
       timeClockId: 0,
       employeeId: this.selectedEmployee.EmployeeId,
@@ -165,50 +246,62 @@ export class TimeClockMaintenanceComponent implements OnInit {
       eventDate: moment(this.startDate).format(),
       inTime: null,
       outTime: null,
-      eventType: 1,
-      updatedFrom: 'string',
+      eventType: null,
+      updatedFrom: '',
       status: true,
-      comments: 'string',
+      comments: '',
       isActive: true,
       isDeleted: false
     };
     const employeeListObj = [];
     employeeListObj.push(employeeObj);
     const finalObj = {
-      timeClock: employeeListObj
+      timeClock: {timeClock:employeeListObj}
     };
+    this.spinner.show();
     this.timeClockMaintenanceService.saveTimeClock(finalObj).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.success('Employee added successfully!!', 'Success!');
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Admin.TimeClock.Add, 'Success!');
         this.selectedEmployee = '';
+        this.sortColumn ={
+          sortBy: ApplicationConfig.Sorting.SortBy.TimeClock,
+          sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+         }
         this.getTimeClockEmployeeDetails();
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
   selectEmploye(event) {
-    console.log(event, 'event');
     this.selectedEmployee = event.value;
   }
 
   onValueChange(event) {
-    console.log(event, 'start');
     if (event !== null) {
       if (event.length !== 0 && event.length !== null) {
         const dates = Math.floor((Date.UTC(event[1].getFullYear(), event[1].getMonth(), event[1].getDate()) - Date.UTC(event[0].getFullYear(), event[0].getMonth(), event[0].getDate())) / (1000 * 60 * 60 * 24));
         if (event[0].getDay() !== 0) {
-          //console.log(event[0].getDay());          
-          this.toastr.warning('Sunday should be the start of the week!!', 'Warning!');
+          this.toastr.warning(MessageConfig.Admin.TimeClock.sunday, 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else if (dates !== 6) {
-          this.toastr.warning('Only one week can be selected!', 'Warning!');
+          this.toastr.warning(MessageConfig.Admin.TimeClock.weekRange, 'Warning!');
           this.timeClockEmployeeDetails = [];
         } else {
           this.startDate = event[0];
           this.endDate = event[1];
-          if(this.startDate.toDateString() !== this.currentWeek.toDateString()){
+          if (this.startDate.toDateString() !== this.currentWeek.toDateString()) {
             this.isView = true;
-          }else{
+          } else {
             this.isView = false;
           }
           this.getTimeClockEmployeeDetails();
@@ -217,6 +310,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
     }
   }
 
+  
 
 
 }

@@ -11,7 +11,10 @@
     [CreatedDate]       DATETIMEOFFSET (7) NULL,
     [UpdatedBy]         INT                NULL,
     [UpdatedDate]       DATETIMEOFFSET (7) NULL,
+    [WashCount]         INT                NULL,
     CONSTRAINT [PK_tblWeatherPrediction] PRIMARY KEY CLUSTERED ([WeatherId] ASC),
     CONSTRAINT [FK_tblWeatherPrediction_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId])
 );
+
+
 

@@ -1,15 +1,32 @@
+<p-dialog [style]="{width: '50vw'}" header="View Image" [(visible)]="imagePopup" [blockScroll]="true" 
+    appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
+    <div class="row" *ngIf="imagePopup && imageList.length > 0">
+        <br>
+        <div class="col-sm-3 text-center" *ngFor="let image of imageList">
+            <img src="{{image.vehicleImage}}" width="100" height="100" (click)="openImage(image)" />
+            <div>{{image.OriginalImageName}}</div>
+            <br>
+        </div>
+    </div>
+    <div *ngIf="imagePopup && imageList.length === 0">
+        <div class="text-center">No image availabe </div>
+    </div>
+</p-dialog>
+<p-dialog styleClass="MyDialog"  [(visible)]="isOpenImage" [blockScroll]="true" [resizable]="true"
+    appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="true">
+    <div *ngIf="isOpenImage">
+        <img [src]="originalImage"   />
+    </div>
+</p-dialog>
 <div id="page-content">
     <div class="container-fluid">
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
-                <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><span>Admin</span></li>
+                <ol class="breadcrumb font-size-1">
+                    <li class="breadcrumb-item"><span appNavigatePage>Admin</span></li>
                     <li class="breadcrumb-item active" aria-current="page">Vehicle</li>
                 </ol>
             </nav>
-            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3>Vehicle</h3>
-            </div>
             <div class="col-12 card">
                 <div class="card-body">
                     <div class="tab-content">
@@ -24,66 +41,104 @@
                                             <div class="form-group d-flex"> <input type="search" class="form-control"
                                                     [(ngModel)]="search" name="search" id="inputSearchbyName"
                                                     placeholder="Search"
-                                                    (keyup)="$event.keyCode == 13 ? vehicleSearch() : null"> </div>
+                                                    (keyup)="$event.keyCode == 13 ? getAllVehicleDetails() : null">
+                                            </div>
                                             <div class="form-group col-sm m-l-5">
                                                 <button type="button"
                                                     class="btn theme-primary-button-color btn-sm m-l-10"
-                                                    (click)="vehicleSearch()">Search</button>
+                                                    (click)="getAllVehicleDetails()">Search</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="table-responsive" *ngIf="isTableEmpty === true"> <span
-                                        class="col-12 row d-block">No Vehicles Found</span></div>
-                                <div class="table-responsive" *ngIf="isTableEmpty === false">
-                                    <table class="table  table-striped m-t-10">
+
+                                <div class="table-responsive">
+                                    <table class="table  table-striped m-t-10 headerfix">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Client Name</th>
-                                                <th scope="col">Vehicle #</th>
-                                                <th scope="col">Color</th>
-                                                <th scope="col">Make</th>
-                                                <th scope="col">Model</th>
-                                                <!-- <th scope="col">Upcharge</th> -->
-                                                <th scope="col">Barcode</th>
+                                                <th scope="col" class="pointer" (click)="changeSorting('FirstName')">
+                                                    Client Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"
+                                                        aria-hidden="true"></i></th>
+                                                <th scope="col" class="pointer"
+                                                    (click)="changeSorting('VehicleNumber')">Vehicle #&nbsp;<i
+                                                        class="fa" [ngClass]="selectedCls('VehicleNumber')"
+                                                        aria-hidden="true"></i></th>
+                                                <th scope="col" class="pointer" (click)="changeSorting('Color')">
+                                                    Color&nbsp;<i class="fa" [ngClass]="selectedCls('Color')"
+                                                        aria-hidden="true"></i></th>
+                                                <th scope="col" class="pointer" (click)="changeSorting('Make')">
+                                                    Make&nbsp;<i class="fa" [ngClass]="selectedCls('Make')"
+                                                        aria-hidden="true"></i></th>
+                                                <th scope="col" class="pointer" (click)="changeSorting('ModelName')">
+                                                    Model&nbsp;<i class="fa" [ngClass]="selectedCls('ModelName')"
+                                                        aria-hidden="true"></i></th>
+                                                <th scope="col" class="pointer" (click)="changeSorting('Barcode')">
+                                                    Barcode&nbsp;<i class="fa" [ngClass]="selectedCls('Barcode')"
+                                                        aria-hidden="true"></i></th>
+                                                <th scope="col" (click)="changeSorting('MembershipName')">
+                                                    Membership&nbsp;<i class="fa"
+                                                        [ngClass]="selectedCls('MembershipName')"
+                                                        aria-hidden="true"></i></th>
+                                                <th scope="col">Image</th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr
-                                                *ngFor="let vehicle of vehicleDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                <th scope="row" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="navigateToClient(vehicle)">{{vehicle.ClientName}}</th>
-                                                <td>{{vehicle.VehicleNumber}}</td>
+
+                                        <tbody class="bodyfix">
+                                            <tr *ngFor="let vehicle of vehicleDetails">
+                                                <th scope="row" class="text-underline theme-primary-color font-size--9"
+                                                    style="cursor: pointer;" (click)="navigateToClient(vehicle)">
+                                                    {{vehicle.ClientName}}</th>
+                                                <td scope="row" class="text-underline theme-primary-color font-size--9"
+                                                    style="cursor: pointer;">{{vehicle.VehicleNumber}}</td>
                                                 <td>{{vehicle.Color}}</td>
                                                 <td>{{vehicle.VehicleMake}}</td>
                                                 <td>{{vehicle.ModelName}}</td>
-                                                <!-- <td>{{vehicle.Upcharge}}</td> -->
                                                 <td>{{vehicle.Barcode}}</td>
+                                                <td>{{vehicle.MembershipName !== null ? vehicle.MembershipName : 'No'}}
+                                                </td>
+                                                <td class="text-underline theme-primary-color font-size--9"
+                                                    style="cursor: pointer;" (click)="previewImage(vehicle)">View</td>
                                                 <td>
                                                     <em class="fa fa-eye view-list theme-primary-icon-color m-r-10"
-                                                        style="color:orange" pTooltip="View" tooltipPosition="bottom"
+                                                        style="color:orange; cursor: pointer;" pTooltip="View" tooltipPosition="bottom"
                                                         (click)="add('view', vehicle)"></em>&nbsp;&nbsp;
                                                     <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
-                                                        style="color:green" pTooltip="Edit" tooltipPosition="bottom"
+                                                        style="color:green; cursor: pointer;" pTooltip="Edit" tooltipPosition="bottom"
                                                         (click)="add('edit', vehicle)"></em>&nbsp;&nbsp;
                                                     <em class="fa fa-times-circle delete-list theme-optional-icon-color"
-                                                        style="color:red" pTooltip="Delete" tooltipPosition="bottom"
+                                                        style="color:red; cursor: pointer;" pTooltip="Delete" tooltipPosition="bottom"
                                                         (click)="delete(vehicle)"></em>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="vehicleDetails.length === 0">
+                                                <td colspan="12" class="text-center">
+                                                    No Records Found
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ngb-pagination *ngIf="collectionSize > 10" [collectionSize]="collectionSize"
-                                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                        [boundaryLinks]="true" class="d-flex justify-content-end">
-                                    </ngb-pagination>
+                                    <div class="row pull-right">
+                                        <div class="col-6">
+                                            <ngb-pagination *ngIf="vehicleDetails.length > 0"
+                                                [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                                [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                                [boundaryLinks]="true" class="d-flex justify-content-end">
+                                            </ngb-pagination>
+                                        </div>
+                                        <select *ngIf="vehicleDetails.length > 0" class="form-control col-4"
+                                            name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                            <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog"
                                 [blockScroll]="true" [modal]="true" [focusOnShow]="false" [closable]="false">
-                                <app-vehicle-create-edit *ngIf="showDialog" [selectedData]="selectedData" [upchargeServices]="upchargeServices"
-                                    [additionalService]="additionalService" [isEdit]="isEdit" [isView]="isView"
-                                    (closeDialog)="closePopupEmit($event)">
+                                <app-vehicle-create-edit *ngIf="showDialog" [selectedData]="selectedData"
+                                    [upchargeServices]="upchargeServices" [additionalService]="additionalService"
+                                    [isEdit]="isEdit" [isView]="isView" (closeDialog)="closePopupEmit($event)">
                                 </app-vehicle-create-edit>
                             </p-dialog>
                         </div>

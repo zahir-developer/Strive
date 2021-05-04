@@ -18,6 +18,7 @@
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     [MonthlyCharge]  DECIMAL (18, 2)    NULL,
+    [MrgRefVehid]    INT                NULL,
     CONSTRAINT [PK_tblClientVehicle] PRIMARY KEY CLUSTERED ([VehicleId] ASC),
     CONSTRAINT [FK_tblClientVehicle_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
     CONSTRAINT [FK_tblClientVehicle_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
@@ -25,6 +26,8 @@
     CONSTRAINT [FK_tblClientVehicle_VehicleMfr] FOREIGN KEY ([VehicleMfr]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblClientVehicle_VehicleModel] FOREIGN KEY ([VehicleModel]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 GO

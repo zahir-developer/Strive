@@ -1,9 +1,4 @@
-﻿
-
-
-
-
--- ==============================================================
+﻿-- ==============================================================
 -- Author:		Vineeth B
 -- Create date: 08-09-2020
 -- Description:	To get Schedule Details for LocationId and JobDate
@@ -15,21 +10,24 @@
 
 ---------------------------------------------------------------
 -- ============================================================
-CREATE proc [StriveCarSalon].[uspGetBaySchedulesDetails] 
+CREATE proc [StriveCarSalon].[uspGetBaySchedulesDetails] -- [StriveCarSalon].[uspGetBaySchedulesDetails] '2021-03-15' ,20
 (@JobDate DateTime, @LocationId int)
 
 AS
 BEGIN
 
-SELECT BayId,BayName FROM tblBay WHERE LocationId=@LocationId AND IsActive=1 AND IsDeleted = 0;
-
+SELECT BayId,BayName FROM tblBay WHERE LocationId=@LocationId AND IsActive=1 AND IsDeleted = 0 AND 
+	(BayName like 'Detail%' OR BayName Like 'Bay%') AND BayName NOT Like 'Bay %'
+ 
 SELECT 
 tblB.BayId
 ,tblB.JobId
 ,SUBSTRING(CONVERT(VARCHAR(8),ScheduleInTime,108),0,6) AS ScheduleInTime 
 FROM tblBaySchedule tblB
-INNER JOIN 
-tblBay tblBa ON(tblB.BayId=tblBa.BayId) 
+INNER JOIN tblBay tblBa ON(tblB.BayId=tblBa.BayId) 
+INNER JOIN tblJob tblJ on (tblj.JobId = tblb.JobId)
+INNER JOIN GetTable('JobType') jt ON(tblj.JobType = jt.valueid) and jt.valuedesc = 'Detail'
+
 WHERE 
 tblB.ScheduleDate=@JobDate 
 AND 
@@ -42,5 +40,4 @@ AND
 ISNULL(tblBa.IsDeleted,0)=0
 AND
 tblBa.LocationId=@LocationId;
-
 END

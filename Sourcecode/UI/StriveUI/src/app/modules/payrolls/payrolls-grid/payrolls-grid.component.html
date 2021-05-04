@@ -5,13 +5,10 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a>Home</a></li>
+                    <li class="breadcrumb-item"><a (click)="landing()">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Payroll</li>
                 </ol>
             </nav>
-            <div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Payroll</h3>
-            </div>
             <div class="col-lg-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
@@ -23,56 +20,57 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="form-row">
-                                        <label class="col-sm-2 col-form-label" for="inTime">From:</label>
-                                        <input type="text" class="form-control col-sm-10" formControlName="fromDate"
-                                            bsDatepicker [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
+                                        <label class="col-sm-3 col-form-label" for="inTime">From:</label>
+                                        <input type="text" class="form-control col-sm-9" formControlName="fromDate" [maxDate]="MaxDate" bsDatepicker [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="form-row">
-                                        <label class="col-sm-2 col-form-label" for="inTime">To:</label>
-                                        <input type="text" class="form-control col-sm-10" formControlName="toDate"
-                                            bsDatepicker [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
+                                        <label class="col-sm-3 col-form-label" for="inTime">To:</label>
+                                        <input type="text" class="form-control col-sm-9" formControlName="toDate" bsDatepicker [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
-                                <div class="col-4 pull-right ">
-                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                                        [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
+                                <div class="col-5 pull-right ">
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
                                         Report</button>
-                                    <button type="button" *ngIf="!isEditAdjustment" [disabled] = "isPayrollEmpty"
-                                        class="btn theme-primary-button-color btn-md m-l-10"
-                                        (click)="editAdjustemt()">Edit</button>
-                                    <button type="button" *ngIf="isEditAdjustment"
-                                        class="btn theme-primary-button-color btn-md m-l-10"
-                                        (click)="CancelAdjustemt()">Cancel</button>
-                                    <button type="button"
-                                        class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!isEditAdjustment" (click)="updateAdjustment()">Update</button>
-                                    <button type="button"
-                                        class="btn theme-primary-button-color btn-md m-l-10" [disabled]="isEditAdjustment || isPayrollEmpty" (click)="processPayrolls()">Export</button>
+                                    <button type="button" *ngIf="!isEditRestriction" [disabled]="isPayrollEmpty " class="btn theme-primary-button-color btn-md m-l-10" (click)="editAdjustemt();">Edit</button>
+                                    <button type="button" *ngIf="isEditAdjustment" class="btn theme-primary-button-color btn-md m-l-10" (click)="CancelAdjustemt()">Cancel</button>
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10" [disabled]="!isEditAdjustment" (click)="updateAdjustment()">Update</button>
+                                    <button type="button" class="btn theme-primary-button-color btn-md m-l-10" [disabled]="isEditAdjustment || isPayrollEmpty || !payrollDateForm.valid" (click)="processPayrolls()">Export</button>
+                                    <button type="button" [disabled]="isPayrollEmpty || isEditRestriction" class="btn theme-primary-button-color btn-md m-l-10" (click)="addPayrollProcess()">{{processLabel}}</button>
+
                                 </div>
                             </div>
                         </form>
-                        <div class="table-responsive" >
+                        <div class="table-responsive">
                             <table class="table border table-hover" id="payrollPDF" aria-describedby="payroll-list">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Emp. ID</th>
-                                        <th scope="col">Payee</th>
-                                        <th scope="col">Wash Hrs.</th>
-                                        <th scope="col">Detail Hrs.</th>
-                                        <th scope="col">Rate</th>
-                                        <th scope="col">Detail rate</th>
-                                        <th scope="col">Reg pay</th>
-                                        <th scope="col">OT Hrs.</th>
-                                        <th scope="col">OT Pay</th>
-                                        <th scope="col">Uniform</th>
-                                        <th scope="col">Collision</th>
-                                        <th scope="col">Adjustment</th>
-                                        <th scope="col">Details com.</th>
-                                        <!-- <th scope="col">Tips</th> -->
-                                        <!-- <th scope="col">Detail Tips</th> -->
-                                        <th scope="col">Payee Total</th>
-                                        <!-- <th scope="col">Action</th> -->
+                                        <th scope="col" class="pointer" (click)="changeSorting('EmployeeId')">Emp. ID&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('EmployeeId')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('PayeeName')">
+                                            Payee Name&nbsp;<i class="fa" [ngClass]="selectedCls('PayeeName')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('TotalWashHours')">Wash Hrs.&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('TotalWashHours')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('TotalDetailHours')">
+                                            Detail Hrs.&nbsp;<i class="fa" [ngClass]="selectedCls('TotalDetailHours')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashRate')">Rate&nbsp;<i class="fa" [ngClass]="selectedCls('WashRate')" aria-hidden="true"></i>
+                                        </th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('WashAmount')">Reg. pay&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('WashAmount')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('OverTimeHours')">OT Hrs.&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('OverTimeHours')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('OverTimePay')">OT Pay&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('OverTimePay')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('Collision')">
+                                            Collision&nbsp;<i class="fa" [ngClass]="selectedCls('Collision')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('Adjustment')">
+                                            Adjustment&nbsp;<i class="fa" [ngClass]="selectedCls('Adjustment')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('DetailCommission')">
+                                            Details com.&nbsp;<i class="fa" [ngClass]="selectedCls('DetailCommission')" aria-hidden="true"></i></th>
+                                        <th scope="col" class="pointer" (click)="changeSorting('PayeeTotal')">Payee Total&nbsp;
+                                            <i class="fa" [ngClass]="selectedCls('PayeeTotal')" aria-hidden="true"></i></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,27 +79,18 @@
                                         <td>{{payroll.PayeeName}}</td>
                                         <td>{{payroll.TotalWashHours}}</td>
                                         <td>{{payroll.TotalDetailHours}}</td>
-                                        <td>{{payroll. WashRate}}</td>
-                                        <td>{{payroll. DetailRate}}</td>
+                                        <td>{{payroll.WashRate}}</td>
                                         <td>{{payroll.WashAmount | currency}}</td>
                                         <td>{{payroll.OverTimeHours}}</td>
                                         <td>{{payroll.OverTimePay | currency}}</td>
-                                        <td>{{payroll.Uniform | currency}}</td>
-                                        <td>{{payroll.Collision | currency}}</td>
+                                        <td pTooltip="{{payroll.Notes}}" tooltipPosition="bottom">
+                                            {{payroll.Collision | currency}}</td>
                                         <td><span *ngIf="!isEditAdjustment">{{payroll.Adjustment | currency}}</span>
-                                            <input type="number" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment"
-                                                size="2" name="adjustment"  class="form-control"
-                                                placeholder="$0.00">
+                                            <input type="text" *ngIf="isEditAdjustment" [(ngModel)]="payroll.Adjustment" name="adjustment" class="form-control" appTwoDecimalPositiveNegativeNumber (change)="_keyUp($event.target.value,payroll)" placeholder="$0.00">
                                         </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
-                                        <td>{{payroll.PayeeTotal  | currency}}</td>
-                                        <!-- <td><em *ngIf="!payroll.isEditAdjustment"
-                                                class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2" (click)="editAdjustemt(payroll)"></em>
-                                                <em *ngIf="payroll.isEditAdjustment"
-                                                class="mdi mdi-checkbox-marked-circle edit-list pointer theme-secondary-icon-color font-size-1-2" (click)="saveAdjustemt()"></em>
-                                            <em *ngIf="payroll.isEditAdjustment"
-                                                class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2" (click)="cancelEditAdjusment(payroll)"></em>
-                                        </td> -->
+                                        <td>{{payroll.PayeeTotal | currency}}</td>
+
                                     </tr>
                                     <tr *ngIf="isPayrollEmpty === true">
                                         <td colspan="12" class="text-center">
@@ -110,10 +99,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <ngb-pagination *ngIf="isPayrollEmpty === false" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3"
-                                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
-                                class="d-flex justify-content-end">
-                            </ngb-pagination>
+                            <div class="row pull-right">
+                                <div class="col-6">
+                                    <ngb-pagination *ngIf="payRollList?.length > 0" [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                    </ngb-pagination>
+                                </div>
+                                <select *ngIf="payRollList?.length > 0" class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                    <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

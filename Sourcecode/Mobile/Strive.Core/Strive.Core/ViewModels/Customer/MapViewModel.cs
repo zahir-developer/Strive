@@ -32,7 +32,15 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-                Locations = washLocations;
+                Locations = new Locations();
+                Locations.Location = new List<Location>();
+                foreach (var locations in washLocations.Location)
+                {
+                    if (locations.Latitude != null && locations.Longitude != null)
+                    {
+                        Locations.Location.Add(locations);
+                    }
+                }
                 return Locations;
             }
         }

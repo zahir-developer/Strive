@@ -12,8 +12,11 @@
     [CreatedDate]      DATETIMEOFFSET (7) NULL,
     [UpdatedBy]        INT                NULL,
     [UpdatedDate]      DATETIMEOFFSET (7) NULL,
+    [RefRecItemid]     INT                NULL,
     CONSTRAINT [PK_tblJobProductItem_JobItemProductId] PRIMARY KEY CLUSTERED ([JobProductItemId] ASC),
     CONSTRAINT [FK_tblJobProductItem_ProductId] FOREIGN KEY ([ProductId]) REFERENCES [StriveCarSalon].[tblProduct] ([ProductId])
 );
+
+
 GO
 

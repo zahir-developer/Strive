@@ -3,3 +3,7 @@ body .theme-secondary-color-border
 	border-color: #1DC9B7;
 	background-color: #1DC9B7 !important;
 }
+
+.modal-xl {
+    max-width: 85%;
+}

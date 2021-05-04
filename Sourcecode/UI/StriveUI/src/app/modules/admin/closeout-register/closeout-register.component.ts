@@ -4,6 +4,11 @@ import * as moment from 'moment';
 import { CashRegisterService } from 'src/app/shared/services/data-service/cash-register.service';
 import { ToastrService } from 'ngx-toastr';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-closeout-register',
@@ -41,13 +46,31 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   cashRegisterRollForm: FormGroup;
   closeoutRegisterForm: FormGroup;
   date = moment(new Date()).format('MM/DD/YYYY');
-
+  CloseRegisterId: any;
+  storeStatusList = [];
+  storeTimeIn = '';
+  storeStatus = '';
+  storeTimeOut = '';
+  drawerId: any;
+  submitted = false;
+  isTimechange: boolean;
+  tips: any;
+  TipsDto: any;
+  washTips: any;
+  detailTip: any;
+  today: Date;
+  locationId: number;
+  cashTipsEnable: boolean;
   constructor(
-    private fb: FormBuilder, private registerService: CashRegisterService, private toastr: ToastrService,
-    private cd: ChangeDetectorRef) { }
+    private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
 
   ngOnInit() {
+    this.isTimechange = false;
+    this.getDocumentType();
+    this.getStoreStatusList();
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
+    this.drawerId = localStorage.getItem('drawerId');
     this.formInitialize();
   }
   ngAfterViewInit() {
@@ -78,13 +101,14 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       quaterRolls: ['',],
     });
     this.closeoutRegisterForm = this.fb.group({
-      cardAmount: ['',]
+      cardAmount: ['',],
+
     });
     this.totalCoin = this.totalPennie = this.totalQuater = this.totalNickel = this.totalDime = this.totalHalf = 0;
     this.totalRoll = this.totalPennieRoll = this.totalQuaterRoll = this.totalNickelRoll = this.totalDimeRoll = 0;
     this.totalBill = this.totalOnes = this.totalFives = this.totalTens = this.totalTwenties = this.totalFifties = this.totalHunderds = 0;
     this.totalCash = 0;
-    this.getCloseOutRegister();
+    // this.getCloseOutRegister();
   }
 
   // Get CloseOutRegister By Date
@@ -92,12 +116,33 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     const today = moment(this.selectDate).format('YYYY-MM-DD');
     const cashRegisterType = "CLOSEOUT";
     const locationId = +localStorage.getItem('empLocationId');
+    this.closeoutRegisterForm.reset();
+    this.cashRegisterCoinForm.reset();
+    this.cashRegisterBillForm.reset();
+    this.cashRegisterRollForm.reset();
+    this.totalCoin = 0;
+    this.totalBill = 0;
+    this.totalRoll = 0;
+    this.totalCash = 0;
+    this.storeTimeOut = '';
+    this.storeTimeIn = '';
+    this.storeStatus = '';
+    this.spinner.show();
     this.registerService.getCashRegisterByDate(cashRegisterType, locationId, today).subscribe(data => {
       if (data.status === "Success") {
+        this.spinner.hide();
+
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
+          this.tips = this.closeOutDetails.CashRegister.Tips
+          // this.storeStatus = this.closeOutDetails.CashRegister.StoreOpenCloseStatus !== null ?
+          //   this.closeOutDetails.CashRegister.StoreOpenCloseStatus : '';
+          // this.storeTimeIn = this.closeOutDetails.CashRegister.StoreTimeIn !== null ?
+          //   moment(this.closeOutDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
+          // this.storeTimeOut = this.closeOutDetails.CashRegister.StoreTimeOut !== null ?
+          //   moment(this.closeOutDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.closeOutDetails.CashRegisterCoins.Pennies,
             coinNickels: this.closeOutDetails.CashRegisterCoins.Nickels,
@@ -139,7 +184,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
-            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1
+            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1,
+         
+
           });
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
           || this.closeOutDetails.CashRegisterRolls === null || this.closeOutDetails.CashRegisterBills === null) {
@@ -147,19 +194,47 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterBillForm.enable();
           this.cashRegisterRollForm.enable();
           this.closeoutRegisterForm.enable();
+          this.cashTipsEnable = true;
+
+          this.isUpdate = false;
         } else {
           this.isUpdate = false;
           this.closeoutRegisterForm.reset();
           this.cashRegisterCoinForm.reset();
           this.cashRegisterBillForm.reset();
           this.cashRegisterRollForm.reset();
+          this.tips = ''
         }
       }
+      else{
+        this.spinner.hide();
+
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
+  }
+  getDocumentType() {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CloseOut)[0].CodeId;
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    );
   }
 
   // Add/Update CloseOutRegister
   submit() {
+    this.submitted = true;
+    // if (this.storeStatus === '' || this.storeTimeOut === '') {
+    //   return;
+    // }
     const coin = {
       cashRegCoinId: this.isUpdate ? this.closeOutDetails.CashRegisterCoins.CashRegCoinId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
@@ -170,11 +245,11 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
-    }
+    };
     const bill = {
       cashRegBillId: this.isUpdate ? this.closeOutDetails.CashRegisterBills.CashRegBillId : 0,
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
@@ -186,9 +261,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       s100: this.cashRegisterBillForm.value.billHundreds,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
     const roll = {
@@ -201,9 +276,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       halfDollars: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
     const other = {
@@ -216,42 +291,54 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       payouts: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
+   
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
-      cashRegisterType: 120,
+      cashRegisterType: this.CloseRegisterId,
       locationId: +localStorage.getItem('empLocationId'),
-      drawerId: 1,
+      drawerId: +this.drawerId,
       cashRegisterDate: moment(new Date()).format('YYYY-MM-DD'),
       isActive: true,
       isDeleted: false,
-      createdBy: 1,
+      createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
-      updatedBy: 1,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
+      storeTimeIn: null,
+       Tips: this.tips,
+      storeTimeOut: null, // checkoutTime,
+      storeOpenCloseStatus: null // this.storeStatus === '' ? null : +this.storeStatus
     };
     const formObj = {
-      cashregister: cashregister,
+      cashregister,
       cashRegisterCoins: coin,
       cashRegisterBills: bill,
       cashRegisterRolls: roll,
       cashregisterOthers: other
     }
+    this.spinner.show();
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
+      this.submitted = false;
       if (data.status === "Success") {
-        if (this.isUpdate) {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
-        } else {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
-        }
+        this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
+
+        this.spinner.hide();
         this.getCloseOutRegister();
       } else {
-        this.toastr.error('Weather Communication Error', 'Error!');
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      this.submitted = false;
+      this.spinner.hide();
     });
   }
 
@@ -333,10 +420,21 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.getTotalCash();
   }
 
-  // Calculate TotalCash
-  getTotalCash() {
-    this.totalCash = this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
+  tipsEvent(event){
+    this.tips = +event;
+    this.getTotalCash();
+  
   }
+    // Calculate TotalCash
+    getTotalCash() {
+
+      if(this.tips === undefined || this.tips === null)
+      {
+        this.tips = 0;
+      }
+
+      this.totalCash = this.tips + this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
+    }
   onValueChange(event) {
     let selectedDate = event;
     let today;
@@ -345,6 +443,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       this.selectDate = selectedDate;
       today = moment(new Date().toISOString()).format('YYYY-MM-DD');
       if (moment(today).isSame(selectedDate)) {
+        this.cashTipsEnable = true;
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
@@ -353,14 +452,54 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.cashRegisterCoinForm.disable();
         this.cashRegisterBillForm.disable();
         this.cashRegisterRollForm.disable();
+        this.cashTipsEnable = false;
         this.closeoutRegisterForm.disable();
       } else {
         this.cashRegisterCoinForm.enable();
         this.cashRegisterBillForm.enable();
         this.cashRegisterRollForm.enable();
         this.closeoutRegisterForm.enable();
+        this.cashTipsEnable = true;
       }
     }
     this.getCloseOutRegister();
+    this.getTips(this.selectDate);
+
   }
+  getTips(selectDate) {
+    const  tipdetailDto = {
+      locationId: +localStorage.getItem('empLocationId'),
+      date: selectDate ? selectDate : new Date()
+    }
+    this.registerService.getTips(tipdetailDto).subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.TipsDto = dType.CashRegister;
+        this.washTips = this.TipsDto.washTip.WashTips
+        this.detailTip = this.TipsDto.detailerTips
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    
+    );
+  }
+  getStoreStatusList() {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.storeStatusList = dType.Codes;
+        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue !== ApplicationConfig.storestatus.open);
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    }
+    
+    );
+  }
+ 
 }

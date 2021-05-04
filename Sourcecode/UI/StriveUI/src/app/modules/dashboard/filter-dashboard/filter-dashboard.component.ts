@@ -20,6 +20,15 @@ export class FilterDashboardComponent implements OnInit {
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required]
     });
+    this.patchValue();
+  }
+
+  patchValue() {
+    const currentDate = new Date();
+    this.filterForm.patchValue({
+      fromDate: currentDate,
+      toDate: currentDate
+    });
   }
 
   closeFilterModal() {

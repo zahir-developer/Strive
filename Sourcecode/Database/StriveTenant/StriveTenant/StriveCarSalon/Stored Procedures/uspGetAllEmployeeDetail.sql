@@ -1,4 +1,5 @@
-﻿-- =============================================
+﻿
+-- =============================================
 -- Author:		Naveen
 -- Create date: 15-07-2020
 -- Description:	Retrieves All Employee details
@@ -9,14 +10,38 @@
 -- <Modified Date>, <Author> - <Description>
 -- 29-07-2020, Zahir - Fixed duplicate issue & Modified logic for getting count of Document/Liability/Schedules
 -- 21-10-2020, Zahir - Added employee chat communicationId.
+-- 02-02-2021, Zahir - Added Offset, pagination and sorting
+-- 24-02-2021, Zahir - Removed STUFF for employee phone number
 
 ------------------------------------------------
 -- =============================================
 
-CREATE PROC [StriveCarSalon].[uspGetAllEmployeeDetail]
-(@EmployeeName varchar(50)=null)
+CREATE PROC [StriveCarSalon].[uspGetAllEmployeeDetail]-- [StriveCarSalon].[uspGetAllEmployeeDetail] 'Zac',1,10,'ASC',firstname
+
+@Query NVARCHAR(50) = NULL,
+@PageNo INT = NULL,
+@PageSize INT = NULL,	
+@SortOrder VARCHAR(5) = 'ASC',
+@SortBy VARCHAR(100) = NULL
 AS
 BEGIN
+DECLARE @Skip INT = 0;
+IF @PageSize is not NULL
+BEGIN
+SET @Skip = @PageSize * (@PageNo-1);
+END
+
+IF @PageSize is NULL
+BEGIN
+SET @PageSize = (Select count(1) from StriveCarSalon.tblEmployee);
+SET @PageNo = 1;
+SET @Skip = @PageSize * (@PageNo-1);
+Print @PageSize
+Print @PageNo
+Print @Skip
+END	
+
+DROP Table IF EXISTS #Employee
 
 SELECT 
 emp.EmployeeId, 
@@ -25,24 +50,54 @@ empdet.EmployeeCode,
 emp.FirstName,
 emp.LastName,
 chatComm.CommunicationId,
-stuff((SELECT '/'+ phoneNumber FROM strivecarsalon.tblemployeeaddress 
-WHERE EmployeeId = emp.EmployeeId
-FOR XML PATH('')),1,1,'') as MobileNo,
-
-(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END FROM StriveCarSalon.tblEmployeeLiability WHERE employeeid=emp.employeeid AND (IsDeleted=0 OR IsDeleted IS NULL)) as Collisions,
-(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM StriveCarSalon.tblEmployeeDocument WHERE employeeid=emp.employeeid AND (IsDeleted=0 OR IsDeleted IS NULL)) as Documents,
-(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM StriveCarSalon.tblSchedule WHERE employeeid=emp.employeeid AND (IsDeleted=0 OR IsDeleted IS NULL)) as Schedules,
+--stuff((SELECT '/'+ phoneNumber FROM strivecarsalon.tblemployeeaddress 
+--WHERE EmployeeId = emp.EmployeeId
+--FOR XML PATH('')),1,1,'') as MobileNo,
+empad.phoneNumber as MobileNo,
+(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END FROM StriveCarSalon.tblEmployeeLiability WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Collisions,
+(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM StriveCarSalon.tblEmployeeDocument WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Documents,
+(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM StriveCarSalon.tblSchedule WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Schedules,
 
 isnull(emp.IsActive,1) as Status
-FROM 
-StriveCarSalon.tblEmployee emp 
+INTO #Employee
+FROM StriveCarSalon.tblEmployee emp 
+LEFT JOIN StriveCarSalon.tblEmployeeAddress empAd on emp.employeeId = empAd.employeeId and empAd.PhoneNumber != ''
 LEFT JOIN StriveCarSalon.tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
-LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId WHERE empdet.EmployeeDetailId is NOT NULL 
+LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId 
+WHERE --empdet.EmployeeDetailId is NOT NULL AND 
+ISNULL(emp.IsDeleted,0) = 0 
+AND ((emp.FirstName like '%'+@Query+'%')
+OR (emp.LastName like '%'+@Query+'%')
+OR @Query is null OR @Query = ' ')
 
-AND (emp.IsDeleted=0 OR emp.IsDeleted IS NULL) 
-AND ((emp.FirstName like '%'+@EmployeeName+'%')
-OR (emp.LastName like '%'+@EmployeeName+'%')
-OR @EmployeeName is null OR @EmployeeName = ' ')
-AND (emp.IsDeleted = 0 OR emp.IsDeleted IS NULL)
-ORDER BY 1 DESC
+order by emp.IsActive DESC,
+CASE WHEN @SortBy = 'FirstName' AND @SortOrder='ASC' THEN emp.FirstName END ASC,
+CASE WHEN @SortBy = 'LastName' AND @SortOrder='ASC' THEN emp.LastName END ASC,
+CASE WHEN @SortBy = 'MobileNo' AND @SortOrder='ASC' THEN empAd.PhoneNumber END ASC,
+CASE WHEN @SortBy IS NULL AND @SortOrder='ASC' THEN 1 END ASC,
+----DESC
+CASE WHEN @SortBy = 'FirstName' AND @SortOrder='DESC' THEN emp.FirstName END DESC,
+CASE WHEN @SortBy = 'LastName' AND @SortOrder='DESC' THEN emp.LastName END DESC,
+CASE WHEN @SortBy = 'MobileNo' AND @SortOrder='DESC' THEN empAd.PhoneNumber END DESC,
+
+CASE WHEN @SortBy IS NULL AND @SortOrder='DESC' THEN emp.FirstName END DESC,
+
+CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN emp.FirstName END ASC
+
+OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
+
+Select * from #Employee
+
+IF @Query IS NULL OR @Query = ''
+BEGIN 
+select count(1) as Count from StriveCarSalon.tblEmployee where 
+ISNULL(IsDeleted,0) = 0 
+
+END
+
+IF @Query IS Not NULL AND @Query != ''
+BEGIN
+select count(1) as Count from #Employee
+END
+
 END

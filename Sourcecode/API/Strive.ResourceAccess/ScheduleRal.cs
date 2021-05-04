@@ -26,7 +26,7 @@ namespace Strive.ResourceAccess
 
         {
             _prm.Add("@tblScheduleId", scheduleId);
-            db.Save(SPEnum.uspDeleteSchedule.ToString(), _prm);
+            db.Save(EnumSP.Schedule.uspDeleteSchedule.ToString(), _prm);
             return true;
         }
         public ScheduleListViewModel GetSchedule(ScheduleDetailDto scheduleDetail)
@@ -34,13 +34,26 @@ namespace Strive.ResourceAccess
             _prm.Add("@ScheduledStartDate", Convert.ToDateTime(scheduleDetail.startDate));
             _prm.Add("@ScheduledEndDate", Convert.ToDateTime(scheduleDetail.endDate));
             _prm.Add("@LocationId", scheduleDetail.locationId);
-            return db.FetchMultiResult<ScheduleListViewModel>(SPEnum.USPGETSCHEDULE.ToString(), _prm);
+            return db.FetchMultiResult<ScheduleListViewModel>(EnumSP.Schedule.USPGETSCHEDULE.ToString(), _prm);
         }
         public List<ScheduleViewModel> GetScheduleById(int scheduleId)
         {
             _prm.Add("ScheduleId", scheduleId);
-            var result = db.Fetch<ScheduleViewModel>(SPEnum.USPGETSCHEDULEBYSCHEDULEID.ToString(), _prm);
+            var result = db.Fetch<ScheduleViewModel>(EnumSP.Schedule.USPGETSCHEDULEBYSCHEDULEID.ToString(), _prm);
             return result;
+        }
+        public ScheduleForcastedListViewModel GetScheduleAndForcasted (ScheduleDetailDto scheduleDetail)
+        {
+            DateTime lastMonth = scheduleDetail.endDate.AddMonths(-1).Date;
+            DateTime lastThirdMonth = scheduleDetail.endDate.AddMonths(-3).Date;
+
+        
+            _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
+            _prm.Add("@ScheduledStartDate", Convert.ToDateTime(scheduleDetail.startDate));
+            _prm.Add("@ScheduledEndDate", Convert.ToDateTime(scheduleDetail.endDate));
+            _prm.Add("@LocationId", scheduleDetail.locationId);
+            return db.FetchMultiResult<ScheduleForcastedListViewModel>(EnumSP.Schedule.USPGETSCHEDULEANDFORCASTED.ToString(), _prm);
         }
     }
 }

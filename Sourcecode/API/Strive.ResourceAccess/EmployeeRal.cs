@@ -15,6 +15,7 @@ using System.Collections;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Employee;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.ResourceAccess
 {
@@ -25,24 +26,29 @@ namespace Strive.ResourceAccess
         public EmployeeDetailViewModel GetEmployeeById(int employeeId)
         {
             _prm.Add("EmployeeId", employeeId);
-            var lstResult = db.FetchMultiResult<EmployeeDetailViewModel>(SPEnum.USPGETEMPLOYEEBYID.ToString(), _prm);
+            var lstResult = db.FetchMultiResult<EmployeeDetailViewModel>(EnumSP.Employee.USPGETEMPLOYEEBYID.ToString(), _prm);
             return lstResult;
         }
 
         public EmployeeListViewModel GetEmployeeList()
         {
-            return db.FetchMultiResult<EmployeeListViewModel>(SPEnum.USPGETEMPLOYEELIST.ToString(), _prm);
+            return db.FetchMultiResult<EmployeeListViewModel>(EnumSP.Employee.USPGETEMPLOYEELIST.ToString(), _prm);
         }
 
-        public List<EmployeeViewModel> GetAllEmployeeDetail(string employeeName)
+        public EmployeeViewModel GetAllEmployeeDetail(SearchDto searchDto)
         {
-            _prm.Add("@EmployeeName", employeeName);
-            return db.Fetch<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
+
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return db.FetchMultiResult<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
         }
 
-        public bool AddEmployee(EmployeeModel employee)
+        public int AddEmployee(EmployeeModel employee)
         {
-            return dbRepo.InsertPc(employee, "EmployeeId");
+            return dbRepo.InsertPK(employee, "EmployeeId");
         }
 
         public bool UpdateEmployee(EmployeeModel employee)
@@ -54,14 +60,14 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             List<RoleViewModel> lstEmployee = new List<RoleViewModel>();
-            lstEmployee = db.Fetch<RoleViewModel>(SPEnum.USPGETEMPLOYEEROLES.ToString(), dynParams);
+            lstEmployee = db.Fetch<RoleViewModel>(EnumSP.Employee.USPGETEMPLOYEEROLES.ToString(), dynParams);
             return lstEmployee;
         }
 
         public EmployeeLoginViewModel GetEmployeeByAuthId(int authId)
         {
             _prm.Add("AuthId", authId);
-            var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(SPEnum.USPGETUSERBYAUTHID.ToString(), _prm);
+            var lstResult = db.FetchMultiResult<EmployeeLoginViewModel>(EnumSP.Employee.USPGETUSERBYAUTHID.ToString(), _prm);
             return lstResult;
         }
 
@@ -69,17 +75,29 @@ namespace Strive.ResourceAccess
         {
             DynamicParameters dynParams = new DynamicParameters();
             dynParams.Add("@EmployeeId", employeeId);
-            CommandDefinition cmd = new CommandDefinition(SPEnum.USPDELETEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Employee.USPDELETEEMPLOYEE.ToString(), dynParams, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
         }
         public EmployeeRoleViewModel GetEmployeeRoleById(int employeeId)
         {
             _prm.Add("@EmployeeId", employeeId);
-            var lstResult = db.FetchMultiResult<EmployeeRoleViewModel>(SPEnum.USPGETEMPLOYEEROLEBYID.ToString(), _prm);
+            var lstResult = db.FetchMultiResult<EmployeeRoleViewModel>(EnumSP.Employee.USPGETEMPLOYEEROLEBYID.ToString(), _prm);
+            return lstResult;
+        }
+        public List<EmployeeNameDto> GetAllEmployeeName(int locationId)
+        {
+            _prm.Add("@LocationId", locationId);
+            var lstResult = db.Fetch<EmployeeNameDto>(EnumSP.Employee.USPGETALLEMPLOYEE.ToString(), _prm);
             return lstResult;
         }
 
+        public List<EmployeeHourlyRateDto> GetEmployeeHourlyRateById(int employeeId)
+        {
+            _prm.Add("EmployeeId", employeeId);
+            var lstResult = db.Fetch<EmployeeHourlyRateDto>(EnumSP.Employee.uspGetEmployeeHourlyRateById.ToString(), _prm);
+            return lstResult;
+        }
 
     }
 }

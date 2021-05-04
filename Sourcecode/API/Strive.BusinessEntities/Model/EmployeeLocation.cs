@@ -34,5 +34,11 @@ public class EmployeeLocation
 	[Column]
 	public DateTimeOffset? UpdatedDate { get; set; }
 
-}
+    [Column]
+    public decimal? HourlyWashRate { get; set; }
+
+
+
+
+    }
 }

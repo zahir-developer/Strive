@@ -13,10 +13,10 @@ namespace Strive.Core.Models.Customer
         public int VehicleMakeId { get; set; }
         public string VehicleMake { get; set; }
         public int VehicleModelId { get; set; }
-        public int VehicleModelNo { get; set; }
+        public int? VehicleModelNo { get; set; }
         public string VehicleYear { get; set; }
         public int VehicleColor { get; set; }
-        public int Upcharge { get; set; }
+        public int? Upcharge { get; set; }
         public double MonthlyCharge { get; set; }
         public string Barcode { get; set; }
         public string Notes { get; set; }

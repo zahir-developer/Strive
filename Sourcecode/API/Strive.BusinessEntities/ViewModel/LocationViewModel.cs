@@ -20,11 +20,22 @@ namespace Strive.BusinessEntities.DTO.Location
         public decimal? Latitude { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string WorkhourThreshold { get; set; }
+        public decimal? WorkhourThreshold { get; set; }
         public bool IsActive { get; set; }
         public bool IsFranchise { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
-
+        public bool? OffSet1 { get; set; }
+        public bool? OffSetA { get; set; }
+        public bool? OffSetB { get; set; }
+        public bool? OffSetC { get; set; }
+        public bool? OffSetD { get; set; }
+        public bool? OffSetE { get; set; }
+        public bool? OffSetF { get; set; }
+        public bool? OffSet1On { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+        public string Country { get; set; }
     }
 }

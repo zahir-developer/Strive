@@ -58,11 +58,19 @@ namespace StriveEmployee.Android.Fragments
 
         private async void Save_Button_Click(object sender, EventArgs e)
         {
-           await this.ViewModel.UpdateGroup();
-            MessengerTempData.resetChatData();
-            MessengerTempData.resetParticipantInfo();
-            selected_MvxFragment = new MessengerFragment();
-            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+            if(MessengerTempData.SelectedParticipants != null)
+            {
+                await this.ViewModel.UpdateGroup();
+                MessengerTempData.resetChatData();
+                MessengerTempData.resetParticipantInfo();
+                selected_MvxFragment = new MessengerFragment();
+                FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
+            }
+            else
+            {
+                this.ViewModel.NoParticipants();
+            }
+          
         }
 
         private void AddParticipant_ImageButton_Click(object sender, EventArgs e)
@@ -80,7 +88,7 @@ namespace StriveEmployee.Android.Fragments
                 if(MessengerTempData.SelectedParticipants != null)
                 {
                     ChatEmployeeList data;
-                    foreach (var result in MessengerTempData.SelectedParticipants.EmployeeList)
+                    foreach (var result in MessengerTempData.SelectedParticipants.EmployeeList.Employee)
                     {
                         var results = ViewModel.EmployeeList.EmployeeList.ChatEmployeeList.Find(x => x.Id == result.EmployeeId);
                         if (results == null)

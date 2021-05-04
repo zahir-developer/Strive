@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [StriveCarSalon].[tblEmployeeDocument] (
     [EmployeeDocumentId]  INT                IDENTITY (1, 1) NOT NULL,
     [EmployeeId]          INT                NULL,
-    [Filename]            VARCHAR (50)       NOT NULL,
-    [Filepath]            VARCHAR (50)       NOT NULL,
+    [Filename]            VARCHAR (200)      NOT NULL,
+    [Filepath]            VARCHAR (500)      NOT NULL,
     [FileType]            VARCHAR (10)       NOT NULL,
     [IsPasswordProtected] BIT                NULL,
     [Password]            NVARCHAR (15)      NULL,
@@ -16,6 +16,8 @@
     CONSTRAINT [PK_tblEmployeeDocument] PRIMARY KEY CLUSTERED ([EmployeeDocumentId] ASC),
     CONSTRAINT [FK_tblEmployeeDocument_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
+
+
 
 
 GO

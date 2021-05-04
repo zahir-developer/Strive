@@ -16,25 +16,22 @@
         </div>
     </div>
     <div class="card-body p-0">
-
-        <div *ngIf="empList === undefined" class="Message-box-slide view-msg position-relative">
+        <div *ngIf="empList.length === 0" class="Message-box-slide view-msg position-relative">
             <p class="font-weight-700 font-size-1-3 text-center aligncenter">No Recent Chats found..!!!</p>
         </div>
-        <div *ngIf="empList !== undefined" class="Message-box-slide view-msg position-relative">
-            <div *ngIf="empList !== undefined">
+        <div *ngIf="empList.length !== 0" class="Message-box-slide view-msg position-relative">
+            <div *ngIf="empList.length !== 0">
                 <div class="Message-item" [ngClass]="{'recentchat-active' : emp.Selected}" *ngFor="let emp of empList"
                     (click)='loadChat(emp)'>
                     <ng-container>
                         <div *ngIf="!emp?.IsGroup"
                             [ngClass]="[emp.CommunicationId !== '0' ? 'online-badge': 'offline-badge']">
                         </div>
-
                         <span *ngIf="!emp?.IsGroup"
                             class="profile-image m-r-10 m-l-10 group-icon-color font-size-1-2 align-middle">{{emp?.FirstName?.charAt(0).toUpperCase() + (emp?.LastName ? emp?.LastName?.charAt(0).toUpperCase(): '')}}</span>
                         <span *ngIf="emp?.IsGroup"
                             class="profile-image m-r-10  m-l-10 group-icon-color font-size-1-2 align-middle"><i
                                 class="mdi mdi-account-supervisor font-size-1-5"></i></span>
-                        <!-- <div class="profile-image m-r-10 group-icon-color font-size-1-2 align-middle " [ngClass]="{'online-badge': emp.CommunicationId !== '0'}"></div>&nbsp;&nbsp;&nbsp; -->
                         <div class="Message-item-body">
                             <span class="float-right msg-date font-size--8"
                                 [ngClass]="[!emp.isRead ? 'bold-text': '']">{{emp?.CreatedDate | date: 'hh:mm aa'}}

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel.Product;
 using Strive.BusinessLogic.Document;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -17,14 +18,26 @@ namespace Strive.BusinessLogic
     {
         public ProductBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public Result AddProduct(Product product)
+        public Result AddProduct(ProductListDto product)
         {
             string error = string.Empty;
-            (error, product.FileName, product.ThumbFileName) = UploadImage(product.Base64, product.FileName);
+            var prodRal = new ProductRal(_tenant);
+            foreach (var prod in product.Product)
+            {
+                if (!string.IsNullOrEmpty(prod.Product.Base64))
+                    (error, prod.Product.FileName, prod.Product.ThumbFileName) = UploadImage(prod.Product.Base64, prod.Product.FileName);
+                if (prodRal.AddProduct(prod) > 0)
+                    continue;
+                else
+                {
+                    error = "Error inserting product.!";
+                    break;
+                }
+            }
 
             if (error == string.Empty)
             {
-                return ResultWrap(new ProductRal(_tenant).AddProduct, product, "Status");
+                return ResultWrap(true, "Status", "Success");
             }
             else
             {
@@ -32,38 +45,64 @@ namespace Strive.BusinessLogic
             }
         }
 
-        public Result GetProductSearch(ProductSearchDto search)
+        public Result GetAllProduct(ProductSearchDto search)
         {
-            return ResultWrap(new ProductRal(_tenant).GetProductSearch, search, "ProductSearch");
+            return ResultWrap(new ProductRal(_tenant).GetAllProduct, search, "ProductSearch");
         }
 
-        public Result UpdateProduct(Product product)
+        public Result UpdateProduct(ProductListDto products)
         {
-            string error = string.Empty;
-            (error, product.FileName, product.ThumbFileName) = UploadImage(product.Base64, product.FileName);
+            Result result = new Result();
+            foreach (var product in products.Product)
+            {
+                string error = string.Empty;
+                (error, product.Product.FileName, product.Product.ThumbFileName) = UploadImage(product.Product.Base64, product.Product.FileName);
 
-            return ResultWrap(new ProductRal(_tenant).UpdateProduct, product, "Status");
+                return ResultWrap(new ProductRal(_tenant).UpdateProduct, product, "Status");
+            }
+
+            return result;
         }
 
-        public Result GetAllProduct()
+        public Result GetAllProductAndImage(ProductSearchDto search)
         {
-            var products = new ProductRal(_tenant).GetAllProduct();
+            var products = new ProductRal(_tenant).GetAllProduct(search);
 
             foreach (var prod in products)
             {
-                if (!string.IsNullOrEmpty(prod.FileName))
-                    prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, prod.FileName);
+                string fileName = string.Empty;
+
+                fileName = prod.ThumbFileName;
+
+                if (string.IsNullOrEmpty(fileName))
+                    fileName = prod.FileName;
+
+                if (!string.IsNullOrEmpty(fileName))
+                    prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
             }
 
             return ResultWrap(products, "Product");
+        }
+
+        public Result GetProductDetail(int productId)
+        {
+            var result = new ProductRal(_tenant).GetProductDetailById(productId);
+
+            if (result.ProductDetail != null)
+            {
+                result.ProductDetail.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, result.ProductDetail.FileName);
+            }
+            return ResultWrap(result, "Product");
         }
 
         public Result GetProduct(int productId)
         {
             var result = new ProductRal(_tenant).GetProductById(productId);
 
-            result.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, result.FileName);
-
+            if (result != null)
+            {
+                result.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, result.FileName);
+            }
             return ResultWrap(result, "Product");
         }
 
@@ -97,12 +136,9 @@ namespace Strive.BusinessLogic
                 }
                 else
                 {
-                    string extension = Path.GetExtension(fileName);
-                    thumbFileName = fileName.Replace(extension, string.Empty) + "Thumb" + extension;
                     try
                     {
-                        documentBpl.SaveThumbnail(_tenant.ProductThumbWidth, _tenant.ProductThumbHeight, base64, thumbFileName);
-
+                        thumbFileName = documentBpl.SaveThumbnail(GlobalUpload.DocumentType.PRODUCTIMAGE, _tenant.ImageThumbWidth, _tenant.ImageThumbHeight, base64, fileName);
                     }
                     catch (Exception ex)
                     {

@@ -9,7 +9,7 @@
         <div class="form-row">
             <div class="col-md-12 form-group">
                 <input type="file" class="custom-file-input" id="customFile" accept=".doc, .docx, .pdf, .xls, .csv"
-                    mulitple dirname="S:\" (change)="fileNameChanged()">
+                    mulitple dirname="S:\" (change)="fileNameChanged($event)">
                 <label id='lbl' class="custom-file-label" for="customFile">Select Document</label>
                 <small class="form-text text-muted">File Type:doc,docx,pdf,xls,csv etc</small>
                 <table aria-describedby="file" *ngIf="multipleFileUpload.length > 0 && !isLoading">
@@ -26,12 +26,7 @@
                     <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                 </div>
             </div>
-            <!-- <div class="form-group col-md-12">
-                <label>Select Document</label>
-                <input type="file" class="form-control" accept=".doc, .docx, .pdf, .xls, .csv" id="filepaths"
-                    dirname="S:\" name="filename" (change)="fileNameChanged()">
-                <small class="form-text text-muted">Doc Type:doc,docx,pdf,xls,csv et</small>
-            </div> -->
+           
         </div>
         <div class="form-row m-t-10 m-b-5">
             <div class="form-group col-md-12">

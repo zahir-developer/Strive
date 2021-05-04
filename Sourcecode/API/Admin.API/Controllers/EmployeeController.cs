@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
@@ -30,13 +31,14 @@ namespace Admin.Api.Controllers
         [HttpDelete]
         [Route("Delete/{employeeId}")]
         public Result DeleteEmployee(int employeeId) => _bplManager.DeleteEmployeeDetails(employeeId);
+        [HttpPost]
+        [Route("GetAllEmployeeDetail")]
+        public Result GetAllEmployee([FromBody]SearchDto searchDto) => _bplManager.GetAllEmployeeDetail(searchDto);
+
 
         #endregion
 
         #region GET
-        [HttpGet]
-        [Route("GetAllEmployeeDetail/{employeeName}")]
-        public Result GetAllEmployee(string employeeName) => _bplManager.GetAllEmployeeDetail(employeeName);
 
         [HttpGet]
         [Route("GetAllRoles")]
@@ -54,6 +56,13 @@ namespace Admin.Api.Controllers
         [Route("GetEmployeeRoleById")]
         public Result GetEmployeeRoleById(int id) => _bplManager.GetEmployeeRoleById(id);
 
+        [HttpGet]
+        [Route("GetAllEmployeeName")]
+        public Result GetAllEmployeeName(int id) => _bplManager.GetAllEmployeeName(id);
+
+        [HttpGet]
+        [Route("GetEmployeeHourlyRateById")]
+        public Result GetEmployeeHourlyRateById(int id) => _bplManager.GetEmployeeHourlyRateById(id);
 
         #endregion
 

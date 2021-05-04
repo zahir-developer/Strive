@@ -1,23 +1,11 @@
 ﻿using Strive.BusinessEntities;
-using Strive.BusinessEntities.Code;
 using Strive.BusinessEntities.DTO.Vehicle;
-using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
 using Strive.Common;
-using Strive.Repository;
 using System.Collections.Generic;
-using Strive.BusinessEntities;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Strive.BusinessEntities.Client;
-using System.Data;
 using Strive.BusinessEntities.Model;
-using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.DTO;
-using Strive.BusinessEntities.Code;
-using Strive.BusinessEntities.DTO.Vehicle;
-
+using System;
 
 namespace Strive.ResourceAccess
 {
@@ -25,14 +13,18 @@ namespace Strive.ResourceAccess
     {
         public VehicleRal(ITenantHelper tenant) : base(tenant) { }
 
-        public List<VehicleViewModel> GetAllVehicle(VehicleSearchDto name)
+        public VehicleCountViewModel GetAllVehicle(SearchDto searchDto)
         {
-            _prm.Add("@SearchName", name.SearchName);
-            return db.Fetch<VehicleViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return db.FetchMultiResult<VehicleCountViewModel>(SPEnum.USPGETVEHICLE.ToString(), _prm);
         }
         public List<VehicleMembershipModel> GetVehicleMembership()
         {
-            return db.Fetch<VehicleMembershipModel>(SPEnum.uspGetVihicleMembership.ToString(), null);
+            return db.Fetch<VehicleMembershipModel>(SPEnum.USPGETVEHICLEMEMBERSHIP.ToString(), null);
         }
         public bool UpdateVehicleMembership(BusinessEntities.Model.Membership Membership)
         {
@@ -93,5 +85,30 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", clientId);
             return db.Fetch<PastDetailsViewModel>(SPEnum.USPGETPASTDETAILSBYCLIENTID.ToString(), _prm);
         }
+
+        public int AddVehicleImage(VehicleImageDto vehicleImage)
+        {
+            return dbRepo.InsertPK(vehicleImage, "VehicleImageId");
+        }
+
+        public List<VehicleImageViewModel> GetAllVehicleThumbnail(int vehicleId)
+        {
+            _prm.Add("vehicleId", vehicleId);
+            return db.Fetch<VehicleImageViewModel>(SPEnum.USPGETALLVEHICLEIMAGEBYID.ToString(), _prm);
+        }
+        public VehicleImageViewModel GetVehicleImageById(int vehicleImageId)
+        {
+            _prm.Add("vehicleImageId", vehicleImageId);
+            
+            return db.FetchSingle<VehicleImageViewModel>(SPEnum.USPGETVEHICLEIMAGEBYID.ToString(), _prm);
+        }
+
+        public bool DeleteVehicleImage(int vehicleImageId)
+        {
+            _prm.Add("VehicleImageId", vehicleImageId);
+            db.Save(SPEnum.USPDELETECLIENTVEHICLEIMAGE.ToString(), _prm);
+            return true;
+        }
+
     }
 }

@@ -38,16 +38,8 @@ namespace StriveCustomer.iOS.Views
             deleteVehicleBtn.SetImage(UIImage.FromBundle("icon-delete"), UIControlState.Normal);
 
             VehicleList_CarNameLabel.Text = list.Status[indexpath.Row].VehicleColor + " " + list.Status[indexpath.Row].VehicleMfr + " " + list.Status[indexpath.Row].VehicleModel ?? "";
-            VehicleList_RegNoLabel.Text = list.Status[indexpath.Row].VehicleNumber ?? "";
-
-            if (list.Status[indexpath.Row].IsMembership)
-            {
-                VehicleList_MembershipLabel.Text = "Yes";
-            }
-            else
-            {
-                VehicleList_MembershipLabel.Text = "No";
-            }
+            VehicleList_RegNoLabel.Text = list.Status[indexpath.Row].Barcode ?? "";                     
+            VehicleList_MembershipLabel.Text = list.Status[indexpath.Row].MembershipName;           
         }
 
         partial void DeleteVehicleList_BtnTouch(UIButton sender)

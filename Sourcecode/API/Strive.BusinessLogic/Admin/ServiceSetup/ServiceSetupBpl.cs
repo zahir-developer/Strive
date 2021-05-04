@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
 using Strive.Common;
@@ -11,7 +12,7 @@ namespace Strive.BusinessLogic.ServiceSetup
         public ServiceSetupBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
 
-        public Result AddService(Service service)
+        public Result AddService(ServiceDto service)
         {
             return ResultWrap(new ServiceSetupRal(_tenant).AddService, service, "Status");
         }
@@ -26,9 +27,9 @@ namespace Strive.BusinessLogic.ServiceSetup
             return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceType, "ServiceType");
         }
 
-        public Result GetAllServiceSetup()
+        public Result GetAllServiceSetup(SearchDto searchDto)
         {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceSetup, "ServiceSetup");
+            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceSetup,searchDto, "ServiceSetup");
         }
 
         public Result GetServiceSetupById(int id)
@@ -40,13 +41,10 @@ namespace Strive.BusinessLogic.ServiceSetup
         {
             return ResultWrap(new ServiceSetupRal(_tenant).DeleteServiceById, id, "ServiceDelete");
         }
-        public Result GetServiceSearch(ServiceSearchDto search)
+       
+        public Result GetAllServiceDetail(int locationId)
         {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetServiceSearch, search, "ServiceSearch");
-        }
-        public Result GetServiceCategoryByLocationId(int id)
-        {
-            return ResultWrap(new ServiceSetupRal(_tenant).GetServiceCategoryByLocationId, id, "ServiceCategory");
+            return ResultWrap(new ServiceSetupRal(_tenant).GetAllServiceDetail,locationId, "AllServiceDetail");
         }
         public Result GetServicesWithPrice()
         {

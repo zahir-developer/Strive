@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -24,7 +25,7 @@ using StriveEmployee.Android.Fragments.Schedule;
 namespace StriveEmployee.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Dashboard View")]
+    [Activity(Label = "Dashboard View", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DashboardView : MvxAppCompatActivity<DashboardViewModel>
     {
 
@@ -78,12 +79,6 @@ namespace StriveEmployee.Android.Views
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
-        protected override void OnStop()
-        {
-            this.ViewModel.Logout();
-            base.OnStop();
-        }
-
         protected override void OnDestroy()
         {
             base.OnDestroy();

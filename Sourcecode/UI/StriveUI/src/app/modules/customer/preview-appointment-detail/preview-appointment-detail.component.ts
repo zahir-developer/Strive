@@ -5,6 +5,9 @@ import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-preview-appointment-detail',
@@ -24,7 +27,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
-    private toastr: MessageServiceToastr
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +37,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   }
 
   bookNow() {
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Waiting' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.Waiting });
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
@@ -74,8 +77,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       bayId: this.scheduleDetailObj.Slot.BayId,
       jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       scheduleDate: this.datePipe.transform(this.scheduleDetailObj.InTime, 'yyyy-MM-dd'),
-      scheduleInTime: this.datePipe.transform(this.scheduleDetailObj.InTime, 'hh:mm'),
-      scheduleOutTime: this.datePipe.transform(this.scheduleDetailObj.OutTime, 'hh:mm'),
+      scheduleInTime: this.datePipe.transform(this.scheduleDetailObj.InTime, 'HH:mm'),
+      scheduleOutTime: this.datePipe.transform(this.scheduleDetailObj.OutTime, 'HH:mm'),
       isActive: true,
       isDeleted: false,
       createdBy: 0,
@@ -103,22 +106,34 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     if (this.scheduleDetailObj.isEdit) {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.confirmation.emit();
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     } else {
       this.spinner.show();
       this.detailService.addDetail(formObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
+          this.spinner.hide();
+
           this.confirmation.emit();
         } else {
-          this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     }
   }
@@ -139,6 +154,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -147,8 +164,9 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       if (res.status === 'Success') {
         const status = JSON.parse(res.resultData);
         this.jobStatus = status.Codes;
-        console.log(status, 'status');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

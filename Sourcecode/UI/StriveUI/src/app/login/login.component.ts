@@ -8,6 +8,13 @@ import { WhiteLabelService } from '../shared/services/data-service/white-label.s
 import { MessengerService } from '../shared/services/data-service/messenger.service';
 import { UserDataService } from '../shared/util/user-data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LandingService } from '../shared/services/common-service/landing.service';
+import { GetCodeService } from '../shared/services/data-service/getcode.service';
+import { CodeValueService } from '../shared/common-service/code-value.service';
+import { tap, mapTo, share } from 'rxjs/operators';
+import { ApplicationConfig } from '../shared/services/ApplicationConfig';
+import { WeatherService } from '../shared/services/common-service/weather.service';
+import { LogoService } from '../shared/services/common-service/logo.service';
 
 @Component({
   selector: 'app-login',
@@ -23,21 +30,46 @@ export class LoginComponent implements OnInit {
   isLoginLoading: boolean;
   whiteLabelDetail: any;
   colorTheme: any;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   dashBoardModule: boolean;
-  constructor(private loginService: LoginService, private router: Router, private route: ActivatedRoute,
-    private authService: AuthService, private whiteLabelService: WhiteLabelService,
-    private msgService: MessengerService,private user: UserDataService, private spinner: NgxSpinnerService) { }
+  isRememberMe: boolean;
+  constructor(
+    private loginService: LoginService, private router: Router, private route: ActivatedRoute,
+    private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
+    private msgService: MessengerService, private user: UserDataService,
+    private logoService: LogoService,
+    private spinner: NgxSpinnerService, private weatherService: WeatherService,
+    private landing: LandingService, private codeValueService: CodeValueService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
-      // console.log(data, 'isloggedIn value');
     });
     this.authService.logout();
+    console.log(localStorage.getItem('isRemember'));
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+      isRemember: new FormControl(false)
     });
-    this.msgService.closeConnection();
+    this.bindValue();
+  }
+
+  bindValue() {
+    if (localStorage.getItem('isRemember') !== null) {
+      if (localStorage.getItem('isRemember') === 'true') {
+        this.loginForm.patchValue({
+          isRemember: localStorage.getItem('isRemember'),
+          username: localStorage.getItem('username'),
+          password: localStorage.getItem('password')
+        });
+      } else {
+        this.loginForm.patchValue({
+          isRemember: false,
+          username: '',
+          password: ''
+        });
+      }
+    }
   }
   get f() { return this.loginForm.controls; }
   LoginSubmit(): void {
@@ -51,16 +83,25 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.value.username,
       passwordHash: this.loginForm.value.password
     };
+    // console.log(localStorage.getItem('isRemember'));
+    if (localStorage.getItem('isRemember') === 'true') {
+      localStorage.setItem('username', this.loginForm.value.username);
+      localStorage.setItem('password', this.loginForm.value.password);
+    } else {
+      localStorage.removeItem('username');
+      localStorage.removeItem('password');
+    }
     this.isLoginLoading = true;
     this.spinner.show();
     this.authService.login(loginObj).subscribe(data => {
       this.isLoginLoading = false;
-      this.spinner.hide();
       if (data) {
         if (data.status === 'Success') {
+          this.spinner.hide();
           const token = JSON.parse(data.resultData);
+          this.landing.loadTheLandingPage(true);
+          this.getCodeValue();
           this.getThemeColor();
-          this.loadTheLandingPage();
           this.msgService.startConnection();
         } else {
           this.errorFlag = true;
@@ -73,62 +114,12 @@ export class LoginComponent implements OnInit {
       this.isLoginLoading = false;
     });
   }
-  loadTheLandingPage(): void {
-    const location = localStorage.getItem('empLocationId');
-    if (!Array.isArray(JSON.parse(location))) {
-      localStorage.setItem('isAuthenticated', 'true');
-      this.authService.loggedIn.next(true);
-      this.user.navName.subscribe((data = []) => {
-        setTimeout(() => {
 
-          if (data) {
-            const newparsedData = JSON.parse(data);
-            for (let i = 0; i < newparsedData?.length; i++) {
-              const ModuleName = newparsedData[i].ModuleName;
-
-              //DashBoard Module
-              if (ModuleName === "Dashboard") {
-                this.dashBoardModule = true;
-              }
-            }
-
-          }
-
-        }, 100)
-                      })
-  
-if(this.dashBoardModule = true){
-  this.router.navigate([`/dashboard`], { relativeTo: this.route });
-              }
-              else if (this.dashBoardModule = false) {
-                this.routingPage();
-
-              }    } else {
-      this.router.navigate([`/location`], { relativeTo: this.route });
-    }
+  rememberMe(event) {
+    console.log(event);
+    localStorage.setItem('isRemember', event.target.checked);
   }
-  routingPage() {
-    const Roles = localStorage.getItem('empRoles');
-    if (Roles) {
-      if (Roles === 'Admin') {
-        this.router.navigate([`/dashboard`], { relativeTo: this.route });
-      } else if (Roles === 'Manager') {
-        this.router.navigate([`/reports/eod`], { relativeTo: this.route });
-      }
-      else if (Roles === 'Operator') {
-        this.router.navigate([`/reports/eod`], { relativeTo: this.route });
-      }
-      else if (Roles === 'Cashier') {
-        this.router.navigate([`/sales`], { relativeTo: this.route });
-      }
-      else if (Roles === 'Detailer') {
-        this.router.navigate([`/detail`], { relativeTo: this.route });
-      }
-      else if (Roles === 'Wash') {
-        this.router.navigate([`/wash`], { relativeTo: this.route });
-      }
-    }
-  }
+
   forgotPassword() {
     this.router.navigate([`/forgot-password`], { relativeTo: this.route });
   }
@@ -138,11 +129,12 @@ if(this.dashBoardModule = true){
       this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
         if (res.status === 'Success') {
           const label = JSON.parse(res.resultData);
-          console.log(label, 'white');
+          this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+          const base64 = 'data:image/png;base64,';
+          const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
+          this.favIcon.href = logoBase64;
           this.colorTheme = label.WhiteLabelling.Theme;
           this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
-          // this.fontName = this.whiteLabelDetail.FontFace;
-          // this.themeId = this.whiteLabelDetail.ThemeId;
           this.colorTheme.forEach(item => {
             if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
               document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
@@ -156,5 +148,14 @@ if(this.dashBoardModule = true){
         }
       });
     }
+  }
+
+  getCodeValue() {
+    this.getCodeService.getCodeByCategory(ApplicationConfig.Category.all).subscribe(res => {
+      if (res.status === 'Success') {
+        const value = JSON.parse(res.resultData);
+        localStorage.setItem('codeValue', JSON.stringify(value.Codes));
+      }
+    });
   }
 }

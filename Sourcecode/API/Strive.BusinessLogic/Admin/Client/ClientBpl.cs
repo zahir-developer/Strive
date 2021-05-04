@@ -17,6 +17,7 @@ using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.BusinessLogic
 {
@@ -58,9 +59,42 @@ namespace Strive.BusinessLogic
 
         public Result SaveClientDetails(ClientDto client)
         {
+            List<int> clientId = new List<int>();
             try
             {
-                return ResultWrap(new ClientRal(_tenant).InsertClientDetails, client, "Status");
+                foreach (var item in client.ClientAddress)
+                {
+                    if (!string.IsNullOrEmpty(item.Email))
+                    {
+                        var comBpl = new CommonBpl(_cache, _tenant);
+                        var clientLogin = comBpl.CreateLogin(UserType.Client, item.Email, item.PhoneNumber);
+                        client.Client.AuthId = clientLogin.authId;
+                        
+
+                        if (clientLogin.authId > 0)
+                        {
+                            var clientSignup = new ClientRal(_tenant).InsertClientDetails(client);
+                            if (clientSignup > 0)
+                            {
+                                var subject = "welcom To Strive";
+                                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                                keyValues.Add("{{emailId}}",item.Email);
+                                keyValues.Add("{{password}}",clientLogin.password);
+                                comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues,subject);
+                               // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
+                                clientId.Add(clientSignup);
+                            }
+                            else if(clientLogin.authId > 0)
+                            {
+                                //Delete AuthMaster record from AuthDatabase in case client add failed.
+                                comBpl.DeleteUser(clientLogin.authId);
+                            }
+                        }
+                    }
+
+                }
+               
+                return ResultWrap(clientId, "Status");
             }
             catch (Exception ex)
             {
@@ -92,12 +126,12 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        
-        public Result GetAllClient()
+
+        public Result GetAllClient(SearchDto searchDto)
         {
-            return ResultWrap(new ClientRal(_tenant).GetAllClient, "Client");
+            return ResultWrap(new ClientRal(_tenant).GetAllClient, searchDto, "Client");
         }
-        public Result GetClientById(int clientId)
+        public Result GetClientById(int? clientId)
         {
             return ResultWrap(new ClientRal(_tenant).GetClientById, clientId, "Status");
         }
@@ -125,6 +159,21 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).GetHistoryByClientId, id, "VehicleHistory");
         }
+
+        public Result IsClientName(ClientNameDto clientNameDto)
+        {
+            return ResultWrap(new ClientRal(_tenant).IsClientName, clientNameDto, "IsClientNameAvailable");
+        }
+
+        public Result GetAllClientName(string name)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetAllClientName, name, "ClientName");
+        }
+        public Result ClientEmailExist(string email)
+        {
+            return ResultWrap(new ClientRal(_tenant).ClientEmailExist, email, "emailExist");
+        }
+
 
     }
 }

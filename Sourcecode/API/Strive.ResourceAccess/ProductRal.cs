@@ -18,37 +18,40 @@ namespace Strive.ResourceAccess
     {
         public ProductRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddProduct(Product product)
+        public int AddProduct(ProductsDto product)
         {
-            return dbRepo.Insert(product);
+            return dbRepo.InsertPK(product,"ProductId");
         }
 
-        public bool UpdateProduct(Product product)
+        public bool UpdateProduct(ProductsDto product)
         {
-            return dbRepo.Update(product);
+            return dbRepo.UpdatePc(product);
         }
 
-        public List<ProductViewModel> GetAllProduct()
+        public List<ProductViewModel> GetAllProduct(ProductSearchDto search)
         {
-            return db.Fetch<ProductViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            _prm.Add("@ProductSearch", search.ProductSearch);
+            return db.Fetch<ProductViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
 
-        public ProductDetailViewModel GetProductById(int productId)
+        public ProductDetailViewModel GetProductById(int? productId)
         {
             _prm.Add("@ProductId", productId);
-            return db.FetchSingle<ProductDetailViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
+            return db.FetchSingle<BusinessEntities.ViewModel.ProductDetailViewModel>(EnumSP.Product.USPGETPRODUCTBYID.ToString(), _prm);
+        }
+
+        public ProductEditViewModel GetProductDetailById(int? productId)
+        {
+            _prm.Add("@ProductId", productId);
+            return db.FetchMultiResult<ProductEditViewModel>(EnumSP.Product.USPGETPRODUCTDETAILBYID.ToString(), _prm);
         }
 
         public bool DeleteProduct(int productId)
         {
             _prm.Add("ProductId", productId);
-            db.Save(SPEnum.USPDELETEPRODUCT.ToString(), _prm);
+            db.Save(EnumSP.Product.USPDELETEPRODUCT.ToString(), _prm);
             return true;
         }
-        public List<ProductSearchViewModel> GetProductSearch(ProductSearchDto search)
-        {
-            _prm.Add("@ProductSearch", search.ProductSearch);
-            return db.Fetch<ProductSearchViewModel>(SPEnum.USPGETPRODUCTS.ToString(), _prm);
-        }
+        
     }
 }

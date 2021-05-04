@@ -11,11 +11,11 @@ namespace Strive.BusinessEntities.ViewModel
         public int EmployeeId { get; set; }
         public string PayeeName { get; set; }
         public int LocationId { get; set; }
-        public int TotalWashHours { get; set; }
-        public int TotalDetailHours { get; set; }
-        public int OverTimeHours { get; set; }
+        public string TotalWashHours { get; set; }
+        public string TotalDetailHours { get; set; }
+        public string OverTimeHours { get; set; }
         public decimal WashRate { get; set; }
-        public string DetailRate { get; set; }
+        public decimal DetailRate { get; set; }
         public decimal? WashAmount { get; set; }
         public decimal? DetailAmount { get; set; }
         public decimal? OverTimePay { get; set; }
@@ -30,5 +30,7 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? Uniform { get; set; }
         public decimal? Adjustment { get; set; }
         public decimal PayeeTotal { get; set; }
+
+        public string Notes { get; set; }
     }
 }

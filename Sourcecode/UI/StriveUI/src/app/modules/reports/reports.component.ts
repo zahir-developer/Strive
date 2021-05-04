@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-reports',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private landingservice:LandingService) { }
 
   ngOnInit(): void {
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
 }

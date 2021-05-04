@@ -110,7 +110,9 @@ namespace StriveEmployee.Android.Fragments
             ConnectionID = await this.ViewModel.StartCommunication();
             
             await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+          
             MessengerTempData.ConnectionID = ConnectionID;
+            
             await this.ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
             await ChatHubMessagingService.SubscribeChatEvent();
 

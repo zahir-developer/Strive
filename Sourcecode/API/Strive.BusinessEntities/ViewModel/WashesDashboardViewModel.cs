@@ -15,5 +15,8 @@ namespace Strive.BusinessEntities.ViewModel
         public int? Current { get; set; }
         public decimal? Score { get; set; }
         public int? AverageWashTime { get; set; }
+        public int? Washercount { get; set; }
+        public int? DetailerCount { get; set; }
+        public int? ForecastedEmployeeHours { get; set; }
     }
 }

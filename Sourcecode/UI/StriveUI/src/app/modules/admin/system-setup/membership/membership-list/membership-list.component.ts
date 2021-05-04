@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { MembershipService } from 'src/app/shared/services/data-service/membership.service';
-import { PaginationConfig } from 'src/app/shared/services/Pagination.config';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-membership-list',
@@ -16,24 +21,39 @@ export class MembershipListComponent implements OnInit {
   headerData: string;
   isEdit: boolean;
   isTableEmpty: boolean;
-  isLoading = true;
-  Status:any;
-  searchStatus:any;
- 
+  Status: any;
+  searchStatus: any;
   query = '';
   collectionSize: number = 0;
   page: any;
   pageSize: any;
   pageSizeList: any;
-  isDesc: boolean = false;
-  column: string = 'MembershipName';
-  constructor(private toastr: MessageServiceToastr, private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) { }
+  isLoading: boolean;
+  sortColumn: { sortBy: any; sortOrder: string; };
+  searchUpdate = new Subject<string>();
+  constructor(
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(3000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.membershipSearch();
+      });
+  }
 
   ngOnInit() {
-    this.page= PaginationConfig.page;
-    this.pageSize = PaginationConfig.TableGridSize;
-    this.pageSizeList = PaginationConfig.Rows;
-    this.Status = [{id : 0,Value :"InActive"}, {id :1 , Value:"Active"}, {id :2 , Value:"All"}];
+    this.isLoading = false;
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.MemberShipSetup,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.MemberShipSetup.order
+    }
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    this.Status = [{ id: 0, Value: "InActive" }, { id: 1, Value: "Active" }, { id: 2, Value: "All" }];
     this.searchStatus = "";
     this.getAllMembershipDetails();
   }
@@ -46,36 +66,46 @@ export class MembershipListComponent implements OnInit {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.Membership;
+        this.membershipDetails = this.membershipDetails.filter(item => item.IsActive === true);
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.sort('MembershipName')
+          this.sort(ApplicationConfig.Sorting.SortBy.MemberShipSetup);
+
           this.collectionSize = Math.ceil(this.membershipDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   paginate(event) {
-    
-    this.pageSize= +this.pageSize;
-    this.page = event ;
-    
-    this.getAllMembershipDetails()
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllMembershipDetails();
   }
   paginatedropdown(event) {
-    this.pageSize= +event.target.value;
-    this.page =  this.page;
-    
-    this.getAllMembershipDetails()
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllMembershipDetails();
   }
+
   sort(property) {
-    this.isDesc = !this.isDesc; //change the direction    
-    this.column = property;
-    let direction = this.isDesc ? 1 : -1;
-   
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.MemberShipSetup.order
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
+  }
+  sorting(sortColumn) {
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+    let property = sortColumn.sortBy;
     this.membershipDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -88,51 +118,109 @@ export class MembershipListComponent implements OnInit {
       }
     });
   }
- 
-  
-
-  membershipSearch(){
-    this.page = 1;
-    const obj ={
-       membershipSearch: this.query
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+
+  membershipSearch() {
+    this.page = 1;
+    const obj = {
+      membershipSearch: this.query
+    };
+    this.isLoading = true;
     this.member.searchMembership(obj).subscribe(data => {
+      this.isLoading = false;
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
         this.membershipDetails = membership.MembershipSearch;
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
+          this.sort(ApplicationConfig.Sorting.SortBy.MemberShipSetup);
+
           this.collectionSize = Math.ceil(this.membershipDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.isLoading = false;
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
 
   delete(data) {
-    this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
+    this.spinner.show();
+    this.member.deleteRestrictionMembershipVehicle(data.MembershipId).subscribe(res => {
+      if (res.status === 'Success') {
+        this.spinner.hide();
+
+        const vehicle = JSON.parse(res.resultData);
+        if (vehicle.VehicleMembershipByMembershipId == false) {
+          this.confirmationService.confirm('Delete Membership', `Are you sure you want to delete this membership? All related 
   information will be deleted and the membership cannot be retrieved?`, 'Yes', 'No')
-      .then((confirmed) => {
-        if (confirmed === true) {
-          this.confirmDelete(data);
+            .then((confirmed) => {
+              if (confirmed === true) {
+                this.confirmDelete(data);
+              }
+
+            })
+            .catch(() => { });
         }
-      })
-      .catch(() => { });
+
+        else {
+          this.spinner.hide();
+
+          this.toastr.warning(MessageConfig.Admin.SystemSetup.MemberShipSetup.DeleteRestrict, 'Warning!');
+
+        }
+
+      }
+
+
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+
+
   }
 
   // Delete Membership
   confirmDelete(data) {
+    this.spinner.show();
     this.member.deleteMembership(data.MembershipId).subscribe(res => {
       if (res.status === "Success") {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Membership Deleted Successfully!!' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Admin.SystemSetup.MemberShipSetup.Delete, 'Success');
         this.getAllMembershipDetails();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -156,17 +244,25 @@ export class MembershipListComponent implements OnInit {
 
   // Get Membership By Id
   getMembershipById(det) {
+    this.spinner.show();
     this.member.getMembershipById(det.MembershipId).subscribe(data => {
       if (data.status === 'Success') {
-        const membership = JSON.parse(data.resultData);        
+        this.spinner.hide();
+
+        const membership = JSON.parse(data.resultData);
         const details = membership.MembershipAndServiceDetail;
         this.headerData = 'Edit Membership';
         this.selectedData = details;
         this.isEdit = true;
         this.showDialog = true;
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

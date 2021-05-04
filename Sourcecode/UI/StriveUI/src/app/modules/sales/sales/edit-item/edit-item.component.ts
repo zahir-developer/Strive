@@ -4,6 +4,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SalesService } from 'src/app/shared/services/data-service/sales.service';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-item',
@@ -15,10 +18,10 @@ export class EditItemComponent implements OnInit {
   @Input() ItemDetail: any;
   @Input() JobId: any;
   constructor(private fb: FormBuilder, private activeModal: NgbActiveModal, private salesService: SalesService,
-    private messageService: MessageServiceToastr) { }
+    private toastr: ToastrService,
+    private spinner : NgxSpinnerService) { }
 
   ngOnInit(): void {
-    console.log(this.ItemDetail);
     this.formInit();
     if (this.ItemDetail !== undefined) {
       this.editItemForm.patchValue({
@@ -72,28 +75,39 @@ export class EditItemComponent implements OnInit {
     }
   }
   updateServiceItem(updateObj) {
+    this.spinner.show();
     this.salesService.updateItem(updateObj).subscribe(data => {
-      console.log(data);
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item upated successfully' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Sales.Add,'Success!');
         this.activeModal.close();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   updateProductItem(updateObj) {
+    this.spinner.show();
     this.salesService.updateProductItem(updateObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Item upated successfully' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Sales.Update,'Success!');
         this.activeModal.close();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

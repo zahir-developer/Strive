@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { BsDaterangepickerDirective, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-daily-sales',
   templateUrl: './daily-sales.component.html',
@@ -24,7 +26,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
   collectionSize: number = 0;
   fileTypeEvent: boolean = false;
 
-  constructor(private spinner: NgxSpinnerService, private toastr: MessageServiceToastr,
+  constructor(private spinner: NgxSpinnerService, private toastr: ToastrService,
     private cd: ChangeDetectorRef, private reportService: ReportsService, private excelService: ExcelService) { }
 
   ngOnInit(): void {
@@ -43,21 +45,32 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     };
     this.spinner.show();
     this.reportService.getDailySalesReport(obj).subscribe(data => {
-      this.spinner.hide();
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const sales = JSON.parse(data.resultData);
         this.dailySalesReport = sales.GetDailySalesReport;
+        
         if (this.dailySalesReport.length === 0) {
           this.isTableEmpty = true;
+          
         } else {
+          if (this.dailySalesReport?.length > 0) {
+            for (let i = 0; i < this.dailySalesReport.length; i++) {
+              this.dailySalesReport[i].Model == 'None' ? this.dailySalesReport[i].Model =  'Unk' : this.dailySalesReport[i].Model ;
+            }
+          }
           this.collectionSize = Math.ceil(this.dailySalesReport.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

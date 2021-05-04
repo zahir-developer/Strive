@@ -19,34 +19,34 @@
                                             <table class="table table-responsive-xl table-striped table-hover">
                                                 <thead style="cursor:pointer;">
                                                     <tr>
-                                                        <th scope="col" (click)="changeSorting('JobDate')">Date&nbsp;<i
+                                                        <th scope="col" class="pointer" (click)="changeSorting('JobDate')">Date&nbsp;<i
                                                                 class="fa" [ngClass]="selectedCls('JobDate')"
                                                                 aria-hidden="true"></i> </th>
-                                                        <th scope="col" (click)="changeSorting('TimeIn')">
+                                                        <th scope="col" class="pointer" (click)="changeSorting('TimeIn')">
                                                             Time&nbsp;<i class="fa" [ngClass]="selectedCls('TimeIn')"
                                                                 aria-hidden="true"></i></th>
-                                                        <th scope="col" (click)="changeSorting('LocationName')">
+                                                        <th scope="col"class="pointer"  (click)="changeSorting('LocationName')">
                                                             Location&nbsp;<i class="fa"
                                                                 [ngClass]="selectedCls('LocationName')"
                                                                 aria-hidden="true"></i></th>
-                                                        <th scope="col" (click)="changeSorting('VehicleMake')">
+                                                        <th scope="col" class="pointer" (click)="changeSorting('VehicleMake')">
                                                             Make&nbsp;<i class="fa"
                                                                 [ngClass]="selectedCls('VehicleMake')"
                                                                 aria-hidden="true"></i></th>
-                                                        <th scope="col" (click)="changeSorting('VehicleModel')">
+                                                        <th scope="col" class="pointer"  (click)="changeSorting('VehicleModel')">
                                                             Model&nbsp;<i class="fa"
                                                                 [ngClass]="selectedCls('VehicleModel')"
                                                                 aria-hidden="true"></i>
                                                         </th>
-                                                        <th scope="col" (click)="changeSorting('VehicleColor')"> Color
+                                                        <th scope="col" class="pointer"  (click)="changeSorting('VehicleColor')"> Color
                                                             &nbsp;<i class="fa" [ngClass]="selectedCls('VehicleColor')"
                                                                 aria-hidden="true"></i></th>
-                                                        <th scope="col" (click)="changeSorting('ServiceTypeName')">
+                                                        <th scope="col" class="pointer"  (click)="changeSorting('ServiceTypeName')">
                                                             Detail <br />
                                                             service&nbsp;<i class="fa"
                                                                 [ngClass]="selectedCls('ServiceTypeName')"
                                                                 aria-hidden="true"></i></th>
-                                                        <th scope="col" (click)="changeSorting('OutsideService')">
+                                                        <th scope="col" class="pointer"  (click)="changeSorting('OutsideService')">
                                                             Additional <br /> Service&nbsp;<i class="fa"
                                                                 [ngClass]="selectedCls('OutsideService')"
                                                                 aria-hidden="true"></i></th>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="card m-t-10 m-b-10">
+                        <div class="card m-t-10 m-b-10" style="min-height: 220px;">
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class="title-border p-b-15">
@@ -95,7 +95,6 @@
                                         <div class="search-container pull-right">
                                             <form>
                                                 <div class="form-row">
-                                                    <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span> </div> -->
                                                     <div class="form-group col-sm m-l-5">
                                                         <input type="search" class="form-control" placeholder="Search"
                                                             (input)=searchVechicleList($event.target.value)>
@@ -105,7 +104,7 @@
                                         </div>
                                     </div>
                                     <table class="table table-responsive-xl Schedulezenbook m-b-0">
-                                        <tbody>
+                                        <tbody *ngIf="vechicleList.length > 0">
                                             <tr *ngFor="let vechicle of vechicleList">
                                                 <th scope="row" class="font-weight-bold align-middle">
                                                     {{vechicle.VehicleMfr}}&nbsp;{{vechicle.VehicleModel}}&nbsp;{{vechicle.VehicleColor}}
@@ -114,6 +113,13 @@
                                                     <button type="button" class="btn theme-primary-button-color"
                                                         (click)="schedule(vechicle)">Schedule
                                                         Now</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="vechicleList.length === 0">
+                                            <tr>
+                                                <td colspan="2" class="text-center">
+                                                    No Record Found
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -133,7 +139,6 @@
                                         <div class="search-container pull-right">
                                             <form>
                                                 <div class="form-row">
-                                                    <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span>  -->
                                                 </div>
                                                 <div class="form-group col-sm m-l-5">
                                                     <input type="search" class="form-control" placeholder="Search"
@@ -146,25 +151,25 @@
                                 <table class="table table-responsive-xl table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col" (click)="changeSorting('TicketNumber')">Ticket # &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('TicketNumber')"
+                                            <th scope="col" (click)="changePastSorting('TicketNumber')">Ticket # &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('TicketNumber')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('JobDate')">Date&nbsp;<i class="fa"
-                                                    [ngClass]="selectedCls('JobDate')" aria-hidden="true"></i> </th>
-                                            <th scope="col" (click)="changeSorting('LocationName')">Location&nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('LocationName')"
+                                            <th scope="col" (click)="changePastSorting('JobDate')">Date&nbsp;<i class="fa"
+                                                    [ngClass]="selectedPastCls('JobDate')" aria-hidden="true"></i> </th>
+                                            <th scope="col" (click)="changePastSorting('LocationName')">Location&nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('LocationName')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('VehicleMake')">Make &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('VehicleMake')"
+                                            <th scope="col" (click)="changePastSorting('VehicleMake')">Make &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('VehicleMake')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('VehicleModel')"> Model &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('VehicleModel')"
+                                            <th scope="col" (click)="changePastSorting('VehicleModel')"> Model &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('VehicleModel')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('VehicleColor')"> Color &nbsp;<i
-                                                    class="fa" [ngClass]="selectedCls('VehicleColor')"
+                                            <th scope="col" (click)="changePastSorting('VehicleColor')"> Color &nbsp;<i
+                                                    class="fa" [ngClass]="selectedPastCls('VehicleColor')"
                                                     aria-hidden="true"></i></th>
-                                            <th scope="col" (click)="changeSorting('ServiceTypeName')">Detail
-                                                Service&nbsp;<i class="fa" [ngClass]="selectedCls('ServiceTypeName')"
+                                            <th scope="col" (click)="changePastSorting('ServiceTypeName')">Detail
+                                                Service&nbsp;<i class="fa" [ngClass]="selectedPastCls('ServiceTypeName')"
                                                     aria-hidden="true"></i></th>
                                             <th scope="col">Amount</th>
                                             <th scope="col">Total Price</th>
@@ -172,9 +177,8 @@
                                         </tr>
                                     </thead>
                                     <tbody
-                                        *ngFor="let service of pastScheduleDetail | orderBy:sort.column:'sequence':sort.descending">
+                                        *ngFor="let service of pastScheduleDetail | orderBy:pastSort.column:'sequence':pastSort.descending">
                                         <tr>
-                                            <!-- class="text-underline theme-primary-color font-size--9" -->
                                             <th scope="row" >
                                                 {{service.TicketNumber}}</th>
                                             <td>{{service.JobDate | date : 'MM/dd/yyyy'}}</td>

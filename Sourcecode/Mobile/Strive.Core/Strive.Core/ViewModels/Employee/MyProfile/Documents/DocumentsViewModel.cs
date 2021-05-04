@@ -1,4 +1,5 @@
-﻿using Strive.Core.Models.Employee.PersonalDetails;
+﻿using Strive.Core.Models.Employee.Documents;
+using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
 using System;
@@ -21,7 +22,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
         public async Task GetDocumentInfo()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var result = await AdminService.GetPersonalDetails(EmployeeTempData.EmployeeID);
+            var result = await AdminService.GetPersonalDetails(1463);
             if (result == null)
             {
                 DocumentDetails = null;
@@ -53,6 +54,35 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeInfo = new EmployeeInfo();
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeLocations = new List<EmployeeLocations>();
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeRoles = new List<EmployeeRoles>();
+        }
+
+        public async Task<DownloadDocuments> DownloadDocument(int documentID, string password)
+        {
+            var result = await AdminService.DownloadDocuments(documentID, password);
+            DownloadDocuments docs = new DownloadDocuments();
+            if (result != null)
+            {
+               
+                docs = result;
+            }
+            return docs;
+
+        }
+        public async Task<bool> DeleteDocument(int DocumentID)
+        {
+
+            var alert = await _userDialog.ConfirmAsync("Do you want to delete this document ?");
+
+            if(alert)
+            {
+                var result = await AdminService.DeleteDocuments(DocumentID);
+                if (result.Result)
+                {
+                    _userDialog.Toast("Documents has been deleted successfully");
+                }
+
+            }
+            return alert; 
         }
 
         #endregion Commands

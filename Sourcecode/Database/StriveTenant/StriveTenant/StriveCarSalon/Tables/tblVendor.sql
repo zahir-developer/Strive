@@ -11,6 +11,9 @@
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
     [websiteAddress] VARCHAR (250)      NULL,
     [AccountNumber]  VARCHAR (25)       NULL,
+    [PhoneNumber]    VARCHAR (50)       NULL,
     CONSTRAINT [PK_tblVendor] PRIMARY KEY CLUSTERED ([VendorId] ASC)
 );
+
+
 

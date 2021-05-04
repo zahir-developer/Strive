@@ -57,17 +57,9 @@ namespace StriveCustomer.iOS.Views
                 var data = CustomerVehiclesInformation.vehiclesList.Status[selectedRow.Row];
                 var deleted = await vehicleViewModel.DeleteCustomerVehicle(data.VehicleId);
                 if (deleted)
-                {
-                    vehicleLists.Status.RemoveAt(selectedRow.Row);
-                    vehicleTable.DeleteRows(new NSIndexPath[] { selectedRow}, UITableViewRowAnimation.Fade);
-                    
-                    DispatchQueue.GetGlobalQueue(DispatchQueuePriority.Default).DispatchAsync(() =>
-                    {
-                        DispatchQueue.MainQueue.DispatchAsync(() =>
-                        {
-                            vehicleTable.ReloadData();
-                        });
-                    });                   
+                {                    
+                    vehicleTable.DeleteRows(new NSIndexPath[] { selectedRow}, UITableViewRowAnimation.Fade);              
+                    vehicleViewModel.NavToProfile();                    
                 }
             }            
         }

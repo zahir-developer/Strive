@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-view-document',
@@ -49,11 +50,10 @@ export class ViewDocumentComponent implements OnInit {
     this.employeeService.getDocumentById(this.documentId, password).subscribe( res => {
       if (res.status === 'Success' && res.resultData !== 'Invalid Password !!!') {
         const documentDetail = JSON.parse(res.resultData);
-        console.log(documentDetail);
         const base64 = documentDetail.Document;
         const linkSource = 'data:application/pdf;base64,' + base64;
         const downloadLink = document.createElement('a');
-        const fileName = 'file'; // documentDetail.DocumentDetail.FileName;
+        const fileName = 'file'; 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -61,7 +61,7 @@ export class ViewDocumentComponent implements OnInit {
       } else if (res.status === 'Success' && res.resultData === 'Invalid Password !!!') {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.resultData });
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     });
   }

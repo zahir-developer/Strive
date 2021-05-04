@@ -1,4 +1,5 @@
 ﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Washes;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
@@ -14,10 +15,18 @@ namespace Strive.ResourceAccess
     public class WashesRal : RalBase
     {
         public WashesRal(ITenantHelper tenant) : base(tenant) { }
-        public List<AllWashesViewModel> GetAllWashTime(int locationId)
+        public WashesListViewModel GetAllWashTime(SearchDto searchDto)
         {
-            _prm.Add("@locationId", locationId);
-            return db.Fetch<AllWashesViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
+            _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
+
+            return db.FetchMultiResult<WashesListViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
         }
 
         public WashDetailViewModel GetWashTimeDetail(int id)
@@ -37,9 +46,18 @@ namespace Strive.ResourceAccess
         }
         public WashesDashboardViewModel GetDailyDashboard(WashesDashboardDto dashboard)
         {
+
+            DateTime lastMonth = dashboard.date.AddMonths(-1).Date;
+            DateTime lastweek = dashboard.date.AddDays(-7).Date;
+            DateTime lastThirdMonth = dashboard.date.AddMonths(-3).Date;
+
             _prm.Add("@LocationId",dashboard.id);
             _prm.Add("@CurrentDate",dashboard.date);
             _prm.Add("@JobType", dashboard.JobType);
+            //for forecasted car and employee
+            _prm.Add("@lastweek", lastweek.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
+            _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
             var result =  db.FetchSingle<WashesDashboardViewModel>(SPEnum.USPGETWASHDASHBOARD.ToString(), _prm);
             return result;
         }
@@ -61,6 +79,25 @@ namespace Strive.ResourceAccess
             _prm.Add("@JobId", id);
             db.Save(SPEnum.USPDELETEWASHES.ToString(), _prm);
             return true;
+        }
+
+        public List<LocationDetailViewModel> GetWashTime(WashTimeDto washTimeDto)
+        {
+
+            _prm.Add("@LocationId",washTimeDto.LocationId);
+
+            _prm.Add("@DateTime", washTimeDto.DateTime);
+            var result = db.Fetch<LocationDetailViewModel>(SPEnum.USPGETWASHTIMEBYLOCATIONID.ToString(), _prm);
+            return result;
+        }
+
+
+        public List<LocationWashTimeDto> GetAllLocationWashTime(int id)
+        {
+
+            _prm.Add("@LocationId", id);
+            var result = db.Fetch<LocationWashTimeDto>(SPEnum.uspGetAllLocationWashTime.ToString(), _prm);
+            return result;
         }
     }
 }

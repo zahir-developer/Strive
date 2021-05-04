@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 
@@ -69,7 +71,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<VehicleCodes> GetVehicleCodes();
 
-        Task<GeneralResponse> AddCustomerVehicle(AddCustomerVehicle addVehicle);
+        Task<GeneralResponse> AddCustomerVehicle(CustomerVehicles addVehicle);
 
         Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID);
 
@@ -89,7 +91,21 @@ namespace Strive.Core.Services.Interfaces
 
         Task<GetCollisions> GetCollisions(int liabilityID);
 
-        Task<PostResponse> SaveDocuments(AddDocuments documents);
-        Task<CheckOutVehicleDetails> CheckOutVehicleDetails();
+        Task<PostResponseBool> SaveDocuments(AddDocuments documents);
+
+        Task<DownloadDocuments> DownloadDocuments(int documentID, string documentPassword);
+
+        Task<DeleteResponse> DeleteDocuments(int documentID);
+
+        Task<CheckoutDetails> CheckOutVehicleDetails(GetAllEmployeeDetail_Request EmployeeID);
+        
+        Task<ScheduleModel> GetSchedulePastService(int clientID);
+        
+        Task<AvailableServicesModel> GetScheduleServices(int LocationID);
+        
+        Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
+
+        Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo);
+    
     }
 }

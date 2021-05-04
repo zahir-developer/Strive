@@ -20,7 +20,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId", payRoll.LocationId);
             _prm.Add("@StartDate", payRoll.StartDate);
             _prm.Add("@EndDate", payRoll.EndDate);
-            var res = db.FetchMultiResult<PayRollViewModel>(SPEnum.USPGETPAYROLLLIST.ToString(), _prm);
+            var res = db.FetchMultiResult<PayRollViewModel>(EnumSP.Payroll.USPGETPAYROLLLIST.ToString(), _prm);
             return res;
         }
         public bool AddPayRoll(PayRollAddDto payRollAdd)
@@ -31,7 +31,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@LiabilityId", payRollUpdate.LiabilityId);
             _prm.Add("@Amount", payRollUpdate.Amount);
-            return db.Fetch<PayRollAdjusmentViewModel>(SPEnum.USPUPDATEADJUSMENT.ToString(), _prm);            
+            return db.Fetch<PayRollAdjusmentViewModel>(EnumSP.Payroll.USPUPDATEADJUSMENT.ToString(), _prm);            
         }
         public bool UpdateEmployeeAdjustment(List<EmployeeAdjustmentDto> employeeAdjustment)
         {
@@ -39,9 +39,28 @@ namespace Strive.ResourceAccess
             {
                 _prm.Add("@EmployeeId", item.id);
                 _prm.Add("@Adjustment", item.adjustment);
-                db.Save(SPEnum.USPUPDATEEMPLOYEEADJUSTMENT.ToString(), _prm);
+                db.Save(EnumSP.Payroll.USPUPDATEEMPLOYEEADJUSTMENT.ToString(), _prm);
             }
             return true;
+        }
+
+        public bool AddPayRollProcess(PayrollProcessAddDto payrollProcessAdd)
+        {
+            return dbRepo.InsertPc(payrollProcessAdd, "PayrollProcessId");
+        }
+
+        public bool GetPayrollProcessStatus(PayRollProcessDto payRollProcess)
+        {
+            _prm.Add("@FromDate", payRollProcess.StartDate);
+            _prm.Add("@ToDate", payRollProcess.EndDate);
+            _prm.Add("@employeeId", payRollProcess.EmpId);
+            var res = db.Fetch<PayrollProcessViewModel>(EnumSP.Payroll.USPGETPAYROLLPROCESS.ToString(), _prm);
+           if(res.Count>0)
+            {
+                return true;
+            }
+           else return false;
+                   
         }
     }
 }

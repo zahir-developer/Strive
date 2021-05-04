@@ -1,18 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewChecked } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StateService } from '../../services/common-service/state.service';
 import * as _ from 'underscore';
 import { ChangeDetectorRef } from '@angular/core';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',
   styleUrls: ['./city.component.css']
 })
-export class CityComponent implements OnInit {
+export class CityComponent implements OnInit, AfterViewChecked {
   @Input() isView: any;
-  @Input() selectedCityId: any;
+  @Input() selectedCityId?: any;
+  @Input() selectedStateId?: any;
+
+  @Input() State?: any;
+
   @Output() selectCity = new EventEmitter();
-  city = '';
   submitted: boolean;
   cities: any = [];
   states: string[] = [
@@ -28,41 +33,63 @@ export class CityComponent implements OnInit {
     'Georgia',
     'Hawaii',
     'Idaho'];
-  constructor(private cdRef: ChangeDetectorRef, private stateService: StateService) { }
+  cityId: any;
+  city: { value: any; name: any; };
+  selectValueCity: boolean;
+  constructor(private cdRef: ChangeDetectorRef, private stateService: StateService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.submitted = false;
-    this.getCity();
-  }
-
-  ngAfterViewChecked(){
-    if (this.selectedCityId !== undefined) {
-      this.cdRef.detectChanges();
+    this.selectValueCity = false;
+    if (this.selectedStateId !== undefined) {
+      this.getCity(this.selectedStateId);
     }
   }
 
-  getCity() {
-    this.stateService.getCityList('CITY').subscribe(res => {
-      const city = JSON.parse(res.resultData);
-      if (city.Codes.length > 0) {
-        this.cities = city.Codes.map(item => {
+  ngAfterViewChecked() {
+    if (this.selectedCityId !== undefined) {
+      this.cdRef.detectChanges();
+    }
+
+  }
+
+  getCity(city) {
+    const cityValue = city ? city : this.selectedStateId;
+    this.stateService.getCityByStateId(cityValue).subscribe(res => {
+      const cityList = JSON.parse(res.resultData);
+      if (cityList.cities.length > 0) {
+        this.cities = cityList.cities.map(item => {
           return {
-            value: item.CodeId,
-            name: item.CodeValue
+            value: item.CityId,
+            name: item.CityName
           };
         });
         this.setCity();
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   selectedCity(event) {
-    this.selectCity.emit(event);
+    this.selectValueCity = true;
+    this.selectCity.emit(event.value.value);
   }
   setCity() {
     if (this.selectedCityId !== undefined) {
-      this.city = this.selectedCityId;
+      this.selectValueCity = true;
+
+
+      this.cities.map(item => {
+        if (item.value == this.selectedCityId) {
+          this.city = {
+            value: item.value,
+            name: item.name
+          };
+        }
+      });
+
     }
   }
 }

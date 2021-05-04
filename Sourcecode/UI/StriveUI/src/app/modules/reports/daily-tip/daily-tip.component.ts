@@ -4,6 +4,9 @@ import { ReportsService } from 'src/app/shared/services/data-service/reports.ser
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import * as moment from 'moment';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-daily-tip',
@@ -26,12 +29,14 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   tipAmount: number;
   totalHours: number = 0;
   fileTypeEvent: boolean = false;
+  tips: number =0;
   constructor(private cd: ChangeDetectorRef, private reportService: ReportsService,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService, private spinner: NgxSpinnerService,
+    private toastr :ToastrService) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
-  this.getDailyTipReport();
+    this.getDailyTipReport();
   }
   getfileType(event) {
     this.fileTypeEvent = true;
@@ -52,17 +57,28 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
       month,
       year
     };
+    this.spinner.show();
     this.totalTip = 0;
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
+
         const dailytip = JSON.parse(data.resultData);
-        console.log(dailytip);
         this.dailyTip = dailytip.GetEmployeeTipReport;
         this.dailyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;
+          
         });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
       }
+      else{
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   onLocationChange(event) {
@@ -121,12 +137,14 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     this.totalHours = 0;
     this.totalTip = 0;
     if (this.tipAmount !== 0) {
+      this.tips = this.tipAmount
       this.dailyTip.forEach(s => { this.totalHours = this.totalHours + s.HoursPerDay });
 
       const hourTip = +this.tipAmount / this.totalHours;
       this.dailyTip.forEach(item => {
         item.Tip = (item.HoursPerDay * hourTip).toFixed(2);
         this.totalTip += +item.Tip;
+
       });
     }
   }

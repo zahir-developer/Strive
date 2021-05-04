@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -22,7 +23,7 @@ using StriveCustomer.Android.Fragments;
 namespace StriveCustomer.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Dashboard View")]
+    [Activity(Label = "Dashboard View", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DashboardView : MvxAppCompatActivity<DashboardViewModel>
     {
         private BottomNavigationView bottomNav;
@@ -52,7 +53,7 @@ namespace StriveCustomer.Android.Views
 
         private void DashActionButton_Click(object sender, EventArgs e)
         {
-            
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, scheduleFrag).Commit();
         }
         private void NavigateFrag(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {

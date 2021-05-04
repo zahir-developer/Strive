@@ -7,6 +7,8 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -23,6 +25,8 @@ export class CustomerDashboardComponent implements OnInit {
   clonedVechicleList = [];
   sort = { column: 'JobDate', descending: true };
   sortColumn: { column: string; descending: boolean; };
+  pastSort = { column: 'JobDate', descending: true };
+  pastSortColumn: { column: string; descending: boolean; };
   pastScheduleDetail = [];
   clonedPastScheduleDetail = [];
   clientID: any;
@@ -33,7 +37,8 @@ export class CustomerDashboardComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private detailService: DetailService,
     private toastr: MessageServiceToastr,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -54,8 +59,9 @@ export class CustomerDashboardComponent implements OnInit {
       if (res.status === 'Success') {
         const sales = JSON.parse(res.resultData);
         this.serviceList = sales.GetDailySalesReport;
-        console.log(sales, 'customer');
       }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
     });
   }
 
@@ -74,13 +80,13 @@ export class CustomerDashboardComponent implements OnInit {
           item.VechicleName = item.VehicleMfr + ' ' + item.VehicleModel + ' ' + item.VehicleColor;
         });
         this.clonedVechicleList = this.vechicleList.map(x => Object.assign({}, x));
-        console.log(vechicle, 'vechicle');
       }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
     });
   }
 
   searchVechicleList(text) {
-    console.log(text);
     if (text.length > 0) {
       this.vechicleList = this.clonedVechicleList.filter(item => item.VechicleName.toLowerCase().includes(text));
     } else {
@@ -100,8 +106,8 @@ export class CustomerDashboardComponent implements OnInit {
 
   getScheduleDetail() {
     const currentDate = new Date();
-    const todayDate = null; // this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-    const locationId = null; // 2033;
+    const todayDate = null;
+    const locationId = null;
     const clientID = this.clientID ? this.clientID : 0;
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
       if (res.status === 'Success') {
@@ -109,17 +115,21 @@ export class CustomerDashboardComponent implements OnInit {
         this.pastScheduleDetail = [];
         this.todayScheduleDetail = [];
         if (scheduleDetails.DetailsGrid.BayJobDetailViewModel !== null) {
-          // this.todayScheduleDetail = scheduleDetails.DetailsGrid.BayJobDetailViewModel;
           scheduleDetails.DetailsGrid.BayJobDetailViewModel.forEach(item => {
             if (this.datePipe.transform(currentDate, 'dd-MM-yyyy') === this.datePipe.transform(item.JobDate, 'dd-MM-yyyy')) {
               this.todayScheduleDetail.push(item);
+              if (this.todayScheduleDetail?.length > 0) {
+                for (let i = 0; i < this.todayScheduleDetail.length; i++) {
+                  this.todayScheduleDetail[i].VehicleModel == 'None' ? this.todayScheduleDetail[i].VehicleModel =  'Unk' : this.todayScheduleDetail[i].VehicleModel ;
+                }
+              }
+            
             } else if (currentDate < new Date(item.JobDate)) {
               this.todayScheduleDetail.push(item);
             } else {
               this.pastScheduleDetail.push(item);
             }
           });
-          console.log(this.todayScheduleDetail, this.pastScheduleDetail, 'scheduleDetails');
           if (this.pastScheduleDetail.length > 0) {
             this.pastScheduleDetail.forEach(item => {
               item.searchData = item.TicketNumber + ' ' + this.datePipe.transform(item.JobDate, 'MM/dd/yyyy') + ' ' + item.LocationName
@@ -129,6 +139,10 @@ export class CustomerDashboardComponent implements OnInit {
           }
         }
       }
+      else {
+      }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
     });
   }
 
@@ -143,11 +157,23 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   confirmDelete(jobID) {
+    this.spinner.show();
     this.detailService.deleteDetail(jobID).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         this.getScheduleDetail();
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Record deleted Successfully!!' });
+        this.toastr.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Customer.Delete });
       }
+      else {
+        this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
+
+        this.spinner.hide();
+
+      }
+    }, (err) => {
+      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
+      this.spinner.hide();
     });
   }
 
@@ -159,6 +185,12 @@ export class CustomerDashboardComponent implements OnInit {
     this.changeSortingDescending(column, this.sort);
     this.sortColumn = this.sort;
   }
+
+  changePastSorting(column) {
+    this.changePastSortingDescending(column, this.pastSort);
+    this.pastSortColumn = this.pastSort;
+  }
+
   changeSortingDescending(column, sortingInfo) {
     if (sortingInfo.column === column) {
       sortingInfo.descending = !sortingInfo.descending;
@@ -168,6 +200,17 @@ export class CustomerDashboardComponent implements OnInit {
     }
     return sortingInfo;
   }
+
+  changePastSortingDescending(column, sortingInfo) {
+    if (sortingInfo.column === column) {
+      sortingInfo.descending = !sortingInfo.descending;
+    } else {
+      sortingInfo.column = column;
+      sortingInfo.descending = false;
+    }
+    return sortingInfo;
+  }
+
   sortedColumnCls(column, sortingInfo) {
     if (column === sortingInfo.column && sortingInfo.descending) {
       return 'fa-sort-desc';
@@ -176,8 +219,22 @@ export class CustomerDashboardComponent implements OnInit {
     }
     return '';
   }
+
+  sortedPastColumnCls(column, sortingInfo) {
+    if (column === sortingInfo.column && sortingInfo.descending) {
+      return 'fa-sort-desc';
+    } else if (column === sortingInfo.column && !sortingInfo.descending) {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
   selectedCls(column) {
     return this.sortedColumnCls(column, this.sort);
+  }
+
+  selectedPastCls(column) {
+    return this.sortedPastColumnCls(column, this.pastSort);
   }
 
 }

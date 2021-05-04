@@ -50,7 +50,7 @@ namespace Strive.BusinessEntities.Model
         public DateTime? LRT { get; set; }
 
         [Column]
-        public short? Exemptions { get; set; }
+        public string Exemptions { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }

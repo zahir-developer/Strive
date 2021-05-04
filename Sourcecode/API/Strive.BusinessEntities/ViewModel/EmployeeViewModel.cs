@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel.Employee
 {
-    public class EmployeeViewModel : EmployeeDto
+    public class EmployeeViewModel 
     {
-
+        public List<EmployeeDto> Employee { get; set; }
+        public CountViewModel Count { get; set; }
     }
 }

@@ -24,6 +24,9 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetAllMembershipById/{membershipId}")]
         public Result GetMembershipById(int membershipId) => _bplManager.GetMembershipById(membershipId);
+        [HttpGet]
+        [Route("GetMembershipAvailability/{vehicleId}")]
+        public Result GetMembershipAvailability(int vehicleId) => _bplManager.GetMembershipAvailability(vehicleId);
         [HttpPost]
         [Route("Add")]
         public Result AddMembership([FromBody] MembershipDto member) => _bplManager.AddMembership(member);
@@ -40,5 +43,14 @@ namespace Admin.Api.Controllers
         [HttpPost]
         [Route("GetMembershipSearch")]
         public Result GetMembershipSearch([FromBody] MembershipSearchDto search) => _bplManager.GetMembershipSearch(search);
+
+
+        [HttpGet]
+        [Route("GetVehicleMembershipByMembershipId/{membershipId}")]
+        public Result GetVehicleMembershipByMembershipId(int membershipId) => _bplManager.GetVehicleMembershipByMembershipId(membershipId);
+
+        [HttpGet]
+        [Route("GetAllMembershipName")]
+        public Result GetAllMembershipName() => _bplManager.GetAllMembershipName();
     }
 }

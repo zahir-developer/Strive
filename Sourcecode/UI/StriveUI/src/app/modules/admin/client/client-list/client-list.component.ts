@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.service';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
 
 @Component({
   selector: 'app-client-list',
@@ -21,18 +25,29 @@ export class ClientListComponent implements OnInit {
   isView: boolean;
   selectedClient: any;
   search: any = '';
-  page = 1;
-  pageSize = 15;
+  locationId = +localStorage.getItem('empLocationId');
   collectionSize: number = 0;
-  isLoading = true;
+
+  pageSizeList: number[];
+  page: number;
+  pageSize: number;
+  jobTypeId: any;
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private client: ClientService, private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService,
     private spinner: NgxSpinnerService, private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private detailService: DetailService
   ) { }
 
   ngOnInit() {
+    this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     const paramsData = this.route.snapshot.queryParamMap.get('clientId');
     if (paramsData !== null) {
       const clientObj = {
@@ -45,43 +60,77 @@ export class ClientListComponent implements OnInit {
 
   // Get All Client
   getAllClientDetails() {
-    this.isLoading = true;
-    this.client.getClient().subscribe(data => {
-      this.isLoading = false;
+    const obj = {
+      LocationId: this.locationId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+      Query: this.search,
+      SortOrder: this.sortColumn.sortOrder,
+      SortBy: this.sortColumn.sortBy
+    };
+    this.spinner.show();
+    this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
+      this.getJobType();
+        this.clientDetails = [];
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.Client;
+        if (client.Client.clientViewModel !== null) {
+          this.clientDetails = client.Client.clientViewModel;
+        }
+        const totalRowCount = client.Client.Count.Count;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
+  }
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getAllClientDetails();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.getAllClientDetails();
   }
 
   clientSearch() {
-    this.page = 1;
     const obj = {
-      clientName: this.search
-    }
-    this.client.ClientSearch(obj).subscribe(data => {
+      LocationId: this.locationId,
+      PageNo: this.page,
+      PageSize: this.pageSize,
+      Query: this.search,
+      SortOrder: this.sortColumn.sortOrder,
+      SortBy: this.sortColumn.sortBy
+    };
+    this.client.getClient(obj).subscribe(data => {
       if (data.status === 'Success') {
         const client = JSON.parse(data.resultData);
-        this.clientDetails = client.ClientSearch;
-        console.log(this.clientDetails);
+        this.clientDetails = client.Client.clientViewModel;
+        const totalRowCount = client.Client.Count.Count;
         if (this.clientDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(this.clientDetails.length / this.pageSize) * 10;
+          this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   delete(data) {
@@ -97,17 +146,29 @@ export class ClientListComponent implements OnInit {
 
   // Delete Client
   confirmDelete(data) {
+    this.spinner.show();
     this.client.deleteClient(data.ClientId).subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.success('Record Deleted Successfully!!', 'Success!');
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Client.Delete, 'Success!');
+        this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
         this.getAllClientDetails();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
+      this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
+
       this.getAllClientDetails();
     }
     this.showDialog = event.isOpenPopup;
@@ -128,10 +189,11 @@ export class ClientListComponent implements OnInit {
   getClientById(data, client) {
     this.spinner.show();
     this.client.getClientById(client.ClientId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
-        const client = JSON.parse(res.resultData);
-        this.selectedClient = client.Status[0];
+        this.spinner.hide();
+
+        const clientDetail = JSON.parse(res.resultData);
+        this.selectedClient = clientDetail.Status[0];
         if (data === 'edit') {
           this.headerData = 'Edit Client';
           this.selectedData = this.selectedClient;
@@ -146,12 +208,57 @@ export class ClientListComponent implements OnInit {
           this.showDialog = true;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
   navigateToCustmerDashboard(client) {
     this.router.navigate(['/customer'], { queryParams: { clientId: client.ClientId } });
+  }
+
+  changeSorting(column) {
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    }
+
+    this.selectedCls(this.sortColumn)
+    this.getAllClientDetails();
+  }
+
+
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Wash') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 }

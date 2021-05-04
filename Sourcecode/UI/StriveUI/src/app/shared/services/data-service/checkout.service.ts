@@ -10,19 +10,24 @@ export class CheckoutService {
 
   constructor(private http : HttpUtilsService) { }
 
-  getUncheckedVehicleDetails(): Observable<any> {
-    return this.http.get(`${UrlConfig.totalUrl.getUncheckedVehicleDetails}`);
+  getUncheckedVehicleDetails(obj): Observable<any> {
+    return this.http.post(`${UrlConfig.checkOut.getUncheckedVehicleDetails}` ,obj);
   }
 
   checkoutVehicle(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.checkoutVehicle}`, obj);
+    return this.http.post(`${UrlConfig.checkOut.checkoutVehicle}`, obj);
   }
 
   holdVehicle(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.holdoutVehicle}`, obj);
+    return this.http.post(`${UrlConfig.checkOut.holdoutVehicle}`, obj);
   }
 
   completedVehicle(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.completedVehicle}`, obj);
+    return this.http.post(`${UrlConfig.checkOut.completedVehicle}`, obj);
   }
+
+  getCustomerHistory(obj) {
+    return this.http.post(`${UrlConfig.customerHistory.getCustomerHistory}`, obj);
+  }
+
 }

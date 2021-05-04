@@ -4,6 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../services/data-service/client.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
+import { CityComponent } from '../city/city.component';
+import { MessageConfig } from '../../services/messageConfig';
+import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-form',
@@ -12,6 +15,8 @@ import { GetCodeService } from '../../services/data-service/getcode.service';
 })
 export class ClientFormComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
+
   clientForm: FormGroup;
   Status: any;
   State: any;
@@ -26,22 +31,26 @@ export class ClientFormComponent implements OnInit {
   submitted: boolean;
   city: any;
   selectedCityId: any;
+  ClientNameAvailable: any;
+  ClientEmailAvailable: boolean;
+  isAmount: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService) { }
 
 
   ngOnInit() {
     this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
+    this.isAmount = false;
     this.formInitialize();
     if (this.isView === true) {
       this.viewClient();
     }
     if (this.isEdit === true) {
       this.getClientById();
-    } 
-    if(this.isEdit !== true || this.isView === true){
+    }
+    if (this.isEdit !== true || this.isView === true) {
       this.clientForm.controls.status.disable();
-    }else{
+    } else {
       this.clientForm.controls.status.enable();
     }
   }
@@ -50,12 +59,12 @@ export class ClientFormComponent implements OnInit {
     this.clientForm = this.fb.group({
       fName: ['', Validators.required],
       lName: ['', Validators.required],
-      address: ['', Validators.required],
-      zipcode: ['', [Validators.required, Validators.minLength(5)]],
+      address: ['',],
+      zipcode: ['', [Validators.minLength(5)]],
       state: ['',],
       city: ['',],
       phone1: ['', [Validators.required, Validators.minLength(14)]],
-      email: ['', Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
@@ -64,15 +73,42 @@ export class ClientFormComponent implements OnInit {
       notes: ['',],
       checkOut: ['',],
       type: ['', Validators.required],
-      amount:['',]
+      amount: ['',]
     });
     this.clientForm.get('status').patchValue(0);
+    this.clientForm.controls.amount.disable();
     this.getClientType();
     this.getScore();
   }
 
   get f() {
     return this.clientForm.controls;
+  }
+
+
+  sameClientName() {
+    const clientNameDto = {
+      FirstName: this.clientForm.value.fName,
+      LastName: this.clientForm.value.lName,
+      PhoneNumber: this.clientForm.value.phone1
+    };
+    if (this.clientForm.value.fName && this.clientForm.value.lName && this.clientForm.value.phone1) {
+      this.client.ClientSameName(clientNameDto).subscribe(res => {
+        if (res.status === 'Success') {
+          const sameName = JSON.parse(res.resultData);
+          if (sameName.IsClientNameAvailable === true) {
+            this.ClientNameAvailable = true;
+            this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
+
+          } else {
+            this.ClientNameAvailable = false;
+
+          }
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
 
   // Get Score
@@ -82,20 +118,24 @@ export class ClientFormComponent implements OnInit {
         const client = JSON.parse(data.resultData);
         this.Score = client.ClientDetails;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   // Get ClientType
   getClientType() {
-    this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.Type = cType.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   getClientById() {
@@ -120,6 +160,14 @@ export class ClientFormComponent implements OnInit {
       email: this.selectedData.Email
     });
     this.clientId = this.selectedData.ClientId;
+    if (this.selectedData.IsCreditAccount) {
+      this.isAmount = true;
+      this.clientForm.get('amount').setValidators([Validators.required]);
+      this.clientForm.controls.amount.enable();
+    } else {
+      this.isAmount = false;
+      this.clientForm.get('amount').clearValidators();
+    }
   }
 
   viewClient() {
@@ -128,14 +176,42 @@ export class ClientFormComponent implements OnInit {
 
   change(data) {
     this.clientForm.value.creditAccount = data;
+    if (data) {
+      this.isAmount = true;
+      this.clientForm.get('amount').setValidators([Validators.required]);
+      this.clientForm.controls.amount.enable();
+    } else {
+      this.isAmount = false;
+      this.clientForm.get('amount').clearValidators();
+      this.clientForm.controls.amount.disable();
+    }
   }
 
   getSelectedStateId(event) {
-    this.State = event.target.value;
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
   }
+  clientEmailExist() {
+    if (this.clientForm.controls.email.errors !== null) {
+      return;
+    }
+    this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if (sameEmail.emailExist === true) {
+          this.ClientEmailAvailable = true;
+          this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
+        } else {
+          this.ClientEmailAvailable = false;
 
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
 }

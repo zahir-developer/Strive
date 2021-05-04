@@ -94,12 +94,14 @@ namespace Strive.Core.ViewModels.Customer
                 if (infoUploadSuccess.Status == "true")
                 {
                     _userDialog.HideLoading();
+                    _userDialog.Toast("Information was saved successfully");
                     return proceed = true;
                 }
                 return proceed;
             }
             else
             {
+                _userDialog.HideLoading();
                 return proceed = false;
             }
 

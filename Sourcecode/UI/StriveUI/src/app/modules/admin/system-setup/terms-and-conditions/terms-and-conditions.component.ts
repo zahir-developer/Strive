@@ -4,6 +4,10 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-terms-and-conditions',
@@ -18,64 +22,81 @@ export class TermsAndConditionsComponent implements OnInit {
   isEdit: any;
   selectedData: any;
   documentTypeId: any;
+  sortColumn: { sortBy: any; sortOrder: any; };
 
-  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+  constructor(private documentService: DocumentService, private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
 
   ngOnInit() {
+    this.sortColumn ={
+      sortBy: ApplicationConfig.Sorting.SortBy.TermsAndCondition,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TermsAndCondition.order
+     }
     this.getDocumentType();
   }
 
   getDocumentType() {
-    this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "TermsAndCondition")[0].CodeId;
-        console.log(this.documentTypeId);
+        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.TermsAndCondition)[0].CodeId;
         this.getDocument();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     });
   }
 
   getDocument() {
     this.isLoading = true;
-    this.documentService.getDocument(this.documentTypeId, "TERMSANDCONDITION").subscribe(data => {
-      this.isLoading = false;
+    this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
       if (data.status === 'Success') {
+        this.isLoading = false;
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
-        this.fileName = this.document?.Document?.OriginalFileName;
+        this.sort(ApplicationConfig.Sorting.SortBy.TermsAndCondition)
+
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.isLoading = false;
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       this.isLoading = false;
     });
   }
 
 
-  delete() {
+  delete(Id) {
     this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this Document? All related 
     information will be deleted and the Document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete();
+          this.confirmDelete(+Id);
         }
       })
       .catch(() => { });
   }
 
-  confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId, 'TERMSANDCONDITION').subscribe(res => {
+  confirmDelete(Id) {
+    this.spinner.show();
+    this.documentService.deleteDocumentById(Id, 'TERMSANDCONDITION').subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
-        this.fileName= null;
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Admin.SystemSetup.TermsCondition.Delete, 'Success!');
+        this.fileName = null;
         this.getDocument();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -93,15 +114,66 @@ export class TermsAndConditionsComponent implements OnInit {
     this.showDialog = event.isOpenPopup;
   }
 
-  downloadPDF() {
-        const base64 = this.document.Document.Base64;
-        const linkSource = 'data:application/pdf;base64,' + base64;
-        const downloadLink = document.createElement('a');
-        const fileName = this.fileName;
-        downloadLink.href = linkSource;
-        downloadLink.download = fileName;
-        downloadLink.click();
+  downloadPDF(documents) {
+    this.documentService.getDocumentById(documents.DocumentId, 'TERMSANDCONDITION').subscribe(res => {
+      if (res.status === 'Success') {
+        const documentDetails = JSON.parse(res.resultData);
+        if (documentDetails.Document !== null) {
+          const details = documentDetails.Document.Document;
+          const base64 = details.Base64;
+          const linkSource = 'data:application/pdf;base64,' + base64;
+          const downloadLink = document.createElement('a');
+          const fileName = details.OriginalFileName;
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
-  
 
+  sort(property) {
+    this.sortColumn ={
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TermsAndCondition.order
+     }
+     this.sorting(this.sortColumn)
+     this.selectedCls(this.sortColumn)
+   
+  }
+  sorting(sortColumn){
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+  let property = sortColumn.sortBy;
+    this.document.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+    changesort(property) {
+      this.sortColumn ={
+        sortBy: property,
+        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+       }
+   
+       this.selectedCls(this.sortColumn)
+  this.sorting(this.sortColumn)
+      
+    }
+    selectedCls(column) {
+      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+        return 'fa-sort-desc';
+      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+        return 'fa-sort-asc';
+      }
+      return '';
+    }
 }

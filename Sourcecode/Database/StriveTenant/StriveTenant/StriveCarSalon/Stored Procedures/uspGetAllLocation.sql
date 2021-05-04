@@ -32,19 +32,42 @@ SELECT tbll.LocationId,
 	   tblla.Latitude,
 	   tblla.Longitude,
 	   tblla.PhoneNumber,
-	   tblla.Email,
+	   STUFF((SELECT  ', ' + le.EmailAddress  
+    FROM [tblLocationEmail] le
+	WHERE le.LocationId = tbll.LocationId
+    FOR XML PATH('')
+	), 1, 2, '')  AS Email,
+	   --tblla.Email,
 	   tbll.WorkhourThreshold,
 	   tbll.IsFranchise,
 	   tblla.Address1,
 	   tblla.Address2,
+       tbllo.OffSet1,
+       tbllo.OffSet1On,
+       tbllo.OffSetA,
+       tbllo.OffSetB,
+       tbllo.OffSetB,
+       tbllo.OffSetC,
+       tbllo.OffSetD,
+       tbllo.OffSetE,
+       tbllo.OffSetF,
+	   tblc.valuedesc as City,
+	   tblco.valuedesc as Country,
+	   tblla.Zip,
+	   tbls.valuedesc as State,	 
 	   isnull(tbll.IsActive,1) AS IsActive,
 	  tbll.IsDeleted	   
 FROM [StriveCarSalon].[tblLocation] tbll 
 LEFT JOIN [StriveCarSalon].[tblLocationAddress] tblla ON(tbll.LocationId = tblla.LocationId)
+LEFT JOIN [StriveCarSalon].[tblLocationOffset] tbllo ON (tbll.LocationId =tbllo.LocationId)
+LEFT JOIN [StriveCarSalon].GetTable('City') tblc ON(tblla.city = tblc.valueid)
+LEFT JOIN [StriveCarSalon].GetTable('State') tbls ON(tblla.State = tbls.valueid)
+LEFT JOIN [StriveCarSalon].GetTable('Country') tblco ON(tblla.Country = tblco.valueid)
 LEFT JOIN [StriveCarSalon].GetTable('LocationType') tblcv ON(tbll.LocationType = tblcv.valueid)
 
 WHERE
-isnull(tbll.IsDeleted,0)=0 and tbll.IsActive = 1 
+isnull(tbll.IsDeleted,0)=0 and
+ tbll.IsActive = 1 
 AND
  (@LocationSearch is null or tbll.LocationName like '%'+@LocationSearch+'%'
  or tblla.Address1 like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
@@ -7,6 +7,13 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
+import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import * as _ from 'underscore';
+
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
@@ -14,6 +21,11 @@ declare var $: any;
   styleUrls: ['./create-edit.component.css']
 })
 export class CreateEditComponent implements OnInit {
+  @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
+  @ViewChild(CityComponent) cityComponent: CityComponent;
+  State: any;
+  city: any;
+  @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
   sampleForm: FormGroup;
   @Output() closeDialog = new EventEmitter();
   @Input() selectedData?: any;
@@ -55,6 +67,15 @@ export class CreateEditComponent implements OnInit {
   isCitizen: boolean = true;
   isHourlyRate: boolean = false;
   isRequired: boolean = false;
+  isChecked: boolean;
+  locationId = '';
+  locationRate = '';
+  locationRateList = [];
+  locationList = [];
+  isHourEdit = 0;
+  selectedLocationHour = '';
+  isRateAllLocation: boolean;
+  errorMessage: boolean;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -68,6 +89,8 @@ export class CreateEditComponent implements OnInit {
     this.isLoading = false;
     this.ctypeLabel = 'none';
     this.Status = ['Active', 'Inactive'];
+    this.isRateAllLocation = false;
+    this.errorMessage = false;
     this.getGenderDropdownValue();
     this.getAllRoles();
     this.getLocation();
@@ -82,20 +105,23 @@ export class CreateEditComponent implements OnInit {
       mobile: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
       ssn: [''],
-      alienNumber:[''],
-      permitDate:['']
+      alienNumber: [''],
+      permitDate: [''],
+      Tips: ['']
+
     });
     this.emplistform = this.fb.group({
-      emailId: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      emailId: ['', [Validators.required, Validators.email]],
       dateOfHire: ['', Validators.required],
       hourlyRateWash: ['', Validators.required],
       hourlyRateDetail: [''],
       comType: [''],
-      comRate:[''],
+      comRate: [''],
       status: ['Active'],
       exemptions: [''],
       roles: [[]],
       location: [[]]
+
     });
     this.emplistform.controls.status.disable();
     this.documentForm = this.fb.group({
@@ -103,15 +129,18 @@ export class CreateEditComponent implements OnInit {
     });
   }
 
-  getImmigrationStatus(){
-    this.getCode.getCodeByCategory("IMMIGRATIONSTATUS").subscribe(data => {
+  getImmigrationStatus() {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.imigirationStatus = cType.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   employeeDetail() {
@@ -119,14 +148,27 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
         }
       }
-    });
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+  }
+  getSelectedStateId(event) {
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
 
+  dropDownSetting() {
+    this.dropdownSettings = ApplicationConfig.dropdownSettings;
+  }
+
+  selectCity(event) {
+    this.city = event;
+  }
   employeRole() {
     this.employeeRoles = this.employeeRoles.map(item => {
       return {
@@ -134,17 +176,7 @@ export class CreateEditComponent implements OnInit {
         item_text: item.CodeValue
       };
     });
-    console.log(this.employeeRoles, 'employeerolesmuliti');
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
+    this.dropDownSetting();
   }
 
   locationDropDown() {
@@ -154,31 +186,32 @@ export class CreateEditComponent implements OnInit {
         item_text: item.LocationName
       };
     });
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
+    this.dropDownSetting();
   }
+  change(data) {
 
-  immigrationChange(data){
+    if (data === true) {
+      this.isChecked = true;
+
+    }
+    else {
+      this.isChecked = false;
+
+    }
+  }
+  immigrationChange(data) {
     const temp = this.imigirationStatus.filter(item => item.CodeId === +data);
-    if(temp.length !== 0){
-      if(temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A'){
+    if (temp.length !== 0) {
+      if (temp[0].CodeValue === 'A Lawful permanent Resident (Alien #) A') {
         this.isAlien = true;
         this.isCitizen = false;
-      } else{
-        this.isAlien = false;        
+      } else {
+        this.isAlien = false;
       }
-      if(temp[0].CodeValue === 'An alien authorized to work until'){
+      if (temp[0].CodeValue === 'An alien authorized to work until') {
         this.isDate = true;
-        this.isCitizen = false;        
-      } else{
+        this.isCitizen = false;
+      } else {
         this.isDate = false;
       }
     }
@@ -192,35 +225,29 @@ export class CreateEditComponent implements OnInit {
     this.employeeService.getAllRoles().subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
-        this.employeeRoles = roles.EmployeeRoles.map( item => {
+        this.employeeRoles = roles.EmployeeRoles.map(item => {
           return {
             item_id: item.RoleMasterId,
             item_text: item.RoleName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        this.dropDownSetting();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   getGenderDropdownValue() {
     this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      console.log(res, 'gender');
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -235,44 +262,45 @@ export class CreateEditComponent implements OnInit {
             item_text: item.LocationName
           };
         });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 3,
-          allowSearchFilter: false
-        };
+        // this.locationList = this.location.map(x => Object.assign({}, x));
+        this.dropDownSetting();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  selectedLocation(event) {
+    this.locationList.push(event);
+  }
+
+  deselectLocation(event) {
+    this.locationList = this.locationList.filter(item => item.item_id !== event.item_id);
   }
 
   upload() {
     this.documentDailog = true;
   }
 
-  fileNameChanged() {
-    let filesSelected: any;
-    filesSelected = document.getElementById('customFile');
-    filesSelected = filesSelected.files;
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      this.fileName = fileToLoad.name;
-      const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
-      let fileReader: any;
-      fileReader = new FileReader();
-      fileReader.onload = function (fileLoadedEventTigger) {
-        let textAreaFileContents: any;
-        textAreaFileContents = document.getElementById('customFile');
-        textAreaFileContents.innerHTML = fileLoadedEventTigger.target.result;
-      };
-      fileReader.readAsDataURL(fileToLoad);
-      this.isLoading = true;
-      setTimeout(() => {
+  fileNameChanged(e: any) {
+    this.isLoading = true;
+    try {
+      const file = e.target.files[0];
+      const fileSize = + file.size;
+      const sizeFixed = (fileSize / 1048576);
+      const sizeFixedValue = +sizeFixed.toFixed(1);
+      if (sizeFixedValue > 1) {
+        this.toastr.warning(MessageConfig.Document.fileSize, 'Warning!');
+        this.isLoading = false;
+        return;
+      }
+      const fReader = new FileReader();
+      fReader.readAsDataURL(file);
+      fReader.onloadend = (event: any) => {
+        this.fileName = file.name;
+        const fileExtension = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
         let fileTosaveName: any;
-        fileTosaveName = fileReader.result.split(',')[1];
+        fileTosaveName = event.target.result.split(',')[1];
         this.fileUploadformData = fileTosaveName;
         const fileObj = {
           fileName: this.fileName,
@@ -281,8 +309,11 @@ export class CreateEditComponent implements OnInit {
         };
         this.multipleFileUpload.push(fileObj);
         this.isLoading = false;
-        console.log(this.multipleFileUpload, 'fileupload');
-      }, 5000);
+      };
+    } catch (error) {
+      this.fileName = null;
+      this.fileUploadformData = null;
+      this.isLoading = false;
     }
   }
 
@@ -310,13 +341,26 @@ export class CreateEditComponent implements OnInit {
   }
 
   saveEmployee() {
-    console.log(this.emplistform, 'empdorm');
     this.emplistform.controls.status.enable();
     this.submitted = true;
-    if (this.personalform.invalid || this.emplistform.invalid) {
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: 'Please Enter Mandatory fields' });
+    this.stateDropdownComponent.submitted = true;
+    this.cityComponent.submitted = true;
+    if (this.stateDropdownComponent.stateValueSelection === false) {
       return;
     }
+    if (this.cityComponent.selectValueCity === false) {
+      return;
+    }
+
+    if (this.personalform.invalid || this.emplistform.invalid) {
+      this.toastr.warning(MessageConfig.Mandatory, 'Warning!');
+      return;
+    }
+
+    if (this.locationRateList.length === 0) {
+      return;
+    }
+
     const sourceObj = [];
     const employeeDetails = [];
     const employeAddress = [];
@@ -325,14 +369,14 @@ export class CreateEditComponent implements OnInit {
       employeeAddressId: 0,
       employeeId: 0,
       address1: this.personalform.value.address,
-      address2: 'string',
+      address2: null,
       phoneNumber: this.personalform.value.mobile,
-      phoneNumber2: '',
+      phoneNumber2: null,
       email: this.emplistform.value.emailId,
-      city: 303,
-      state: 48,
-      zip: 'string',
-      country: 38
+      city: this.city,
+      state: this.State,
+      zip: null,
+      country: null
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {
       return {
@@ -346,13 +390,13 @@ export class CreateEditComponent implements OnInit {
     const employeeDetailObj = {
       employeeDetailId: 0,
       employeeId: 0,
-      employeeCode: 'string',
+      employeeCode: null,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
       WashRate: +this.emplistform.value.hourlyRateWash,
-      DetailRate:null,
+      DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
-      lrt: '2020 - 08 - 06T19: 24: 48.817Z',
+      lrt: null,
       exemptions: +this.emplistform.value.exemptions,
       isActive: true,
       isDeleted: false,
@@ -364,19 +408,21 @@ export class CreateEditComponent implements OnInit {
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
+        hourlyWashRate: +this.emplistform.value.hourlyRateWash
       };
     });
     const employeeObj = {
       employeeId: 0,
       firstName: this.personalform.value.firstName,
-      middleName: 'string',
+      middleName: null,
       lastName: this.personalform.value.lastName,
       gender: +this.personalform.value.gender,
       ssNo: this.personalform.value.ssn,
-      maritalStatus: 117,
+      maritalStatus: null,
       isCitizen: this.isCitizen,
       alienNo: this.isAlien ? this.personalform.value.alienNumber : '',
-      birthDate: '',
+      birthDate: null,
+      Tips: this.isChecked ? this.isChecked : null,
       workPermit: this.isDate ? this.personalform.value.permitDate : '',
       immigrationStatus: Number(this.personalform.value.immigrationStatus),
       isActive: true,
@@ -387,19 +433,31 @@ export class CreateEditComponent implements OnInit {
         employeeDocumentId: 0,
         employeeId: 0,
         filename: item.fileName,
-        filepath: 'string',
+        filepath: null,
         base64: item.fileUploadDate,
         fileType: item.fileType,
         isPasswordProtected: false,
-        password: 'string',
-        comments: 'string',
+        password: null,
+        comments: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 0,
+        createdBy: +localStorage.getItem('empId'),
         createdDate: moment(new Date()).format('YYYY-MM-DD'),
-        updatedBy: 0,
+        updatedBy: +localStorage.getItem('empId'),
         updatedDate: moment(new Date()).format('YYYY-MM-DD')
       };
+    });
+    const locHour = [];
+    this.locationRateList.forEach(item => {
+      locHour.push({
+        employeeHourRateId: 0,
+        employeeId: 0,
+        roleId: null,
+        locationId: item.locationId,
+        hourlyRate: item.ratePerHour,
+        isActive: true,
+        isDeleted: false,
+      });
     });
     const finalObj = {
       employee: employeeObj,
@@ -407,25 +465,32 @@ export class CreateEditComponent implements OnInit {
       employeeAddress: employeeAddressObj,
       employeeRole: employeeRoleObj,
       employeeLocation: locationObj,
-      employeeDocument: documentObj
+      employeeDocument: documentObj,
+      employeeHourlyRate: locHour
     };
     this.spinner.show();
     this.employeeService.saveEmployee(finalObj).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Saved Successfully!' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Employee.saved, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
       } else {
+
         if (res.status === 'Fail' && res.errorMessage !== null) {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: res.errorMessage });
+          this.spinner.hide();
+
+          this.toastr.error(res.errorMessage, 'Error!');
         }
         else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }
     }, (error) => {
       this.spinner.hide();
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -443,5 +508,76 @@ export class CreateEditComponent implements OnInit {
 
   navigatePage() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+  rateAllLocation(event) {
+    this.isRateAllLocation = event.target.checked;
+  }
+
+  addRate() {
+    if (+this.locationRate === 0) {
+      this.errorMessage = true;
+      // this.toastr.info(MessageConfig.Employee.hourlyRate , 'Information!');
+      return;
+    } else {
+      this.errorMessage = false;
+    }
+    console.log(this.isRateAllLocation, 'isRate');
+    if (this.isRateAllLocation) {
+      this.locationList.forEach(item => {
+        this.locationRateList.push({
+          locationId: item.item_id,
+          locationName: item.item_text,
+          ratePerHour: this.locationRate
+        });
+      });
+      this.locationList = [];
+      this.locationRate = '';
+      this.locationId = '';
+    } else {
+      const loc = _.where(this.locationList, { item_id: +this.locationId });
+      if (loc.length > 0) {
+        this.locationList = this.locationList.filter(item => item.item_id !== +this.locationId);
+        const locName = loc[0].item_text;
+        this.locationRateList.push({
+          locationId: loc[0].item_id,
+          locationName: loc[0].item_text,
+          ratePerHour: this.locationRate
+        });
+        this.locationId = '';
+        this.locationRate = '';
+      }
+    }
+  }
+
+  deleteLocationHour(loc) {
+    this.locationRateList = this.locationRateList.filter(item => item.locationId !== loc.locationId);
+    this.locationList.unshift({
+      item_id: loc.locationId,
+      item_text: loc.locationName
+    });
+    this.locationList = _.sortBy(this.locationList, 'item_id');
+  }
+
+  editLocationHour(loc) {
+    this.isHourEdit = loc.locationId;
+    this.selectedLocationHour = loc.ratePerHour;
+  }
+
+  submit(loc) {
+    if (+loc.ratePerHour === 0) {
+      this.errorMessage = true;
+      // this.toastr.info(MessageConfig.Employee.hourlyRate , 'Information!');
+      return;
+    } else {
+      this.errorMessage = false;
+    }
+    this.isHourEdit = 0;
+    this.selectedLocationHour = '';
+  }
+
+  cancelHour(loc) {
+    this.isHourEdit = 0;
+    loc.ratePerHour = this.selectedLocationHour;
   }
 }

@@ -5,7 +5,7 @@
             <nav class="col-12 p-0" aria-label="breadcrumb">
                 <!--bread crumb-->
                 <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item"><a>Admin</a></li>
+                    <li class="breadcrumb-item"><a appNavigatePage>Admin</a></li>
                     <li class="breadcrumb-item"><a (click)="navigatePage()">Employees</a></li>
                     <li class="breadcrumb-item active" aria-current="page" *ngIf="actionType === 'create'">Add Employee
                     </li>
@@ -19,7 +19,6 @@
                 <h3 *ngIf="actionType !== 'create'">View/Edit Employee</h3>
             </div>
             <div class="col-12 p-l-0 p-r-0">
-                <!-- 	<div class="row"> -->
                 <div class="card  m-b-10">
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5">
@@ -70,9 +69,19 @@
                                 </div>
                             </div>
                             <div class="form-row">
+                                <div class="form-group col-lg-3">
+                                    <label for="inputState">State&nbsp;<span class="required">*</span></label>
+                                    <app-state-dropdown [isdisable]="true" (stateId)="getSelectedStateId($event)">
+                                    </app-state-dropdown>
+                                </div>
+                                <div class="form-group  col-lg-3 ">
+                                    <label for="inputState">City&nbsp;<span class="required">*</span></label>
+                                    <app-city [State]="State" (selectCity)="selectCity($event)"></app-city>
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
-                                    <input type="text" maxlength="14" class="form-control" id="inputPhone" formControlName="mobile"
+                                    <input type="text" maxlength="14" class="form-control" id="inputPhone"
+                                        formControlName="mobile"
                                         [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" appPhoneMask
                                         placeholder="Mobile Number">
                                     <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
@@ -108,8 +117,16 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN </label>
-                                    <input type="text" class="form-control" id="inputssn" appSsnNumberMask  
-                                        formControlName="ssn" placeholder="SSN" >
+                                    <input type="text" class="form-control" id="inputssn" appSsnNumberMask
+                                        formControlName="ssn" placeholder="SSN">
+                                </div>
+                                <div class="form-group col-md-3 m-t-10">
+                                    <label></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" formControlName="Tips"
+                                            (change)="change($event.target.checked)">
+                                        <label class="form-check-label" for="gridCheck">Tips</label>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -138,15 +155,6 @@
                                         <div *ngIf="g.emailId.errors.email">Email must be a valid email address</div>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group col-md-3">
-                                    <label for="inputPassword">Password <span class="required">*</span></label>
-                                    <input type="password" class="form-control" id="inputPassword"
-                                        [ngClass]="{ 'is-invalid': submitted && g.password.errors }"
-                                        formControlName="password" placeholder="Password" [appMaxLength]="10">
-                                    <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
-                                        <div *ngIf="g.password.errors.required">Password is required</div>
-                                    </div>
-                                </div> -->
                                 <div class="form-group col-md-3">
                                     <label>Date of Hire <span class="required">*</span></label>
                                     <input type="text" placeholder="Datepicker" placeholder="Date of Hire"
@@ -158,33 +166,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputhourrate">Hourly Rate-Wash <span class="required">*</span></label>
+                                    <label for="inputhourrate">Hourly Rate <span class="required">*</span></label>
                                     <input type="text" appTwoDecimalNumber class="form-control"
                                         formControlName="hourlyRateWash" placeholder="$0.00" (focus)="dp.hide()"
                                         [ngClass]="{ 'is-invalid': submitted && g.hourlyRateWash.errors }">
                                     <div *ngIf="submitted && g.hourlyRateWash.errors" class="invalid-feedback">
-                                        <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate-Wash is required</div>
+                                        <div *ngIf="g.hourlyRateWash.errors.required">Hourly Rate is required</div>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group col-md-3">
-                                    <label for="inputcommission">Detail Commission <span class="required"
-                                            *ngIf="isRequired === true">*</span></label>
-                                    <select id="inputcommission" class="form-control" formControlName="comType"
-                                        (change)="getCtype($event.target.value)"
-                                        [ngClass]="{ 'is-invalid': submitted && g.comType.errors }">
-                                        <option value="0" selected>Select Commission</option>
-                                        <option *ngFor="let c of commissionType" value="{{c.CodeId}}">{{c.CodeValue}}
-                                        </option>
-                                    </select>
-                                    <div *ngIf="submitted && g.comType.errors" class="invalid-feedback">
-                                        <div *ngIf="g.comType.errors">Detail Commission is required</div>
-                                    </div>
-                                </div> -->
-                                <!-- <div class="form-group col-md-3" *ngIf="isHourlyRate === true">
-                                    <label for="inputhourdetail">Hourly Rate-Details</label>
-                                    <input type="text" class="form-control" [appMaxLength]="9" appTwoDecimalNumber
-                                        placeholder="0.00" formControlName="hourlyRateDetail">
-                                </div> -->
                                 <div class="form-group col-md-3" *ngIf="ctypeLabel !== 'none'">
                                     <label for="inputUpcharge">{{ctypeLabel}}</label>
                                     <input type="text" class="form-control" formControlName="comRate"
@@ -193,23 +182,24 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputexemptions">Exemptions </label>
                                     <input type="text" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions"> </div>
+                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions">
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles</label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
                                         [data]="employeeRoles" formControlName="roles">
                                     </ng-multiselect-dropdown>
-                                    <!-- <div *ngIf="submitted && g.roles.errors" class="invalid-feedback">
-                                        <div *ngIf="g.roles.errors.required">Roles is required</div>
-                                    </div> -->
+
                                 </div>
 
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Location </label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Location'"
-                                        [settings]="dropdownSettings" [data]="location" formControlName="location">
+                                        [settings]="dropdownSettings" [data]="location" formControlName="location"
+                                        (onSelect)="selectedLocation($event)" (onDeSelect)="deselectLocation($event)">
                                     </ng-multiselect-dropdown>
                                 </div>
+
                                 <div class="form-group col-md-3">
                                     <label for="inputStatus">Status</label>
                                     <select id="inputStatus" class="form-control" formControlName="status">
@@ -218,6 +208,98 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Rate/Location </h6>
+                            <div class="pull-right m-t-4 pointer">
+                                <a id="documenttoggle"> <em class="fa font-size-1-4"></em> </a>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="location">Location </label>
+                                <select id="location" class="form-control" [(ngModel)]="locationId">
+                                    <option value="" hidden selected>Select Location</option>
+                                    <option *ngFor="let loc of locationList" value={{loc.item_id}}>{{loc.item_text}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="rate">Rate Per Hour </label>
+                                <input type="text" class="form-control" id="rate" [(ngModel)]="locationRate"
+                                    appTwoDecimalNumber placeholder="$0.00" [ngClass]="{ 'is-invalid': errorMessage && locationRate !== ''}">
+                                <div *ngIf="errorMessage && locationRate !== ''" class="invalid-feedback">
+                                    <div *ngIf="errorMessage && locationRate !== ''">Hourly rate value should not be zero</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3 m-t-40">
+                                <div class="custom-control custom-checkbox m-l-40">
+                                    <input class="custom-control-input" type="checkbox" id="flexCheckDefault"
+                                        [checked]="isRateAllLocation" (change)="rateAllLocation($event)">
+                                    <label class="custom-control-label" for="flexCheckDefault">
+                                        Same rate across all locations
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-1 m-t-30 text-center">
+                                <button type="button" class="btn theme-primary-button-color" (click)="addRate()"
+                                    [disabled]="locationId == '' || locationRate == '' || locationList.length === 0">Add</button>
+                            </div>
+
+                        </div>
+                        <div class="table-responsive m-t-10" id="collisionform">
+                            <table aria-describedby="collision-grid" class="table border table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center" style="width: 20%;">Location</th>
+                                        <th scope="col" class="text-center" style="width: 10%;">Rate Per Hour</th>
+                                        <th scope="col" class="text-center" style="width: 20%;">Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let loc of locationRateList">
+                                        <td class="text-center">{{loc.locationName}}</td>
+                                        <td class="text-center"><span *ngIf="isHourEdit !== loc.locationId"
+                                                style="font-size: 15px;">{{loc.ratePerHour |
+                                                currency}}</span>
+                                            <span *ngIf="isHourEdit === loc.locationId">
+                                                <input type="text" class="form-control" id="rate" [ngClass]="{ 'is-invalid': errorMessage && isHourEdit === loc.locationId }"
+                                                    [(ngModel)]="loc.ratePerHour" appTwoDecimalNumber
+                                                    placeholder="$0.00">
+                                                    <div *ngIf="errorMessage && isHourEdit === loc.locationId" class="invalid-feedback">
+                                                        <div  style="font-size: 12px;" *ngIf="errorMessage && isHourEdit === loc.locationId">Hourly rate value should not be zero</div>
+                                                    </div>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span *ngIf="isHourEdit !== loc.locationId">
+                                                <em class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
+                                                    pTooltip="Edit" tooltipPosition="bottom"
+                                                    (click)="editLocationHour(loc)"></em>
+                                                <em class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
+                                                    pTooltip="Delete" tooltipPosition="bottom"
+                                                    (click)="deleteLocationHour(loc)"></em>
+                                            </span>
+                                            <span *ngIf="isHourEdit === loc.locationId">
+                                                <em class="fa fa-floppy-o  theme-secondary-icon-color m-r-10 m-t-8"
+                                                    style="color:green" pTooltip="Save" tooltipPosition="bottom"
+                                                    (click)="submit(loc)"></em>
+                                                <em class="fa fa-ban  theme-optional-icon-color m-t-8" style="color:red"
+                                                    pTooltip="Cancel" tooltipPosition="bottom"
+                                                    (click)="cancelHour(loc)"></em>
+
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="locationRateList.length === 0">
+                                        <td colspan="3" class="text-center"> No Records Found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="card  m-b-10">
@@ -234,7 +316,7 @@
                             <div class="col-md-4 form-group">
                                 <input type="file" class="custom-file-input" id="customFile"
                                     accept=".doc, .docx, .pdf, .xls, .csv" mulitple dirname="S:\"
-                                    (change)="fileNameChanged()">
+                                    (change)="fileNameChanged($event)">
                                 <label id='lbl' class="custom-file-label" for="customFile">Select Document</label>
                                 <small class="form-text text-muted">File Type:doc,docx,pdf,xls,csv etc</small>
                                 <table aria-describedby="file" *ngIf="multipleFileUpload.length > 0 && !isLoading">

@@ -36,7 +36,7 @@ namespace Admin.API.Controllers
         public async Task<Result> ChatCommunication([FromBody] ChatCommunicationDto chatCommunicationDto)
         {
 
-            var result = _bplManager.GetChatEmployeeGrouplist(chatCommunicationDto.EmployeeId);
+            var result = _bplManager.GetChatEmployeeGrouplist(chatCommunicationDto.EmployeeId.GetValueOrDefault());
 
             if (result.ChatGroupList != null)
             {

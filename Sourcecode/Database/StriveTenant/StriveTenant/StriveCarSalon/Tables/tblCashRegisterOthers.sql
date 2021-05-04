@@ -12,9 +12,12 @@
     [CreatedDate]    DATETIMEOFFSET (7) NULL,
     [UpdatedBy]      INT                NULL,
     [UpdatedDate]    DATETIMEOFFSET (7) NULL,
+    [CreditCard4]    DECIMAL (19, 4)    NULL,
     CONSTRAINT [PK_tblCashRegisterOthers] PRIMARY KEY CLUSTERED ([CashRegOtherId] ASC),
     CONSTRAINT [FK_tblCashRegisterOthers_CashRegisterId] FOREIGN KEY ([CashRegisterId]) REFERENCES [StriveCarSalon].[tblCashRegister] ([CashRegisterId])
 );
+
+
 
 
 GO

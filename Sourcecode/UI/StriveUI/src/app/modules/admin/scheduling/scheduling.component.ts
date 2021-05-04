@@ -5,12 +5,16 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timelinePlugin from '@fullcalendar/timeline';
 import * as moment from 'moment';
 import { FullCalendar } from 'primeng';
-// import { FullCalendarComponent } from '@fullcalendar/angular';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { ScheduleService } from 'src/app/shared/services/data-service/schedule.service';
-import { element } from 'protractor';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DetailService } from 'src/app/shared/services/data-service/detail.service';
+import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
 
 declare var $: any;
 @Component({
@@ -44,8 +48,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   selectedEvent = [];
   startTime: Date;
   endTime: Date;
+  dateTime: Date
   @ViewChild('fc') fc: FullCalendar;
-  // @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('draggable_people') draggablePeopleExternalElement: ElementRef;
   empList: any;
   showDialog: boolean;
@@ -54,8 +58,26 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   scheduleType: any;
   totalHours: any;
   EmpCount: any;
-  constructor(private empService: EmployeeService, private locationService: LocationService,
-    private messageService: MessageServiceToastr, private scheduleService: ScheduleService, private employeeService: EmployeeService) { }
+  jobTypeId: any;
+  clonedEmpList = [];
+  @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
+  noOfForcastedCars = 0;
+  noOfForcastedHours = 0;
+  noOfCurrentEmployee = 0;
+  noOfCurrentHours = 0;
+  constructor(
+    private empService: EmployeeService,
+    private locationService: LocationService,
+    private messageService: MessageServiceToastr,
+    private scheduleService: ScheduleService,
+    private employeeService: EmployeeService,
+    private spinner: NgxSpinnerService,
+    private detailService: DetailService,
+    private toastr: ToastrService,
+    public dashboardService: DashboardService
+  ) {
+    this.dateTime = new Date();
+  }
   ngAfterViewInit() {
     // tslint:disable-next-line:no-unused-expression
     new Draggable(this.draggablePeopleExternalElement?.nativeElement, {
@@ -71,7 +93,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit(): void {
-    // this.getEmployeeList();
+    this.locationId = +localStorage.getItem('empLocationId');
     this.searchEmployee();
     this.getLocationList();
 
@@ -109,7 +131,6 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
       },
       dayClick: (event) => {
-        console.log(event.view.activeStart, 'dayClick');
       },
       eventResize: (event) => {
         this.empName = event.event.title;
@@ -118,49 +139,53 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.bindPopUp(event);
       },
       eventReceive: (eventReceiveEvent) => {
-        this.buttonText = 'Add';
-        this.events = this.events.filter(item => item.classNames[0] !== 'draggedEvent');
-        const multiSelect = this.selectedList.filter(item => item.clicked === false);
-        this.selectedList = this.empList.EmployeeList.filter(item => item.selected === true);
-        this.splitEmpName(eventReceiveEvent);
-        this.startTime = eventReceiveEvent.event.start;
-        this.isLeave = false;
-        this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
-        if (this.selectedList.length === 0) {
-          this.selectedList = this.empList.EmployeeList.filter(item => item.EmployeeId === +this.empId);
-        }
-        if (multiSelect.length !== 0) {
-          multiSelect.forEach(element => {
-            this.selectedList.push(element);
-          });
-        }
-        if (this.selectedList.length === 1 && multiSelect.length === 0) {
-          $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
-          $('#name').html(this.empName);
-          $('#empId').html(this.empId);
-          this.empLocation = undefined;
-          $('.modal').find('#location').val(0);
+        const selectedDate = eventReceiveEvent.event.start;
+        const currentDate: any = new Date();
+        if (Date.parse(selectedDate) < Date.parse(currentDate)) {
+          this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Schedule.schedulePassDate });
+          this.cancel();
         } else {
-          this.removeDraggedEvent();
-          let i = 0;
-          this.selectedList.forEach(item => {
-            // if(multiSelect.length !== 0){
-            //   i = multiSelect.length;
-            // }
-            i++;
-            item.id = 'clicked' + i,
-              item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
-              item.start = this.startTime,
-              item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-              item.clicked = false,
-              this.events = [... this.events, {
-                id: 'clicked' + i,
-                title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
-                start: this.startTime,
-                end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
-                classNames: ['draggedEvent'],
-              }];
-          });
+          this.buttonText = 'Add';
+          this.empLocation = this.locationId.toString();
+          this.events = this.events.filter(item => item.classNames[0] !== 'draggedEvent');
+          const multiSelect = this.selectedList.filter(item => item.clicked === false);
+          this.selectedList = this.empList.filter(item => item.selected === true);
+          this.splitEmpName(eventReceiveEvent);
+          this.startTime = eventReceiveEvent.event.start;
+          this.isLeave = false;
+          this.endTime = moment(eventReceiveEvent.event.start).add(60, 'minutes').toDate();
+          if (this.selectedList.length === 0) {
+            this.selectedList = this.empList.filter(item => item.EmployeeId === +this.empId);
+          }
+          if (multiSelect.length !== 0) {
+            multiSelect.forEach(element => {
+              this.selectedList.push(element);
+            });
+          }
+          if (this.selectedList.length === 1 && multiSelect.length === 0) {
+            $('#calendarModal').modal({ backdrop: 'static', keyboard: false });
+            $('#name').html(this.empName);
+            $('#empId').html(this.empId);
+            $('.modal').find('#location').val(0);
+          } else {
+            this.removeDraggedEvent();
+            let i = 0;
+            this.selectedList.forEach(item => {
+              i++;
+              item.id = 'clicked' + i,
+                item.title = item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                item.start = this.startTime,
+                item.end = moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                item.clicked = false,
+                this.events = [... this.events, {
+                  id: 'clicked' + i,
+                  title: item.FirstName + ' ' + item.LastName + '\n' + item.EmployeeId,
+                  start: this.startTime,
+                  end: moment(eventReceiveEvent.event.start).add(60, 'minutes'),
+                  classNames: ['draggedEvent'],
+                }];
+            });
+          }
         }
       },
       eventDragStop: (event) => {
@@ -190,6 +215,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.empList = JSON.parse(data.resultData);
         this.setBoolean();
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -202,13 +229,16 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   // Get All Location
   getLocationList() {
-    this.locationService.getLocation().subscribe(res => {
+    const locID = 0;
+    this.dashboardService.getAllLocationWashTime(locID).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
-        this.location = location.Location;
+        this.location = location.Washes;
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   // Save Schedule
@@ -217,6 +247,23 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.submitted = true;
     if (this.empLocation === '' || this.empLocation === undefined) {
       this.locationFlag = true;
+      return;
+    }
+    if (this.dateTime > this.startTime) {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Schedule.passedDateTime });
+      return;
+    }
+    let alreadyScheduled = false;
+    this.events.forEach(item => {
+      if (moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss') === item.start) {
+        if (item.extendedProps.employeeId === +this.empId &&
+          item.extendedProps.locationId === +this.empLocation) {
+          alreadyScheduled = true;
+        }
+      }
+    });
+    if (alreadyScheduled) {
+      this.messageService.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Schedule.sameTime });
       return;
     }
     const form = {
@@ -237,18 +284,25 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     const scheduleObj = {
       schedule
     };
+    this.spinner.show();
     this.scheduleService.saveSchedule(scheduleObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Schedule Saved Successfully!!' });
+        this.spinner.hide();
+
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Schedule.save });
         $('#calendarModal').modal('hide');
         this.getSchedule();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
         this.getSchedule();
         $('#calendarModal').modal('hide');
       }
     }, (err) => {
-      this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+      this.spinner.hide();
+
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       this.getSchedule();
       $('#calendarModal').modal('hide');
     });
@@ -265,9 +319,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       endDate: this.endDate,
       locationId: this.locationId ? this.locationId : 0
     };
+    this.spinner.show();
     this.scheduleService.getSchedule(getScheduleObj).subscribe(data => {
       if (data.status === 'Success') {
+        this.spinner.hide();
         const empSchehdule = JSON.parse(data.resultData);
+        this.getScheduleAndForcasted(getScheduleObj);
         if (empSchehdule.ScheduleDetail !== null) {
           this.totalHours = empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours ?
             empSchehdule?.ScheduleDetail?.ScheduleHoursViewModel?.Totalhours : 0;
@@ -298,6 +355,33 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         this.removeDraggedEvent();
         this.retainUnclickedEvent();
       }
+      else {
+        this.spinner.hide();
+
+      }
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
+      });
+  }
+
+  getScheduleAndForcasted(getScheduleObj) {
+    this.scheduleService.getScheduleAndForcasted(getScheduleObj).subscribe(res => {
+      if (res.status === 'Success') {
+        const scheduleDetail = JSON.parse(res.resultData);
+        this.noOfForcastedCars = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars ?
+          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars : 0;
+        this.noOfForcastedHours = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours ?
+          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours : 0;
+        this.noOfCurrentEmployee = scheduleDetail.ScheduleForcastedDetail.ScheduleEmployeeViewModel.TotalEmployees;
+        this.noOfCurrentHours = scheduleDetail.ScheduleForcastedDetail.ScheduleHoursViewModel.Totalhours;
+        $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+        $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
+      }
+    }, (err) => {
+      $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+      $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
     });
   }
   // Retain Unclicked EmployeeList
@@ -335,14 +419,38 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   // Delete Event
   deleteEvent(event) {
+
     this.scheduleService.deleteSchedule(event.event.id).subscribe(data => {
       if (data.status === 'Success') {
         this.getSchedule();
       }
-    });
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
+
+  getJobType() {
+    this.detailService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === 'Wash') {
+              this.jobTypeId = item.valueid;
+              this.dashboardStaticsComponent.jobTypeId = this.jobTypeId;
+              this.dashboardStaticsComponent.getDashboardDetails();
+            }
+          });
+        }
+      }
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+  }
+
   getLocationId(event) {
-    // const loc = this.location.filter(item => item.LocationName === event.target.textContent);
     this.locationId = event.LocationId;
     this.getSchedule();
   }
@@ -369,7 +477,10 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
         }
       }
 
-    });
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   splitEmpName(event) {
     const str = event.event.title.split('\n');
@@ -411,12 +522,39 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   // Search Employee
   searchEmployee() {
-    this.employeeService.searchEmployee(this.search).subscribe(res => {
+    this.spinner.show();
+    const empObj = {
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: null,
+      pageSize: null,
+      query: this.search,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    this.getJobType();
+    this.employeeService.getAllEmployeeName(this.locationId).subscribe(res => {
       if (res.status === 'Success') {
-        this.empList = JSON.parse(res.resultData);
+        this.spinner.hide();
+        // this.empList = JSON.parse(res.resultData);
+        const seachList = JSON.parse(res.resultData);
+        this.empList = seachList.EmployeeName;
+        this.empList.forEach(item => {
+          item.employeeName = item.FirstName + '' + item.LastName;
+        });
+        this.clonedEmpList = this.empList.map(x => Object.assign({}, x));
+        // if (seachList.EmployeeList.Employee !== null) {
+        //   this.empList = seachList.EmployeeList.Employee;
+        // }
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
   getAll() {
@@ -427,5 +565,14 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   }
   searchFocus() {
     this.search = this.search.trim();
+  }
+
+  searchVechicleList(text) {
+    if (text.length > 0) {
+      this.empList = this.clonedEmpList.filter(item => item.employeeName.toLowerCase().includes(text));
+    } else {
+      this.empList = [];
+      this.empList = this.clonedEmpList;
+    }
   }
 }

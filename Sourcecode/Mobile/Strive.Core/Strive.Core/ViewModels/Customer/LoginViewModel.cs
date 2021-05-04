@@ -47,13 +47,7 @@ namespace Strive.Core.ViewModels.Customer
                     _userDialog.Alert(Strings.UsernamePasswordIncorrect);
                 }
                 _userDialog.HideLoading();
-            }
-            else 
-            {
-                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
-            }
-            
-            
+            }            
         }
         public bool validateCommand()
         {
@@ -68,10 +62,12 @@ namespace Strive.Core.ViewModels.Customer
                 || String.IsNullOrEmpty(loginPassword))
             {
                 isValid = false;
+                _userDialog.Alert("Please provide all the details");
             }
             else
             {
                 isValid = false;
+                _userDialog.Alert("Please enter a valid UserName ");
             }
             return isValid;
         }

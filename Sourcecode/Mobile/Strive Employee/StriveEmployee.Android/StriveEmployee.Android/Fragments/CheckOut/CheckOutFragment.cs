@@ -43,9 +43,10 @@ namespace StriveEmployee.Android.Fragments.CheckOut
         private async void GetCheckoutDetails()
         {
             await ViewModel.GetCheckOutDetails();
-            if(ViewModel.CheckOutVehicleDetails != null)
+            if (ViewModel.CheckOutVehicleDetails != null)
             {
-                if(ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.Count > 0)
+                if (ViewModel.CheckOutVehicleDetails != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails != null
+                    || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel != null || ViewModel.CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count > 0)
                 {
                     checkOutDetailsAdapter = new CheckOutDetailsAdapter(Context, ViewModel.CheckOutVehicleDetails);
                     var layoutManager = new LinearLayoutManager(Context);

@@ -14,14 +14,13 @@ export class MessengerService {
 
     closeConnection() {
 
-        const commObj = {
-            EmployeeId: localStorage.getItem('empId'),
-            CommunicationId: '0'
-        };
+        // const commObj = {
+        //     EmployeeId: localStorage.getItem('empId'),
+        //     CommunicationId: '0'
+        // };
 
-        this.UpdateChatCommunication(commObj).subscribe(data => {
-            console.log(data);
-        });
+        // this.UpdateChatCommunication(commObj).subscribe(data => {
+        // });
 
         this.signalRService.stopConnection();
     }
@@ -52,10 +51,7 @@ export class MessengerService {
     }
 
     ReceivePrivateMessage(msg) {
-        console.log("ReceivePrivateMessage");
-        console.log(msg.ConnectionId);
-
-        console.log(msg);
+     
     }
     createGroup(groupMsgObj) {
         return this.http.post(`${UrlConfig.Messenger.createGroup}`, groupMsgObj);

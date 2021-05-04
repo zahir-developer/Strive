@@ -5,6 +5,13 @@ import { DatePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { LoginComponent } from 'src/app/login/login.component';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -14,65 +21,187 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
   payRollList: any = [];
-  page = 1;
-  pageSize = 5;
+  payRollBackup: any = [];
+  MaxDate = new Date()
+  bsConfig: Partial<BsDatepickerConfig>;
   collectionSize = 0;
   isEditAdjustment: boolean;
   isPayrollEmpty = true;
+  @ViewChild(LoginComponent) LoginComponent: LoginComponent;
+
   @ViewChild('content') content: ElementRef;
+  pageSize: number;
+  page: number;
+  pageSizeList: number[];
+  maxDate = new Date();
+  minDate: any;
+  isLoading: boolean;
+  isEditRestriction: boolean = false;
+  employeeId: string;
+  sortColumn: { sortBy: string; sortOrder: string; };
+  processLabel: string = "Process";
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
-    private datePipe: DatePipe,    
-    private messageService: MessageServiceToastr,
+    private datePipe: DatePipe,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private landingservice: LandingService
   ) { }
 
   ngOnInit(): void {
+    this.employeeId = localStorage.getItem('empId');
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.PayRoll,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.PayRoll.order
+    }
+    this.isLoading = false;
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.payrollDateForm = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required]
     });
     this.isEditAdjustment = false;
-    
     this.patchValue();
   }
-
+  landing() {
+    this.landingservice.loadTheLandingPage()
+  }
   patchValue() {
     const curr = new Date(); // get current date
-    const first = curr.getDate()-13; // First day is the day of the month - the day of the week
-    const last = curr.getDate();//first + 13; // last day is the first day + 6
-
+    const first = curr.getDate() - 15; // First day is the day of the month - the day of the week
+    const last = curr.getDate(); // first + 13; // last day is the first day + 6
     const firstday = new Date(curr.setDate(first));
-    const lastday = new Date(curr.setDate(last));
+    const lastday = new Date();
+    this.minDate = firstday;
     this.payrollDateForm.patchValue({
       fromDate: firstday,
       toDate: lastday
     });
     this.runReport();
   }
+  _keyUp(e, payroll) {
+    const pattern = /[0-9]/;
+    let inputChar = payroll.Adjustment;
+    if (!pattern.test(inputChar)) {
+      payroll.Adjustment = '';
+    }
 
+  }
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.runReport();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.runReport();
+  }
   runReport() {
     const locationId = localStorage.getItem('empLocationId');
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
+    this.spinner.show();
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
+        this.editRestriction();
         const payRoll = JSON.parse(res.resultData);
-        //if (payRoll.Result.PayRollRateViewModel !== null) {
+        if (payRoll.Result.PayRollRateViewModel) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
-          // this.payRollList.forEach(item => {
-          //   item.isEditAdjustment = false;
-          // });
-          var length =  this.payRollList === null ? 0 : this.payRollList.length;
-          this.collectionSize = Math.ceil(  length / this.pageSize) * 10;
+          this.payRollBackup = payRoll.Result.PayRollRateViewModel
+          const length = this.payRollList === null ? 0 : this.payRollList.length;
+          this.collectionSize = Math.ceil(length / this.pageSize) * 10;
+          this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
           this.isPayrollEmpty = false;
-        //}
-        //else
-        //{
-          this.isPayrollEmpty = payRoll.Result.PayRollRateViewModel === null ? true : false;
-        //}
+        } else {
+          this.isPayrollEmpty = true;
+        }
+      }
+      else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  editRestriction() {
+
+    const empId = null;
+    const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
+    const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
+    this.payrollsService.editRestriction(empId, startDate, endDate).subscribe(res => {
+      const edit = JSON.parse(res.resultData);
+      if (res.status === 'Success') {
+        if (edit.Result == false) {
+
+          this.isEditRestriction = false;
+          this.processLabel = "Process";
+        } else {
+          this.isEditRestriction = true;
+          this.processLabel = "Processed";
+
+        }
+
+      }
+      else {
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     });
+  }
+  sort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.TimeClock.order
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
+  }
+  sorting(sortColumn) {
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+    let property = sortColumn.sortBy;
+    this.payRollList.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+  changeSorting(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    }
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+  onValueChange(event) {
+    this.minDate = event;
   }
 
   editAdjustemt() {
@@ -90,23 +219,101 @@ export class PayrollsGridComponent implements OnInit {
   }
 
   updateAdjustment() {
-    console.log(this.payRollList, 'edit');
+    
     const updateObj = [];
-    this.payRollList.forEach( item => {
-      updateObj.push({
-        id: item.EmployeeId,
-        adjustment: +item.Adjustment
-      });
+
+
+
+
+    this.payRollList.forEach(item => {
+      const oldPayroll = this.payRollBackup.filter(s => s.EmployeeId == item.EmployeeId);
+      if (oldPayroll !== null && oldPayroll !== undefined) {
+        console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
+        if (oldPayroll.Adjustment != +item.Adjustment) {
+          console.log('True');
+          console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
+          updateObj.push({
+            id: item.EmployeeId,
+            adjustment: +item.Adjustment
+          });
+        }
+      }
     });
-    this.payrollsService.updateAdjustment(updateObj).subscribe( res => {
+    this.spinner.show();
+    this.payrollsService.updateAdjustment(updateObj).subscribe(res => {
       if (res.status === 'Success') {
-        
+        this.spinner.hide();
+
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
-        
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Updated Successfully' });
+        this.toastr.success(MessageConfig.PayRoll.Adjustment, 'Success!');
         this.runReport();
       }
+      else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  addPayrollProcess() {
+    const updatedObj = [];
+    const obj = {
+      "payrollProcess": {
+        "payrollProcessId": 0,
+        "fromDate": this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd'),
+        "toDate": this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd'),
+        "isActive": true,
+        "isDeleted": true,
+        "createdBy": this.employeeId,
+        "createdDate": new Date(),
+        "updatedBy": this.employeeId,
+        "updatedDate": new Date(),
+      },
+      "payrollEmployee": updatedObj
+    }
+    this.payRollList.forEach(item => {
+      updatedObj.push({
+
+
+        "payrollEmployeeId": item.EmployeeId,
+        "employeeId": this.employeeId,
+        "payrollProcessId": 0,
+        "adjustment": +item.Adjustment,
+        "isActive": true,
+        "isDeleted": true,
+        "createdBy": this.employeeId,
+        "createdDate": new Date(),
+        "updatedBy": this.employeeId,
+        "updatedDate": new Date(),
+
+
+
+      });
+    });
+
+    this.spinner.show();
+    this.payrollsService.addPayRoll(obj).subscribe(res => {
+      if (res.status === 'Success') {
+        this.spinner.hide();
+
+        this.isEditAdjustment = false;
+        this.payrollDateForm.enable();
+
+        this.toastr.success(MessageConfig.PayRoll.Process, 'Success!');
+        this.runReport();
+      }
+      else {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -120,12 +327,12 @@ export class PayrollsGridComponent implements OnInit {
       const pageHeight = 295;
       const imgHeight = canvas.height * imgWidth / canvas.width;
       const heightLeft = imgHeight;
-  
+
       const contentDataURL = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
       const position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('PayrollReport '+startDate+' - '+endDate +'.pdf'); // Generated PDF
+      pdf.save('PayrollReport ' + startDate + ' - ' + endDate + '.pdf'); // Generated PDF
     });
   }
 

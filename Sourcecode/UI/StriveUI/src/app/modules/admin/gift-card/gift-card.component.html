@@ -2,30 +2,16 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-12 p-0" aria-label="breadcrumb">
-                <ol class="breadcrumb font-size--9">
-                    <li class="breadcrumb-item">Admin</li>
+                <ol class="breadcrumb font-size-1">
+                    <li class="breadcrumb-item" appNavigatePage>Admin</li>
                     <li class="breadcrumb-item active" aria-current="page">Gift Cards</li>
                 </ol>
             </nav>
-            <div class="title-border col-12 p-b-10 m-b-15 p-l-0">
-                <h3 class="d-inline-block">Gift Cards &nbsp;&nbsp;</h3>
-            </div>
             <div class="col-12 p-l-0 p-r-0">
                 <div class="card  m-b-10">
                     <div class="card-body">
-                        <nav aria-label="gift-card">
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                                    role="tab" aria-controls="nav-home" aria-selected="true">Gift Card List</a>
-                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-                                    role="tab" aria-controls="nav-profile" aria-selected="false">Add Gift Card</a>
-                                <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
-                                    role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
-                            </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                aria-labelledby="nav-home-tab">
+                        <tabset #staticTabs>
+                            <tab heading="Gift Card List" id="tab1" (selectTab)="cancelActvity()">
                                 <div class="row no-gutter">
                                     <div class="col-lg-12">
                                         <div class="card m-t-10 m-b-10">
@@ -35,12 +21,17 @@
                                                         <div class="search-container pull-right">
                                                             <form>
                                                                 <div class="form-row">
-                                                                    <!-- <div class="form-group d-flex"> <span class="Search text-right p-r-10 p-t-5">Search</span>  -->
-                                                                </div>
-                                                                <div class="form-group col-sm m-l-5">
-                                                                    <input type="search" class="form-control"
-                                                                        (input)="searchGift($event.target.value)"
-                                                                        placeholder="Search">
+                                                                    <div class="form-group d-flex"> <input type="search"
+                                                                            class="form-control" [(ngModel)]="query"
+                                                                            size="40" name="search" id="inputSearch"
+                                                                            placeholder="Search"
+                                                                            (keyup)="$event.keyCode == 13 ? searchGift() : null">
+                                                                    </div>
+                                                                    <div class="form-group col-sm m-l-5">
+                                                                        <button type="button"
+                                                                            class="btn theme-primary-button-color btn-sm m-l-10"
+                                                                            (click)="searchGift()">Search</button>
+                                                                    </div>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -50,17 +41,37 @@
                                                     aria-describedby="giftCard-history">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col">Gift Card No.</th>
-                                                            <th scope="col">Name</th>
-                                                            <th scope="col">Activated Date</th>
-                                                            <th scope="col">Amount</th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('GiftCardCode')">Gift Card
+                                                                No.&nbsp;<i class="fa"
+                                                                    [ngClass]="selectedCls('GiftCardCode')"
+                                                                    aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('FirstName')">First Name&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('FirstName')"
+                                                                    aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('LastName')">Last Name&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('LastName')"
+                                                                    aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('ActivatedDate')">Activated
+                                                                Date&nbsp;<i class="fa"
+                                                                    [ngClass]="selectedCls('ActivatedDate')"
+                                                                    aria-hidden="true"></i></th>
+                                                            <th scope="col" class="pointer"
+                                                                (click)="changeSorting('TotalAmount')">Amount&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('TotalAmount')"
+                                                                    aria-hidden="true"></i></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
-                                                        <tr *ngFor="let card of giftCardList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                                            <td>{{card.GiftCardCode}}</td>
-                                                            <td>{{card.GiftCardName}}</td>
-                                                            <td>{{card.ExpiryDate | date: 'MM/dd/yyyy'}}</td>
+                                                        <tr *ngFor="let card of giftCardList">
+                                                            <td class="text-underline theme-primary-color font-size--9"
+                                                            style="cursor: pointer;" (click)="getGiftCardDetail(card)">{{card.GiftCardCode}}</td>
+                                                            <td>{{card.FirstName}}</td>
+                                                            <td>{{card.LastName}}</td>
+                                                            <td>{{card.ActivationDate | date: 'MM/dd/yyyy'}}</td>
                                                             <td>{{card.TotalAmount | currency}}</td>
                                                         </tr>
                                                     </tbody>
@@ -72,17 +83,29 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <ngb-pagination *ngIf="giftCardList.length > 10" [collectionSize]="collectionSize" [(page)]="page"
-                                                    [maxSize]="3" [rotate]="true" [ellipses]="false"
-                                                    [boundaryLinks]="true" class="d-flex justify-content-end">
-                                                </ngb-pagination>
+                                                <div class="row pull-right">
+                                                    <div class="col-6">
+                                                        <ngb-pagination *ngIf="giftCardList.length > 0"
+                                                            [collectionSize]="collectionSize"
+                                                            (pageChange)="paginate($event)" [(page)]="page"
+                                                            [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                                        </ngb-pagination>
+                                                    </div>
+                                                    <select *ngIf="giftCardList.length > 0" class="form-control col-4"
+                                                        name="paginate" [(ngModel)]="pageSize"
+                                                        (change)="paginatedropdown($event)">
+                                                        <option *ngFor="let size of pageSizeList" value="{{size}}">
+                                                            {{size}}</option>
+
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                                aria-labelledby="nav-profile-tab">
+                            </tab>
+                            <tab heading="Add New Gift Card">
                                 <div class="card m-t-10 m-b-10">
                                     <div class="card-body">
                                         <div class="row title-border p-b-10 m-b-15">
@@ -114,7 +137,7 @@
                                                             <div class="col-sm-4">
                                                                 <button type="button" [disabled]="giftCardForm.invalid"
                                                                     class="btn theme-primary-button-color btn-md m-l-10"
-                                                                    (click)="getGiftCardDetail()">Select
+                                                                    (click)="getGiftCardHistoryByTicketNumer()">Select
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -131,7 +154,8 @@
                                                             <label class="float-right">Active Date:</label>
                                                         </div>
                                                         <div class="col-sm-4">
-                                                            <span><strong>{{(activeDate !== 'none') ? activeDate : 'None'}}</strong></span>
+                                                            <span><strong>{{(activeDate !== 'none') ? activeDate :
+                                                                    'None'}}</strong></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -171,7 +195,7 @@
                                             <div class="row">
                                                 <div class="col-12 p-l-0 p-r-0">
                                                     <div class="table-responsive">
-                                                        <table class="table border table-hover"
+                                                        <table class="table border table-hover headerfix"
                                                             aria-describedby="giftCard-history">
                                                             <thead>
                                                                 <tr>
@@ -181,12 +205,12 @@
                                                                     <th scope="col">Amount</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody *ngIf="giftCardHistory.length > 0">
+                                                            <tbody *ngIf="giftCardHistory.length > 0" class="bodyfix">
                                                                 <tr *ngFor="let card of giftCardHistory">
                                                                     <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
                                                                     </td>
-                                                                    <td>{{card.IsActive ? 'Active' : 'InActive'}}</td>
-                                                                    <td>{{card.GiftCardHistoryId}}</td>
+                                                                    <td>{{card.Status ? 'Active' : 'InActive'}}</td>
+                                                                    <td>{{card.GiftCardId}}</td>
                                                                     <td>{{card.TransactionAmount | currency}}</td>
                                                                 </tr>
                                                             </tbody>
@@ -204,8 +228,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </tab>
+                        </tabset>
                     </div>
                 </div>
             </div>

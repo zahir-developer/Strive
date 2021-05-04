@@ -25,19 +25,19 @@ namespace Strive.ResourceAccess
 
         public List<LocationViewModel> GetAllLocation()
         {
-            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
+            return db.Fetch<LocationViewModel>(EnumSP.Location.USPGETALLLOCATION.ToString(), _prm);
         }
 
         public List<LocationViewModel> GetLocationSearch(LocationSearchDto search)
         {
             _prm.Add("@LocationSearch", search.LocationSearch);
-            return db.Fetch<LocationViewModel>(SPEnum.USPGETALLLOCATION.ToString(), _prm);
+            return db.Fetch<LocationViewModel>(EnumSP.Location.USPGETALLLOCATION.ToString(), _prm);
         }
 
         public LocationDescriptionViewModel GetLocationDetailById(int id)
         {
             _prm.Add("@tblLocationId", id);
-            var result = db.FetchMultiResult<LocationDescriptionViewModel>(SPEnum.USPGETLOCATIONBYID.ToString(), _prm);
+            var result = db.FetchMultiResult<LocationDescriptionViewModel>(EnumSP.Location.USPGETLOCATIONBYID.ToString(), _prm);
             return result;
         }
         //public List<LocationAddressModel> GetAllLocationAddress()
@@ -48,9 +48,9 @@ namespace Strive.ResourceAccess
         //    return lam;
         //}
 
-        public bool AddLocation(LocationDto location)
+        public int AddLocation(LocationDto location)
         {
-            return dbRepo.InsertPc(location, "LocationId");
+            return dbRepo.InsertPK(location, "LocationId");
         }
 
         //public bool SaveLocationDetails(LocationDto location)
@@ -74,7 +74,7 @@ namespace Strive.ResourceAccess
             _prm.Add("LocationId", id.toInt());
             _prm.Add("UserId", _tenant.EmployeeId);
             _prm.Add("Date", DateTime.UtcNow);
-            db.Save(SPEnum.USPDELETELOCATION.ToString(), _prm);
+            db.Save(EnumSP.Location.USPDELETELOCATION.ToString(), _prm);
             return true;
         }
         public LocationAddress GetLocationAddressDetails(int locationId)
@@ -87,7 +87,7 @@ namespace Strive.ResourceAccess
 
             result.Latitude = locationAddress.Latitude;
             result.Longitude = locationAddress.Longitude;
-            result.WeatherLocationId = locationAddress.WeatherLocationId;
+            result.WeatherLocationId = locationAddress.WeatherLocationId;         
 
             return result;
         }
@@ -102,13 +102,24 @@ namespace Strive.ResourceAccess
         }
         public List<LocationOffsetViewModel> GetAllLocationOffset()
         {
-            return db.Fetch<LocationOffsetViewModel>(SPEnum.USPGETALLLOCATIONOFFSET.ToString(), _prm);
+            return db.Fetch<LocationOffsetViewModel>(EnumSP.Location.USPGETALLLOCATIONOFFSET.ToString(), _prm);
         }
         public bool DeleteLocationOffset(int id)
         {    
             _prm.Add("LocationOffsetId", id.toInt());
-            db.Save(SPEnum.USPDELETELOCATIONOFFSET.ToString(), _prm);
+            db.Save(EnumSP.Location.USPDELETELOCATIONOFFSET.ToString(), _prm);
             return true;
+        }
+        public bool AddBaySolt(int id)
+        {
+            _prm.Add("LocationId", id.toInt());
+            db.Save(EnumSP.Location.USPADDBAYSLOT.ToString(), _prm);
+            return true;
+        }
+
+        public List<LocationNameViewModel> GetAllLocationName()
+        {
+            return db.Fetch<LocationNameViewModel>(EnumSP.Location.USPGETALLLOCATIONNAME.ToString(), _prm);
         }
 
     }

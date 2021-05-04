@@ -26,7 +26,7 @@ namespace Strive.Core.Models.Employee.PersonalDetails
         public string Firstname { get; set; }
         public string LastName { get; set; }
         public int AuthId { get; set; }
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
         public string Address1 { get; set; }
         public string PhoneNumber { get; set; }
         public int ImmigrationStatus { get; set; }
@@ -38,7 +38,7 @@ namespace Strive.Core.Models.Employee.PersonalDetails
         public string WashRate { get; set; }
         public string DetailRate { get; set; }
         public string ComRate { get; set; }
-        public int ComType { get; set; }
+        public int? ComType { get; set; }
         public bool Status { get; set; }
         public string Tip { get; set; }
         public int Exemptions { get; set; }
@@ -47,7 +47,7 @@ namespace Strive.Core.Models.Employee.PersonalDetails
     {
         public int DocumentSequence { get; set; }
         public int EmployeeId { get; set; }
-        public int DocumentId { get; set; }
+        public int EmployeeDocumentId { get; set; }
         public string FileName { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }

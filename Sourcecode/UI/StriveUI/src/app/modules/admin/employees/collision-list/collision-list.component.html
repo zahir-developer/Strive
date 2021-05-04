@@ -3,16 +3,17 @@
         <div class="row title-border p-b-10 m-b-15">
             <div class="col-sm-12">
                 <h6 class="d-inline-block font-weight-600">Collision <em
-                        class="mdi mdi-pencil-circle pointer m-l-5 font-size-1-3" pTooltip="Edit" tooltipPosition="bottom" *ngIf="actionType === 'view'"
+                        class="mdi mdi-pencil-circle pointer m-l-5 font-size-1-3" pTooltip="Edit"
+                        tooltipPosition="bottom" *ngIf="actionType === 'view'"
                         [ngClass]="{'theme-secondary-icon-color':!isEditCollision }" id="collision-edit"
                         (click)="editCollision()" style="color: rgb(236, 233, 233);"></em>
                     <span class="collision-btn" *ngIf="isEditCollision">
                         <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                            (click)="openCreateCollisionModal()">Add Collision</button>
+                            (click)="openCreateCollisionModal()">Add New Collision</button>
                     </span>
                     <span class="collision-btn" *ngIf="actionType === 'edit'">
                         <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                            (click)="openCreateCollisionModal()">Add Collision</button>
+                            (click)="openCreateCollisionModal()">Add New Collision</button>
                     </span>
                 </h6>
                 <div class="pull-right m-t-4 pointer">
@@ -30,7 +31,8 @@
                     <table aria-describedby="collision-grid" class="table border table-hover table-striped">
                         <thead>
                             <tr>
-                                <!-- <th scope="col">Act#</th> -->
+                                <th scope="col">Client Name</th>
+                                <th scope="col">Vehicle Name</th>
                                 <th scope="col">Date Created </th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Amount</th>
@@ -39,27 +41,32 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let collision of collisionList">
-                                <!-- <td>{{collision.LiabilityId}}</td> -->
+                                <td>{{collision.ClientName}}</td>
+                                <td>{{collision.VehicleName}}</td>
                                 <td>{{collision.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                 <td>{{collision.LiabilityDescription}}
                                 </td>
                                 <td>{{collision.Amount | currency }}</td>
-                                <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil" pTooltip="Edit" tooltipPosition="bottom"
-                                    *ngIf="actionType === 'view'" (click)="updateCollision(collision)"
-                                    [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"></em>
-                                <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete" pTooltip="Delete" tooltipPosition="bottom"
-                                    *ngIf="actionType === 'view'" (click)="deleteCollision(collision)"
-                                    [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"></em><em
-                                    class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1" pTooltip="Edit" tooltipPosition="bottom"
-                                    *ngIf="actionType === 'edit'" (click)="updateCollision(collision)"></em>
-                                <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1" pTooltip="Delete" tooltipPosition="bottom"
-                                    *ngIf="actionType === 'edit'" (click)="deleteCollision(collision)"></em>
-                            </td>
+                                <td> <em class="mdi mdi-pencil-circle pointer m-r-2 font-size-1-1 md-pencil"
+                                        pTooltip="Edit" tooltipPosition="bottom" *ngIf="actionType === 'view'"
+                                        (click)="updateCollision(collision)"
+                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-primary-icon-color': isEditCollision  }"></em>
+                                    <em class="mdi mdi-close-circle pointer  theme-disabled-icon-color font-size-1-1 md-delete"
+                                        pTooltip="Delete" tooltipPosition="bottom" *ngIf="actionType === 'view'"
+                                        (click)="deleteCollision(collision)"
+                                        [ngClass]="{'theme-disabled-icon-color':!isEditCollision, 'theme-optional-icon-color': isEditCollision  }"></em><em
+                                        class="mdi mdi-pencil-circle pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
+                                        pTooltip="Edit" tooltipPosition="bottom" *ngIf="actionType === 'edit'"
+                                        (click)="updateCollision(collision)"></em>
+                                    <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
+                                        pTooltip="Delete" tooltipPosition="bottom" *ngIf="actionType === 'edit'"
+                                        (click)="deleteCollision(collision)"></em>
+                                </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="1" scope="col"></th>
+                                <th colspan="3" scope="col"></th>
                                 <th class="text-right" scope="col"> Balance Due: </th>
                                 <td>{{totalAmount | currency }}</td>
                                 <td></td>

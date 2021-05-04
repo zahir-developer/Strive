@@ -1,6 +1,6 @@
 ﻿
 
-CREATE PROC [StriveCarSalon].[uspGetJobById] 
+CREATE PROC [StriveCarSalon].[uspGetJobById]-- [StriveCarSalon].[uspGetJobById] 35746205193
 (@JobId int)
 AS
 BEGIN
@@ -59,12 +59,8 @@ LEFT JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
 LEFT JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
 LEFT JOIN StriveCarSalon.tblService tbls on tblji.ServiceId = tbls.ServiceId
 LEFT JOIN StriveCarSalon.GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid
-WHERE tblcv.valuedesc='Washes'
+WHERE tblcv.valuedesc='Wash Package'
 AND isnull(tbj.IsDeleted,0)=0
-AND isnull(tblca.IsDeleted,0)=0
-AND isnull(tblc.IsDeleted,0)=0
-AND isnull(tblji.IsDeleted,0)=0
-AND isnull(tbls.IsDeleted,0)=0
 AND isnull(tblji.IsActive,1)=1
 AND ((tbj.JobId = @JobId) OR @JobId IS NULL)
 
@@ -76,7 +72,7 @@ tblji.ServiceId,
 s.ServiceName,
 s.ServiceType as ServiceTypeId,
 Commission,
-Price,
+tblji.Price,
 Quantity,
 ReviewNote
 from StriveCarSalon.tblJobItem tblji

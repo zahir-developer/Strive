@@ -49,7 +49,12 @@ namespace Strive.Core.ViewModels.Employee
                 sendChat.chatGroupRecipient = null;
                 FillChatDetails();
                 var result = await MessengerService.SendChatMessage(sendChat);
-                if(result.Status)
+                if( result == null || !result.Status)
+                {
+                    SentSuccess = false;
+                    _userDialog.Toast("Message not sent");                    
+                }
+                else
                 {
                     SentSuccess = result.Status;
                     //if(MessengerTempData.IsGroup)
@@ -57,12 +62,12 @@ namespace Strive.Core.ViewModels.Employee
                     //   ChatHubMessagingService.SendMessageToGroup(sendChat);
                     //}
                 }
-                else
-                {
-                    SentSuccess = result.Status;
-                    _userDialog.Toast("Message not sent");
-                }
             }
+        }
+
+        public void EmptyChatMessageError()
+        {
+            _userDialog.Toast("Enter a message");
         }
 
         public bool CheckEmptyChat()

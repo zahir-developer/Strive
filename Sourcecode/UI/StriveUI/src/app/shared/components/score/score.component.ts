@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WashService } from '../../services/data-service/wash.service';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-score',
@@ -9,7 +11,8 @@ import { WashService } from '../../services/data-service/wash.service';
 export class ScoreComponent implements OnInit {
   score: any;
 
-  constructor(private wash: WashService) { }
+  constructor(private wash: WashService,
+    private toastr : ToastrService) { }
 
   ngOnInit() {
     this.getDashboardDetails();
@@ -24,6 +27,9 @@ export class ScoreComponent implements OnInit {
     this.wash.getDashBoard(obj);
     this.wash.dashBoardData.subscribe((data: any) => {
         this.score = data.Score;
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

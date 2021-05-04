@@ -40,9 +40,9 @@ namespace Strive.Core.ViewModels.Employee
                 EmployeeList.EmployeeList.ChatEmployeeList = new List<ChatEmployeeList>();
                 EmployeeList = result;
 
-                MessengerTempData.ExistingParticipants = new EmployeeList();
-                MessengerTempData.ExistingParticipants.ChatEmployeeList = new List<ChatEmployeeList>();
-                MessengerTempData.ExistingParticipants = result.EmployeeList;
+                MessengerTempData.ExistingParticipants = new Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeMessengerContacts();
+                MessengerTempData.ExistingParticipants.EmployeeList = new Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList();
+                //MessengerTempData.ExistingParticipants.EmployeeList.Employee = ;
             }
         }
         public async Task UpdateGroup()
@@ -51,9 +51,9 @@ namespace Strive.Core.ViewModels.Employee
             groupChatInfo.chatGroup = null;
             groupChatInfo.chatUserGroup = new List<chatUserGroup>();
 
-            foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList)
+            foreach (var data in MessengerTempData.SelectedParticipants.EmployeeList.Employee)
             {
-                var results = MessengerTempData.ExistingParticipants.ChatEmployeeList.Find(x => x.Id == data.EmployeeId);
+                var results = MessengerTempData.ExistingParticipants.EmployeeList.Employee.Find(x => x.EmployeeId == data.EmployeeId);
                 var participants = new chatUserGroup()
                 {
                     chatGroupId = MessengerTempData.GroupID,
@@ -78,8 +78,13 @@ namespace Strive.Core.ViewModels.Employee
             }
             else
             {
-                _userDialog.Toast("Group chat created successfully");
+                _userDialog.Toast("User added successfully");
             }
+        }
+
+        public void NoParticipants()
+        {
+            _userDialog.Alert("There are no participants to add");
         }
 
         public async Task DeleteGroupUser()

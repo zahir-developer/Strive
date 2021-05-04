@@ -6,6 +6,6 @@ CREATE proc [StriveCarSalon].[uspUpdateDocumentPassword]
 @Password varchar(max))
 as
 begin
-update [StriveCarSalon].[tblDocument] set Password = @Password 
- WHERE DocumentId=@DocumentId
+update [StriveCarSalon].[tblEmployeeDocument] set Password = @Password 
+ WHERE EmployeeDocumentId=@DocumentId
 end

@@ -16,12 +16,15 @@
     [CreatedDate] DATETIMEOFFSET (7) NULL,
     [UpdatedBy]   INT                NULL,
     [UpdatedDate] DATETIMEOFFSET (7) NULL,
+    [ClockId]     INT                NULL,
     CONSTRAINT [PK_tblTimeClock] PRIMARY KEY CLUSTERED ([TimeClockId] ASC),
     CONSTRAINT [FK_tblTimeClock_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
     CONSTRAINT [FK_tblTimeClock_EventType] FOREIGN KEY ([EventType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblTimeClock_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblTimeClock_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [StriveCarSalon].[tblRoleMaster] ([RoleMasterId])
 );
+
+
 
 
 GO

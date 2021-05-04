@@ -1,5 +1,7 @@
-﻿using Strive.Core.Models.Employee;
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Employee;
 using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
@@ -23,10 +25,11 @@ namespace Strive.Core.ViewModels.Employee
 
         public async Task GetRecentContactsList()
         {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             var recentContact = await MessengerService.GetRecentContacts(EmployeeTempData.EmployeeID);
-            if(recentContact == null || recentContact.EmployeeList.ChatEmployeeList.Count == 0)
+            if(recentContact == null || recentContact.EmployeeList  == null || recentContact.EmployeeList.ChatEmployeeList == null || recentContact.EmployeeList.ChatEmployeeList.Count == 0)
             {
-                EmployeeList = null;
+                    EmployeeList = null;
             }
             else
             {
@@ -37,6 +40,7 @@ namespace Strive.Core.ViewModels.Employee
                 EmployeeList = recentContact.EmployeeList;
                 MessengerTempData.RecentEmployeeLists = recentContact.EmployeeList;
             }
+            _userDialog.HideLoading();
         }
 
         #endregion Commands

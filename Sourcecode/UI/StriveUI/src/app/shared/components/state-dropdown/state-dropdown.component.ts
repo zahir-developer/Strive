@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { StateService } from '../../services/common-service/state.service';
+import { MessageConfig } from '../../services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-state-dropdown',
@@ -8,23 +10,27 @@ import { StateService } from '../../services/common-service/state.service';
 })
 export class StateDropdownComponent implements OnInit, AfterViewChecked {
   stateList = [];
-  state = '';
   submitted: boolean;
   @Output() stateId = new EventEmitter();
-  @Input() selectedStateId: any;
+  @Input() selectedStateId?: any;
   @Input() isView: any;
-  constructor(private stateService: StateService, private cdRef: ChangeDetectorRef) { }
+  states: any;
+  state: { name: any; value: any; };
+  stateValueSelection: boolean = false;
+  constructor(private stateService: StateService, private cdRef: ChangeDetectorRef,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.submitted = false;
-    this.getstatiesList();
+    this.stateValueSelection = false;
+    this.getstatesList();
   }
   ngAfterViewChecked(){
     if (this.selectedStateId !== undefined) {
       this.cdRef.detectChanges();
     }
   }
-  getstatiesList() {
+  getstatesList() {
     this.stateService.getStatesList().subscribe(data => {
       const state = JSON.parse(data.resultData);
       this.stateList = state.Codes.map(item => {
@@ -35,15 +41,27 @@ export class StateDropdownComponent implements OnInit, AfterViewChecked {
       });
       this.setValue();
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   stateSelection(event) {
-    this.stateId.emit(event);
+    this.stateId.emit(event.value.value);
+    this.stateValueSelection =true;
   }
 
   setValue() {
     if (this.selectedStateId !== undefined) {
-      this.state = this.selectedStateId;
+      this.stateValueSelection =true;
+
+      this.stateList.map(item => {
+        if(item.value ==  this.selectedStateId){
+       this.state = {
+            name: item.name,
+            value: item.value
+          };
+        }
+       
+      });
     }
   }
 }

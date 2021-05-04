@@ -4,6 +4,12 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as _ from 'underscore';
+import { MessageConfig } from '../../services/messageConfig';
+import { ApplicationConfig } from '../../services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModelService } from '../../services/common-service/model.service';
+import { EmployeeService } from '../../services/data-service/employee.service';
+import { MakeService } from '../../services/common-service/make.service';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -30,7 +36,7 @@ export class VehicleCreateEditComponent implements OnInit {
   membership: any;
   additional: any;
   membershipServices: any = [];
-  memberService: any;
+  memberService: any = [];
   vehicles: any;
   patchedService: any;
   memberServiceId: any;
@@ -39,7 +45,14 @@ export class VehicleCreateEditComponent implements OnInit {
   extraService: any = [];
   washesDropdown: any = [];
   submitted: boolean;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService) { }
+  filteredModel: any = [];
+  filteredcolor: any = [];
+  filteredMake: any = [];
+  models: any;
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
+    private spinner: NgxSpinnerService,private employeeService: EmployeeService,
+    private modelService: ModelService,
+    private makeService: MakeService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -50,18 +63,16 @@ export class VehicleCreateEditComponent implements OnInit {
       this.vehicleForm.reset();
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
-      console.log(this.additionalService, 'data');
     }
-    console.log(this.selectedData, 'selectedData');
   }
 
   formInitialize() {
     this.vehicleForm = this.fb.group({
-      barcode: ['',Validators.required],
+      barcode: [''],
       vehicleNumber: ['',],
-      make: ['',Validators.required],
-      model: ['',Validators.required],
-      color: ['',Validators.required],
+      make: ['', Validators.required],
+      model: ['', Validators.required],
+      color: ['', Validators.required],
       upcharge: ['',],
       upchargeType: ['',],
       monthlyCharge: ['',],
@@ -69,9 +80,10 @@ export class VehicleCreateEditComponent implements OnInit {
       wash: [''],
       services: [[]]
     });
-    this.vehicleForm.controls.vehicleNumber.disable();
     this.vehicleForm.get('vehicleNumber').patchValue(this.vehicleNumber);
+    this.vehicleForm.controls.vehicleNumber.disable();
     this.getVehicleCodes();
+    this.getAllMake();
     this.getVehicleMembership();
     this.getMembershipService();
   }
@@ -80,22 +92,71 @@ export class VehicleCreateEditComponent implements OnInit {
     return this.vehicleForm.controls;
   }
 
+  dropDownSetting() {
+    this.dropdownSettings = {
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
+    };
+  }
+
   getVehicleById() {
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
       vehicleNumber: this.selectedData.VehicleNumber,
-      make: this.selectedData.VehicleMakeId,
-      model: this.selectedData.VehicleModelId,
-      color: this.selectedData.ColorId,
+      color: { id: this.selectedData.ColorId, name: this.selectedData.Color },
+      model: { id: this.selectedData.VehicleModelId, name: this.selectedData.ModelName },
+      make: { id: this.selectedData.VehicleMakeId, name: this.selectedData.VehicleMake },
       upchargeType: this.selectedData.Upcharge,
       upcharge: this.selectedData.Upcharge,
       monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2),
       membership: ''
     });
+    this.getModel(this.selectedData.VehicleMakeId)
   }
 
   viewVehicle() {
     this.vehicleForm.disable();
+  }
+
+  filterModel(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.model) {
+      const model = i;
+      if (model.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(model);
+      }
+    }
+    this.filteredModel = filtered;
+  }
+
+  filterColor(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.color) {
+      const color = i;
+      if (color.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(color);
+      }
+    }
+    this.filteredcolor = filtered;
+  }
+
+  filterMake(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const i of this.make) {
+      const make = i;
+      if (make.name.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(make);     
+      }
+    }
+    this.filteredMake = filtered;
   }
 
   getVehicleMembershipDetailsByVehicleId() {
@@ -124,21 +185,14 @@ export class VehicleCreateEditComponent implements OnInit {
               item_text: item.item_text
             };
           });
-          this.dropdownSettings = {
-            singleSelection: false,
-            defaultOpen: false,
-            idField: 'item_id',
-            textField: 'item_text',
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 1,
-            allowSearchFilter: false
-          };
+          this.dropDownSetting();
           this.vehicleForm.patchValue({
             services: this.memberService
           });
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -147,11 +201,12 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getVehicleMembership().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.membership = vehicle.Membership;
-        console.log(this.membership);
+        this.membership = vehicle.MembershipName;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -162,19 +217,12 @@ export class VehicleCreateEditComponent implements OnInit {
         item_text: item.ServiceName
       };
     });
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 2,
-      allowSearchFilter: false
-    };
+    this.dropDownSetting();
   }
 
   membershipChange(data) {
+    this.vehicleForm.get('monthlyCharge').reset();
+
     if (this.memberOnchangePatchedService.length !== 0) {
       this.memberOnchangePatchedService.forEach(element => {
         this.selectedservice = this.selectedservice.filter(i => i.ServiceId !== element.ServiceId);
@@ -182,71 +230,74 @@ export class VehicleCreateEditComponent implements OnInit {
       });
     }
     this.memberService = [];
-    // this.patchedService = [];
     this.vehicle.getMembershipById(Number(data)).subscribe(res => {
       if (res.status === 'Success') {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
-        this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-        this.vehicleForm.patchValue({
-          monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
-        });
-        if (this.membershipServices !== null) {
-          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Washes');
+        if (membership.MembershipAndServiceDetail.Membership !== null) {
+          this.vehicleForm.patchValue({
+            monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
+          });
+        }
+        if (membership.MembershipAndServiceDetail.MembershipService !== null) {
+          this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+          const washService = this.membershipServices.filter(item =>
+            item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
           if (washService.length > 0) {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+          const upchargeServcie = this.membershipServices.filter(item =>
+            item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-          if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-            this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
+          if (this.membershipServices.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) { // Additonal Services
+            this.memberOnchangePatchedService = this.membershipServices.filter(item =>
+              (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
           }
-        }
-        this.memberOnchangePatchedService.forEach(element => {
-          if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
-            this.selectedservice.push(element);
-          }
-        });
-        this.extraService.forEach(element => {
-          if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
-            this.selectedservice.push(element);
-          }
-        });
-        const serviceIds = this.selectedservice.map(item => item.ServiceId);
-        const memberService = serviceIds.map((e) => {
-          const f = this.additionalService.find(a => a.ServiceId === e);
-          return f ? f : 0;
-        });
-        this.memberService = memberService.map(item => {
-          return {
-            item_id: item.ServiceId,
-            item_text: item.ServiceName
-          };
-        });
-        this.dropdownSettings = {
-          singleSelection: false,
-          defaultOpen: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          itemsShowLimit: 2,
-          allowSearchFilter: false
-        };
-        this.vehicleForm.get('services').patchValue(this.memberService);
-        if (this.patchedService !== undefined) {
-          this.patchedService.forEach(element => {
+          this.memberOnchangePatchedService.forEach(element => {
             if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
-              element.IsDeleted = true;
+              this.selectedservice.push(element);
             }
           });
+          this.extraService.forEach(element => {
+            if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+              this.selectedservice.push(element);
+            }
+          });
+          const serviceIds = this.selectedservice.map(item => item.ServiceId);
+          const memberService = serviceIds.map((e) => {
+            const f = this.additionalService.find(a => a.ServiceId === e);
+            return f ? f : 0;
+          });
+          this.memberService = memberService.map(item => {
+            return {
+              item_id: item.ServiceId,
+              item_text: item.ServiceName
+            };
+          });
+          this.vehicleForm.get('services').patchValue(this.memberService);
+          if (this.patchedService !== undefined) {
+            this.patchedService.forEach(element => {
+              if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+                element.IsDeleted = true;
+              }
+            });
+          }
+        } else {
+          this.vehicleForm.patchValue({
+            upcharge: '',
+            upchargeType: '',
+            services: ''
+          });
         }
+        this.dropDownSetting();
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -282,31 +333,74 @@ export class VehicleCreateEditComponent implements OnInit {
       if (res.status === 'Success') {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
-        this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-        if (this.membershipServices !== null) {
-          const washService = this.membershipServices.filter(item => item.ServiceTypeName === 'Washes');
+        if (membership.MembershipAndServiceDetail.MembershipService !== null) {
+          this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
+          const washService = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
           if (washService.length > 0) {
             this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
-          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+          const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-        }
-        if (this.membershipServices.filter(i => Number(i.ServiceTypeId) === 17).length !== 0) {
-          this.memberOnchangePatchedService = this.membershipServices.filter(item => Number(item.ServiceTypeId) === 17);
-          if (this.memberOnchangePatchedService.length !== 0) {
-            this.patchedService.forEach(element => {
-              if (this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
-                this.extraService.push(element);
-              }
-            });
+          if (this.membershipServices.filter(i => (i.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) {
+            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+            if (this.memberOnchangePatchedService.length !== 0) {
+              this.patchedService.forEach(element => {
+                if (this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+                  this.extraService.push(element);
+                }
+              });
+            }
           }
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  selectedModel(event) {
+    const id = event.id;
+    if(id !== null){
+      this.getModel(id)
+    }
+  }
+
+  getModel(id){
+    this.modelService.getModelByMakeId(id).subscribe( res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelValue
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+  
+  getAllMake() {
+    this.makeService.getMake().subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        const makes = make.Make;
+        this.make = makes.map(item => {
+          return {
+            id: item.MakeId,
+            name: item.MakeValue
+          };
+        });
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -315,33 +409,70 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicle.getVehicleCodes().subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
-        this.make = vehicle.VehicleDetails.filter(item => item.CategoryId === 28);
-        this.model = vehicle.VehicleDetails.filter(item => item.CategoryId === 29);
-        this.color = vehicle.VehicleDetails.filter(item => item.CategoryId === 30);
+        this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
+      
+        this.color = this.color.map(item => {
+          return {
+            id: item.CodeId,
+            name: item.CodeValue
+          };
+        });
+       
         this.upchargeService();
-        //this.upchargeType = vehicle.VehicleDetails.filter(item => item.CategoryId === 34);
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   upchargeService() {
-    this.vehicle.getUpchargeService().subscribe(data => {
+    const serviceObj = {
+      locationId: localStorage.getItem('empLocationId'),
+      pageNo: null,
+      pageSize: null,
+      query: null,
+      sortOrder: null,
+      sortBy: null,
+      status: true
+    };
+    const locationID = localStorage.getItem('empLocationId');
+    this.vehicle.getUpchargeService(locationID).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
-        console.log(serviceDetails, 'service');
-        this.upchargeType = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceTypeId === '18');
-        this.washesDropdown = serviceDetails.ServiceSetup.filter(item => item.IsActive === true && item.ServiceType === 'Washes');
+        this.upchargeType = serviceDetails.AllServiceDetail.filter(item =>
+          item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+        this.washesDropdown = serviceDetails.AllServiceDetail.filter(item =>
+          item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   change(data) {
     this.vehicleForm.value.franchise = data;
   }
+
+  checkValue(type) {
+    if (type === 'make') {
+      if (!this.vehicleForm.value.make.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ make: '' });
+      }
+    } else if (type === 'model') {
+      if (!this.vehicleForm.value.model.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ model: '' });
+      }
+    } else if (type === 'color') {
+      if (!this.vehicleForm.value.color.hasOwnProperty('id')) {
+        this.vehicleForm.patchValue({ color: '' });
+      }
+    }
+  }
+
 
   // Add/Update Vehicle
   submit() {
@@ -377,37 +508,38 @@ export class VehicleCreateEditComponent implements OnInit {
         clientId: this.selectedData.ClientId,
         locationId: localStorage.getItem('empLocationId'),
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
-        vehicleMfr: this.vehicleForm.value.make,
-        vehicleModel: this.vehicleForm.value.model,
-        vehicleModelNo: 0,
-        vehicleYear: '',
-        vehicleColor: Number(this.vehicleForm.value.color),
+        vehicleMfr: this.vehicleForm.value.make.id,
+        vehicleModel: this.vehicleForm.value.model.id,
+        vehicleModelNo: null,
+        vehicleYear: null,
+        vehicleColor: Number(this.vehicleForm.value.color.id),
         upcharge: Number(this.vehicleForm.value.upcharge),
-        barcode: this.vehicleForm.value.barcode,
+        barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
         monthlyCharge: this.vehicleForm.value.monthlyCharge,
-        notes: '',
+        notes: null,
         isActive: true,
         isDeleted: false,
-        createdBy: 1,
+        createdBy: +localStorage.getItem('empId'),
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date()
       };
       const membership = {
-        clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
-        // clientMembershipId: this.,
+        clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+          this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
         clientVehicleId: this.selectedData.ClientVehicleId,
         locationId: localStorage.getItem('empLocationId'),
-        membershipId: this.vehicleForm.value.membership === "" ? this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
+        membershipId: this.vehicleForm.value.membership === '' ?
+          this.vehicles?.ClientVehicleMembership?.MembershipId : this.vehicleForm.value.membership,
         startDate: new Date().toLocaleDateString(),
-        endDate: new Date((new Date()).setDate((new Date).getDate() + 30)).toLocaleDateString(),
+        endDate: new Date((new Date()).setDate((new Date()).getDate() + 30)).toLocaleDateString(),
         status: true,
-        notes: '',
-        isActive: this.vehicleForm.value.membership === "" ? false : true,
-        isDeleted: this.vehicleForm.value.membership === "" ? true : false,
-        createdBy: 1,
+        notes: null,
+        isActive: this.vehicleForm.value.membership === '' ? false : true,
+        isDeleted: this.vehicleForm.value.membership === '' ? true : false,
+        createdBy: +localStorage.getItem('empId'),
         createdDate: new Date(),
-        updatedBy: 1,
+        updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date(),
         totalPrice: this.vehicleForm.value.monthlyCharge
       };
@@ -416,35 +548,60 @@ export class VehicleCreateEditComponent implements OnInit {
         membershipServices = memberService.map(item => {
           return {
             clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
-            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ? this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
+            clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
+              this.vehicles?.ClientVehicleMembership?.ClientMembershipId : 0,
             serviceId: item.ServiceId ? item.ServiceId : item.item_id,
             isActive: true,
             isDeleted: item.IsDeleted,
-            createdBy: 1,
+            createdBy: +localStorage.getItem('empId'),
             createdDate: new Date(),
-            updatedBy: 1,
+            updatedBy: +localStorage.getItem('empId'),
             updatedDate: new Date()
           };
         });
       }
-
-
+      let membershipName = '';
+      if (this.vehicleForm.value.membership !== '') {
+        const selectedMembership = this.membership.filter(item => item.MembershipId === +this.vehicleForm.value.membership);
+        if (selectedMembership.length > 0) {
+          membershipName = selectedMembership[0].MembershipName;
+        }
+      }
+      const value: any = {
+        ClientId: this.clientId,
+        ClientVehicleId: this.selectedData.ClientVehicleId,
+        VehicleNumber: this.vehicleForm.value.vehicleNumber,
+        VehicleMfr: this.vehicleForm.value.make.name,
+        VehicleModel: this.vehicleForm.value.model.name,
+        VehicleColor: this.vehicleForm.value.color.name,
+        Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
+          item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
+        Barcode: this.vehicleForm.value.barcode,
+        MembershipName: membershipName !== '' ? membershipName : 'No'
+      };
 
       const model = {
-        clientVehicleMembershipDetails: this.vehicleForm.value.membership === "" && membership.clientMembershipId === 0 ? null : membership,
+        clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
       const sourceObj = {
         clientVehicle: { clientVehicle: formObj },
         clientVehicleMembershipModel: model
       };
+      this.vehicle.vehicleValue = value;
+      this.spinner.show();
       this.vehicle.updateVehicle(sourceObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.success('Record Updated Successfully!!', 'Success!');
+          this.spinner.hide();
+          this.toastr.success(MessageConfig.Admin.Vehicle.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide()
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
       const add = {
@@ -452,57 +609,70 @@ export class VehicleCreateEditComponent implements OnInit {
         ClientId: this.clientId,
         LocationId: localStorage.getItem('empLocationId'),
         VehicleNumber: this.vehicleForm.value.vehicleNumber,
-        VehicleMfr: Number(this.vehicleForm.value.make),
-        VehicleModel: Number(this.vehicleForm.value.model),
-        VehicleColor: Number(this.vehicleForm.value.color),
+        VehicleMfr: Number(this.vehicleForm.value.make.id),
+        VehicleModel: Number(this.vehicleForm.value.model.id),
+        VehicleColor: Number(this.vehicleForm.value.color.id),
         Upcharge: Number(this.vehicleForm.value.upcharge),
-        Barcode: this.vehicleForm.value.barcode,
-        VehicleModelNo: 0,
-        VehicleYear: "",
-        Notes: "",
+        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
+        VehicleModelNo: null,
+        VehicleYear: null,
+        Notes: null,
         IsActive: true,
         IsDeleted: false,
-        CreatedBy: 1,
+        CreatedBy: +localStorage.getItem('empId'),
         CreatedDate: new Date(),
-        UpdatedBy: 1,
+        UpdatedBy: +localStorage.getItem('empId'),
         UpdatedDate: new Date()
       };
       const value = {
-        ClientVehicleId: this.isAdd ? 0 : this.clientId,
+        ClientId: this.isAdd ? 0 : this.clientId,
         VehicleNumber: this.vehicleForm.value.vehicleNumber,
-        VehicleMfr: this.make !== null ? this.make.filter(item => item.CodeId === Number(this.vehicleForm.value.make))[0].CodeValue : 0,
-        VehicleModel: this.model !== null ? this.model.filter(item => item.CodeId === Number(this.vehicleForm.value.model))[0].CodeValue : 0,
-        VehicleColor: this.color !== null ? this.color.filter(item => item.CodeId === Number(this.vehicleForm.value.color))[0].CodeValue : 0,
+        VehicleMfr: this.vehicleForm.value.make.name,
+        VehicleModel: this.vehicleForm.value.model.name,
+        VehicleColor: this.vehicleForm.value.color.name,
+        MembershipName: 'NO',
         Upcharge: this.upchargeType !== null ? this.upchargeType.filter(item =>
           item.ServiceId === Number(this.vehicleForm.value.upcharge))[0]?.Upcharges : 0,
-        Barcode: this.vehicleForm.value.barcode,
+        Barcode: this.vehicleForm.value.barcode !== '' ? this.vehicleForm.value.barcode : 'None/UNK',
       };
       const formObj = {
-        clientVehicle: [add]
+        clientVehicle: add,
+        vehicleImage: []
       };
       if (this.isAdd === true) {
+        this.spinner.show();
         this.vehicle.saveVehicle(formObj).subscribe(data => {
           if (data.status === 'Success') {
-            this.toastr.success('Vehicle Added Successfully!!', 'Success!');
+            this.spinner.hide();
+            this.toastr.success(MessageConfig.Admin.Vehicle.Add, 'Success!');
             this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
           } else {
-            this.toastr.error('Communication Error', 'Error!');
+            this.spinner.hide();
+            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           }
+        }, (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         });
       } else {
         this.vehicle.addVehicle = add;
         this.vehicle.vehicleValue = value;
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.toastr.success('Vehicle Saved Successfully!!', 'Success!');
+        this.toastr.success(MessageConfig.Admin.Vehicle.Save, 'Success!');
       }
     }
   }
+
+  onAllItemSelect(event) {
+    console.log(event, 'event');
+  }
+
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   upchargeTypeChange(event, value) {
-    console.log(event.target.value, value);
-    const upchargeServcie = this.membershipServices.filter(item => item.ServiceTypeName === 'Upcharges');
+    const upchargeServcie = this.membershipServices.filter(item =>
+      item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
     let oldPrice = 0;
     let newPrice = 0;
     if (upchargeServcie.length > 0) {

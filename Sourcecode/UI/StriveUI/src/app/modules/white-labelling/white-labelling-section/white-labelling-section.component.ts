@@ -5,6 +5,8 @@ import { WhiteLabelService } from 'src/app/shared/services/data-service/white-la
 import { LogoService } from 'src/app/shared/services/common-service/logo.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-white-labelling-section',
@@ -38,6 +40,7 @@ export class WhiteLabellingSectionComponent implements OnInit {
     private toastr: ToastrService,
     private logoService: LogoService,
     private ngxService: NgxSpinnerService
+    ,private landingservice:LandingService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +55,9 @@ export class WhiteLabellingSectionComponent implements OnInit {
     this.fontName = 'Open Sans';
     this.getAllWhiteLabelDetail();
   }
-
+  landing(){
+    this.landingservice.loadTheLandingPage()
+  }
   themeChange(theme) {
     this.msgType = 'Theme';
     if (theme.ThemeName === 'Custom') {
@@ -103,7 +108,6 @@ export class WhiteLabellingSectionComponent implements OnInit {
 
   closeColorPopup() {
     this.showDialog = false;
-    // this.getAllWhiteLabelDetail();
   }
 
   fontChange(style) {
@@ -141,11 +145,13 @@ export class WhiteLabellingSectionComponent implements OnInit {
           this.fileName = label.WhiteLabelling.WhiteLabel?.LogoPath;
         }
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   CancelChanges() {
-    this.toastr.success(this.msgType + ' Reset Successfully!!', 'Success!');
+    this.toastr.success(this.msgType + MessageConfig.Reset, 'Success!');
     this.getAllWhiteLabelDetail();
   }
 
@@ -192,7 +198,6 @@ export class WhiteLabellingSectionComponent implements OnInit {
     const uploadObj = {
       whiteLabel: {
         whiteLabelId: this.whiteLabelId ? this.whiteLabelId : 0,
-        // logoPath: this.logoPath !== '' ? this.logoPath : null,
         fileName: this.fileName ? this.fileName : this.logoPath, // LogoPath if image already uploaded
         thumbFileName: null,
         base64: selectedLogo ? selectedLogo : '', // empty string if update
@@ -211,13 +216,14 @@ export class WhiteLabellingSectionComponent implements OnInit {
     this.whiteLabelService.updateWhiteLabelDetail(uploadObj).subscribe(data => {
       this.ngxService.hide();
       if (data.status === 'Success') {
-        this.toastr.success(this.msgType + ' Saved successfully!', 'Success!');
+        this.toastr.success(this.msgType + MessageConfig.save, 'Success!');
         this.getAllWhiteLabelDetail();
       } else {
         this.ngxService.hide();
       }
     }, (err) => {
       this.ngxService.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

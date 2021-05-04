@@ -11,10 +11,10 @@ namespace Strive.Core.Models.TimInventory
         public string vehicleNumber { get; set; }
         public int vehicleMfr { get; set; }
         public int vehicleModel { get; set; }
-        public int vehicleModelNo { get; set; }
+        public int? vehicleModelNo { get; set; }
         public string vehicleYear { get; set; }
         public int vehicleColor { get; set; }
-        public int upcharge { get; set; }
+        public int? upcharge { get; set; }
         public string barcode { get; set; }
         public string notes { get; set; }
         public bool isActive { get; set; }
@@ -53,8 +53,8 @@ namespace Strive.Core.Models.TimInventory
     {
         public int clientVehicleMembershipServiceId { get; set; }
         public int clientMembershipId { get; set; }
-        public int serviceId { get; set; }
-        public int serviceTypeId { get; set; }
+        public int? serviceId { get; set; }
+        public int? serviceTypeId { get; set; }
         public bool isActive { get; set; }
         public bool isDeleted { get; set; }
         public int createdBy { get; set; }

@@ -10,13 +10,14 @@
     [VendorId]            INT                NULL,
     [Size]                INT                NULL,
     [SizeDescription]     VARCHAR (10)       NULL,
-    [Quantity]            SMALLINT           NULL,
+    [Quantity]            DECIMAL (18, 2)    NULL,
     [QuantityDescription] VARCHAR (10)       NULL,
     [Cost]                DECIMAL (19, 4)    NULL,
     [Price]               DECIMAL (19, 4)    NULL,
     [IsTaxable]           BIT                NULL,
     [TaxAmount]           DECIMAL (19, 4)    NULL,
     [ThresholdLimit]      INT                NULL,
+    [OriginalFileName]    VARCHAR (150)      NULL,
     [IsActive]            BIT                NULL,
     [IsDeleted]           BIT                NULL,
     [CreatedBy]           INT                NULL,
@@ -29,4 +30,10 @@
     CONSTRAINT [FK_tblProduct_Size] FOREIGN KEY ([Size]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblProduct_VendorId] FOREIGN KEY ([VendorId]) REFERENCES [StriveCarSalon].[tblVendor] ([VendorId])
 );
+
+
+
+
+
+
 

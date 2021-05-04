@@ -12,3 +12,5 @@ ALTER ROLE [db_ddladmin] ADD MEMBER [StriveSuperAdminTestuser];
 GO
 ALTER ROLE [db_ddladmin] ADD MEMBER [StriveDevUser];
 
+
+

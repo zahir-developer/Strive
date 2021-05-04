@@ -1,4 +1,6 @@
-﻿using Strive.Core.Models.Employee.Messenger;
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
@@ -20,8 +22,9 @@ namespace Strive.Core.ViewModels.Employee
 
         public async Task GetGroupsList()
         {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             var recentContact = await MessengerService.GetRecentContacts(EmployeeTempData.EmployeeID);
-            if (recentContact == null || recentContact.EmployeeList.ChatEmployeeList.Count == 0)
+            if (recentContact == null || recentContact.EmployeeList == null || recentContact.EmployeeList.ChatEmployeeList == null || recentContact.EmployeeList.ChatEmployeeList.Count == 0)
             {
                 GroupList = null;
             }
@@ -41,6 +44,7 @@ namespace Strive.Core.ViewModels.Employee
                     }
                 }
             }
+            _userDialog.HideLoading();
         }
 
         #endregion Commands

@@ -40,5 +40,20 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
 
+
+        [Column]
+        public DateTime? StoreTimeIn { get; set; }
+
+
+        [Column]
+        public DateTime? StoreTimeOut { get; set; }
+
+
+        [Column]
+        public int? StoreOpenCloseStatus { get; set; }
+
+        [Column]
+        public decimal? Tips { get; set; }
+
     }
 }

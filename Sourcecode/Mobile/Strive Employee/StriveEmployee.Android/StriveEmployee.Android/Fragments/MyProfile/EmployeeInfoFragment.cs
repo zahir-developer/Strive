@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
 
 namespace StriveEmployee.Android.Fragments.MyProfile
@@ -20,9 +21,9 @@ namespace StriveEmployee.Android.Fragments.MyProfile
     public class EmployeeInfoFragment : MvxFragment<EmployeeInfoViewModel>
     {
         private ImageButton personalDetailEdit_ImageButton;
-        private ImageButton personalDetailDelete_ImageButton;
+
         private ImageButton employeeDetailEdit_ImageButton;
-        private ImageButton employeeDetailDelete_ImageButton;
+
         private TextView FirstName_TextView;
         private TextView LastName_TextView;
         private TextView Gender_TextView;
@@ -31,7 +32,6 @@ namespace StriveEmployee.Android.Fragments.MyProfile
         private TextView Immigration_TextView;
         private TextView Address_TextView;
         private TextView LoginID_TextView;
-        private TextView Password_TextView;
         private TextView DOH_TextView;
         private TextView Status_TextView;
         private TextView Exemptions_TextVIew;
@@ -51,11 +51,6 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             this.ViewModel = new EmployeeInfoViewModel();
             GetEmployeeDetails();
 
-            personalDetailEdit_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.PersonalEdit_ImageButton);
-            personalDetailDelete_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.personalDelete_ImageButton);
-            employeeDetailEdit_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.employeeEdit_ImageButton);
-            employeeDetailDelete_ImageButton = rootView.FindViewById<ImageButton>(Resource.Id.employeeDelete_ImageButton);
-
             FirstName_TextView = rootView.FindViewById<TextView>(Resource.Id.employeeFirstName_TextView);
             LastName_TextView = rootView.FindViewById<TextView>(Resource.Id.employeeLastName_TextView);
             Gender_TextView = rootView.FindViewById<TextView>(Resource.Id.gender_TextView);
@@ -64,55 +59,57 @@ namespace StriveEmployee.Android.Fragments.MyProfile
             Immigration_TextView = rootView.FindViewById<TextView>(Resource.Id.immigration_TextView);
             Address_TextView = rootView.FindViewById<TextView>(Resource.Id.address_TextView);
             LoginID_TextView = rootView.FindViewById<TextView>(Resource.Id.loginID_TextView);
-            Password_TextView = rootView.FindViewById<TextView>(Resource.Id.password_TextView);
             DOH_TextView = rootView.FindViewById<TextView>(Resource.Id.DOH_TextView);
             Status_TextView = rootView.FindViewById<TextView>(Resource.Id.status_TextView);
             Exemptions_TextVIew = rootView.FindViewById<TextView>(Resource.Id.exemptions_TextVIew);
 
-            personalDetailEdit_ImageButton.Click += PersonalDetailEdit_ImageButton_Click; ;
-            personalDetailDelete_ImageButton.Click += PersonalDetailDelete_ImageButton_Click; ;
-            employeeDetailEdit_ImageButton.Click += EmployeeDetailEdit_ImageButton_Click; ;
-            employeeDetailDelete_ImageButton.Click += EmployeeDetailDelete_ImageButton_Click; ;
-
-           
-           
             return rootView;
         }
 
-        private void EmployeeDetailDelete_ImageButton_Click(object sender, EventArgs e)
+        private void FillEmployeeDetails()
         {
-            
-        }
-
-        private void EmployeeDetailEdit_ImageButton_Click(object sender, EventArgs e)
-        {
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            employeeDetails_Fragment = new EditEmployeeDetailFragment();
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, employeeDetails_Fragment).Commit();
-        }
-
-        private void PersonalDetailDelete_ImageButton_Click(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void PersonalDetailEdit_ImageButton_Click(object sender, EventArgs e)
-        {
-            AppCompatActivity activity = (AppCompatActivity)this.Context;
-            personalDetails_Fragment = new EditPersonalDetailsFragment();
-            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, personalDetails_Fragment).Commit();
+            EmployeePersonalDetails.FirstName = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
+            EmployeePersonalDetails.LastName = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
+            EmployeePersonalDetails.GenderCodeID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender;
+            EmployeePersonalDetails.ContactNumber = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.PhoneNumber;
+            EmployeePersonalDetails.SSN = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.SSNo;
+            EmployeePersonalDetails.ImmigrationCodeID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.ImmigrationStatus;
+            EmployeePersonalDetails.Address = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Address1;
+            EmployeeLoginDetails.LoginID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
+            EmployeeLoginDetails.DateofHire = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.HiredDate;
+            EmployeePersonalDetails.AddressID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.EmployeeAddressId;
+            EmployeeLoginDetails.DetailID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.EmployeeDetailId;
+            EmployeeLoginDetails.WashRate = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.WashRate;
+            EmployeeLoginDetails.AuthID = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.AuthId;
+            EmployeeLoginDetails.Exemptions = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Exemptions.ToString();
         }
         private async void GetEmployeeDetails()
         {
+            await this.ViewModel.GetGender();
+            await this.ViewModel.GetImmigrationStatus();
             await this.ViewModel.GetPersonalEmployeeInfo();
-            if(this.ViewModel.PersonalDetails.Employee != null)
+            if((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
+                || this.ViewModel.PersonalDetails.Employee.EmployeeDocument != null || this.ViewModel.PersonalDetails.Employee.EmployeeLocations != null || this.ViewModel.PersonalDetails.Employee.EmployeeRoles != null)
             {
+                FillEmployeeDetails();
                 FirstName_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
                 LastName_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
-                Gender_TextView.Text = "";
+                if(this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != null)
+                {
+                    Gender_TextView.Text = this.ViewModel.gender.Codes.Find(x => x.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
+                }
+                
                 ContactNo_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.PhoneNumber;
                 SSN_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.SSNo;
-                Immigration_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.ImmigrationStatus.ToString();
+
+                foreach(var data in this.ViewModel.ImmigrationStatus.Codes)
+                {
+                    if(data.CodeId == this.ViewModel.PersonalDetails.Employee.EmployeeInfo.ImmigrationStatus)
+                    {
+                        Immigration_TextView.Text = data.CodeValue;
+                    }
+                }
+                
                 Address_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Address1;
                 LoginID_TextView.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Email;
 
@@ -128,6 +125,7 @@ namespace StriveEmployee.Android.Fragments.MyProfile
                 }
                 Exemptions_TextVIew.Text = this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Exemptions.ToString();
             }
+            
         }
 
     }

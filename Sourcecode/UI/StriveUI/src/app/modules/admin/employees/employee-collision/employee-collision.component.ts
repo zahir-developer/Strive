@@ -6,6 +6,11 @@ import * as moment from 'moment';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'underscore';
+import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { WashService } from 'src/app/shared/services/data-service/wash.service';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-employee-collision',
@@ -19,7 +24,10 @@ export class EmployeeCollisionComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private getCode: GetCodeService,
+    private wash: WashService,
+    private toastr: ToastrService
   ) { }
   @Input() public employeeId?: any;
   @Input() public collisionId?: any;
@@ -33,16 +41,19 @@ export class EmployeeCollisionComponent implements OnInit {
   filteredClient: any = [];
   vehicleList: any = [];
   liabilityDetail: any;
+  liabilityTypeId: any;
+  liabilityDetailTypeId: any;
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
       dateOfCollision: ['', Validators.required],
       amount: ['', Validators.required],
       reason: ['', Validators.required],
-      client: [''],
-      vehicle: ['']
+      client: ['', Validators.required],
+      vehicle: ['', Validators.required]
     });
-    this.getAllClient();
+    this.getLiabilityType();
+    this.getLiabilityDetailType();
     this.getAllModel();
     this.getAllMake();
     this.getAllColor();
@@ -58,10 +69,10 @@ export class EmployeeCollisionComponent implements OnInit {
   getCollisionDetail() {
     this.spinner.show();
     this.employeeService.getDetailCollision(this.collisionId).subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const employeesCollison = JSON.parse(res.resultData);
-        console.log(employeesCollison.Collision);
         if (employeesCollison.Collision) {
           const detail = employeesCollison.Collision.Liability[0];
           this.collisionDetail = detail;
@@ -69,22 +80,56 @@ export class EmployeeCollisionComponent implements OnInit {
           this.setValue(detail);
         }
       }
+      else{
+        this.spinner.hide();
+
+      }
+    }, (err) => {
+      this.spinner.hide();
+
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   setValue(detail) {
-    const clientName = _.where(this.clientList, { id: detail.ClientId });
-    if (clientName.length > 0) {
-      this.selectedClient(clientName[0]);
-      this.collisionForm.patchValue({
-        client: clientName[0]
-      });
-    }
+    // const clientName = _.where(this.clientList, { id: detail.ClientId });
+    // if (clientName.length > 0) {
+    //   this.selectedClient(clientName[0]);
+    //   this.collisionForm.patchValue({
+    //     client: clientName[0]
+    //   });
+    // }
+    const clientName = detail.ClientFirstName + '' + detail.ClientLastName;
     this.collisionForm.patchValue({
       dateOfCollision: moment(detail.CreatedDate).toDate(),
       amount: this.liabilityDetail.Amount.toFixed(2),
       reason: this.liabilityDetail.Description,
-      vehicle: detail.VehicleId
+      client: { id: detail.ClientId , name: clientName }
+    });
+    this.selectedClient(detail.ClientId);
+  }
+
+  getLiabilityType() {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.liablityType).subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.liabilityTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Collision)[0].CodeId;
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+  getLiabilityDetailType() {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.LiablityDetailType).subscribe(data => {
+      if (data.status === 'Success') {
+        const dType = JSON.parse(data.resultData);
+        this.liabilityDetailTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.adjustment)[0].CodeId;
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -92,8 +137,13 @@ export class EmployeeCollisionComponent implements OnInit {
     return this.collisionForm.controls;
   }
 
+  onKeyUp(event) {
+    if (event.target.value === '') {
+      this.collisionForm.patchValue({ vehicle: '' });
+    }
+  }
+
   saveCollision() {
-    console.log(this.collisionForm);
     this.submitted = true;
     if (this.collisionForm.invalid) {
       return;
@@ -101,33 +151,33 @@ export class EmployeeCollisionComponent implements OnInit {
     const liabilityDetailObj = {
       liabilityDetailId: this.mode === 'edit' ? this.liabilityDetail.LiabilityDetailId : 0,
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
-      liabilityDetailType: 1,
+      liabilityDetailType: this.liabilityDetailTypeId,
       amount: +this.collisionForm.value.amount,
       paymentType: 1,
-      documentPath: 'string',
+      documentPath: null, 
       description: this.collisionForm.value.reason,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
-      createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      createdBy: +localStorage.getItem('empId'),
+      createdDate: this.collisionForm.value.dateOfCollision,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const liabilityObj = {
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
       employeeId: this.employeeId,
-      liabilityType: 103,
+      liabilityType: this.liabilityTypeId,
       liabilityDescription: this.collisionForm.value.reason,
-      productId: 2,
+      productId: null, 
       totalAmount: +this.collisionForm.value.amount,
-      status: 0,
+      status: 0, 
       isActive: true,
       isDeleted: false,
       vehicleId: this.collisionForm.value.vehicle,
       clientId: this.collisionForm.value.client.id,
-      createdBy: 0,
-      createdDate: this.collisionForm.value.dateOfCollision,//moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      createdBy: +localStorage.getItem('empId'),
+      createdDate: this.collisionForm.value.dateOfCollision,
+      updatedBy: +localStorage.getItem('empId'),
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const finalObj = {
@@ -137,24 +187,36 @@ export class EmployeeCollisionComponent implements OnInit {
     if (this.mode === 'create') {
       this.spinner.show();
       this.employeeService.saveCollision(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Added Successfully!' });
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Collision.Add, 'Success!');
           this.activeModal.close(true);
         } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     } else {
       this.spinner.show();
       this.employeeService.updateCollision(finalObj).subscribe(res => {
-        this.spinner.hide();
         if (res.status === 'Success') {
-          this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Employee Collision Updated Successfully!' });
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Collision.Update, 'Success!');
           this.activeModal.close(true);
         } else {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        this.spinner.hide();
       });
     }
   }
@@ -166,7 +228,6 @@ export class EmployeeCollisionComponent implements OnInit {
         client.Client.forEach(item => {
           item.fullName = item.FirstName + ' ' + item.LastName;
         });
-        console.log(client, 'client');
         this.clientList = client.Client.map(item => {
           return {
             id: item.ClientId,
@@ -174,28 +235,45 @@ export class EmployeeCollisionComponent implements OnInit {
           };
         });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   filterClient(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.clientList) {
-      const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        filtered.push(client);
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }
-    this.filteredClient = filtered;
+    });
+  
   }
 
-  selectedClient(event) {
-    const clientId = event.id;
+  selectedClient(clientId) {
     this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.vehicleList = vehicle.Status;
+        if (this.vehicleList.length !== 0) {
+          this.collisionForm.patchValue({ vehicle: this.vehicleList[0].VehicleId });
+        }
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -205,6 +283,9 @@ export class EmployeeCollisionComponent implements OnInit {
         const make = JSON.parse(res.resultData);
         this.makeDropdownList = make.Codes;
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -214,6 +295,8 @@ export class EmployeeCollisionComponent implements OnInit {
         const model = JSON.parse(res.resultData);
         this.modelDropdownList = model.Codes;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -223,6 +306,9 @@ export class EmployeeCollisionComponent implements OnInit {
         const color = JSON.parse(res.resultData);
         this.colorDropdownList = color.Codes;
       }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

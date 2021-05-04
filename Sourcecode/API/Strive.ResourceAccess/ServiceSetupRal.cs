@@ -1,5 +1,6 @@
 ﻿using Strive.BusinessEntities;
 using Strive.BusinessEntities.Code;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel;
@@ -14,9 +15,9 @@ namespace Strive.ResourceAccess
     {
         public ServiceSetupRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddService(Service service)
+        public bool AddService(ServiceDto service)
         {
-            return dbRepo.Insert(service);
+            return dbRepo.InsertPc(service,"ServiceId");
         }
 
         public bool UpdateService(Service service)
@@ -29,15 +30,25 @@ namespace Strive.ResourceAccess
             return new CommonRal(_tenant).GetCodeByCategory(GlobalCodes.SERVICETYPE);
         }
 
-        public List<ServiceViewModel> GetAllServiceSetup()
+        public ServiceListViewModel GetAllServiceSetup(SearchDto searchDto)
         {
-            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+
+            _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@Status", searchDto.Status);
+            var result= db.FetchMultiResult<ServiceListViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            return result;
         }
 
         public ServiceViewModel GetServiceSetupById(int id)
         {
             _prm.Add("@ServiceId", id);
-            return db.FetchSingle<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            var result = db.FetchSingle<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            return result;
         }
 
         public bool DeleteServiceById(int id)
@@ -46,19 +57,12 @@ namespace Strive.ResourceAccess
             db.Save(SPEnum.USPDELETESERVICEBYID.ToString(), _prm);
             return true;
         }
-        public List<ServiceViewModel> GetServiceSearch(ServiceSearchDto search)
+       
+        public List<ServiceDetailViewModel> GetAllServiceDetail(int locationId)
         {
-            _prm.Add("@ServiceSearch", search.ServiceSearch);
-            if (search.Status < 2)
-            {
-                _prm.Add("@Status", search.Status);
-            }
-            return db.Fetch<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
-        }
-        public List<ServiceCategoryViewModel> GetServiceCategoryByLocationId(int id)
-        {
-            _prm.Add("@LocationId",id);
-            return db.Fetch<ServiceCategoryViewModel>(SPEnum.USPGETSERVICECATEGORYBYLOCATIONID.ToString(), _prm);
+
+            _prm.Add("@locationId", locationId);
+            return db.Fetch<ServiceDetailViewModel>(SPEnum.USPGETALLSERVICEDETAIL.ToString(), _prm);
         }
 
         public List<ServiceItem> GetServicesWithPrice()

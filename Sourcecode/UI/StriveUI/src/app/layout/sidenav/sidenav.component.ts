@@ -15,9 +15,9 @@ export class SidenavComponent implements OnInit {
 
   logoBase64: any;
   isLoggedIn$: Observable<boolean>;
-  viewName: string ;
-  rollName: string ;
-  RolePermission :any ;
+  viewName: string;
+  rollName: string;
+  RolePermission: any;
   ModuleName: string;
   salesModule: boolean = false
   adminModule: boolean = false
@@ -47,307 +47,178 @@ export class SidenavComponent implements OnInit {
   monthlyMoneyOwnedView: boolean = false
   monthlyCustomerDetailView: boolean = false
   hourlyWashReportView: boolean = false
-  roles  = [];
+  customerHistoryView: boolean = false
+  customerView: boolean = false
+
+  roles = [];
   newRolePermission: string;
-  @Input() localStorageUpdation: string  = 'localStorageUpdation';
-localStorageupdate: boolean = false;
+  @Input() localStorageUpdation: string = 'localStorageUpdation';
+  localStorageupdate: boolean = false;
   logoName: any;
   customerModule: boolean;
 
   constructor(private user: UserDataService, private authService: AuthService, private logoService: LogoService) { }
 
   ngOnInit(): void {
-   this.roles  = [];
+    this.roles = [];
 
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.getLogo();
 
-this.user.navName.subscribe((data = []) => {
-  this.roles = [];
-  this.salesModule = false
-  this.adminModule = false
-  this.detailModule = false
-  this.washModule =  false
-  this.dashBoardModule = false
-  this.systemSetupView = false
-  this.giftCardsView = false
-  this.SchedulesView = false
-  this.vechiclesView = false
-  this.employeesView = false
-  this.clientsView = false
-  this.cashRegisterSetupView = false
-  this.closeOutRegisterView = false
-  this.timeClockMaintenanceView = false
-  this.reportModule = false
-  this.whiteLabellingModule = false
-  this.payRollModule = false
-  this.checkOutModule = false
-  this.messengerModule= false
-  this.dailyStatusView = false
-  this.eodReportView = false
-  this.dailyTipReportView = false
-  this.monthlyTipView = false
-  this.monthlySalesView = false
-  this.monthlyCustomerSummaryView = false
-  this.monthlyMoneyOwnedView= false
-  this.monthlyCustomerDetailView = false
-  this.hourlyWashReportView = false
-  this.localStorageUpdation = 'localStorageUpdation'
-  setTimeout(() => {
-
-  if(data){
-   const newparsedData =  JSON.parse(data);
-    for (let i = 0; i < newparsedData?.length ; i++){
-    const viewName = newparsedData[i].ViewName;
-      const rollName = newparsedData[i].RollName;
-     const ModuleName = newparsedData[i].ModuleName;
-     this.localStorageUpdation = 'localStorageUpdation1';
-            // Sales Module        
-      if(ModuleName === "Sales"){
-         this.salesModule = true;
+    this.user.navName.subscribe((data = []) => {
+      this.roles = [];
+      this.localStorageUpdation = 'localStorageUpdation'
+      if (data) {
+        const newparsedData = JSON.parse(data);
+        for (let i = 0; i < newparsedData?.length; i++) {
+          const viewName = newparsedData[i].ViewName;
+          const rollName = newparsedData[i].RollName;
+          const ModuleName = newparsedData[i].ModuleName;
+          this.localStorageUpdation = 'localStorageUpdation1';
+          this.routingNav(ModuleName, viewName);
+        }
       }
-            //Admin Module
-      if(ModuleName === "Admin"){
-        this.adminModule = true;
-        // Admin Module View Setup
-        if(viewName === 'SystemSetup'){
-          this.systemSetupView = true;
+      else {
+        const localData = localStorage.getItem('navName');
+        const paersedLocalData = JSON.parse(localData);
+        for (let i = 0; i < paersedLocalData?.length; i++) {
+          const viewNameLocal = paersedLocalData[i].ViewName;
+          this.rollName = paersedLocalData[i].RollName;
+          const ModuleNameLocal = paersedLocalData[i].ModuleName;
+          this.localStorageUpdation = 'localStorageUpdation1'
+          this.routingNav(ModuleNameLocal, viewNameLocal);
+        }
       }
-      if(viewName === 'GiftCards'){
-       this.giftCardsView = true;
-      }
-      if(viewName === 'Schedules'){
-       this.SchedulesView = true;
-      }
-      if(viewName === 'Vehicles'){
-       this.vechiclesView = true;
-      }
-      if(viewName === 'Clients'){
-       this.clientsView = true;
-      }
-      if(viewName === 'Employees'){
-       this.employeesView = true;
-      }
-      if(viewName === 'TimeClockMaintenance'){
-       this.timeClockMaintenanceView = true;
-      }
-      if(viewName === 'CloseOutRegister'){
-       this.closeOutRegisterView = true;
-      }
-      if(viewName === 'CashRegisterSetup'){
-       this.cashRegisterSetupView = true;
-      }
-                }
-            //Detail Module
-       if(ModuleName === "Detail"){
-           this.detailModule = true;
-                  }
-          // Wash Module
-        if(ModuleName === "Washes"){
-            this.washModule = true;
-           }
-           //DashBoard Module
-           if(ModuleName === "Dashboard"){
-            this.dashBoardModule = true;
-           }
-            //Report Module
-            if(ModuleName === "Report"){
-              this.reportModule = true;
-
-               //Report Module view setup
-
-              if(viewName === 'DailyStatusScreen'){
-                this.dailyStatusView = true;
-            }
-            if(viewName === 'EODReport'){
-             this.eodReportView = true;
-            }
-            if(viewName === 'DailyTipreport'){
-             this.dailyTipReportView = true;
-            }
-            if(viewName === 'MonthlyTipreport'){
-             this.monthlyTipView = true;
-            }
-            if(viewName === 'MonthlySalesReport'){
-             this.monthlySalesView = true;
-            }
-            if(viewName === 'MonthlyCustomerSummaryReport'){
-             this.monthlyCustomerSummaryView = true;
-            }
-            if(viewName === 'MonthlyMoneyOwedReport'){
-             this.monthlyMoneyOwnedView = true;
-            }
-            if(viewName === 'MonthlyCustomerDetailReport'){
-             this.monthlyCustomerDetailView = true;
-            }
-            if(viewName === 'HourlyWashreport'){
-             this.hourlyWashReportView = true;
-            }
-            if(viewName === 'DailySalesreport'){
-              this.dailyTipReportView = true;
-             }
-             }
-            // White Labelling
-            if(ModuleName === "WhiteLabelling"){
-                this.whiteLabellingModule = true;
-               }
-              // PayRoll
-              if(ModuleName === "PayRoll"){
-                this.payRollModule = true;
-               }
-                // Customer
-                if(ModuleName === "Customer"){
-                  this.customerModule = true;
-                }  
-               //Checkout
-               if(ModuleName === "Checkout"){
-                this.checkOutModule = true;
-               }
-               //Messenger
-               if(ModuleName === "Messenger"){
-                this.messengerModule = true;
-               }
-  }   
-  
+    });
   }
 
+  routingNav(ModuleNameLocal, viewNameLocal) {
+    // Sales Module        
+    if (ModuleNameLocal === "Sales") {
+      this.salesModule = true;
+    }
+    //Admin Module
+    if (ModuleNameLocal === "Admin") {
+      this.adminModule = true;
+      // Admin Module View Setup
+      if (viewNameLocal === 'SystemSetup') {
+        this.systemSetupView = true;
+      }
+      else if (viewNameLocal === 'GiftCards') {
+        this.giftCardsView = true;
+      }
+      else if (viewNameLocal === 'Schedules') {
+        this.SchedulesView = true;
+      }
+      else if (viewNameLocal === 'Vehicles') {
+        this.vechiclesView = true;
+      }
+      else if (viewNameLocal === 'Clients') {
+        this.clientsView = true;
+      }
+      else if (viewNameLocal === 'Employees') {
+        this.employeesView = true;
+      }
+      else if (viewNameLocal === 'TimeClockMaintenance') {
+        this.timeClockMaintenanceView = true;
+      }
+      else if (viewNameLocal === 'CloseOutRegister') {
+        this.closeOutRegisterView = true;
+      }
+      else if (viewNameLocal === 'CashRegisterSetup') {
+        this.cashRegisterSetupView = true;
+      }
+    }
+    //Detail Module
+    if (ModuleNameLocal === "Detail") {
+      this.detailModule = true;
+    }
+    // Wash Module
+    else if (ModuleNameLocal === "Washes") {
+      this.washModule = true;
+    }
+    //DashBoard Module
+    else if (ModuleNameLocal === "Dashboard") {
+      this.dashBoardModule = true;
+    }
+    // Customer
+    else if (ModuleNameLocal === "Customer") {
+      this.customerModule = true;
+    }
+    //Report Module
+    if (ModuleNameLocal === "Report") {
+      this.reportModule = true;
+      //Report Module view setup
+      if (viewNameLocal === 'DailyStatusScreen') {
+        this.dailyStatusView = true;
+      }
+      else if (viewNameLocal === 'EODReport') {
+        this.eodReportView = true;
+      }
+      else if (viewNameLocal === 'DailyTipreport') {
+        this.dailyTipReportView = true;
+      }
+      else if (viewNameLocal === 'MonthlyTipreport') {
+        this.monthlyTipView = true;
+      }
+      else if (viewNameLocal === 'MonthlySalesReport') {
+        this.monthlySalesView = true;
+      }
+      else if (viewNameLocal === 'MonthlyCustomerSummaryReport') {
+        this.monthlyCustomerSummaryView = true;
+      }
+      else if (viewNameLocal === 'MonthlyMoneyOwedReport') {
+        this.monthlyMoneyOwnedView = true;
+      }
+      else if (viewNameLocal === 'MonthlyCustomerDetailReport') {
+        this.monthlyCustomerDetailView = true;
+      }
+      else if (viewNameLocal === 'HourlyWashreport') {
+        this.hourlyWashReportView = true;
+      }
+      else if (viewNameLocal === 'DailySalesreport') {
+        this.dailyTipReportView = true;
+      }
+    }
+    // White Labelling
+    if (ModuleNameLocal === "WhiteLabelling") {
+      this.whiteLabellingModule = true;
+    }
+    // PayRoll
+    if (ModuleNameLocal === "PayRoll") {
+      this.payRollModule = true;
+    }
 
-  else{
-   const localData = localStorage.getItem('navName')
-    const paersedLocalData =  JSON.parse(localData);
-    for (let i = 0; i < paersedLocalData.length ; i++){
-      const viewNameLocal = paersedLocalData[i].ViewName;
-      this.rollName = paersedLocalData[i].RollName;
-     const ModuleNameLocal = paersedLocalData[i].ModuleName;
-     this.localStorageUpdation = 'localStorageUpdation1'
- 
-            // Sales Module        
-      if(ModuleNameLocal === "Sales"){
-         this.salesModule = true;
-      }
-            //Admin Module
-      if(ModuleNameLocal === "Admin"){
-        this.adminModule = true;
-        // Admin Module View Setup
-        if(viewNameLocal === 'SystemSetup'){
-          this.systemSetupView = true;
-      }
-      if(viewNameLocal === 'GiftCards'){
-       this.giftCardsView = true;
-      }
-      if(viewNameLocal === 'Schedules'){
-       this.SchedulesView = true;
-      }
-      if(viewNameLocal === 'Vehicles'){
-       this.vechiclesView = true;
-      }
-      if(viewNameLocal === 'Clients'){
-       this.clientsView = true;
-      }
-      if(viewNameLocal === 'Employees'){
-       this.employeesView = true;
-      }
-      if(viewNameLocal === 'TimeClockMaintenance'){
-       this.timeClockMaintenanceView = true;
-      }
-      if(viewNameLocal === 'CloseOutRegister'){
-       this.closeOutRegisterView = true;
-      }
-      if(viewNameLocal === 'CashRegisterSetup'){
-       this.cashRegisterSetupView = true;
-      }
-                }
-            //Detail Module
-       if(ModuleNameLocal === "Detail"){
-           this.detailModule = true;
-                  }
-          // Wash Module
-        if(ModuleNameLocal === "Washes"){
-            this.washModule = true;
-           }
-           //DashBoard Module
-           if(ModuleNameLocal === "Dashboard"){
-            this.dashBoardModule = true;
-           }
-            // Customer
-            if(ModuleNameLocal === "Customer"){
-              this.customerModule = true;
-            }  
-            //Report Module
-            if(ModuleNameLocal === "Report"){
-              this.reportModule = true;
-
-               //Report Module view setup
-
-              if(viewNameLocal === 'DailyStatusScreen'){
-                this.dailyStatusView = true;
-            }
-            if(viewNameLocal === 'EODReport'){
-             this.eodReportView = true;
-            }
-            if(viewNameLocal === 'DailyTipreport'){
-             this.dailyTipReportView = true;
-            }
-            if(viewNameLocal === 'MonthlyTipreport'){
-             this.monthlyTipView = true;
-            }
-            if(viewNameLocal === 'MonthlySalesReport'){
-             this.monthlySalesView = true;
-            }
-            if(viewNameLocal === 'MonthlyCustomerSummaryReport'){
-             this.monthlyCustomerSummaryView = true;
-            }
-            if(viewNameLocal === 'MonthlyMoneyOwedReport'){
-             this.monthlyMoneyOwnedView = true;
-            }
-            if(viewNameLocal === 'MonthlyCustomerDetailReport'){
-             this.monthlyCustomerDetailView = true;
-            }
-            if(viewNameLocal === 'HourlyWashreport'){
-             this.hourlyWashReportView = true;
-            }
-            if(viewNameLocal === 'DailySalesreport'){
-              this.dailyTipReportView = true;
-             }
-             }
-            // White Labelling
-            if(ModuleNameLocal === "WhiteLabelling"){
-                this.whiteLabellingModule = true;
-               }
-              // PayRoll
-              if(ModuleNameLocal === "PayRoll"){
-                this.payRollModule = true;
-               }
-
-               //Checkout
-               if(ModuleNameLocal === "Checkout"){
-                this.checkOutModule = true;
-               }
-               //Messenger
-               if(ModuleNameLocal === "Messenger"){
-                this.messengerModule = true;
-               }
+    //Checkout
+    if (ModuleNameLocal === "Checkout") {
+      this.checkOutModule = true;
+    }
+    //Messenger
+    if (ModuleNameLocal === "Messenger") {
+      this.messengerModule = true;
+    }
+    //Customer
+    if (ModuleNameLocal === "Customer") {
+      this.customerView = true;
+    }
+    //CustomerHistory
+    if (ModuleNameLocal === "CustomerHistory") {
+      this.customerHistoryView = true;
+    }
   }
 
-  }
-}, 100)
-
-
-})
-
-  }
- 
   getLogo() {
+    this.logoBase64 = '';
     this.logoService.name.subscribe(data => {
       const base64 = 'data:image/png;base64,';
       this.logoBase64 = base64 + data;
     });
-    this.logoService.title.subscribe(title =>{
+    this.logoService.title.subscribe(title => {
       this.logoName = title;
     });
   }
   openNav(menu) {
-    if (menu === 'reports'){
+    if (menu === 'reports') {
       document.getElementById('reportSliderMenu').style.width = '180px';
       document.getElementById('navSliderMenu').style.width = '0';
       document.getElementById('content-wrapper').style.marginLeft = '0';
@@ -356,7 +227,7 @@ this.user.navName.subscribe((data = []) => {
       document.getElementById('navSliderMenu').style.width = '180px';
       document.getElementById('content-wrapper').style.marginLeft = '180px';
     }
-    $('.menu li').on('click', function() {
+    $('.menu li').on('click', function () {
       $('.menu li').removeClass('theme-secondary-background-color active');
       $(this).addClass('theme-secondary-background-color active');
     });

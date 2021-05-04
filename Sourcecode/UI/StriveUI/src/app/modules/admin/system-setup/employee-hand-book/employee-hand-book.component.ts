@@ -5,6 +5,10 @@ import { ConfirmationUXBDialogService } from 'src/app/shared/components/confirma
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { DocumentService } from 'src/app/shared/services/data-service/document.service';
 import { GetCodeService } from 'src/app/shared/services/data-service/getcode.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 
 @Component({
@@ -15,7 +19,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 export class EmployeeHandBookComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   employeeRoles: any;
-  isLoading: boolean = false;
+  isLoading = false;
   checkListDetails: any;
   isTableEmpty: boolean;
   selectedData: boolean = false;
@@ -30,28 +34,29 @@ export class EmployeeHandBookComponent implements OnInit {
   checklistAdd: boolean;
   showDialog: boolean;
   documentTypeId: any;
-  document: any;
+  document: any = [];
   fileName: any = null;
   Documents: any;
   url: any;
+  sortColumn: { sortBy: string; sortOrder: string; };
 
-  constructor(private documentService: DocumentService, private toastr: MessageServiceToastr,
+  constructor(private documentService: DocumentService, private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.EmployeeHandbook,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.EmployeeHandbook.order
+    }
+    this.isLoading = false;
     this.getDocumentType();
   }
 
   adddata(data, handbookDetails?) {
-    if (this.fileName !== null) {
-      this.toastr.showMessage({
-        severity: 'warning', title: 'Warning',
-        body: ' Only one document can be uploaded at a time. In order to add a new handbook, kindly delete and add a new handbook.'
-      });
-    }
-    else if (data === 'add') {
-      this.selectedData = handbookDetails;
-      this.showDialog = true;
-    }
+
+    this.selectedData = handbookDetails;
+    this.showDialog = true;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -61,66 +66,137 @@ export class EmployeeHandBookComponent implements OnInit {
   }
 
 
-  delete() {
+  delete(Id) {
     this.confirmationService.confirm('Delete Document', `Are you sure you want to delete this document? 
     All related information will be deleted and the document cannot be retrieved`, 'Yes', 'No')
       .then((confirmed) => {
         if (confirmed === true) {
-          this.confirmDelete();
+          this.confirmDelete(+Id);
         }
       })
       .catch(() => { });
   }
-  confirmDelete() {
-    this.documentService.deleteDocument(this.documentTypeId, 'EMPLOYEEHANDBOOK').subscribe(res => {
+  confirmDelete(Id) {
+    this.spinner.show();
+    this.documentService.deleteDocumentById(Id, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
-        this.toastr.showMessage({ severity: 'success', title: 'Success', body: 'Document Deleted Successfully' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Delete, 'Success!');
         this.fileName = null;
         this.getDocument();
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+      , (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "EmployeeHandBook")[0].CodeId;
-        console.log(this.documentTypeId);
+        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.EmployeeHandBook)[0].CodeId;
         this.getDocument();
-
-
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    });
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
-  downloadPDF() {
-    const base64 = this.document.Document.Base64;
-    const linkSource = 'data:application/pdf;base64,' + base64;
-    const downloadLink = document.createElement('a');
-    const fileName = this.fileName;
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
-  }
+
   getDocument() {
     this.isLoading = true;
-    this.documentService.getDocument(this.documentTypeId, "EMPLOYEEHANDBOOK").subscribe(data => {
-      this.isLoading = false;
+    this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
       if (data.status === 'Success') {
+        this.isLoading = false;
+
         const documentDetails = JSON.parse(data.resultData);
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
-        this.fileName = this.document?.Document?.FileName;
+        this.sort(ApplicationConfig.Sorting.SortBy.EmployeeHandbook)
+
       } else {
-        this.toastr.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error!' });
+        this.isLoading = false;
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       }
     }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
       this.isLoading = false;
     });
   }
 
+  downloadPDF(documents) {
+    this.documentService.getDocumentById(documents.DocumentId, 'EMPLOYEEHANDBOOK').subscribe(res => {
+      if (res.status === 'Success') {
+        const documentDetails = JSON.parse(res.resultData);
+        if (documentDetails.Document !== null) {
+          const details = documentDetails.Document.Document;
+          const base64 = details.Base64;
+          const linkSource = 'data:application/pdf;base64,' + base64;
+          const downloadLink = document.createElement('a');
+          const fileName = details.OriginalFileName;
+          downloadLink.href = linkSource;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+      }
+    },
+      (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    );
+  }
+  sort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.EmployeeHandbook.order
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
+  }
+  sorting(sortColumn) {
+    let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
+    let property = sortColumn.sortBy;
+    this.document.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    }
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
 
 }

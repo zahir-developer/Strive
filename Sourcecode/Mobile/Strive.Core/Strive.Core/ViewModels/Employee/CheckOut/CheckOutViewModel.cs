@@ -1,4 +1,8 @@
-﻿using Strive.Core.Models.Employee.CheckOut;
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Employee.CheckOut;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Resources;
+using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,24 +14,38 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
     {
         #region Properties
 
-        public CheckOutVehicleDetails CheckOutVehicleDetails { get; set; }
+        public CheckoutDetails CheckOutVehicleDetails { get; set; }
         #endregion Properties
 
         #region Commands
 
         public async Task GetCheckOutDetails()
         {
-            var result = await AdminService.CheckOutVehicleDetails();
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.CheckOutVehicleDetails(new GetAllEmployeeDetail_Request
+            {
+                startDate = null,
+                endDate = null,
+                locationId = null,
+                pageNo = 1,
+                pageSize = 100,
+                query = "",
+                sortOrder = null,
+                sortBy = null,
+                status = true,
+            });
             if (result == null)
             {
 
             }
             else
             {
-                CheckOutVehicleDetails = new CheckOutVehicleDetails();
-                CheckOutVehicleDetails.GetCheckedInVehicleDetails = new List<GetCheckedInVehicleDetails>();
+                CheckOutVehicleDetails = new CheckoutDetails();
+                CheckOutVehicleDetails.GetCheckedInVehicleDetails = new GetCheckedInVehicleDetails();
+                CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel = new List<checkOutViewModel>();
                 CheckOutVehicleDetails = result;
             }
+            _userDialog.HideLoading();
         }
 
         #endregion Commands

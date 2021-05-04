@@ -37,5 +37,8 @@ public class AdSetup
 	[Column]
 	public DateTimeOffset? UpdatedDate { get; set; }
 
-}
+        [Column]
+        public DateTime? LaunchDate{ get; set; }
+
+    }
 }

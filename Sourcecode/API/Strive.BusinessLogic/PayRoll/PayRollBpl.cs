@@ -65,7 +65,22 @@ namespace Strive.BusinessLogic.PayRoll
             }
             return _result;
         }
-
+        public Result AddPayRollProcess(PayrollProcessAddDto payRollProcessAdd)
+        {
+            try
+            {
+                return ResultWrap(new PayRollRal(_tenant).AddPayRollProcess, payRollProcessAdd, "Result");
+            }
+            catch (Exception ex)
+            {
+                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+            }
+            return _result;
+        }
+        public Result GetPayrollProcessStatus(PayRollProcessDto payRollProcess)
+        {
+            return ResultWrap(new PayRollRal(_tenant).GetPayrollProcessStatus, payRollProcess, "Result");
+        }
 
     }
 }

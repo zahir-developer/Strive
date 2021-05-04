@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WashService } from '../../services/data-service/wash.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-wash-employees',
@@ -9,7 +11,8 @@ import { WashService } from '../../services/data-service/wash.service';
 export class WashEmployeesComponent implements OnInit {
   employeeCount: any;
 
-  constructor(private wash: WashService) { }
+  constructor(private wash: WashService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getDashboardDetails();
@@ -24,6 +27,9 @@ export class WashEmployeesComponent implements OnInit {
     this.wash.getDashBoard(obj);
     this.wash.dashBoardData.subscribe((data: any) => {
         this.employeeCount = data.EmployeeCount;
+    },
+     (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 }

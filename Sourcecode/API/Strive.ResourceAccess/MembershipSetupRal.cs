@@ -21,7 +21,12 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), null);
         }
-      
+
+        public MembershipExistViewModel GetMembershipAvailability(int vehicleId)
+        {
+            _prm.Add("@VehicleId",vehicleId);
+            return db.FetchSingle<MembershipExistViewModel>(EnumSP.Membership.USPGETVEHICLEMEMBERSHIPAVAILABILITY.ToString(), _prm);
+        }
         public bool AddMembership(MembershipDto member)
         {
             return dbRepo.InsertPc(member,"MembershipId");
@@ -34,19 +39,19 @@ namespace Strive.ResourceAccess
         public bool DeleteMembershipById(int membershipid)
         {
             _prm.Add("MembershipId", membershipid);
-            db.Save(SPEnum.USPDELETEMEMBERSHIP.ToString(), _prm);
+            db.Save(EnumSP.Membership.USPDELETEMEMBERSHIP.ToString(), _prm);
             return true;
         }
 
         public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
-            return db.Fetch<MembershipServiceViewModel>(SPEnum.USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID.ToString(), _prm);
+            return db.Fetch<MembershipServiceViewModel>(EnumSP.Membership.USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID.ToString(), _prm);
         }
         public MembershipAndServiceViewModel GetMembershipAndServiceByMembershipId(int id)
         {
             _prm.Add("@MembershipId", id);
-            return db.FetchMultiResult<MembershipAndServiceViewModel>(SPEnum.USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID.ToString(), _prm);
+            return db.FetchMultiResult<MembershipAndServiceViewModel>(EnumSP.Membership.USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID.ToString(), _prm);
         }
         public List<AllMembershipViewModel> GetMembershipSearch(MembershipSearchDto search)
         {
@@ -54,5 +59,24 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
             return result;
         }
+        public bool GetVehicleMembershipByMembershipId(int membershipid)
+        {
+            _prm.Add("@MembershipId", membershipid);
+            var result = db.Fetch<VehicleMembershipByMembership>(EnumSP.Membership.USPGETVEHICLEMEMBERSHIPBYMEMBERSHIPID.ToString(), _prm);
+            if (result.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public List<MembershipNameViewModel> GetAllMembershipName()
+        {
+            return db.Fetch<MembershipNameViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIPNAME.ToString(), null);
+        }
+
     }
 }

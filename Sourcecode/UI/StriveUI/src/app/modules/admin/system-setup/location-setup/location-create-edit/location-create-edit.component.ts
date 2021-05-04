@@ -3,9 +3,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { StateDropdownComponent } from 'src/app/shared/components/state-dropdown/state-dropdown.component';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
 import { CityComponent } from 'src/app/shared/components/city/city.component';
+import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-location-create-edit',
@@ -15,6 +19,8 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 export class LocationCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
+  @ViewChild(CountryDropdownComponent) countryDropdownComponent: CountryDropdownComponent;
+  @ViewChild('staticTabs', { static: false }) staticTabs: TabsetComponent;
   locationSetupForm: FormGroup;
   State: any;
   Country: any;
@@ -28,14 +34,33 @@ export class LocationCreateEditComponent implements OnInit {
   selectedCountryId: any;
   city: any;
   selectedCityId: any;
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private locationService: LocationService,
-    private uiLoaderService: NgxUiLoaderService) { }
+  offset1On = false;
+  offset1 = '';
+  offsetA = '';
+  offsetB = '';
+  offsetC = '';
+  offsetD = '';
+  offsetE = '';
+  offsetF = '';
+  emailPattern: '^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$'
+  isOffset: boolean;
+  employeeId: number;
+  errorMessage: boolean = false;
+  emailList = [];
+  emailAddress = [];
+  constructor(
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private locationService: LocationService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
+    this.employeeId = +localStorage.getItem('empId');
+    this.isOffset = false;
     this.formInitialize();
     this.submitted = false;
-    this.Country = 38;
-    console.log(this.selectedData);
+    this.Country = null;
     if (this.isEdit === true) {
       this.locationSetupForm.reset();
       this.getLocationById();
@@ -51,12 +76,50 @@ export class LocationCreateEditComponent implements OnInit {
       state: ['',],
       country: ['',],
       phoneNumber: ['', [Validators.minLength(14)]],
-      email: ['', Validators.email],
+      email: '',
       franchise: ['',],
       workHourThreshold: ['',]
     });
   }
 
+
+  addEmail() {
+    if (this.emailList.length >= ApplicationConfig.EmailSize.location) {
+      this.toastr.error(MessageConfig.Admin.SystemSetup.BasicSetup.Email, 'Error!');
+      return;
+    }
+
+    var re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (!re.test(this.locationSetupForm.value.email) && this.locationSetupForm.value.email !== '') {
+      this.toastr.error(MessageConfig.Admin.SystemSetup.BasicSetup.InvalidEmail, 'Error!');
+      return;
+    }
+
+    if (this.locationSetupForm.value.email !== '') {
+      this.emailList.push({
+        locationEmailId: 0,
+        locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+        EmailAddress: this.locationSetupForm.value.email,
+        isActive: true,
+        isDeleted: false,
+        createdBy: this.employeeId,
+        createdDate: moment(new Date()).format('YYYY-MM-DD'),
+        updatedBy: this.employeeId,
+        updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      });
+      this.emailList.forEach((item, index) => {
+        item.id = index;
+      });
+      this.locationSetupForm.controls.email.reset();
+    }
+  }
+  removeEmail(email) {
+    if (email.locationEmailId === 0) {
+      this.emailList = this.emailList.filter(item => item.id !== email.id);
+    } else {
+      this.emailList = this.emailList.filter(item => item.LocationEmailId !== email.LocationEmailId);
+    }
+  }
   getLocationById() {
     const locationAddress = this.selectedData.LocationAddress;
     this.selectedStateId = locationAddress.State;
@@ -75,10 +138,37 @@ export class LocationCreateEditComponent implements OnInit {
       email: this.selectedData.LocationAddress.Email,
       franchise: this.selectedData.Location.IsFranchise
     });
+    if (this.selectedData.LocationEmail) {
+      this.emailList = this.selectedData.LocationEmail;
+    }
+    if (this.selectedData.LocationOffset !== null) {
+      this.offset1On = this.selectedData.LocationOffset.OffSet1On;
+      if (this.offset1On) {
+        this.isOffset = true;
+      } else {
+        this.isOffset = false;
+      }
+      this.offset1 = this.selectedData.LocationOffset.OffSet1;
+      this.offsetA = this.selectedData.LocationOffset.OffSetA;
+      this.offsetB = this.selectedData.LocationOffset.OffSetB;
+      this.offsetC = this.selectedData.LocationOffset.OffSetC;
+      this.offsetD = this.selectedData.LocationOffset.OffSetD;
+      this.offsetE = this.selectedData.LocationOffset.OffSetE;
+      this.offsetF = this.selectedData.LocationOffset.OffSetF;
+    }
   }
 
   change(data) {
     this.locationSetupForm.value.franchise = data;
+  }
+
+  handleChange(event) {
+    console.log(event, 'event');
+    if (event.checked) {
+      this.isOffset = true;
+    } else {
+      this.isOffset = false;
+    }
   }
 
   get f() {
@@ -90,12 +180,29 @@ export class LocationCreateEditComponent implements OnInit {
     this.submitted = true;
     this.stateDropdownComponent.submitted = true;
     this.cityComponent.submitted = true;
-    if (this.cityComponent.city === '') {
+    this.countryDropdownComponent.submitted = true;
+    if (this.cityComponent.selectValueCity == false) {
+      this.selectTab(0);
       return;
     }
     if (this.locationSetupForm.invalid) {
+      this.selectTab(0);
       return;
     }
+    this.emailList.forEach((item, index) => {
+      item.id = index;
+      this.emailAddress.push({
+        locationEmailId: 0,
+        locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+        emailAddress: item.EmailAddress,
+        isActive: true,
+        isDeleted: false,
+        createdBy: this.employeeId,
+        createdDate: moment(new Date()).format('YYYY-MM-DD'),
+        updatedBy: this.employeeId,
+        updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+      });
+    });
     const sourceObj = [];
     this.address = {
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,
@@ -104,89 +211,127 @@ export class LocationCreateEditComponent implements OnInit {
       address2: this.locationSetupForm.value.locationAddress2,
       phoneNumber: this.locationSetupForm.value.phoneNumber,
       phoneNumber2: '',
-      email: this.locationSetupForm.value.email,
+      email: null,
       city: this.city,
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
-      country: this.Country,
+      country: this.countryDropdownComponent.country,
       longitude: 0,
       latitude: 0,
       weatherLocationId: 0,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     const formObj = {
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-      locationType: 1,
+      locationType: null,
       locationName: this.locationSetupForm.value.locationName,
       locationDescription: '',
       isFranchise: this.locationSetupForm.value.franchise === '' ? false : this.locationSetupForm.value.franchise,
-      taxRate: '',
-      siteUrl: '',
-      currency: 0,
-      facebook: '',
-      twitter: '',
-      instagram: '',
-      wifiDetail: '',
+      taxRate: null,
+      siteUrl: null,
+      currency: null,
+      facebook: null,
+      twitter: null,
+      instagram: null,
+      wifiDetail: null,
       washTimeMinutes: this.isEdit ? this.selectedData.Location.WashTimeMinutes : 0,
       workhourThreshold: this.locationSetupForm.value.workHourThreshold,
-      startTime: '',
-      endTime: '',
+      startTime: null,
+      endTime: null,
       isActive: true,
       isDeleted: false,
-      createdBy: 0,
+      createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
-      updatedBy: 0,
+      updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
-    const drawer = {
-    drawerId: 0,
-    drawerName: "",
-    locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
-    isActive: true,
-    isDeleted: false,
-    createdBy: 0,
-    createdDate: moment(new Date()).format('YYYY-MM-DD'),
-    updatedBy: 0,
-    updatedDate: moment(new Date()).format('YYYY-MM-DD')
+    const locationOffset = {
+      locationOffSetId: this.isEdit ? this.selectedData.LocationOffset === null ? 0 :
+        this.selectedData.LocationOffset.LocationOffSetId : 0,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+      offSet1: this.offset1,
+      offSetA: this.offsetA,
+      offSetB: this.offsetB,
+      offSetC: this.offsetC,
+      offSetD: this.offsetD,
+      offSetE: this.offsetE,
+      offSetF: this.offsetF,
+      offSet1On: this.offset1On,
+      isActive: true,
+      isDeleted: false
     };
+    const drawer = {
+      drawerId: 0,
+      drawerName: null,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+      isActive: true,
+      isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      updatedBy: this.employeeId,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+    };
+
     const finalObj = {
       location: formObj,
-      locationAddress: this.address
+      locationAddress: this.address,
+      locationOffset,
+      locationEmail: this.emailAddress
+
     };
     if (this.isEdit === false) {
+      this.spinner.show();
       this.locationService.saveLocation(finalObj).subscribe(data => {
         if (data.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
+          this.spinner.hide();
+
           this.toastr.error('Communication Error', 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      });
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     } else {
+      this.spinner.show();
       this.locationService.updateLocation(finalObj).subscribe(res => {
         if (res.status === 'Success') {
-          this.toastr.success('Record Saved Successfully!!', 'Success!');
+          this.spinner.hide();
+
+          this.toastr.success(MessageConfig.Admin.SystemSetup.BasicSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
-          this.toastr.error('Communication Error', 'Error!');
+          this.spinner.hide();
+
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.locationSetupForm.reset();
           this.submitted = false;
         }
-      });
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   getSelectedStateId(event) {
-    this.State = event.target.value;
+    this.State = event;
+    this.cityComponent.getCity(event);
   }
   getSelectedCountryId(event) {
     this.Country = event.target.value;
@@ -194,7 +339,11 @@ export class LocationCreateEditComponent implements OnInit {
   }
 
   selectCity(event) {
-    this.city = event.target.value;
+    this.city = event;
+  }
+
+  selectTab(tabId: number) {
+    this.staticTabs.tabs[tabId].active = true;
   }
 }
 

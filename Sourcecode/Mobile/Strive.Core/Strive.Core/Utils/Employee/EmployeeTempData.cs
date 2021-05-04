@@ -1,15 +1,17 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Models.Employee.PersonalDetails;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using EmployeeList = Strive.Core.Models.Employee.Messenger.EmployeeList;
+using EmployeeList_Contact = Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList;
 namespace Strive.Core.Utils.Employee
 {
     // Employee Temp Data
     public static class EmployeeTempData
     {
-        public static int EmployeeID { get; set; }
+        public static int EmployeeID { get; set; } = 1463;
         public static string MessengerTabHeader { get; set; }
         public static PersonalDetails EmployeePersonalDetails { get; set; }
         public static void ResetAll()
@@ -39,13 +41,15 @@ namespace Strive.Core.Utils.Employee
         public static string ConnectionID { get; set; }
         public static string GroupName { get; set; }
         public static bool IsGroup { get; set; }
+        public static int ContactsCount { get; set; }
         public static bool IsCreateGroup { get; set; } = false;
         public static Dictionary<int, int> ChatParticipants { get; set; }
-        public static EmployeeLists SelectedParticipants { get; set; }
-        public static EmployeeList ExistingParticipants { get; set; }
+        public static EmployeeMessengerContacts SelectedParticipants { get; set; }
+        public static EmployeeMessengerContacts ExistingParticipants { get; set; }
         public static EmployeeLists EmployeeLists { get; set; }
         public static EmployeeList RecentEmployeeLists { get; set; }
         public static EmployeeList GroupLists { get; set; }
+        public static EmployeeMessengerContacts employeeList_Contact { get; set; }
         public static Dictionary<string, string> RecipientsConnectionID { get; set; }
 
         #endregion Properties
@@ -80,6 +84,63 @@ namespace Strive.Core.Utils.Employee
     public static class MyProfileTempData
     {
         public static int LiabilityID { get; set; }
+        public static int EmployeeDocumentID { get; set; }
+        public static string DocumentPassword { get; set; }
+
+    }
+    public static class EmployeePersonalDetails
+    { 
+        public static string FirstName { get; set; }
+        public static string LastName { get; set; }
+        public static int? GenderCodeID { get; set; } = -1;
+        public static int GenderSpinnerPosition { get; set; } = -1;
+        public static int ImmigrationCodeID { get; set; } = -1;
+        public static int ImmigrationSpinnerPosition { get; set; } = -1;
+        public static string Address { get; set; }
+        public static int AddressID { get; set; }
+        public static string ContactNumber { get; set; }
+        public static string SSN { get; set; }
+        public static string ImmigrationStatus { get; set; }
+
+
+        public static void clearData()
+        {
+            FirstName = null;
+            LastName = null;
+            GenderCodeID = -1;
+            GenderSpinnerPosition = -1;
+            ImmigrationCodeID = -1;
+            ImmigrationSpinnerPosition = -1;
+            Address = null;
+            AddressID = -1;
+            ContactNumber = null;
+            SSN = null;
+            ImmigrationStatus = null;
+
+        }
+    }
+    public static class EmployeeLoginDetails
+    {
+        public static string LoginID { get; set; }
+        public static int AuthID { get; set; }
+        public static int DetailID { get; set; }
+        public static string WashRate { get; set; }
+        public static string DateofHire { get; set; }
+        public static int Status { get; set; } = -1;
+        public static string Exemptions { get; set; }
+        public static bool IsActive { get; set; } = true;
+        public static void clearData()
+        {
+            LoginID = null;
+            AuthID = -1;
+            DetailID = -1;
+            WashRate = null;
+            DateofHire = null;
+            Status = -1;
+            Exemptions = null;
+            IsActive = true;
+
+        }
 
     }
 }

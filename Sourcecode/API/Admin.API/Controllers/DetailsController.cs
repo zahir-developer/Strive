@@ -82,6 +82,12 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllDetails")]
         public Result GetAllDetails(DetailsGridDto detailsGrid) => _bplManager.GetAllDetails(detailsGrid);
+
+
+
+        [HttpGet]
+        [Route("GetDetailScheduleStatus")]
+        public Result GetDetailScheduleStatus(DetailScheduleDto scheduleDto) => _bplManager.GetDetailScheduleStatus(scheduleDto);
         #endregion
 
         /// <summary>

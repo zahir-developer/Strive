@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WashService } from 'src/app/shared/services/data-service/wash.service';
 import * as _ from 'underscore';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-print-customer-copy',
@@ -15,6 +18,7 @@ export class PrintCustomerCopyComponent implements OnInit {
   upchargeService: any;
   constructor(
     private wash: WashService,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -29,20 +33,21 @@ export class PrintCustomerCopyComponent implements OnInit {
       if (data.status === 'Success') {
         const sType = JSON.parse(data.resultData);
         this.serviceEnum = sType.Codes;
-        console.log(this.selectedData, this.serviceEnum, 'customer copy');
-        this.selectedData.DetailsItem.forEach(item => {
+        this.selectedData?.DetailsItem.forEach(item => {
           const serviceType = _.where(this.serviceEnum, { CodeId: item.ServiceTypeId });
           if (serviceType.length > 0) {
-            if (serviceType[0].CodeValue === 'Details') {
+            if (serviceType[0].CodeValue === ApplicationConfig.CodeValue.Details) {
               this.detailService = item.ServiceName + '$' + item.Cost;
-            } else if (serviceType[0].CodeValue === 'Upcharges') {
+            } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
               this.upchargeService = item.ServiceName + '$' + item.Cost;
-            } else if (serviceType[0].CodeValue === 'Air Fresheners') {
+            } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners) {
               this.airfreshService = item.ServiceName;
             }
           }
         });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 

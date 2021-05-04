@@ -10,10 +10,9 @@ export class LoginService {
 
   constructor(private http: HttpUtilsService) { }
   public userAuthentication(loginObj): Observable<any> {
-    return this.http.post(`${UrlConfig.totalUrl.login}`, loginObj);
+    return this.http.post(`${UrlConfig.Auth.login}`, loginObj);
   }
   refreshToken(paramsObj): Observable<any> {
-    return this.http.post(`${UrlConfig.totalUrl.refreshToken}`, {params: {token: paramsObj.token, refreshToken: paramsObj.refreshToken}});
-    // return this.http.post(`${UrlConfig.totalUrl.refreshToken}`, paramsObj);
+    return this.http.post(`${UrlConfig.Auth.refreshToken}`, {params: {token: paramsObj.token, refreshToken: paramsObj.refreshToken}});
   }
 }

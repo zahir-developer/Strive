@@ -69,6 +69,9 @@ namespace Strive.Core.Models.Customer
     {
         #region MembershipProperties
 
+        public static int previousSelectedColor { get; set; } = 0;
+        public static int previousSelectedModel { get; set; } = 0;
+        public static int previousSelectedMake { get; set; } = 0;
         public static int selectedColor { get; set; }
         public static int selectedModel { get; set; }
         public static int selectedMake { get; set; }
@@ -92,6 +95,9 @@ namespace Strive.Core.Models.Customer
 
         public static void clearMembershipData()
         {
+            previousSelectedColor = 0;
+            previousSelectedMake = 0;
+            previousSelectedModel = 0;
             selectedColor = 0;
             selectedModel = 0;
             selectedMake = 0;
@@ -128,5 +134,64 @@ namespace Strive.Core.Models.Customer
         #region Commands
 
         #endregion Commands
+    }
+
+    public static class CustomerScheduleInformation
+    {
+        #region Properties
+        public static string ScheduledVehicleName { get; set; }
+        public static int ScheduleLocationCode { get; set; }
+        public static string ScheduleLocationAddress { get; set; }
+        public static string ScheduleTime { get; set; }
+        public static string ScheduleMonth { get; set; }
+        public static string ScheduleDate { get; set; }
+        public static string ScheduleYear { get; set; }
+        public static string ScheduleTimeOfDay { get; set; }
+        public static float ScheduleServicePrice { get; set; }
+        public static int ScheduleServiceID { get; set; } = -1; 
+        public static int ScheduleServiceType { get; set; }
+        public static string ScheduleServiceName { get; set; }
+        public static string ScheduleServiceTime { get; set; }
+        public static int ScheduleServiceSlotNumber { get; set; } = -1;
+        public static int ScheduleServiceSelectedNumber { get; set; } = -1;
+        public static int ScheduleServiceLocationNumber { get; set; } = -1;
+        public static int OldScheduleServiceLocationNumber { get; set; } = -1;
+        #endregion Properties
+
+
+        #region Commands
+
+        public static void ClearScheduleData()
+        {
+            ScheduledVehicleName = null;
+            ScheduleLocationCode = -1;
+            ScheduleLocationAddress = null;
+            ScheduleTime = null;
+            ScheduleMonth = null;
+            ScheduleDate = null;
+            ScheduleYear = null;
+            ScheduleTimeOfDay = null;
+            ScheduleServicePrice = 0;
+            ScheduleServiceID = -1;
+            ScheduleServiceType = -1;
+            ScheduleServiceName = null;
+            ScheduleServiceTime = null;
+            ScheduleServiceSlotNumber = -1;
+            ScheduleServiceSelectedNumber = -1;
+            ScheduleServiceLocationNumber = -1;
+            OldScheduleServiceLocationNumber = -1;
+        }
+
+        #endregion Commands
+    }
+
+    public static  class MyProfileCustomerInfo
+    {
+        public static string FullName { get; set; }
+        public static string ContactNumber { get; set; }
+        public static string Address { get; set; }
+        public static string ZipCode { get; set; }
+        public static string SecondaryContactNumber { get; set; }
+        public static string Email { get; set; }
     }
 }

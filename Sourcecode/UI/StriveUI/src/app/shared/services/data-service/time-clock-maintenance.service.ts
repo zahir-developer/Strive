@@ -12,32 +12,31 @@ export class TimeClockMaintenanceService {
 
   getTimeClockEmployeeDetails(obj)
   {
-    return this.http.post(`${UrlConfig.totalUrl.getTimeClockEmployeeDetails}`, obj)
+    return this.http.post(`${UrlConfig.timeClock.getTimeClockEmployeeDetails}`, obj)
   }
 
   getTimeClockWeekDetails(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.getTimeClockWeekDetails}`, obj);
+    return this.http.post(`${UrlConfig.timeClock.getTimeClockWeekDetails}`, obj);
   }
 
   saveTimeClock(obj) {
-    return this.http.post(`${UrlConfig.totalUrl.saveTimeClock}`, obj);
+    return this.http.post(`${UrlConfig.timeClock.saveTimeClock}`, obj);
   }
 
   getAllRoles() {
-    return this.http.get(`${UrlConfig.totalUrl.getAllRoles}`);
+    return this.http.get(`${UrlConfig.employee.getAllRoles}`);
   }
 
   deleteTimeClockEmployee(obj)
   {
-    return this.http.delete(`${UrlConfig.totalUrl.deleteTimeClockEmployee}`, { params: { EmployeeId : obj.employeeId , LocationId : obj.locationId }})
+    return this.http.delete(`${UrlConfig.timeClock.deleteTimeClockEmployee}`, { params: { EmployeeId : obj.employeeId , LocationId : obj.locationId }})
   }
 
   getEmployeeList() {
-    return this.http.get(`${UrlConfig.totalUrl.getEmployees}`);
+    return this.http.get(`${UrlConfig.employee.getEmployees}`);
   }
-  getRolesbyEmployeeId() {
-    const id = + localStorage.getItem('empId')
-    return this.http.get(`${UrlConfig.totalUrl.getRoleByEmpId}`, { params: { id: id } });
+  getRolesbyEmployeeId(id) {
+    return this.http.get(`${UrlConfig.employee.getRoleByEmpId}`, { params: { id: id } });
 
 
   }

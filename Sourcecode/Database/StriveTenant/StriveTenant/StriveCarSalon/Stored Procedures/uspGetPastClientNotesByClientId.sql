@@ -20,16 +20,9 @@ BEGIN
 SELECT 
 tblj.VehicleId,
 tblj.TicketNumber,
-tblcv.VehicleNumber,
-cvMfr.valuedesc AS VehicleMake,
-cvMo.valuedesc AS VehicleModel,
-cvCo.valuedesc AS VehicleColor,
 tblj.Notes
 FROM tblJob tblj 
 INNER JOIN tblClientVehicle tblcv ON(tblj.VehicleId = tblcv.VehicleId) 
-INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tblcv.VehicleMfr = cvMfr.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON tblcv.VehicleModel = cvMo.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON tblcv.VehicleColor = cvCo.valueid
 WHERE tblj.ClientId=@ClientId
 AND 
 (

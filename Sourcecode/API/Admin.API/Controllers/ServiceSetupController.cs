@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.ServiceSetup;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic;
@@ -19,7 +20,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public Result AddService([FromBody] Service serviceSetup) => _bplManager.AddService(serviceSetup);
+        public Result AddService([FromBody] ServiceDto serviceSetup) => _bplManager.AddService(serviceSetup);
 
         [HttpPost]
         [Route("Update")]
@@ -29,9 +30,9 @@ namespace Admin.API.Controllers
         [Route("Delete")]
         public Result Delete(int id) => _bplManager.DeleteServiceById(id);
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAll")]
-        public Result GetAllServiceSetup() => _bplManager.GetAllServiceSetup();
+        public Result GetAllServiceSetup([FromBody]SearchDto searchDto) => _bplManager.GetAllServiceSetup(searchDto);
 
         [HttpGet]
         [Route("GetServiceById")]
@@ -40,14 +41,10 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllServiceType")]
         public Result GetAllServiceType() => _bplManager.GetAllServiceType();
-
-        [HttpPost]
-        [Route("GetServiceSearch")]
-        public Result GetServiceSearch([FromBody] ServiceSearchDto search) => _bplManager.GetServiceSearch(search);
-
+      
         [HttpGet]
-        [Route("GetServiceCategoryByLocationId/{id}")]
-        public Result GetServiceCategoryByLocationId(int id) => _bplManager.GetServiceCategoryByLocationId(id);
+        [Route("GetAllServiceDetail")]
+        public Result GetAllServiceDetail(int locationId) => _bplManager.GetAllServiceDetail(locationId);
 
         [HttpGet]
         [Route("GetService")]

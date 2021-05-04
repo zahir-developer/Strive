@@ -7,6 +7,7 @@ import { AuthGuard } from './shared/guards/auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SelectLocationComponent } from './select-location/select-location.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
@@ -16,28 +17,57 @@ const routes: Routes = [
   { path: 'helps', component: HelpsComponent },
   { path: 'side-nav', component: SidenavComponent },
 
-  { path: 'admin', canActivate: [AuthGuard], data: { label: 'Admin', title: 'Admin', authorization: 'Admin' },loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
-  { path: 'wash', canActivate: [AuthGuard], data: { label: 'Washes', title: 'Washes', authorization: 'Washes' },
-   loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule) },
-  { path: 'detail', data: { label: 'Detail', title: 'Detail', authorization: 'Detail' },
-  loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule) },
-  { path: 'checkout', canActivate: [AuthGuard], data: { label: 'Checkout', title: 'Checkout', authorization: 'Checkout' },
-  loadChildren: () => import('./modules/checkout/checkout.module').then(m => m.CheckoutModule) },
+  { path: 'admin', canActivate: [AuthGuard], data: { label: 'Admin', title: 'Admin', authorization: 'Admin' }, loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule) },
+  {
+    path: 'wash', canActivate: [AuthGuard], data: { label: 'Washes', title: 'Washes', authorization: 'Washes' },
+    loadChildren: () => import('./modules/wash/wash.module').then(m => m.WashModule)
+  },
+  {
+    path: 'detail', canActivate: [AuthGuard],  data: { label: 'Detail', title: 'Detail', authorization: 'Detail' },
+    loadChildren: () => import('./modules/detail/detail.module').then(m => m.DetailModule)
+  },
+  {
+    path: 'checkout', canActivate: [AuthGuard], data: { label: 'Checkout', title: 'Checkout', authorization: 'Checkout' },
+    loadChildren: () => import('./modules/checkout/checkout.module').then(m => m.CheckoutModule)
+  },
   {
     path: 'dashboard', canActivate: [AuthGuard], data: { label: 'Dashboard', title: 'Dashboard', authorization: 'Dashboard' },
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(mod => mod.DashboardModule)
   },
-  {path: 'sales', canActivate: [AuthGuard], data: { label: 'Sales', title: 'Sales', authorization: 'Sales' },
-   loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)},
-  {path: 'white-labelling', canActivate: [AuthGuard], data: { label: 'White Labelling', title: 'White Labelling', authorization: 'WhiteLabelling' },
-  loadChildren: () =>
-  import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)},
-  { path: 'payrolls', canActivate: [AuthGuard], data: { label: 'PayRoll', title: 'PayRoll', authorization: 'PayRoll' },
-  loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule) },
-  {path: 'messenger', canActivate: [AuthGuard], data: { label: 'Messenger', title: 'Messenger', authorization: 'Messenger' },
-  loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)},
-  {path: 'reports', canActivate: [AuthGuard], data: { label: 'Report', title: 'Report', authorization: 'Report' }, loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)},
-  {path: 'customer',canActivate: [AuthGuard], data: { label: 'Customer', title: 'Customer', authorization: 'Customer' }, loadChildren: () => import('./modules/customer/customer.module').then(mod => mod.CustomerModule)},
+  {
+    path: 'sales', canActivate: [AuthGuard], data: { label: 'Sales', title: 'Sales', authorization: 'Sales' },
+    loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)
+  },
+  {
+    path: 'white-labelling', canActivate: [AuthGuard], data: { label: 'White Labelling', title: 'White Labelling', authorization: 'WhiteLabelling' },
+    loadChildren: () =>
+      import('./modules/white-labelling/white-labelling.module').then(m => m.WhiteLabellingModule)
+  },
+  {
+    path: 'payrolls', canActivate: [AuthGuard], data: { label: 'PayRoll', title: 'PayRoll', authorization: 'PayRoll' },
+    loadChildren: () => import('./modules/payrolls/payrolls.module').then(m => m.PayrollsModule)
+  },
+  {
+    path: 'messenger', canActivate: [AuthGuard], data: { label: 'Messenger', title: 'Messenger', authorization: 'Messenger' },
+    loadChildren: () => import('./modules/messenger/messenger.module').then(m => m.MessengerModule)
+  },
+  {
+    path: 'reports', canActivate: [AuthGuard], data: { label: 'Report', title: 'Report', authorization: 'Report' },
+    loadChildren: () => import('./modules/reports/reports.module').then(mod => mod.ReportsModule)
+  },
+  {
+    path: 'customer', canActivate: [AuthGuard], data: { label: 'Customer', title: 'Customer', authorization: 'Customer' },
+    loadChildren: () => import('./modules/customer/customer.module').then(mod => mod.CustomerModule)
+  },
+  {
+    path: 'customer-history', data: { label: 'Customer-History', title: 'Customer-History' },
+    loadChildren: () => import('./modules/customer-history/customer-history.module').then(mod => mod.CustomerHistoryModule)
+  },
+  {
+    path: 'Customer-sales', data: { label: 'Customer-sales', title: 'Customer-sales', authorization: 'Customer-sales' },
+    loadChildren: () => import('./modules/customer-sales/customer-sales.module').then(mod => mod.CustomerSalesModule)
+  },
+  { path: 'unauthorized', component: UnauthorizedComponent, data: { label: 'unauthorized', title: 'unauthorized' } },
   {
     path: '',
     redirectTo: '',
@@ -46,7 +76,6 @@ const routes: Routes = [
 ];
 const config: ExtraOptions = {
   useHash: true,
-  // enableTracing: true,
   preloadingStrategy: PreloadAllModules
 };
 @NgModule({

@@ -32,6 +32,12 @@ namespace Strive.BusinessLogic.Schedule
         {
             return ResultWrap(new ScheduleRal(_tenant).GetScheduleById, scheduleId, "Status");
         }
-        
+
+        public Result GetScheduleAndForcasted(ScheduleDetailDto scheduleDetail)
+        {
+            return ResultWrap(new ScheduleRal(_tenant).GetScheduleAndForcasted, scheduleDetail, "ScheduleForcastedDetail");
+        }
+
+
     }
 }

@@ -47,7 +47,7 @@
                     <div id="monthlyReport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Tip Report </span>
-                            <div class="d-inline-block"><input type="text" id='monthlyTipTotal' class="form-control" [(ngModel)]="tipAmount" appTwoDecimalNumber size="2" placeholder="Tip Total">
+                            <div class="d-inline-block"><input type="text" id='monthlyTipTotal' class="form-control" [(ngModel)]="tipAmount" appTwoDecimalNumber size="7" placeholder="Tip Total">
                             </div>
                             &nbsp;<button type="button" id='monthlyTip' class="btn theme-primary-button-color" [disabled]="!tipAmount" (click)="submit()">Submit</button>
                         </h4>
@@ -60,15 +60,18 @@
                             <table class="table border table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Payee</th>
-                                        <th scope="col">Hours</th>
-                                        <th scope="col" class="w-10">Tip</th>
+                                        <th >Payee</th>
+                                        <th style="padding-right: 20px;">Hours</th>
+                                        <th  >Tip</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr
                                         *ngFor="let monthlytip of monthlyTip | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                        <td>{{monthlytip?.EmployeeName}}</td>
+                                        <td><span title="{{monthlytip?.EmployeeName}}">
+                                            {{monthlytip?.EmployeeName | slice:0:15}}
+                                            {{(monthlytip?.EmployeeName!== null) ? monthlytip?.EmployeeName?.length <= 15 ? ''
+                                                : '..' :''}} </span></td>
                                         <td>{{monthlytip?.HoursPerDay}}</td>
                                         <td>{{monthlytip?.Tip}}</td>
                                     </tr>
@@ -81,7 +84,7 @@
                                 <tfoot class="table-foot font-weight-700" *ngIf="monthlyTip?.length > 0">
                                     <tr>
                                         <td colspan="2" class="font-weight-700 text-right">Tip Total </td>
-                                        <td>{{totalTip | currency}}</td>
+                                        <td>{{tips | currency}}</td>
                                     </tr>
                                 </tfoot>
                             </table>

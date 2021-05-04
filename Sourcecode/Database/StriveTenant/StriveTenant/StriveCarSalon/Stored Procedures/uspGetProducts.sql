@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetProducts] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetProducts]
 (@ProductId int = null,@ProductSearch varchar(50)=null)
 AS
 BEGIN
@@ -11,6 +11,7 @@ SELECT
 	prd.ProductType,
 	prd.[FileName],
 	prd.[ThumbFileName],
+	prd.OriginalFileName,
 	prd.LocationId, 
 	prd.VendorId, 
 	prd.Size, 
@@ -24,12 +25,24 @@ SELECT
 	prd.IsActive, 
 	prd.ThresholdLimit,
 	loc.LocationName,
-	ven.VendorName,
+	STUFF((SELECT DISTINCT ', ' + ven.VendorName
+    from [StriveCarSalon].[tblProductVendor] prodV
+	INNER JOIN [tblVendor] ven on ven.VendorId = prodV.VendorId
+	WHERE prodV.ProductId = prd.ProductId and prodV.IsDeleted = 0
+    FOR XML PATH('')
+	), 1, 2, '')  AS VendorName,
+	STUFF((SELECT DISTINCT ', ' + TRIM(venAdd.PhoneNumber)
+    FROM [StriveCarSalon].[tblProductVendor] prodV
+	INNER JOIN [tblVendorAddress] venAdd on venAdd.VendorId = prodV.VendorId
+	WHERE prodV.ProductId = prd.ProductId and prodV.IsDeleted = 0
+    FOR XML PATH('')
+	), 1, 2, '')  AS VendorPhone,
 	tbpt.valuedesc as ProductTypeName,
 	tbsz.valuedesc as SizeName
 FROM [StriveCarSalon].[tblProduct] prd
 INNER JOIN [StriveCarSalon].[tblLocation] as loc ON (prd.LocationId = loc.LocationId)
-LEFT JOIN [StriveCarSalon].[tblVendor] as ven ON (prd.VendorId = ven.VendorId)
+
+--LEFT JOIN [StriveCarSalon].[tblVendor] as ven ON (prodven.ProductVendorId = ven.VendorId)
 LEFT JOIN [StriveCarSalon].[GetTable]('ProductType') tbpt ON (prd.ProductType = tbpt.valueid)
 LEFT JOIN [StriveCarSalon].[GetTable]('Size') tbsz ON (prd.Size = tbsz.valueid)
 
@@ -37,7 +50,8 @@ WHERE isnull(prd.IsDeleted,0)=0
 AND
  (@ProductId is null or prd.ProductId = @ProductId)AND
  (@ProductSearch is null or prd.ProductName like '%'+@ProductSearch+'%' or loc.LocationName like'%'+@ProductSearch+'%' 
-   or ven.VendorName like '%'+@ProductSearch+'%' or tbsz.valuedesc like '%'+@ProductSearch+'%'
+   --or ven.VendorName like '%'+@ProductSearch+'%' 
+   or tbsz.valuedesc like '%'+@ProductSearch+'%'
     or tbpt.valuedesc like '%'+@ProductSearch+'%')
  --or prd. like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'
  --or tblla.PhoneNumber like '%'+@LocationSearch+'%'

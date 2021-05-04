@@ -1,6 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from 'src/app/shared/services/data-service/customer.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-select-location',
@@ -16,7 +19,9 @@ export class SelectLocationComponent implements OnInit {
   @Input() selectedData?: any;
   constructor(
     private customerService: CustomerService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -39,13 +44,23 @@ export class SelectLocationComponent implements OnInit {
   }
 
   getLocation() {
+    this.spinner.show();
     this.customerService.getLocation().subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
         const location = JSON.parse(res.resultData);
         this.locationList = location.Location;
-        console.log(location, 'location');
         this.patchLocationValue();
       }
+      else{
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+        this.spinner.hide()
+      }
+    }
+    , (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 

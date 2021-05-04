@@ -53,7 +53,8 @@ namespace StriveCustomer.Android.Fragments
             signatuerPad = rootview.FindViewById<SignaturePadView>(Resource.Id.signatureView);
             signatuerPad.CaptionText = "";
             signatuerPad.SignaturePromptText = "";
-            nextButton.Click += DoneButton_Click;
+            nextButton.Click += NextButton_Click;
+            nextButton.Visibility = ViewStates.Gone;
             backButton.Click += BackButton_Click;
             doneButton.Click += DoneButton_Click;
             cancelButton.Click += CancelButton_Click;
@@ -96,8 +97,7 @@ namespace StriveCustomer.Android.Fragments
             }
             else
             {
-                AppCompatActivity activity = (AppCompatActivity)Context;
-                activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
+                nextButton.Visibility = ViewStates.Visible;
             }
         }
 
@@ -107,11 +107,11 @@ namespace StriveCustomer.Android.Fragments
             activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, additionalServicesFragment).Commit();
         }
 
-        //private void NextButton_Click(object sender, EventArgs e)
-        //{
-        //    AppCompatActivity activity = (AppCompatActivity)Context;
-        //    activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
-        //}
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            AppCompatActivity activity = (AppCompatActivity)Context;
+            activity.SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_frame, termsFragment).Commit();
+        }
     }
 
     public static class SignatureClass

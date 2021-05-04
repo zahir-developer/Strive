@@ -30,7 +30,7 @@
 --------------------------------------------------------
 -- =====================================================
 
-CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] --375
+CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] --[StriveCarSalon].[uspGetDetailJobById]205341
 (@JobId int)
 AS
 BEGIN
@@ -44,21 +44,30 @@ tbj.JobId
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tbj.VehicleId
 ,tbj.Make
-,tbj.Model
 ,tbj.Color
+,tbj.Model
+,tblvm.valuedesc as MakeName
+,tblv.valuedesc as ModelName
+,tblvc.valuedesc as ColorName
 ,tbj.JobType
 ,tbj.JobDate
 ,tbj.JobStatus
 ,tbj.TimeIn
 ,tbj.EstimatedTimeOut
 ,tbj.Notes
+,tblca.PhoneNumber
+,tblca.Email
 from 
 StriveCarSalon.tblJob tbj with(nolock)
 LEFT JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
 INNER JOIN StriveCarSalon.tblJobDetail tbljd on tbj.JobId = tbljd.JobId
 INNER JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
+INNER JOIN StriveCarSalon.tblClientAddress tblca on tblc.ClientId = tblca.ClientId
 INNER JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
 INNER JOIN StriveCarSalon.GetTable('JobType') tbljt on tbljt.valueid = tbj.JobType
+INNER JOIN StriveCarSalon.GetTable('VehicleManufacturer') tblvm on tblvm.valueid = tbj.Make
+INNER JOIN StriveCarSalon.GetTable('VehicleModel') tblv on tblv.valueid = tbj.Model
+INNER JOIN StriveCarSalon.GetTable('VehicleColor') tblvc on tblvc.valueid = tbj.Color
 WHERE tbljt.valuedesc='Detail'
 AND isnull(tbj.IsDeleted,0)=0 
 AND isnull(tblji.IsDeleted,0)=0
@@ -98,6 +107,8 @@ from StriveCarSalon.tblJobServiceEmployee tbljse with(nolock)
 INNER JOIN StriveCarSalon.tblJobItem tblji ON tbljse.JobItemId = tblji.JobItemId
 INNER JOIN StriveCarSalon.tblService tbls ON(tbljse.ServiceId = tbls.ServiceId)
 INNER JOIN StriveCarSalon.tblEmployee tble ON(tbljse.EmployeeId = tble.EmployeeId)
+INNER JOIN StriveCarSalon.tblEmployeeAddress tblea ON(tble.EmployeeId = tblea.EmployeeId)
+
 WHERE tblji.JobId =@JobId
 AND isnull(tblji.IsDeleted,0)=0
 AND tblji.IsActive=1

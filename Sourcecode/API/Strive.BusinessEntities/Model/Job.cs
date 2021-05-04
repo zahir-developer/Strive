@@ -73,5 +73,11 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public DateTime? CheckOutTime { get; set; }
 
+        [Column]
+        public int? JobPaymentId { get; set; }
+
+        [Column]
+        public bool? IsHold { get; set; }
+
     }
 }

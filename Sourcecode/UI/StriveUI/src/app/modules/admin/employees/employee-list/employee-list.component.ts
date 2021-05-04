@@ -9,6 +9,10 @@ import { ToastrService } from 'ngx-toastr';
 import { CollisionListComponent } from '../../employees/collision-list/collision-list.component';
 import { MessageServiceToastr } from 'src/app/shared/services/common-service/message.service';
 import { Router } from '@angular/router';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { EmployeeHourlyRateComponent } from '../employee-hourly-rate/employee-hourly-rate.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -33,22 +37,29 @@ export class EmployeeListComponent implements OnInit {
   employeeId: any;
   location: any;
   public isCollapsed = false;
-  page = 1;
-  pageSize = 5;
   collectionSize: number;
   search = '';
+  page: any;
+  pageSize: any;
+  pageSizeList: any[];
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private employeeService: EmployeeService,
     private confirmationService: ConfirmationUXBDialogService,
     private modalService: NgbModal,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private messageService: MessageServiceToastr,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.isTableEmpty = true;
-    // this.getAllEmployeeDetails();
     this.seachEmployee();
     this.getCommisionDropdownValue();
   }
@@ -56,16 +67,20 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getEmployees().subscribe(data => {
       if (data.status === 'Success') {
         const employees = JSON.parse(data.resultData);
-        this.isTableEmpty = false;
-        if (employees.EmployeeList.length > 0) {
-          const employeeDetail = employees.EmployeeList;
-          this.employeeDetails = employeeDetail;
-          // this.employeeDetails = this.employeeDetails.filter(item => item.Status === true);
+        const employeeDetail = employees.EmployeeList;
+        this.employeeDetails = employeeDetail;
+        if (this.employeeDetails.length === 0) {
+          this.isTableEmpty = true;
+        } else {
           this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+
+          this.isTableEmpty = false;
         }
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
   edit(data) {
@@ -95,21 +110,30 @@ export class EmployeeListComponent implements OnInit {
       this.employeeDetail(empDetails);
     }
   }
-
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.seachEmployee();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
+    this.seachEmployee();
+  }
   employeeDetail(employeeDetail) {
     const id = employeeDetail.EmployeeId;
     this.employeeService.getEmployeeDetail(id).subscribe(res => {
-      console.log(res, 'getEmployeById');
       if (res.status === 'Success') {
         const employees = JSON.parse(res.resultData);
-        console.log(employees, 'employeDeatil');
         if (employees.EmployeeDetail.length > 0) {
           this.employeeData = employees.EmployeeDetail[0];
           this.showDialog = true;
         }
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -125,25 +149,58 @@ export class EmployeeListComponent implements OnInit {
 
   confirmDelete(employeeDetail) {
     const id = employeeDetail.EmployeeId;
+    this.spinner.show();
     this.employeeService.deleteEmployee(id).subscribe(res => {
       if (res.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: ' Employee Deleted Successfully!' });
+        this.spinner.hide();
+
+        this.toastr.success(MessageConfig.Employee.Delete, 'Success!');
+        this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+
         this.seachEmployee();
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
   seachEmployee() {
-    this.employeeService.searchEmployee(this.search).subscribe( res => {
+    this.spinner.show();
+    const empObj = {
+      startDate: null,
+      endDate: null,
+      locationId: null,
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
+      status: true
+    };
+    this.employeeDetails = [];
+    this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
       if (res.status === 'Success') {
+        this.spinner.hide();
+
         const seachList = JSON.parse(res.resultData);
-        this.employeeDetails = seachList.EmployeeList;
-        this.collectionSize = Math.ceil(this.employeeDetails.length / this.pageSize) * 10;
+        if (seachList.EmployeeList.Employee !== null) {
+          this.employeeDetails = seachList.EmployeeList.Employee;
+          const totalCount = seachList.EmployeeList.Count.Count;
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        }
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.spinner.hide();
+
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
   }
 
@@ -153,18 +210,21 @@ export class EmployeeListComponent implements OnInit {
         const roles = JSON.parse(res.resultData);
         this.employeeRoles = roles.Codes;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   getGenderDropdownValue() {
     this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      console.log(res, 'gender');
       if (res.status === 'Success') {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -174,8 +234,10 @@ export class EmployeeListComponent implements OnInit {
         const status = JSON.parse(res.resultData);
         this.maritalStatus = status.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -185,8 +247,10 @@ export class EmployeeListComponent implements OnInit {
         const type = JSON.parse(res.resultData);
         this.commissionType = type.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -196,8 +260,10 @@ export class EmployeeListComponent implements OnInit {
         const state = JSON.parse(res.resultData);
         this.state = state.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -207,8 +273,10 @@ export class EmployeeListComponent implements OnInit {
         const country = JSON.parse(res.resultData);
         this.country = country.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -229,6 +297,8 @@ export class EmployeeListComponent implements OnInit {
 
   closeDialog(event) {
     this.showDialog = event.isOpenPopup;
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+
     this.seachEmployee();
   }
 
@@ -238,6 +308,8 @@ export class EmployeeListComponent implements OnInit {
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
       }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
@@ -248,7 +320,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(EmployeeCollisionComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.mode = 'create';
     modalRef.result.then((result) => {
@@ -265,7 +337,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(CollisionListComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(CollisionListComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.actionType = 'view';
     modalRef.componentInstance.isModal = true;
@@ -278,7 +350,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(DocumentListComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(DocumentListComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.actionType = 'view';
     modalRef.componentInstance.isModal = true;
@@ -291,7 +363,7 @@ export class EmployeeListComponent implements OnInit {
       keyboard: false,
       size: 'lg'
     };
-    const modalRef =  this.modalService.open(CreateDocumentComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(CreateDocumentComponent, ngbModalOptions);
     modalRef.componentInstance.employeeId = empId;
     modalRef.componentInstance.mode = 'create';
     modalRef.result.then((result) => {
@@ -305,8 +377,40 @@ export class EmployeeListComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
   }
 
+  openHourlyRateModal(employee) {
+    const empId = employee.EmployeeId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(EmployeeHourlyRateComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = empId;
+  }
+
   schedule() {
     this.router.navigate(['/admin/scheduling']);
   }
+  changeSorting(column) {
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder === 'ASC' ? 'DESC' : 'ASC'
+    }
+
+    this.selectedCls(this.sortColumn);
+    this.seachEmployee();
+  }
+
+
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
 
 }

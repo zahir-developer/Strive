@@ -50,6 +50,17 @@ import { SsnNumberMaskDirective } from './Directive/ssn-number-mask.directive';
 import { SearchPipe } from './common-search-pipe/search.pipe';
 import {DropdownModule} from 'primeng/dropdown';
 import { OrderByPipe } from './pipe/order-by.pipe';
+import { TwoDecimalPositiveNegativeNumberDirective } from './Directive/two-decimal-positive-negative-number.directive';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NavigatePageDirective } from './Directive/navigate-page.directive';
+import { IdleLockoutComponent } from './components/idle-lockout/idle-lockout.component';
+import { SessionLogoutComponent } from './components/session-logout/session-logout.component';
+import { DashboardStaticsComponent } from './components/dashboard-statics/dashboard-statics.component';
+import { PaymentProcessComponent } from './components/payment-process/payment-process.component';
+import { QRCodeModule } from 'angular2-qrcode';
+import {KeyFilterModule} from 'primeng/keyfilter';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   imports: [
@@ -59,6 +70,8 @@ import { OrderByPipe } from './pipe/order-by.pipe';
     FormsModule,
     PopoverModule.forRoot(),
     NgbModule,
+    QRCodeModule,
+    KeyFilterModule,
     HttpClientModule,
     NgxUiLoaderModule,
     FullCalendarModule,
@@ -72,7 +85,11 @@ import { OrderByPipe } from './pipe/order-by.pipe';
     TooltipModule,
     NgbPaginationModule,
     ChartsModule,
-    DropdownModule  ],
+    DropdownModule,
+    InputMaskModule,
+    InputSwitchModule,
+    TabsModule.forRoot()
+  ],
   entryComponents: [
     ConfirmationDialogComponent
   ],
@@ -82,17 +99,17 @@ import { OrderByPipe } from './pipe/order-by.pipe';
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
-    AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,
+    AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,QRCodeModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
     RainProbabilityComponent, TemperatureComponent, LastWeekComponent, LastThreeMonthComponent,
     LastMonthComponent, TwoDecimalNumberDirective, MaxLengthDirective, CityComponent, TypeaheadModule, BsDatepickerModule,
     NoOfWashesComponent, NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
-     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, 
+     AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, ExportFiletypeComponent,
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe, DropdownModule],
-     NgbPaginationModule, ExportFiletypeComponent, ChartsModule, SsnNumberMaskDirective,SearchPipe, OrderByPipe],
+      OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective,
+      InputMaskModule,  KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

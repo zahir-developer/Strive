@@ -1,3 +1,5 @@
-﻿CREATE USER [StriveSuperAdminTestuser] FOR LOGIN [StriveSuperAdminTestuser]
+﻿CREATE USER [StriveSuperAdminTestuser]
     WITH DEFAULT_SCHEMA = [StriveSuperAdminTest];
+
+
 

@@ -61,6 +61,22 @@ namespace StriveCustomer.iOS.Views
             PastDetail_Segment.Layer.CornerRadius = 5;
             VehicleList_Segment.Layer.CornerRadius = 5;
 
+            if(CustomerInfo.actionType == 1)
+            {
+                SegmentControl.SelectedSegment = 1;
+
+                VehicleList_Segment.Hidden = false;
+                PersonalInfo_Segment.Hidden = true;
+                PastDetail_Segment.Hidden = true;
+                VehicleList_AddBtn.Layer.CornerRadius = 5;
+
+                VehicleList_TableView.RegisterNibForCellReuse(VehicleListViewCell.Nib, VehicleListViewCell.Key);
+                VehicleList_TableView.BackgroundColor = UIColor.Clear;
+                VehicleList_TableView.ReloadData();
+
+                GetVehicleList();
+            }
+
             getPersonalInfo();
         }
 
@@ -123,6 +139,13 @@ namespace StriveCustomer.iOS.Views
                 ZipCode_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
                 PhoneNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
                 Email_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
+
+                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName;
+                MyProfileCustomerInfo.ContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
+                MyProfileCustomerInfo.Email = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
+                MyProfileCustomerInfo.SecondaryContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
+                MyProfileCustomerInfo.Address = personalInfoViewModel.customerInfo.Status.LastOrDefault().Address1;
+                MyProfileCustomerInfo.ZipCode = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
             }
         }
 

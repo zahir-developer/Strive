@@ -13,7 +13,7 @@
     [Twitter]             VARCHAR (100)      NULL,
     [Instagram]           VARCHAR (100)      NULL,
     [WifiDetail]          VARCHAR (20)       NULL,
-    [WorkhourThreshold]   INT                NULL,
+    [WorkhourThreshold]   DECIMAL (18, 2)    NULL,
     [StartTime]           DATETIMEOFFSET (7) NULL,
     [EndTime]             DATETIMEOFFSET (7) NULL,
     [IsActive]            BIT                NULL,
@@ -25,4 +25,8 @@
     CONSTRAINT [PK_tblLocation] PRIMARY KEY CLUSTERED ([LocationId] ASC),
     CONSTRAINT [FK_tblLocation_LocationType] FOREIGN KEY ([LocationType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
+
+
 

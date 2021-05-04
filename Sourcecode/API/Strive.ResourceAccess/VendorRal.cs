@@ -20,9 +20,9 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), null);
         }
-        public bool AddVendor(VendorDTO vendor)
+        public int AddVendor(VendorDTO vendor)
         {
-            return dbRepo.SavePc(vendor, "VendorId");
+            return dbRepo.InsertPK(vendor, "VendorId");
         }
         public bool UpdateVendor(VendorDTO vendor)
         {
@@ -39,7 +39,7 @@ namespace Strive.ResourceAccess
         public List<VendorViewModel> GetVendorById(int id)
         {
             _prm.Add("@VendorId", id);
-            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
+            var result = db.Fetch<VendorViewModel>(SPEnum.USPGETVENDORBYID.ToString(), _prm);
             return result;
         }
         public List<VendorViewModel> GetVendorSearch(VendorSearchDto search)
@@ -47,6 +47,10 @@ namespace Strive.ResourceAccess
             _prm.Add("@VendorSearch", search.VendorSearch);
             var result = db.Fetch<VendorViewModel>(SPEnum.USPGETALLVENDOR.ToString(), _prm);
             return result;
+        }
+        public List<VendorNameViewModel> GetAllVendorName()
+        {
+            return db.Fetch<VendorNameViewModel>(SPEnum.USPGETALLVENDORNAME.ToString(), null);
         }
     }
 

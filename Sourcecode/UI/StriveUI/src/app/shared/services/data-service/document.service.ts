@@ -16,9 +16,20 @@ export class DocumentService {
   getDocument(id,type) {
     return this.http.get(`${UrlConfig.document.getDocument}` + id + '/' + type);
   }
+  getAllDocument(id) {
+    return this.http.get(`${UrlConfig.document.getAllDocument}` + id );
+  }
+
+  deleteDocumentById(id,type) {
+    return this.http.delete(`${UrlConfig.document.deleteDocumentById}` + id + '/' + type );
+  }
 
   deleteDocument(id,type) {
     return this.http.delete(`${UrlConfig.document.deleteDocument}` + id + '/' + type );
+  }
+
+  getDocumentById(id, type) {
+    return this.http.get(`${UrlConfig.document.getDocumentById}` + id  + '/' + type);
   }
 
 }

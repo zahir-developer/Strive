@@ -1,7 +1,11 @@
-<select name="state" [disabled]="isView"  [(ngModel)]="state" class="form-control" (change)="stateSelection($event)" [ngClass]="{'is-invalid': state === '' && submitted}">
-    <option value="" selected hidden>Choose </option>
-    <option *ngFor="let state of stateList" value="{{state.value}}">{{state.name}}</option>
-</select>
-<div *ngIf="submitted && state === ''" class="invalid-feedback">
+<p-dropdown [options]="stateList" [ngClass]="{ 'is-invalid': submitted &&  stateValueSelection == false }"
+    styleClass="col-12" name="state" [disabled]="isView" [(ngModel)]="state" optionLabel="name" [filter]="true"
+    placeholder="Choose" (onChange)="stateSelection($event)">
+</p-dropdown>
+<div *ngIf="submitted && stateValueSelection == false" class="invalid-feedback">
     State is required
 </div>
+<!-- <select name="state" [disabled]="isView"  [(ngModel)]="state" class="form-control" (change)="stateSelection($event)" [ngClass]="{'is-invalid': state === '' && submitted}">
+    <option value="" selected hidden>Choose </option>
+    <option *ngFor="let state of stateList" value="{{state.value}}">{{state.name}}</option>
+</select> -->

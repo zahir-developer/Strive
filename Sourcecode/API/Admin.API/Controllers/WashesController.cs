@@ -1,6 +1,7 @@
 ﻿using Admin.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Washes;
 using Strive.BusinessLogic.Washes;
 using Strive.Common;
@@ -20,10 +21,6 @@ namespace Admin.API.Controllers
         #region GET
 
         [HttpGet]
-        [Route("GetAllWashes/{locationId}")]
-        public Result GetAllWashTime(int locationId) => _bplManager.GetAllWashTime(locationId);
-
-        [HttpGet]
         [Route("GetWashTimeDetail/{id}")]
         public Result GetWashTimeDetail(int id) => _bplManager.GetWashTimeDetail(id);
 
@@ -35,14 +32,20 @@ namespace Admin.API.Controllers
         [Route("GetMembershipListByVehicleId/{vehicleId}")]
         public Result GetMembershipListByVehicleId(int vehicleId) => _bplManager.GetMembershipListByVehicleId(vehicleId);
 
+
         [HttpGet]
-        [Route("GetTicketNumber")]
-        public string GetTicketNumber() => _bplManager.GetTicketNumber();
+        [Route("GetAllLocationWashTime/{id}")]
+        public Result GetAllLocationWashTime(int id) => _bplManager.GetAllLocationWashTime(id);
+
 
         #endregion
 
         #region POST
 
+        [HttpPost]
+        [Route("GetAllWashes")]
+        public Result GetAllWashTime([FromBody] SearchDto searchDto) => _bplManager.GetAllWashTime(searchDto);
+         
         [HttpPost]
         [Route("AddWashTime")]
         public Result AddWashTime([FromBody] WashesDto washes) => _bplManager.AddWashTime(washes);
@@ -60,5 +63,12 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteWashes(int id) => _bplManager.DeleteWashes(id);
+
+
+        [HttpPost]
+        [Route("GetWashTimeByLocationId")]
+        public Result GetLocationById([FromBody] WashTimeDto washTimeDto) => _bplManager.GetWashTimeByLocationId(washTimeDto);
+
+
     }
 }

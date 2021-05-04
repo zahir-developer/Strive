@@ -15,12 +15,9 @@ namespace Strive.ResourceAccess
 {
     public class AdSetupRal : RalBase
     {
-        private readonly Db _db;
-
         public AdSetupRal(ITenantHelper tenant) : base(tenant)
         {
-            var dbConnection = tenant.db();
-            _db = new Db(dbConnection);
+           
         }
         public bool AddAdSetup(AdSetupAddDto adSetup)
         {
@@ -43,10 +40,10 @@ namespace Strive.ResourceAccess
             return db.Fetch<AdSetupViewModel>(EnumSP.AdSetup.USPGETALLADSETUP.ToString(), _prm);
         }
 
-        public AdSetupViewModel GetAdSetupById(int id)
+        public AdSetupDetailViewModel GetAdSetupById(int id)
         {
             _prm.Add("@AdSetupId", id);
-            var result = db.FetchSingle<AdSetupViewModel>(EnumSP.AdSetup.USPGETADSETUPBYID.ToString(), _prm);
+            var result = db.FetchSingle<AdSetupDetailViewModel>(EnumSP.AdSetup.USPGETADSETUPBYID.ToString(), _prm);
             return result;
         }
 

@@ -30,7 +30,7 @@ SELECT
    (SELECT ', ' + S.ServiceName 
     FROM StriveCarSalon.tblMembershipService MS
 	LEFT JOIN StriveCarSalon.tblService S on MS.ServiceId = S.ServiceId and MS.MembershipId = M.MembershipId
-	WHERE S.ServiceId = MS.ServiceId
+	WHERE S.ServiceId = MS.ServiceId and ISNULL(MS.IsDeleted,0)=0
 	Group by S.ServiceName
     FOR XML PATH('')
 	), 1, 1, '') 
@@ -41,7 +41,7 @@ FROM StriveCarSalon.tblMembership M Where
 (@MembershipSearch is null or m.MembershipName like'%'+ @MembershipSearch+'%')
 and ISNULL(M.IsDeleted,0)=0
 GROUP BY M.MembershipName, M.MembershipId, M.IsActive, M.CreatedDate
-ORDER BY M.MembershipId desc
+ORDER BY  M.IsActive desc
 
 
 END

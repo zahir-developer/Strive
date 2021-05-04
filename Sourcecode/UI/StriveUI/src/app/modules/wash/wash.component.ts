@@ -10,7 +10,6 @@ export class WashComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('wash component');
   }
 
 }

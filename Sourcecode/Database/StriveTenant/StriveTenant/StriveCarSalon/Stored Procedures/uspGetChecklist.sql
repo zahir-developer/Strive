@@ -7,9 +7,15 @@ SELECT
 	cl.Name, 
 	cl.RoleId,
 	tr.RoleName as RoleName
-
+	,STUFF((SELECT  ', ' + CAST(cln.NotificationTime  AS varchar(5))
+    FROM [tblCheckListNotification] cln
+	WHERE cln.CheckListId = cl.ChecklistId AND cln.IsDeleted = 0
+    FOR XML PATH('')
+	), 1, 2, '')  AS NotificationTime
+	--,cln.NotificationTime
 FROM [StriveCarSalon].[tblChecklist] cl
 inner join [StriveCarSalon].[tblRoleMaster] tr on cl.RoleId = tr.RoleMasterId
+--left join [StriveCarSalon].[tblCheckListNotification] cln on cln.CheckListId = cl.ChecklistId
 where ISNULL(cl.IsDeleted,0)=0
 
  Order by ChecklistId DESC

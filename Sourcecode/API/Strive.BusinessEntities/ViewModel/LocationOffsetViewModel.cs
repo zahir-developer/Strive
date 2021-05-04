@@ -10,30 +10,30 @@ namespace Strive.BusinessEntities.DTO.Location
     {
         public int LocationOffSetId { get; set; }
 
-   
+
         public int LocationId { get; set; }
 
-      
-        public bool? OffSet1 { get; set; }
 
-      
-        public bool? OffSetA { get; set; }
+        public decimal? OffSet1 { get; set; }
 
-      
-        public bool? OffSetB { get; set; }
 
-      
-        public bool? OffSetC { get; set; }
+        public decimal? OffSetA { get; set; }
 
-      
-        public bool? OffSetD { get; set; }
 
-      
-        public bool? OffSetE { get; set; }
+        public decimal? OffSetB { get; set; }
 
-      
-        public bool? OffSetF { get; set; }
-      
+
+        public decimal? OffSetC { get; set; }
+
+
+        public decimal? OffSetD { get; set; }
+
+
+        public decimal? OffSetE { get; set; }
+
+
+        public decimal? OffSetF { get; set; }
+
         public bool? OffSet1On { get; set; }
     }
 }

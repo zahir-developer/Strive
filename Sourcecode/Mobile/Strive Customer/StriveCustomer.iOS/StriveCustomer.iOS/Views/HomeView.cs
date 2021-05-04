@@ -20,8 +20,9 @@ namespace StriveCustomer.iOS.Views
     public partial class HomeView : MvxViewController<MapViewModel>
     {
         CLLocationManager locationManager = new CLLocationManager();
-        private CarWashLocation carWashLocations = new CarWashLocation();
+        public CarWashLocation carWashLocations = new CarWashLocation();
         private MapDelegate mapDelegate;
+        public static CarWashLocation washlocations;
 
         public HomeView() : base("HomeView", null)
         {
@@ -39,6 +40,7 @@ namespace StriveCustomer.iOS.Views
             WashTimeWebView.ScrollEnabled = true;
 
             locationManager.RequestWhenInUseAuthorization();
+            WashTimeWebView.ShowsUserLocation = true;
 
             this.mapDelegate = new MapDelegate();
             this.WashTimeWebView.Delegate = this.mapDelegate;
@@ -62,10 +64,12 @@ namespace StriveCustomer.iOS.Views
             if(locations.Location.Count == 0)
             {
                 carWashLocations = null;
+                washlocations = null;
             }
             else
             {
                 carWashLocations = locations;
+                washlocations = locations;
             }
             isLocationEnabled();            
         }
@@ -90,8 +94,8 @@ namespace StriveCustomer.iOS.Views
                     
                 annotations[i] = new MKPointAnnotation()
                 {
-                    Title = carWashLocations.Location[i].Address1,                    
-                    Subtitle = subtitle,
+                    Title = carWashLocations.Location[i].LocationName,                    
+                    //Subtitle = subtitle,
                     Coordinate = new CLLocationCoordinate2D((double)carWashLocations.Location[i].Latitude, (double)carWashLocations.Location[i].Longitude)                    
                 };
                 WashTimeWebView.AddAnnotations(annotations[i]);
@@ -105,25 +109,17 @@ namespace StriveCustomer.iOS.Views
         }
 
         private void isLocationEnabled()
-        {            
-            switch (CLLocationManager.Status)
-            {
-                case CLAuthorizationStatus.Authorized | CLAuthorizationStatus.AuthorizedAlways | CLAuthorizationStatus.AuthorizedWhenInUse:
-                    Console.WriteLine("Access");
-                    SetMapAnnotations();
-                    break;
-                case CLAuthorizationStatus.Denied | CLAuthorizationStatus.NotDetermined | CLAuthorizationStatus.Restricted:
+        {          
+            bool status = CLLocationManager.LocationServicesEnabled;
 
-                    var alertView = UIAlertController.Create("Alert", "To use this functionality, enable location services from settings in your device", UIAlertControllerStyle.Alert);
-                    alertView.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
-                    PresentViewController(alertView, true, null);
-                    break;
-                default:
-                    var alertView1 = UIAlertController.Create("Alert", "To use this functionality, enable location services from settings in your device",UIAlertControllerStyle.Alert);
-                    PresentViewController(alertView1, true, null);
-                    alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));                    
-                    break;
-            }            
+            if(!status)
+            {
+                var alertView1 = UIAlertController.Create("Alert", "To use this functionality, enable location services from settings in your device", UIAlertControllerStyle.Alert);
+                PresentViewController(alertView1, true, null);
+                alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
+            }
+            WashTimeWebView.ShowsUserLocation = true;
+            SetMapAnnotations();                     
         }
         
         private void NavToSettings()
@@ -132,8 +128,7 @@ namespace StriveCustomer.iOS.Views
             if (UIApplication.SharedApplication.CanOpenUrl(url))
             {
                 UIApplication.SharedApplication.OpenUrl(url);
-            }
-            SetMapAnnotations();
+            }            
         }
        
         public class MapDelegate : MKMapViewDelegate
@@ -165,12 +160,31 @@ namespace StriveCustomer.iOS.Views
                 //{
                 //    isOpen = true;
                 //}
-                //var ButtonBackgroundView = new UIButton(new CGRect(x: 0, y: 0, width: 105, height: 40));
-                //ButtonBackgroundView.Layer.CornerRadius = 5;
-                //ButtonBackgroundView.BackgroundColor = UIColor.Clear.FromHex(0xFCC201);
 
-                //pinView.RightCalloutAccessoryView = ButtonBackgroundView;
+                var ButtonBackgroundView = new UIButton(new CGRect(x: 0, y: 0, width: 105, height: 40));
+                ButtonBackgroundView.Layer.CornerRadius = 5;
+                ButtonBackgroundView.BackgroundColor = UIColor.Clear.FromHex(0xFCC201);
+                if (washlocations.Location != null)
+                {
+                    for (int i = 0; i < washlocations.Location.Count; i++)
+                    {
+                        var WashTime = washlocations.Location[i].WashTimeMinutes;
+                        ButtonBackgroundView.SetTitle(WashTime.ToString() + "mins", UIControlState.Normal);
+                    }
+                }
+                else
+                {
+                    ButtonBackgroundView.SetTitle("Wash Time", UIControlState.Normal);
+                }
+                pinView.RightCalloutAccessoryView = ButtonBackgroundView;
+
+                UIButton carButton = new UIButton(new CGRect(x: 30, y: 0, width: 20, height: 40));
+                carButton.Layer.CornerRadius = 5;
+                carButton.SetBackgroundImage(UIImage.FromBundle("icon-car"), UIControlState.Normal);
+                pinView.LeftCalloutAccessoryView = carButton;
+
                 //pinView.LeftCalloutAccessoryView = ButtonBackgroundView;
+                //pinView.RightCalloutAccessoryView = new UIImageView(UIImage.FromFile("icon-car"));
 
                 //CreateCustomView(Title, Subtitle, isOpen);
 

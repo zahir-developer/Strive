@@ -2,7 +2,6 @@
     [JobPaymentId]  INT                IDENTITY (1, 1) NOT NULL,
     [JobId]         INT                NULL,
     [DrawerId]      INT                NULL,
-    [PaymentType]   INT                NULL,
     [Amount]        DECIMAL (16, 2)    NULL,
     [TaxAmount]     DECIMAL (16, 2)    NULL,
     [Cashback]      DECIMAL (16, 2)    NULL,
@@ -22,11 +21,11 @@
     [MembershipId]  INT                NULL,
     CONSTRAINT [PK_tblJobPayment] PRIMARY KEY CLUSTERED ([JobPaymentId] ASC),
     CONSTRAINT [FK_tblJobPayment_DrawerId] FOREIGN KEY ([DrawerId]) REFERENCES [StriveCarSalon].[tblDrawer] ([DrawerId]),
-    CONSTRAINT [FK_tblJobPayment_JobId] FOREIGN KEY ([JobId]) REFERENCES [StriveCarSalon].[tblJob] ([JobId]),
-    CONSTRAINT [FK_tblJobPayment_MembershipId] FOREIGN KEY ([MembershipId]) REFERENCES [StriveCarSalon].[tblMembership] ([MembershipId]),
-    CONSTRAINT [FK_tblJobPayment_PaymentStatus] FOREIGN KEY ([PaymentStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
-    CONSTRAINT [FK_tblJobPayment_PaymentType] FOREIGN KEY ([PaymentType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
+    CONSTRAINT [FK_tblJobPayment_MembershipId] FOREIGN KEY ([MembershipId]) REFERENCES [StriveCarSalon].[tblClientVehicleMembershipDetails] ([ClientMembershipId]),
+    CONSTRAINT [FK_tblJobPayment_PaymentStatus] FOREIGN KEY ([PaymentStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

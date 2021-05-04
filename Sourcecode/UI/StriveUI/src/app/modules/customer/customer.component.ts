@@ -84,7 +84,6 @@ export class CustomerComponent implements OnInit {
       if (res.status === 'Success') {
         this.scheduleDetailObj.isEdit = true;
         const details = JSON.parse(res.resultData);
-        console.log(details, 'details');
         this.selectedData = details.DetailsForDetailId;
         if (this.selectedData.Details !== null) {
           this.selectedData.Details.VechicleName = this.selectedData.Details.MakeName + ' ' + this.selectedData.Details.ModelName

@@ -19,7 +19,7 @@ using static Android.Manifest;
 namespace StriveCustomer.Android.Views
 {
     [MvxActivityPresentation]
-    [Activity(Label = "Login View")]
+    [Activity(Label = "Login View", ScreenOrientation = ScreenOrientation.Portrait)]
     public class LoginView : MvxAppCompatActivity<LoginViewModel>
     {
         private Button loginButton;
