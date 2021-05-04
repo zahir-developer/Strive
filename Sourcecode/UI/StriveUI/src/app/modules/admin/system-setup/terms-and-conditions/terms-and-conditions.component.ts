@@ -29,10 +29,10 @@ export class TermsAndConditionsComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
 
   ngOnInit() {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.TermsAndCondition,
       sortOrder: ApplicationConfig.Sorting.SortOrder.TermsAndCondition.order
-     }
+    }
     this.getDocumentType();
   }
 
@@ -82,7 +82,7 @@ export class TermsAndConditionsComponent implements OnInit {
 
   confirmDelete(Id) {
     this.spinner.show();
-    this.documentService.deleteDocumentById(Id, 'TERMSANDCONDITION').subscribe(res => {
+    this.documentService.deleteDocumentById(Id, ApplicationConfig.Category.TermsAndCondition).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 
@@ -115,7 +115,7 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   downloadPDF(documents) {
-    this.documentService.getDocumentById(documents.DocumentId, 'TERMSANDCONDITION').subscribe(res => {
+    this.documentService.getDocumentById(documents.DocumentId, ApplicationConfig.Category.TermsAndCondition).subscribe(res => {
       if (res.status === 'Success') {
         const documentDetails = JSON.parse(res.resultData);
         if (documentDetails.Document !== null) {
@@ -135,17 +135,17 @@ export class TermsAndConditionsComponent implements OnInit {
   }
 
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.TermsAndCondition.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.document.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -158,22 +158,22 @@ export class TermsAndConditionsComponent implements OnInit {
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
 }

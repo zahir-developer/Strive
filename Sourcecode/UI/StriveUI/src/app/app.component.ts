@@ -10,6 +10,7 @@ import { IdleLockoutComponent } from './shared/components/idle-lockout/idle-lock
 import { Subscription } from 'rxjs';
 import { AuthService } from './shared/services/common-service/auth.service';
 import { SessionLogoutComponent } from './shared/components/session-logout/session-logout.component';
+import { ApplicationConfig } from './shared/services/ApplicationConfig';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -82,7 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 20 * 60;    // 60
+      const seconds = ApplicationConfig.refreshTime.refreshTime * 60;    // 60
       this.subscribeTheIdle(this.idle, seconds);
     }
   }

@@ -41,7 +41,7 @@ export class PrintWashComponent implements OnInit {
     setTimeout(() => {
       popupWin.print();
       popupWin.close();
-    }, 2000);
+    }, 1000);
   }
 
 

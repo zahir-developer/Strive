@@ -115,9 +115,7 @@ export class ServiceSetupListComponent implements OnInit {
   }
   searchKeyup(event) {
     if (event) {
-      setTimeout(() => {
         this.getAllserviceSetupDetails();
-      }, 5000);
     }
 
   }
