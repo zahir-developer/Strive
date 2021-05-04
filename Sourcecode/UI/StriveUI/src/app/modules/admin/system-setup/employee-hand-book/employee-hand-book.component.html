@@ -34,6 +34,8 @@
                                             <td scope="row">{{doc.OriginalFileName | slice:0:35}} {{ (doc.OriginalFileName !== undefined && doc.OriginalFileName !== null) ? (doc.OriginalFileName.length > 35 ? '...' : '') : '' }}</td>
                                             <td>{{doc.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                             <td>
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green" pTooltip="Edit" tooltipPosition="bottom" (click)="adddata('edit', doc)"></em>&nbsp;&nbsp;
+
                                                 <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1" pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(doc)"></em>
                                                 <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1" pTooltip="Delete" tooltipPosition="bottom" (click)="delete(doc.DocumentId)"></em>
                                             </td>
@@ -54,7 +56,7 @@
 
 
 
-    <p-dialog styleClass="MyDialog" header="Create Employee Handbook" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
-        <app-create-edit-employee-hand-book *ngIf="showDialog" [documentTypeId]="documentTypeId" [selectedData]="selectedData" [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)" (getDocumentType)="getDocumentType()">
+    <p-dialog styleClass="MyDialog" header="{{header}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+        <app-create-edit-employee-hand-book *ngIf="showDialog" [documentTypeId]="documentTypeId"  [actionType] = "actionType" [selectedData]="selectedData" [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)" (getDocumentType)="getDocumentType()">
         </app-create-edit-employee-hand-book>
     </p-dialog>
