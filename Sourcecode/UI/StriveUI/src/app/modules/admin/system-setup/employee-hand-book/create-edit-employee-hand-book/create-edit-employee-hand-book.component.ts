@@ -26,7 +26,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   locationName: any;
   isChecked: boolean;
   @Input() documentTypeId: any;
-
+@Input() actionType: any;
   @Output() closeDialog = new EventEmitter();
   @Output() getDocumentType = new EventEmitter();
 
@@ -46,6 +46,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   localFileSize: any;
   subdocumentType: any;
   rollList: any;
+  @Input() selectedData?: any;
+  base64: any;
+
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -58,7 +61,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   ngOnInit() {
     this.fileType = ApplicationConfig.UploadFileType.EmployeeHandbook;
     this.fileTypes = this.fileType.toString();
-    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook
+    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook;
     if (localStorage.getItem('employeeName') !== undefined) {
       this.headerName = localStorage.getItem('employeeName');
       this.employeeId = +localStorage.getItem('empId');
@@ -69,7 +72,17 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
-
+    if (this.actionType === 'Edit') {
+    debugger;
+      this.handbookSetupForm.patchValue({
+        name: this.selectedData?.DocumentName,
+        roleId: this.selectedData.roleId,
+      
+      });
+      this.fileName = this.selectedData?.FileName;
+      // this.base64 = this.selectedData?.Base64;
+      // this.fileUploadformData = this.selectedData?.Base64;
+    }
   }
   getAllRoles() {
     this.employeeService.getAllRoles().subscribe(res => {
@@ -114,6 +127,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   }
 
   fileNameChanged() {
+    debugger;
     let filesSelected: any;
     filesSelected = document.getElementById('customFile');
     filesSelected = filesSelected.files;
@@ -173,8 +187,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
 
       return;
     }
+    
     const obj = {
-      documentId: 0,
+      documentId: this.selectedData.DocumentId ? this.selectedData.DocumentId  : 0,
       DocumentName: this.handbookSetupForm.controls['name'].value,
       DocumentSubType: null,
       documentType: this.documentTypeId,
@@ -196,6 +211,31 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       documentType: "EMPLOYEEHANDBOOK"
     };
     this.spinner.show();
+    if(this.actionType == "Edit"){
+      this.document.updateDocument(finalObj).subscribe(data => {
+        if (data.status === 'Success') {
+          this.spinner.hide();
+  
+          this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Add, 'Success!');
+  
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+          this.getDocumentType.emit();
+          this.isLoading = false;
+        } else {
+          this.spinner.hide();
+  
+          this.isLoading = false;
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          this.submitted = false;
+        }
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
+    }
+  else{
     this.document.addDocument(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
@@ -218,6 +258,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     );
+  }
   }
 
   clearDocument() {

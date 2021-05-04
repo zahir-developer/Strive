@@ -39,11 +39,12 @@ export class CustomerHistoryComponent implements OnInit {
     { val: '11', name: 'Nov' },
     { val: '12', name: 'Dec' }
   ];
+  sortColumn: { sortBy: any; sortOrder: string; };
   constructor(
     private checkout: CheckoutService,
     private router: Router
-    ,private landingservice:LandingService,
-    private toastr : ToastrService
+    , private landingservice: LandingService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -52,9 +53,14 @@ export class CustomerHistoryComponent implements OnInit {
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.year = this.date.getFullYear();
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.customerHistory,
+      sortOrder: ApplicationConfig.Sorting.SortOrder.customerHistory.order
+    };
     this.getCustomerHistory();
+
   }
-  landing(){
+  landing() {
     this.landingservice.loadTheLandingPage()
   }
   onYearChange(event) {
@@ -64,6 +70,7 @@ export class CustomerHistoryComponent implements OnInit {
   getCustomerHistory() {
     // 2053 ,2020-12-01,2021-01-21
     let finalObj: any = {};
+
     if (this.month === '0') {
       const fromDate = new Date();
       fromDate.setFullYear(this.year);
@@ -80,8 +87,8 @@ export class CustomerHistoryComponent implements OnInit {
         pageNo: this.page,
         pageSize: this.pageSize,
         query: this.searchQery !== '' ? this.searchQery : null,
-        sortOrder: null,
-        sortBy: null
+        sortOrder: this.sortColumn.sortOrder,
+        sortBy: this.sortColumn.sortBy
       };
     } else {
       const fromDate = new Date();
@@ -101,15 +108,20 @@ export class CustomerHistoryComponent implements OnInit {
         pageNo: this.page,
         pageSize: this.pageSize,
         query: this.searchQery !== '' ? this.searchQery : null,
-        sortOrder: null,
-        sortBy: null
+        sortOrder: this.sortColumn.sortOrder,
+        sortBy: this.sortColumn.sortBy
       };
     }
     this.checkout.getCustomerHistory(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
         console.log(history, 'history');
-        this.historyList = history.CustomerHistory;
+        this.historyList = history.CustomerHistory.customerHistoryViewModel;
+        this.historyList.filter( item => {
+          if (item.MembershipName === '') {
+            item.MembershipName = 'No';
+          }
+        });
         this.collectionSize = Math.ceil(this.historyList.length / this.pageSize) * 10;
       }
     }, (err) => {
@@ -146,6 +158,26 @@ export class CustomerHistoryComponent implements OnInit {
 
   search() {
     this.getCustomerHistory();
+  }
+  changeSorting(column) {
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    }
+
+    this.selectedCls(this.sortColumn)
+    this.getCustomerHistory();
+  }
+
+
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
   }
 
 }

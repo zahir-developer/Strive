@@ -12,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LoginComponent } from 'src/app/login/login.component';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -40,13 +42,19 @@ export class PayrollsGridComponent implements OnInit {
   employeeId: string;
   sortColumn: { sortBy: string; sortOrder: string; };
   processLabel: string = "Process";
+  fileExportType: { id: number; name: string; }[];
+  fileType: any;
+  date = moment(new Date()).format('MM/DD/YYYY');
+  fileTypeEvent: boolean = false;
+
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private landingservice: LandingService
+    private landingservice: LandingService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +62,7 @@ export class PayrollsGridComponent implements OnInit {
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.PayRoll,
       sortOrder: ApplicationConfig.Sorting.SortOrder.PayRoll.order
-    }
+    };
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -65,9 +73,55 @@ export class PayrollsGridComponent implements OnInit {
     });
     this.isEditAdjustment = false;
     this.patchValue();
+    this.fileExportType = [
+      { id: 1, name: 'CSV (comma delimited)' },
+      { id: 2, name: 'Excel 97 - 2003' },
+    ];
   }
   landing() {
-    this.landingservice.loadTheLandingPage()
+    this.landingservice.loadTheLandingPage();
+  }
+  getFileType(event) {
+    this.fileTypeEvent = true;
+    this.fileType = +event.target.value;
+  }
+  export() {
+    this.payRollList
+    const fileType = this.fileType !== undefined ? this.fileType : '';
+    if (fileType === '' || fileType === 0) {
+      return;
+    } else if (this.payRollList.length === 0) {
+      return;
+    }
+    let excelReport : any = [];
+    if(this.payRollList.length > 0){
+      for(let i = 0; i < this.payRollList.length; i ++){
+        excelReport.push({
+        'Emp.ID': this.payRollList[i].EmployeeId,
+        'Payee Name': this.payRollList[i].PayeeName,
+        'Wash Hrs.' : this.payRollList[i].TotalWashHours,
+        'Detail Hrs.' : this.payRollList[i].TotalDetailHours,
+        'Rate': this.payRollList[i].WashRate,
+        'Reg. pay': this.payRollList[i].WashAmount,
+        'OT Hrs.': this.payRollList[i].OverTimeHours,
+        'OT Pay' : this.payRollList[i].OverTimePay,
+        'Collision' : this.payRollList[i].Collision,
+
+        'Adjustment' : this.payRollList[i].Adjustment,
+        'Details com.': this.payRollList[i].DetailCommission,
+        'Payee Total': this.payRollList[i].PayeeTotal,
+
+      })
+      }
+    }
+    if(this.fileType == 1){
+      this.excelService.exportAsCSVFile(excelReport, 'payrollReport_' + moment(this.date).format('MM/dd/yyyy'));
+    }
+    else{
+      this.excelService.exportAsExcelFile(excelReport, 'payrollReport_' + moment(this.date).format('MM/dd/yyyy'));
+
+    }
+    
   }
   patchValue() {
     const curr = new Date(); // get current date
@@ -219,19 +273,11 @@ export class PayrollsGridComponent implements OnInit {
   }
 
   updateAdjustment() {
-    
     const updateObj = [];
-
-
-
-
     this.payRollList.forEach(item => {
-      const oldPayroll = this.payRollBackup.filter(s => s.EmployeeId == item.EmployeeId);
+      const oldPayroll = this.payRollBackup.filter(s => s.EmployeeId === item.EmployeeId);
       if (oldPayroll !== null && oldPayroll !== undefined) {
-        console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
-        if (oldPayroll.Adjustment != +item.Adjustment) {
-          console.log('True');
-          console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
+        if (oldPayroll.Adjustment !== +item.Adjustment) {
           updateObj.push({
             id: item.EmployeeId,
             adjustment: +item.Adjustment
@@ -243,7 +289,6 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.updateAdjustment(updateObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
         this.toastr.success(MessageConfig.PayRoll.Adjustment, 'Success!');

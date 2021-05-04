@@ -8,6 +8,7 @@ using System.Linq;
 using System.Data;
 using Strive.Common;
 using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.City;
 
 namespace Strive.ResourceAccess
 {
@@ -95,6 +96,15 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@TenantId", id);
             return db.Fetch<TenantModuleViewModel>(EnumSP.Tenant.USPGETMODULEBYID.ToString(), _prm);
+        }
+        public List<StateViewModel> GetState()
+        {
+            return db.Fetch<StateViewModel>(EnumSP.Tenant.USPGETSTATE.ToString(), _prm);
+        }
+        public List<CityDto> GetCityByStateId(int stateId)
+        {
+            _prm.Add("stateId", stateId);
+            return db.Fetch<CityDto>(EnumSP.Tenant.USPGETCITYBYSTATEID.ToString(), _prm);
         }
     }
 }

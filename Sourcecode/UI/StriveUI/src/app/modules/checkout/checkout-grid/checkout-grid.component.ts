@@ -48,7 +48,7 @@ export class CheckoutGridComponent implements OnInit {
   ) {
     // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.getAllUncheckedVehicleDetails();

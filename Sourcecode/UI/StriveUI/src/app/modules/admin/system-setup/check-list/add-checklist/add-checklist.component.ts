@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { CheckListService } from 'src/app/shared/services/data-service/check-list.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
@@ -33,7 +34,7 @@ export class AddChecklistComponent implements OnInit {
     if (this.notificationTime === '') {
       return;
     }
-    if (this.notificationTimeList.length >= 10) {
+    if (this.notificationTimeList.length >= ApplicationConfig.ChecklistNotification.MaxLength) {
       this.isNotificationTimeLimit = true;
       this.notificationTime = '';
       return;
@@ -49,7 +50,7 @@ export class AddChecklistComponent implements OnInit {
 
   removeTime(time) {
     this.notificationTimeList = this.notificationTimeList.filter(item => item.id !== time.id);
-    if (this.notificationTimeList.length < 5) {
+    if (this.notificationTimeList.length < ApplicationConfig.ChecklistNotification.MaxLength) {
       this.isNotificationTimeLimit = false;
     }
   }
