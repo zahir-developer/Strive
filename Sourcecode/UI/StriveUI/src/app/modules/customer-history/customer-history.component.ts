@@ -43,8 +43,8 @@ export class CustomerHistoryComponent implements OnInit {
   constructor(
     private checkout: CheckoutService,
     private router: Router
-    ,private landingservice:LandingService,
-    private toastr : ToastrService
+    , private landingservice: LandingService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -53,14 +53,14 @@ export class CustomerHistoryComponent implements OnInit {
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.year = this.date.getFullYear();
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.customerHistory,
       sortOrder: ApplicationConfig.Sorting.SortOrder.customerHistory.order
-     }
+    };
     this.getCustomerHistory();
-  
+
   }
-  landing(){
+  landing() {
     this.landingservice.loadTheLandingPage()
   }
   onYearChange(event) {
@@ -70,7 +70,7 @@ export class CustomerHistoryComponent implements OnInit {
   getCustomerHistory() {
     // 2053 ,2020-12-01,2021-01-21
     let finalObj: any = {};
-    
+
     if (this.month === '0') {
       const fromDate = new Date();
       fromDate.setFullYear(this.year);
@@ -117,6 +117,11 @@ export class CustomerHistoryComponent implements OnInit {
         const history = JSON.parse(res.resultData);
         console.log(history, 'history');
         this.historyList = history.CustomerHistory.customerHistoryViewModel;
+        this.historyList.filter( item => {
+          if (item.MembershipName === '') {
+            item.MembershipName = 'No';
+          }
+        });
         this.collectionSize = Math.ceil(this.historyList.length / this.pageSize) * 10;
       }
     }, (err) => {
@@ -155,24 +160,24 @@ export class CustomerHistoryComponent implements OnInit {
     this.getCustomerHistory();
   }
   changeSorting(column) {
-    this.sortColumn ={
-     sortBy: column,
-     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
 
     this.selectedCls(this.sortColumn)
-   this.getCustomerHistory();
- }
+    this.getCustomerHistory();
+  }
 
- 
 
- selectedCls(column) {
-   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-     return 'fa-sort-desc';
-   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-     return 'fa-sort-asc';
-   }
-   return '';
- }
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
 
 }
