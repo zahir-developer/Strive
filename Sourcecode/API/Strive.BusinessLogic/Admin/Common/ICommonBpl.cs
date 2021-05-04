@@ -1,4 +1,5 @@
-﻿using Strive.Common;
+﻿using Strive.BusinessEntities.City;
+using Strive.Common;
 using System.Threading.Tasks;
 
 namespace Strive.BusinessLogic.Common
@@ -14,8 +15,9 @@ namespace Strive.BusinessLogic.Common
         Result GetSearchResult<T>(string searchTerm);
         Result GetEmailIdExist(string emailId);
         Result GetCityByStateId(int stateId);
-
-        string GetTicketNumber(int locationId);
+        Result GetTicketNumber(int locationId);
         Result GetModelByMakeId(int makeId);
+        Result GetAllMake();
+        Result GetUpchargeByType(UpchargeDto upchargeDto);
     }
 }

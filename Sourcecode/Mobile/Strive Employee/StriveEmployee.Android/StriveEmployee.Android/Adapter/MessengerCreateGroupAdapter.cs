@@ -12,6 +12,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Utils.Employee;
 using StriveEmployee.Android.Listeners;
 
@@ -38,10 +39,10 @@ namespace StriveEmployee.Android.Adapter
 
         Context context;
         private MessengerCreateGroupRecycleHolder messengerCreateGroup;
-        private List<EmployeeList> contacts = new List<EmployeeList>();
+        private List<Employee> contacts = new List<Employee>();
         private char[] firstInitial;
         private char[] secondInitial;
-        public MessengerCreateGroupAdapter(Context context, List<EmployeeList> contacts)
+        public MessengerCreateGroupAdapter(Context context, List<Employee> contacts)
         {
             this.context = context;
             this.contacts = contacts;
@@ -91,15 +92,15 @@ namespace StriveEmployee.Android.Adapter
         public void OnClick(View v)
         {
             var position = (int)v.Tag;
-            if(MessengerTempData.SelectedParticipants.EmployeeList.Contains(contacts[position]))
+            if(MessengerTempData.employeeList_Contact.EmployeeList.Employee.Contains(contacts[position]))
             {
-                var index = MessengerTempData.SelectedParticipants.EmployeeList.IndexOf(contacts[position]);
-                MessengerTempData.SelectedParticipants.EmployeeList.RemoveAt(index);
+                var index = MessengerTempData.employeeList_Contact.EmployeeList.Employee.IndexOf(contacts[position]);
+                MessengerTempData.employeeList_Contact.EmployeeList.Employee.RemoveAt(index);
                 v.SetBackgroundColor(Color.Transparent);
             }
             else
             {
-                MessengerTempData.SelectedParticipants.EmployeeList.Add(contacts[position]);
+                MessengerTempData.employeeList_Contact.EmployeeList.Employee.Add(contacts[position]);
                 v.SetBackgroundColor(Color.LightCyan);
             }
         }

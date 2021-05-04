@@ -17,60 +17,59 @@
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="40" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Vendor, Type, Size"
-                                                (keyup)="$event.keyCode == 13 ? productSearch() : null"> </div>
+                                                (ngModelChange)="this.searchUpdate.next($event)"> </div>
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
-                                                (click)="productSearch()">Search</button>
+                                                (click)="getAllproductSetupDetails()">Search</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                       
-                            <div class="table-responsive" >
-                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list" *ngIf="!isLoading">
+
+                            <div class="table-responsive">
+                                <table class="table  table-striped m-t-10 headerfix" aria-describedby="vendor-list"
+                                    *ngIf="!isLoading">
                                     <thead>
-                                        <tr> 
-                                              <th class="pointer" (click)="changesort('ProductName')">Name&nbsp; 
-                                           
-                                        <i class="fa"   [ngClass]="selectedCls('ProductName')"></i>
-                                    </th>
-                                            <th class="pointer" (click)="changesort('ProductTypeName')">Type&nbsp;
-                                                 <i class="fa" 
-                                                 [ngClass]="selectedCls('ProductTypeName')"></i>
+                                        <tr>
+                                            <th class="pointer" (click)="changesort('ProductName')">Name
+                                                <i class="fa" [ngClass]="selectedCls('ProductName')"></i>
                                             </th>
-                                            <th class="pointer" (click)="changesort('Cost')">Cost&nbsp;
-                                                 <i class="fa"
-                                                [ngClass]="selectedCls('Cost')"></i>
+                                            <th class="pointer" (click)="changesort('ProductName')">Location
+                                                <i class="fa" [ngClass]="selectedCls('ProductName')"></i>
                                             </th>
-                                                <th class="pointer" (click)="changesort('SizeName')">Size&nbsp; 
-                                                    <i class="fa"
-                                                    [ngClass]="selectedCls('SizeName')"></i>
-                                                </th>
-                                                        <th class="pointer" (click)="changesort('Quantity')">Quantity&nbsp; 
-                                                            <i class="fa" 
-                                                            [ngClass]="selectedCls('Quantity')"></i>
-                                                        </th>
-                                                            <th class="pointer" (click)="changesort('VendorName')">VendorName&nbsp;
-                                                                 <i class="fa" 
-                                                                 [ngClass]="selectedCls('VendorName')"></i>
-                                                            </th>
-                                                                <th class="pointer" (click)="changesort('Status')">Status&nbsp; 
-                                                                    <i class="fa" 
-                                                                    [ngClass]="selectedCls('Status')"></i>
-                                                                </th>
-                                         
+                                            <th class="pointer" (click)="changesort('ProductTypeName')">Type
+                                                <i class="fa" [ngClass]="selectedCls('ProductTypeName')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('Price')">Price
+                                                <i class="fa" [ngClass]="selectedCls('Price')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('SizeName')">Size
+                                                <i class="fa" [ngClass]="selectedCls('SizeName')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('Quantity')">Quantity
+                                                <i class="fa" [ngClass]="selectedCls('Quantity')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changesort('VendorName')">Vendor Name
+                                                <i class="fa" [ngClass]="selectedCls('VendorName')"></i>
+                                            </th>
+                                            <th>Vendor Phone</th>
+                                            <th class="pointer" (click)="changesort('Status')">Status
+                                                <i class="fa" [ngClass]="selectedCls('Status')"></i>
+                                            </th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody  class="bodyfix">
+                                    <tbody class="bodyfix">
                                         <tr
                                             *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>
+                                            <td title="{{productSetup.LocationName}}">{{productSetup.LocationName | slice: 0:19}} {{productSetup.LocationName !== null ? (productSetup.LocationName.length > 19 ? '...': '') : ''}}</td>
                                             <td>{{productSetup.ProductTypeName}}</td>
-                                            <td>{{productSetup.Cost | currency}}</td>
+                                            <td>{{productSetup.Price | currency}}</td>
                                             <td>{{productSetup.SizeName}}</td>
                                             <td>{{productSetup.Quantity}}</td>
                                             <td>{{productSetup.VendorName}}</td>
+                                            <td title="{{productSetup.VendorPhone}}">{{productSetup.VendorPhone | slice:0:26 }} {{ (productSetup.VendorPhone !== null) ? (productSetup.VendorPhone.lenghth > 26 ? '...' : '') : ''}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
@@ -81,7 +80,7 @@
                                                     (click)="delete(productSetup)"></em>
                                             </td>
                                         </tr>
-                                        <tr *ngIf="productSetupDetails.length == 0">
+                                        <tr *ngIf="productSetupDetails?.length == 0">
                                             <td colspan="12" class="text-center"> No Records Found</td>
                                         </tr>
                                     </tbody>
@@ -91,19 +90,21 @@
                                 </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                     <ngb-pagination  *ngIf="productSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange) = "paginate($event)"
-                                         [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"  
-                                         [boundaryLinks]="true" class="d-flex justify-content-end">
-                                     </ngb-pagination> 
-                                     </div>
-                                     <select  *ngIf="productSetupDetails.length > 0" class="form-control col-4" name = "paginate" [(ngModel)] = "pageSize" (change) = "paginatedropdown($event)">
-                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
-                  
-                                     </select>
-                                 </div>
+                                        <ngb-pagination *ngIf="productSetupDetails?.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        </ngb-pagination>
+                                    </div>
+                                    <select *ngIf="productSetupDetails?.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>

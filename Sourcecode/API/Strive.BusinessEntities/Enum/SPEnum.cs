@@ -7,6 +7,19 @@ namespace Strive.BusinessEntities
 
     public class EnumSP
     {
+        public enum Tenant
+        {
+            USPCREATETENANT,
+            USPGETTENANT,
+            USPGETTENANTBYID,
+            USPGETALLMODULE,
+            USPGETMODULEBYID,
+            USPUPDATETENANT,
+            USPTENANTADMINLOGIN,
+            USPGETCITYBYSTATEID,
+            USPGETSTATE,
+        }
+
         public enum Authentication
         {
             USPLOGIN,
@@ -26,6 +39,8 @@ namespace Strive.BusinessEntities
             USPDELETEUSER,
             USPGETCLIENTUSERBYAUTHID
         }
+
+
 
         public enum ClockTime
         {
@@ -77,6 +92,9 @@ namespace Strive.BusinessEntities
             USPGETCITYBYSTATE,
             USPGETEMPLOYEEBYID,
             USPGETMODELBYMAKE,
+            USPGETALLMAKE,
+            USPGETUPCHARGEBYTYPE,
+            uspGetEmployeeHourlyRateById,
         }
 
         public enum DashboardStatistics
@@ -184,6 +202,7 @@ namespace Strive.BusinessEntities
             USPDELETEPRODUCT,
             USPGETAllPRODUCT,
             USPGETPRODUCTBYID,
+            USPGETPRODUCTDETAILBYID
         }
         public enum CashRegister
         {
@@ -266,6 +285,7 @@ namespace Strive.BusinessEntities
             USPGETSCHEDULEBYSCHEDULEID,
             uspDeleteSchedule,
             USPGETSCHEDULE,
+            USPGETSCHEDULEANDFORCASTED,
         }
 
         public enum Sales
@@ -411,7 +431,6 @@ namespace Strive.BusinessEntities
 
         USPGETEMPLOYEEBYID,
         USPGETALLSERVICEDETAIL,
-        USPGETPRODUCTS,
         USPGETCASHREGISTER,
         USPGETCOLLISIONBYEMPID,
         USPGETCOLLISIONBYID,
@@ -482,7 +501,7 @@ namespace Strive.BusinessEntities
 
 
         USPGETTICKETNUMBER,
-        USPCREATETENANT,
+        
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
         USPROLLBACKPAYMENT,
@@ -491,6 +510,7 @@ namespace Strive.BusinessEntities
         USPUPDATEADJUSMENT,
         USPUPDATEEMPLOYEEADJUSTMENT,
         USPUPDATEJOBPAYMENT,
+       
         //CHECKOUT
         USPGETAllCHECKOUTDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,

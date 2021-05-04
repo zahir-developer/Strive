@@ -10,7 +10,6 @@
     [VendorId]            INT                NULL,
     [Size]                INT                NULL,
     [SizeDescription]     VARCHAR (10)       NULL,
-    [Quantity]            SMALLINT           NULL,
     [QuantityDescription] VARCHAR (10)       NULL,
     [Cost]                DECIMAL (19, 4)    NULL,
     [Price]               DECIMAL (19, 4)    NULL,
@@ -24,12 +23,15 @@
     [UpdatedBy]           INT                NULL,
     [UpdatedDate]         DATETIMEOFFSET (7) NULL,
     [OriginalFileName]    VARCHAR (100)      NULL,
+    [Quantity]            DECIMAL (19, 2)    NULL,
     CONSTRAINT [PK_tblProduct] PRIMARY KEY CLUSTERED ([ProductId] ASC),
     CONSTRAINT [FK_tblProduct_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblProduct_ProductType] FOREIGN KEY ([ProductType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblProduct_Size] FOREIGN KEY ([Size]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblProduct_VendorId] FOREIGN KEY ([VendorId]) REFERENCES [StriveCarSalon].[tblVendor] ([VendorId])
 );
+
+
 
 
 

@@ -19,6 +19,9 @@ namespace Strive.BusinessEntities.ViewModel
         public int Make { get; set; }
         public int Model { get; set; }
         public int Color { get; set; }
+        public string VehicleMake { get; set; }
+        public string VehicleModel { get; set; }
+        public string VehicleColor { get; set; }
         public int? JobType { get; set; }
         public int? JobStatus { get; set; }
         public DateTime JobDate { get; set; }
@@ -32,5 +35,6 @@ namespace Strive.BusinessEntities.ViewModel
         public string ColorName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string IsPaid { get; set; }
     }
 }

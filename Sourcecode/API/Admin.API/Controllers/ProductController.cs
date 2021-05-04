@@ -23,28 +23,32 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public Result Add([FromBody] ProductAddDto product) => _bplManager.AddProduct(product);
+        public Result Add([FromBody] ProductListDto product) => _bplManager.AddProduct(product);
 
 
         [HttpPost]
         [Route("Update")]
-        public Result Update([FromBody] Product product) => _bplManager.UpdateProduct(product);
+        public Result Update([FromBody] ProductListDto product) => _bplManager.UpdateProduct(product);
 
 
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteProduct(int productId, string fileName = null) => _bplManager.DeleteProduct(productId, fileName);
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAll")]
-        public Result GetAllProduct() => _bplManager.GetAllProduct();
+        public Result GetAllProduct([FromBody] ProductSearchDto search) => _bplManager.GetAllProduct(search);
 
         [HttpGet]
         [Route("GetProductById")]
         public Result GetProduct(int productId) => _bplManager.GetProduct(productId);
 
+        [HttpGet]
+        [Route("GetProductDetailById")]
+        public Result GetProductDetail(int productId) => _bplManager.GetProductDetail(productId);
+
         [HttpPost]
-        [Route("GetProductSearch")]
-        public Result GetProductSearch([FromBody] ProductSearchDto search) => _bplManager.GetProductSearch(search);
+        [Route("GetAllProductImage")]
+        public Result GetAllProductImage([FromBody] ProductSearchDto search) => _bplManager.GetAllProductAndImage(search);
     }
 }

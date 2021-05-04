@@ -43,6 +43,7 @@ export class ProductCreateEditComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   location: any;
   productSetupList: any = [];
+  productVendorList: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -61,14 +62,13 @@ export class ProductCreateEditComponent implements OnInit {
     this.getLocation();
     this.getAllVendor();
     this.getProductType();
-    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
+    this.Status = [{ id: 1, Value: "Active" }, { id: 0, Value: "Inactive" }];
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
     if (this.isEdit === true) {
       this.productSetupForm.reset();
       this.getProductById();
-      this.getSize();
     }
   }
 
@@ -78,7 +78,7 @@ export class ProductCreateEditComponent implements OnInit {
       locationName: [[], Validators.required],
       name: ['', Validators.required],
       size: ['',],
-      quantity: ['',],
+      quantity: ['', Validators.required],
       cost: ['', Validators.required],
       taxable: ['',],
       taxAmount: ['',],
@@ -88,12 +88,13 @@ export class ProductCreateEditComponent implements OnInit {
       other: ['',],
       suggested: ['', Validators.required]
     });
-    this.productSetupForm.patchValue({ status: 0 });
+    this.productSetupForm.patchValue({ status: 1 });
     if (this.isEdit !== true) {
       this.productSetupForm.controls.status.disable();
     } else {
       this.productSetupForm.controls.status.enable();
     }
+    this.getSize();
   }
   // Get ProductType
   getProductType() {
@@ -112,8 +113,8 @@ export class ProductCreateEditComponent implements OnInit {
         this.location = location.Location;
         this.location = this.location.map(item => {
           return {
-            id: item.LocationId,
-            name: item.LocationName
+            item_id: item.LocationId,
+            item_text: item.LocationName
           };
         });
         this.dropdownSetting();
@@ -123,23 +124,25 @@ export class ProductCreateEditComponent implements OnInit {
 
   dropdownSetting() {
     this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 1,
-      allowSearchFilter: false
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
     };
   }
 
   // Get Size
   getSize() {
     const sizeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.Size);
-    if (sizeCodes.length > 0) {
-      this.size = sizeCodes;
-    }
+    this.getCode.getCodeByCategory(ApplicationConfig.CodeValueByType.Size).subscribe(res => {
+      if (res.status === 'Success') {
+        const code = JSON.parse(res.resultData);
+        this.size = code.Codes;
+      }
+    });
   }
   // Get All Vendors
   getAllVendor() {
@@ -149,10 +152,11 @@ export class ProductCreateEditComponent implements OnInit {
         this.Vendor = vendor.Vendor;
         this.Vendor = this.Vendor.map(item => {
           return {
-            id: item.VendorId,
-            name: item.VendorName
+            item_id: item.VendorId,
+            item_text: item.VendorName
           };
         });
+
         this.dropdownSetting();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -188,37 +192,53 @@ export class ProductCreateEditComponent implements OnInit {
   // Get Product By Id
   getProductById() {
     this.spinner.show();
-    this.product.getProductById(this.selectedData.ProductId).subscribe(data => {
+    this.product.getProductDetailById(this.selectedData.ProductId).subscribe(data => {
       if (data.status === "Success") {
         this.spinner.hide();
-
         const pType = JSON.parse(data.resultData);
-        this.selectedProduct = pType.Product;
+        this.selectedProduct = pType.Product.ProductDetail;
+        const Vendors = pType.Product.ProductVendor
         let name = '';
-        this.location.forEach( item => {
-          if (+item.id === +this.selectedProduct.LocationId) {
-            name = item.name;
-          }
-        });
-        const locObj = {
-          id : this.selectedProduct.LocationId,
-          name
-        };
+
+        //location 
         const selectedLocation = [];
-        selectedLocation.push(locObj);
-        let vendorName = '';
-        this.Vendor.forEach( item => {
-          if (+item.id === +this.selectedProduct.VendorId) {
-            vendorName = item.name;
-          }
-        });
-        const vendorObj = {
-          id : this.selectedProduct.VendorId,
-          name: vendorName
+        const locObj = {
+          item_id: this.selectedProduct.LocationId,
+          item_text: this.selectedProduct.LocationName,
         };
-        const selectedVendor = [];
-        selectedVendor.push(vendorObj);
+
+
+
+        selectedLocation.push(locObj);
+
+        //Vendor
+        const selectedVendors = [];
+
+        if (Vendors !== null) {
+          Vendors.forEach(item => {
+            selectedVendors.push(
+              {
+                vendorId: item.VendorId,
+                productId: item.ProductId,
+                productVendorId: item.ProductVendorId,
+                isDeleted: item.IsDeleted,
+                item_id: item.VendorId,
+                item_text: item.VendorName
+              });
+
+            this.productVendorList.push(
+              {
+                ProductVendorId: item.ProductVendorId,
+                ProductId: item.ProductId,
+                VendorId: item.VendorId,
+                IsActive: true,
+                IsDeleted: false
+              });
+          });
+        }
+
         this.dropdownSetting();
+
         this.productSetupForm.patchValue({
           productType: this.selectedProduct.ProductType,
           locationName: selectedLocation,
@@ -230,17 +250,21 @@ export class ProductCreateEditComponent implements OnInit {
           size: this.selectedProduct.Size,
           quantity: this.selectedProduct.Quantity,
           status: this.selectedProduct.IsActive ? 0 : 1,
-          vendor: selectedVendor,
+          vendor: selectedVendors,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
+
         this.fileName = this.selectedProduct.FileName;
         this.base64Value = this.selectedProduct.Base64;
         this.fileUploadformData = this.selectedProduct.Base64;
+
         if (this.selectedProduct.Size !== null) {
           this.sizeId = this.selectedProduct.Size;
-          const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
-          if (sizeObj !== null) {
-            this.enableOtherSize(sizeObj);
+          if (this.size !== undefined) {
+            const sizeObj = this.size.filter(item => item.CodeId === this.selectedProduct.Size);
+            if (sizeObj !== null) {
+              this.enableOtherSize(sizeObj);
+            }
           }
         }
         this.change(this.selectedProduct.IsTaxable);
@@ -271,6 +295,16 @@ export class ProductCreateEditComponent implements OnInit {
     }
   }
 
+  onVendorDeSelect(vendor) {
+    if (this.productVendorList.length > 0) {
+      this.productVendorList.forEach(item => {
+        if (item.VendorId === vendor.item_id) {
+          item.IsDeleted = true;
+        }
+      });
+    }
+  }
+
   // Add/Update Product
   submit() {
     this.submitted = true;
@@ -285,9 +319,8 @@ export class ProductCreateEditComponent implements OnInit {
       }
       return;
     }
-    const formObj = {
-      Product: this.productSetupList
-    };
+
+
     const obj: any = {};
     const productObj: any = {};
     const productList = [];
@@ -295,36 +328,47 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
       (this.productSetupForm.value.locationName || []).forEach(item => {
         const vendorList = [];
-        this.productSetupForm.value.vendor.forEach(vendor => {
-          productObj.productCode = null;
-          productObj.productDescription = null;
-          productObj.productType = this.productSetupForm.value.productType;
-          productObj.productId = this.isEdit ? this.selectedProduct.ProductId : 0;
-          productObj.locationId = item.id;
-          productObj.productName = this.productSetupForm.value.name;
-          productObj.fileName = this.fileName;
-          productObj.OriginalFileName = this.fileName;
-          productObj.thumbFileName = this.fileThumb;
-          productObj.base64 = this.fileUploadformData;
-          productObj.cost = this.productSetupForm.value.cost;
-          productObj.isTaxable = this.isChecked;
-          productObj.taxAmount = this.isChecked ? this.productSetupForm.value.taxAmount : 0;
-          productObj.size = this.productSetupForm.value.size;
-          productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
-          productObj.quantity = this.productSetupForm.value.quantity;
-          productObj.quantityDescription = null;
-          productObj.isActive = this.productSetupForm.value.status === 0 ? true : false;
-          productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
-          productObj.isDeleted = false;
-          productObj.price = this.productSetupForm.value.suggested;
+        productObj.productCode = null;
+        productObj.productDescription = null;
+        productObj.productType = this.productSetupForm.value.productType;
+        productObj.productId = this.isEdit ? this.selectedProduct.ProductId : 0;
+        productObj.locationId = item.item_id;
+        productObj.productName = this.productSetupForm.value.name;
+        productObj.fileName = this.fileName;
+        productObj.OriginalFileName = this.fileName;
+        productObj.thumbFileName = this.fileThumb;
+        productObj.base64 = this.fileUploadformData;
+        productObj.cost = this.productSetupForm.value.cost;
+        productObj.isTaxable = this.isChecked;
+        productObj.taxAmount = this.isChecked ? this.productSetupForm.value.taxAmount : 0;
+        productObj.size = this.productSetupForm.value.size;
+        productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
+        productObj.quantity = this.productSetupForm.value.quantity;
+        productObj.quantityDescription = null;
+        productObj.isActive = this.productSetupForm.value.status === 1 ? true : false;
+        productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
+        productObj.isDeleted = false;
+        productObj.price = this.productSetupForm.value.suggested;
+        (this.productSetupForm.value.vendor || []).forEach(vendor => {
           vendorList.push({
-            productVendorId: this.isEdit ? this.selectedProduct.ProductVendorId : 0,
+            productVendorId: this.isEdit && vendor.productVendorId !== undefined ? vendor.productVendorId : 0,
             productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-            vendorId: vendor.id,
+            vendorId: vendor.item_id,
             isActive: true,
             isDeleted: false,
           });
         });
+
+        if (this.productVendorList.length > 0) {
+          const deletedVendors = this.productVendorList.filter(s => s.IsDeleted == true);
+
+          if (deletedVendors.length > 0) {
+            deletedVendors.forEach(vendor => {
+              vendorList.push(vendor);
+            });
+          }
+        }
+
         obj.product = productObj;
         obj.productVendor = vendorList;
         productList.push(obj);

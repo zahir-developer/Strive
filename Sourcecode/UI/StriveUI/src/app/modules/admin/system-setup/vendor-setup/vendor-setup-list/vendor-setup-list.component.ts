@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vendor-setup-list',
@@ -26,17 +28,26 @@ export class VendorSetupListComponent implements OnInit {
   pageSizeList: number[];
   EmitPopup: boolean = true;
   sortColumn: { sortBy: any; sortOrder: any; };
+  searchUpdate = new Subject<string>();
   constructor(
     private vendorService: VendorService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.vendorSearch();
+      });
+  }
 
   ngOnInit() {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.VendorSetup,
       sortOrder: ApplicationConfig.Sorting.SortOrder.VendorSetup.order
-     }
+    };
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -66,23 +77,23 @@ export class VendorSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-     this.isLoading = false;
+      this.isLoading = false;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
- 
+
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.VendorSetup.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.vendorSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -95,24 +106,24 @@ export class VendorSetupListComponent implements OnInit {
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
   // Get All Vendors
   getAllvendorSetupDetails() {
     this.vendorService.getVendor().subscribe(data => {
@@ -124,7 +135,7 @@ export class VendorSetupListComponent implements OnInit {
           this.isTableEmpty = true;
         } else {
           this.sort(ApplicationConfig.Sorting.SortBy.VendorSetup);
-          
+
           this.collectionSize = Math.ceil(this.vendorSetupDetails.length / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
@@ -132,7 +143,7 @@ export class VendorSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
-     this.isLoading = false;
+      this.isLoading = false;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }

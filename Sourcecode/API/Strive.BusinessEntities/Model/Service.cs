@@ -18,6 +18,10 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public int? LocationId { get; set; }
+        [Column]
+        public int? ServiceCategory { get; set; }
+        [Column]
+        public bool? IsCeramic { get; set; }
 
         [Column]
         public decimal? Cost { get; set; }

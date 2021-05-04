@@ -14,9 +14,9 @@ namespace SuperAdmin.Api.Controllers
 {
     [Authorize]
     [Route("/SuperAuth/")]
-    public class SuperAdminController : StriveControllerBase<SuperAdminBpl>
+    public class SuperAdminController : StriveControllerBase<TenantBpl>
     {
-        public SuperAdminController(SuperAdminBpl tenantManager, IConfiguration config) : base(tenantManager, config) { }
+        public SuperAdminController(TenantBpl tenantManager, IConfiguration config) : base(tenantManager, config) { }
 
         #region POST
 
@@ -24,9 +24,9 @@ namespace SuperAdmin.Api.Controllers
         /// Login for Employee and Client.
         /// </summary>
         [HttpPost, Route("CreateTenant")]
-        public Result CreateTenant([FromBody] TenantViewModel tenant)
+        public Result CreateTenant([FromBody] TenantCreateViewModel tenant)
         {
-            return _bplManager.CreateTenant(tenant);
+            return new Result();
         }
 
         //[HttpPost, Route("Refresh")]

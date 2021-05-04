@@ -17,9 +17,14 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<ChecklistViewModel>(EnumSP.Checklist.USPGETCHECKLIST.ToString(), _prm);
         }
-        public int AddChecklist(ChecklistAddDto checklistAdd)
+        public int AddChecklist(ChecklistDto checklistAdd)
         {
             return dbRepo.InsertPK(checklistAdd, "ChecklistId");
+        }
+
+        public bool UpdateChecklist(ChecklistDto checklistUpdate)
+        {
+            return dbRepo.UpdatePc(checklistUpdate);
         }
         public bool DeleteChecklist(int id)
         {
@@ -27,10 +32,10 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Checklist.USPDELETECHECKLIST.ToString(), _prm);
             return true;
         }
-        public List<ChecklistViewModel> GetChecklistById(int id)
+        public ChecklistDetailViewModel GetChecklistById(int id)
         {
             _prm.Add("ChecklistId", id.toInt());
-            return db.Fetch<ChecklistViewModel>(EnumSP.Checklist.USPGETCHECKLISTBYID.ToString(), _prm);
+            return db.FetchMultiResult<ChecklistDetailViewModel>(EnumSP.Checklist.USPGETCHECKLISTBYID.ToString(), _prm);
         }
     }
 }

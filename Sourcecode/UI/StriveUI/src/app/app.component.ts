@@ -10,6 +10,7 @@ import { IdleLockoutComponent } from './shared/components/idle-lockout/idle-lock
 import { Subscription } from 'rxjs';
 import { AuthService } from './shared/services/common-service/auth.service';
 import { SessionLogoutComponent } from './shared/components/session-logout/session-logout.component';
+import { ApplicationConfig } from './shared/services/ApplicationConfig';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   dialogDisplay = false;
   header: string;
   dialogType: string;
-  countdown?: number;
+  countdown: number;
   TimeoutPeriod = 30;
   intervalId: any;
   subscriptionAuthenticate: Subscription;
@@ -72,13 +73,17 @@ export class AppComponent implements OnInit, OnDestroy {
   setHeaderName() {
     if (localStorage.getItem('employeeName') !== undefined) {
       const headerName = localStorage.getItem('employeeName');
+      const locationName = localStorage.getItem('empLocationName');
+      const cityName = localStorage.getItem('employeeCityName');
       this.userService.setHeaderName(headerName);
+      this.userService.setLocationName(locationName);
+      this.userService.setCityName(cityName);
     }
   }
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 10 * 60;    // 60
+      const seconds = ApplicationConfig.refreshTime.refreshTime * 60;    // 60
       this.subscribeTheIdle(this.idle, seconds);
     }
   }
@@ -93,7 +98,8 @@ export class AppComponent implements OnInit, OnDestroy {
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(seconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
-    idle.setTimeout(60);  // 60
+    const timer = 60;
+    idle.setTimeout(timer);  // 60
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     idle.onIdleEnd.subscribe(() => {
@@ -130,7 +136,7 @@ export class AppComponent implements OnInit, OnDestroy {
     idle.onIdleStart.subscribe(() => {
       //  console.log('onIdleStart');
       clearInterval(this.intervalId);
-      this.timeCounter();
+      this.timeCounter(timer);
     }
     );
     this.reset();
@@ -146,7 +152,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /*
   * countdown starter
   */
-  timeCounter(counter = this.TimeoutPeriod) {
+  timeCounter(counter) {
     this.intervalId = setInterval(() => {
       counter = counter - 1;
       this.sessionLogoutComponent.countdown = counter;

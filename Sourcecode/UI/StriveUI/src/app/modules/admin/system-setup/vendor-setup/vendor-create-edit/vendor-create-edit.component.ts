@@ -34,6 +34,7 @@ export class VendorCreateEditComponent implements OnInit {
   employeeId: number;
   emailList = [];
   emailAddress = [];
+  errorMessage: boolean;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -58,7 +59,7 @@ export class VendorCreateEditComponent implements OnInit {
       vin: ['', Validators.required],
       vendorAlias: [''],
       name: ['', Validators.required],
-      supplierAddress: ['', Validators.required],
+      supplierAddress: [''],
       zipcode: ['', [Validators.required]],
       state: ['',],
       country: ['',],
@@ -92,35 +93,27 @@ export class VendorCreateEditComponent implements OnInit {
   get f() {
     return this.vendorSetupForm.controls;
   }
-  addEmail() {
-    if (this.emailList.length >= ApplicationConfig.EmailSize.VendorSetup) {
-      this.toastr.error(MessageConfig.Admin.SystemSetup.Vendor.Email, 'Error!');
-      return;
-    }
+  testMail(event) {
     
-    var re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    if(!re.test(this.vendorSetupForm.value.email)){
-      this.toastr.error(MessageConfig.Admin.SystemSetup.Vendor.InvalidEmail, 'Error!');
-
-     return 
+    if(!this.validateEmail( this.vendorSetupForm.value.email)) {
+       this.errorMessage =  true;
     }
-    this.emailList.push({
-      email: this.vendorSetupForm.value.email
-    });
-    this.emailList.forEach((item, index) => {
-      item.id = index;
-    });
-    this.vendorSetupForm.controls.email.reset();
+    else{
+      this.errorMessage =  false;
 
+    }
   }
-  removeEmail(email) {
-    this.emailList = this.emailList.filter(item => item.id !== email.id);
-
-  }
+  
+  validateEmail(email) {
+     var re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/
+     return re.test(String(email).toLowerCase());
+ }
   // Add/Update Vendor
   submit() {
     this.submitted = true;
-   
+    if (this.errorMessage ===  true) {
+      return;
+    }
     if (this.vendorSetupForm.invalid) {
     
       return;
@@ -130,7 +123,7 @@ export class VendorCreateEditComponent implements OnInit {
 
       return;
     }
-    
+  
     const vendorObj = {
       vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       vin: this.vendorSetupForm.value.vin,
@@ -166,31 +159,12 @@ export class VendorCreateEditComponent implements OnInit {
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
     
-      this.emailList.forEach((item, index) => {
-        item.id = index;
-        this.emailAddress.push({
-          vendorEmailAddressId: 0,
-          vendorId: 0,
-          vendorEmail: item.email,
-          isActive: true,
-          isDeleted: false,
-          createdBy: this.employeeId,
-          createdDate: moment(new Date()).format('YYYY-MM-DD'),
-          updatedBy: this.employeeId,
-          updatedDate: moment(new Date()).format('YYYY-MM-DD'),
-          storeTimeIn: new Date(),
-          storeTimeOut: new Date(),
-          storeOpenCloseStatus: 0,
-          tips: 0
-        }
-          
-        )
-      });
+     
     
     const finalObj = {
       vendor: vendorObj,
-      vendorAddress: addressObj,
-      VendorEmailAddress: this.emailAddress
+      vendorAddress: addressObj
+      
     };
     if (this.isEdit === false) {
       this.spinner.show();

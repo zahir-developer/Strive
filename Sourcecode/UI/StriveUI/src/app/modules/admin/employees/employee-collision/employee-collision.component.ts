@@ -42,6 +42,7 @@ export class EmployeeCollisionComponent implements OnInit {
   vehicleList: any = [];
   liabilityDetail: any;
   liabilityTypeId: any;
+  liabilityDetailTypeId: any;
   ngOnInit(): void {
     this.submitted = false;
     this.collisionForm = this.fb.group({
@@ -91,19 +92,21 @@ export class EmployeeCollisionComponent implements OnInit {
   }
 
   setValue(detail) {
-    const clientName = _.where(this.clientList, { id: detail.ClientId });
-    if (clientName.length > 0) {
-      this.selectedClient(clientName[0]);
-      this.collisionForm.patchValue({
-        client: clientName[0]
-      });
-    }
+    // const clientName = _.where(this.clientList, { id: detail.ClientId });
+    // if (clientName.length > 0) {
+    //   this.selectedClient(clientName[0]);
+    //   this.collisionForm.patchValue({
+    //     client: clientName[0]
+    //   });
+    // }
+    const clientName = detail.ClientFirstName + '' + detail.ClientLastName;
     this.collisionForm.patchValue({
       dateOfCollision: moment(detail.CreatedDate).toDate(),
       amount: this.liabilityDetail.Amount.toFixed(2),
       reason: this.liabilityDetail.Description,
-      vehicle: detail.VehicleId
+      client: { id: detail.ClientId , name: clientName }
     });
+    this.selectedClient(detail.ClientId);
   }
 
   getLiabilityType() {
@@ -122,6 +125,7 @@ export class EmployeeCollisionComponent implements OnInit {
     this.getCode.getCodeByCategory(ApplicationConfig.Category.LiablityDetailType).subscribe(data => {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
+        this.liabilityDetailTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.adjustment)[0].CodeId;
       }
     }
     , (err) => {
@@ -147,7 +151,7 @@ export class EmployeeCollisionComponent implements OnInit {
     const liabilityDetailObj = {
       liabilityDetailId: this.mode === 'edit' ? this.liabilityDetail.LiabilityDetailId : 0,
       liabilityId: this.mode === 'edit' ? +this.collisionDetail.LiabilityId : 0,
-      liabilityDetailType: 1,
+      liabilityDetailType: this.liabilityDetailTypeId,
       amount: +this.collisionForm.value.amount,
       paymentType: 1,
       documentPath: null, 
@@ -258,8 +262,7 @@ export class EmployeeCollisionComponent implements OnInit {
   
   }
 
-  selectedClient(event) {
-    const clientId = event.id;
+  selectedClient(clientId) {
     this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);

@@ -12,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { LoginComponent } from 'src/app/login/login.component';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
+import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-payrolls-grid',
@@ -21,6 +23,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
   payRollList: any = [];
+  payRollBackup: any = [];
   MaxDate = new Date()
   bsConfig: Partial<BsDatepickerConfig>;
   collectionSize = 0;
@@ -39,13 +42,19 @@ export class PayrollsGridComponent implements OnInit {
   employeeId: string;
   sortColumn: { sortBy: string; sortOrder: string; };
   processLabel: string = "Process";
+  fileExportType: { id: number; name: string; }[];
+  fileType: any;
+  date = moment(new Date()).format('MM/DD/YYYY');
+  fileTypeEvent: boolean = false;
+
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private landingservice: LandingService
+    private landingservice: LandingService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +62,7 @@ export class PayrollsGridComponent implements OnInit {
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.PayRoll,
       sortOrder: ApplicationConfig.Sorting.SortOrder.PayRoll.order
-    }
+    };
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -64,9 +73,55 @@ export class PayrollsGridComponent implements OnInit {
     });
     this.isEditAdjustment = false;
     this.patchValue();
+    this.fileExportType = [
+      { id: 1, name: 'CSV (comma delimited)' },
+      { id: 2, name: 'Excel 97 - 2003' },
+    ];
   }
   landing() {
-    this.landingservice.loadTheLandingPage()
+    this.landingservice.loadTheLandingPage();
+  }
+  getFileType(event) {
+    this.fileTypeEvent = true;
+    this.fileType = +event.target.value;
+  }
+  export() {
+    this.payRollList
+    const fileType = this.fileType !== undefined ? this.fileType : '';
+    if (fileType === '' || fileType === 0) {
+      return;
+    } else if (this.payRollList.length === 0) {
+      return;
+    }
+    let excelReport : any = [];
+    if(this.payRollList.length > 0){
+      for(let i = 0; i < this.payRollList.length; i ++){
+        excelReport.push({
+        'Emp.ID': this.payRollList[i].EmployeeId,
+        'Payee Name': this.payRollList[i].PayeeName,
+        'Wash Hrs.' : this.payRollList[i].TotalWashHours,
+        'Detail Hrs.' : this.payRollList[i].TotalDetailHours,
+        'Rate': this.payRollList[i].WashRate,
+        'Reg. pay': this.payRollList[i].WashAmount,
+        'OT Hrs.': this.payRollList[i].OverTimeHours,
+        'OT Pay' : this.payRollList[i].OverTimePay,
+        'Collision' : this.payRollList[i].Collision,
+
+        'Adjustment' : this.payRollList[i].Adjustment,
+        'Details com.': this.payRollList[i].DetailCommission,
+        'Payee Total': this.payRollList[i].PayeeTotal,
+
+      })
+      }
+    }
+    if(this.fileType == 1){
+      this.excelService.exportAsCSVFile(excelReport, 'payrollReport_' + moment(this.date).format('MM/dd/yyyy'));
+    }
+    else{
+      this.excelService.exportAsExcelFile(excelReport, 'payrollReport_' + moment(this.date).format('MM/dd/yyyy'));
+
+    }
+    
   }
   patchValue() {
     const curr = new Date(); // get current date
@@ -112,6 +167,7 @@ export class PayrollsGridComponent implements OnInit {
         const payRoll = JSON.parse(res.resultData);
         if (payRoll.Result.PayRollRateViewModel) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
+          this.payRollBackup = payRoll.Result.PayRollRateViewModel
           const length = this.payRollList === null ? 0 : this.payRollList.length;
           this.collectionSize = Math.ceil(length / this.pageSize) * 10;
           this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
@@ -120,7 +176,7 @@ export class PayrollsGridComponent implements OnInit {
           this.isPayrollEmpty = true;
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -141,7 +197,7 @@ export class PayrollsGridComponent implements OnInit {
         if (edit.Result == false) {
 
           this.isEditRestriction = false;
-this.processLabel = "Process";
+          this.processLabel = "Process";
         } else {
           this.isEditRestriction = true;
           this.processLabel = "Processed";
@@ -219,22 +275,26 @@ this.processLabel = "Process";
   updateAdjustment() {
     const updateObj = [];
     this.payRollList.forEach(item => {
-      updateObj.push({
-        id: item.EmployeeId,
-        adjustment: +item.Adjustment
-      });
+      const oldPayroll = this.payRollBackup.filter(s => s.EmployeeId === item.EmployeeId);
+      if (oldPayroll !== null && oldPayroll !== undefined) {
+        if (oldPayroll.Adjustment !== +item.Adjustment) {
+          updateObj.push({
+            id: item.EmployeeId,
+            adjustment: +item.Adjustment
+          });
+        }
+      }
     });
     this.spinner.show();
     this.payrollsService.updateAdjustment(updateObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
         this.toastr.success(MessageConfig.PayRoll.Adjustment, 'Success!');
         this.runReport();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -280,7 +340,7 @@ this.processLabel = "Process";
       });
     });
 
-this.spinner.show();
+    this.spinner.show();
     this.payrollsService.addPayRoll(obj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
@@ -291,7 +351,7 @@ this.spinner.show();
         this.toastr.success(MessageConfig.PayRoll.Process, 'Success!');
         this.runReport();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 

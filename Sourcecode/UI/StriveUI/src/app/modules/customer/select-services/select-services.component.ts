@@ -62,7 +62,7 @@ export class SelectServicesComponent implements OnInit {
 
         const serviceDetails = JSON.parse(res.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
-          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.Details );
+          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage );
           this.patchServiceValue();
         }
       }

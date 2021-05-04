@@ -30,7 +30,8 @@ tblca.Email,
 tblca.City,
 tblca.State,
 tblca.Country,
-tblca.Zip
+tblca.Zip,
+tblc.IsCreditAccount
 --tblca.IsActive
 
 

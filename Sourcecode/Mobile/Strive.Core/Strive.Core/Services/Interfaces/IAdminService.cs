@@ -8,6 +8,7 @@ using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
 
@@ -70,7 +71,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<VehicleCodes> GetVehicleCodes();
 
-        Task<GeneralResponse> AddCustomerVehicle(AddCustomerVehicle addVehicle);
+        Task<GeneralResponse> AddCustomerVehicle(CustomerVehicles addVehicle);
 
         Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID);
 
@@ -96,11 +97,11 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DeleteResponse> DeleteDocuments(int documentID);
 
-        Task<CheckOutVehicleDetails> CheckOutVehicleDetails(int EmployeeID);
+        Task<CheckoutDetails> CheckOutVehicleDetails(GetAllEmployeeDetail_Request EmployeeID);
         
         Task<ScheduleModel> GetSchedulePastService(int clientID);
         
-        Task<AvailableScheduleServicesModel> GetScheduleServices();
+        Task<AvailableServicesModel> GetScheduleServices(int LocationID);
         
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
 

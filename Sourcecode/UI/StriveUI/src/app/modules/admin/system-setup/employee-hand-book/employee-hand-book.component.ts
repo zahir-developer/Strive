@@ -39,24 +39,36 @@ export class EmployeeHandBookComponent implements OnInit {
   Documents: any;
   url: any;
   sortColumn: { sortBy: string; sortOrder: string; };
+  actionType: string;
+  header: string;
 
   constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
 
     private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
   ngOnInit(): void {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.EmployeeHandbook,
       sortOrder: ApplicationConfig.Sorting.SortOrder.EmployeeHandbook.order
-     }
+    }
     this.isLoading = false;
     this.getDocumentType();
   }
 
   adddata(data, handbookDetails?) {
+if(data == 'edit'){
+this.actionType = "Edit";
+this.header = "Edit Employee Handbook";
+  this.getById(handbookDetails)
+
+}else{
+  this.header = "Create Employee Handbook";
+
+  this.actionType = "Add";
+  this.showDialog = true;
+
+}
   
-    this.selectedData = handbookDetails;
-    this.showDialog = true;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -91,10 +103,10 @@ export class EmployeeHandBookComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  (err) => {
-this.spinner.hide();
-             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-                  });
+      , (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   getDocumentType() {
     this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
@@ -106,11 +118,11 @@ this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  (err) => {
-                    this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-                  });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
-  
+
   getDocument() {
     this.isLoading = true;
     this.documentService.getAllDocument(this.documentTypeId).subscribe(data => {
@@ -134,13 +146,33 @@ this.spinner.hide();
       this.isLoading = false;
     });
   }
+  getById(documents) {
+    this.documentService.getDocumentById(documents.DocumentId, 'EMPLOYEEHANDBOOK').subscribe(res => {
+      if (res.status === 'Success') {
+        const documentDetails = JSON.parse(res.resultData);
+        if (documentDetails.Document !== null) {
+          this.selectedData =  documentDetails.Document.Document;
+          this.showDialog = true;
 
+        }
+        else{
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+        }
+      }
+    },
+      (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    );
+  }
   downloadPDF(documents) {
     this.documentService.getDocumentById(documents.DocumentId, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
         const documentDetails = JSON.parse(res.resultData);
         if (documentDetails.Document !== null) {
           const details = documentDetails.Document.Document;
+          this.selectedData =  documentDetails.Document.Document;
           const base64 = details.Base64;
           const linkSource = 'data:application/pdf;base64,' + base64;
           const downloadLink = document.createElement('a');
@@ -152,22 +184,23 @@ this.spinner.hide();
       }
     },
       (err) => {
-                          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-                        }
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
     );
   }
+  
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.EmployeeHandbook.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.document.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -180,23 +213,23 @@ this.spinner.hide();
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
 
 }

@@ -5,6 +5,8 @@ import { LoginComponent } from '../login/login.component';
 import { UserDataService } from '../shared/util/user-data.service';
 import { LandingService } from '../shared/services/common-service/landing.service';
 import { WeatherService } from '../shared/services/common-service/weather.service';
+import { SelectLocationService  } from '../shared/services/common-service/select-location.service';
+
 @Component({
   selector: 'app-select-location',
   templateUrl: './select-location.component.html',
@@ -22,8 +24,13 @@ export class SelectLocationComponent implements OnInit {
   constructor(private user: UserDataService,
     private landingservice: LandingService,
     private weatherService : WeatherService,
-    private userService: UserDataService,
-    private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
+    private authService: AuthService, 
+    private router: Router, 
+    private route: ActivatedRoute,
+    private locationService: SelectLocationService) 
+    { 
+
+    }
 
   ngOnInit(): void {
     this.empName = localStorage.getItem('employeeName');
@@ -34,8 +41,16 @@ export class SelectLocationComponent implements OnInit {
   proceed() {
     if (this.locationId !== null) {
      
+      const Id = this.locationId;
+      const loc = this.location.filter(s=>s.LocationId == Id);
+      if(loc !== undefined && loc !== null)
+      {
+        this.locationService.setLocationCity(loc[0].LocationName, loc[0].CityName);
+        
+        localStorage.setItem('empLocationName', loc[0].LocationName);
+        localStorage.setItem('employeeCityName', loc[0].CityName);
+      }
 
-      const Id = this.locationId
       localStorage.setItem('empLocationId', Id);
       this.locations.forEach(element => {
         if(element.LocationId == this.locationId){
@@ -51,8 +66,8 @@ element
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
       this.weatherService.getWeather();
-      this.landingservice.routingPage()
-
+      this.landingservice.routingPage();
+    
       
   }
 }

@@ -8,6 +8,11 @@ export const ApplicationConfig = {
         PageSize: 10
     },
 
+    ChecklistNotification:
+    {
+        MaxLength: 7
+    },
+
     Sorting:
     {
         SortOrder: {
@@ -103,22 +108,29 @@ export const ApplicationConfig = {
     },
     UploadFileType:
     {
-        AdSetup: ['png', 'jpeg', 'jpg'],
-        EmployeeHandbook: ['pdf', 'docx', 'doc'],
+        AdSetup: ['png', ' jpg', ' jpeg'],
+        EmployeeHandbook: ['pdf', ' doc', ' docx'],
         TermsAndCondition: ['pdf']
     },
-   
+
     EmailSize: {
-VendorSetup : 5
+        VendorSetup: 5,
+        location: 5
     },
-    
+
     UploadSize:
     {
         AdSetup: 5120,
-        EmployeeHandbook: 5120,
-        TermsAndCondition: 5120
+        EmployeeHandbook: 10240,
+        TermsAndCondition: 5120,
+        EmployeeDocument: 10240
     },
     Enum: {
+        JobType:
+        {
+            DetailJob: 'Detail',
+            WashJob: 'Wash'
+        },
         ServiceType:
         {
             WashPackage: 'Wash Package',
@@ -131,47 +143,50 @@ VendorSetup : 5
             AirFresheners: 'Air Fresheners',
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
-            Details :'Details',
-            DetailPackage: 'Detail Package'
+            DetailPackage: 'Detail Package',
+            GiftCard: 'Gift Card'
         },
     },
-Category : {
-documentType : 'DOCUMENTTYPE',
-all : 'ALL',
-cashRegister: 'CASHREGISTERTYPE',
-storeStatus: 'Storestatus',
-immigrationStatus: 'IMMIGRATIONSTATUS',
-liablityType: 'LIABILITYTYPE',
-documentSubType:'DocumentSubType',
-serviceType: 'SERVICETYPE',
-LiablityDetailType: 'LIABILITYDETAILTYPE',
-CommisionType: "COMMISIONTYPE",
-paymentType : 'PAYMENTTYPE',
-paymentStatus:'PAYMENTSTATUS',
-ClientType: 'CLIENTTYPE'
-},
-CodeValue :{
-    EmployeeHandBook: 'EmployeeHandBook',
-    CashIn: 'CashIn',
-    CloseOut: 'CloseOut',
-    Collision: 'Collision',
-    Ads: 'Ads',
-    Other:'Other',
-    TermsAndCondition: 'TermsAndCondition',
-    inProgress: 'In Progress',
-    Comp : 'Comp',
-    Completed : 'Completed',
-    Waiting : 'Waiting',
-    Details : 'Details',
-    Washes:'Washes',
-    additionalServices: 'Additional Services',
-},
-CodeValueByType : {
-    ProductType: 'ProductType',
-    Size : 'Size',
-    serviceType: 'ServiceType',
-    JobStatus: 'JobStatus'
-},
+    Category: {
+        documentType: 'DOCUMENTTYPE',
+        all: 'ALL',
+        cashRegister: 'CASHREGISTERTYPE',
+        storeStatus: 'Storestatus',
+        immigrationStatus: 'IMMIGRATIONSTATUS',
+        liablityType: 'LIABILITYTYPE',
+        documentSubType: 'DocumentSubType',
+        serviceType: 'SERVICETYPE',
+        LiablityDetailType: 'LIABILITYDETAILTYPE',
+        CommisionType: "COMMISIONTYPE",
+        paymentType: 'PAYMENTTYPE',
+        paymentStatus: 'PAYMENTSTATUS',
+        ClientType: 'CLIENTTYPE',
+        ServiceCategory: 'ServiceCategory',
+        TermsAndCondition: 'TERMSANDCONDITION'
+    },
+    CodeValue: {
+        EmployeeHandBook: 'EmployeeHandBook',
+        CashIn: 'CashIn',
+        CloseOut: 'CloseOut',
+        Collision: 'Collision',
+        Ads: 'Ads',
+        Other: 'Other',
+        TermsAndCondition: 'TermsAndCondition',
+        inProgress: 'In Progress',
+        Comp: 'Comp',
+        Completed: 'Completed',
+        Waiting: 'Waiting',
+        Details: 'Details',
+        Washes: 'Washes',
+        additionalServices: 'Additional Services',
+        adjustment: 'Adjustment'
+    },
+    CodeValueByType: {
+        ProductType: 'ProductType',
+        Size: 'Size',
+        serviceType: 'ServiceType',
+        JobStatus: 'JobStatus'
+    },
     dealTimePeriods: [
         {
             name: 'Monthly',
@@ -216,14 +231,32 @@ CodeValueByType : {
         OnlinePayment: 'OnlinePayment',
         Tips: 'Tips'
     },
-Roles: {
-Admin:'Admin',
-Manager: 'Manager',
-Operator: 'Operator',
-Cashier : 'Cashier',
-Detailer : 'Detailer',
-Wash :'Wash',
-Client :'Client'
-}
+    Roles: {
+        Admin: 'Admin',
+        Manager: 'Manager',
+        Operator: 'Operator',
+        Cashier: 'Cashier',
+        Detailer: 'Detailer',
+        Wash: 'Washer',
+        Client: 'Client'
+    },
+
+    dropdownSettings: {
+        singleSelection: false,
+        defaultOpen: false,
+        idField: 'item_id',
+        textField: 'item_text',
+        itemsShowLimit: 1,
+        enableCheckAll: false,
+        allowSearchFilter: true
+    },
+    refreshTime: {
+        refreshTime: 19
+    },
+
+    debounceTime: {
+        sec: 1000
+    }
+
 };
 

@@ -6,7 +6,7 @@
 -- =============================================
 
 
-CREATE PROC [StriveCarSalon].[uspGetDailyStatusInfo] --[StriveCarSalon].[uspGetDailyStatusInfo] 2046,'2020-11-20'
+CREATE PROC [StriveCarSalon].[uspGetDailyStatusInfo] --[StriveCarSalon].[uspGetDailyStatusInfo] 20,'2021-03-15'
 (@LocationId int = null,@Date Date)
 AS
 BEGIN
@@ -25,7 +25,7 @@ group by L.LocationId,J.TicketNumber,SE.EmployeeId,E.FirstName, E.LastName
 
 Select count(e.EmployeeId) WashEmployeeCount, SUM(ISNULL(DateDiff(HOUR,InTime,OutTime), 0) * ISNULL(ed.WashRate,0)) as WashExpense from tblTimeClock tc 
 INNER JOIN tblEmployee e on e.EmployeeId = tc.EmployeeId
-INNER JOIN tblRoleMaster r on r.RoleMasterId = tc.RoleId and r.RoleName = 'Wash'
+INNER JOIN tblRoleMaster r on r.RoleMasterId = tc.RoleId and r.RoleName = 'Washer'
 LEFT JOIN tblEmployeeDetail ed on e.EmployeeId = ed.EmployeeId 
 where tc.EventDate = @Date
 

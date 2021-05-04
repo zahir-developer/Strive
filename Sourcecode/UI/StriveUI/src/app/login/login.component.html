@@ -23,8 +23,8 @@
                   formControlName="password" id="password" placeholder="Password">
               </div>
               <div class="form-group">
-                <input type="checkbox" class="remember-password-input" id="remeber-password">&nbsp;
-                <label class="remember-password-label" for="RememberPasswod">Remember Password</label>
+                <input type="checkbox" class="remember-password-input" id="remeber-password" formControlName="isRemember" (change)="rememberMe($event)">&nbsp;
+                <label class="remember-password-label" for="RememberPasswod" >Remember Password</label>
               </div>
               <div class="form-group">
                 <button type="submit" class="btn theme-primary-button-color w-100 btn-sm">Login</button>

@@ -4,6 +4,7 @@ using MimeKit;
 using MimeKit.Text;
 using Newtonsoft.Json;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.City;
 using Strive.BusinessEntities.Client;
 using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.Model;
@@ -297,8 +298,8 @@ namespace Strive.BusinessLogic.Common
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
 
-            
-      
+
+
             return (authId, randomPassword);
         }
 
@@ -339,7 +340,7 @@ namespace Strive.BusinessLogic.Common
             return detail;
         }
 
-   
+
 
         public Result SendOTP(string emailId)
         {
@@ -369,7 +370,7 @@ namespace Strive.BusinessLogic.Common
             }
             return _result;
         }
-        public void SendLoginCreationEmail(HtmlTemplate htmlTemplate,  string emailId, string defaultPassword)
+        public void SendLoginCreationEmail(HtmlTemplate htmlTemplate, string emailId, string defaultPassword)
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
             keyValues.Add("{{emailId}}", emailId);
@@ -380,29 +381,30 @@ namespace Strive.BusinessLogic.Common
             SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
-        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues)
+        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues,string sub)
         {
             try
             {
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
+                SendMail(emailId, emailContent, sub);
 
-                SendMail(emailId, emailContent, "Welcome to Strive !!!");
+                //SendMail(emailId, emailContent, "Welcome to Strive !!!");
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
         }
 
-        public void SendHoldNotificationEmail(HtmlTemplate htmlTemplate,string emailId, string ticketNumber)
+        public void SendHoldNotificationEmail(HtmlTemplate htmlTemplate, string emailId, string ticketNumber)
         {
 
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
             keyValues.Add("{emailId}", emailId);
             keyValues.Add("{ticketNumber}", ticketNumber);
             string emailContent = GetMailContent(htmlTemplate, keyValues);
-            SendMail(emailId,emailContent, "Vehicle is on Hold");
+            SendMail(emailId, emailContent, "Vehicle is on Hold");
         }
         public void SendProductThresholdEmail(HtmlTemplate htmlTemplate, string emailId, string productName)
         {
@@ -443,8 +445,15 @@ namespace Strive.BusinessLogic.Common
                 client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
 
                 // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("autonotify@telliant.com", _tenant.SMTPPassword);
+                try
+                {
+                    client.Authenticate(_tenant.FromMailAddress, _tenant.SMTPPassword);
+                }
+                catch (Exception ex)
+                {
 
+                }
+                
                 client.Send(message);
                 client.Disconnect(true);
             }
@@ -464,6 +473,8 @@ namespace Strive.BusinessLogic.Common
         {
             string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
 
+
+
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             StreamReader str = new StreamReader(subPath);
@@ -475,19 +486,32 @@ namespace Strive.BusinessLogic.Common
                 MailText = MailText.Replace(item.Key, item.Value);
             }
             str.Close();
-                 
+
             return MailText;
         }
 
-        public string GetTicketNumber(int locationId)
+        public Result GetTicketNumber(int locationId)
         {
-            string ticketNumber = new CommonRal(_tenant, false).GetTicketNumber(locationId);
-            return ticketNumber;
+            return ResultWrap(new CommonRal(_tenant, false).GetTicketNumber, locationId, "GetTicketNumber");
+
         }
 
         public Result GetModelByMakeId(int makeId)
         {
-            return ResultWrap(new CommonRal(_tenant, false).GetModelByMakeId,makeId, "Model");
+            return ResultWrap(new CommonRal(_tenant, false).GetModelByMakeId, makeId, "Model");
+
+        }
+
+        public Result GetAllMake()
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetAllMake, "Make");
+        }
+
+
+        public Result GetUpchargeByType(UpchargeDto upchargeDto)
+
+        {
+            return ResultWrap(new CommonRal(_tenant, false).GetUpchargeByType, upchargeDto, "upcharge");
 
         }
     }

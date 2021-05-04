@@ -4,7 +4,8 @@
 -- Description:	To get All Service And Product List
 -- ================================================
 
-CREATE PROCEDURE [StriveCarSalon].uspGetAllServiceAndProductList
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllServiceAndProductList]
+@LocationId int = NULL 
 AS
 BEGIN
 
@@ -25,7 +26,9 @@ ServiceId
 ,CreatedDate
 ,UpdatedBy
 ,UpdatedDate
- FROM tblService WHERE IsActive=1 AND ISNULL(IsDeleted,0)=0;
+,Price
+ FROM tblService WHERE IsActive=1 AND ISNULL(IsDeleted,0)=0 and (locationid =@LocationId OR @LocationId IS NULL OR @LocationId = 0)
+ 
 
 SELECT 
 ProductId
@@ -52,6 +55,7 @@ ProductId
 ,CreatedDate
 ,UpdatedBy
 ,UpdatedDate
-FROM tblProduct WHERE IsActive=1 AND ISNULL(IsDeleted,0)=0;
+
+FROM tblProduct WHERE IsActive=1 AND ISNULL(IsDeleted,0)=0 and (locationid =@LocationId OR @LocationId IS NULL OR @LocationId = 0)
 
 END

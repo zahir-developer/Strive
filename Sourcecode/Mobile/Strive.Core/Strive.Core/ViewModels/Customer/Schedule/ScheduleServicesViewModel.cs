@@ -14,7 +14,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
 
         #region Properties
         
-        public AvailableScheduleServicesModel scheduleServices { get; set; }
+        public AvailableServicesModel scheduleServices { get; set; }
         public int uniqueServiceID { get; set; } = 0;
 
         #endregion Properties
@@ -24,22 +24,22 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         public async Task GetScheduledServices()
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-            var result = await AdminService.GetScheduleServices();
+            var result = await AdminService.GetScheduleServices(8);
             
             if(result == null)
             {
                 _userDialog.Alert("No Services available");
             }
-            else
+            else                
             {
-                scheduleServices = new AvailableScheduleServicesModel();
-                scheduleServices.ServicesWithPrice = new List<ServicesWithPrice>();
+                scheduleServices = new AvailableServicesModel();
+                scheduleServices.AllServiceDetail = new List<AllServiceDetail>();
                 
-                foreach(var data in result.ServicesWithPrice)
+                foreach(var data in result.AllServiceDetail)
                 {
-                    if(uniqueServiceID != data.ServiceId && string.Equals(data.ServiceTypeName, "Details"))
+                    if(uniqueServiceID != data.ServiceId && string.Equals(data.ServiceTypeName, "Detail Package"))
                     {
-                        scheduleServices.ServicesWithPrice.Add(data);
+                        scheduleServices.AllServiceDetail.Add(data);
                     }
                     uniqueServiceID = data.ServiceId;
                 }

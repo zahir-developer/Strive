@@ -13,6 +13,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int? TransactionType { get; set; }
         public decimal? TransactionAmount { get; set; }
         public DateTime? TransactionDate { get; set; }
+        public bool Status { get; set; }
 
         public string TicketNumber { get; set; }
     }

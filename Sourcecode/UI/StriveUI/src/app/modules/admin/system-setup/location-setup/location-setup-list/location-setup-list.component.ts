@@ -6,6 +6,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-location-setup-list',
@@ -29,16 +31,25 @@ export class LocationSetupListComponent implements OnInit {
   column: string = 'LocationName';
   isLoading: boolean;
   sortColumn: { sortBy: string; sortOrder: string; };
-  constructor(private locationService: LocationService, private toastr: ToastrService,
+  searchUpdate = new Subject<string>();
+  constructor(
+    private locationService: LocationService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-
-    private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) { }
+    private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.locationSearch();
+      });
+  }
 
   ngOnInit() {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.location,
       sortOrder: ApplicationConfig.Sorting.SortOrder.location.order
-     }
+    };
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -54,6 +65,7 @@ export class LocationSetupListComponent implements OnInit {
       if (data.status === 'Success') {
         const location = JSON.parse(data.resultData);
         this.locationSetupDetails = location.Location;
+        console.log(this.locationSetupDetails )
         if (this.locationSetupDetails.length === 0) {
           this.isTableEmpty = true;
         } else {
@@ -64,24 +76,24 @@ export class LocationSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },  
-    (err) => {
-     this.isLoading = false;
-  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    },
+      (err) => {
+        this.isLoading = false;
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
   }
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.location.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    };
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.locationSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -94,24 +106,24 @@ export class LocationSetupListComponent implements OnInit {
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
   paginate(event) {
     this.pageSize = +this.pageSize;
     this.page = event;
@@ -146,10 +158,10 @@ export class LocationSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },  
-    (err) => {
-this.isLoading = false;
-  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    },
+      (err) => {
+        this.isLoading = false;
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
   }
 
@@ -179,10 +191,10 @@ this.isLoading = false;
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  
-    (err) => {
-      this.spinner.hide();
-  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      ,
+      (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
   }
   closePopupEmit(event) {
@@ -218,11 +230,11 @@ this.isLoading = false;
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },  
-    (err) => {
-      this.spinner.hide();
-  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    },
+      (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
   }
- 
+
 }

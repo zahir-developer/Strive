@@ -18,7 +18,7 @@ namespace Strive.BusinessLogic
     {
         public ProductBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache) { }
 
-        public Result AddProduct(ProductAddDto product)
+        public Result AddProduct(ProductListDto product)
         {
             string error = string.Empty;
             var prodRal = new ProductRal(_tenant);
@@ -45,22 +45,28 @@ namespace Strive.BusinessLogic
             }
         }
 
-        public Result GetProductSearch(ProductSearchDto search)
+        public Result GetAllProduct(ProductSearchDto search)
         {
-            return ResultWrap(new ProductRal(_tenant).GetProductSearch, search, "ProductSearch");
+            return ResultWrap(new ProductRal(_tenant).GetAllProduct, search, "ProductSearch");
         }
 
-        public Result UpdateProduct(Product product)
+        public Result UpdateProduct(ProductListDto products)
         {
-            string error = string.Empty;
-            (error, product.FileName, product.ThumbFileName) = UploadImage(product.Base64, product.FileName);
+            Result result = new Result();
+            foreach (var product in products.Product)
+            {
+                string error = string.Empty;
+                (error, product.Product.FileName, product.Product.ThumbFileName) = UploadImage(product.Product.Base64, product.Product.FileName);
 
-            return ResultWrap(new ProductRal(_tenant).UpdateProduct, product, "Status");
+                return ResultWrap(new ProductRal(_tenant).UpdateProduct, product, "Status");
+            }
+
+            return result;
         }
 
-        public Result GetAllProduct()
+        public Result GetAllProductAndImage(ProductSearchDto search)
         {
-            var products = new ProductRal(_tenant).GetAllProduct();
+            var products = new ProductRal(_tenant).GetAllProduct(search);
 
             foreach (var prod in products)
             {
@@ -78,12 +84,25 @@ namespace Strive.BusinessLogic
             return ResultWrap(products, "Product");
         }
 
+        public Result GetProductDetail(int productId)
+        {
+            var result = new ProductRal(_tenant).GetProductDetailById(productId);
+
+            if (result.ProductDetail != null)
+            {
+                result.ProductDetail.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, result.ProductDetail.FileName);
+            }
+            return ResultWrap(result, "Product");
+        }
+
         public Result GetProduct(int productId)
         {
             var result = new ProductRal(_tenant).GetProductById(productId);
 
-            result.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, result.FileName);
-
+            if (result != null)
+            {
+                result.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, result.FileName);
+            }
             return ResultWrap(result, "Product");
         }
 

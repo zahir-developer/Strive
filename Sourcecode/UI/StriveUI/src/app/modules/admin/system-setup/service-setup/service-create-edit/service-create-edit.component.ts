@@ -48,6 +48,13 @@ export class ServiceCreateEditComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
   locationId: any = [];
   serviceSetupList: any = [];
+  codeCategory: any;
+  isCeramic: boolean = false;
+  isWash: boolean;
+  washUpcharge: boolean;
+  detailUpcharge: boolean;
+  CategoryName: any;
+  Category: any[];
 
 
 
@@ -70,6 +77,21 @@ export class ServiceCreateEditComponent implements OnInit {
     this.getLocation();
     this.formInitialize();
     this.getCommissionType();
+    this.getCategory();
+  
+   
+         if (this.isEdit === true) {
+           
+      this.serviceSetupForm.controls.upcharge.disable();
+    }
+    else{
+      this.serviceSetupForm.patchValue({
+        serviceCategory: this.codeCategory[0]
+      }) 
+    
+      this.serviceSetupForm.controls.upcharge.disable();
+  
+    }
   }
 
   formInitialize() {
@@ -83,12 +105,14 @@ export class ServiceCreateEditComponent implements OnInit {
       commissionType: ['',],
       discountType: ['',],
       discountServiceType: ['',],
-      upcharge: ['', Validators.required],
+      upcharge: [''],
       parentName: ['',],
       status: ['',],
       fee: ['',],
       suggested: [''],
-      location: [[]]
+      serviceCategory: [''],
+      isCeramic: [''],
+      location: [[], Validators.required]
     });
     this.serviceSetupForm.patchValue({ status: 0 });
   }
@@ -112,8 +136,8 @@ export class ServiceCreateEditComponent implements OnInit {
         this.location = location.Location;
         this.location = this.location.map(item => {
           return {
-            id: item.LocationId,
-            name: item.LocationName
+            item_id: item.LocationId,
+            item_text: item.LocationName
           };
         });
         this.dropDownSetting();
@@ -123,14 +147,13 @@ export class ServiceCreateEditComponent implements OnInit {
 
   dropDownSetting() {
     this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 1,
-      allowSearchFilter: false
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
     };
   }
 
@@ -140,7 +163,6 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetup.getServiceSetupById(this.selectedData.ServiceId).subscribe(data => {
       if (data.status === "Success") {
         this.spinner.hide();
-
         const sType = JSON.parse(data.resultData);
         this.selectedService = sType.ServiceSetup;
         if (this.selectedService.Upcharges === '') {
@@ -149,24 +171,34 @@ export class ServiceCreateEditComponent implements OnInit {
         }
         let name = '';
         this.location.forEach(item => {
-          if (+item.id === +this.selectedService.LocationId) {
-            name = item.name;
+          if (+item.item_id === +this.selectedService.LocationId) {
+            name = item.item_text;
           }
         });
         const locObj = {
-          id: this.selectedService.LocationId,
-          name
+          item_id: this.selectedService.LocationId,
+          item_text: name
         };
         const selectedLocation = [];
+        this.Category = []
+        this.CategoryName  = ''
         selectedLocation.push(locObj);
         this.dropDownSetting();
+        this.codeCategory.forEach(element => {
+          if(this.selectedService?.ServiceCategory == element.CodeId){
+        this.Category = element;
+          }
+        });
         this.serviceSetupForm.patchValue({
+          
           serviceType: this.selectedService?.ServiceTypeId,
           name: this.selectedService?.ServiceName,
           description: this.selectedService?.Description,
           cost: this.selectedService?.Cost,
           price: this.selectedService?.Price,
           commission: this.selectedService?.Commision,
+          serviceCategory:  this.Category,
+          isCeramic: this.selectedService?.IsCeramic,
           commissionType: this.selectedService?.CommissionTypeId,
           fee: this.selectedService?.CommissionCost,
           discountType: this.selectedService?.DiscountType,
@@ -180,7 +212,6 @@ export class ServiceCreateEditComponent implements OnInit {
         this.checkService(this.selectedService.ServiceTypeId);
       } else {
         this.spinner.hide();
-
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
       if (this.selectedService?.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
@@ -289,6 +320,8 @@ export class ServiceCreateEditComponent implements OnInit {
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
         type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
+        this.categoryName()
+
       } else {
         this.isUpcharge = false;
         this.serviceSetupForm.get('upcharge').clearValidators();
@@ -304,19 +337,38 @@ export class ServiceCreateEditComponent implements OnInit {
       } else {
         this.isDetails = false;
       }
+      if (type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
+        this.washUpcharge = true;
+        
+      } else {
+        this.washUpcharge = false;
+      }
+      if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
+        this.detailUpcharge = true;
+      } else {
+        this.detailUpcharge = false;
+      }
       if (type === ApplicationConfig.Enum.ServiceType.ServiceDiscounts) {
         this.isDiscounts = true;
         this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
         this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
 
       } else {
-        this.serviceSetupForm.get('discountServiceType').clearValidators();
-        this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
         this.isDiscounts = false;
+        this.serviceSetupForm.get('discountServiceType').clearValidators();
+        this.serviceSetupForm.get('discountServiceType').updateValueAndValidity();
+
+        this.serviceSetupForm.get('discountType').clearValidators()
+        this.serviceSetupForm.get('discountType').updateValueAndValidity();
+
+        
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashPackage) {
+        this.isWash = true;
         this.isCommisstionShow = false;
       } else {
+        this.isWash = false;
+
         this.isCommisstionShow = true;
       }
     }
@@ -341,12 +393,31 @@ export class ServiceCreateEditComponent implements OnInit {
       this.serviceSetupForm.get('fee').reset();
     }
   }
-
+  changeCeramic(data) {
+    this.serviceSetupForm.value.commission = data;
+    if (data === true) {
+      this.isCeramic = true;
+      
+    } else {
+      this.isCeramic = false;
+    
+    }
+  }
+categoryName(){
+  const upcharge =  this.serviceSetupForm.controls['serviceCategory'].value.CodeValue 
+   
+ const price = this.serviceSetupForm.controls['price'].value !== "" ? this.serviceSetupForm.controls['price'].value : '0'
+   this.serviceSetupForm.patchValue({
+    upcharge:  upcharge + ' -  $' + price
+   })
+}
   // Add/Update Service
   submit() {
+    debugger;
+
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {
-      
+
       if (this.serviceSetupForm.value.price !== "") {
         if (Number(this.serviceSetupForm.value.price) <= 0) {
           this.priceErrMsg = true;
@@ -357,16 +428,13 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       return;
     }
-    const formObj = {
-
-      service: this.serviceSetupList
-
-    };
+ 
+      this.serviceSetupForm.get('upcharge').enable();
+     
+    
     if (this.serviceSetupForm.value.location) {
       this.serviceSetupForm.value.location.map(item => {
-
-        this.serviceSetupList.push(
-          {
+        this.serviceSetupList.push({
             serviceType: this.serviceSetupForm.value.serviceType,
             serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
             serviceName: this.serviceSetupForm.value.name,
@@ -374,12 +442,14 @@ export class ServiceCreateEditComponent implements OnInit {
             cost: this.serviceSetupForm.value.cost,
             price: this.serviceSetupForm.value.price,
             commision: this.isChecked,
-            commisionType: this.isChecked == true ? this.serviceSetupForm.value.commissionType : null,
-            upcharges: this.serviceSetupForm.value.upcharge,
-            parentServiceId: this.serviceSetupForm.value.parentName === "" ? 0 : this.serviceSetupForm.value.parentName,
-            isActive: this.serviceSetupForm.value.status == 0 ? true : false,
-            locationId: item.id,
+            commisionType: this.isChecked === true ? this.serviceSetupForm.value.commissionType : null,
+            upcharges:this.serviceSetupForm.value.upcharge,
+            parentServiceId: this.serviceSetupForm.value.parentName === '' ? 0 : this.serviceSetupForm.value.parentName,
+            isActive: this.serviceSetupForm.value.status === 0 ? true : false,
+            locationId: item.item_id,
             commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
+            serviceCategory : this.serviceSetupForm.value.serviceCategory.CodeId,
+            isCeramic : this.isCeramic,
             isDeleted: false,
             createdBy: this.employeeId,
             createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
@@ -387,27 +457,19 @@ export class ServiceCreateEditComponent implements OnInit {
             updatedDate: new Date(),
             discountServiceType: this.serviceSetupForm.value.discountServiceType,
             discountType: this.serviceSetupForm.value.discountType,
-          }
-        )
-
-
-      }
-
-      )
+          });
+      });
     }
-
-
     if (this.isEdit === true) {
+      const formObj = this.serviceSetupList[0];
       this.spinner.show();
       this.serviceSetup.updateServiceSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
-
           this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Update, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.spinner.hide();
-
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
@@ -417,16 +479,17 @@ export class ServiceCreateEditComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     } else {
+      const formObj = {
+        service: this.serviceSetupList
+      };
       this.spinner.show();
       this.serviceSetup.addServiceSetup(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
-
           this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Add, 'Success!');
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.spinner.hide();
-
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.serviceSetupForm.reset();
           this.submitted = false;
@@ -439,5 +502,14 @@ export class ServiceCreateEditComponent implements OnInit {
   }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
+  }
+
+   // Get Category
+   getCategory() {
+    const sizeCodes = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.ServiceCategory);
+    if (sizeCodes.length > 0) {
+      this.codeCategory = sizeCodes;
+      console.log(this.codeCategory)
+    }
   }
 }

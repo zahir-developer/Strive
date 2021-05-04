@@ -1,0 +1,110 @@
+﻿using Dapper;
+using Strive.BusinessEntities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Strive.Repository;
+using System.Linq;
+using System.Data;
+using Strive.Common;
+using Strive.BusinessEntities.ViewModel;
+using Strive.BusinessEntities.City;
+
+namespace Strive.ResourceAccess
+{
+    public class TenantRal : RalBase
+    {
+        public TenantRal(ITenantHelper tenant, bool isAuth = false) : base(tenant, isAuth)
+        {
+        }
+
+        public TenantSchema TenantAdminLogin(Guid tenantGuid)
+        {
+            try
+            {
+                var dynParams = new DynamicParameters();
+                dynParams.Add("@TenantGuid", tenantGuid);
+                var res = db.Fetch<TenantSchema>(EnumSP.Tenant.USPTENANTADMINLOGIN.ToString(), dynParams);
+                if (res.Count() == 0) throw new Exception("data returned null value");
+                return res?.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string CreateTenant(TenantViewModel tenant)
+        {
+            _prm.Add("@FirstName", tenant.FirstName);
+            _prm.Add("@Address", tenant.Address);
+            _prm.Add("@MobileNumber", tenant.MobileNumber);
+            _prm.Add("@PhoneNumber", tenant.PhoneNumber);
+            _prm.Add("@TenantName", tenant.TenantName);
+            _prm.Add("@TenantEmail", tenant.TenantEmail);
+            _prm.Add("@Subscriptionid", tenant.SubscriptionId);
+            _prm.Add("@SubscriptionDate", tenant.SubscriptionDate);
+            _prm.Add("@Locations", tenant.Locations);
+            _prm.Add("@PaymentDate", tenant.PaymentDate);
+            _prm.Add("@SchemaPasswordHash", tenant.PasswordHash);
+            _prm.Add("@ExpiryDate", tenant.ExpiryDate);
+
+            var result = (string)db.Get<string>(EnumSP.Tenant.USPCREATETENANT.ToString(), _prm);
+
+            return result;
+        }
+        public bool AddModule(TenantListModuleViewModel module)
+        {
+            return dbRepo.SavePc(module, "ModuleId");
+        }
+        public bool UpdateTenant(TenantViewModel tenant)
+        {
+            _prm.Add("@FirstName", tenant.FirstName);
+            _prm.Add("@Address", tenant.Address);
+            _prm.Add("@MobileNumber", tenant.MobileNumber);
+            _prm.Add("@PhoneNumber", tenant.PhoneNumber);
+            _prm.Add("@TenantName", tenant.TenantName);
+            _prm.Add("@SubscriptionDate", tenant.SubscriptionDate);
+            _prm.Add("@Locations", tenant.Locations);
+            _prm.Add("@PaymentDate", tenant.PaymentDate);
+            _prm.Add("@ExpiryDate", tenant.ExpiryDate);
+            _prm.Add("@ClientId", tenant.ClientId);
+            _prm.Add("@TenantId", tenant.TenantId);
+
+            CommandDefinition cmd = new CommandDefinition(EnumSP.Tenant.USPUPDATETENANT.ToString(), _prm, commandType: CommandType.StoredProcedure);
+            db.Save(cmd);
+            return true;
+        }
+        public bool UpdateModule(TenantListModuleViewModel module)
+        {
+            return dbRepo.UpdatePc(module);
+        }
+        public List<ClientTenantViewModel> GetAllTenant()
+        {           
+            return db.Fetch<ClientTenantViewModel>(EnumSP.Tenant.USPGETTENANT.ToString(), _prm);
+        }
+        public ClientTenantViewModel GetTenantById(int id)
+        {
+            _prm.Add("ClientId", id);
+            return db.FetchSingle<ClientTenantViewModel>(EnumSP.Tenant.USPGETTENANTBYID.ToString(), _prm);
+        }
+        public List<TenantModuleViewModel> GetAllModule()
+        {
+            return db.Fetch<TenantModuleViewModel>(EnumSP.Tenant.USPGETALLMODULE.ToString(), _prm);
+        }
+        public List<TenantModuleViewModel> GetModuleById(int id)
+        {
+            _prm.Add("@TenantId", id);
+            return db.Fetch<TenantModuleViewModel>(EnumSP.Tenant.USPGETMODULEBYID.ToString(), _prm);
+        }
+        public List<StateViewModel> GetState()
+        {
+            return db.Fetch<StateViewModel>(EnumSP.Tenant.USPGETSTATE.ToString(), _prm);
+        }
+        public List<CityDto> GetCityByStateId(int stateId)
+        {
+            _prm.Add("stateId", stateId);
+            return db.Fetch<CityDto>(EnumSP.Tenant.USPGETCITYBYSTATEID.ToString(), _prm);
+        }
+    }
+}

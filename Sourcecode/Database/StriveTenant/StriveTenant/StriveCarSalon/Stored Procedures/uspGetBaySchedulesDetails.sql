@@ -15,13 +15,16 @@
 
 ---------------------------------------------------------------
 -- ============================================================
-CREATE proc [StriveCarSalon].[uspGetBaySchedulesDetails] 
+CREATE proc [StriveCarSalon].[uspGetBaySchedulesDetails] -- [StriveCarSalon].[uspGetBaySchedulesDetails] '2021-03-15' ,20
 (@JobDate DateTime, @LocationId int)
 
 AS
 BEGIN
 
-SELECT BayId,BayName FROM tblBay WHERE LocationId=@LocationId AND IsActive=1 AND IsDeleted = 0 AND BayName like '%Detail%';
+    SELECT BayId,BayName FROM tblBay WHERE LocationId=@LocationId AND IsActive=1 AND IsDeleted = 0 AND 
+	(BayName like 'Detail%' OR BayName Like 'Bay%') AND BayName NOT Like 'Bay %'
+ 
+
 
 SELECT 
 tblB.BayId
@@ -42,5 +45,4 @@ AND
 ISNULL(tblBa.IsDeleted,0)=0
 AND
 tblBa.LocationId=@LocationId;
-
 END

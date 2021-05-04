@@ -1,6 +1,6 @@
 ﻿
 
-CREATE PROC [StriveCarSalon].[uspGetJobById]-- [StriveCarSalon].[uspGetJobById] 205193
+CREATE PROC [StriveCarSalon].[uspGetJobById]-- [StriveCarSalon].[uspGetJobById] 35746205193
 (@JobId int)
 AS
 BEGIN
@@ -72,7 +72,7 @@ tblji.ServiceId,
 s.ServiceName,
 s.ServiceType as ServiceTypeId,
 Commission,
-Price,
+tblji.Price,
 Quantity,
 ReviewNote
 from StriveCarSalon.tblJobItem tblji

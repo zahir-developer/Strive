@@ -5,47 +5,39 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Employee Handbook</h5>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
-                            (click)="adddata('add',[])">Add New HandBook
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="adddata('add',[])">Add New HandBook
                         </button>
                     </div>
                     <div class="setup-wrapper">
                         <div class="setup-content" id="open-collapse">
-                           
+
                             <div class="table-responsive">
                                 <table class="table  table-striped m-t-10" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" scope="col" (click)="changesort('DocumentName')">Name&nbsp; <i
-                                                class="fa" 
-                                                [ngClass]="selectedCls('DocumentName')"></i></th>
-                                        <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp; <i
-                                                class="fa" 
-                                                [ngClass]="selectedCls('RoleName')"></i></th>
-                                                <th class="pointer" scope="col" (click)="changesort('OriginalFileName')">File Name&nbsp; <i
-                                                    class="fa" 
-                                                    [ngClass]="selectedCls('OriginalFileName')"></i></th>
-                                                    <th class="pointer" (click)="changesort('CreatedDate')">Creation Date&nbsp; 
-                                                        <i class="fa"
-                                                        [ngClass]="selectedCls('CreatedDate')"></i></th>
-                                           
+                                            <th class="pointer" scope="col" (click)="changesort('DocumentName')">Name&nbsp; <i class="fa" [ngClass]="selectedCls('DocumentName')"></i></th>
+                                            <th class="pointer" scope="col" (click)="changesort('RoleName')">Role&nbsp; <i class="fa" [ngClass]="selectedCls('RoleName')"></i></th>
+                                            <th class="pointer" scope="col" (click)="changesort('OriginalFileName')">File Name&nbsp; <i class="fa" [ngClass]="selectedCls('OriginalFileName')"></i></th>
+                                            <th class="pointer" (click)="changesort('CreatedDate')">Creation Date&nbsp;
+                                                <i class="fa" [ngClass]="selectedCls('CreatedDate')"></i></th>
+
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngIf="document.length === 0" >
-                                           <td colspan="12" class="text-center"> No Records Found</td>
+                                        <tr *ngIf="document.length === 0">
+                                            <td colspan="12" class="text-center"> No Records Found</td>
                                         </tr>
-                                        <tr  *ngFor="let doc of document">
-                                            <td scope="row" >{{doc.DocumentName}}</td>
-                                            <td scope="row" >{{doc.RoleName}}</td>
-                                            <td scope="row" >{{doc.OriginalFileName}}</td>
-                                            <td>{{doc.CreatedDate  | date: 'MM/dd/yyyy'}}</td>
+                                        <tr *ngFor="let doc of document">
+                                            <td scope="row">{{doc.DocumentName}}</td>
+                                            <td scope="row">{{doc.RoleName}}</td>
+                                            <td scope="row">{{doc.OriginalFileName | slice:0:35}} {{ (doc.OriginalFileName !== undefined && doc.OriginalFileName !== null) ? (doc.OriginalFileName.length > 35 ? '...' : '') : '' }}</td>
+                                            <td>{{doc.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                             <td>
-                                                <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1"
-                                                    pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(doc)"></em>
-                                                <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1"
-                                                    pTooltip="Delete" tooltipPosition="bottom"  (click)="delete(doc.DocumentId)"></em>
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green" pTooltip="Edit" tooltipPosition="bottom" (click)="adddata('edit', doc)"></em>&nbsp;&nbsp;
+
+                                                <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1" pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(doc)"></em>
+                                                <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1" pTooltip="Delete" tooltipPosition="bottom" (click)="delete(doc.DocumentId)"></em>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -56,17 +48,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
 
-<p-dialog styleClass="MyDialog" header="Create Employee Handbook" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
-    [responsive]="true" [focusOnShow]="false" [closable]="false">
-    <app-create-edit-employee-hand-book *ngIf="showDialog"  [documentTypeId]="documentTypeId" [selectedData]="selectedData" [isEdit]="isEdit"
-        (closeDialog)="closePopupEmit($event)" (getDocumentType) = "getDocumentType()">
-    </app-create-edit-employee-hand-book>
-</p-dialog>
+    <p-dialog styleClass="MyDialog" header="{{header}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [responsive]="true" [focusOnShow]="false" [closable]="false">
+        <app-create-edit-employee-hand-book *ngIf="showDialog" [documentTypeId]="documentTypeId"  [actionType] = "actionType" [selectedData]="selectedData" [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)" (getDocumentType)="getDocumentType()">
+        </app-create-edit-employee-hand-book>
+    </p-dialog>

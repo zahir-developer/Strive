@@ -26,7 +26,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   locationName: any;
   isChecked: boolean;
   @Input() documentTypeId: any;
-
+@Input() actionType: any;
   @Output() closeDialog = new EventEmitter();
   @Output() getDocumentType = new EventEmitter();
 
@@ -41,13 +41,17 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   headerName: string;
   employeeId: any;
   fileType: string[];
+  fileTypes: string;
   fileSize: number;
   localFileSize: any;
   subdocumentType: any;
   rollList: any;
+  @Input() selectedData?: any;
+  base64: any;
+
   constructor(
     private fb: FormBuilder,
-    private employeeService : EmployeeService,
+    private employeeService: EmployeeService,
     private toastr: ToastrService,
     private document: DocumentService,
     private spinner: NgxSpinnerService,
@@ -56,7 +60,8 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
 
   ngOnInit() {
     this.fileType = ApplicationConfig.UploadFileType.EmployeeHandbook;
-    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook
+    this.fileTypes = this.fileType.toString();
+    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook;
     if (localStorage.getItem('employeeName') !== undefined) {
       this.headerName = localStorage.getItem('employeeName');
       this.employeeId = +localStorage.getItem('empId');
@@ -67,14 +72,24 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     this.formInitialize();
     this.isChecked = false;
     this.submitted = false;
-
+    if (this.actionType === 'Edit') {
+    debugger;
+      this.handbookSetupForm.patchValue({
+        name: this.selectedData?.DocumentName,
+        roleId: this.selectedData.roleId,
+      
+      });
+      this.fileName = this.selectedData?.FileName;
+      // this.base64 = this.selectedData?.Base64;
+      // this.fileUploadformData = this.selectedData?.Base64;
+    }
   }
   getAllRoles() {
     this.employeeService.getAllRoles().subscribe(res => {
       if (res.status === 'Success') {
         const roles = JSON.parse(res.resultData);
         this.rollList = roles.EmployeeRoles
-    
+
       }
     });
   }
@@ -98,9 +113,9 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    } ,  (err) => {
-                          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-                        });
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 
 
@@ -112,6 +127,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   }
 
   fileNameChanged() {
+    debugger;
     let filesSelected: any;
     filesSelected = document.getElementById('customFile');
     filesSelected = filesSelected.files;
@@ -120,6 +136,15 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       this.localFileSize = fileToLoad.size
       this.fileName = fileToLoad.name;
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+
+
+      let lowercaseFileThumb = this.fileThumb.toLowerCase()
+      if ((lowercaseFileThumb !== this.fileType[0].trim()) && (lowercaseFileThumb !== this.fileType[1].trim()) && (lowercaseFileThumb !== this.fileType[2].trim())) {
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileType + 'Allowed file types: ' + ApplicationConfig.UploadFileType.EmployeeHandbook.toString(), 'Warning!');
+        this.clearDocument();
+        return;
+      }
+
       let fileReader: any;
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
@@ -131,18 +156,12 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
-        let lowercaseFileThumb = this.fileThumb.toLowerCase()
-        if ((lowercaseFileThumb == this.fileType[0]) || (lowercaseFileThumb == this.fileType[1]) || (lowercaseFileThumb == this.fileType[2])) {
-          fileTosaveName = fileReader.result?.split(',')[1];
-        }
-        else {
-          this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileType,'Warning!');
-          this.clearDocument();
-        }
+        fileTosaveName = fileReader.result?.split(',')[1];
+
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
 
-      }, 5000);
+      }, 500);
     }
   }
 
@@ -157,19 +176,20 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     const pattern = /[a-zA-Z~`\d!@#$%^&*()-_=+][a-zA-Z~`\d!@#$%^&*()-_=+\d\\s]*/;
     if (this.handbookSetupForm.controls['name'].value) {
       if (!pattern.test(this.handbookSetupForm.controls['name'].value)) {
-        this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.nameValidation,'Warning!');
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.nameValidation, 'Warning!');
         return;
       }
     }
     let localFileKbSize = this.localFileSize / Math.pow(1024, 1)
     let localFileKbRoundSize = +localFileKbSize.toFixed()
     if (this.fileSize < localFileKbRoundSize) {
-      this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileSize,'Warning!');
+      this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileSize, 'Warning!');
 
       return;
     }
+    
     const obj = {
-      documentId: 0,
+      documentId: this.selectedData.DocumentId ? this.selectedData.DocumentId  : 0,
       DocumentName: this.handbookSetupForm.controls['name'].value,
       DocumentSubType: null,
       documentType: this.documentTypeId,
@@ -184,13 +204,38 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      roleId : this.handbookSetupForm.controls['roleId'].value,
+      roleId: this.handbookSetupForm.controls['roleId'].value,
     };
     const finalObj = {
       document: obj,
       documentType: "EMPLOYEEHANDBOOK"
     };
     this.spinner.show();
+    if(this.actionType == "Edit"){
+      this.document.updateDocument(finalObj).subscribe(data => {
+        if (data.status === 'Success') {
+          this.spinner.hide();
+  
+          this.toastr.success(MessageConfig.Admin.SystemSetup.EmployeeHandBook.Add, 'Success!');
+  
+          this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
+          this.getDocumentType.emit();
+          this.isLoading = false;
+        } else {
+          this.spinner.hide();
+  
+          this.isLoading = false;
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+          this.submitted = false;
+        }
+      },
+        (err) => {
+          this.spinner.hide();
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
+    }
+  else{
     this.document.addDocument(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
@@ -207,12 +252,13 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
-    } ,  
-    (err) => {
-      this.spinner.hide();
-  this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    },
+      (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-      );
+    );
+  }
   }
 
   clearDocument() {

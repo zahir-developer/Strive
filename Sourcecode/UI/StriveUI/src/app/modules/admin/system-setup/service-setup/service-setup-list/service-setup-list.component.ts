@@ -6,7 +6,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import {  Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-service-setup-list',
@@ -32,7 +32,6 @@ export class ServiceSetupListComponent implements OnInit {
   public serviceSetupDetails: string[] = [];
   public search: string;
   searchUpdate = new Subject<string>();
-
   
   constructor(
     private serviceSetup: ServiceSetupService,
@@ -40,21 +39,22 @@ export class ServiceSetupListComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationUXBDialogService
   ) {
-        // Debounce search.
+    // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.getAllserviceSetupDetails();
       });
   }
-   
+
 
   ngOnInit() {
     this.isLoading = false;
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
-     this.page = ApplicationConfig.PaginationConfig.page;
+    this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
@@ -113,15 +113,13 @@ export class ServiceSetupListComponent implements OnInit {
     this.page = this.page;
     this.getAllserviceSetupDetails();
   }
-  searchKeyup(event){
-    if(event){
-      setTimeout(() => {
+  searchKeyup(event) {
+    if (event) {
         this.getAllserviceSetupDetails();
-      }, 5000);
     }
-   
+
   }
- 
+
   serviceSearch() {
     this.page = 1;
     const obj = {
@@ -171,36 +169,36 @@ export class ServiceSetupListComponent implements OnInit {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Delete, 'Success!');
-        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+        this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
-   this.getAllserviceSetupDetails();
+        this.getAllserviceSetupDetails();
       } else {
         this.spinner.hide();
 
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },(err) => {
+    }, (err) => {
       this.spinner.hide();
-       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-           });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 
   changeSorting(column) {
-     this.sortColumn ={
+    this.sortColumn = {
       sortBy: column,
       sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-     }
+    }
 
-     this.selectedCls(this.sortColumn)
+    this.selectedCls(this.sortColumn)
     this.getAllserviceSetupDetails();
   }
 
-  
+
 
   selectedCls(column) {
-    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
       return 'fa-sort-desc';
-    } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
       return 'fa-sort-asc';
     }
     return '';
@@ -209,7 +207,7 @@ export class ServiceSetupListComponent implements OnInit {
 
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
+      this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
 
       this.getAllserviceSetupDetails();
     }

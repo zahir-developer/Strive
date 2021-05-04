@@ -37,8 +37,14 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpPost]
         [Route("Add")]
-        public Result AddChecklist([FromBody]ChecklistAddDto checklistAdd) => _bplManager.AddChecklist(checklistAdd);
+        public Result AddChecklist([FromBody]ChecklistDto checklistAdd) => _bplManager.AddChecklist(checklistAdd);
 
+        /// <summary>
+        /// Method to Update Checklist
+        /// </summary>
+        [HttpPost]
+        [Route("Update")]
+        public Result UpdateChecklist([FromBody]ChecklistDto checklistUpdate) => _bplManager.UpdateChecklist(checklistUpdate);
 
         #endregion
 

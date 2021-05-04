@@ -55,6 +55,8 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_CLIENT_VEHICLE_SERVICES = "/Admin/ServiceSetup/GetService";
 
+        public const string URL_GET_CLIENT_VEHICLE_SERVICES_LIST = "/Admin/ServiceSetup/GetAllServiceDetail";
+
         public const string URL_GET_SELECTED_MEMBERSHIP_SERVICES = "/Admin/MembershipSetup/GetAllMembershipById/";  
 
         public const string URL_GET_CLIENT_BY_ID = "/Admin/Client/GetClientById/{0}";
@@ -77,7 +79,7 @@ namespace Strive.Core.Utils
 
         public const string URL_MESSENGER_RECENT_CONTACTS = "/Admin/Messenger/GetChatEmployeeList/{0}";
 
-        public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail/{0}";
+        public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail";
 
         public const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage"; 
         
@@ -107,7 +109,7 @@ namespace Strive.Core.Utils
 
         public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllDetails";
 
-        public const string URL_SCHEDULE_SERVICES_AVAILABLE = "/Admin/Sales/GetServicesWithPrice";
+        public const string URL_SCHEDULE_SERVICES_AVAILABLE = "/Admin/Sales/GetAllServiceDetail";
 
         public const string URL_SCHEDULE_TIME_SLOTS = "/Admin/Dashboard/GetAvailablilityScheduleTime";
 
