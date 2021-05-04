@@ -74,6 +74,10 @@ export const ApplicationConfig = {
             Detail: {
                 order: 'ASC',
 
+            },
+            customerHistory: {
+                order: 'ASC',
+
             }
         },
 
@@ -97,7 +101,8 @@ export const ApplicationConfig = {
             CheckOut: 'TicketNumber',
             Washes: 'TicketNumber',
             Detail: 'TicketNumber',
-            GiftCard: 'GiftCardCode'
+            GiftCard: 'GiftCardCode',
+            customerHistory :'ClientId'
 
         }
     },
