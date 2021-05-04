@@ -101,8 +101,6 @@ tbljse.ServiceId,
 tbls.ServiceName,
 tbls.Cost,
 tbljse.EmployeeId,
-tblea.Email,
-tblea.PhoneNumber,
 ISNULL(tbljse.CommissionAmount,'0.00')CommissionAmount,
 CONCAT(tble.FirstName,' ',tble.LastName) AS EmployeeName
 from StriveCarSalon.tblJobServiceEmployee tbljse with(nolock) 

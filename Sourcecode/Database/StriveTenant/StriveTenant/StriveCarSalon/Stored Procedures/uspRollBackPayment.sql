@@ -1,5 +1,4 @@
-﻿
-CREATE Procedure [StriveCarSalon].[uspRollBackPayment]   
+﻿CREATE Procedure [StriveCarSalon].[uspRollBackPayment]
 (@TicketNumber varchar(10),
 @LocationId int = NULL
 )
@@ -12,7 +11,8 @@ declare @ClientId int=0;
 declare @CreditAmount decimal(18,2);
 
 
-select top 1 @JobId = JobId , @ClientId = ClientId from StriveCarSalon.tblJob where TicketNumber=@TicketNumber and LocationId = @LocationId
+select top 1 @JobId = JobId , @ClientId = ClientId from StriveCarSalon.tblJob where TicketNumber=@TicketNumber 
+and LocationId = @LocationId and ClientId is not Null and IsActive=1
 
 set @JobPaymentDetailId =(select top 1 JobPaymentDetailId from tblJobPaymentDetail where JobPaymentId=@JobPaymentId)
 

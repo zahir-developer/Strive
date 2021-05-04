@@ -30,11 +30,14 @@ empDetail.AuthId,
 emp.IsActive as Status,
 empDetail.Tip,
 empDetail.Exemptions,
-empDetail.ComType
+empDetail.ComType,
+emp.Tips
 from StriveCarSalon.tblEmployee emp
 left join strivecarsalon.tblEmployeeAddress empAdd on emp.EmployeeId= empAdd.EmployeeId
 left join StriveCarSalon.tblEmployeeDetail empDetail on emp.EmployeeId = empDetail.EmployeeId
-where isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and emp.EmployeeId = @EmployeeId 
+where emp.EmployeeId = @EmployeeId 
+--isnull(empAdd.IsActive,1)=1 and isnull(empDetail.IsDeleted,0)=0 and 
+
 
 
 select row_number() OVER (

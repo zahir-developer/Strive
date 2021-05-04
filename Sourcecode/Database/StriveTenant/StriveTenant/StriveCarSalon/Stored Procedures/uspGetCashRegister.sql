@@ -25,7 +25,10 @@ CR.DrawerId,
 CR.CashRegisterDate ,
 CR.StoreTimeIn,
 CR.StoreTimeOut,
-CR.StoreOpenCloseStatus 
+CR.StoreOpenCloseStatus ,
+CR.Tips
+
+
 FROM 
 strivecarsalon.tblCashRegister CR 
 WHERE

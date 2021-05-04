@@ -1,7 +1,4 @@
-﻿
-
-
--- =============================================================
+﻿-- =============================================================
 -- Author:         Vineeth.B
 -- Created date:   2020-07-01
 -- Description:    Get Location Details By LocationId
@@ -19,11 +16,13 @@
 ----------------------------------------------------------------
 -- =============================================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] --[StriveCarSalon].[uspGetLocationById]1
+CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] --[StriveCarSalon].[uspGetLocationById] 22
     (
      @tblLocationId int)
 AS 
 BEGIN
+
+DECLARE @DefaultWashTime INT = 25;
 
 Declare @WashId INT = (Select valueid from GetTable('JobType') where valuedesc='Wash')
 Declare @WashRole INT = (Select RoleMasterId from tblRoleMaster WHERE RoleName='Wash')
@@ -57,40 +56,40 @@ DROP TABLE  IF EXISTS #WashTime
 
 (SELECT tbll.LocationId,
 CASE
-	   WHEN wr.Washer <=3 AND cc.Cars <=1 THEN 25
-	   WHEN wr.Washer <=3 AND cc.Cars > 1 THEN (25+(cc.Cars - 1) * 8) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer <=6 AND cc.Cars <=1 THEN 25
-	   WHEN wr.Washer <=6 AND cc.Cars >1 THEN (25+(cc.Cars - 1)*7) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer <=9 AND cc.Cars <=1 THEN 25
-	   WHEN wr.Washer <=9 AND cc.Cars >1 THEN (25+(cc.Cars - 1)*6) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer <=11 AND cc.Cars <=3 THEN 25
-	   WHEN wr.Washer <=11 AND cc.Cars >3 THEN (25+(cc.Cars - 3)*5) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer >=12 AND wr.Washer<=15 AND cc.Cars <=5 THEN 25
-	   WHEN wr.Washer >=12 AND wr.Washer<=15 AND cc.Cars >5  THEN (25+(cc.Cars - 5)*3) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer >=16 AND wr.Washer<=21 AND cc.Cars <=5 THEN 25
-	   WHEN wr.Washer >=16 AND wr.Washer<=21 AND cc.Cars >5  THEN (25+(cc.Cars - 6)*2) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer >=22 AND wr.Washer<=26 AND cc.Cars <=5 THEN 25
-	   WHEN wr.Washer >=22 AND wr.Washer<=26 AND cc.Cars >5  THEN (25+(cc.Cars - 5)*2) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer >26 AND cc.Cars <=7 THEN 25
-	   WHEN wr.Washer >26 AND cc.Cars >7  THEN (25+(cc.Cars - 7)*2) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
-	   WHEN wr.Washer is NULL and cc.Cars is NULL THEN 25
+	   WHEN wr.Washer <=3 AND cc.Cars <=1 THEN @DefaultWashTime
+	   WHEN wr.Washer <=3 AND cc.Cars > 1 THEN (@DefaultWashTime+(cc.Cars - 1) * 8) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer <=6 AND cc.Cars <=1 THEN @DefaultWashTime
+	   WHEN wr.Washer <=6 AND cc.Cars >1 THEN (@DefaultWashTime+(cc.Cars - 1)*7) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer <=9 AND cc.Cars <=1 THEN @DefaultWashTime
+	   WHEN wr.Washer <=9 AND cc.Cars >1 THEN (@DefaultWashTime+(cc.Cars - 1)*6) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer <=11 AND cc.Cars <=3 THEN @DefaultWashTime
+	   WHEN wr.Washer <=11 AND cc.Cars >3 THEN (@DefaultWashTime+(cc.Cars - 3)*5) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer >=12 AND wr.Washer<=15 AND cc.Cars <=5 THEN @DefaultWashTime
+	   WHEN wr.Washer >=12 AND wr.Washer<=15 AND cc.Cars >5  THEN (@DefaultWashTime+(cc.Cars - 5)*3) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer >=16 AND wr.Washer<=21 AND cc.Cars <=5 THEN @DefaultWashTime
+	   WHEN wr.Washer >=16 AND wr.Washer<=21 AND cc.Cars >5  THEN (@DefaultWashTime+(cc.Cars - 6)*2) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer >=22 AND wr.Washer<=26 AND cc.Cars <=5 THEN @DefaultWashTime
+	   WHEN wr.Washer >=22 AND wr.Washer<=26 AND cc.Cars >5  THEN (@DefaultWashTime+(cc.Cars - 5)*2) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer >26 AND cc.Cars <=7 THEN @DefaultWashTime
+	   WHEN wr.Washer >26 AND cc.Cars >7  THEN (@DefaultWashTime+(cc.Cars - 7)*2) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
+	   WHEN wr.Washer is NULL and cc.Cars is NULL THEN @DefaultWashTime
 	   END AS WashTimeMinutes
 	   INTO #WashTime
 	   
 	   FROM tblLocation tbll
-LEFT JOIN #WashRoleCount wr ON(tbll.LocationId = wr.LocationId)
-LEFT JOIN #CarsCount cc on tbll.LocationId = cc.LocationId
-LEFT JOIN tblLocationOffSet tbllo ON(tbll.LocationId = tbll.LocationId)
+INNER JOIN #WashRoleCount wr ON(tbll.LocationId = wr.LocationId)
+INNER JOIN #CarsCount cc on tbll.LocationId = cc.LocationId
+INNER JOIN tblLocationOffSet tbllo ON(tbll.LocationId = tbll.LocationId)
 WHERE ISNULL(tbll.IsActive,1) = 1 AND
 ISNULL(tbll.IsDeleted,0) = 0 --AND ISNULL(tbllo.IsDeleted,0) = 0
 )
 
-SELECT 
+SELECT DISTINCT
        tbll.LocationId,
 	   tbll.LocationType,
 	   tbll.LocationName,
 	   tbll.LocationDescription,
-	   wt.WashTimeMinutes,
+	   CONVERT(INT, ISNULL(wt.WashTimeMinutes, @DefaultWashTime)) as WashTimeMinutes,
 	   tbll.ColorCode,
 	   tbll.IsFranchise,
 	   tbll.TaxRate,
@@ -133,6 +132,9 @@ tblla.LocationAddressId	,
            WHERE tbll.LocationId = @tblLocationId AND
 		   isnull(tblla.IsActive,1) = 1 AND
 		isnull(tblla.isDeleted,0) = 0 
+
+
+Select * from tblLocationEmail where locationId = @tblLocationId
 		
 SELECT 
 DrawerId,

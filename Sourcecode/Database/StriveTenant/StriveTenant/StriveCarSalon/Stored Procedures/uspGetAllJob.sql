@@ -50,7 +50,9 @@ tbj.JobId
 ,tbj.TicketNumber
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
-,CONCAT(cvMo.valuedesc,', ',cvMfr.valuedesc,', ',cvCo.valuedesc) AS VehicleName
+,cvMo.valuedesc AS Model,
+cvMfr.valuedesc As Make,
+cvCo.valuedesc AS Color
 ,tbj.TimeIn
 ,tbj.EstimatedTimeOut
 ,tbls.ServiceName
@@ -63,7 +65,8 @@ LEFT join StriveCarSalon.tblService tbls on tblji.ServiceId = tbls.ServiceId
 LEFT join StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
 --LEFT join StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
 LEFT join StriveCarSalon.tblClientAddress tblca on tbj.ClientId = tblca.ClientId
-LEFT join StriveCarSalon.GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid and tblcv.valuedesc='Wash Package'
+INNER join StriveCarSalon.GetTable('JobType') tblcvjt on tbj.JobType = tblcvjt.valueid and tblcvjt.valuedesc='Wash'
+INNER join StriveCarSalon.GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid and tblcv.valuedesc='Wash Package'
 LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tbj.Make = cvMfr.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON tbj.Model = cvMo.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid

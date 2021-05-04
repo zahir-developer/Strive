@@ -1,13 +1,5 @@
-﻿
---968135
---445542
---318221
-
-
-
-
-CREATE procedure [StriveCarSalon].[uspGetDailySalesReport] -- [StriveCarSalon].[uspGetDailySalesReport] '2020-12-24',2057
-(@Date date , @LocationId int)
+﻿CREATE procedure [StriveCarSalon].[uspGetDailySalesReport] -- [StriveCarSalon].[uspGetDailySalesReport] '2020-12-24',2057
+@Date date , @LocationId int
 AS
 BEGIN
 
@@ -99,7 +91,7 @@ INNER JOIN
 LEFT JOIN
     tblClientVehicleMembershipDetails tblcvmd ON(tblj.VehicleId = tblcvmd.ClientVehicleId) AND tblcvmd.IsActive = 1 AND ISNULL(tblcvmd.IsDeleted,0)=0
 WHERE 
-tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail')  and st.valuedesc in('Washes','Details')
+tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail')  and st.valuedesc in('Wash Package','Detail Package')
 AND tblj.JobDate=@Date and tblj.LocationId = @LocationId
 AND tblj.IsActive = 1 AND tblc.IsActive = 1 AND tblcv.IsActive = 1 
 AND tblji.IsActive = 1 AND tbls.IsActive = 1 

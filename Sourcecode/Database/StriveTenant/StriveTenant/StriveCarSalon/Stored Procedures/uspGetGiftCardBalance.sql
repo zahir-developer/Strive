@@ -14,7 +14,7 @@ Select top 1 @GiftCardId = GiftCardId, @TotalAmount = TotalAmount, @ActivationDa
 Select @TransactionAmount = SUM(TransactionAmount) from StriveCarSalon.tblGiftCardHistory
 where GiftCardId=@GiftCardId
 
-Select @GiftCardId as GiftCardId, @TotalAmount + ISNULL(@TransactionAmount,0) AS BalaceAmount, @ActivationDate AS ActiveDate
+Select @GiftCardId as GiftCardId, ISNULL(@TransactionAmount,0) AS BalanceAmount, @ActivationDate AS ActivationDate
 
 
 end

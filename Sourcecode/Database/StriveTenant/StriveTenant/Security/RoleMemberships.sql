@@ -13,6 +13,4 @@ GO
 ALTER ROLE [db_ddladmin] ADD MEMBER [StriveDevUser];
 
 
-GO
-ALTER ROLE [db_ddladmin] ADD MEMBER [StriveMigrationUser];
 

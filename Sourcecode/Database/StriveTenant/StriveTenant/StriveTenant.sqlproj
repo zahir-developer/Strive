@@ -82,6 +82,10 @@
     <Folder Include="StriveCarSalonTest\User Defined Types\" />
     <Folder Include="StriveSuperAdminTest\" />
     <Folder Include="StriveSuperAdminTest\User Defined Types\" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\Data" />
+    <Folder Include="Scripts\RolePermission" />
+    <Folder Include="Scripts\Bay" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveCarSalon\Tables\tblJobPaymentCreditCard.sql" />
@@ -174,10 +178,8 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspDeleteClientVehicle.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGiftCardChangeStatus.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetGiftCardById.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllGiftCard.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetDetailJobById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetBaySchedulesDetails.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteRollBackItems.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllJob.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetService.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspEmailExist.sql" />
@@ -190,7 +192,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetMembershipListByVehicleId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateDocumentPassword.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetScheduleById.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllDocumentById_Delete.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetCollisionByEmpId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetMembershipById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetVehicleMembershipByVehicleId.sql" />
@@ -221,7 +222,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateSalesItem.sql" />
     <Build Include="dbo\Stored Procedures\uspGetVehicleCodes.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspDeleteSalesItemById.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllProduct.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetVehicleStatementByClientId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetCollision.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetVehicleHistoryByClientId.sql" />
@@ -307,7 +307,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockWeekDetails.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockEmployeeDetails.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClock.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetItemProductListByTicketNumber.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllServiceAndProductList.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspDeleteTimeClockEmployee.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspDeleteJobItems.sql" />
@@ -316,7 +315,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspRollBackPayment.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetPastJobsVisitsByClientId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetPastDetailsByClientId.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetItemListByTicketNumber_29_09_2020.sql" />
     <Build Include="StriveCarSalon\Tables\tblPayroll.sql" />
     <Build Include="StriveCarSalon\Tables\tblLocationOffSet.sql" />
     <Build Include="StriveCarSalon\Tables\tblCreditAccountHistory.sql" />
@@ -331,7 +329,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\USPUPDATEJOBSTATUSHOLDBYJOBID.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusForJobId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusCompleteByJobId.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateCheckOutDetailForJobId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateChatUnreadMessageState.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateAdjusment.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateAccountDetails.sql" />
@@ -353,11 +350,10 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetCustomerSummaryReport.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\USPGetChatMessageCount.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatMessage.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeList_Backup.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeList.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeGrouplist.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAccountDetails.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\USPDELETECHATUSERGROUP.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspDeleteChatUserGroup.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspChatEmployeeSearch.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\UpdateChatCommunicationDetail.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\GetChatMessagePrevious.sql" />
@@ -388,9 +384,7 @@
     <Build Include="StriveCarSalon\Tables\tblAdSetup.sql" />
     <Build Include="StriveCarSalon\Tables\StgTimeClock_Out.sql" />
     <Build Include="StriveCarSalon\Tables\StgTimeClock_IN.sql" />
-    <Build Include="StriveCarSalon\Tables\StgMembershipPaymentDetail.sql" />
     <Build Include="dbo\Tables\CityMaster.sql" />
-    <Build Include="Security\StriveMigrationUser.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateMemebrshiptoJobPayment.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobPayment.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\usptblTimeClockInsert.sql" />
@@ -401,8 +395,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetRolePermissions.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetPastWeatherInfo.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetMonthlyMoneyOwnedReport_Delete.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetLocationById_Test.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetItemListByTicketNumber_Test.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetHourlyWashSalesReport.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetHourlyWashReport.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetEmployeeRoleById.sql" />
@@ -461,11 +453,35 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllVehicleImageById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllLocationWashTime.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllDeals.sql" />
+    <Build Include="Scripts\AuthMigration_Dev.sql" />
+    <None Include="Scripts\RolePermissionCustomer.sql" />
+    <None Include="Scripts\TenantMigration_Dev.sql" />
+    <None Include="Scripts\Theme.sql" />
+    <None Include="Scripts\RolePermission\Washer.sql" />
+    <None Include="Scripts\Bay\tblBay.sql" />
+    <None Include="Scripts\Bay\tblBaySlot.sql" />
+    <Build Include="StriveCarSalon\Tables\tblVendorEmailAddress.sql" />
+    <Build Include="StriveCarSalon\Tables\tblLocationEmail.sql" />
+    <Build Include="StriveCarSalon\Tables\tblCheckListNotification.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusHold.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusComplete.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateCheckOutDetail.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetTipDetail.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetProductDetailById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetGiftCardBalanceHistory.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetClientById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetChecklistById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllMembershipName.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllEmployee.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllDocumentById_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
     <None Include="QA.scmp" />
     <None Include="Client_Dev.scmp" />
     <None Include="Strive_Tenant.sql" />
+    <None Include="Scripts\RolePermission\Detailer.sql" />
+    <None Include="Scripts\RolePermission\Module.sql" />
+    <None Include="Scripts\RolePermission\Screen.sql" />
   </ItemGroup>
 </Project>

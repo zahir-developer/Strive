@@ -1,5 +1,5 @@
-﻿CREATE proc [StriveCarSalon].[uspGetServices]
---EXEC [StriveCarSalon].[uspGetServices] null,null,'list2',null,null,'ASC','ServiceName',1
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetServices]
+--EXEC [StriveCarSalon].[uspGetServices] null,null,'$5',null,null,'ASC','ServiceName',1
 (@ServiceId int =NULL,
 @locationId int =NULL,
 @Query NVARCHAR(50) = NULL,
@@ -54,9 +54,8 @@ SELECT
 	LEFT JOIN [striveCarSalon].GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
 WHERE  (@ServiceId is null or svc.ServiceId = @ServiceId) and   isnull(svc.IsDeleted,0)=0
 AND
-
- (@Query is null or cv.valuedesc like '%'+@Query+'%'
-  or svc.ServiceName  like '%'+@Query+'%') AND  
+ @Query is null or cv.valuedesc like '%'+@Query+'%'
+  or svc.ServiceName  like '%'+@Query+'%'  AND  
    (isnull(svc.IsActive,1)=@Status or @Status is null  ) 
   Group By
   svc.ServiceId,

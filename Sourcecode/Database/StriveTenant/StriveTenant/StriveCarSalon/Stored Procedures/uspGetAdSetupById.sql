@@ -16,6 +16,6 @@ select tblad.AdSetupId
 	   FROM [StriveCarSalon].[tblAdSetup] tblad 
 	   inner join tbldocument tbld on tblad.documentid= tbld.documentid 
  
-where tblad.AdSetupId =@AdSetupId and
-tblad.IsActive=1 
+where tblad.AdSetupId =@AdSetupId
+
 end

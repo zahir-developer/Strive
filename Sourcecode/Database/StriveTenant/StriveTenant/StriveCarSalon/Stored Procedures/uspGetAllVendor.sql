@@ -11,7 +11,7 @@ VA.PhoneNumber,
 VA.Email,
 V.IsActive
 FROM  [StriveCarSalon].[tblVendor] V
-Inner Join [StriveCarSalon].[tblVendorAddress] VA
+left Join [StriveCarSalon].[tblVendorAddress] VA
  On V.VendorId=VA.VendorId
  WHERE V.IsDeleted = 0 AND VA.IsDeleted=0 
   and (@VendorId is null or VA.VendorId= @VendorId)AND

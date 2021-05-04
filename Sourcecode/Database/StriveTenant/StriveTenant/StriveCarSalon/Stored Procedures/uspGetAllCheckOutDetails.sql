@@ -54,7 +54,8 @@ tblj.TimeIn,
 tblj.EstimatedTimeOut,
 tblj.JobType,
 tblj.JobStatus,
-tblj.CheckOut
+tblj.CheckOut,
+tblj.IsHold
 into #Jobs from tbljob tblj
 INNER JOIN tblJobItem tblji on tblj.JobId = tblji.JobId
 where ( @locationId is null or tblj.LocationId = @locationId) AND tblj.IsActive=1 AND ISNULL(tblj.IsDeleted,0)=0
@@ -89,8 +90,12 @@ tblj.JobId,
 js.valuedesc,
 tblj.JobPaymentId,
 tblj.TicketNumber,
+tblj.IsHold,
 tblc.FirstName AS CustomerFirstName,
 tblc.LastName AS CustomerLastName,
+vm.valuedesc AS VehicleMake,
+vmo.valuedesc AS VehicleModel,
+vc.valuedesc AS VehicleColor,
 CONCAT(vm.valuedesc,' ',vmo.valuedesc,'/',vc.valuedesc) AS VehicleDescription,
 tbls.ServiceName,
 st.valuedesc AS ServiceTypeName,
@@ -127,7 +132,7 @@ CASE
     WHEN js.valuedesc='Completed' THEN 1
 	WHEN js.valuedesc='In Progress' THEN 2
 	WHEN js.valuedesc='Waiting' THEN 3
-	WHEN js.valuedesc='Hold' THEN 4
+	--WHEN js.valuedesc='Hold' THEN 4
 END AS JobStatusOrder
 INTO 
 	#Checkout
@@ -135,7 +140,7 @@ FROM
 	#Jobs tblj WITH(NOLOCK)
 INNER JOIN
 	GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
-INNER JOIN
+LEFT JOIN
 	GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid)
 INNER JOIN
 	tblClient tblc  WITH(NOLOCK) ON(tblj.ClientId = tblc.ClientId)
@@ -169,7 +174,7 @@ LEFT JOIN
 WHERE 
 --( @locationId is null or tblj.LocationId =@locationId ) 
 --and (tblj.JobDate  between @StartDate and @EndDate or( @StartDate is NULL and @EndDate is Null)) and
-tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail') AND st.valuedesc IN('Wash Package','Details','Additional Services')
+tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail') AND st.valuedesc IN('Wash Package','Detail Package','Additional Services')
 AND ISNULL(tblj.CheckOut,0)=0 --AND tblj.IsActive = 1 
 AND tblc.IsActive = 1 AND tblcv.IsActive = 1 
 AND tblji.IsActive = 1 AND tbls.IsActive = 1  
@@ -203,8 +208,12 @@ SELECT
 	,JobPaymentId
 	, TicketNumber
 	, CustomerFirstName
-	,CustomerLastName
-	, VehicleDescription
+	,CustomerLastName,
+	VehicleMake,
+ VehicleModel,
+ VehicleColor,
+ IsHold,
+	 VehicleDescription
 	, STUFF(
    (SELECT  ', ' + AdditionalServices 
     FROM #Checkout C
@@ -237,6 +246,10 @@ GROUP BY
 	,Tmp.CustomerLastName
 	,VehicleDescription
 	,Tmp.Checkin
+	,tmp.IsHold
+	,	VehicleMake,
+ VehicleModel,
+ VehicleColor
 	,Tmp.Checkout
 	,Tmp.MembershipName
 	,Tmp.PaymentStatus

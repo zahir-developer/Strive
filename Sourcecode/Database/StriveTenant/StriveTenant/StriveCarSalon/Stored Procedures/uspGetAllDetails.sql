@@ -27,6 +27,8 @@ CREATE proc [StriveCarSalon].[uspGetAllDetails] --[StriveCarSalon].[uspGetAllDet
 )
 AS
 BEGIN
+
+
 SELECT
 BayId,
 BayName
@@ -62,7 +64,7 @@ SELECT tblj.JobId,tbls.ServiceName AS ServiceTypeName INTO #Details FROM tblJobI
 AND tblji.IsActive=1 AND ISNULL(tblji.IsDeleted,0)=0
 INNER JOIN tblService tbls ON tblji.ServiceId = tbls.ServiceId AND tbls.IsActive=1 AND ISNULL(tbls.IsDeleted,0)=0
 INNER JOIN GetTable('ServiceType') st ON(st.valueid = tbls.ServiceType) 
-AND st.valuedesc ='Details'
+AND st.valuedesc ='Detail Package'
 AND (@JobDate is null OR tblj.JobDate=@JobDate) AND (@LocationId is null  OR @LocationId= 0 OR tblj.LocationId =@LocationId)
 
 
@@ -108,7 +110,9 @@ tblb.BayName
 ,ISNULL(outs.OutsideService,'None')AS OutsideService
 ,tblcv.Barcode
 FROM 
-tblJob tblj inner join tblClient tblc ON(tblj.ClientId = tblc.ClientId) 
+tblJob tblj 
+INNER JOIN GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
+inner join tblClient tblc ON(tblj.ClientId = tblc.ClientId) 
 inner join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
 inner join tblClientAddress tblca ON(tblj.ClientId = tblca.ClientId)
 inner join tblClientVehicle tblcv ON(tblc.ClientId = tblcv.ClientId and tblj.VehicleId = tblcv.VehicleId)
@@ -126,13 +130,15 @@ left join #OutsideServices outs ON(tblj.JobId = outs.JobId)
 left join #AirFresheners ar ON(tblj.JobId =ar.JobId)
 left join #ServicePrice sp ON(tblj.JobId = sp.JobId)
 WHERE 
- (@JobDate is null OR tblj.JobDate=@JobDate)
+(@JobDate is null OR tblj.JobDate = convert(date, @JobDate, 105))
 and 
 (@LocationId is null OR  @LocationId=0 OR tblj.LocationId=@LocationId)
 and
 (@ClientId is null OR @ClientId=0 OR tblc.ClientId=@ClientId)
 and
-st.valuedesc in('Details','Outside Services','Air Fresheners')
+jt.valuedesc = 'Detail'
+and
+st.valuedesc in('Detail Package','Outside Services','Air Fresheners')
 and
 tblj.IsActive=1
 and

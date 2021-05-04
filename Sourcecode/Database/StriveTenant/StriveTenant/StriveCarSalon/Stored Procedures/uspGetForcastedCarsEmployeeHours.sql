@@ -33,7 +33,7 @@ ORDER BY CreatedDate DESC
 
 DECLARE @AvgCount INT = (Select count(1) from #WashTime WHERE WashTimeMinutes >0 )
 
-DECLARE @Normal DECIMAL(18,2) = 68.75--(Select SUM(CONVERT(DECIMAL(18,2),WashTimeMinutes))/@AvgCount from #WashTime)
+DECLARE @Normal DECIMAL(18,2) = (Select SUM(CONVERT(DECIMAL(18,2),WashTimeMinutes))/@AvgCount from #WashTime)
 
 DECLARE @Today_RainPrecipitation int = (select top 1 RainProbability from #WashTime where CONVERT(VARCHAR(10), CreatedDate, 120)  =@date)
 
@@ -43,7 +43,5 @@ where @Today_RainPrecipitation between fr.PrecipitationRangeFrom and fr.Precipit
 
 select  Round(@Normal * @Formula,0) as ForcastedEmployeeHours
 ,Round((@Normal * @Formula) / 1.25,0) as ForcastedCars ,@Today_RainPrecipitation as RainPrecipitation
-
-
 
 END

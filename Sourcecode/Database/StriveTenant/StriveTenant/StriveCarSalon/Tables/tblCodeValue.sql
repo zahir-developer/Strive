@@ -15,3 +15,11 @@
     CONSTRAINT [FK_tblCodeValue_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [StriveCarSalon].[tblCodeCategory] ([id])
 );
 
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IXtblCodeValue_CategoryId]
+    ON [StriveCarSalon].[tblCodeValue]([CategoryId] ASC)
+    INCLUDE([CodeValue], [CodeShortValue], [SortOrder], [IsDeleted]);
+

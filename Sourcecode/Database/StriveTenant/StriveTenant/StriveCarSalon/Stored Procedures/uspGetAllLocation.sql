@@ -32,7 +32,12 @@ SELECT tbll.LocationId,
 	   tblla.Latitude,
 	   tblla.Longitude,
 	   tblla.PhoneNumber,
-	   tblla.Email,
+	   STUFF((SELECT  ', ' + le.EmailAddress  
+    FROM [tblLocationEmail] le
+	WHERE le.LocationId = tbll.LocationId
+    FOR XML PATH('')
+	), 1, 2, '')  AS Email,
+	   --tblla.Email,
 	   tbll.WorkhourThreshold,
 	   tbll.IsFranchise,
 	   tblla.Address1,
@@ -61,7 +66,8 @@ LEFT JOIN [StriveCarSalon].GetTable('Country') tblco ON(tblla.Country = tblco.va
 LEFT JOIN [StriveCarSalon].GetTable('LocationType') tblcv ON(tbll.LocationType = tblcv.valueid)
 
 WHERE
-isnull(tbll.IsDeleted,0)=0 and tbll.IsActive = 1 
+isnull(tbll.IsDeleted,0)=0 and
+ tbll.IsActive = 1 
 AND
  (@LocationSearch is null or tbll.LocationName like '%'+@LocationSearch+'%'
  or tblla.Address1 like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'

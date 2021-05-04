@@ -60,9 +60,8 @@ empad.phoneNumber as MobileNo,
 
 isnull(emp.IsActive,1) as Status
 INTO #Employee
-FROM 
-StriveCarSalon.tblEmployee emp 
-INNER JOIN StriveCarSalon.tblEmployeeAddress empAd on emp.employeeId = empAd.employeeId and empAd.PhoneNumber != ''
+FROM StriveCarSalon.tblEmployee emp 
+LEFT JOIN StriveCarSalon.tblEmployeeAddress empAd on emp.employeeId = empAd.employeeId and empAd.PhoneNumber != ''
 LEFT JOIN StriveCarSalon.tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
 LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId 
 WHERE --empdet.EmployeeDetailId is NOT NULL AND 

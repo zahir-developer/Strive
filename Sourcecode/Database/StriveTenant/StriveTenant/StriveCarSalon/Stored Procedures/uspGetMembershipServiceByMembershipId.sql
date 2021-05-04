@@ -13,7 +13,7 @@
 --01-09-2020 - Zahir Hussain - Added IsActive/Status, Upcharges
 -- =========================================================
 
-CREATE procedure [StriveCarSalon].[uspGetMembershipServiceByMembershipId] --[StriveCarSalon].[uspGetMembershipServiceByMembershipId] 23573 
+CREATE procedure [StriveCarSalon].[uspGetMembershipServiceByMembershipId] --[StriveCarSalon].[uspGetMembershipServiceByMembershipId] 23384 
 (@MembershipId int)
 AS
 BEGIN

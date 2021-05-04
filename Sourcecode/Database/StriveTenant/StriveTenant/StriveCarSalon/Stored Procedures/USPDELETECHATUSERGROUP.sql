@@ -1,8 +1,8 @@
 ﻿
-CREATE PROCEDURE [StriveCarSalon].[USPDELETECHATUSERGROUP] (@ChatGroupUserId int)
+CREATE PROCEDURE [StriveCarSalon].[uspDeleteChatUserGroup] (@ChatGroupUserId int)
 AS
 BEGIN
 
-	update StriveCarSalon.tblChatUserGroup set IsDeleted= 1 where ChatGroupUserId = @ChatGroupUserId
+Update StriveCarSalon.tblChatUserGroup set IsDeleted= 1 where ChatGroupUserId = @ChatGroupUserId
 
 END
