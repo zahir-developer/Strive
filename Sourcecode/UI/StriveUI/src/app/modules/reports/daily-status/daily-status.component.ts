@@ -308,6 +308,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
 
             })
+            console.log(employeeExportDetail, 'export')
             }
           }
       
