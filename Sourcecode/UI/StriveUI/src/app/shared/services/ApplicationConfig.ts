@@ -246,6 +246,11 @@ export const ApplicationConfig = {
     },
     refreshTime: {
         refreshTime: 19
+    },
+
+    debounceTime: {
+        sec: 3000
     }
+
 };
 
