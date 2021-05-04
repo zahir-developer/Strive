@@ -21,6 +21,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
   payRollList: any = [];
+  payRollBackup: any = [];
   MaxDate = new Date()
   bsConfig: Partial<BsDatepickerConfig>;
   collectionSize = 0;
@@ -35,9 +36,10 @@ export class PayrollsGridComponent implements OnInit {
   maxDate = new Date();
   minDate: any;
   isLoading: boolean;
-  isEditRestriction: boolean;
+  isEditRestriction: boolean = false;
   employeeId: string;
   sortColumn: { sortBy: string; sortOrder: string; };
+  processLabel: string = "Process";
   constructor(
     private payrollsService: PayrollsService,
     private fb: FormBuilder,
@@ -111,6 +113,7 @@ export class PayrollsGridComponent implements OnInit {
         const payRoll = JSON.parse(res.resultData);
         if (payRoll.Result.PayRollRateViewModel) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
+          this.payRollBackup = payRoll.Result.PayRollRateViewModel
           const length = this.payRollList === null ? 0 : this.payRollList.length;
           this.collectionSize = Math.ceil(length / this.pageSize) * 10;
           this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
@@ -119,7 +122,7 @@ export class PayrollsGridComponent implements OnInit {
           this.isPayrollEmpty = true;
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -137,12 +140,14 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.editRestriction(empId, startDate, endDate).subscribe(res => {
       const edit = JSON.parse(res.resultData);
       if (res.status === 'Success') {
-        if (edit.Result === 'false') {
+        if (edit.Result == false) {
 
-          this.isEditRestriction = edit.Result;
-
+          this.isEditRestriction = false;
+          this.processLabel = "Process";
         } else {
-          this.isEditRestriction = edit.Result;
+          this.isEditRestriction = true;
+          this.processLabel = "Processed";
+
         }
 
       }
@@ -214,12 +219,25 @@ export class PayrollsGridComponent implements OnInit {
   }
 
   updateAdjustment() {
+    
     const updateObj = [];
+
+
+
+
     this.payRollList.forEach(item => {
-      updateObj.push({
-        id: item.EmployeeId,
-        adjustment: +item.Adjustment
-      });
+      const oldPayroll = this.payRollBackup.filter(s => s.EmployeeId == item.EmployeeId);
+      if (oldPayroll !== null && oldPayroll !== undefined) {
+        console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
+        if (oldPayroll.Adjustment != +item.Adjustment) {
+          console.log('True');
+          console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
+          updateObj.push({
+            id: item.EmployeeId,
+            adjustment: +item.Adjustment
+          });
+        }
+      }
     });
     this.spinner.show();
     this.payrollsService.updateAdjustment(updateObj).subscribe(res => {
@@ -231,7 +249,7 @@ export class PayrollsGridComponent implements OnInit {
         this.toastr.success(MessageConfig.PayRoll.Adjustment, 'Success!');
         this.runReport();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -277,7 +295,7 @@ export class PayrollsGridComponent implements OnInit {
       });
     });
 
-this.spinner.show();
+    this.spinner.show();
     this.payrollsService.addPayRoll(obj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
@@ -288,7 +306,7 @@ this.spinner.show();
         this.toastr.success(MessageConfig.PayRoll.Process, 'Success!');
         this.runReport();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 

@@ -50,7 +50,7 @@
                     <div id="dailyreport">
                     <div class="p-b-5 m-b-8">
                         <h4 class="d-inline-block align-middle"><span class="resp-title">Daily Tip Report </span>
-                            <div class="d-inline-block"><input type="text" id="tipTotal" class="form-control" [(ngModel)]="tipAmount" size="2" appTwoDecimalNumber placeholder="Tip Total">
+                            <div class="d-inline-block"><input type="text" id="tipTotal" class="form-control" [(ngModel)]="tipAmount" size="7" appTwoDecimalNumber placeholder="Tip Total">
                             </div>
                             &nbsp;<button type="button" id="tipSubmit" class="btn theme-primary-button-color" [disabled]="!tipAmount" (click)="submit()">Submit</button>
                         </h4>
@@ -63,26 +63,31 @@
                             <table class="table ">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Payee</th>
-                                        <th scope="col">Hours</th>
-                                        <th scope="col" class="w-10">Tip</th>
+                                        <th >Payee</th>
+                                        <th  style="padding-right: 20px;">Hours</th>
+                                        <th >Tip</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr
                                         *ngFor="let dailytip of dailyTip | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                                        <td>{{dailytip?.EmployeeName}}</td>
+                                        <td>
+                                            <span title="{{dailytip?.EmployeeName}}">
+                                                {{dailytip?.EmployeeName | slice:0:15}}
+                                                {{(dailytip?.EmployeeName!== null) ? dailytip?.EmployeeName?.length <= 15 ? ''
+                                                    : '..' :''}} </span>
+                                           </td>
                                         <td>{{dailytip?.HoursPerDay}}</td>
                                         <td>{{dailytip?.Tip}}</td>
                                     </tr>
                                     <tr *ngIf="dailyTip?.length === 0">
-                                        <td colspan="3" class="text-center">No Records Found</td>
+                                        <td colspan="3" class="text-center" >No Records Found</td>
                                     </tr>
                                 </tbody>
                                 <tfoot class="table-foot font-weight-700" *ngIf="dailyTip?.length > 0">
                                     <tr>
-                                        <td colspan="2" class="font-weight-700 text-right">Tip Total </td>
-                                        <td>{{totalTip | currency}}</td>
+                                        <td colspan="2"  class="font-weight-700 text-right">Tip Total </td>
+                                        <td>{{tips | currency}}</td>
                                     </tr>
                                 </tfoot>
                             </table>

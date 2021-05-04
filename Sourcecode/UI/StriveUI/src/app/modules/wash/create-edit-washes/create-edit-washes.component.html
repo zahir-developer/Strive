@@ -49,8 +49,8 @@
                                                     formControlName="client" placeholder="Client Name"
                                                     (onSelect)="selectedClient($event)" (onKeyUp)="onKeyUp($event)">
                                                 </p-autoComplete>
-                                                <div *ngIf="submitted && f.client.errors" class="invalid-feedback">
-                                                    <div *ngIf="f.client.errors.required">Client is required</div>
+                                                <div *ngIf="submitted && f.client.errors">
+                                                    <div *ngIf="f.client.errors.required" style="color: #dc3545;font-size: 80%;margin-top: .25rem;">Client Name is required</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,14 +85,14 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputType">Type</label>
+                                    <label for="inputType">Make</label>
 
                                     <div class="ui-fluid">
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
-                                                <p-autoComplete field="name" [suggestions]="filteredMake"
+                                                <p-autoComplete field="name" [suggestions]="filteredMake" 
                                                     (onBlur)="checkValue('make')" (completeMethod)="filterMake($event)"
-                                                    [size]="10" formControlName="type" placeholder="Make">
+                                                    (onSelect)="selectedModel($event)"   [size]="10" formControlName="type" placeholder="Make">
                                                 </p-autoComplete>
                                             </div>
                                         </div>
@@ -104,7 +104,7 @@
                                         <div class="p-grid forms-grid">
                                             <div class="p-col-3 p-md-6">
                                                 <p-autoComplete field="name" [suggestions]="filteredModel"
-                                                    (onBlur)="checkValue('model')"
+                                                    (onBlur)="checkValue('model')" (onSelect)="getUpcharge();"
                                                     (completeMethod)="filterModel($event)" [size]="10"
                                                     formControlName="model" placeholder="Model">
                                                 </p-autoComplete>
@@ -147,7 +147,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputUpchargeType">Upcharge Type</label>
                                     <select class="form-control" formControlName="upchargeType"
-                                        (change)="upchargeService($event.target.value)">
+                                        (change)="upchargeService($event.target.value);">
                                         <option hidden selected value="">Choose</option>
                                         <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
                                             {{score.ServiceName}}
@@ -208,8 +208,10 @@
                         </div>
                         <div class="m-t-20 mw-100">
                             <span *ngIf="isEdit">
-                                <button type="button" class="btn theme-primary-button-color"
-                                    (click)="pay()">Pay</button>&nbsp;
+                                <button type="button"  (click)="pay()"  [ngClass]="paidLabel  === 'Paid' ? 'btn btn-success disabled' : 'btn theme-primary-button-color '"> 
+                                   {{paidLabel}}</button>
+                                 
+                              &nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="print()">Print</button>
                             </span>

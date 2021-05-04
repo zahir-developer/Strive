@@ -43,16 +43,17 @@ export class UserDataService {
       } 
       if (token?.EmployeeDetails?.EmployeeLocations) {
       if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
-        localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
+        localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
 
 
     
       } else {
         localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
+        this.weatherService.getWeather()
+
       }
     }
 
-    this.weatherService.getWeather()
 
       if (token?.EmployeeDetails?.EmployeeRoles?.length) {
         localStorage.setItem('empRoles', token?.EmployeeDetails?.EmployeeRoles[0]?.RoleName);
@@ -60,8 +61,6 @@ export class UserDataService {
       if (token?.EmployeeDetails?.RolePermissionViewModel !== undefined && token?.EmployeeDetails?.RolePermissionViewModel !== null) {
         this.setViews(token?.EmployeeDetails?.RolePermissionViewModel);
         localStorage.setItem('roleId', token?.EmployeeDetails?.EmployeeRoles[0]?.Roleid);
-
-       
       }
       this.setHeaderName(token?.EmployeeDetails?.EmployeeLogin?.FirstName + ' ' +
         token?.EmployeeDetails?.EmployeeLogin?.LastName);
@@ -80,8 +79,6 @@ export class UserDataService {
     }
     else if (token.ClientDetails !== undefined) {
       this.setSides(JSON.stringify(token?.ClientDetails?.RolePermissionViewModel));
-
-     
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
       localStorage.setItem('clientId', token.ClientDetails.ClientDetail.ClientId);

@@ -6,6 +6,7 @@ import { ClientService } from '../../services/data-service/client.service';
 import { GetCodeService } from '../../services/data-service/getcode.service';
 import { CityComponent } from '../city/city.component';
 import { MessageConfig } from '../../services/messageConfig';
+import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-form',
@@ -58,12 +59,12 @@ export class ClientFormComponent implements OnInit {
     this.clientForm = this.fb.group({
       fName: ['', Validators.required],
       lName: ['', Validators.required],
-      address: ['', ],
-      zipcode: ['', [ Validators.minLength(5)]],
+      address: ['',],
+      zipcode: ['', [Validators.minLength(5)]],
       state: ['',],
       city: ['',],
       phone1: ['', [Validators.required, Validators.minLength(14)]],
-      email: ['', Validators.required,Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       phone2: ['',],
       creditAccount: ['',],
       noEmail: ['',],
@@ -83,7 +84,7 @@ export class ClientFormComponent implements OnInit {
   get f() {
     return this.clientForm.controls;
   }
- 
+
 
   sameClientName() {
     const clientNameDto = {
@@ -99,17 +100,17 @@ export class ClientFormComponent implements OnInit {
             this.ClientNameAvailable = true;
             this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
 
-        } else{
-          this.ClientNameAvailable = false;
- 
+          } else {
+            this.ClientNameAvailable = false;
+
+          }
         }
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
-}
- 
+
   // Get Score
   getScore() {
     this.client.getClientScore().subscribe(data => {
@@ -126,7 +127,7 @@ export class ClientFormComponent implements OnInit {
 
   // Get ClientType
   getClientType() {
-    this.getCode.getCodeByCategory("CLIENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
       if (data.status === "Success") {
         const cType = JSON.parse(data.resultData);
         this.Type = cType.Codes;
@@ -160,7 +161,12 @@ export class ClientFormComponent implements OnInit {
     });
     this.clientId = this.selectedData.ClientId;
     if (this.selectedData.IsCreditAccount) {
+      this.isAmount = true;
+      this.clientForm.get('amount').setValidators([Validators.required]);
       this.clientForm.controls.amount.enable();
+    } else {
+      this.isAmount = false;
+      this.clientForm.get('amount').clearValidators();
     }
   }
 
@@ -171,8 +177,12 @@ export class ClientFormComponent implements OnInit {
   change(data) {
     this.clientForm.value.creditAccount = data;
     if (data) {
+      this.isAmount = true;
+      this.clientForm.get('amount').setValidators([Validators.required]);
       this.clientForm.controls.amount.enable();
     } else {
+      this.isAmount = false;
+      this.clientForm.get('amount').clearValidators();
       this.clientForm.controls.amount.disable();
     }
   }
@@ -184,18 +194,20 @@ export class ClientFormComponent implements OnInit {
 
   selectCity(event) {
     this.city = event;
-  } 
+  }
   clientEmailExist() {
-     this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
+    if (this.clientForm.controls.email.errors !== null) {
+      return;
+    }
+    this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
-        if(sameEmail.emailExist === true){
+        if (sameEmail.emailExist === true) {
           this.ClientEmailAvailable = true;
           this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
-
-        } else{
+        } else {
           this.ClientEmailAvailable = false;
- 
+
         }
       }
     }, (err) => {

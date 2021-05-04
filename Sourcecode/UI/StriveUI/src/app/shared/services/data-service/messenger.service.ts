@@ -14,13 +14,13 @@ export class MessengerService {
 
     closeConnection() {
 
-        const commObj = {
-            EmployeeId: localStorage.getItem('empId'),
-            CommunicationId: '0'
-        };
+        // const commObj = {
+        //     EmployeeId: localStorage.getItem('empId'),
+        //     CommunicationId: '0'
+        // };
 
-        this.UpdateChatCommunication(commObj).subscribe(data => {
-        });
+        // this.UpdateChatCommunication(commObj).subscribe(data => {
+        // });
 
         this.signalRService.stopConnection();
     }

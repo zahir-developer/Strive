@@ -145,21 +145,39 @@ namespace Strive.ResourceAccess
             return db.Fetch<CityDto>(EnumSP.Employee.USPGETCITYBYSTATE.ToString(), _prm);
         }
 
-        public string GetTicketNumber(int locationId)
+        public TicketDto GetTicketNumber(int locationId)
         {
             _prm.Add("@locationId", locationId);
-            return db.FetchSingle<string>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
+            return db.FetchSingle<TicketDto>(SPEnum.USPGETTICKETNUMBER.ToString(), _prm);
 
         }
 
-        public List<EmailListViewModel> GetEmailIdByRole()//(int locationId, string roles)
+        public List<EmailListViewModel> GetEmailIdByRole(int locationId)
         {
-        //    _prm.Add("@LocationId", locationId);
-
-        //    _prm.Add("@Roles", roles);
-
+            _prm.Add("@locationId", locationId);
             return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
 
         }
+
+
+        public List<ModelDto> GetModelByMakeId(int makeId)
+        {
+            _prm.Add("makeId", makeId);
+            return db.Fetch<ModelDto>(EnumSP.Employee.USPGETMODELBYMAKE.ToString(), _prm);
+        }
+
+        public List<MakeDto> GetAllMake()
+        {
+            return db.Fetch<MakeDto>(EnumSP.Employee.USPGETALLMAKE.ToString(), _prm);
+        }
+
+        public List<UpchargeViewModel> GetUpchargeByType(UpchargeDto upchargeDto)
+        {
+            _prm.Add("ModelId", upchargeDto.ModelId);
+            _prm.Add("ServiceType", upchargeDto.UpchargeServiceType);
+            return db.Fetch<UpchargeViewModel>(EnumSP.Employee.USPGETUPCHARGEBYTYPE.ToString(), _prm);
+        }
+
+
     }
 }

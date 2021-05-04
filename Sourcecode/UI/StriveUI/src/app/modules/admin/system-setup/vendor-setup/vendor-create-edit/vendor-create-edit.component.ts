@@ -8,6 +8,7 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { CountryDropdownComponent } from 'src/app/shared/components/country-dropdown/country-dropdown.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-vendor-create-edit',
@@ -31,6 +32,9 @@ export class VendorCreateEditComponent implements OnInit {
   selectedCountryId: any;
   selectedCityId: any;
   employeeId: number;
+  emailList = [];
+  emailAddress = [];
+  errorMessage: boolean;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -55,7 +59,7 @@ export class VendorCreateEditComponent implements OnInit {
       vin: ['', Validators.required],
       vendorAlias: [''],
       name: ['', Validators.required],
-      supplierAddress: ['', Validators.required],
+      supplierAddress: [''],
       zipcode: ['', [Validators.required]],
       state: ['',],
       country: ['',],
@@ -89,11 +93,27 @@ export class VendorCreateEditComponent implements OnInit {
   get f() {
     return this.vendorSetupForm.controls;
   }
+  testMail(event) {
+    
+    if(!this.validateEmail( this.vendorSetupForm.value.email)) {
+       this.errorMessage =  true;
+    }
+    else{
+      this.errorMessage =  false;
 
+    }
+  }
+  
+  validateEmail(email) {
+     var re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/
+     return re.test(String(email).toLowerCase());
+ }
   // Add/Update Vendor
   submit() {
     this.submitted = true;
-   
+    if (this.errorMessage ===  true) {
+      return;
+    }
     if (this.vendorSetupForm.invalid) {
     
       return;
@@ -103,7 +123,7 @@ export class VendorCreateEditComponent implements OnInit {
 
       return;
     }
-    
+  
     const vendorObj = {
       vendorId: this.isEdit ? this.selectedData.VendorId : 0,
       vin: this.vendorSetupForm.value.vin,
@@ -138,9 +158,13 @@ export class VendorCreateEditComponent implements OnInit {
       updatedBy: this.employeeId,
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
+    
+     
+    
     const finalObj = {
       vendor: vendorObj,
       vendorAddress: addressObj
+      
     };
     if (this.isEdit === false) {
       this.spinner.show();

@@ -27,10 +27,11 @@ export class AppComponent implements OnInit, OnDestroy {
   dialogDisplay = false;
   header: string;
   dialogType: string;
-  countdown?: number;
+  countdown: number;
   TimeoutPeriod = 30;
   intervalId: any;
   subscriptionAuthenticate: Subscription;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -40,8 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private idle: Idle) {
     this.isUserAuthenticated = this.user.isAuthenticated;
     this.subscriptionAuthenticate = this.authenticate.getIsAuthenticate().subscribe(isAuthenticate => {
-      if (isAuthenticate)  {
-       this.initializeTimeOut();
+      if (isAuthenticate) {
+        this.initializeTimeOut();
       } else {
         this.idle.stop();
       }
@@ -71,13 +72,17 @@ export class AppComponent implements OnInit, OnDestroy {
   setHeaderName() {
     if (localStorage.getItem('employeeName') !== undefined) {
       const headerName = localStorage.getItem('employeeName');
+      const locationName = localStorage.getItem('empLocationName');
+      const cityName = localStorage.getItem('employeeCityName');
       this.userService.setHeaderName(headerName);
+      this.userService.setLocationName(locationName);
+      this.userService.setCityName(cityName);
     }
   }
 
   initializeTimeOut() {
     if (this.user.isAuthenticated) {
-      const seconds = 10 * 60;    // 60
+      const seconds = 20 * 60;    // 60
       this.subscribeTheIdle(this.idle, seconds);
     }
   }
@@ -92,7 +97,8 @@ export class AppComponent implements OnInit, OnDestroy {
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(seconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
-    idle.setTimeout(60);  // 60
+    const timer = 60;
+    idle.setTimeout(timer);  // 60
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     idle.onIdleEnd.subscribe(() => {
@@ -113,7 +119,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.countdown = countdown;
       this.sessionLogoutComponent.dialogType = 'idle';
       this.sessionLogoutComponent.header = 'Session Timeout';
-      this.header = 'Session Timeout Warning..!';
+      this.header = 'Session Timeout Warning';
     }
     );
     idle.onTimeout.subscribe(() => {
@@ -122,14 +128,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionLogoutComponent.dialogType = 'timeout';
       this.sessionLogoutComponent.dialogDisplay = true;
       this.sessionLogoutComponent.header = 'Locked Out';
-      this.header = 'Session expired..!';
+      this.header = 'Session Expired';
       this.authService.refreshLogout();
       clearInterval(this.intervalId);
     });
     idle.onIdleStart.subscribe(() => {
       //  console.log('onIdleStart');
       clearInterval(this.intervalId);
-      this.timeCounter();
+      this.timeCounter(timer);
     }
     );
     this.reset();
@@ -145,7 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /*
   * countdown starter
   */
-  timeCounter(counter = this.TimeoutPeriod) {
+  timeCounter(counter) {
     this.intervalId = setInterval(() => {
       counter = counter - 1;
       this.sessionLogoutComponent.countdown = counter;
@@ -176,6 +182,9 @@ export class AppComponent implements OnInit, OnDestroy {
         if (label?.WhiteLabelling?.WhiteLabel !== undefined) {
           this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
           this.logoService.setTitle(label.WhiteLabelling.WhiteLabel?.Title);
+          const base64 = 'data:image/png;base64,';
+          const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
+          this.favIcon.href = logoBase64;
           if (label.WhiteLabelling.Theme !== null) {
             label.WhiteLabelling.Theme.forEach(item => {
               if (label.WhiteLabelling.WhiteLabel?.ThemeId === item.ThemeId) {

@@ -46,9 +46,9 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
         }
 
-        public bool AddEmployee(EmployeeModel employee)
+        public int AddEmployee(EmployeeModel employee)
         {
-            return dbRepo.InsertPc(employee, "EmployeeId");
+            return dbRepo.InsertPK(employee, "EmployeeId");
         }
 
         public bool UpdateEmployee(EmployeeModel employee)
@@ -85,7 +85,19 @@ namespace Strive.ResourceAccess
             var lstResult = db.FetchMultiResult<EmployeeRoleViewModel>(EnumSP.Employee.USPGETEMPLOYEEROLEBYID.ToString(), _prm);
             return lstResult;
         }
+        public List<EmployeeNameDto> GetAllEmployeeName(int locationId)
+        {
+            _prm.Add("@LocationId", locationId);
+            var lstResult = db.Fetch<EmployeeNameDto>(EnumSP.Employee.USPGETALLEMPLOYEE.ToString(), _prm);
+            return lstResult;
+        }
 
+        public List<EmployeeHourlyRateDto> GetEmployeeHourlyRateById(int employeeId)
+        {
+            _prm.Add("EmployeeId", employeeId);
+            var lstResult = db.Fetch<EmployeeHourlyRateDto>(EnumSP.Employee.uspGetEmployeeHourlyRateById.ToString(), _prm);
+            return lstResult;
+        }
 
     }
 }

@@ -15,5 +15,9 @@ namespace Strive.BusinessLogic
         Result GetEmployeeList();
         Result GetAllEmployeeDetail(SearchDto searchDto);
         Result GetEmployeeRoleById(int id);
+        Result GetAllEmployeeName(int id);
+
+        Result GetEmployeeHourlyRateById(int employeeId);
+
     }
 }

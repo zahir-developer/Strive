@@ -66,15 +66,18 @@ export class AssignDetailComponent implements OnInit {
       };
     });
     this.clonedEmployee = this.employeeList.map(x => Object.assign({}, x));
+    this.dropdownSetting();
+  }
+
+  dropdownSetting() {
     this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
+      singleSelection: ApplicationConfig.dropdownSettings.singleSelection,
+      defaultOpen: ApplicationConfig.dropdownSettings.defaultOpen,
+      idField: ApplicationConfig.dropdownSettings.idField,
+      textField: ApplicationConfig.dropdownSettings.textField,
+      itemsShowLimit: ApplicationConfig.dropdownSettings.itemsShowLimit,
+      enableCheckAll: ApplicationConfig.dropdownSettings.enableCheckAll,
+      allowSearchFilter: ApplicationConfig.dropdownSettings.allowSearchFilter
     };
   }
 
@@ -273,7 +276,7 @@ export class AssignDetailComponent implements OnInit {
   }
 
   getAllServiceType() {
-    this.getCode.getCodeByCategory('SERVICETYPE').subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(data => {
       if (data.status === 'Success') {
         const cType = JSON.parse(data.resultData);
         this.serviceType = cType.Codes.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];
@@ -306,16 +309,6 @@ export class AssignDetailComponent implements OnInit {
       });
     }
     this.employeeDetail();
-  
-    this.dropdownSettings = {
-      singleSelection: false,
-      defaultOpen: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: false
-    };
+    this.dropdownSetting();
   }
 }

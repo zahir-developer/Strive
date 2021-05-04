@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="form-group col-lg-3">
             <label for="inputName"> Name<span class="required">*</span></label>
-            <input type="text" maxlength="60" class="form-control" formControlName="name" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <input type="text" maxlength="60"  pInputText pKeyFilter="alphanum" class="form-control" formControlName="name" placeholder="Product Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
             <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                 <div *ngIf="f.name.errors.required">Name is required</div>
             </div>
@@ -34,11 +34,9 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputLocation">Location<span class="required">*</span></label>
-            <select class="form-control" formControlName="locationName" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
-                <option value="" selected hidden>Choose </option>
-                <option *ngFor="let location of locationName" value="{{location.LocationId}}">
-                    {{location.LocationName}}</option>
-            </select>
+            <ng-multiselect-dropdown [placeholder]="'Select Location'" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }" [disabled]="isEdit" [settings]="dropdownSettings" [data]="location" formControlName="locationName">
+            </ng-multiselect-dropdown>
+
             <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
                 <div *ngIf="f.locationName.errors.required">Name is required</div>
             </div>
@@ -46,10 +44,13 @@
 
         <div class="form-group col-lg-3">
             <label for="inputQuantity">Quantity</label>
-            <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control" placeholder="0.00" formControlName="quantity">
+            <input type="text" [ngClass]="{ 'is-invalid': submitted && f.suggested.errors }" appTwoDecimalNumber [appMaxLength]="9" class="form-control" placeholder="0.00" formControlName="quantity">
+            <div *ngIf="submitted && f.suggested.errors" class="invalid-feedback">
+                <div *ngIf="f.suggested.errors.required">Price is required</div>
+            </div>
         </div>
         <div class="form-group col-lg-3">
-            <label for="inputCost">Cost (Per Unit)<span class="required">*</span></label>
+            <label for="inputCost">Cost (Per Unit)</label>
             <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control" formControlName="cost" placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted && f.cost.errors }">
             <div *ngIf="submitted && f.cost.errors" class="invalid-feedback">
                 <div *ngIf="f.cost.errors.required">Cost is required</div>
@@ -67,10 +68,12 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="inputVendor">Vendor</label>
-            <select class="form-control" formControlName="vendor">
+            <!-- <select class="form-control" formControlName="vendor">
                 <option value="" selected hidden>Choose</option>
                 <option *ngFor="let vendor of Vendor" value="{{vendor.VendorId}}">{{vendor.VendorName}}</option>
-            </select>
+            </select> -->
+            <ng-multiselect-dropdown (onDeSelect)="onVendorDeSelect($event)" [placeholder]="'Select Vendor'" [settings]="dropdownSettings" [data]="Vendor" formControlName="vendor">
+            </ng-multiselect-dropdown>
         </div>
         <div class="form-group col-lg-3">
             <label for="inputThreshold">Threshold #</label>
@@ -91,7 +94,7 @@
         </div>
         <div class="form-group col-lg-3" *ngIf="isChecked === true">
             <label for="inputTaxAmount">Tax Percentage<span class="required">*</span></label>
-            <input type="text" class="form-control" formControlName="taxAmount" placeholder="00%" numbersOnly [appMaxLength]="2" [ngClass]="{ 'is-invalid': submitted && f.taxAmount.errors }">
+            <input type="text" class="form-control" formControlName="taxAmount" placeholder="$0.00%" appTwoDecimalNumber [ngClass]="{ 'is-invalid': submitted && f.taxAmount.errors }">
             <div *ngIf="submitted && f.taxAmount.errors" class="invalid-feedback">
                 <div *ngIf="f.taxAmount.errors.required">Tax Percentage is required</div>
             </div>
@@ -110,15 +113,18 @@
                 <div class="loadingDiv" *ngIf="isLoading">
                     <em class="fa fa-spin fa-spinner" style="font-size:50px;"></em><br />
                 </div>
+                <span *ngIf="!isLoading">{{fileName}}</span>
+                <span *ngIf="fileName && !isLoading" style="padding-left: 10px;padding-right: 10px;"><em
+                        class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
+                        (click)="clearDocument()"></em>
+                        <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc" style="cursor: pointer;" (click)="downloadImage()"></em>
+                </span>
+                <!-- <span *ngIf="fileName && !isLoading" class="text-underline theme-primary-color font-size--9"
+                    style="cursor: pointer;" (click)="downloadImage()">Download</span> -->
             </div>
         </div>
         <div>
-            <span *ngIf="!isLoading">{{fileName}}</span>
-            <span *ngIf="fileName && !isLoading" style="padding-left: 10px;padding-right: 10px;"><em
-                    class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
-                    (click)="clearDocument()"></em>
-            </span>
-            <span *ngIf="fileName && !isLoading" class="text-underline theme-primary-color font-size--9" style="cursor: pointer;" (click)="downloadImage()">Download</span>
+
         </div>
     </div>
 </form>

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { EmployeeHourlyRateComponent } from '../employee-hourly-rate/employee-hourly-rate.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -38,7 +39,7 @@ export class EmployeeListComponent implements OnInit {
   public isCollapsed = false;
   collectionSize: number;
   search = '';
- page: any;
+  page: any;
   pageSize: any;
   pageSizeList: any[];
   sortColumn: { sortBy: string; sortOrder: string; };
@@ -53,7 +54,7 @@ export class EmployeeListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
 
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -76,7 +77,7 @@ export class EmployeeListComponent implements OnInit {
           this.isTableEmpty = false;
         }
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -129,7 +130,7 @@ export class EmployeeListComponent implements OnInit {
           this.showDialog = true;
         }
       } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: 'Communication Error' });
+        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -154,7 +155,7 @@ export class EmployeeListComponent implements OnInit {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Employee.Delete, 'Success!');
-        this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+        this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
 
         this.seachEmployee();
       } else {
@@ -220,7 +221,7 @@ export class EmployeeListComponent implements OnInit {
         const gender = JSON.parse(res.resultData);
         this.gender = gender.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -233,7 +234,7 @@ export class EmployeeListComponent implements OnInit {
         const status = JSON.parse(res.resultData);
         this.maritalStatus = status.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -246,7 +247,7 @@ export class EmployeeListComponent implements OnInit {
         const type = JSON.parse(res.resultData);
         this.commissionType = type.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -259,7 +260,7 @@ export class EmployeeListComponent implements OnInit {
         const state = JSON.parse(res.resultData);
         this.state = state.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -272,7 +273,7 @@ export class EmployeeListComponent implements OnInit {
         const country = JSON.parse(res.resultData);
         this.country = country.Codes;
       } else {
-        this.toastr.error('Communication Error', 'Error!');
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -296,7 +297,7 @@ export class EmployeeListComponent implements OnInit {
 
   closeDialog(event) {
     this.showDialog = event.isOpenPopup;
-    this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
+    this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Employee, sortOrder: ApplicationConfig.Sorting.SortOrder.Employee.order };
 
     this.seachEmployee();
   }
@@ -376,29 +377,40 @@ export class EmployeeListComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
   }
 
+  openHourlyRateModal(employee) {
+    const empId = employee.EmployeeId;
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(EmployeeHourlyRateComponent, ngbModalOptions);
+    modalRef.componentInstance.employeeId = empId;
+  }
+
   schedule() {
     this.router.navigate(['/admin/scheduling']);
   }
   changeSorting(column) {
-    this.sortColumn ={
-     sortBy: column,
-     sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder === 'ASC' ? 'DESC' : 'ASC'
     }
 
-    this.selectedCls(this.sortColumn)
-   this.seachEmployee();
- }
+    this.selectedCls(this.sortColumn);
+    this.seachEmployee();
+  }
 
- 
 
- selectedCls(column) {
-   if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-     return 'fa-sort-desc';
-   } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-     return 'fa-sort-asc';
-   }
-   return '';
- }
 
-  
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+
 }

@@ -26,6 +26,7 @@ export const UrlConfig = {
   cashRegister: {
     getCashRegister: `Admin/CashRegister/Get`,
     saveCashRegister: `Admin/CashRegister/Save`,
+    getTips : `Admin/CashRegister/GetTips`,
   },
   common: {
     getCode: `Admin/Common/GetCodesByCategory/`,
@@ -33,8 +34,12 @@ export const UrlConfig = {
     getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     cityList: `Admin/Common/GetCodesByCategory/`,
     cityByStateId: `Admin/Common/GetCityByStateId/`,
+    modelByMakeId: `Admin/Common/GetModelById/`,
+    getUpchargeType : `Admin/Common/GetUpchargeType/`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
+    makeList: `Admin/Common/GetAllMake`,
+
     countryList: `Admin/Common/CountryList`,
     getTicketNumber: `Admin/Common/GetTicketNumber/`,
 
@@ -53,6 +58,8 @@ export const UrlConfig = {
     getCheckList: `Admin/Checklist/GetChecklist`,
     addCheckList: `Admin/Checklist/Add`,
     DeleteCheckList: `Admin/Checklist/Delete`,
+    getById : `Admin/Checklist/GetChecklistById`,
+    updateChecklist: `Admin/Checklist/Update`
   },
   checkOut: {
     getUncheckedVehicleDetails: `Admin/Checkout/GetAllCheckoutDetails`,
@@ -104,6 +111,8 @@ export const UrlConfig = {
     getAllEmployeeDocument: `Admin/Document/GetEmployeeDocument/`,
     getEmployeeDocumentById: `Admin/Document/GetEmployeeDocumentById/`,
     deleteEmployeeDocument: `Admin/Document/DeleteEmployeeDocument/`,
+    getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`,
+    getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`
   },
 
   giftCard: {
@@ -115,7 +124,9 @@ export const UrlConfig = {
     updateStatus: `Admin/GiftCard/ChangeStatus`,
     addCardHistory: `Admin/GiftCard/AddGiftCardHistory`,
     updateBalance: `Admin/GiftCard/UpdateGiftCardBalance`,
-    getBalance: `Admin/GiftCard/GetGiftCardBalance/`
+    getBalance: `Admin/GiftCard/GetGiftCardBalance/`,
+    getGiftCardHistoryByTicketNmber: `Admin/GiftCard/GetGiftCardBalanceHistory/`,
+    deleteGiftCard: `Admin/GiftCard/Delete`
   },
   location: {
     getLocation: `Admin/Location/GetAll`,
@@ -127,6 +138,9 @@ export const UrlConfig = {
     getAllLocationName: `Admin/Location/GetAllLocationName`
   },
   MembershipSetup: {
+    getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName`,
+
+   
     getMembershipById: `Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,
     addMembership: `Admin/MembershipSetup/Add`,
     updateMembership: `Admin/MembershipSetup/Update`,
@@ -134,6 +148,7 @@ export const UrlConfig = {
     getMembershipService: `Admin/ServiceSetup/GetService`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getAllMembership: `Admin/MembershipSetup/GetAll`,
+    getAllMembershipName: `Admin/MembershipSetup/GetAllMembershipName`,
     deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,},
 
   Messenger:
@@ -168,11 +183,10 @@ export const UrlConfig = {
   product: {
     getProduct: `Admin/Product/GetAll`,
     getProductById: `Admin/Product/GetProductById`,
+    getProductDetailById: `Admin/Product/GetProductDetailById`,
     addProduct: `Admin/Product/Add`,
     updateProduct: `Admin/Product/Update`,
-    deleteProduct: `Admin/Product/Delete`,
-    getProductSearch: `Admin/Product/GetProductSearch`,
-
+    deleteProduct: `Admin/Product/Delete`
   },
   reports: {
     getMonthlySalesReport: `Admin/Report/GetMonthlySalesReport`,
@@ -241,6 +255,7 @@ export const UrlConfig = {
     getSchedule: `Admin/Schedule/GetSchedule`,
     deleteSchedule: `Admin/Schedule/DeleteSchedule`,
     getScheduleById: `Admin/Schedule/GetScheduleById`,
+    getScheduleAndForcasted: `Admin/Schedule/GetScheduleAndForcasted`
   },
   vendor: {
     getALLVendorName: `Admin/Vendor/GetAllVendorName`,
@@ -298,10 +313,18 @@ export const UrlConfig = {
     saveTimeClock: `Admin/TimeClock/Save`,
     getTimeClockEmployeeDetails: `Admin/TimeClock/GetTimeClockEmployeeDetails`,
     deleteTimeClockEmployee: `Admin/TimeClock/DeleteTimeClockEmployee`,
-    getClockedInDetailer: `Admin/TimeClock/GetClockedInDetailer/`
+    getClockedInDetailer: `Admin/TimeClock/GetClockedInDetailer`
   },
 
   customerHistory: {
     getCustomerHistory: `Admin/Checkout/GetCustomerHistory`
+  },
+
+  tenantSetup: {
+    getModuleList: `Admin/Tenant/AllModule`,
+    addTenantSetup: `Admin/Tenant/CreateTenant`,
+    getTenantSetupList: `Admin/Tenant/AllTenant`,
+    getTenantDetailById: `Admin/Tenant/TenantById/`,
+    updateTenant: `Admin/Tenant/UpdateTenant`
   }
 };

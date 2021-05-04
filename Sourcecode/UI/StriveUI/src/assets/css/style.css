@@ -51,6 +51,10 @@ section#login button[type="submit"] {
     content: "\F0140";
 }
 
+.card .card-widgets-view>a.collapsed i:before {
+    content: "\F0B26";
+}
+
 .mdi-minus::before {
     content: "\F0143";
 }
@@ -71,6 +75,7 @@ section#login button[type="submit"] {
 }
 
 .menu {
+    min-width: 5.1%;
     height: 100%;
     position: fixed;
     z-index: 1;

@@ -18,6 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
+import { MakeService } from 'src/app/shared/services/common-service/make.service';
+import { ModelService } from 'src/app/shared/services/common-service/model.service';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -40,7 +43,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   serviceEnum: any;
   additional: any;
   washes: any;
-  upcharges: any;
+  upcharges = [];
   airFreshner: any;
   UpchargeType: any;
   jobItems: any;
@@ -61,8 +64,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   @Input() bayScheduleObj?: any;
+  @Input() jobTypeId?: any;
   baylist: any = [];
-  jobTypeId: any;
+  // jobTypeId: any;
   isBarcode = false;
   memberService: any[];
   note = '';
@@ -101,6 +105,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   title: string;
   generatedClientId: any;
   selectclient: { id: any; name: string; };
+  paidLabel: string = 'Pay';
+  upchargeList: any;
+  ceramicUpchargeId: any;
+  isCeramic: boolean;
+  ceramicUpcharges: any = [];
+  isDetails: boolean;
+  upcharge: any;
+  noCeramicUpcharges: any[];
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -109,10 +121,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
+    private makeService: MakeService,
+    private modelService: ModelService,
     private client: ClientService,
     private confirmationService: ConfirmationService,
     private router: Router,
-
+    private GetUpchargeService: GetUpchargeService,
     private codeValueService: CodeValueService,
     private serviceSetupService: ServiceSetupService
   ) { }
@@ -128,10 +142,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.isCompleted = false;
     this.formInitialize();
     this.getJobStatus();
-     this.getEmployeeList();
+    this.getAllMake();
+    this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
-    this.getJobType();
+    // this.getJobType();
   }
 
   formInitialize() {
@@ -158,15 +173,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   getTicketNumber() {
     if (!this.isEdit) {
-      this.wash.getTicketNumber().subscribe(item => {
-        if(item){
-          this.ticketNumber = item;
+      this.wash.getTicketNumber().subscribe(data => {
+        const ticket = JSON.parse(data.resultData);
+        if (data.status === 'Success') {
+          const ticket = JSON.parse(data.resultData);
+          this.ticketNumber = ticket.GetTicketNumber.TicketNumber;
+          this.jobID = ticket.GetTicketNumber.JobId
         }
-        else{
+        else {
           this.toastr.error(MessageConfig.TicketNumber, 'Error!');
-
         }
-
       });
     }
     this.assignDate();
@@ -211,17 +227,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (type === 'make') {
       if (!this.detailForm.value.type.hasOwnProperty('id')) {
         this.detailForm.patchValue({ type: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.type });
       }
     } else if (type === 'model') {
       if (!this.detailForm.value.model.hasOwnProperty('id')) {
         this.detailForm.patchValue({ model: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.model });
       }
     } else if (type === 'color') {
       if (!this.detailForm.value.color.hasOwnProperty('id')) {
         this.detailForm.patchValue({ color: '' });
-        this.message.showMessage({ severity: 'info', title: 'Info', body: MessageConfig.Wash.color });
       }
     }
   }
@@ -289,6 +302,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   washService(data) {
+    console.log(data, 'washservice')
+    this.isDetails = true;
     if (this.isEdit) {
       this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = true;
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
@@ -299,6 +314,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
+          if (serviceWash[0].IsCeramic === false) {
+            console.log(this.additionalService[0], 'this.additionalService[0]')
+            this.isCeramic = false;
+            this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+            this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+          }
+          else {
+            this.isCeramic = true;
+            this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+            this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+          }
         }
       }
     } else {
@@ -306,8 +332,23 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       const serviceWash = this.details.filter(item => item.ServiceId === Number(data));
       if (serviceWash.length !== 0) {
         this.additionalService.push(serviceWash[0]);
+        if (serviceWash[0].IsCeramic === false) {
+          console.log(this.additionalService[0], 'this.additionalService[0]')
+          this.isCeramic = false;
+          this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+          this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+        }
+        else {
+          this.isCeramic = true;
+          this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+          this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+        }
       }
     }
+
+    this.detailForm.patchValue({ upcharges: +data ? +data : '' });
+    this.detailForm.patchValue({ upchargeType: +data ? +data : '' });
+    this.getUpcharge();
   }
 
   outSideService(data) {
@@ -332,10 +373,18 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceAir[0]);
       }
     }
-    this.detailForm.patchValue({ outsideServie: +data });
+    this.detailForm.patchValue({ outsideServie: +data ? +data : '' });
   }
 
   upchargeService(data) {
+    if (this.isCeramic === false) {
+      this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+      this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+    }
+    else {
+      this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+      this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+    }
     if (this.isEdit) {
       if (this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0] !== undefined) {
         this.washItem.filter(i => i.ServiceTypeId === this.upchargeId)[0].IsDeleted = true;
@@ -357,8 +406,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(serviceUpcharge[0]);
       }
     }
-    this.detailForm.patchValue({ upcharges: +data });
-    this.detailForm.patchValue({ upchargeType: +data });
+    this.detailForm.patchValue({ upcharges: +data ? +data : '' });
+    this.detailForm.patchValue({ upchargeType: +data ? +data : '' });
   }
 
   change(data) {
@@ -396,14 +445,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getServiceType() {
-    const serviceTypeValue = this.codeValueService.getCodeValueByType('ServiceType');
+    const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
     if (serviceTypeValue.length > 0) {
       this.serviceEnum = serviceTypeValue;
-      this.detailId = this.serviceEnum.filter(i => i.CodeValue === 'Details')[0]?.CodeId;
-      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === 'Detail-Upcharge')[0]?.CodeId;
-      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === 'Air Fresheners')[0]?.CodeId;
-      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === 'Additional Services')[0]?.CodeId;
-      this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === 'Outside Services')[0]?.CodeId;
+      this.detailId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage)[0]?.CodeId;
+      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0]?.CodeId;
+      this.ceramicUpchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge)[0]?.CodeId;
+
+      this.airFreshenerId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners)[0]?.CodeId;
+      this.additionalId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices)[0]?.CodeId;
+      this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices)[0]?.CodeId;
       this.getAllServices();
     }
 
@@ -429,11 +480,18 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             Number(item.ServiceTypeId) === this.detailId);
           this.additional = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.additionalId);
-          this.upcharges = serviceDetails.AllServiceDetail.filter(item =>
+          this.noCeramicUpcharges = []
+          this.ceramicUpcharges = []
+          this.noCeramicUpcharges = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.upchargeId);
+          this.ceramicUpcharges = serviceDetails.AllServiceDetail.filter(item =>
+            Number(item.ServiceTypeId) === this.ceramicUpchargeId);
+
+
+
           this.airFreshner = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.airFreshenerId);
-          this.UpchargeType = this.upcharges;
+
           this.additional.forEach(element => {
             element.IsChecked = false;
           });
@@ -446,20 +504,20 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-    
+
   }
 
   getWashById() {
     const isJobStatus = _.where(this.jobStatus, { CodeId: this.selectedData?.Details?.JobStatus });
     if (isJobStatus.length > 0) {
-      if (isJobStatus[0].CodeValue === 'In Progress') {
+      if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.inProgress) {
         this.isCompleted = true;
         this.jobStatusID = isJobStatus[0].CodeId;
-      } else if (isJobStatus[0].CodeValue === 'Completed') {
+      } else if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.Completed) {
         this.isCompleted = true;
         this.isStart = true;
         this.jobStatusID = isJobStatus[0].CodeId;
-      } else if (isJobStatus[0].CodeValue === 'Waiting') {
+      } else if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.Waiting) {
         this.isStart = true;
         this.isCompleted = false;
         this.jobStatusID = isJobStatus[0].CodeId;
@@ -467,29 +525,67 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     this.getVehicleList(this.selectedData?.Details?.ClientId);
     this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
-    this.note = this.selectedData.Details.Notes;
-    this.detailItems = this.selectedData.DetailsItem;
-    this.jobID = this.selectedData.Details.JobId;
+    this.note = this.selectedData?.Details?.Notes;
+    this.detailItems = this.selectedData?.DetailsItem;
+    this.jobID = this.selectedData?.Details?.JobId;
     this.detailsJobServiceEmployee = this.selectedData.DetailsJobServiceEmployee !== null ?
       this.selectedData.DetailsJobServiceEmployee : [];
+    if (this.selectedData?.Details?.IsPaid == "True") {
+      this.paidLabel = 'Paid'
+    }
+    else {
+      this.paidLabel = 'Pay'
+    }
+    const washes = this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId) : '';
+    if (washes[0].IsCeramic == false) {
+
+      this.isCeramic = false;
+      this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+
+      this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+    }
+    else {
+      this.isCeramic = true;
+      this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+
+      this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+
+    }
+
     this.detailForm.patchValue({
-      barcode: this.selectedData.Details.Barcode,
-      bay: this.selectedData.Details.BayId,
-      inTime: this.datePipe.transform(this.selectedData.Details.TimeIn, 'MM/dd/yyyy HH:mm'),
-      dueTime: this.datePipe.transform(this.selectedData.Details.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
-      client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details.ClientName },
-      vehicle: this.selectedData.Details.VehicleId,
-      type: { id: this.selectedData.Details.Make, name: this.selectedData?.Details?.vehicleMake },
-      model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.vehicleModel },
-      color: { id: this.selectedData.Details.Color, name: this.selectedData?.Details?.vehicleColor },
-      washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId,
-      upchargeType: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
-      upcharges: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId,
-      airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId,
-      outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId
+      barcode: this.selectedData?.Details?.Barcode,
+      bay: this.selectedData?.Details?.BayId,
+      inTime: this.datePipe.transform(this.selectedData?.Details?.TimeIn, 'MM/dd/yyyy HH:mm'),
+      dueTime: this.datePipe.transform(this.selectedData?.Details?.EstimatedTimeOut, 'MM/dd/yyyy HH:mm'),
+      client: { id: this.selectedData?.Details?.ClientId, name: this.selectedData?.Details?.ClientName },
+      vehicle: this.selectedData?.Details?.VehicleId,
+      type: { id: this.selectedData?.Details?.Make, name: this.selectedData?.Details?.VehicleMake },
+      model: { id: this.selectedData?.Details?.Model, name: this.selectedData?.Details?.VehicleModel },
+      color: { id: this.selectedData?.Details?.Color, name: this.selectedData?.Details?.VehicleColor },
+      washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
+        this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId : '',
+      upchargeType: washes[0].IsCeramic === false ?
+
+
+        this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
+          this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '' : this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId ?
+          this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId : '',
+
+
+      upcharges: washes[0].IsCeramic === false ?
+
+
+        this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
+          this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId : '' : this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId ?
+          this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId : '',
+      airFreshners: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId ?
+        this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.airFreshenerId)[0]?.ServiceId : '',
+      outsideServie: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId ?
+        this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.outsideServiceId)[0]?.ServiceId : ''
     });
     this.clientId = this.selectedData?.Details?.ClientId;
-
+    this.getModel(this.selectedData?.Details?.Make)
     this.detailForm.controls.bay.disable();
     this.detailForm.controls.inTime.disable();
     this.detailForm.controls.dueTime.disable();
@@ -505,6 +601,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
     }
+
+
   }
 
   getColor() {
@@ -512,37 +610,30 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
-        this.type = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleManufacturer');
-        this.model = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleModel');
+
         if (this.isEdit) {
           vehicle.VehicleDetails.forEach(item => {
-            if (this.selectedData.Details.Make === item.CodeId) {
+            if (this.selectedData?.Details?.Make === item.CodeId) {
               this.selectedData.Details.vehicleMake = item.CodeValue;
-            } else if (this.selectedData.Details.Model === item.CodeId) {
+            } else if (this.selectedData?.Details?.Model === item.CodeId) {
               this.selectedData.Details.vehicleModel = item.CodeValue;
-            } else if (this.selectedData.Details.Color === item.CodeId) {
+            } else if (this.selectedData?.Details?.Color === item.CodeId) {
               this.selectedData.Details.vehicleColor = item.CodeValue;
             }
           });
         }
-        this.model = this.model.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+
+
+
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,
             name: item.CodeValue
           };
         });
-        this.type = this.type.map(item => {
-          return {
-            id: item.CodeId,
-            name: item.CodeValue
-          };
-        });
+
+
+
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -574,7 +665,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.target.value === '') {
-      this.detailForm.patchValue({ vehicle: '' , barcode: '' , type: '', model: '', color: '' });
+      this.detailForm.patchValue({ vehicle: '', barcode: '', type: '', model: '', color: '' });
     }
   }
 
@@ -648,6 +739,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           model: { id: vData.VehicleModelId, name: vData.ModelName },
           color: { id: vData.ColorId, name: vData.Color }
         });
+        this.getModel(vData.VehicleMakeId)
+        this.getUpcharge()
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -691,9 +784,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   // Get Vehicle By ClientId
@@ -713,13 +806,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   start() {
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'In Progress' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.inProgress });
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
@@ -774,14 +867,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    , (err) => {
-      this.spinner.hide();
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   completed() {
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Completed' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.Completed });
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
@@ -848,7 +941,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     if (!this.ticketNumber) {
       this.toastr.error(MessageConfig.TicketNumber, 'Error!');
-  return;
+      return;
 
     }
     this.detailForm.controls.inTime.enable();
@@ -859,13 +952,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.additionalService.push(element);
       }
     });
-    const jobstatus = _.where(this.jobStatus, { CodeValue: 'Waiting' });
+    const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.Waiting });
     let jobStatusId;
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
     }
     const job = {
-      jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
+      jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
       ticketNumber: this.ticketNumber,
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
@@ -887,7 +980,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
     const jobDetail = {
       jobDetailId: 0,
-      jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
+      jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
       bayId: this.detailForm.value.bay,
       isActive: true,
       isDeleted: false,
@@ -897,7 +990,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     const baySchedule = {
       bayScheduleID: 0,
       bayId: this.detailForm.value.bay,
-      jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
+      jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
       scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
       scheduleInTime: this.datePipe.transform(this.detailForm.value.inTime, 'HH:mm'),
       scheduleOutTime: this.datePipe.transform(this.detailForm.value.dueTime, 'HH:mm'),
@@ -912,7 +1005,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.jobItems = this.additionalService.map(item => {
       return {
         jobItemId: 0,
-        jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
+        jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
         serviceId: item.ServiceId,
         isActive: true,
         isDeleted: false,
@@ -926,10 +1019,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.washItem.forEach(element => {
       this.jobItems.push({
         jobItemId: element.JobItemId,
-        jobId: element.JobId,
+        jobId: element.JobId ? element.JobId : this.jobID,
         serviceId: element.ServiceId,
         isActive: true,
-        isDeleted: false,
+        isDeleted: element.IsDeleted ? element.IsDeleted : false,
         commission: 0,
         price: element.Price,
         quantity: 1,
@@ -940,7 +1033,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.assignedDetailService.forEach(item => {
       this.jobItems.push({
         jobItemId: 0,
-        jobId: this.isEdit ? this.selectedData.Details.JobId : 0,
+        jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
         serviceId: item.ServiceId,
         isActive: true,
         isDeleted: false,
@@ -961,8 +1054,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isEdit === true) {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
-        if (res.status === 'Success') {   
-             this.spinner.hide();
+        if (res.status === 'Success') {
+          this.spinner.hide();
 
           this.toastr.success(MessageConfig.Detail.Update, 'Success!');
           this.detailForm.controls.inTime.disable();
@@ -1049,15 +1142,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   confirmDelete() {
     this.spinner.show();
     this.detailService.deleteDetail(this.selectedData.Details.JobId).subscribe(res => {
-        // need to change
-        if (res.status === 'Success') {
-          this.spinner.hide();
+      // need to change
+      if (res.status === 'Success') {
+        this.spinner.hide();
 
         this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         this.refreshDetailGrid.emit();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -1214,29 +1307,30 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
         const clientDetail = JSON.parse(res.resultData);
         const selectedclient = clientDetail.Status[0];
-        this.selectclient= 
-    { id: selectedclient.ClientId,
-       name:selectedclient.FirstName + ' ' + selectedclient.LastName
-      }
-       
-       this.detailForm.patchValue({
-     
-      client: this.selectclient
-  
-     })
-     
-    this.selectedClient(this.selectclient)
-       
-    
-   } 
-   else{
-    this.spinner.hide();
+        this.selectclient =
+        {
+          id: selectedclient.ClientId,
+          name: selectedclient.FirstName + ' ' + selectedclient.LastName
+        }
 
-   }
+        this.detailForm.patchValue({
+
+          client: this.selectclient
+
+        })
+
+        this.selectedClient(this.selectclient)
+
+
+      }
+      else {
+        this.spinner.hide();
+
+      }
     }, (err) => {
       this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    }) 
+    })
   }
   assignEmployee() {
     this.showDialog = true;
@@ -1257,11 +1351,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
-    const  timeclock = {
-        date : this.datePipe.transform(new Date(), 'MM-dd-yyyy hh:mm:ss '),
-        LocationId :   +localStorage.getItem('empLocationId')   
-    }
-      this.detailService.getClockedInDetailer(timeclock).subscribe(res => {
+    const timeclock = {
+      date: moment(new Date()).format(),
+      locationId: +localStorage.getItem('empLocationId')
+    };
+    this.detailService.getClockedInDetailer(timeclock).subscribe(res => {
       if (res.status === 'Success') {
         const employee = JSON.parse(res.resultData);
         this.employeeList = employee.result;
@@ -1272,7 +1366,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getJobStatus() {
-    const jobStatus = this.codeValueService.getCodeValueByType('JobStatus');
+    const jobStatus = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.JobStatus);
     if (jobStatus.length > 0) {
       this.jobStatus = jobStatus;
     }
@@ -1310,4 +1404,77 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   printCustomerCopy() {
     this.printCustomerCopyComponent.print();
   }
+  getModel(id) {
+    this.modelService.getModelByMakeId(id).subscribe(res => {
+      if (res.status === 'Success') {
+        const makeModel = JSON.parse(res.resultData);
+        this.model = makeModel.Model;
+        this.model = this.model.map(item => {
+          return {
+            id: item.ModelId,
+            name: item.ModelValue
+          };
+        });
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+  getAllMake() {
+    this.makeService.getMake().subscribe(res => {
+      if (res.status === 'Success') {
+        const make = JSON.parse(res.resultData);
+        const makes = make.Make;
+        this.type = makes.map(item => {
+          return {
+            id: item.MakeId,
+            name: item.MakeValue
+          };
+        });
+      }
+    }
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+  }
+  selectedModel(event) {
+    const id = event.id;
+    if (id !== null) {
+      this.getModel(id);
+    }
+  }
+  // To get upcharge
+  getUpcharge() {
+    if ((!this.ceramicUpchargeId || !this.upchargeId) && !this.detailForm.value.model?.id) {
+      return;
+    }
+    const obj = {
+      "upchargeServiceType": this.isCeramic === false ? this.upchargeId : this.ceramicUpchargeId,
+      "modelId": this.detailForm.value.model?.id
+    };
+
+    this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        this.upchargeList = jobtype.upcharge;
+        if (this.upchargeList?.length > 0) {
+          this.detailForm.patchValue({
+            upcharges: this.upchargeList[this.upchargeList.length - 1].ServiceId,
+            upchargeType: this.upchargeList[this.upchargeList.length - 1].ServiceId
+          });
+          this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
+        }
+        else {
+          this.detailForm.patchValue({
+            upcharges: '',
+            upchargeType: ''
+          });
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
 }
+

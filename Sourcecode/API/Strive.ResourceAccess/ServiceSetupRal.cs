@@ -15,9 +15,9 @@ namespace Strive.ResourceAccess
     {
         public ServiceSetupRal(ITenantHelper tenant) : base(tenant) { }
 
-        public bool AddService(Service service)
+        public bool AddService(ServiceDto service)
         {
-            return dbRepo.Insert(service);
+            return dbRepo.InsertPc(service,"ServiceId");
         }
 
         public bool UpdateService(Service service)
@@ -47,7 +47,8 @@ namespace Strive.ResourceAccess
         public ServiceViewModel GetServiceSetupById(int id)
         {
             _prm.Add("@ServiceId", id);
-            return db.FetchSingle<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            var result = db.FetchSingle<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            return result;
         }
 
         public bool DeleteServiceById(int id)

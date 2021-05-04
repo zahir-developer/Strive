@@ -58,9 +58,9 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public bool AddGiftCard(GiftCardDto giftCardDto)
+        public int AddGiftCard(GiftCardDto giftCardDto)
         {
-            return dbRepo.InsertPc(giftCardDto, "GiftCardId");
+            return dbRepo.InsertPK(giftCardDto, "GiftCardId");
         }
         public bool UpdateGiftCard(GiftCardDto giftCardDto)
         {
@@ -108,6 +108,12 @@ namespace Strive.ResourceAccess
                 return false;
             }
 
+        }
+        public GiftCardBalanceHistoryViewModel GetGiftCardBalanceHistory(string giftCardNumber)
+        {
+            _prm.Add("@GiftCardCode", giftCardNumber);
+            var result = db.FetchMultiResult<GiftCardBalanceHistoryViewModel>(EnumSP.GiftCard.USPGETGIFTCARDBALANCEHISTORY.ToString(), _prm);
+            return result;
         }
     }
 }

@@ -7,6 +7,17 @@ namespace Strive.BusinessEntities
 
     public class EnumSP
     {
+        public enum Tenant
+        {
+            USPCREATETENANT,
+            USPGETTENANT,
+            USPGETTENANTBYID,
+            USPGETALLMODULE,
+            USPGETMODULEBYID,
+            USPUPDATETENANT,
+            USPTENANTADMINLOGIN
+        }
+
         public enum Authentication
         {
             USPLOGIN,
@@ -26,6 +37,8 @@ namespace Strive.BusinessEntities
             USPDELETEUSER,
             USPGETCLIENTUSERBYAUTHID
         }
+
+
 
         public enum ClockTime
         {
@@ -75,7 +88,11 @@ namespace Strive.BusinessEntities
             USPEMAILEXIST,
             USPGETEMPLOYEEROLEBYID,
             USPGETCITYBYSTATE,
-            USPGETEMPLOYEEBYID
+            USPGETEMPLOYEEBYID,
+            USPGETMODELBYMAKE,
+            USPGETALLMAKE,
+            USPGETUPCHARGEBYTYPE,
+            uspGetEmployeeHourlyRateById,
         }
 
         public enum DashboardStatistics
@@ -109,12 +126,14 @@ namespace Strive.BusinessEntities
             USPGETMEMBERSHIPSERVICEBYVEHICLEID,
             USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
             uspGetMembershipListByVehicleId,
+            USPGETALLMEMBERSHIPNAME,
         }
 
         public enum Checklist
         {
             USPGETCHECKLIST,
-            USPDELETECHECKLIST
+            USPDELETECHECKLIST,
+            USPGETCHECKLISTBYID,
         }
 
         public enum Client
@@ -147,6 +166,7 @@ namespace Strive.BusinessEntities
             uspGetGiftCardByLocation,
             uspGetGiftCardBalance,
             USPISGIFTCARDEXIST,
+            USPGETGIFTCARDBALANCEHISTORY,
         }
 
         public enum Location
@@ -179,6 +199,8 @@ namespace Strive.BusinessEntities
             USPGETPRODUCT,
             USPDELETEPRODUCT,
             USPGETAllPRODUCT,
+            USPGETPRODUCTBYID,
+            USPGETPRODUCTDETAILBYID
         }
         public enum CashRegister
         {
@@ -194,7 +216,8 @@ namespace Strive.BusinessEntities
             USPSAVECASHREGISTER,
             USPGETCASHREGISTER,
             USPGETPASTWEATHERINFO,
-            USPGETFORCASTEDRAINPERCENTAGE
+            USPGETFORCASTEDRAINPERCENTAGE,
+            USPGETTIPDETAIL,
         }
         public enum Collision
         {            //Collison
@@ -260,6 +283,7 @@ namespace Strive.BusinessEntities
             USPGETSCHEDULEBYSCHEDULEID,
             uspDeleteSchedule,
             USPGETSCHEDULE,
+            USPGETSCHEDULEANDFORCASTED,
         }
 
         public enum Sales
@@ -291,9 +315,9 @@ namespace Strive.BusinessEntities
 
             //CHECKOUT
             USPGETAllCHECKOUTDETAILS,
-            USPUPDATECHECKOUTDETAILFORJOBID,
-            USPUPDATEJOBSTATUSHOLDBYJOBID,
-            USPUPDATEJOBSTATUSCOMPLETEBYJOBID,
+            USPUPDATECHECKOUTDETAIL,
+            USPUPDATEJOBSTATUSHOLD,
+            USPUPDATEJOBSTATUSCOMPLETE,
             USPGETCUSTOMERHISTORY
         }
 
@@ -405,7 +429,6 @@ namespace Strive.BusinessEntities
 
         USPGETEMPLOYEEBYID,
         USPGETALLSERVICEDETAIL,
-        USPGETPRODUCTS,
         USPGETCASHREGISTER,
         USPGETCOLLISIONBYEMPID,
         USPGETCOLLISIONBYID,
@@ -476,7 +499,7 @@ namespace Strive.BusinessEntities
 
 
         USPGETTICKETNUMBER,
-        USPCREATETENANT,
+        
         uspGetServiceByItemList,
         USPDELETEJOBITEMS,
         USPROLLBACKPAYMENT,
@@ -485,6 +508,7 @@ namespace Strive.BusinessEntities
         USPUPDATEADJUSMENT,
         USPUPDATEEMPLOYEEADJUSTMENT,
         USPUPDATEJOBPAYMENT,
+       
         //CHECKOUT
         USPGETAllCHECKOUTDETAILS,
         USPUPDATECHECKOUTDETAILFORJOBID,

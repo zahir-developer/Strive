@@ -10,8 +10,8 @@ import { UrlConfig } from '../url.config';
 export class ProductService {
 
   constructor(private http: HttpUtilsService) { }
-  getProduct(): Observable<any> {
-    return this.http.get(`${UrlConfig.product.getProduct}`);
+  getProduct(obj) {
+    return this.http.post(`${UrlConfig.product.getProduct}`, obj);
   }
   addProduct(obj) {
     return this.http.post(`${UrlConfig.product.addProduct}`, obj);
@@ -22,14 +22,11 @@ export class ProductService {
   deleteProduct(id: number) {
     return this.http.delete(`${UrlConfig.product.deleteProduct}`, { params: { productId: id } });
   }
-  getProductById(id: number) {
-    return this.http.get(`${UrlConfig.product.getProductById}`, { params: { productId: id } });
+  getProductDetailById(id: number) {
+    return this.http.get(`${UrlConfig.product.getProductDetailById}`, { params: { productId: id } });
   }
   getVendor(): Observable<any> {
     return this.http.get(`${UrlConfig.vendor.getALLVendorName}`);
-  }
-  ProductSearch(obj) {
-    return this.http.post(`${UrlConfig.product.getProductSearch}`, obj);
   }
   getAllLocationName() {
     return this.http.get(`${UrlConfig.location.getAllLocationName}`);

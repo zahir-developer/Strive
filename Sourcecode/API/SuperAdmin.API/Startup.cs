@@ -36,7 +36,7 @@ namespace SuperAdmin.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ITenantHelper, TenantHelper>();           
-            services.AddTransient<SuperAdminBpl, SuperAdminBpl>();
+            services.AddTransient<TenantBpl, TenantBpl>();
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

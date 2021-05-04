@@ -35,16 +35,17 @@ export class AdSetupListComponent implements OnInit {
   pdfData: any;
   serviceDetails: any;
   sortColumn: { sortBy: string; sortOrder: string; };
-  constructor(private adSetup: AdSetupService,
+  constructor(
+    private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService) { }
 
   ngOnInit() {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.AdSetup,
       sortOrder: ApplicationConfig.Sorting.SortOrder.AdSetup.order
-     }
+    }
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -81,23 +82,23 @@ export class AdSetupListComponent implements OnInit {
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },  (err) => {
+    }, (err) => {
       this.isLoading = false;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
   getDocumentType() {
-    this.getCode.getCodeByCategory("DOCUMENTTYPE").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
-        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === "Ads")[0].CodeId;
+        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Ads)[0].CodeId;
       } else {
       }
     }
-    ,  (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
   paginate(event) {
 
@@ -130,11 +131,11 @@ export class AdSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  (err) => {
-      this.spinner.hide();
+      , (err) => {
+        this.spinner.hide();
 
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
 
 
   }
@@ -164,10 +165,10 @@ export class AdSetupListComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  (err) => {
-      this.spinner.hide();
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.spinner.hide();
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   closePopupEmit(event) {
@@ -215,23 +216,23 @@ export class AdSetupListComponent implements OnInit {
       }
 
     }
-    ,  (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    })
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      })
   }
 
   sort(property) {
-    this.sortColumn ={
+    this.sortColumn = {
       sortBy: property,
       sortOrder: ApplicationConfig.Sorting.SortOrder.AdSetup.order
-     }
-     this.sorting(this.sortColumn)
-     this.selectedCls(this.sortColumn)
-   
+    }
+    this.sorting(this.sortColumn)
+    this.selectedCls(this.sortColumn)
+
   }
-  sorting(sortColumn){
+  sorting(sortColumn) {
     let direction = sortColumn.sortOrder == 'ASC' ? 1 : -1;
-  let property = sortColumn.sortBy;
+    let property = sortColumn.sortBy;
     this.adSetupDetails.sort(function (a, b) {
       if (a[property] < b[property]) {
         return -1 * direction;
@@ -244,23 +245,23 @@ export class AdSetupListComponent implements OnInit {
       }
     });
   }
-    changesort(property) {
-      this.sortColumn ={
-        sortBy: property,
-        sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
-       }
-   
-       this.selectedCls(this.sortColumn)
-  this.sorting(this.sortColumn)
-      
+  changesort(property) {
+    this.sortColumn = {
+      sortBy: property,
+      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
     }
-    selectedCls(column) {
-      if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {
-        return 'fa-sort-desc';
-      } else if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'ASC') {
-        return 'fa-sort-asc';
-      }
-      return '';
+
+    this.selectedCls(this.sortColumn)
+    this.sorting(this.sortColumn)
+
+  }
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
     }
+    return '';
+  }
 }
 

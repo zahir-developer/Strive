@@ -69,24 +69,83 @@ namespace Strive.BusinessLogic
                 //Add Employee
                 var employeeResult = new EmployeeRal(_tenant).AddEmployee(employee);
 
-                if (employeeResult)
+
+
+                if (employeeResult > 0)
                 {
-                    //Send Email
+                    var employeeLocationRole = new EmployeeRal(_tenant).GetEmployeeById(employeeResult);
+                    {
 
-                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                    keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
-                    keyValues.Add("{{password}}", createLogin.password);
-                    commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues);
+                        //Send Email to employee
+                        string subject = " Welcome to Strive !";
+                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
 
-                   // commonBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, employee.EmployeeAddress.Email, createLogin.password);
-                    success = true;
+                        keyValues.Add("{{employeeName}}", employee.Employee.FirstName);
+                        string emplocation = string.Empty;
+                        foreach (var empLoc in employeeLocationRole.EmployeeLocations)
+                        {
+                            emplocation += empLoc.LocationName + ", ";
+                        }
+                        char[] chars = { ',' };
+                        emplocation = emplocation.TrimEnd(chars);
+                        keyValues.Add("{{locationList}}", emplocation);
+                        string emprole = string.Empty;
+                        foreach (var empRole in employeeLocationRole.EmployeeRoles)
+                        {
+                            emprole += empRole.RoleName + ", ";
+                        }
+                        char[] comma = { ',' };
+                        emprole = emprole.TrimEnd(comma);
+                        keyValues.Add("{{roleList}}", emprole);
+                        keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
+                        keyValues.Add("{{password}}", createLogin.password);
+                        commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues, subject);
+                    }
+
+                    //Send Email to Manager
+                    {
+                        foreach (var item in employee.EmployeeLocation)
+                        {
+                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(item.LocationId);
+
+
+                            foreach (var email in emailId)
+                            {
+                                string sub = "New Employee Info!";
+                                Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
+                                keyValues1.Add("{{Manager/Operator}}", email.FirstName);
+                                keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
+                                string location = string.Empty;
+                                foreach (var empLoc in employeeLocationRole.EmployeeLocations)
+                                {
+                                    location += empLoc.LocationName + ", ";
+                                }
+                                char[] charsToTrim = { ',' };
+                                location = location.TrimEnd(charsToTrim);
+                                keyValues1.Add("{{locationList}}", location);
+                                string role = string.Empty;
+                                foreach (var empRole in employeeLocationRole.EmployeeRoles)
+                                {
+                                    role += empRole.RoleName + ", ";
+                                }
+                                char[] charToTrim = { ',' };
+                                role = role.TrimEnd(charToTrim);
+                                keyValues1.Add("{{roleList}}", role);
+                                commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, email.Email, keyValues1, sub);
+                            }
+                        }
+
+
+                        success = true;
+                    }
                 }
-                else if(createLogin.authId > 0)
+
+                else if (createLogin.authId > 0)
                 {
                     //Delete AuthMaster record from AuthDatabase
                     commonBpl.DeleteUser(createLogin.authId);
                 }
-                
+
             }
 
             return ResultWrap(success, "Status");
@@ -134,5 +193,14 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeRoleById, employeeId, "EmployeeRole");
         }
+        public Result GetAllEmployeeName(int id)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeName, id, "EmployeeName");
+        }
+        public Result GetEmployeeHourlyRateById(int employeeId)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeHourlyRateById, employeeId, "Employee");
+        }
+
     }
 }

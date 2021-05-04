@@ -1,5 +1,5 @@
 ﻿using Strive.BusinessEntities.DTO;
-using Strive.BusinessEntities.DTO.CheckoutEntry;
+using Strive.BusinessEntities.DTO.Checkout;
 using Strive.BusinessEntities.DTO.Report;
 using Strive.Common;
 using System;
@@ -13,9 +13,9 @@ namespace Strive.BusinessLogic.Checkout
     public interface ICheckoutBpl
     {
         Result GetAllCheckoutDetails(SearchDto checkoutDto);
-        Result UpdateCheckoutDetails(CheckoutEntryDto checkoutEntry);
+        Result UpdateCheckoutDetails(CheckOutDto checkoutEntry);
         Result UpdateJobStatusHold(CheckoutHoldDto checkoutHoldDto);
-        Result UpdateJobStatusComplete(JobIdDto jobIdDto);
+        Result UpdateJobStatusComplete(JobCompleteDto jobIdDto);
 
         Result GetCustomerHistory(CustomerHistorySearchDto salesReportDto);
     }

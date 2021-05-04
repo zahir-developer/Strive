@@ -14,25 +14,25 @@ namespace Strive.BusinessEntities.Model
         public int LocationId { get; set; }
 
         [Column]
-        public bool? OffSet1 { get; set; }
+        public decimal? OffSet1 { get; set; }
 
         [Column]
-        public bool? OffSetA { get; set; }
+        public decimal? OffSetA { get; set; }
 
          [Column]
-        public bool? OffSetB { get; set; }
+        public decimal? OffSetB { get; set; }
 
         [Column]
-        public bool? OffSetC { get; set; }
+        public decimal? OffSetC { get; set; }
             
         [Column]
-        public bool? OffSetD { get; set; }
+        public decimal? OffSetD { get; set; }
 
         [Column]
-        public bool? OffSetE { get; set; }
+        public decimal? OffSetE { get; set; }
 
         [Column]
-        public bool? OffSetF { get; set; }
+        public decimal? OffSetF { get; set; }
         [Column]
         public bool? OffSet1On { get; set; }
 

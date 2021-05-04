@@ -15,7 +15,7 @@
                             <label class="float-left">Number<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" formControlName="number" numbersOnly
+                            <input type="text" class="form-control" (change)="giftCardExist($event.target.value)" formControlName="number" numbersOnly
                                 [ngClass]="{ 'is-invalid': submitted && f.number.errors }" />
                             <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
                                 <div *ngIf="f.number.errors.required">Card Number is required</div>
@@ -30,20 +30,47 @@
                 </div>
             </div>
             <br />
-            <!-- <div class="form-row">
+            <div class="form-row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
                     <div class="form-row">
                         <div class="col-sm-3">
-                            <label class="float-left">Barcode</label>
+                            <label class="float-left">Client<span class="required">*</span></label>
+                        </div>
+                        <div class="col-sm-9">
+                            <p-autoComplete field="name" [suggestions]="clientList"
+                                [ngClass]="{ 'is-invalid': submitted && f.clientId.errors }"
+                                (completeMethod)="filterClient($event)" formControlName="clientId"
+                                placeholder="Client Name" (onSelect)="selectedClient($event)">
+                            </p-autoComplete>
+                            <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+                                <div *ngIf="f.clientId.errors.required">Client is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div class="form-row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="form-row">
+                        <div class="col-sm-3">
+                            <label class="float-left">Email ID<span class="required">*</span></label>
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" formControlName="barcode">
+                            <input type="text" class="form-control" formControlName="email"
+                                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.required">Email ID is required</div>
+                                <div *ngIf="f.email.errors.email">Please enter valid email address</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <br /> -->
+            <br />
             <div class="form-row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">

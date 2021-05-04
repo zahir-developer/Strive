@@ -18,22 +18,19 @@ namespace Admin.API.Controllers
     {
         public VendorController(IVendorBpl vendorBpl) : base(vendorBpl) { }
 
-        #region
+       
         [HttpPost]
         [Route("Add")]
         public Result AddVendor([FromBody] VendorDTO vendor) => _bplManager.AddVendor(vendor);
-        #endregion
-        #region
+        
         [HttpPost]
         [Route("Update")]
         public Result UpdateVendor([FromBody] VendorDTO vendorn) => _bplManager.UpdateVendor(vendorn);
-        #endregion
-        #region
+       
         [HttpDelete]
         [Route("Delete/{id}")]
         public Result DeleteVendorById(int id) => _bplManager.DeleteVendorById(id);
-        #endregion
-        #region GET
+       
         [HttpGet]
         [Route("GetAll")]
         public Result GetAllVendor() => _bplManager.GetVendorDetails();
@@ -42,8 +39,7 @@ namespace Admin.API.Controllers
         [HttpGet]
         [Route("GetAllVendorName")]
         public Result GetAllVendorName() => _bplManager.GetAllVendorName();
-        #endregion
-        #region
+        
         [HttpGet]
         [Route("GetVendorById/{id}")]
         public Result GetVendorById(int id) => _bplManager.GetVendorById(id);
@@ -51,6 +47,6 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("GetVendorSearch")]
         public Result GetVendorSearch([FromBody] VendorSearchDto search) => _bplManager.GetVendorSearch(search);
-        #endregion
+     
     }
 }

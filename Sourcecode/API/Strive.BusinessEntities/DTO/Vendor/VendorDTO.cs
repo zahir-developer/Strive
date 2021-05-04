@@ -1,4 +1,6 @@
-﻿using Model = Strive.BusinessEntities.Model;
+﻿using Strive.BusinessEntities.Model;
+using System.Collections.Generic;
+using Model = Strive.BusinessEntities.Model;
 
 namespace Strive.BusinessEntities.Vendor
 {

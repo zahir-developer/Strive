@@ -94,13 +94,13 @@ namespace StriveCustomer.Android.Fragments
         {
             await this.ViewModel.GetScheduledServices();
 
-            if(this.ViewModel.scheduleServices != null && this.ViewModel.scheduleServices.ServicesWithPrice.Count > 0)
+            if(this.ViewModel.scheduleServices != null && this.ViewModel.scheduleServices.AllServiceDetail.Count > 0)
             {
-                checkBoxes = new CheckBox[this.ViewModel.scheduleServices.ServicesWithPrice.Count];
-                serviceViewToggle = new TextView[this.ViewModel.scheduleServices.ServicesWithPrice.Count];
-                layout = new View[this.ViewModel.scheduleServices.ServicesWithPrice.Count];
-                serviceDetailPassage = new TextView[this.ViewModel.scheduleServices.ServicesWithPrice.Count];
-                for (int service = 0; service < this.ViewModel.scheduleServices.ServicesWithPrice.Count; service++ )
+                checkBoxes = new CheckBox[this.ViewModel.scheduleServices.AllServiceDetail.Count];
+                serviceViewToggle = new TextView[this.ViewModel.scheduleServices.AllServiceDetail.Count];
+                layout = new View[this.ViewModel.scheduleServices.AllServiceDetail.Count];
+                serviceDetailPassage = new TextView[this.ViewModel.scheduleServices.AllServiceDetail.Count];
+                for (int service = 0; service < this.ViewModel.scheduleServices.AllServiceDetail.Count; service++ )
                 {
                     layout[service] = LayoutInflater.From(Context).Inflate(Resource.Layout.ScheduleSelectService_ItemView, ScheduleServices_LinearLayout, false);
                     var serviceName = layout[service].FindViewById<TextView>(Resource.Id.scheduleServiceName_TextView);
@@ -112,8 +112,8 @@ namespace StriveCustomer.Android.Fragments
                     serviceViewToggle[service] = layout[service].FindViewById<TextView>(Resource.Id.infoShowChange_TextView);
                     serviceViewToggle[service].Text = "View More";
                     serviceViewToggle[service].PaintFlags = PaintFlags.UnderlineText;
-                    serviceName.Text = this.ViewModel.scheduleServices.ServicesWithPrice[service].ServiceName;
-                    serviceCost.Text = "$"+this.ViewModel.scheduleServices.ServicesWithPrice[service].Price.ToString();
+                    serviceName.Text = this.ViewModel.scheduleServices.AllServiceDetail[service].ServiceName;
+                    serviceCost.Text = "$"+this.ViewModel.scheduleServices.AllServiceDetail[service].Price.ToString();
 
                     assignListeners(service);
 
@@ -307,10 +307,10 @@ namespace StriveCustomer.Android.Fragments
              else
                 {
                     checkBoxes[0].Checked = true;
-                    CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[0].ServiceId;
-                    CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[0].ServiceType;
-                    CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[0].Price;
-                    CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[0].ServiceName;
+                    CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[0].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[0].ServiceTypeId;
+                    CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[0].Price;
+                    CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[0].ServiceName;
                 }
             oldSelection = 0;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -343,10 +343,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[1].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[1].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[1].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[1].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[1].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[1].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[1].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[1].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[1].ServiceName;
             }
             oldSelection = 1;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -376,10 +376,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[2].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[2].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[2].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[2].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[2].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[2].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[2].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[2].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[2].ServiceName;
             }
             oldSelection = 2;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -409,10 +409,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[3].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[3].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[3].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[3].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[3].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[3].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[3].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[3].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[3].ServiceName;
             }
             oldSelection = 3;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -442,10 +442,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[4].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[4].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[4].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[4].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[4].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[4].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[4].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[4].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[4].ServiceName;
             }
             oldSelection = 4;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -475,10 +475,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[5].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[5].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[5].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[5].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[5].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[5].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[5].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[5].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[5].ServiceName;
             }
             oldSelection = 5;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -508,10 +508,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[6].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[6].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[6].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[6].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[6].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[6].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[6].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[6].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[6].ServiceName;
             }
             oldSelection = 6;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -542,10 +542,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[7].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[7].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[7].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[7].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[7].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[7].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[7].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[7].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[7].ServiceName;
             }
             oldSelection = 7;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -576,10 +576,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[8].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[8].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[8].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[8].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[8].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[8].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[8].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[8].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[8].ServiceName;
             }
             oldSelection = 8;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -610,10 +610,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[9].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[9].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[9].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[9].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[9].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[9].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[9].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[9].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[9].ServiceName;
             }
             oldSelection = 9;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -644,10 +644,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[10].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[10].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[10].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[10].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[10].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[10].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[10].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[10].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[10].ServiceName;
             }
             oldSelection = 10;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -678,10 +678,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[11].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[11].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[11].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[11].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[11].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[11].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[11].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[11].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[11].ServiceName;
             }
             oldSelection = 11;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -712,10 +712,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[12].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[12].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[12].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[12].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[12].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[12].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[12].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[12].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[12].ServiceName;
             }
             oldSelection = 12;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -746,10 +746,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[13].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[13].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[13].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[13].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[13].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[13].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[13].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[13].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[13].ServiceName;
             }
             oldSelection = 13;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -780,10 +780,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[14].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[14].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[14].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[14].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[14].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[14].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[14].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[14].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[14].ServiceName;
             }
             oldSelection = 14;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -814,10 +814,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[15].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[15].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[15].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[15].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[15].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[15].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[15].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[15].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[15].ServiceName;
             }
             oldSelection = 15;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -848,10 +848,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[16].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[16].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[16].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[16].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[16].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[16].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[16].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[16].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[16].ServiceName;
             }
             oldSelection = 16;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -882,10 +882,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[17].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[17].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[17].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[17].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[17].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[17].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[17].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[17].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[17].ServiceName;
             }
             oldSelection = 17;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -916,10 +916,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[18].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[18].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[18].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[18].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[18].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[18].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[18].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[18].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[18].ServiceName;
             }
             oldSelection = 18;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -950,10 +950,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[19].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[19].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[19].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[19].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[19].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[19].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[19].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[19].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[19].ServiceName;
             }
             oldSelection = 19;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -984,10 +984,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[20].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[20].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[20].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[20].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[20].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[20].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[20].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[20].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[20].ServiceName;
             }
             oldSelection = 20;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1018,10 +1018,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[21].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[21].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[21].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[21].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[21].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[21].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[21].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[21].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[21].ServiceName;
             }
             oldSelection = 21;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1052,10 +1052,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[22].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[22].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[22].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[22].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[22].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[22].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[22].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[22].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[22].ServiceName;
             }
             oldSelection = 22;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1086,10 +1086,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[23].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[23].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[23].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[23].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[23].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[23].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[23].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[23].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[23].ServiceName;
             }
             oldSelection = 23;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1120,10 +1120,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[24].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[24].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[24].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[24].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[24].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[24].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[24].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[24].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[24].ServiceName;
             }
             oldSelection = 24;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1154,10 +1154,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[25].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[25].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[25].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[25].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[25].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[25].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[25].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[25].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[25].ServiceName;
             }
             oldSelection = 25;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1188,10 +1188,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[26].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[26].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[26].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[26].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[26].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[26].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[26].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[26].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[26].ServiceName;
             }
             oldSelection = 26;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1222,10 +1222,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[27].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[27].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[27].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[27].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[27].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[27].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[27].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[27].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[27].ServiceName;
             }
             oldSelection = 27;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1256,10 +1256,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[28].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[28].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[28].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[28].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[28].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[28].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[28].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[28].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[28].ServiceName;
             }
             oldSelection = 28;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1290,10 +1290,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[29].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[29].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[29].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[29].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[29].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[29].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[29].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[29].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[29].ServiceName;
             }
             oldSelection = 29;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1324,10 +1324,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[30].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[30].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[30].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[30].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[30].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[30].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[30].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[30].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[30].ServiceName;
             }
             oldSelection = 30;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1358,10 +1358,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[31].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[31].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[31].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[31].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[31].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[31].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[31].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[31].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[31].ServiceName;
             }
             oldSelection = 31;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1392,10 +1392,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[32].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[32].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[32].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[32].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[32].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[32].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[32].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[32].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[32].ServiceName;
             }
             oldSelection = 32;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1426,10 +1426,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[33].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[33].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[33].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[33].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[33].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[33].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[33].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[33].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[33].ServiceName;
             }
             oldSelection = 33;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1460,10 +1460,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[34].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[34].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[34].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[34].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[34].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[34].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[34].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[34].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[34].ServiceName;
             }
             oldSelection = 34;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1494,10 +1494,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[35].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[35].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[35].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[35].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[35].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[35].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[35].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[35].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[35].ServiceName;
             }
             oldSelection = 35;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1528,10 +1528,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[36].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[36].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[36].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[36].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[36].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[36].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[36].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[36].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[36].ServiceName;
             }
             oldSelection = 36;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;
@@ -1562,10 +1562,10 @@ namespace StriveCustomer.Android.Fragments
             else
             {
                 checkBoxes[37].Checked = true;
-                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.ServicesWithPrice[37].ServiceId;
-                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.ServicesWithPrice[37].ServiceType;
-                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.ServicesWithPrice[37].Price;
-                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.ServicesWithPrice[37].ServiceName;
+                CustomerScheduleInformation.ScheduleServiceID = this.ViewModel.scheduleServices.AllServiceDetail[37].ServiceId;
+                CustomerScheduleInformation.ScheduleServiceType = this.ViewModel.scheduleServices.AllServiceDetail[37].ServiceTypeId;
+                CustomerScheduleInformation.ScheduleServicePrice = this.ViewModel.scheduleServices.AllServiceDetail[37].Price;
+                CustomerScheduleInformation.ScheduleServiceName = this.ViewModel.scheduleServices.AllServiceDetail[37].ServiceName;
             }
             oldSelection = 37;
             CustomerScheduleInformation.ScheduleServiceSelectedNumber = oldSelection;

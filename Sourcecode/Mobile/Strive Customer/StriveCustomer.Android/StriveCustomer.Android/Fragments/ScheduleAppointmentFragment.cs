@@ -173,8 +173,8 @@ namespace StriveCustomer.Android.Fragments
             }
             date = date + "T00:00:00.000Z";
             this.ViewModel.checkDate = CustomerScheduleInformation.ScheduleDate + "/" + CustomerScheduleInformation.ScheduleMonth + "/" + CustomerScheduleInformation.ScheduleYear;
-            await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date);
-
+            //await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date);
+            await this.ViewModel.GetSlotAvailability(8, date);
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {
                 TimeSlot_GridView.Adapter = new ScheduleTimeSlots(Context, this.ViewModel.ScheduleSlotInfo);

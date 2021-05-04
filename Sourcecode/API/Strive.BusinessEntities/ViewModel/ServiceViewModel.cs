@@ -26,5 +26,8 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string Description { get; set; }
         public string DiscountType { get; set; }
         public string DiscountServiceType { get; set; }
+        public bool? IsCeramic { get; set; }
+        public int? ServiceCategory { get; set; }
+
     }
 }

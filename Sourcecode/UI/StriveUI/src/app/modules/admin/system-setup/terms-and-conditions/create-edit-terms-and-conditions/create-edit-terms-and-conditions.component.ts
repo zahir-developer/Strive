@@ -25,7 +25,8 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   submitted: any;
   employeeId: any;
   subdocumentType: any;
-  fileType: any;
+  fileType: string[];
+  fileTypes: string;
   fileSize: number;
   localFileSize: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
@@ -33,7 +34,9 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fileType = ApplicationConfig.UploadFileType.TermsAndCondition;
-    this.fileSize = ApplicationConfig.UploadSize.TermsAndCondition
+    this.fileSize = ApplicationConfig.UploadSize.TermsAndCondition;
+    this.fileTypes = this.fileType.toString();
+    
     if (localStorage.getItem('employeeName') !== undefined) {
       this.employeeId = +localStorage.getItem('empId');
     }
@@ -45,7 +48,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   }
 
   getDocumentType() {
-    this.getCode.getCodeByCategory("DocumentSubType").subscribe(data => {
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentSubType).subscribe(data => {
       if (data.status === "Success") {
         const dType = JSON.parse(data.resultData);
         this.subdocumentType = dType.Codes;
@@ -75,6 +78,13 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       this.localFileSize = fileToLoad.size
       this.fileName = fileToLoad.name;
       this.fileThumb = this.fileName.substring(this.fileName.lastIndexOf('.') + 1);
+
+      if (this.fileThumb.toLowerCase() !== this.fileType[0]) {
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.TermsCondition.FileType + 'Allowed file types: ' + ApplicationConfig.UploadFileType.TermsAndCondition.toString(), 'Warning!');
+        
+        this.clearDocument();
+      }
+
       let fileReader: any;
       fileReader = new FileReader();
       fileReader.onload = function (fileLoadedEventTigger) {
@@ -86,14 +96,9 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
       this.isLoading = true;
       setTimeout(() => {
         let fileTosaveName: any;
+        fileTosaveName = fileReader.result?.split(',')[1];
 
-        if (this.fileThumb.toLowerCase() == this.fileType[0]) {
-          fileTosaveName = fileReader.result?.split(',')[1];
-        }
-        else {
-          this.toastr.error(MessageConfig.Admin.SystemSetup.TermsCondition.FileType, 'Error!');
-          this.clearDocument();
-        }
+       
         this.fileUploadformData = fileTosaveName;
         this.isLoading = false;
 

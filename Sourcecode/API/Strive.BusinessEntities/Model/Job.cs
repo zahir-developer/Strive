@@ -76,5 +76,8 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public int? JobPaymentId { get; set; }
 
+        [Column]
+        public bool? IsHold { get; set; }
+
     }
 }

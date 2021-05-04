@@ -1,0 +1,36 @@
+<div class="card  m-b-10">
+    <div class="card-body">
+        <div class="row title-border p-b-10 m-b-15">
+            <div class="col-sm-12">
+                <h6 class="d-inline-block font-weight-600">Rate/Location </h6>
+            </div>
+        </div>
+        <div class="table-responsive m-t-10" id="collisionform">
+            <table aria-describedby="collision-grid" class="table border table-hover table-striped">
+                <thead>
+                    <tr>
+                        <!-- <th scope="col">Roles</th> -->
+                        <th scope="col">Location</th>
+                        <th scope="col">Rate Per Hour (in $)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employee of employeeHourlyRateList">
+                        <!-- <td>{{employee.LocationName}}</td> -->
+                        <td>{{employee.LocationName}}</td>
+                        <td>{{employee.HourlyRate | currency}}</td>
+                    </tr>
+                    <tr *ngIf="employeeHourlyRateList.length === 0">
+                        <td colspan="2" class="text-center">No Record Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div  id="collision-enable-btn">
+            <div class="pull-right mw-100 m-t-5">
+                <button type="button" class="btn theme-optional-button-color" id="collision-view"
+                    (click)="close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

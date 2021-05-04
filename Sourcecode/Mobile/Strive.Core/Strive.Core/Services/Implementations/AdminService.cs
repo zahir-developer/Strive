@@ -249,9 +249,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<ScheduleModel>(ApiUtils.URL_SCHEDULE_PAST_SERVICE+ "?ClientId=" +clientID, HttpMethod.Get);
         }
 
-        public async Task<AvailableScheduleServicesModel> GetScheduleServices()
+        public async Task<AvailableServicesModel> GetScheduleServices(int LocationID)
         {
-            return await _restClient.MakeApiCall<AvailableScheduleServicesModel>(ApiUtils.URL_SCHEDULE_SERVICES_AVAILABLE,HttpMethod.Get);
+            return await _restClient.MakeApiCall<AvailableServicesModel>(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES_LIST+ "?locationId="+LocationID, HttpMethod.Get);
         }
 
         public async Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo )

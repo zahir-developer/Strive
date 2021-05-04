@@ -23,17 +23,18 @@ export class TodayScheduleComponent implements OnInit {
   bay: any;
   sort = { column: ApplicationConfig.Sorting.SortBy.Detail, descending: true };
   sortColumn: { column: string; descending: boolean; };
-
+  isCollapsed = false;
   sortDetail: any;
+  bayindex = 0;
   constructor(
     private detailService: DetailService,
     private datePipe: DatePipe,
-    private toastr :ToastrService,
-  
+    private toastr: ToastrService,
+
   ) { }
 
   ngOnInit(): void {
-   
+
     // this.getTodayDateScheduleList();
   }
 
@@ -51,13 +52,13 @@ export class TodayScheduleComponent implements OnInit {
         const detailGrid = scheduleDetails.DetailsGrid;
         const bayJobDetail = [];
         if (detailGrid.BayJobDetailViewModel !== null) {
-         this.sortDetail =  detailGrid.BayJobDetailViewModel
+          this.sortDetail = detailGrid.BayJobDetailViewModel
           detailGrid.BayDetailViewModel.forEach(item => {
             const isData = _.where(detailGrid.BayJobDetailViewModel, { BayId: item.BayId });
             if (isData.length > 0) {
               const services = [];
-              const detailService = _.where(isData, { ServiceTypeName:'Details'});
-              const outsideService = _.where(isData, { ServiceTypeName: ApplicationConfig.Enum.ServiceType.OutsideServices});
+              const detailService = _.where(isData, { ServiceTypeName: 'Details' });
+              const outsideService = _.where(isData, { ServiceTypeName: ApplicationConfig.Enum.ServiceType.OutsideServices });
               detailService.forEach(service => {
                 const sameJobId = _.where(outsideService, { JobId: service.JobId });
                 services.push({
@@ -93,7 +94,7 @@ export class TodayScheduleComponent implements OnInit {
           });
         }
 
-        bayJobDetail?.forEach( bay => {
+        bayJobDetail?.forEach(bay => {
           bay.totalCount = bay.BayDetail.length;
         });
         this.bayDetail = bayJobDetail;
@@ -162,6 +163,11 @@ export class TodayScheduleComponent implements OnInit {
   closeDialog(event) {
     this.isEdit = event.isOpenPopup;
     this.showDialog = event.isOpenPopup;
+  }
+
+  collapsed(index) {
+    this.bayindex = index;
+    this.isCollapsed = !this.isCollapsed;
   }
 
 }
