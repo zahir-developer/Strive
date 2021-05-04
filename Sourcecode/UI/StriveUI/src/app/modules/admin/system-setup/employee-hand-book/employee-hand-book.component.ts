@@ -39,6 +39,8 @@ export class EmployeeHandBookComponent implements OnInit {
   Documents: any;
   url: any;
   sortColumn: { sortBy: string; sortOrder: string; };
+  actionType: string;
+  header: string;
 
   constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -54,9 +56,19 @@ export class EmployeeHandBookComponent implements OnInit {
   }
 
   adddata(data, handbookDetails?) {
+if(data == 'edit'){
+this.actionType = "Edit";
+this.header = "Edit Employee Handbook";
+  this.getById(handbookDetails)
 
-    this.selectedData = handbookDetails;
-    this.showDialog = true;
+}else{
+  this.header = "Create Employee Handbook";
+
+  this.actionType = "Add";
+  this.showDialog = true;
+
+}
+  
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -134,13 +146,33 @@ export class EmployeeHandBookComponent implements OnInit {
       this.isLoading = false;
     });
   }
+  getById(documents) {
+    this.documentService.getDocumentById(documents.DocumentId, 'EMPLOYEEHANDBOOK').subscribe(res => {
+      if (res.status === 'Success') {
+        const documentDetails = JSON.parse(res.resultData);
+        if (documentDetails.Document !== null) {
+          this.selectedData =  documentDetails.Document.Document;
+          this.showDialog = true;
 
+        }
+        else{
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
+        }
+      }
+    },
+      (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    );
+  }
   downloadPDF(documents) {
     this.documentService.getDocumentById(documents.DocumentId, 'EMPLOYEEHANDBOOK').subscribe(res => {
       if (res.status === 'Success') {
         const documentDetails = JSON.parse(res.resultData);
         if (documentDetails.Document !== null) {
           const details = documentDetails.Document.Document;
+          this.selectedData =  documentDetails.Document.Document;
           const base64 = details.Base64;
           const linkSource = 'data:application/pdf;base64,' + base64;
           const downloadLink = document.createElement('a');
@@ -156,6 +188,7 @@ export class EmployeeHandBookComponent implements OnInit {
       }
     );
   }
+  
   sort(property) {
     this.sortColumn = {
       sortBy: property,

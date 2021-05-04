@@ -248,6 +248,7 @@ export const UrlConfig = {
     deleteDocument: `Admin/Document/DeleteDocument/`,
     getDocumentById: `Admin/Document/GetDocumentById/`,
     uploadDocument: `Admin/Document/SaveEmployeeDocument`,
+    updateDocument: `Admin/Document/UpdateDocument`,
 
   },
   schedule: {

@@ -287,10 +287,14 @@ export class EodComponent implements OnInit, AfterViewInit {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD')
     };
+    this.clockDetail = [];
+
     this.reportService.getTimeClockEmpHoursDetail(obj).subscribe(data => {
       if (data.status === 'Success') {
+
         const clockDetail = JSON.parse(data.resultData);
         if (clockDetail.Result.TimeClockEmployeeDetails !== null) {
+       
           this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
           this.clockDetail.forEach(item => {
             this.empTotalHours = this.empTotalHours + item.HoursPerDay;
