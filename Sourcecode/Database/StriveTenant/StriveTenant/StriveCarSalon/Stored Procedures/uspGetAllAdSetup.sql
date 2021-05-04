@@ -7,12 +7,8 @@ select tblad.AdSetupId
       ,tblad.Description
       ,tblad.IsActive Status
       ,tblad.IsDeleted
-      ,tblad.CreatedBy
-      ,tblad.CreatedDate
-      ,tblad.UpdatedBy
-      ,tblad.UpdatedDate
-      ,tblad.UpdatedDate
 	  ,tbld.FileName as Image
+	  ,tblad.LaunchDate
 	   FROM [StriveCarSalon].[tblAdSetup] tblad 
 	   inner join tbldocument tbld on tblad.documentid= tbld.documentid 
 where tblad.IsDeleted =0 

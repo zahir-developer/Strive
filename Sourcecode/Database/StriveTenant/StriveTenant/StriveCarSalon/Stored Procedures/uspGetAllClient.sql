@@ -4,7 +4,7 @@
 @PageNo INT = NULL,
 @PageSize INT = NULL,	
 @SortOrder VARCHAR(5) = 'ASC',
-@SortBy VARCHAR(10) = NULL
+@SortBy VARCHAR(100) = NULL
 AS
 BEGIN
 DECLARE @Skip INT = 0;
@@ -42,8 +42,9 @@ FROM [StriveCarSalon].[tblClient] tblc
 WHERE ISNULL(tblc.IsDeleted,0) = 0 AND ISNULL(tblc.FirstName,' ') != ''   AND
 isnull(tblc.IsDeleted,0)=0 and 
 isnull(tblca.IsDeleted,0)=0 and (
-@Query is null OR	tblc.FirstName like '%'+@Query+'%'
+@Query is null OR	tblc.FirstName like '%'+@Query+'%' 
 								OR	tblc.lastName like '%'+@Query+'%'
+								OR CONCAT_WS(' ',tblc.FirstName,tblc.LastName) like '%'+@Query+'%'
 								OR	ct.valuedesc like '%'+@Query+'%'
 								OR	tblca.IsActive like '%'+@Query+'%'
 								OR	tblca.PhoneNumber like '%'+@Query+'%')
@@ -82,6 +83,17 @@ OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
 
 select * from #GetAllClient
 
-select count(*) as Count from StriveCarSalon.tblClient where ISNULL(IsDeleted,0) = 0 
+
+IF @Query IS NULL OR @Query = ''
+BEGIN 
+select count(1) as Count from StriveCarSalon.tblClient where 
+ISNULL(IsDeleted,0) = 0 
+
+END
+
+IF @Query IS Not NULL AND @Query != ''
+BEGIN
+select count(1) as Count from #GetAllClient
+END
 
 END

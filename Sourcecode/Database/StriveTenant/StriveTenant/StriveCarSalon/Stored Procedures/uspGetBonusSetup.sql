@@ -1,11 +1,11 @@
 ﻿
 
-CREATE procedure [StriveCarSalon].[uspGetBonusSetup] --[StriveCarSalon].[uspGetBonusSetup] 11,2020,2047
+CREATE procedure [StriveCarSalon].[uspGetBonusSetup] --[StriveCarSalon].[uspGetBonusSetup] 3,2021,1
 (@BonusMonth INT,@BonusYear INT,@LocationId INT)
 AS
 BEGIN
 Declare @WashId INT = (Select valueid from GetTable('JobType') where valuedesc='Wash')
-Declare @WashServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Washes')
+Declare @WashServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Wash Package')
 Declare @CompletedJobStatus INT = (Select valueid from GetTable('JobStatus') where valuedesc='Completed')
 
 SELECT 
@@ -53,7 +53,9 @@ SELECT
 	WHERE tblj.JobType=@WashId
 	AND tbls.ServiceType=@WashServiceId
 	AND tblj.JobStatus=@CompletedJobStatus
-	AND convert(varchar(7), tblj.JobDate, 126)=CONCAT(@BonusYear,'-',@BonusMonth)
+	--AND convert(varchar(7), tblj.JobDate)=CONCAT(@BonusYear,'-',@BonusMonth)
+	and DATEPART(YEAR,tblj.JobDate )=@BonusYear 
+	and DATEPART(MONTH,tblj.JobDate )=@BonusMonth 
 	AND tblj.LocationId=@LocationId 
 	AND tblj.IsActive=1 AND tblji.IsActive=1 AND tbls.IsActive=1 AND tbll.IsActive=1
 	AND ISNULL(tblj.IsDeleted,0)=0 AND ISNULL(tblji.IsDeleted,0)=0 AND ISNULL(tbls.IsDeleted,0)=0

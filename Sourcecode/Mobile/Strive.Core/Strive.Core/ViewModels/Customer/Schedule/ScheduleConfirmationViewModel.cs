@@ -17,5 +17,11 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             await _navigationService.Navigate<ScheduleViewModel>();
         }
 
+        public async void BookCarWash()
+        {
+
+
+
+        }
     }
 }

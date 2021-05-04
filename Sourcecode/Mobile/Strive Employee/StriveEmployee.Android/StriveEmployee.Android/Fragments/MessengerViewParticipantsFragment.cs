@@ -88,7 +88,7 @@ namespace StriveEmployee.Android.Fragments
                 if(MessengerTempData.SelectedParticipants != null)
                 {
                     ChatEmployeeList data;
-                    foreach (var result in MessengerTempData.SelectedParticipants.EmployeeList)
+                    foreach (var result in MessengerTempData.SelectedParticipants.EmployeeList.Employee)
                     {
                         var results = ViewModel.EmployeeList.EmployeeList.ChatEmployeeList.Find(x => x.Id == result.EmployeeId);
                         if (results == null)

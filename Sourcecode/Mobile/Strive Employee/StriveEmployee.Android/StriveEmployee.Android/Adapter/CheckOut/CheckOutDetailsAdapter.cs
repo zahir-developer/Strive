@@ -49,9 +49,9 @@ namespace StriveEmployee.Android.Adapter.CheckOut
 
         Context context;
         private CheckOutDetailsViewHolder detailViewHolder;
-        private CheckOutVehicleDetails vehicleDetails;
+        private CheckoutDetails vehicleDetails;
 
-        public CheckOutDetailsAdapter(Context context, CheckOutVehicleDetails vehicleDetails)
+        public CheckOutDetailsAdapter(Context context, CheckoutDetails vehicleDetails)
         {
             this.context = context;
             this.vehicleDetails = vehicleDetails;
@@ -61,33 +61,41 @@ namespace StriveEmployee.Android.Adapter.CheckOut
         {
             get 
             {
-                return vehicleDetails.GetCheckedInVehicleDetails.Count;
+                return vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel.Count;
             }
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             detailViewHolder = holder as CheckOutDetailsViewHolder;
-            detailViewHolder.checkOutNumber_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails[position].TicketNumber;
-            detailViewHolder.checkOutName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails[position].CustomerName;
-            detailViewHolder.checkOutVehicle_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails[position].VehicleDescription;
-            detailViewHolder.checkOutServicePrice_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails[position].Cost.ToString();
-            detailViewHolder.checkOutServiceName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails[position].Services;
-            detailViewHolder.checkInTime_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails[position].Checkin;
-            detailViewHolder.checkOutTime_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails[position].Checkout;
-            detailViewHolder.verticalLine_LinearLayout.SetBackgroundColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails[position].ColorCode));
-            detailViewHolder.checkOutNumber_TextView.SetTextColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails[position].ColorCode));
-            if(vehicleDetails.GetCheckedInVehicleDetails[position].MembershipNameOrPaymentStatus == "In Progress")
+            detailViewHolder.checkOutNumber_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].TicketNumber;
+            detailViewHolder.checkOutName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].CustomerFirstName + vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].CustomerLastName;
+            detailViewHolder.checkOutVehicle_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].VehicleDescription;
+            detailViewHolder.checkOutServicePrice_TextView.Text = "$" + vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Cost.ToString();
+            detailViewHolder.checkOutServiceName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Services;
+            detailViewHolder.checkInTime_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Checkin;
+            detailViewHolder.checkOutTime_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Checkout;
+            detailViewHolder.verticalLine_LinearLayout.SetBackgroundColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode));
+            detailViewHolder.checkOutNumber_TextView.SetTextColor(Color.ParseColor(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].ColorCode));
+            if(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "In Progress")
             {
 
             }
-            else if(vehicleDetails.GetCheckedInVehicleDetails[position].MembershipNameOrPaymentStatus == "PAID")
+            else if(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Paid")
             {
                 detailViewHolder.checkoutPayment_TextView.Text = "PAID";
                 detailViewHolder.checkOut_ImageView.SetImageResource(Resource.Drawable.paidCheck);
                 detailViewHolder.membershipStatus_LinearLayout.SetBackgroundColor(Color.ParseColor("#AFE9E3"));
             }
-            else if(vehicleDetails.GetCheckedInVehicleDetails[position].MembershipNameOrPaymentStatus == "Completed")
+            else if(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Completed")
+            {
+
+            }
+            else if (vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Canceled")
+            {
+
+            }
+            else if (vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Open")
             {
 
             }

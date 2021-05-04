@@ -1,6 +1,6 @@
 ﻿
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetPayrollList] --2060,'2020-12-09','2020-12-30'-- 2034,'2020-09-27','2020-09-28'
+CREATE PROCEDURE [StriveCarSalon].[uspGetPayrollList] --[StriveCarSalon].[uspGetPayrollList]1,'2021-01-27','2021-02-28'
 @LocationId INT,
 @StartDate DATETIME,
 @EndDate DATETIME
@@ -24,34 +24,28 @@ Drop table if exists #Category
 
 SELECT   
          tblEL.EmployeeId as EmployeeId,
-
+		 tblEl.LiabilityDescription as Notes,
 	     CASE When CodeValue='Collision' THEN Amount End As Collision,
          CASE When CodeValue='Uniform' THEN Amount End As Uniform,
 	     CASE When CodeValue='Adjustment' THEN Amount End As Adjustment
-INTO 
-    #Category
-FROM 
-	tblEmployeeLiability tblEL 
+INTO     #Category FROM 	tblEmployeeLiability tblEL 
 JOIN 
 	tblEmployeeLiabilityDetail tblELD ON tblEL.LiabilityId=tblELD.LiabilityId AND tblEL.IsActive=1 AND ISNULL(tblEL.IsDeleted,0)=0
-	LEFT JOIN
-	tblCodeValue tblCV
-ON		tblCV.id=tblEL.LiabilityType
-LEFT JOIN
-	tblCodeCategory tblCC
-ON		tblCC.id=tblCV.CategoryId
+	LEFT JOIN	tblCodeValue tblCV ON		tblCV.id=tblEL.LiabilityType
+    LEFT JOIN	tblCodeCategory tblCC ON		tblCC.id=tblCV.CategoryId
 
 --WHERE 
 	--tblEL.LiabilityDate >= @StartDate AND tblEL.LiabilityDate <= @EndDate
 
 Select EmployeeId,
+	   Notes,
 	   SUM(IsNull(Collision,0))  As Collision,
        SUM(IsNull(Uniform,0))  As Uniform,
 	   SUM(IsNull(Adjustment,0))  As Adjustment
 	   INTO 
 	   #CodeValue
 	   from #Category 
-	   Group by EmployeeId
+	   Group by EmployeeId,Notes
     
 Select tblemp.EmployeeId,
 		       tblemp.FirstName+' '+tblemp.LastName as PayeeName,
@@ -181,7 +175,7 @@ ON		DA.EmployeeId=ER.EmployeeId
 
 --FinalOutput
 
-Select DISTINCT FR.EmployeeId,PayeeName,LocationId,
+Select DISTINCT FR.EmployeeId,PayeeName,LocationId,CA.Notes,
 --CASE WHEN SUM(ISNULL(FR.TotalWashHours,0))>@HoursLimit THEN @HoursLimit ELSE SUM(FR.TotalWashHours) END AS TotalWashHours,
 IsNull(TotalWashHours,0) as TotalWashHours,
        IsNull(TotalDetailHours,0) as TotalDetailHours,IsNull(OverTimeHours,0) as OverTimeHours,IsNull(WashRate,0) as WashRate,

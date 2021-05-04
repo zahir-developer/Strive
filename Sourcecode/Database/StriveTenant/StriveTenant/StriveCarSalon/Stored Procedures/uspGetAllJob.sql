@@ -10,13 +10,12 @@
 -- 25-08-2020, Vineeth - changed jobtype to servicetype
 -- 26-08-2020, Zahir Hussain -- 1. Change Join from INNER to LEFT, 2.Vehicle details taken from Job table instead of Client Vehicle table. 
 -- 25-01-2020, Zahir Hussain -- Added Offset and Skip logic for pagination. EXEC [StriveCarSalon].[uspGetAllJob] 1, NULL, 1, 50, NULL, NULL
-							 --	EXEC [StriveCarSalon].[uspGetAllJob] 1, 'jim', null, null, null, null,'2021-02-02','2021-02-02'
-
+							 --	EXEC [StriveCarSalon].[uspGetAllJob] 1, 'JIM DAVIS', 1, 10, 'ASC', null,'2021-01-02','2021-03-02'
 
 -------------------------------------------------------
 -- ====================================================
 
-CREATE PROC [StriveCarSalon].[uspGetAllJob] -- [StriveCarSalon].[uspGetAllJob] 1
+CREATE PROC [StriveCarSalon].[uspGetAllJob]
 @locationId INT = NULL, 
 @Query NVARCHAR(50) = NULL,
  @PageNo INT = NULL, 
@@ -51,13 +50,12 @@ tbj.JobId
 ,tbj.TicketNumber
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
-,CONCAT(cvMo.valuedesc,' , ',cvMfr.valuedesc,' , ',cvCo.valuedesc) AS VehicleName
+,CONCAT(cvMo.valuedesc,', ',cvMfr.valuedesc,', ',cvCo.valuedesc) AS VehicleName
 ,tbj.TimeIn
 ,tbj.EstimatedTimeOut
 ,tbls.ServiceName
-,tbls.ServiceType,
-tbj.IsDeleted
---into #GetAllJobs
+,tbls.ServiceType
+into #GetAllJobs
 from 
 StriveCarSalon.tblJob tbj 
 INNER join StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
@@ -70,22 +68,25 @@ LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tbj.Make = cvM
 LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON tbj.Model = cvMo.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid
 WHERE
-(tbj.locationId = @locationId OR @locationId is NULL) and
-(tbj.jobdate between @StartDate and @EndDate or( @StartDate is NULL and @EndDate is Null)
-)
-AND tblcv.valuedesc='Wash Package' AND
---AND isnull(tbj.IsDeleted,0)=0
+
+(tbj.locationId = @locationId OR @locationId is NULL)
+ and
+(tbj.jobdate between @StartDate and @EndDate or (@StartDate is NULL and @EndDate is Null))
+AND tblcv.valuedesc='Wash Package' AND isnull(tbj.IsDeleted,0)=0
 --AND isnull(tblc.IsDeleted,0)=0
 --AND isnull(tblji.IsDeleted,0)=0
---AND isnull(tbls.IsDeleted,0)=0
-@Query is null OR (@Query != '' AND	(tbj.TicketNumber like '%' +@Query+ '%' 
+--AND isnull(tbls.IsDeleted,0)=0 
+AND
+(@Query is null OR (@Query != '' AND	(tbj.TicketNumber like '%' +@Query+ '%' 
+OR CONCAT(cvMo.valuedesc,' , ',cvMfr.valuedesc,' , ',cvCo.valuedesc) like '%' +@Query+ '%' 
 								OR	tblc.FirstName like '%'+@Query+'%'
 								OR	tblc.lastName like '%'+@Query+'%'
 								OR	tbls.ServiceName like '%'+@Query+'%'
 								OR	cvMfr.valuedesc like '%'+@Query+'%'								
 								OR	cvMo.valuedesc like '%'+@Query+'%'
 								OR	cvCo.valuedesc like '%'+@Query+'%'
-								OR	tbj.jobdate like '%'+@Query+'%'))
+								OR	tbj.jobdate like '%'+@Query+'%'
+								OR CONCAT(tblc.FirstName,' ',tblc.LastName)like '%'+@Query+'%' )))
 
 GROUP BY 
 
@@ -130,9 +131,17 @@ OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
 
 
 
---select * from #GetAllJobs
+select * from #GetAllJobs
 
+IF @Query IS NULL OR @Query = ''
+BEGIN 
+select count(1) as Count from StriveCarSalon.tblJob where 
+ISNULL(IsDeleted,0) = 0 
 
-select count(*) as Count from StriveCarSalon.tblJob where ISNULL(IsDeleted,0) = 0 
+END
 
+IF @Query IS Not NULL AND @Query != ''
+BEGIN
+select count(1) as Count from #GetAllJobs
+END
 END

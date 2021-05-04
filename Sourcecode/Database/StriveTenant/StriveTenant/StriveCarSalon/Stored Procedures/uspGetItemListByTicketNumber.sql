@@ -4,8 +4,9 @@
 
 
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- [StriveCarSalon].[uspGetItemListByTicketNumber] '651284,537631,566450,118839,833659'
-@TicketNumber varchar(max)
+CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- [StriveCarSalon].[uspGetItemListByTicketNumber]'993311' '651284,537631,566450,118839,833659'
+@TicketNumber varchar(max),
+@LocationId INT = NULL
 AS 
 --DECLARE @TicketNumber varchar(10)='274997'--'782436'
 
@@ -37,7 +38,7 @@ LEFT JOIN
 	tblCodeValue tblcv
 ON		tblcv.id=tblsr.ServiceType
 WHERE 
-	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%'
+	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%' AND (tbljb.LocationId = @LocationId OR @LocationId IS NULL)
 AND ISNULL(tbljbI.IsDeleted,0)=0 
 AND ISNULL(tbljbI.IsActive,1)=1 
 AND ISNULL(tbljb.IsDeleted,0)=0 
@@ -49,7 +50,7 @@ DROP TABLE IF EXISTS #JobProductList
 SELECT 
 	tbljb.JobId,
 	tbljb.TicketNumber,
-	tblCV.Id AS ProductId,
+	tblp.ProductId AS ProductId,
 	tblp.ProductName,
 	tblCV.CodeValue As ProductTypeName,
 	tblp.ProductType as ProductType,
@@ -73,7 +74,7 @@ LEFT JOIN
 	tblCodeValue tblCV 
 ON		tblP.ProductType = tblcv.id
 WHERE 
-	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%'
+	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%' AND (tbljb.LocationId = @LocationId OR @LocationId IS NULL)
 AND ISNULL(tbljbP.IsDeleted,0)=0 
 AND ISNULL(tbljbP.IsActive,1)=1 
 AND ISNULL(tbljb.IsDeleted,0)=0 

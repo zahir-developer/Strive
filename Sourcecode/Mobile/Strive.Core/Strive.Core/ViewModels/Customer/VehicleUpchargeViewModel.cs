@@ -38,7 +38,7 @@ namespace Strive.Core.ViewModels.Customer
             selectedMembership.MembershipDetail = new List<ServiceDetail>();
             foreach (var result in data.MembershipDetail)
             {
-                if (!String.Equals(result.ServiceType.ToString(), "Washes"))
+                if (!String.Equals(result.ServiceTypeId.ToString(), "Washes"))
                 {
                     selectedMembership.MembershipDetail.Add(result);
                 }

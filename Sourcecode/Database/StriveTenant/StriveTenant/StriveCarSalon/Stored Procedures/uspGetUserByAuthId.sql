@@ -1,6 +1,6 @@
 ﻿
 
-CREATE proc [StriveCarSalon].[uspGetUserByAuthId] --1409
+CREATE proc [StriveCarSalon].[uspGetUserByAuthId] --[StriveCarSalon].[uspGetUserByAuthId]2499
 (@AuthId int)
 as
 begin
@@ -31,21 +31,20 @@ SELECT EmpRo.EmployeeId,EmpRo.RoleId, rm.RoleName AS RoleName
 FROM
 StriveCarSalon.tblEmployeeRole EmpRo
 INNER JOIN StriveCarSalon.tblRoleMaster rm on EmpRo.RoleId=rm.RoleMasterId
-INNER JOIN 
-StriveCarSalon.tblEmployeeDetail EmpDet
+INNER JOIN StriveCarSalon.tblEmployeeDetail EmpDet
 ON EmpDet.EmployeeId = EmpRo.EmployeeId 
 WHERE
 EmpDet.AuthId = @AuthId AND EmpRo.IsActive=1 AND EmpRo.IsDeleted=0
 
-SELECT EmpLo.EmployeeId,EmpLo.LocationId, Lo.LocationName
+SELECT DISTINCT EmpLo.EmployeeId,EmpLo.LocationId, Lo.LocationName, la.City,tblc.valuedesc AS CityName
 FROM
 StriveCarSalon.tblEmployeeLocation EmpLo
 INNER JOIN
 StriveCarSalon.tblLocation Lo 
 ON EmpLo.LocationId=Lo.LocationId
-INNER JOIN 
-StriveCarSalon.tblEmployeeDetail EmpDet
-ON EmpDet.EmployeeId = EmpLo.EmployeeId 
+INNER JOIN StriveCarSalon.tblEmployeeDetail EmpDet ON EmpDet.EmployeeId = EmpLo.EmployeeId 
+INNER JOIN tbllocationaddress la on Lo.LocationId =la.LocationId
+LEFT JOIN [StriveCarSalon].[GetTable]('City') tblc ON (la.City = tblc.valueid)
 WHERE
 EmpDet.AuthId = @AuthId AND EmpLo.IsActive=1 AND EmpLo.IsDeleted=0
 
