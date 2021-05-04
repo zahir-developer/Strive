@@ -24,6 +24,7 @@ namespace Strive.BusinessLogic.Document
         string SaveThumbnail(GlobalUpload.DocumentType documentType, int Width, int Height, string base64String, string saveFilePath);
         string ValidateEmployeeFiles(List<EmployeeDocument> employeeDocument);
         int AddDocument(DocumentDto documentModel);
+        Result UpdateDocument(DocumentDto documentModel);
         Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
         Result DeleteDocument(int documentTypeId, GlobalUpload.DocumentType documentType);
         void ArchiveFile(GlobalUpload.DocumentType uploadFolder, string fileName);
