@@ -49,9 +49,9 @@ export const MessageConfig = {
       Add: 'Wash added successfully !',
       Update: 'Wash updated successfully !',
       Delete: 'Wash deleted successfully !',
-      type: "Please select valid type",
-      model: "Please select valid model",
-      color: "Please select valid color"
+      type: 'Please select valid type',
+      model: 'Please select valid model',
+      color: 'Please select valid color'
    },
    Detail:
    {
@@ -171,8 +171,8 @@ export const MessageConfig = {
             Add: 'Location added successfully !',
             Update: 'Location updated successfully !',
             Delete: 'Location deleted successfully !',
-            Email: "Maximum 5 EmailId's  Only Allowed",
-            InvalidEmail: "Invalid Email"
+            Email: 'Maximum 5 EmailId\'s  Only Allowed',
+            InvalidEmail: 'Invalid Email'
          },
          ServiceSetup:
          {
@@ -182,7 +182,7 @@ export const MessageConfig = {
          },
          MemberShipSetup:
          {
-            MemberShipName: "MembershipName should not be None or Unk",
+            MemberShipName: 'MembershipName should not be None or Unk',
             Add: 'MemberShip added successfully !',
             Update: 'MemberShip updated successfully !',
             Delete: 'MemberShip deleted successfully !',
@@ -254,4 +254,4 @@ export const MessageConfig = {
          }
       }
    }
-}
+};

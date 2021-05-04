@@ -117,7 +117,8 @@ export const ApplicationConfig = {
     {
         AdSetup: 5120,
         EmployeeHandbook: 10240,
-        TermsAndCondition: 5120
+        TermsAndCondition: 5120,
+        EmployeeDocument: 10240
     },
     Enum: {
         JobType:
@@ -249,7 +250,7 @@ export const ApplicationConfig = {
     },
 
     debounceTime: {
-        sec: 3000
+        sec: 1000
     }
 
 };

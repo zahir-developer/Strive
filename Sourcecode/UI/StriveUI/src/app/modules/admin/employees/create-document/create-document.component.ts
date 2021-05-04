@@ -8,6 +8,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-create-document',
@@ -24,6 +25,7 @@ export class CreateDocumentComponent implements OnInit {
   fileType: any;
   isLoading: boolean;
   submitted: boolean;
+  fileSize: number;
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -37,6 +39,7 @@ export class CreateDocumentComponent implements OnInit {
     this.isLoading = false;
     this.isPassword = false;
     this.submitted = false;
+    this.fileSize = ApplicationConfig.UploadSize.EmployeeDocument;
     this.formInitialize();
   }
 
@@ -70,6 +73,13 @@ export class CreateDocumentComponent implements OnInit {
     try {
       const file = e.target.files[0];
       const fileSize = + file.size;
+      const localFileKbSize = fileSize / Math.pow(1024, 1);
+      const localFileKbRoundSize = +localFileKbSize.toFixed();
+      if (this.fileSize < localFileKbRoundSize) {
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileSize, 'Warning!');
+        this.isLoading = false;
+        return;
+      }
       const sizeFixed = (fileSize / 1048576);
       const sizeFixedValue = +sizeFixed.toFixed(1);
       if (sizeFixedValue > 10) {

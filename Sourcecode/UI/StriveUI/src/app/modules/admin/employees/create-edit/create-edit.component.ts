@@ -76,6 +76,7 @@ export class CreateEditComponent implements OnInit {
   selectedLocationHour = '';
   isRateAllLocation: boolean;
   errorMessage: boolean;
+  fileSize: number;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -91,6 +92,7 @@ export class CreateEditComponent implements OnInit {
     this.Status = ['Active', 'Inactive'];
     this.isRateAllLocation = false;
     this.errorMessage = false;
+    this.fileSize = ApplicationConfig.UploadSize.EmployeeDocument;
     this.getGenderDropdownValue();
     this.getAllRoles();
     this.getLocation();
@@ -287,13 +289,20 @@ export class CreateEditComponent implements OnInit {
     try {
       const file = e.target.files[0];
       const fileSize = + file.size;
-      const sizeFixed = (fileSize / 1048576);
-      const sizeFixedValue = +sizeFixed.toFixed(1);
-      if (sizeFixedValue > 1) {
-        this.toastr.warning(MessageConfig.Document.fileSize, 'Warning!');
+      const localFileKbSize = fileSize / Math.pow(1024, 1);
+      const localFileKbRoundSize = +localFileKbSize.toFixed();
+      if (this.fileSize < localFileKbRoundSize) {
+        this.toastr.warning(MessageConfig.Admin.SystemSetup.EmployeeHandBook.FileSize, 'Warning!');
         this.isLoading = false;
         return;
       }
+      // const sizeFixed = (fileSize / 10240);
+      // const sizeFixedValue = +sizeFixed.toFixed(1);
+      // if (sizeFixedValue > 1) {
+      //   this.toastr.warning(MessageConfig.Document.fileSize, 'Warning!');
+      //   this.isLoading = false;
+      //   return;
+      // }
       const fReader = new FileReader();
       fReader.readAsDataURL(file);
       fReader.onloadend = (event: any) => {
