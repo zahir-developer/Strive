@@ -41,7 +41,7 @@ export class ServiceSetupListComponent implements OnInit {
   ) {
     // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.getAllserviceSetupDetails();
@@ -115,9 +115,7 @@ export class ServiceSetupListComponent implements OnInit {
   }
   searchKeyup(event) {
     if (event) {
-      setTimeout(() => {
         this.getAllserviceSetupDetails();
-      }, 5000);
     }
 
   }

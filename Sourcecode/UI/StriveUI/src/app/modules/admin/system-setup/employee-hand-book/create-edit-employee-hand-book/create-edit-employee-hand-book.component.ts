@@ -61,7 +61,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   ngOnInit() {
     this.fileType = ApplicationConfig.UploadFileType.EmployeeHandbook;
     this.fileTypes = this.fileType.toString();
-    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook
+    this.fileSize = ApplicationConfig.UploadSize.EmployeeHandbook;
     if (localStorage.getItem('employeeName') !== undefined) {
       this.headerName = localStorage.getItem('employeeName');
       this.employeeId = +localStorage.getItem('empId');

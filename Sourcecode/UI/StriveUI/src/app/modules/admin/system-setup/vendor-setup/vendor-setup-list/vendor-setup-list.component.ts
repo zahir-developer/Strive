@@ -36,7 +36,7 @@ export class VendorSetupListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService) {
     // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.vendorSearch();

@@ -60,7 +60,7 @@ export class WashesListComponent implements OnInit {
     private cd: ChangeDetectorRef) {
     // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.getAllWashDetails();

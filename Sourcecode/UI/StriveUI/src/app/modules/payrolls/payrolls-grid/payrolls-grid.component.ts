@@ -62,7 +62,7 @@ export class PayrollsGridComponent implements OnInit {
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.PayRoll,
       sortOrder: ApplicationConfig.Sorting.SortOrder.PayRoll.order
-    }
+    };
     this.isLoading = false;
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
@@ -79,7 +79,7 @@ export class PayrollsGridComponent implements OnInit {
     ];
   }
   landing() {
-    this.landingservice.loadTheLandingPage()
+    this.landingservice.loadTheLandingPage();
   }
   getFileType(event) {
     this.fileTypeEvent = true;
@@ -273,19 +273,11 @@ export class PayrollsGridComponent implements OnInit {
   }
 
   updateAdjustment() {
-    
     const updateObj = [];
-
-
-
-
     this.payRollList.forEach(item => {
-      const oldPayroll = this.payRollBackup.filter(s => s.EmployeeId == item.EmployeeId);
+      const oldPayroll = this.payRollBackup.filter(s => s.EmployeeId === item.EmployeeId);
       if (oldPayroll !== null && oldPayroll !== undefined) {
-        console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
-        if (oldPayroll.Adjustment != +item.Adjustment) {
-          console.log('True');
-          console.log('Old'+ oldPayroll.Addjustment + '. New' + item.Adjustment)
+        if (oldPayroll.Adjustment !== +item.Adjustment) {
           updateObj.push({
             id: item.EmployeeId,
             adjustment: +item.Adjustment
@@ -297,7 +289,6 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.updateAdjustment(updateObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         this.isEditAdjustment = false;
         this.payrollDateForm.enable();
         this.toastr.success(MessageConfig.PayRoll.Adjustment, 'Success!');

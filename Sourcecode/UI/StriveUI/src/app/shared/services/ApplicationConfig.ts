@@ -117,7 +117,8 @@ export const ApplicationConfig = {
     {
         AdSetup: 5120,
         EmployeeHandbook: 10240,
-        TermsAndCondition: 5120
+        TermsAndCondition: 5120,
+        EmployeeDocument: 10240
     },
     Enum: {
         JobType:
@@ -137,7 +138,6 @@ export const ApplicationConfig = {
             AirFresheners: 'Air Fresheners',
             Discounts: 'Discounts',
             Upcharges: 'Upcharges',
-
             DetailPackage: 'Detail Package',
             GiftCard: 'Gift Card'
         },
@@ -156,7 +156,8 @@ export const ApplicationConfig = {
         paymentType: 'PAYMENTTYPE',
         paymentStatus: 'PAYMENTSTATUS',
         ClientType: 'CLIENTTYPE',
-        ServiceCategory: 'ServiceCategory'
+        ServiceCategory: 'ServiceCategory',
+        TermsAndCondition: 'TERMSANDCONDITION'
     },
     CodeValue: {
         EmployeeHandBook: 'EmployeeHandBook',
@@ -243,6 +244,14 @@ export const ApplicationConfig = {
         itemsShowLimit: 1,
         enableCheckAll: false,
         allowSearchFilter: true
+    },
+    refreshTime: {
+        refreshTime: 19
+    },
+
+    debounceTime: {
+        sec: 1000
     }
+
 };
 

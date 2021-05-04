@@ -38,7 +38,7 @@ export class LocationSetupListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private uiLoaderService: NgxUiLoaderService) {
     // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.locationSearch();
