@@ -80,8 +80,8 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       
       });
       this.fileName = this.selectedData?.FileName;
-      this.base64 = this.selectedData?.Base64;
-      this.fileUploadformData = this.selectedData?.Base64;
+      // this.base64 = this.selectedData?.Base64;
+      // this.fileUploadformData = this.selectedData?.Base64;
     }
   }
   getAllRoles() {
@@ -127,6 +127,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   }
 
   fileNameChanged() {
+    debugger;
     let filesSelected: any;
     filesSelected = document.getElementById('customFile');
     filesSelected = filesSelected.files;
@@ -186,6 +187,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
 
       return;
     }
+    
     const obj = {
       documentId: this.selectedData.DocumentId ? this.selectedData.DocumentId  : 0,
       DocumentName: this.handbookSetupForm.controls['name'].value,

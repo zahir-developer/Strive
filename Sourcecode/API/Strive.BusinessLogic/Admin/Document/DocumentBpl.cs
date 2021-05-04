@@ -362,6 +362,22 @@ namespace Strive.BusinessLogic.Document
 
             return result;
         }
+        public Result UpdateDocument(DocumentDto documentModel)
+        {
+
+            string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
+
+            documentModel.Document.OriginalFileName = documentModel.Document.FileName;
+            documentModel.Document.FileName = fileName;
+            documentModel.Document.FilePath = GetUploadFolderPath(documentModel.DocumentType) + fileName;
+
+
+
+
+            return ResultWrap(new DocumentRal(_tenant).UpdateDocument, documentModel, "UpdateDocument");
+
+        }
+
 
         public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
         {

@@ -65,9 +65,10 @@ this.header = "Edit Employee Handbook";
   this.header = "Create Employee Handbook";
 
   this.actionType = "Add";
+  this.showDialog = true;
+
 }
   
-    this.showDialog = true;
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
@@ -151,7 +152,12 @@ this.header = "Edit Employee Handbook";
         const documentDetails = JSON.parse(res.resultData);
         if (documentDetails.Document !== null) {
           this.selectedData =  documentDetails.Document.Document;
-        
+          this.showDialog = true;
+
+        }
+        else{
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+
         }
       }
     },

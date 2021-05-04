@@ -62,6 +62,11 @@ namespace Admin.API.Controllers
 
             return _result;
         }
+      
+        [HttpPost]
+        [Route("UpdateDocument")]
+        public Result UpdateDocument([FromBody] DocumentDto documentModel) => _bplManager.UpdateDocument(documentModel);
+
 
         [HttpGet]
         [Route("GetDocument/{documentTypeId}/{documentType}")]
