@@ -67,9 +67,7 @@ INNER JOIN tblClientAddress tblca on tblc.ClientId = tblca.ClientId
 INNER JOIN tblJobItem tblji on tbj.JobId = tblji.JobId
 INNER JOIN GetTable('JobType') tbljt on tbljt.valueid = tbj.JobType
 LEFT JOIN tblVehicleMake tblvm on tblvm.MakeId = tbj.Make
-LEFT JOIN tblVehicleModel tblv on tblv.modelId = tbj.Model
---LEFT JOIN GetTable('VehicleManufacturer') tblvm on tblvm.valueid = tbj.Make
---LEFT JOIN GetTable('VehicleModel') tblv on tblv.valueid = tbj.Model
+LEFT JOIN tblVehicleModel tblv on tblv.modelId = tbj.Model and tblvm.MakeId = tblv.MakeId
 LEFT JOIN GetTable('VehicleColor') tblvc on tblvc.valueid = tbj.Color
 WHERE tbljt.valuedesc='Detail'
 AND isnull(tbj.IsDeleted,0)=0 

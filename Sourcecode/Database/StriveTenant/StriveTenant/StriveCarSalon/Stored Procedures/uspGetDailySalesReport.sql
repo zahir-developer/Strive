@@ -1,4 +1,5 @@
-﻿CREATE procedure [StriveCarSalon].[uspGetDailySalesReport] -- [StriveCarSalon].[uspGetDailySalesReport] '2020-12-24',2057
+﻿-- [StriveCarSalon].[uspGetDailySalesReport] '2020-12-24',2057
+CREATE   procedure [StriveCarSalon].[uspGetDailySalesReport] 
 @Date date , @LocationId int
 AS
 BEGIN

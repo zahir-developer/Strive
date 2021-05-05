@@ -46,8 +46,8 @@ Upcharge,
 Barcode 
 
 from  [tblClientVehicle] tclcv
-INNER JOIN GetTable('VehicleManufacturer') cvMfr ON tclcv.VehicleMfr = cvMfr.valueid
-INNER JOIN GetTable('VehicleModel') cvMo ON tclcv.VehicleModel = cvMo.valueid
+--LEFT JOIN tblVehicleMake vm ON(tclcv.VehicleMfr = vm.MakeId)
+--LEFT JOIN tblVehicleModel vmo ON(tclcv.VehicleModel = vmo.ModelId) and vm.MakeId = vmo.MakeId
 INNER JOIN GetTable('VehicleColor') cvCo ON tclcv.VehicleColor = cvCo.valueid
  where (tclcv.IsDeleted = 0 OR tclcv.IsDeleted IS NULL) AND ISNULL(IsActive,1) = 1  AND tclcv.IsActive = 1
 		 

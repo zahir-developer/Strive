@@ -16,8 +16,8 @@ SELECT
 tblj.JobId,
 cvl.VehicleId
 ,cvl.Barcode
-,cvMfr.valuedesc AS Make
-,cvMo.valuedesc AS Model
+,cvMfr.MakeValue AS Make
+,cvMo.ModelValue AS Model
 ,cvCo.valuedesc AS Color
 ,tblj.JobDate AS DetailVisitDate
 ,tbls.ServiceName 
@@ -27,8 +27,8 @@ cvl.VehicleId
 ,DENSE_RANK ()  OVER( PArtition BY tblj.VehicleId  ORDER BY tblj.JobId,Tblj.Jobdate DESC ) Ranking
 INTO #CLientVehicle
 FROM [tblClientVehicle] cvl
-INNER JOIN GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
-INNER JOIN GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
+LEFT JOIN tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
+LEFT JOIN tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId and cvMo.MakeId = cvMfr.MakeId
 INNER JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 INNER JOIN tblJob tblj ON tblj.VehicleId = cvl.VehicleId
 INNER JOIN tblJobItem tblji ON tblj.JobId = tblji.JobId

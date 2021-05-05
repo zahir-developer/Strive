@@ -1,5 +1,5 @@
 ﻿
-CREATE PROC  [StriveCarSalon].[uspGetEmployeeById] 
+CREATE PROCEDURE  [StriveCarSalon].[uspGetEmployeeById] 
 (@EmployeeId int)
 AS
 BEGIN
@@ -60,7 +60,7 @@ select row_number() OVER (
 	empli.ClientId,
 tblcl.FirstName + ' '+ tblcl.LastName as ClientName,
 	empLi.VehicleId,
-	cvMfr.valuedesc + ' '+	cvmo.valuedesc + ' '+ cvCo.valuedesc AS VehicleName,
+	cvMfr.MakeValue + ' '+	cvmo.ModelValue + ' '+ cvCo.valuedesc AS VehicleName,
   empLi.LiabilityId,
    empLiD.liabilityDetailId,
    lcv.valuedesc as LiabilityType,
@@ -81,10 +81,9 @@ tblcl.FirstName + ' '+ tblcl.LastName as ClientName,
    tblClient tblcl on empLi.ClientId = tblcl.ClientId
 
    LEFT JOIN tblClientVehicle cvl ON empLi.VehicleId = cvl.VehicleId
- 
-  LEFT JOIN GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
-LEFT JOIN GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
-LEFT JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+   LEFT JOIN tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
+   LEFT JOIN tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId and cvMo.MakeId = cvMfr.MakeId
+   LEFT JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 
    where isnull(empLi.IsActive,1)=1 and isnull(empLi.IsDeleted,0)=0  and empLi.EmployeeId = @EmployeeId  
 

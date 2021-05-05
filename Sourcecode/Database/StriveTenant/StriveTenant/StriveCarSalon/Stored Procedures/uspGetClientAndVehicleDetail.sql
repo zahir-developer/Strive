@@ -29,13 +29,14 @@ tblcv.VehicleId,
 tblcv.VehicleNumber,
 tblcv.VehicleMfr,
 tblcv.VehicleModel as VehicleModelId,
-gt.valuedesc as VehicleModel,
+vmo.ModelValue as VehicleModel,
 tblcv.VehicleColor,
 tblcv.VehicleModelNo,
 tblcv.VehicleYear
  from [tblClient] tblc 
  inner join [tblClientVehicle] tblcv on(tblc.ClientId = tblcv.ClientId) 
- inner join GetTable('VehicleModel') gt on(tblcv.VehicleModel = gt.valueid)
+ LEFT JOIN tblVehicleModel vmo ON(tblcv.VehicleModel = vmo.ModelId) and tblcv.VehicleMfr = vmo.MakeId
+ --inner join GetTable('VehicleModel') gt on(tblcv.VehicleModel = gt.valueid)
  AND
  tblcv.Barcode=@BarCode
  AND

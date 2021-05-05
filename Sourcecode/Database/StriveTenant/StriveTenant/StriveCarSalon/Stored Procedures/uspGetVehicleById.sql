@@ -24,11 +24,9 @@ FROM strivecarsalon.tblClientVehicle cvl
 
 --INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 --INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
+LEFT join tblVehicleMake make on cvl.VehicleMfr=make.MakeId
+LEFT join tblvehicleModel model on cvl.VehicleModel= model.ModelId and make.MakeId = model.MakeId
 INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
-
-left join tblVehicleMake make on cvl.VehicleMfr=make.MakeId
-left join tblvehicleModel model on cvl.VehicleModel= model.ModelId
-
 WHERE cvl.VehicleId in (@VehicleId) AND ISNULL(cvl.IsDeleted,0)=0
 
 END

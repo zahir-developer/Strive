@@ -1,11 +1,4 @@
-﻿USE [StriveTenant_Migration_Dev]
-GO
-/****** Object:  StoredProcedure [StriveCarSalon].[uspGetAllCheckOutDetails]    Script Date: 05-05-2021 23:58:03 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- ================================================
+﻿-- ================================================
 -- Author:		Vineeth B
 -- Create date: 17-08-2020
 -- Description:	Returns all jobs for checkout screen

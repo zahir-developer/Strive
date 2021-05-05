@@ -1,9 +1,4 @@
 ﻿
-
-
-
-
-
 -- ================================================
 -- Author:		Benny Johnson
 -- Create date: 01-08-2020
@@ -20,7 +15,7 @@
 
 ------------------------------------------------
 -- =============================================
-CREATE PROC [StriveCarSalon].[uspGetVehicleDetailByClientId] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleDetailByClientId] 
 (@ClientId int,@CurrentDate date = null)
 
 AS
@@ -76,10 +71,9 @@ FROM
 strivecarsalon.tblclient cl
 INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId
 LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
-left join strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
-
-Inner join tblVehicleMake make on cvl.VehicleMfr=make.MakeId
-inner join tblvehicleModel model on cvl.VehicleModel= model.ModelId
+LEFT JOIN strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
+LEFT JOIN tblVehicleMake make on cvl.VehicleMfr=make.MakeId
+LEFT JOIN tblvehicleModel model on cvl.VehicleModel= model.ModelId and make.MakeId = model.MakeId
 --LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 --LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid

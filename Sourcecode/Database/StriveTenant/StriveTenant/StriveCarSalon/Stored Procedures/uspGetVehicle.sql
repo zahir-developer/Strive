@@ -1,4 +1,4 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetVehicle] --[StriveCarSalon].[uspGetVehicle] 'bobcat',1,10,'asc','Vehiclenumber'
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetVehicle]
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
 @PageSize INT = NULL,	
@@ -42,8 +42,8 @@ strivecarsalon.tblclient cl
 INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
 LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 0 AND ISNULL(cvmd.IsActive,1) = 1
 LEFT JOIN strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId AND ISNULL(tblm.IsDeleted, 0) = 0 AND ISNULL(tblm.IsActive,1) = 1  
-LEFT JOIN strivecarsalon.tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
-LEFT JOIN strivecarsalon.tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId
+LEFT JOIN tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
+LEFT JOIN tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId and cvMo.MakeId = cvMfr.MakeId
 INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND
 
@@ -55,7 +55,6 @@ WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND
   (@Query is null or cvCo.valuedesc  like '%'+@Query+'%') OR
   (@Query is null or cvl.VehicleNumber  like '%'+@Query+'%'))
 GROUP BY
-
 	cvl.VehicleId
 	,cl.ClientId
 	 ,cl.FirstName ,

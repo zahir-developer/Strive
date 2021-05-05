@@ -75,11 +75,8 @@ LEFT join tblClient tblc on tbj.ClientId = tblc.ClientId
 --LEFT join StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
 LEFT join tblClientAddress tblca on tbj.ClientId = tblca.ClientId
 LEFT join GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid and tblcv.valuedesc='Wash Package'
-
 Left join tblVehicleMake make on tbj.Make=make.MakeId
-Left join tblvehicleModel model on tbj.Model= model.ModelId
---LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tbj.Make = cvMfr.valueid
---LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON tbj.Model = cvMo.valueid
+Left join tblvehicleModel model on tbj.Model= model.ModelId	and make.MakeId = model.MakeId
 LEFT JOIN GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid
 WHERE
 (tbj.locationId = @locationId OR @locationId is NULL)

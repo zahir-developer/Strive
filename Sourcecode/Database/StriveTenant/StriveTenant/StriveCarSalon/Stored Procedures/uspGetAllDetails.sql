@@ -18,12 +18,13 @@
 -- 24-11-2020, Vineeth - Add code for Upcharge
 -- 09-12-2020, Vineeth - Add outside service condition
 -- 23-04-2021, Zahir - Added JobType table to avoid invalid job records.
+-- 05-05-2021, Zahir - Used VehicleMake and VehicleModel table instead of Codevalue.
 
 ------------------------------------------------
  --[StriveCarSalon].[uspGetAllDetails] null,null,89
 -- =============================================
 
-CREATE proc [StriveCarSalon].[uspGetAllDetails]
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllDetails]
 (@JobDate Date = NULL, @LocationId int = NULL, @ClientId int = NULL
 , @Search varchar(50)=null
 )
@@ -105,8 +106,8 @@ tblb.BayName
 ,tblca.PhoneNumber
 ,SUBSTRING(CONVERT(VARCHAR(8),tblj.EstimatedTimeOut,108),0,6) AS EstimatedTimeOut
 ,(det.ServiceTypeName)ServiceTypeName
-,cvMfr.valuedesc AS VehicleMake
-,cvMo.valuedesc AS VehicleModel
+,cvMfr.MakeValue AS VehicleMake
+,cvMo.ModelValue AS VehicleModel
 ,cvCo.valuedesc AS VehicleColor
 ,ISNULL(upc.Price,0.00) AS Upcharge
 ,ISNULL(outs.OutsideService,'None')AS OutsideService
@@ -118,8 +119,8 @@ inner join tblClient tblc ON(tblj.ClientId = tblc.ClientId)
 inner join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
 inner join tblClientAddress tblca ON(tblj.ClientId = tblca.ClientId)
 inner join tblClientVehicle tblcv ON(tblc.ClientId = tblcv.ClientId and tblj.VehicleId = tblcv.VehicleId)
-LEFT join  GetTable('VehicleManufacturer') cvMfr ON tblcv.VehicleMfr = cvMfr.valueid
-LEFT join  GetTable('VehicleModel') cvMo ON tblcv.VehicleModel = cvMo.valueid
+LEFT JOIN tblVehicleMake cvMfr ON(tblcv.VehicleMfr = cvMfr.MakeId)
+LEFT JOIN tblVehicleModel cvMo ON(tblcv.VehicleModel = cvMo.ModelId) and cvMfr.MakeId = cvMo.MakeId
 inner join GetTable('VehicleColor') cvCo ON tblcv.VehicleColor = cvCo.valueid
 inner join tblJobItem tblji ON(tblj.JobId = tblji.JobId)
 inner join tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
@@ -163,8 +164,8 @@ and
 ISNULL(tblcv.IsDeleted,0)=0
 and 
  (@Search is null or tblj.TicketNumber like '%'+@Search+'%'
- or det.ServiceTypeName like '%'+@Search+'%' or cvMfr.valuedesc like '%'+@Search+'%'
- or cvMo.valuedesc like '%'+@Search+'%'
+ or det.ServiceTypeName like '%'+@Search+'%' or cvMfr.MakeValue like '%'+@Search+'%'
+ or cvMo.ModelValue like '%'+@Search+'%'
  or cvCo.valuedesc like '%'+@Search+'%')
 order by tblj.JobId
 
