@@ -46,6 +46,8 @@ export class PayrollsGridComponent implements OnInit {
   fileType: any;
   date = moment(new Date()).format('MM/DD/YYYY');
   fileTypeEvent: boolean = false;
+  location: any;
+  locationId: any;
 
   constructor(
     private payrollsService: PayrollsService,
@@ -69,8 +71,11 @@ export class PayrollsGridComponent implements OnInit {
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.payrollDateForm = this.fb.group({
       fromDate: ['', Validators.required],
-      toDate: ['', Validators.required]
+      toDate: ['', Validators.required],
+     
     });
+    this.location = JSON.parse(localStorage.getItem('empLocation'));
+    this.locationId = localStorage.getItem('empLocationId');
     this.isEditAdjustment = false;
     this.patchValue();
     this.fileExportType = [
@@ -84,6 +89,9 @@ export class PayrollsGridComponent implements OnInit {
   getFileType(event) {
     this.fileTypeEvent = true;
     this.fileType = +event.target.value;
+  }
+  getlocation(event) {
+    this.locationId = +event.target.value;
   }
   export() {
     this.payRollList
@@ -155,7 +163,7 @@ export class PayrollsGridComponent implements OnInit {
     this.runReport();
   }
   runReport() {
-    const locationId = localStorage.getItem('empLocationId');
+    const locationId = this.locationId;
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
     this.spinner.show();
