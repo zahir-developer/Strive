@@ -37,6 +37,7 @@ namespace Strive.ResourceAccess
         public string CreateTenant(TenantViewModel tenant)
         {
             _prm.Add("@FirstName", tenant.FirstName);
+            _prm.Add("@LastName", tenant.LastName);
             _prm.Add("@Address", tenant.Address);
             _prm.Add("@MobileNumber", tenant.MobileNumber);
             _prm.Add("@PhoneNumber", tenant.PhoneNumber);
@@ -48,7 +49,9 @@ namespace Strive.ResourceAccess
             _prm.Add("@PaymentDate", tenant.PaymentDate);
             _prm.Add("@SchemaPasswordHash", tenant.PasswordHash);
             _prm.Add("@ExpiryDate", tenant.ExpiryDate);
-
+            _prm.Add("ZipCode", tenant.ZipCode);
+            _prm.Add("@State", tenant.State);
+            _prm.Add("@City", tenant.City);
             var result = (string)db.Get<string>(EnumSP.Tenant.USPCREATETENANT.ToString(), _prm);
 
             return result;
@@ -60,6 +63,7 @@ namespace Strive.ResourceAccess
         public bool UpdateTenant(TenantViewModel tenant)
         {
             _prm.Add("@FirstName", tenant.FirstName);
+            _prm.Add("@LastName", tenant.LastName);
             _prm.Add("@Address", tenant.Address);
             _prm.Add("@MobileNumber", tenant.MobileNumber);
             _prm.Add("@PhoneNumber", tenant.PhoneNumber);
@@ -70,7 +74,9 @@ namespace Strive.ResourceAccess
             _prm.Add("@ExpiryDate", tenant.ExpiryDate);
             _prm.Add("@ClientId", tenant.ClientId);
             _prm.Add("@TenantId", tenant.TenantId);
-
+            _prm.Add("ZipCode", tenant.ZipCode);
+            _prm.Add("@State", tenant.State);
+            _prm.Add("@City", tenant.City);
             CommandDefinition cmd = new CommandDefinition(EnumSP.Tenant.USPUPDATETENANT.ToString(), _prm, commandType: CommandType.StoredProcedure);
             db.Save(cmd);
             return true;
