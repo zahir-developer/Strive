@@ -10,7 +10,8 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
-
+import * as _ from 'underscore';
+declare var $: any;
 @Component({
   selector: 'app-detail-schedule',
   templateUrl: './detail-schedule.component.html',
@@ -124,7 +125,7 @@ export class DetailScheduleComponent implements OnInit {
       jobDate: scheduleDate,
       locationId
     };
-    //this.getDetailScheduleStatus();
+    this.getDetailScheduleStatus();
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       if (res.status === 'Success') {
@@ -187,7 +188,7 @@ export class DetailScheduleComponent implements OnInit {
         });
         this.todayScheduleComponent.getTodayDateScheduleList();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -247,6 +248,21 @@ export class DetailScheduleComponent implements OnInit {
             });
           });
           this.dateCustomClasses = dateClass;
+          const scheduledDate = [];
+          this.scheduleDate.forEach(item => {
+            const jobDate = new Date(item.JobDate);
+            scheduledDate.push(jobDate.getDate());
+          });
+          console.log(scheduledDate, 'schedule');
+          const dat = $('td.ng-star-inserted span');
+          $('td.ng-star-inserted span').each(function (index) {
+            if (!$(this).hasClass('is-other-month')) {
+              console.log('text');
+              if (_.contains(scheduledDate, +($(this).text()))) {
+                this.style.color = 'red';
+              }
+            }
+          });
         }
       }
     }, (err) => {

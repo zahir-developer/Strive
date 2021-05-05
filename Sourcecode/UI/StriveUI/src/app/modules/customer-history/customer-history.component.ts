@@ -117,12 +117,13 @@ export class CustomerHistoryComponent implements OnInit {
         const history = JSON.parse(res.resultData);
         console.log(history, 'history');
         this.historyList = history.CustomerHistory.customerHistoryViewModel;
+        const totalCount = history.CustomerHistory.Count.Count;
         this.historyList.filter( item => {
           if (item.MembershipName === '') {
             item.MembershipName = 'No';
           }
         });
-        this.collectionSize = Math.ceil(this.historyList.length / this.pageSize) * 10;
+        this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
