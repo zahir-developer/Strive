@@ -1,4 +1,5 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetScheduleAndForcasted] --[StriveCarSalon].[uspGetScheduleAndForcasted]1,null,'2021-05-01','2021-05-01','2021-04-01','2021-01-01'
+﻿--[StriveCarSalon].[uspGetScheduleAndForcasted]1,null,'2021-05-01','2021-05-01','2021-04-01','2021-01-01'
+CREATE PROC [StriveCarSalon].[uspGetScheduleAndForcasted] 
 @LocationId int,
 @EmployeeId int = NULL,
 @ScheduledStartDate Date = NULL,--lastweek
@@ -28,10 +29,10 @@ SELECT
 	 tblsc.Comments,
 	 tbler.valuedesc as EmployeeRole,
 	 tblsc.IsDeleted INTO #Schedule
-FROM StriveCarSalon.tblSchedule as tblsc 
-left JOIN [StriveCarSalon].[tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
-INNER JOIN [StriveCarSalon].[tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
-LEFT JOIN [StriveCarSalon].[GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
+FROM tblSchedule as tblsc 
+left JOIN [tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
+INNER JOIN [tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
+LEFT JOIN [GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
 WHERE 
 (ISNULL(tblloc.IsActive,1) = 1 AND tblloc.IsDeleted = 0) AND
 (ISNULL(tblsc.IsDeleted,0)=0 AND ISNULL(tblsc.IsActive,1) = 1) AND 
@@ -65,7 +66,7 @@ WP.RainProbability,
 convert (decimal(18,2),(ISNULL(a.WashCount,0)*1.5)) AS WashTimeMinutes,
 a.JobDate ,
 WP.CreatedDate into #WashTime
-FROM [StriveCarSalon].[tblWeatherPrediction] WP
+FROM [tblWeatherPrediction] WP
 LEFT join #WashHours a on CONVERT(VARCHAR(10), wp.CreatedDate, 120) = a.JobDate
 WHERE
 WP.LocationId =@LocationId AND CONVERT(VARCHAR(10), wp.CreatedDate, 120) in (@ScheduledendDate,@ScheduledStartDate,@lastMonth,@lastThirdMonth) 

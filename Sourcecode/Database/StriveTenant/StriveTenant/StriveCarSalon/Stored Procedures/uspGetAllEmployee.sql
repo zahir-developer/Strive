@@ -1,5 +1,5 @@
 ﻿
-CREATE PROC  [StriveCarSalon].[uspGetAllEmployee] 
+CREATE PROCEDURE  [StriveCarSalon].[uspGetAllEmployee] 
 (@LocationId int)
 AS
 BEGIN

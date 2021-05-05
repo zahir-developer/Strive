@@ -1,4 +1,4 @@
-﻿CREATE proc [StriveCarSalon].[uspGetAllLocationName] --[StriveCarSalon].[uspGetAllLocationName] 
+﻿CREATE proc [StriveCarSalon].[uspGetAllLocationName]
 
 as 
 begin

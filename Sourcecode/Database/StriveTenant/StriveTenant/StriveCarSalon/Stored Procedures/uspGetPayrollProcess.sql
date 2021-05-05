@@ -1,5 +1,5 @@
-﻿
-Create PROCEDURE [StriveCarSalon].[uspGetPayrollProcess] --[StriveCarSalon].[uspGetPayrollProcess]'2021-01-22','2021-01-25',null
+﻿--[StriveCarSalon].[uspGetPayrollProcess]'2021-01-22','2021-01-25',null
+CREATE PROCEDURE [StriveCarSalon].[uspGetPayrollProcess] 
 @FromDate date,
 @ToDate date,
 @employeeId int null

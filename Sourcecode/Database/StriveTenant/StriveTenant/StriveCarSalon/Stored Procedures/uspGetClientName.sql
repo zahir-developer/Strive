@@ -12,8 +12,8 @@ Select
 	ca.Address2,
 	ca.PhoneNumber,
 	ca.PhoneNumber2
-	FROM [StriveCarSalon].tblclient cl 
-	inner join [StriveCarSalon].tblClientAddress as ca ON cl.ClientId=ca.ClientId 
+	FROM tblclient cl 
+	inner join tblClientAddress as ca ON cl.ClientId=ca.ClientId 
 	inner join strivecarsalon.GetTable('ClientType') ct ON cl.ClientType = ct.valueid
 	WHERE isnull(cl.IsDeleted,0)=0 and cl.IsActive = 1
 AND

@@ -3,10 +3,11 @@
 -- Author:		Zahir Hussain 
 -- Create date: 03-12-2020
 -- Description:	Gets the Daily Status - Detail Info and Wash Info 
+ --[StriveCarSalon].[uspGetDailyStatusInfo] 20,'2021-03-15'
 -- =============================================
 
 
-CREATE PROC [StriveCarSalon].[uspGetDailyStatusInfo] --[StriveCarSalon].[uspGetDailyStatusInfo] 20,'2021-03-15'
+CREATE PROC [StriveCarSalon].[uspGetDailyStatusInfo]
 (@LocationId int = null,@Date Date)
 AS
 BEGIN

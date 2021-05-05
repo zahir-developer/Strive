@@ -1,6 +1,6 @@
-﻿--[StriveCarSalon].[uspGetAllClientName] 'zahir'
-CREATE proc [StriveCarSalon].[uspGetAllClientName] 
---@locationId int null,
+﻿
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllClientName] 
+
 @Name varchar(max)null
 as 
 begin

@@ -1,8 +1,9 @@
 ﻿-- =============================================
 -- Author:		Shalini
 -- Create date: To get past week and month weather prediction
+ --[StriveCarSalon].[uspGetPastWeatherInfo] 2034,'2020-12-08', '2020-11-03', '2020-12-26','2020-09-03'
 -- =============================================
-CREATE PROCEDURE [StriveCarSalon].[uspGetPastWeatherInfo] --[StriveCarSalon].[uspGetPastWeatherInfo] 2034,'2020-12-08', '2020-11-03', '2020-12-26','2020-09-03'
+CREATE PROCEDURE [StriveCarSalon].[uspGetPastWeatherInfo]
 	(
 @LocationId int,
 @date date,
@@ -33,7 +34,7 @@ WP.TargetBusiness,
 WP.LocationId ,
 WP.CreatedDate,
 w.WashCount
-FROM [StriveCarSalon].[tblWeatherPrediction] WP
+FROM [tblWeatherPrediction] WP
 LEFT join #WashHours w on WP.LocationId=w.LocationId
 WHERE
 WP.LocationId =@LocationId AND CONVERT(VARCHAR(10), wp.CreatedDate, 120) in (@date,@lastweek,@lastMonth,@lastThirdMonth) 

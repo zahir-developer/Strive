@@ -26,31 +26,31 @@ SELECT
 	prd.ThresholdLimit,
 	loc.LocationName,
 	STUFF((SELECT DISTINCT ', ' + ven.VendorName
-    from [StriveCarSalon].[tblProductVendor] prodV
+    from [tblProductVendor] prodV
 	INNER JOIN [tblVendor] ven on ven.VendorId = prodV.VendorId
 	WHERE prodV.ProductId = prd.ProductId and prodV.IsDeleted = 0
     FOR XML PATH('')
 	), 1, 2, '')  AS VendorName,
 	STUFF((SELECT DISTINCT ', ' + CAST(ven.VendorId AS VARCHAR(5))
-    from [StriveCarSalon].[tblProductVendor] prodV
+    from [tblProductVendor] prodV
 	INNER JOIN [tblVendor] ven on ven.VendorId = prodV.VendorId
 	WHERE prodV.ProductId = prd.ProductId and prodV.IsDeleted = 0
     FOR XML PATH('')
 	), 1, 2, '')  AS VendorId,
 	STUFF((SELECT DISTINCT ', ' + TRIM(venAdd.PhoneNumber)
-    FROM [StriveCarSalon].[tblProductVendor] prodV
+    FROM [tblProductVendor] prodV
 	INNER JOIN [tblVendorAddress] venAdd on venAdd.VendorId = prodV.VendorId
 	WHERE prodV.ProductId = prd.ProductId and prodV.IsDeleted = 0
     FOR XML PATH('')
 	), 1, 2, '')  AS VendorPhone,
 	tbpt.valuedesc as ProductTypeName,
 	tbsz.valuedesc as SizeName
-FROM [StriveCarSalon].[tblProduct] prd
-INNER JOIN [StriveCarSalon].[tblLocation] as loc ON (prd.LocationId = loc.LocationId)
+FROM [tblProduct] prd
+INNER JOIN [tblLocation] as loc ON (prd.LocationId = loc.LocationId)
 
---LEFT JOIN [StriveCarSalon].[tblVendor] as ven ON (prodven.ProductVendorId = ven.VendorId)
-LEFT JOIN [StriveCarSalon].[GetTable]('ProductType') tbpt ON (prd.ProductType = tbpt.valueid)
-LEFT JOIN [StriveCarSalon].[GetTable]('Size') tbsz ON (prd.Size = tbsz.valueid)
+--LEFT JOIN [tblVendor] as ven ON (prodven.ProductVendorId = ven.VendorId)
+LEFT JOIN [GetTable]('ProductType') tbpt ON (prd.ProductType = tbpt.valueid)
+LEFT JOIN [GetTable]('Size') tbsz ON (prd.Size = tbsz.valueid)
 
 WHERE isnull(prd.IsDeleted,0)=0
 AND

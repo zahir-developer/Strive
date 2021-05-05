@@ -1,12 +1,11 @@
-﻿CREATE Procedure [StriveCarSalon].[uspGetAccountDetails] --[StriveCarSalon].[uspGetAccountDetails]'993306'
+﻿
+CREATE Procedure [StriveCarSalon].[uspGetAccountDetails]
 @TicketNumber varchar(10)
 
 as begin
 Declare @CurrentDate DateTime 
 
 Set @CurrentDate=(SELECT CAST(GETDATE() as Date))
-
-
 
 Select tblcli.Clientid,tbljb.TicketNumber,
 tblcli.Amount,Tblcli.IsCreditAccount From tblJob tbljb 

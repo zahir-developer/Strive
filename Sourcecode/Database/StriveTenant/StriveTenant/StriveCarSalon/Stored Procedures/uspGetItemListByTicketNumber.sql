@@ -1,6 +1,6 @@
 ﻿
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- [StriveCarSalon].[uspGetItemListByTicketNumber]'993311' '651284,537631,566450,118839,833659'
+ -- [StriveCarSalon].[uspGetItemListByTicketNumber]'993311' '651284,537631,566450,118839,833659'
+CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber]
 @TicketNumber varchar(max),
 @LocationId INT = NULL
 AS 

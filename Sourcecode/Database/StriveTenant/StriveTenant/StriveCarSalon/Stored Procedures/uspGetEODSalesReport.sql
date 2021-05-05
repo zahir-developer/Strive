@@ -2,8 +2,9 @@
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
+-- [StriveCarSalon].[uspGetEODSalesReport] 0
 -- =============================================
-CREATE PROCEDURE [StriveCarSalon].[uspGetEODSalesReport] -- [StriveCarSalon].[uspGetEODSalesReport] 0
+CREATE PROCEDURE [StriveCarSalon].[uspGetEODSalesReport] 
 	@LocationId INT,
 	@FromDate datetime = NULL,
 	@EndDate datetime = NULL

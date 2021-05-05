@@ -1,3 +1,3 @@
-﻿CREATE USER [StriveDev] FOR LOGIN [StriveDev]
+﻿CREATE USER [StriveDev] FOR LOGIN [StriveDevUser]
     WITH DEFAULT_SCHEMA = [StriveCarSalon];
 

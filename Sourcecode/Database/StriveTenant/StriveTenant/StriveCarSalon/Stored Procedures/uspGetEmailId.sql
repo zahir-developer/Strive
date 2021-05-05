@@ -1,4 +1,5 @@
-﻿CREATE proc [StriveCarSalon].[uspGetEmailId] --[StriveCarSalon].[uspGetEmailId] null
+﻿--[StriveCarSalon].[uspGetEmailId] null
+CREATE proc [StriveCarSalon].[uspGetEmailId] 
  @LocationId int =null
 as 
 begin 

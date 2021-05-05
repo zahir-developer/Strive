@@ -34,7 +34,7 @@ ProductId,
 Status,
 el.CreatedDate
 FROM 
-strivecarsalon.tblEmployeeLiability el
+tblEmployeeLiability el
 LEFT JOIN tblClient cl on cl.ClientId = el.ClientId
 
 WHERE
@@ -50,9 +50,9 @@ tbleld.PaymentType ,
 tbleld.DocumentPath, 
 tbleld.Description 
 FROM
-[StriveCarSalon].[tblEmployeeLiabilityDetail] tbleld
+[tblEmployeeLiabilityDetail] tbleld
 INNER JOIN
-strivecarsalon.tblEmployeeLiability tblel 
+tblEmployeeLiability tblel 
 ON tbleld.LiabilityId = tblel.LiabilityId
 WHERE
 tblel.isDeleted = 0 and

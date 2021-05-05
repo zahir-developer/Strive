@@ -1,12 +1,13 @@
 ﻿
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetAvailableTimeSlot] --[StriveCarSalon].[uspGetAvailableTimeSlot] 2061,'2021-01-04'
-(@LocationId INT, @Date Date)
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 14-12-2020
 -- Description:	To get Available Time Slot Details
 -- =============================================
+--[StriveCarSalon].[uspGetAvailableTimeSlot] 2061,'2021-01-04'
+
+CREATE PROCEDURE [StriveCarSalon].[uspGetAvailableTimeSlot] 
+(@LocationId INT, @Date Date)
 AS
 BEGIN
 DROP TABLE IF EXISTS #TimeSlot

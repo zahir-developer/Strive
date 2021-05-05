@@ -10,6 +10,6 @@ EmployeeDocumentId
 ,[Password]
 ,IsPasswordProtected
 ,IsActive
-from [StriveCarSalon].[tblEmployeeDocument]
+from [tblEmployeeDocument]
 WHERE EmployeeDocumentId=@DocumentId AND (IsDeleted = 0 OR IsDeleted IS NULL)
 end

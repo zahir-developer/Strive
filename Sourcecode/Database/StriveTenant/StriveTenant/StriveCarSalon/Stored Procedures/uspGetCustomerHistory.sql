@@ -18,7 +18,7 @@ END
 
 IF @PageSize is NULL
 BEGIN
-SET @PageSize = (Select count(1) from StriveCarSalon.tblClient);
+SET @PageSize = (Select count(1) from tblClient);
 SET @PageNo = 1;
 SET @Skip = @PageSize * (@PageNo-1);
 Print @PageSize
@@ -166,7 +166,7 @@ select * from #GetCustomerDetails
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from StriveCarSalon.tblClient where 
+select count(1) as Count from tblClient where 
 ISNULL(IsDeleted,0) = 0 
 
 END

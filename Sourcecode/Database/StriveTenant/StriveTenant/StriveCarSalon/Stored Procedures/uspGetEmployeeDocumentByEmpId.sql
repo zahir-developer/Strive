@@ -12,6 +12,6 @@ EmployeeDocumentId
 ,Comments
 ,IsActive
 ,CreatedDate
-from [StriveCarSalon].[tblEmployeeDocument]
+from [tblEmployeeDocument]
 WHERE EmployeeId=@EmployeeId AND (IsDeleted = 0 OR IsDeleted IS NULL)
 end

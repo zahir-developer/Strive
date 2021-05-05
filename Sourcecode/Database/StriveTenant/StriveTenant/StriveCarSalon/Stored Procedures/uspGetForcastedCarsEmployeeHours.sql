@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetForcastedCarsEmployeeHours] -- [StriveCarSalon].[uspGetForcastedCarsEmployeeHours] 1,'2021-05-01','2021-04-24','2021-04-01','2021-01-01'
+﻿-- [StriveCarSalon].[uspGetForcastedCarsEmployeeHours] 1,'2021-05-01','2021-04-24','2021-04-01','2021-01-01'
+CREATE PROCEDURE [StriveCarSalon].[uspGetForcastedCarsEmployeeHours] 
 (
 @LocationId int,
 @date date,
@@ -24,14 +25,12 @@ WP.RainProbability,
 convert (decimal(18,2),(ISNULL(a.WashCount,0)*1.5)) AS WashTimeMinutes,
 a.JobDate ,
 WP.CreatedDate into #WashTime
-FROM [StriveCarSalon].[tblWeatherPrediction] WP
+FROM [tblWeatherPrediction] WP
 LEFT join #WashHours a on CONVERT(VARCHAR(10), wp.CreatedDate, 120) = a.JobDate
 WHERE
 WP.LocationId =@LocationId AND CONVERT(VARCHAR(10), wp.CreatedDate, 120) in (@date,@lastweek,@lastMonth,@lastThirdMonth) 
 and wp.Weather IS NOT NULL AND WP.RainProbability IS nOT NULL 
 ORDER BY CreatedDate DESC
-
-select * from #WashTime
 
 DECLARE @AvgCount INT = (Select count(1) from #WashTime WHERE WashTimeMinutes >0 )
 

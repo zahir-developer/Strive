@@ -12,9 +12,10 @@
 -- Create date: 09-11-2020
 -- Description:	Gets the Daily tips detail 
 -- =============================================
+ -- [StriveCarSalon].[uspGetDailyClockDetail] '2020-11-09', 1
 
 
-CREATE PROC [StriveCarSalon].[uspGetDailyClockDetail] -- [StriveCarSalon].[uspGetDailyClockDetail] '2020-11-09', 1
+CREATE PROC [StriveCarSalon].[uspGetDailyClockDetail]
 (@Date Date = null, @locationId int = null)
 AS
 BEGIN

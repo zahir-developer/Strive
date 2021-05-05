@@ -1,5 +1,5 @@
 ﻿
-CREATE proc [StriveCarSalon].[uspGetAllGiftCards]
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllGiftCards]
 (@Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
 @PageSize INT = NULL,

@@ -1,5 +1,5 @@
-﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetEmployeeRoleById] --[StriveCarSalon].[uspGetEmployeeRoleById] 144
+﻿--[StriveCarSalon].[uspGetEmployeeRoleById] 144
+CREATE PROCEDURE [StriveCarSalon].[uspGetEmployeeRoleById] 
 (@EmployeeId int)
 AS
 BEGIN
@@ -9,8 +9,8 @@ BEGIN
   ,empr.EmployeeRoleId
   , empr.roleid
   ,rm.RoleName as rolename
-   from strivecarsalon.tblEmployeeRole empr
-    inner join   StriveCarSalon.tblRoleMaster rm on empr.RoleId = rm.RoleMasterId 
+   from tblEmployeeRole empr
+    inner join   tblRoleMaster rm on empr.RoleId = rm.RoleMasterId 
    where empr.EmployeeId=@EmployeeId  and isnull(empr.IsDeleted,0)=0
 
 END

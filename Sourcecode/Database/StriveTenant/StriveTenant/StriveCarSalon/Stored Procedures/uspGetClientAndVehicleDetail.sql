@@ -33,9 +33,9 @@ gt.valuedesc as VehicleModel,
 tblcv.VehicleColor,
 tblcv.VehicleModelNo,
 tblcv.VehicleYear
- from [StriveCarSalon].[tblClient] tblc 
- inner join [StriveCarSalon].[tblClientVehicle] tblcv on(tblc.ClientId = tblcv.ClientId) 
- inner join [StriveCarSalon].GetTable('VehicleModel') gt on(tblcv.VehicleModel = gt.valueid)
+ from [tblClient] tblc 
+ inner join [tblClientVehicle] tblcv on(tblc.ClientId = tblcv.ClientId) 
+ inner join GetTable('VehicleModel') gt on(tblcv.VehicleModel = gt.valueid)
  AND
  tblcv.Barcode=@BarCode
  AND

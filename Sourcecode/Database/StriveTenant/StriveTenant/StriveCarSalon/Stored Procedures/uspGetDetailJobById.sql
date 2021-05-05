@@ -57,21 +57,20 @@ tbj.JobId
 when (ps.valuedesc != 'Success'OR tbljp.PaymentStatus IS NULL) then 'False'
 when ps.valuedesc = 'Success' then 'True'
 End AS IsPaid
-from 
-StriveCarSalon.tblJob tbj with(nolock)
+from tblJob tbj with(nolock)
 LEFT JOIN	tblJobPayment tbljp  WITH(NOLOCK) ON tbj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
 LEFT JOIN	GetTable('PaymentStatus') ps ON(tbljp.PaymentStatus = ps.valueid)
-LEFT JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
-INNER JOIN StriveCarSalon.tblJobDetail tbljd on tbj.JobId = tbljd.JobId
-INNER JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
-INNER JOIN StriveCarSalon.tblClientAddress tblca on tblc.ClientId = tblca.ClientId
-INNER JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
-INNER JOIN StriveCarSalon.GetTable('JobType') tbljt on tbljt.valueid = tbj.JobType
+LEFT JOIN tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
+INNER JOIN tblJobDetail tbljd on tbj.JobId = tbljd.JobId
+INNER JOIN tblClient tblc on tbj.ClientId = tblc.ClientId
+INNER JOIN tblClientAddress tblca on tblc.ClientId = tblca.ClientId
+INNER JOIN tblJobItem tblji on tbj.JobId = tblji.JobId
+INNER JOIN GetTable('JobType') tbljt on tbljt.valueid = tbj.JobType
 LEFT JOIN tblVehicleMake tblvm on tblvm.MakeId = tbj.Make
 LEFT JOIN tblVehicleModel tblv on tblv.modelId = tbj.Model
---LEFT JOIN StriveCarSalon.GetTable('VehicleManufacturer') tblvm on tblvm.valueid = tbj.Make
---LEFT JOIN StriveCarSalon.GetTable('VehicleModel') tblv on tblv.valueid = tbj.Model
-LEFT JOIN StriveCarSalon.GetTable('VehicleColor') tblvc on tblvc.valueid = tbj.Color
+--LEFT JOIN GetTable('VehicleManufacturer') tblvm on tblvm.valueid = tbj.Make
+--LEFT JOIN GetTable('VehicleModel') tblv on tblv.valueid = tbj.Model
+LEFT JOIN GetTable('VehicleColor') tblvc on tblvc.valueid = tbj.Color
 WHERE tbljt.valuedesc='Detail'
 AND isnull(tbj.IsDeleted,0)=0 
 AND isnull(tblji.IsDeleted,0)=0
@@ -91,10 +90,10 @@ ISNULL(ct.valuedesc,'') CommissionType,
 ISNULL(s.CommissionCost,0.00) CommissionCost,
 s.ServiceName,
 s.Cost
-from StriveCarSalon.tblJobItem tblji with(nolock)
-INNER JOIN StriveCarSalon.tblService s ON s.ServiceId = tblji.ServiceId
-LEFT JOIN StriveCarSalon.GetTable('CommisionType') ct on ct.valueid = s.CommisionType
-LEFT JOIN StriveCarSalon.tblJobServiceEmployee tblJSE ON tblji.JobItemId= tblJSE.JobItemId
+from tblJobItem tblji with(nolock)
+INNER JOIN tblService s ON s.ServiceId = tblji.ServiceId
+LEFT JOIN GetTable('CommisionType') ct on ct.valueid = s.CommisionType
+LEFT JOIN tblJobServiceEmployee tblJSE ON tblji.JobItemId= tblJSE.JobItemId
 WHERE tblji.JobId = @JobId
 AND isnull(tblji.IsDeleted,0)=0
 AND tblji.IsActive=1
@@ -108,11 +107,11 @@ tbls.Cost,
 tbljse.EmployeeId,
 ISNULL(tbljse.CommissionAmount,'0.00')CommissionAmount,
 CONCAT(tble.FirstName,' ',tble.LastName) AS EmployeeName
-from StriveCarSalon.tblJobServiceEmployee tbljse with(nolock) 
-INNER JOIN StriveCarSalon.tblJobItem tblji ON tbljse.JobItemId = tblji.JobItemId
-INNER JOIN StriveCarSalon.tblService tbls ON(tbljse.ServiceId = tbls.ServiceId)
-INNER JOIN StriveCarSalon.tblEmployee tble ON(tbljse.EmployeeId = tble.EmployeeId)
-INNER JOIN StriveCarSalon.tblEmployeeAddress tblea ON(tble.EmployeeId = tblea.EmployeeId)
+from tblJobServiceEmployee tbljse with(nolock) 
+INNER JOIN tblJobItem tblji ON tbljse.JobItemId = tblji.JobItemId
+INNER JOIN tblService tbls ON(tbljse.ServiceId = tbls.ServiceId)
+INNER JOIN tblEmployee tble ON(tbljse.EmployeeId = tble.EmployeeId)
+INNER JOIN tblEmployeeAddress tblea ON(tble.EmployeeId = tblea.EmployeeId)
 
 WHERE tblji.JobId =@JobId
 AND isnull(tblji.IsDeleted,0)=0

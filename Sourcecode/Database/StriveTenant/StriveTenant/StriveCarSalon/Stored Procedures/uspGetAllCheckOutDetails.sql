@@ -1,4 +1,11 @@
-﻿-- ================================================
+﻿USE [StriveTenant_Migration_Dev]
+GO
+/****** Object:  StoredProcedure [StriveCarSalon].[uspGetAllCheckOutDetails]    Script Date: 05-05-2021 23:58:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ================================================
 -- Author:		Vineeth B
 -- Create date: 17-08-2020
 -- Description:	Returns all jobs for checkout screen
@@ -11,7 +18,7 @@
 --24-03-2021 - Zahir - Query optimized by reusing job and jobitem tables
 --23-04-2021 - Zahir - JOB Status join changed to Left from Inner.
 
-CREATE  procedure [StriveCarSalon].[uspGetAllCheckOutDetails]
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllCheckOutDetails]
 @locationId int =null,
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
@@ -93,8 +100,8 @@ tblj.TicketNumber,
 tblj.IsHold,
 tblc.FirstName AS CustomerFirstName,
 tblc.LastName AS CustomerLastName,
-vm.valuedesc AS VehicleMake,
-vmo.valuedesc AS VehicleModel,
+vm.MakeValue AS VehicleMake,
+vmo.ModelValue AS VehicleModel,
 vc.valuedesc AS VehicleColor,
 CONCAT(vm.valuedesc,' ',vmo.valuedesc,'/',vc.valuedesc) AS VehicleDescription,
 tbls.ServiceName,
@@ -146,10 +153,10 @@ INNER JOIN
 	tblClient tblc  WITH(NOLOCK) ON(tblj.ClientId = tblc.ClientId)
 INNER JOIN
 	tblClientVehicle tblcv  WITH(NOLOCK) ON(tblj.VehicleId = tblcv.VehicleId)
-INNER JOIN
-	GetTable('VehicleManufacturer') vm ON(tblcv.VehicleMfr = vm.valueid)
-INNER JOIN
-	GetTable('VehicleModel') vmo ON(tblcv.VehicleModel = vmo.valueid)
+LEFT JOIN 
+	tblVehicleMake vm ON(tblcv.VehicleMfr = vm.MakeId)
+LEFT JOIN
+	tblVehicleModel vmo ON(tblcv.VehicleModel = vmo.ModelId) and vm.MakeId = vmo.MakeId
 INNER JOIN
 	GetTable('VehicleColor') vc ON(tblcv.VehicleColor = vc.valueid)
 INNER JOIN

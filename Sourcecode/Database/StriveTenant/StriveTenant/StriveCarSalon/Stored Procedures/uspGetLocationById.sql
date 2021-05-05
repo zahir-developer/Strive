@@ -108,7 +108,7 @@ SELECT DISTINCT
 	   CONVERT(VARCHAR(5),tbll.EndTime,108) AS EndTime
 	   
 
-FROM [StriveCarSalon].[tblLocation]  tbll
+FROM [tblLocation]  tbll
 LEFT JOIN #WashTime wt
 ON(tbll.LocationId = wt.LocationId)
 WHERE 
@@ -131,7 +131,7 @@ tblla.LocationAddressId	,
 	   tblla.Longitude,
 	   tblla.Latitude,
 	   tblla.WeatherLocationId
-	   from [StriveCarSalon].[tblLocation] tbll inner join [StriveCarSalon].[tblLocationAddress] tblla
+	   from [tblLocation] tbll inner join [tblLocationAddress] tblla
 		   ON(tbll.LocationId = tblla.LocationId)
            WHERE tbll.LocationId = @tblLocationId AND
 		   isnull(tblla.IsActive,1) = 1 AND
@@ -145,7 +145,7 @@ DrawerId,
 DrawerName,
 LocationId
 
-FROM [StriveCarSalon].[tblDrawer]
+FROM [tblDrawer]
 WHERE LocationId =@tblLocationId AND
 isnull(IsActive,1) = 1 AND
 isnull(isDeleted,0) = 0
@@ -161,7 +161,7 @@ tbllo.OffSetC,
 tbllo.OffSetD,
 tbllo.OffSetE,
 tbllo.OffSetF	   
-FROM [StriveCarSalon].[tblLocationOffset] tbllo
+FROM [tblLocationOffset] tbllo
 WHERE	tbllo.LocationId =@tblLocationId AND
 isnull(IsActive,1) = 1 AND
 isnull(isDeleted,0) = 0

@@ -18,7 +18,7 @@ END
 
 IF @PageSize is NULL
 BEGIN
-SET @PageSize = (Select count(1) from StriveCarSalon.tblService);
+SET @PageSize = (Select count(1) from tblService);
 SET @PageNo = 1;
 SET @Skip = @PageSize * (@PageNo-1);
 Print @PageSize
@@ -49,11 +49,11 @@ SELECT
 	svc.DiscountType,
 	isnull(svc.IsActive,1) as IsActive
 	into #GetAllServices
-	FROM [StriveCarSalon].tblService svc 
-	INNER JOIN [StriveCarSalon].[tblLocation] as loc ON (svc.LocationId = loc.LocationId)
-	LEFT JOIN [striveCarSalon].GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
-	LEFT JOIN [striveCarSalon].GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
-	LEFT JOIN [striveCarSalon].GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
+	FROM tblService svc 
+	INNER JOIN [tblLocation] as loc ON (svc.LocationId = loc.LocationId)
+	LEFT JOIN GetTable('ServiceType') cv ON (svc.ServiceType = cv.valueid)
+	LEFT JOIN GetTable('CommisionType') ct ON (svc.CommisionType = ct.valueid)	
+	LEFT JOIN GetTable('ServiceType') c ON (svc.DiscountServiceType = c.valueid)
 WHERE  (@ServiceId is null or svc.ServiceId = @ServiceId) and   isnull(svc.IsDeleted,0)=0
 AND
  @Query is null or cv.valuedesc like '%'+@Query+'%'

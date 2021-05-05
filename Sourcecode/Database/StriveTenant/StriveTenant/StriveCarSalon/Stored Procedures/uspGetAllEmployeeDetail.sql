@@ -17,7 +17,7 @@
 -- [StriveCarSalon].[uspGetAllEmployeeDetail] 'Zac',1,10,'ASC',firstname
 -- =============================================
 
-CREATE PROC [StriveCarSalon].[uspGetAllEmployeeDetail]
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllEmployeeDetail]
 
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,

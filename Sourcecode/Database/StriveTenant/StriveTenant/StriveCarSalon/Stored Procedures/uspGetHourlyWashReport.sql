@@ -23,7 +23,7 @@ SELECT
 INTO 
 	#WashHours
 FROM 
-	strivecarsalon.tblJob J
+	tblJob J
 WHERE 
 	LocationId = @locationId AND JobType=@WashJobType AND JobStatus = @JobCompleted 
 		AND JobDate BETWEEN @fromDate AND @endDate

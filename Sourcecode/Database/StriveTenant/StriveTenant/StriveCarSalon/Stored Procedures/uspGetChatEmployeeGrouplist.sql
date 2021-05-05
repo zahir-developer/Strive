@@ -11,8 +11,8 @@ AS
 BEGIN
 
 SELECT DISTINCT grp.ChatGroupId,GroupName, grp.GroupId
-from StriveCarSalon.tblChatGroup grp
-JOIN StriveCarSalon.tblChatUserGroup uGrp on uGrp.chatgroupId = grp.chatGroupId
+from tblChatGroup grp
+JOIN tblChatUserGroup uGrp on uGrp.chatgroupId = grp.chatGroupId
 where ugrp.UserId = @EmployeeId OR @EmployeeId is NULL
 
 END
