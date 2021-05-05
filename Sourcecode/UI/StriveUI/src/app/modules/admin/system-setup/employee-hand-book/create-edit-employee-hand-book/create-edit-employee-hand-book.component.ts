@@ -76,12 +76,12 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     debugger;
       this.handbookSetupForm.patchValue({
         name: this.selectedData?.DocumentName,
-        roleId: this.selectedData.roleId,
-      
+        roleId: this.selectedData?.RoleId,
+        uploadBy:  this.selectedData?.FileName
       });
       this.fileName = this.selectedData?.FileName;
-      // this.base64 = this.selectedData?.Base64;
-      // this.fileUploadformData = this.selectedData?.Base64;
+       this.base64 = this.selectedData?.Base64;
+       this.fileUploadformData = this.selectedData?.Base64;
     }
   }
   getAllRoles() {
@@ -189,7 +189,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     }
     
     const obj = {
-      documentId: this.selectedData.DocumentId ? this.selectedData.DocumentId  : 0,
+      documentId: this.selectedData.DocumentId ? +this.selectedData.DocumentId  : 0,
       DocumentName: this.handbookSetupForm.controls['name'].value,
       DocumentSubType: null,
       documentType: this.documentTypeId,
@@ -204,7 +204,7 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      roleId: this.handbookSetupForm.controls['roleId'].value,
+      roleId: +this.handbookSetupForm.controls['roleId'].value,
     };
     const finalObj = {
       document: obj,
