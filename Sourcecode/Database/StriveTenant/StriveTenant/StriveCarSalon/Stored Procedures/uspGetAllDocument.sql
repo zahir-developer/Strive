@@ -1,5 +1,5 @@
-﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllDocument] --[StriveCarSalon].[uspGetAllDocument]656
+﻿--[StriveCarSalon].[uspGetAllDocument]656
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllDocument] 
 @DocumentType int
 AS
 BEGIN
@@ -17,10 +17,10 @@ DocumentId
 ,doc.CreatedDate
 ,doc.UpdatedDate
 ,doc.IsActive
-from [StriveCarSalon].[tblDocument] doc
-LEFT JOIN StriveCarSalon.tblEmployee emp on doc.CreatedBy = emp.EmployeeId
+from [tblDocument] doc
+LEFT JOIN tblEmployee emp on doc.CreatedBy = emp.EmployeeId
 LEFT JOIN GetTable('DocumentSubtype') docSubType on docSubType.valueId = doc.DocumentSubType
-LEFT JOIN StriveCarSalon.tblRoleMaster r on doc.RoleId = r.RoleMasterId
+LEFT JOIN tblRoleMaster r on doc.RoleId = r.RoleMasterId
 
 WHERE DocumentType=@DocumentType AND (ISNULL(doc.IsDeleted,0) = 0)
 ORDER BY 1 DESC

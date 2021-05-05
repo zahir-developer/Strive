@@ -17,6 +17,6 @@ tbllo.OffSetC,
 tbllo.OffSetD,
 tbllo.OffSetE,
 tbllo.OffSetF	   
-FROM [StriveCarSalon].[tblLocationOffset] tbllo
+FROM [tblLocationOffset] tbllo
  Order By tbllo.LocationId desc
 END

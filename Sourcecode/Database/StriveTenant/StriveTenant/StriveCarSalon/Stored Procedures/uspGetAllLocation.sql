@@ -1,8 +1,4 @@
 ﻿
-
-
-
-
 -- =============================================================
 -- Author:         Vineeth.B
 -- Created date:   2020-07-01
@@ -32,7 +28,7 @@ SELECT tbll.LocationId,
 	   tblla.Latitude,
 	   tblla.Longitude,
 	   tblla.PhoneNumber,
-	   STUFF((SELECT  ', ' + le.EmailAddress  
+	   STUFF((SELECT Distinct ', ' + le.EmailAddress  
     FROM [tblLocationEmail] le
 	WHERE le.LocationId = tbll.LocationId
     FOR XML PATH('')
@@ -57,13 +53,13 @@ SELECT tbll.LocationId,
 	   tbls.valuedesc as State,	 
 	   isnull(tbll.IsActive,1) AS IsActive,
 	  tbll.IsDeleted	   
-FROM [StriveCarSalon].[tblLocation] tbll 
-LEFT JOIN [StriveCarSalon].[tblLocationAddress] tblla ON(tbll.LocationId = tblla.LocationId)
-LEFT JOIN [StriveCarSalon].[tblLocationOffset] tbllo ON (tbll.LocationId =tbllo.LocationId)
-LEFT JOIN [StriveCarSalon].GetTable('City') tblc ON(tblla.city = tblc.valueid)
-LEFT JOIN [StriveCarSalon].GetTable('State') tbls ON(tblla.State = tbls.valueid)
-LEFT JOIN [StriveCarSalon].GetTable('Country') tblco ON(tblla.Country = tblco.valueid)
-LEFT JOIN [StriveCarSalon].GetTable('LocationType') tblcv ON(tbll.LocationType = tblcv.valueid)
+FROM [tblLocation] tbll 
+LEFT JOIN [tblLocationAddress] tblla ON(tbll.LocationId = tblla.LocationId)
+LEFT JOIN [tblLocationOffset] tbllo ON (tbll.LocationId =tbllo.LocationId)
+LEFT JOIN GetTable('City') tblc ON(tblla.city = tblc.valueid)
+LEFT JOIN GetTable('State') tbls ON(tblla.State = tbls.valueid)
+LEFT JOIN GetTable('Country') tblco ON(tblla.Country = tblco.valueid)
+LEFT JOIN GetTable('LocationType') tblcv ON(tbll.LocationType = tblcv.valueid)
 
 WHERE
 isnull(tbll.IsDeleted,0)=0 and

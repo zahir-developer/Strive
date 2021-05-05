@@ -18,7 +18,7 @@ END
 
 IF @PageSize is NULL
 BEGIN
-SET @PageSize = (Select count(1) from StriveCarSalon.tblGiftCard);
+SET @PageSize = (Select count(1) from tblGiftCard);
 SET @PageNo = 1;
 SET @Skip = @PageSize * (@PageNo-1);
 Print @PageSize
@@ -35,7 +35,7 @@ select
 GiftCardId,
 SUM(gh.TransactionAmount) Balance
 INTO #GiftCardHistory
-from StriveCarSalon.tblGiftCardHistory gh
+from tblGiftCardHistory gh
 group by GiftCardId
 
 select 
@@ -52,9 +52,9 @@ gc.IsDeleted,
 tblCli.FirstName,
 tblCli.LastName
 into #GetAllGiftCard
-from [StriveCarSalon].[tblGiftCard] gc
+from [tblGiftCard] gc
 LEFT JOIN #GiftCardHistory gh on gh.GiftCardId = gc.GiftCardId
-left Join [StriveCarSalon].[tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
+left Join [tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
 where gc.IsDeleted =0 and gc.IsActive=1 and ( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
  and (
 @Query is null OR	gc.GiftCardName like '%'+@Query+'%'
@@ -92,7 +92,7 @@ select * from #GetAllGiftCard
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from StriveCarSalon.tblGiftCard where 
+select count(1) as Count from tblGiftCard where 
 ISNULL(IsDeleted,0) = 0 
 
 END

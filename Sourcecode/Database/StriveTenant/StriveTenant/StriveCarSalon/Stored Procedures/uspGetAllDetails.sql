@@ -1,5 +1,4 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth B
 -- Create date: 05-09-2020
 -- Description:	To show data in DetailsGrid
@@ -17,11 +16,14 @@
 -- 29-09-2020, Vineeth - Add bracket in Details
 --						 and Outside service
 -- 24-11-2020, Vineeth - Add code for Upcharge
--- 09-12-2020, Vineeth - Add outside service cond
+-- 09-12-2020, Vineeth - Add outside service condition
+-- 23-04-2021, Zahir - Added JobType table to avoid invalid job records.
+
 ------------------------------------------------
+ --[StriveCarSalon].[uspGetAllDetails] null,null,89
 -- =============================================
 
-CREATE proc [StriveCarSalon].[uspGetAllDetails] --[StriveCarSalon].[uspGetAllDetails] null,null,89
+CREATE proc [StriveCarSalon].[uspGetAllDetails]
 (@JobDate Date = NULL, @LocationId int = NULL, @ClientId int = NULL
 , @Search varchar(50)=null
 )
@@ -116,9 +118,9 @@ inner join tblClient tblc ON(tblj.ClientId = tblc.ClientId)
 inner join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
 inner join tblClientAddress tblca ON(tblj.ClientId = tblca.ClientId)
 inner join tblClientVehicle tblcv ON(tblc.ClientId = tblcv.ClientId and tblj.VehicleId = tblcv.VehicleId)
-inner join strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tblcv.VehicleMfr = cvMfr.valueid
-inner join strivecarsalon.GetTable('VehicleModel') cvMo ON tblcv.VehicleModel = cvMo.valueid
-inner join strivecarsalon.GetTable('VehicleColor') cvCo ON tblcv.VehicleColor = cvCo.valueid
+LEFT join  GetTable('VehicleManufacturer') cvMfr ON tblcv.VehicleMfr = cvMfr.valueid
+LEFT join  GetTable('VehicleModel') cvMo ON tblcv.VehicleModel = cvMo.valueid
+inner join GetTable('VehicleColor') cvCo ON tblcv.VehicleColor = cvCo.valueid
 inner join tblJobItem tblji ON(tblj.JobId = tblji.JobId)
 inner join tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
 right join tblBay tblb ON(tbljd.BayId = tblb.BayId)

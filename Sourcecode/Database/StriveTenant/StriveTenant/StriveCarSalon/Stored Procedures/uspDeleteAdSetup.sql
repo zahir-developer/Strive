@@ -10,7 +10,7 @@ CREATE PROCEDURE [StriveCarSalon].[uspDeleteAdSetup]
 AS 
 BEGIN
 
-UPDATE [StriveCarSalon].[tblAdsetup] SET
+UPDATE [tblAdsetup] SET
   IsDeleted=1 
    WHERE AdSetupId = @AdSetupId	
 

@@ -14,7 +14,7 @@ select tbld.EmployeeDocumentId,
        tbld.CreatedDate,
        tbld.IsActive
 
-from [StriveCarSalon].[tblEmployeeDocument]  tbld inner join [StriveCarSalon].[tblEmployeeDetail] tbll
+from [tblEmployeeDocument]  tbld inner join [tblEmployeeDetail] tbll
 ON(tbld.EmployeeId = tbll.EmployeeId)
 WHERE tbld.EmployeeId=@EmployeeId 
 and tbld.IsDeleted = 0

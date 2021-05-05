@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetServices]
+﻿CREATE proc [StriveCarSalon].[uspGetServices]
 --EXEC [StriveCarSalon].[uspGetServices] null,null,'$5',null,null,'ASC','ServiceName',1
 (@ServiceId int =NULL,
 @locationId int =NULL,
@@ -38,7 +38,9 @@ SELECT
 	svc.Commision,
 	svc.Upcharges,
 	svc.ServiceName,
-	svc.Cost,
+	svc.Cost,	
+	svc.ServiceCategory,
+	svc.IsCeramic,
 	svc.LocationId,
 	--added price
 		svc.Price,
@@ -63,6 +65,8 @@ AND
 	svc.CommisionType ,
 	svc.ParentServiceId,
 	cv.valuedesc ,
+		svc.ServiceCategory,
+	svc.IsCeramic,
 	ct.valuedesc ,
 	svc.CommissionCost,
 	svc.Commision,

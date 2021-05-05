@@ -1,4 +1,5 @@
-﻿CREATE Procedure [StriveCarSalon].[uspRollBackPayment]
+﻿
+CREATE Procedure [StriveCarSalon].[uspRollBackPayment]--  '993502' ,1 
 (@TicketNumber varchar(10),
 @LocationId int = NULL
 )

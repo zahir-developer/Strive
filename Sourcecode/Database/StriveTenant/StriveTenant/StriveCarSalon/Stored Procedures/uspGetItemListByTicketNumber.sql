@@ -1,4 +1,4 @@
-﻿--[StriveCarSalon].[uspGetItemListByTicketNumber] '228251'
+﻿
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- [StriveCarSalon].[uspGetItemListByTicketNumber]'993311' '651284,537631,566450,118839,833659'
 @TicketNumber varchar(max),
@@ -54,7 +54,7 @@ SELECT
 	ISNULL(tbljbP.Quantity,0) Quantity,
 	tbljbP.JobProductItemId,
 	tblcv.codevalue AS ServiceType,
-	(ISNULL(tblp.TaxAmount,0)* ISNULL(tbljbP.Quantity,0)) AS TaxAmount,
+	((ISNULL(tblp.TaxAmount,0) ) * ISNULL(tbljbP.Quantity,0)/100) AS TaxAmount,
 	(ISNULL(tbljbP.Price,0) * ISNULL(tbljbP.Quantity,0)) AS Cost
 INTO
 	#JobProductList

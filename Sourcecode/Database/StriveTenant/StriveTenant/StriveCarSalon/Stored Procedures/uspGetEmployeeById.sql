@@ -95,10 +95,15 @@ LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvC
    StriveCarSalon.tblLocation lo on emplo.locationid=lo.locationid where emplo.employeeid=@EmployeeId
    and isnull(emplo.IsDeleted,0)=0 and emplo.IsActive = 1
 
+   
+   select ehr.EmployeeHourlyRateId, ehr.EmployeeId, ehr.LocationId,ehr.RoleId,ehr.HourlyRate,lo.LocationName,rm.RoleName
+   from strivecarsalon.tblEmployeeHourlyRate ehr inner join
+   StriveCarSalon.tblLocation lo on ehr.locationid=lo.locationid 
+   INNER join StriveCarSalon.tblEmployee emp on  emp.EmployeeId =ehr.EmployeeId
+   LEFT join StriveCarSalon.tblRoleMaster rm on rm.RoleMasterId=ehr.RoleId
+   
+   where ehr.EmployeeId=@EmployeeId
+   and isnull(ehr.IsDeleted,0)=0 and ehr.IsActive = 1
+
 END
---	[StriveCarSalon].uspGetEmployeeById 1
---select * from [StriveCarSalon].[GetTable]('LiabilityType')
---select * from [StriveCarSalon].[GetTable]('LiabilityDetailType')
---select * from StriveCarSalon.tblEmployeeLiability
---select * from StriveCarSalon.tblEmployeeLiabilityDetail
 

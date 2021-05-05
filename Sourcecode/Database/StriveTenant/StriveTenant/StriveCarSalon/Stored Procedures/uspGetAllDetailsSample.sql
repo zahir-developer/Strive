@@ -22,8 +22,9 @@
 --						 and Outside service
 -- 24-11-2020, Vineeth - Add code for Upcharge
 ------------------------------------------------
+ --[StriveCarSalon].[uspGetAllDetails] '2020-12-08',2047
 -- =============================================
-CREATE proc [StriveCarSalon].[uspGetAllDetailsSample] --[StriveCarSalon].[uspGetAllDetails] '2020-12-08',2047
+CREATE proc [StriveCarSalon].[uspGetAllDetailsSample]
 (@JobDate Date, @LocationId int = NULL)
 AS
 BEGIN
@@ -92,9 +93,9 @@ tblJob tblj inner join tblClient tblc ON(tblj.ClientId = tblc.ClientId)
 inner join tblJobDetail tbljd ON(tblj.JobId = tbljd.JobId)
 inner join tblClientAddress tblca ON(tblj.ClientId = tblca.ClientId)
 inner join tblClientVehicle tblcv ON(tblc.ClientId = tblcv.ClientId and tblj.VehicleId = tblcv.VehicleId)
-inner join strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tblcv.VehicleMfr = cvMfr.valueid
-inner join strivecarsalon.GetTable('VehicleModel') cvMo ON tblcv.VehicleModel = cvMo.valueid
-inner join strivecarsalon.GetTable('VehicleColor') cvCo ON tblcv.VehicleColor = cvCo.valueid
+inner join GetTable('VehicleManufacturer') cvMfr ON tblcv.VehicleMfr = cvMfr.valueid
+inner join GetTable('VehicleModel') cvMo ON tblcv.VehicleModel = cvMo.valueid
+inner join GetTable('VehicleColor') cvCo ON tblcv.VehicleColor = cvCo.valueid
 inner join tblJobItem tblji ON(tblj.JobId = tblji.JobId)
 inner join tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
 right join tblBay tblb ON(tbljd.BayId = tblb.BayId)

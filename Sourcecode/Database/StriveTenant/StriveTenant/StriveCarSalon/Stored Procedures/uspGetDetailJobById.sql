@@ -1,12 +1,5 @@
 ﻿
 
-
-
-
-
-
-
-
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 31-08-2020
@@ -28,9 +21,10 @@
 -- 23-09-2020, Vineeth - Added cost property in JobItem
 -- 28-09-2020, Zahir - Added JobStatus property
 --------------------------------------------------------
+-- EXEC [StriveCarSalon].[uspGetDetailJobById] 205955
 -- =====================================================
 
-CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] --[StriveCarSalon].[uspGetDetailJobById]205341
+CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] 
 (@JobId int)
 AS
 BEGIN
@@ -46,9 +40,9 @@ tbj.JobId
 ,tbj.Make
 ,tbj.Color
 ,tbj.Model
-,tblvm.valuedesc as MakeName
-,tblv.valuedesc as ModelName
-,tblvc.valuedesc as ColorName
+,tblvm.MakeValue as VehicleMake
+,tblv.ModelValue as VehicleModel
+,tblvc.valuedesc as VehicleColor
 ,tbj.JobType
 ,tbj.JobDate
 ,tbj.JobStatus
@@ -57,17 +51,27 @@ tbj.JobId
 ,tbj.Notes
 ,tblca.PhoneNumber
 ,tblca.Email
+,tbj.JobPaymentId
+,ISNULL(ps.valuedesc,'NotPaid') AS Paymentstatus
+,Case
+when (ps.valuedesc != 'Success'OR tbljp.PaymentStatus IS NULL) then 'False'
+when ps.valuedesc = 'Success' then 'True'
+End AS IsPaid
 from 
 StriveCarSalon.tblJob tbj with(nolock)
+LEFT JOIN	tblJobPayment tbljp  WITH(NOLOCK) ON tbj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
+LEFT JOIN	GetTable('PaymentStatus') ps ON(tbljp.PaymentStatus = ps.valueid)
 LEFT JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
 INNER JOIN StriveCarSalon.tblJobDetail tbljd on tbj.JobId = tbljd.JobId
 INNER JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
 INNER JOIN StriveCarSalon.tblClientAddress tblca on tblc.ClientId = tblca.ClientId
 INNER JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
 INNER JOIN StriveCarSalon.GetTable('JobType') tbljt on tbljt.valueid = tbj.JobType
-INNER JOIN StriveCarSalon.GetTable('VehicleManufacturer') tblvm on tblvm.valueid = tbj.Make
-INNER JOIN StriveCarSalon.GetTable('VehicleModel') tblv on tblv.valueid = tbj.Model
-INNER JOIN StriveCarSalon.GetTable('VehicleColor') tblvc on tblvc.valueid = tbj.Color
+LEFT JOIN tblVehicleMake tblvm on tblvm.MakeId = tbj.Make
+LEFT JOIN tblVehicleModel tblv on tblv.modelId = tbj.Model
+--LEFT JOIN StriveCarSalon.GetTable('VehicleManufacturer') tblvm on tblvm.valueid = tbj.Make
+--LEFT JOIN StriveCarSalon.GetTable('VehicleModel') tblv on tblv.valueid = tbj.Model
+LEFT JOIN StriveCarSalon.GetTable('VehicleColor') tblvc on tblvc.valueid = tbj.Color
 WHERE tbljt.valuedesc='Detail'
 AND isnull(tbj.IsDeleted,0)=0 
 AND isnull(tblji.IsDeleted,0)=0
@@ -81,6 +85,7 @@ Select
 tblji.JobItemId,
 tblji.JobId,
 tblji.ServiceId,
+s.IsCeramic,
 s.ServiceType as ServiceTypeId,
 ISNULL(ct.valuedesc,'') CommissionType,
 ISNULL(s.CommissionCost,0.00) CommissionCost,

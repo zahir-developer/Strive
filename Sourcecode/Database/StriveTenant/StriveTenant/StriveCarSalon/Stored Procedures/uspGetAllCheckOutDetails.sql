@@ -1,25 +1,25 @@
-﻿
-
--- ================================================
+﻿-- ================================================
 -- Author:		Vineeth B
 -- Create date: 17-08-2020
 -- Description:	Returns all jobs for checkout screen
+-- Example:		EXEC [StriveCarSalon].[uspGetAllCheckOutDetails] 1, NULL, 1, 10, 'ASC', NULL, '2021-05-04', '2021-05-04'
 -- ================================================
 
 -- ================================================
 -- ---------------History--------------------------
 -- ================================================
---24-03-2021 - Query optimized by reusing job and jobitem tables
+--24-03-2021 - Zahir - Query optimized by reusing job and jobitem tables
+--23-04-2021 - Zahir - JOB Status join changed to Left from Inner.
 
-CREATE  procedure [StriveCarSalon].[uspGetAllCheckOutDetails]--[StriveCarSalon].[uspGetAllCheckOutDetails] 1,'Chevrolet SUV (D)/Black',1,10,'ASC','MembershipNameOrPaymentStatus'
+CREATE  procedure [StriveCarSalon].[uspGetAllCheckOutDetails]
 @locationId int =null,
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
 @PageSize INT = NULL,	
 @SortOrder VARCHAR(5) = 'ASC',
 @SortBy VARCHAR(100) = NULL,
- @StartDate date = NULL, 
- @EndDate date = NULL
+@StartDate date = NULL, 
+@EndDate date = NULL
 AS
 BEGIN
 
@@ -107,6 +107,7 @@ CONVERT(VARCHAR(5),tblj.EstimatedTimeOut,108) AS Checkout,
 ISNULL(tblm.MembershipName,'') AS MembershipName,
 ISNULL(ps.valuedesc,'') AS PaymentStatus,
 CASE
+	WHEN tblj.IsHold = 1 THEN '#00BFFF' -- TO SHOW PAID
 	WHEN tblm.MembershipName IS NOT NULL AND js.valuedesc='Completed' AND pntd.PaymentNeed ='Y' THEN '#FF1493'-- TO SHOW MEMBERSHIP NAME
 	WHEN (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc='Completed' THEN '#008000' 
 	WHEN tblj.TimeIn !='' AND js.valuedesc!='Hold' AND st.valuedesc='Additional Services' and (ps.valuedesc != 'Success'OR tbljp.PaymentStatus IS NULL) THEN '#FFA500'
@@ -118,7 +119,6 @@ CASE
 	WHEN ps.valuedesc ='Success' AND js.valuedesc='Completed' THEN '#008000' -- TO SHOW PAID
 	WHEN ps.valuedesc ='Success' AND js.valuedesc NOT IN('Completed','Hold') THEN '#FF1493' -- TO SHOW PAID
 	WHEN (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc NOT IN('Completed','Hold') THEN '#FF1493' 
-	WHEN ps.valuedesc ='Success' AND js.valuedesc='Hold' THEN '#00BFFF' -- TO SHOW PAID
 	WHEN (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc='Hold' THEN '#00BFFF' 
 	WHEN tblj.TimeIn !='' AND (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc !='Hold' THEN '#FF1493'
 	WHEN tblm.MembershipName IS NULL THEN ''
@@ -290,7 +290,7 @@ select * from #GetAllServices
 IF ( @Query IS NULL OR @Query = '' ) AND (@StartDate IS NULL AND @EndDate IS NULL)
 BEGIN 
 
-select count(1) as Count from StriveCarSalon.tblJob where ISNULL(IsDeleted,0) = 0 
+select count(1) as Count from tblJob where ISNULL(IsDeleted,0) = 0 
 
 END
 

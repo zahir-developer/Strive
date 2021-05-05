@@ -7,7 +7,7 @@
 -- ============================================================
 -- 10-09-2020, Vineeth - Added IsActive and IsDeleted condition
 -- 07-09-2020, Vineeth - Add JobDate is null
-
+-- 22-01-2021, Zahir - Added JobType condition to avoid invalid jobs
 ---------------------------------------------------------------
 -- ============================================================
 CREATE proc [StriveCarSalon].[uspGetBaySchedulesDetails] -- [StriveCarSalon].[uspGetBaySchedulesDetails] '2021-03-15' ,20

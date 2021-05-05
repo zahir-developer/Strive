@@ -1,7 +1,11 @@
-﻿-- =============================================================
+﻿
+
+
+-- =============================================================
 -- Author:         Vineeth.B
 -- Created date:   2020-07-01
 -- Description:    Get Location Details By LocationId
+-- Example: [StriveCarSalon].[uspGetLocationById] 1
 -- =============================================================
 
 ----------------------------History-----------------------------
@@ -16,7 +20,7 @@
 ----------------------------------------------------------------
 -- =============================================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] --[StriveCarSalon].[uspGetLocationById] 22
+CREATE PROCEDURE [StriveCarSalon].[uspGetLocationById] 
     (
      @tblLocationId int)
 AS 
@@ -25,7 +29,7 @@ BEGIN
 DECLARE @DefaultWashTime INT = 25;
 
 Declare @WashId INT = (Select valueid from GetTable('JobType') where valuedesc='Wash')
-Declare @WashRole INT = (Select RoleMasterId from tblRoleMaster WHERE RoleName='Wash')
+Declare @WashRole INT = (Select RoleMasterId from tblRoleMaster WHERE RoleName='Washer')
 
 
 DROP TABLE IF EXISTS #WashRoleCount
@@ -79,7 +83,7 @@ CASE
 	   FROM tblLocation tbll
 INNER JOIN #WashRoleCount wr ON(tbll.LocationId = wr.LocationId)
 INNER JOIN #CarsCount cc on tbll.LocationId = cc.LocationId
-INNER JOIN tblLocationOffSet tbllo ON(tbll.LocationId = tbll.LocationId)
+LEFT JOIN tblLocationOffSet tbllo ON(tbll.LocationId = tbll.LocationId)
 WHERE ISNULL(tbll.IsActive,1) = 1 AND
 ISNULL(tbll.IsDeleted,0) = 0 --AND ISNULL(tbllo.IsDeleted,0) = 0
 )

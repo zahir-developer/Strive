@@ -228,7 +228,6 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetCollisionById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetScheduleByScheduleId.sql" />
     <Build Include="dbo\Stored Procedures\SampleSPTemplate.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetProduct.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetClientAndVehicleDetail.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetVendorById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetServiceCategoryByLocationId.sql" />
@@ -327,8 +326,6 @@
     <Build Include="StriveCarSalon\Functions\GetClientName.sql" />
     <Build Include="StriveCarSalon\Functions\GetMemberShip.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\USPUPDATEJOBSTATUSHOLDBYJOBID.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusForJobId.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusCompleteByJobId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateChatUnreadMessageState.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateAdjusment.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateAccountDetails.sql" />
@@ -389,12 +386,10 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobPayment.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\usptblTimeClockInsert.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspIsClientAvailable.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetWashDashboard_Deleted.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetVehicleMembershipByMembershipId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTicketNumber.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetRolePermissions.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetPastWeatherInfo.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetMonthlyMoneyOwnedReport_Delete.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetHourlyWashSalesReport.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetHourlyWashReport.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetEmployeeRoleById.sql" />
@@ -469,16 +464,26 @@
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTipDetail.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetProductDetailById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetGiftCardBalanceHistory.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetClientById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetChecklistById.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllMembershipName.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllEmployee.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetAllDocumentById_Delete.sql" />
+    <Build Include="StriveCarSalon\Tables\tblVehicleType.sql" />
+    <Build Include="StriveCarSalon\Tables\tblVehicleModel.sql" />
+    <Build Include="StriveCarSalon\Tables\tblVehicleMake.sql" />
+    <Build Include="Security\StriveDev.sql" />
+    <Build Include="StriveCarSalon\Functions\SPLIT.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusByJobId.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetUpchargeByType.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetScheduleAndForcasted.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetModuleById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetEmployeeHourlyRateById.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetAllMake.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
     <None Include="QA.scmp" />
-    <None Include="Client_Dev.scmp" />
+    <None Include="Dev.scmp" />
     <None Include="Strive_Tenant.sql" />
     <None Include="Scripts\RolePermission\Detailer.sql" />
     <None Include="Scripts\RolePermission\Module.sql" />

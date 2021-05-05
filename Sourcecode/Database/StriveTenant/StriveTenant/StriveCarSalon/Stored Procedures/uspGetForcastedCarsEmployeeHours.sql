@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetForcastedCarsEmployeeHours] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetForcastedCarsEmployeeHours] -- [StriveCarSalon].[uspGetForcastedCarsEmployeeHours] 1,'2021-05-01','2021-04-24','2021-04-01','2021-01-01'
 (
 @LocationId int,
 @date date,
@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS #WashHours
 
 Select count(1) as WashCount,j.JobDate, j.locationId into #WashHours from tblJob j 
 INNER JOIN GetTable('JobType') JT on JT.valueid = j.JobType
-INNER join GetTable('JobStatus') GT on GT.valueId = j.JobStatus and GT.valuedesc = 'Completed'
+--INNER join GetTable('JobStatus') GT on GT.valueId = j.JobStatus and GT.valuedesc = 'Completed'
 WHERE j.JobDate in(@date,@lastweek,@lastMonth,@lastThirdMonth) and j.Locationid=@LocationId
 GROUP BY JobDate, j.LocationId
 
@@ -31,6 +31,8 @@ WP.LocationId =@LocationId AND CONVERT(VARCHAR(10), wp.CreatedDate, 120) in (@da
 and wp.Weather IS NOT NULL AND WP.RainProbability IS nOT NULL 
 ORDER BY CreatedDate DESC
 
+select * from #WashTime
+
 DECLARE @AvgCount INT = (Select count(1) from #WashTime WHERE WashTimeMinutes >0 )
 
 DECLARE @Normal DECIMAL(18,2) = (Select SUM(CONVERT(DECIMAL(18,2),WashTimeMinutes))/@AvgCount from #WashTime)
@@ -38,7 +40,7 @@ DECLARE @Normal DECIMAL(18,2) = (Select SUM(CONVERT(DECIMAL(18,2),WashTimeMinute
 DECLARE @Today_RainPrecipitation int = (select top 1 RainProbability from #WashTime where CONVERT(VARCHAR(10), CreatedDate, 120)  =@date)
 
 
-DEclare @Formula decimal(18,2) =(select Formula from tblForcastedRainPercentageMaster fr 
+DEclare @Formula decimal(18,2) =(select top(1) Formula from tblForcastedRainPercentageMaster fr 
 where @Today_RainPrecipitation between fr.PrecipitationRangeFrom and fr.PrecipitationRangeTo)
 
 select  Round(@Normal * @Formula,0) as ForcastedEmployeeHours
