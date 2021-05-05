@@ -11,10 +11,9 @@ namespace Strive.BusinessLogic
         Result AddVendor(VendorDTO vendor);
         Result UpdateVendor(VendorDTO vendor);
         Result DeleteVendorById(int id);
-        //Result GetAllVendor();
         Result GetVendorById(int id);
+        Result GetVendorByIds(string ids);
         Result GetVendorSearch(VendorSearchDto search);
-
         Result GetAllVendorName();
     }
 }
