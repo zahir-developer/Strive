@@ -9,5 +9,7 @@ namespace Strive.BusinessEntities.DTO.Product
     public class ProductSearchDto
     {
         public string ProductSearch { get; set; }
+
+        public string ProductTypeNames { get; set; }
     }
 }

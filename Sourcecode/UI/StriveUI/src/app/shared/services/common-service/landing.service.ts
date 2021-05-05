@@ -55,11 +55,9 @@ export class LandingService {
         this.routingPage();
 
       }
-    //  this.toastr.error(MessageConfig.locationError, 'Error!');
     }
   }
   routingPage() {
-
     const Roles = localStorage.getItem('empRoles');
     if (Roles) {
       if (Roles === ApplicationConfig.Roles.Admin) {

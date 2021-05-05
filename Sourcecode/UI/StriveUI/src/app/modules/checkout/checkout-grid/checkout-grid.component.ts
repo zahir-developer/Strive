@@ -227,7 +227,9 @@ export class CheckoutGridComponent implements OnInit {
     this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
       .then((confirmed) => {
         const finalObj = {
-          id: checkout.JobId
+          id: checkout.JobId,
+          IsHold: data == "Hold" ? true : false
+
         };
         if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
           return;

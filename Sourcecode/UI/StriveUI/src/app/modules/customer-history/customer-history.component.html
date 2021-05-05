@@ -64,10 +64,10 @@
                                                     <th > Service
                                                         Date&nbsp;
                                                   </th>
-
+<!-- 
                                                     <th class="pointer" (click)="changeSorting('ClientId')"> Customer
                                                         ID&nbsp;
-                                                        <i class="fa" [ngClass]="selectedCls('ClientId')"></i></th>
+                                                        <i class="fa" [ngClass]="selectedCls('ClientId')"></i></th> -->
                                                     <th class="pointer" (click)="changeSorting('FirstName')"> Customer
                                                         Name&nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('FirstName')"></i></th>
@@ -103,9 +103,9 @@
                                             <tbody class="bodyfix">
                                                 <tr *ngFor="let history of historyList">
                                                     <td>{{history.ServiceDate | date : 'MM/dd/yyyy'}}</td>
-                                                    <td class="text-underline theme-primary-color font-size--9"
+                                                    <!-- <td class="text-underline theme-primary-color font-size--9"
                                                         style="cursor: pointer;" (click)="navigateToClient()">
-                                                        {{history.ClientId}}</td>
+                                                        {{history.ClientId}}</td> -->
                                                     <td>{{history.FirstName}} {{history.LastName}}</td>
                                                     <td class="text-underline theme-primary-color font-size--9"
                                                         style="cursor: pointer;" (click)="navigateToVehicle()">
@@ -113,7 +113,7 @@
                                                     <td>{{history.BarCode}}</td>
                                                     <td>{{history.MembershipName}}</td>
                                                     <td>{{history.TicketNumber}}</td>
-                                                    <td>{{history.AdditionalServices}}</td>
+                                                    <td>{{history.Services}}</td>
                                                 </tr>
                                                 <tr *ngIf="historyList.length === 0">
                                                     <td colspan="8" class="text-center">

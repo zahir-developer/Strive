@@ -34,9 +34,9 @@
                                             <td scope="row">{{doc.OriginalFileName | slice:0:35}} {{ (doc.OriginalFileName !== undefined && doc.OriginalFileName !== null) ? (doc.OriginalFileName.length > 35 ? '...' : '') : '' }}</td>
                                             <td>{{doc.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                             <td>
-                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green" pTooltip="Edit" tooltipPosition="bottom" (click)="adddata('edit', doc)"></em>&nbsp;&nbsp;
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-5" style="color:green" pTooltip="Edit" tooltipPosition="bottom" (click)="adddata('edit', doc)"></em>
 
-                                                <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-2 font-size-1-1" pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(doc)"></em>
+                                                <em class="mdi mdi-file-download-outline pointer theme-primary-icon-color md-doc m-r-5 font-size-1-1" pTooltip="Download" tooltipPosition="bottom" (click)="downloadPDF(doc)"></em>
                                                 <em class="mdi mdi-close-circle pointer theme-optional-icon-color md-close font-size-1-1" pTooltip="Delete" tooltipPosition="bottom" (click)="delete(doc.DocumentId)"></em>
                                             </td>
                                         </tr>

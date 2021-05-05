@@ -76,6 +76,7 @@ export class SalesComponent implements OnInit {
   giftCardList = [];
   giftCardID: any;
   multipleTicketSequence: boolean = false;
+  printTicketNumber: string;
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -122,7 +123,9 @@ export class SalesComponent implements OnInit {
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
     if (paramsData !== null) {
+      debugger;
       this.ticketNumber = paramsData;
+      this.printTicketNumber = paramsData;
       this.addTicketNumber();
     }
     this.getServiceType();
@@ -132,7 +135,18 @@ export class SalesComponent implements OnInit {
     this.getAllServiceandProduct();
 
   }
-
+  print() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(PrintComponent, ngbModalOptions);
+    debugger;
+    modalRef.componentInstance.isModal = true;
+    modalRef.componentInstance.printTicketNumber = this.printTicketNumber;
+    modalRef.componentInstance.itemList = this.itemList.Status;
+  }
   getServiceType() {
     this.codes.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(res => {
       if (res.status === 'Success') {
@@ -299,6 +313,7 @@ export class SalesComponent implements OnInit {
     const alreadyAdded = this.multipleTicketNumber.filter(item => item === this.ticketNumber);
     if (alreadyAdded.length === 0) {
       this.multipleTicketNumber.push(this.ticketNumber);
+      this.printTicketNumber = this.ticketNumber
       this.ticketNumber = '';
     } else {
       this.ticketNumber = '';
@@ -1362,15 +1377,5 @@ export class SalesComponent implements OnInit {
       e.preventDefault();
     }
   }
-  print() {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg'
-    };
-    const modalRef = this.modalService.open(PrintComponent, ngbModalOptions);
-    modalRef.componentInstance.isModal = true;
-    modalRef.componentInstance.ticketNumber = this.ticketNumber;
-    modalRef.componentInstance.itemList = this.itemList.Status;
-  }
+
 }

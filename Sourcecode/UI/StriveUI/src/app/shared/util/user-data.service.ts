@@ -42,20 +42,16 @@ export class UserDataService {
       } 
       if (token?.EmployeeDetails?.EmployeeLocations) {
       if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
-        localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
+        localStorage.setItem('empLocationId', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
 
 
     
       } else {
-        localStorage.setItem('empLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
         localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
-   this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
-
-        this.weatherService.getWeather()
-
       }
     }
 
+    this.weatherService.getWeather()
 
       if (token?.EmployeeDetails?.EmployeeRoles?.length) {
         localStorage.setItem('empRoles', token?.EmployeeDetails?.EmployeeRoles[0]?.RoleName);
