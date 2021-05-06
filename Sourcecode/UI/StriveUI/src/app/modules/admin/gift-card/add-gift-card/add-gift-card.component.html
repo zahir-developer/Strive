@@ -31,14 +31,12 @@
                 <div class="col-sm-8">
                     <div class="form-row">
                         <div class="col-sm-3">
-                            <label class="float-left">Client<span class="required">*</span></label>
+                            <label class="float-left">Client</label>
                         </div>
                         <div class="col-sm-9">
                             <p-autoComplete field="name" [suggestions]="clientList" [ngClass]="{ 'is-invalid': submitted && f.clientId.errors }" (completeMethod)="filterClient($event)" formControlName="clientId" placeholder="Client Name" (onSelect)="selectedClient($event)">
                             </p-autoComplete>
-                            <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-                                <div *ngIf="f.clientId.errors.required">Client is required</div>
-                            </div>
+                            
                         </div>
                     </div>
 
