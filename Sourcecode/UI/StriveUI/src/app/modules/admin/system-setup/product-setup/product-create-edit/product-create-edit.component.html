@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="form-group col-lg-3">
             <label for="inputName"> Name<span class="required">*</span></label>
-            <input type="text" maxlength="60" pInputText pKeyFilter="alphanum" class="form-control"
+            <input type="text" maxlength="60" appAlphaNumeric class="form-control"
                 formControlName="name" placeholder="Product Name"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
             <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
