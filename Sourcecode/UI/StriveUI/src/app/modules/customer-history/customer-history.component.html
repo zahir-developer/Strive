@@ -48,8 +48,6 @@
                                                     <button type="button"
                                                         class="btn theme-primary-button-color btn-sm m-l-10"
                                                         (click)="search()">Search</button>
-                                                    <button type="button"
-                                                        class="btn theme-primary-button-color btn-sm m-l-10">Reset</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -61,33 +59,38 @@
                                             <thead>
                                                 <tr>
 
-                                                    <th > Service
+                                                    <th> Service
                                                         Date&nbsp;
-                                                  </th>
-<!-- 
+                                                    </th>
+                                                    <!-- 
                                                     <th class="pointer" (click)="changeSorting('ClientId')"> Customer
                                                         ID&nbsp;
                                                         <i class="fa" [ngClass]="selectedCls('ClientId')"></i></th> -->
                                                     <th class="pointer" (click)="changeSorting('FirstName')"> Customer
                                                         Name&nbsp;
-                                                        <i class="fa" [ngClass]="selectedCls('FirstName')"></i></th>
+                                                        <i class="fa" [ngClass]="selectedCls('FirstName')"></i>
+                                                    </th>
                                                     <th class="pointer" (click)="changeSorting('VehicleId')">
                                                         Vehicle ID
                                                         &nbsp;
-                                                        <i class="fa" [ngClass]="selectedCls('VehicleId')"></i></th>
+                                                        <i class="fa" [ngClass]="selectedCls('VehicleId')"></i>
+                                                    </th>
 
                                                     <th class="pointer" (click)="changeSorting('BarCode')">
                                                         Barcode
                                                         &nbsp;
-                                                        <i class="fa" [ngClass]="selectedCls('BarCode')"></i></th>
+                                                        <i class="fa" [ngClass]="selectedCls('BarCode')"></i>
+                                                    </th>
                                                     <th class="pointer" (click)="changeSorting('MembershipName')">
                                                         Membership
                                                         &nbsp;
-                                                        <i class="fa" [ngClass]="selectedCls('MembershipName')"></i></th>
+                                                        <i class="fa" [ngClass]="selectedCls('MembershipName')"></i>
+                                                    </th>
                                                     <th class="pointer" (click)="changeSorting('TicketNumber')">
                                                         Ticket No
                                                         &nbsp;
-                                                        <i class="fa" [ngClass]="selectedCls('TicketNumber')"></i></th>
+                                                        <i class="fa" [ngClass]="selectedCls('TicketNumber')"></i>
+                                                    </th>
                                                     <th>
                                                         Service
                                                         &nbsp;
