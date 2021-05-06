@@ -155,12 +155,12 @@ export class AddTenantComponent implements OnInit {
       email: detail.clientEmail,
       mobile: detail.mobileNumber,
       phone: detail.phoneNumber,
-      zipcode: detail.zipCode,
-      noOfLocation: +detail.maxLocation
+      zipcode: detail.zipCode
     });
 
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
       company: detail.companyName,
+      noOfLocation: +detail.maxLocation,
       dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
       paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : '',
       deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
@@ -254,8 +254,8 @@ export class AddTenantComponent implements OnInit {
       firstName: this.personalform.value.firstName,
       lastName: this.personalform.value.lastName,
       address: this.personalform.value.address,
-      state: this.personalform.value.stateId.StateId ? this.personalform.value.stateId.StateId : 0,
-      city: this.personalform.value.cityId.CityId ? this.personalform.value.cityId.CityId : 0,
+      state: this.personalform.value.stateId.StateId ? this.personalform.value.stateId.StateId : null,
+      city: this.personalform.value.cityId.CityId ? this.personalform.value.cityId.CityId : null,
       zipCode: this.personalform.value.zipcode,
       tenantEmail: this.personalform.value.email,
       phoneNumber: this.personalform.value.phone,
