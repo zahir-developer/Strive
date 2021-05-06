@@ -30,12 +30,16 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                 string tenantGuid = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
 
                 //Change Tenant Connection
+                /*
                 Guid guid = new Guid(tenantGuid);
                 TenantSchema tSchema = new TenantRal(_tenant, true).TenantAdminLogin(guid);
                 CacheLogin(tSchema, connection);
+                */
 
                 //Add Module
+                /*
                 var tenantModule = new TenantRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
+                */
 
                 //Send email
                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
