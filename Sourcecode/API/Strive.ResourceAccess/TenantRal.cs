@@ -51,6 +51,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@ExpiryDate", tenant.ExpiryDate);
             _prm.Add("ZipCode", tenant.ZipCode);
             _prm.Add("@State", tenant.State);
+            _prm.Add("@IsActive", tenant.IsActive);
             _prm.Add("@City", tenant.City);
             var result = (string)db.Get<string>(EnumSP.Tenant.USPCREATETENANT.ToString(), _prm);
 
@@ -58,7 +59,7 @@ namespace Strive.ResourceAccess
         }
         public bool AddModule(TenantListModuleViewModel module)
         {
-            return dbRepo.SavePc(module, "ModuleId");
+            return dbRepo.InsertPc(module, "ModuleId");
         }
         public bool UpdateTenant(TenantViewModel tenant)
         {

@@ -36,10 +36,10 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                 CacheLogin(tSchema, connection);
                 */
 
-                //Add Module
-                /*
+               // Add Module
+               
                 var tenantModule = new TenantRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
-                */
+                
 
                 //Send email
                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
