@@ -26,5 +26,6 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime SubscriptionDate { get; set; }
         public DateTime PaymentDate { get; set; }
         public int Locations { get; set; }
+        public bool IsActive { get; set; }
     }
 }
