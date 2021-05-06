@@ -17,6 +17,16 @@
                                 <div class="col-2">
                                     <h5 class="d-inline-block">Payroll List
                                     </h5>
+                                    <label class="m-l-25" for="inTime">Location:</label>
+                                </div>
+                                <div class="col-1">
+                                    <div class="form-row">
+                                       
+                                        <select class="form-control col-12" [(ngModel)]="locationId" [ngModelOptions]="{standalone: true}">
+                                <option value =''selected hidden>Select</option>
+                                <option *ngFor="let location of location" value="{{location.LocationId}}">
+                                    {{location.LocationName}}</option>
+                            </select>                                    </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="form-row">
@@ -30,7 +40,7 @@
                                         <input type="text" class="form-control col-sm-9" formControlName="toDate" bsDatepicker [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
-                                <div class="col-6 pull-right ">
+                                <div class="col-5  ">
                                     <div class="form-row">
                                     <select class="form-control col-2" (change)="getFileType($event)">
                                         <option value='' selected hidden>Select</option>

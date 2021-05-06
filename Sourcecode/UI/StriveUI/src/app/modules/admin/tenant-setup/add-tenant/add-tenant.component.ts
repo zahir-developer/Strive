@@ -149,11 +149,16 @@ export class AddTenantComponent implements OnInit {
   setValue() {
     const detail = this.tenantDetail;
     this.personalform.patchValue({
-      firstName: detail.clientName,
-      address: '',
+      firstName: detail.firstName,
+      lastName: detail.lastName,
+      address: detail.address,
       email: detail.clientEmail,
-      mobile: detail.mobileNumber
+      mobile: detail.mobileNumber,
+      phone: detail.phoneNumber,
+      zipcode: detail.zipCode,
+      noOfLocation: +detail.maxLocation
     });
+
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
       company: detail.companyName,
       dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
@@ -272,7 +277,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -284,7 +289,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.addTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
           this.navigate();
         }
       }, (err) => {
