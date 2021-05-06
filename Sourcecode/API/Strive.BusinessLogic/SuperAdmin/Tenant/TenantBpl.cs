@@ -74,11 +74,20 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         }
         public Result UpdateTenant(TenantCreateViewModel tenant)
         {
-            //Edit Module
-            var tenantModule = new TenantRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel);
+            try
+            {
+                //Edit Module
+                var tenantModule = new TenantRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel);
 
-            return ResultWrap(new TenantRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
+                return ResultWrap(new TenantRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
+
+            }
+            catch (Exception ex)
+            {
+                return Helper.BindFailedResult(ex, HttpStatusCode.InternalServerError);
+            }
         }
+            
         private void CacheLogin(TenantSchema tSchema, string tcon)
         {
             SetTenantSchematoCache(tSchema);
