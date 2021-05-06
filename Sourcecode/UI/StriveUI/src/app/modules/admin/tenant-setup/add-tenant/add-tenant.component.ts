@@ -301,7 +301,8 @@ export class AddTenantComponent implements OnInit {
       expiryDate: moment(this.companyform.value.deactivation).format(),
       subscriptionDate: moment(this.companyform.value.dateOfSubscription).format(),
       paymentDate: moment(this.companyform.value.paymentDate).format(),
-      locations: +this.companyform.value.noOfLocation
+      locations: +this.companyform.value.noOfLocation,
+      isActive: true
     };
     const finalObj = {
       tenantViewModel: tenantObj,

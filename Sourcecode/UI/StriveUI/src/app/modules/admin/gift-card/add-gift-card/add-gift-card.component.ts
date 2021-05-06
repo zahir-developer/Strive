@@ -44,7 +44,7 @@ export class AddGiftCardComponent implements OnInit {
       activeDate: ['', Validators.required],
       amount: ['', Validators.required],
       others: [''],
-      clientId: ['', Validators.required],
+      clientId: [''],
       email: ['', [Validators.required, Validators.email]]
     });
     this.amountList = [
