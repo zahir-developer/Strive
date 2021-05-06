@@ -31,6 +31,10 @@ export class AddTenantComponent implements OnInit {
   errorMessage: boolean;
   newModuleChanges = [];
   isSelectAll: boolean;
+  stateList = [];
+  cityList = [];
+  stateId: any;
+  cityId: any;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -47,7 +51,9 @@ export class AddTenantComponent implements OnInit {
       zipcode: [''],
       email: ['', [Validators.required, Validators.email]],
       mobile: [''],
-      phone: ['']
+      phone: [''],
+      stateId: [''],
+      cityId: ['']
     });
     this.companyform = this.fb.group({
       company: ['', Validators.required],
@@ -56,6 +62,7 @@ export class AddTenantComponent implements OnInit {
       paymentDate: ['', Validators.required],
       deactivation: ['', Validators.required]
     });
+    this.getStateList();
     this.getModuleList();
   }
 
@@ -142,11 +149,16 @@ export class AddTenantComponent implements OnInit {
   setValue() {
     const detail = this.tenantDetail;
     this.personalform.patchValue({
-      firstName: detail.clientName,
-      address: '',
+      firstName: detail.firstName,
+      lastName: detail.lastName,
+      address: detail.address,
       email: detail.clientEmail,
-      mobile: detail.mobileNumber
+      mobile: detail.mobileNumber,
+      phone: detail.phoneNumber,
+      zipcode: detail.zipCode,
+      noOfLocation: +detail.maxLocation
     });
+
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
       company: detail.companyName,
       dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
@@ -242,8 +254,8 @@ export class AddTenantComponent implements OnInit {
       firstName: this.personalform.value.firstName,
       lastName: this.personalform.value.lastName,
       address: this.personalform.value.address,
-      state: this.State ? this.State : 0,
-      city: this.city === 0 ? 0 : this.city,
+      state: this.personalform.value.stateId.StateId ? this.personalform.value.stateId.StateId : 0,
+      city: this.personalform.value.cityId.CityId ? this.personalform.value.cityId.CityId : 0,
       zipCode: this.personalform.value.zipcode,
       tenantEmail: this.personalform.value.email,
       phoneNumber: this.personalform.value.phone,
@@ -265,7 +277,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -277,7 +289,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.addTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -307,6 +319,27 @@ export class AddTenantComponent implements OnInit {
   validateEmail(email) {
     const re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  getStateList() {
+    this.tenantSetupService.getStateList().subscribe( res => {
+      if (res.status === 'Success') {
+        const states = JSON.parse(res.resultData);
+        this.stateList = states.Allstate;
+      }
+    });
+  }
+
+  stateSelection(event) {
+    console.log(event);
+    const stateId = event.value.StateId;
+    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+      if (res.status === 'Success') {
+        const cites = JSON.parse(res.resultData);
+        this.cityList = cites.cities;
+        console.log(cites);
+      }
+    });
   }
 
 
