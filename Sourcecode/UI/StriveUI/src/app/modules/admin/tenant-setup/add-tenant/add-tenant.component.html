@@ -65,7 +65,7 @@
                                     <label>City</label>
                                     <!-- <app-city [State]="State" (selectCity)="selectCity($event)"></app-city> -->
                                     <p-dropdown [options]="cityList" placeholder="Choose" optionLabel="CityName"
-                                        styleClass="col-12" [filter]="true" formControlName="cityId"></p-dropdown>
+                                        styleClass="col-12" [filter]="true" (onChange)="stateSelection($event)" formControlName="cityId"></p-dropdown>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>ZipCode</label>

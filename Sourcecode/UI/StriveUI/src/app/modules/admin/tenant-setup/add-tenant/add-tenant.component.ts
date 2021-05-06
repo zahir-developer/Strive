@@ -63,7 +63,7 @@ export class AddTenantComponent implements OnInit {
       deactivation: ['', Validators.required]
     });
     this.getStateList();
-    this.getModuleList();
+    // this.getModuleList();
   }
 
   getSelectedStateId(event) {
@@ -157,7 +157,7 @@ export class AddTenantComponent implements OnInit {
       phone: detail.phoneNumber,
       zipcode: detail.zipCode
     });
-
+    this.personalform.controls.email.disable();
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
       company: detail.companyName,
       noOfLocation: +detail.maxLocation,
@@ -165,6 +165,14 @@ export class AddTenantComponent implements OnInit {
       paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : '',
       deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
     });
+
+    const selectedState = this.stateList.filter( item => item.StateId === detail.state );
+    if (selectedState.length > 0) {
+      this.personalform.patchValue({
+        stateId: selectedState[0]
+      });
+      this.selectedCity(selectedState[0]);
+    }
     this.tenantModule.forEach(item => {
       if (item.isActive) {
         item.IsChecked = true;
@@ -197,6 +205,32 @@ export class AddTenantComponent implements OnInit {
     //     }
     //   });
     // });
+  }
+
+  selectedCity(event) {
+    const stateId = event.StateId;
+    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+      if (res.status === 'Success') {
+        const cites = JSON.parse(res.resultData);
+        this.cityList = cites.cities;
+        this.cityList = this.cityList.map( item => {
+          return {
+            CityId: item.CityId,
+            CityName: item.CityName
+          };
+        });
+        const selectedState = this.cityList.filter( item => item.CityId === this.tenantDetail.city);
+        if (selectedState.length > 0) {
+          const city: any = {
+            CityId: selectedState[0].CityId,
+            CityName: selectedState[0].CityName
+          };
+          this.personalform.patchValue({
+            cityId: city
+          });
+        }
+      }
+    });
   }
 
   addTenant() {
@@ -248,6 +282,7 @@ export class AddTenantComponent implements OnInit {
     const module = {
       module: moduleObj
     };
+    this.personalform.controls.email.enable();
     const tenantObj = {
       tenantId: this.isEdit ? this.tenantDetail.tenantId : 0,
       clientId: this.isEdit ? this.tenantDetail.clientId : 0,
@@ -326,6 +361,7 @@ export class AddTenantComponent implements OnInit {
       if (res.status === 'Success') {
         const states = JSON.parse(res.resultData);
         this.stateList = states.Allstate;
+        this.getModuleList();
       }
     });
   }
@@ -338,6 +374,12 @@ export class AddTenantComponent implements OnInit {
         const cites = JSON.parse(res.resultData);
         this.cityList = cites.cities;
         console.log(cites);
+        this.cityList = this.cityList.map( item => {
+          return {
+            CityId: item.CityId,
+            CityName: item.CityName
+          };
+        });
       }
     });
   }
