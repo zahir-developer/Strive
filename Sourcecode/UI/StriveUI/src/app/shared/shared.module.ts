@@ -61,6 +61,7 @@ import { PaymentProcessComponent } from './components/payment-process/payment-pr
 import { QRCodeModule } from 'angular2-qrcode';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputMaskModule} from 'primeng/inputmask';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [
@@ -88,7 +89,8 @@ import {InputMaskModule} from 'primeng/inputmask';
     DropdownModule,
     InputMaskModule,
     InputSwitchModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    CalendarModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
@@ -109,7 +111,7 @@ import {InputMaskModule} from 'primeng/inputmask';
      AverageWashTimeComponent, PopoverModule, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, ExportFiletypeComponent,
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
       OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective,
-      InputMaskModule,  KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent],
+      InputMaskModule,  KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent, CalendarModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe],
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import { TodayScheduleComponent } from '../today-schedule/today-schedule.component';
@@ -15,7 +15,8 @@ declare var $: any;
 @Component({
   selector: 'app-detail-schedule',
   templateUrl: './detail-schedule.component.html',
-  styleUrls: ['./detail-schedule.component.css']
+  styleUrls: ['./detail-schedule.component.css'],
+  encapsulation:  ViewEncapsulation.None
 })
 export class DetailScheduleComponent implements OnInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
@@ -54,6 +55,7 @@ export class DetailScheduleComponent implements OnInit {
     this.isEdit = false;
     this.isView = false;
     this.getJobType();
+    this.getDetailScheduleStatus();
   }
 
   landing() {
@@ -233,7 +235,7 @@ export class DetailScheduleComponent implements OnInit {
 
   getDetailScheduleStatus() {
     const locId = localStorage.getItem('empLocationId');
-    const date = this.datePipe.transform(this.selectedDate, 'yyyy-MM');
+    const date = this.datePipe.transform(this.selectedDate, 'yyyy-MM');   // this.selectedDate
     this.detailService.getDetailScheduleStatus(locId, date).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleStatus = JSON.parse(res.resultData);
@@ -254,9 +256,9 @@ export class DetailScheduleComponent implements OnInit {
             scheduledDate.push(jobDate.getDate());
           });
           console.log(scheduledDate, 'schedule');
-          const dat = $('td.ng-star-inserted span');
-          $('td.ng-star-inserted span').each(function (index) {
-            if (!$(this).hasClass('is-other-month')) {
+          const dat = $('td.ng-star-inserted a');
+          $('td.ng-star-inserted a').each(function (index) {
+            if (true) {
               console.log('text');
               if (_.contains(scheduledDate, +($(this).text()))) {
                 this.style.color = 'red';
@@ -268,5 +270,15 @@ export class DetailScheduleComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  selectedMonth(event) {
+    console.log(event, 'month');
+    const date = new Date();
+    date.setMonth(event.month - 1);
+    date.setFullYear(event.year);
+    console.log(date, 'date');
+    this.selectedDate = date;
+    this.getDetailScheduleStatus();
   }
 }
