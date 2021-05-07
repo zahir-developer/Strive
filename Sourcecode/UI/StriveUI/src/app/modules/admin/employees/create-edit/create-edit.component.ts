@@ -401,7 +401,7 @@ export class CreateEditComponent implements OnInit {
       employeeId: 0,
       employeeCode: null,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
-      WashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
+      WashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : null,
       DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
@@ -417,7 +417,7 @@ export class CreateEditComponent implements OnInit {
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
-        hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
+        hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : null
       };
     });
     const employeeObj = {
