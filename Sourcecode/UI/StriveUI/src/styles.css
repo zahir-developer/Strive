@@ -323,3 +323,7 @@ em {
 .page-item.active .page-link {
     z-index: 0 !important;
 }
+
+.ui-datepicker-calendar td {
+    padding: 0.1em 0.7em !important;
+}

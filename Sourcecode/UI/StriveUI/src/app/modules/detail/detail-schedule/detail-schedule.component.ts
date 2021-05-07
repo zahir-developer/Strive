@@ -259,6 +259,7 @@ export class DetailScheduleComponent implements OnInit {
           $('td.ng-star-inserted a').each(function (index) {
             if (_.contains(scheduledDate, +($(this).text()))) {
               this.style.color = 'red';
+              this.style.fontWeight = 'bold';
             }
           });
         }

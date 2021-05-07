@@ -16,14 +16,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row no-gutter">
-                                    <div class="col-md-3 pr-3 pb-3 ">
+                                    <div class="detail-calendar col-md-3 pr-3 pb-3 ">
                                         <!-- <bs-datepicker-inline [bsValue]="selectedDate"
                                             [bsConfig]="{ showWeekNumbers: false }"
                                             (bsValueChange)="onValueChange($event)">
                                         </bs-datepicker-inline> -->
-                                        <p-calendar [inline]="true" [panelStyle]="{'padding': '15px 0px 0px 0px'}" 
-                                            [showOtherMonths]="false" [monthNavigator]="true" [yearNavigator]="true"
-                                            yearRange="2000:2100" (onSelect)="selectDate($event)" (onMonthChange)="selectedMonth($event)" (onYearChange)="selectedYear($event)"></p-calendar>
+                                        <p-calendar [inline]="true" [panelStyle]="{'padding': '10px 0px 0px 0px'}" [showOtherMonths]="false" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" (onSelect)="selectDate($event)" (onMonthChange)="selectedMonth($event)" (onYearChange)="selectedYear($event)"></p-calendar>
                                     </div>
                                     <div class="col-md-3 p-r-0">
                                         <div class="table-responsive rounded-sm border border-right-0">
@@ -51,12 +49,8 @@
                                                             {{schedule.time}}
                                                         </td>
                                                         <td *ngFor="let bay of schedule.bay">
-                                                            <i *ngIf="bay.isSchedule === true"
-                                                                (click)="getDetailByID(bay)"
-                                                                class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
-                                                            <i *ngIf="bay.isSchedule === false"
-                                                                (click)="addNewDetail(bay)"
-                                                                class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
+                                                            <i *ngIf="bay.isSchedule === true" (click)="getDetailByID(bay)" class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
+                                                            <i *ngIf="bay.isSchedule === false" (click)="addNewDetail(bay)" class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -88,12 +82,8 @@
                                                             {{schedule.time}}
                                                         </td>
                                                         <td *ngFor="let bay of schedule.bay">
-                                                            <i *ngIf="bay.isSchedule === true"
-                                                                (click)="getDetailByID(bay)"
-                                                                class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
-                                                            <i *ngIf="bay.isSchedule === false"
-                                                                (click)="addNewDetail(bay)"
-                                                                class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
+                                                            <i *ngIf="bay.isSchedule === true" (click)="getDetailByID(bay)" class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
+                                                            <i *ngIf="bay.isSchedule === false" (click)="addNewDetail(bay)" class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -125,12 +115,8 @@
                                                             {{schedule.time}}
                                                         </td>
                                                         <td *ngFor="let bay of schedule.bay">
-                                                            <i *ngIf="bay.isSchedule === true"
-                                                                (click)="getDetailByID(bay)"
-                                                                class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
-                                                            <i *ngIf="bay.isSchedule === false"
-                                                                (click)="addNewDetail(bay)"
-                                                                class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
+                                                            <i *ngIf="bay.isSchedule === true" (click)="getDetailByID(bay)" class="mdi mdi-check-circle pointer theme-optional-icon-color  m-r-2 font-size-1-1"></i>
+                                                            <i *ngIf="bay.isSchedule === false" (click)="addNewDetail(bay)" class="mdi mdi-check-circle pointer theme-secondary-icon-color  m-r-2 font-size-1-1"></i>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -150,13 +136,10 @@
         </div>
     </div>
 </div>
-<p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true"
-    [focusOnShow]="false" [closable]="false" [style]="{width: '85vw'}" [baseZIndex]="10000">
+<p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '85vw'}" [baseZIndex]="10000">
     <p-header>
         {{actionType}}
         <button type="button" class="btn theme-primary-button-color float-right" (click)="closeModal()">Close</button>
     </p-header>
-    <app-create-edit-detail-schedule *ngIf="showDialog" [isView]="isView" [isEdit]="isEdit"
-        [bayScheduleObj]="bayScheduleObj" [selectedData]="selectedData" [jobTypeId]="jobTypeId"
-        (closeDialog)="closeDialog($event)" (refreshDetailGrid)="refreshDetailGrid()"></app-create-edit-detail-schedule>
+    <app-create-edit-detail-schedule *ngIf="showDialog" [isView]="isView" [isEdit]="isEdit" [bayScheduleObj]="bayScheduleObj" [selectedData]="selectedData" [jobTypeId]="jobTypeId" (closeDialog)="closeDialog($event)" (refreshDetailGrid)="refreshDetailGrid()"></app-create-edit-detail-schedule>
 </p-dialog>
