@@ -16,7 +16,7 @@ declare var $: any;
   selector: 'app-detail-schedule',
   templateUrl: './detail-schedule.component.html',
   styleUrls: ['./detail-schedule.component.css'],
-  encapsulation:  ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class DetailScheduleComponent implements OnInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
@@ -55,7 +55,8 @@ export class DetailScheduleComponent implements OnInit {
     this.isEdit = false;
     this.isView = false;
     this.getJobType();
-    this.getDetailScheduleStatus();
+    this.getScheduleDetailsByDate();
+    // this.getDetailScheduleStatus();
   }
 
   landing() {
@@ -113,16 +114,16 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   onValueChange(date) {
-    this.getScheduleDetailsByDate(date);
+    this.getScheduleDetailsByDate();
   }
 
-  getScheduleDetailsByDate(date) {
+  getScheduleDetailsByDate() {
     this.morningBaySchedule = [];
     this.afternoonBaySchedue = [];
     this.eveningBaySchedule = [];
-    this.selectedDate = date;
+    // this.selectedDate = date;
     const locationId = localStorage.getItem('empLocationId');
-    const scheduleDate = this.datePipe.transform(date, 'yyyy-MM-dd');
+    const scheduleDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
     const finalObj = {
       jobDate: scheduleDate,
       locationId
@@ -132,7 +133,6 @@ export class DetailScheduleComponent implements OnInit {
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         const scheduleDetails = JSON.parse(res.resultData);
         const bayList = scheduleDetails.GetBaySchedulesDetails.BayList;
         const bayScheduleDetails = scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails === null ? []
@@ -209,7 +209,7 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   refreshDetailGrid() {
-    this.getScheduleDetailsByDate(this.selectedDate);
+    this.getScheduleDetailsByDate();
     this.todayScheduleComponent.getTodayDateScheduleList();
     this.dashboardStaticsComponent.getDashboardDetails();
   }
@@ -239,7 +239,6 @@ export class DetailScheduleComponent implements OnInit {
     this.detailService.getDetailScheduleStatus(locId, date).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleStatus = JSON.parse(res.resultData);
-        console.log(scheduleStatus, 'ststus');
         if (scheduleStatus.Status.length > 0) {
           const dateClass = [];
           this.scheduleDate = scheduleStatus.Status;
@@ -258,11 +257,9 @@ export class DetailScheduleComponent implements OnInit {
           console.log(scheduledDate, 'schedule');
           const dat = $('td.ng-star-inserted a');
           $('td.ng-star-inserted a').each(function (index) {
-            if (true) {
-              console.log('text');
-              if (_.contains(scheduledDate, +($(this).text()))) {
-                this.style.color = 'red';
-              }
+            if (_.contains(scheduledDate, +($(this).text()))) {
+              this.style.color = 'red';
+              this.style.fontWeight = 'bold';
             }
           });
         }
@@ -273,12 +270,23 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   selectedMonth(event) {
-    console.log(event, 'month');
     const date = new Date();
     date.setMonth(event.month - 1);
     date.setFullYear(event.year);
-    console.log(date, 'date');
     this.selectedDate = date;
     this.getDetailScheduleStatus();
+  }
+
+  selectedYear(event) {
+    const date = new Date();
+    date.setMonth(event.month - 1);
+    date.setFullYear(event.year);
+    this.selectedDate = date;
+    this.getDetailScheduleStatus();
+  }
+
+  selectDate(event) {
+    this.selectedDate = event;
+    this.getScheduleDetailsByDate();
   }
 }
