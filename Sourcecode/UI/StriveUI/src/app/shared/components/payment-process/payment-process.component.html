@@ -4,103 +4,111 @@
             <tab heading="Payment Detail" id="tab1">
                 <br>
                 <form [formGroup]="paymentForm">
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-4 form-group">
-                        Customer Name
-                    </div>
-                    <div class="col-4">
-                        <input type="text" name = "customerName" class="form-control" 
-                        formControlName="customerName">
-                       
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-4 form-group">
-                        Tip Amount<span class="required">*</span>
-                    </div>
-                    <div class="col-4">
-                        <input type="text" name = "tipAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted  && payment.tipAmount.errors }" 
-                        formControlName="tipAmount">
-                        <div *ngIf="submitted  && payment.tipAmount.errors" class="invalid-feedback">
-                            <div *ngIf="payment.tipAmount.errors.required">Tip Amount is required</div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Customer Name
+                        </div>
+                        <div class="col-4">
+                            <input type="text" name="customerName" class="form-control" formControlName="customerName">
+
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-4 form-group">
-                        Total Amount Due:
-                    </div>
-                    <div class="col-5">
-                        <strong>{{totalAmount | currency}}</strong>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-4">
-                        <strong>Payment Info</strong>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-4 form-group">
-                        Card Number<span class="required">*</span>
-                    </div>
-                    <div class="col-4">
-                        <input type="text"  name = "cardNumber" maxlength="16"
-                      placeholder="1234-1234-1234-1234" class="form-control" 
-                        (change) = "getCardType($event.target.value)" [ngClass]="{ 'is-invalid': submitted  && payment.cardNumber.errors }" 
-                        formControlName="cardNumber">
-                        <div *ngIf="submitted  && payment.cardNumber.errors" class="invalid-feedback">
-                            <div *ngIf="payment.cardNumber.errors.required">Card Number is required</div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Tip Amount<span class="required">*</span>
                         </div>
+                        <div class="col-4">
+                            <input type="text" name="tipAmount" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.tipAmount.errors }"
+                                formControlName="tipAmount">
+                            <div *ngIf="submitted  && payment.tipAmount.errors" class="invalid-feedback">
+                                <div *ngIf="payment.tipAmount.errors.required">Tip Amount is required</div>
                             </div>
-                            <div class="col-3" *ngIf= "card == 'AMEX'"><i class="fa  fa-cc-amex" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
-                            <div class="col-3" *ngIf= "card == 'Discover'"><i class="fa fa-cc-discover" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
-                            <div class="col-3" *ngIf= "card == 'Diners'"><i class="fa fa-cc-diners" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
-                            <div class="col-3" *ngIf= "card == 'Diners - Carte Blanche'"><i class="fa fa-cc-diners-club" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
-                            <div class="col-3" *ngIf= "card == 'JCB'"><i class="fa fa-cc-jcb" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
-                            <div class="col-3" *ngIf= "card == 'Mastercard'"><i class="fa fa-cc-mastercard" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
-    
-                            <div class="col-3" *ngIf= "card == 'Visa'"><i class="fa fa-cc-visa" style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
-                   
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-4 form-group">
-                        Expiration Date<span class="required">*</span>
-                    </div>
-                    <div class="col-4">
-                        <p-inputMask mask="99/99/9999" size="26"  name = "expiryDate" 
-                        [ngClass]="{ 'is-invalid': submitted  && payment.expiryDate.errors }" 
-                        formControlName="expiryDate" placeholder="99/99/9999" slotChar="mm/dd/yyyy"></p-inputMask>
-                       
-                        <div *ngIf="submitted  && payment.expiryDate.errors" class="invalid-feedback">
-                            <div *ngIf="payment.expiryDate.errors.required">Expiration Date is required</div>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-4 form-group">
-                    Security Code(CVV)<span class="required">*</span>
-                    </div>
-                    <div class="col-4">
-                        <input type="text" maxlength="5"  name = "ccv" class="form-control" [ngClass]="{ 'is-invalid': submitted  && payment.ccv.errors }" 
-                        formControlName="ccv">
-                        <div *ngIf="submitted  && payment.ccv.errors" class="invalid-feedback">
-                            <div *ngIf="payment.ccv.errors.required">Security Code(CVV) is required</div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Total Amount Due:
+                        </div>
+                        <div class="col-5">
+                            <strong>{{totalAmount | currency}}</strong>
                         </div>
                     </div>
-                </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4">
+                            <strong>Payment Info</strong>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Card Number<span class="required">*</span>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" name="cardNumber" maxlength="16" placeholder="1234-1234-1234-1234"
+                                class="form-control" (change)="getCardType($event.target.value)"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.cardNumber.errors }"
+                                formControlName="cardNumber">
+                            <div *ngIf="submitted  && payment.cardNumber.errors" class="invalid-feedback">
+                                <div *ngIf="payment.cardNumber.errors.required">Card Number is required</div>
+                            </div>
+                        </div>
+                        <div class="col-3" *ngIf="card == 'AMEX'"><i class="fa  fa-cc-amex"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Discover'"><i class="fa fa-cc-discover"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Diners'"><i class="fa fa-cc-diners"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Diners - Carte Blanche'"><i class="fa fa-cc-diners-club"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'JCB'"><i class="fa fa-cc-jcb"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+                        <div class="col-3" *ngIf="card == 'Mastercard'"><i class="fa fa-cc-mastercard"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+
+                        <div class="col-3" *ngIf="card == 'Visa'"><i class="fa fa-cc-visa"
+                                style="margin-top: -2px;margin-left: -82px;font-size: 40px;color: blue;"></i></div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Expiration Date<span class="required">*</span>
+                        </div>
+                        <div class="col-4">
+                            <p-inputMask mask="99/99/9999" size="26" name="expiryDate"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.expiryDate.errors }"
+                                formControlName="expiryDate" placeholder="99/99/9999" slotChar="mm/dd/yyyy">
+                            </p-inputMask>
+
+                            <div *ngIf="submitted  && payment.expiryDate.errors" class="invalid-feedback">
+                                <div *ngIf="payment.expiryDate.errors.required">Expiration Date is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Security Code(CVV)<span class="required">*</span>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" maxlength="5" name="ccv" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted  && payment.ccv.errors }" formControlName="ccv">
+                            <div *ngIf="submitted  && payment.ccv.errors" class="invalid-feedback">
+                                <div *ngIf="payment.ccv.errors.required">Security Code(CVV) is required</div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </tab>
             <tab heading="Billing Detail">
@@ -111,12 +119,14 @@
                             Company Name
                         </div>
                         <div class="col-5">
-                            <input type="text" name = "companyName" class="form-control" [ngClass]="{ 'is-invalid': submitted  && f.companyName.errors }" formControlName="companyName">
+                            <input type="text" name="companyName" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted  && f.companyName.errors }"
+                                formControlName="companyName">
                             <div *ngIf="submitted  && f.companyName.errors" class="invalid-feedback">
                                 <div *ngIf="f.companyName.errors.required">Company Name is required</div>
                             </div>
                         </div>
-                      
+
                     </div>
                     <br>
                     <div class="row">
@@ -124,24 +134,28 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">First Name<span class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text" name = "firstName" [ngClass]="{ 'is-invalid': submitted  && f.firstName.errors }" class="form-control" formControlName="firstName">
+                                    <input type="text" name="firstName"
+                                        [ngClass]="{ 'is-invalid': submitted  && f.firstName.errors }"
+                                        class="form-control" formControlName="firstName">
                                     <div *ngIf="submitted  && f.firstName.errors" class="invalid-feedback">
                                         <div *ngIf="f.firstName.errors.required">First Name is required</div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Last Name<span class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text" name = "lastName" [ngClass]="{ 'is-invalid': submitted  && f.lastName.errors }" class="form-control" formControlName="lastName">
+                                    <input type="text" name="lastName"
+                                        [ngClass]="{ 'is-invalid': submitted  && f.lastName.errors }"
+                                        class="form-control" formControlName="lastName">
                                     <div *ngIf="submitted  && f.lastName.errors" class="invalid-feedback">
                                         <div *ngIf="f.lastName.errors.required">Last Name is required</div>
                                     </div>
                                 </div>
-                              
+
                             </div>
                         </div>
                         <!-- <div class="col-4 form-group">
@@ -157,20 +171,22 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Address 1<span class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text" name = "address1" [ngClass]="{ 'is-invalid': submitted  && f.address1.errors }" class="form-control" formControlName="address1">
+                                    <input type="text" name="address1"
+                                        [ngClass]="{ 'is-invalid': submitted  && f.address1.errors }"
+                                        class="form-control" formControlName="address1">
                                     <div *ngIf="submitted  && f.address1.errors" class="invalid-feedback">
                                         <div *ngIf="f.address1.errors.required">Address 1 is required</div>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Address 2</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name = "address2" class="form-control" formControlName="address2">
-                               
+                                    <input type="text" name="address2" class="form-control" formControlName="address2">
+
                                 </div>
                             </div>
                         </div>
@@ -181,26 +197,27 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">State<span class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <app-state-dropdown  formControlName = "state" *ngIf="isStateLoaded" [selectedStateId]="selectedStateId" (stateId)="getSelectedStateId($event)">
+                                    <app-state-dropdown *ngIf="isStateLoaded" [selectedStateId]="selectedStateId"
+                                        (stateId)="getSelectedStateId($event)">
                                     </app-state-dropdown>
-                                    <div *ngIf="submitted  && f.state.errors" class="invalid-feedback">
+                                    <!-- <div *ngIf="submitted  && f.state.errors" class="invalid-feedback">
                                         <div *ngIf="f.state.errors.required">State is required</div>
-                                    </div> 
+                                    </div> -->
                                 </div>
-                               
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">City<span class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <app-city formControlName = "city" [State]="State" *ngIf="isStateLoaded" (selectCity)="selectCity($event)" [selectedCityId]="selectedCityId" [selectedStateId]="selectedStateId">
+                                    <app-city [State]="State" *ngIf="isStateLoaded" (selectCity)="selectCity($event)"
+                                        [selectedCityId]="selectedCityId" [selectedStateId]="selectedStateId">
                                     </app-city>
-                                     <div *ngIf="submitted  && f.city.errors" class="invalid-feedback">
-                                    <div *ngIf="f.city.errors.required">City is required</div>
+                                    <!-- <div *ngIf="submitted  && f.city.errors" class="invalid-feedback">
+                                        <div *ngIf="f.city.errors.required">City is required</div>
+                                    </div> -->
                                 </div>
-                                </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -211,29 +228,28 @@
                                 <label class="col-sm-4 col-form-label">Zip/Postal Code<span
                                         class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text" name = "zip" [ngClass]="{ 'is-invalid': submitted  && f.zip.errors }" class="form-control" formControlName="zip">
+                                    <input type="text" name="zip"
+                                        [ngClass]="{ 'is-invalid': submitted  && f.zip.errors }" class="form-control"
+                                        formControlName="zip">
                                     <div *ngIf="submitted  && f.zip.errors" class="invalid-feedback">
                                         <div *ngIf="f.zip.errors.required">ZipCode is required</div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Country<span
-                                        class="required">*</span></label>
+                                <label class="col-sm-4 col-form-label">Country<span class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <app-country-dropdown formControlName ="country" *ngIf="isStateLoaded" [selectedCountryId]="selectedCountryId">
+                                    <app-country-dropdown *ngIf="isStateLoaded" [selectedCountryId]="selectedCountryId">
                                     </app-country-dropdown>
-                                     <div *ngIf="submitted  && f.country.errors" class="invalid-feedback">
-                                    <div *ngIf="f.country.errors.required">Country is required</div>
-                                </div> 
                                 </div>
-                               
                             </div>
+
                         </div>
                     </div>
+
                     <br>
                     <div class="row">
                         <div class="col-6">
@@ -241,27 +257,28 @@
                                 <label class="col-sm-4 col-form-label">Email Address<span
                                         class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text"
-                                     [ngClass]="{ 'is-invalid': submitted  && f.email.errors }"  
-                                     class="form-control" name = "email" formControlName="email">
-                               
-                                     <div *ngIf="submitted  && f.email.errors" class="invalid-feedback">
+                                    <input type="text" [ngClass]="{ 'is-invalid': submitted  && f.email.errors }"
+                                        class="form-control" name="email" formControlName="email">
+
+                                    <div *ngIf="submitted  && f.email.errors" class="invalid-feedback">
                                         <div *ngIf="f.email.errors.required">Email is required</div>
                                     </div>
-                                     </div>
-                                
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Phone#<span class="required">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text" name = "phone" [ngClass]="{ 'is-invalid': submitted  && f.phone.errors }"  class="form-control" formControlName="phone">
+                                    <input type="text" name="phone"
+                                        [ngClass]="{ 'is-invalid': submitted  && f.phone.errors }" class="form-control"
+                                        formControlName="phone">
                                     <div *ngIf="submitted  && f.phone.errors" class="invalid-feedback">
                                         <div *ngIf="f.phone.errors.required">Phone is required</div>
                                     </div>
                                 </div>
-                              
+
                             </div>
                         </div>
                     </div>
