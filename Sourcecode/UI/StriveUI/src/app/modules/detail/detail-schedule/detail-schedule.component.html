@@ -17,11 +17,13 @@
                             <div class="card-body">
                                 <div class="row no-gutter">
                                     <div class="col-md-3 pr-3 pb-3 ">
-                                        <bs-datepicker-inline [bsValue]="selectedDate"
+                                        <!-- <bs-datepicker-inline [bsValue]="selectedDate"
                                             [bsConfig]="{ showWeekNumbers: false }"
                                             (bsValueChange)="onValueChange($event)">
-                                        </bs-datepicker-inline>
-                                        <!-- <p-calendar  [inline]="true"  [panelStyle]="{'padding': '0px'}" [showOtherMonths]="false" (onMonthChange)="selectedMonth($event)" ></p-calendar> -->
+                                        </bs-datepicker-inline> -->
+                                        <p-calendar [inline]="true" [panelStyle]="{'padding': '15px 0px 0px 0px'}" 
+                                            [showOtherMonths]="false" [monthNavigator]="true" [yearNavigator]="true"
+                                            yearRange="2000:2100" (onSelect)="selectDate($event)" (onMonthChange)="selectedMonth($event)" (onYearChange)="selectedYear($event)"></p-calendar>
                                     </div>
                                     <div class="col-md-3 p-r-0">
                                         <div class="table-responsive rounded-sm border border-right-0">
