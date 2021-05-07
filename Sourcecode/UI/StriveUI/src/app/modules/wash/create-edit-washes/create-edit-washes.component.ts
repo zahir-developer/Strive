@@ -478,7 +478,7 @@ export class CreateEditWashesComponent implements OnInit {
   selectedClient(event) {
     this.clientId = event.id;
     this.clientName = event.name;
-    this.getClientPastNotes(this.clientId)
+    this.getClientPastNotes(this.clientId);
     const name = event.name.toLowerCase();
     if (name.startsWith('drive')) {
       this.washForm.get('vehicle').disable();
@@ -503,7 +503,7 @@ export class CreateEditWashesComponent implements OnInit {
     }
   }
   getModel(id) {
-    this.modelService.getModelByMakeId(id.VehicleMakeId).subscribe(res => {
+    this.modelService.getModelByMakeId(id).subscribe(res => {
       if (res.status === 'Success') {
         const makeModel = JSON.parse(res.resultData);
         this.model = makeModel.Model;
@@ -544,6 +544,9 @@ export class CreateEditWashesComponent implements OnInit {
   }
   selectedModel(event) {
     const id = event.id;
+    this.washForm.patchValue({
+      model: ''
+    });
     if (id !== null) {
       this.getModel(id);
     }
@@ -818,7 +821,7 @@ export class CreateEditWashesComponent implements OnInit {
       this.jobItems.push(element);
     });
     const formObj = {
-      job: job,
+      job,
       jobItem: this.jobItems
     };
     if (this.isEdit === true) {
@@ -840,7 +843,7 @@ export class CreateEditWashesComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.wash.addWashes(formObj).subscribe(data => {
+      this.wash.updateWashes(formObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
 
@@ -971,17 +974,11 @@ export class CreateEditWashesComponent implements OnInit {
         {
           id: selectedclient.ClientId,
           name: selectedclient.FirstName + ' ' + selectedclient.LastName
-        }
-
+        };
         this.washForm.patchValue({
-
           client: this.selectclient
-
-        })
-
-        this.selectedClient(this.selectclient)
-
-
+        });
+        this.selectedClient(this.selectclient);
       }
       else {
         this.spinner.hide();
@@ -990,9 +987,8 @@ export class CreateEditWashesComponent implements OnInit {
       }
     }, (err) => {
       this.spinner.hide();
-
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    })
+    });
   }
   getJobStatus() {
     const jobStatus = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.JobStatus);

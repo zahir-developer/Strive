@@ -73,6 +73,8 @@
                                         <p
                                             class="theme-font-color  m-r-10 p-r-10 d-inline-block font-size--9 font-weight-700 align-middle m-t-4">
                                             No. of employees: {{EmpCount}}</p>
+                                        <p class="theme-font-color text-underline m-r-10 p-r-10 font-size--9 d-inline-block font-weight-700  align-middle m-t-4 cursor"
+                                            (click)="forecastedDetail()" style="cursor: pointer;">Forescasted</p>
                                     </div>
                                     <div id='calendar-container'>
                                         <p-fullCalendar #fc *ngIf="options" [events]="events" [options]="options">
@@ -159,3 +161,28 @@
         </div>
     </div>
 </div>
+<p-dialog styleClass="MyDialog" header="Forcased Detail" [(visible)]="forecastDialog" [blockScroll]="true" [modal]="true" [resizable]="true"
+    appendTo="body" [focusOnShow]="false" [closable]="true">
+    <div class="table-responsive">
+        <table class="table  table-striped m-t-10">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Date</th>
+                    <th scope="col">Forecasted Cars</th>
+                    <th scope="col">Forecasted Hours</th>
+                    <th scope="col">Current Employees</th>
+                    <th scope="col">Current Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let detail of forecastedList" class="text-center">
+                    <td>{{detail.Date | date : 'MM/dd/yyyy'}}</td>
+                    <td>{{detail.ForcastedCars}}</td>
+                    <td>{{detail.ForcastedEmployeeHours}}</td>
+                    <td>{{detail.TotalEmployees}}</td>
+                    <td>{{detail.Totalhours}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</p-dialog>
