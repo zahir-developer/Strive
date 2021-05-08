@@ -287,7 +287,7 @@ export class EditEmployeeComponent implements OnInit {
     //     ratePerHour: this.locationRate
 
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
-    this.selectedLocation = employeeInfo?.EmployeeLocations;
+    this.selectedLocation = employee?.EmployeeLocations;
     this.immigrationChange(employeeInfo.ImmigrationStatus);
     this.personalform.patchValue({
       firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
@@ -596,7 +596,7 @@ export class EditEmployeeComponent implements OnInit {
     const locHour = [];
     this.locationRateList.forEach(item => {
       locHour.push({
-        employeeHourRateId: item.employeeHourlyRateId,
+        employeeHourlyRateId: item.employeeHourlyRateId,
         employeeId: item.employeeId,
         roleId: null,
         locationId: item.locationId,
