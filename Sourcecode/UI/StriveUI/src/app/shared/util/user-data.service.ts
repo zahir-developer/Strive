@@ -49,8 +49,8 @@ export class UserDataService {
       } else {
         localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
         localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
-        this.setCityName(token?.EmployeeDetails?.EmployeeLocations?.CityName);
-        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations?.LocationName);
+        this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
+        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
       }
     }
 
