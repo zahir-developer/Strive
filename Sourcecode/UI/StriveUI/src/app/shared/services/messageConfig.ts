@@ -105,6 +105,7 @@ export const MessageConfig = {
       Delete: 'PayRoll deleted successfully !',
       Adjustment: 'Saved Successfully!',
       Process: 'PayRoll Processed successfully !',
+      SelectLocation: 'Please select location !'
    },
 
    checkOut:
