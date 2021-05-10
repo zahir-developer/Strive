@@ -31,6 +31,7 @@ namespace Strive.ResourceAccess
         public List<ProductViewModel> GetAllProduct(ProductSearchDto search)
         {
             _prm.Add("@ProductSearch", search.ProductSearch);
+            _prm.Add("@ProductTypeNames", search.ProductTypeNames);
             return db.Fetch<ProductViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
 

@@ -8,8 +8,8 @@ namespace Strive.BusinessEntities.ViewModel
 {
     public class ScheduleForcastedListViewModel
     {
-        public ScheduleTotalWashHoursViewModel ScheduleHoursViewModel { get; set; }
-        public ScheduleTotalEmployeeViewModel ScheduleEmployeeViewModel { get; set; }
-        public ForcastedCarEmployeehoursViewModel ForcastedCarEmployeehoursViewModel { get; set; }
+        public List<ScheduleTotalWashHoursViewModel> ScheduleHoursViewModel { get; set; }
+        public List<ScheduleTotalEmployeeViewModel> ScheduleEmployeeViewModel { get; set; }
+        public List<ForcastedCarEmployeehoursViewModel> ForcastedCarEmployeehoursViewModel { get; set; }
     }
 }

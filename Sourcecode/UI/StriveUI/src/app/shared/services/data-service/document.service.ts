@@ -13,6 +13,10 @@ export class DocumentService {
     return this.http.post(`${UrlConfig.document.addDocument}`, obj);
   }
 
+  updateDocument(obj) {
+    return this.http.post(`${UrlConfig.document.updateDocument}`, obj);
+  }
+
   getDocument(id,type) {
     return this.http.get(`${UrlConfig.document.getDocument}` + id + '/' + type);
   }

@@ -109,7 +109,7 @@ export class EditEmployeeComponent implements OnInit {
     this.emplistform = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
       dateOfHire: ['', Validators.required],
-      hourlyRateWash: ['', Validators.required],
+      hourlyRateWash: [''],
       hourlyRateDetail: [''],
       comType: [''],
       comRate: [''],
@@ -287,7 +287,7 @@ export class EditEmployeeComponent implements OnInit {
     //     ratePerHour: this.locationRate
 
     this.employeeDetailId = employeeInfo.EmployeeDetailId;
-    this.selectedLocation = employeeInfo?.EmployeeLocations;
+    this.selectedLocation = employee?.EmployeeLocations;
     this.immigrationChange(employeeInfo.ImmigrationStatus);
     this.personalform.patchValue({
       firstName: employeeInfo.Firstname ? employeeInfo.Firstname : '',
@@ -531,7 +531,7 @@ export class EditEmployeeComponent implements OnInit {
       employeeCode: null,
       authId: this.authId,
       hiredDate: moment(this.emplistform.value.dateOfHire).format('YYYY-MM-DD'),
-      WashRate: +this.emplistform.value.hourlyRateWash,
+      WashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
       DetailRate: null,
       ComRate: +this.emplistform.value.comRate,
       ComType: +this.emplistform.value.comType,
@@ -550,7 +550,7 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: false,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
         });
       } else {
         newlyAddedLocation.push({
@@ -559,7 +559,7 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: false,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
         });
       }
     });
@@ -572,7 +572,7 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: true,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
         });
       }
     });
@@ -596,7 +596,7 @@ export class EditEmployeeComponent implements OnInit {
     const locHour = [];
     this.locationRateList.forEach(item => {
       locHour.push({
-        employeeHourRateId: item.employeeHourlyRateId,
+        employeeHourlyRateId: item.employeeHourlyRateId,
         employeeId: item.employeeId,
         roleId: null,
         locationId: item.locationId,

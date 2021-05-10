@@ -31,6 +31,10 @@ export class AddTenantComponent implements OnInit {
   errorMessage: boolean;
   newModuleChanges = [];
   isSelectAll: boolean;
+  stateList = [];
+  cityList = [];
+  stateId: any;
+  cityId: any;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -47,7 +51,9 @@ export class AddTenantComponent implements OnInit {
       zipcode: [''],
       email: ['', [Validators.required, Validators.email]],
       mobile: [''],
-      phone: ['']
+      phone: [''],
+      stateId: [''],
+      cityId: ['']
     });
     this.companyform = this.fb.group({
       company: ['', Validators.required],
@@ -56,7 +62,8 @@ export class AddTenantComponent implements OnInit {
       paymentDate: ['', Validators.required],
       deactivation: ['', Validators.required]
     });
-    this.getModuleList();
+    this.getStateList();
+    // this.getModuleList();
   }
 
   getSelectedStateId(event) {
@@ -142,17 +149,30 @@ export class AddTenantComponent implements OnInit {
   setValue() {
     const detail = this.tenantDetail;
     this.personalform.patchValue({
-      firstName: detail.clientName,
-      address: '',
+      firstName: detail.firstName,
+      lastName: detail.lastName,
+      address: detail.address,
       email: detail.clientEmail,
-      mobile: detail.mobileNumber
+      mobile: detail.mobileNumber,
+      phone: detail.phoneNumber,
+      zipcode: detail.zipCode
     });
+    this.personalform.controls.email.disable();
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
       company: detail.companyName,
+      noOfLocation: +detail.maxLocation,
       dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
       paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : '',
       deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
     });
+
+    const selectedState = this.stateList.filter( item => item.StateId === detail.state );
+    if (selectedState.length > 0) {
+      this.personalform.patchValue({
+        stateId: selectedState[0]
+      });
+      this.selectedCity(selectedState[0]);
+    }
     this.tenantModule.forEach(item => {
       if (item.isActive) {
         item.IsChecked = true;
@@ -185,6 +205,32 @@ export class AddTenantComponent implements OnInit {
     //     }
     //   });
     // });
+  }
+
+  selectedCity(event) {
+    const stateId = event.StateId;
+    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+      if (res.status === 'Success') {
+        const cites = JSON.parse(res.resultData);
+        this.cityList = cites.cities;
+        this.cityList = this.cityList.map( item => {
+          return {
+            CityId: item.CityId,
+            CityName: item.CityName
+          };
+        });
+        const selectedState = this.cityList.filter( item => item.CityId === this.tenantDetail.city);
+        if (selectedState.length > 0) {
+          const city: any = {
+            CityId: selectedState[0].CityId,
+            CityName: selectedState[0].CityName
+          };
+          this.personalform.patchValue({
+            cityId: city
+          });
+        }
+      }
+    });
   }
 
   addTenant() {
@@ -236,11 +282,16 @@ export class AddTenantComponent implements OnInit {
     const module = {
       module: moduleObj
     };
+    this.personalform.controls.email.enable();
     const tenantObj = {
       tenantId: this.isEdit ? this.tenantDetail.tenantId : 0,
       clientId: this.isEdit ? this.tenantDetail.clientId : 0,
       firstName: this.personalform.value.firstName,
+      lastName: this.personalform.value.lastName,
       address: this.personalform.value.address,
+      state: this.personalform.value.stateId.StateId ? this.personalform.value.stateId.StateId : null,
+      city: this.personalform.value.cityId.CityId ? this.personalform.value.cityId.CityId : null,
+      zipCode: this.personalform.value.zipcode,
       tenantEmail: this.personalform.value.email,
       phoneNumber: this.personalform.value.phone,
       mobileNumber: this.personalform.value.mobile,
@@ -250,7 +301,8 @@ export class AddTenantComponent implements OnInit {
       expiryDate: moment(this.companyform.value.deactivation).format(),
       subscriptionDate: moment(this.companyform.value.dateOfSubscription).format(),
       paymentDate: moment(this.companyform.value.paymentDate).format(),
-      locations: +this.companyform.value.noOfLocation
+      locations: +this.companyform.value.noOfLocation,
+      isActive: true
     };
     const finalObj = {
       tenantViewModel: tenantObj,
@@ -261,7 +313,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -273,7 +325,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.addTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
+          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -303,6 +355,34 @@ export class AddTenantComponent implements OnInit {
   validateEmail(email) {
     const re = /^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  getStateList() {
+    this.tenantSetupService.getStateList().subscribe( res => {
+      if (res.status === 'Success') {
+        const states = JSON.parse(res.resultData);
+        this.stateList = states.Allstate;
+        this.getModuleList();
+      }
+    });
+  }
+
+  stateSelection(event) {
+    console.log(event);
+    const stateId = event.value.StateId;
+    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+      if (res.status === 'Success') {
+        const cites = JSON.parse(res.resultData);
+        this.cityList = cites.cities;
+        console.log(cites);
+        this.cityList = this.cityList.map( item => {
+          return {
+            CityId: item.CityId,
+            CityName: item.CityName
+          };
+        });
+      }
+    });
   }
 
 

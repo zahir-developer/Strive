@@ -248,6 +248,7 @@ export const UrlConfig = {
     deleteDocument: `Admin/Document/DeleteDocument/`,
     getDocumentById: `Admin/Document/GetDocumentById/`,
     uploadDocument: `Admin/Document/SaveEmployeeDocument`,
+    updateDocument: `Admin/Document/UpdateDocument`,
 
   },
   schedule: {
@@ -325,6 +326,8 @@ export const UrlConfig = {
     addTenantSetup: `Admin/Tenant/CreateTenant`,
     getTenantSetupList: `Admin/Tenant/AllTenant`,
     getTenantDetailById: `Admin/Tenant/TenantById/`,
-    updateTenant: `Admin/Tenant/UpdateTenant`
+    updateTenant: `Admin/Tenant/UpdateTenant`,
+    getStateList: `Admin/Tenant/StateList`,
+    getCityByStateId: `Admin/Tenant/GetCityByStateId/`
   }
 };

@@ -55,6 +55,8 @@ namespace Strive.BusinessLogic.GiftCard
                     Dictionary<string, string> keyValues = new Dictionary<string, string>();
                     keyValues.Add("{{emailId}}", giftCardDto.GiftCard.Email);
                     keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
+                    keyValues.Add("{{giftAmount}}", giftCardDto.GiftCard.BalanceAmount.ToString());
+                    keyValues.Add("{{activationDate}}", giftCardDto.GiftCard.ActivationDate.ToString());
                     comBpl.SendEmail(HtmlTemplate.GiftCardDetails, giftCardDto.GiftCard.Email, keyValues,subject);
                 }
             }
@@ -70,6 +72,8 @@ namespace Strive.BusinessLogic.GiftCard
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                         keyValues.Add("{{emailId}}", clientemail.FirstName);
                         keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
+                        keyValues.Add("{{giftAmount}}", giftCardDto.GiftCard.BalanceAmount.ToString());
+                        keyValues.Add("{{activationDate}}", giftCardDto.GiftCard.ActivationDate.ToString());
                         comBpl.SendEmail(HtmlTemplate.GiftCardDetails, clientemail.Email, keyValues,subject);
                     }
                 }

@@ -68,6 +68,19 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetTenantById(id);
         }
+        [HttpGet]
+        [Route("StateList")]
+        public Result GetState()
+        {
+            return _bplManager.GetState();
+        }
+        [HttpGet]
+        [Route("GetCityByStateId/{stateId}")]
+        public Result GetCityByStateId(int stateId)
+        {
+            return _bplManager.GetCityByStateId(stateId);
+        }
+
         #endregion
 
 

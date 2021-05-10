@@ -5,7 +5,8 @@
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
                         <h5 class="d-inline-block">Service List</h5>&nbsp;
-                        <button type="button" class="btn theme-primary-button-color btn-md float-right" (click)="add('add',[])">Add
+                        <button type="button" class="btn theme-primary-button-color btn-md float-right"
+                            (click)="add('add',[])">Add
                             New Service</button>
                     </div>
                     <div class="setup-wrapper">
@@ -13,19 +14,21 @@
                             <div class="search-container  pull-right">
                                 <form>
                                     <div class="form-row">
-                                        <div class="form-group d-flex"> 
-                                            
-                                            <input type="search" class="form-control"
-                                             [(ngModel)]="search" 
-                                             (ngModelChange)="this.searchUpdate.next($event)"
-                                             size="25" name="search" id="inputSearch" placeholder="Search by Name, Type" (keyup)="$event.keyCode == 13 ? getAllserviceSetupDetails() : null"> </div>&nbsp;
-                                        <div class="form-group d-flex"> <select class="form-control" [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
+                                        <div class="form-group d-flex">
+
+                                            <input type="search" class="form-control" [(ngModel)]="search"
+                                                (ngModelChange)="this.searchUpdate.next($event)" size="25" name="search"
+                                                id="inputSearch" placeholder="Search by Name, Type">
+                                        </div>&nbsp;
+                                        <div class="form-group d-flex"> <select class="form-control"
+                                                [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
                                                 <option value="" selected hidden>Status</option>
                                                 <option *ngFor="let status of Status" value="{{status.id}}">
                                                     {{status.Value}}</option>
                                             </select> </div>
                                         <div class="form-group col-sm m-l-5">
-                                            <button type="button" (click)="getAllserviceSetupDetails()" class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
+                                            <button type="button" (click)="getAllserviceSetupDetails()"
+                                                class="btn theme-primary-button-color btn-sm m-l-10">Search</button>
                                         </div>
                                     </div>
                                 </form>
@@ -36,11 +39,15 @@
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="changeSorting('ServiceName')">Name&nbsp; 
-                                                <i class="fa" [ngClass]="selectedCls('ServiceName')"></i></th>
-                                            <th class="pointer" (click)="changeSorting('ServiceType')">Type&nbsp; <i class="fa" [ngClass]="selectedCls('ServiceType')"></i></th>
-                                            <th class="pointer" (click)="changeSorting('Price')">Price&nbsp; <i class="fa" [ngClass]="selectedCls('Price')"></i></th>
-                                            <th class="pointer" (click)="changeSorting('IsActive')">Status&nbsp; <i class="fa" [ngClass]="selectedCls('IsActive')"></i></th>
+                                            <th class="pointer" (click)="changeSorting('ServiceName')">Name&nbsp;
+                                                <i class="fa" [ngClass]="selectedCls('ServiceName')"></i>
+                                            </th>
+                                            <th class="pointer" (click)="changeSorting('ServiceType')">Type&nbsp; <i
+                                                    class="fa" [ngClass]="selectedCls('ServiceType')"></i></th>
+                                            <th class="pointer" (click)="changeSorting('Price')">Price&nbsp; <i
+                                                    class="fa" [ngClass]="selectedCls('Price')"></i></th>
+                                            <th class="pointer" (click)="changeSorting('IsActive')">Status&nbsp; <i
+                                                    class="fa" [ngClass]="selectedCls('IsActive')"></i></th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -51,8 +58,12 @@
                                             <td>{{serviceSetup.Price | currency}}</td>
                                             <td>{{serviceSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
-                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10" style="color:green" pTooltip="Edit" tooltipPosition="bottom" (click)="add('edit', serviceSetup)"></em>&nbsp;&nbsp;
-                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color" style="color:red" pTooltip="Delete" tooltipPosition="bottom" (click)="delete(serviceSetup)"></em>
+                                                <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
+                                                    style="color:green" pTooltip="Edit" tooltipPosition="bottom"
+                                                    (click)="add('edit', serviceSetup)"></em>&nbsp;&nbsp;
+                                                <em class="fa fa-times-circle delete-list theme-optional-icon-color"
+                                                    style="color:red" pTooltip="Delete" tooltipPosition="bottom"
+                                                    (click)="delete(serviceSetup)"></em>
                                             </td>
                                         </tr>
                                         <tr *ngIf="serviceSetupDetails.length == 0">
@@ -65,13 +76,17 @@
                                 </div>
                                 <div class="row pull-right">
                                     <div class="col-6">
-                                        <ngb-pagination *ngIf="serviceSetupDetails.length > 0" [collectionSize]="collectionSize" (pageChange)="paginate($event)" [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
+                                        <ngb-pagination *ngIf="serviceSetupDetails.length > 0"
+                                            [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                            [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true" class="d-flex justify-content-end">
                                         </ngb-pagination>
                                     </div>
-                                    <select *ngIf="serviceSetupDetails.length > 0" class="form-control col-4" name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
-                                         <option *ngFor = "let size of pageSizeList" value = "{{size}}">{{size}}</option>
- 
-                                     </select>
+                                    <select *ngIf="serviceSetupDetails.length > 0" class="form-control col-4"
+                                        name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                        <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                    </select>
                                 </div>
                             </div>
 
@@ -81,7 +96,9 @@
             </div>
         </div>
     </div>
-    <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true" [resizable]="true" appendTo="body" [focusOnShow]="false" [closable]="false">
-        <app-service-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit" (closeDialog)="closePopupEmit($event)">
+    <p-dialog styleClass="MyDialog" header="{{headerData}}" [(visible)]="showDialog" [blockScroll]="true" [modal]="true"
+        [resizable]="true" appendTo="body" [focusOnShow]="false" [closable]="false">
+        <app-service-create-edit *ngIf="showDialog" [selectedData]="selectedData" [isEdit]="isEdit"
+            (closeDialog)="closePopupEmit($event)">
         </app-service-create-edit>
     </p-dialog>

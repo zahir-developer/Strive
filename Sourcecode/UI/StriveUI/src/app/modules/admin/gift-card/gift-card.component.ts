@@ -11,6 +11,8 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-gift-card',
@@ -36,10 +38,11 @@ export class GiftCardComponent implements OnInit {
   page: number;
   pageSize: number;
   pageSizeList: number[];
-  query = '';
   sortColumn: { sortBy: string; sortOrder: string; };
   startDate: Date;
   getGiftCardDetails = [];
+  searchUpdate = new Subject<string>();
+
   constructor(
     private giftCardService: GiftCardService,
     private fb: FormBuilder,
@@ -47,7 +50,15 @@ export class GiftCardComponent implements OnInit {
     private toastr: ToastrService,
     private messageService: MessageServiceToastr,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllGiftCard();
+      });
+   }
 
   ngOnInit(): void {
     this.startDate = new Date();
@@ -117,7 +128,7 @@ export class GiftCardComponent implements OnInit {
     this.getAllGiftCard();
   }
   searchGift() {
-    this.search = this.query;
+    this.search = this.search;
     this.getAllGiftCard();
   }
 

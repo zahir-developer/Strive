@@ -5,7 +5,7 @@
     <div class="modal-body">
         <div class="form-row">
             <div class="form-group col-lg-4">
-                <input type="text" maxlength="100" class="form-control" name="CheckList"  pInputText pKeyFilter="alphanum" [(ngModel)]="checkListName" placeholder="Check List Name">
+                <input type="text" maxlength="100" class="form-control" name="CheckList"  appAlphaNumeric [(ngModel)]="checkListName" placeholder="Check List Name">
             </div>
             <div class="form-group col-lg-4">
                 <select name="Roles" class="form-control" [(ngModel)]="roleId" placeholder="Select Role">

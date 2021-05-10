@@ -18,8 +18,8 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 export class ServiceListComponent implements OnInit {
   @Input() historyGrid?: any;
   @Input() ticketNumber?: any;
-  page = 1;
-  pageSize = 10;
+  page: any;
+  pageSize: any;
   collectionSize: number;
   Date: any;
   constructor(
@@ -27,11 +27,12 @@ export class ServiceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.collectionSize = Math.ceil(this.historyGrid.length / this.pageSize) * 10;
-    if(this.historyGrid.length > 0){
+    if (this.historyGrid.length > 0) {
       this.Date = this.historyGrid[0]?.Date;
     }
-   
   }
 
   closeHistoryModel() {

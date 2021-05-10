@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class ScheduleTotalWashHoursViewModel
+   public class CustomerHistoryGridViewModel
     {
-        public decimal? Totalhours { get; set; }
-
-        public DateTime ScheduledDate { get; set; }
+        public List<CustomerHistoryViewModel> customerHistoryViewModel { get; set; }
+        public CountViewModel Count { get; set; }
     }
 }
