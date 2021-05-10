@@ -17,9 +17,12 @@
     CONSTRAINT [PK_tblEmployeeLiability] PRIMARY KEY CLUSTERED ([LiabilityId] ASC),
     CONSTRAINT [FK_tblEmployeeLiability_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [StriveCarSalon].[tblClient] ([ClientId]),
     CONSTRAINT [FK_tblEmployeeLiability_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
+    CONSTRAINT [FK_tblEmployeeLiability_LiabilityType] FOREIGN KEY ([LiabilityType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblEmployeeLiability_ProductId] FOREIGN KEY ([ProductId]) REFERENCES [StriveCarSalon].[tblProduct] ([ProductId]),
     CONSTRAINT [FK_tblEmployeeLiability_VehicleId] FOREIGN KEY ([VehicleId]) REFERENCES [StriveCarSalon].[tblClientVehicle] ([VehicleId])
 );
+
+
 
 
 

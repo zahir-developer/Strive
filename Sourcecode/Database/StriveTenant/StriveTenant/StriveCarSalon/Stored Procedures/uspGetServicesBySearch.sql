@@ -1,4 +1,4 @@
-﻿Create proc [StriveCarSalon].[uspGetServicesBySearch]
+﻿CREATE proc [StriveCarSalon].[uspGetServicesBySearch]
 (@ServiceType varchar(50)=null,@ServiceName varchar(50)=null,@Status int = null)
 as
 begin
@@ -13,8 +13,8 @@ SELECT
 	svc.ServiceName,
 	svc.Cost,
 	isnull(svc.IsActive,1) as IsActive
-	FROM [StriveCarSalon].tblService svc 
-	LEFT JOIN [striveCarSalon].GetTable('ServiceType') cv
+	FROM tblService svc 
+	LEFT JOIN GetTable('ServiceType') cv
 	ON svc.ServiceType = cv.valueid
 WHERE isnull(svc.IsDeleted,0)=0
 AND

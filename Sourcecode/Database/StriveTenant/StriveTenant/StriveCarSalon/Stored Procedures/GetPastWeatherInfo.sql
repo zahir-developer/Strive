@@ -3,7 +3,7 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [StriveCarSalon].GetPastWeatherInfo
+CREATE PROCEDURE [StriveCarSalon].[GetPastWeatherInfo]
 	(
 @LocationId int,
 @Date date
@@ -26,7 +26,7 @@ WP.PredictedBusiness,
 WP.TargetBusiness,
 WP.LocationId ,
 w.WashCount
-FROM [StriveCarSalon].[tblWeatherPrediction] WP
+FROM [tblWeatherPrediction] WP
 inner join #WashHours w on WP.LocationId=w.LocationId
 WHERE
 WP.LocationId =@LocationId AND wp.CreatedDate=@Date

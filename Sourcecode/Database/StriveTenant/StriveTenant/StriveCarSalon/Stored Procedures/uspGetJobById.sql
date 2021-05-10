@@ -1,28 +1,28 @@
 ﻿
-
-CREATE PROC [StriveCarSalon].[uspGetJobById]-- [StriveCarSalon].[uspGetJobById] 35746205193
+-- [StriveCarSalon].[uspGetJobById] 205978--35746
+CREATE PROC [StriveCarSalon].[uspGetJobById]
 (@JobId int)
 AS
 BEGIN
 DECLARE @ReviewNote varchar(50);
 DECLARE @ClientId int;
 DECLARE @Count int;
-SELECT @ClientId = (select ClientId from StriveCarSalon.tblJob where JobId=@JobId)
-SELECT @Count = (select count(1) from StriveCarSalon.tbljob where ClientId=@ClientId)
+SELECT @ClientId = (select ClientId from tblJob where JobId=@JobId)
+SELECT @Count = (select count(1) from tbljob where ClientId=@ClientId)
 if(@Count > 1)
 BEGIN
-SELECT @ReviewNote = (select * from (select top 2 JD.ReviewNote from StriveCarSalon.tblJob J
-JOIN StriveCarSalon.tblJobDetail JD on Jd.JobId = J.JobId 
+SELECT @ReviewNote = (select * from (select top 2 JD.ReviewNote from tblJob J
+JOIN tblJobDetail JD on Jd.JobId = J.JobId 
 and (J.ClientId = @ClientId) ORDER BY J.JobDate DESC) x
 except
-select * from (select top 1 JD.ReviewNote from StriveCarSalon.tblJob J
-JOIN StriveCarSalon.tblJobDetail JD on Jd.JobId = J.JobId 
+select * from (select top 1 JD.ReviewNote from tblJob J
+JOIN tblJobDetail JD on Jd.JobId = J.JobId 
 and(J.ClientId = @ClientId) ORDER BY J.JobDate DESC) y)
 END
 else
 BEGIN
-SELECT @ReviewNote = (Select * from (select top 1 JD.ReviewNote from StriveCarSalon.tblJob J
-JOIN StriveCarSalon.tblJobDetail JD on Jd.JobId = J.JobId 
+SELECT @ReviewNote = (Select * from (select top 1 JD.ReviewNote from tblJob J
+JOIN tblJobDetail JD on Jd.JobId = J.JobId 
 and (J.ClientId = @ClientId) ORDER BY J.JobDate DESC)a)
 END
 Select 
@@ -36,6 +36,9 @@ tbj.JobId
 ,tbj.Make
 ,tbj.Model
 ,tbj.Color
+,model.ModelValue AS VehicleModel
+,make.MakeValue As VehicleMake
+,cvCo.valuedesc as VehicleColor
 ,tbj.JobType
 ,tbj.JobDate
 ,tbj.TimeIn
@@ -51,14 +54,26 @@ tbj.JobId
 ,tbj.Notes as ReviewNote
 ,tblclv.Barcode
 --,@ReviewNote AS PastHistoryNote
+,tbj.JobPaymentId
+,ISNULL(ps.valuedesc,'NotPaid') AS Paymentstatus
+,Case
+when (ps.valuedesc != 'Success'OR tbljp.PaymentStatus IS NULL) then 'False'
+when ps.valuedesc = 'Success' then 'True'
+End AS IsPaid
 from 
-StriveCarSalon.tblJob tbj 
-LEFT JOIN StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
-LEFT JOIN StriveCarSalon.tblClientAddress tblca on tbj.ClientId = tblca.ClientId
-LEFT JOIN StriveCarSalon.tblClient tblc on tbj.ClientId = tblc.ClientId
-LEFT JOIN StriveCarSalon.tblJobItem tblji on tbj.JobId = tblji.JobId
-LEFT JOIN StriveCarSalon.tblService tbls on tblji.ServiceId = tbls.ServiceId
-LEFT JOIN StriveCarSalon.GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid
+tblJob tbj 
+LEFT JOIN	tblJobPayment tbljp  WITH(NOLOCK) ON tbj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
+LEFT JOIN	GetTable('PaymentStatus') ps ON(tbljp.PaymentStatus = ps.valueid)
+LEFT JOIN tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId
+LEFT JOIN tblClientAddress tblca on tbj.ClientId = tblca.ClientId
+LEFT JOIN tblClient tblc on tbj.ClientId = tblc.ClientId
+LEFT JOIN tblJobItem tblji on tbj.JobId = tblji.JobId
+LEFT JOIN tblService tbls on tblji.ServiceId = tbls.ServiceId
+LEFT JOIN GetTable('ServiceType') tblcv on tbls.ServiceType = tblcv.valueid
+
+Left join tblVehicleMake make on tbj.Make=make.MakeId
+Left join tblvehicleModel model on tbj.Model= model.ModelId
+LEFT JOIN GetTable('VehicleColor') cvCo ON tbj.Color = cvCo.valueid
 WHERE tblcv.valuedesc='Wash Package'
 AND isnull(tbj.IsDeleted,0)=0
 AND isnull(tblji.IsActive,1)=1
@@ -75,8 +90,8 @@ Commission,
 tblji.Price,
 Quantity,
 ReviewNote
-from StriveCarSalon.tblJobItem tblji
-LEFT JOIN StriveCarSalon.tblService s on s.ServiceId = tblji.ServiceId
+from tblJobItem tblji
+LEFT JOIN tblService s on s.ServiceId = tblji.ServiceId
 WHERE (JobId = @JobId OR @JobId IS NULL)
 AND isnull(tblji.IsDeleted,0)=0
 

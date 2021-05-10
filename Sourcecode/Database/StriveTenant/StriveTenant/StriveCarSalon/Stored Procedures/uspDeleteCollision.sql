@@ -3,8 +3,8 @@
      @tvpEmployeeLiabilityId int)
 AS 
 BEGIN
-    UPDATE [StriveCarSalon].[tblEmployeeLiability] 
+    UPDATE [tblEmployeeLiability] 
     SET IsDeleted=1 WHERE LiabilityId = @tvpEmployeeLiabilityId
-	UPDATE [StriveCarSalon].[tblEmployeeLiabilityDetail] 
+	UPDATE [tblEmployeeLiabilityDetail] 
     SET IsDeleted=1 WHERE LiabilityId = @tvpEmployeeLiabilityId
 END

@@ -2,6 +2,6 @@
 @DocumentId int
 AS
 begin
-UPDATE [StriveCarSalon].[tblEmployeeDocument] SET IsDeleted = 1
+UPDATE [tblEmployeeDocument] SET IsDeleted = 1
 WHERE EmployeeDocumentId=@DocumentId
 end

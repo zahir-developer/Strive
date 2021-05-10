@@ -47,7 +47,7 @@ export class PayrollsGridComponent implements OnInit {
   date = moment(new Date()).format('MM/DD/YYYY');
   fileTypeEvent: boolean = false;
   location: any;
-  locationId: any;
+  locationId: number = 0;
 
   constructor(
     private payrollsService: PayrollsService,
@@ -75,7 +75,7 @@ export class PayrollsGridComponent implements OnInit {
      
     });
     this.location = JSON.parse(localStorage.getItem('empLocation'));
-    this.locationId = localStorage.getItem('empLocationId');
+    //this.locationId = localStorage.getItem('empLocationId');
     this.isEditAdjustment = false;
     this.patchValue();
     this.fileExportType = [
@@ -160,10 +160,17 @@ export class PayrollsGridComponent implements OnInit {
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
-    this.runReport();
+    //this.runReport();
   }
   runReport() {
     const locationId = this.locationId;
+
+    if(+locationId === 0)
+    {
+      this.toastr.warning(MessageConfig.PayRoll.SelectLocation, 'Warning!');
+      return;
+    }
+
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
     this.spinner.show();
@@ -181,7 +188,11 @@ export class PayrollsGridComponent implements OnInit {
           this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
           this.isPayrollEmpty = false;
         } else {
+          this.collectionSize = Math.ceil(length / this.pageSize) * 10;
+          this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
           this.isPayrollEmpty = true;
+          this.payRollList = null;
+          this.payRollBackup = null;
         }
       }
       else {

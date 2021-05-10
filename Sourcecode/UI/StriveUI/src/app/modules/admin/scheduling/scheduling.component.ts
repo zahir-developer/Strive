@@ -65,6 +65,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   noOfForcastedHours = 0;
   noOfCurrentEmployee = 0;
   noOfCurrentHours = 0;
+  forecastDialog: boolean;
+  forecastedList = [];
   constructor(
     private empService: EmployeeService,
     private locationService: LocationService,
@@ -93,6 +95,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit(): void {
+    this.forecastDialog = false;
     this.locationId = +localStorage.getItem('empLocationId');
     this.searchEmployee();
     this.getLocationList();
@@ -370,19 +373,28 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.scheduleService.getScheduleAndForcasted(getScheduleObj).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleDetail = JSON.parse(res.resultData);
-        this.noOfForcastedCars = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars ?
-          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars : 0;
-        this.noOfForcastedHours = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours ?
-          scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours : 0;
-        this.noOfCurrentEmployee = scheduleDetail.ScheduleForcastedDetail.ScheduleEmployeeViewModel.TotalEmployees;
-        this.noOfCurrentHours = scheduleDetail.ScheduleForcastedDetail.ScheduleHoursViewModel.Totalhours;
-        $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
-        $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
+        this.forecastedList = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel;
+        this.forecastedList.forEach( item => {
+          item.TotalEmployees = 0;
+          item.Totalhours = 0;
+        });
+        // this.noOfForcastedCars = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars ?
+        //   scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedCars : 0;
+        // this.noOfForcastedHours = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours ?
+        //   scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel.ForcastedEmployeeHours : 0;
+        // this.noOfCurrentEmployee = scheduleDetail.ScheduleForcastedDetail.ScheduleEmployeeViewModel.TotalEmployees;
+        // this.noOfCurrentHours = scheduleDetail.ScheduleForcastedDetail.ScheduleHoursViewModel.Totalhours;
+        // $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+        // $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
       }
     }, (err) => {
-      $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
-      $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
+      // $('.fc-day-header').append(`<i class="mdi mdi-file-document theme-secondary-color">`);
+      // $('.fc-day-header').prop('title', `No of Forecasted Cars: ${this.noOfForcastedCars}\nNo of Forecasted Hours: ${this.noOfForcastedHours}\nNo of Current Employees: ${this.noOfCurrentEmployee}\nNo of Current Hours: ${this.noOfCurrentHours}`);
     });
+  }
+
+  forecastedDetail() {
+    this.forecastDialog = true;
   }
   // Retain Unclicked EmployeeList
   retainUnclickedEvent() {

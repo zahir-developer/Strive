@@ -1,6 +1,6 @@
 ﻿
-
-CREATE procedure [StriveCarSalon].[uspGetBonusSetup] --[StriveCarSalon].[uspGetBonusSetup] 3,2021,1
+--[StriveCarSalon].[uspGetBonusSetup] 3,2021,1
+CREATE procedure [StriveCarSalon].[uspGetBonusSetup] 
 (@BonusMonth INT,@BonusYear INT,@LocationId INT)
 AS
 BEGIN

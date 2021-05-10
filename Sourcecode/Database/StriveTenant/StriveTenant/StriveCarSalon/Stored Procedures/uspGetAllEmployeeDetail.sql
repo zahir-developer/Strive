@@ -14,9 +14,10 @@
 -- 24-02-2021, Zahir - Removed STUFF for employee phone number
 
 ------------------------------------------------
+-- [StriveCarSalon].[uspGetAllEmployeeDetail] 'Zac',1,10,'ASC',firstname
 -- =============================================
 
-CREATE PROC [StriveCarSalon].[uspGetAllEmployeeDetail]-- [StriveCarSalon].[uspGetAllEmployeeDetail] 'Zac',1,10,'ASC',firstname
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllEmployeeDetail]
 
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
@@ -33,7 +34,7 @@ END
 
 IF @PageSize is NULL
 BEGIN
-SET @PageSize = (Select count(1) from StriveCarSalon.tblEmployee);
+SET @PageSize = (Select count(1) from tblEmployee);
 SET @PageNo = 1;
 SET @Skip = @PageSize * (@PageNo-1);
 Print @PageSize
@@ -54,17 +55,16 @@ chatComm.CommunicationId,
 --WHERE EmployeeId = emp.EmployeeId
 --FOR XML PATH('')),1,1,'') as MobileNo,
 empad.phoneNumber as MobileNo,
-(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END FROM StriveCarSalon.tblEmployeeLiability WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Collisions,
-(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM StriveCarSalon.tblEmployeeDocument WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Documents,
-(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM StriveCarSalon.tblSchedule WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Schedules,
+(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END FROM tblEmployeeLiability WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Collisions,
+(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM tblEmployeeDocument WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Documents,
+(SELECT CASE WHEN COUNT(1) > 0 THEN 'true' ELSE 'false' END  FROM tblSchedule WHERE employeeid=emp.employeeid AND ISNULL(IsDeleted,0)=0) as Schedules,
 
 isnull(emp.IsActive,1) as Status
 INTO #Employee
-FROM 
-StriveCarSalon.tblEmployee emp 
-INNER JOIN StriveCarSalon.tblEmployeeAddress empAd on emp.employeeId = empAd.employeeId and empAd.PhoneNumber != ''
-LEFT JOIN StriveCarSalon.tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
-LEFT JOIN StriveCarSalon.tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId 
+FROM tblEmployee emp 
+LEFT JOIN tblEmployeeAddress empAd on emp.employeeId = empAd.employeeId and empAd.PhoneNumber != ''
+LEFT JOIN tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
+LEFT JOIN tblEmployeeDetail empdet on emp.EmployeeId = empdet.EmployeeId 
 WHERE --empdet.EmployeeDetailId is NOT NULL AND 
 ISNULL(emp.IsDeleted,0) = 0 
 AND ((emp.FirstName like '%'+@Query+'%')
@@ -91,7 +91,7 @@ Select * from #Employee
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from StriveCarSalon.tblEmployee where 
+select count(1) as Count from tblEmployee where 
 ISNULL(IsDeleted,0) = 0 
 
 END

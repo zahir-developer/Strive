@@ -13,9 +13,9 @@ Select
 	,empLD.Amount
 	,empL.CreatedDate
 FROM 
-strivecarsalon.tblEmployeeLiability empL
-LEFT JOIN StriveCarSalon.tblEmployeeLiabilityDetail empLd ON empL.LiabilityId = empLd.LiabilityId
-INNER JOIN StriveCarSalon.GetTable('LiabilityType') cvL on empL.LiabilityType = cvL.valueid
+tblEmployeeLiability empL
+LEFT JOIN  tblEmployeeLiabilityDetail empLd ON empL.LiabilityId = empLd.LiabilityId
+INNER JOIN GetTable('LiabilityType') cvL on empL.LiabilityType = cvL.valueid
 WHERE
  (@EmployeeId is null or empl.EmployeeId = @EmployeeId) AND
  (@CollisionId is null or empl.LiabilityId = @CollisionId)

@@ -7,7 +7,7 @@ AS
 BEGIN
 
 
-UPDATE [StriveCarSalon].[tblGiftCard] SET
+UPDATE [tblGiftCard] SET
   IsDeleted=1 
    WHERE GiftCardId=@GiftCardId	
 

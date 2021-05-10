@@ -14,12 +14,12 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetDashboard]
 (@LocationId INT = null)
 AS
 BEGIN
-Declare @WashId INT = (Select valueid from GetTable('JobType') where valuedesc='Wash')
-Declare @WashServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Washes')
-Declare @DetailServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Details')
-Declare @AdditionalServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Additional Services')
-Declare @DetailId INT = (Select valueid from GetTable('JobType') where valuedesc='Detail')
-Declare @CompletedJobStatus INT = (Select valueid from GetTable('JobStatus') where valuedesc='Completed')
+Declare @WashId INT = (Select top 1 valueid from GetTable('JobType') where valuedesc='Wash')
+Declare @WashServiceId INT = (Select top 1 valueid from GetTable('ServiceType') where valuedesc='Washes')
+Declare @DetailServiceId INT = (Select top 1 valueid from GetTable('ServiceType') where valuedesc='Detail Package')
+Declare @AdditionalServiceId INT = (Select top 1 valueid from GetTable('ServiceType') where valuedesc='Additional Services')
+Declare @DetailId INT = (Select top 1 valueid from GetTable('JobType') where valuedesc='Detail')
+Declare @CompletedJobStatus INT = (Select top 1 valueid from GetTable('JobStatus') where valuedesc='Completed')
 
 DROP TABLE  IF EXISTS #WashesCount
 (SELECT 

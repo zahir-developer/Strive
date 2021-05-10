@@ -18,8 +18,11 @@
     [UpdatedDate]       DATETIMEOFFSET (7)                                               NULL,
     [WorkPermit]        DATETIME                                                         NULL,
     [UserId]            INT                                                              NULL,
+    [Tips]              BIT                                                              NULL,
     CONSTRAINT [PK_tblEmployee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 
 
 

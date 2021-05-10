@@ -15,13 +15,15 @@ export class LandingService {
   constructor(private toastr: ToastrService,
     private authService: AuthService, private user: UserDataService, private router: Router, private route: ActivatedRoute,) { }
   loadTheLandingPage(isFromLogin? : boolean): void {
-    const location = localStorage.getItem('empLocation');
+    const location = JSON.parse(localStorage.getItem('empLocation'));
     if (location?.length > 1 && isFromLogin) {
      
       this.router.navigate([`/location`], { relativeTo: this.route });
       
     }
-     else {
+     else if(location !== null ? location !== undefined : false) {
+      localStorage.setItem('empLocationName', location[0].LocationName);
+      localStorage.setItem('employeeCityName', location[0].CityName);
       localStorage.setItem('isAuthenticated', 'true');
       this.authService.loggedIn.next(true);
       this.user.navName.subscribe((data) => {

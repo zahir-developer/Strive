@@ -1,5 +1,5 @@
 ﻿
-CREATE proc [StriveCarSalon].[uspGetAllGiftCards]--[StriveCarSalon].[uspGetAllGiftCards] null,1,10,null,null,null,null --'2021-03-08','2021-03-15'
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllGiftCards]
 (@Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
 @PageSize INT = NULL,
@@ -18,13 +18,15 @@ END
 
 IF @PageSize is NULL
 BEGIN
-SET @PageSize = (Select count(1) from StriveCarSalon.tblGiftCard);
+SET @PageSize = (Select count(1) from tblGiftCard);
 SET @PageNo = 1;
 SET @Skip = @PageSize * (@PageNo-1);
 Print @PageSize
 Print @PageNo
 Print @Skip
 END
+
+
 DROP TABLE If EXISTS #GiftCardHistory  
 
 DROP TABLE If EXISTS #GetAllGiftCard
@@ -33,27 +35,27 @@ select
 GiftCardId,
 SUM(gh.TransactionAmount) Balance
 INTO #GiftCardHistory
-from StriveCarSalon.tblGiftCardHistory gh
+from tblGiftCardHistory gh
 group by GiftCardId
 
 select 
 gc.GiftCardId,
-LocationId,
-GiftCardCode,
-GiftCardName,
-ActivationDate,
-
-(gc.TotalAmount + gh.Balance) as TotalAmount,
-Comments,
+gc.LocationId,
+gc.GiftCardCode,
+gc.GiftCardName,
+gc.ActivationDate,
+ gh.Balance as TotalAmount,
+--(gc.TotalAmount + gh.Balance) as TotalAmount,
+gc.Comments,
 gc.IsActive,
 gc.IsDeleted,
 tblCli.FirstName,
 tblCli.LastName
 into #GetAllGiftCard
-from [StriveCarSalon].[tblGiftCard] gc
+from [tblGiftCard] gc
 LEFT JOIN #GiftCardHistory gh on gh.GiftCardId = gc.GiftCardId
-left Join [StriveCarSalon].[tblClient] tblCli on(gc.ClientId = tblCli.ClientId)
-where gc.IsDeleted =0 and gc.IsActive=1 and ( gc.ActivationDate between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
+left Join [tblClient] tblCli on(gc.ClientId = tblCli.ClientId) 
+where gc.IsDeleted =0 and gc.IsActive=1 and ( cast (gc.ActivationDate as date) between @StartDate  and @EndDate or(@StartDate is null and @EndDate is null ))
  and (
 @Query is null OR	gc.GiftCardName like '%'+@Query+'%'
 								OR	gc.GiftCardCode like '%'+@Query+'%'
@@ -84,11 +86,13 @@ CASE WHEN @SortBy IS NULL AND @SortOrder IS NULL THEN gc.GiftCardId  END ASC
 
 OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
 
+
+
 select * from #GetAllGiftCard
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from StriveCarSalon.tblGiftCard where 
+select count(1) as Count from tblGiftCard where 
 ISNULL(IsDeleted,0) = 0 
 
 END

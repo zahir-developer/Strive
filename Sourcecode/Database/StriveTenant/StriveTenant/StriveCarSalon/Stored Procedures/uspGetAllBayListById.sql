@@ -14,5 +14,5 @@ CREATE PROC [StriveCarSalon].[uspGetAllBayListById]
 (@LocationId int)
 AS
 BEGIN
-Select BayId,BayName FROM [StriveCarSalon].[tblBay] WHERE IsActive=1 AND LocationId = @LocationId AND IsDeleted = 0
+Select BayId,BayName FROM [tblBay] WHERE IsActive=1 AND LocationId = @LocationId AND IsDeleted = 0
 END

@@ -1,23 +1,19 @@
 ﻿
 
-
-
-
-
-
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 03-11-2020
 -- Description:	To get Dashboard Details
+--  --[StriveCarSalon].[uspGetDashboardStatistics] 1,'2021-04-22','2021-04-22'
 -- =============================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics] --[StriveCarSalon].[uspGetDashboardStatistics] 2060,'2020-12-28','2020-12-28'
+CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics]
 (@LocationId INT,@FromDate Date,@ToDate Date)
 AS
 BEGIN
 Declare @WashId INT = (Select valueid from GetTable('JobType') where valuedesc='Wash')
 Declare @WashServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Washes')
-Declare @DetailServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Details')
+Declare @DetailServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Detail Package')
 Declare @AdditionalServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Additional Services')
 Declare @DetailId INT = (Select valueid from GetTable('JobType') where valuedesc='Detail')
 Declare @CompletedJobStatus INT = (Select valueid from GetTable('JobStatus') where valuedesc='Completed')
@@ -380,7 +376,7 @@ CASE
 	       WHEN thw.TotalHoursWashed='0.00' THEN ISNULL(tcw.TotalCarWashed,0)
 		   WHEN thw.TotalHoursWashed!='0.00' THEN CAST((ISNULL(tcw.TotalCarWashed,0)/thw.TotalHoursWashed)as decimal(9,2))
 		   END AS Score ,
-ISNULL(wt.WashTimeMinutes,0) WashTime,
+ISNULL( CONVERT(decimal(18,0), wt.WashTimeMinutes),25) WashTime,
 ISNULL(cu.Currents,0) Currents,
 ISNULL(fc.ForecastedCar,0)ForecastedCar,
 ISNULL(ss.WashSales,0.00) WashSales,
@@ -732,7 +728,10 @@ CASE
 	       WHEN thw.TotalHoursWashed='0.00' THEN ISNULL(tcw.TotalCarWashed,0) 
 		   WHEN thw.TotalHoursWashed!='0.00' THEN CAST((ISNULL(tcw.TotalCarWashed,0)/thw.TotalHoursWashed)as decimal(9,2))
 		   END AS Score ,
-ISNULL(wt.WashTimeMinutes,0) WashTime,
+		   CASE 
+		   WHEN wt.WashTimeMinutes != '0.0000' THEN 25 
+		   WHEN wt.WashTimeMinutes != 0 and wt.WashTimeMinutes IS NOT NULL THEN wt.WashTimeMinutes
+		   END as WashTime,
 ISNULL(cu.Currents,0) Currents,
 ISNULL(fc.ForecastedCar,0)ForecastedCar,
 ISNULL(ss.WashSales,0.00) WashSales,

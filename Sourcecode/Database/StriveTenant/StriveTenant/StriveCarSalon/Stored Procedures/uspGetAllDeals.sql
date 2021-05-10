@@ -9,7 +9,7 @@ begin
 	tbld.StartDate,
 	tbld.EndDate,
 	tbld.Deals
-	 from StriveCarsalon.tblDeal tbld
+	 from tblDeal tbld
 	 where tbld.IsActive = 1 
 	 and ISNULL(tbld.IsDeleted,0) = 0 
 

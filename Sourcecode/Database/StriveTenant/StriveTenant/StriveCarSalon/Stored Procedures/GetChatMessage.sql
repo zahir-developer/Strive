@@ -3,7 +3,7 @@
 -- Create date: 09-10-2020
 -- Description:	Retrieves the chat messages 
 -- =============================================
-CREATE PROCEDURE [StriveCarSalon].[GetChatMessage] --NULL,NULL,27
+CREATE PROCEDURE [StriveCarSalon].[GetChatMessage]
 	@SenderId INT = NULL,
 	@RecipientId INT = NULL,
 	@GroupId INT = NULL

@@ -9,7 +9,7 @@ select tblad.AdSetupId
       ,tblad.IsDeleted
 	  ,tbld.FileName as Image
 	  ,tblad.LaunchDate
-	   FROM [StriveCarSalon].[tblAdSetup] tblad 
+	   FROM [tblAdSetup] tblad 
 	   inner join tbldocument tbld on tblad.documentid= tbld.documentid 
 where tblad.IsDeleted =0 
 end

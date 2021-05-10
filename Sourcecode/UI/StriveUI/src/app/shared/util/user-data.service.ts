@@ -37,14 +37,20 @@ export class UserDataService {
       if (token?.EmployeeDetails?.EmployeeLocations) {
      
         this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
+        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
+
         localStorage.setItem('employeeCityName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName));
+        localStorage.setItem('employeeLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
 
       } 
       if (token?.EmployeeDetails?.EmployeeLocations) {
       if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
         localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
       } else {
+        localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
         localStorage.setItem('empLocationId', token?.EmployeeDetails?.EmployeeLocations[0]?.LocationId);
+        this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
+        this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
       }
     }
 

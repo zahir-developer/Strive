@@ -47,6 +47,7 @@ export class LocationCreateEditComponent implements OnInit {
   employeeId: number;
   errorMessage: boolean = false;
   emailList = [];
+  emailRemovedList = [];
   emailAddress = [];
   constructor(
     private fb: FormBuilder,
@@ -117,6 +118,7 @@ export class LocationCreateEditComponent implements OnInit {
     if (email.locationEmailId === 0) {
       this.emailList = this.emailList.filter(item => item.id !== email.id);
     } else {
+      this.emailRemovedList.push(email);
       this.emailList = this.emailList.filter(item => item.LocationEmailId !== email.LocationEmailId);
     }
   }
@@ -189,10 +191,11 @@ export class LocationCreateEditComponent implements OnInit {
       this.selectTab(0);
       return;
     }
+
     this.emailList.forEach((item, index) => {
       item.id = index;
       this.emailAddress.push({
-        locationEmailId: 0,
+        locationEmailId: item.LocationEmailId,
         locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
         emailAddress: item.EmailAddress,
         isActive: true,
@@ -203,6 +206,22 @@ export class LocationCreateEditComponent implements OnInit {
         updatedDate: moment(new Date()).format('YYYY-MM-DD'),
       });
     });
+
+    this.emailRemovedList.forEach((item, index) => 
+    {
+      this.emailAddress.push({
+        locationEmailId: item.LocationEmailId,
+        locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+        emailAddress: item.EmailAddress,
+        isActive: true,
+        isDeleted: true,
+        createdBy: this.employeeId,
+        createdDate: moment(new Date()).format('YYYY-MM-DD'),
+        updatedBy: this.employeeId,
+        updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+      });
+    });
+
     const sourceObj = [];
     this.address = {
       locationAddressId: this.isEdit ? this.selectedData.LocationAddress.LocationAddressId : 0,

@@ -3,6 +3,6 @@ CREATE PROCEDURE [StriveCarSalon].[uspDeleteSchedule]
 (@tblScheduleId int)
 AS
 BEGIN
-     UPDATE [StriveCarSalon].[tblSchedule] 
+     UPDATE [tblSchedule] 
 	 SET IsDeleted=1 WHERE ScheduleId = @tblScheduleId
 END

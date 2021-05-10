@@ -12,3 +12,7 @@ E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\bin\
 E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\StriveTenant.sqlprojAssemblyReference.cache
 E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\StriveTenant.dll
 E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\StriveTenant.pdb
+E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\Model.xml
+E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\refactor.xml
+E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\postdeploy.sql
+E:\Projects\Mammoth\Strive Db\Sourcecode\Database\StriveTenant\StriveTenant\obj\Debug\predeploy.sql

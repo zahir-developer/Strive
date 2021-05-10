@@ -1,12 +1,5 @@
 ﻿
-
-
-
-
-
-
-
-CREATE procedure [StriveCarSalon].[uspGetMonthlyMoneyOwnedReport] --'2020-11',2047
+CREATE procedure [StriveCarSalon].[uspGetMonthlyMoneyOwnedReport] 
 (@Date varchar(7),@LocationId int)
 AS
 BEGIN

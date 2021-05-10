@@ -1,25 +1,25 @@
-﻿
-
--- ================================================
+﻿-- ================================================
 -- Author:		Vineeth B
 -- Create date: 17-08-2020
 -- Description:	Returns all jobs for checkout screen
+-- Example:		EXEC [StriveCarSalon].[uspGetAllCheckOutDetails] 1, NULL, 1, 10, 'ASC', NULL, '2021-05-04', '2021-05-04'
 -- ================================================
 
 -- ================================================
 -- ---------------History--------------------------
 -- ================================================
---24-03-2021 - Query optimized by reusing job and jobitem tables
+--24-03-2021 - Zahir - Query optimized by reusing job and jobitem tables
+--23-04-2021 - Zahir - JOB Status join changed to Left from Inner.
 
-CREATE  procedure [StriveCarSalon].[uspGetAllCheckOutDetails]--[StriveCarSalon].[uspGetAllCheckOutDetails] 1,'Chevrolet SUV (D)/Black',1,10,'ASC','MembershipNameOrPaymentStatus'
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllCheckOutDetails]
 @locationId int =null,
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
 @PageSize INT = NULL,	
 @SortOrder VARCHAR(5) = 'ASC',
 @SortBy VARCHAR(100) = NULL,
- @StartDate date = NULL, 
- @EndDate date = NULL
+@StartDate date = NULL, 
+@EndDate date = NULL
 AS
 BEGIN
 
@@ -54,7 +54,8 @@ tblj.TimeIn,
 tblj.EstimatedTimeOut,
 tblj.JobType,
 tblj.JobStatus,
-tblj.CheckOut
+tblj.CheckOut,
+tblj.IsHold
 into #Jobs from tbljob tblj
 INNER JOIN tblJobItem tblji on tblj.JobId = tblji.JobId
 where ( @locationId is null or tblj.LocationId = @locationId) AND tblj.IsActive=1 AND ISNULL(tblj.IsDeleted,0)=0
@@ -89,8 +90,12 @@ tblj.JobId,
 js.valuedesc,
 tblj.JobPaymentId,
 tblj.TicketNumber,
+tblj.IsHold,
 tblc.FirstName AS CustomerFirstName,
 tblc.LastName AS CustomerLastName,
+vm.MakeValue AS VehicleMake,
+vmo.ModelValue AS VehicleModel,
+vc.valuedesc AS VehicleColor,
 CONCAT(vm.valuedesc,' ',vmo.valuedesc,'/',vc.valuedesc) AS VehicleDescription,
 tbls.ServiceName,
 st.valuedesc AS ServiceTypeName,
@@ -102,6 +107,7 @@ CONVERT(VARCHAR(5),tblj.EstimatedTimeOut,108) AS Checkout,
 ISNULL(tblm.MembershipName,'') AS MembershipName,
 ISNULL(ps.valuedesc,'') AS PaymentStatus,
 CASE
+	WHEN tblj.IsHold = 1 THEN '#00BFFF' -- TO SHOW PAID
 	WHEN tblm.MembershipName IS NOT NULL AND js.valuedesc='Completed' AND pntd.PaymentNeed ='Y' THEN '#FF1493'-- TO SHOW MEMBERSHIP NAME
 	WHEN (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc='Completed' THEN '#008000' 
 	WHEN tblj.TimeIn !='' AND js.valuedesc!='Hold' AND st.valuedesc='Additional Services' and (ps.valuedesc != 'Success'OR tbljp.PaymentStatus IS NULL) THEN '#FFA500'
@@ -113,7 +119,6 @@ CASE
 	WHEN ps.valuedesc ='Success' AND js.valuedesc='Completed' THEN '#008000' -- TO SHOW PAID
 	WHEN ps.valuedesc ='Success' AND js.valuedesc NOT IN('Completed','Hold') THEN '#FF1493' -- TO SHOW PAID
 	WHEN (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc NOT IN('Completed','Hold') THEN '#FF1493' 
-	WHEN ps.valuedesc ='Success' AND js.valuedesc='Hold' THEN '#00BFFF' -- TO SHOW PAID
 	WHEN (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc='Hold' THEN '#00BFFF' 
 	WHEN tblj.TimeIn !='' AND (ps.valuedesc !='Success' OR tbljp.PaymentStatus IS NULL) AND js.valuedesc !='Hold' THEN '#FF1493'
 	WHEN tblm.MembershipName IS NULL THEN ''
@@ -127,7 +132,7 @@ CASE
     WHEN js.valuedesc='Completed' THEN 1
 	WHEN js.valuedesc='In Progress' THEN 2
 	WHEN js.valuedesc='Waiting' THEN 3
-	WHEN js.valuedesc='Hold' THEN 4
+	--WHEN js.valuedesc='Hold' THEN 4
 END AS JobStatusOrder
 INTO 
 	#Checkout
@@ -135,16 +140,16 @@ FROM
 	#Jobs tblj WITH(NOLOCK)
 INNER JOIN
 	GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
-INNER JOIN
+LEFT JOIN
 	GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid)
 INNER JOIN
 	tblClient tblc  WITH(NOLOCK) ON(tblj.ClientId = tblc.ClientId)
 INNER JOIN
 	tblClientVehicle tblcv  WITH(NOLOCK) ON(tblj.VehicleId = tblcv.VehicleId)
-INNER JOIN
-	GetTable('VehicleManufacturer') vm ON(tblcv.VehicleMfr = vm.valueid)
-INNER JOIN
-	GetTable('VehicleModel') vmo ON(tblcv.VehicleModel = vmo.valueid)
+LEFT JOIN 
+	tblVehicleMake vm ON(tblcv.VehicleMfr = vm.MakeId)
+LEFT JOIN
+	tblVehicleModel vmo ON(tblcv.VehicleModel = vmo.ModelId) and vm.MakeId = vmo.MakeId
 INNER JOIN
 	GetTable('VehicleColor') vc ON(tblcv.VehicleColor = vc.valueid)
 INNER JOIN
@@ -169,7 +174,7 @@ LEFT JOIN
 WHERE 
 --( @locationId is null or tblj.LocationId =@locationId ) 
 --and (tblj.JobDate  between @StartDate and @EndDate or( @StartDate is NULL and @EndDate is Null)) and
-tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail') AND st.valuedesc IN('Wash Package','Details','Additional Services')
+tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail') AND st.valuedesc IN('Wash Package','Detail Package','Additional Services')
 AND ISNULL(tblj.CheckOut,0)=0 --AND tblj.IsActive = 1 
 AND tblc.IsActive = 1 AND tblcv.IsActive = 1 
 AND tblji.IsActive = 1 AND tbls.IsActive = 1  
@@ -203,8 +208,12 @@ SELECT
 	,JobPaymentId
 	, TicketNumber
 	, CustomerFirstName
-	,CustomerLastName
-	, VehicleDescription
+	,CustomerLastName,
+	VehicleMake,
+ VehicleModel,
+ VehicleColor,
+ IsHold,
+	 VehicleDescription
 	, STUFF(
    (SELECT  ', ' + AdditionalServices 
     FROM #Checkout C
@@ -237,6 +246,10 @@ GROUP BY
 	,Tmp.CustomerLastName
 	,VehicleDescription
 	,Tmp.Checkin
+	,tmp.IsHold
+	,	VehicleMake,
+ VehicleModel,
+ VehicleColor
 	,Tmp.Checkout
 	,Tmp.MembershipName
 	,Tmp.PaymentStatus
@@ -277,7 +290,7 @@ select * from #GetAllServices
 IF ( @Query IS NULL OR @Query = '' ) AND (@StartDate IS NULL AND @EndDate IS NULL)
 BEGIN 
 
-select count(1) as Count from StriveCarSalon.tblJob where ISNULL(IsDeleted,0) = 0 
+select count(1) as Count from tblJob where ISNULL(IsDeleted,0) = 0 
 
 END
 

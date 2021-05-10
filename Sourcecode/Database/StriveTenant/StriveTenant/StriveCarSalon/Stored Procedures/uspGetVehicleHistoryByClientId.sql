@@ -1,5 +1,5 @@
-﻿
-CREATE proc [StriveCarSalon].[uspGetVehicleHistoryByClientId] 
+﻿--[StriveCarSalon].[uspGetVehicleHistoryByClientId] 1846
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleHistoryByClientId] 
 @ClientId int,
 @PageNo INT = NULL,
 @PageSize INT = NULL	
@@ -28,18 +28,21 @@ tblj.JobDate AS Date,
 tbls.ServiceName AS ServiceCompleted,
 tbljp.Amount,
 tblji.Price,
-tblji.Commission AS Comm
-
+tblji.Commission AS Comm,
+jt.valuedesc as JobType,
+St.valuedesc as ServiceType
 from [StriveCarSalon].[tblJob] tblj 
 left join [StriveCarSalon].[tblJobItem] tblji on(tblj.JobId = tblji.JobId)
 left join [StriveCarSalon].GetTable('JobStatus') gt on(tblj.JobStatus = gt.valueid)
+left join [StriveCarSalon].GetTable('JobType') jt on(tblj.JobType = jt.valueid)
 left join [StriveCarSalon].[tblService] tbls on(tblji.ServiceId = tbls.ServiceId)
+left join [StriveCarSalon].GetTable('ServiceType') St on(tbls.ServiceType = St.valueid)
 left join [StriveCarSalon].[tblJobPayment] tbljp on(tblji.JobId = tbljp.JobId)
 WHERE
 tblj.ClientId=@ClientId
 
 
- order by  JobId
+ order by tblj.JobDate DESC
  OFFSET (@Skip) ROWS FETCH NEXT (@PageSize) ROWS ONLY
  --temp table count
  select count(*) AS Count  from [StriveCarSalon].[tblJob] where ISNULL(IsDeleted,0) = 0 

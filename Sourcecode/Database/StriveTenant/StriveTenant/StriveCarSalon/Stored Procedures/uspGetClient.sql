@@ -35,7 +35,7 @@ tblc.IsCreditAccount
 --tblca.IsActive
 
 
-FROM [StriveCarSalon].[tblClient] tblc inner join [StriveCarSalon].[tblClientAddress] tblca
+FROM [tblClient] tblc inner join [tblClientAddress] tblca
 		   ON(tblc.ClientId = tblca.ClientId) 
            WHERE ISNULL(tblc.IsDeleted,0)=0 --AND ISNULL(tblc.IsActive,1)=1
 		    AND

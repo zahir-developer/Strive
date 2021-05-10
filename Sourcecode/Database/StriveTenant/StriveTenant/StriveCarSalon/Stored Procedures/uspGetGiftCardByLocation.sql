@@ -7,13 +7,13 @@ select GiftCardId,
 LocationId,
 GiftCardCode,
 GiftCardName,
-ExpiryDate,
+ActivationDate,
 TotalAmount,
 Comments,
 IsActive,
 IsDeleted
 
-from [StriveCarSalon].[tblGiftCard] 
+from [tblGiftCard] 
 where IsDeleted =0 and IsActive=1 and
 (@LocationId is null or LocationId = @LocationId)
 end

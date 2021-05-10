@@ -3,8 +3,8 @@
      @ClientId int)
 AS 
 BEGIN
-    UPDATE [StriveCarSalon].[tblClient] 
+    UPDATE [tblClient] 
     SET  IsDeleted=1  WHERE ClientId = @ClientId
-	UPDATE [StriveCarSalon].[tblClientAddress] 
+	UPDATE [tblClientAddress] 
     SET  IsDeleted=1  WHERE ClientId = @ClientId
 END
