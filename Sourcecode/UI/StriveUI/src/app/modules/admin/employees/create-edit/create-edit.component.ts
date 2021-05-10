@@ -459,7 +459,7 @@ export class CreateEditComponent implements OnInit {
     const locHour = [];
     this.locationRateList.forEach(item => {
       locHour.push({
-        employeeHourRateId: 0,
+        employeeHourlyRateId: 0,
         employeeId: 0,
         roleId: null,
         locationId: item.locationId,

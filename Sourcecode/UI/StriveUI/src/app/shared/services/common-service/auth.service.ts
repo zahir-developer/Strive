@@ -106,6 +106,7 @@ export class AuthService {
     localStorage.setItem('isAuthenticated', 'false');
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('empLocation');
   }
 
   sessionLogin(loginData: any) {
