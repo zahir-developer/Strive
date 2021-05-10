@@ -77,7 +77,9 @@ export const ApplicationConfig = {
             },
             customerHistory: {
                 order: 'ASC',
-
+            },
+            tenantSetup: {
+                order: 'ASC'
             }
         },
 
@@ -102,8 +104,8 @@ export const ApplicationConfig = {
             Washes: 'TicketNumber',
             Detail: 'TicketNumber',
             GiftCard: 'GiftCardCode',
-            customerHistory :'ClientId'
-
+            customerHistory : 'ClientId',
+            tenantSetup: 'CompanyName'
         }
     },
     UploadFileType:

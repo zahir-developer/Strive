@@ -53,7 +53,6 @@ export class ServiceSetupListComponent implements OnInit {
     this.isLoading = false;
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
-
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;

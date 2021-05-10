@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Date Of Subscription<span class="required">*</span></label>
-                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" class="form-control" bsDatepicker formControlName="dateOfSubscription" [ngClass]="{ 'is-invalid': submitted && g.dateOfSubscription.errors }">
+                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" class="form-control" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()" formControlName="dateOfSubscription" [ngClass]="{ 'is-invalid': submitted && g.dateOfSubscription.errors }">
                                     <div *ngIf="submitted && g.dateOfSubscription.errors" class="invalid-feedback">
                                         <div *ngIf="g.dateOfSubscription.errors.required">Date of subscription is required
                                         </div>
@@ -121,19 +121,19 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>No. of Locations</label>
-                                    <input type="text" class="form-control" numbersOnly [appMaxLength]="2"
+                                    <input type="text" class="form-control" numbersOnly [appMaxLength]="2" (focus)="dp.hide()"
                                         formControlName="noOfLocation">
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Payment Date<span class="required">*</span></label>
-                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" formControlName="paymentDate" class="form-control" bsDatepicker [ngClass]="{ 'is-invalid': submitted && g.paymentDate.errors }">
+                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" formControlName="paymentDate" class="form-control" bsDatepicker #pd="bsDatepicker" (focus)="pd.show()" [ngClass]="{ 'is-invalid': submitted && g.paymentDate.errors }">
                                     <div *ngIf="submitted && g.paymentDate.errors" class="invalid-feedback">
                                         <div *ngIf="g.paymentDate.errors.required">Payment date is required</div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Deactivation Date</label>
-                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" formControlName="deactivation" class="form-control" bsDatepicker>
+                                    <input type="text" [bsConfig]="{ showWeekNumbers: false }" formControlName="deactivation" #dd="bsDatepicker" (focus)="dd.show()" (focus)="pd.hide()" class="form-control" bsDatepicker>
                                 </div>
                             </div>
                         </form>
