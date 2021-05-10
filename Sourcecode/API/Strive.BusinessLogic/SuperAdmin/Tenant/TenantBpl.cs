@@ -36,9 +36,12 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                 CacheLogin(tSchema, connection);
                 */
 
-               // Add Module
+                // Add Module
+                foreach (var item in tenant.Module)
+                {
+                    var tenantModule = new TenantRal(_tenant, false).AddModule(item);
+                }
                
-                var tenantModule = new TenantRal(_tenant, false).AddModule(tenant.TenantModuleViewModel);
                 
 
                 //Send email
@@ -77,7 +80,13 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
             try
             {
                 //Edit Module
-                var tenantModule = new TenantRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel);
+                foreach (var item in tenant.Module)
+                {
+                    var tenantModule = new TenantRal(_tenant, false).UpdateModule(item);
+                }
+
+
+                //var tenantModule = new TenantRal(_tenant, false).UpdateModule(tenant.TenantModuleViewModel.Module);
 
                 return ResultWrap(new TenantRal(_tenant, true).UpdateTenant(tenant.TenantViewModel), "UpdateTenant");
 

@@ -57,9 +57,9 @@ namespace Strive.ResourceAccess
 
             return result;
         }
-        public bool AddModule(TenantListModuleViewModel module)
+        public int AddModule(TenantListModuleViewModel module)
         {
-            return dbRepo.InsertPc(module, "ModuleId");
+            return dbRepo.InsertPK(module, "ModuleId");
         }
         public bool UpdateTenant(TenantViewModel tenant)
         {
@@ -95,9 +95,9 @@ namespace Strive.ResourceAccess
             _prm.Add("ClientId", id);
             return db.FetchSingle<ClientTenantViewModel>(EnumSP.Tenant.USPGETTENANTBYID.ToString(), _prm);
         }
-        public List<TenantModuleViewModel> GetAllModule()
+        public ModuleListDto GetAllModule()
         {
-            return db.Fetch<TenantModuleViewModel>(EnumSP.Tenant.USPGETALLMODULE.ToString(), _prm);
+            return db.FetchMultiResult<ModuleListDto>(EnumSP.Tenant.USPGETALLMODULE.ToString(), _prm);
         }
         public List<TenantModuleViewModel> GetModuleById(int id)
         {

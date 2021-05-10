@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class TenantListModuleViewModel
+    public class ModuleListDto
     {
-        public TenantModuleViewModel Module { get; set; }
+        public List<TenantModuleViewModel> Module { get; set; }
         public List<TenantModuleScreenViewModel> ModuleScreen { get; set; }
 
-        
     }
 }
