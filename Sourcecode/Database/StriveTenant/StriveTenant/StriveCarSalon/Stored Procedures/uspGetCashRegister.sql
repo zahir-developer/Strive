@@ -1,5 +1,5 @@
-﻿
-CREATE PROC [StriveCarSalon].[uspGetCashRegister] --1,'CLOSEOUT','2020-08-26'
+﻿--1,'CLOSEOUT','2020-08-26'
+CREATE PROC [StriveCarSalon].[uspGetCashRegister] 
 (
 @LocationId int,
 @CashRegisterType varchar(10), 
@@ -10,12 +10,12 @@ AS
 BEGIN
 
 DECLARE @CashRegisterTypeId INT = (
-Select CV.id from StriveCarSalon.tblCodeCategory CC
-JOIN StriveCarSalon.tblCodeValue CV on CV.CategoryId = CC.id
+Select CV.id from tblCodeCategory CC
+JOIN tblCodeValue CV on CV.CategoryId = CC.id
 WHERE CV.CodeValue = @CashRegisterType)
 
 DECLARE @DrawerID INT;
-SELECT @DrawerID = DrawerId FROM [StriveCarSalon].[tblDrawer] WHERE LocationId=@LocationId
+SELECT @DrawerID = DrawerId FROM [tblDrawer] WHERE LocationId=@LocationId
 
 Select
 CR.CashRegisterId ,
@@ -25,9 +25,12 @@ CR.DrawerId,
 CR.CashRegisterDate ,
 CR.StoreTimeIn,
 CR.StoreTimeOut,
-CR.StoreOpenCloseStatus 
+CR.StoreOpenCloseStatus ,
+CR.Tips
+
+
 FROM 
-strivecarsalon.tblCashRegister CR 
+tblCashRegister CR 
 WHERE
 CR.LocationId = @LocationId AND
 CR.CashRegisterType = @CashRegisterTypeId AND
@@ -44,9 +47,9 @@ CRC.Dimes ,
 CRC.Quarters ,
 CRC.HalfDollars
 FROM
-[StriveCarSalon].[tblCashRegisterCoins] CRC
+[tblCashRegisterCoins] CRC
 INNER JOIN
-strivecarsalon.tblCashRegister CR 
+tblCashRegister CR 
 ON CRC.cashRegisterId = CR.CashRegisterId
 WHERE
 CR.LocationId = @LocationId AND
@@ -65,9 +68,9 @@ CRR.Dimes,
 CRR.Quarters,
 CRR.HalfDollars
 FROM
-[StriveCarSalon].[tblCashRegisterRolls] CRR
+[tblCashRegisterRolls] CRR
 INNER JOIN
-strivecarsalon.tblCashRegister CR 
+tblCashRegister CR 
 ON CRR.cashRegisterId = CR.CashRegisterId
 WHERE
 CR.LocationId = @LocationId AND
@@ -86,9 +89,9 @@ CRB.[s20],
 CRB.[s50],
 CRB.[s100]
 FROM
-[StriveCarSalon].[tblCashRegisterBills] CRB
+[tblCashRegisterBills] CRB
 INNER JOIN
-strivecarsalon.tblCashRegister CR 
+tblCashRegister CR 
 ON CRB.cashRegisterId = CR.CashRegisterId
 WHERE
 CR.LocationId = @LocationId AND
@@ -107,9 +110,9 @@ CRO.CreditCard3,
 CRO.Checks,
 CRO.Payouts
 FROM
-[StriveCarSalon].[tblCashRegisterOthers] CRO
+[tblCashRegisterOthers] CRO
 INNER JOIN
-strivecarsalon.tblCashRegister CR 
+tblCashRegister CR 
 ON CRO.cashRegisterId = CR.CashRegisterId
 WHERE
 CR.LocationId = @LocationId AND
@@ -123,9 +126,9 @@ WP.Weather,
 WP.RainProbability,
 WP.PredictedBusiness,
 WP.TargetBusiness
-FROM [StriveCarSalon].[tblWeatherPrediction] WP
+FROM [tblWeatherPrediction] WP
 INNER JOIN
-strivecarsalon.tblCashRegister CR 
+tblCashRegister CR 
 ON WP.LocationId=CR.LocationId
 WHERE
 WP.LocationId =@LocationId AND

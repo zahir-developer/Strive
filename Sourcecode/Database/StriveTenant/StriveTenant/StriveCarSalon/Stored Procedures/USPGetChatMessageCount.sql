@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[USPGetChatMessageCount] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetChatMessageCount] 
 @Employeeid int
 as
 begin
@@ -8,7 +8,7 @@ Select emp.FirstName+''+emp.LastName as SenderName,
 	   emp.Employeeid
 	   INTO
 	   #msg
-	   From strivecarsalon.tblChatMessageRecipient chatRecp 
+	   From tblChatMessageRecipient chatRecp 
 	   INNER JOIN tblChatMessage chatMsg on chatMsg.chatMessageId = chatRecp.chatMessageId
        INNER JOIN tblEmployee emp on emp.EmployeeId = chatRecp.Senderid
 	   Where  chatRecp.RecipientId=@Employeeid and isnull(chatRecp.IsRead,0)=0 

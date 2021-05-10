@@ -21,8 +21,8 @@ tbls.Upcharges,
 tbls.Cost as Price,
 gt.valuedesc AS ServiceTypeName
 FROM 
-[StriveCarSalon].[tblService] tbls
-inner join [StriveCarSalon].GetTable('ServiceType') gt 
+[tblService] tbls
+inner join GetTable('ServiceType') gt 
 ON(tbls.ServiceType = gt.valueid)
 where isnull(tbls.IsDeleted,0)=0
 AND isnull(tbls.IsActive,1)=1

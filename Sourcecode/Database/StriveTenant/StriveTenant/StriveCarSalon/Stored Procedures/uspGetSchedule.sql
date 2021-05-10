@@ -1,4 +1,4 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetSchedule] --0 , 1,  '2021-02-21', '2021-02-28'
+﻿CREATE PROC [StriveCarSalon].[uspGetSchedule] 
 @LocationId int,
 @EmployeeId int = NULL,
 @ScheduledStartDate Date = NULL,
@@ -31,10 +31,10 @@ SELECT
 	 tblsc.Comments,
 	 tbler.valuedesc as EmployeeRole,
 	 tblsc.IsDeleted INTO #Schedule
-FROM StriveCarSalon.tblSchedule as tblsc 
-INNER JOIN [StriveCarSalon].[tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
-INNER JOIN [StriveCarSalon].[tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
-LEFT JOIN [StriveCarSalon].[GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
+FROM tblSchedule as tblsc 
+INNER JOIN [tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
+INNER JOIN [tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
+LEFT JOIN [GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
 WHERE 
 (ISNULL(tblloc.IsActive,1) = 1 AND tblloc.IsDeleted = 0) AND
 (ISNULL(tblsc.IsDeleted,0)=0 AND ISNULL(tblsc.IsActive,1) = 1) AND 

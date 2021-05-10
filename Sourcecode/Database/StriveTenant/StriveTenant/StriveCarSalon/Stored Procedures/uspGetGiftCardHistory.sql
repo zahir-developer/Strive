@@ -12,8 +12,8 @@ tblgch.GiftCardHistoryId
 ,tblgch.Comments  
 ,tblgch.IsActive      
 
-from [StriveCarSalon].[tblGiftCard] tblgc inner join 
-[StriveCarSalon].[tblGiftCardHistory] tblgch on(tblgc.GiftCardId = tblgch.GiftCardId) 
+from [tblGiftCard] tblgc inner join 
+[tblGiftCardHistory] tblgch on(tblgc.GiftCardId = tblgch.GiftCardId) 
 where tblgc.GiftCardCode =@GiftCardCode
 AND tblgch.IsDeleted=0 
 end

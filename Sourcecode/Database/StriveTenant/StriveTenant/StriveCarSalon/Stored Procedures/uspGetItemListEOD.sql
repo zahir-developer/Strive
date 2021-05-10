@@ -1,6 +1,6 @@
 ﻿
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetItemListEOD] -- '649592'
+CREATE PROCEDURE [StriveCarSalon].[uspGetItemListEOD] 
 @TicketNumber varchar(10)
 AS 
 --DECLARE @TicketNumber varchar(10)='274997'--'782436'

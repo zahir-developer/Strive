@@ -1,10 +1,6 @@
 ﻿
-
---[StriveCarSalon].[uspGetItemListByTicketNumber] '228251'
-
-
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber] -- [StriveCarSalon].[uspGetItemListByTicketNumber]'993311' '651284,537631,566450,118839,833659'
+ -- [StriveCarSalon].[uspGetItemListByTicketNumber]'993311' '651284,537631,566450,118839,833659'
+CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber]
 @TicketNumber varchar(max),
 @LocationId INT = NULL
 AS 
@@ -58,7 +54,7 @@ SELECT
 	ISNULL(tbljbP.Quantity,0) Quantity,
 	tbljbP.JobProductItemId,
 	tblcv.codevalue AS ServiceType,
-	(ISNULL(tblp.TaxAmount,0)* ISNULL(tbljbP.Quantity,0)) AS TaxAmount,
+	((ISNULL(tblp.TaxAmount,0) ) * ISNULL(tbljbP.Quantity,0)/100) AS TaxAmount,
 	(ISNULL(tbljbP.Price,0) * ISNULL(tbljbP.Quantity,0)) AS Cost
 INTO
 	#JobProductList
@@ -145,15 +141,17 @@ SELECT
 	SUM(CashBack)AS CashBack,
 	SUM(Discount) AS Discount,
 	SUM(Account) AS Account,
-	SUM(Membership) AS Membership
+	SUM(Membership) AS Membership,
+	SUM(Tips)AS Tips
 INTO
 	#Payment_Summary
 FROM 
 (SELECT   
 	tbljob.TicketNumber,
 	case when tblpt.CodeValue = 'Cash' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Cash,
-	case when tblpt.CodeValue = 'Credit' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Credit,
+	case when tblpt.CodeValue = 'Card' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Credit,
 	case when tblpt.CodeValue = 'GiftCard' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS GiftCard,
+	case when tblpt.CodeValue = 'Tips' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Tips,
 	SUM(ISNULL(tbljp.Cashback,0)) AS CashBack,
 	case when tblpt.CodeValue = 'Discount' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Discount ,
 	case when tblpt.CodeValue = 'Account' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Account ,
@@ -195,6 +193,7 @@ SELECT DISTINCT
 	Credit,
 	GiftCard,
 	Discount,
+	Tips,
 	(Account+Membership) AS Account,
 	(Account+Membership+Cash+Credit+GiftCard) AS TotalPaid,
 	((@Total+@TaxAmount) - (Account+Membership+Cash+Credit+Discount+GiftCard)) AS BalanceDue,

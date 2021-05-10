@@ -24,18 +24,21 @@ BEGIN
 Select
 LiabilityId,
 EmployeeId,
-ClientId,
+el.ClientId,
+cl.FirstName as ClientFirstName,
+cl.LastName as ClientLastName,
 VehicleId,
 LiabilityType,
 LiabilityDescription,
 ProductId,
-IsDeleted,
 Status,
-CreatedDate
+el.CreatedDate
 FROM 
-strivecarsalon.tblEmployeeLiability  
+tblEmployeeLiability el
+LEFT JOIN tblClient cl on cl.ClientId = el.ClientId
+
 WHERE
-Isnull(isDeleted,0) = 0  AND
+el.isDeleted = 0  AND
 (@CollisionId is null or LiabilityId = @CollisionId)
 
 SELECT 
@@ -47,13 +50,12 @@ tbleld.PaymentType ,
 tbleld.DocumentPath, 
 tbleld.Description 
 FROM
-[StriveCarSalon].[tblEmployeeLiabilityDetail] tbleld
+[tblEmployeeLiabilityDetail] tbleld
 INNER JOIN
-strivecarsalon.tblEmployeeLiability tblel 
+tblEmployeeLiability tblel 
 ON tbleld.LiabilityId = tblel.LiabilityId
 WHERE
-
-isnull(tblel.isDeleted,0) = 0 and
+tblel.isDeleted = 0 and
 (@CollisionId is null or tbleld.LiabilityId = @CollisionId)
 
 END

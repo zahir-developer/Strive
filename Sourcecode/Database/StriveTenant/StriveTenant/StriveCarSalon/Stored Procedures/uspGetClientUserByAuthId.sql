@@ -17,7 +17,7 @@ c.FirstName,
 c.LastName,
 c.AuthId
 INTO #Client
-FROM StriveCarSalon.tblClient c 
+FROM tblClient c 
 WHERE c.AuthId = @AuthId 
 
 
@@ -33,11 +33,11 @@ module.ModuleName,
 modscrn.ViewName,
 fld.FieldName
 FROM #Client c 
-JOIN StriveCarSalon.tblRoleMaster rolmas on rolmas.RoleName = 'Client'
-left join StriveCarSalon.TblRolePermissiondetail rolper on rolper.RoleId = rolmas.RoleMasterId AND ISNULL(rolper.IsDeleted,0)=0 AND ISNULL(rolper.IsActive, 1) = 1
-left join StriveCarSalon.TblModule module on rolper.ModuleId=module.ModuleId AND ISNULL(module.IsDeleted,0)=0 AND ISNULL(module.IsActive, 1) = 1
-left join StriveCarSalon.TblModuleScreen modscrn on rolper.ModuleScreenId=modscrn.ModuleScreenId AND ISNULL(modscrn.IsDeleted,0)=0 AND ISNULL(modscrn.IsActive, 1) = 1
-left join StriveCarSalon.TblField fld  on rolper.FieldId=fld.FieldId AND ISNULL(fld.IsDeleted,0)=0 AND ISNULL(fld.IsActive, 1) = 1
+JOIN tblRoleMaster rolmas on rolmas.RoleName = 'Client'
+left join TblRolePermissiondetail rolper on rolper.RoleId = rolmas.RoleMasterId AND ISNULL(rolper.IsDeleted,0)=0 AND ISNULL(rolper.IsActive, 1) = 1
+left join TblModule module on rolper.ModuleId=module.ModuleId AND ISNULL(module.IsDeleted,0)=0 AND ISNULL(module.IsActive, 1) = 1
+left join TblModuleScreen modscrn on rolper.ModuleScreenId=modscrn.ModuleScreenId AND ISNULL(modscrn.IsDeleted,0)=0 AND ISNULL(modscrn.IsActive, 1) = 1
+left join TblField fld  on rolper.FieldId=fld.FieldId AND ISNULL(fld.IsDeleted,0)=0 AND ISNULL(fld.IsActive, 1) = 1
 WHERE ISNULL(rolmas.IsDeleted,0) = 0
 AND ISNULL(module.IsDeleted,0) = 0
 

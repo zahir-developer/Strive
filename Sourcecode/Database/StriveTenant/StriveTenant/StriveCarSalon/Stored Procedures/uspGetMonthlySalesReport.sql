@@ -1,8 +1,8 @@
 ﻿
 
 
-
-CREATE procedure [StriveCarSalon].[uspGetMonthlySalesReport] -- [StriveCarSalon].[uspGetMonthlySalesReport] 2046,'2020-11-01','2020-11-30'
+ 
+CREATE procedure [StriveCarSalon].[uspGetMonthlySalesReport]
 (@LocationId INT, @FromDate date, @EndDate date)
 
 AS
@@ -10,6 +10,7 @@ AS
 -- Author:		Vineeth B
 -- Create date: 23-10-2020
 -- Description:	To get Monthly sales report info
+-- [StriveCarSalon].[uspGetMonthlySalesReport] 2046,'2020-11-01','2020-11-30'
 -- =============================================
 BEGIN
 DECLARE @RoleMasterId int = (select RoleMasterId from tblRoleMaster where RoleName='Manager')

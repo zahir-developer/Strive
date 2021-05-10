@@ -1,11 +1,11 @@
-﻿CREATE PROC [StriveCarSalon].[uspDeleteSalesItemById] --38, 
+﻿CREATE PROC [StriveCarSalon].[uspDeleteSalesItemById] 
 (@JobItemId int, @IsJobItem bit = 1)
 AS
 BEGIN
  
  If(@IsJobItem = 1)
-Update StriveCarSalon.tblJobItem set  IsDeleted =1 where JobItemId=@JobItemId
-ELSE
-Update StriveCarSalon.tblJobProductItem set  IsDeleted =1 where JobProductItemId=@JobItemId
+Update tblJobItem set  IsDeleted =1 where JobItemId=@JobItemId
+ELSE   
+Update tblJobProductItem set  IsDeleted =1 where JobProductItemId=@JobItemId
 
 End

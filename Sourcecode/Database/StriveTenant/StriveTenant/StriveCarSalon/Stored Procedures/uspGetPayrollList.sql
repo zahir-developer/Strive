@@ -1,6 +1,6 @@
 ﻿
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetPayrollList] --[StriveCarSalon].[uspGetPayrollList]1,'2021-01-27','2021-02-28'
+CREATE PROCEDURE [StriveCarSalon].[uspGetPayrollList] 
 @LocationId INT,
 @StartDate DATETIME,
 @EndDate DATETIME
@@ -11,6 +11,7 @@ Create date         : 12-OCT-2020
 Description         : To Get Employee PayRoll for Last Two Week
 FRS					: Payroll
 -----------------------------------------------------------------------------------------
+--[StriveCarSalon].[uspGetPayrollList] 20,'2021-04-08','2021-04-23'
 */
 as begin
   
@@ -33,19 +34,26 @@ JOIN
 	tblEmployeeLiabilityDetail tblELD ON tblEL.LiabilityId=tblELD.LiabilityId AND tblEL.IsActive=1 AND ISNULL(tblEL.IsDeleted,0)=0
 	LEFT JOIN	tblCodeValue tblCV ON		tblCV.id=tblEL.LiabilityType
     LEFT JOIN	tblCodeCategory tblCC ON		tblCC.id=tblCV.CategoryId
+--WHERE tblEL.LiabilityDate BETWEEN @StartDate AND @EndDate
 
---WHERE 
-	--tblEL.LiabilityDate >= @StartDate AND tblEL.LiabilityDate <= @EndDate
+
+Select EmployeeId, 
+STUFF((SELECT  ', ' + Notes from #Category c
+	WHERE c.EmployeeId = ct.EmployeeId
+    FOR XML PATH('')
+	), 1, 2, '')  AS Notes INTO #EmployeeCollision from #Category ct where Notes IS NOT NULL
+
 
 Select EmployeeId,
-	   Notes,
+	   --Notes,
 	   SUM(IsNull(Collision,0))  As Collision,
        SUM(IsNull(Uniform,0))  As Uniform,
 	   SUM(IsNull(Adjustment,0))  As Adjustment
 	   INTO 
 	   #CodeValue
 	   from #Category 
-	   Group by EmployeeId,Notes
+	   Group by EmployeeId
+	   --,Notes
     
 Select tblemp.EmployeeId,
 		       tblemp.FirstName+' '+tblemp.LastName as PayeeName,
@@ -111,7 +119,7 @@ SELECT
 	EmployeeId,
 	LocationId,
 	PayeeName,
-	CASE WHEN RoleName='Wash' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalWashHours,
+	CASE WHEN RoleName='Washer' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalWashHours,
 	CASE WHEN RoleName='Detailer' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalDetailHours
 FROM #PayRoll
 ) TOLHours
@@ -160,7 +168,8 @@ SELECT
 	
 	CASE   WHEN ER.OverTimeHours > 0 THEN (@OverTimeWashRate * R.WashRate * ER.TotalDetailHours) ELSE 0 END AS OverTimePay, 
 	--WHEN ER.TotalWashesHours > @HoursLimit THEN CAST(((ER.TotalWashesHours - @HoursLimit) * @OverTimeWashRate) AS decimal(9,2)) ELSE 0 END AS OverTimePay,
-	ISNULL(@CollisionAmount,0.00)  AS CollisionAmount
+	ISNULL(@CollisionAmount,0.00)  AS CollisionAmount,
+	EC.Notes
 INTO 
 	#FinResult
 FROM 
@@ -171,11 +180,16 @@ ON		R.EmployeeId=ER.EmployeeId
 LEFT JOIN 
 	#DetailAmount DA
 ON		DA.EmployeeId=ER.EmployeeId
+LEFT JOIN 
+	#EmployeeCollision EC 
+ON	    EC.EmployeeId = ER.EmployeeId
+
 
 
 --FinalOutput
 
-Select DISTINCT FR.EmployeeId,PayeeName,LocationId,CA.Notes,
+Select DISTINCT FR.EmployeeId,PayeeName,LocationId,
+FR.Notes,
 --CASE WHEN SUM(ISNULL(FR.TotalWashHours,0))>@HoursLimit THEN @HoursLimit ELSE SUM(FR.TotalWashHours) END AS TotalWashHours,
 IsNull(TotalWashHours,0) as TotalWashHours,
        IsNull(TotalDetailHours,0) as TotalDetailHours,IsNull(OverTimeHours,0) as OverTimeHours,IsNull(WashRate,0) as WashRate,

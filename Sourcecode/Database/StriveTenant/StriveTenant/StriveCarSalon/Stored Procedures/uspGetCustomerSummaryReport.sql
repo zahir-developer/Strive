@@ -6,8 +6,8 @@
 -- Create date: 03-10-2020
 -- Description:	To get CustomerSummaryReport Details
 -- =================================================
-create   PROCEDURE  [StriveCarSalon].[uspGetCustomerSummaryReport] 
---1,'2020'
+CREATE   PROCEDURE  [StriveCarSalon].[uspGetCustomerSummaryReport] 
+
 @LocationId INT, 
 @Date VARCHAR(4)
 

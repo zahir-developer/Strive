@@ -1,10 +1,11 @@
 ﻿
-CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardDetail] --[StriveCarSalon].[uspGetDashboardDetail] 2033,'2020-12-15'
+CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardDetail]
 (@LocationId INT, @Date Date)
 -- =============================================
 -- Author:		Vineeth B
 -- Create date: 14-12-2020
 -- Description:	To get In Time Details
+ --[StriveCarSalon].[uspGetDashboardDetail] 2033,'2020-12-15'
 -- =============================================
 AS
 BEGIN

@@ -16,6 +16,9 @@
     [StoreTimeIn]          DATETIME           NULL,
     [StoreTimeOut]         DATETIME           NULL,
     [StoreOpenCloseStatus] INT                NULL,
+    [WashTips]             DECIMAL (18, 2)    NULL,
+    [DetailTips]           DECIMAL (18, 2)    NULL,
+    [Tips]                 DECIMAL (18, 2)    NULL,
     CONSTRAINT [PK_tblCashRegister] PRIMARY KEY CLUSTERED ([CashRegisterId] ASC),
     CONSTRAINT [FK_StrivecarSalon_TblCashRegister_UserId] FOREIGN KEY ([UserId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId]),
     CONSTRAINT [FK_tblCashRegister_CashRegisterType] FOREIGN KEY ([CashRegisterType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
@@ -23,6 +26,8 @@
     CONSTRAINT [FK_tblCashRegister_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [StriveCarSalon].[tblLocation] ([LocationId]),
     CONSTRAINT [FK_tblCashRegister_StoreOpenCloseStatus] FOREIGN KEY ([StoreOpenCloseStatus]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 
 
 

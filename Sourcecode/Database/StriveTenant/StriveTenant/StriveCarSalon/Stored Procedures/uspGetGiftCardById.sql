@@ -7,7 +7,7 @@ select tblgc.GiftCardId,
 tblgc.LocationId,
 tblgc.GiftCardCode,
 tblgc.GiftCardName,
-tblgc.ExpiryDate,
+tblgc.ActivationDate,
 tblgc.IsActive,
 tblgc.IsDeleted,
 tblgc.Comments,
@@ -20,8 +20,8 @@ tblgch.TransactionAmount       AS GiftCardHistory_TransactionAmount,
 tblgch.TransactionDate         AS GiftCardHistory_TransactionDate,
 tblgch.Comments        AS GiftCardHistory_Comments
 
-from [StriveCarSalon].[tblGiftCard] tblgc inner join 
-[StriveCarSalon].[tblGiftCardHistory] tblgch on(tblgc.GiftCardId = tblgch.GiftCardId) 
+from [tblGiftCard] tblgc inner join 
+[tblGiftCardHistory] tblgch on(tblgc.GiftCardId = tblgch.GiftCardId) 
 where tblgc.IsActive =1 and tblgc.GiftCardId =@GiftCardId
 AND tblgc.IsDeleted=0 and tblgch.IsDeleted=0
 end

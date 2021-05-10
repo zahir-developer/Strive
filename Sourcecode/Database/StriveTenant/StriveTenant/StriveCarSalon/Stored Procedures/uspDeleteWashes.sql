@@ -8,11 +8,11 @@ CREATE PROCEDURE [StriveCarSalon].[uspDeleteWashes]
 AS 
 BEGIN
 
-UPDATE [StriveCarSalon].[tblJob] set
+UPDATE [tblJob] set
 IsDeleted =1
 WHERE JobId = @JobId
 
-UPDATE [StriveCarSalon].[tblJobDetail] set
+UPDATE [tblJobDetail] set
 IsDeleted =1
 WHERE JobId = @JobId
 

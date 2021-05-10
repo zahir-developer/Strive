@@ -10,7 +10,7 @@
 ----------------------------------------------------------------
 -- =============================================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocationWashTime]--[StriveCarSalon].[uspGetAllLocationWashTime]20
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllLocationWashTime]
  (@LocationId int = NULL)
 AS 
 BEGIN
@@ -79,10 +79,10 @@ SELECT DISTINCT
        tbll.LocationId,
 	   tbll.LocationName,
 	   wt.WashTimeMinutes
-FROM [StriveCarSalon].[tblLocation]  tbll
+FROM [tblLocation]  tbll
 LEFT JOIN #WashTime wt
 ON(tbll.LocationId = wt.LocationId)
-WHERE (tbll.LocationId = @locationId OR @locationId IS NULL) AND
+WHERE (tbll.LocationId = @locationId OR @locationId= 0) AND
 isnull(IsActive,1) = 1 AND
 isnull(isDeleted,0) = 0  
 

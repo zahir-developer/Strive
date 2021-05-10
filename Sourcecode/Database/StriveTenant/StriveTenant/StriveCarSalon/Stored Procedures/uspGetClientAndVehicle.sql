@@ -30,8 +30,8 @@ tblca.Zip,
 tblca.IsActive
 
 
-FROM [StriveCarSalon].[tblClient] tblc 
-inner join [StriveCarSalon].[tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId) 
+FROM [tblClient] tblc 
+inner join [tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId) 
 
 
 WHERE ISNULL(tblc.IsDeleted,0)=0 AND ISNULL(tblc.IsActive,1)=1 and
@@ -45,10 +45,10 @@ VehicleColor AS ColorId,
 Upcharge,
 Barcode 
 
-from  [StriveCarSalon].[tblClientVehicle] tclcv
-INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tclcv.VehicleMfr = cvMfr.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON tclcv.VehicleModel = cvMo.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON tclcv.VehicleColor = cvCo.valueid
+from  [tblClientVehicle] tclcv
+--LEFT JOIN tblVehicleMake vm ON(tclcv.VehicleMfr = vm.MakeId)
+--LEFT JOIN tblVehicleModel vmo ON(tclcv.VehicleModel = vmo.ModelId) and vm.MakeId = vmo.MakeId
+INNER JOIN GetTable('VehicleColor') cvCo ON tclcv.VehicleColor = cvCo.valueid
  where (tclcv.IsDeleted = 0 OR tclcv.IsDeleted IS NULL) AND ISNULL(IsActive,1) = 1  AND tclcv.IsActive = 1
 		 
 END

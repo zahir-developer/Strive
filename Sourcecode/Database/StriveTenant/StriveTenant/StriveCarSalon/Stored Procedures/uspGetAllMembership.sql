@@ -28,8 +28,8 @@ SELECT
    REPLACE(REPLACE(
    STUFF(
    (SELECT ', ' + S.ServiceName 
-    FROM StriveCarSalon.tblMembershipService MS
-	LEFT JOIN StriveCarSalon.tblService S on MS.ServiceId = S.ServiceId and MS.MembershipId = M.MembershipId
+    FROM tblMembershipService MS
+	LEFT JOIN tblService S on MS.ServiceId = S.ServiceId and MS.MembershipId = M.MembershipId
 	WHERE S.ServiceId = MS.ServiceId and ISNULL(MS.IsDeleted,0)=0
 	Group by S.ServiceName
     FOR XML PATH('')
@@ -37,8 +37,8 @@ SELECT
 	, ' ' ,''), ',', ', ') AS Services,
 	M.IsActive,
 	M.CreatedDate
-FROM StriveCarSalon.tblMembership M Where
-(@MembershipSearch is null or m.MembershipName like'%'+ @MembershipSearch+'%')
+FROM tblMembership M Where
+(@MembershipSearch is null or m.MembershipName like'%'+ @MembershipSearch+'%' )
 and ISNULL(M.IsDeleted,0)=0
 GROUP BY M.MembershipName, M.MembershipId, M.IsActive, M.CreatedDate
 ORDER BY  M.IsActive desc

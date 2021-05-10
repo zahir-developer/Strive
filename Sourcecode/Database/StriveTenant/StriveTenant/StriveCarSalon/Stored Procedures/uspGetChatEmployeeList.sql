@@ -20,8 +20,8 @@ ISNULL(chatComm.CommunicationId, 0) as CommunicationId,
 isnull(emp.IsActive,1) as Status,
 (Select top 1 CreatedDate from tblChatMessageRecipient chatRecp where chatRecp.SenderId = emp.EmployeeId order by CreatedDate desc) as RecentChatDateTime
 FROM 
-StriveCarSalon.tblEmployee emp 
-LEFT JOIN StriveCarSalon.tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
+tblEmployee emp 
+LEFT JOIN tblChatCommunication chatComm on emp.EmployeeId = chatComm.EmployeeId
 INNER JOIN tblChatMessageRecipient chatRecp on chatRecp.RecipientId = emp.EmployeeId
 AND (emp.IsDeleted=0 OR emp.IsDeleted IS NULL) 
 AND (emp.IsDeleted = 0 OR emp.IsDeleted IS NULL)

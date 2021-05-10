@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetAllClient]--[StriveCarSalon].[uspGetAllClient] 1,'and',1,10,null,null
+﻿--[StriveCarSalon].[uspGetAllClient] 1,'and',1,10,null,null
+CREATE PROCEDURE [StriveCarSalon].[uspGetAllClient]
 @locationId int =null,
 @Query NVARCHAR(50) = NULL,
 @PageNo INT = NULL,
@@ -36,9 +37,9 @@ tblca.PhoneNumber AS PhoneNumber,
 tblca.Address1,
 tblca.Address2
 into #GetAllClient
-FROM [StriveCarSalon].[tblClient] tblc 
-     left join [StriveCarSalon].[tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId)
-	 left join strivecarsalon.GetTable('ClientType') ct ON tblc.ClientType = ct.valueid	 
+FROM [tblClient] tblc 
+     left join [tblClientAddress] tblca ON(tblc.ClientId = tblca.ClientId)
+	 left join GetTable('ClientType') ct ON tblc.ClientType = ct.valueid	 
 WHERE ISNULL(tblc.IsDeleted,0) = 0 AND ISNULL(tblc.FirstName,' ') != ''   AND
 isnull(tblc.IsDeleted,0)=0 and 
 isnull(tblca.IsDeleted,0)=0 and (
@@ -86,7 +87,7 @@ select * from #GetAllClient
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from StriveCarSalon.tblClient where 
+select count(1) as Count from tblClient where 
 ISNULL(IsDeleted,0) = 0 
 
 END

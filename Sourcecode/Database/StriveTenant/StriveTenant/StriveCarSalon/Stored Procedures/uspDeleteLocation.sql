@@ -10,7 +10,7 @@
 -----------------------------------------------------------
 -- ========================================================
 
-CREATE PROCEDURE [StriveCarSalon].[uspDeleteLocation] --1, 1, '2021-03-10 17:05:03.3166667 +00:00', 0
+CREATE PROCEDURE [StriveCarSalon].[uspDeleteLocation] 
 (
 @LocationId int, @UserId int, @Date datetimeoffset, @IsDeleted BIT = 1
 )
@@ -18,31 +18,31 @@ AS
 BEGIN
 
 
-UPDATE [StriveCarSalon].[tblLocation] set
+UPDATE [tblLocation] set
 IsDeleted = @IsDeleted,
 UpdatedBy=@UserId,
 UpdatedDate = @Date
 WHERE LocationId = @LocationId
 
-UPDATE [StriveCarSalon].[tblLocationAddress] set
+UPDATE [tblLocationAddress] set
 IsDeleted = @IsDeleted,
 UpdatedBy=@UserId,
 UpdatedDate = @Date
 WHERE LocationId = @LocationId
 
-UPDATE [StriveCarSalon].[tblDrawer] set
+UPDATE [tblDrawer] set
 IsDeleted= @IsDeleted,
 UpdatedBy=@UserId,
 UpdatedDate=@Date
 WHERE LocationId = @LocationId
 
-UPDATE [StriveCarSalon].[tblBay] set
+UPDATE [tblBay] set
 IsDeleted= @IsDeleted,
 UpdatedBy=@UserId,
 UpdatedDate=@Date
 WHERE LocationId = @LocationId
 
-UPDATE [StriveCarSalon].[tblLocationOffset] SET
+UPDATE [tblLocationOffset] SET
 IsDeleted = @IsDeleted
 WHERE LocationId = @LocationId	
 

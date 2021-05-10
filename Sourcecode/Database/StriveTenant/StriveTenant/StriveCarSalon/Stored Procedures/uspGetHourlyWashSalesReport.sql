@@ -1,5 +1,4 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Zahir Hussain M
 -- Create date: 01-Dec-2020
 -- Description:	Returns the Hourly wash report data and Sales data. EXEC StriveCarSalon.uspGetHourlyWashSalesReport 2034, '2020-11-01', '2020-11-17' 
@@ -60,7 +59,7 @@ INNER JOIN
 ON		tblp.ProductId=tbljbP.ProductId
 INNER JOIN
 	tblJobPayment tbljp
-ON		tbljp.JobId=tbljb.JobId
+ON		tbljp.JobPaymentId = tbljb.JobPaymentId
 
 WHERE 
 tbljb.LocationId = @locationId AND tbljp.createdDate between @fromDate and @endDate
@@ -118,7 +117,8 @@ SELECT
     CONVERT(VARCHAR(10), tbljp.CreatedDate,120) as PaymentDate,
 	tbljob.LocationId,
 	case when tblpt.CodeValue = 'Cash' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Cash,
-	case when tblpt.CodeValue = 'Credit' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Credit,
+	case when tblpt.CodeValue = 'Card' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Credit,
+	case when tblpt.CodeValue = 'Tips' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Tips,
 	case when tblpt.CodeValue = 'GiftCard' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS GiftCard,
 	SUM(ISNULL(tbljp.Cashback,0)) AS CashBack,
 	case when tblpt.CodeValue = 'Discount' then SUM(ISNULL(tbljpd.Amount,0)) ELSE 0 end AS Discount ,
@@ -157,6 +157,7 @@ SELECT
 	SUM(Cash) AS Cash,
 	SUM(Credit) AS Credit,
 	SUM(GiftCard)AS GiftCard,
+	SUM(Tips)AS Tips,
 	SUM(CashBack)AS CashBack,
 	SUM(Discount) AS Discount,
 	SUM(Account) AS Account,
@@ -178,6 +179,7 @@ SELECT
 	SUM(JT.Total) Total, 
 	SUM(JT.TaxAmount) TaxAmount,
 	SUM(Cash) Cash,
+	SUM(Tips) Tips,
 	SUM(Credit) Credit,
 	SUM(GiftCard) GiftCard,
 	SUM(Discount) Discount,
@@ -201,14 +203,14 @@ INNER JOIN GetTable('JobType') JT on JT.valueid = tblj.JobType and JT.valuedesc 
 INNER join GetTable('JobStatus') GT on GT.valueId = tblj.JobStatus and GT.valuedesc = 'Completed'
 INNER JOIN tblJobItem ji on ji.JobId = tblj.JobId 
 INNER JOIN tblService tbls on tbls.serviceId = ji.serviceId 
-INNER join GetTable('ServiceType') st on st.valueId = tbls.ServiceType and st.valuedesc = 'Washes'
+INNER join GetTable('ServiceType') st on st.valueId = tbls.ServiceType and st.valuedesc = 'Wash Package'
 INNER Join tblLocation l on l.locationId = tblj.locationId
 --LEFT JOIN tblTimeClock tc on tc.locationId = l.LocationId
 --INNER JOIN tblEmployee e on e.EmployeeId = tc.EmployeeId
 WHERE tblj.JobDate between @fromDate and @endDate
 AND ISNULL(tblj.IsDeleted, 0) = 0 AND l.LocationId = @locationId
 
-Group by tblj.LocationId, l.LocationName,tblj.JobDate, tbls.ServiceId, tbls.serviceName order by locationId
+Group by tblj.LocationId, l.LocationName,tblj.JobDate, tbls.ServiceId, tbls.serviceName order by tblj.locationId
 
 
 

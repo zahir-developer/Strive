@@ -11,6 +11,6 @@ CREATE PROCEDURE [StriveCarSalon].[uspDeleteTimeClockEmployee] (@locationId int,
 AS
 BEGIN
 
-Update [StriveCarSalon].[tblTimeClock] Set IsDeleted=1 where locationId= @locationId and EmployeeId = @EmployeeId
+Update [tblTimeClock] Set IsDeleted=1 where locationId= @locationId and EmployeeId = @EmployeeId
 
 END

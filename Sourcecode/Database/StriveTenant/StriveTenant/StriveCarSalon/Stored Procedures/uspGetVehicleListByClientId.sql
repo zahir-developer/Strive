@@ -11,12 +11,12 @@ BEGIN
 Select 
 distinct 
 tblclv.VehicleId
-,CONCAT(tblclv.BarCode,' ',cvMfr.valuedesc,' ',cvMo.valuedesc,' ',cvCo.valuedesc) AS VehicleDetails
+,CONCAT(tblclv.BarCode,' ',cvMfr.MakeValue,' ',cvMo.ModelValue,' ',cvCo.valuedesc) AS VehicleDetails
 
 from [StriveCarSalon].[tblClientVehicle] tblclv
 INNER JOIN [StriveCarSalon].[tblClient] tblc ON tblc.ClientId = tblclv.ClientId 
-INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON tblclv.VehicleMfr = cvMfr.valueid
-INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON tblclv.VehicleModel = cvMo.valueid
+LEFT JOIN tblVehicleMake cvMfr ON tblclv.VehicleMfr = cvMfr.MakeId
+LEFT JOIN tblVehicleModel cvMo ON tblclv.VehicleModel = cvMo.ModelId and cvMfr.MakeId = cvMo.MakeId
 INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON tblclv.VehicleColor = cvCo.valueid
 WHERE
 tblc.ClientId=@ClientId

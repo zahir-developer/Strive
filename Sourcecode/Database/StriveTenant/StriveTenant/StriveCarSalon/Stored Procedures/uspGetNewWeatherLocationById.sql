@@ -33,7 +33,7 @@ SELECT tbll.LocationId,
 	   tblla.IsActive					AS LocationAddress_IsActive,
 	   tblla.Country					AS LocationAddress_Country
 
-FROM [StriveCarSalon].[tblLocation] tbll inner join [StriveCarSalon].[tblLocationAddress] tblla
+FROM [tblLocation] tbll inner join [tblLocationAddress] tblla
 		   ON(tbll.LocationId = tblla.LocationId)
            WHERE tbll.LocationId = @tblLocationId
 END

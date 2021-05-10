@@ -1,4 +1,4 @@
-﻿create   procedure [StriveCarSalon].uspChatEmployeeSearch --'Ra'
+﻿CREATE   procedure [StriveCarSalon].[uspChatEmployeeSearch]
 (@EmployeeName varchar(30))
 as 
 begin
