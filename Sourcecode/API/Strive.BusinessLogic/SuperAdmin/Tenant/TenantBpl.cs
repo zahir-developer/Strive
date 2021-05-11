@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.Common;
@@ -59,9 +60,9 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
             }
             return _result;
         }
-        public Result GetAllTenant()
+        public Result GetAllTenant(SearchDto searchDto)
         {
-            return ResultWrap(new TenantRal(_tenant, true).GetAllTenant, "AllTenant");
+            return ResultWrap(new TenantRal(_tenant, true).GetAllTenant,searchDto, "AllTenant");
         }
         public TenantModulesViewModel GetTenantById(int id)
         {

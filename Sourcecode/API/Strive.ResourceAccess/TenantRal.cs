@@ -9,6 +9,7 @@ using System.Data;
 using Strive.Common;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.City;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.ResourceAccess
 {
@@ -86,9 +87,14 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(module);
         }
-        public List<ClientTenantViewModel> GetAllTenant()
-        {           
-            return db.Fetch<ClientTenantViewModel>(EnumSP.Tenant.USPGETTENANT.ToString(), _prm);
+        public ClientTenantGridViewModel GetAllTenant(SearchDto searchDto)
+        {
+            _prm.Add("PageNo", searchDto.PageNo);
+            _prm.Add("PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return db.FetchMultiResult<ClientTenantGridViewModel>(EnumSP.Tenant.USPGETTENANT.ToString(), _prm);
         }
         public ClientTenantViewModel GetTenantById(int id)
         {
