@@ -123,7 +123,6 @@ export class SalesComponent implements OnInit {
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
     if (paramsData !== null) {
-      debugger;
       this.ticketNumber = paramsData;
       this.printTicketNumber = paramsData;
       this.addTicketNumber();
@@ -142,7 +141,6 @@ export class SalesComponent implements OnInit {
       size: 'lg'
     };
     const modalRef = this.modalService.open(PrintComponent, ngbModalOptions);
-    debugger;
     modalRef.componentInstance.isModal = true;
     modalRef.componentInstance.printTicketNumber = this.printTicketNumber;
     modalRef.componentInstance.itemList = this.itemList.Status;
