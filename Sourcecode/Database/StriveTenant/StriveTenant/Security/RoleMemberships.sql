@@ -14,3 +14,11 @@ ALTER ROLE [db_ddladmin] ADD MEMBER [StriveDevUser];
 
 
 
+
+GO
+
+
+
+GO
+
+

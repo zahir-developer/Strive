@@ -15,7 +15,7 @@ export class PrintComponent implements OnInit {
   invoiceDate: any;
   invoiceTime: any;
   @Input() itemList: any = []; 
-  @Input() ticketNumber: any;
+  @Input() printTicketNumber: any;
   today = new Date();
   constructor(private activeModal: NgbActiveModal) { }
 

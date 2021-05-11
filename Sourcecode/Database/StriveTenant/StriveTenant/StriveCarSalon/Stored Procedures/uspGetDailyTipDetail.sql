@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetDailyTipDetail] -- [StriveCarSalon].[uspGetDailyTipDetail] '2020-11-08', 2034
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetDailyTipDetail] 
 (@Date Date = null, @locationId int = null)
 AS
 
@@ -7,6 +7,7 @@ AS
 -- Create date: 09-11-2020
 -- Description:	Gets the Daily tips detail 
 -- =============================================
+-- [StriveCarSalon].[uspGetDailyTipDetail] '2020-11-08', 2034
 
 BEGIN
  

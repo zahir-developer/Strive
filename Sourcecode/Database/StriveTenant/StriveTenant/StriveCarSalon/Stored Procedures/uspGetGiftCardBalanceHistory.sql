@@ -1,4 +1,5 @@
-﻿CREATE proc [StriveCarSalon].[uspGetGiftCardBalanceHistory] --[StriveCarSalon].[uspGetGiftCardBalanceHistory]'363519'
+﻿--[StriveCarSalon].[uspGetGiftCardBalanceHistory]'363519'
+CREATE proc [StriveCarSalon].[uspGetGiftCardBalanceHistory] 
 (@GiftCardCode varchar(10))
 as
 begin
@@ -23,7 +24,7 @@ tblgch.GiftCardId
 ,isnull(tj.IsActive,1) as Status
 INTO #GiftCardHistory   
 
-from [StriveCarSalon].[tblGiftCardHistory] tblgch 
+from [tblGiftCardHistory] tblgch 
 
 LEFT JOIN tblJobPaymentDetail jp on tblgch.JobPaymentDetailId =jp.JobPaymentDetailId
 left join tblJob tj on jp.JobPaymentId = tj.JobPaymentId

@@ -6,6 +6,6 @@ SELECT
 tblji.ServiceId,
 tblji.Price,
 tbls.ServiceName
-FROM [StriveCarSalon].[tblJobItem] tblji inner join [StriveCarSalon].[tblService] tbls
+FROM [tblJobItem] tblji inner join [tblService] tbls
 ON(tblji.ServiceId = tbls.ServiceId)
 END

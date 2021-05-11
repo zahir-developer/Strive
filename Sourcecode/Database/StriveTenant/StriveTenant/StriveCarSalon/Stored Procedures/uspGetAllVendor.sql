@@ -10,13 +10,13 @@ V.VendorAlias,
 VA.PhoneNumber,
 VA.Email,
 V.IsActive
-FROM  [StriveCarSalon].[tblVendor] V
-left Join [StriveCarSalon].[tblVendorAddress] VA
+FROM  [tblVendor] V
+left Join [tblVendorAddress] VA
  On V.VendorId=VA.VendorId
  WHERE V.IsDeleted = 0 AND VA.IsDeleted=0 
   and (@VendorId is null or VA.VendorId= @VendorId)AND
  (@VendorSearch is null or V.VendorName like '%'+@VendorSearch+'%'
- or VA.Address1 like '%'+@VendorSearch+'%' or VA.Address2 like '%'+@VendorSearch+'%'or VA.Email like '%'+@VendorSearch+'%')
+ or VA.Address1 like '%'+@VendorSearch+'%' or VA.Address2 like '%'+@VendorSearch+'%'or VA.Email like '%'+@VendorSearch+'%'or VA.PhoneNumber like '%'+@VendorSearch+'%')
 
  order by V.VendorName ASC
  --or tblla.PhoneNumber like '%'+@LocationSearch+'%'

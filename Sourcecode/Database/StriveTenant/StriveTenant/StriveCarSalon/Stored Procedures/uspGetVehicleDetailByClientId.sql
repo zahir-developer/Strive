@@ -1,9 +1,4 @@
 ﻿
-
-
-
-
-
 -- ================================================
 -- Author:		Benny Johnson
 -- Create date: 01-08-2020
@@ -20,7 +15,7 @@
 
 ------------------------------------------------
 -- =============================================
-CREATE PROC [StriveCarSalon].[uspGetVehicleDetailByClientId] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleDetailByClientId] 
 (@ClientId int,@CurrentDate date = null)
 
 AS
@@ -53,12 +48,13 @@ SELECT
 	cl.BirthDate,
 	cvl.VehicleId,
 	cvl.VehicleNumber,
-	cvMfr.valuedesc AS VehicleMfr,
-	cvl.VehicleModel AS VehicleModelId,
-	cvMo.valuedesc AS VehicleModel,
+	--cvMfr.valuedesc AS VehicleMfr,
+	--cvl.VehicleModel AS VehicleModelId,
+	--cvMo.valuedesc AS VehicleModel,
+	--cvl.VehicleMfr AS VehicleMakeId,
+	cvl.VehicleColor as VehicleColorId,	
 	cvCo.valuedesc AS VehicleColor,
-	cvl.VehicleMfr AS VehicleMakeId,
-	cvl.VehicleColor as VehicleColorId,
+
 	cvl.VehicleYear,
 	cvl.Upcharge,
 	cvl.Barcode,
@@ -66,14 +62,20 @@ SELECT
 	cvl.IsActive,
 	cvl.MonthlyCharge,
 	@IsMembership as IsMembership,
-	tblm.MembershipName
+	tblm.MembershipName	
+	,make.MakeId as VehicleMakeId
+	,make.MakeValue as VehicleMfr
+	,model.ModelId as VehicleModelId
+	,model.ModelValue as VehicleModel
 FROM 
 strivecarsalon.tblclient cl
 INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId
 LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId
-left join strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
-LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
-LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
+LEFT JOIN strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId
+LEFT JOIN tblVehicleMake make on cvl.VehicleMfr=make.MakeId
+LEFT JOIN tblvehicleModel model on cvl.VehicleModel= model.ModelId and make.MakeId = model.MakeId
+--LEFT JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
+--LEFT JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
 LEFT JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND ISNULL(cvl.IsActive,1)=1 AND
 ISNULL(cvl.IsDeleted,0)=0 AND

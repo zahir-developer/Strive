@@ -13,8 +13,8 @@ SELECT
     FOR XML PATH('')
 	), 1, 2, '')  AS NotificationTime
 	--,cln.NotificationTime
-FROM [StriveCarSalon].[tblChecklist] cl
-inner join [StriveCarSalon].[tblRoleMaster] tr on cl.RoleId = tr.RoleMasterId
+FROM [tblChecklist] cl
+inner join [tblRoleMaster] tr on cl.RoleId = tr.RoleMasterId
 --left join [StriveCarSalon].[tblCheckListNotification] cln on cln.CheckListId = cl.ChecklistId
 where ISNULL(cl.IsDeleted,0)=0
 

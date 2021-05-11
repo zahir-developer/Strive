@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
     this.authService.isLoggedIn.subscribe(data => {
     });
     this.authService.logout();
-    console.log(localStorage.getItem('isRemember'));
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),

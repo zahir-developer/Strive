@@ -2,6 +2,6 @@
 (@VehicleId int)
 AS 
 BEGIN
-    UPDATE [StriveCarSalon].[tblClientVehicle] 
+    UPDATE [tblClientVehicle] 
     SET IsActive=0 WHERE VehicleId = @VehicleId
 END

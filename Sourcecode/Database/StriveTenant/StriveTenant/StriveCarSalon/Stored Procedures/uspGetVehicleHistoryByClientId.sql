@@ -1,5 +1,5 @@
-﻿
-CREATE proc [StriveCarSalon].[uspGetVehicleHistoryByClientId] --[StriveCarSalon].[uspGetVehicleHistoryByClientId] 1846
+﻿--[StriveCarSalon].[uspGetVehicleHistoryByClientId] 1846
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleHistoryByClientId] 
 @ClientId int,
 @PageNo INT = NULL,
 @PageSize INT = NULL	

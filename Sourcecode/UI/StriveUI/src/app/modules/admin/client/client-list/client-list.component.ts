@@ -9,6 +9,8 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-client-list',
@@ -32,6 +34,8 @@ export class ClientListComponent implements OnInit {
   page: number;
   pageSize: number;
   jobTypeId: any;
+  searchUpdate = new Subject<string>();
+
   @ViewChild(DashboardStaticsComponent) dashboardStaticsComponent: DashboardStaticsComponent;
   sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
@@ -40,7 +44,15 @@ export class ClientListComponent implements OnInit {
     private spinner: NgxSpinnerService, private router: Router,
     private route: ActivatedRoute,
     private detailService: DetailService
-  ) { }
+  ) {
+     // Debounce search.
+     this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getAllClientDetails();
+      });
+   }
 
   ngOnInit() {
     this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };

@@ -354,9 +354,14 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.get('discountServiceType').setValidators([Validators.required]);
 
       } else {
-        this.serviceSetupForm.get('discountServiceType').clearValidators();
-        this.serviceSetupForm.get('discountType').setValidators([Validators.required]);
         this.isDiscounts = false;
+        this.serviceSetupForm.get('discountServiceType').clearValidators();
+        this.serviceSetupForm.get('discountServiceType').updateValueAndValidity();
+
+        this.serviceSetupForm.get('discountType').clearValidators()
+        this.serviceSetupForm.get('discountType').updateValueAndValidity();
+
+        
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashPackage) {
         this.isWash = true;
@@ -408,6 +413,8 @@ categoryName(){
 }
   // Add/Update Service
   submit() {
+    debugger;
+
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {
 

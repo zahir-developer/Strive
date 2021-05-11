@@ -7,7 +7,7 @@
 -- ==============================================================
 
 
-create procedure [StriveCarSalon].[uspGetServiceCategoryByLocationId]
+CREATE procedure [StriveCarSalon].[uspGetServiceCategoryByLocationId]
 (@LocationId int)
 AS
 BEGIN
@@ -15,7 +15,7 @@ SELECT
 tbls.ServiceId,
 tbls.ServiceName,
 gt.valuedesc AS CodeValue 
-FROM [StriveCarSalon].[tblService] tbls inner join [StriveCarSalon].GetTable('ServiceType') gt on (tbls.ServiceType=gt.valueid)
+FROM [tblService] tbls inner join GetTable('ServiceType') gt on (tbls.ServiceType=gt.valueid)
 AND
 tbls.LocationId=@LocationId
 AND

@@ -61,7 +61,11 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPK(documents, "DocumentId");
         }
-
+        public bool UpdateDocument(DocumentDto documentModel)
+        {
+            return dbRepo.Update(documentModel.Document);
+        }
+      
         public bool DeleteDocument(int documentType)
         {
             DynamicParameters dynParams = new DynamicParameters();

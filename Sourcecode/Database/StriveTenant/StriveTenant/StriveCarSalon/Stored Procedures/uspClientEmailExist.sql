@@ -7,7 +7,7 @@ AS
 
 BEGIN 
 SELECT ClientId,Email
-FROM [StriveCarSalon].[tblClientAddress]
+FROM [tblClientAddress]
 WHERE Email=@Email
 AND ISNULL(IsDeleted,0)=0
 END

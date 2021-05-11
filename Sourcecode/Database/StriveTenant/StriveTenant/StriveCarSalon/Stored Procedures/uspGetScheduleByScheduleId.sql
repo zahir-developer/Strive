@@ -29,10 +29,10 @@ SELECT
 	 tblsc.Comments,
 	 tbler.valuedesc as EmployeeRole,
 	 tblsc.IsDeleted
-FROM StriveCarSalon.tblSchedule as tblsc 
-INNER JOIN [StriveCarSalon].[tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
-INNER JOIN [StriveCarSalon].[tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
-LEFT JOIN [StriveCarSalon].[GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
+FROM tblSchedule as tblsc 
+INNER JOIN [tblEmployee] tblemp ON (tblsc.EmployeeId = tblemp.EmployeeId)
+INNER JOIN [tblLocation] tblloc ON (tblsc.LocationId = tblloc.LocationId)
+LEFT JOIN [GetTable]('EmployeeRole') tbler ON  (tblsc.RoleId = tbler.valueid)
 WHERE ScheduleId=@ScheduleId
 AND
 ISNULL(tblsc.IsDeleted,0)=0 

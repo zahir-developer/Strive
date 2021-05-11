@@ -10,7 +10,7 @@ LiabilityDescription,
 ProductId,
 Status
 FROM 
-strivecarsalon.tblEmployeeLiability  
+tblEmployeeLiability  
 WHERE
 isnull(isDeleted,0) = 0 
 
@@ -23,9 +23,9 @@ tbleld.PaymentType ,
 tbleld.DocumentPath, 
 tbleld.Description 
 FROM
-[StriveCarSalon].[tblEmployeeLiabilityDetail] tbleld
+[tblEmployeeLiabilityDetail] tbleld
 INNER JOIN
-strivecarsalon.tblEmployeeLiability tblel 
+tblEmployeeLiability tblel 
 ON tbleld.LiabilityId = tblel.LiabilityId
 WHERE
 

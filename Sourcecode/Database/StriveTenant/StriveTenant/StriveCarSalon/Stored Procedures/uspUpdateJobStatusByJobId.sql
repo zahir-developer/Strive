@@ -1,5 +1,4 @@
-﻿
-CREATE procedure [StriveCarSalon].[uspUpdateJobStatusForJobId]
+﻿CREATE procedure [StriveCarSalon].[uspUpdateJobStatusByJobId]
 (@JobId int)
 AS
 -- =============================================

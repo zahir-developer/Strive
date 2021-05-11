@@ -6,6 +6,7 @@ import { map, tap } from 'rxjs/operators';
 import { UserDataService } from '../../util/user-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticateObservableService } from '../../observable-service/authenticate-observable.service';
+import { ApplicationConfig } from '../ApplicationConfig';
 @Injectable({
   providedIn: 'root'
 })
@@ -56,7 +57,7 @@ export class AuthService {
     // set a timeout to refresh the token a minute before it expires
     // const expires = new Date(1618587325 * 1000);
     // const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    const timeSecs = 19 * 60 * 1000;
+    const timeSecs = ApplicationConfig.refreshTime.refreshTime * 60 * 1000;
     this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeSecs);
   }
 
@@ -105,6 +106,7 @@ export class AuthService {
     localStorage.setItem('isAuthenticated', 'false');
     localStorage.removeItem('authorizationToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('empLocation');
   }
 
   sessionLogin(loginData: any) {

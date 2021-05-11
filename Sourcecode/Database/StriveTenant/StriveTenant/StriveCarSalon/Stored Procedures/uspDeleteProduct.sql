@@ -2,6 +2,6 @@
 AS
 BEGIN
 
-	update StriveCarSalon.tblProduct set IsDeleted= 1 where ProductId = @ProductId
+	update tblProduct set IsDeleted= 1 where ProductId = @ProductId
 
 END

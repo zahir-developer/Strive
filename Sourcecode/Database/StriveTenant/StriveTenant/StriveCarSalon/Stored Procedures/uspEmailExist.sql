@@ -7,7 +7,7 @@ AS
 BEGIN
 DECLARE @Count int;
 SELECT @Count = (SELECT COUNT(1)
-FROM [StriveCarSalon].[tblEmployeeAddress]
+FROM [tblEmployeeAddress]
 WHERE Email=@Email
 AND ISNULL(IsDeleted,0)=0)
 IF @Count >0

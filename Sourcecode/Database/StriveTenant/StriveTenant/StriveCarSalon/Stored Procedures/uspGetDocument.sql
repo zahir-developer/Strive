@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetDocument] --[StriveCarSalon].[uspGetDocument]661
+﻿--[StriveCarSalon].[uspGetDocument]661
+CREATE PROCEDURE [StriveCarSalon].[uspGetDocument] 
 @DocumentType int
 AS
 BEGIN
@@ -13,8 +14,8 @@ DocumentId
 ,doc.CreatedDate
 ,doc.UpdatedDate
 ,doc.IsActive
-from [StriveCarSalon].[tblDocument] doc
-LEFT JOIN StriveCarSalon.tblEmployee emp on doc.CreatedBy = emp.EmployeeId
+from [tblDocument] doc
+LEFT JOIN tblEmployee emp on doc.CreatedBy = emp.EmployeeId
 WHERE DocumentType=@DocumentType AND (ISNULL(doc.IsDeleted,0) = 0)
 
 END

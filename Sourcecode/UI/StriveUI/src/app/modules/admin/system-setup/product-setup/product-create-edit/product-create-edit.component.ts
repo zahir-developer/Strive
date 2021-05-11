@@ -78,7 +78,7 @@ export class ProductCreateEditComponent implements OnInit {
       locationName: [[], Validators.required],
       name: ['', Validators.required],
       size: ['',],
-      quantity: ['', Validators.required],
+      quantity: [0, Validators.required],
       cost: ['', Validators.required],
       taxable: ['',],
       taxAmount: ['',],
@@ -86,7 +86,8 @@ export class ProductCreateEditComponent implements OnInit {
       vendor: ['',],
       thresholdAmount: ['',],
       other: ['',],
-      suggested: ['', Validators.required]
+      suggested: ['', Validators.required],
+      type: ['']
     });
     this.productSetupForm.patchValue({ status: 1 });
     if (this.isEdit !== true) {
@@ -360,7 +361,7 @@ export class ProductCreateEditComponent implements OnInit {
         });
 
         if (this.productVendorList.length > 0) {
-          const deletedVendors = this.productVendorList.filter(s => s.IsDeleted == true);
+          const deletedVendors = this.productVendorList.filter(s => s.IsDeleted === true);
 
           if (deletedVendors.length > 0) {
             deletedVendors.forEach(vendor => {
@@ -469,6 +470,23 @@ export class ProductCreateEditComponent implements OnInit {
     if (descriptionName === 'Other') {
       this.textDisplay = true;
       this.productSetupForm.patchValue({ other: this.selectedProduct.SizeDescription });
+    }
+  }
+
+  settingType(event) {
+    const type =  event.target.value;
+    if (type === 'plus') {
+      const quantity = this.productSetupForm.value.quantity;
+      this.productSetupForm.patchValue({
+        quantity: quantity + 1
+      });
+    } else {
+      const quantity = this.productSetupForm.value.quantity;
+      if (+quantity !== 0) {
+        this.productSetupForm.patchValue({
+          quantity: quantity - 1
+        });
+      }
     }
   }
 }

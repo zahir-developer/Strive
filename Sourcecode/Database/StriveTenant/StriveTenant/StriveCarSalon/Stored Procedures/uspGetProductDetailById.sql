@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetProductDetailById] --[StriveCarSalon].[uspGetProductDetailById] 532
+﻿--[StriveCarSalon].[uspGetProductDetailById] 532
+CREATE PROCEDURE [StriveCarSalon].[uspGetProductDetailById] 
 (@ProductId int)
 AS
 BEGIN
@@ -23,10 +24,10 @@ SELECT TOP 1
 	loc.LocationName,
 	tbpt.valuedesc as ProductTypeName,
 	tbsz.valuedesc as SizeName
-FROM [StriveCarSalon].[tblProduct] prd
-inner JOIN [StriveCarSalon].[tblLocation] as loc ON (prd.LocationId = loc.LocationId)
-LEFT JOIN [StriveCarSalon].[GetTable]('ProductType') tbpt ON (prd.ProductType = tbpt.valueid)
-LEFT JOIN [StriveCarSalon].[GetTable]('Size') tbsz ON (prd.Size = tbsz.valueid)
+FROM [tblProduct] prd
+inner JOIN [tblLocation] as loc ON (prd.LocationId = loc.LocationId)
+LEFT JOIN [GetTable]('ProductType') tbpt ON (prd.ProductType = tbpt.valueid)
+LEFT JOIN [GetTable]('Size') tbsz ON (prd.Size = tbsz.valueid)
 WHERE prd.IsDeleted = 0 AND prd.ProductId = @ProductId
 
 Select ProductVendorId, ProductId, v.VendorId, v.VendorName

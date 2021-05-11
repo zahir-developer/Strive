@@ -8,8 +8,8 @@ begin
 	val.codevalue as CityName,
 	val.codeshortvalue as CityShortName,
 	val.sortorder 
-	from StriveCarSalon.tblCodeCategory cat
-    inner join StriveCarSalon.tblCodeValue val on cat.id=val.categoryid
+	from tblCodeCategory cat
+    inner join tblCodeValue val on cat.id=val.categoryid
 	where categoryId =@categoryId and val.ParentId =@stateId and ISNULL(val.IsDeleted,0) =0
 	ORDER BY CodeValue
 	

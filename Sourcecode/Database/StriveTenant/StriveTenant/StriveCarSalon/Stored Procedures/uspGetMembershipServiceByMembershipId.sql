@@ -5,7 +5,7 @@
 -- Create date: 26-08-2020
 -- Description:	Get Membership and Its service details
 -- =========================================================
-
+ --[StriveCarSalon].[uspGetMembershipServiceByMembershipId] 23573 
 -- =========================================================
 ------------------------History-----------------------------
 --27-08-2020 - Zahir Hussain - Removed * and added columns, Added ServiceType and Id.
@@ -13,7 +13,7 @@
 --01-09-2020 - Zahir Hussain - Added IsActive/Status, Upcharges
 -- =========================================================
 
-CREATE procedure [StriveCarSalon].[uspGetMembershipServiceByMembershipId] --[StriveCarSalon].[uspGetMembershipServiceByMembershipId] 23384 
+CREATE procedure [StriveCarSalon].[uspGetMembershipServiceByMembershipId]
 (@MembershipId int)
 AS
 BEGIN
@@ -25,7 +25,7 @@ Price,
 Notes,
 IsActive as Status,
 CreatedDate as StartDate
-from [StriveCarSalon].[tblMembership] WITH(NOLOCK) WHERE MembershipId=@MembershipId AND ISNULL(IsDeleted,0)=0 --AND IsActive=1
+from [tblMembership] WITH(NOLOCK) WHERE MembershipId=@MembershipId AND ISNULL(IsDeleted,0)=0 --AND IsActive=1
 
 select 
 MembershipServiceId,
@@ -34,8 +34,8 @@ s.ServiceId,
 s.ServiceType as ServiceTypeId,
 st.valuedesc as ServiceType,
 s.Upcharges
-from [StriveCarSalon].[tblMembershipService] ms
-LEFT JOIN StriveCarSalon.tblService s WITH(NOLOCK) on s.ServiceId = ms.ServiceId
+from [tblMembershipService] ms
+LEFT JOIN tblService s WITH(NOLOCK) on s.ServiceId = ms.ServiceId
 LEFT JOIN GetTable('ServiceType') st on s.ServiceType = st.valueid
 WHERE MembershipId=@MembershipId AND ISNULL(ms.IsDeleted,0)=0 --AND ms.IsActive=1
 

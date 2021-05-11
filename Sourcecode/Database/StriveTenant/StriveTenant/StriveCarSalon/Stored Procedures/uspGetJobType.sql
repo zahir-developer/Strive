@@ -7,5 +7,5 @@
 CREATE proc [StriveCarSalon].[uspGetJobType]
 AS
 BEGIN
-SELECT category,valueid,valuedesc from [StriveCarSalon].GetTable('JobType')
+SELECT category,valueid,valuedesc from GetTable('JobType')
 END

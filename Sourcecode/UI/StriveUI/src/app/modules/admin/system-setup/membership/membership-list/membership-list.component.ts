@@ -37,7 +37,7 @@ export class MembershipListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private member: MembershipService) {
     // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.membershipSearch();

@@ -1,6 +1,6 @@
 ﻿
 
-CREATE   PROCEDURE [StriveCarSalon].[uspGetDailyStatusReport] -- strivecarsalon.uspGetDailyStatusReport 20,'2021-03-15',0
+CREATE   PROCEDURE [StriveCarSalon].[uspGetDailyStatusReport] 
 	@LocationId INT,
 	@Date datetime--,
 	--@ClientId INT -- commented since it is not used 
@@ -10,6 +10,7 @@ AS
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
+-- strivecarsalon.uspGetDailyStatusReport 20,'2021-03-15',0
 -- =============================================
 
 BEGIN

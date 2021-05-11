@@ -20,7 +20,7 @@ DECLARE @WorkhourThreshold DECIMAL(4,2);
 Select top 1 @WorkhourThreshold = WorkhourThreshold from tblLocation where LocationId=@LocationId
 
 SELECT
-	 @WorkhourThreshold as LocationWorkHourThreshold,
+	 @WorkhourThreshold as LocationWorkHourThreshold,tblloc.LocationName,tblloc.LocationId,
 	 --tc.EmployeeId,
 	 --tc.InTime,
 	 --tc.OutTime
@@ -35,7 +35,7 @@ WHERE
 ((tc.EventDate BETWEEN @StartDate AND @EndDate) OR (@StartDate IS NULL AND @EndDate IS NULL)) AND
 (tc.EmployeeId = @EmployeeId OR @EmployeeId IS NULL)
 AND tc.InTime IS NOT NULL AND tc.OutTime IS NOT NULL
---GROUP BY tc.EmployeeId
+GROUP BY tblloc.LocationName,tblloc.LocationId
 
 
 END

@@ -1,5 +1,6 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetVendorById]
-(@VendorId int)
+﻿
+CREATE PROCEDURE [StriveCarSalon].[uspGetVendorById] 
+(@VendorId NVARCHAR(50))
 AS 
 BEGIN
 SELECT 
@@ -9,11 +10,10 @@ V.VendorId
 ,V.VendorName
 ,V.VendorAlias
 ,V.IsActive
-,VA.VendorAddressId	
 ,VA.Address1	 
 ,VA.Address2	
 ,VA.PhoneNumber	 
-,VA.PhoneNumber2	 
+,VA.PhoneNumber2
 ,VA.Email	 
 ,VA.City	 
 ,VA.State	 
@@ -27,6 +27,6 @@ FROM  [StriveCarSalon].[tblVendor] V
 Inner Join [StriveCarSalon].[tblVendorAddress] VA
  On V.VendorId=VA.VendorId
  WHERE V.IsDeleted = 0 AND VA.IsDeleted=0 
-and VA.VendorId= @VendorId
+and VA.VendorId IN (Select [DATA] from StriveCarSalon.SPLIT(@VendorId, ','))
  
 END
