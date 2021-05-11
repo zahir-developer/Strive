@@ -30,6 +30,6 @@ insert into tblVehicleType(TypeValue,Category)Values('Subcompact car','X')
 insert into tblVehicleType(TypeValue,Category)Values('Subcompact crossover SUV','B')
 insert into tblVehicleType(TypeValue,Category)Values('Subcompact SUV','B')
 insert into tblVehicleType(TypeValue,Category)Values('TaX-$0.00icab','X')
-insert into tblVehicleType(TypeValue,Category)Values('Unknown','ADJUSTABLE')
+insert into tblVehicleType(TypeValue,Category)Values('Unknown', 'ADJUSTABLE')
 
 
