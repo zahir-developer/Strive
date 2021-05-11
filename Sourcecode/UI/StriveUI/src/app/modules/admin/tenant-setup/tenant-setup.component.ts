@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { TenantSetupService } from 'src/app/shared/services/data-service/tenant-setup.service';
 
@@ -20,10 +22,19 @@ export class TenantSetupComponent implements OnInit {
   isEdit: boolean;
   tenantModule: any;
   sortColumn: { sortBy: string; sortOrder: string; };
+  searchUpdate = new Subject<string>();
   constructor(
     private tenantSetupService: TenantSetupService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getTenantList();
+      });
+  }
 
   ngOnInit(): void {
     this.isEdit = false;
@@ -59,8 +70,9 @@ export class TenantSetupComponent implements OnInit {
       if (res.status === 'Success') {
         const tenant = JSON.parse(res.resultData);
         if (tenant.AllTenant != null) {
-          this.tenantList = tenant.AllTenant;
-          this.collectionSize = Math.ceil(this.tenantList.length / this.pageSize) * 10;
+          const totalCount = tenant.AllTenant.Count.Count;
+          this.tenantList = tenant.AllTenant.clientTenantViewModels;
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
         }
       }
     }, (err) => {

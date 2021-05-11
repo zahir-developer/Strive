@@ -160,9 +160,7 @@ export class AddTenantComponent implements OnInit {
   }
 
   getModuleList() {
-    this.spinner.show();
     this.tenantSetupService.getModuleList().subscribe(res => {
-      this.spinner.hide();
       if (res.status === 'Success') {
         const modules = JSON.parse(res.resultData);
         console.log(modules, 'module');
