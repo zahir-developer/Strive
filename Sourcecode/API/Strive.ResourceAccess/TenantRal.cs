@@ -99,10 +99,10 @@ namespace Strive.ResourceAccess
         {
             return db.FetchMultiResult<ModuleListDto>(EnumSP.Tenant.USPGETALLMODULE.ToString(), _prm);
         }
-        public List<TenantModuleViewModel> GetModuleById(int id)
+        public ModuleListDto GetModuleById(int id)
         {
             _prm.Add("@TenantId", id);
-            return db.Fetch<TenantModuleViewModel>(EnumSP.Tenant.USPGETMODULEBYID.ToString(), _prm);
+            return db.FetchMultiResult<ModuleListDto>(EnumSP.Tenant.USPGETMODULEBYID.ToString(), _prm);
         }
         public List<StateViewModel> GetState()
         {
