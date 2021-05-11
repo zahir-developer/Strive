@@ -28,7 +28,8 @@ export class TenantSetupComponent implements OnInit {
   ngOnInit(): void {
     this.isEdit = false;
     this.sortColumn = {
-      sortBy: ApplicationConfig.Sorting.SortBy.tenantSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.tenantSetup.order };
+      sortBy: ApplicationConfig.Sorting.SortBy.tenantSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.tenantSetup.order
+    };
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -42,7 +43,18 @@ export class TenantSetupComponent implements OnInit {
 
   getTenantList() {
     this.spinner.show();
-    this.tenantSetupService.getTenantList().subscribe(res => {
+    const tenantObj = {
+      locationId: +localStorage.getItem('empLocationId'),
+      pageNo: this.page,
+      pageSize: this.pageSize,
+      query: this.search !== '' ? this.search : null,
+      sortOrder: this.sortColumn.sortOrder,
+      sortBy: this.sortColumn.sortBy,
+      status: true,
+      startDate: null,
+      endDate: null
+    };
+    this.tenantSetupService.getTenantList(tenantObj).subscribe(res => {
       this.spinner.hide();
       if (res.status === 'Success') {
         const tenant = JSON.parse(res.resultData);
@@ -93,6 +105,7 @@ export class TenantSetupComponent implements OnInit {
     };
 
     this.selectedCls(this.sortColumn);
+    this.getTenantList();
     // this.getAllserviceSetupDetails();
   }
 
@@ -108,10 +121,12 @@ export class TenantSetupComponent implements OnInit {
   paginate(event) {
     this.pageSize = +this.pageSize;
     this.page = event;
+    this.getTenantList();
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
+    this.getTenantList();
   }
 
 }

@@ -220,7 +220,15 @@ export class AddTenantComponent implements OnInit {
       });
       this.selectedCity(selectedState[0]);
     }
-    this.tenantModule.forEach(item => {
+    let adminId = '';
+    let reportId = '';
+    this.tenantModule.module.forEach(item => {
+      if (item.moduleName === ApplicationConfig.modules.admin) {
+        adminId = item.moduleId;
+      }
+      if (item.moduleName === ApplicationConfig.modules.report) {
+        reportId = item.moduleId;
+      }
       if (item.isActive) {
         item.IsChecked = true;
       } else {
@@ -228,7 +236,7 @@ export class AddTenantComponent implements OnInit {
       }
     });
     const modules = [];
-    this.tenantModule.forEach(item => {
+    this.tenantModule.module.forEach(item => {
       modules.push({
         ModuleId: item.moduleId,
         ModuleName: item.moduleName,
@@ -236,13 +244,23 @@ export class AddTenantComponent implements OnInit {
         IsChecked: item.IsChecked
       });
     });
-    const isAllModuleSelect = this.tenantModule.filter(item => !item.IsChecked);
+    const isAllModuleSelect = this.tenantModule.module.filter(item => !item.IsChecked);
     if (isAllModuleSelect.length === 0) {
       this.isSelectAll = true;
     } else {
       this.isSelectAll = false;
     }
     this.moduleList = modules;
+    this.tenantModule.moduleScreen.forEach(item => {
+      if (item.isActive) {
+        item.IsChecked = true;
+      } else {
+        item.IsChecked = false;
+      }
+    });
+    this.tenantModule.moduleScreen.forEach(item => {
+      
+    });
     // this.tenantModule.forEach( item => {
     //   this.moduleList.forEach( mod => {
     //     if (mod.ModuleId === item.moduleId && item.isActive) {

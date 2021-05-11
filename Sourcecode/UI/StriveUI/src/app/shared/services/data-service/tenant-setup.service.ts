@@ -18,8 +18,8 @@ export class TenantSetupService {
     return this.http.post(`${UrlConfig.tenantSetup.addTenantSetup}`, obj);
   }
 
-  getTenantList() {
-    return this.http.get(`${UrlConfig.tenantSetup.getTenantSetupList}`);
+  getTenantList(obj) {
+    return this.http.post(`${UrlConfig.tenantSetup.getTenantSetupList}`, obj);
   }
 
   getTenantDetailById(id) {

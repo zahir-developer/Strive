@@ -26,13 +26,13 @@
                                 <div class="col-2">
                                     <div class="form-row">
                                         <label class="col-sm-4 col-form-label" for="inTime">From:</label>
-                                        <input type="text" class="form-control col-sm-8" formControlName="fromDate" [maxDate]="MaxDate" bsDatepicker [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
+                                        <input type="text" class="form-control col-sm-8" formControlName="fromDate" [maxDate]="MaxDate" bsDatepicker  #dp="bsDatepicker" (focus)="dp.show()" [bsConfig]="{ showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="form-row">
                                         <label class="col-sm-3 col-form-label" for="inTime">To:</label>
-                                        <input type="text" class="form-control col-sm-9" formControlName="toDate" bsDatepicker [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }" name="inTime" id="inTime" />
+                                        <input type="text" class="form-control col-sm-9" formControlName="toDate" bsDatepicker #pd="bsDatepicker" (focus)="dp.hide()" (focus)="pd.show()" [bsConfig]="{ minDate: minDate, maxDate: maxDate, showWeekNumbers: false }" name="inTime" id="inTime" />
                                     </div>
                                 </div>
                                 <div class="col-6">
