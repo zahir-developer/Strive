@@ -443,7 +443,7 @@ export class ServiceCreateEditComponent implements OnInit {
           commisionType: this.isChecked === true ? this.serviceSetupForm.value.commissionType : null,
           upcharges: this.serviceSetupForm.value.upcharge,
           parentServiceId: this.serviceSetupForm.value.parentName === '' ? 0 : this.serviceSetupForm.value.parentName,
-          isActive: this.serviceSetupForm.value.status === 0 ? true : false,
+          isActive: +this.serviceSetupForm.value.status === 0 ? true : false,
           locationId: item.item_id,
           commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
           serviceCategory: this.serviceSetupForm.value.serviceCategory.CodeId,
