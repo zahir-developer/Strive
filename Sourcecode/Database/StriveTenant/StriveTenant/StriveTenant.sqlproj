@@ -86,6 +86,12 @@
     <Folder Include="Scripts\Data" />
     <Folder Include="Scripts\RolePermission" />
     <Folder Include="Scripts\Bay" />
+    <Folder Include="StriveCarSalon\Scripts\Data\VehicleMake-model" />
+    <Folder Include="StriveCarSalon\Scripts" />
+    <Folder Include="StriveCarSalon\Scripts\Data" />
+    <Folder Include="Scripts\Data\CityState" />
+    <Folder Include="Scripts\Data\RolePermission" />
+    <Folder Include="Scripts\Data\VehicleMake-model" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveCarSalon\Tables\tblJobPaymentCreditCard.sql" />
@@ -450,6 +456,20 @@
     <Build Include="StriveCarSalon\Tables\tblEmployeeHourlyRate.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUserCreation.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetModelByMake.sql" />
+    <Build Include="Scripts\Data\tblForcastedRainPercentageMaster_Data.sql" />
+    <Build Include="Scripts\Data\CityState\City.sql" />
+    <Build Include="Scripts\Data\CityState\State.sql" />
+    <Build Include="Scripts\Data\RolePermission\1.RoleMaster.sql" />
+    <Build Include="Scripts\Data\RolePermission\2.Module.sql" />
+    <Build Include="Scripts\Data\RolePermission\3.ModuleScreen.sql" />
+    <Build Include="Scripts\Data\RolePermission\Detailer,washer.sql" />
+    <Build Include="Scripts\Data\RolePermission\Greeter.sql" />
+    <Build Include="Scripts\Data\RolePermission\Manager,cashier.sql" />
+    <Build Include="Scripts\Data\RolePermission\ManagerQuery.sql" />
+    <Build Include="Scripts\Data\VehicleMake-model\VehicelMake.sql" />
+    <Build Include="Scripts\Data\VehicleMake-model\VehicelModel%28domestic).sql" />
+    <Build Include="Scripts\Data\VehicleMake-model\VehicleModel%28imported).sql" />
+    <Build Include="Scripts\Data\VehicleMake-model\VehicleType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
@@ -459,5 +479,6 @@
     <None Include="Scripts\RolePermission\Detailer.sql" />
     <None Include="Scripts\RolePermission\Module.sql" />
     <None Include="Scripts\RolePermission\Screen.sql" />
+    <None Include="Scripts\Data\VehicleMake-model\.gitkeep" />
   </ItemGroup>
 </Project>

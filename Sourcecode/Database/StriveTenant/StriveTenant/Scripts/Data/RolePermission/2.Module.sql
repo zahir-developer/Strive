@@ -9,3 +9,4 @@ INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Admin',  1,
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('PayRoll', 1, 0)
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Checkout',  1, 0)
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Customer',  1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('SystemSetup',  1, 1)
