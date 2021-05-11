@@ -8,6 +8,7 @@ import { TenantSetupService } from 'src/app/shared/services/data-service/tenant-
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-add-tenant',
@@ -35,6 +36,8 @@ export class AddTenantComponent implements OnInit {
   cityList = [];
   stateId: any;
   cityId: any;
+  adminModuleList = [];
+  reportModuleList = [];
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -60,7 +63,7 @@ export class AddTenantComponent implements OnInit {
       dateOfSubscription: ['', Validators.required],
       noOfLocation: [''],
       paymentDate: ['', Validators.required],
-      deactivation: ['', Validators.required]
+      deactivation: ['']
     });
     this.getStateList();
     // this.getModuleList();
@@ -94,8 +97,20 @@ export class AddTenantComponent implements OnInit {
         this.moduleList.forEach(item => {
           item.IsChecked = true;
         });
+        this.adminModuleList.forEach(item => {
+          item.IsChecked = true;
+        });
+        this.reportModuleList.forEach(item => {
+          item.IsChecked = true;
+        });
       } else {
         this.moduleList.forEach(item => {
+          item.IsChecked = false;
+        });
+        this.adminModuleList.forEach(item => {
+          item.IsChecked = false;
+        });
+        this.reportModuleList.forEach(item => {
           item.IsChecked = false;
         });
       }
@@ -115,6 +130,27 @@ export class AddTenantComponent implements OnInit {
     } else {
       module.IsChecked = module.IsChecked ? false : true;
     }
+    if (module.IsChecked) {
+      if (module.ModuleName === ApplicationConfig.modules.admin) {
+        this.adminModuleList.forEach(item => {
+          item.IsChecked = true;
+        });
+      } else if (module.ModuleName === ApplicationConfig.modules.report) {
+        this.reportModuleList.forEach(item => {
+          item.IsChecked = true;
+        });
+      }
+    } else {
+      if (module.ModuleName === ApplicationConfig.modules.admin) {
+        this.adminModuleList.forEach(item => {
+          item.IsChecked = false;
+        });
+      } else if (module.ModuleName === ApplicationConfig.modules.report) {
+        this.reportModuleList.forEach(item => {
+          item.IsChecked = false;
+        });
+      }
+    }
     const isAllModuleSelect = this.moduleList.filter(item => !item.IsChecked);
     if (isAllModuleSelect.length === 0) {
       this.isSelectAll = true;
@@ -131,9 +167,20 @@ export class AddTenantComponent implements OnInit {
         const modules = JSON.parse(res.resultData);
         console.log(modules, 'module');
         if (modules.AllModule !== null) {
-          this.moduleList = modules.AllModule;
+          this.moduleList = modules.AllModule.Module;
           this.isSelectAll = true;
           this.moduleList.forEach(item => {
+            item.IsChecked = true;
+          });
+          const modulesScreen = modules.AllModule.ModuleScreen;
+          const adminId = this.moduleList.filter(item => item.ModuleName === ApplicationConfig.modules.admin);
+          this.adminModuleList = modulesScreen.filter(item => item.ModuleId === adminId[0].ModuleId);
+          this.adminModuleList.forEach(item => {
+            item.IsChecked = true;
+          });
+          const reportId = this.moduleList.filter(item => item.ModuleName === ApplicationConfig.modules.report);
+          this.reportModuleList = modulesScreen.filter(item => item.ModuleId === reportId[0].ModuleId);
+          this.reportModuleList.forEach(item => {
             item.IsChecked = true;
           });
         }
@@ -166,7 +213,7 @@ export class AddTenantComponent implements OnInit {
       deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
     });
 
-    const selectedState = this.stateList.filter( item => item.StateId === detail.state );
+    const selectedState = this.stateList.filter(item => item.StateId === detail.state);
     if (selectedState.length > 0) {
       this.personalform.patchValue({
         stateId: selectedState[0]
@@ -209,17 +256,17 @@ export class AddTenantComponent implements OnInit {
 
   selectedCity(event) {
     const stateId = event.StateId;
-    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+    this.tenantSetupService.getCityByStateId(stateId).subscribe(res => {
       if (res.status === 'Success') {
         const cites = JSON.parse(res.resultData);
         this.cityList = cites.cities;
-        this.cityList = this.cityList.map( item => {
+        this.cityList = this.cityList.map(item => {
           return {
             CityId: item.CityId,
             CityName: item.CityName
           };
         });
-        const selectedState = this.cityList.filter( item => item.CityId === this.tenantDetail.city);
+        const selectedState = this.cityList.filter(item => item.CityId === this.tenantDetail.city);
         if (selectedState.length > 0) {
           const city: any = {
             CityId: selectedState[0].CityId,
@@ -251,7 +298,7 @@ export class AddTenantComponent implements OnInit {
 
 
     const moduleObj = [];
-    if (this.isEdit) {
+    if (false) {  // this.isEdit
       this.newModuleChanges.forEach(item => {
         if (item.IsChecked) {
           moduleObj.push({
@@ -269,11 +316,38 @@ export class AddTenantComponent implements OnInit {
       });
     } else {
       this.moduleList.forEach(item => {
+        const moduleScreen = [];
         if (item.IsChecked) {
+          if (item.ModuleName === ApplicationConfig.modules.admin) {
+            this.adminModuleList.forEach(adminscreen => {
+              if (adminscreen.IsChecked) {
+                moduleScreen.push({
+                  moduleScreenId: adminscreen.ModuleScreenId,
+                  moduleId: adminscreen.ModuleId,
+                  viewName: adminscreen.ViewName,
+                  isActive: true
+                });
+              }
+            });
+          } else if (item.ModuleName === ApplicationConfig.modules.report) {
+            this.reportModuleList.forEach(reportscreen => {
+              if (reportscreen.IsChecked) {
+                moduleScreen.push({
+                  moduleScreenId: reportscreen.ModuleScreenId,
+                  moduleId: reportscreen.ModuleId,
+                  viewName: reportscreen.ViewName,
+                  isActive: true
+                });
+              }
+            });
+          }
+          const obj: any = {};
+          obj.moduleId = item.ModuleId;
+          obj.moduleName = item.ModuleName;
+          obj.isActive = true;
           moduleObj.push({
-            moduleId: item.ModuleId,
-            moduleName: item.ModuleName,
-            isActive: true
+            module: obj,
+            moduleScreen
           });
         }
       });
@@ -284,8 +358,8 @@ export class AddTenantComponent implements OnInit {
     };
     this.personalform.controls.email.enable();
     const tenantObj = {
-      tenantId: this.isEdit ? this.tenantDetail.tenantId : 0,
-      clientId: this.isEdit ? this.tenantDetail.clientId : 0,
+      tenantId: 53, // this.isEdit ? this.tenantDetail.tenantId : 0,
+      clientId: 49, // this.isEdit ? this.tenantDetail.clientId : 0,
       firstName: this.personalform.value.firstName,
       lastName: this.personalform.value.lastName,
       address: this.personalform.value.address,
@@ -306,8 +380,9 @@ export class AddTenantComponent implements OnInit {
     };
     const finalObj = {
       tenantViewModel: tenantObj,
-      tenantModuleViewModel: module
+      module: moduleObj
     };
+    console.log(finalObj, 'final');
     if (this.isEdit) {
       this.spinner.show();
       this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
@@ -358,7 +433,7 @@ export class AddTenantComponent implements OnInit {
   }
 
   getStateList() {
-    this.tenantSetupService.getStateList().subscribe( res => {
+    this.tenantSetupService.getStateList().subscribe(res => {
       if (res.status === 'Success') {
         const states = JSON.parse(res.resultData);
         this.stateList = states.Allstate;
@@ -370,12 +445,12 @@ export class AddTenantComponent implements OnInit {
   stateSelection(event) {
     console.log(event);
     const stateId = event.value.StateId;
-    this.tenantSetupService.getCityByStateId(stateId).subscribe( res => {
+    this.tenantSetupService.getCityByStateId(stateId).subscribe(res => {
       if (res.status === 'Success') {
         const cites = JSON.parse(res.resultData);
         this.cityList = cites.cities;
         console.log(cites);
-        this.cityList = this.cityList.map( item => {
+        this.cityList = this.cityList.map(item => {
           return {
             CityId: item.CityId,
             CityName: item.CityName

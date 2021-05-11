@@ -258,6 +258,11 @@ export const ApplicationConfig = {
 
     debounceTime: {
         sec: 1000
+    },
+
+    modules: {
+        admin: 'Admin',
+        report: 'Report'
     }
 
 };
