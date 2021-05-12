@@ -55,7 +55,7 @@ export class DealsAddComponent implements OnInit {
     if (this.actionType === 'Edit') {
       const startDate = new Date(this.selectedData.StartDate); // this.datePipe.transform(this.selectedData.StartDate);
       const endDate = new Date(this.selectedData.EndDate); // this.datePipe.transform(this.selectedData.EndDate);
-      const selectedDate = [ startDate , endDate ];
+      const selectedDate = [startDate, endDate];
       this.dealSetupForm.patchValue({
         timePeriod: this.selectedData.TimePeriod,
         dealsName: this.selectedData.DealName,
@@ -76,7 +76,7 @@ export class DealsAddComponent implements OnInit {
 
     if (this.actionType === 'Add') {
       if (this.DealsDetails.length > 0) {
-        this.dealList = ApplicationConfig.dealList.filter( item => item.name !== this.DealsDetails[0].DealName);
+        this.dealList = ApplicationConfig.dealList.filter(item => item.name !== this.DealsDetails[0].DealName);
       }
     }
   }
@@ -147,7 +147,7 @@ export class DealsAddComponent implements OnInit {
         dealId: this.selectedData ? this.selectedData.DealId : 0,
         dealName: this.dealSetupForm.value.dealsName,
         timePeriod: this.dealSetupForm.value.timePeriod,
-        deals: this.dealSetupForm.value.deals,
+        deals: true,
         startDate: this.startDate === undefined ? null : this.startDate,
         endDate: this.endDate === undefined ? null : this.endDate,
         isActive: true,
@@ -176,10 +176,10 @@ export class DealsAddComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         this.submitted = false;
       }
-    },  (err) => {
+    }, (err) => {
       this.spinner.hide();
-     this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-            });
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 
 }
