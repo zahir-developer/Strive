@@ -38,10 +38,10 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                 */
 
                 // Add Module
-                foreach (var item in tenant.Module)
-                {
-                    var tenantModule = new TenantRal(_tenant, false).AddModule(item);
-                }
+                //foreach (var item in tenant.Module)
+                //{
+                //    var tenantModule = new TenantRal(_tenant, false).AddModule(item);
+                //}
                
                 
 
