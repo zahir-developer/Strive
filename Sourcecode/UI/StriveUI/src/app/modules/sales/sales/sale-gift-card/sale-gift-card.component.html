@@ -79,7 +79,7 @@
                             <label class="float-left">Active Date<span class="required">*</span></label>
                         </div>
                         <div class="input-group col-sm-5" id="datepicker">
-                            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker
+                            <input type="text" class="form-control" #dp="bsDatepicker" (focus)="dp.show()" bsDatepicker
                                 formControlName="activeDate" [outsideClick]="true"
                                 [ngClass]="{ 'is-invalid': submitted && f.activeDate.errors }">
                             <div class="input-group-append">

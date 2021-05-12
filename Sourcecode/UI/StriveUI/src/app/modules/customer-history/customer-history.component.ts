@@ -6,6 +6,9 @@ import { CheckoutService } from 'src/app/shared/services/data-service/checkout.s
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-customer-history',
@@ -22,7 +25,7 @@ export class CustomerHistoryComponent implements OnInit {
   pageSizeList: any;
   collectionSize: number;
   historyList: any = [];
-  offset1 = false;
+  isDriveup = false;
   searchQery: any = '';
   months = [
     { val: '0', name: 'All' },
@@ -40,12 +43,22 @@ export class CustomerHistoryComponent implements OnInit {
     { val: '12', name: 'Dec' }
   ];
   sortColumn: { sortBy: any; sortOrder: string; };
+  searchUpdate = new Subject<string>();
   constructor(
     private checkout: CheckoutService,
-    private router: Router
-    , private landingservice: LandingService,
-    private toastr: ToastrService
-  ) { }
+    private router: Router,
+    private landingservice: LandingService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) {
+    // Debounce search.
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.getCustomerHistory();
+      });
+  }
 
   ngOnInit(): void {
     this.month = '0';
@@ -61,7 +74,7 @@ export class CustomerHistoryComponent implements OnInit {
 
   }
   landing() {
-    this.landingservice.loadTheLandingPage()
+    this.landingservice.loadTheLandingPage();
   }
   onYearChange(event) {
     this.year = event;
@@ -70,7 +83,6 @@ export class CustomerHistoryComponent implements OnInit {
   getCustomerHistory() {
     // 2053 ,2020-12-01,2021-01-21
     let finalObj: any = {};
-
     if (this.month === '0') {
       const fromDate = new Date();
       fromDate.setFullYear(this.year);
@@ -80,6 +92,12 @@ export class CustomerHistoryComponent implements OnInit {
       toDate.setFullYear(this.year);
       toDate.setMonth(11);
       toDate.setDate(31);
+      console.log(this.isDriveup, 'is');
+      if (this.isDriveup) {
+        this.searchQery = 'Drive up';
+      } else {
+        this.searchQery = '';
+      }
       finalObj = {
         locationId: +this.locationId, // 2053, // +this.locationId,
         fromDate: moment(fromDate).format('yyyy-MM-DD'),
@@ -101,6 +119,11 @@ export class CustomerHistoryComponent implements OnInit {
       toDate.setMonth(month);
       const lastDate = moment(new Date(this.year, month + 1, 0)).format('DD');
       toDate.setDate(+lastDate);
+      if (this.isDriveup) {
+        this.searchQery = 'Drive up';
+      } else {
+        this.searchQery = '';
+      }
       finalObj = {
         locationId: +this.locationId, // 2053, // +this.locationId,
         fromDate: moment(fromDate).format('yyyy-MM-DD'),
@@ -112,22 +135,37 @@ export class CustomerHistoryComponent implements OnInit {
         sortBy: this.sortColumn.sortBy
       };
     }
+    this.spinner.show();
     this.checkout.getCustomerHistory(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const history = JSON.parse(res.resultData);
         console.log(history, 'history');
-        this.historyList = history.CustomerHistory.customerHistoryViewModel;
-        const totalCount = history.CustomerHistory.Count.Count;
-        this.historyList.filter( item => {
-          if (item.MembershipName === '') {
-            item.MembershipName = 'No';
-          }
-        });
-        this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        this.historyList = [];
+        if (history.CustomerHistory.customerHistoryViewModel !== null) {
+          this.historyList = history.CustomerHistory.customerHistoryViewModel;
+          const totalCount = history.CustomerHistory.Count.Count;
+          this.historyList.filter(item => {
+            if (item.MembershipName === '') {
+              item.MembershipName = 'No';
+            }
+          });
+          this.collectionSize = Math.ceil(totalCount / this.pageSize) * 10;
+        }
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      this.spinner.hide();
     });
+  }
+
+  handleChange(event) {
+    if (event.checked) {
+      this.searchQery = 'Drive up';
+    } else {
+      this.searchQery = '';
+    }
+    this.getCustomerHistory();
   }
 
   paginate(event) {

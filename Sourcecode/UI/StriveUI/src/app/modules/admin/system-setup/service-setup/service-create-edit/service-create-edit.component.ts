@@ -78,19 +78,19 @@ export class ServiceCreateEditComponent implements OnInit {
     this.formInitialize();
     this.getCommissionType();
     this.getCategory();
-  
-   
-         if (this.isEdit === true) {
-           
+
+
+    if (this.isEdit === true) {
+
       this.serviceSetupForm.controls.upcharge.disable();
     }
-    else{
+    else {
       this.serviceSetupForm.patchValue({
         serviceCategory: this.codeCategory[0]
-      }) 
-    
+      })
+
       this.serviceSetupForm.controls.upcharge.disable();
-  
+
     }
   }
 
@@ -181,23 +181,23 @@ export class ServiceCreateEditComponent implements OnInit {
         };
         const selectedLocation = [];
         this.Category = []
-        this.CategoryName  = ''
+        this.CategoryName = ''
         selectedLocation.push(locObj);
         this.dropDownSetting();
         this.codeCategory.forEach(element => {
-          if(this.selectedService?.ServiceCategory == element.CodeId){
-        this.Category = element;
+          if (this.selectedService?.ServiceCategory == element.CodeId) {
+            this.Category = element;
           }
         });
         this.serviceSetupForm.patchValue({
-          
+
           serviceType: this.selectedService?.ServiceTypeId,
           name: this.selectedService?.ServiceName,
           description: this.selectedService?.Description,
           cost: this.selectedService?.Cost,
           price: this.selectedService?.Price,
           commission: this.selectedService?.Commision,
-          serviceCategory:  this.Category,
+          serviceCategory: this.Category,
           isCeramic: this.selectedService?.IsCeramic,
           commissionType: this.selectedService?.CommissionTypeId,
           fee: this.selectedService?.CommissionCost,
@@ -339,7 +339,7 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.washUpcharge = true;
-        
+
       } else {
         this.washUpcharge = false;
       }
@@ -361,7 +361,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.get('discountType').clearValidators()
         this.serviceSetupForm.get('discountType').updateValueAndValidity();
 
-        
+
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashPackage) {
         this.isWash = true;
@@ -397,28 +397,26 @@ export class ServiceCreateEditComponent implements OnInit {
     this.serviceSetupForm.value.commission = data;
     if (data === true) {
       this.isCeramic = true;
-      
+
     } else {
       this.isCeramic = false;
-    
+
     }
   }
-categoryName(){
-  const upcharge =  this.serviceSetupForm.controls['serviceCategory'].value.CodeValue 
-   
- const price = this.serviceSetupForm.controls['price'].value !== "" ? this.serviceSetupForm.controls['price'].value : '0'
-   this.serviceSetupForm.patchValue({
-    upcharge:  upcharge + ' -  $' + price
-   })
-}
+  categoryName() {
+    const upcharge = this.serviceSetupForm.controls['serviceCategory'].value.CodeValue;
+
+    const price = this.serviceSetupForm.controls['price'].value !== "" ? this.serviceSetupForm.controls['price'].value : '0'
+    this.serviceSetupForm.patchValue({
+      upcharge: upcharge + ' -  $' + price
+    });
+  }
   // Add/Update Service
   submit() {
-    debugger;
-
     this.submitted = true;
     if (this.serviceSetupForm.invalid) {
 
-      if (this.serviceSetupForm.value.price !== "") {
+      if (this.serviceSetupForm.value.price !== '') {
         if (Number(this.serviceSetupForm.value.price) <= 0) {
           this.priceErrMsg = true;
           return;
@@ -428,36 +426,36 @@ categoryName(){
       }
       return;
     }
- 
-      this.serviceSetupForm.get('upcharge').enable();
-     
-    
+
+    this.serviceSetupForm.get('upcharge').enable();
+
+
     if (this.serviceSetupForm.value.location) {
       this.serviceSetupForm.value.location.map(item => {
         this.serviceSetupList.push({
-            serviceType: this.serviceSetupForm.value.serviceType,
-            serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
-            serviceName: this.serviceSetupForm.value.name,
-            description: this.serviceSetupForm.value.description,
-            cost: this.serviceSetupForm.value.cost,
-            price: this.serviceSetupForm.value.price,
-            commision: this.isChecked,
-            commisionType: this.isChecked === true ? this.serviceSetupForm.value.commissionType : null,
-            upcharges:this.serviceSetupForm.value.upcharge,
-            parentServiceId: this.serviceSetupForm.value.parentName === '' ? 0 : this.serviceSetupForm.value.parentName,
-            isActive: this.serviceSetupForm.value.status === 0 ? true : false,
-            locationId: item.item_id,
-            commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
-            serviceCategory : this.serviceSetupForm.value.serviceCategory.CodeId,
-            isCeramic : this.isCeramic,
-            isDeleted: false,
-            createdBy: this.employeeId,
-            createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
-            updatedBy: this.employeeId,
-            updatedDate: new Date(),
-            discountServiceType: this.serviceSetupForm.value.discountServiceType,
-            discountType: this.serviceSetupForm.value.discountType,
-          });
+          serviceType: this.serviceSetupForm.value.serviceType,
+          serviceId: this.isEdit ? this.selectedService.ServiceId : 0,
+          serviceName: this.serviceSetupForm.value.name,
+          description: this.serviceSetupForm.value.description,
+          cost: this.serviceSetupForm.value.cost,
+          price: this.serviceSetupForm.value.price,
+          commision: this.isChecked,
+          commisionType: this.isChecked === true ? this.serviceSetupForm.value.commissionType : null,
+          upcharges: this.serviceSetupForm.value.upcharge,
+          parentServiceId: this.serviceSetupForm.value.parentName === '' ? 0 : this.serviceSetupForm.value.parentName,
+          isActive: +this.serviceSetupForm.value.status === 0 ? true : false,
+          locationId: item.item_id,
+          commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
+          serviceCategory: this.serviceSetupForm.value.serviceCategory.CodeId,
+          isCeramic: this.isCeramic,
+          isDeleted: false,
+          createdBy: this.employeeId,
+          createdDate: this.isEdit ? this.selectedService.CreatedDate : new Date(),
+          updatedBy: this.employeeId,
+          updatedDate: new Date(),
+          discountServiceType: this.serviceSetupForm.value.discountServiceType,
+          discountType: this.serviceSetupForm.value.discountType,
+        });
       });
     }
     if (this.isEdit === true) {
@@ -504,8 +502,8 @@ categoryName(){
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
 
-   // Get Category
-   getCategory() {
+  // Get Category
+  getCategory() {
     const sizeCodes = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.ServiceCategory);
     if (sizeCodes.length > 0) {
       this.codeCategory = sizeCodes;

@@ -3,7 +3,7 @@
     <div class="date d-inline-block datepicker-view" data-date-format="mm/dd/yyyy">
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
-            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+            bsDatepicker  (focus)="dp.show()" [outsideClick]="true"><span class="input-group-addon">
             <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
     </div>
 
