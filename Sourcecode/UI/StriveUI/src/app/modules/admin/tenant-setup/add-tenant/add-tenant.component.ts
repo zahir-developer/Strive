@@ -9,6 +9,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { ClientService } from 'src/app/shared/services/data-service/client.service';
 
 @Component({
   selector: 'app-add-tenant',
@@ -38,15 +39,18 @@ export class AddTenantComponent implements OnInit {
   cityId: any;
   adminModuleList = [];
   reportModuleList = [];
+  isEmailAvailable: boolean;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
     private tenantSetupService: TenantSetupService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private client: ClientService
   ) { }
 
   ngOnInit(): void {
     this.submitted = false;
+    this.isEmailAvailable = false;
     this.personalform = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -482,6 +486,26 @@ export class AddTenantComponent implements OnInit {
           };
         });
       }
+    });
+  }
+
+  clientEmailExist() {
+    if (this.personalform.controls.email.errors !== null) {
+      return;
+    }
+    this.client.ClientEmailCheck(this.personalform.controls.email.value).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if (sameEmail.emailExist === true) {
+          this.isEmailAvailable = true;
+          this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
+        } else {
+          this.isEmailAvailable = false;
+
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
