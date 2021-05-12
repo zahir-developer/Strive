@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Email<span class="required">*</span></label>
-                                    <input type="text" class="form-control" formControlName="email"
+                                    <input type="text" class="form-control" formControlName="email" (change) = "clientEmailExist()"
                                         [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
                                     <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                         <div *ngIf="f.email.errors.required">Email Id is required</div>
