@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="title-border p-b-20 m-b-15">
-                        <h5 class="d-inline-block">Location List</h5>&nbsp;
+                        <h5 class="d-inline-block">Location List</h5>
                         <button type="button" class="btn theme-primary-button-color btn-md float-right"
                             (click)="add('add',[])">Add
                             New Location</button>
@@ -15,8 +15,8 @@
                                 <form>
                                     <div class="form-row">
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
-                                                [(ngModel)]="search" size="40" name="search" id="inputSearch"
-                                                placeholder="Search by Name, Address, Phone, Email"
+                                                [(ngModel)]="search" title="Search by Name, Address, Phone, Email" size="25" name="search" id="inputSearch"
+                                                placeholder="Search..."
                                                 (ngModelChange)="this.searchUpdate.next($event)"> </div>
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
@@ -30,20 +30,20 @@
                                 <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
-                                            <th class="pointer" (click)="changesort('LocationName')">Name&nbsp;
+                                            <th class="pointer" (click)="changesort('LocationName')">Name
                                                 <i class="fa" [ngClass]="selectedCls('LocationName')"></i>
                                             </th>
-                                            <th class="pointer" (click)="changesort('Address1')">Address&nbsp;
+                                            <th class="pointer" (click)="changesort('Address1')">Address
                                                 <i class="fa" [ngClass]="selectedCls('Address1')"></i>
                                             </th>
 
-                                            <th class="pointer" (click)="changesort('IsFranchise')">Franchise&nbsp;
+                                            <th class="pointer" (click)="changesort('IsFranchise')">Franchise
                                                 <i class="fa" [ngClass]="selectedCls('IsFranchise')"></i>
                                             </th>
-                                            <th class="pointer" (click)="changesort('PhoneNumber')">Phone Number&nbsp;
+                                            <th class="pointer" (click)="changesort('PhoneNumber')">Phone Number
                                                 <i class="fa" [ngClass]="selectedCls('PhoneNumber')"></i>
                                             </th>
-                                            <th class="pointer" (click)="changesort('Email')">Email&nbsp;
+                                            <th class="pointer" (click)="changesort('Email')">Email
                                                 <i class="fa" [ngClass]="selectedCls('Email')"></i>
                                             </th>
 
@@ -57,7 +57,7 @@
                                             <td scope="row">{{locationSetup.LocationName}}</td>
                                             <td title="{{locationSetup.Address1}}">
                                                 {{locationSetup.Address1 | slice:0:15}}
-                                                {{(locationSetup.Address1 !== null) ? locationSetup.Address1.length <=
+                                                {{(locationSetup.Address1 !== null) ? locationSetup.Address1.length >=
                                                     15 ? '' : '...' :''}} </td>
                                             <td>{{locationSetup.IsFranchise === true ? "Yes" : "No"}}</td>
                                             <td>{{locationSetup.PhoneNumber}}</td>
@@ -65,7 +65,7 @@
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="Edit" tooltipPosition="bottom"
-                                                    (click)="add('edit', locationSetup)"></em>&nbsp;&nbsp;
+                                                    (click)="add('edit', locationSetup)"></em>
                                                 <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                     style="color:red" pTooltip="Delete" tooltipPosition="bottom"
                                                     (click)="delete(locationSetup)"></em>
