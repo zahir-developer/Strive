@@ -29,4 +29,12 @@ export class TenantSetupService {
   updateTenant(obj) {
     return this.http.post(`${UrlConfig.tenantSetup.updateTenant}`, obj);
   }
+
+  getStateList() {
+    return this.http.get(`${UrlConfig.tenantSetup.getStateList}`);
+  }
+
+  getCityByStateId(stateID) {
+    return this.http.get(`${UrlConfig.tenantSetup.getCityByStateId}` + stateID);
+  }
 }

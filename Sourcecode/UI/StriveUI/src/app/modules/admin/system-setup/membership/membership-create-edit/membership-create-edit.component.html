@@ -3,7 +3,7 @@
         <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputMembershipName"> Name<span class="required">*</span></label>
-                <input type="text" placeholder="Membership Name" maxlength="25"  pInputText pKeyFilter="alphanum" class="form-control" formControlName="membershipName"
+                <input type="text" placeholder="Membership Name" maxlength="25"  appAlphaNumeric class="form-control" formControlName="membershipName"
                     [ngClass]="{ 'is-invalid': submitted && f.membershipName.errors }">
                 <div *ngIf="submitted && f.membershipName.errors" class="invalid-feedback">
                     <div *ngIf="f.membershipName.errors.required">Name is required</div>

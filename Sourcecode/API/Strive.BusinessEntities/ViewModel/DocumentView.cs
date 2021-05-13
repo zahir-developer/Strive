@@ -11,6 +11,7 @@ namespace Strive.BusinessEntities.Document
         public long DocumentId { get; set; }
         public int DocumentType { get; set; }
         public string DocumentSubtype { get; set; }
+        public int? RoleId { get; set; }
         public string RoleName { get; set; }
         public string FileName { get; set; }
         public string OriginalFileName { get; set; }

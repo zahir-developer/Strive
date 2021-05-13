@@ -44,6 +44,10 @@ namespace Admin.API.Controllers
         [Route("GetVendorById/{id}")]
         public Result GetVendorById(int id) => _bplManager.GetVendorById(id);
 
+        [HttpGet]
+        [Route("GetVendorByIds/{ids}")]
+        public Result GetVendorByIds(string ids) => _bplManager.GetVendorByIds(ids);
+
         [HttpPost]
         [Route("GetVendorSearch")]
         public Result GetVendorSearch([FromBody] VendorSearchDto search) => _bplManager.GetVendorSearch(search);

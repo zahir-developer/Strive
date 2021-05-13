@@ -40,7 +40,7 @@
                                         <div class="form-row">
                                             <div class="form-group d-flex"> <input type="search" class="form-control"
                                                     [(ngModel)]="search" name="search" id="inputSearchbyName"
-                                                    placeholder="Search by Name" (keyup.enter)="seachEmployee()"> </div>
+                                                    placeholder="Search by Name"  (ngModelChange)="this.searchUpdate.next($event)"> </div>
                                             <div class="form-group col-sm m-l-5">
 
                                                 <button type="button"

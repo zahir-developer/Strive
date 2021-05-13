@@ -13,7 +13,8 @@ namespace Strive.BusinessEntities.ViewModel
 
         public decimal? ForcastedEmployeeHours { get; set; } 
 
-        public int? RainPrecipitation { get; set; }
+        public decimal? RainPrecipitation { get; set; }
+        public DateTime Date { get; set; }
 
     }
 

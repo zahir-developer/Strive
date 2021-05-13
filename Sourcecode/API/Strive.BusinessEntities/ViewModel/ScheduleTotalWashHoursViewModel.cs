@@ -9,5 +9,7 @@ namespace Strive.BusinessEntities.ViewModel
     public class ScheduleTotalWashHoursViewModel
     {
         public decimal? Totalhours { get; set; }
+
+        public DateTime ScheduledDate { get; set; }
     }
 }

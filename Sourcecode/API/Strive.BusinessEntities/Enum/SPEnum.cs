@@ -15,7 +15,9 @@ namespace Strive.BusinessEntities
             USPGETALLMODULE,
             USPGETMODULEBYID,
             USPUPDATETENANT,
-            USPTENANTADMINLOGIN
+            USPTENANTADMINLOGIN,
+            USPGETCITYBYSTATEID,
+            USPGETSTATE,
         }
 
         public enum Authentication

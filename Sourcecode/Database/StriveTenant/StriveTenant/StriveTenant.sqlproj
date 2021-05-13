@@ -86,6 +86,12 @@
     <Folder Include="Scripts\Insert" />
     <Folder Include="Scripts\RolePermission" />
     <Folder Include="Scripts\Bay" />
+    <Folder Include="StriveCarSalon\Scripts\Data\VehicleMake-model" />
+    <Folder Include="StriveCarSalon\Scripts" />
+    <Folder Include="StriveCarSalon\Scripts\Data" />
+    <Folder Include="Scripts\Data\CityState" />
+    <Folder Include="Scripts\Data\RolePermission" />
+    <Folder Include="Scripts\Data\VehicleMake-model" />
     <Folder Include="Scripts\Alter" />
     <Folder Include="Scripts\Insert\Vehicle_Make_Model_Type" />
     <Folder Include="Scripts\Insert\State_City" />
@@ -444,12 +450,6 @@
     <Build Include="StriveCarSalon\Tables\tblEmployeeHourlyRate.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUserCreation.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetModelByMake.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetUpchargeTypeByModel.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetForcasted.sql" />
-    <None Include="Scripts\Insert\tblCodeCategoryAndValue.sql" />
-    <Build Include="Security\StriveQA_1.sql" />
-    <Build Include="Security\StriveClient_1.sql" />
-    <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeList_Backup.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
@@ -459,6 +459,5 @@
     <None Include="Scripts\RolePermission\Detailer.sql" />
     <None Include="Scripts\RolePermission\Module.sql" />
     <None Include="Scripts\RolePermission\Screen.sql" />
-    <None Include="Scripts\Alter\tblService.sql" />
   </ItemGroup>
 </Project>

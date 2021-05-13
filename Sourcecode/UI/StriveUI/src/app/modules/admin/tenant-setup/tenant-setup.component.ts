@@ -19,6 +19,7 @@ export class TenantSetupComponent implements OnInit {
   tenantDetail: any;
   isEdit: boolean;
   tenantModule: any;
+  sortColumn: { sortBy: string; sortOrder: string; };
   constructor(
     private tenantSetupService: TenantSetupService,
     private spinner: NgxSpinnerService
@@ -26,6 +27,8 @@ export class TenantSetupComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEdit = false;
+    this.sortColumn = {
+      sortBy: ApplicationConfig.Sorting.SortBy.tenantSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.tenantSetup.order };
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -81,6 +84,34 @@ export class TenantSetupComponent implements OnInit {
     this.isEdit = false;
     this.showDialog = false;
     this.getTenantList();
+  }
+
+  changeSorting(column) {
+    this.sortColumn = {
+      sortBy: column,
+      sortOrder: this.sortColumn.sortOrder === 'ASC' ? 'DESC' : 'ASC'
+    };
+
+    this.selectedCls(this.sortColumn);
+    // this.getAllserviceSetupDetails();
+  }
+
+  selectedCls(column) {
+    if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'DESC') {
+      return 'fa-sort-desc';
+    } else if (column === this.sortColumn.sortBy && this.sortColumn.sortOrder === 'ASC') {
+      return 'fa-sort-asc';
+    }
+    return '';
+  }
+
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = this.page;
   }
 
 }

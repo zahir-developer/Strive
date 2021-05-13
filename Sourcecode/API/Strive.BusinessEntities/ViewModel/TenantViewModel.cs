@@ -11,7 +11,11 @@ namespace Strive.BusinessEntities.ViewModel
         public int ClientId { get; set; }
         public int TenantId { get; set; }
         public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Address { get; set; }
+        public int? State { get; set; }
+        public int? City { get; set; }
+        public string ZipCode { get; set; }
         public string TenantEmail { get; set; }
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
@@ -22,5 +26,6 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime SubscriptionDate { get; set; }
         public DateTime PaymentDate { get; set; }
         public int Locations { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

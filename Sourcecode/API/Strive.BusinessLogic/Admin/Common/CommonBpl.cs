@@ -378,6 +378,14 @@ namespace Strive.BusinessLogic.Common
 
             string emailContent = GetMailContent(htmlTemplate, keyValues);
 
+            if(emailContent == string.Empty)
+            {
+                foreach(var key in keyValues)
+                {
+                    emailContent += key.Key + ": " + key.Value + ";";
+                }
+            }
+
             SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
@@ -473,19 +481,21 @@ namespace Strive.BusinessLogic.Common
         {
             string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
 
-
-
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
-            StreamReader str = new StreamReader(subPath);
-            string MailText = str.ReadToEnd();
-
-            foreach (var item in keyValues)
+            string MailText = string.Empty;
+            if (File.Exists(subPath))
             {
+                StreamReader str = new StreamReader(subPath);
+                MailText = str.ReadToEnd();
 
-                MailText = MailText.Replace(item.Key, item.Value);
+                foreach (var item in keyValues)
+                {
+
+                    MailText = MailText.Replace(item.Key, item.Value);
+                }
+                str.Close();
             }
-            str.Close();
 
             return MailText;
         }

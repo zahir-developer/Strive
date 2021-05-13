@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DetailService } from 'src/app/shared/services/data-service/detail.service';
 import { DatePipe } from '@angular/common';
 import { TodayScheduleComponent } from '../today-schedule/today-schedule.component';
@@ -10,11 +10,13 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-statics/dashboard-statics.component';
-
+import * as _ from 'underscore';
+declare var $: any;
 @Component({
   selector: 'app-detail-schedule',
   templateUrl: './detail-schedule.component.html',
-  styleUrls: ['./detail-schedule.component.css']
+  styleUrls: ['./detail-schedule.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DetailScheduleComponent implements OnInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
@@ -53,6 +55,8 @@ export class DetailScheduleComponent implements OnInit {
     this.isEdit = false;
     this.isView = false;
     this.getJobType();
+    this.getScheduleDetailsByDate();
+    // this.getDetailScheduleStatus();
   }
 
   landing() {
@@ -110,26 +114,25 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   onValueChange(date) {
-    this.getScheduleDetailsByDate(date);
+    this.getScheduleDetailsByDate();
   }
 
-  getScheduleDetailsByDate(date) {
+  getScheduleDetailsByDate() {
     this.morningBaySchedule = [];
     this.afternoonBaySchedue = [];
     this.eveningBaySchedule = [];
-    this.selectedDate = date;
+    // this.selectedDate = date;
     const locationId = localStorage.getItem('empLocationId');
-    const scheduleDate = this.datePipe.transform(date, 'yyyy-MM-dd');
+    const scheduleDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
     const finalObj = {
       jobDate: scheduleDate,
       locationId
     };
-    //this.getDetailScheduleStatus();
+    this.getDetailScheduleStatus();
     this.spinner.show();
     this.detailService.getScheduleDetailsByDate(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         const scheduleDetails = JSON.parse(res.resultData);
         const bayList = scheduleDetails.GetBaySchedulesDetails.BayList;
         const bayScheduleDetails = scheduleDetails.GetBaySchedulesDetails.BayScheduleDetails === null ? []
@@ -187,7 +190,7 @@ export class DetailScheduleComponent implements OnInit {
         });
         this.todayScheduleComponent.getTodayDateScheduleList();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -206,7 +209,7 @@ export class DetailScheduleComponent implements OnInit {
   }
 
   refreshDetailGrid() {
-    this.getScheduleDetailsByDate(this.selectedDate);
+    this.getScheduleDetailsByDate();
     this.todayScheduleComponent.getTodayDateScheduleList();
     this.dashboardStaticsComponent.getDashboardDetails();
   }
@@ -232,11 +235,10 @@ export class DetailScheduleComponent implements OnInit {
 
   getDetailScheduleStatus() {
     const locId = localStorage.getItem('empLocationId');
-    const date = this.datePipe.transform(this.selectedDate, 'yyyy-MM');
+    const date = this.datePipe.transform(this.selectedDate, 'yyyy-MM');   // this.selectedDate
     this.detailService.getDetailScheduleStatus(locId, date).subscribe(res => {
       if (res.status === 'Success') {
         const scheduleStatus = JSON.parse(res.resultData);
-        console.log(scheduleStatus, 'ststus');
         if (scheduleStatus.Status.length > 0) {
           const dateClass = [];
           this.scheduleDate = scheduleStatus.Status;
@@ -247,10 +249,44 @@ export class DetailScheduleComponent implements OnInit {
             });
           });
           this.dateCustomClasses = dateClass;
+          const scheduledDate = [];
+          this.scheduleDate.forEach(item => {
+            const jobDate = new Date(item.JobDate);
+            scheduledDate.push(jobDate.getDate());
+          });
+          console.log(scheduledDate, 'schedule');
+          const dat = $('td.ng-star-inserted a');
+          $('td.ng-star-inserted a').each(function (index) {
+            if (_.contains(scheduledDate, +($(this).text()))) {
+              this.style.color = 'red';
+              this.style.fontWeight = 'bold';
+            }
+          });
         }
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  selectedMonth(event) {
+    const date = new Date();
+    date.setMonth(event.month - 1);
+    date.setFullYear(event.year);
+    this.selectedDate = date;
+    this.getDetailScheduleStatus();
+  }
+
+  selectedYear(event) {
+    const date = new Date();
+    date.setMonth(event.month - 1);
+    date.setFullYear(event.year);
+    this.selectedDate = date;
+    this.getDetailScheduleStatus();
+  }
+
+  selectDate(event) {
+    this.selectedDate = event;
+    this.getScheduleDetailsByDate();
   }
 }

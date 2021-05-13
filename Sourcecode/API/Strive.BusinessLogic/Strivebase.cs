@@ -144,7 +144,7 @@ namespace Strive.BusinessLogic
             }
             return _result;
         }
-        protected Result ResultWrap<T>(string ResultName)
+        protected Result ResultWrap<T>(string ResultName, BusinessEntities.Model.Document document)
         {
             try
             {

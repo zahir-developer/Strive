@@ -41,7 +41,7 @@ export class ServiceSetupListComponent implements OnInit {
   ) {
     // Debounce search.
     this.searchUpdate.pipe(
-      debounceTime(3000),
+      debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
         this.getAllserviceSetupDetails();
@@ -53,7 +53,6 @@ export class ServiceSetupListComponent implements OnInit {
     this.isLoading = false;
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
-
     this.page = ApplicationConfig.PaginationConfig.page;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
@@ -115,9 +114,7 @@ export class ServiceSetupListComponent implements OnInit {
   }
   searchKeyup(event) {
     if (event) {
-      setTimeout(() => {
         this.getAllserviceSetupDetails();
-      }, 5000);
     }
 
   }

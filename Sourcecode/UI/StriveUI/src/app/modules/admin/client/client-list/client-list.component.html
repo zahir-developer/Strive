@@ -33,7 +33,7 @@
                                                                 class="form-control" size="31" [(ngModel)]="search"
                                                                 name="search" id="inputSearchbyName"
                                                                 placeholder="Search by First name and Last name"
-                                                                (keyup)="$event.keyCode == 13 ? getAllClientDetails() : null">
+                                                                (ngModelChange)="this.searchUpdate.next($event)">
                                                         </div>
                                                         <div class="form-group col-sm m-l-5">
                                                             <button type="button"

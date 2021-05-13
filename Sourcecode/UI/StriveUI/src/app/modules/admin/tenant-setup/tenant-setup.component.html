@@ -21,8 +21,7 @@
                                 <div class="pull-right m-t-4 pointer">
                                     <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                                         (click)="addTenant()">Add New
-                                        Tenant</button>
-                                    &nbsp;&nbsp;
+                                        Tenant</button> &nbsp;&nbsp;
                                     <a> <em class="font-size-1-4 fa fa-angle-up"></em>
                                     </a>
                                 </div>
@@ -47,29 +46,35 @@
                                     <table class="table border table-hover headerfix" aria-describedby="employee-list">
                                         <thead>
                                             <tr>
-                                                <th scope="col">
-                                                    Name
+                                                <th scope="col" class="pointer" (click)="changeSorting('FirstName')">
+                                                    Name&nbsp;<i class="fa" [ngClass]="selectedCls('FirstName')"></i>
                                                 </th>
-                                                <th scope="col">
-                                                    Company
+                                                <th scope="col" class="pointer" (click)="changeSorting('CompanyName')">
+                                                    Company&nbsp;<i class="fa"
+                                                        [ngClass]="selectedCls('CompanyName')"></i>
                                                 </th>
-                                                <th scope="col">
-                                                    Email
+                                                <th scope="col" class="pointer" (click)="changeSorting('ClientEmail')">
+                                                    Email&nbsp;<i class="fa" [ngClass]="selectedCls('ClientEmail')"></i>
                                                 </th>
-                                                <th scope="col">
-                                                    Mobile#
+                                                <th scope="col" class="pointer" (click)="changeSorting('MobileNumber')">
+                                                    Mobile#&nbsp;<i class="fa"
+                                                        [ngClass]="selectedCls('MobileNumber')"></i>
                                                 </th>
-                                                <th scope="col">
-                                                    Subscrb. Date
+                                                <th scope="col" class="pointer"
+                                                    (click)="changeSorting('SubscriptionDate')">
+                                                    Subscrb. Date&nbsp;<i class="fa"
+                                                        [ngClass]="selectedCls('SubscriptionDate')"></i>
                                                 </th>
-                                                <th scope="col">
-                                                    Payment Date
+                                                <th scope="col" class="pointer" (click)="changeSorting('PaymentDate')">
+                                                    Payment Date&nbsp;<i class="fa"
+                                                        [ngClass]="selectedCls('PaymentDate')"></i>
                                                 </th>
-                                                <th scope="col">
-                                                    Deactivation Date
+                                                <th scope="col" class="pointer" (click)="changeSorting('ExpiryDate')">
+                                                    Deactivation Date&nbsp;<i class="fa"
+                                                        [ngClass]="selectedCls('ExpiryDate')"></i>
                                                 </th>
-                                                <th scope="col">
-                                                    Status
+                                                <th scope="col" class="pointer" (click)="changeSorting('IsActive')">
+                                                    Status&nbsp;<i class="fa" [ngClass]="selectedCls('IsActive')"></i>
                                                 </th>
                                                 <th scope="col">
                                                     Action
@@ -78,7 +83,7 @@
                                         </thead>
                                         <tbody class="bodyfix">
                                             <tr *ngFor="let tenant of tenantList">
-                                                <td>{{tenant.ClientName}}</td>
+                                                <td>{{tenant.FirstName}} {{tenant.LastName}}</td>
                                                 <td>{{tenant.CompanyName}}</td>
                                                 <td>{{tenant.ClientEmail}}</td>
                                                 <td>{{tenant.MobileNumber}}</td>
@@ -93,6 +98,20 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div class="row pull-right">
+                                        <div class="col-6">
+                                            <ngb-pagination *ngIf="tenantList.length > 0"
+                                                [collectionSize]="collectionSize" (pageChange)="paginate($event)"
+                                                [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                                [boundaryLinks]="true" class="d-flex justify-content-end">
+                                            </ngb-pagination>
+                                        </div>
+                                        <select *ngIf="tenantList.length > 0" class="form-control col-4"
+                                            name="paginate" [(ngModel)]="pageSize" (change)="paginatedropdown($event)">
+                                            <option *ngFor="let size of pageSizeList" value="{{size}}">{{size}}</option>
+
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -103,6 +122,6 @@
     </div>
 </div>
 <div *ngIf="showDialog">
-    <app-add-tenant *ngIf="showDialog" [isEdit]="isEdit" [tenantDetail]="tenantDetail" [tenantModule]="tenantModule" (closePopup)="closePopup()"
-        (reloadGrid)="reloadGrid()"></app-add-tenant>
+    <app-add-tenant *ngIf="showDialog" [isEdit]="isEdit" [tenantDetail]="tenantDetail" [tenantModule]="tenantModule"
+        (closePopup)="closePopup()" (reloadGrid)="reloadGrid()"></app-add-tenant>
 </div>
