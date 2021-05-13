@@ -255,7 +255,7 @@ export class AddTenantComponent implements OnInit {
         ModuleScreenId: item.moduleScreenId,
         ViewName: item.viewName,
         IsChecked: item.IsChecked,
-        Description: item.Description
+        Description: item.description
       });
     });
     this.moduleScreenList = moduleScreen;

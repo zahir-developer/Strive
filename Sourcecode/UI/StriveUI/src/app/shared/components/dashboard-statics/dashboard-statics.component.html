@@ -22,7 +22,8 @@
                     <h6 class="font-weight-600">
                         <em class="mdi mdi-account-outline font-size-1-5 theme-primary-color align-mid"></em>
                         Wash Employees
-                    </h6> <span class="font-size-1 font-weight-bold">{{employeeCount}}</span>
+                    </h6> <span *ngIf="jobType === 'Wash'" class="font-size-1 font-weight-bold">{{washerCount}}</span>
+                    <span *ngIf="jobType === 'Detail'" class="font-size-1 font-weight-bold">{{employeeCount}}</span>
                 </div>
             </a>
             <a href="#" class="list-group-item weather-goal">
@@ -57,7 +58,8 @@
         <div class="card weather rounded-0">
             <div class="card-body p-0">
                 <h6 class="weather-title border-0">No. of Washes </h6>
-                <div class="p-l-r-10 m-t-5"> <i class="mdi mdi-car-multiple font-size-1-7 theme-optional-icon-color"></i>
+                <div class="p-l-r-10 m-t-5"> <i
+                        class="mdi mdi-car-multiple font-size-1-7 theme-optional-icon-color"></i>
                     <div class="float-right">
                         <h2 class="font-weight-bold">{{washCount}}</h2>
                     </div>
@@ -93,8 +95,7 @@
         <div class="card weather rounded-0">
             <div class="card-body p-0">
                 <h6 class="weather-title border-0">Score </h6>
-                <div class="p-l-r-10 m-t-5"> <i
-                        class="mdi mdi-weather-rainy font-size-1-7 theme-light-blue-color"></i>
+                <div class="p-l-r-10 m-t-5"> <i class="mdi mdi-weather-rainy font-size-1-7 theme-light-blue-color"></i>
                     <div class="float-right">
                         <h2 class="font-weight-bold">{{score ? score : 0}}</h2>
                     </div>
@@ -106,8 +107,7 @@
         <div class="card weather rounded-0">
             <div class="card-body p-0">
                 <h6 class="weather-title border-0">Current /Forecasted Cars </h6>
-                <div class="p-l-r-10 m-t-5"> <i
-                        class="mdi mdi-car-back font-size-1-7 theme-secondary-color"></i>
+                <div class="p-l-r-10 m-t-5"> <i class="mdi mdi-car-back font-size-1-7 theme-secondary-color"></i>
                     <div class="float-right">
                         <h2 class="font-weight-bold">{{current}} / {{forecastedCar}}</h2>
                     </div>
@@ -119,8 +119,7 @@
         <div class="card weather rounded-0">
             <div class="card-body p-0">
                 <h6 class="weather-title border-0">Average Car wash Time </h6>
-                <div class="p-l-r-10 m-t-5"> <i
-                        class="mdi mdi-car-back font-size-1-7 theme-voilet-color"></i>
+                <div class="p-l-r-10 m-t-5"> <i class="mdi mdi-car-back font-size-1-7 theme-voilet-color"></i>
                     <div class="float-right">
                         <h2 class="font-weight-bold">{{averageTime}}</h2>
                     </div>

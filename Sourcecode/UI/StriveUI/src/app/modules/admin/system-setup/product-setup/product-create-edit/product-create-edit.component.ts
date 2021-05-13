@@ -250,7 +250,7 @@ export class ProductCreateEditComponent implements OnInit {
           taxAmount: this.selectedProduct.TaxAmount !== 0 ? this.selectedProduct.TaxAmount : "",
           size: this.selectedProduct.Size,
           quantity: this.selectedProduct.Quantity,
-          status: this.selectedProduct.IsActive ? 0 : 1,
+          status: this.selectedProduct.IsActive ? 1 : 0,
           vendor: selectedVendors,
           thresholdAmount: this.selectedProduct.ThresholdLimit
         });
