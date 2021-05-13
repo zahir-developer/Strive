@@ -40,6 +40,7 @@ export class AddTenantComponent implements OnInit {
   adminModuleList = [];
   reportModuleList = [];
   isEmailAvailable: boolean;
+  moduleScreenList = [];
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -130,25 +131,26 @@ export class AddTenantComponent implements OnInit {
       module.IsChecked = module.IsChecked ? false : true;
     }
     if (module.IsChecked) {
-      if (module.ModuleName === ApplicationConfig.modules.admin) {
-        this.adminModuleList.forEach(item => {
+      this.moduleScreenList.forEach(item => {
+        if (item.ModuleId === module.ModuleId) {
           item.IsChecked = true;
-        });
-      } else if (module.ModuleName === ApplicationConfig.modules.report) {
-        this.reportModuleList.forEach(item => {
-          item.IsChecked = true;
-        });
-      }
+        }
+      });
+      // if (module.ModuleName === ApplicationConfig.modules.admin) {
+      //   this.adminModuleList.forEach(item => {
+      //     item.IsChecked = true;
+      //   });
+      // } else if (module.ModuleName === ApplicationConfig.modules.report) {
+      //   this.reportModuleList.forEach(item => {
+      //     item.IsChecked = true;
+      //   });
+      // }
     } else {
-      if (module.ModuleName === ApplicationConfig.modules.admin) {
-        this.adminModuleList.forEach(item => {
+      this.moduleScreenList.forEach(item => {
+        if (item.ModuleId === module.ModuleId) {
           item.IsChecked = false;
-        });
-      } else if (module.ModuleName === ApplicationConfig.modules.report) {
-        this.reportModuleList.forEach(item => {
-          item.IsChecked = false;
-        });
-      }
+        }
+      });
     }
     const isAllModuleSelect = this.moduleList.filter(item => !item.IsChecked);
     if (isAllModuleSelect.length === 0) {
@@ -174,14 +176,8 @@ export class AddTenantComponent implements OnInit {
             item.IsChecked = true;
           });
           const modulesScreen = modules.AllModule.ModuleScreen;
-          const adminId = this.moduleList.filter(item => item.ModuleName === ApplicationConfig.modules.admin);
-          this.adminModuleList = modulesScreen.filter(item => item.ModuleId === adminId[0].ModuleId);
-          this.adminModuleList.forEach(item => {
-            item.IsChecked = true;
-          });
-          const reportId = this.moduleList.filter(item => item.ModuleName === ApplicationConfig.modules.report);
-          this.reportModuleList = modulesScreen.filter(item => item.ModuleId === reportId[0].ModuleId);
-          this.reportModuleList.forEach(item => {
+          this.moduleScreenList = modulesScreen;
+          this.moduleScreenList.forEach(item => {
             item.IsChecked = true;
           });
         }
@@ -221,15 +217,7 @@ export class AddTenantComponent implements OnInit {
       });
       this.selectedCity(selectedState[0]);
     }
-    let adminId = '';
-    let reportId = '';
     this.tenantModule.module.forEach(item => {
-      if (item.moduleName === ApplicationConfig.modules.admin) {
-        adminId = item.moduleId;
-      }
-      if (item.moduleName === ApplicationConfig.modules.report) {
-        reportId = item.moduleId;
-      }
       if (item.isActive) {
         item.IsChecked = true;
       } else {
@@ -259,30 +247,42 @@ export class AddTenantComponent implements OnInit {
         item.IsChecked = false;
       }
     });
-    const adminScreen = [];
-    const reportScreen = [];
+    const moduleScreen = [];
     this.tenantModule.moduleScreen.forEach(item => {
-      if (item.moduleId === adminId) {
-        adminScreen.push({
-          IsActive: item.isActive,
-          ModuleId: item.moduleId,
-          ModuleScreenId: item.moduleScreenId,
-          ViewName: item.viewName,
-          IsChecked: item.IsChecked
-        });
-      }
-      if (item.moduleId === reportId) {
-        reportScreen.push({
-          IsActive: item.isActive,
-          ModuleId: item.moduleId,
-          ModuleScreenId: item.moduleScreenId,
-          ViewName: item.viewName,
-          IsChecked: item.IsChecked
-        });
-      }
+      moduleScreen.push({
+        IsActive: item.isActive,
+        ModuleId: item.moduleId,
+        ModuleScreenId: item.moduleScreenId,
+        ViewName: item.viewName,
+        IsChecked: item.IsChecked,
+        Description: item.Description
+      });
     });
-    this.adminModuleList = adminScreen;
-    this.reportModuleList = reportScreen;
+    this.moduleScreenList = moduleScreen;
+    // const adminScreen = [];
+    // const reportScreen = [];
+    // this.tenantModule.moduleScreen.forEach(item => {
+    //   if (item.moduleId === adminId) {
+    //     adminScreen.push({
+    //       IsActive: item.isActive,
+    //       ModuleId: item.moduleId,
+    //       ModuleScreenId: item.moduleScreenId,
+    //       ViewName: item.viewName,
+    //       IsChecked: item.IsChecked
+    //     });
+    //   }
+    //   if (item.moduleId === reportId) {
+    //     reportScreen.push({
+    //       IsActive: item.isActive,
+    //       ModuleId: item.moduleId,
+    //       ModuleScreenId: item.moduleScreenId,
+    //       ViewName: item.viewName,
+    //       IsChecked: item.IsChecked
+    //     });
+    //   }
+    // });
+    // this.adminModuleList = adminScreen;
+    // this.reportModuleList = reportScreen;
   }
 
   selectedCity(event) {
@@ -348,29 +348,18 @@ export class AddTenantComponent implements OnInit {
     // } else {
     this.moduleList.forEach(item => {
       const moduleScreen = [];
-      if (item.ModuleName === ApplicationConfig.modules.admin) {
-        this.adminModuleList.forEach(adminscreen => {
-          // if (adminscreen.IsChecked) {
+      this.moduleScreenList.forEach(screen => {
+        // if (adminscreen.IsChecked) {
+        if (item.ModuleId === screen.ModuleId) {
           moduleScreen.push({
-            moduleScreenId: adminscreen.ModuleScreenId,
-            moduleId: adminscreen.ModuleId,
-            viewName: adminscreen.ViewName,
-            isActive: adminscreen.IsChecked
+            moduleScreenId: screen.ModuleScreenId,
+            moduleId: screen.ModuleId,
+            viewName: screen.ViewName,
+            isActive: screen.IsChecked
           });
-          // }
-        });
-      } else if (item.ModuleName === ApplicationConfig.modules.report) {
-        this.reportModuleList.forEach(reportscreen => {
-          // if (reportscreen.IsChecked) {
-          moduleScreen.push({
-            moduleScreenId: reportscreen.ModuleScreenId,
-            moduleId: reportscreen.ModuleId,
-            viewName: reportscreen.ViewName,
-            isActive: reportscreen.IsChecked
-          });
-          // }
-        });
-      }
+        }
+        // }
+      });
       const obj: any = {};
       obj.moduleId = item.ModuleId;
       obj.moduleName = item.ModuleName;
