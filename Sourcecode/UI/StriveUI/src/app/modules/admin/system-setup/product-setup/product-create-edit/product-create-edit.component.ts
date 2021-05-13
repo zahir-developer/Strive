@@ -198,7 +198,7 @@ export class ProductCreateEditComponent implements OnInit {
         this.spinner.hide();
         const pType = JSON.parse(data.resultData);
         this.selectedProduct = pType.Product.ProductDetail;
-        const Vendors = pType.Product.ProductVendor
+        const Vendors = pType.Product.ProductVendor;
         let name = '';
 
         //location 
@@ -346,7 +346,7 @@ export class ProductCreateEditComponent implements OnInit {
         productObj.sizeDescription = this.textDisplay ? this.productSetupForm.value.other : null;
         productObj.quantity = this.productSetupForm.value.quantity;
         productObj.quantityDescription = null;
-        productObj.isActive = this.productSetupForm.value.status === 1 ? true : false;
+        productObj.isActive = +this.productSetupForm.value.status === 1 ? true : false;
         productObj.thresholdLimit = this.productSetupForm.value.thresholdAmount;
         productObj.isDeleted = false;
         productObj.price = this.productSetupForm.value.suggested;
@@ -388,7 +388,6 @@ export class ProductCreateEditComponent implements OnInit {
           this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
         } else {
           this.spinner.hide();
-
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           this.productSetupForm.reset();
           this.submitted = false;
