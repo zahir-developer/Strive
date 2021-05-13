@@ -60,7 +60,7 @@ export class SalesComponent implements OnInit {
   addItemForm: FormGroup;
   itemList: any;
   originalGrandTotal = 0;
-  JobId: any;
+  JobId: number;
   newTicketNumber: any = '';
   selectedService: any;
   balance: number;
@@ -77,6 +77,7 @@ export class SalesComponent implements OnInit {
   giftCardID: any;
   multipleTicketSequence: boolean = false;
   printTicketNumber: string;
+  jobTypeId: number;
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -132,6 +133,7 @@ export class SalesComponent implements OnInit {
     this.getPaymentStatus();
     this.getServiceForDiscount();
     this.getAllServiceandProduct();
+    this.getJobType();
 
   }
   print() {
@@ -330,7 +332,7 @@ export class SalesComponent implements OnInit {
 
   removeTicketNumber(ticket) {
     if (this.multipleTicketNumber.length > 1) {
-    this.multipleTicketSequence = false;
+      this.multipleTicketSequence = false;
     }
     this.multipleTicketNumber = this.multipleTicketNumber.filter(item => item !== ticket);
     if (this.multipleTicketNumber.length > 10) {
@@ -352,7 +354,7 @@ export class SalesComponent implements OnInit {
     } else {
       this.clearGridItems();
     }
-   
+
     if ((this.multipleTicketNumber.length > 0) ||
       (this.newTicketNumber !== undefined && this.newTicketNumber !== '')) {
 
@@ -366,16 +368,16 @@ export class SalesComponent implements OnInit {
           const accountDetails = JSON.parse(data.resultData);
           this.accountDetails = accountDetails.Account;
           this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
-        if(this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount &&
-          this.accountDetails.SalesAccountViewModel?.MembershipId){
-            this.isAccount =  this.accountDetails.SalesAccountViewModel?.MembershipId;
+          if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount &&
+            this.accountDetails.SalesAccountViewModel?.MembershipId) {
+            this.isAccount = this.accountDetails.SalesAccountViewModel?.MembershipId;
           }
-          else{
+          else {
             this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
-            this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
+              this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
           }
-        
-         
+
+
         }
       });
       this.spinner.show();
@@ -394,16 +396,16 @@ export class SalesComponent implements OnInit {
       this.airfreshnerService = [];
       this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
-          
+
           this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
             if (this.multipleTicketNumber.length > 1) {
               this.multipleTicketSequence = true;
-              }
+            }
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
-             
+
               this.showPopup = true;
               this.allService = this.itemList.Status.SalesItemViewModel;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -688,8 +690,8 @@ export class SalesComponent implements OnInit {
       }
       const formObj = {
         job: {
-          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
-          ticketNumber: this.isSelected ? this.ticketNumber.toString() : this.newTicketNumber.toString(),
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
+          ticketNumber: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
           locationId: this.locationId,
           clientId: null,
           vehicleId: null,
@@ -712,7 +714,7 @@ export class SalesComponent implements OnInit {
         },
         jobItem: [{
           jobItemId: 0,
-          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
           serviceId: this.selectedService?.id,
           commission: 0,
           price: this.selectedService?.price,
@@ -728,7 +730,7 @@ export class SalesComponent implements OnInit {
         }],
         JobProductItem: {
           jobProductItemId: 0,
-          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
+          jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
           productId: this.selectedService?.id,
           commission: 0,
           price: this.selectedService?.price,
@@ -744,13 +746,15 @@ export class SalesComponent implements OnInit {
       };
       if (this.selectedService.type === 'service') {
         formObj.JobProductItem = null;
+        formObj.job.jobType = this.jobTypeId;
       } else {
         formObj.jobItem = null;
       }
+
       if (this.isSelected) {
         this.updateListItem(formObj, false);
       } else {
-        this.salesService.addItem(formObj).subscribe(data => {
+        this.salesService.addListItem(formObj).subscribe(data => {
           if (data.status === 'Success') {
             this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
             this.isSelected = true;
@@ -822,7 +826,9 @@ export class SalesComponent implements OnInit {
       if (data.status === 'Success') {
         const ticket = JSON.parse(data.resultData);
         this.ticketNumberGeneration = true
-        this.newTicketNumber = ticket.GetTicketNumber.TicketNumber;
+        this.newTicketNumber = ticket.GetTicketNumber.JobId;
+        this.JobId = ticket.GetTicketNumber.JobId;
+        //this.getTicketDetail(this.JobId);
       }
       else {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.TicketNumber });
@@ -1219,7 +1225,7 @@ export class SalesComponent implements OnInit {
       jobPayment: {
         jobPaymentId: 0,
         membershipId: this.isAccountButton ? this.accountDetails !== undefined ? this.accountDetails?.MembershipId : null : null,
-        jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : 0,
+        jobId: this.isSelected ? this.itemList.Status.SalesItemViewModel[0].JobId : this.JobId,
         drawerId: +localStorage.getItem('drawerId'),
         amount: this.cash ? +this.cash : 0,
         taxAmount: 0,
@@ -1355,6 +1361,23 @@ export class SalesComponent implements OnInit {
         this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
       });
     }
+  }
+
+  getJobType() {
+    this.salesService.getJobType().subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        if (jobtype.GetJobType.length > 0) {
+          jobtype.GetJobType.forEach(item => {
+            if (item.valuedesc === ApplicationConfig.Enum.JobType.WashJob) {
+              this.jobTypeId = item.valueid;
+            }
+          });
+        }
+      }
+    }, (err) => {
+      this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+    });
   }
 
   processAccount() {

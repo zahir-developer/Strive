@@ -258,11 +258,13 @@ namespace Strive.BusinessEntities
         public enum Washes
         {
             //Washes
-            USPGETJOBBYID,
+            USPGETWASHBYJOBID,
             USPGETALLJOB,
             USPGETWASHDASHBOARD,
             USPGETCLIENTANDVEHICLEDETAIL,
-            USPDELETEWASHES
+            USPDELETEWASHES,
+            USPGETWASHTIMEBYLOCATIONID,
+            USPGETALLLOCATIONWASHTIME
         }
         public enum Details
         {
@@ -302,6 +304,8 @@ namespace Strive.BusinessEntities
             USPROLLBACKPAYMENT,
             USPUPDATEPRODUCTQUANTITY,
             USPGETEMAILID,
+            USPGETJOBBYID,
+            USPGETJOBDETAILBYID
         }
 
         public enum Payroll
@@ -469,11 +473,7 @@ namespace Strive.BusinessEntities
         USPGETVENDORBYID,
         USPDELETEVENDOR,
         USPGETALLVENDORNAME,
-        //Washes
-        USPGETJOBBYID,
-        USPGETALLJOB,
-        USPGETWASHDASHBOARD,
-        USPGETCLIENTANDVEHICLEDETAIL,
+        
         //Details
         USPGETALLDETAILJOB,
         USPGETDETAILJOBBYID,
@@ -496,10 +496,6 @@ namespace Strive.BusinessEntities
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
         uspGetMembershipListByVehicleId,
-        USPGETWASHTIMEBYLOCATIONID,
-        uspGetAllLocationWashTime,
-
-
         USPGETTICKETNUMBER,
         
         uspGetServiceByItemList,

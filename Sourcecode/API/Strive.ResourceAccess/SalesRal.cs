@@ -73,11 +73,11 @@ namespace Strive.ResourceAccess
         }
         public bool AddListItem(SalesAddListItemDto salesAddListItem)
         {
-            return dbRepo.InsertPc(salesAddListItem, "JobId");
+            return dbRepo.SaveAll(salesAddListItem, "JobId");
         }
         public bool UpdateListItem(SalesUpdateItemDto salesUpdateItemDto)
         {
-            return dbRepo.InsertPc(salesUpdateItemDto, "JobId");
+            return dbRepo.SavePc(salesUpdateItemDto, "JobId");
         }
         public List<ServiceItemDto> GetServicesWithPrice()
         {
@@ -102,12 +102,11 @@ namespace Strive.ResourceAccess
         }
         public ServiceAndProductViewModel GetServicesAndProduct( int id)
         {
-
             _prm.Add("@LocationId", id);
             return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), _prm);
         }
 
-        public bool UpdateJobPayement(int? jobId, int jobPaymentid)
+        public bool UpdateJobPayment(int? jobId, int jobPaymentid)
         {
             _prm.Add("JobId", jobId);
             _prm.Add("JobPaymentid", jobPaymentid);
