@@ -1,11 +1,5 @@
-﻿
-
-
-
-
-
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails] --136,2056,'2021-01-03','2021-01-09'
+﻿--136,2056,'2021-01-03','2021-01-09'
+CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails] 
 @EmployeeId INT,
 @LocationId INT,
 @StartDate DATETIME,

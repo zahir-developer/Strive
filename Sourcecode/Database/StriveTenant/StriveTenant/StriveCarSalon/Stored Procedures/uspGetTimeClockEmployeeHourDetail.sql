@@ -1,5 +1,4 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Zahir Hussain M
 -- Create date: 18-Nov-2020
 -- Description:	Returns the time clock details of the Employees based on location and date. Sample EXEC Strivecarsalon.uspGetTimeClockEmployeeHourDetail 2034, '2020-11-17'
@@ -37,8 +36,8 @@ Select EmployeeId, FirstName, LastName, SUM(TotalWashHours)/60 WashHours , SUM(T
 GROUP By EmployeeId, FirstName, LastName
 
 SELECT TimeClockId, EmployeeId, RoleId, rm.RoleName, InTime, OutTime, CONVERT(VARCHAR(5), InTime, 108) as TimeIn, CONVERT(VARCHAR(5), OutTime, 108) as TimeOut
-FROM StriveCarSalon.tblTimeClock tc
-INNER JOIN StriveCarSalon.tblRoleMaster rm on rm.RoleMasterId = tc.RoleId
+FROM tblTimeClock tc
+INNER JOIN tblRoleMaster rm on rm.RoleMasterId = tc.RoleId
 WHERE LocationId = @LocationId AND tc.EventDate = @Date AND (tc.IsDeleted = 0 OR tc.IsDeleted is null)
 AND tc.IsActive = 1
 

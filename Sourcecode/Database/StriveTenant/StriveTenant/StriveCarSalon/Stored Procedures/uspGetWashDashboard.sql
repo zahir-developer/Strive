@@ -19,7 +19,7 @@
 -- =============================================
 
 
-CREATE proc [StriveCarSalon].[uspGetWashDashboard] --[StriveCarSalon].[uspGetWashDashboard]1,'2021-04-30',57
+CREATE PROCEDURE [StriveCarSalon].[uspGetWashDashboard] --[StriveCarSalon].[uspGetWashDashboard]1,'2021-04-30',57
 (@LocationId int, @CurrentDate date, @JobType int,@lastweek VARCHAR(10)= NULL,
 @lastMonth VARCHAR(10) =NULL,
 @lastThirdMonth  VARCHAR(10)= NULL)

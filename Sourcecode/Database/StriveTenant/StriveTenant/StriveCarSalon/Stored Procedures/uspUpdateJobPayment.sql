@@ -1,9 +1,9 @@
-﻿Create PROC [StriveCarSalon].[uspUpdateJobPayment]
+﻿CREATE PROC [StriveCarSalon].[uspUpdateJobPayment]
 (@JobId int,@JobPaymentId int)
 AS
 BEGIN
 
-     Update StriveCarSalon.tblJob set JobPaymentId = @JobPaymentId
+     Update tblJob set JobPaymentId = @JobPaymentId
 	 where JobId = @JobId
 
 END

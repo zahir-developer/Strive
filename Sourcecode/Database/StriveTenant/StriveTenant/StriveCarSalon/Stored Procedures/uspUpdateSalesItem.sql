@@ -3,6 +3,6 @@
 AS
 BEGIN
 
-     Update StriveCarSalon.tblJobItem set Quantity = @Quantity, Price = @Price ,ServiceId = @ServiceId where JobItemId = @JobItemId
+     Update tblJobItem set Quantity = @Quantity, Price = @Price ,ServiceId = @ServiceId where JobItemId = @JobItemId
 
 END

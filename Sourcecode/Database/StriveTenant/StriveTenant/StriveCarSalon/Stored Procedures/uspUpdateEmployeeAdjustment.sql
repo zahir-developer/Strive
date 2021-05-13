@@ -1,4 +1,8 @@
-﻿CREATE procedure [StriveCarSalon].[uspUpdateEmployeeAdjustment] --[StriveCarSalon].[uspUpdateEmployeeAdjustment] 1495,'99.00' 
+﻿
+
+
+--[StriveCarSalon].[uspUpdateEmployeeAdjustment] 1495,'99.00' 
+CREATE  procedure [StriveCarSalon].[uspUpdateEmployeeAdjustment] 
 (@EmployeeId int, @Adjustment decimal(9,2))    
 AS    
 -- =============================================================    

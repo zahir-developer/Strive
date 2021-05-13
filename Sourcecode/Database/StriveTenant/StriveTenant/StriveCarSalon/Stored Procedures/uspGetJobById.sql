@@ -1,5 +1,9 @@
-﻿
--- [StriveCarSalon].[uspGetJobById] 205978--35746
+﻿-- ================================================
+-- ---------------History--------------------------
+-- ================================================
+-- Sample Input: [StriveCarSalon].[uspGetJobById] 205978--35746
+--05-05-2021 - Zahir - Make/Model Change - tblVehiclMake/Model table used instead of tblCodeValue table.
+--06-05-2021 - Zahir - Make/Model/Color NULL handled.
 CREATE PROC [StriveCarSalon].[uspGetJobById]
 (@JobId int)
 AS
@@ -33,9 +37,9 @@ tbj.JobId
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
 ,tbj.VehicleId
-,tbj.Make
-,tbj.Model
-,tbj.Color
+,ISNULL(tbj.Make,0)
+,ISNULL(tbj.Model,0)
+,ISNULL(tbj.Color,0)
 ,model.ModelValue AS VehicleModel
 ,make.MakeValue As VehicleMake
 ,cvCo.valuedesc as VehicleColor

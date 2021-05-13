@@ -1,5 +1,5 @@
 ﻿CREATE procedure [StriveCarSalon].[uspGetModuleById]
-(@TenantId int)
+(@TenantId int = NULL)
 
 as
 begin

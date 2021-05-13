@@ -10,7 +10,7 @@ begin
 	cl.LastName,
 	tblca.PhoneNumber
 	 from tblClient cl
-	  left join [StriveCarSalon].[tblClientAddress] tblca ON(cl.ClientId = tblca.ClientId)
+	  left join [tblClientAddress] tblca ON(cl.ClientId = tblca.ClientId)
 	where cl.FirstName =@FirstName and cl.LastName =@LastName and tblca.PhoneNumber = @PhoneNumber
 	
 end

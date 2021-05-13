@@ -23,10 +23,10 @@ V.VendorId
 ,VA.IsActive
 ,websiteAddress	 
 	
-FROM  [StriveCarSalon].[tblVendor] V
-Inner Join [StriveCarSalon].[tblVendorAddress] VA
+FROM  [tblVendor] V
+Inner Join [tblVendorAddress] VA
  On V.VendorId=VA.VendorId
  WHERE V.IsDeleted = 0 AND VA.IsDeleted=0 
-and VA.VendorId IN (Select [DATA] from StriveCarSalon.SPLIT(@VendorId, ','))
+and VA.VendorId IN (Select [DATA] from SPLIT(@VendorId, ','))
  
 END

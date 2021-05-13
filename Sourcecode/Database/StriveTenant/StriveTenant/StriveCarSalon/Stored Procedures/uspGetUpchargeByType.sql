@@ -1,9 +1,10 @@
-﻿CREATE proc [StriveCarSalon].[uspGetUpchargeByType] --[StriveCarSalon].[uspGetUpchargeByType]  21,11779
+﻿--[StriveCarSalon].[uspGetUpchargeByType]  21,11779
+CREATE proc [StriveCarSalon].[uspGetUpchargeByType] 
 @ModelId int,@ServiceType int
 as 
 begin
 declare @category varchar =(select type.category 
-                            From StriveCarSalon.tblVehicleModel model 
+                            From tblVehicleModel model 
 	                        inner join tblVehicleType type on model.TypeId =type.TypeId
 	                        where model.ModelId = @ModelId)
 

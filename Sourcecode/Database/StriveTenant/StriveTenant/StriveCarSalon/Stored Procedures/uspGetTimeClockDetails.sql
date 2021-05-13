@@ -16,7 +16,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 SELECT 	TimeClockId, EmployeeId, LocationId, RoleId, EventDate, InTime, OutTime, EventType, UpdatedFrom, [Status]
-FROM StriveCarSalon.tblTimeClock
+FROM tblTimeClock
 WHERE LocationId = @LocationId and EmployeeId = @EmployeeId AND 
 RoleId = @RoleId AND CONVERT(date, EventDate) = @Date AND (IsDeleted = 0 OR IsDeleted is null)
 AND IsActive = 1

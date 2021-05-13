@@ -1,5 +1,9 @@
 ﻿CREATE SCHEMA [StriveCarSalon]
-    AUTHORIZATION [StriveDevUser];
+    AUTHORIZATION [StriveQA];
+
+
+
+
 
 
 

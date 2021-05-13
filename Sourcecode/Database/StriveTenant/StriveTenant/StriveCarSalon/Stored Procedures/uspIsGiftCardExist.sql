@@ -1,4 +1,4 @@
-﻿Create proc [StriveCarSalon].[uspIsGiftCardExist]
+﻿CREATE proc [StriveCarSalon].[uspIsGiftCardExist]
 (@GiftCardCode varchar(10))
 as
 begin
@@ -12,7 +12,7 @@ Comments,
 IsActive,
 IsDeleted
 
-from [StriveCarSalon].[tblGiftCard] 
+from [tblGiftCard] 
 where 
 ( GiftCardCode = @GiftCardCode) 
 end

@@ -83,9 +83,12 @@
     <Folder Include="StriveSuperAdminTest\" />
     <Folder Include="StriveSuperAdminTest\User Defined Types\" />
     <Folder Include="Scripts" />
-    <Folder Include="Scripts\Data" />
+    <Folder Include="Scripts\Insert" />
     <Folder Include="Scripts\RolePermission" />
     <Folder Include="Scripts\Bay" />
+    <Folder Include="Scripts\Alter" />
+    <Folder Include="Scripts\Insert\Vehicle_Make_Model_Type" />
+    <Folder Include="Scripts\Insert\State_City" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveCarSalon\Tables\tblJobPaymentCreditCard.sql" />
@@ -156,12 +159,6 @@
     <Build Include="Security\SCSAdmin_1.sql" />
     <Build Include="Security\SLSAdmin.sql" />
     <Build Include="Security\SLSAdmin_1.sql" />
-    <Build Include="Security\StriveCarS.sql" />
-    <Build Include="Security\StriveCarS_1.sql" />
-    <Build Include="Security\StriveSuperAdminTestuser.sql" />
-    <Build Include="Security\StriveSuperAdminTestuser_1.sql" />
-    <Build Include="Security\StriveDevUser.sql" />
-    <Build Include="Security\StriveDevUser_1.sql" />
     <Build Include="Security\RoleMemberships.sql" />
     <Build Include="dbo\Functions\fn_generate_bigint.sql" />
     <Build Include="StriveCarSalon\Functions\GetTable.sql" />
@@ -268,9 +265,7 @@
     <Build Include="Security\CON_.sql" />
     <Build Include="Security\Cus.sql" />
     <Build Include="Security\StriveCarSalon.sql" />
-    <Build Include="Security\StriveCarSalonTest.sql" />
     <Build Include="Security\StriveLimoSalon.sql" />
-    <Build Include="Security\StriveSuperAdminTest.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockDetails.sql" />
     <Build Include="StriveCarSalon\Tables\tblJobServiceEmployee.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetTimeClockWeekDetails.sql" />
@@ -439,7 +434,6 @@
     <Build Include="StriveCarSalon\Tables\tblVehicleType.sql" />
     <Build Include="StriveCarSalon\Tables\tblVehicleModel.sql" />
     <Build Include="StriveCarSalon\Tables\tblVehicleMake.sql" />
-    <Build Include="Security\StriveDev.sql" />
     <Build Include="StriveCarSalon\Functions\SPLIT.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUpdateJobStatusByJobId.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetUpchargeByType.sql" />
@@ -450,6 +444,12 @@
     <Build Include="StriveCarSalon\Tables\tblEmployeeHourlyRate.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspUserCreation.sql" />
     <Build Include="StriveCarSalon\Stored Procedures\uspGetModelByMake.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetUpchargeTypeByModel.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetForcasted.sql" />
+    <None Include="Scripts\Insert\tblCodeCategoryAndValue.sql" />
+    <Build Include="Security\StriveQA_1.sql" />
+    <Build Include="Security\StriveClient_1.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetChatEmployeeList_Backup.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
@@ -459,5 +459,6 @@
     <None Include="Scripts\RolePermission\Detailer.sql" />
     <None Include="Scripts\RolePermission\Module.sql" />
     <None Include="Scripts\RolePermission\Screen.sql" />
+    <None Include="Scripts\Alter\tblService.sql" />
   </ItemGroup>
 </Project>

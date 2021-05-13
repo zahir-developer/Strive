@@ -24,26 +24,26 @@ SELECT Distinct
 	1				AS UpdatedBy,
 	GetUTCdate()	AS UpdatedDate
  FROM 
-	StriveCarSalon.StgTimeclock_in Tim
+	StgTimeclock_in Tim
 JOIN 
-	StriveCarSalon.tblEmployee emp
+	tblEmployee emp
 ON		emp.UserId=tim.UserID
 JOIN 
-	StriveCarSalon.tblEmployeeLocation empL
+	tblEmployeeLocation empL
 ON		empl.EmployeeId=emp.employeeid
 AND 	tim.LocationID=empl.LocationId
 JOIN 
-	StriveCarSalon.tblRoleMaster RM
+	tblRoleMaster RM
 ON		Rm.RoleAlias=Tim.CType
 LEFT JOIN 
-	StriveCarSalon.StgTimeClock_Out Timo
+	StgTimeClock_Out Timo
 ON		timo.UserID=tim.UserID
 AND		timo.LocationID=tim.LocationID
 AND		timo.Cdate= tim.Cdate
 AND		timo.CType=tim.ctype
 AND		timo.Rnk=tim.RNk
 LEFT JOIN 
-	StriveCarSalon.TblTimeClock TCl
+	TblTimeClock TCl
 ON		Tcl.clockId=Tim.ClockId
 AND		Tcl.LocationId=Tim.LocationId
 WHERE	Tcl.ClockId IS NULL AND Tcl.LocationId IS NULL
