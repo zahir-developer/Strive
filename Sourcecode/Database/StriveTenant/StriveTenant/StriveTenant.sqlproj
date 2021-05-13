@@ -470,6 +470,7 @@
     <Build Include="Scripts\Data\VehicleMake-model\VehicelModel%28domestic).sql" />
     <Build Include="Scripts\Data\VehicleMake-model\VehicleModel%28imported).sql" />
     <Build Include="Scripts\Data\VehicleMake-model\VehicleType.sql" />
+    <Build Include="Scripts\Data\VehicleMake-model\Model%28Unk).sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
