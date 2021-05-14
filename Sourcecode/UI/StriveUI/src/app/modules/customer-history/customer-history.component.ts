@@ -93,11 +93,11 @@ export class CustomerHistoryComponent implements OnInit {
       toDate.setMonth(11);
       toDate.setDate(31);
       console.log(this.isDriveup, 'is');
-      if (this.isDriveup) {
-        this.searchQery = 'Drive up';
-      } else {
-        this.searchQery = '';
-      }
+      // if (this.isDriveup) {
+      //   this.searchQery = 'Drive up';
+      // } else {
+      //   this.searchQery = '';
+      // }
       finalObj = {
         locationId: +this.locationId, // 2053, // +this.locationId,
         fromDate: moment(fromDate).format('yyyy-MM-DD'),
