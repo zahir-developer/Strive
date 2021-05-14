@@ -249,7 +249,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.spinner.hide();
-
+        //this.weatherDetails = JSON.parse(data.resultData);
         this.weatherDetails = data;
       }else{
         this.spinner.hide();
@@ -390,7 +390,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       cashregisterOthers: other
     }
     const weatherObj = {
-      weatherId: 0,
+      weatherId: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday?.WeatherId,
       locationId: +this.locationId,
       weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
       rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
