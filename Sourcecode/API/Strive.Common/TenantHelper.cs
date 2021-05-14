@@ -34,6 +34,7 @@ namespace Strive.Common
         string HtmlTemplates { get; set; }
 
         string VehicleImageFolder { get; set; }
+        string ApplicationUrl { get; set; }
 
 
         #region CardConnect
@@ -91,6 +92,7 @@ namespace Strive.Common
         public string HtmlTemplates { get; set; }
 
         public string VehicleImageFolder { get; set; }
+        public string ApplicationUrl { get; set; }
 
         #region
 

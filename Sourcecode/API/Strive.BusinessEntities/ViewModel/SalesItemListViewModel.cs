@@ -12,7 +12,7 @@ namespace Strive.BusinessEntities.ViewModel
         public List<ProductItemViewModel> ProductItemViewModel { get; set; }
         public SalesSummaryViewModel SalesSummaryViewModel { get; set; }
         public PaymentStatusViewModel PaymentStatusViewModel { get; set; }
-        public List<JobAndTicketNumberViewModel> JobAndTicketNumberViewModel { get; set; }
+        public List<JobDetailViewModel> JobDetailViewModel { get; set; }
 
     }
 }

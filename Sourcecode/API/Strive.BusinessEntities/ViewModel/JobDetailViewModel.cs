@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-    public class JobAndTicketNumberViewModel
+    public class JobDetailViewModel
     {
         public int JobId { get; set; }
         public string TicketNumber { get; set; }
+        public bool IsActive { get; set; }
     }
 }

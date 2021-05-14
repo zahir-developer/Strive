@@ -197,7 +197,7 @@ export class SaleGiftCardComponent implements OnInit {
       formObj.jobItem = null;
     }
     this.spinner.show();
-    this.salesService.addItem(formObj).subscribe(data => {
+    this.salesService.addListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
         this.submitted = false;
