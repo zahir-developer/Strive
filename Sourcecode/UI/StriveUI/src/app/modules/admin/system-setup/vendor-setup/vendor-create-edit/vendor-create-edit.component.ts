@@ -57,7 +57,7 @@ export class VendorCreateEditComponent implements OnInit {
   formInitialize() {
     this.vendorSetupForm = this.fb.group({
       vin: ['', Validators.required],
-      vendorAlias: [''],
+      vendorAlias: ['', Validators.required],
       name: ['', Validators.required],
       supplierAddress: [''],
       zipcode: ['', [Validators.required]],

@@ -209,7 +209,7 @@ export const UrlConfig = {
     getHourlyWashReport: `Admin/Report/GetHourlyWashReport`
   },
   sales: {
-    addItem: `Admin/Sales/AddListItem`,
+    addListItem: `Admin/Sales/AddListItem`,
     updateListItem: `Admin/Sales/UpdateListItem`,
     updateItem: `Admin/Sales/UpdateItem`,
     addPayment: `Admin/Sales/AddPayment`,
@@ -221,6 +221,7 @@ export const UrlConfig = {
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
+    AddCreditCardPayment: `Payment/PaymentGateway/TrasactionWithUserFields`
 
   },
   dashboard: {

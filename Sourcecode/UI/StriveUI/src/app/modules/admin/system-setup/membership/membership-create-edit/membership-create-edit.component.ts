@@ -73,6 +73,7 @@ export class MembershipCreateEditComponent implements OnInit {
         this.service = membership.ServicesWithPrice;
         this.washes = this.service.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
         this.upchargeType = this.service.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+        console.log(this.upchargeType, 'washes');
         this.additionalService = this.service.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.AdditonalServices);
         this.additional = this.additionalService.map(item => {
           return {

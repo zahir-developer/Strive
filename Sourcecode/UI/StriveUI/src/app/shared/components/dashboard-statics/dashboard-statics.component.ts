@@ -10,6 +10,7 @@ import { MessageConfig } from '../../services/messageConfig';
 })
 export class DashboardStaticsComponent implements OnInit {
   @Input() jobTypeId?: any;
+  @Input() jobType?: any;
   detailCount: any;
   washCount: any;
   employeeCount: any;
@@ -17,6 +18,7 @@ export class DashboardStaticsComponent implements OnInit {
   current: any;
   forecastedCar: any;
   averageTime: any;
+  washerCount: any;
   constructor(
     private detail: DetailService,
     private toastr: ToastrService
@@ -42,6 +44,7 @@ export class DashboardStaticsComponent implements OnInit {
         this.current = wash.Dashboard.Current;
         this.forecastedCar = wash.Dashboard.ForecastedCars;
         this.averageTime = wash.Dashboard.AverageWashTime;
+        this.washerCount = wash.Dashboard.Washercount;
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

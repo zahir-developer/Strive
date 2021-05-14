@@ -293,7 +293,6 @@ color-icon:hover {
 }
 
 .bodyfix {
-    display: block;
     height: 300px;
     overflow-y: scroll;
     text-overflow: ellipsis;
@@ -301,7 +300,6 @@ color-icon:hover {
 
 .headerfix thead,
 .bodyfix tr {
-    display: table;
     width: 100%;
     table-layout: fixed;
 }
