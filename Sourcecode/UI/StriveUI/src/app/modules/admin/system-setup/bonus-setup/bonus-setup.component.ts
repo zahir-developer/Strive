@@ -368,8 +368,11 @@ export class BonusSetupComponent implements OnInit {
           this.collisionDeduction = 0;
           this.badReviewDeduction = 0;
         }
+        if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
+          this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
+        }
         if (bonus?.BonusDetails?.BonusRange !== null) {
-          this.noOfWashes = 0;
+          // this.noOfWashes = 0;
           this.isEdit = true;
           this.monthBonusList = bonus?.BonusDetails?.BonusRange;
         } else {
@@ -380,16 +383,13 @@ export class BonusSetupComponent implements OnInit {
               BonusId: this.bonusId,
               Min: '',
               Max: '',
-              noOfWashes: '',
+              noOfWashes: this.noOfWashes,   // ''
               BonusAmount: '',
               Total: '',
               IsActive: true,
               IsDeleted: false
             }
           ];
-        }
-        if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
-          this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
         }
         for (const list of this.monthBonusList) {
           if (+(list.Min) <= +this.noOfWashes && +this.noOfWashes <= +(list.Max)) {

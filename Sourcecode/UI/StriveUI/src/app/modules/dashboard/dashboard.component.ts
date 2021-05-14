@@ -95,14 +95,13 @@ export class DashboardComponent implements OnInit {
     this.resetValue();
     const finalObj = {
       locationId: locationID,
-      fromDate: this.fromDate,
-      toDate: this.toDate
+      fromDate: moment(this.fromDate).format(),
+      toDate: moment(this.toDate).format()
     };
     this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         const dashboardCount = JSON.parse(res.resultData);
         this.dashboardStatistics = dashboardCount.GetDashboardStatisticsForLocationId;
         this.dashboardStatistics.forEach(item => {

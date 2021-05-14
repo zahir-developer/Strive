@@ -22,8 +22,8 @@
                     <h6 class="font-weight-600">
                         <em class="mdi mdi-account-outline font-size-1-5 theme-primary-color align-mid"></em>
                         Wash Employees
-                    </h6> <span *ngIf="jobType === 'Wash'" class="font-size-1 font-weight-bold">{{washerCount}}</span>
-                    <span *ngIf="jobType === 'Detail'" class="font-size-1 font-weight-bold">{{employeeCount}}</span>
+                    </h6> <span *ngIf="type === 'Wash'" class="font-size-1 font-weight-bold">{{washerCount}}</span>
+                    <span *ngIf="type === 'Detail'" class="font-size-1 font-weight-bold">{{detailerCount}}</span>
                 </div>
             </a>
             <a href="#" class="list-group-item weather-goal">
@@ -85,7 +85,8 @@
                 <h6 class="weather-title border-0">Wash Employees </h6>
                 <div class="p-l-r-10 m-t-5"> <i class="mdi mdi-account-outline font-size-1-7 theme-primary-color"></i>
                     <div class="float-right">
-                        <h2 class="font-weight-bold">{{employeeCount}}</h2>
+                        <h2 class="font-weight-bold" *ngIf="type === 'Wash'">{{washerCount}}</h2>
+                        <h2 class="font-weight-bold" *ngIf="type === 'Detail'">{{detailerCount}}</h2>
                     </div>
                 </div>
             </div>

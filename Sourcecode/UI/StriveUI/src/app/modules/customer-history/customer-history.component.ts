@@ -78,6 +78,7 @@ export class CustomerHistoryComponent implements OnInit {
   }
   onYearChange(event) {
     this.year = event;
+    this.getCustomerHistory();
   }
 
   getCustomerHistory() {
@@ -184,7 +185,7 @@ export class CustomerHistoryComponent implements OnInit {
   }
 
   monthChange(event) {
-
+    this.getCustomerHistory();
   }
 
   navigateToClient() {

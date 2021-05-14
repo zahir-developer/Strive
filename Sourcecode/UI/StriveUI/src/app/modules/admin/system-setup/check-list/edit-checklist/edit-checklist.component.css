@@ -1,7 +1,16 @@
-.timepicker-overlay {
+/* .timepicker-overlay {
     z-index: 1200 !important;
 }
 
 .timepicker-overlay.ng-tns-c243-3 {
     z-index: 1200 !important;
+} */
+
+
+.timepicker-overlay {
+    z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+    z-index: 10000000 !important;
 }
