@@ -138,22 +138,23 @@ export class WashesListComponent implements OnInit {
           const totalRowCount = wash?.Washes?.Count?.Count;
           if (this.washDetails?.length > 0) {
             for (let i = 0; i < this.washDetails.length; i++) {
-              this.washDetails[i].Model == 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
-if(this.washDetails[i].Model == null && this.washDetails[i].Make == null && this.washDetails[i].Color == null){
-this.washDetails[i].MakeModelColorLabel = 'None';
-}
-else{
-  this.washDetails[i].MakeModelColorLabel =  this.washDetails[i].Make + ',' + this.washDetails[i].Model + ',' + this.washDetails[i].Color 
-}
-if(this.washDetails[i].IsPaid == "True"){
-  this.washDetails[i].paidLabel = 'Paid'
-}
-else{
-  this.washDetails[i].paidLabel = 'Pay'
-}
-              let hh = this.washDetails[i].TimeIn.substring(13, 11);
-              let m = this.washDetails[i].TimeIn.substring(16, 14);
-              var s = this.washDetails[i].TimeIn.substring(19, 17);
+              this.washDetails[i].Model === 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
+              if (this.washDetails[i].Model == null && this.washDetails[i].Make == null && this.washDetails[i].Color == null) {
+                this.washDetails[i].MakeModelColorLabel = 'None';
+              }
+              else {
+                this.washDetails[i].MakeModelColorLabel =
+                  this.washDetails[i].Make + ',' + this.washDetails[i].Model + ',' + this.washDetails[i].Color
+              }
+              if (this.washDetails[i].IsPaid === 'True') {
+                this.washDetails[i].paidLabel = 'Paid'
+              }
+              else {
+                this.washDetails[i].paidLabel = 'Pay';
+              }
+              let hh = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(13, 11) : null;
+              let m = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(16, 14) : null;
+              var s = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(19, 17) : null;
               let min = m;
               let sec = s;
               var dd;
