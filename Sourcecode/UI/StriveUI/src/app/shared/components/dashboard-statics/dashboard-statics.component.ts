@@ -19,6 +19,8 @@ export class DashboardStaticsComponent implements OnInit {
   forecastedCar: any;
   averageTime: any;
   washerCount: any;
+  detailerCount: any;
+  type: any;
   constructor(
     private detail: DetailService,
     private toastr: ToastrService
@@ -34,6 +36,7 @@ export class DashboardStaticsComponent implements OnInit {
       date: new Date(),
       jobType: this.jobTypeId
     };
+    this.type = this.jobType;
     this.detail.getDetailCount(obj).subscribe( res => {
       const wash = JSON.parse(res.resultData);
       if (wash.Dashboard !== null) {
@@ -45,6 +48,7 @@ export class DashboardStaticsComponent implements OnInit {
         this.forecastedCar = wash.Dashboard.ForecastedCars;
         this.averageTime = wash.Dashboard.AverageWashTime;
         this.washerCount = wash.Dashboard.Washercount;
+        this.detailerCount = wash.Dashboard.DetailerCount;
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
