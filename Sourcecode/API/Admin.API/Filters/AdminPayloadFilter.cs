@@ -148,6 +148,9 @@ namespace Admin.API.Filters
             _tenant.CCUserName = Pick("CardConnect", "UserName");
             _tenant.CCPassword = Pick("CardConnect", "Password");
             _tenant.MID = Pick("CardConnect", "MID");
+
+            //Applicationurl
+            _tenant.ApplicationUrl = Pick("ApplicationUr", "Url");
         }
     }
 }

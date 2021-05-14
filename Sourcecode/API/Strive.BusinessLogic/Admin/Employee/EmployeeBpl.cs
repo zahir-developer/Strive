@@ -99,6 +99,7 @@ namespace Strive.BusinessLogic
                         keyValues.Add("{{roleList}}", emprole);
                         keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
                         keyValues.Add("{{password}}", createLogin.password);
+                        keyValues.Add("{{url}}", _tenant.ApplicationUrl);
                         commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues, subject);
                     }
 
