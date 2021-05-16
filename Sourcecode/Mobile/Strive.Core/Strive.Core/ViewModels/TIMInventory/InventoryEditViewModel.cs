@@ -153,7 +153,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             CurrentVendor = SelectedVendor;
         }
 
-        public void SetProductCommand(ProductDetail SelectedProduct)
+        public void SetProductCommand(ProductDetails SelectedProduct)
         {
             ItemCode = SelectedProduct.ProductCode;
             ItemName = SelectedProduct.ProductName;
@@ -202,32 +202,32 @@ namespace Strive.Core.ViewModels.TIMInventory
             return true;
         }
 
-        private ProductDetail PrepareAddProduct()
+        private ProductDetails PrepareAddProduct()
         {
-            ProductDetail AddProduct = new ProductDetail()
+            ProductDetails AddProduct = new ProductDetails()
             {
                 ProductCode = _SelectedItemCode,
                 ProductName = _SelectedItemName,
                 ProductDescription = _SelectedItemDescription,
-                ProductType = 1,
-                fileName = _SelectedItemName + _SelectedItemCode,
+                ProductTypeName = "",
+                FileName = _SelectedItemName + _SelectedItemCode,
                 base64 = Base64String,
-                LocationId = 1,
-                VendorId = CurrentVendor.VendorId,
-                Size = 1,
-                SizeDescription = "",
+                //LocationId = 1,
+                //VendorId = CurrentVendor.VendorId,
+                //Size = 1,
+                //SizeDescription = "",
                 Quantity = int.Parse(_SelectedItemQuantity),
-                QuantityDescription = "",
+                //QuantityDescription = "",
                 Cost = 10,
-                IsTaxable = true,
-                TaxAmount = 10,
-                ThresholdLimit = 5,
+                //IsTaxable = true,
+                //TaxAmount = 10,
+                //ThresholdLimit = 5,
                 IsActive = true,
-                IsDeleted = false,
-                CreatedBy = 0,
-                CreatedDate = DateUtils.GetTodayDateString(),
-                UpdatedBy = 0,
-                UpdatedDate = DateUtils.GetTodayDateString(),
+                //IsDeleted = false,
+                //CreatedBy = 0,
+                //CreatedDate = DateUtils.GetTodayDateString(),
+                //UpdatedBy = 0,
+                //UpdatedDate = DateUtils.GetTodayDateString(),
                 Price = 20
             };
             return AddProduct;
@@ -261,9 +261,9 @@ namespace Strive.Core.ViewModels.TIMInventory
             EmployeeData.EditableProduct.Product.ProductCode = _SelectedItemCode;
             EmployeeData.EditableProduct.Product.ProductDescription = _SelectedItemDescription;
             EmployeeData.EditableProduct.Product.Quantity = int.Parse(_SelectedItemQuantity);
-            EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
+            //EmployeeData.EditableProduct.Product.VendorId = CurrentVendor.VendorId;
             EmployeeData.EditableProduct.Product.base64 = Base64String;
-            EmployeeData.EditableProduct.Product.fileName = _SelectedItemName + _SelectedItemCode;
+            EmployeeData.EditableProduct.Product.FileName = _SelectedItemName + _SelectedItemCode;
         }
 
         public async Task NavigateUploadImageCommand()

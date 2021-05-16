@@ -78,9 +78,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
         }
 
-        public async Task<Products> GetAllProducts()
+        public async Task<Products> GetAllProducts(ProductSearches searchQuery)
         {
-            return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Get);
+            return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Post, searchQuery);
         }
 
         public async Task<Vendors> GetAllVendors()
@@ -88,7 +88,7 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<Vendors>(ApiUtils.URL_GET_ALL_VENDORS, HttpMethod.Get);
         }
 
-        public async Task<PostResponse> AddProduct(ProductDetail product)
+        public async Task<PostResponse> AddProduct(ProductDetails product)
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_ADD_PRODUCT, HttpMethod.Post,product);
         }
@@ -103,7 +103,7 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<DeleteResponse>(url, HttpMethod.Delete);
         }
 
-        public async Task<PostResponse> UpdateProduct(ProductDetail product)
+        public async Task<PostResponse> UpdateProduct(ProductDetails product)
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_PRODUCT, HttpMethod.Post, product);
         }

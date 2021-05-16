@@ -60,13 +60,13 @@ namespace StriveTimInventory.iOS.Views
 
             ItemQuantity.KeyboardType = UIKeyboardType.NumberPad;
 
-            ChangeOrientation();
+            //ChangeOrientation();
         }
 
-        public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
-        {
-            ChangeOrientation();
-        }
+        //public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+        //{
+        //    ChangeOrientation();
+        //}
 
         void ChangeOrientation()
         {
