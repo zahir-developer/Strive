@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspUpdateProductQuantity]--[StriveCarSalon].[uspUpdateProductQuantity] 1,470
+﻿--[StriveCarSalon].[uspUpdateProductQuantity] 1,470
+CREATE PROCEDURE [StriveCarSalon].[uspUpdateProductQuantity]
  (
  @Quantity int,
  @ProductId int)

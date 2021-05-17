@@ -69,7 +69,7 @@ from
 tblJob tbj 
 LEFT JOIN	tblJobPayment tbljp  WITH(NOLOCK) ON tbj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
 LEFT JOIN	GetTable('PaymentStatus') ps ON(tbljp.PaymentStatus = ps.valueid)
-INNER join tblJobItem tblji on tbj.JobId = tblji.JobId AND tblji.IsDeleted = 0
+INNER join tblJobItem tblji on tbj.JobId = tblji.JobId AND ISNULL(tblji.IsDeleted,0) = 0
 LEFT join tblService tbls on tblji.ServiceId = tbls.ServiceId
 LEFT join tblClient tblc on tbj.ClientId = tblc.ClientId
 --LEFT join StriveCarSalon.tblClientVehicle tblclv on tbj.VehicleId = tblclv.VehicleId

@@ -10,6 +10,7 @@
 -- ================================================
 --24-03-2021 - Zahir - Query optimized by reusing job and jobitem tables
 --23-04-2021 - Zahir - JOB Status join changed to Left from Inner.
+--05-05-2021 - Zahir - tblVehicleMake/Model table used instead of tblCodevalue table.
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllCheckOutDetails]
 @locationId int =null,
@@ -96,7 +97,7 @@ tblc.LastName AS CustomerLastName,
 vm.MakeValue AS VehicleMake,
 vmo.ModelValue AS VehicleModel,
 vc.valuedesc AS VehicleColor,
-CONCAT(vm.valuedesc,' ',vmo.valuedesc,'/',vc.valuedesc) AS VehicleDescription,
+CONCAT(vm.MakeValue,'/',vmo.ModelValue,'/',vc.valuedesc) AS VehicleDescription,
 tbls.ServiceName,
 st.valuedesc AS ServiceTypeName,
 CASE WHEN st.valuedesc='Additional Services' THEN TRIM(tbls.ServiceName) END AS AdditionalServices,
@@ -189,11 +190,12 @@ OR tblm.MembershipName like '%'+@Query+'%'
 OR ps.valuedesc like '%'+@Query+'%'
 OR tblc.FirstName like '%' +@Query+'%'
 OR tblc.LastName like '%' +@Query+'%'
-OR vm.valuedesc like '%' +@Query+'%'
-OR vmo.valuedesc like '%' +@Query+'%'
+OR vm.MakeValue like '%' +@Query+'%'
+OR vmo.ModelValue like '%' +@Query+'%'
 OR vc.valuedesc like '%' +@Query+'%' 
 OR tbls.ServiceName  like '%' +@Query+'%'
-OR CONCAT(vm.valuedesc,' ',vmo.valuedesc,'/',vc.valuedesc) like '%'+@Query+'%' )
+--OR CONCAT(vm.MakeValue,' ',vmo.valuedesc,'/',vc.valuedesc) like '%'+@Query+'%' 
+)
 OR CONCAT_WS(' ',tblc.FirstName,tblc.LastName) like '%'+@Query+'%'
 
 

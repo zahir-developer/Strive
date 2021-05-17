@@ -14,7 +14,7 @@ END
 
 IF @PageSize is NULL
 BEGIN
-SET @PageSize = (Select count(1) from StriveCarSalon.tblClient);
+SET @PageSize = (Select count(1) from tblClient);
 SET @PageNo = 1;
 SET @Skip = @PageSize * (@PageNo-1);
 Print @PageSize
@@ -38,13 +38,13 @@ SELECT
 	,cvl.Barcode
 	,tblm.MembershipName  into #GetAllVehicle
 FROM
-strivecarsalon.tblclient cl
-INNER JOIN strivecarsalon.tblClientVehicle cvl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
-LEFT JOIN strivecarsalon.tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 0 AND ISNULL(cvmd.IsActive,1) = 1
-LEFT JOIN strivecarsalon.tblmembership tblm on cvmd.MembershipId = tblm.MembershipId AND ISNULL(tblm.IsDeleted, 0) = 0 AND ISNULL(tblm.IsActive,1) = 1  
+tblclient cl
+INNER JOIN tblClientVehicle cvl ON cl.ClientId = cvl.ClientId AND ISNULL(cvl.IsDeleted,0)=0 AND ISNULL(cvl.IsActive,1)=1
+LEFT JOIN  tblClientVehicleMembershipDetails cvmd ON cvl.VehicleId = cvmd.ClientVehicleId AND ISNULL(cvmd.IsDeleted, 0) = 0 AND ISNULL(cvmd.IsActive,1) = 1
+LEFT JOIN  tblmembership tblm on cvmd.MembershipId = tblm.MembershipId AND ISNULL(tblm.IsDeleted, 0) = 0 AND ISNULL(tblm.IsActive,1) = 1  
 LEFT JOIN tblVehicleMake cvMfr ON cvl.VehicleMfr = cvMfr.MakeId
 LEFT JOIN tblVehicleModel cvMo ON cvl.VehicleModel = cvMo.ModelId and cvMo.MakeId = cvMfr.MakeId
-INNER JOIN strivecarsalon.GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
+INNER JOIN GetTable('VehicleColor') cvCo ON cvl.VehicleColor = cvCo.valueid
 WHERE ISNULL(cl.IsDeleted,0)=0 AND ISNULL(cl.IsActive,1)=1 AND
 
  ((@Query is null or cl.FirstName  like '%'+@Query+'%') OR
@@ -101,7 +101,7 @@ select * from #GetAllVehicle
 
 IF @Query IS NULL OR @Query = ''
 BEGIN 
-select count(1) as Count from StriveCarSalon.tblClientVehicle where 
+select count(1) as Count from tblClientVehicle where 
 ISNULL(IsDeleted,0) = 0 
 
 END

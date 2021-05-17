@@ -1,11 +1,11 @@
-﻿Create PROCEDURE [StriveCarSalon].[uspUpdateToggleDealStatus]
+﻿CREATE PROCEDURE [StriveCarSalon].[uspUpdateToggleDealStatus]
 (
 @Status bit
 )
 AS 
 BEGIN
 
-UPDATE [StriveCarSalon].tblDeal  SET
+UPDATE tblDeal  SET
 Deals =@Status
 
 END

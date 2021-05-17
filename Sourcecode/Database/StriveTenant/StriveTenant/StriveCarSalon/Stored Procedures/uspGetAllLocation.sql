@@ -30,7 +30,7 @@ SELECT tbll.LocationId,
 	   tblla.PhoneNumber,
 	   STUFF((SELECT Distinct ', ' + le.EmailAddress  
     FROM [tblLocationEmail] le
-	WHERE le.LocationId = tbll.LocationId
+	WHERE le.LocationId = tbll.LocationId and IsDeleted = 0
     FOR XML PATH('')
 	), 1, 2, '')  AS Email,
 	   --tblla.Email,

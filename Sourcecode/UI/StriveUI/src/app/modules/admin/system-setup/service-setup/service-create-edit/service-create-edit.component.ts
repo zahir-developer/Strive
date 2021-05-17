@@ -70,7 +70,7 @@ export class ServiceCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
-    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "Inactive" }];
+    this.Status = [{ id: 0, Value: "Active" }, { id: 1, Value: "InActive" }];
     this.ctypeLabel = 'none';
     this.isChecked = false;
     this.submitted = false;
@@ -431,7 +431,6 @@ categoryName(){
  
       this.serviceSetupForm.get('upcharge').enable();
      
-    
     if (this.serviceSetupForm.value.location) {
       this.serviceSetupForm.value.location.map(item => {
         this.serviceSetupList.push({
@@ -445,7 +444,7 @@ categoryName(){
             commisionType: this.isChecked === true ? this.serviceSetupForm.value.commissionType : null,
             upcharges:this.serviceSetupForm.value.upcharge,
             parentServiceId: this.serviceSetupForm.value.parentName === '' ? 0 : this.serviceSetupForm.value.parentName,
-            isActive: this.serviceSetupForm.value.status === 0 ? true : false,
+            isActive: this.serviceSetupForm.value.status == 0 ? true : false,
             locationId: item.item_id,
             commissionCost: this.isChecked === true ? +this.serviceSetupForm.value.fee : null,
             serviceCategory : this.serviceSetupForm.value.serviceCategory.CodeId,

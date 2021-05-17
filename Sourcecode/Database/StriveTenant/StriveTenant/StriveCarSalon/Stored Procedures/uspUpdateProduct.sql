@@ -15,7 +15,7 @@
  @ThresholdLimit int)
 AS
 BEGIN
-UPDATE [StriveLimoSalon].[tblProduct]
+UPDATE [tblProduct]
    SET [ProductName] = @ProductName
       ,[ProductType] = @ProductType
       ,[LocationId] = @LocationId

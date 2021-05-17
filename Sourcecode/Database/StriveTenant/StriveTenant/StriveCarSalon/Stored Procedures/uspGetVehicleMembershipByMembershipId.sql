@@ -1,5 +1,5 @@
-﻿
-Create PROCEDURE [StriveCarSalon].[uspGetVehicleMembershipByMembershipId] --[StriveCarSalon].[uspGetVehicleMembershipByMembershipId] 25
+﻿ --[StriveCarSalon].[uspGetVehicleMembershipByMembershipId] 25
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleMembershipByMembershipId]
 (@MembershipId INT)
 AS
 -- =======================================================
