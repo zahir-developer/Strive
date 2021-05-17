@@ -220,7 +220,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="location">Location </label>
+                                <label for="location">Location <span class="required">*</span> </label>
                                 <select id="location" class="form-control" [(ngModel)]="locationId">
                                     <option value="" hidden selected>Select Location</option>
                                     <option *ngFor="let loc of locationList" value={{loc.item_id}}>{{loc.item_text}}
@@ -228,7 +228,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="rate">Rate Per Hour </label>
+                                <label for="rate">Rate Per Hour <span class="required">*</span> </label>
                                 <input type="text" class="form-control" id="rate" [(ngModel)]="locationRate"
                                     appTwoDecimalNumber placeholder="$0.00" [ngClass]="{ 'is-invalid': errorMessage && locationRate !== ''}">
                                 <div *ngIf="errorMessage && locationRate !== ''" class="invalid-feedback">

@@ -367,6 +367,7 @@ export class CreateEditComponent implements OnInit {
     }
 
     if (this.locationRateList.length === 0) {
+      this.toastr.warning(MessageConfig.Employee.hourlyEmployeeLocation, 'Warning!');
       return;
     }
 

@@ -262,13 +262,13 @@ export class EmployeeCollisionComponent implements OnInit {
   
   }
 
-  selectedClient(clientId) {
-    this.employeeService.getVehicleByClientId(clientId).subscribe(res => {
+  selectedClient(client) {
+    this.employeeService.getVehicleByClientId(client.id).subscribe(res => {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         this.vehicleList = vehicle.Status;
         if (this.vehicleList.length !== 0) {
-          this.collisionForm.patchValue({ vehicle: this.vehicleList[0].VehicleId });
+          this.collisionForm.patchValue({ vehicle: this.vehicleList[this.vehicleList.length - 1].VehicleId });
         }
       }
     }
