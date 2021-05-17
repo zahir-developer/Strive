@@ -35,6 +35,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     private toastr :ToastrService) { }
 
   ngOnInit(): void {
+    this.tipAmount = 0;
     this.locationId = localStorage.getItem('empLocationId');
     this.getDailyTipReport();
   }
@@ -49,6 +50,8 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
   getDailyTipReport() {
+    this.tipAmount = 0;
+    this.tips = 0;
     const month = this.date.getMonth() + 1;
     const year = this.date.getFullYear();
     const obj = {
@@ -67,7 +70,6 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
         this.dailyTip = dailytip.GetEmployeeTipReport;
         this.dailyTip.forEach(item => {
           this.totalTip = this.totalTip + item.Tip;
-          
         });
         this.collectionSize = Math.ceil(this.dailyTip.length / this.pageSize) * 10;
       }
@@ -137,14 +139,12 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     this.totalHours = 0;
     this.totalTip = 0;
     if (this.tipAmount !== 0) {
-      this.tips = this.tipAmount
-      this.dailyTip.forEach(s => { this.totalHours = this.totalHours + s.HoursPerDay });
-
+      this.tips = this.tipAmount;
+      this.dailyTip.forEach(s => { this.totalHours = this.totalHours + s.HoursPerDay; });
       const hourTip = +this.tipAmount / this.totalHours;
       this.dailyTip.forEach(item => {
         item.Tip = (item.HoursPerDay * hourTip).toFixed(2);
         this.totalTip += +item.Tip;
-
       });
     }
   }
