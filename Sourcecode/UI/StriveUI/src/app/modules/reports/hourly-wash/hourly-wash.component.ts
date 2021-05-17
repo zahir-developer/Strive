@@ -328,7 +328,7 @@ export class HourlyWashComponent implements OnInit {
           Difference: 0,
           GiftCard: item.GiftCard,
           Managers: '',
-          Sales: item.Total,
+          Sales: item.Sales,
           Tips: 0,
         });
       });

@@ -57,7 +57,7 @@ export class ExcelService {
     });
   }
   exportAsCSVFile(data, fileName) {
-    if (data.length === 0) {
+    if ( data === undefined ||  data.length === 0 ) {
       return;
     }
     this.spinner.show();

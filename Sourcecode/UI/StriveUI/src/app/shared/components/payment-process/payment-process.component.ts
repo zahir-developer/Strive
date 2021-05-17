@@ -85,7 +85,7 @@ export class PaymentProcessComponent implements OnInit {
       if (res.status === 'Success') {
         const clientDetail = JSON.parse(res.resultData);
         console.log(clientDetail, 'client');
-        if (clientDetail.Status) {
+        if (clientDetail.Status.length > 0) {
           const clientObj = clientDetail.Status[0];
           this.selectedStateId = clientObj.State;
           this.State = clientObj.State;
@@ -104,6 +104,8 @@ export class PaymentProcessComponent implements OnInit {
             email: clientObj.Email,
             phone: clientObj.PhoneNumber
           });
+        } else {
+          this.isStateLoaded = true;
         }
       }
     });
@@ -120,7 +122,6 @@ export class PaymentProcessComponent implements OnInit {
 
   process() {
     this.submitted = true;
-
     if (this.billingForm.invalid && this.paymentForm.invalid) {
       this.stateDropdownComponent.submitted = true;
       this.cityComponent.submitted = true;
