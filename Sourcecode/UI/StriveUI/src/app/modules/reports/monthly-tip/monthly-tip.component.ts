@@ -36,6 +36,7 @@ export class MonthlyTipComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.tipAmount = 0;
     this.month = this.date.getMonth() + 1;
     this.year = this.date.getFullYear();
     this.getMonthlyTipReport();
@@ -49,9 +50,11 @@ export class MonthlyTipComponent implements OnInit {
     };
     this.spinner.show();
     this.totalTip = 0;
+    this.tipAmount = 0;
+    this.tips = 0;
     this.reportService.getMonthlyDailyTipReport(obj).subscribe(res => {
       if (res.status === 'Success') {
-        this.spinner.hide()
+        this.spinner.hide();
         const dailytip = JSON.parse(res.resultData);
         this.monthlyTip = dailytip.GetEmployeeTipReport;
         this.monthlyTip.forEach(item => {
