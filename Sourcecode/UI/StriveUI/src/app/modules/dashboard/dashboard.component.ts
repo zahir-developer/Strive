@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LandingService } from 'src/app/shared/services/common-service/landing.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { DatePipe } from '@angular/common';
 declare var $: any;
 
 @Component({
@@ -52,6 +53,7 @@ export class DashboardComponent implements OnInit {
   locationId: any;
   constructor(
     public dashboardService: DashboardService,
+    private datePipe: DatePipe, 
     private messageService: MessageServiceToastr,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
@@ -95,8 +97,8 @@ export class DashboardComponent implements OnInit {
     this.resetValue();
     const finalObj = {
       locationId: locationID,
-      fromDate: this.fromDate,
-      toDate: this.toDate
+      fromDate: this.datePipe.transform(this.fromDate, 'yyyy-MM-dd'),
+      toDate: this.datePipe.transform(this.toDate, 'yyyy-MM-dd') 
     };
     this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
