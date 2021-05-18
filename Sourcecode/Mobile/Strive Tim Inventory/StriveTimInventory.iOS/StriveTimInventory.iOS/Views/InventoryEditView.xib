@@ -21,11 +21,14 @@
                 <outlet property="CancelButton" destination="e2A-MS-GA4" id="name-outlet-e2A-MS-GA4"/>
                 <outlet property="EditImageButton" destination="gcB-WE-Mb8" id="name-outlet-gcB-WE-Mb8"/>
                 <outlet property="ItemCode" destination="rVN-wk-bcv" id="name-outlet-rVN-wk-bcv"/>
+                <outlet property="ItemCost" destination="s8c-wb-lY7" id="RYk-9O-5P9"/>
                 <outlet property="ItemDescription" destination="haj-hE-vBz" id="name-outlet-haj-hE-vBz"/>
                 <outlet property="ItemImage" destination="pGn-LI-Fjc" id="name-outlet-pGn-LI-Fjc"/>
                 <outlet property="ItemLocation" destination="lSQ-n1-Dgh" id="DKQ-ke-KyB"/>
                 <outlet property="ItemName" destination="e2Y-Be-Kx3" id="name-outlet-e2Y-Be-Kx3"/>
+                <outlet property="ItemPrice" destination="xhh-GL-qbq" id="eox-PI-tKx"/>
                 <outlet property="ItemQuantity" destination="YRc-0i-7Ob" id="name-outlet-YRc-0i-7Ob"/>
+                <outlet property="ItemType" destination="FRr-Pv-7as" id="Gpb-OF-8en"/>
                 <outlet property="LogoutButtton" destination="Iwq-lN-lD3" id="name-outlet-Iwq-lN-lD3"/>
                 <outlet property="RootView" destination="2" id="name-outlet-2"/>
                 <outlet property="SaveButton" destination="e31-0o-v6g" id="name-outlet-e31-0o-v6g"/>
@@ -269,7 +272,7 @@
                 <constraint firstItem="rVN-wk-bcv" firstAttribute="centerX" secondItem="e2Y-Be-Kx3" secondAttribute="centerX" id="yiO-d7-Pwv"/>
                 <constraint firstItem="rVN-wk-bcv" firstAttribute="height" secondItem="e2Y-Be-Kx3" secondAttribute="height" id="zFc-GK-xPW"/>
             </constraints>
-            <point key="canvasLocation" x="80.575539568345334" y="51.758793969849243"/>
+            <point key="canvasLocation" x="118" y="124"/>
         </view>
     </objects>
     <resources>

@@ -38,7 +38,11 @@ namespace Strive.Core.Services.Interfaces
 
         Task<Vendors> GetAllVendors();
 
-        Task<PostResponse> AddProduct(ProductDetails product);
+        Task<LocationProd> GetAllLocationName();
+
+        Task<ProductType> GetProductType();
+
+        Task<PostResponse> AddProduct(AddProduct product);
 
         Task<DeleteResponse> DeleteProduct(int Id);
 

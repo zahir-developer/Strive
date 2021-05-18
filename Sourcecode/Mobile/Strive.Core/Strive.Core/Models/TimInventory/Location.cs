@@ -7,4 +7,9 @@ namespace Strive.Core.Models.TimInventory
     {
         public List<LocationAddress> LocationAddress { get; set; }
     }
+
+    public class LocationProd
+    {
+        public List<LocationDetail> Location { get; set; }
+    }
 }

@@ -29,6 +29,10 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_ALL_VENDORS = "/Admin/Vendor/GetAll";
 
+        public const string URL_GET_ALL_LOCATION_NAME = "/Admin/Location/GetAllLocationName";
+
+        public const string URL_GET_PRODUCTTYPE = "/Admin/Common/GetCodesByCategory/PRODUCTTYPE";
+
         public const string URL_ADD_PRODUCT = "/Admin/Product/Add";
 
         public const string URL_DELETE_PRODUCT = "/Admin/Product/Delete";

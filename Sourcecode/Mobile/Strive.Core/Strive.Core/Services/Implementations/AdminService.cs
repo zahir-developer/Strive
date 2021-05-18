@@ -88,7 +88,17 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<Vendors>(ApiUtils.URL_GET_ALL_VENDORS, HttpMethod.Get);
         }
 
-        public async Task<PostResponse> AddProduct(ProductDetails product)
+        public async Task<LocationProd> GetAllLocationName()
+        {
+            return await _restClient.MakeApiCall<LocationProd>(ApiUtils.URL_GET_ALL_LOCATION_NAME, HttpMethod.Get);
+        }
+
+        public async Task<ProductType> GetProductType()
+        {
+            return await _restClient.MakeApiCall<ProductType>(ApiUtils.URL_GET_PRODUCTTYPE, HttpMethod.Get);
+        }
+
+        public async Task<PostResponse> AddProduct(AddProduct product)
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_ADD_PRODUCT, HttpMethod.Post,product);
         }

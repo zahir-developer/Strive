@@ -29,6 +29,9 @@ namespace StriveTimInventory.iOS.Views
 		UIKit.UITextField ItemCode { get; set; }
 
 		[Outlet]
+		UIKit.UITextField ItemCost { get; set; }
+
+		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UITextField ItemDescription { get; set; }
 
@@ -44,8 +47,14 @@ namespace StriveTimInventory.iOS.Views
 		UIKit.UITextField ItemName { get; set; }
 
 		[Outlet]
+		UIKit.UITextField ItemPrice { get; set; }
+
+		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UITextField ItemQuantity { get; set; }
+
+		[Outlet]
+		UIKit.UITextField ItemType { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -171,6 +180,11 @@ namespace StriveTimInventory.iOS.Views
 				ItemImage = null;
 			}
 
+			if (ItemLocation != null) {
+				ItemLocation.Dispose ();
+				ItemLocation = null;
+			}
+
 			if (ItemName != null) {
 				ItemName.Dispose ();
 				ItemName = null;
@@ -181,9 +195,19 @@ namespace StriveTimInventory.iOS.Views
 				ItemQuantity = null;
 			}
 
-			if (ItemLocation != null) {
-				ItemLocation.Dispose ();
-				ItemLocation = null;
+			if (ItemType != null) {
+				ItemType.Dispose ();
+				ItemType = null;
+			}
+
+			if (ItemCost != null) {
+				ItemCost.Dispose ();
+				ItemCost = null;
+			}
+
+			if (ItemPrice != null) {
+				ItemPrice.Dispose ();
+				ItemPrice = null;
 			}
 
 			if (landconstfive != null) {
