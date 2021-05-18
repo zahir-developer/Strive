@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 @Component({
   selector: 'app-membership-create-edit',
   templateUrl: './membership-create-edit.component.html',
@@ -37,7 +38,9 @@ export class MembershipCreateEditComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private member: MembershipService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private serviceSetup: ServiceSetupService
+    ) { }
 
   ngOnInit() {
     this.employeeId = +localStorage.getItem('empId');
@@ -67,10 +70,12 @@ export class MembershipCreateEditComponent implements OnInit {
 
   // Get Membership Services
   getMembershipService() {
-    this.member.getMembershipService().subscribe(data => {
+    const locID = +localStorage.getItem('empLocationId');
+    this.serviceSetup.getAllServiceDetail(locID).subscribe(data => {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
-        this.service = membership.ServicesWithPrice;
+        console.log(membership, 'membership');
+        this.service = membership.AllServiceDetail;
         this.washes = this.service.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashPackage);
         this.upchargeType = this.service.filter(item => item.ServiceTypeName === ApplicationConfig.Enum.ServiceType.WashUpcharge);
         console.log(this.upchargeType, 'washes');

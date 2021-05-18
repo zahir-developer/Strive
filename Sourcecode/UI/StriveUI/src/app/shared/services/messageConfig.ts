@@ -209,7 +209,7 @@ export const MessageConfig = {
             Add: 'Bonus Setup added successfully !',
             Update: 'Bonus Setup updated successfully !',
             Delete: 'Bonus Setup Deleted Successfully !',
-
+            washesMsg: 'washes should dislay between max and min value'
          },
          CheckList:
          {
