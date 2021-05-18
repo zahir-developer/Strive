@@ -391,12 +391,19 @@ export class BonusSetupComponent implements OnInit {
             }
           ];
         }
+        let isWashBetween = false;
         for (const list of this.monthBonusList) {
           if (+(list.Min) <= +this.noOfWashes && +this.noOfWashes <= +(list.Max)) {
             list.noOfWashes = this.noOfWashes;
             list.Total = list.BonusAmount;
+            isWashBetween = false;
             break;
+          } else {
+            isWashBetween = true;
           }
+        }
+        if (isWashBetween) {
+          this.toastr.info(MessageConfig.Admin.SystemSetup.BonusSetup.washesMsg, 'Information');
         }
         let totalAmount = 0;
         let deduction: any;
