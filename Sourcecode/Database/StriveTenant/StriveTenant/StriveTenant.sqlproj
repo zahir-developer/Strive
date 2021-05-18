@@ -95,6 +95,7 @@
     <Folder Include="Scripts\Alter" />
     <Folder Include="Scripts\Insert\Vehicle_Make_Model_Type" />
     <Folder Include="Scripts\Insert\State_City" />
+    <Folder Include="Scripts\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveCarSalon\Tables\tblJobPaymentCreditCard.sql" />

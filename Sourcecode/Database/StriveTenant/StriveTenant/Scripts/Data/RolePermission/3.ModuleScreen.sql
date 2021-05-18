@@ -1,5 +1,5 @@
-
-
+--TRUNCATE TABLE tblModuleScreen
+--Select * from tblModuleScreen
 DECLARE @Dashboard INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleName = 'Dashboard')
 DECLARE @Washes INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleName = 'Washes')
 DECLARE @Detail INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleName = 'Detail')
@@ -19,39 +19,39 @@ DECLARE @SystemSetup INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleNam
 
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Dashboard,'Dashboard',1,0,'Dashboard')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Washes,'Washes',1,0,'Washes')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Washes,'AddWashPage',1,0,'AddWash Page')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Detail,'DetailListPage',1,0,'DetailListPage')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Detail,'AddDetailPage',1,0,'AddDetailPage')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Washes,'AddWashPage',1,0,'Add Wash Page')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Detail,'DetailListPage',1,0,'Detail List Page')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Detail,'AddDetailPage',1,0,'Add Detail Page')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Sales,'Sales',1,0,'Sales')
 
 --Report
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'EODReport',1,0,'EODReport')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'DailyStatusScreen',1,0,'DailyStatusScreen')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'DailyTipreport',1,0,'DailyTip report')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyTipreport',1,0,'MonthlyTip report')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlySalesReport',1,0,'MonthlySales Report')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyCustomerSummaryReport',1,0,'Monthly CustomerSummary Report')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyMoneyOwedReport',1,0,'MonthlyMoneyOwed Report')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyCustomerDetailReport',1,0,'MonthlyCustomerDetail Report')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'HourlyWashreport',1,0,'HourlyWash report')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'DailySalesreport',1,0,'DailySales report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'EODReport',1,0,'EOD Report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'DailyStatusScreen',1,0,'Daily Status Screen')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'DailyTipreport',1,0,'Daily Tip Report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyTipreport',1,0,'Monthly Tip Report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlySalesReport',1,0,'Monthly Sales Report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyCustomerSummaryReport',1,0,'Monthly Customer Summary Report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyMoneyOwedReport',1,0,'Monthly Money Owed Report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'MonthlyCustomerDetailReport',1,0,'Monthly Customer Detail Report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'HourlyWashreport',1,0,'Hourly Wash report')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Report,'DailySalesreport',1,0,'Daily Sales report')
 
 
 --Admin
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'GiftCards',1,0,'GiftCards')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'GiftCards',1,0,'Gift Cards')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'Schedules',1,0,'Schedules')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'Vehicles',1,0,'Vehicles')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'Clients',1,0 ,'Clients')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'Employees',1,0,'Employees')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'TimeClockMaintenance',1,0,'TimeClockMaintenance')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'CloseOutRegister',1,0,'CloseOutRegister')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'CashRegisterSetup',1,0,'CashRegisterSetup')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'TimeClockMaintenance',1,0,'Time Clock Maintenance')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'CloseOutRegister',1,0,'Close Out Register')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@Admin,'CashRegisterSetup',1,0,'Cash Register Setup')
 --systemsetup
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@SystemSetup,'ProductSetup',1,0,'Product Setup')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@SystemSetup,'ServiceSetup',1,0,'Service Setup')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@SystemSetup,'SystemSetup',1,0,'System Setup')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@SystemSetup,'ChecklistSetup',1,0,'Checklist Setup')
-insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@SystemSetup,'EmployeeHandbook',1,0,'EmployeeHandbook')
+insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@SystemSetup,'EmployeeHandbook',1,0,'Employee Handbook')
 insert into tblModuleScreen(ModuleId,ViewName,IsActive,IsDeleted,Description)values(@SystemSetup,'BonusSetup',1,0,'Bonus Setup')
 
 
