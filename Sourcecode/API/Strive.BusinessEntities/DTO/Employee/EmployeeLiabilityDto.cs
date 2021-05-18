@@ -11,7 +11,7 @@ namespace Strive.BusinessEntities.DTO.Employee
         public string VehicleName { get; set; }
 
 
-        public int VehicleId { get; set; }
+        public int? VehicleId { get; set; }
 
         public int LiabilityId { get; set; }
         public int liabilityDetailId { get; set; }
