@@ -6,6 +6,9 @@ import { LocationDropdownComponent } from 'src/app/shared/components/location-dr
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
+import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
+import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
 @Component({
   selector: 'app-monthly-tip',
   templateUrl: './monthly-tip.component.html',
@@ -13,6 +16,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MonthlyTipComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
+  @ViewChild(YearPickerComponent) yearPickerComponent: YearPickerComponent;
+  @ViewChild(MonthPickerComponent) monthPickerComponent: MonthPickerComponent;
   fromDate = new Date();
   endDate = new Date();
   fileType: any;
@@ -133,6 +139,18 @@ export class MonthlyTipComponent implements OnInit {
   }
 
   preview() {
+    this.getMonthlyTipReport();
+  }
+
+  refresh() {
+    this.date = new Date();
+    this.month = this.date.getMonth() + 1;
+    this.year = this.date.getFullYear();
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId');
+    this.exportFiletypeComponent.type = '';
+    this.yearPickerComponent.getYear();
+    this.monthPickerComponent.getMonth();
     this.getMonthlyTipReport();
   }
 

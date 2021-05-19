@@ -7,6 +7,7 @@ import { LocationDropdownComponent } from 'src/app/shared/components/location-dr
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 
 @Component({
   selector: 'app-daily-tip',
@@ -15,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DailyTipComponent implements OnInit, AfterViewInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   date = new Date();
@@ -41,7 +43,6 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
   }
   getfileType(event) {
     this.fileTypeEvent = true;
-
     this.fileType = +event.target.value;
   }
   ngAfterViewInit() {
@@ -147,6 +148,14 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
         this.totalTip += +item.Tip;
       });
     }
+  }
+
+  refresh() {
+    this.locationId = localStorage.getItem('empLocationId');
+    this.date = new Date();
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')
+    this.exportFiletypeComponent.type = '';
+    this.getDailyTipReport();
   }
 }
 
