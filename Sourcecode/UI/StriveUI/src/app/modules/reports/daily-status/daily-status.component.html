@@ -109,20 +109,20 @@
                                                             Washes Info </td>
 
                                                     </tr>
-                                                    <tr class="bg-white">
+                                                    <tr  *ngIf="dailyStatusWashInfo?.length > 0 || dailyStatusWashInfo?.WashEmployeeCount !=0" class="bg-white">
                                                         <th scope="col">Total no. of employee’s</th>
                                                         <th scope="col" class="font-weight-1200"></th>
 
                                                         <th scope="col" class="font-weight-1200">Amount</th>
                                                     </tr>
-                                                    <tr>
+                                                    <tr *ngIf="dailyStatusWashInfo?.length > 0 || dailyStatusWashInfo?.WashEmployeeCount !=0">
                                                         <td style="margin-left: 120px;">
                                                             {{dailyStatusWashInfo?.WashEmployeeCount}}</td>
                                                         <td></td>
                                                         <td style="text-align: left;" class="m-l-120">
                                                             {{dailyStatusWashInfo?.WashExpense}}</td>
                                                     </tr>
-                                                    <div [hidden]="dailyStatusWashInfo" style="text-align: center;" class="m-t-30 m-l-190">
+                                                    <div *ngIf="(dailyStatusWashInfo?.WashEmployeeCount === 0)" style="text-align: center;" class="m-t-30">
                                                         <span>No Records Found</span>
                                                     </div>
                                                     <br><br>
@@ -136,7 +136,7 @@
 
                                                     </tr>
 
-                                                    <tr class="bg-white">
+                                                    <tr class="bg-white" *ngIf="dailyStatusDetailInfo?.length > 0">
                                                         <th scope="col" class="font-weight-700">Name</th>
                                                         <th scope="col" class="font-weight-700">Ticket</th>
                                                         <th scope="col" class="font-weight-700 ">Commission</th>
@@ -166,7 +166,8 @@
                                                     </tr>
                                                 </tfoot>
                                             </table>
-                                            <div *ngIf="dailyStatusDetailInfo?.length === 0" class="noRecords m-t-49">
+											
+                                            <div *ngIf="dailyStatusDetailInfo?.length === 0 || dailyStatusDetailInfo?.length === null" class="noRecords m-t-49">
                                                 <span> No Records Found</span>
                                             </div>
                                         </div>

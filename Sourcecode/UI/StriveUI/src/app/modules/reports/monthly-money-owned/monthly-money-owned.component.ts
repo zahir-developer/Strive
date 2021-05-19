@@ -51,7 +51,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   }
 
   getMoneyOwnedReportList() {
-    const date = this.year + '-' + this.month;
+    const date = this.year + '-' + ('0' + (this.month)).slice(-2);
     this.spinner.show();
     this.reportsService.getMonthlyMoneyOwnedReport(date, this.locationId).subscribe(res => {
       if (res.status === 'Success') {
