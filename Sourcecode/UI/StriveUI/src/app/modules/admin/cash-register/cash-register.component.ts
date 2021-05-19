@@ -380,7 +380,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       updatedDate: new Date(),
       storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : null,
       storeTimeOut: !isStatus ? checkinTime !== '' ? checkinTime : null : null,
-      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
+      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus,
+      totalAmount: this.totalCash
     };
     const formObj = {
       cashregister,

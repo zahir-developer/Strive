@@ -185,7 +185,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
             cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1,
-         
+
 
           });
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
@@ -206,7 +206,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.tips = ''
         }
       }
-      else{
+      else {
         this.spinner.hide();
 
       }
@@ -296,7 +296,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
     }
-   
+
     const cashregister = {
       cashRegisterId: this.isUpdate ? this.closeOutDetails.CashRegister.CashRegisterId : 0,
       cashRegisterType: this.CloseRegisterId,
@@ -310,7 +310,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       updatedBy: +localStorage.getItem('empId'),
       updatedDate: new Date(),
       storeTimeIn: null,
-       Tips: this.tips,
+      Tips: this.tips,
+      totalAmount: this.totalCash,
       storeTimeOut: null, // checkoutTime,
       storeOpenCloseStatus: null // this.storeStatus === '' ? null : +this.storeStatus
     };
@@ -420,21 +421,20 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     this.getTotalCash();
   }
 
-  tipsEvent(event){
+  tipsEvent(event) {
     this.tips = +event;
     this.getTotalCash();
-  
+
   }
-    // Calculate TotalCash
-    getTotalCash() {
+  // Calculate TotalCash
+  getTotalCash() {
 
-      if(this.tips === undefined || this.tips === null)
-      {
-        this.tips = 0;
-      }
-
-      this.totalCash = this.tips + this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
+    if (this.tips === undefined || this.tips === null) {
+      this.tips = 0;
     }
+
+    this.totalCash = this.tips + this.totalCoin + this.totalBill + this.totalRoll + this.closeoutRegisterForm.value.cardAmount;
+  }
   onValueChange(event) {
     let selectedDate = event;
     let today;
@@ -467,7 +467,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
   }
   getTips(selectDate) {
-    const  tipdetailDto = {
+    const tipdetailDto = {
       locationId: +localStorage.getItem('empLocationId'),
       date: selectDate ? selectDate : new Date()
     }
@@ -483,7 +483,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     }
-    
+
     );
   }
   getStoreStatusList() {
@@ -491,15 +491,15 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.storeStatusList = dType.Codes;
-        this.storeStatusList = this.storeStatusList.filter( item => item.CodeValue !== ApplicationConfig.storestatus.open);
+        this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue !== ApplicationConfig.storestatus.open);
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     }
-    
+
     );
   }
- 
+
 }
