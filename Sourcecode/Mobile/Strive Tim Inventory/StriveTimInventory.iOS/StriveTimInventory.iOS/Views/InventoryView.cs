@@ -55,7 +55,7 @@ namespace StriveTimInventory.iOS.Views
 
         private async Task GetProducts()
         {
-            ViewModel.ClearCommand();
+            ViewModel.ClearCommand(); 
             //await ViewModel.GetProductsCommand();
             await ViewModel.InventorySearchCommand("");
         }

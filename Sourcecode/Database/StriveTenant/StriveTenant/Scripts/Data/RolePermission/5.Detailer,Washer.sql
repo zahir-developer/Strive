@@ -3,6 +3,9 @@
 -- Create date: 07-Dec-2020
 -- Description:	Role Permission access scripts
 -- =============================================
+
+--TRUNCATE TABLE tblPermission
+
 ---DETAILER,WASH
 DECLARE @AllPermission INT = (SELECT TOP 1 PermissionId FROM tblPermission WHERE PermissionName = 'All')
 DECLARE @DetailererRoleId INT = (SELECT TOP 1 RoleMasterId FROM tblRoleMaster WHERE RoleName = 'Detailer')
@@ -26,9 +29,9 @@ DECLARE @Field_DashboardStatistics_Section2Id INT = (SELECT TOP 1 FieldId FROM t
 DECLARE @Field_DashboardStatistics_Section3Id INT = (SELECT TOP 1 FieldId FROM tblField WHERE FieldName = 'DashboardStatisticsSection3')
 
 
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DashboardId, @Screen_DashboardPageId, @Field_DashboardStatistics_Section2Id, @AllPermission, @CashierRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DashboardId, @Screen_DashboardPageId, @Field_DashboardStatistics_Section3Id, @AllPermission, @CashierRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_WashesId, @Screen_WashesListPageId, NULL, @AllPermission, @WaherRoleId, @IsActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_WashesId, @Screen_AddWashPageId, NULL, @AllPermission, @WaherRoleId, @IsActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DetailId, @Screen_DetailListPageId, NULL, @AllPermission, @DetailererRoleId, @IsActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DetailId, @Screen_AddDetailPageId, NULL, @AllPermission, @DetailererRoleId, @IsActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DashboardId, @Screen_DashboardPageId, @Field_DashboardStatistics_Section2Id, @AllPermission, @CashierRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DashboardId, @Screen_DashboardPageId, @Field_DashboardStatistics_Section3Id, @AllPermission, @CashierRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_WashesId, @Screen_WashesListPageId, NULL, @AllPermission, @WaherRoleId, @IsActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_WashesId, @Screen_AddWashPageId, NULL, @AllPermission, @WaherRoleId, @IsActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DetailId, @Screen_DetailListPageId, NULL, @AllPermission, @DetailererRoleId, @IsActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_DetailId, @Screen_AddDetailPageId, NULL, @AllPermission, @DetailererRoleId, @IsActive, @IsDeleted);

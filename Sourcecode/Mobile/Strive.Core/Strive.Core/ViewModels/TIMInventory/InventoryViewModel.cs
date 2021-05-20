@@ -18,7 +18,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public ObservableCollection<InventoryDataModel> FilteredList { get; set; } = new ObservableCollection<InventoryDataModel>();
 
-        private ObservableCollection<ProductDetail> ProductList = new ObservableCollection<ProductDetail>();
+        private ObservableCollection<ProductDetails> ProductList = new ObservableCollection<ProductDetails>();
 
         private ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
 
@@ -29,15 +29,17 @@ namespace Strive.Core.ViewModels.TIMInventory
         public async Task GetProductsCommand()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            Products products = await AdminService.GetAllProducts();
-            foreach(var product in products.Product)
+            var SearchText = getSearchText("");
+            Products products = await AdminService.GetAllProducts(SearchText);
+            foreach(var product in products.ProductSearch)
             {
                 ProductList.Add(product);
-                var vendor = VendorList.Where(s => s.VendorId == product.VendorId).FirstOrDefault();
-                if(vendor != null)
+               
+                var vendor = VendorList.Where(s => s.VendorName == product.VendorName).FirstOrDefault();
+                if (vendor != null)
                 {
                     InventoryList.Add(new InventoryDataModel() { Product = product, Vendor = vendor });
-                }               
+                }
             }
             _userDialog.HideLoading();
             await RaiseAllPropertiesChanged();
@@ -56,15 +58,17 @@ namespace Strive.Core.ViewModels.TIMInventory
             await RaiseAllPropertiesChanged();
         }
 
-        public async Task InventorySearchCommand(string SearchText)
+        public async Task InventorySearchCommand(string searchedText)
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var searchList = await AdminService.GetAllProducts();
+            var SearchText = getSearchText(searchedText);
+            Products searchList = await AdminService.GetAllProducts(SearchText);
             ClearCommand();
-            foreach (var product in searchList.Product)
+            foreach (var product in searchList.ProductSearch)
             {
                 ProductList.Add(product);
-                var vendor = VendorList.Where(s => s.VendorId == product.VendorId).FirstOrDefault();
+                
+                var vendor = VendorList.Where(s => s.VendorName == product.VendorName).FirstOrDefault();
                 if (vendor != null)
                 {
                     InventoryList.Add(new InventoryDataModel() { Product = product, Vendor = vendor });
@@ -75,6 +79,15 @@ namespace Strive.Core.ViewModels.TIMInventory
             FilteredList = InventoryList;
             EditableList = FilteredList;
             await RaiseAllPropertiesChanged();
+        }
+
+        private ProductSearches getSearchText(string searchedText)
+        {
+            ProductSearches searchText = new ProductSearches()
+            {
+                productSearch = searchedText
+            };
+            return searchText;
         }
 
         public void IncrementCommand(int index)
