@@ -32,8 +32,8 @@ namespace StriveCustomer.iOS.Views.Schedule
             MoreValue_Const.Constant = 75;
             ViewMore_ValueLbl.Hidden = false;
 
-            ServiceName_Lbl.Text = viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].ServiceName;
-            SelectService_CostLbl.Text = "$" + viewModel.scheduleServices.ServicesWithPrice[indexPath.Row].Price.ToString();
+            ServiceName_Lbl.Text = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceName;
+            SelectService_CostLbl.Text = "$" + viewModel.scheduleServices.AllServiceDetail[indexPath.Row].Price.ToString();
             ViewMore_Btn.SetTitle("View Less", UIControlState.Normal);
         }
 

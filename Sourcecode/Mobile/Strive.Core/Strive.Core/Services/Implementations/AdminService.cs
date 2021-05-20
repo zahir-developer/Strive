@@ -16,6 +16,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils;
+using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.Services.Implementations
 {
@@ -78,9 +79,9 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
         }
 
-        public async Task<Products> GetAllProducts()
+        public async Task<Products> GetAllProducts(ProductSearches searchQuery)
         {
-            return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Get);
+            return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Post, searchQuery);
         }
 
         public async Task<Vendors> GetAllVendors()
@@ -88,7 +89,17 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<Vendors>(ApiUtils.URL_GET_ALL_VENDORS, HttpMethod.Get);
         }
 
-        public async Task<PostResponse> AddProduct(ProductDetail product)
+        public async Task<LocationProd> GetAllLocationName()
+        {
+            return await _restClient.MakeApiCall<LocationProd>(ApiUtils.URL_GET_ALL_LOCATION_NAME, HttpMethod.Get);
+        }
+
+        public async Task<ProductType> GetProductType()
+        {
+            return await _restClient.MakeApiCall<ProductType>(ApiUtils.URL_GET_PRODUCTTYPE, HttpMethod.Get);
+        }
+
+        public async Task<PostResponse> AddProduct(AddProduct product)
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_ADD_PRODUCT, HttpMethod.Post,product);
         }
@@ -103,7 +114,18 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<DeleteResponse>(url, HttpMethod.Delete);
         }
 
-        public async Task<PostResponse> UpdateProduct(ProductDetail product)
+        public async Task<EditProduct.ProductDetail_Id> GetProductByID(int Id)
+        {
+            var uriBuilder = new UriBuilder(ApiUtils.URL_GET_PRODUCTDETAIL_BYID);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["productId"] = Id.ToString();
+            uriBuilder.Query = query.ToString();
+            var url = uriBuilder.Uri.PathAndQuery.ToString();
+            var result = await _restClient.MakeApiCall<EditProduct.ProductDetail_Id>(url, HttpMethod.Get);
+            return result;
+        }
+
+        public async Task<PostResponse> UpdateProduct(AddProduct product)
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_PRODUCT, HttpMethod.Post, product);
         }

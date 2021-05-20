@@ -23,4 +23,11 @@ namespace Strive.Core.Models.TimInventory
         public string WeatherLocationId { get; set; }
 
     }
+
+    public class LocationDetail
+    {
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
+        public int? WashTimeMinutes { get; set; }
+    }
 }
