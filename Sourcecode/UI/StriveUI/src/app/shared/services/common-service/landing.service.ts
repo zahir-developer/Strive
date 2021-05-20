@@ -42,7 +42,6 @@ export class LandingService {
               this.routingPage();
             }
           }
-
         }
         else {
           this.routingPage();
@@ -55,8 +54,12 @@ export class LandingService {
       }
       else if (this.dashBoardModule === false) {
         this.routingPage();
-
       }
+    }
+    else
+    {
+      localStorage.setItem('isAuthenticated', 'true');
+      this.routingPage();
     }
   }
   routingPage() {
@@ -79,7 +82,7 @@ export class LandingService {
       else if (Roles === ApplicationConfig.Roles.Wash) {
         this.router.navigate([`/wash`], { relativeTo: this.route });
       }
-      else if (Roles === ApplicationConfig.Roles.Client) {
+      else if (Roles === ApplicationConfig.Roles.Customer) {
         const clientId = localStorage.getItem('clientId');
         this.router.navigate([`/customer`], { relativeTo: this.route, queryParams: { clientId: clientId } });
       }

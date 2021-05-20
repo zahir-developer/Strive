@@ -240,7 +240,7 @@ export const ApplicationConfig = {
         Cashier: 'Cashier',
         Detailer: 'Detailer',
         Wash: 'Washer',
-        Client: 'Client'
+        Customer: 'Customer'
     },
 
     dropdownSettings: {
