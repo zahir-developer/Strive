@@ -1,5 +1,5 @@
-﻿--136,2056,'2021-01-03','2021-01-09'
-CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails] 
+﻿--[StriveCarSalon].[uspGetTimeClockWeekDetails] 1492,1,'2021-05-16','2021-05-22'
+Create PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails] 
 @EmployeeId INT,
 @LocationId INT,
 @StartDate DATETIME,
@@ -15,7 +15,8 @@ FRS					: TimeClock Maintainance
 -----------------------------------------------------------------------------------------
   1  |  2020-Sep-01   | Lenin		| Added RollBack for errored transaction 
   2  |  2020-Sep-16   | Zahir		| Procedure Name changed. Column name changes added. Parameter name changes.
-
+  3  |  2021-MAy-20   | Shalini		| Wash rate changed..taking from employeehourlyrate table
+  
 
 -----------------------------------------------------------------------------------------
 */
@@ -105,13 +106,15 @@ GROUP BY jse.EmployeeId
 DROP TABLE IF EXISTS #Rate
 SELECT 
 	  tblED.EmployeeId
-	, ISNULL(tblED.WashRate,0)AS WashRate
+	,ISNULL(ehr.HourlyRate,0)AS WashRate
+	--, ISNULL(tblED.WashRate,0)AS WashRate
 	, tblCV.CodeValue AS [Detail Desc] 
 	, ISNULL(tblED.ComRate,0) as DetailRate
 INTO
 	#Rate
 FROM 
 	tblEmployeeDetail tblED
+	left join  tblEmployeeHourlyRate ehr on tblED.EmployeeId=ehr.EmployeeId
 LEFT JOIN
 	tblCodeValue tblCV
 ON		tblCV.id=tblED.ComType
@@ -201,8 +204,8 @@ SELECT
 	CONVERT(NUMERIC(18, 2), TotalWashHours/ 60 + (TotalWashHours% 60) / 100.0) AS TotalWashHours,
 	CONVERT(NUMERIC(18, 2), TotalDetailHours/ 60 + (TotalDetailHours% 60) / 100.0) AS TotalDetailHours,
 	CONVERT(NUMERIC(18, 2), OverTimeHours/ 60 + (OverTimeHours% 60) / 100.0) AS OverTimeHours,
-	WorkHourThreshold,WashRate,DetailRate,ISNULL(WashAmount,'0.00')WashAmount,ISNULL(DetailAmount,'0.00')DetailAmount,ISNULL(OverTimePay,'0.00')OverTimePay,ISNULL(CollisionAmount,'0.00')CollisionAmount
-	,((ISNULL(WashAmount,'0.00')+ISNULL(DetailAmount,'0.00')+ISNULL(OverTimePay,'0.00'))-ISNULL(CollisionAmount,'0.00')) AS GrandTotal
+	WorkHourThreshold,WashRate,DetailRate,ISNULL(WashAmount,0)WashAmount,ISNULL(DetailAmount,'0.00')DetailAmount,ISNULL(OverTimePay,'0.00')OverTimePay,ISNULL(CollisionAmount,'0.00')CollisionAmount
+	,((ISNULL(WashAmount,0)+ISNULL(DetailAmount,'0.00')+ISNULL(OverTimePay,'0.00'))-ISNULL(CollisionAmount,'0.00')) AS GrandTotal
 INTO #Result
 FROM 
 	#FinResult
