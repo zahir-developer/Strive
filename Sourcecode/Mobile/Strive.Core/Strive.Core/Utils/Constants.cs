@@ -33,6 +33,8 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_PRODUCTTYPE = "/Admin/Common/GetCodesByCategory/PRODUCTTYPE";
 
+        public const string URL_GET_PRODUCTDETAIL_BYID = "/Admin/Product/GetProductDetailById";
+
         public const string URL_ADD_PRODUCT = "/Admin/Product/Add";
 
         public const string URL_DELETE_PRODUCT = "/Admin/Product/Delete";

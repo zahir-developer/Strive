@@ -16,6 +16,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils;
+using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.Services.Implementations
 {
@@ -113,7 +114,18 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<DeleteResponse>(url, HttpMethod.Delete);
         }
 
-        public async Task<PostResponse> UpdateProduct(ProductDetails product)
+        public async Task<EditProduct.ProductDetail_Id> GetProductByID(int Id)
+        {
+            var uriBuilder = new UriBuilder(ApiUtils.URL_GET_PRODUCTDETAIL_BYID);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["productId"] = Id.ToString();
+            uriBuilder.Query = query.ToString();
+            var url = uriBuilder.Uri.PathAndQuery.ToString();
+            var result = await _restClient.MakeApiCall<EditProduct.ProductDetail_Id>(url, HttpMethod.Get);
+            return result;
+        }
+
+        public async Task<PostResponse> UpdateProduct(AddProduct product)
         {
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_PRODUCT, HttpMethod.Post, product);
         }

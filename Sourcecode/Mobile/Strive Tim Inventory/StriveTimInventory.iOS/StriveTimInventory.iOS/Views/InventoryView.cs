@@ -57,7 +57,7 @@ namespace StriveTimInventory.iOS.Views
         {
             ViewModel.ClearCommand(); 
             //await ViewModel.GetProductsCommand();
-            await ViewModel.InventorySearchCommand();
+            await ViewModel.InventorySearchCommand("");
         }
 
         private async Task<bool> GetVendors()
@@ -68,7 +68,7 @@ namespace StriveTimInventory.iOS.Views
 
         private void SearchTextChanged(object sender, UISearchBarTextChangedEventArgs e)
         {
-            ViewModel.InventorySearchCommand();
+            ViewModel.InventorySearchCommand(e.SearchText);
             if(e.SearchText == "")
             {
                 InventorySearch.ResignFirstResponder();

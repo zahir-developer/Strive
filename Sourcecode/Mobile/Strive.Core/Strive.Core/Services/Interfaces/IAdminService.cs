@@ -11,6 +11,7 @@ using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
+using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.Services.Interfaces
 {
@@ -46,7 +47,9 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DeleteResponse> DeleteProduct(int Id);
 
-        Task<PostResponse> UpdateProduct(ProductDetails product);
+        Task<EditProduct.ProductDetail_Id> GetProductByID(int Id);
+
+        Task<PostResponse> UpdateProduct(AddProduct product);
 
         Task<Clients> GetAllClient();
 
