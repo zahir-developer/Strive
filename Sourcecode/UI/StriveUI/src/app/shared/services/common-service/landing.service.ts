@@ -59,6 +59,7 @@ export class LandingService {
     else
     {
       localStorage.setItem('isAuthenticated', 'true');
+      this.authService.loggedIn.next(true);
       this.routingPage();
     }
   }

@@ -177,7 +177,7 @@
                                         </tr>
                                     </thead>
                                     <tbody
-                                        *ngFor="let service of pastScheduleDetail | orderBy:pastSort.column:'sequence':pastSort.descending">
+                                        *ngFor="let service of pastScheduleDetail | orderBy:pastSort.column:'sequence':pastSort.descending | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                         <tr>
                                             <th scope="row" >
                                                 {{service.TicketNumber}}</th>
@@ -199,6 +199,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <ngb-pagination *ngIf="pastScheduleDetail.length > 0" [collectionSize]="collectionSize"
+                                    [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                                    [boundaryLinks]="true" class="d-flex justify-content-end">
+                                </ngb-pagination>
                             </div>
                         </div>
                     </div>

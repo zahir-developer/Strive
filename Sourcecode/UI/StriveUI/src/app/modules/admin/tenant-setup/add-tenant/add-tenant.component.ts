@@ -230,7 +230,8 @@ export class AddTenantComponent implements OnInit {
         ModuleId: item.moduleId,
         ModuleName: item.moduleName,
         IsActive: item.isActive,
-        IsChecked: item.IsChecked
+        IsChecked: item.IsChecked,
+        Description: item.description
       });
     });
     const isAllModuleSelect = this.tenantModule.module.filter(item => !item.IsChecked);
@@ -355,7 +356,8 @@ export class AddTenantComponent implements OnInit {
             moduleScreenId: screen.ModuleScreenId,
             moduleId: screen.ModuleId,
             viewName: screen.ViewName,
-            isActive: screen.IsChecked
+            isActive: screen.IsChecked,
+            description: item.Description
           });
         }
         // }
@@ -364,6 +366,7 @@ export class AddTenantComponent implements OnInit {
       obj.moduleId = item.ModuleId;
       obj.moduleName = item.ModuleName;
       obj.isActive = item.IsChecked;
+      obj.description = item.Description;
       moduleObj.push({
         module: obj,
         moduleScreen

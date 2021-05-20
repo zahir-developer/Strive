@@ -30,6 +30,9 @@ export class CustomerDashboardComponent implements OnInit {
   pastScheduleDetail = [];
   clonedPastScheduleDetail = [];
   clientID: any;
+  page = 1;
+  pageSize = 10;
+  collectionSize: number = 0;
   constructor(
     private customerService: CustomerService,
     private datePipe: DatePipe,
@@ -109,7 +112,9 @@ export class CustomerDashboardComponent implements OnInit {
     const todayDate = null;
     const locationId = null;
     const clientID = this.clientID ? this.clientID : 0;
+    this.spinner.show();
     this.dashboardService.getTodayDateScheduleList(todayDate, locationId, clientID).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const scheduleDetails = JSON.parse(res.resultData);
         this.pastScheduleDetail = [];
@@ -120,10 +125,10 @@ export class CustomerDashboardComponent implements OnInit {
               this.todayScheduleDetail.push(item);
               if (this.todayScheduleDetail?.length > 0) {
                 for (let i = 0; i < this.todayScheduleDetail.length; i++) {
-                  this.todayScheduleDetail[i].VehicleModel == 'None' ? this.todayScheduleDetail[i].VehicleModel =  'Unk' : this.todayScheduleDetail[i].VehicleModel ;
+                  this.todayScheduleDetail[i].VehicleModel === 'None' ?
+                   this.todayScheduleDetail[i].VehicleModel = 'Unk' : this.todayScheduleDetail[i].VehicleModel;
                 }
               }
-            
             } else if (currentDate < new Date(item.JobDate)) {
               this.todayScheduleDetail.push(item);
             } else {
@@ -137,11 +142,13 @@ export class CustomerDashboardComponent implements OnInit {
             });
             this.clonedPastScheduleDetail = this.pastScheduleDetail.map(x => Object.assign({}, x));
           }
+          this.collectionSize = Math.ceil(this.pastScheduleDetail.length / this.pageSize) * 10;
         }
       }
       else {
       }
     }, (err) => {
+      this.spinner.hide();
       this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
     });
   }
