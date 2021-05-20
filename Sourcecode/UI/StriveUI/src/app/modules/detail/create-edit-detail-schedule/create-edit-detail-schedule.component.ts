@@ -178,7 +178,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (data.status === 'Success') {
           const ticket = JSON.parse(data.resultData);
           this.ticketNumber = ticket.GetTicketNumber.JobId;
-          this.jobID = ticket.GetTicketNumber.JobId
+          this.jobID = ticket.GetTicketNumber.JobId;
         }
         else {
           this.toastr.error(MessageConfig.TicketNumber, 'Error!');
@@ -1056,7 +1056,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
-
           this.toastr.success(MessageConfig.Detail.Update, 'Success!');
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
@@ -1072,22 +1071,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.detailService.addDetail(formObj).subscribe(res => {
+      this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
-
           this.isAssign = true;
           this.isStart = true;
           const jobID = JSON.parse(res.resultData);
-          this.getDetailByID(jobID.Status);
-          this.jobID = jobID.Status;
+          this.getDetailByID(this.jobID);
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
           this.toastr.success(MessageConfig.Detail.Add, 'Success!');
         } else {
           this.spinner.hide();
-
           this.toastr.error(MessageConfig.CommunicationError, 'Error!');
         }
       }, (error) => {

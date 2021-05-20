@@ -34,7 +34,7 @@
                                     [disabled]="fileType === ''" (click)="export()">Export</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
                                     printSectionId="monthlyMoneyreport" ngxPrint>Print</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color">Refresh</button>
+                                <button type="button" class="btn theme-primary-button-color" (click)="refresh()">Refresh</button>
                             </div>
                         </div>
                     </div>

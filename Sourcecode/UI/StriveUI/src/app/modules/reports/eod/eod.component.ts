@@ -7,6 +7,7 @@ import { LocationDropdownComponent } from 'src/app/shared/components/location-dr
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 declare var $: any;
 
 @Component({
@@ -16,6 +17,7 @@ declare var $: any;
 })
 export class EodComponent implements OnInit, AfterViewInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   date = new Date();
@@ -165,7 +167,7 @@ export class EodComponent implements OnInit, AfterViewInit {
     const date = moment(this.selectDate).format('YYYY-MM-DD');
     const cashRegisterType = 'CASHIN';
     const locationId = +localStorage.getItem('empLocationId');
-    this.reportService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe( res => {
+    this.reportService.getCashRegisterByDate(cashRegisterType, locationId, date).subscribe(res => {
       if (res.status === 'Success') {
         const cashIn = JSON.parse(res.resultData);
         if (cashIn.CashRegister.CashRegister) {
@@ -307,6 +309,10 @@ export class EodComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
+    this.locationId = localStorage.getItem('empLocationId');
+    this.date = new Date();
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')
+    this.exportFiletypeComponent.type = '';
     this.preview();
   }
 

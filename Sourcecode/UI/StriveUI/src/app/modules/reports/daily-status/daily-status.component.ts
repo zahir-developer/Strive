@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 @Component({
   selector: 'app-daily-status',
   templateUrl: './daily-status.component.html',
@@ -17,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 export class DailyStatusComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
   bsConfig: Partial<BsDatepickerConfig>;
   locationId: any;
   date = new Date();
@@ -37,8 +39,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   dailyStatusWashInfo: any;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private excelService: ExcelService, private cd: ChangeDetectorRef,
-              private datePipe: DatePipe, private spinner: NgxSpinnerService,
-              private toastr : ToastrService) {
+    private datePipe: DatePipe, private spinner: NgxSpinnerService,
+    private toastr: ToastrService) {
 
   }
 
@@ -74,7 +76,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         this.clockDetailValue = clockDetail?.Result?.TimeClockDetails ? clockDetail?.Result?.TimeClockDetails : [];
         this.objConversion();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -92,17 +94,17 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
           item.EmployeeName = item.FirstName + ' ' + item.LastName;
           const Intime = 'Intime' + i;
           const Outtime = 'Outtime' + i;
-          
+
           const RoleName = 'RoleName' + i;
           const TimeIn = 'TimeIn' + i;
           const TimeOut = 'TimeOut' + i;
-          
+
           item[Intime] = data.InTime;
           item[Outtime] = data.OutTime;
           item[RoleName] = data.RoleName;
           item[TimeIn] = data.TimeIn;
           item[TimeOut] = data.TimeOut;
-          
+
           item.count = i;
           i++;
         }
@@ -137,10 +139,10 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         // (item[Outtime] !== undefined ? this.datePipe.transform(item[Outtime] , 'hh:mm:ss') : '') + `</td><td>` +
         // (item[RoleName] !== undefined ? item[RoleName] : '') + `</td>`;
 
-         tableBody += `<td>` + 
-         item[TimeIn] + `</td><td>` +
-         item[TimeOut] + `</td><td>` +
-         item[RoleName] + `</td>`;
+        tableBody += `<td>` +
+          item[TimeIn] + `</td><td>` +
+          item[TimeOut] + `</td><td>` +
+          item[RoleName] + `</td>`;
       }
       this.washHours += item.WashHours;
       this.detailHours += item.DetailHours;
@@ -170,12 +172,12 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         if (this.dailyStatusReport.length > 0) {
           this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
-          
+
           this.washTotal = this.calculateTotal(this.washes, 'wash');
           this.detailTotal = this.calculateTotal(this.details, 'detail');
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -205,10 +207,10 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         if (this.dailyStatusReport.length > 0) {
           this.washes = this.dailyStatusReport.filter(item => item.JobType === 'Wash');
           this.details = this.dailyStatusReport.filter(item => item.JobType === 'Detail');
-         
+
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -227,16 +229,14 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         const dailyStatusDetailInfo = JSON.parse(data.resultData);
         this.dailyStatusDetailInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusDetailInfo;
-       this.dailyStatusWashInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusWashInfo
+        this.dailyStatusWashInfo = dailyStatusDetailInfo?.GetDailyStatusReport?.DailyStatusWashInfo;
         this.detailInfoTotal = this.calculateTotal(this.dailyStatusDetailInfo, 'detailInfo');
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
       }
     }, (err) => {
       this.spinner.hide();
@@ -267,77 +267,77 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     switch (fileType) {
       case 1: {
         this.excelService.exportAsPDFFile('dailyStatusReport', 'DailyStatusReport_' +
-        moment(this.date).format('MM/dd/yyyy') + '_' + locationName + '.pdf');
+          moment(this.date).format('MM/dd/yyyy') + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
-        let excelWashReport : any = [];
-      
-          if(this.washes.length > 0){
-            for(let i = 0; i < this.washes.length; i ++){
-              excelWashReport.push({
+        let excelWashReport: any = [];
+
+        if (this.washes.length > 0) {
+          for (let i = 0; i < this.washes.length; i++) {
+            excelWashReport.push({
               'Number': this.washes[i].Number,
               'ServiceName': this.washes[i].ServiceName,
-              'JobType' : this.washes[i].JobType
+              'JobType': this.washes[i].JobType
             })
-            }
           }
-          let excelDetailReport : any = [];
-      
-          if(this.details.length > 0){
-            for(let i = 0; i < this.details.length; i ++){
-              excelDetailReport.push({
+        }
+        let excelDetailReport: any = [];
+
+        if (this.details.length > 0) {
+          for (let i = 0; i < this.details.length; i++) {
+            excelDetailReport.push({
               'Number': this.details[i].Number,
               'ServiceName': this.details[i].ServiceName,
-              'JobType' : this.details[i].JobType
+              'JobType': this.details[i].JobType
             })
-            }
           }
-          let employeeExportDetail : any = [];
+        }
+        let employeeExportDetail: any = [];
 
-          if(this.clockDetail.length > 0){
-            for(let i = 0; i < this.clockDetail.length; i ++){
-              employeeExportDetail.push({
+        if (this.clockDetail.length > 0) {
+          for (let i = 0; i < this.clockDetail.length; i++) {
+            employeeExportDetail.push({
               'Employee Name': this.clockDetail[i].EmployeeName,
               'Wash Hours': this.clockDetail[i].WashHours,
-              'Detail Hours' : this.clockDetail[i].DetailHours,
+              'Detail Hours': this.clockDetail[i].DetailHours,
               'Total Hours': this.clockDetail[i].WashHours + this.clockDetail[i].DetailHours,
-              'In': this.clockDetail[i].Intime1 ? this.datePipe.transform( this.clockDetail[i].Intime1, 'hh:mm:ss') : '' ,
-              'Out' :this.clockDetail[i].Outtime1 ? this.datePipe.transform( this.clockDetail[i].Outtime1, 'hh:mm:ss'): '' ,
-              'Role' : this.clockDetail[i].RoleName1,
+              'In': this.clockDetail[i].Intime1 ? this.datePipe.transform(this.clockDetail[i].Intime1, 'hh:mm:ss') : '',
+              'Out': this.clockDetail[i].Outtime1 ? this.datePipe.transform(this.clockDetail[i].Outtime1, 'hh:mm:ss') : '',
+              'Role': this.clockDetail[i].RoleName1,
 
 
             })
             console.log(employeeExportDetail, 'export')
-            }
           }
-      
-      
+        }
+
+
         this.excelService.exportAsCSVFile(excelWashReport, 'DailyWashStatusReport_' +
-        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+          moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
         this.excelService.exportAsCSVFile(excelDetailReport, 'DailyDetailStatusReport_' +
-        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+          moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
         this.excelService.exportAsCSVFile(employeeExportDetail, 'DailyEmployeeClockDetailsReport_' +
-        moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
+          moment(this.date).format('MM/DD/YYYY') + '_' + locationName);
 
         break;
       }
       case 3: {
-         const obj = {
+        const obj = {
           locationId: +this.locationId,
           date: moment(this.date).format('YYYY-MM-DD'),
-          cashRegisterType : "CLOSEOUT"
+          cashRegisterType: "CLOSEOUT"
 
         };
-        this.reportService.getDailyStatusExcelReport(obj).subscribe(data =>{
-          if(data){
+        this.reportService.getDailyStatusExcelReport(obj).subscribe(data => {
+          if (data) {
             this.download(data, 'excel', 'Daily Status Report');
-           
 
-            return data; 
-               }
-      })
-      
+
+            return data;
+          }
+        })
+
         break;
       }
       default: {
@@ -347,7 +347,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     $('#printReport').hide();
   }
 
-  download(data: any, type, fileName = 'Excel'){
+  download(data: any, type, fileName = 'Excel') {
     let format: string;
     format = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     let a: HTMLAnchorElement;
@@ -362,7 +362,17 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   preview() {
     this.getDailyStatusReport();
     this.getDailyStatusWashReport();
+    this.getDailyStatusDetailInfo();
+    this.getClockDetail();
+  }
 
+  refresh() {
+    this.locationId = localStorage.getItem('empLocationId');
+    this.date = new Date();
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')
+    this.exportFiletypeComponent.type = '';
+    this.getDailyStatusReport();
+    this.getDailyStatusWashReport();
     this.getDailyStatusDetailInfo();
     this.getClockDetail();
   }

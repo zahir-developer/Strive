@@ -11,6 +11,7 @@ import html2canvas from 'html2canvas';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 declare var $: any;
 @Component({
   selector: 'app-hourly-wash',
@@ -19,6 +20,7 @@ declare var $: any;
 })
 export class HourlyWashComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
   locationId: any;
   fileType: number;
   todayDate = new Date();
@@ -90,6 +92,10 @@ export class HourlyWashComponent implements OnInit {
   }
 
   refesh() {
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.locationDropdownComponent.locationId = this.locationId;
+    this.exportFiletypeComponent.type = '';
+    this.weeklyDateAssign();
     this.viewHourlyReport();
   }
 

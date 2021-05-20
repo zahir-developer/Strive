@@ -151,7 +151,7 @@ export class CreateEditWashesComponent implements OnInit {
         }
       }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      })
+      });
     }
 
     this.getWashTimeByLocationID();
@@ -233,7 +233,7 @@ export class CreateEditWashesComponent implements OnInit {
       if (data.status === 'Success') {
         const pastNote = JSON.parse(data.resultData);
         if (pastNote.PastClientNotesByClientId.length > 0) {
-          const pastClientNotes = pastNote.PastClientNotesByClientId[0]?.Notes
+          const pastClientNotes = pastNote.PastClientNotesByClientId[0]?.Notes;
           if (pastClientNotes) {
             this.washForm.controls.pastNotes.disable();
 

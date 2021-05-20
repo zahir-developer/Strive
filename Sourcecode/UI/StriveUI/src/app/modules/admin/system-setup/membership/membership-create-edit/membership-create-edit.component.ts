@@ -95,7 +95,7 @@ export class MembershipCreateEditComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }
-    ,  
+    ,
     (err) => {
   this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });

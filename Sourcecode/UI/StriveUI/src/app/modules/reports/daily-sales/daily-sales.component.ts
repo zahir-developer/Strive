@@ -7,6 +7,8 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 @Component({
   selector: 'app-daily-sales',
   templateUrl: './daily-sales.component.html',
@@ -14,6 +16,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DailySalesComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
   bsConfig: Partial<BsDatepickerConfig>;
   maxDate = new Date();
   locationId: any;
@@ -34,7 +38,7 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     this.getDailySalesReport();
   }
   ngAfterViewInit() {
-    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false  });
+    this.bsConfig = Object.assign({}, { maxDate: this.maxDate, dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false });
     this.datepicker.setConfig();
     this.cd.detectChanges();
   }
@@ -47,17 +51,14 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
     this.reportService.getDailySalesReport(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         const sales = JSON.parse(data.resultData);
         this.dailySalesReport = sales.GetDailySalesReport;
-        
         if (this.dailySalesReport.length === 0) {
           this.isTableEmpty = true;
-          
         } else {
           if (this.dailySalesReport?.length > 0) {
             for (let i = 0; i < this.dailySalesReport.length; i++) {
-              this.dailySalesReport[i].Model == 'None' ? this.dailySalesReport[i].Model =  'Unk' : this.dailySalesReport[i].Model ;
+              this.dailySalesReport[i].Model == 'None' ? this.dailySalesReport[i].Model = 'Unk' : this.dailySalesReport[i].Model;
             }
           }
           this.collectionSize = Math.ceil(this.dailySalesReport.length / this.pageSize) * 10;
@@ -107,13 +108,21 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  
+
   onValueChange(event) {
     let selectedDate = event;
     if (selectedDate !== null) {
       selectedDate = moment(event.toISOString()).format('MM/DD/YYYY');
       this.date = selectedDate;
     }
+    this.getDailySalesReport();
+  }
+
+  refresh() {
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.date = moment(new Date()).format('MM/DD/YYYY');
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')
+    this.exportFiletypeComponent.type = '';
     this.getDailySalesReport();
   }
 }

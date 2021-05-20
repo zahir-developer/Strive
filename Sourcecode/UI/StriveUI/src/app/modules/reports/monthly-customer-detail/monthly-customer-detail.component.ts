@@ -9,6 +9,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
+import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
+import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
 @Component({
   selector: 'app-monthly-customer-detail',
   templateUrl: './monthly-customer-detail.component.html',
@@ -17,6 +20,9 @@ import { ToastrService } from 'ngx-toastr';
 export class MonthlyCustomerDetailComponent implements OnInit {
   locationId: any;
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
+  @ViewChild(YearPickerComponent) yearPickerComponent: YearPickerComponent;
+  @ViewChild(MonthPickerComponent) monthPickerComponent: MonthPickerComponent;
   date = new Date();
   month: number;
   year: number;
@@ -27,8 +33,8 @@ export class MonthlyCustomerDetailComponent implements OnInit {
   fileType: number;
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private datePipe: DatePipe,
-    private toastr : ToastrService,
-              private excelService: ExcelService, private spinner: NgxSpinnerService) { }
+    private toastr: ToastrService,
+    private excelService: ExcelService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
@@ -67,7 +73,6 @@ export class MonthlyCustomerDetailComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
     });
-    
   }
   customizeObject() {
     if (this.customerDetailReport.length > 0) {
@@ -90,13 +95,13 @@ export class MonthlyCustomerDetailComponent implements OnInit {
       userData.forEach((o, index) => {
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
           '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + (o.MemberShipName !== '' ?
-          ('Membership - ' + o.MemberShipName) : 'DriveUp')  +
+            ('Membership - ' + o.MemberShipName) : 'DriveUp') +
           '</td><td>' + o.MembershipPrice.toFixed(2) + '</td><td>' + o.TicketAmount.toFixed(2) + '</td></tr>';
         total += o.TicketAmount;
         wash += index;
       });
       tableStr += '<tr><th>Washes</th><td>' + (wash + 1) + '</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>'
-      + total.toFixed(2) +'</th><th> Difference : 10</th></tr>';
+        + total.toFixed(2) + '</th><th> Difference : 10</th></tr>';
     });
     $('#customerDetail tbody').html(tableStr);
   }
@@ -114,6 +119,18 @@ export class MonthlyCustomerDetailComponent implements OnInit {
   onLocationChange(event) {
     this.locationId = +event;
   }
+
+  refresh() {
+    this.date = new Date();
+    this.setCurrentMonth();
+    this.locationId = +localStorage.getItem('empLocationId');
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId');
+    this.exportFiletypeComponent.type = '';
+    this.yearPickerComponent.getYear();
+    this.monthPickerComponent.getMonth();
+    this.getCustomerMonthlyDetailReport();
+  }
+
   export() {
     const fileType = this.fileType !== undefined ? this.fileType : '';
     const locationName = this.locationDropdownComponent.locationName;
@@ -124,7 +141,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
     }
     switch (fileType) {
       case 1: {
-        this.excelService.exportAsPDFFile('custDetailExport', 'customerDetailReport_' + this.selectedDate  +  '_' + locationName + '.pdf');
+        this.excelService.exportAsPDFFile('custDetailExport', 'customerDetailReport_' + this.selectedDate + '_' + locationName + '.pdf');
         break;
       }
       case 2: {
@@ -144,20 +161,20 @@ export class MonthlyCustomerDetailComponent implements OnInit {
   }
   customizeObj(customerDetailReport) {
     if (customerDetailReport.length > 0) {
-const customerDetail = customerDetailReport.map(item => {
-  return {
-    ClientName: item.ClientName,
-    TicketNumber: item.TicketNumber,
-    Color: item.Color,
-    Model: item.Model,
-    Date: item.JobDate,
-    MembershipOrDrive: item.MemberShipName !== '' ? item.MemberShipName: 'DriveUp',
-    MembershipID: item.MemberShipId,
-    MembershipAmount: item.MembershipPrice,
-    TicketAmount: item.TicketAmount
-  };
-});
-return customerDetail;
+      const customerDetail = customerDetailReport.map(item => {
+        return {
+          ClientName: item.ClientName,
+          TicketNumber: item.TicketNumber,
+          Color: item.Color,
+          Model: item.Model,
+          Date: item.JobDate,
+          MembershipOrDrive: item.MemberShipName !== '' ? item.MemberShipName : 'DriveUp',
+          MembershipID: item.MemberShipId,
+          MembershipAmount: item.MembershipPrice,
+          TicketAmount: item.TicketAmount
+        };
+      });
+      return customerDetail;
     }
   }
 }
