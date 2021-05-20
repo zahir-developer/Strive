@@ -35,6 +35,7 @@ namespace Strive.Common
 
         string VehicleImageFolder { get; set; }
         string ApplicationUrl { get; set; }
+        string MobileUrl { get; set; }
 
 
         #region CardConnect
@@ -75,7 +76,7 @@ namespace Strive.Common
         public string EmployeeId { get; set; }
         public string SchemaName { get; set; }
         public string DocumentUploadFolder { get; set; }
-        public string DocumentFormat{ get; set; }
+        public string DocumentFormat { get; set; }
         public string ProductImageFolder { get; set; }
         public string ProductImageFormat { get; set; }
         public int ImageThumbHeight { get; set; }
@@ -93,6 +94,7 @@ namespace Strive.Common
 
         public string VehicleImageFolder { get; set; }
         public string ApplicationUrl { get; set; }
+        public string MobileUrl { get; set; }
 
         #region
 

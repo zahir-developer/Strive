@@ -150,7 +150,8 @@ namespace Admin.API.Filters
             _tenant.MID = Pick("CardConnect", "MID");
 
             //Applicationurl
-            _tenant.ApplicationUrl = Pick("ApplicationUr", "Url");
+            _tenant.ApplicationUrl = Pick("ApplicationUrl", "Url");
+            _tenant.MobileUrl = Pick("ApplicationUrl", "MobileUrl");
         }
     }
 }
