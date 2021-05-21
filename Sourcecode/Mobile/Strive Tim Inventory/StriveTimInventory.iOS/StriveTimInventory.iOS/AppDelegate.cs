@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using MvvmCross.Platforms.Ios.Core;
+using ObjCRuntime;
 using StriveTimInventory.iOS.MvvmCross;
 using UIKit;
 
@@ -11,6 +12,7 @@ namespace StriveTimInventory.iOS
     public class AppDelegate : MvxApplicationDelegate<Setup, App>
     {
         // class-level declarations
+        public bool allowRotation = true;
 
         public override UIWindow Window
         {
@@ -55,6 +57,19 @@ namespace StriveTimInventory.iOS
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, [Transient] UIWindow forWindow)
+        {
+            if (allowRotation == true)
+            {
+                return UIInterfaceOrientationMask.Portrait;
+            }
+
+            else
+            {
+                return UIInterfaceOrientationMask.Landscape;
+            }
         }
     }
 }
