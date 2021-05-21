@@ -94,6 +94,10 @@ namespace StriveTimInventory.iOS.Views
             return true;
         }
 
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
+        {
+            return UIInterfaceOrientationMask.Portrait;
+        }
 
         //public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
         //{
