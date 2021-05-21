@@ -1317,10 +1317,10 @@ export class SalesComponent implements OnInit {
     this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
         this.validGiftcard = JSON.parse(data.resultData);
-        if (this.validGiftcard?.GiftCardDetail[0]?.GiftCardId === 0) {
-          this.isInvalidGiftcard = true;
-        } else {
+        if (this.validGiftcard?.GiftCardDetail[0]?.GiftCardId !== null) {
           this.isInvalidGiftcard = false;
+        } else {
+          this.isInvalidGiftcard = true;
         }
       }
     });
