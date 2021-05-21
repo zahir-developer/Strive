@@ -92,7 +92,7 @@ namespace Strive.BusinessLogic
                         string emprole = string.Empty;
                         foreach (var empRole in employeeLocationRole.EmployeeRoles)
                         {
-                            emprole += empRole.RoleName + ", ";
+                            emprole += empRole.RoleName + ",";
                         }
                         char[] comma = { ',' };
                         emprole = emprole.TrimEnd(comma);
@@ -106,107 +106,113 @@ namespace Strive.BusinessLogic
 
                     //Send Email to Manager
                     {
+
+                        char[] charToTrim = { ',' };
+                        string id = string.Empty;
                         foreach (var item in employee.EmployeeLocation)
                         {
-                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(item.LocationId);
-
-                            string emailList = string.Empty;
-                            foreach (var email in emailId)
-                            {
-                                //    emailList += email.Email + ", ";
-                                //}
-                                //List<String> listEmail = emailList.Split(',').ToList();
-                                string sub = "New Employee Info!";
-                                Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
-                                keyValues1.Add("{{Manager/Operator}}", email.FirstName);
-                                keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
-                                string location = string.Empty;
-                                foreach (var empLoc in employeeLocationRole.EmployeeLocations)
-                                {
-                                    location += empLoc.LocationName + ", ";
-                                }
-                                char[] charsToTrim = { ',' };
-                                location = location.TrimEnd(charsToTrim);
-                                keyValues1.Add("{{locationList}}", location);
-                                string role = string.Empty;
-                                foreach (var empRole in employeeLocationRole.EmployeeRoles)
-                                {
-                                    role += empRole.RoleName + ", ";
-                                }
-                                char[] charToTrim = { ',' };
-                                role = role.TrimEnd(charToTrim);
-                                keyValues1.Add("{{roleList}}", role);
-                                commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, email.Email, keyValues1, sub);
-                            }
-
+                            id += item.LocationId + ",";
                         }
+                        
+                        id = id.TrimEnd(charToTrim);
+                        var emailId = new CommonRal(_tenant).GetEmailIdByRole(id);
 
-
-                        success = true;
+                        string emailList = string.Empty;
+                        foreach (var email in emailId)
+                        {
+                            emailList += email.Email + ",";
+                        }
+                        emailList = emailList.TrimEnd(charToTrim);
+                        string sub = "New Employee Info!";
+                        Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
+                        //keyValues1.Add("{{Manager/Operator}}", email.FirstName);
+                        keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
+                        string location = string.Empty;
+                        foreach (var empLoc in employeeLocationRole.EmployeeLocations)
+                        {
+                            location += empLoc.LocationName + ",";
+                        }
+                       
+                        location = location.TrimEnd(charToTrim);
+                        keyValues1.Add("{{locationList}}", location);
+                        string role = string.Empty;
+                        foreach (var empRole in employeeLocationRole.EmployeeRoles)
+                        {
+                            role += empRole.RoleName + ",";
+                        }
+                        role = role.TrimEnd(charToTrim);
+                        keyValues1.Add("{{roleList}}", role);
+                        commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, emailList, keyValues1, sub);
                     }
-                }
 
-                else if (createLogin.authId > 0)
-                {
-                    //Delete AuthMaster record from AuthDatabase
-                    commonBpl.DeleteUser(createLogin.authId);
-                }
+                
+
+
+                success = true;
 
             }
+
+            else if (createLogin.authId > 0)
+            {
+                //Delete AuthMaster record from AuthDatabase
+                commonBpl.DeleteUser(createLogin.authId);
+            }
+
+        }
 
             return ResultWrap(success, "Status");
-        }
-
-        public Result UpdateEmployee(EmployeeModel employee)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).UpdateEmployee, employee, "Status");
-        }
-
-        public Result DeleteEmployeeDetails(int employeeId)
-        {
-            try
-            {
-                return ResultWrap(new EmployeeRal(_tenant).DeleteEmployeeDetails, employeeId, "Status");
-            }
-            catch (Exception ex)
-            {
-                _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
-            }
-            return _result;
-        }
-
-        public Result GetEmployeeList()
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeList, "EmployeeList");
-        }
-
-        public Result GetAllEmployeeDetail(SearchDto searchDto)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeDetail, searchDto, "EmployeeList");
-        }
-
-        public Result GetEmployeeById(int employeeId)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeById, employeeId, "Employee");
-        }
-
-        public Result GetAllEmployeeRoles()
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles, "EmployeeRoles");
-        }
-
-        public Result GetEmployeeRoleById(int employeeId)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeRoleById, employeeId, "EmployeeRole");
-        }
-        public Result GetAllEmployeeName(int id)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeName, id, "EmployeeName");
-        }
-        public Result GetEmployeeHourlyRateById(int employeeId)
-        {
-            return ResultWrap(new EmployeeRal(_tenant).GetEmployeeHourlyRateById, employeeId, "Employee");
-        }
-
     }
+
+    public Result UpdateEmployee(EmployeeModel employee)
+    {
+        return ResultWrap(new EmployeeRal(_tenant).UpdateEmployee, employee, "Status");
+    }
+
+    public Result DeleteEmployeeDetails(int employeeId)
+    {
+        try
+        {
+            return ResultWrap(new EmployeeRal(_tenant).DeleteEmployeeDetails, employeeId, "Status");
+        }
+        catch (Exception ex)
+        {
+            _result = Helper.BindFailedResult(ex, HttpStatusCode.Forbidden);
+        }
+        return _result;
+    }
+
+    public Result GetEmployeeList()
+    {
+        return ResultWrap(new EmployeeRal(_tenant).GetEmployeeList, "EmployeeList");
+    }
+
+    public Result GetAllEmployeeDetail(SearchDto searchDto)
+    {
+        return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeDetail, searchDto, "EmployeeList");
+    }
+
+    public Result GetEmployeeById(int employeeId)
+    {
+        return ResultWrap(new EmployeeRal(_tenant).GetEmployeeById, employeeId, "Employee");
+    }
+
+    public Result GetAllEmployeeRoles()
+    {
+        return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeRoles, "EmployeeRoles");
+    }
+
+    public Result GetEmployeeRoleById(int employeeId)
+    {
+        return ResultWrap(new EmployeeRal(_tenant).GetEmployeeRoleById, employeeId, "EmployeeRole");
+    }
+    public Result GetAllEmployeeName(int id)
+    {
+        return ResultWrap(new EmployeeRal(_tenant).GetAllEmployeeName, id, "EmployeeName");
+    }
+    public Result GetEmployeeHourlyRateById(int employeeId)
+    {
+        return ResultWrap(new EmployeeRal(_tenant).GetEmployeeHourlyRateById, employeeId, "Employee");
+    }
+
+}
 }
