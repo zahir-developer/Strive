@@ -96,6 +96,8 @@
     <Folder Include="Scripts\Insert\Vehicle_Make_Model_Type" />
     <Folder Include="Scripts\Insert\State_City" />
     <Folder Include="Scripts\Data\" />
+    <Folder Include="Scripts\Data\VehicleMakeModel" />
+    <Folder Include="Scripts\Data\CodeValue" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StriveCarSalon\Tables\tblJobPaymentCreditCard.sql" />
@@ -466,6 +468,16 @@
     <Build Include="Scripts\Data\VehicleMake-model\VehicleModel%28imported).sql" />
     <Build Include="Scripts\Data\VehicleMake-model\VehicleType.sql" />
     <Build Include="Scripts\Data\VehicleMake-model\Model%28Unk).sql" />
+    <Build Include="Scripts\Data\VehicleMakeModel\1.VehicleType.sql" />
+    <Build Include="Scripts\Data\VehicleMakeModel\2.VehicelMake.sql" />
+    <Build Include="Scripts\Data\VehicleMakeModel\3.Model%28Unk).sql" />
+    <Build Include="Scripts\Data\VehicleMakeModel\4.VehicelModel%28domestic).sql" />
+    <Build Include="Scripts\Data\VehicleMakeModel\5.VehicleModel%28imported).sql" />
+    <Build Include="Scripts\Data\CodeValue\tblCodeCategoryAndValue.sql" />
+    <Build Include="Scripts\Data\RolePermission\4.Cashier.sql" />
+    <Build Include="Scripts\Data\RolePermission\6.Greeter.sql" />
+    <Build Include="Scripts\Data\RolePermission\7.Manager.sql" />
+    <Build Include="Scripts\Data\RolePermission\5.Detailer,Washer.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
