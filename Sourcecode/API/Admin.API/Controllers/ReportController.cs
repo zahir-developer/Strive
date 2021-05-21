@@ -315,8 +315,8 @@ namespace Admin.API.Controllers
                 worksheet2.Cell(currentRow, 8).Value = "InTime";
                 worksheet2.Cell(currentRow, 9).Value = "OutTime";
                 worksheet2.Cell(currentRow, 10).Value = "Total Hours";
-                worksheet2.Cell(currentRow, 11).Value = "EventType";
-                worksheet2.Cell(currentRow, 12).Value = "Status";
+                //worksheet2.Cell(currentRow, 11).Value = "EventType";
+                worksheet2.Cell(currentRow, 11).Value = "Status";
                 if (statusResult.EmployeeTimeClock.TimeClockEmployeeDetails != null)
                 {
                     foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockDetails)
@@ -332,8 +332,8 @@ namespace Admin.API.Controllers
                         worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.InTime;
                         worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.OutTime;
                         worksheet2.Cell(currentRow, 10).Value = employeeTimeClock.TotalHours;
-                        worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
-                        worksheet2.Cell(currentRow, 12).Value = employeeTimeClock.Status;
+                        //worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
+                        worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.Status;
                     }
                 }
                 var worksheet4 = workbook.Worksheets.Add("Daily Status Info");
