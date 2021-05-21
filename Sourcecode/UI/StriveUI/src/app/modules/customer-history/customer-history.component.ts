@@ -120,11 +120,6 @@ export class CustomerHistoryComponent implements OnInit {
       toDate.setMonth(month);
       const lastDate = moment(new Date(this.year, month + 1, 0)).format('DD');
       toDate.setDate(+lastDate);
-      if (this.isDriveup) {
-        this.searchQery = 'Drive up';
-      } else {
-        this.searchQery = '';
-      }
       finalObj = {
         locationId: +this.locationId, // 2053, // +this.locationId,
         fromDate: moment(fromDate).format('yyyy-MM-DD'),

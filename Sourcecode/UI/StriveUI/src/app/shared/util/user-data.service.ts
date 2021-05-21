@@ -90,7 +90,7 @@ export class UserDataService {
       localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);
 
       localStorage.setItem('empRoles', token.ClientDetails.RolePermissionViewModel[0].RoleName);
-
+      localStorage.setItem('isAuthenticated', 'true');
     }
 
     this.authenticateObservableService.setIsAuthenticate(this.isAuthenticated);
