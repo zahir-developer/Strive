@@ -110,9 +110,12 @@ namespace Strive.BusinessLogic
                         {
                             var emailId = new CommonRal(_tenant).GetEmailIdByRole(item.LocationId);
 
-
+                            string emailList = string.Empty;
                             foreach (var email in emailId)
                             {
+                                //    emailList += email.Email + ", ";
+                                //}
+                                //List<String> listEmail = emailList.Split(',').ToList();
                                 string sub = "New Employee Info!";
                                 Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
                                 keyValues1.Add("{{Manager/Operator}}", email.FirstName);
@@ -135,6 +138,7 @@ namespace Strive.BusinessLogic
                                 keyValues1.Add("{{roleList}}", role);
                                 commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, email.Email, keyValues1, sub);
                             }
+
                         }
 
 
