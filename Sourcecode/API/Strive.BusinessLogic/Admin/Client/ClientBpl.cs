@@ -82,6 +82,7 @@ namespace Strive.BusinessLogic
                                 keyValues.Add("{{password}}",clientLogin.password);
                                 keyValues.Add("{{employeeName}}", client.Client.FirstName);
                                 keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
 
                                 comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues,subject);
                                // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
