@@ -241,7 +241,7 @@ export class EditEmployeeComponent implements OnInit {
       this.selectedRole = employee.EmployeeRoles;
       this.employeeRole = employee.EmployeeRoles?.map(item => {
         return {
-          item_id: item.Roleid,
+          item_id: item.RoleId,
           item_text: item.RoleName
         };
       });
@@ -255,7 +255,7 @@ export class EditEmployeeComponent implements OnInit {
       });
       this.locationList = this.employeeLocation.map(x => Object.assign({}, x));
     }
-
+    
     if (employee.EmployeeHourlyRate !== null) {
       const locationHourlyWash = [];
       employee.EmployeeHourlyRate.forEach(item => {
@@ -349,7 +349,7 @@ export class EditEmployeeComponent implements OnInit {
 
   getLocation() {
     this.employeeService.getLocation().subscribe(res => {
-      if (res.status === 'Success') {
+      if (res.status === 'Success') { 
         const location = JSON.parse(res.resultData);
         this.location = location.Location;
         this.location = this.location.map(item => {
@@ -494,7 +494,7 @@ export class EditEmployeeComponent implements OnInit {
     };
     const newlyAddedRole = [];
     this.emplistform.value.roles.forEach(item => {
-      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      const isData = _.where(this.selectedRole, { RoleId: item.item_id });
       if (isData.length === 0) {
         newlyAddedRole.push({
           employeeRoleId: 0,
@@ -514,7 +514,7 @@ export class EditEmployeeComponent implements OnInit {
       }
     });
     this.deSelectRole.forEach(item => {
-      const isData = _.where(this.selectedRole, { Roleid: item.item_id });
+      const isData = _.where(this.selectedRole, { RoleId: item.item_id });
       if (isData.length !== 0) {
         newlyAddedRole.push({
           employeeRoleId: isData[0].EmployeeRoleId,
