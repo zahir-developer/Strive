@@ -2,9 +2,9 @@ export const MessageConfig = {
 
 
    CommunicationError: 'Communication Error !',
-   Mandatory: 'Please Enter Mandatory fields',
-   TicketNumber: 'Ticket Number is Empty',
-   locationError: 'No location assigned, Pls contact Administrator..!',
+   Mandatory: 'Please enter required fields',
+   TicketNumber: 'Ticket Number is invalid',
+   locationError: 'No location assigned, Please contact Administrator ',
    Reset: 'Reset Successfully !',
    save: 'Saved Successfully !',
 
@@ -13,9 +13,9 @@ export const MessageConfig = {
       Add: 'Schedule added successfully !',
       Update: 'Schedule updated successfully !',
       save: 'Schedule Saved Successfully!',
-      pastDates: 'New schedule is not allowed for passed dates.',
-      schedulePassDate: 'Schedule can not be added for Past Date/Time.',
-      passedDateTime: 'Past Date  Should not allow to Schedule',
+      pastDates: 'New schedule is not allowed for past dates.',
+      schedulePassDate: 'Schedule cannot be added for Past Date/Time.',
+      passedDateTime: 'Schedule cannot be created for past dates',
       sameTime: 'Can not able to schedule at the same time'
    },
    Employee:
@@ -24,10 +24,10 @@ export const MessageConfig = {
       Update: 'Employee updated successfully !',
       Delete: 'Employee deleted successfully !',
       saved: 'Employee saved successfully !',
-      role: 'Current role in location cannot be removed',
-      location: 'Current logged in location cannot be removed',
-      hourlyRate: 'Hourly Rate value should not be 0',
-      hourlyEmployeeLocation: 'Please select hoirly wash rate location'
+      role: 'Currently loggedIn Role cannot be removed',
+      location: 'You are currently logged in to this location and the same cannot be unassigned.',
+      hourlyRate: 'Hourly Rate should not be 0',
+      hourlyEmployeeLocation: 'Please select hourly wash rate location.'
    },
    Customer:
    {
@@ -39,33 +39,33 @@ export const MessageConfig = {
       Delete: 'Collision deleted successfully !',
    },
    Document: {
-      fileRequired: 'Please Choose file to upload',
+      fileRequired: 'Please select a file to upload',
       Add: 'Document added successfully !',
-      upload: 'Document upload successfully !',
-      fileSize: 'Maximum File Size is 10MB',
+      upload: 'Document uploaded successfully !',
+      fileSize: 'Please upload a file of size less than 10 MB',
       Delete: 'Document deleted successfully !'
    },
    Wash:
    {
-      Add: 'Wash added successfully !',
-      Update: 'Wash updated successfully !',
-      Delete: 'Wash deleted successfully !',
-      type: 'Please select valid type',
-      model: 'Please select valid model',
-      color: 'Please select valid color'
+      Add: 'Wash Ticket added successfully !',
+      Update: 'Wash Ticket updated successfully !',
+      Delete: 'Wash  Ticket deleted successfully !',
+      type: 'Please select a valid type',
+      model: 'Please select a valid model',
+      color: 'Please select a valid color'
    },
    Detail:
    {
-      Add: 'Detail added successfully !',
-      Update: 'Detail updated successfully !',
-      Delete: 'Detail deleted successfully !',
-      BarCode: 'Please enter Barcode',
+      Add: 'Detail Ticket added successfully !',
+      Update: 'Detail Ticket updated successfully !',
+      Delete: 'Detail Ticket deleted successfully !',
+      BarCode: 'Please enter the Barcode',
       InvalidBarCode: 'Invalid BarCode'
    },
    Client:
    {
-      clientExist: 'First name, Last name, Phone number combination already exist',
-      emailExist: 'Client Email Already Exist',
+      clientExist: 'Client with the same First Name, Last Name & Phone # already exists!',
+      emailExist: 'Client Email already exists',
       Add: 'Client added successfully !',
       Update: 'Client updated successfully !',
       Delete: 'Client deleted successfully !'
@@ -75,57 +75,56 @@ export const MessageConfig = {
       Add: 'Item added successfully !',
       Update: 'Item updated successfully !',
       UpdateGiftCrd: 'Sales Gift Card Saved successfully !',
-      Delete: 'Sales deleted successfully !',
-      Ticket: 'Ticket Already Added',
-      InvalidTicket: 'Invalid Ticket',
+      Delete: 'Sales Ticket deleted successfully !',
+      Ticket: 'Ticket already exists !', 
+      InvalidTicket: 'Invalid Ticket No.',
       ItemDelete: 'Item deleted successfully',
       quantity: 'Please enter quantity',
-      validItem: 'Please enter valid ItemName',
-      creditAmount: 'Credit amount exceeds the balance amount!',
+      validItem: 'Please enter valid Item name',
+      creditAmount: 'Credit amount exceeds the balance amount',
       duplicate: 'Duplicate Discount',
-      discountExist: 'selected discount already applied!',
-      invalidDiscount: 'Invalid Discount Service & Discount Type',
-      payment: 'Add any cash/credit payment and proceed',
-      total: 'Total paid amount not matching with Total amount.',
-      rollback: 'Rollbacked Successfully',
+      discountExist: 'Discount already applied!',
+      invalidDiscount: 'Invalid Discount Service/Type',
+      payment: 'Add payment method to proceed', 
+      total: 'Total paid amount does not match with Total due amount.',
+      rollback: 'Rollback completed successfully',
       paymentComplete: 'Unable to complete payment, please try again.',
-      jobDelete: 'Job Deleted Successfully',
+      jobDelete: 'Ticket Deleted Successfully',
       paymentSave: 'Payment completed successfully',
       purchasedGiftcard: 'Currently purchased giftcard can\'t be used for payment'
    },
    Messenger: {
-      Message: 'Please enter a message..!!!',
-      empselect: 'Please select am employee',
-      add: 'Group user added successfully..!!!'
+      Message: 'Please enter a message!',
+      empselect: 'Please select an Employee.',
+      add: 'Group user added successfully.'
 
    },
    PayRoll:
    {
-      Add: 'PayRoll added successfully !',
       Update: 'PayRoll updated successfully !',
       Delete: 'PayRoll deleted successfully !',
-      Adjustment: 'Saved Successfully!',
+      Adjustment: 'Adjustment updated successfully !', 
       Process: 'PayRoll Processed successfully !',
       SelectLocation: 'Please select location !'
    },
 
    checkOut:
    {
-      Add: 'CheckOut action successfully !',
-      Hold: 'Hold action successfully !',
-      Complete: 'Completed successfully !',
-      checkoutRestriction: 'Checkout allowed only for completed tickets',
-      unPaidTicket: 'Checkout can be done only for paid tickets.'
+      Add: 'Vehicle has been CheckedOut successfully !',
+      Hold: 'Vehicle is on Hold !',
+      Complete: 'Services have been completed successfully !',
+      checkoutRestriction: 'Only Comleted ticket can be Checkedout !',
+      unPaidTicket: 'Only Paid ticket can be Checkedout !'
    },
    Admin: {
       TimeClock:
       {
          Add: 'Employee added successfully !',
          Update: 'Employee updated successfully !',
-         Delete: 'Employee record deleted successfully !',
+         Delete: 'Employee deleted successfully!',
          sunday: 'Sunday should be the start of the week!',
          weekRange: 'Only one week can be selected!',
-         HourFormat: 'Out Time should be greater than In Time',
+         HourFormat: 'Out-Time should be greater than In-Time',
          sameDay: 'Similar Timing in same Day',
          totalHour: 'Total Hours should not be Zero.',
          totalHourNegative: 'Total Hours should not be negative'
@@ -136,29 +135,29 @@ export const MessageConfig = {
          Update: 'Vehicle updated successfully !',
          Save: 'Vehicle saved successfully !',
          Delete: 'Vehicle deleted successfully !',
-         memberShip: 'Could not Delete the Vehicle due to  Assigned the Membership'
+         memberShip: 'Vehicle cannot be deleted, Vehicle has a active membership.'
       },
 
       GiftCard:
       {
-         GiftCardAlreadyExists: 'Gift Card Already Exists !',
+         GiftCardAlreadyExists: 'Gift Card already exists !',
          Add: 'Gift Card added successfully !',
          Update: 'Gift Card updated successfully !',
          Delete: 'Gift Card deleted successfully !',
-         invalidCard: 'Invalid Card Number',
+         invalidCard: 'Invalid Gift Card Number',
          insuffBalnce: 'Insufficient Balance',
-         ActivityAdd: 'Activity Added Successfully!'
+         ActivityAdd: 'Activity added successfully!'
       },
 
       CashRegister:
       {
          Add: 'Cash Register added successfully !',
-         Update: 'Cash Register Updated Successfully!',
+         Update: 'Cash Register updated successfully!',
       },
       CloseRegister:
       {
-         Add: 'Close Out Register added successfully !',
-         Update: 'Close Out Register Updated Successfully!',
+         Add: 'Close Out Register saved successfully !',
+         Update: 'Close Out Register updated successfully!',
       },
       weather:
       {
@@ -173,8 +172,8 @@ export const MessageConfig = {
             Add: 'Location added successfully !',
             Update: 'Location updated successfully !',
             Delete: 'Location deleted successfully !',
-            Email: 'Maximum 5 EmailId\'s  Only Allowed',
-            InvalidEmail: 'Invalid Email'
+            Email: 'Only five Emailids can be added !',
+            InvalidEmail: 'Please provide valid email !'
          },
          ServiceSetup:
          {
@@ -184,11 +183,11 @@ export const MessageConfig = {
          },
          MemberShipSetup:
          {
-            MemberShipName: 'MembershipName should not be None or Unk',
-            Add: 'MemberShip added successfully !',
-            Update: 'MemberShip updated successfully !',
-            Delete: 'MemberShip deleted successfully !',
-            DeleteRestrict: 'Could not Delete the Membership  Assigned to Vehicle'
+            MemberShipName: 'Membership Name should not be None or Unk',
+            Add: 'Membership added successfully !',
+            Update: 'Membership updated successfully !',
+            Delete: 'Membership deleted successfully !',
+            DeleteRestrict:  'Membership cannot be deleted, it is associated with a vehicle !'
          },
          ProductSetup:
          {
@@ -202,57 +201,57 @@ export const MessageConfig = {
             Update: 'Ad Setup updated successfully !',
             Delete: 'Ad Setup Deleted Successfully !',
             FileType: 'Invalid file type uploaded. ',
-            FileSize: 'Maximum Size 5 MB'
+            FileSize: 'Please upload a file of size less than 5 MB'
          },
          BonusSetup:
          {
             Add: 'Bonus Setup added successfully !',
             Update: 'Bonus Setup updated successfully !',
-            Delete: 'Bonus Setup Deleted Successfully !',
-            washesMsg: 'washes should dislay between max and min value'
+            Delete: 'Bonus Setup deleted successfully !',
+            washesMsg: 'Wash count does not match between the entries(min/max) !'
          },
          CheckList:
          {
             Add: 'Check List added successfully !',
             Update: 'Check List updated successfully !',
-            Delete: 'Check List Deleted Successfully !',
-            roleNameValidation: 'Role Name is Required',
-            CheckListNameValidation: 'Check List Name is Required',
+            Delete: 'Check List deleted successfully !',
+            roleNameValidation: 'Role Name is required',
+            CheckListNameValidation: 'Check List Name is required',
          },
          Deal:
          {
-            Add: 'Deal added successfully !',
+            Add: 'Deal saved successfully !',
             Update: 'Deal updated successfully !',
-            Delete: 'Deal Deleted Successfully !',
-            DealLimit: 'Maximum Deal set up added'
+            Delete: 'Deal deleted Successfully !',
+            DealLimit: 'Only two deals can be added' 
          },
          EmployeeHandBook:
          {
             Add: 'Employee HandBook added successfully !',
             Update: 'Employee HandBook updated successfully !',
-            Delete: 'Employee HandBook Deleted Successfully !',
+            Delete: 'Employee HandBook deleted successfully !',
             nameValidation: '',
-            FileSize: 'Maximum file size is 10 MB',
+            FileSize: 'Please upload a file of size less than 10 MB',
             FileType: 'Invalid file type uploaded. '
          },
          TermsCondition:
          {
-            Add: 'Terms & Condition added successfully !',
-            Update: 'Terms & Condition updated successfully !',
-            Delete: 'Terms & Condition Deleted Successfully !',
+            Add: 'Terms & Conditions document added successfully !',
+            Update: 'Terms & Conditions document updated successfully !',
+            Delete: 'Terms & Conditions document deleted successfully !',
             FileType: 'Invalid file type uploaded ',
-            FileSize: 'Maximum Size 5 MB'
+            FileSize: 'Please upload a file of size less than 5 MB'
          },
          Vendor:
          {
             Add: 'Vendor added successfully !',
             Update: 'Vendor updated successfully !',
-            Delete: 'Vendor Deleted Successfully !',
+            Delete: 'Vendor deleted successfully !',
          },
          TenantSetup: {
-            Add: 'Tenant added successfully !',
+            Add: 'Tenant saved successfully !',
             Update: 'Tenant updated successfully !',
-            Email: 'Email Id Already exists.'
+            Email: 'Email already exists.'
          }
       }
    }
