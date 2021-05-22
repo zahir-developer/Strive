@@ -35,8 +35,7 @@ namespace Strive.BusinessLogic.TimeClock
 
                 if (thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
                 {
-                    
-                    var emailId = new CommonRal(_tenant).GetEmailIdByRole(thresholdHours.LocationId);
+                        var emailId = new CommonRal(_tenant).GetEmailIdByRole(thresholdHours.LocationId.ToString());
                     foreach (var item in emailId)
                     {
                         string subject= "Threshold Work Limit";

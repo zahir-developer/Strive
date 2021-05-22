@@ -22,14 +22,14 @@ namespace Strive.Common
             };
         }
 
-        public static Result BindValidationErrorResult(string errorMessage)
+        public static Result BindValidationErrorResult(string errorMessage, JObject resultContent = null)
         {
-
             return new Result()
             {
-                ErrorMessage = errorMessage,
+                ResultData = JsonConvert.SerializeObject(resultContent),
                 Status = GlobalEnum.Fail.ToString(),
-                StatusCode = HttpStatusCode.BadRequest
+                StatusCode = HttpStatusCode.BadRequest,
+                ErrorMessage = errorMessage,
             };
         }
 

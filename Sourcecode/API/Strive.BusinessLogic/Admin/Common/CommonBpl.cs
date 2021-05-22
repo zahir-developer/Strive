@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -394,6 +395,12 @@ namespace Strive.BusinessLogic.Common
             try
             {
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
+                
+                if(htmlTemplate== HtmlTemplate.NewEmployeeInfo)
+                {
+                    SendMultipleMail(emailId, emailContent, sub);
+                }                
+
                 SendMail(emailId, emailContent, sub);
 
                 //SendMail(emailId, emailContent, "Welcome to Strive !!!");
@@ -435,7 +442,34 @@ namespace Strive.BusinessLogic.Common
             _result = Helper.BindSuccessResult(_resultContent);
             return _result;
         }
+        public void SendMultipleMail(string email, string body, string subject)
+        {
+           
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(_tenant.FromMailAddress); //From Email Id  
+            mailMessage.Subject = subject; //Subject of Email  
+            mailMessage.Body = body; //body or message of Email  
+            mailMessage.IsBodyHtml = true;
 
+            
+            string[] BCCId = email.Split(',');
+            foreach (string BCCEmail in BCCId)
+            {
+                mailMessage.Bcc.Add(new MailAddress(BCCEmail)); //Adding Multiple BCC email Id  
+            }
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();  // creating object of smptpclient  
+            smtp.Host = _tenant.SMTPClient;            
+            NetworkCredential NetworkCred = new NetworkCredential();
+            NetworkCred.UserName = _tenant.FromMailAddress;
+            NetworkCred.Password=_tenant.SMTPPassword ;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = NetworkCred;
+            smtp.EnableSsl = true;
+
+            smtp.Port = _tenant.Port.toInt();
+
+            smtp.Send(mailMessage); //sending Email  
+        }
         public void SendMail(string email, string body, string subject)
         {
             var message = new MimeMessage();
@@ -448,7 +482,7 @@ namespace Strive.BusinessLogic.Common
                 Text = body
             };
 
-            using (var client = new SmtpClient())
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
 
