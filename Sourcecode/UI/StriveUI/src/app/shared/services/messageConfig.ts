@@ -91,7 +91,8 @@ export const MessageConfig = {
       paymentComplete: 'Unable to complete payment, please try again.',
       jobDelete: 'Job Deleted Successfully',
       paymentSave: 'Payment completed successfully',
-      purchasedGiftcard: 'Currently purchased giftcard can\'t be used for payment'
+      purchasedGiftcard: 'Currently purchased giftcard can\'t be used for payment',
+      alreadyAdded: 'GiftCard already added'
    },
    Messenger: {
       Message: 'Please enter a message..!!!',
@@ -147,7 +148,8 @@ export const MessageConfig = {
          Delete: 'Gift Card deleted successfully !',
          invalidCard: 'Invalid Card Number',
          insuffBalnce: 'Insufficient Balance',
-         ActivityAdd: 'Activity Added Successfully!'
+         ActivityAdd: 'Activity Added Successfully!',
+         redeemAmount: 'RedeemAmount amunt is greether than available amount'
       },
 
       CashRegister:

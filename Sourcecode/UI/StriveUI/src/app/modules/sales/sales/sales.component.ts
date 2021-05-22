@@ -313,7 +313,7 @@ export class SalesComponent implements OnInit {
     const alreadyAdded = this.multipleTicketNumber.filter(item => item === this.ticketNumber);
     if (alreadyAdded.length === 0) {
       this.multipleTicketNumber.push(this.ticketNumber);
-      this.printTicketNumber = this.ticketNumber
+      this.printTicketNumber = this.ticketNumber;
       this.ticketNumber = '';
     } else {
       this.ticketNumber = '';
@@ -376,8 +376,6 @@ export class SalesComponent implements OnInit {
             this.isAccount = this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount ||
               this.accountDetails.SalesAccountViewModel?.MembershipId !== null;
           }
-
-
         }
       });
       this.spinner.show();
@@ -396,7 +394,6 @@ export class SalesComponent implements OnInit {
       this.airfreshnerService = [];
       this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
-
           this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
@@ -473,7 +470,6 @@ export class SalesComponent implements OnInit {
         else {
           this.spinner.hide();
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-
         }
       }, (err) => {
         this.enableAdd = false;
@@ -995,6 +991,7 @@ export class SalesComponent implements OnInit {
     if (this.selectedDiscount.length > 0) {
       const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
       if (dup.length > 0) {
+        this.discount = '';
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
         return;
       }
@@ -1009,8 +1006,8 @@ export class SalesComponent implements OnInit {
     for (const i of this.discounts) {
       if (i.ServiceId === +event.target.value) {
         if (i.DiscountServiceType === 0 || i.DiscountServiceType === null) {
-          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount });
           this.discount = '';
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount });
           return;
         } else {
           this.selectedDiscount.push(i);
@@ -1313,6 +1310,18 @@ export class SalesComponent implements OnInit {
         return;
       }
     }
+    if (gNo !== '') {
+      let isAlreadyadded = false;
+      this.giftcards.forEach(item => {
+        if (gNo === item.number) {
+          isAlreadyadded = true;
+        }
+      });
+      if (isAlreadyadded) {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.alreadyAdded });
+        return;
+      }
+    }
 
     this.giftcardService.getBalance(gNo).subscribe(data => {
       if (data.status === 'Success') {
@@ -1335,6 +1344,7 @@ export class SalesComponent implements OnInit {
       if (currentAmount < enteredAmount) {
         this.giftCardForm.patchValue({ giftCardAmount: '' });
         this.balance = 0;
+        this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Admin.GiftCard.redeemAmount });
       } else {
         this.balance = currentAmount - enteredAmount;
       }

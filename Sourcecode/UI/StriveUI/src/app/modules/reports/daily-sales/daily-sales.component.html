@@ -3,7 +3,7 @@
     <div class="date d-inline-block datepicker-view" data-date-format="mm/dd/yyyy">
         <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker"
             (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
-            bsDatepicker  (focus)="dp.show()" [outsideClick]="true"><span class="input-group-addon">
+            bsDatepicker (focus)="dp.show()" [outsideClick]="true"><span class="input-group-addon">
             <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
     </div>
 
@@ -17,7 +17,8 @@
                     <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
                 </div>
                 <div class="col-lg-2 m-t-31">
-                    <button type="button" class="btn theme-primary-button-color" (click)="getDailySalesReport()">View</button>
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="getDailySalesReport()">View</button>
                 </div>
             </div>
             <div class="card m-t-10">
@@ -35,10 +36,10 @@
                                 <div class="d-inline-block">
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color"  [disabled] = "!fileTypeEvent"
+                                <button type="button" class="btn theme-primary-button-color" [disabled]="!fileTypeEvent"
                                     (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="dailySalesReport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="print()">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     (click)="refresh()">Refresh</button>&nbsp;
                             </div>
@@ -60,18 +61,22 @@
                                     <th scope="col">+/- Deviation</th>
 
                                     <th scope="col">Service
-                                        <br>Name</th>
+                                        <br>Name
+                                    </th>
                                     <th scope="col">Service
-                                        <br> Type</th>
+                                        <br> Type
+                                    </th>
                                     <th scope="col">Merchandise
-                                        <br>Items purchased</th>
+                                        <br>Items purchased
+                                    </th>
                                     <th scope="col">Barcode</th>
                                     <th scope="col">Make</th>
 
                                     <th scope="col">Color</th>
                                     <th scope="col">Model</th>
                                     <th scope="col">Customer
-                                        <br> Name</th>
+                                        <br> Name
+                                    </th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Type</th>
@@ -108,8 +113,8 @@
                     </div>
                 </div>
                 <ul class="pagination justify-content-end">
-                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize"
-                        [(page)]="page" [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                    <ngb-pagination *ngIf="collectionSize > 50" [collectionSize]="collectionSize" [(page)]="page"
+                        [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
                         class="d-flex justify-content-end">
                     </ngb-pagination>
                 </ul>
