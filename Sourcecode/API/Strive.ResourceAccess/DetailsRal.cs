@@ -23,7 +23,7 @@ namespace Strive.ResourceAccess
         
         public bool UpdateDetails(DetailsDto details)
         {
-            return dbRepo.UpdatePc(details);
+            return dbRepo.UpdatePc(details, "Job");
         }
         public bool AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {

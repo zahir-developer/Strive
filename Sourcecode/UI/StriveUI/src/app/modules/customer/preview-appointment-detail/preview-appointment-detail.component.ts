@@ -73,7 +73,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       updatedBy: 0
     };
     const baySchedule = {
-      bayScheduleID: 0,
+      bayScheduleId: 0,
       bayId: this.scheduleDetailObj.Slot.BayId,
       jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       scheduleDate: this.datePipe.transform(this.scheduleDetailObj.InTime, 'yyyy-MM-dd'),
