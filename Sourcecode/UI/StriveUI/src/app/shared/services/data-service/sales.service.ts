@@ -63,4 +63,12 @@ export class SalesService {
   getJobType() {
     return this.http.get(`${UrlConfig.details.getJobType}`);
   }
+
+  paymentAuth(obj) {
+    return this.http.post(`${UrlConfig.paymentGateway.paymentAuth}` , obj);
+  }
+
+  paymentCapture(obj) {
+    return this.http.post(`${UrlConfig.paymentGateway.paymentCapture}` , obj);
+  }
 }

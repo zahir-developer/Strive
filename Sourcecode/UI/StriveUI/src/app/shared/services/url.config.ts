@@ -222,7 +222,6 @@ export const UrlConfig = {
     deleteItemById: `Admin/Sales/DeleteItemById`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
     AddCreditCardPayment: `Payment/PaymentGateway/TrasactionWithUserFields`
-
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
@@ -330,5 +329,10 @@ export const UrlConfig = {
     updateTenant: `Admin/Tenant/UpdateTenant`,
     getStateList: `Admin/Tenant/StateList`,
     getCityByStateId: `Admin/Tenant/GetCityByStateId/`
+  },
+
+  paymentGateway: {
+    paymentAuth: `Payroll/PaymentGateway/Auth`,
+    paymentCapture: `Payroll/PaymentGateway/Capture`
   }
 };

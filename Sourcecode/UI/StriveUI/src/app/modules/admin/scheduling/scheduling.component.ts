@@ -261,7 +261,9 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss') === item.start) {
         if (item.extendedProps.employeeId === +this.empId &&
           item.extendedProps.locationId === +this.empLocation) {
-          alreadyScheduled = true;
+          if (!this.scheduleId) {
+            alreadyScheduled = true;
+          }
         }
       }
     });
@@ -374,7 +376,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (res.status === 'Success') {
         const scheduleDetail = JSON.parse(res.resultData);
         this.forecastedList = scheduleDetail.ScheduleForcastedDetail.ForcastedCarEmployeehoursViewModel;
-        this.forecastedList.forEach( item => {
+        this.forecastedList.forEach(item => {
           item.TotalEmployees = 0;
           item.Totalhours = 0;
         });

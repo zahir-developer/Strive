@@ -250,7 +250,7 @@
                                             <div class="form-row p-b-12 p-t-40">
                                                 <div class="form-group col-md-12">
                                                     <select class="form-control" placeholder="Select discount" [(ngModel)]="discount" (change)="discountChange($event)">
-                                                        <option value='' selected hidden>Select a discount</option>
+                                                        <option value="" selected hidden>Select a discount</option>
                                                         <option *ngFor="let discount of discounts"
                                                             value="{{discount.ServiceId}}"> {{discount.ServiceName}}
                                                         </option>
