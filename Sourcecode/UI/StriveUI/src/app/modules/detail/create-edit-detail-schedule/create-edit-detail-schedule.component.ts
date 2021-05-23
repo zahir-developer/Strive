@@ -988,7 +988,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       updatedBy: 0
     };
     const baySchedule = {
-      bayScheduleID: 0,
+      bayScheduleId: 0,
       bayId: this.detailForm.value.bay,
       jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
       scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),

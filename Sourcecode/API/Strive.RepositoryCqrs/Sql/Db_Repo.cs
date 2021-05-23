@@ -518,7 +518,7 @@ namespace Strive.RepositoryCqrs
             return true;
         }
 
-        public bool UpdatePc<T>(T tview)
+        public bool UpdatePc<T>(T tview, string baseTable = null)
         {
 
             SqlServerBootstrap.Initialize();
@@ -526,6 +526,7 @@ namespace Strive.RepositoryCqrs
 
             using (var dbcon = new SqlConnection(cs).EnsureOpen())
             {
+
                 Type type = typeof(T);
                 bool isGeneric = false;
                 int insertId = 0;
@@ -555,7 +556,14 @@ namespace Strive.RepositoryCqrs
                             }
                             else
                             {
-                                insertId = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                               
+                                if (baseTable !=null ? prp.Name == ("BaySchedule")|| prp.Name ==( "JobDetail") : false)
+                                {
+                                    
+                                    var Id = dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                }
+                                else
+                                    insertId = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                             }
                         }
                     }
