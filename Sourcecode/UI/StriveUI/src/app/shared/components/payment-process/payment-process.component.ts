@@ -186,29 +186,12 @@ export class PaymentProcessComponent implements OnInit {
   }
 
   paymentCapture(auth) {
-    const capObj = {
-      authCode: auth.authcode,
-      amount: this.totalAmount.toString(),
-      retRef: auth.retref,
-      invoiceId: {}
+    const obj = {
+      status: true,
+      tipAmount: this.paymentForm.value.tipAmount,
+      authObj: auth
     };
-    this.salesService.paymentCapture(capObj).subscribe( res => {
-      if (res.status === 'Success') {
-        const capture = JSON.parse(res.resultData);
-        this.errorMessage = '';
-        console.log(capture, 'auth');
-        const obj = {
-          status: true,
-          tipAmount: this.paymentForm.value.tipAmount
-        };
-        this.activeModal.close(obj);
-      } else {
-        this.errorMessage = res.errorMessage;
-        this.selectTab(0);
-        this.isBillingpage = false;
-        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: res.errorMessage });
-      }
-    });
+    this.activeModal.close(obj);
   }
 
   getCardType(number) {
