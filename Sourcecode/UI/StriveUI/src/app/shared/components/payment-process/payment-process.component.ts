@@ -76,7 +76,7 @@ export class PaymentProcessComponent implements OnInit {
     });
     this.paymentForm = this.fb.group({
       customerName: [''],
-      tipAmount: ['', Validators.required],
+      tipAmount: [''],
       cardNumber: ['', Validators.required],
       expiryDate: ['', Validators.required],
       ccv: ['', Validators.required],
@@ -114,11 +114,19 @@ export class PaymentProcessComponent implements OnInit {
             email: clientObj.Email,
             phone: clientObj.PhoneNumber
           });
+          this.paymentForm.patchValue({
+            customerName: clientObj.FirstName + '' + clientObj.LastName
+          });
         } else {
           this.isStateLoaded = true;
         }
       }
     });
+  }
+
+  tipAmountAdded() {
+    const tip = this.paymentForm.value.tipAmount ? this.paymentForm.value.tipAmount : 0;
+    this.totalAmount = this.totalAmount + (+tip);
   }
 
   getSelectedStateId(event) {
