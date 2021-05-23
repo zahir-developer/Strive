@@ -110,6 +110,7 @@
                         </div>
                     </div>
                 </form>
+                <p class="text-center text-danger m-t-15">{{errorMessage}}</p>
             </tab>
             <tab heading="Billing Detail">
                 <br>
@@ -289,6 +290,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn theme-optional-button-color" (click)="process()">Process</button>
+    <button type="button" class="btn theme-optional-button-color" *ngIf="!isBillingpage" (click)="next()">Next</button>
+    <button type="button" class="btn theme-optional-button-color" *ngIf="isBillingpage" (click)="process()">Process</button>
     <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
 </div>

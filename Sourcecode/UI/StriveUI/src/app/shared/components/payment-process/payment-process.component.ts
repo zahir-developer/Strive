@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { MessageServiceToastr } from '../../services/common-service/message.service';
 import { ClientService } from '../../services/data-service/client.service';
 import { PaymentService } from '../../services/data-service/payment.service';
@@ -18,6 +19,7 @@ export class PaymentProcessComponent implements OnInit {
   @Input() totalAmount?: any;
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
+  @ViewChild('staticTabs', { static: false }) staticTabs: TabsetComponent;
   billingForm: FormGroup;
   paymentForm: FormGroup;
   selectedStateId: any;
@@ -30,6 +32,8 @@ export class PaymentProcessComponent implements OnInit {
   ccRegex: RegExp = /[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
   submitted: boolean = false;
   card: string;
+  isBillingpage: boolean;
+  errorMessage: string;
   constructor(
     private activeModal: NgbActiveModal,
     private paymentService: PaymentService,
@@ -41,6 +45,8 @@ export class PaymentProcessComponent implements OnInit {
 
   ngOnInit(): void {
     this.isStateLoaded = false;
+    this.isBillingpage = false;
+    this.errorMessage = '';
     this.formInitialize();
     this.getClientDetail();
   }
@@ -126,7 +132,7 @@ export class PaymentProcessComponent implements OnInit {
 
   process() {
     this.submitted = true;
-    if (this.billingForm.invalid && this.paymentForm.invalid) {
+    if (this.billingForm.invalid) {
       this.stateDropdownComponent.submitted = true;
       this.cityComponent.submitted = true;
       if (this.stateDropdownComponent.stateValueSelection === false) {
@@ -136,7 +142,7 @@ export class PaymentProcessComponent implements OnInit {
         return;
       }
     }
-    if (this.billingForm.invalid && this.paymentForm.invalid) {
+    if (this.billingForm.invalid) {
       return;
     }
     const paymentDetailObj = {
@@ -168,8 +174,12 @@ export class PaymentProcessComponent implements OnInit {
       if (res.status === 'Success') {
         const auth = JSON.parse(res.resultData);
         console.log(auth, 'auth');
+        this.errorMessage = '';
         this.paymentCapture(auth);
       } else {
+        this.errorMessage = res.errorMessage;
+        this.selectTab(0);
+        this.isBillingpage = false;
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: res.errorMessage });
       }
     });
@@ -185,6 +195,7 @@ export class PaymentProcessComponent implements OnInit {
     this.salesService.paymentCapture(capObj).subscribe( res => {
       if (res.status === 'Success') {
         const capture = JSON.parse(res.resultData);
+        this.errorMessage = '';
         console.log(capture, 'auth');
         const obj = {
           status: true,
@@ -192,6 +203,9 @@ export class PaymentProcessComponent implements OnInit {
         };
         this.activeModal.close(obj);
       } else {
+        this.errorMessage = res.errorMessage;
+        this.selectTab(0);
+        this.isBillingpage = false;
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: res.errorMessage });
       }
     });
@@ -251,6 +265,22 @@ export class PaymentProcessComponent implements OnInit {
     }
 
     console.log(this.card);
+  }
+
+  next() {
+    if (this.paymentForm.invalid) {
+      this.submitted = true;
+      this.isBillingpage = false;
+      return;
+    } else {
+      this.submitted = false;
+      this.isBillingpage = true;
+      this.selectTab(1);
+    }
+  }
+
+  selectTab(tabId: number) {
+    this.staticTabs.tabs[tabId].active = true;
   }
 
 
