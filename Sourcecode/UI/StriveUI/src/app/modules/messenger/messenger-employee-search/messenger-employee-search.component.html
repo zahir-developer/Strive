@@ -5,7 +5,7 @@
             <input type="text" [(ngModel)]="search" class="form-control" placeholder="Search Employee"
                 (focus)="searchFocus()" (keyup)="getAllEmployees()"> </div>
         <div class="Search-Emp-box">
-            <div class="mt-3">
+            <div *ngIf="empList !== null" class="mt-3">
                 <div>
                     <input type="checkbox" id="selectAll" (click)="selectAllEmployees($event)">&nbsp;&nbsp;
                     <label>Select All</label>
@@ -20,6 +20,11 @@
                         </div>
                     </span>
                     <h6 class="msg-date">{{emp.FirstName+  ' ' + emp.LastName}}</h6>
+                </div>
+            </div>
+            <div *ngIf="empList === null" class="Search-Emp-item mt-3">
+                <div class="Search-Emp-item-body">
+                    <h6 class="msg-date">No Employee found.</h6>
                 </div>
             </div>
         </div>

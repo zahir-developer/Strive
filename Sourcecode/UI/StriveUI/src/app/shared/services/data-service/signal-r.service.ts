@@ -28,7 +28,7 @@ public ReceiveGrpMsg: Observable<any> = this.recGrpMsg.asObservable();
   private hubConnection: signalR.HubConnection;
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(environment.api.striveUrl + 'ChatMessageHub').build();
+      .withUrl(environment.api.signalR + 'ChatMessageHub').build();
 
 
     this.hubConnection
@@ -53,7 +53,7 @@ public ReceiveGrpMsg: Observable<any> = this.recGrpMsg.asObservable();
 
     this.hubConnection.on('ReceiveCommunicationID', (id) => {
       this.connId = id;
-console.log('ReceiveCommunicationID: '+ id);
+      console.log('ReceiveCommunicationID: '+ id);
       this.hubConnection?.invoke('SendEmployeeCommunicationId', this.empId, id).catch(function (err) {
         return console.error(err.toString());
       });
