@@ -78,7 +78,7 @@
                                                     : '..' :''}} </span>
                                            </td>
                                         <td>{{dailytip?.HoursPerDay}}</td>
-                                        <td>{{dailytip?.Tip}}</td>
+                                        <td>{{dailytip?.Tip | currency}}</td>
                                     </tr>
                                     <tr *ngIf="dailyTip?.length === 0">
                                         <td colspan="3" class="text-center" >No Records Found</td>

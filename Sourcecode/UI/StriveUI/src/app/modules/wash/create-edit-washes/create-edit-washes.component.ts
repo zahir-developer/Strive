@@ -617,6 +617,9 @@ export class CreateEditWashesComponent implements OnInit {
 
   // Get Client And Vehicle Details By Barcode
   getByBarcode(barcode) {
+    this.washForm.patchValue({
+      barcode
+    });
     this.wash.getByBarcode(barcode).subscribe(data => {
       if (data.status === 'Success') {
         this.isBarcode = true;
@@ -1040,7 +1043,7 @@ export class CreateEditWashesComponent implements OnInit {
 
             upchargeType: this.upchargeList[this.upchargeList.length - 1].ServiceId
 
-          })
+          });
 
           this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
