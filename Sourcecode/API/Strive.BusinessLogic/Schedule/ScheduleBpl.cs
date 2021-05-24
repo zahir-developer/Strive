@@ -26,7 +26,7 @@ namespace Strive.BusinessLogic.Schedule
         }
         public Result GetSchedule(ScheduleDetailDto scheduleDetail)
         {
-            return ResultWrap(new ScheduleRal(_tenant).GetSchedule,scheduleDetail, "ScheduleDetail");
+            return ResultWrap(new ScheduleRal(_tenant).GetSchedule, scheduleDetail, "ScheduleDetail");
         }
         public Result GetScheduleById(int scheduleId)
         {
@@ -35,7 +35,22 @@ namespace Strive.BusinessLogic.Schedule
 
         public Result GetScheduleAndForcasted(ScheduleDetailDto scheduleDetail)
         {
-            return ResultWrap(new ScheduleRal(_tenant).GetScheduleAndForcasted, scheduleDetail, "ScheduleForcastedDetail");
+            ScheduleForcastedListViewModel scheduleForcastedListViewModel = new ScheduleForcastedListViewModel();
+            scheduleForcastedListViewModel = new ScheduleRal(_tenant).GetScheduleAndForcasted(scheduleDetail);
+            if( scheduleForcastedListViewModel.ScheduleHoursViewModel != null)
+            foreach (var hours in scheduleForcastedListViewModel.ScheduleHoursViewModel)
+            {
+                foreach (var schedule in scheduleForcastedListViewModel.ForcastedCarEmployeehoursViewModel)
+                {
+                    if (schedule.Date == hours.ScheduledDate)
+                    {
+                        schedule.Totalhours = hours.Totalhours;
+                        schedule.TotalEmployees = hours.TotalEmployees;
+                    }
+                }
+            }
+
+            return ResultWrap(scheduleForcastedListViewModel, "ScheduleForcastedDetail");
         }
 
 
