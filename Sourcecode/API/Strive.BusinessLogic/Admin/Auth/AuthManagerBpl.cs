@@ -40,7 +40,7 @@ namespace Strive.BusinessLogic.Auth
                 TenantSchema tSchema = new AuthRal(_tenant).Login(authentication);
                 CacheLogin(tSchema, tcon);
 
-                if(tSchema.UserType != (int)UserType.Client)
+                if (tSchema.UserType != (int)UserType.Client)
                 {
 
                     EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId);
@@ -112,17 +112,28 @@ namespace Strive.BusinessLogic.Auth
         private (string, string) GetTokens(TenantSchema tenant, EmployeeLoginViewModel employee, string secretKey)
         {
             Token tkn = new Token();
+
+            var roleId = new List<string>();
+            roleId.Add("0");
+
+            var roleName = new List<string>();
+            roleName.Add(string.Empty);
+
             var claims = new[]
             {
                 new Claim("UserGuid", $"{tenant.UserGuid}"),
-                new Claim("EmployeeId", $"{employee.EmployeeLogin.EmployeeId}"),
+                new Claim("EmployeeId", $"{employee.EmployeeLogin?.EmployeeId}"),
                 new Claim("SchemaName", $"{tenant.Schemaname}"),
                 new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("tid", $"{tenant.TenantId}"),
-                new Claim("AuthId", $"{tenant.AuthId}"),
-                new Claim("RoleId", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.RoleId.ToString()).ToList())}"),
-                new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRoles.Select(x => x.RoleName).ToList())}"),
+                new Claim("AuthId", $"{tenant.AuthId}")
             }.ToList();
+
+            var roleIds = new Claim("RoleId", $"{ string.Join(",", employee.EmployeeRoles != null ? employee.EmployeeRoles.Select(x => x.RoleId.ToString()).ToList() : roleId.ToList())}");
+            var roleNames = new Claim("RoleIdName", $"{string.Join(",", employee.EmployeeRoles != null ? employee.EmployeeRoles.Select(x => x.RoleName).ToList() : roleName.ToList())}");
+
+            claims.Add(roleIds);
+            claims.Add(roleNames);
 
             var token = tkn.Generate(claims, secretKey, "Strive", "Strive", _tenant.TokenExpiryMintues);
             var reToken = tkn.GenerateRefreshToken();
