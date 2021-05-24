@@ -16,5 +16,7 @@ namespace Strive.BusinessLogic
         Result GetProduct(int productId);
         Result DeleteProduct(int productId, string fileName = null);
         Result GetAllProductAndImage(ProductSearchDto search);
+
+        Result UpdateProductQuantity(ProductQuantityDto productQuantityDto);
     }
 }

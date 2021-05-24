@@ -48,6 +48,10 @@ namespace Admin.Api.Controllers
         public Result GetProductDetail(int productId) => _bplManager.GetProductDetail(productId);
 
         [HttpPost]
+        [Route("UpdateProductQuantity")]
+        public Result UpdateProductQuantity(ProductQuantityDto productQuantityDto) => _bplManager.UpdateProductQuantity(productQuantityDto);
+
+        [HttpPost]
         [Route("GetAllProductImage")]
         public Result GetAllProductImage([FromBody] ProductSearchDto search) => _bplManager.GetAllProductAndImage(search);
     }

@@ -148,6 +148,10 @@ namespace Strive.BusinessLogic
             }
             return (error, fileName, thumbFileName);
         }
+        public Result UpdateProductQuantity(ProductQuantityDto productQuantityDto)
+        {
+            return ResultWrap(new ProductRal(_tenant).UpdateProductQuantity, productQuantityDto, "Status");
 
+        }
     }
 }
