@@ -914,6 +914,7 @@ export class SalesComponent implements OnInit {
     this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
     this.calculateTotalpaid(+this.cash);
+    this.cashback = this.totalPaid - (+this.grandTotal);
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {

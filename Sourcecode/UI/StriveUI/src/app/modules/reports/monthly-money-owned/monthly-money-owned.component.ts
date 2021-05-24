@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as _ from 'underscore';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
+import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
+import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
+import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
+import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
 
 @Component({
   selector: 'app-monthly-money-owned',
@@ -12,6 +16,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./monthly-money-owned.component.css']
 })
 export class MonthlyMoneyOwnedComponent implements OnInit {
+  @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;
+  @ViewChild(ExportFiletypeComponent) exportFiletypeComponent: ExportFiletypeComponent;
+  @ViewChild(YearPickerComponent) yearPickerComponent: YearPickerComponent;
+  @ViewChild(MonthPickerComponent) monthPickerComponent: MonthPickerComponent;
   ownedReportList: any = [];
   accountAmount = 0;
   driveUpRate = 0;
@@ -217,6 +225,18 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   }
   onLocationChange(event) {
     this.locationId = +event;
+  }
+
+  refresh() {
+    this.date = new Date();
+    this.month = this.date.getMonth() + 1;
+    this.year = this.date.getFullYear();
+    this.locationId = localStorage.getItem('empLocationId');
+    this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')
+    this.exportFiletypeComponent.type = '';
+    this.yearPickerComponent.getYear();
+    this.monthPickerComponent.getMonth();
+    this.getMoneyOwnedReportList();
   }
 
   export() {

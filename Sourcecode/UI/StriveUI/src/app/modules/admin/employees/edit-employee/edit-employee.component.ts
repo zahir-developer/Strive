@@ -501,7 +501,8 @@ export class EditEmployeeComponent implements OnInit {
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
-          isDeleted: false
+          isDeleted: false,
+          roleName: item.item_text
         });
       } else {
         newlyAddedRole.push({
@@ -509,7 +510,8 @@ export class EditEmployeeComponent implements OnInit {
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
-          isDeleted: false
+          isDeleted: false,
+          roleName: item.item_text
         });
       }
     });
@@ -521,7 +523,8 @@ export class EditEmployeeComponent implements OnInit {
           employeeId: this.employeeId,
           roleId: item.item_id,
           isActive: true,
-          isDeleted: true
+          isDeleted: true,
+          roleName: item.item_text
         });
       }
     });
@@ -550,7 +553,8 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: false,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
+          locationName: item.item_text
         });
       } else {
         newlyAddedLocation.push({
@@ -559,7 +563,8 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: false,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
+          locationName: item.item_text
         });
       }
     });
@@ -572,7 +577,8 @@ export class EditEmployeeComponent implements OnInit {
           locationId: item.item_id,
           isActive: true,
           isDeleted: true,
-          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0
+          hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : 0,
+          locationName: item.item_text
         });
       }
     });

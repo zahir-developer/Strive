@@ -401,6 +401,7 @@ export class CreateEditComponent implements OnInit {
         roleId: item.item_id,
         isActive: true,
         isDeleted: false,
+        roleName: item.item_text
       };
     });
     const employeeDetailObj = {
@@ -424,7 +425,8 @@ export class CreateEditComponent implements OnInit {
         locationId: item.item_id,
         isActive: true,
         isDeleted: false,
-        hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : null
+        hourlyWashRate: +this.emplistform.value.hourlyRateWash ? +this.emplistform.value.hourlyRateWash : null,
+        locationName: item.item_text
       };
     });
     const employeeObj = {
