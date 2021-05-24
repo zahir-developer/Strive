@@ -54,6 +54,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@FromDate", payRollProcess.StartDate);
             _prm.Add("@ToDate", payRollProcess.EndDate);
             _prm.Add("@employeeId", payRollProcess.EmpId);
+            _prm.Add("@locationId", payRollProcess.LocationId);
             var res = db.Fetch<PayrollProcessViewModel>(EnumSP.Payroll.USPGETPAYROLLPROCESS.ToString(), _prm);
            if(res.Count>0)
             {
