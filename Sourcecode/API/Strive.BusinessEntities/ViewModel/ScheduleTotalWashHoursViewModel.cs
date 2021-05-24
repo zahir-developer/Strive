@@ -11,5 +11,7 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? Totalhours { get; set; }
 
         public DateTime ScheduledDate { get; set; }
+
+        public int? TotalEmployees { get; set; }
     }
 }

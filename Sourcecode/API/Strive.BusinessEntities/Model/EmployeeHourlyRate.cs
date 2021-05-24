@@ -20,8 +20,8 @@ namespace Strive.BusinessEntities.Model
         public int? LocationId { get; set; }
 
         [Column]
-        public decimal HourlyRate { get; set; }
-
+        public decimal HourlyRate{ get; set; }
+       
         [Column]
         public bool? IsActive { get; set; }
 
