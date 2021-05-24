@@ -19,7 +19,7 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTimeOffset? OutTime { get; set; }
         public TimeSpan? TimeIn { get; set; }
         public TimeSpan? TimeOut { get; set; }
-        public decimal? TotalHours { get; set; }
+        public DateTimeOffset? TotalHours { get; set; }
         public int? EventType { get; set; }
         public bool Status { get; set; }
     }
