@@ -1,7 +1,7 @@
 using Cocoon.ORM;
 using System;
 
-namespace Strive.BusinessEntities.Model
+namespace Strive.BusinessEntities.Model 
 {
     [OverrideName("tblEmployeeRole")]
     public class EmployeeRole
@@ -16,6 +16,7 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public int? RoleId { get; set; }
 
+        [Column, IgnoreOnInsert, IgnoreOnUpdate]
         public string RoleName { get; set; }
 
         [Column]

@@ -15,8 +15,9 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public int LocationId { get; set; }
-        
-        public int LocationName { get; set; }
+
+        [Column, IgnoreOnInsert, IgnoreOnUpdate]
+        public string LocationName { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
