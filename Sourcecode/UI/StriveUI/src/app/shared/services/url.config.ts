@@ -112,7 +112,8 @@ export const UrlConfig = {
     getEmployeeDocumentById: `Admin/Document/GetEmployeeDocumentById/`,
     deleteEmployeeDocument: `Admin/Document/DeleteEmployeeDocument/`,
     getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`,
-    getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`
+    getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`,
+    validateEmail: `Admin/Common/GetEmailIdExist/`
   },
 
   giftCard: {

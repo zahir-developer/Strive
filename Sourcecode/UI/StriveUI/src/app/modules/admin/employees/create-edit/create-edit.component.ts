@@ -77,6 +77,7 @@ export class CreateEditComponent implements OnInit {
   isRateAllLocation: boolean;
   errorMessage: boolean;
   fileSize: number;
+  isEmailExists: boolean;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -93,6 +94,7 @@ export class CreateEditComponent implements OnInit {
     this.isRateAllLocation = false;
     this.errorMessage = false;
     this.fileSize = ApplicationConfig.UploadSize.EmployeeDocument;
+    this.isEmailExists = false;
     this.getGenderDropdownValue();
     this.getAllRoles();
     this.getLocation();
@@ -371,6 +373,10 @@ export class CreateEditComponent implements OnInit {
       return;
     }
 
+    if (this.isEmailExists) {
+      return;
+    }
+
     const sourceObj = [];
     const employeeDetails = [];
     const employeAddress = [];
@@ -589,5 +595,19 @@ export class CreateEditComponent implements OnInit {
   cancelHour(loc) {
     this.isHourEdit = 0;
     loc.ratePerHour = this.selectedLocationHour;
+  }
+
+  checkEmailExist() {
+    const emilID = this.emplistform.value.emailId;
+    this.employeeService.validateEmail(emilID).subscribe( res => {
+      if (res.status === 'Success') {
+        const emailExist = JSON.parse(res.resultData);
+        if (emailExist.EmailIdExist) {
+          this.isEmailExists = true;
+        } else {
+          this.isEmailExists = false;
+        }
+      }
+    });
   }
 }
