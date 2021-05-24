@@ -162,7 +162,8 @@ export const UrlConfig = {
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
     deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`,
-    changeUnreadMessageState: `Admin/Messenger/ChangeUnreadMessageState`
+    changeUnreadMessageState: `Admin/Messenger/ChangeUnreadMessageState`,
+    getAllEmployeeName: `Admin/Messenger/getAllEmployeeName`
   },
   ServiceSetup: {
     getServiceSetup: `Admin/ServiceSetup/GetAll`,

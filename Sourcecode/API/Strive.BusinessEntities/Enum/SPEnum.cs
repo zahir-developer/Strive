@@ -94,7 +94,7 @@ namespace Strive.BusinessEntities
             USPGETMODELBYMAKE,
             USPGETALLMAKE,
             USPGETUPCHARGEBYTYPE,
-            uspGetEmployeeHourlyRateById,
+            USPGETEMPLOYEEHOURLYRATEBYID
         }
 
         public enum DashboardStatistics
@@ -104,7 +104,8 @@ namespace Strive.BusinessEntities
         }
         public enum Messenger
         {
-            USPGETChatEMPLOYEELIST,
+            USPGETALLEMPLOYEENAME,
+            USPGETCHATEMPLOYEELIST,
             UPDATECHATCOMMUNICATIONDETAIL,
             USPGETCHATMESSAGE,
             USPGETEMPLOYEERECENTCHATHISTORY,
