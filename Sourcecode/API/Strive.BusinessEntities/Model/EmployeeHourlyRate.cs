@@ -13,7 +13,7 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public int? EmployeeId { get; set; }
 
-       [Column]
+        [Column]
         public int? RoleId { get; set; }
 
         [Column]
@@ -39,6 +39,6 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public DateTimeOffset? UpdatedDate { get; set; }
-    
+
     }
 }
