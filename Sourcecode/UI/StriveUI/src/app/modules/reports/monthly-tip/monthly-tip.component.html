@@ -73,7 +73,7 @@
                                             {{(monthlytip?.EmployeeName!== null) ? monthlytip?.EmployeeName?.length <= 15 ? ''
                                                 : '..' :''}} </span></td>
                                         <td>{{monthlytip?.HoursPerDay}}</td>
-                                        <td>{{monthlytip?.Tip}}</td>
+                                        <td>{{monthlytip?.Tip | currency}}</td>
                                     </tr>
                                     <tr *ngIf="monthlyTip?.length === 0">
                                         <td colspan="3" class="text-center">

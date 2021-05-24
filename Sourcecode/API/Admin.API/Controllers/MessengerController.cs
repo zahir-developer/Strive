@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
+using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Messenger;
 using Strive.BusinessEntities.ViewModel.Messenger;
 using Strive.BusinessLogic;
@@ -206,5 +207,8 @@ namespace Admin.API.Controllers
         public Result ChangeUnreadMessageState([FromBody] ChatDto chatDto) => _bplManager.ChangeUnreadMessageState(chatDto);
 
 
+        [HttpPost]
+        [Route("GetAllEmployeeName")]
+        public Result GetAllEmployee([FromBody]SearchDto searchDto) => _bplManager.GetAllEmployeeName(searchDto);
     }
 }

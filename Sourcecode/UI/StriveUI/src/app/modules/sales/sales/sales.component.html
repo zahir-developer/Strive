@@ -23,7 +23,7 @@
                                                 <form (ngSubmit)="addTicketNumber()">
                                                     <input type="text" maxlength="9" id="ticketNumber" (focus)="quantityFocus($event)" *ngIf="isSelected" name="ticketNumber" class="form-control inputSize  d-inline-block w-23 align-middle" [(ngModel)]="ticketNumber" (keyenter)="addTicketNumber()" (keypress)="allowNumbersOnly($event)"
                                                         (clear)="clearpaymentField()">&nbsp;
-                                                    <span class="p-r-71" *ngIf="!isSelected">{{newTicketNumber}}</span>
+                                                    <span class="p-r-71" *ngIf="!isSelected">{{newTicketNumber}}</span> 
                                                     <button type="submit" class="btn theme-primary-button-color" (click)="addTicketNumber()" [disabled]="(ticketNumber === '' || ticketNumber === undefined) || isTenTicketNumber"><i
                                                         class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;
 
@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
                                     <div class="row no-gutters m-t-7 payment">
-                                        <button type="button" class="btn col-sm btn-payment actived" [disabled]='enableButton' (click)="addPayment()">Process</button>
+                                        <button type="button" class="btn col-sm btn-payment actived" [disabled]='enableButton' (click)="processpayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment actived" [disabled]="!enableButton || multipleTicketNumber.length === 0" (click)="deleteItem('', 'rollback')">RollBack</button>
                                         <button type="button" class="btn col-sm btn-payment actived" [disabled]="enableButton || multipleTicketNumber.length === 0" (click)="deleteItem('', 'deleteJob')">Del</button>
                                         <button type="button" class="btn col-sm btn-payment actived m-r-0" [disabled]="!enableButton || multipleTicketNumber.length === 0" (click)="print()">Print</button>
@@ -99,7 +99,7 @@
                                                 </div>
                                                 <div class="form-row p-b-12">
                                                     <div class="form-group col-md-12">
-                                                        <input type="text" class="form-control" maxLength="9" formControlName="giftCardNumber" placeholder="Gift Card #" (blur)="validateGiftcard()" [ngClass]="{ 'is-invalid': (giftcardsubmitted && f.giftCardNumber.errors || isInvalidGiftcard) }" (clear)="validGiftcard = {}; balance = 0"
+                                                        <input type="text" class="form-control" maxLength="9" formControlName="giftCardNumber" placeholder="Gift Card #" (input)="validateGiftcard()" [ngClass]="{ 'is-invalid': (giftcardsubmitted && f.giftCardNumber.errors || isInvalidGiftcard) }" (clear)="validGiftcard = {}; balance = 0"
                                                             (keypress)="allowNumbersOnly($event)">
                                                         <div *ngIf="giftcardsubmitted && f.giftCardNumber.errors" class="invalid-feedback">
                                                             <div *ngIf="f.giftCardNumber.errors.required">GiftCard number is required</div>

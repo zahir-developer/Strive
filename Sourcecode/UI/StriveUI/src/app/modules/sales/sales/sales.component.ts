@@ -78,6 +78,7 @@ export class SalesComponent implements OnInit {
   multipleTicketSequence: boolean = false;
   printTicketNumber: string;
   jobTypeId: number;
+  captureObj: any = {};
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -821,9 +822,10 @@ export class SalesComponent implements OnInit {
       const ticket = JSON.parse(data.resultData);
       if (data.status === 'Success') {
         const ticket = JSON.parse(data.resultData);
-        this.ticketNumberGeneration = true
+        this.ticketNumberGeneration = true;
         this.newTicketNumber = ticket.GetTicketNumber.JobId;
         this.JobId = ticket.GetTicketNumber.JobId;
+        // this.multipleTicketNumber.push(this.newTicketNumber);
         //this.getTicketDetail(this.JobId);
       }
       else {
@@ -846,7 +848,56 @@ export class SalesComponent implements OnInit {
     this.calculateTotalpaid(this.credit);
     this.cashback = this.cashback + this.creditcashback;
     document.getElementById('creditcardpopup').style.width = '0';
+    this.paymentProcess();
   }
+
+  paymentProcess() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+    modalRef.componentInstance.clientId = this.clientId;
+    modalRef.componentInstance.totalAmount = this.credit;
+    modalRef.result.then((result) => {
+      if (result.status) {
+        this.isCreditPay = true;
+        this.tips = result.tipAmount;
+        this.captureObj = result.authObj;
+        // this.addPayment();
+        // this.paymentCapture(result.authObj);
+      }
+    });
+  }
+
+  paymentCapture() {
+    const auth = this.captureObj;
+    const capObj = {
+      authCode: auth.authcode,
+      amount: this.credit.toString(),
+      retRef: auth.retref,
+      invoiceId: {}
+    };
+    this.salesService.paymentCapture(capObj).subscribe( res => {
+      if (res.status === 'Success') {
+        const capture = JSON.parse(res.resultData);
+        console.log(capture, 'auth');
+        this.addPayment();
+      } else {
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: res.errorMessage });
+      }
+    });
+  }
+
+  processpayment() {
+    if (this.credit !== 0 ) {
+      this.paymentCapture();
+    } else {
+      this.addPayment();
+    }
+  }
+
   removAddedAmount(amount) {
     this.totalPaid = this.totalPaid - amount;
   }
@@ -1047,26 +1098,25 @@ export class SalesComponent implements OnInit {
       return;
     }
 
-    if (this.credit !== 0 && !this.isCreditPay) {
-      this.isCreditPay = true;
-      const ngbModalOptions: NgbModalOptions = {
-        backdrop: 'static',
-        keyboard: false,
-        size: 'lg'
-      };
-      const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
-      modalRef.componentInstance.clientId = this.clientId;
-      modalRef.componentInstance.totalAmount = this.credit;
-      modalRef.result.then((result) => {
-        if (result.status) {
-          this.isCreditPay = true;
-          this.tips = result.tipAmount;
-          this.addPayment();
-        }
-      });
-      return;
-    }
-
+    // if (this.credit !== 0 && !this.isCreditPay) {
+    //   this.isCreditPay = true;
+    //   const ngbModalOptions: NgbModalOptions = {
+    //     backdrop: 'static',
+    //     keyboard: false,
+    //     size: 'lg'
+    //   };
+    //   const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
+    //   modalRef.componentInstance.clientId = this.clientId;
+    //   modalRef.componentInstance.totalAmount = this.credit;
+    //   modalRef.result.then((result) => {
+    //     if (result.status) {
+    //       this.isCreditPay = true;
+    //       this.tips = result.tipAmount;
+    //       this.paymentCapture(result.authObj);
+    //     }
+    //   });
+    //   return;
+    // }
 
     let giftcard = null;
     let discount = null;

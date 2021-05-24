@@ -71,5 +71,10 @@ namespace Strive.BusinessLogic.Messenger
         {
             return ResultWrap(new MessengerRal(_tenant).ChangeUnreadMessageState, chatDto, "ChatGroupUserDelete");
         }
+
+        public Result GetAllEmployeeName(SearchDto searchDto)
+        {
+            return ResultWrap(new MessengerRal(_tenant).GetAllEmployeeName, searchDto, "EmployeeList");
+        }
     }
 }

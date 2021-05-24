@@ -48,27 +48,29 @@
                                         <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                                             [disabled]="!payrollDateForm.valid" (click)="runReport()">Run
                                             Report</button>
-                                        <button type="button" *ngIf="!isEditRestriction" [disabled]="isPayrollEmpty "
+                                        <button type="button" [disabled]="isPayrollEmpty "
                                             class="btn theme-primary-button-color btn-md m-l-5"
                                             (click)="editAdjustemt();">Edit</button>
+                                        <!-- *ngIf="!isEditRestriction" -->
                                         <button type="button" *ngIf="isEditAdjustment"
                                             class="btn theme-primary-button-color btn-md m-l-5"
                                             (click)="CancelAdjustemt()">Cancel</button>
                                         <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
                                             [disabled]="!isEditAdjustment" (click)="updateAdjustment()">Update</button>
-                                        <button type="button" [disabled]="isPayrollEmpty || isEditRestriction"
+                                        <button type="button" [disabled]="isPayrollEmpty "
                                             class="btn theme-primary-button-color btn-md m-l-10"
                                             (click)="addPayrollProcess()">{{processLabel}}</button>
-                                        <select class="form-control col-2 m-l-10"
-                                            *ngIf="!fileTypeEvent || isEditAdjustment || isPayrollEmpty || !payrollDateForm.valid"
-                                            (change)="getFileType($event)">
+                                        <!-- || isEditRestriction -->
+                                        <select class="form-control col-2 m-l-10" (change)="getFileType($event)">
                                             <option value='' selected hidden>Select</option>
                                             <option *ngFor="let filetype of fileExportType" value="{{filetype.id}}">
                                                 {{filetype.name}}</option>
                                         </select>
+                                        <!-- || isEditAdjustment -->
                                         <button type="button" class="btn theme-primary-button-color btn-md m-l-10"
-                                            [disabled]="!fileTypeEvent || isEditAdjustment || isPayrollEmpty || !payrollDateForm.valid"
+                                            [disabled]="!fileTypeEvent  || isPayrollEmpty || !payrollDateForm.valid"
                                             (click)="export()">Export</button>
+                                        <!-- || isEditAdjustment -->
                                     </div>
 
                                 </div>
