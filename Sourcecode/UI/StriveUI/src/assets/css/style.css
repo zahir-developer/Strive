@@ -1740,8 +1740,3 @@ table th {
 .text-capital {
     text-transform: capitalize;
 }
-
-.ng-star-inserted td
-{
-    padding: .15rem !important;
-}
