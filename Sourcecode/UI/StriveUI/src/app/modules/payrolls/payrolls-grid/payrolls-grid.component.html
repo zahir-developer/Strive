@@ -137,7 +137,7 @@
                                             <=15 ? '' : '...' : '' }}</td>
                                         <td>{{payroll.TotalWashHours}}</td>
                                         <td>{{payroll.TotalDetailHours}}</td>
-                                        <td>{{payroll.WashRate}}</td>
+                                        <td>{{payroll.WashRate | currency}}</td>
                                         <td>{{payroll.WashAmount | currency}}</td>
                                         <td>{{payroll.OverTimeHours}}{{' Hrs'}}</td>
                                         <td>{{payroll.OverTimePay | currency}}</td>

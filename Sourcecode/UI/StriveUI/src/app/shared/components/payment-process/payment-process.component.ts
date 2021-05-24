@@ -55,7 +55,7 @@ export class PaymentProcessComponent implements OnInit {
     this.isStateLoaded = false;
     const obj = {
       status: false,
-      tipAmount: this.tipAmount
+      tipAmount: 0
     };
     this.activeModal.close(obj);
   }
