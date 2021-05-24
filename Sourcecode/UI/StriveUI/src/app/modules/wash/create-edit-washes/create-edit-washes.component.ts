@@ -620,7 +620,9 @@ export class CreateEditWashesComponent implements OnInit {
     this.washForm.patchValue({
       barcode
     });
+    this.spinner.show();
     this.wash.getByBarcode(barcode).subscribe(data => {
+      this.spinner.hide();
       if (data.status === 'Success') {
         this.isBarcode = true;
         const wash = JSON.parse(data.resultData);
@@ -646,6 +648,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }

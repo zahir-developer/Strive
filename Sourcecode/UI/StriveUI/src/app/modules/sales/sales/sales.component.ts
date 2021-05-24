@@ -393,6 +393,7 @@ export class SalesComponent implements OnInit {
       this.outsideServices = [];
       this.discountService = [];
       this.airfreshnerService = [];
+      this.discountList = [];
       this.salesService.getItemByTicketNumber(salesObj).subscribe(data => {
         if (data.status === 'Success') {
           this.spinner.hide();
@@ -867,6 +868,8 @@ export class SalesComponent implements OnInit {
         this.captureObj = result.authObj;
         // this.addPayment();
         // this.paymentCapture(result.authObj);
+      } else {
+        this.getDetailByTicket(false);
       }
     });
   }
