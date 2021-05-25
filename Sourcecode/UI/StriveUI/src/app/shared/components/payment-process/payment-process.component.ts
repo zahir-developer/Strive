@@ -2,10 +2,13 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 import { MessageServiceToastr } from '../../services/common-service/message.service';
 import { ClientService } from '../../services/data-service/client.service';
 import { PaymentService } from '../../services/data-service/payment.service';
 import { SalesService } from '../../services/data-service/sales.service';
+import { MessageConfig } from '../../services/messageConfig';
 import { CityComponent } from '../city/city.component';
 import { StateDropdownComponent } from '../state-dropdown/state-dropdown.component';
 
@@ -40,7 +43,9 @@ export class PaymentProcessComponent implements OnInit {
     private client: ClientService,
     private fb: FormBuilder,
     private salesService: SalesService,
-    private messageService: MessageServiceToastr
+    private messageService: MessageServiceToastr,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -154,11 +159,11 @@ export class PaymentProcessComponent implements OnInit {
       return;
     }
     const paymentDetailObj = {
-      account: this.paymentForm.value.cardNumber,
-      expiry: this.paymentForm.value.expiryDate,
+      account: this.paymentForm.value.cardNumber, // '6011000995500000', // ,
+      expiry: this.paymentForm.value.expiryDate, // '0622', //
       amount: this.totalAmount.toString(),
       orderId: 'AB-11-9876',  // need too change
-      ccv: this.paymentForm.value.ccv
+      ccv: this.paymentForm.value.ccv // '291' //
     };
 
     const billingDetailObj = {
@@ -167,7 +172,7 @@ export class PaymentProcessComponent implements OnInit {
       city: 'anycity',  // need too change
       country: 'US',  // need too change
       region: 'NY',  // need too change
-      postal: this.billingForm.value.zip
+      postal: this.billingForm.value.zip // '11111' //
     };
     const authObj = {
       cardConnect: {},
@@ -178,7 +183,9 @@ export class PaymentProcessComponent implements OnInit {
   }
 
   paymentAuth(authObj) {
+    this.spinner.show();
     this.salesService.paymentAuth(authObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         const auth = JSON.parse(res.resultData);
         console.log(auth, 'auth');
@@ -190,6 +197,9 @@ export class PaymentProcessComponent implements OnInit {
         this.isBillingpage = false;
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: res.errorMessage });
       }
+    }, (err) => {
+      this.spinner.hide();
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
 
