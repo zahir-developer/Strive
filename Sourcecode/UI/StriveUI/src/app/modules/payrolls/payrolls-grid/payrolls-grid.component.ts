@@ -210,10 +210,11 @@ export class PayrollsGridComponent implements OnInit {
     const empId = null;
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
-    this.payrollsService.editRestriction(empId, startDate, endDate).subscribe(res => {
+    const locationId = this.locationId;
+    this.payrollsService.editRestriction(empId, startDate, endDate, locationId).subscribe(res => {
       const edit = JSON.parse(res.resultData);
       if (res.status === 'Success') {
-        if (edit.Result == false) {
+        if (edit.Result === false) {
 
           this.isEditRestriction = false;
           this.processLabel = "Process";

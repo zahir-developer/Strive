@@ -285,6 +285,7 @@ export class SalesComponent implements OnInit {
     this.discountService = [];
     this.allService = [];
     this.Products = [];
+    this.selectedDiscount = [];
     if (this.itemList?.Status?.SalesSummaryViewModel) {
       this.itemList.Status.SalesSummaryViewModel = {};
     }
