@@ -64,6 +64,7 @@ import {InputMaskModule} from 'primeng/inputmask';
 import { AlphaNumericDirective } from './Directive/alpha-numeric.directive';
 import { CalendarModule } from 'primeng/calendar';
 import { FilterPipe } from './pipe/filter.pipe';
+import { DecimalPipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -116,7 +117,7 @@ import { FilterPipe } from './pipe/filter.pipe';
       AlphaNumericDirective, InputMaskModule, KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent,
        PaymentProcessComponent, CalendarModule, FilterPipe],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-  providers: [MessageServiceToastr, DatePipe],
+  providers: [MessageServiceToastr, DatePipe, DecimalPipe],
 
 })
 export class SharedModule { }

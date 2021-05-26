@@ -11,6 +11,7 @@ import { SalesService } from '../../services/data-service/sales.service';
 import { MessageConfig } from '../../services/messageConfig';
 import { CityComponent } from '../city/city.component';
 import { StateDropdownComponent } from '../state-dropdown/state-dropdown.component';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-payment-process',
@@ -45,7 +46,8 @@ export class PaymentProcessComponent implements OnInit {
     private salesService: SalesService,
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private decimalPipe: DecimalPipe
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +69,7 @@ export class PaymentProcessComponent implements OnInit {
 
   formInitialize() {
     this.billingForm = this.fb.group({
-      companyName: [''],
+      // companyName: [''],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       address1: ['', Validators.required],
@@ -158,10 +160,11 @@ export class PaymentProcessComponent implements OnInit {
     if (this.billingForm.invalid) {
       return;
     }
+    const amount = this.decimalPipe.transform(this.totalAmount, '.2-2');
     const paymentDetailObj = {
       account: this.paymentForm.value.cardNumber, // '6011000995500000', // ,
       expiry: this.paymentForm.value.expiryDate, // '0622', //
-      amount: this.totalAmount.toString(),
+      amount: amount.toString(),
       orderId: 'AB-11-9876',  // need too change
       ccv: this.paymentForm.value.ccv // '291' //
     };
@@ -190,6 +193,7 @@ export class PaymentProcessComponent implements OnInit {
         const auth = JSON.parse(res.resultData);
         console.log(auth, 'auth');
         this.errorMessage = '';
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Card Payment done Successfully' });
         this.paymentCapture(auth);
       } else {
         this.errorMessage = res.errorMessage;

@@ -85,9 +85,9 @@
                             Expiration Date<span class="required">*</span>
                         </div>
                         <div class="col-2">
-                            <p-inputMask mask="99/9999" size="9" name="expiryDate"
+                            <p-inputMask mask="99/99" size="9" name="expiryDate"
                                 [ngClass]="{ 'is-invalid': submitted  && payment.expiryDate.errors }"
-                                formControlName="expiryDate" placeholder="99/9999" slotChar="mm/yyyy">
+                                formControlName="expiryDate" placeholder="99/99" slotChar="mm/yy">
                             </p-inputMask>
 
                             <div *ngIf="submitted  && payment.expiryDate.errors" class="invalid-feedback">
@@ -110,12 +110,15 @@
                         </div>
                     </div>
                 </form>
-                <p class="text-center text-danger m-t-15">{{errorMessage}}</p>
+                <!-- <p class="text-center text-danger m-t-15">{{errorMessage}}</p> -->
+                <div class="alert alert-danger text-center m-t-15 m-l-60 m-r-160" role="alert" *ngIf="errorMessage">
+                    {{errorMessage}}
+                </div>
             </tab>
             <tab heading="Billing Detail">
                 <br>
                 <form [formGroup]="billingForm">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-4 form-group">
                             Company Name
                         </div>
@@ -128,7 +131,7 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> -->
                     <br>
                     <div class="row">
                         <div class="col-6">
@@ -291,6 +294,7 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn theme-optional-button-color" *ngIf="!isBillingpage" (click)="next()">Next</button>
-    <button type="button" class="btn theme-optional-button-color" *ngIf="isBillingpage" (click)="process()">Process</button>
+    <button type="button" class="btn theme-optional-button-color" *ngIf="isBillingpage"
+        (click)="process()">Process</button>
     <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
 </div>
