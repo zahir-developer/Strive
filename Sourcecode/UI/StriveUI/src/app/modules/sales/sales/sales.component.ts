@@ -21,6 +21,7 @@ import { SaleGiftCardComponent } from './sale-gift-card/sale-gift-card.component
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { PaymentProcessComponent } from 'src/app/shared/components/payment-process/payment-process.component';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -84,7 +85,7 @@ export class SalesComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private codes: GetCodeService) { }
+    private route: ActivatedRoute, private codes: GetCodeService, private decimalPipe: DecimalPipe) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -877,9 +878,11 @@ export class SalesComponent implements OnInit {
 
   paymentCapture() {
     const auth = this.captureObj;
+    const totalAmount = this.credit + (+this.tips);
+    const amount = this.decimalPipe.transform(totalAmount, '.2-2');
     const capObj = {
       authCode: auth.authcode,
-      amount: this.credit.toString(),
+      amount: amount.toString(),
       retRef: auth.retref,
       invoiceId: {}
     };
