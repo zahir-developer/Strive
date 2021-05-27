@@ -21,6 +21,8 @@ namespace Greeter
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
 
+            SetApperance();
+
             //if (!UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
             //{
             //    Window = new UIWindow(UIScreen.MainScreen.Bounds);
@@ -51,6 +53,16 @@ namespace Greeter
             // Called when the user discards a scene session.
             // If any sessions were discarded while the application was not running, this will be called shortly after `FinishedLaunching`.
             // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+        }
+
+        void SetApperance()
+        {
+            var titleAttribute = new UITextAttributes
+            {
+                Font = UIFont.SystemFontOfSize(20, UIFontWeight.Bold),
+                TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f)
+            };
+            UINavigationBar.Appearance.SetTitleTextAttributes(titleAttribute);
         }
     }
 }
