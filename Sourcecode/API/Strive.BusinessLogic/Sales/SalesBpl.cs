@@ -180,9 +180,9 @@ namespace Strive.BusinessLogic.Sales
             return ResultWrap(new SalesRal(_tenant).GetServicesWithPrice, "ServicesWithPrice");
         }
 
-        public Result GetServicesAndProduct(int id)
+        public Result GetServicesAndProduct(int id,string query)
         {
-            return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct,id, "ServiceAndProductList");
+            return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct,id,query, "ServiceAndProductList");
         }
     }
 }
