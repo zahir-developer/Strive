@@ -204,7 +204,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage(override = false) {
-    if (this.messageBody.trim() === '' && override) {
+    if (this.messageBody.trim() === '' && !override) {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Messenger.Message });
       return;
     }
