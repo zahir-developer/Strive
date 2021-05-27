@@ -28,7 +28,7 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public string Signature { get; set; }
         [Column]
-        public int? ReferneceNumber { get; set; }
+        public int? ReferenceNumber { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
