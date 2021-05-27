@@ -331,7 +331,7 @@ namespace Admin.API.Controllers
                         worksheet2.Cell(currentRow, 7).Value = employeeTimeClock.EventDate;
                         worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.InTime;
                         worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.OutTime;
-                        worksheet2.Cell(currentRow, 10).Value = employeeTimeClock.TotalHours;
+                        worksheet2.Cell(currentRow, 10).Value = (employeeTimeClock.OutTime - employeeTimeClock.InTime);// employeeTimeClock.TotalHours;
                         //worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
                         worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.Status;
                     }

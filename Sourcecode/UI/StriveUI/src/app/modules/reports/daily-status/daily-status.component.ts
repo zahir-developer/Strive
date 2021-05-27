@@ -30,6 +30,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   washTotal = 0;
   detailTotal = 0;
   washHours = 0;
+  totalWashHours = "";
+  totalDetailHours = "";
   detailHours = 0;
   totalAmount = 0;
   detailInfoTotal = 0;
@@ -126,8 +128,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     tableheader += `</tr>`;
     $('#table thead').html(tableheader);
     this.clockDetail.forEach(item => {
-      tableBody += `<tr><td>` + item.EmployeeName + `</td><td>` + (item?.WashHours ? item?.WashHours : 0) + `</td><td>` +
-        (item?.DetailHours ? item.DetailHours : 0) + `</td><td>` + (item?.WashHours + item?.DetailHours) + `</td>`;
+      tableBody += `<tr><td>` + item.EmployeeName + `</td><td>` + (item?.WashHours ? (Math.floor(item?.WashHours / 60)) + "hh : " + ( item?.WashHours - (Math.floor(item?.WashHours / 60) * 60)) + " mm" : 0) + `</td><td>` +
+        (item?.DetailHours ? (Math.floor(item?.DetailHours / 60)) + "hh : " + ( item?.DetailHours - (Math.floor(item?.DetailHours / 60) * 60)) + " mm" : 0) + `</td><td>` 
+        + (Math.floor((item?.WashHours + item?.DetailHours) / 60)) + "hh : " + ( (item?.WashHours + item?.DetailHours) - (Math.floor((item?.WashHours + item?.DetailHours) / 60) * 60)) + " mm" + `</td>`;
       for (let i = 1; i <= count; i++) {
         const Intime = 'Intime' + i;
         const Outtime = 'Outtime' + i;
@@ -150,6 +153,8 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     });
     tableBody += `</tr>`;
     $('#table tbody').html(tableBody);
+    this.totalWashHours  = (Math.floor(this.washHours / 60)) + "hh : " + ( this.washHours - (Math.floor(this.washHours / 60) * 60)) + " mm";
+    this.totalDetailHours  = (Math.floor(this.detailHours / 60)) + "hh : " + ( this.detailHours - (Math.floor(this.detailHours / 60) * 60)) + " mm";
   }
   getDailyStatusReport() {
     this.washes = [];
