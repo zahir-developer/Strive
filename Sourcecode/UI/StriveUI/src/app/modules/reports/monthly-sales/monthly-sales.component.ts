@@ -10,6 +10,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
 import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
 import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
+import { DecimalPipe } from '@angular/common';
 declare var $: any;
 @Component({
   selector: 'app-monthly-sales',
@@ -43,7 +44,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private cd: ChangeDetectorRef,
     private excelService: ExcelService, private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private decimalPipe: DecimalPipe) { }
 
   ngOnInit(): void {
     this.setMonth();
@@ -170,7 +171,7 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
           Number: item?.Number,
           Description: item?.Description,
           Price: item?.Price,
-          Total: item?.Total
+          Total: this.decimalPipe.transform(item?.Total, '.2-2')
         };
       });
       return monthlySales;

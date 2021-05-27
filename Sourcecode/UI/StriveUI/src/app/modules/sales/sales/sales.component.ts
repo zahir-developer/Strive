@@ -80,6 +80,7 @@ export class SalesComponent implements OnInit {
   printTicketNumber: string;
   jobTypeId: number;
   captureObj: any = {};
+  isDiscountAdded: boolean;
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -122,6 +123,7 @@ export class SalesComponent implements OnInit {
     this.isCreditPay = false;
     this.isGiftCard = false;
     this.locationId = +localStorage.getItem('empLocationId');
+    this.isDiscountAdded = false;
     this.giftCardFromInit();
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
@@ -923,6 +925,10 @@ export class SalesComponent implements OnInit {
   }
   discountProcess() {
     let discountValue = 0;
+    if (this.isDiscountAdded) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
+      return;
+    }
     this.discountList = [];
     if (this.selectedDiscount.length > 0) {
       let washDiscountPrice = 0;
@@ -1050,16 +1056,22 @@ export class SalesComponent implements OnInit {
     if (this.selectedDiscount.length > 0) {
       const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
       if (dup.length > 0) {
+        this.isDiscountAdded = true;
         this.discount = '';
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
         return;
+      } else {
+        this.isDiscountAdded = false;
       }
     }
     if (this.discountService.length > 0) {
       const duplicatecheck = this.discountService.filter(selectedDis => +selectedDis.ServiceId === +this.discount);
       if (duplicatecheck.length > 0) {
+        this.isDiscountAdded = true;
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.discountExist });
         return;
+      } else {
+        this.isDiscountAdded = false;
       }
     }
     for (const i of this.discounts) {
