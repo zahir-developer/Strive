@@ -1,4 +1,5 @@
-﻿using Strive.BusinessEntities.City;
+﻿using Strive.BusinessEntities;
+using Strive.BusinessEntities.City;
 using Strive.Common;
 using System.Threading.Tasks;
 
@@ -19,5 +20,6 @@ namespace Strive.BusinessLogic.Common
         Result GetModelByMakeId(int makeId);
         Result GetAllMake();
         Result GetUpchargeByType(UpchargeDto upchargeDto);
+        void SendMultipleMail(string email, string body, string subject);
     }
 }
