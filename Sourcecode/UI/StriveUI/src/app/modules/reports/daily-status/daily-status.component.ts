@@ -72,7 +72,6 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.reportService.getDailyClockDetail(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         const clockDetail = JSON.parse(data.resultData);
         this.clockDetail = clockDetail?.Result?.TimeClockEmployeeDetails ? clockDetail?.Result?.TimeClockEmployeeDetails : [];
         this.clockDetailValue = clockDetail?.Result?.TimeClockDetails ? clockDetail?.Result?.TimeClockDetails : [];
@@ -128,9 +127,27 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     tableheader += `</tr>`;
     $('#table thead').html(tableheader);
     this.clockDetail.forEach(item => {
-      tableBody += `<tr><td>` + item.EmployeeName + `</td><td>` + (item?.WashHours ? (Math.floor(item?.WashHours / 60)) + "hh : " + ( item?.WashHours - (Math.floor(item?.WashHours / 60) * 60)) + " mm" : 0) + `</td><td>` +
-        (item?.DetailHours ? (Math.floor(item?.DetailHours / 60)) + "hh : " + ( item?.DetailHours - (Math.floor(item?.DetailHours / 60) * 60)) + " mm" : 0) + `</td><td>` 
-        + (Math.floor((item?.WashHours + item?.DetailHours) / 60)) + "hh : " + ( (item?.WashHours + item?.DetailHours) - (Math.floor((item?.WashHours + item?.DetailHours) / 60) * 60)) + " mm" + `</td>`;
+      tableBody += `<tr><td>` + item.EmployeeName + `</td><td>`;
+      var Hours = Math.floor(item?.WashHours / 60);
+    var Min = item?.WashHours - (Hours * 60);
+
+    tableBody += (item?.WashHours ?
+        (Hours < 10 ? "0" + Hours : Hours) + ":" +  (Min < 10 ? "0" + Min : Min)
+      : "00:00") + `</td><td>`;
+      
+    Hours = Math.floor(item?.DetailHours / 60);
+    Min = item?.DetailHours - (Hours * 60);
+
+     tableBody += (item?.DetailHours ? 
+      (Hours < 10 ? "0" + Hours : Hours) + ":" +  (Min < 10 ? "0" + Min : Min)
+      : "00:00") + `</td><td>` ;
+
+      Hours = Math.floor((item?.WashHours + item?.DetailHours) / 60);
+      Min = (item?.WashHours + item?.DetailHours) - (Hours * 60);
+        tableBody += 
+         ( (Hours < 10 ? "0" + Hours : Hours) + ":" +  (Min < 10 ? "0" + Min : Min))
+        + `</td>`;
+        
       for (let i = 1; i <= count; i++) {
         const Intime = 'Intime' + i;
         const Outtime = 'Outtime' + i;
@@ -143,9 +160,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         // (item[RoleName] !== undefined ? item[RoleName] : '') + `</td>`;
 
         tableBody += `<td>` +
-          item[TimeIn] + `</td><td>` +
-          item[TimeOut] + `</td><td>` +
-          item[RoleName] + `</td>`;
+         ( item[TimeIn] != undefined? item[TimeIn] : '' ) + `</td><td>` +
+         ( item[TimeOut] != undefined? item[TimeOut] : '' ) + `</td><td>` +
+         ( item[RoleName] != undefined? item[RoleName] : '' )  + `</td>`;
       }
       this.washHours += item.WashHours;
       this.detailHours += item.DetailHours;
@@ -153,8 +170,20 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     });
     tableBody += `</tr>`;
     $('#table tbody').html(tableBody);
-    this.totalWashHours  = (Math.floor(this.washHours / 60)) + "hh : " + ( this.washHours - (Math.floor(this.washHours / 60) * 60)) + " mm";
-    this.totalDetailHours  = (Math.floor(this.detailHours / 60)) + "hh : " + ( this.detailHours - (Math.floor(this.detailHours / 60) * 60)) + " mm";
+
+    var wHours = Math.floor(this.washHours / 60);
+    var wMin = this.washHours - (wHours * 60);
+
+    this.totalWashHours  = this.washHours > 0 ? 
+    (wHours < 10 ? "0" + wHours : wHours) + ":" +  (wMin < 10 ? "0" + wMin : wMin)
+     : "00:00"; 
+
+    var dHours = Math.floor(this.detailHours / 60);
+    var dMin = this.detailHours - (dHours * 60);
+
+    this.totalDetailHours  = this.detailHours > 0 ? 
+    (dHours < 10 ? "0" + dHours : dHours) + ":" +  (dMin < 10 ? "0" + dMin : dMin)
+    : "00:00";
   }
   getDailyStatusReport() {
     this.washes = [];
