@@ -203,7 +203,13 @@
           <DependentUpon>VerifyVehicleInfoViewController.cs</DependentUpon>
         </Compile>
         <Compile Include="Modules\Service\LastVisitViewController.cs" />
-        <Compile Include="Modules\Service\LastVisitViewController.Logic.cs" />
+        <Compile Include="Modules\Service\LastVisitViewController.Logic.cs">
+            <DependentUpon>Modules\Service\LastVisitViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Home\WashTimeViewController.cs" />
+        <Compile Include="Modules\Home\WashTimeViewController.Logic.cs">
+            <DependentUpon>Modules\Home\WashTimeViewController.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
