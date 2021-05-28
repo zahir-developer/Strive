@@ -86,9 +86,9 @@ namespace Admin.API.Controllers
         }
         [HttpGet]
         [Route("GetAllServiceAndProductList/{id}")]
-        public Result GetServicesAndProduct(int id)
+        public Result GetServicesAndProduct(int id, string query)
         {
-            return _bplManager.GetServicesAndProduct(id);
+            return _bplManager.GetServicesAndProduct(id,  query);
         }
     }
 }

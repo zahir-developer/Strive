@@ -370,6 +370,8 @@ export class BonusSetupComponent implements OnInit {
         }
         if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
           this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
+        } else {
+          this.noOfWashes = '';
         }
         if (bonus?.BonusDetails?.BonusRange !== null) {
           // this.noOfWashes = 0;
@@ -380,7 +382,7 @@ export class BonusSetupComponent implements OnInit {
           this.monthBonusList = [
             {
               BonusRangeId: 0,
-              BonusId: this.bonusId,
+              BonusId: this.bonusId, 
               Min: '',
               Max: '',
               noOfWashes: this.noOfWashes,   // ''
@@ -400,6 +402,7 @@ export class BonusSetupComponent implements OnInit {
             break;
           } else {
             isWashBetween = true;
+            list.Total = '';
           }
         }
         if (isWashBetween) {

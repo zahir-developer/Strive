@@ -125,12 +125,13 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   getTargetBusinessData(locationId, date) {
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
+        debugger;
         this.targetBusiness = JSON.parse(data.resultData);
-        if (this.targetBusiness.WeatherPrediction.WeatherPredictionToday !== null) {
+        //if (this.targetBusiness.WeatherPrediction.WeatherPredictionToday !== null) {
           this.cashRegisterForm.patchValue({
             goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
           });
-        }
+        //}
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

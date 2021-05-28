@@ -3,11 +3,11 @@
         <h6 class="weather-title">Last Week this day</h6>
         <div class="align-items-center">
             <div class="col-4 p-r-0 p-l-0 text-center">
-                <h4 class="text-center font-weight-bold m-t-2">{{weatherdata?.WashCount}}</h4> <i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span> </div>
+                <h4 class="text-center font-weight-bold m-t-2">{{weatherdata.WashCount ? weatherdata.WashCount : 0}}</h4> <i class="mdi mdi-car-wash font-size-1-1 theme-secondary-color"></i> <span> Washes</span> </div>
             <div class="col-4 border-left text-center">
-                <h4 class="text-center font-weight-bold m-t-2">{{weatherdata?.RainProbability}}</h4> <i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span> </div>
+                <h4 class="text-center font-weight-bold m-t-2">{{weatherdata.RainProbability ? weatherdata.RainProbability : '-'}}</h4> <i class="mdi mdi-weather-rainy theme-optional-icon-color font-size-1-1"></i> <span> Rain </span> </div>
             <div class="col-4 border-left text-center p-l-0 p-r-0">
-                <h4 class="text-center font-weight-bold m-t-2">{{weatherdata?.TargetBusiness}}</h4> <i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span> </div>
+                <h4 class="text-center font-weight-bold m-t-2">{{weatherdata.TargetBusiness ? weatherdata.TargetBusiness : 0}}</h4> <i class="mdi mdi-bullseye theme-primary-color font-size-1-1"></i> <span>Daily Target </span> </div>
         </div>
     </div>
     <!-- end card-body-->

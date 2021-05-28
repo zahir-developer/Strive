@@ -96,17 +96,44 @@ export class DailySalesComponent implements OnInit, AfterViewInit {
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.dailySalesReport, 'dailySalesReport_' + moment(this.date).format('MM/dd/yyyy'));
+        const report = this.salesReport(this.dailySalesReport);
+        this.excelService.exportAsCSVFile(report, 'dailySalesReport_' + moment(this.date).format('MM/dd/yyyy'));
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.dailySalesReport, 'dailySalesReport_' + moment(this.date).format('MM/dd/yyyy'));
+        const report = this.salesReport(this.dailySalesReport);
+        this.excelService.exportAsExcelFile(report, 'dailySalesReport_' + moment(this.date).format('MM/dd/yyyy'));
         break;
       }
       default: {
         return;
       }
     }
+  }
+
+  salesReport(record) {
+    const sales = [];
+    record.filter( item => {
+      sales.push({
+        TicketNumber: item.TicketNumber,
+        TimeIn: item.TimeIn,
+        TimeOut: item.TimeOut,
+        Est: item.Est,
+        Deviation: item.Deviation,
+        ServiceName: item.ServiceName,
+        ServiceType: item.ServiceType,
+        MerchandiseItemsPurchased: item.MerchandiseItemsPurchased,
+        Barcode: item.Barcode,
+        Make: item.Make,
+        Color: item.Color,
+        Model: item.Model,
+        CustomerName: item.CustomerName,
+        PhoneNumber: item.PhoneNumber,
+        Amount: item.Amount,
+        Type: item.Type
+      });
+    });
+    return sales;
   }
 
   onValueChange(event) {

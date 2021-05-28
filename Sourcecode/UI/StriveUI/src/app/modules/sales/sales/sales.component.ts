@@ -80,6 +80,8 @@ export class SalesComponent implements OnInit {
   printTicketNumber: string;
   jobTypeId: number;
   captureObj: any = {};
+  isDiscountAdded: boolean;
+  addedDiscount = [];
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -122,6 +124,7 @@ export class SalesComponent implements OnInit {
     this.isCreditPay = false;
     this.isGiftCard = false;
     this.locationId = +localStorage.getItem('empLocationId');
+    this.isDiscountAdded = false;
     this.giftCardFromInit();
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
@@ -886,7 +889,7 @@ export class SalesComponent implements OnInit {
       retRef: auth.retref,
       invoiceId: {}
     };
-    this.salesService.paymentCapture(capObj).subscribe( res => {
+    this.salesService.paymentCapture(capObj).subscribe(res => {
       if (res.status === 'Success') {
         const capture = JSON.parse(res.resultData);
         console.log(capture, 'auth');
@@ -898,7 +901,7 @@ export class SalesComponent implements OnInit {
   }
 
   processpayment() {
-    if (this.credit !== 0 ) {
+    if (this.credit !== 0) {
       this.paymentCapture();
     } else {
       this.addPayment();
@@ -923,8 +926,13 @@ export class SalesComponent implements OnInit {
   }
   discountProcess() {
     let discountValue = 0;
+    if (this.isDiscountAdded) {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
+      return;
+    }
+    this.addedDiscount = this.selectedDiscount.map(x => Object.assign({}, x));
     this.discountList = [];
-    if (this.selectedDiscount.length > 0) {
+    if (this.addedDiscount.length > 0) {
       let washDiscountPrice = 0;
       let detailDiscountPrice = 0;
       let additionalDiscountPrice = 0;
@@ -933,7 +941,7 @@ export class SalesComponent implements OnInit {
       let outsideDiscountPrice = 0;
       let noServiceTypePrice = 0;
       let allServiceDiscountPrice = 0;
-      this.selectedDiscount.forEach(item => {
+      this.addedDiscount.forEach(item => {
         const serviceType = this.serviceType.filter(type => +type.CodeId === +item.DiscountServiceType);
         if (serviceType.length > 0) {
           let washCost = 0;
@@ -1041,7 +1049,7 @@ export class SalesComponent implements OnInit {
     } else {
       this.discountAmount = 0;
     }
-    this.selectedDiscount.forEach(item => {
+    this.addedDiscount.forEach(item => {
       this.discountList.push(item);
     });
     document.getElementById('discountpopup').style.width = '0';
@@ -1050,16 +1058,22 @@ export class SalesComponent implements OnInit {
     if (this.selectedDiscount.length > 0) {
       const dup = this.selectedDiscount.filter(item => +item.ServiceId === +this.discount);
       if (dup.length > 0) {
+        this.isDiscountAdded = true;
         this.discount = '';
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.duplicate });
         return;
+      } else {
+        this.isDiscountAdded = false;
       }
     }
     if (this.discountService.length > 0) {
       const duplicatecheck = this.discountService.filter(selectedDis => +selectedDis.ServiceId === +this.discount);
       if (duplicatecheck.length > 0) {
+        this.isDiscountAdded = true;
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.discountExist });
         return;
+      } else {
+        this.isDiscountAdded = false;
       }
     }
     for (const i of this.discounts) {
@@ -1069,10 +1083,21 @@ export class SalesComponent implements OnInit {
           this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.invalidDiscount });
           return;
         } else {
+          // this.addedDiscount.push(i);
           this.selectedDiscount.push(i);
         }
       }
     }
+    // if (this.addedDiscount.length > 0) {
+    //   this.addedDiscount.forEach(item => {
+    //     if (item.DiscountType === 'Flat Fee') {
+    //       item.Price = String(item.Price).replace('-', '');
+    //       item.Price = +item.Price;
+    //     } else {
+    //       item.Price = item.Price;
+    //     }
+    //   });
+    // }
   }
 
   deletediscount(event) {

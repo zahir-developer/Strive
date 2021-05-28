@@ -9,7 +9,7 @@ import { WeatherService } from '../../services/common-service/weather.service';
 export class LastThreeMonthComponent implements OnInit {
 
   weatherThreeMonth: any;
-@Input() targetBusiness : any;
+@Input() targetBusiness?: any;
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
@@ -17,8 +17,5 @@ export class LastThreeMonthComponent implements OnInit {
   }
   getWeatherDetails()  {
       this.weatherThreeMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastThirdMonth;
-  
-
-
   }
 }

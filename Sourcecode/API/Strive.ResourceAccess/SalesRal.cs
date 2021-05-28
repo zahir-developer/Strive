@@ -100,9 +100,10 @@ namespace Strive.ResourceAccess
             db.Save(cmd);
             return true;
         }
-        public ServiceAndProductViewModel GetServicesAndProduct( int id)
+        public ServiceAndProductViewModel GetServicesAndProduct( int id,string query)
         {
             _prm.Add("@LocationId", id);
+            _prm.Add("@Query", query);
             return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), _prm);
         }
 
