@@ -128,12 +128,8 @@
         <ImageAsset Include="Resources\Assets.xcassets\close.imageset\Icon ionic-ios-close.png" />
         <ImageAsset Include="Resources\Assets.xcassets\close.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\close.imageset\Icon ionic-ios-close%403x.png" />
-
         <ImageAsset Include="Resources\Colors.xcassets\Contents.json" />
         <ImageAsset Include="Resources\Colors.xcassets\app_color.colorset\Contents.json" />
-
-        <ImageAsset Include="Resources\Assets.xcassets\AppIcon.appiconset\Contents.json" />
-
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -208,23 +204,14 @@
         <Compile Include="Storyboards\VerifyVehicleInfoViewController.designer.cs">
           <DependentUpon>VerifyVehicleInfoViewController.cs</DependentUpon>
         </Compile>
-
         <Compile Include="Storyboards\ServiceQuestionViewController.cs" />
         <Compile Include="Storyboards\ServiceQuestionViewController.designer.cs">
           <DependentUpon>ServiceQuestionViewController.cs</DependentUpon>
         </Compile>
         <Compile Include="Extensions\StringExtension.cs" />
         <Compile Include="Extensions\UIExtension.cs" />
-
         <Compile Include="Modules\Service\LastVisitViewController.cs" />
-        <Compile Include="Modules\Service\LastVisitViewController.Logic.cs">
-            <DependentUpon>Modules\Service\LastVisitViewController.cs</DependentUpon>
-        </Compile>
-        <Compile Include="Modules\Home\WashTimeViewController.cs" />
-        <Compile Include="Modules\Home\WashTimeViewController.Logic.cs">
-            <DependentUpon>Modules\Home\WashTimeViewController.cs</DependentUpon>
-        </Compile>
-
+        <Compile Include="Modules\Service\LastVisitViewController.Logic.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

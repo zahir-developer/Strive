@@ -2,6 +2,8 @@
 
 using System;
 using Greeter.Common;
+using Greeter.Extensions;
+using Greeter.Storyboards;
 using UIKit;
 
 namespace Greeter
@@ -13,7 +15,6 @@ namespace Greeter
         readonly UIColor unselectedBtnTxtColor = UIColor.Black;
         readonly UIColor selectedBtnBgColor = UIColor.FromRGB(1, 100, 87);
         readonly UIColor selectedBtnTxtColor = UIColor.White;
-
 
         // State Values
         bool IsWash = true;
@@ -30,8 +31,8 @@ namespace Greeter
             //float paddingTextField = 60;
 
             // Initial UI Settings
-            AddLeftPadding(txtFieldBarcode, UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
-            AddRightPadding(txtFieldBarcode, UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            txtFieldBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            txtFieldBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
             //Clicks
             btnBack.TouchUpInside += delegate
@@ -65,7 +66,7 @@ namespace Greeter
 
             btnSelect.TouchUpInside += delegate
             {
-                if (IsEmpty(txtFieldBarcode.Text))
+                if (txtFieldBarcode.Text.IsEmpty())
                 {
                     ShowAlertMsg(btnSelect.TitleLabel.Text);
 
@@ -112,12 +113,16 @@ namespace Greeter
 
         void NavigateToWashOrDetailScreen()
         {
-            if (IsWash)
-                ShowAlertMsg(btnWash.TitleLabel.Text);
-            else
-                ShowAlertMsg(btnDetail.TitleLabel.Text);
+            //if (IsWash)
+            //    ShowAlertMsg(btnWash.TitleLabel.Text);
+            //else
+            //    ShowAlertMsg(btnDetail.TitleLabel.Text);
 
-            // TODO naviagte to service questionarie screen
+            //UIStoryboard sb = UIStoryboard.FromName("", null);
+
+            UIViewController vc = this.Storyboard.InstantiateViewController(nameof(ServiceQuestionViewController));
+
+            NavigateToWithAnim(vc);
         }
 
         void UnSelectButton(UIButton btn)

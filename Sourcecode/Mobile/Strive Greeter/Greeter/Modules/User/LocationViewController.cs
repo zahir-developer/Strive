@@ -3,6 +3,7 @@
 using System;
 using Foundation;
 using Greeter.Common;
+using Greeter.Extensions;
 using UIKit;
 
 namespace Greeter
@@ -28,8 +29,8 @@ namespace Greeter
             base.ViewDidLoad();
 
             // Initial UI Settings
-            AddLeftPadding(tfLocation, UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            AddRightPadding(tfLocation, UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            tfLocation.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfLocation.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
             //pvLoc.Model = new LocationModel();
 
@@ -41,11 +42,6 @@ namespace Greeter
             {
                 NavigateToTabsScreen();
             };
-
-            //btnNext.TouchUpInside += delegate
-            //{
-            //    NavigateToTabsScreen();
-            //};
         }
 
         UIStoryboard GetStoryboard(string name)
