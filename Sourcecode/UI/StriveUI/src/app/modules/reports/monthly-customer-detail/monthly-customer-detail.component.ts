@@ -98,9 +98,9 @@ export class MonthlyCustomerDetailComponent implements OnInit {
             ('Membership - ' + o.MemberShipName) : 'DriveUp') +
           '</td><td>' + o.MembershipPrice.toFixed(2) + '</td><td>' + o.TicketAmount.toFixed(2) + '</td></tr>';
         total += o.TicketAmount;
-        wash += index;
+        wash += 1;
       });
-      tableStr += '<tr><th>Washes</th><td>' + (wash + 1) + '</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>'
+      tableStr += '<tr><th>Washes</th><td>' + (wash ) + '</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>'
         + total.toFixed(2) + '</th><th> Difference : 10</th></tr>';
     });
     $('#customerDetail tbody').html(tableStr);
