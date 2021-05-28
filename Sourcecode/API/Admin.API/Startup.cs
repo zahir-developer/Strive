@@ -51,6 +51,7 @@ using Strive.BusinessLogic.AdSetup;
 using Strive.BusinessLogic.DealSetup;
 using Strive.BusinessLogic.PaymentGateway;
 using Strive.BusinessLogic.SuperAdmin.Tenant;
+using Microsoft.Extensions.Logging;
 
 namespace Admin.API
 {
@@ -204,16 +205,21 @@ namespace Admin.API
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings, IAntiforgery antiforgery)
+    IOptions<SecureHeadersMiddlewareConfiguration> secureHeaderSettings, IAntiforgery antiforgery, ILoggerFactory logger)
         {
             app.UseSwagger();
             //app.UseSwaggerUI(options => { options.SwaggerEndpoint(Configuration["StriveAdminSettings:VirtualDirectory"] + "swagger.json", "Strive-Admin - v1"); });
             app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "StriveAdminApi"); });
+
+            var fileExists = Directory.Exists(Configuration["StriveAdminSettings:Logs:Error"]);
+
+            logger.AddFile(Configuration["StriveAdminSettings:Logs:Error"] + "mylog-{Date}.txt");
+
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000","http://14.141.185.75:5003","http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5003", "http://40.114.79.101:5000").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
-            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            //app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000","http://14.141.185.75:5003","http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5003", "http://40.114.79.101:5000").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // global cors policy
             //app.UseCors(x => x
