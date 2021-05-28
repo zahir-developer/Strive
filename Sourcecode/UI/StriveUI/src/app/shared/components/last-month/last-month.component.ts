@@ -8,14 +8,13 @@ import { WeatherService } from '../../services/common-service/weather.service';
 })
 export class LastMonthComponent implements OnInit {
   weatherMonth: any;
-  @Input() targetBusiness : any;
-    constructor() { }
-  
-    ngOnInit(): void {
-      this.getWeatherDetails();
-    }
-    getWeatherDetails()  {
-        this.weatherMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastMonth
-    
-    }
+  @Input() targetBusiness?: any;
+  constructor() { }
+
+  ngOnInit(): void {
+    this.getWeatherDetails();
   }
+  getWeatherDetails() {
+    this.weatherMonth = this.targetBusiness.WeatherPrediction.WeatherPredictionLastMonth;
+  }
+}

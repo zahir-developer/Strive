@@ -29,7 +29,7 @@
                                     <ngx-timepicker-field [format]="24" (timeChanged)="inTime($event)"
                                         [(ngModel)]="storeTimeIn" [defaultTime]="storeTimeIn ">
                                     </ngx-timepicker-field>
-                                    <div *ngIf="submitted && storeTimeIn === ''" style="color: red;">
+                                    <div *ngIf="submitted && storeTimeIn === ''" style="color: red; font-size: 12px;">
                                         <div>Please enter the store open time</div>
                                     </div>
                                 </div>
@@ -41,13 +41,18 @@
                                             {{status.CodeValue}}
                                         </option>
                                     </select>
-                                    <div *ngIf="submitted && storeStatus === ''" style="color: red;">
+                                    <div *ngIf="submitted && storeStatus === ''" style="color: red;font-size: 12px;">
                                         <div>Please select the store status</div>
                                     </div>
                                 </div>
                                 <div class="d-inline-block p-l-15">
                                     <button type="button" class="btn theme-primary-button-color btn-sm"
                                         (click)="submit()">Save</button>
+                                        <div *ngIf="submitted && ( storeStatus === '' || storeTimeIn === '')" style="color: red;font-size: 12px;">
+                                            <div style="visibility: hidden;">
+                                                ''
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                             <!-- <div class="col-6">

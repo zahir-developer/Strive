@@ -242,12 +242,6 @@
                                                             {{tip.DetailerTip}}
                                                         </td>
                                                     </tr>
-                                                    <tr *ngFor="let tip of detailTip">
-                                                        <th>{{tip.FirstName}} {{tip.LastName}}</th>
-                                                        <td>
-                                                            {{tip.DetailerTip}}
-                                                        </td>
-                                                    </tr>
                                                     <tr *ngIf="detailTip == null">
                                                         <td colspan="7" class="text-center">No Tips Found</td>
                                                     </tr>
