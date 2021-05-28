@@ -370,9 +370,9 @@
                                                                 <td class="pointer">{{discount?.ServiceName}}</td>
                                                                 <td style="text-align: center;">
                                                                     {{discount.DiscountType === 'Flat Fee' ?
-                                                                   (discount?.Price | currency)  : discount?.Price}}
-                                                                   {{discount.DiscountType === 'Flat Fee' ?
-                                                                   ''  : '%'}}
+                                                                    (discount?.Price | currency) : discount?.Price}}
+                                                                    {{discount.DiscountType === 'Flat Fee' ?
+                                                                    '' : '%'}}
                                                                 </td>
                                                                 <td style="text-align: center;"> <i
                                                                         class="mdi mdi-close-circle pointer  theme-optional-icon-color font-size-1-1"
@@ -651,7 +651,10 @@
                                         <div class="form-row border-bottom m-t-5 m-b-25">
                                             <div class="form-group col-md-6"> Balance Due </div>
                                             <div class="form-group col-md-6 text-right theme-optional-icon-color">
-                                                {{(originalGrandTotal - totalPaid - discountAmount) | currency}}
+                                                {{(originalGrandTotal - totalPaid - discountAmount) > 0 ?
+                                                ((originalGrandTotal - totalPaid - discountAmount) | currency ) :
+                                                ( 0 | currency)
+                                                }}
                                             </div>
                                         </div>
                                         <div class="form-row">

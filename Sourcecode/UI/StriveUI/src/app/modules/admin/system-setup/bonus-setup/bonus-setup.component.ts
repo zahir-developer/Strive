@@ -94,6 +94,9 @@ export class BonusSetupComponent implements OnInit {
     if (checkValue) {
       this.isValueMax = true;
     }
+    if (this.isMinValueObj?.isMinValue || this.isValueObj?.isValueMax) {
+      return;
+    }
     for (let i = 0; i < this.monthBonusList.length; i++) {
       if (+this.monthBonusList[i].Min > +this.monthBonusList[i].Max || +this.monthBonusList[i].Min === +this.monthBonusList[i].Max) {
         this.isValueObj = { isValueMax: true, index: i };
@@ -103,16 +106,16 @@ export class BonusSetupComponent implements OnInit {
       }
     }
 
-    let washCount = '';
-    if (this.monthBonusList.length === 1) {
-      washCount = '0';
-    }
+    // let washCount = '';
+    // if (this.monthBonusList.length === 1) {
+    //   washCount = '0';
+    // }
     this.monthBonusList.push({
       BonusRangeId: 0,
       BonusId: this.bonusId,
       Min: '',
       Max: '',
-      noOfWashes: washCount,
+      noOfWashes: '',
       BonusAmount: '',
       Total: '',
       IsActive: true,
@@ -160,7 +163,7 @@ export class BonusSetupComponent implements OnInit {
     if (bonus.BonusRangeId === 0) {
       this.monthBonusList = this.monthBonusList.filter((item, i) => i !== ind);
       if (this.monthBonusList.length === 0) {
-        this.addBonus()
+        this.addBonus();
       }
     } else {
       this.monthBonusList = this.monthBonusList.filter(item => item.BonusRangeId !== bonus.BonusRangeId);
@@ -170,6 +173,8 @@ export class BonusSetupComponent implements OnInit {
         this.addBonus();
       }
     }
+    this.isMinValueObj = { isMinValue: false, index: ind };
+    this.isValueObj = { isValueMax: false, index: ind };
   }
 
   totalCollisionAmount() {
@@ -236,6 +241,9 @@ export class BonusSetupComponent implements OnInit {
     });
     if (checkValue) {
       this.submitted = true;
+      return;
+    }
+    if (this.isMinValueObj?.isMinValue || this.isValueObj?.isValueMax) {
       return;
     }
     for (let i = 0; i < this.monthBonusList.length; i++) {

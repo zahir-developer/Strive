@@ -921,7 +921,9 @@ export class SalesComponent implements OnInit {
     this.removAddedAmount(+this.cash);
     this.cash = this.cashTotal;
     this.calculateTotalpaid(+this.cash);
-    this.cashback = this.totalPaid - (+this.grandTotal);
+    if (this.totalPaid > +this.grandTotal) {
+      this.cashback = this.totalPaid - (+this.grandTotal);
+    }
     document.getElementById('cashpopup').style.width = '0';
   }
   discountProcess() {
@@ -1122,7 +1124,7 @@ export class SalesComponent implements OnInit {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment });
       return;
     }
-    if (balancedue !== 0) {
+    if (0 < balancedue) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.total });
       return;
     }
