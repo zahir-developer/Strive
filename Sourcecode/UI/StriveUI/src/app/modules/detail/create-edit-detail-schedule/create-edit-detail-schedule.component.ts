@@ -538,18 +538,15 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     const washes = this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
       this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId) : '';
-    if (washes[0].IsCeramic == false) {
-
+    if (washes[0].IsCeramic === false) {
       this.isCeramic = false;
-      this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
-
-      this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId))
+      this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
+      this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
     }
     else {
       this.isCeramic = true;
-      this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
-
-      this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId))
+      this.upcharges = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
+      this.UpchargeType = this.ceramicUpcharges.filter(item => item.ServiceTypeId === Number(this.ceramicUpchargeId));
 
     }
 
@@ -796,9 +793,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
         if (this.vehicle.length !== 0) {
-          this.detailForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
-          this.getVehicleById(+this.vehicle[0].VehicleId);
-          this.getMembership(+this.vehicle[0].VehicleId);
+          this.detailForm.patchValue({ vehicle: this.vehicle[this.vehicle.length - 1].VehicleId });
+          this.getVehicleById(+this.vehicle[this.vehicle.length - 1].VehicleId);
+          this.getMembership(+this.vehicle[this.vehicle.length - 1].VehicleId);
         } else {
           this.detailForm.get('vehicle').reset();
         }
@@ -1461,12 +1458,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           });
           this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
-        else {
-          this.detailForm.patchValue({
-            upcharges: '',
-            upchargeType: ''
-          });
-        }
+        // else {
+        //   this.detailForm.patchValue({
+        //     upcharges: '',
+        //     upchargeType: ''
+        //   });
+        // }
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

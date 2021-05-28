@@ -673,9 +673,9 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
         if (this.vehicle.length !== 0) {
-          this.washForm.patchValue({ vehicle: this.vehicle[0].VehicleId });
-          this.getVehicleById(+this.vehicle[0].VehicleId);
-          this.getMembership(+this.vehicle[0].VehicleId);
+          this.washForm.patchValue({ vehicle: this.vehicle[this.vehicle.length - 1].VehicleId });
+          this.getVehicleById(+this.vehicle[this.vehicle.length - 1].VehicleId);
+          this.getMembership(+this.vehicle[this.vehicle.length - 1].VehicleId);
         } else {
           this.washForm.get('vehicle').reset();
         }
@@ -1029,12 +1029,12 @@ export class CreateEditWashesComponent implements OnInit {
   // To get upcharge
   getUpcharge() {
     if (!this.upchargeId || !this.washForm.value.model?.id) {
-      return
+      return;
     }
     const obj = {
       "upchargeServiceType": this.upchargeId,
       "modelId": this.washForm.value.model?.id
-    }
+    };
 
     this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
       if (res.status === 'Success') {
@@ -1043,21 +1043,16 @@ export class CreateEditWashesComponent implements OnInit {
         if (this.upchargeList?.length > 0) {
           this.washForm.patchValue({
             upcharges: this.upchargeList[this.upchargeList.length - 1].ServiceId,
-
             upchargeType: this.upchargeList[this.upchargeList.length - 1].ServiceId
-
           });
-
           this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
-        else {
-          this.washForm.patchValue({
-            upcharges: '',
-
-            upchargeType: ''
-
-          })
-        }
+        // else {
+        //   this.washForm.patchValue({
+        //     upcharges: '',
+        //     upchargeType: ''
+        //   });
+        // }
 
         // if(this.upcharges){
         //   this.upcharges.forEach(element => {

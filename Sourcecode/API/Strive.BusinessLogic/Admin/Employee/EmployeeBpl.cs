@@ -52,7 +52,7 @@ namespace Strive.BusinessLogic
                         _result = Helper.ErrorMessageResult(error);
                     }
 
-                    return _result;
+                   // return _result;
                 }
 
                 var commonBpl = new CommonBpl(_cache, _tenant);

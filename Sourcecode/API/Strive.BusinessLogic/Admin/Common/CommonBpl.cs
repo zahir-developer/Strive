@@ -558,5 +558,9 @@ namespace Strive.BusinessLogic.Common
             return ResultWrap(new CommonRal(_tenant, false).GetUpchargeByType, upchargeDto, "upcharge");
 
         }
+
+
+
+      
     }
 }
