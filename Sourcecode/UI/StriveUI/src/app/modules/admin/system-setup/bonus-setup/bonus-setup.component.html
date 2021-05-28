@@ -48,8 +48,8 @@
                                     <tbody>
                                         <tr *ngFor="let bonus of monthBonusList; let i = index">
                                             <td>
-                                                <input type="text" numbersOnly [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i);validateMaxValue(bonus, i)"
-                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' }"
+                                                <input type="text" numbersOnly [(ngModel)]="bonus.Min" (change)="validateMinValue(bonus, i)"
+                                                    [ngClass]="{ 'is-invalid': submitted && bonus.Min === '' || isValueMax && bonus.Min === '' || isMinValueObj?.isMinValue && isMinValueObj?.index === i && bonus.Min !== ''}"
                                                     class="form-control rounded-0 input-table text-right">
                                                 <div *ngIf="submitted && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
@@ -57,7 +57,9 @@
                                                 <div *ngIf="isValueMax && bonus.Min === ''" class="invalid-feedback">
                                                     Enter Min value
                                                 </div>
-                                              
+                                                <div *ngIf="isMinValueObj?.isMinValue && isMinValueObj?.index === i && bonus.Min !== ''" class="invalid-feedback">
+                                                     Value should be greater than previous value
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" numbersOnly [(ngModel)]="bonus.Max"
@@ -70,7 +72,7 @@
                                                 <div *ngIf="isValueMax && bonus.Max === ''" class="invalid-feedback">
                                                     Enter Max value
                                                 </div>
-                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i && bonus.Min !== ''" class="invalid-feedback">
+                                                <div *ngIf="isValueObj?.isValueMax && isValueObj?.index === i && bonus.Max !== ''" class="invalid-feedback">
                                                     Max value should be greater than Min value
                                                 </div>
                                             
