@@ -42,17 +42,32 @@ namespace Greeter
                 NavigateToTabsScreen();
             };
 
-            btnNext.TouchUpInside += delegate
-            {
-                NavigateToTabsScreen();
-            };
+            //btnNext.TouchUpInside += delegate
+            //{
+            //    NavigateToTabsScreen();
+            //};
+        }
+
+        UIStoryboard GetStoryboard(string name)
+        {
+            return UIStoryboard.FromName(name, null);
+        }
+
+        UIStoryboard GetHomeStorybpard()
+        {
+            return GetStoryboard(StoryBoardNames.HOME);
+        }
+
+        UIViewController GetViewController(UIStoryboard sb, Type t)
+        {
+            //string dsa = nameof(t);
+
+            return sb.InstantiateViewController(nameof(TabViewController));
         }
 
         void NavigateToTabsScreen()
         {
-            var storyboard = UIStoryboard.FromName(StoryBoardNames.HOME, null);
-
-            var vcTabs = storyboard.InstantiateViewController(nameof(TabViewController));
+            UIViewController vcTabs = GetViewController(GetHomeStorybpard(), typeof(TabViewController));
 
             NavigateToWithAnim(vcTabs);
         }
@@ -78,47 +93,46 @@ namespace Greeter
         {
             return locs[row];
         }
-
     }
 
-    public class LocationModel : UIPickerViewModel
-    {
-        public string[] locs = new string[] {
-            "Main Street 1",
-            "Main Street 2",
-            "Main Street 3"
-        };
+    //public class LocationModel : UIPickerViewModel
+    //{
+    //    public string[] locs = new string[] {
+    //        "Main Street 1",
+    //        "Main Street 2",
+    //        "Main Street 3"
+    //    };
 
-        //private UILabel personLabel;
+    //    //private UILabel personLabel;
 
-        //public LocationModel(UILabel personLabel)
-        //{
-        //this.personLabel = personLabel;
-        //}
+    //    //public LocationModel(UILabel personLabel)
+    //    //{
+    //    //this.personLabel = personLabel;
+    //    //}
 
-        public LocationModel()
-        {
+    //    public LocationModel()
+    //    {
 
-        }
+    //    }
 
-        public override nint GetComponentCount(UIPickerView pickerView)
-        {
-            return 1;
-        }
+    //    public override nint GetComponentCount(UIPickerView pickerView)
+    //    {
+    //        return 1;
+    //    }
 
-        public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
-        {
-            return locs.Length;
-        }
+    //    public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
+    //    {
+    //        return locs.Length;
+    //    }
 
-        public override string GetTitle(UIPickerView pickerView, nint row, nint component)
-        {
-            return locs[row];
-        }
+    //    public override string GetTitle(UIPickerView pickerView, nint row, nint component)
+    //    {
+    //        return locs[row];
+    //    }
 
-        public override void Selected(UIPickerView pickerView, nint row, nint component)
-        {
-            //personLabel.Text = $"This person is: {names[pickerView.SelectedRowInComponent(0)]},\n they are number {pickerView.SelectedRowInComponent(1)}";
-        }
-    }
+    //    public override void Selected(UIPickerView pickerView, nint row, nint component)
+    //    {
+    //        //personLabel.Text = $"This person is: {names[pickerView.SelectedRowInComponent(0)]},\n they are number {pickerView.SelectedRowInComponent(1)}";
+    //    }
+    //}
 }

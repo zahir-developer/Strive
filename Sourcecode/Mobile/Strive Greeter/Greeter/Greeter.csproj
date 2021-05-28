@@ -128,6 +128,8 @@
         <ImageAsset Include="Resources\Assets.xcassets\close.imageset\Icon ionic-ios-close.png" />
         <ImageAsset Include="Resources\Assets.xcassets\close.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\close.imageset\Icon ionic-ios-close%403x.png" />
+        <ImageAsset Include="Resources\Colors.xcassets\Contents.json" />
+        <ImageAsset Include="Resources\Colors.xcassets\app_color.colorset\Contents.json" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -153,6 +155,7 @@
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
         <InterfaceDefinition Include="Storyboards\HomeStoryboard.storyboard" />
         <InterfaceDefinition Include="Storyboards\UserStoryboard.storyboard" />
+        <InterfaceDefinition Include="Resources\Storyboards\UserStoryboard~.storyboard" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -201,6 +204,12 @@
         <Compile Include="Storyboards\VerifyVehicleInfoViewController.designer.cs">
           <DependentUpon>VerifyVehicleInfoViewController.cs</DependentUpon>
         </Compile>
+        <Compile Include="Storyboards\ServiceQuestionViewController.cs" />
+        <Compile Include="Storyboards\ServiceQuestionViewController.designer.cs">
+          <DependentUpon>ServiceQuestionViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Extensions\StringExtension.cs" />
+        <Compile Include="Extensions\UIExtension.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

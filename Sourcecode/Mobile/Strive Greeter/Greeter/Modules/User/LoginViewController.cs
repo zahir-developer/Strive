@@ -2,6 +2,7 @@
 
 using System;
 using Greeter.Common;
+using Greeter.Extensions;
 
 namespace Greeter
 {
@@ -17,16 +18,17 @@ namespace Greeter
         {
             base.ViewDidLoad();
 
-            // Initial UI Settings
+            // Initial UI Customisation
             AddLeftPadding(tfUserId, UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             AddRightPadding(tfUserId, UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
 
             AddLeftPadding(tfPswd, UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             AddRightPadding(tfPswd, UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
+            //Clicks
             btnLogin.TouchUpInside += delegate
             {
-                LoginClicked();
+                LoginClicked(tfUserId.Text, tfPswd.Text);
             };
 
             btnEye.TouchUpInside += delegate
@@ -47,26 +49,27 @@ namespace Greeter
             }
         }
 
-        void LoginClicked()
+        void LoginClicked(string userId, string pswd)
         {
             // Validate Fields
-            if (IsEmpty(tfUserId.Text) && IsEmpty(tfPswd.Text))
-            {
-                ShowAlertMsg(Common.Messages.USER_ID_AND_PSWD_EMPTY);
-                return;
-            }
 
-            if (IsEmpty(tfUserId.Text))
-            {
-                ShowAlertMsg(Common.Messages.USER_ID_EMPTY);
-                return;
-            }
+            //if (userId?.IsEmpty() && IsEmpty(pswd))
+            //{
+            //    ShowAlertMsg(Common.Messages.USER_ID_AND_PSWD_EMPTY);
+            //    return;
+            //}
 
-            if (IsEmpty(tfPswd.Text))
-            {
-                ShowAlertMsg(Common.Messages.PSWD_EMPTY);
-                return;
-            }
+            //if (IsEmpty(userId))
+            //{
+            //    ShowAlertMsg(Common.Messages.USER_ID_EMPTY);
+            //    return;
+            //}
+
+            //if (IsEmpty(pswd))
+            //{
+            //    ShowAlertMsg(Common.Messages.PSWD_EMPTY);
+            //    return;
+            //}
 
             // Navigation
             NavigateToLocationScreen();

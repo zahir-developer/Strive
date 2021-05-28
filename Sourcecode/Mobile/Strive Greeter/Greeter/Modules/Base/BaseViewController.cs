@@ -28,16 +28,6 @@ namespace Greeter
             NavigateTo(vc, false);
         }
 
-        public bool IsEmpty(string txt)
-        {
-            if (string.IsNullOrWhiteSpace(txt))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public void NavigateToWithAnim(UIViewController vc)
         {
             NavigateTo(vc, true);
@@ -66,20 +56,6 @@ namespace Greeter
 
             // Present Alert
             PresentViewController(okAlertController, true, null);
-        }
-
-        public void AddLeftPadding(UITextField txtField, float padding)
-        {
-            var paddingView = new UIView(frame: new CoreGraphics.CGRect(0, 0, padding, txtField.Frame.Height));
-            txtField.LeftView = paddingView;
-            txtField.LeftViewMode = UITextFieldViewMode.Always;
-        }
-
-        public void AddRightPadding(UITextField txtField, float padding)
-        {
-            var paddingView = new UIView(frame: new CoreGraphics.CGRect(0, 0, padding, txtField.Frame.Height));
-            txtField.RightView = paddingView;
-            txtField.RightViewMode = UITextFieldViewMode.Always;
         }
     }
 }

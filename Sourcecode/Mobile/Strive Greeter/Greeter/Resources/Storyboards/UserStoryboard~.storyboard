@@ -11,13 +11,12 @@
         <!--Navigation Controller-->
         <scene sceneID="pOa-fC-tEJ">
             <objects>
-                <navigationController id="kJs-Is-JPw" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="kJs-Is-JPw" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Y0P-u5-CGh">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="fRY-gQ-j5g" kind="relationship" relationship="rootViewController" id="BB4-jq-ZU2"/>
+                        <segue destination="FVQ-nP-A3n" kind="relationship" relationship="rootViewController" id="I3c-fN-M5H"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lwq-Vt-IGE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -68,7 +67,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="p4a-I1-3Cz"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="LOGIN">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -123,7 +122,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SwQ-7G-PSC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-29" y="69"/>
+            <point key="canvasLocation" x="204" y="49"/>
         </scene>
         <!--Location View Controller-->
         <scene sceneID="18N-iX-axu">
@@ -214,7 +213,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jSF-td-EtY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="707" y="69"/>
+            <point key="canvasLocation" x="930" y="49"/>
         </scene>
     </scenes>
     <resources>
