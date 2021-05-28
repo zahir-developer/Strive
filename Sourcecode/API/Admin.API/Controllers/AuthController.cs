@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
 using Strive.BusinessEntities.Model;
@@ -14,7 +15,12 @@ namespace Admin.Api.Controllers
     [Route("/Auth/")]
     public class AuthController : StriveControllerBase<IAuthManagerBpl>
     {
-        public AuthController(IAuthManagerBpl authManager, IConfiguration config) : base(authManager, config) { }
+        private readonly ILogger _logger;
+
+        public AuthController(IAuthManagerBpl authManager, IConfiguration config, ILogger<AuthController> logger) : base(authManager, config)
+        {
+            _logger = logger;
+        }
 
         #region POST
 
@@ -22,7 +28,20 @@ namespace Admin.Api.Controllers
         /// Login for Employee and Client.
         /// </summary>
         [HttpPost, Route("Login")]
-        public Result Login([FromBody] Authentication authentication) => _bplManager.Login(authentication, GetSecretKey(), GetTenantConnection());
+        public Result Login([FromBody] Authentication authentication)
+        {
+            try
+            {
+                _logger.LogInformation("Test strive message....!!!");
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            
+            return _bplManager.Login(authentication, GetSecretKey(), GetTenantConnection());
+        }
 
         [HttpPost, Route("Refresh")]
         public Result Refresh([FromBody] RegenerateToken regToken) => _bplManager.GenerateTokenByRefreshKey(regToken.Token, regToken.RefreshToken, GetSecretKey());
@@ -76,6 +95,18 @@ namespace Admin.Api.Controllers
         [HttpGet, Route("LogoutAllApp")]
         public void LogoutAllApp (string tokenkey) => _bplManager.Logout(tokenkey, GetSecretKey());
 
-
+        [HttpPost, Route("Log")]
+        public void Log(string message)
+        {
+            try
+            {
+                _logger.LogInformation(message);
+                throw new System.Exception(message);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

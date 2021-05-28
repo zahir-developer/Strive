@@ -52,14 +52,20 @@ using Strive.BusinessLogic.DealSetup;
 using Strive.BusinessLogic.PaymentGateway;
 using Strive.BusinessLogic.SuperAdmin.Tenant;
 using Microsoft.Extensions.Logging;
+using Strive.BusinessLogic.Logger;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Serilog;
+using Serilog.AspNetCore;
 
 namespace Admin.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly Microsoft.Extensions.Logging.ILogger _logger;
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -104,6 +110,28 @@ namespace Admin.API
             services.AddTransient<IdealSetupBpl, DealSetupBpl>();
             services.AddTransient<IPaymentGatewayBpl, PaymentGatewayBpl>();
             services.AddTransient<ITenantBpl, TenantBpl>();
+            services.AddTransient<ILogBpl, LogBpl>();
+
+            Serilog.Log.Logger = new LoggerConfiguration()
+           .MinimumLevel.Information()
+           .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+           .Enrich.FromLogContext()
+           .WriteTo.File("Errorlog.txt")
+           .CreateLogger();
+
+            Serilog.Log.Information("Strive Starting host");
+
+            services.AddSingleton<ILoggerFactory>(new SerilogLoggerFactory(Serilog.Log.Logger, false));
+
+            services.AddMvcCore(
+            opt =>  // or AddMvc()
+            {
+                    // remove formatter that turns nulls into 204 - No Content responses
+                    // this formatter breaks Angular's Http response JSON parsing
+                    opt.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+            });
+
+            _logger.LogInformation("Test log Strive");
 
             #region Add CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -215,6 +243,7 @@ namespace Admin.API
 
             logger.AddFile(Configuration["StriveAdminSettings:Logs:Error"] + "mylog-{Date}.txt");
 
+           
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
