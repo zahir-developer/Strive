@@ -95,7 +95,6 @@
         <ImageAsset Include="Resources\Assets.xcassets\splash_icon.imageset\Group 177%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\splash_icon.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\splash_icon.imageset\Group 177.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\.DS_Store" />
         <ImageAsset Include="Resources\Assets.xcassets\services.imageset\Icon awesome-car-alt%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\services.imageset\Icon awesome-car-alt%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\services.imageset\Contents.json" />
@@ -130,6 +129,7 @@
         <ImageAsset Include="Resources\Assets.xcassets\close.imageset\Icon ionic-ios-close%403x.png" />
         <ImageAsset Include="Resources\Colors.xcassets\Contents.json" />
         <ImageAsset Include="Resources\Colors.xcassets\app_color.colorset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\AppIcon.appiconset\Contents.json" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -210,8 +210,16 @@
         </Compile>
         <Compile Include="Extensions\StringExtension.cs" />
         <Compile Include="Extensions\UIExtension.cs" />
-        <Compile Include="Modules\Service\LastVisitViewController.cs" />
+     
         <Compile Include="Modules\Service\LastVisitViewController.Logic.cs" />
+        <Compile Include="Modules\Service\LastVisitViewController.Logic.cs">
+            <DependentUpon>Modules\Service\LastVisitViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Home\WashTimeViewController.cs" />
+        <Compile Include="Modules\Home\WashTimeViewController.Logic.cs">
+            <DependentUpon>Modules\Home\WashTimeViewController.cs</DependentUpon>
+        </Compile>
+
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
