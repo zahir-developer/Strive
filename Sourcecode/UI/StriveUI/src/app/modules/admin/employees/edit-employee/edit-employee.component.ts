@@ -76,6 +76,7 @@ export class EditEmployeeComponent implements OnInit {
   selectedLocationHour = '';
   isRateAllLocation: boolean;
   errorMessage: boolean;
+  dellocationRateList = [];
   constructor(
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
@@ -222,6 +223,7 @@ export class EditEmployeeComponent implements OnInit {
 
   setValue() {
     const employee = this.employeeData;
+    this.dellocationRateList = [];
     this.dropdownSetting();
     const employeeInfo = employee.EmployeeInfo;
     this.selectedStateId = employeeInfo?.State;
@@ -456,9 +458,14 @@ export class EditEmployeeComponent implements OnInit {
         location: this.employeeLocation
       });
     } else {
+      this.locationList = this.locationList.filter( item => item.item_id !== event.item_id);
       this.deSelectLocation.push(event);
     }
 
+  }
+
+  onSelectedLocation(event) {
+    this.locationList.push(event);
   }
 
   updateEmployee() {
@@ -611,6 +618,9 @@ export class EditEmployeeComponent implements OnInit {
         isDeleted: false,
       });
     });
+    this.dellocationRateList.forEach( item => {
+      locHour.push(item);
+    });
     const finalObj = {
       employee: employeeObj,
       employeeDetail: employeeDetailObj,
@@ -647,6 +657,17 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   deleteLocationHour(loc) {
+    if (loc.employeeHourlyRate !== 0) {
+      this.dellocationRateList.push({
+        employeeHourlyRateId: loc.employeeHourlyRateId,
+        employeeId: loc.employeeId,
+        roleId: null,
+        locationId: loc.locationId,
+        hourlyRate: loc.ratePerHour,
+        isActive: true,
+        isDeleted: true,
+      });
+    }
     this.locationRateList = this.locationRateList.filter(item => item.locationId !== loc.locationId);
     this.locationList.unshift({
       item_id: loc.locationId,

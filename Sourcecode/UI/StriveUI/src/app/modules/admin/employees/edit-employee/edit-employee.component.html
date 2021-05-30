@@ -219,7 +219,7 @@
                                     <ng-multiselect-dropdown [placeholder]="'Select Location'"
                                         [disabled]="!isEditEmployeeList && actionType === 'view'"
                                         [settings]="dropdownSettings" [data]="location" formControlName="location"
-                                        (onDeSelect)="onLocationDeSelect($event)">
+                                        (onDeSelect)="onLocationDeSelect($event)" (onSelect)="onSelectedLocation($event)">
                                     </ng-multiselect-dropdown>
                                 </div>
 
