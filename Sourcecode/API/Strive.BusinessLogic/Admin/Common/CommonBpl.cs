@@ -72,8 +72,11 @@ namespace Strive.BusinessLogic.Common
             try
             {
                 var lstCode = new CommonRal(_tenant, false).GetCodeByCategory(codeCategory);
+
                 _resultContent.Add(lstCode.WithName("Codes"));
+
                 _result = Helper.BindSuccessResult(_resultContent);
+
             }
             catch (Exception ex)
             {
