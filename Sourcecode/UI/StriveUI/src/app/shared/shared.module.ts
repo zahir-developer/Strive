@@ -65,6 +65,7 @@ import { AlphaNumericDirective } from './Directive/alpha-numeric.directive';
 import { CalendarModule } from 'primeng/calendar';
 import { FilterPipe } from './pipe/filter.pipe';
 import { DecimalPipe } from '@angular/common';
+import {CurrencyPipe} from '@angular/common';
 
 @NgModule({
   imports: [
@@ -115,9 +116,9 @@ import { DecimalPipe } from '@angular/common';
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
       OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective,
       AlphaNumericDirective, InputMaskModule, KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent,
-       PaymentProcessComponent, CalendarModule, FilterPipe],
+       PaymentProcessComponent, CalendarModule, FilterPipe, CurrencyPipe],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-  providers: [MessageServiceToastr, DatePipe, DecimalPipe],
+  providers: [MessageServiceToastr, DatePipe, DecimalPipe, CurrencyPipe],
 
 })
 export class SharedModule { }

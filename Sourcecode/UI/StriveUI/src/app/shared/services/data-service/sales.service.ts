@@ -42,8 +42,8 @@ export class SalesService {
   rollback(rollBack) {
     return this.http.post(`${UrlConfig.sales.rollbackTransaction}`, rollBack);
   }
-  getServiceAndProduct(locID) {
-    return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locID);
+  getServiceAndProduct(locID, query) {
+    return this.http.get(`${UrlConfig.sales.getServiceAndProduct}` + locID, { params: { query } });
   }
   updateProductItem(updateObj) {
     return this.http.post(`${UrlConfig.sales.updateProductObj}`, updateObj);

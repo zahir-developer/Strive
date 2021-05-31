@@ -137,7 +137,7 @@ export class SalesComponent implements OnInit {
     this.getPaymentType();
     this.getPaymentStatus();
     this.getServiceForDiscount();
-    this.getAllServiceandProduct();
+    // this.getAllServiceandProduct();
     this.getJobType();
 
   }
@@ -188,7 +188,7 @@ export class SalesComponent implements OnInit {
 
   getAllServiceandProduct() {
     const locID = this.locationId;
-    this.salesService.getServiceAndProduct(locID).subscribe(data => {
+    this.salesService.getServiceAndProduct(locID, '').subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
@@ -490,13 +490,45 @@ export class SalesComponent implements OnInit {
   filterItem(event) {
     const filtered: any[] = [];
     const query = event.query;
-    for (const i of this.serviceAndProduct) {
-      const client = i;
-      if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        filtered.push(client);
+    const locID = this.locationId;
+    this.salesService.getServiceAndProduct(locID, query).subscribe(res => {
+      if (res.status === 'Success') {
+        const services = JSON.parse(res.resultData);
+        if (services.ServiceAndProductList.Service !== null ) {
+          this.services = services.ServiceAndProductList.Service.map(item => {
+            return {
+              id: item.ServiceId,
+              name: item.ServiceName.trim(),
+              price: item.Cost,
+              type: 'service'
+            };
+          });
+        } else {
+          this.services = [];
+        }
+        if (services.ServiceAndProductList.Product !== null ) {
+          this.products = services.ServiceAndProductList.Product.map(item => {
+            return {
+              id: item.ProductId,
+              name: item.ProductName.trim(),
+              price: item.Price,
+              type: 'product'
+            };
+          });
+        } else {
+          this.products = [];
+        }
+        this.serviceAndProduct = [];
+        this.serviceAndProduct = this.services.concat(this.products);
       }
-    }
-    this.filteredItem = filtered;
+    });
+    // for (const i of this.serviceAndProduct) {
+    //   const client = i;
+    //   if (client.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+    //     filtered.push(client);
+    //   }
+    // }
+    // this.filteredItem = filtered;
   }
   deleteItem(data, type) {
     // if (this.enableButton === true) {
@@ -687,7 +719,7 @@ export class SalesComponent implements OnInit {
       if (this.addItemForm.invalid) {
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.quantity });
         return;
-      } else if (this.addItemForm.value.itemName === '' || this.filteredItem.length === 0) {
+      } else if (this.addItemForm.value.itemName === '' || this.serviceAndProduct.length === 0) {
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.validItem });
         return;
       }

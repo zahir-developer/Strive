@@ -239,7 +239,7 @@
                                                     <tr *ngFor="let tip of detailTip">
                                                         <th>{{tip.FirstName}} {{tip.LastName}}</th>
                                                         <td>
-                                                            {{tip.DetailerTip}}
+                                                            {{tip.DetailerTip | currency}}
                                                         </td>
                                                     </tr>
                                                     <tr *ngIf="detailTip == null">

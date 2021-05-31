@@ -125,7 +125,7 @@
                                                 {{(detailInfo?.EmployeeName!== null) ?detailInfo?.EmployeeName?.length <= 15 ? '': '...':''}}
                                             </td>
                                             <td class="text-right">{{detailInfo?.TicketNumber}}</td>
-                                            <td class="text-right">{{detailInfo?.Commission}}</td>
+                                            <td class="text-right">{{detailInfo?.Commission | currency}}</td>
                                         </tr>
                                     </tbody>
                                     <tfoot class="font-weight-700">
