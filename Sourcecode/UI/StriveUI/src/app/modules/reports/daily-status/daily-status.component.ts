@@ -129,25 +129,25 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.clockDetail.forEach(item => {
       tableBody += `<tr><td>` + item.EmployeeName + `</td><td>`;
       var Hours = Math.floor(item?.WashHours / 60);
-    var Min = item?.WashHours - (Hours * 60);
+      var Min = item?.WashHours - (Hours * 60);
 
-    tableBody += (item?.WashHours ?
-        (Hours < 10 ? "0" + Hours : Hours) + ":" +  (Min < 10 ? "0" + Min : Min)
-      : "00:00") + `</td><td>`;
-      
-    Hours = Math.floor(item?.DetailHours / 60);
-    Min = item?.DetailHours - (Hours * 60);
+      tableBody += (item?.WashHours ?
+        (Hours < 10 ? "0" + Hours : Hours) + ":" + (Min < 10 ? "0" + Min : Min)
+        : "00:00") + `</td><td>`;
 
-     tableBody += (item?.DetailHours ? 
-      (Hours < 10 ? "0" + Hours : Hours) + ":" +  (Min < 10 ? "0" + Min : Min)
-      : "00:00") + `</td><td>` ;
+      Hours = Math.floor(item?.DetailHours / 60);
+      Min = item?.DetailHours - (Hours * 60);
+
+      tableBody += (item?.DetailHours ?
+        (Hours < 10 ? "0" + Hours : Hours) + ":" + (Min < 10 ? "0" + Min : Min)
+        : "00:00") + `</td><td>`;
 
       Hours = Math.floor((item?.WashHours + item?.DetailHours) / 60);
       Min = (item?.WashHours + item?.DetailHours) - (Hours * 60);
-        tableBody += 
-         ( (Hours < 10 ? "0" + Hours : Hours) + ":" +  (Min < 10 ? "0" + Min : Min))
+      tableBody +=
+        ((Hours < 10 ? "0" + Hours : Hours) + ":" + (Min < 10 ? "0" + Min : Min))
         + `</td>`;
-        
+
       for (let i = 1; i <= count; i++) {
         const Intime = 'Intime' + i;
         const Outtime = 'Outtime' + i;
@@ -160,9 +160,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         // (item[RoleName] !== undefined ? item[RoleName] : '') + `</td>`;
 
         tableBody += `<td>` +
-         ( item[TimeIn] != undefined? item[TimeIn] : '' ) + `</td><td>` +
-         ( item[TimeOut] != undefined? item[TimeOut] : '' ) + `</td><td>` +
-         ( item[RoleName] != undefined? item[RoleName] : '' )  + `</td>`;
+          (item[TimeIn] != undefined ? item[TimeIn] : '') + `</td><td>` +
+          (item[TimeOut] != undefined ? item[TimeOut] : '') + `</td><td>` +
+          (item[RoleName] != undefined ? item[RoleName] : '') + `</td>`;
       }
       this.washHours += item.WashHours;
       this.detailHours += item.DetailHours;
@@ -174,16 +174,16 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     var wHours = Math.floor(this.washHours / 60);
     var wMin = this.washHours - (wHours * 60);
 
-    this.totalWashHours  = this.washHours > 0 ? 
-    (wHours < 10 ? "0" + wHours : wHours) + ":" +  (wMin < 10 ? "0" + wMin : wMin)
-     : "00:00"; 
+    this.totalWashHours = this.washHours > 0 ?
+      (wHours < 10 ? "0" + wHours : wHours) + ":" + (wMin < 10 ? "0" + wMin : wMin)
+      : "00:00";
 
     var dHours = Math.floor(this.detailHours / 60);
     var dMin = this.detailHours - (dHours * 60);
 
-    this.totalDetailHours  = this.detailHours > 0 ? 
-    (dHours < 10 ? "0" + dHours : dHours) + ":" +  (dMin < 10 ? "0" + dMin : dMin)
-    : "00:00";
+    this.totalDetailHours = this.detailHours > 0 ?
+      (dHours < 10 ? "0" + dHours : dHours) + ":" + (dMin < 10 ? "0" + dMin : dMin)
+      : "00:00";
   }
   getDailyStatusReport() {
     this.washes = [];
@@ -411,9 +411,23 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.getClockDetail();
   }
   print() {
-    $('#printReport').show();
+    const body = document.getElementById('dailyStatusReport').innerHTML;  // @media print{body{ width: 950px; background-color: red;} }'
+
+    const content = '<!DOCTYPE html><html><head><title></title><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>'
+      + '<link rel = "stylesheet" type = "text/css" media = "print"/><style type = "text/css">  @media print {@page {size: landscape;margin: 5mm 5mm 0mm 5mm;}}'
+      + '</style><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script></head><body><table><thead id="header"><tr><td>'
+      + '</td></tr><tr><td><div class="fixed-top" "><div style="font-size:14px;margin-right:15px;text-align:center">' + 'Daily status report' +'</div></div></td></tr></thead><tbody><tr><td><div class="upperTeethData print-table-border"><div></div><div style="position:relative; top:100px">' + body + '</div></div></td></tr><tr><td>'
+      + '<div class="lowerTeethData print-table-border"><div></div><div> </div></div></td></tr><tr><td><div class="casetype print-table-border"></div>'
+      + '</td></tr></tbody><tfoot><tr><td><div class="fixed-bottom border-top" id="footer">' + '<div style="font-size:14px;margin-right:15px;float:left;">' +
+      '</div></div></td></tr></tfoot></table><body></html>';
+    const popupWin = window.open('', '_blank', 'scrollbars=1,width:100%;height:100%');
+    popupWin.document.open();
+    popupWin.document.write(content);
+    popupWin.document.close(); // necessary for IE >= 10
+    popupWin.focus(); // necessary for IE >= 10*/
     setTimeout(() => {
-      $('#printReport').hide();
+      popupWin.print();
+      popupWin.close();
     }, 1000);
   }
   calculateTotal(obj, type) {

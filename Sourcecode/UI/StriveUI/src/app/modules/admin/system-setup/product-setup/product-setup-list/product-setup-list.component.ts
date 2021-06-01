@@ -31,6 +31,8 @@ export class ProductSetupListComponent implements OnInit {
   sortBy: string;
   sortColumn: { sortBy: any; sortOrder: string; };
   searchUpdate = new Subject<string>();
+  Status: any;
+  searchStatus: any;
   constructor(
     private productService: ProductService,
     private spinner: NgxSpinnerService,
@@ -45,6 +47,8 @@ export class ProductSetupListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.Status = [{ id: false, Value: 'InActive' }, { id: true, Value: 'Active' }, { id: '', Value: 'All' }];
+    this.searchStatus = true;
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.ProductSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ProductSetup.order
     };

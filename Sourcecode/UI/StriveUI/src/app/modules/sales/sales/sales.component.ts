@@ -409,7 +409,6 @@ export class SalesComponent implements OnInit {
               this.multipleTicketSequence = true;
             }
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
-
               this.showPopup = true;
               this.allService = this.itemList.Status.SalesItemViewModel;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -437,7 +436,6 @@ export class SalesComponent implements OnInit {
             }
           } else {
             this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
-
             this.showPopup = false;
           }
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {

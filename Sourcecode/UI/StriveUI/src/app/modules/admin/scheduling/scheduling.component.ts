@@ -277,11 +277,11 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       locationId: +this.empLocation,
       roleId: +localStorage.getItem('roleId'),
       isAbscent: this.isLeave,
-      scheduledDate: moment(this.startTime).format(),
-      startTime: moment(this.startTime).format(),
-      endTime: moment(this.endTime).format(),
+      scheduledDate: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
+      startTime: moment(this.startTime).format('YYYY-MM-DDTHH:mm:ss'),
+      endTime: moment(this.endTime).format('YYYY-MM-DDTHH:mm:ss'),
       scheduleType: this.scheduleType ? this.scheduleType : 1,
-      comments: 'test',
+      comments: null,
       isActive: true,
       isDeleted: false
     };

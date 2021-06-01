@@ -32,8 +32,7 @@
                                 </div>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color"
                                     [disabled]="fileType === ''" (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
-                                    printSectionId="monthlyMoneyreport" ngxPrint>Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="print()">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="refresh()">Refresh</button>
                             </div>
                         </div>
@@ -42,8 +41,8 @@
             </div>
             <!-- end card-->
             <div class="card m-t-10">
-                <div class="card-body">
-                    <div id="monthlyMoneyreport">
+                <div class="card-body" id="monthlyMoneyowedreport">
+                    <div>
                         <div class="p-b-5 m-b-8">
                             <h4 class="d-inline-block align-middle"><span class="resp-title">Monthly Money Owed
                                     Report </span>
@@ -53,7 +52,7 @@
                                         class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a>
                             </div>
                         </div>
-                        <div id="MonthlyMoneyreport" class="collapse show">
+                        <div id="MonthlyMoneyreport" class="collapse show" class="card-body">
                             <div class="table-responsive" id='print-section'>
                                 <table class="table">
                                     <thead>
