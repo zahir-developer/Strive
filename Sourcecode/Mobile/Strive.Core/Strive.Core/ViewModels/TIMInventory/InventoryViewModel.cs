@@ -93,6 +93,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void IncrementCommand(int index)
         {
             FilteredList[index].Product.Quantity++;
+            UpdateProdQuantityCommand(index);
             RaiseAllPropertiesChanged();
         }
 
@@ -101,9 +102,16 @@ namespace Strive.Core.ViewModels.TIMInventory
             if (!(FilteredList[index].Product.Quantity > 0))
                 return;
             FilteredList[index].Product.Quantity--;
+            UpdateProdQuantityCommand(index);
             RaiseAllPropertiesChanged();
         }
 
+        public async void UpdateProdQuantityCommand(int index)
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            await AdminService.UpdateProdQuantity(FilteredList[index].Product.ProductId, int.Parse(FilteredList[index].Product.Quantity.ToString()));
+            
+        }
         public void ClearCommand()
         {
             FilteredList.Clear();

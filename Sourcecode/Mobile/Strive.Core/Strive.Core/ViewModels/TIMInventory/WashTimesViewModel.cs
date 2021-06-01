@@ -5,6 +5,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils;
 using System.Collections.Generic;
+using Strive.Core.Resources;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -12,45 +13,36 @@ namespace Strive.Core.ViewModels.TIMInventory
     {
         public ILocationService LocationService = Mvx.IoCProvider.Resolve<ILocationService>();
 
-        public Location Location;
+        public Locations Location;
 
         public WashTimesViewModel()
         {
         }
 
-        public async Task<Location> GetAllLocationAddress()
-        {
-            Location = new Location()
+        public async Task<Locations> GetAllLocationAddress()
+        {            
+            //_userDialog.ShowLoading(Strings.Loading);
+            var locations = await LocationService.GetAllLocationAddress();
+
+            if (locations == null)
             {
-                LocationAddress = new List<LocationAddress>()
+                Location = new Locations();
+
+                return Location;
+            }
+            else
+            {
+                Location = new Locations();
+                Location.Location = new List<LocationAddress>();
+                foreach (var item in locations.Location)
                 {
-                    new LocationAddress(){
-                        OpenTime = "09:30 AM",
-                    CloseTime = "05:00 PM",
-                    WashTiming = "40",
-                    Latitude = 34.070915,
-                    Longitude = -84.295814,
-                    Address1 = "Old Milton"
-                    },
-                    new LocationAddress(){
-                        OpenTime = "11:00 AM",
-                    CloseTime = "07:00 PM",
-                    WashTiming = "25",
-                    Latitude = 33.967986,
-                    Longitude = -84.257494,
-                    Address1 = "Halcomb Bridge",
-                    },
-                     new LocationAddress(){
-                        OpenTime = "08:00 AM",
-                    CloseTime = "04:00 PM",
-                    WashTiming = "08:00 AM",
-                    Latitude = 34.068472,
-                    Longitude = -84.300668,
-                    Address1 = "Main Street",
+                    if (item.Latitude != null && item.Longitude != null)
+                    {
+                        Location.Location.Add(item);
                     }
                 }
-            };
-            return Location;
+                return Location;
+            }            
         }
 
         public async Task NavigateBackCommand()

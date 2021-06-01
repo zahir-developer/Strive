@@ -9,7 +9,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public DealsViewModel()
         {
-            for(int i =1;i<=5;i++)
+            for(int i =1;i<=2;i++)
             {
                 DealsList.Add("Deals " + i);
             }

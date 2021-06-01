@@ -6,6 +6,6 @@ namespace Strive.Core.Services.Interfaces
 {
     public interface ILocationService
     {
-        Task<Location> GetAllLocationAddress();
+        Task<Locations> GetAllLocationAddress();
     }
 }

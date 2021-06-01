@@ -171,6 +171,7 @@ namespace StriveCustomer.iOS.Views
                     }
                     else if (String.Equals(data.DetailOrAdditionalService, "Additional Services") && string.Equals(data.DetailVisitDate, previousDates))
                     {
+                        CustomerInfo.pastClientServices.PastClientDetails.Add(data);
                         totalCost = totalCost + float.Parse(data.Cost);
 
                     }
