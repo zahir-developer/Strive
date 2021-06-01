@@ -29,17 +29,17 @@
                                     <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
                                 </div>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" [disabled]="!fileTypeEvent" (click)="export()">Export</button>&nbsp;
-                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true" printSectionId="dailyStatusReport" ngxPrint (click)="print()">Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" (click)="print()">Print</button>&nbsp;
                                 <button type="button" class="btn theme-primary-button-color" (click)="preview()">Refresh</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="dailyStatusReport">
+            <div >
                 <div class="card m-t-10">
-                    <div class="card-body">
-                        <div class="row no-gutter">
+                    <div class="card-body" id="dailyStatusReport">
+                        <div class="row no-gutter" >
                             <div class="col-12 text-left  font-weight-700 font-size-1-5">
                                 Report Date - {{date | date: 'MM/dd/yyyy'}}
                             </div>
@@ -121,7 +121,7 @@
                                                         <td style="text-align: left;" class="m-l-120">
                                                             {{dailyStatusWashInfo?.WashExpense | currency}}</td>
                                                     </tr>
-                                                    <tr *ngIf="dailyStatusWashInfo.WashEmployeeCount === 0">
+                                                    <tr *ngIf="dailyStatusWashInfo?.WashEmployeeCount === 0">
                                                         <td colspan="3" class="text-center">
                                                             No records found
                                                         </td>
@@ -173,42 +173,42 @@
                                     <!-- end card-body -->
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="card m-t-10">
-                            <div class="card-body">
-                                <div class="p-b-5 m-b-8">
-                                    <h4 class="d-inline-block align-middle"><span class="resp-title">Employee's Time
-                                            Clock
-                                        </span>
-                                    </h4>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table " id="table">
-                                        <thead>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                        <tfoot class="font-weight-700" *ngIf="clockDetail?.length > 0">
-                                            <tr>
-                                                <td colspan="1" class="text-right">Total: </td>
-                                                <td>{{totalWashHours}}</td>
-                                                <td>{{totalDetailHours}}</td>
-                                                <td colspan="9"></td>
-                                            </tr>
-                                        </tfoot>
-
-                                    </table>
-                                    <div class="noRecords" *ngIf="clockDetail?.length === 0">
-                                        <span> No Records Found</span>
+                            <div class="card m-t-10 col-12">
+                                <div class="card-body">
+                                    <div class="p-b-5 m-b-8">
+                                        <h4 class="d-inline-block align-middle"><span class="resp-title">Employee's Time
+                                                Clock
+                                            </span>
+                                        </h4>
                                     </div>
-
+    
+                                    <div class="table-responsive">
+                                        <table class="table " id="table">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot class="font-weight-700" *ngIf="clockDetail?.length > 0">
+                                                <tr>
+                                                    <td colspan="1" class="text-right">Total: </td>
+                                                    <td>{{totalWashHours}}</td>
+                                                    <td>{{totalDetailHours}}</td>
+                                                    <td colspan="9"></td>
+                                                </tr>
+                                            </tfoot>
+    
+                                        </table>
+                                        <div class="noRecords" *ngIf="clockDetail?.length === 0">
+                                            <span> No Records Found</span>
+                                        </div>
+    
+                                    </div>
+    
                                 </div>
-
+                                <!-- end card-body -->
                             </div>
-                            <!-- end card-body -->
                         </div>
+                        
                     </div>
                 </div>
 

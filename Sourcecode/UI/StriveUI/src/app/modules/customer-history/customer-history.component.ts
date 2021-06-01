@@ -56,6 +56,9 @@ export class CustomerHistoryComponent implements OnInit {
       debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
+        this.page = ApplicationConfig.PaginationConfig.page;
+        this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+        this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
         this.getCustomerHistory();
       });
   }
@@ -112,7 +115,7 @@ export class CustomerHistoryComponent implements OnInit {
     } else {
       const fromDate = new Date();
       fromDate.setFullYear(this.year);
-      fromDate.setMonth(0);
+      fromDate.setMonth((+this.month) - 1);
       fromDate.setDate(1);
       const toDate = new Date();
       toDate.setFullYear(this.year);
@@ -180,6 +183,9 @@ export class CustomerHistoryComponent implements OnInit {
   }
 
   monthChange(event) {
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getCustomerHistory();
   }
 
@@ -192,6 +198,9 @@ export class CustomerHistoryComponent implements OnInit {
   }
 
   search() {
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
     this.getCustomerHistory();
   }
   changeSorting(column) {

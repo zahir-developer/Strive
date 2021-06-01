@@ -17,7 +17,13 @@
                                         <div class="form-group d-flex"> <input type="search" class="form-control"
                                                 [(ngModel)]="search" size="40" name="search" id="inputSearch"
                                                 placeholder="Search by Name, Vendor, Type, Size"
-                                                (ngModelChange)="this.searchUpdate.next($event)"> </div>
+                                                (ngModelChange)="this.searchUpdate.next($event)"> </div>&nbsp;
+                                        <!-- <div class="form-group d-flex"> <select class="form-control"
+                                                [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
+                                                <option value="" selected hidden>Status</option>
+                                                <option *ngFor="let status of Status" value="{{status.id}}">
+                                                    {{status.Value}}</option>
+                                            </select> </div> -->
                                         <div class="form-group col-sm m-l-5">
                                             <button type="button" class="btn theme-primary-button-color btn-sm m-l-10"
                                                 (click)="getAllproductSetupDetails()">Search</button>
@@ -63,13 +69,19 @@
                                         <tr
                                             *ngFor="let productSetup of productSetupDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{productSetup.ProductName}}</th>
-                                            <td title="{{productSetup.LocationName}}">{{productSetup.LocationName | slice:0:15}} {{productSetup.LocationName !== null ? (productSetup.LocationName.length > 19 ? '...': '') : ''}}</td>
+                                            <td title="{{productSetup.LocationName}}">{{productSetup.LocationName |
+                                                slice:0:15}} {{productSetup.LocationName !== null ?
+                                                (productSetup.LocationName.length > 19 ? '...': '') : ''}}</td>
                                             <td>{{productSetup.ProductTypeName}}</td>
                                             <td>{{productSetup.Price | currency}}</td>
                                             <td>{{productSetup.SizeName}}</td>
                                             <td>{{productSetup.Quantity}}</td>
-                                            <td title="{{productSetup.VendorName}}">{{productSetup.VendorName | slice:0:19 }} {{ productSetup.VendorName !== null ? (productSetup.VendorName.length > 19 ? '...' : '') : '' }}</td>
-                                            <td title="{{productSetup.VendorPhone}}">{{productSetup.VendorPhone | slice:0:26 }} {{ (productSetup.VendorPhone !== null) ? (productSetup.VendorPhone.lenghth > 26 ? '...' : '') : ''}}</td>
+                                            <td title="{{productSetup.VendorName}}">{{productSetup.VendorName |
+                                                slice:0:19 }} {{ productSetup.VendorName !== null ?
+                                                (productSetup.VendorName.length > 19 ? '...' : '') : '' }}</td>
+                                            <td title="{{productSetup.VendorPhone}}">{{productSetup.VendorPhone |
+                                                slice:0:26 }} {{ (productSetup.VendorPhone !== null) ?
+                                                (productSetup.VendorPhone.lenghth > 26 ? '...' : '') : ''}}</td>
                                             <td>{{productSetup.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
