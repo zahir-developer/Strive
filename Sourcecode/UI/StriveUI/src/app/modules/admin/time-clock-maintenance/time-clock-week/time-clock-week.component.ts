@@ -434,8 +434,8 @@ export class TimeClockWeekComponent implements OnInit {
 
 
     this.totalWeekDetail.TotalDetailHours = detailHour;
-    this.washHours = washHour.split(':');
-    this.totalWeekDetail.TotalWashHours = this.washHours[0] <= 40 ? washHour : '40:00';
+   // this.washHours = washHour.split(':');
+    this.totalWeekDetail.TotalWashHours = washHour;//this.washHours[0] <= 40 ? washHour : '40:00';
 
   }
 
