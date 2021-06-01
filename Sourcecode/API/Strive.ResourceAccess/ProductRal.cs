@@ -57,7 +57,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("ProductId", productQuantityDto.ProductId);
             _prm.Add("Quantity", productQuantityDto.Quantity);
-            db.Save(EnumSP.Product.USPUPDATEQUANTITY.ToString(), _prm);
+            db.Save(EnumSP.Sales.USPUPDATEPRODUCTQUANTITY.ToString(), _prm);
             return true;
         }
 

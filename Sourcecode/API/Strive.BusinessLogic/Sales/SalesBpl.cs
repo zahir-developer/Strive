@@ -78,19 +78,22 @@ namespace Strive.BusinessLogic.Sales
         {
             try
             {
-                var jobPaymnetId = new SalesRal(_tenant).AddPayment(salesPayment.SalesPaymentDto);
+                var jobPaymentId = new SalesRal(_tenant).AddPayment(salesPayment.SalesPaymentDto);
 
-                if (jobPaymnetId > 0)
+                if (jobPaymentId > 0)
                 {
-                    var result = new SalesRal(_tenant).UpdateJobPayment(salesPayment.SalesPaymentDto.JobPayment.JobId, jobPaymnetId);
+                    var result = new SalesRal(_tenant).UpdateJobPayment(salesPayment.JobId, jobPaymentId);
 
                     if (salesPayment.SalesProductItemDto != null)
                     {
                         foreach (var prod in salesPayment.SalesProductItemDto.JobProductItem)
                         {
-                            var productUpdate = new SalesRal(_tenant).UpdateProductQuantity(prod.Quantity, prod.ProductId);
-
+                           
                             var product = new ProductRal(_tenant).GetProductById(prod.ProductId);
+                            var productUpdate = new SalesRal(_tenant).UpdateProductQuantity(Convert.ToInt16(product.Quantity) - prod.Quantity, prod.ProductId);
+
+
+                           
 
                             string roles = Roles.Manager.ToString() + ',' + Roles.Operator;
 
@@ -118,7 +121,7 @@ namespace Strive.BusinessLogic.Sales
                     }
                 }
 
-                return ResultWrap(jobPaymnetId > 0, "Status");
+                return ResultWrap(jobPaymentId > 0, "Status");
             }
             catch (Exception ex)
             {
