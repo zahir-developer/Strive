@@ -163,6 +163,7 @@ namespace StriveTimInventory.iOS.Views
 
         private void SetImage(string url)
         {
+            ViewModel.Filename = url + ".png";
             ItemImage.Image = UIImage.FromBundle(url);
             ConvertToBase64(UIImage.FromBundle(url));
         }

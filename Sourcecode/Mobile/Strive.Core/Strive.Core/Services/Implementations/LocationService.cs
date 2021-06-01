@@ -18,9 +18,9 @@ namespace Strive.Core.Services.Implementations
         {
         }
 
-        public async Task<Location> GetAllLocationAddress()
+        public async Task<Locations> GetAllLocationAddress()
         {
-            return await _restClient.MakeApiCall<Location>(ApiUtils.URL_GET_ALL_LOCATION_ADDRESS, HttpMethod.Get);
+            return await _restClient.MakeApiCall<Locations>(ApiUtils.URL_GET_ALL_LOCATION_ADDRESS, HttpMethod.Get);
         }
     }
 }

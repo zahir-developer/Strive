@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Foundation;
 using MvvmCross.Platforms.Ios.Binding.Views;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.TIMInventory.Membership;
 using UIKit;
@@ -17,9 +18,13 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         private ExtraServiceViewModel ViewModel;
 
-        private ObservableCollection<ServiceDetail> ItemList;
+        //private ObservableCollection<ServiceDetail> ItemList;
+        private ObservableCollection<AllServiceDetail> ItemList;
 
-        private ObservableCollection<ServiceDetail> MembershipServiceList = new ObservableCollection<ServiceDetail>();
+        //private ObservableCollection<ServiceDetail> MembershipServiceList = new ObservableCollection<ServiceDetail>();
+
+        private ObservableCollection<AllServiceDetail> serviceList = new ObservableCollection<AllServiceDetail>();
+
 
         ClientTableViewCell firstselected = null;
         ClientTableViewCell secondselected = null;
@@ -37,12 +42,14 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 if (value != null)
                 {
-                    ItemList = (ObservableCollection<ServiceDetail>)value;
-                    MembershipServiceList = ViewModel.MembershipServiceList;
+                    ItemList = (ObservableCollection<AllServiceDetail>)value;
+                    serviceList = ViewModel.serviceList;
+                    //MembershipServiceList = ViewModel.MembershipServiceList;
                 }
                 else
                 {
-                    ItemList = new ObservableCollection<ServiceDetail>();
+                    //ItemList = new ObservableCollection<ServiceDetail>();
+                    ItemList = new ObservableCollection<AllServiceDetail>();
                 }
 
                 base.ItemsSource = value;
@@ -94,7 +101,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
             ClientTableViewCell cell = (ClientTableViewCell)tableView.DequeueReusableCell(CellId, indexPath);
-            cell.SetExtraServiceList(ItemList[indexPath.Row], ViewModel.ExtraServiceList,MembershipServiceList,cell);
+            cell.SetExtraServiceList(ItemList[indexPath.Row], ViewModel.ExtraServiceList,serviceList,cell);
             return cell;
         }
     }
