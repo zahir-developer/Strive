@@ -414,7 +414,7 @@
                                                     <div class="p-grid forms-grid">
                                                         <div class="p-col-3 p-md-6">
                                                             <p-autoComplete class="d-inline-block align-middle"
-                                                                formControlName="itemName" [suggestions]="filteredItem"
+                                                                formControlName="itemName" [suggestions]="serviceAndProduct"
                                                                 (completeMethod)="filterItem($event)"
                                                                 (onSelect)="selectedItem($event)" field="name"
                                                                 [size]="10" appendTo="body" placeholder="Item">

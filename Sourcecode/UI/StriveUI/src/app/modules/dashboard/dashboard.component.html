@@ -44,7 +44,7 @@
                                         <h6 class="font-weight-600">
                                             <i
                                                 class="mdi mdi-car-multiple font-size-1-5 theme-optional-icon-color align-mid"></i>
-                                            No. of Washes
+                                                Current No. of Washes
                                         </h6> <span class="font-size-1 font-weight-bold">{{washesCount}}</span>
                                     </div>
                                 </a>
@@ -53,7 +53,7 @@
                                         <h6 class="font-weight-600">
                                             <i
                                                 class="mdi mdi-car-wash font-size-1-5 theme-light-yellow-color align-mid"></i>
-                                            No.of Details
+                                                Current No.of Details
                                         </h6> <span class="font-size-1 font-weight-bold">{{detailCount}}</span>
                                     </div>
                                 </a>
@@ -89,7 +89,7 @@
                                     <div class="d-flex w-100 justify-content-between">
                                         <h6 class="font-weight-600">
                                             <i class="mdi mdi-car-back font-size-1-5 theme-voilet-color align-mid"></i>
-                                            Average Car wash Time
+                                            Average Car Wash Time
                                         </h6> <span class="font-size-1 font-weight-bold">{{washTime ? washTime :
                                             '30min'}}</span>
                                     </div>
@@ -224,7 +224,7 @@
                         <div class="col-lg-6 col-xl-2">
                             <div class="card weather rounded-0">
                                 <div class="card-body p-0">
-                                    <h6 class="weather-title border-0 dashbd-title">No. of Washes </h6>
+                                    <h6 class="weather-title border-0 dashbd-title">Current No. of Washes </h6>
                                     <div class="p-l-r-10 m-t-5 dashboard-card"
                                         [style.display]="firstSectionTogggle ? 'none' : 'block'"> <i
                                             class="mdi mdi-car-multiple font-size-1-7 theme-optional-icon-color"></i>
@@ -238,7 +238,7 @@
                         <div class="col-lg-6 col-xl-2">
                             <div class="card weather rounded-0">
                                 <div class="card-body p-0">
-                                    <h6 class="weather-title border-0 dashbd-title">No.of Details </h6>
+                                    <h6 class="weather-title border-0 dashbd-title">Current No.of Details </h6>
                                     <div class="p-l-r-10 m-t-5 dashboard-card"
                                         [style.display]="firstSectionTogggle ? 'none' : 'block'"> <i
                                             class="mdi mdi-car-wash font-size-1-7 theme-light-yellow-color"></i>
@@ -294,7 +294,7 @@
                         <div class="col-lg-6 col-xl-2">
                             <div class="card weather rounded-0">
                                 <div class="card-body p-0">
-                                    <h6 class="weather-title border-0">Average Car wash Time </h6>
+                                    <h6 class="weather-title border-0">Average Car Wash Time </h6>
                                     <div class="p-l-r-10 m-t-5 dashboard-card"
                                         [style.display]="firstSectionTogggle ? 'none' : 'block'"> <i
                                             class="mdi mdi-car-back font-size-1-7 theme-voilet-color"></i>
@@ -363,7 +363,7 @@
                                         [style.display]="secondSectionToggle ? 'none' : 'block'"> <i
                                             class="mdi mdi-cart font-size-1-7 theme-light-blue-color"></i>
                                         <div class="float-right">
-                                            <h2 class="font-weight-bold">{{merchandizeSales | number:'.2'}}</h2>
+                                            <h2 class="font-weight-bold">{{merchandizeSales | currency}}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -392,7 +392,7 @@
                                             class="mdi mdi-account-cash font-size-1-7 theme-voilet-color"></i>
                                         <div class="float-right">
                                             <h2 class="font-weight-bold d-inline-block">{{monthlyClientSales |
-                                                number:'.2'}}</h2>
+                                                currency}}</h2>
                                         </div>
                                     </div>
                                     <a id="mainstreets" class="pull-right m-r--13 pointer"
@@ -454,12 +454,12 @@
                         <div class="col-lg-6 col-xl-2">
                             <div class="card weather rounded-0">
                                 <div class="card-body p-0">
-                                    <h6 class="weather-title border-0 dashbd-titles-avg">Ave Total per car </h6>
+                                    <h6 class="weather-title border-0 dashbd-titles-avg">Ave Total per car All</h6>
                                     <div class="p-l-r-10 m-t-5 dashboard-cards-avg"
                                         [style.display]="thirdSectionToggle ? 'none' : 'block'"> <i
                                             class="mdi mdi-car font-size-1-7 theme-light-blue-color"></i>
                                         <div class="float-right">
-                                            <h2 class="font-weight-bold">{{averageTotalPerCar | number:'.2'}}</h2>
+                                            <h2 class="font-weight-bold">{{averageTotalPerCar | currency}}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -473,7 +473,7 @@
                                         [style.display]="thirdSectionToggle ? 'none' : 'block'"> <i
                                             class="mdi mdi-account-cash font-size-1-7 theme-secondary-color"></i>
                                         <div class="float-right">
-                                            <h2 class="font-weight-bold">{{labourCostPerCarMinusDetail | number:'.2'}}
+                                            <h2 class="font-weight-bold">{{labourCostPerCarMinusDetail | currency}}
                                             </h2>
                                         </div>
                                     </div>
@@ -489,7 +489,7 @@
                                             class="mdi mdi-car-wash font-size-1-7 theme-voilet-color"></i>
                                         <div class="float-right">
                                             <h2 class="font-weight-bold d-inline-block">{{detailCostPerCar |
-                                                number:'.2'}}</h2>
+                                                currency}}</h2>
                                         </div>
                                     </div>
                                     <a id="mainstreet-avg" class="pull-right  m-r--13 pointer"

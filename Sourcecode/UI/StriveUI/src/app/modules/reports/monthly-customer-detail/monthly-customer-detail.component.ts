@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import * as moment from 'moment';
 import * as _ from 'underscore';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
 declare var $: any;
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
 import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
+
 @Component({
   selector: 'app-monthly-customer-detail',
   templateUrl: './monthly-customer-detail.component.html',
@@ -34,7 +35,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
   fileTypeEvent: boolean = false;
   constructor(private reportService: ReportsService, private datePipe: DatePipe,
     private toastr: ToastrService,
-    private excelService: ExcelService, private spinner: NgxSpinnerService) { }
+    private excelService: ExcelService, private spinner: NgxSpinnerService, private currencyPipe: CurrencyPipe) { }
 
   ngOnInit(): void {
     this.locationId = localStorage.getItem('empLocationId');
@@ -96,12 +97,12 @@ export class MonthlyCustomerDetailComponent implements OnInit {
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
           '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + (o.MemberShipName !== '' ?
             ('Membership - ' + o.MemberShipName) : 'DriveUp') +
-          '</td><td>' + o.MembershipPrice.toFixed(2) + '</td><td>' + o.TicketAmount.toFixed(2) + '</td></tr>';
+          '</td><td>' + this.currencyPipe.transform(o.MembershipPrice, 'USD') + '</td><td>' + this.currencyPipe.transform(o.TicketAmount, 'USD') + '</td></tr>';
         total += o.TicketAmount;
         wash += 1;
       });
       tableStr += '<tr><th>Washes</th><td>' + (wash ) + '</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>'
-        + total.toFixed(2) + '</th><th> Difference : 10</th></tr>';
+        + this.currencyPipe.transform(total, 'USD') + '</th><th> Difference : 10</th></tr>';
     });
     $('#customerDetail tbody').html(tableStr);
   }

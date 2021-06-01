@@ -120,7 +120,7 @@ export class CustomerSalesComponent implements OnInit {
 
   getAllServiceandProduct() {
     const locID = +localStorage.getItem('empLocationId');
-    this.salesService.getServiceAndProduct(locID).subscribe(data => {
+    this.salesService.getServiceAndProduct(locID, '').subscribe(data => {
       if (data.status === 'Success') {
         const services = JSON.parse(data.resultData);
         if (services.ServiceAndProductList !== null && services.ServiceAndProductList.Service.length > 0) {
