@@ -4,6 +4,7 @@ using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Product;
+using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Document;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -151,6 +152,23 @@ namespace Strive.BusinessLogic
         public Result UpdateProductQuantity(ProductQuantityDto productQuantityDto)
         {
             return ResultWrap(new ProductRal(_tenant).UpdateProductQuantity, productQuantityDto, "Status");
+
+        }
+        public Result ProductRequest(ProductRequestDto productRequestDto)
+        {
+            var emailId = new CommonRal(_tenant).GetEmailIdByRole(productRequestDto.locationId.ToString());
+
+            foreach (var item in emailId)
+            {
+                var subject = "Product threshold limit";
+                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                keyValues.Add("{{managerName}}", item.FirstName);
+                keyValues.Add("{{productName}}", productRequestDto.productName);
+                keyValues.Add("{{locationName}}", productRequestDto.locationName);
+                keyValues.Add("{{quantityRequest}}", productRequestDto.RequestQuantity.ToString());
+                new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues, subject);
+            }
+            return ResultWrap(true, "MailsentToManager", "");
 
         }
     }
