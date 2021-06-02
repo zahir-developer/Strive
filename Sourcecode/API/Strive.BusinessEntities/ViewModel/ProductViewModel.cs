@@ -18,10 +18,10 @@ namespace Strive.BusinessEntities.ViewModel
         public string OriginalFileName { get; set; }
         public string ThumbFileName { get; set; }
         public string SizeName { get; set; }
-        public decimal Quantity { get; set; }
-        public decimal Cost { get; set; }
-        public decimal Price { get; set; }
-        public bool IsActive { get; set; }
+        public decimal? Quantity { get; set; }
+        public decimal? Cost { get; set; }
+        public decimal? Price { get; set; }
+        public bool? IsActive { get; set; }
         public string LocationName { get; set; }
         public string VendorName { get; set; }
         public string VendorId { get; set; }
