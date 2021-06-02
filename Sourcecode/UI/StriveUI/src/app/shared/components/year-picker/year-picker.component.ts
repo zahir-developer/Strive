@@ -2,8 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-year-picker',
-  templateUrl: './year-picker.component.html',
-  styleUrls: ['./year-picker.component.css']
+  templateUrl: './year-picker.component.html'
 })
 export class YearPickerComponent implements OnInit {
   years: number[] = [];

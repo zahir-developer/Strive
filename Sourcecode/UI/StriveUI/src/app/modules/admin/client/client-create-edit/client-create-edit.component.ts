@@ -13,8 +13,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-client-create-edit',
-  templateUrl: './client-create-edit.component.html',
-  styleUrls: ['./client-create-edit.component.css']
+  templateUrl: './client-create-edit.component.html'
 })
 export class ClientCreateEditComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;

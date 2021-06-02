@@ -12,7 +12,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-document-list',
   templateUrl: './document-list.component.html',
-  styleUrls: ['./document-list.component.css']
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+  `]
 })
 export class DocumentListComponent implements OnInit {
   isEditDocument: boolean;

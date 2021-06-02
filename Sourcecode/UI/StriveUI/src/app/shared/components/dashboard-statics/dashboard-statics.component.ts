@@ -6,8 +6,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard-statics',
-  templateUrl: './dashboard-statics.component.html',
-  styleUrls: ['./dashboard-statics.component.css']
+  templateUrl: './dashboard-statics.component.html'
 })
 export class DashboardStaticsComponent implements OnInit {
   @Input() jobTypeId?: any;

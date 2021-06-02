@@ -16,8 +16,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-gift-card',
-  templateUrl: './gift-card.component.html',
-  styleUrls: ['./gift-card.component.css']
+  templateUrl: './gift-card.component.html'
 })
 export class GiftCardComponent implements OnInit {
   giftCardForm: FormGroup;

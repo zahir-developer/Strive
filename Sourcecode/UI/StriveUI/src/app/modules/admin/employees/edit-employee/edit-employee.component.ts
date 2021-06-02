@@ -15,8 +15,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-edit-employee',
-  templateUrl: './edit-employee.component.html',
-  styleUrls: ['./edit-employee.component.css']
+  templateUrl: './edit-employee.component.html'
 })
 export class EditEmployeeComponent implements OnInit {
   @Output() closeDialog = new EventEmitter();

@@ -3,8 +3,7 @@ import { WeatherService } from '../../services/common-service/weather.service';
 
 @Component({
   selector: 'app-last-three-month',
-  templateUrl: './last-three-month.component.html',
-  styleUrls: ['./last-three-month.component.css']
+  templateUrl: './last-three-month.component.html'
 })
 export class LastThreeMonthComponent implements OnInit {
 

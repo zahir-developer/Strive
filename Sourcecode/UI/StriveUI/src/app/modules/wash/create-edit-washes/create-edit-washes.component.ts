@@ -23,8 +23,7 @@ declare var $: any;
 
 @Component({
   selector: 'app-create-edit-washes',
-  templateUrl: './create-edit-washes.component.html',
-  styleUrls: ['./create-edit-washes.component.css']
+  templateUrl: './create-edit-washes.component.html'
 })
 export class CreateEditWashesComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;

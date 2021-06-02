@@ -10,8 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-item',
-  templateUrl: './edit-item.component.html',
-  styleUrls: ['./edit-item.component.css']
+  templateUrl: './edit-item.component.html'
 })
 export class EditItemComponent implements OnInit {
   editItemForm: FormGroup;

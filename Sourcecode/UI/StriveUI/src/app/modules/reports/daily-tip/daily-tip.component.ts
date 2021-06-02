@@ -11,8 +11,7 @@ import { ExportFiletypeComponent } from 'src/app/shared/components/export-filety
 
 @Component({
   selector: 'app-daily-tip',
-  templateUrl: './daily-tip.component.html',
-  styleUrls: ['./daily-tip.component.css']
+  templateUrl: './daily-tip.component.html'
 })
 export class DailyTipComponent implements OnInit, AfterViewInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;

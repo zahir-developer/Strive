@@ -12,8 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 @Component({
   selector: 'app-daily-status',
-  templateUrl: './daily-status.component.html',
-  styleUrls: ['./daily-status.component.css']
+  templateUrl: './daily-status.component.html'
 })
 export class DailyStatusComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;

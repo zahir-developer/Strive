@@ -12,8 +12,7 @@ import { WashService } from 'src/app/shared/services/data-service/wash.service';
 
 @Component({
   selector: 'app-sale-gift-card',
-  templateUrl: './sale-gift-card.component.html',
-  styleUrls: ['./sale-gift-card.component.css']
+  templateUrl: './sale-gift-card.component.html'
 })
 export class SaleGiftCardComponent implements OnInit {
   giftCardForm: FormGroup;

@@ -10,8 +10,7 @@ import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-client-form',
-  templateUrl: './client-form.component.html',
-  styleUrls: ['./client-form.component.css']
+  templateUrl: './client-form.component.html'
 })
 export class ClientFormComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;

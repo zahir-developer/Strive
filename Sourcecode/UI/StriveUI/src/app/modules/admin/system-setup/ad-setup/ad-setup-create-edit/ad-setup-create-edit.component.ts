@@ -11,8 +11,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-ad-setup-create-edit',
-  templateUrl: './ad-setup-create-edit.component.html',
-  styleUrls: ['./ad-setup-create-edit.component.css']
+  templateUrl: './ad-setup-create-edit.component.html'
 })
 export class AdSetupCreateEditComponent implements OnInit {
 

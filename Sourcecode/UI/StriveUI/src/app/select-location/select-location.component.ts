@@ -9,8 +9,7 @@ import { SelectLocationService  } from '../shared/services/common-service/select
 
 @Component({
   selector: 'app-select-location',
-  templateUrl: './select-location.component.html',
-  styleUrls: ['./select-location.component.css']
+  templateUrl: './select-location.component.html'
 })
 export class SelectLocationComponent implements OnInit {
   empName: any;

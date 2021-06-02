@@ -10,8 +10,7 @@ import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-
 import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 @Component({
   selector: 'app-monthly-customer-summary',
-  templateUrl: './monthly-customer-summary.component.html',
-  styleUrls: ['./monthly-customer-summary.component.css']
+  templateUrl: './monthly-customer-summary.component.html'
 })
 export class MonthlyCustomerSummaryComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;

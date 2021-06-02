@@ -9,8 +9,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-ad-setup-list',
-  templateUrl: './ad-setup-list.component.html',
-  styleUrls: ['./ad-setup-list.component.css']
+  templateUrl: './ad-setup-list.component.html'
 })
 export class AdSetupListComponent implements OnInit {
 

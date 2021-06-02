@@ -14,8 +14,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-employee-collision',
-  templateUrl: './employee-collision.component.html',
-  styleUrls: ['./employee-collision.component.css']
+  templateUrl: './employee-collision.component.html'
 })
 export class EmployeeCollisionComponent implements OnInit {
   submitted: boolean;

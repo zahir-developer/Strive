@@ -11,8 +11,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-location-setup-list',
-  templateUrl: './location-setup-list.component.html',
-  styleUrls: ['./location-setup-list.component.css']
+  templateUrl: './location-setup-list.component.html'
 })
 export class LocationSetupListComponent implements OnInit {
   locationSetupDetails = [];

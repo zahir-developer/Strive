@@ -13,8 +13,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-location-create-edit',
-  templateUrl: './location-create-edit.component.html',
-  styleUrls: ['./location-create-edit.component.css']
+  templateUrl: './location-create-edit.component.html'
 })
 export class LocationCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;

@@ -7,8 +7,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-view-document',
-  templateUrl: './view-document.component.html',
-  styleUrls: ['./view-document.component.css']
+  templateUrl: './view-document.component.html'
 })
 export class ViewDocumentComponent implements OnInit {
   passwordForm: FormGroup;

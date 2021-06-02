@@ -11,8 +11,7 @@ import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-
 import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
 @Component({
   selector: 'app-monthly-tip',
-  templateUrl: './monthly-tip.component.html',
-  styleUrls: ['./monthly-tip.component.css']
+  templateUrl: './monthly-tip.component.html'
 })
 export class MonthlyTipComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;

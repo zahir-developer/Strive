@@ -7,8 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-print-customer-copy',
-  templateUrl: './print-customer-copy.component.html',
-  styleUrls: ['./print-customer-copy.component.css']
+  templateUrl: './print-customer-copy.component.html'
 })
 export class PrintCustomerCopyComponent implements OnInit {
   @Input() selectedData?: any;

@@ -10,8 +10,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-service-setup-list',
-  templateUrl: './service-setup-list.component.html',
-  styleUrls: ['./service-setup-list.component.css']
+  templateUrl: './service-setup-list.component.html'
 })
 export class ServiceSetupListComponent implements OnInit {
   showDialog = false;

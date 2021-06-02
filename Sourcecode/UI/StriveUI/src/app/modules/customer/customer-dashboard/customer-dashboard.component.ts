@@ -12,8 +12,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-customer-dashboard',
-  templateUrl: './customer-dashboard.component.html',
-  styleUrls: ['./customer-dashboard.component.css']
+  templateUrl: './customer-dashboard.component.html'
 })
 export class CustomerDashboardComponent implements OnInit {
   @Output() selectServcie = new EventEmitter();
