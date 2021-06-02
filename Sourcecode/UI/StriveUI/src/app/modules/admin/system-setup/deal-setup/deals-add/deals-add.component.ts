@@ -13,8 +13,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-deals-add',
-  templateUrl: './deals-add.component.html',
-  styleUrls: ['./deals-add.component.css']
+  templateUrl: './deals-add.component.html'
 })
 export class DealsAddComponent implements OnInit {
 

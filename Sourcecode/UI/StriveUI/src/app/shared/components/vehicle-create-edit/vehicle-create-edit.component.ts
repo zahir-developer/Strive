@@ -14,7 +14,6 @@ import { MakeService } from '../../services/common-service/make.service';
 @Component({
   selector: 'app-vehicle-create-edit',
   templateUrl: './vehicle-create-edit.component.html',
-  styleUrls: ['./vehicle-create-edit.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class VehicleCreateEditComponent implements OnInit {

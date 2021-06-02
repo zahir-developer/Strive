@@ -16,8 +16,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cash-register',
-  templateUrl: './cash-register.component.html',
-  styleUrls: ['./cash-register.component.css']
+  templateUrl: './cash-register.component.html'
 })
 export class CashinRegisterComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;

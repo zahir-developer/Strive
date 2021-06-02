@@ -13,8 +13,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-employee-hand-book',
-  templateUrl: './employee-hand-book.component.html',
-  styleUrls: ['./employee-hand-book.component.css']
+  templateUrl: './employee-hand-book.component.html'
 })
 export class EmployeeHandBookComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};

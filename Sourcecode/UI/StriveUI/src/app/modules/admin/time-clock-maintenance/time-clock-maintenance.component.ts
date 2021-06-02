@@ -11,8 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-time-clock-maintenance',
-  templateUrl: './time-clock-maintenance.component.html',
-  styleUrls: ['./time-clock-maintenance.component.css']
+  templateUrl: './time-clock-maintenance.component.html'
 })
 export class TimeClockMaintenanceComponent implements OnInit {
 

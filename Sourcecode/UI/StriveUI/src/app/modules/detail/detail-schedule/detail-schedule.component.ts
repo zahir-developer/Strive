@@ -15,7 +15,6 @@ declare var $: any;
 @Component({
   selector: 'app-detail-schedule',
   templateUrl: './detail-schedule.component.html',
-  styleUrls: ['./detail-schedule.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class DetailScheduleComponent implements OnInit {

@@ -10,8 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-activity',
-  templateUrl: './add-activity.component.html',
-  styleUrls: ['./add-activity.component.css']
+  templateUrl: './add-activity.component.html'
 })
 export class AddActivityComponent implements OnInit {
   giftCardForm: FormGroup;

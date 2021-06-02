@@ -8,8 +8,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-select-services',
-  templateUrl: './select-services.component.html',
-  styleUrls: ['./select-services.component.css']
+  templateUrl: './select-services.component.html'
 })
 export class SelectServicesComponent implements OnInit {
   @Output() dashboardPage = new EventEmitter();

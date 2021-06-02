@@ -11,8 +11,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-preview-appointment-detail',
-  templateUrl: './preview-appointment-detail.component.html',
-  styleUrls: ['./preview-appointment-detail.component.css']
+  templateUrl: './preview-appointment-detail.component.html'
 })
 export class PreviewAppointmentDetailComponent implements OnInit {
   @Output() confirmation = new EventEmitter();

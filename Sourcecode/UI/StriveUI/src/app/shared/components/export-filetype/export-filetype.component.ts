@@ -2,8 +2,7 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-export-filetype',
-  templateUrl: './export-filetype.component.html',
-  styleUrls: ['./export-filetype.component.css']
+  templateUrl: './export-filetype.component.html'
 })
 export class ExportFiletypeComponent implements OnInit {
   fileExportType = [];

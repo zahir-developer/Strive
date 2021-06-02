@@ -13,8 +13,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-service-create-edit',
-  templateUrl: './service-create-edit.component.html',
-  styleUrls: ['./service-create-edit.component.css']
+  templateUrl: './service-create-edit.component.html'
 })
 export class ServiceCreateEditComponent implements OnInit {
   serviceSetupForm: FormGroup;

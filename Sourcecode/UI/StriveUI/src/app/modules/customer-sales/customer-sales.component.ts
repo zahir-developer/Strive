@@ -23,8 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 @Component({
   selector: 'app-customer-sales',
-  templateUrl: './customer-sales.component.html',
-  styleUrls: ['./customer-sales.component.css']
+  templateUrl: './customer-sales.component.html'
 })
 export class CustomerSalesComponent implements OnInit {
   services: any;

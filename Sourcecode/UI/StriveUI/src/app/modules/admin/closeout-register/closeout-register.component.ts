@@ -13,7 +13,11 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-closeout-register',
   templateUrl: './closeout-register.component.html',
-  styleUrls: ['./closeout-register.component.css']
+  styles: [`
+  .ngx-timepicker {
+    border-bottom: none !important;
+  }
+  `]
 })
 export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;

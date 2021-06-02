@@ -15,8 +15,7 @@ import { ExportFiletypeComponent } from 'src/app/shared/components/export-filety
 declare var $: any;
 @Component({
   selector: 'app-hourly-wash',
-  templateUrl: './hourly-wash.component.html',
-  styleUrls: ['./hourly-wash.component.css']
+  templateUrl: './hourly-wash.component.html'
 })
 export class HourlyWashComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;

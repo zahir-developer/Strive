@@ -13,8 +13,7 @@ import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-monthly-money-owned',
-  templateUrl: './monthly-money-owned.component.html',
-  styleUrls: ['./monthly-money-owned.component.css']
+  templateUrl: './monthly-money-owned.component.html'
 })
 export class MonthlyMoneyOwnedComponent implements OnInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;

@@ -11,8 +11,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-terms-and-conditions',
-  templateUrl: './terms-and-conditions.component.html',
-  styleUrls: ['./terms-and-conditions.component.css']
+  templateUrl: './terms-and-conditions.component.html'
 })
 export class TermsAndConditionsComponent implements OnInit {
   fileName: any = null;

@@ -12,8 +12,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { ServiceSetupService } from 'src/app/shared/services/data-service/service-setup.service';
 @Component({
   selector: 'app-membership-create-edit',
-  templateUrl: './membership-create-edit.component.html',
-  styleUrls: ['./membership-create-edit.component.css']
+  templateUrl: './membership-create-edit.component.html'
 })
 export class MembershipCreateEditComponent implements OnInit {
   membershipForm: FormGroup;

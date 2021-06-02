@@ -3,8 +3,7 @@ import { LandingService } from 'src/app/shared/services/common-service/landing.s
 
 @Component({
   selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  templateUrl: './reports.component.html'
 })
 export class ReportsComponent implements OnInit {
 

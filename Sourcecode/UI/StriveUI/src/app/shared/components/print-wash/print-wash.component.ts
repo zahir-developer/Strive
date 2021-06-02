@@ -2,8 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-print-wash',
-  templateUrl: './print-wash.component.html',
-  styleUrls: ['./print-wash.component.css']
+  templateUrl: './print-wash.component.html'
 })
 export class PrintWashComponent implements OnInit {
   @Input() selectedData?: any;

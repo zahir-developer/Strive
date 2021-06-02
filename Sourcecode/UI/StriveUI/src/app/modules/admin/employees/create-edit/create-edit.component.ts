@@ -17,8 +17,7 @@ import * as _ from 'underscore';
 declare var $: any;
 @Component({
   selector: 'app-create-edit',
-  templateUrl: './create-edit.component.html',
-  styleUrls: ['./create-edit.component.css']
+  templateUrl: './create-edit.component.html'
 })
 export class CreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;

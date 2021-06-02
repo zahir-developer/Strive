@@ -15,8 +15,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-checkout-grid',
-  templateUrl: './checkout-grid.component.html',
-  styleUrls: ['./checkout-grid.component.css']
+  templateUrl: './checkout-grid.component.html'
 })
 export class CheckoutGridComponent implements OnInit {
   uncheckedVehicleDetails: any = [];

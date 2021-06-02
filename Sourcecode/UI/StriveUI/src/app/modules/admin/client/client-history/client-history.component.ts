@@ -10,7 +10,14 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 @Component({
   selector: 'app-client-history',
   templateUrl: './client-history.component.html',
-  styleUrls: ['./client-history.component.css']
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+  `]
 })
 export class ClientHistoryComponent implements OnInit {
   @Input() clientId?: any;

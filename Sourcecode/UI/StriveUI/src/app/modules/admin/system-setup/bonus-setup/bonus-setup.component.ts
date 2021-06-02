@@ -8,8 +8,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-bonus-setup',
-  templateUrl: './bonus-setup.component.html',
-  styleUrls: ['./bonus-setup.component.css']
+  templateUrl: './bonus-setup.component.html'
 })
 export class BonusSetupComponent implements OnInit {
   locationId: any;

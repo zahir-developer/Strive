@@ -15,8 +15,7 @@ import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-payment-process',
-  templateUrl: './payment-process.component.html',
-  styleUrls: ['./payment-process.component.css']
+  templateUrl: './payment-process.component.html'
 })
 export class PaymentProcessComponent implements OnInit {
   @Input() clientId?: number;

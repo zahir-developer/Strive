@@ -3,8 +3,7 @@ import { DetailService } from 'src/app/shared/services/data-service/detail.servi
 
 @Component({
   selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  templateUrl: './customer.component.html'
 })
 export class CustomerComponent implements OnInit {
   dashboardScreen: boolean;

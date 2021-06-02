@@ -11,8 +11,7 @@ import { ExportFiletypeComponent } from 'src/app/shared/components/export-filety
 import { LocationDropdownComponent } from 'src/app/shared/components/location-dropdown/location-dropdown.component';
 @Component({
   selector: 'app-daily-sales',
-  templateUrl: './daily-sales.component.html',
-  styleUrls: ['./daily-sales.component.css']
+  templateUrl: './daily-sales.component.html'
 })
 export class DailySalesComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;

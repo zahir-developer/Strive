@@ -3,8 +3,7 @@ import { WashService } from '../../services/data-service/wash.service';
 
 @Component({
   selector: 'app-forecasted-cars',
-  templateUrl: './forecasted-cars.component.html',
-  styleUrls: ['./forecasted-cars.component.css']
+  templateUrl: './forecasted-cars.component.html'
 })
 export class ForecastedCarsComponent implements OnInit {
   forecastedCars: any;

@@ -16,7 +16,6 @@ declare var $: any;
 @Component({
   selector: 'app-messenger',
   templateUrl: './messenger.component.html',
-  styleUrls: ['./messenger.component.css'],
   providers: [SignalRService]
 })
 export class MessengerComponent implements OnInit, AfterViewChecked {

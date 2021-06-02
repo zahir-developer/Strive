@@ -12,8 +12,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-assign-detail',
-  templateUrl: './assign-detail.component.html',
-  styleUrls: ['./assign-detail.component.css']
+  templateUrl: './assign-detail.component.html'
 })
 export class AssignDetailComponent implements OnInit {
   @Input() isView?: any;

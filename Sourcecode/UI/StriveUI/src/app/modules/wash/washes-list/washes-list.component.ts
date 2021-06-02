@@ -19,8 +19,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-washes-list',
-  templateUrl: './washes-list.component.html',
-  styleUrls: ['./washes-list.component.css']
+  templateUrl: './washes-list.component.html'
 })
 export class WashesListComponent implements OnInit {
   washDetails = [];

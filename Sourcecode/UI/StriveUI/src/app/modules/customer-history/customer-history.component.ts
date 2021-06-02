@@ -12,8 +12,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-customer-history',
-  templateUrl: './customer-history.component.html',
-  styleUrls: ['./customer-history.component.css']
+  templateUrl: './customer-history.component.html'
 })
 export class CustomerHistoryComponent implements OnInit {
   date = new Date();

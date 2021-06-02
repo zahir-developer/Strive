@@ -13,8 +13,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-create-edit-employee-hand-book',
-  templateUrl: './create-edit-employee-hand-book.component.html',
-  styleUrls: ['./create-edit-employee-hand-book.component.css']
+  templateUrl: './create-edit-employee-hand-book.component.html'
 })
 export class CreateEditEmployeeHandBookComponent implements OnInit {
 

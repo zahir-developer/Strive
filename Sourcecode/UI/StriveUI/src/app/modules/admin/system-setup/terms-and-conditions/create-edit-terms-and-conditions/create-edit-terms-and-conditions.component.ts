@@ -10,8 +10,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-create-edit-terms-and-conditions',
-  templateUrl: './create-edit-terms-and-conditions.component.html',
-  styleUrls: ['./create-edit-terms-and-conditions.component.css']
+  templateUrl: './create-edit-terms-and-conditions.component.html'
 })
 export class CreateEditTermsAndConditionsComponent implements OnInit {
 

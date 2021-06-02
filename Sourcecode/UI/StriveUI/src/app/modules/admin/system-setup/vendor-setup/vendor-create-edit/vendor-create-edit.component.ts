@@ -12,8 +12,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-vendor-create-edit',
-  templateUrl: './vendor-create-edit.component.html',
-  styleUrls: ['./vendor-create-edit.component.css']
+  templateUrl: './vendor-create-edit.component.html'
 })
 export class VendorCreateEditComponent implements OnInit {
   @ViewChild(CityComponent) cityComponent: CityComponent;

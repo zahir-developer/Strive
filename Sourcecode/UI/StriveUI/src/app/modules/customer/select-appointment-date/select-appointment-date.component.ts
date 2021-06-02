@@ -7,8 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-select-appointment-date',
-  templateUrl: './select-appointment-date.component.html',
-  styleUrls: ['./select-appointment-date.component.css']
+  templateUrl: './select-appointment-date.component.html'
 })
 export class SelectAppointmentDateComponent implements OnInit {
   @Output() previewAppointment = new EventEmitter();

@@ -5,8 +5,7 @@ import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-wash-employees',
-  templateUrl: './wash-employees.component.html',
-  styleUrls: ['./wash-employees.component.css']
+  templateUrl: './wash-employees.component.html'
 })
 export class WashEmployeesComponent implements OnInit {
   employeeCount: any;

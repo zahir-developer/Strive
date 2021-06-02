@@ -12,8 +12,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-create-document',
-  templateUrl: './create-document.component.html',
-  styleUrls: ['./create-document.component.css']
+  templateUrl: './create-document.component.html'
 })
 export class CreateDocumentComponent implements OnInit {
   isPassword: boolean;

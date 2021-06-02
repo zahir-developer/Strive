@@ -10,8 +10,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-setup-list',
-  templateUrl: './product-setup-list.component.html',
-  styleUrls: ['./product-setup-list.component.css']
+  templateUrl: './product-setup-list.component.html'
 })
 export class ProductSetupListComponent implements OnInit {
   productSetupDetails = [];

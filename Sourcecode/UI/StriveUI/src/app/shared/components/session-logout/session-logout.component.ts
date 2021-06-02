@@ -12,8 +12,7 @@ import { ApplicationConfig } from '../../services/ApplicationConfig';
 
 @Component({
   selector: 'app-session-logout',
-  templateUrl: './session-logout.component.html',
-  styleUrls: ['./session-logout.component.css']
+  templateUrl: './session-logout.component.html'
 })
 export class SessionLogoutComponent implements OnInit {
   @Input() dialogDisplay = false;

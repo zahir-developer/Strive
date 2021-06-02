@@ -7,8 +7,7 @@ import { TenantSetupService } from 'src/app/shared/services/data-service/tenant-
 
 @Component({
   selector: 'app-tenant-setup',
-  templateUrl: './tenant-setup.component.html',
-  styleUrls: ['./tenant-setup.component.css']
+  templateUrl: './tenant-setup.component.html'
 })
 export class TenantSetupComponent implements OnInit {
   search = '';

@@ -13,8 +13,7 @@ import { ClientService } from 'src/app/shared/services/data-service/client.servi
 
 @Component({
   selector: 'app-add-tenant',
-  templateUrl: './add-tenant.component.html',
-  styleUrls: ['./add-tenant.component.css']
+  templateUrl: './add-tenant.component.html'
 })
 export class AddTenantComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;

@@ -12,8 +12,7 @@ declare var $: any;
 
 @Component({
   selector: 'app-eod',
-  templateUrl: './eod.component.html',
-  styleUrls: ['./eod.component.css']
+  templateUrl: './eod.component.html'
 })
 export class EodComponent implements OnInit, AfterViewInit {
   @ViewChild(LocationDropdownComponent) locationDropdownComponent: LocationDropdownComponent;

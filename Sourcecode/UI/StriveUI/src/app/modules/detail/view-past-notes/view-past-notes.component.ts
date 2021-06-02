@@ -2,8 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-view-past-notes',
-  templateUrl: './view-past-notes.component.html',
-  styleUrls: ['./view-past-notes.component.css']
+  templateUrl: './view-past-notes.component.html'
 })
 export class ViewPastNotesComponent implements OnInit {
   @Input() viewNotes?: any;

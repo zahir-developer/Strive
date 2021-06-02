@@ -8,8 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-deal-setup',
-  templateUrl: './deal-setup.component.html',
-  styleUrls: ['./deal-setup.component.css']
+  templateUrl: './deal-setup.component.html'
 })
 export class DealSetupComponent implements OnInit {
   isLoading = false;
