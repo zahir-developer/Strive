@@ -3,6 +3,10 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- [StriveCarSalon].[uspGetEODSalesReport] 0
+/*
+2021-06-03 - Vetriselvi Gift card value should show only todays gift card purchased or used amount ( showing yesterday's data)
+Total paid Paid shows wrong amount value and if we change date it shows same value. please refer screenshots
+*/
 -- =============================================
 CREATE PROCEDURE [StriveCarSalon].[uspGetEODSalesReport] 
 	@LocationId INT,
@@ -37,7 +41,7 @@ LEFT JOIN
 ON		tbljb.JobId = tbljbI.JobId  
 
 WHERE 
-	tbljb.LocationId =  @locationId  
+	tbljb.LocationId =  @locationId  and (tbljb.JobDate between @FromDate and @EndDate )
 AND ISNULL(tbljbI.IsDeleted,0)=0 
 AND ISNULL(tbljbI.IsActive,1)=1 
 AND ISNULL(tbljb.IsDeleted,0)=0 
@@ -163,6 +167,7 @@ AND ISNULL(tbljp.IsActive,1)=1
 AND	ISNULL(tbljpd.IsDeleted,0)=0 
 AND ISNULL(tbljpd.IsActive,1)=1 
 AND tbljp.PaymentStatus = @PaymentStatusSuccess
+AND (CONVERT(date, tbljp.CreatedDate)  between @FromDate and @EndDate)	
 Group by tbljob.locationId, tblpt.CodeValue
 ) sub
 GROUP BY locationId
