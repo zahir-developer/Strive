@@ -51,7 +51,7 @@ namespace Strive.BusinessLogic.GiftCard
             {
                 if (giftcard > 0)
                 {
-                    var subject = "Gift card details";
+                    var subject = EmailSubject.GiftCard;
                     Dictionary<string, string> keyValues = new Dictionary<string, string>();
                     keyValues.Add("{{emailId}}", giftCardDto.GiftCard.Email);
                     keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
@@ -68,7 +68,7 @@ namespace Strive.BusinessLogic.GiftCard
 
                     if (giftcard > 0)
                     {
-                        var subject = "Gift card details";
+                        var subject = EmailSubject.GiftCard;
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                         keyValues.Add("{{emailId}}", clientemail.FirstName);
                         keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);

@@ -165,7 +165,7 @@ namespace Strive.BusinessLogic
             }
             emailList = emailList.TrimEnd(charToTrim);
 
-            var subject = "Product threshold limit";
+            var subject = EmailSubject.ProductThreshold;
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
            
             keyValues.Add("{{productName}}", productRequestDto.productName);
