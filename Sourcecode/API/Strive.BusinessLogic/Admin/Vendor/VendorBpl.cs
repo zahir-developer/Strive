@@ -53,7 +53,7 @@ namespace Strive.BusinessLogic
 
         public Result GetVendorByProductId(int id)
         {
-            return ResultWrap(new VendorRal(_tenant).GetVendorByProductId,"VendorProduct")
+            return ResultWrap(new VendorRal(_tenant).GetVendorByProductId,id, "VendorProduct");
         }
     }
 }

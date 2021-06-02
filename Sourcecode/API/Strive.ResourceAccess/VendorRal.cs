@@ -63,7 +63,8 @@ namespace Strive.ResourceAccess
 
         public List<VendorProductViewModel> GetVendorByProductId(int id)
         {
-            return db.Fetch<VendorProductViewModel>(SPEnum.USPGETVENDORBYPRODUCTID.ToString(), null);
+            _prm.Add("@ProductId", id);
+            return db.Fetch<VendorProductViewModel>(SPEnum.USPGETVENDORBYPRODUCTID.ToString(), _prm);
         }
     }
 
