@@ -28,7 +28,7 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(vendor);
         }
- 
+
         public bool DeleteVendorById(int id)
         {
             _prm.Add("@VendorId", id);
@@ -59,6 +59,11 @@ namespace Strive.ResourceAccess
         public List<VendorNameViewModel> GetAllVendorName()
         {
             return db.Fetch<VendorNameViewModel>(SPEnum.USPGETALLVENDORNAME.ToString(), null);
+        }
+
+        public List<VendorProductViewModel> GetVendorByProductId(int id)
+        {
+            return db.Fetch<VendorProductViewModel>(SPEnum.USPGETVENDORBYPRODUCTID.ToString(), null);
         }
     }
 

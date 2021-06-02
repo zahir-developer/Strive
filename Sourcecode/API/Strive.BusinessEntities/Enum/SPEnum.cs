@@ -474,7 +474,8 @@ namespace Strive.BusinessEntities
         USPGETVENDORBYID,
         USPDELETEVENDOR,
         USPGETALLVENDORNAME,
-        
+        USPGETVENDORBYPRODUCTID,
+
         //Details
         USPGETALLDETAILJOB,
         USPGETDETAILJOBBYID,
