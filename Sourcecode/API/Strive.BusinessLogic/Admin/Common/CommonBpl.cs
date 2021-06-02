@@ -399,7 +399,7 @@ namespace Strive.BusinessLogic.Common
             {
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
 
-                if (htmlTemplate == HtmlTemplate.NewEmployeeInfo || htmlTemplate == HtmlTemplate.ProductThreshold || htmlTemplate == HtmlTemplate.ProductRequest)
+                if (htmlTemplate == HtmlTemplate.GeneralMail|| htmlTemplate == HtmlTemplate.NewEmployeeInfo || htmlTemplate == HtmlTemplate.ProductThreshold || htmlTemplate == HtmlTemplate.ProductRequest)
                 {
                     SendMultipleMail(emailId, emailContent, sub);
                 }

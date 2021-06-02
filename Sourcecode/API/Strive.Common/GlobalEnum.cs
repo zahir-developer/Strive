@@ -67,7 +67,8 @@ namespace Strive.Common
         GiftCardDetails,
         SuperAdmin,
         NewEmployeeInfo,
-        ProductRequest
+        ProductRequest,
+        GeneralMail
     }
 
     public enum Roles
