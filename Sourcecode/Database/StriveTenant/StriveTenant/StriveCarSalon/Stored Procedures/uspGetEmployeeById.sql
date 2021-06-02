@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE  [StriveCarSalon].[uspGetEmployeeById] 
+﻿ALTER PROCEDURE  [StriveCarSalon].[uspGetEmployeeById] 
 (@EmployeeId int)
 AS
 BEGIN
@@ -60,7 +59,7 @@ select row_number() OVER (
 	empli.ClientId,
 tblcl.FirstName + ' '+ tblcl.LastName as ClientName,
 	empLi.VehicleId,
-	cvMfr.MakeValue + ' '+	cvmo.ModelValue + ' '+ cvCo.valuedesc AS VehicleName,
+	ISNULL(cvMfr.MakeValue,'') + ' '+	ISNULL(cvmo.ModelValue,'') + ' '+ ISNULL(cvCo.valuedesc,'') AS VehicleName,
   empLi.LiabilityId,
    empLiD.liabilityDetailId,
    lcv.valuedesc as LiabilityType,
@@ -77,7 +76,7 @@ tblcl.FirstName + ' '+ tblcl.LastName as ClientName,
    LEFT join
    [GetTable]('LiabilityDetailType') dcv on empLid.LiabilityDetailType = dcv.valueid
    
-   LEFT JOIN 
+   INNER JOIN 
    tblClient tblcl on empLi.ClientId = tblcl.ClientId
 
    LEFT JOIN tblClientVehicle cvl ON empLi.VehicleId = cvl.VehicleId
@@ -87,7 +86,7 @@ tblcl.FirstName + ' '+ tblcl.LastName as ClientName,
 
    where isnull(empLi.IsActive,1)=1 and isnull(empLi.IsDeleted,0)=0  and empLi.EmployeeId = @EmployeeId  
 
-   select rm.RoleMasterId, empr.EmployeeId,empr.EmployeeRoleId, empr.roleid,rm.RoleName as rolename from tblEmployeeRole empr inner join
+   select rm.RoleMasterId, empr.EmployeeId,empr.EmployeeRoleId, empr.RoleId,rm.RoleName as rolename from tblEmployeeRole empr inner join
    tblRoleMaster rm on empr.RoleId = rm.RoleMasterId where empr.EmployeeId=@EmployeeId  and isnull(empr.IsDeleted,0)=0
 
    select emplo.EmployeeId,EmployeeLocationId, emplo.LocationId,lo.Locationname from tblEmployeeLocation emplo inner join
