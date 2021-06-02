@@ -324,7 +324,6 @@ export class SalesComponent implements OnInit {
     } else {
       this.ticketNumber = '';
       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.Ticket });
-
       return;
     }
 
@@ -406,7 +405,7 @@ export class SalesComponent implements OnInit {
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
             const jobDetail = this.itemList.Status.JobDetailViewModel;
-            const invalidTicket = jobDetail.filter(item => item.JobId === this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+            const invalidTicket = jobDetail.filter(item => item.JobId === +this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             if (invalidTicket.length === 0) {
               this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
               this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
