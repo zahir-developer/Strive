@@ -21,7 +21,8 @@ FRS					: TimeClock Maintainance
 -----------------------------------------------------------------------------------------
   1  |  2020-Sep-01   | Lenin		| Added RollBack for errored transaction 
   2  |  2020-Sep-16   | Zahir		| Procedure Name changed. Column name changes added. Parameter name changes.
-
+  3  |  2021-MAy-20   | Shalini		| Wash rate changed..taking from employeehourlyrate table
+  
 
 -----------------------------------------------------------------------------------------
 */
@@ -63,7 +64,7 @@ SELECT
 	, tblRM.RoleName
 	, DATEDIFF(HOUR,ISNULL(InTime,OutTime),ISNULL(OutTime,Intime)) AS TotalHours
 	,CAST(DATEDIFF(MI, ISNULL(InTime,OutTime), ISNULL(OutTime,Intime)) as int) AS TotalHoursInMin 
-	,CONVERT(VARCHAR(8),DATEADD(minute, DATEDIFF(MI, ISNULL(InTime,OutTime), ISNULL(OutTime,Intime)), 0), 114) AS TotH
+	,Replace(CONVERT(VARCHAR(5),DATEADD(minute, DATEDIFF(MI, ISNULL(InTime,OutTime), ISNULL(OutTime,Intime)), 0), 114),':','.')  AS TotH
 INTO
 	#TimeClock
 FROM 
@@ -111,13 +112,15 @@ GROUP BY jse.EmployeeId
 DROP TABLE IF EXISTS #Rate
 SELECT 
 	  tblED.EmployeeId
-	, ISNULL(tblED.WashRate,0)AS WashRate
+	,ISNULL(ehr.HourlyRate,0)AS WashRate
+	--, ISNULL(tblED.WashRate,0)AS WashRate
 	, tblCV.CodeValue AS [Detail Desc] 
-	, ISNULL(tblED.ComRate,0) as DetailRate
+	, ISNULL(tblED.PayRate,0) as DetailRate
 INTO
 	#Rate
 FROM 
 	tblEmployeeDetail tblED
+	left join  tblEmployeeHourlyRate ehr on tblED.EmployeeId=ehr.EmployeeId
 LEFT JOIN
 	tblCodeValue tblCV
 ON		tblCV.id=tblED.ComType
@@ -126,7 +129,7 @@ LEFT JOIN
 ON		tblCC.id=tblCV.CategoryId
 WHERE 
 	tblED.EmployeeId=@EmployeeId --AND tblCC.Category='DetailCommission' 
-
+	and ehr.LocationId = @LocationId and ehr.IsActive = 1 and ehr.IsDeleted = 0
 -- Rate Summary
 DROP TABLE IF EXISTS #EmployeeRate
 
@@ -135,7 +138,7 @@ SELECT
 	tbll.LocationId,
 	ISNULL(tbll.WorkHourThreshold,0) WorkHourThreshold,
 	SUM(TotalWashHours) TotalWashHours,
-	SUM(TotalDetailHours) TotalDetailHours,
+	SUM(TotalDetailHours ) TotalDetailHours,
 	CASE WHEN SUM(TotalWashHours)>ISNULL(tbll.WorkhourThreshold,0) THEN (SUM(TotalWashHours)-ISNULL(tbll.WorkhourThreshold,0)) ELSE 0 
 	END AS OverTimeHours
 INTO
@@ -147,8 +150,8 @@ SELECT
 	LocationId, 
 	--CASE WHEN RoleName='Wash' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalWashHours,
 	--CASE WHEN RoleName='Detailer' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalDetailHours
-	CASE WHEN RoleName='Wash' THEN ISNULL(TotalHoursInMin,0) ELSE 0 END AS TotalWashHours,
-	CASE WHEN RoleName='Detailer' THEN ISNULL(TotalHoursInMin,0) ELSE 0 END AS TotalDetailHours
+	CASE WHEN RoleName='Washer' THEN ISNULL(CAST(TotH AS DECIMAL(18,2)),0) ELSE 0 END AS TotalWashHours,
+	CASE WHEN RoleName='Detailer' THEN ISNULL(CAST(TotH AS DECIMAL(18,2)),0) ELSE 0 END AS TotalDetailHours
 FROM #TimeClock
 ) TOLHours
 LEFT JOIN
@@ -200,20 +203,25 @@ ON		DC.EmployeeId=ER.EmployeeId
 
 -- Result
 
-SELECT TimeClockId,RoleId,[Day],EventDate,InTime,OutTime,RoleName,TotH AS 'TotalHours'
+SELECT TimeClockId,RoleId,[Day],EventDate,InTime,OutTime,RoleName,REPLACE(TotH,'.',':') AS 'TotalHours'
 ,TotalHoursInMin  FROM #TimeClock
 
-SELECT 
-	CONVERT(NUMERIC(18, 2), TotalWashHours/ 60 + (TotalWashHours% 60) / 100.0) AS TotalWashHours,
-	CONVERT(NUMERIC(18, 2), TotalDetailHours/ 60 + (TotalDetailHours% 60) / 100.0) AS TotalDetailHours,
-	CONVERT(NUMERIC(18, 2), OverTimeHours/ 60 + (OverTimeHours% 60) / 100.0) AS OverTimeHours,
-	WorkHourThreshold,WashRate,DetailRate,ISNULL(WashAmount,'0.00')WashAmount,ISNULL(DetailAmount,'0.00')DetailAmount,ISNULL(OverTimePay,'0.00')OverTimePay,ISNULL(CollisionAmount,'0.00')CollisionAmount
+
+SELECT TotalWashHours,TotalDetailHours,OverTimeHours,
+	--CONVERT(NUMERIC(18, 2), TotalWashHours/ 60 + (TotalWashHours% 60) / 100.0) AS TotalWashHours1,
+	--CONVERT(NUMERIC(18, 2), TotalDetailHours/ 60 + (TotalDetailHours% 60) / 100.0) AS TotalDetailHours1,
+	--CONVERT(NUMERIC(18, 2), OverTimeHours/ 60 + (OverTimeHours% 60) / 100.0) AS OverTimeHours1,
+	WorkHourThreshold,WashRate,DetailRate,ISNULL(WashAmount,'0.00')WashAmount,
+	ISNULL(DetailAmount,'0.00')DetailAmount,
+	ISNULL(OverTimePay,'0.00')OverTimePay,
+	ISNULL(CollisionAmount,'0.00')CollisionAmount
 	,((ISNULL(WashAmount,'0.00')+ISNULL(DetailAmount,'0.00')+ISNULL(OverTimePay,'0.00'))-ISNULL(CollisionAmount,'0.00')) AS GrandTotal
 INTO #Result
 FROM 
 	#FinResult
 
-SELECT Replace(TotalWashHours,'.',':') AS TotalWashHours,REPLACE(TotalDetailHours,'.',':') AS TotalDetailHours,
-	WorkHourThreshold,Replace(OverTimeHours,'.',':')AS OverTimeHours, WashRate,DetailRate,[WashAmount],[DetailAmount],OverTimePay,CollisionAmount
-	,GrandTotal FROM #Result
+SELECT --TotalWashHours1,TotalDetailHours1,OverTimeHours1,
+Replace(TotalWashHours,'.',':') AS TotalWashHours,REPLACE(TotalDetailHours,'.',':') AS TotalDetailHours,
+	WorkHourThreshold,Replace(OverTimeHours,'.',':')AS OverTimeHours, WashRate,DetailRate,[WashAmount],[DetailAmount],OverTimePay,CollisionAmount,GrandTotal 
+	FROM #Result
 END

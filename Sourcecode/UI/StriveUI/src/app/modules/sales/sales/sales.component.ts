@@ -405,11 +405,17 @@ export class SalesComponent implements OnInit {
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
           if (this.itemList.Status.SalesItemViewModel !== null) {
+            const jobDetail = this.itemList.Status.JobDetailViewModel;
+            const invalidTicket = jobDetail.filter(item => item.JobId === this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+            if (invalidTicket.length === 0) {
+              this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+              this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
+              this.showPopup = false;
+            }
             if (this.multipleTicketNumber.length > 1) {
               this.multipleTicketSequence = true;
             }
             if (this.itemList.Status.SalesItemViewModel.length !== 0) {
-
               this.showPopup = true;
               this.allService = this.itemList.Status.SalesItemViewModel;
               this.washes = this.itemList.Status.SalesItemViewModel.filter(item =>
@@ -436,8 +442,8 @@ export class SalesComponent implements OnInit {
               });
             }
           } else {
+            this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
-
             this.showPopup = false;
           }
           if (this.itemList?.Status?.SalesSummaryViewModel !== null) {
@@ -494,7 +500,7 @@ export class SalesComponent implements OnInit {
     this.salesService.getServiceAndProduct(locID, query).subscribe(res => {
       if (res.status === 'Success') {
         const services = JSON.parse(res.resultData);
-        if (services.ServiceAndProductList.Service !== null ) {
+        if (services.ServiceAndProductList.Service !== null) {
           this.services = services.ServiceAndProductList.Service.map(item => {
             return {
               id: item.ServiceId,
@@ -506,7 +512,7 @@ export class SalesComponent implements OnInit {
         } else {
           this.services = [];
         }
-        if (services.ServiceAndProductList.Product !== null ) {
+        if (services.ServiceAndProductList.Product !== null) {
           this.products = services.ServiceAndProductList.Product.map(item => {
             return {
               id: item.ProductId,
@@ -1367,11 +1373,16 @@ export class SalesComponent implements OnInit {
         productName: item.ProductName
       });
     });
-
+    const jobId = [];
+    this.multipleTicketNumber.forEach(item => {
+      jobId.push(item.toString());
+    });
+    // jobId.push(this.JobId);
     const paymentDetail = {
       SalesPaymentDto: paymentObj,
       SalesProductItemDto: jobProductItem.length > 0 ? { jobProductItem } : null,
-      locationId: +localStorage.getItem('locationId')
+      locationId: +localStorage.getItem('empLocationId'),
+      jobId: this.multipleTicketNumber.toString()
     };
 
     this.spinner.show();

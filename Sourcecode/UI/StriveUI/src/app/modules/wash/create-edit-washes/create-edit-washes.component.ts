@@ -617,6 +617,9 @@ export class CreateEditWashesComponent implements OnInit {
 
   // Get Client And Vehicle Details By Barcode
   getByBarcode(barcode) {
+    if (barcode === '') {
+      return;
+    }
     this.washForm.patchValue({
       barcode
     });

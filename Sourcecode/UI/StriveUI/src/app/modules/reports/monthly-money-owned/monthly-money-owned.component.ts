@@ -9,6 +9,7 @@ import { LocationDropdownComponent } from 'src/app/shared/components/location-dr
 import { ExportFiletypeComponent } from 'src/app/shared/components/export-filetype/export-filetype.component';
 import { YearPickerComponent } from 'src/app/shared/components/year-picker/year-picker.component';
 import { MonthPickerComponent } from 'src/app/shared/components/month-picker/month-picker.component';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-monthly-money-owned',
@@ -41,11 +42,13 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   totalOwnedValue = [];
   locationId: any;
   owedLocationName = [];
+  clonedownedReportList = [];
   constructor(
     private excelService: ExcelService,
     private reportsService: ReportsService,
     private spinner: NgxSpinnerService,
-    private toastr : ToastrService
+    private toastr: ToastrService,
+    private currencyPipe: CurrencyPipe
   ) { }
 
   ngOnInit(): void {
@@ -107,7 +110,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
               }
             });
           });
-          this.uniqLocationName.forEach( uniq => {
+          this.uniqLocationName.forEach(uniq => {
             if (locName !== uniq.Name) {
               this.owedLocationName.push(uniq);
             }
@@ -115,7 +118,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
           this.moontlyOwnedGrid(monthlyReport.GetMonthlyMoneyOwnedReport, uniqDate);
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -154,7 +157,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
             locationName: loc.ShortName
           });
         });
-        this.owedLocationName.forEach( loc => {
+        this.owedLocationName.forEach(loc => {
           const locationBasedRecord = jobDateRecord.filter(record => record.ShortName === loc.ShortName);
           let totalOwned = 0;
           locationBasedRecord.forEach(owned => {
@@ -201,7 +204,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         totalValue
       });
     });
-    this.owedLocationName.forEach( loc => {
+    this.owedLocationName.forEach(loc => {
       let totalOwnedValue = 0;
       this.ownedReportList.forEach(ele => {
         ele.LocationAmount.forEach(sn => {
@@ -215,6 +218,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         totalOwnedValue
       });
     });
+    this.clonedownedReportList = this.ownedReportList.map(x => Object.assign({}, x));
   }
 
   onMonthChange(event) {
@@ -252,17 +256,60 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         break;
       }
       case 2: {
-        this.excelService.exportAsCSVFile(this.ownedReportList, 'MoneyOwnedReport_' + this.date);
+        const monthlyOwedReport = this.customReport(this.clonedownedReportList);
+        console.log(monthlyOwedReport, 'report');
+        this.excelService.exportAsCSVFile(monthlyOwedReport, 'MoneyOwnedReport_' + this.date);
         break;
       }
       case 3: {
-        this.excelService.exportAsExcelFile(this.ownedReportList, 'MoneyOwnedReport_' + this.date);
+        const monthlyOwedReport = this.customReport(this.clonedownedReportList);
+        this.excelService.exportAsExcelFile(monthlyOwedReport, 'MoneyOwnedReport_' + this.date);
         break;
       }
       default: {
         return;
       }
     }
+  }
+
+  customReport(reports) {
+    const moneyOwedReport = [];
+    const locOwed = [];
+    reports.forEach(item => {
+      item.location.forEach(loc => {
+          item[loc.locationName] = loc.locationCount;
+      });
+      item.LocationAmount.forEach(amount => {
+          item['Total Owed For' + ' ' + amount.locationName] =  this.currencyPipe.transform(amount.locationAmount, 'USD');
+      });
+      moneyOwedReport.push(item);
+    });
+    moneyOwedReport.forEach( item => {
+      delete item.location;
+      delete item.LocationAmount;
+    });
+    return moneyOwedReport;
+  }
+
+  print() {
+    const body = document.getElementById('MonthlyMoneyreport').innerHTML;  // @media print{body{ width: 950px; background-color: red;} }'
+
+    const content = '<!DOCTYPE html><html><head><title>Daily Sales Report</title><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>'
+      + '<link rel = "stylesheet" type = "text/css" media = "print"/><style type = "text/css">  @media print {@page {size: landscape;margin: 0mm 5mm 0mm 5mm;}}'
+      + '</style><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script></head><body><table><thead id="header"><tr><td>'
+      + '</td></tr><tr><td><div class="fixed-top" "><div style="font-size:24px;margin-right:15px;text-align:center;margin-top:15px">' + 'Monthly Money Owed Report - ' + this.month + '/' + this.year + '</div></div></td></tr></thead><tbody><tr><td><div class="upperTeethData print-table-border"><div></div><div style="position:relative; top:100px">' + body + '</div></div></td></tr><tr><td>'
+      + '<div class="lowerTeethData print-table-border"><div></div><div> </div></div></td></tr><tr><td><div class="casetype print-table-border"></div>'
+      + '</td></tr></tbody><tfoot><tr><td><div class="fixed-bottom border-top" id="footer">' + '<div style="font-size:14px;margin-right:15px;float:left;">' +
+      '</div></div></td></tr></tfoot></table><body></html>';
+    const popupWin = window.open('', '_blank', 'scrollbars=1,width:100%;height:100%');
+    popupWin.document.open();
+    popupWin.document.write(content);
+    popupWin.document.close(); // necessary for IE >= 10
+    popupWin.focus(); // necessary for IE >= 10*/
+    setTimeout(() => {
+      popupWin.print();
+      popupWin.close();
+    }, 1000);
   }
 
 }

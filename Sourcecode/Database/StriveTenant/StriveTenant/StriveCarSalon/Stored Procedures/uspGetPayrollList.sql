@@ -29,7 +29,8 @@ SELECT
 	     CASE When CodeValue='Collision' THEN Amount End As Collision,
          CASE When CodeValue='Uniform' THEN Amount End As Uniform,
 	     CASE When CodeValue='Adjustment' THEN Amount End As Adjustment
-INTO     #Category FROM 	tblEmployeeLiability tblEL 
+INTO     #Category 
+FROM 	tblEmployeeLiability tblEL 
 JOIN 
 	tblEmployeeLiabilityDetail tblELD ON tblEL.LiabilityId=tblELD.LiabilityId AND tblEL.IsActive=1 AND ISNULL(tblEL.IsDeleted,0)=0
 	LEFT JOIN	tblCodeValue tblCV ON		tblCV.id=tblEL.LiabilityType
@@ -62,7 +63,8 @@ Select tblemp.EmployeeId,
 			   CONVERT(VARCHAR(8),InTime,108) AS InTime,
 	           CONVERT(VARCHAR(8),ISNULL(OutTime,INTIME),108) AS OutTime,
 			   DATEDIFF(HOUR,ISNULL(InTime,OutTime),ISNULL(OutTime,Intime)) AS TotalHours
-
+			   ,CAST(DATEDIFF(MI, ISNULL(InTime,OutTime), ISNULL(OutTime,Intime)) as int) AS TotalHoursInMin 
+	,Replace(CONVERT(VARCHAR(5),DATEADD(minute, DATEDIFF(MI, ISNULL(InTime,OutTime), ISNULL(OutTime,Intime)), 0), 114),':','.')  AS TotH
 			   INTO
 			       #PayRoll
 
@@ -104,13 +106,14 @@ DROP TABLE IF EXISTS #EmployeeRate
 	tbll.LocationId,
 	PayeeName,
 	SUM(TotalWashHours) TotalWashesHours,
-	CASE WHEN SUM(TotalWashHours)>@HoursLimit THEN @HoursLimit ELSE SUM(TotalWashHours) END AS TotalWashHours,
-	--SUM(TotalWashHours) TotalWashHours,
-	--SUM(TotalDetailHours) TotalDetailHours,
+	--CASE WHEN SUM(TotalWashHours)>@HoursLimit THEN @HoursLimit ELSE SUM(TotalWashHours) END AS TotalWashHours,
 	SUM(TotalDetailHours) TotalDetailHours,
-	--CASE WHEN SUM(TotalDetailHours)>@HoursLimit THEN @HoursLimit ELSE SUM(TotalDetailHours) END AS TotalDetailHours,
-	CASE WHEN ((SUM(TotalWashHours) + SUM(TotalDetailHours))>@HoursLimit AND SUM(TotalWashHours)>((SUM(TotalWashHours) + SUM(TotalDetailHours))/2)AND SUM(TotalDetailHours)<((SUM(TotalWashHours) + SUM(TotalDetailHours))/2)) THEN SUM(TotalDetailHours) ELSE 0 END AS OverTimeHours
-	--CASE WHEN SUM(TotalWashHours)>@HoursLimit THEN (SUM(TotalWashHours)-@HoursLimit) ELSE 0 END AS OverTimeHours
+	--CASE WHEN ((SUM(TotalWashHours) + SUM(TotalDetailHours))>@HoursLimit AND SUM(TotalWashHours)>((SUM(TotalWashHours) + SUM(TotalDetailHours))/2)AND SUM(TotalDetailHours)<((SUM(TotalWashHours) + SUM(TotalDetailHours))/2)) THEN SUM(TotalDetailHours) ELSE 0 END AS OverTimeHours
+		
+		SUM(TotalWashHours) TotalWashHours,
+	CASE WHEN SUM(TotalWashHours)>@HoursLimit THEN (SUM(TotalWashHours)-@HoursLimit) ELSE 0 
+	END AS OverTimeHours
+
 INTO
 	#EmployeeHours
 FROM
@@ -119,8 +122,10 @@ SELECT
 	EmployeeId,
 	LocationId,
 	PayeeName,
-	CASE WHEN RoleName='Washer' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalWashHours,
-	CASE WHEN RoleName='Detailer' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalDetailHours
+	--CASE WHEN RoleName='Washer' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalWashHours,
+	--CASE WHEN RoleName='Detailer' THEN ISNULL(TotalHours,0) ELSE 0 END AS TotalDetailHours
+	CASE WHEN RoleName='Washer' THEN ISNULL(CAST(TotH AS DECIMAL(18,2)),0) ELSE 0 END AS TotalWashHours,
+	CASE WHEN RoleName='Detailer' THEN ISNULL(CAST(TotH AS DECIMAL(18,2)),0) ELSE 0 END AS TotalDetailHours
 FROM #PayRoll
 ) TOLHours
 LEFT JOIN
@@ -132,7 +137,8 @@ GROUP BY EmployeeId,tbll.LocationId,Tbll.WorkhourThreshold,PayeeName
 
 SELECT 
 	  tblED.EmployeeId
-	, tblED.WashRate
+	--, tblED.WashRate
+	,ehr.HourlyRate as WashRate
 	,tblED.Tip
 	, tblCV.CodeValue AS [Detail Desc] 
 	, tblED.PayRate AS [DetailRate]
@@ -146,8 +152,18 @@ ON		tblCV.id=tblED.ComType
 LEFT JOIN
 	tblCodeCategory tblCC
 ON		tblCC.id=tblCV.CategoryId
+LEFT JOIN tblEmployeeHourlyRate ehr on ehr.EmployeeId = tblED.EmployeeId
+where  ehr.LocationId = @LocationId and ehr.IsActive = 1 and ehr.IsDeleted = 0
 --WHERE 
 --	tblCC.Category='CommisionType'
+
+
+DROP TABLE IF EXISTS #DetailCommission
+
+Select jse.EmployeeId, SUM(jse.CommissionAmount) as CommissionAmount INTO #DetailCommission from tblJobServiceEmployee jse
+INNER JOIN tblTimeClock tc on tc.EmployeeId = jse.EmployeeId
+where (tc.EventDate BETWEEN @StartDate AND @EndDate) AND (jse.CreatedDate BETWEEN @StartDate AND @EndDate)
+GROUP BY jse.EmployeeId
 
 
 DROP TABLE IF EXISTS #FinResult
@@ -161,11 +177,11 @@ SELECT
 	DA.DetailCommission,
 	R.Tip,
 	--(ER.TotalDetaileHours* r.DetailRate) AS [Detail Total],
-	CASE	WHEN R.[Detail Desc]='Hourly' THEN (ER.TotalDetailHours* r.DetailRate) 
-			WHEN R.[Detail Desc]='Flat Fee' THEN r.DetailRate
-			WHEN R.[Detail Desc]='Percentage' THEN ((DA.DetailAmount* r.DetailRate)/100)
-			END AS [DetailAmount],
-	
+	--CASE	WHEN R.[Detail Desc]='Hourly' THEN (ER.TotalDetailHours* r.DetailRate) 
+	--		WHEN R.[Detail Desc]='Flat Fee' THEN r.DetailRate
+	--		WHEN R.[Detail Desc]='Percentage' THEN ((DA.DetailAmount* r.DetailRate)/100)
+	--		END AS [DetailAmount],
+	DC.CommissionAmount AS DetailAmount,
 	CASE   WHEN ER.OverTimeHours > 0 THEN (@OverTimeWashRate * R.WashRate * ER.TotalDetailHours) ELSE 0 END AS OverTimePay, 
 	--WHEN ER.TotalWashesHours > @HoursLimit THEN CAST(((ER.TotalWashesHours - @HoursLimit) * @OverTimeWashRate) AS decimal(9,2)) ELSE 0 END AS OverTimePay,
 	ISNULL(@CollisionAmount,0.00)  AS CollisionAmount,
@@ -183,7 +199,9 @@ ON		DA.EmployeeId=ER.EmployeeId
 LEFT JOIN 
 	#EmployeeCollision EC 
 ON	    EC.EmployeeId = ER.EmployeeId
-
+LEFT JOIN 
+	#DetailCommission DC
+ON		DC.EmployeeId=ER.EmployeeId
 
 
 --FinalOutput

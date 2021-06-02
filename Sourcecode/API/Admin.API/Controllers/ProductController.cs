@@ -54,5 +54,12 @@ namespace Admin.Api.Controllers
         [HttpPost]
         [Route("GetAllProductImage")]
         public Result GetAllProductImage([FromBody] ProductSearchDto search) => _bplManager.GetAllProductAndImage(search);
+
+        [HttpPost]
+        [Route("ProductRequest")]
+        public Result ProductRequest([FromBody]ProductRequestDto productRequestDto) => _bplManager.ProductRequest(productRequestDto);
+
+
+
     }
 }

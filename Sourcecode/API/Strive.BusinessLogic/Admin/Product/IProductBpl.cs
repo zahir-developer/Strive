@@ -18,5 +18,6 @@ namespace Strive.BusinessLogic
         Result GetAllProductAndImage(ProductSearchDto search);
 
         Result UpdateProductQuantity(ProductQuantityDto productQuantityDto);
+        Result ProductRequest(ProductRequestDto productRequestDto);
     }
 }

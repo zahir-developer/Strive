@@ -32,6 +32,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@ProductSearch", search.ProductSearch);
             _prm.Add("@ProductTypeNames", search.ProductTypeNames);
+            _prm.Add("@status", search.status);
             return db.Fetch<ProductViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
 
@@ -57,7 +58,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("ProductId", productQuantityDto.ProductId);
             _prm.Add("Quantity", productQuantityDto.Quantity);
-            db.Save(EnumSP.Product.USPUPDATEQUANTITY.ToString(), _prm);
+            db.Save(EnumSP.Sales.USPUPDATEPRODUCTQUANTITY.ToString(), _prm);
             return true;
         }
 
