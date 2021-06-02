@@ -107,7 +107,7 @@ namespace Strive.ResourceAccess
             return db.FetchMultiResult<ServiceAndProductViewModel>(EnumSP.Sales.USPGETALLSERVICEANDPRODUCTLIST.ToString(), _prm);
         }
 
-        public bool UpdateJobPayment(List<string> jobId, int jobPaymentid)
+        public bool UpdateJobPayment(string jobId, int jobPaymentid)
         {
             _prm.Add("JobId", jobId);
             _prm.Add("JobPaymentid", jobPaymentid);

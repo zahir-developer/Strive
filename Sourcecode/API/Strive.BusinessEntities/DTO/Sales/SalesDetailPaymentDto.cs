@@ -12,6 +12,6 @@ namespace Strive.BusinessEntities.DTO.Sales
         public SalesPaymentDto SalesPaymentDto { get; set; }
         public SalesProductItemDto SalesProductItemDto { get; set; }
         public int LocationId { get; set; }
-        public List<string> JobId { get; set; }
+        public string JobId { get; set; }
     }
 }
