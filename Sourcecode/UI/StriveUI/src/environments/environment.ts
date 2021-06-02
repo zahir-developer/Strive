@@ -8,11 +8,11 @@ export const environment = {
   name: 'Development',
   appName: 'Strive Phase 1',
   api: { // API Endpoints
-    striveUrl:  'http://localhost:60001/',
+    striveUrl: 'http://localhost:60001/',
+    striveCdn: 'http://localhost:60002/',
     //striveUrl:  'http://40.114.79.101:5004/',
-    signalR:  'https://a06de2f1da31.ngrok.io/'
-    //signalR:  'https://1447af389eed.ngrok.io'
-    // striveUrl: 'http://14.141.185.75:5004/'
+    signalR: 'https://a06de2f1da31.ngrok.io/',
+    //striveUrl: 'http://14.141.185.75:5004/',
     //  striveUrl: 'http://' + location.hostname + ':5001',
     //   appUrl: 'http://' + location.hostname + ':5000'
   }
