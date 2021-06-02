@@ -100,20 +100,25 @@ namespace Strive.BusinessLogic.Sales
                             //var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId, roles);
 
                             var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId.ToString());
+                            char[] charToTrim = { ',' };
+                            string emailList = string.Empty;
+                            foreach (var email in emailId)
+                            {
+                                emailList += email.Email + ",";
+                            }
+                            emailList = emailList.TrimEnd(charToTrim);
 
                             if (product != null && product.Quantity != null)
                             {
                                 if ((product.Quantity - prod.Quantity) < product.ThresholdLimit)
                                 {
-                                    foreach (var item in emailId)
-                                    {
+                                   
                                         var subject = "Product threshold limit";
-                                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                                        keyValues.Add("{{managerName}}", item.FirstName);
+                                        Dictionary<string, string> keyValues = new Dictionary<string, string>();                                        
                                         keyValues.Add("{{productName}}", product.ProductName);
                                         keyValues.Add("{{locationName}}", product.LocationName);
-                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues, subject);
-                                    }
+                                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, emailList, keyValues, subject);
+                                    
 
                                 }
                             }

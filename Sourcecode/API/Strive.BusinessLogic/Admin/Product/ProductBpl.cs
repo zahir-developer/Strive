@@ -157,17 +157,22 @@ namespace Strive.BusinessLogic
         public Result ProductRequest(ProductRequestDto productRequestDto)
         {
             var emailId = new CommonRal(_tenant).GetEmailIdByRole(productRequestDto.locationId.ToString());
-
-            foreach (var item in emailId)
+            char[] charToTrim = { ',' };
+            string emailList = string.Empty;
+            foreach (var email in emailId)
             {
-                var subject = "Product threshold limit";
-                Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                keyValues.Add("{{managerName}}", item.FirstName);
-                keyValues.Add("{{productName}}", productRequestDto.productName);
-                keyValues.Add("{{locationName}}", productRequestDto.locationName);
-                keyValues.Add("{{quantityRequest}}", productRequestDto.RequestQuantity.ToString());
-                new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold, item.Email, keyValues, subject);
+                emailList += email.Email + ",";
             }
+            emailList = emailList.TrimEnd(charToTrim);
+
+            var subject = "Product threshold limit";
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+           
+            keyValues.Add("{{productName}}", productRequestDto.productName);
+            keyValues.Add("{{locationName}}", productRequestDto.locationName);
+            keyValues.Add("{{quantityRequest}}", productRequestDto.RequestQuantity.ToString());
+            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductThreshold,emailList, keyValues, subject);
+
             return ResultWrap(true, "MailsentToManager", "");
 
         }

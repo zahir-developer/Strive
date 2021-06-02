@@ -398,13 +398,15 @@ namespace Strive.BusinessLogic.Common
             try
             {
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
-                
-                if(htmlTemplate== HtmlTemplate.NewEmployeeInfo)
+
+                if (htmlTemplate == HtmlTemplate.NewEmployeeInfo || htmlTemplate == HtmlTemplate.ProductThreshold)
                 {
                     SendMultipleMail(emailId, emailContent, sub);
-                }                
-
-                SendMail(emailId, emailContent, sub);
+                }
+                else
+                {
+                    SendMail(emailId, emailContent, sub);
+                }
 
                 //SendMail(emailId, emailContent, "Welcome to Strive !!!");
 
