@@ -156,7 +156,8 @@ namespace Admin.API.Controllers
                         worksheet2.Cell(6, 2).Value = coins.HalfDollars.ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     }
                 }
-                if (eodResult.CashRegister.CashRegisterRolls != null) { 
+                if (eodResult.CashRegister.CashRegisterRolls != null)
+                {
                     var rolls = eodResult.CashRegister.CashRegisterRolls;
                     {
                         worksheet2.Cell(7, 2).Value = "";
@@ -180,15 +181,15 @@ namespace Admin.API.Controllers
 
                     }
                 }
-                
+
 
                 var worksheet3 = workbook.Worksheets.Add("Daily Status");
                 currentRow = 1;
                 worksheet3.Cell(currentRow, 1).Value = "Number";
-                worksheet3.Cell(currentRow, 2).Value = "Service Name"; 
+                worksheet3.Cell(currentRow, 2).Value = "Service Name";
                 worksheet3.Cell(currentRow, 3).Value = "Job Type";
                 worksheet3.Cell(currentRow, 4).Value = "Job Date";
-                
+
                 foreach (var details in eodResult.DailyStatusReport)
                 {
                     currentRow++;
@@ -196,7 +197,7 @@ namespace Admin.API.Controllers
                     worksheet3.Cell(currentRow, 2).Value = details.ServiceName;
                     worksheet3.Cell(currentRow, 3).Value = details.JobType;
                     worksheet3.Cell(currentRow, 4).Value = details.JobDate;
-                    
+
                 }
 
                 var worksheet4 = workbook.Worksheets.Add("Detail Info");
@@ -235,7 +236,7 @@ namespace Admin.API.Controllers
                 worksheet5.Cell(16, 1).Value = "Account";
                 worksheet5.Cell(17, 1).Value = "Gift Card";
                 worksheet5.Cell(18, 1).Value = "Total Paid";
-                worksheet5.Cell(19, 1).Value = "Cash back"; 
+                worksheet5.Cell(19, 1).Value = "Cash back";
                 var sales = eodResult.Sales.EODSalesDetails;
                 {
                     worksheet5.Cell(1, 2).Value = "";
@@ -247,16 +248,16 @@ namespace Admin.API.Controllers
                     worksheet5.Cell(7, 2).Value = sales.Account.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(8, 2).Value = sales.GiftCard.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(9, 2).Value = sales.TotalPaid.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(10, 2).Value =sales.Total.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(11, 2).Value =sales.TaxAmount.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));  
-                    worksheet5.Cell(12, 2).Value =sales.GrandTotal.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(13, 2).Value =sales.Cash.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(14, 2).Value ="0.00"; 
-                    worksheet5.Cell(15, 2).Value =sales.Credit.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(16, 2).Value =sales.Account.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(17, 2).Value =sales.GiftCard.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(18, 2).Value =sales.TotalPaid.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US")); 
-                    worksheet5.Cell(19, 2).Value =sales.CashBack.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));  
+                    worksheet5.Cell(10, 2).Value = sales.Total.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(11, 2).Value = sales.TaxAmount.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(12, 2).Value = sales.GrandTotal.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(13, 2).Value = sales.Cash.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(14, 2).Value = "0.00";
+                    worksheet5.Cell(15, 2).Value = sales.Credit.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(16, 2).Value = sales.Account.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(17, 2).Value = sales.GiftCard.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(18, 2).Value = sales.TotalPaid.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(19, 2).Value = sales.CashBack.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                 }
 
 
@@ -302,21 +303,22 @@ namespace Admin.API.Controllers
                         worksheet.Cell(currentRow, 5).Value = employeeTimeClock.OtherHours;
                     }
                 }
-            
+
                 var worksheet2 = workbook.Worksheets.Add("Employee Time Clock Details");
                 currentRow = 1;
                 worksheet2.Cell(currentRow, 1).Value = "TimeClock Id";
                 worksheet2.Cell(currentRow, 2).Value = "Employee Id ";
                 worksheet2.Cell(currentRow, 3).Value = "Location Id ";
                 worksheet2.Cell(currentRow, 4).Value = "Role Id";
-                worksheet2.Cell(currentRow, 5).Value = "Role Name";
-                worksheet2.Cell(currentRow, 6).Value = "Day";
-                worksheet2.Cell(currentRow, 7).Value = "EventDate";
-                worksheet2.Cell(currentRow, 8).Value = "InTime";
-                worksheet2.Cell(currentRow, 9).Value = "OutTime";
-                worksheet2.Cell(currentRow, 10).Value = "Total Hours";
+                worksheet2.Cell(currentRow, 5).Value = "Location Name";
+                worksheet2.Cell(currentRow, 6).Value = "Role Name";
+                worksheet2.Cell(currentRow, 7).Value = "Day";
+                worksheet2.Cell(currentRow, 8).Value = "EventDate";
+                worksheet2.Cell(currentRow, 9).Value = "InTime";
+                worksheet2.Cell(currentRow, 10).Value = "OutTime";
+                worksheet2.Cell(currentRow, 11).Value = "Total Hours";
                 //worksheet2.Cell(currentRow, 11).Value = "EventType";
-                worksheet2.Cell(currentRow, 11).Value = "Status";
+                worksheet2.Cell(currentRow, 12).Value = "Status";
                 if (statusResult.EmployeeTimeClock.TimeClockEmployeeDetails != null)
                 {
                     foreach (var employeeTimeClock in statusResult.EmployeeTimeClock.TimeClockDetails)
@@ -326,19 +328,20 @@ namespace Admin.API.Controllers
                         worksheet2.Cell(currentRow, 2).Value = employeeTimeClock.EmployeeId;
                         worksheet2.Cell(currentRow, 3).Value = employeeTimeClock.LocationId;
                         worksheet2.Cell(currentRow, 4).Value = employeeTimeClock.RoleId;
-                        worksheet2.Cell(currentRow, 5).Value = employeeTimeClock.RoleName;
-                        worksheet2.Cell(currentRow, 6).Value = employeeTimeClock.Day;
-                        worksheet2.Cell(currentRow, 7).Value = employeeTimeClock.EventDate;
-                        worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.InTime;
-                        worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.OutTime;
-                        worksheet2.Cell(currentRow, 10).Value = (employeeTimeClock.OutTime - employeeTimeClock.InTime);// employeeTimeClock.TotalHours;
+                        worksheet2.Cell(currentRow, 5).Value = employeeTimeClock.LocationName;
+                        worksheet2.Cell(currentRow, 6).Value = employeeTimeClock.RoleName;
+                        worksheet2.Cell(currentRow, 7).Value = employeeTimeClock.Day;
+                        worksheet2.Cell(currentRow, 8).Value = employeeTimeClock.EventDate;
+                        worksheet2.Cell(currentRow, 9).Value = employeeTimeClock.InTime;
+                        worksheet2.Cell(currentRow, 10).Value = employeeTimeClock.OutTime;
+                        worksheet2.Cell(currentRow, 11).Value = (employeeTimeClock.OutTime - employeeTimeClock.InTime);// employeeTimeClock.TotalHours;
                         //worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.EventType;
-                        worksheet2.Cell(currentRow, 11).Value = employeeTimeClock.Status;
+                        worksheet2.Cell(currentRow, 12).Value = employeeTimeClock.Status;
                     }
                 }
                 var worksheet4 = workbook.Worksheets.Add("Daily Status Info");
                 currentRow = 1;
-                worksheet4.Cell(currentRow, 1).Value = "TicketNumber";               
+                worksheet4.Cell(currentRow, 1).Value = "TicketNumber";
                 worksheet4.Cell(currentRow, 2).Value = "FirstName";
                 worksheet4.Cell(currentRow, 3).Value = "Commision";
                 if (statusResult.DailyStatusDetailInfoViews.DailyStatusDetailInfo != null)
