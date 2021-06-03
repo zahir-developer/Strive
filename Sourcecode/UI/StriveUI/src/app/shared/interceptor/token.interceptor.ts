@@ -37,12 +37,12 @@ export class TokenInterceptor implements HttpInterceptor {
                 console.log(err, 'error');
                 if (err instanceof HttpErrorResponse && err.status === 401) {
                     // get refresh tokens
-                    // const refreshToken = localStorage.getItem('refreshToken');
+                    const refreshToken = localStorage.getItem('refreshToken');
 
                     // if there are tokens then send refresh token request
-                    // if (refreshToken && accessToken) {
-                    //    return this.refreshToken(req, next);
-                    // }
+                    if (refreshToken && accessToken) {
+                       return this.refreshToken(req, next);
+                    }
                     // otherwise logout and redirect to login page
                     return this.logoutAndRedirect(err);
                 }
