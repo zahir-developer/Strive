@@ -48,11 +48,29 @@ namespace Strive.BusinessLogic
 
         public Result GetAllProduct(ProductSearchDto search)
         {
-            return ResultWrap(new ProductRal(_tenant).GetAllProduct, search, "ProductSearch");
+            var products = new ProductRal(_tenant).GetAllProduct(search);
+
+            if (search.LoadThumbnailImage.GetValueOrDefault(false))
+            {
+                foreach (var prod in products)
+                {
+                    string fileName = string.Empty;
+
+                    fileName = prod.ThumbFileName;
+
+                    if (string.IsNullOrEmpty(fileName))
+                        fileName = prod.FileName;
+
+                    if (!string.IsNullOrEmpty(fileName))
+                        prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
+                }
+            }
+            return ResultWrap(products, "ProductSearch");
         }
 
         public Result UpdateProduct(ProductListDto products)
         {
+
             Result result = new Result();
             foreach (var product in products.Product)
             {
