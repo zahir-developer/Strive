@@ -130,6 +130,11 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_UPDATE_PRODUCT, HttpMethod.Post, product);
         }
 
+        public async Task<PostResponse> ProductRequest(ProductRequest product)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_PRODUCT_REQUEST, HttpMethod.Post, product);
+        }
+
         public async Task<PostResponse> UpdateProdQuantity(int Id, int quantity)
         {
             var uriBuilder = ApiUtils.URL_UPDATE_PRODUCT_QUANTITY;

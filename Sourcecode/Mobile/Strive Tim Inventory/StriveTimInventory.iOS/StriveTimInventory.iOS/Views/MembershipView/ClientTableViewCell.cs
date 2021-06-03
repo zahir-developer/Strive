@@ -93,10 +93,14 @@ namespace StriveTimInventory.iOS.Views.MembershipView
         {
             ItemTitle.Font = DesignUtils.OpenSansSemiBoldTwenty();
             ItemTitle.Text = vehicle.VehicleColor + " " + vehicle.VehicleMfr + " " + vehicle.VehicleModel;
-            ItemIcon.Image = UIImage.FromBundle("member-inactive");
+            
             if(vehicle.IsMembership)
             {
                 ItemIcon.Image = UIImage.FromBundle("member-active");
+            }
+            else
+            {
+                ItemIcon.Image = UIImage.FromBundle("member-inactive");
             }
         }
     }

@@ -45,6 +45,8 @@ namespace Strive.Core.Utils
 
         public const string URL_SEARCH_PRODUCT = "/Admin/Product/GetProductSearch";
 
+        public const string URL_PRODUCT_REQUEST = "/Admin/Product/ProductRequest";
+
         public const string URL_GET_PAST_SCHEDULE = "/Admin/Schedule/GetSchedule";
 
         public const string URL_GET_ALL_CLIENT = "/Admin/Client/GetAll";
