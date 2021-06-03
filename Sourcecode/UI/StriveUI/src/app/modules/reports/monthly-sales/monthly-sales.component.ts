@@ -170,10 +170,16 @@ export class MonthlySalesComponent implements OnInit, AfterViewInit {
         return {
           Number: item?.Number,
           Description: item?.Description,
-          Price: item?.Price,
-          Total: this.decimalPipe.transform(item?.Total, '.2-2')
+          Price: this.decimalPipe.transform(item?.Price, '.2-2'),
+          Total: this.decimalPipe.transform(item?.Total, '.2-2'),
+          GrandTotal: ''
         };
       });
+      let grandtotal = 0;
+      monthlySalesReport.forEach( item => {
+        grandtotal = grandtotal + (+item.Total);
+      });
+      monthlySales[0].GrandTotal = grandtotal;
       return monthlySales;
     }
   }
