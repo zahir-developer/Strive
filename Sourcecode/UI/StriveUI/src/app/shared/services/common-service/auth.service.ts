@@ -7,6 +7,7 @@ import { UserDataService } from '../../util/user-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticateObservableService } from '../../observable-service/authenticate-observable.service';
 import { ApplicationConfig } from '../ApplicationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,7 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
   constructor(private http: HttpUtilsService, private userService: UserDataService, private router: Router,
-    private route: ActivatedRoute, private authenticate: AuthenticateObservableService) {
+    private route: ActivatedRoute, private authenticate: AuthenticateObservableService, private spinner: NgxSpinnerService) {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.loggedIn.next(true);
     }

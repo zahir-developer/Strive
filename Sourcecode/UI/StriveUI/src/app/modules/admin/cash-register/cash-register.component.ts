@@ -124,13 +124,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   getTargetBusinessData(locationId, date) {
     this.weatherService.getTargetBusinessData(locationId, date).subscribe(data => {
       if (data) {
-        debugger;
         this.targetBusiness = JSON.parse(data.resultData);
-        //if (this.targetBusiness.WeatherPrediction.WeatherPredictionToday !== null) {
+        if (this.targetBusiness.WeatherPrediction.WeatherPredictionToday !== null) {
           this.cashRegisterForm.patchValue({
             goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
           });
-        //}
+        }
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -163,7 +162,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
-          const storeStatus = this.storeStatusList.filter( item =>  item.CodeId === this.cashDetails.CashRegister.StoreOpenCloseStatus);
+          const storeStatus = this.storeStatusList.filter(item => item.CodeId === this.cashDetails.CashRegister.StoreOpenCloseStatus);
           let isStatus = false;
           if (storeStatus.length > 0) {
             if (storeStatus[0].CodeValue === 'Open') {
@@ -176,7 +175,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = isStatus ? this.cashDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '' : this.cashDetails.CashRegister.StoreTimeOut !== null ?
-            moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+              moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           // this.storeTimeIn  = this.cashDetails.CashRegister.StoreTimeOut !== null ?
           //   moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
           this.cashRegisterCoinForm.patchValue({
@@ -233,7 +232,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterRollForm.reset();
         }
       }
-      else{
+      else {
         this.spinner.hide();
 
       }
@@ -251,7 +250,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.spinner.hide();
         //this.weatherDetails = JSON.parse(data.resultData);
         this.weatherDetails = data;
-      }else{
+      } else {
         this.spinner.hide();
 
       }
@@ -357,7 +356,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       checkinTime = this.datePipe.transform(this.storeTimeIn, 'MM/dd/yyyy HH:mm');
       checkoutTime = this.storeTimeOut;
     }
-    const storeStatus = this.storeStatusList.filter( item => item.CodeId === +this.storeStatus);
+    const storeStatus = this.storeStatusList.filter(item => item.CodeId === +this.storeStatus);
     let isStatus = false;
     if (storeStatus.length > 0) {
       if (storeStatus[0].CodeValue === 'Open') {

@@ -90,5 +90,11 @@ namespace Admin.API.Controllers
         {
             return _bplManager.GetServicesAndProduct(id,  query);
         }
+        [HttpGet]
+        [Route("GetTicketsByPaymentId/{id}")]
+        public Result GetTicketsByPaymentId(int id)
+        {
+            return _bplManager.GetTicketsByPaymentId(id);
+        }
     }
 }

@@ -122,5 +122,10 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Sales.USPUPDATEPRODUCTQUANTITY.ToString(), _prm);
             return true;
         }
+        public List<JobPaymentTicketsDto> GetTicketsByPaymentId(int id)
+        {
+            _prm.Add("@JobPaymentId", id);
+            return db.Fetch<JobPaymentTicketsDto>(EnumSP.Sales.USPGETTICKETSBYPAYMENTID.ToString(), _prm);
+        }
     }
 }
