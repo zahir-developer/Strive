@@ -3,7 +3,8 @@
 -- Create date: To get past week and month weather prediction
  --[StriveCarSalon].[uspGetPastWeatherInfo] 2034,'2020-12-08', '2020-11-03', '2020-12-26','2020-09-03'
  /*
- 06-06-2021 - Vetriselvi - Wash count is not calculated correctly
+ 02-06-2021 - Vetriselvi - Wash count is not calculated correctly
+ 03-06-2021 - Vetriselvi - Daily Status Screen Report - Csv- In and out time shows wrongly.
  */
 -- =============================================
 CREATE PROCEDURE [StriveCarSalon].[uspGetPastWeatherInfo]
