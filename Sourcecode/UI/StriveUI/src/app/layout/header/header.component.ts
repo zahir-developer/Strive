@@ -41,32 +41,36 @@ export class HeaderComponent implements OnInit {
     });
 
     this.userService.cityName.subscribe(data => {
-      if (data == null) {
-        this.cityName = JSON.parse(localStorage.getItem('employeeCityName'));
+      if (data !== null) {
+        this.cityName = data;
+        // this.cityName = JSON.parse(localStorage.getItem('employeeCityName'));
 
       }
-      else {
-        this.cityName = data;
-      }
+      // else {
+      //   this.cityName = data;
+      // }
     });
 
     this.userService.locationName.subscribe(data => {
-      if (data == null) {
-        this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
-      }
-      else {
+      if (data !== null) {
         this.locationName = data;
+        // this.locationName = JSON.parse(localStorage.getItem('empLocationName'));
       }
+      // else {
+      //   this.locationName = data;
+      // }
     });
 
     this.selectLocation.obsCityName.subscribe(city => {
-      if (city !== null)
+      if (city !== null) {
         this.cityName = city;
+      }
     });
 
     this.selectLocation.obsLocationName.subscribe(location => {
-      if (location !== null)
-        this.locationName = location
+      if (location !== null) {
+        this.locationName = location;
+      }
     });
 
     this.getWeatherDetails();
