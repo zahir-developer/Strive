@@ -12,7 +12,7 @@ namespace Strive.BusinessEntities.DTO.Product
 
         public string ProductTypeNames { get; set; }
 
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
 
         public bool? LoadThumbnailImage { get; set; }
     }
