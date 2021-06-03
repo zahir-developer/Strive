@@ -35,6 +35,13 @@
               "node_modules/primeng/resources/themes/nova-light/theme.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "src/assets/css/style.css",
+              "src/assets/css/sidebar.css",
+              "src/assets/css/layout.css",
+              "src/assets/css/responsive.css",
+              "src/assets/css/color.css",
+              "src/assets/css/full-calendar.css",
+              // "src/assets/css/fullcalendar.min.css",
               "src/styles.css"
             ],
             "scripts": [
