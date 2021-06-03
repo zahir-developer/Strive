@@ -1357,7 +1357,8 @@ export class SalesComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: 1,
         updatedDate: new Date(),
-        isProcessed: true
+        isProcessed: true,
+        cashback:this.cashback
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,

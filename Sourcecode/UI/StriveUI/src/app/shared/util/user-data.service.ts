@@ -35,16 +35,14 @@ export class UserDataService {
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
       if (token?.EmployeeDetails?.EmployeeLocations) {
-     
         this.setCityName(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName);
         this.setLocationName(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName);
-
         localStorage.setItem('employeeCityName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.CityName));
         localStorage.setItem('employeeLocationName', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations[0]?.LocationName));
 
       } 
       if (token?.EmployeeDetails?.EmployeeLocations) {
-      if (token?.EmployeeDetails?.EmployeeLocations?.length > 1) {
+      if (token?.EmployeeDetails?.EmployeeLocations?.length > 2) {
         localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));
       } else {
         localStorage.setItem('empLocation', JSON.stringify(token?.EmployeeDetails?.EmployeeLocations));

@@ -12,3 +12,17 @@ E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN
 E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorTargetAssemblyInfo.cache
 E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.dll
 E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.pdb
+D:\Strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.deps.json
+D:\Strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.runtimeconfig.json
+D:\Strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.runtimeconfig.dev.json
+D:\Strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.dll
+D:\Strive\Sourcecode\API\CDN.Static\bin\Debug\netcoreapp2.2\CDN.Static.pdb
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.csprojAssemblyReference.cache
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.csproj.CoreCompileInputs.cache
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorAssemblyInfo.cache
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorAssemblyInfo.cs
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.AssemblyInfoInputs.cache
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.AssemblyInfo.cs
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.RazorTargetAssemblyInfo.cache
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.dll
+D:\Strive\Sourcecode\API\CDN.Static\obj\Debug\netcoreapp2.2\CDN.Static.pdb
