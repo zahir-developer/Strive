@@ -186,6 +186,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const base64 = 'data:image/png;base64,';
           const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
           this.favIcon.href = logoBase64;
+          
           if (label.WhiteLabelling.Theme !== null) {
             label.WhiteLabelling.Theme.forEach(item => {
               if (label.WhiteLabelling.WhiteLabel?.ThemeId === item.ThemeId) {

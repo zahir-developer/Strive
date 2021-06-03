@@ -1,0 +1,123 @@
+
+/* Left menu side sub menu */
+	.nav-slider-menu-wrapper {
+		height: 100%;
+		width: 0;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 70px;
+		background-color: #1b3b84;
+		overflow-x: hidden;
+		transition: 0.5s;
+		transition: right .3s;
+	}
+	
+	.nav-slider-menu-items li a {
+		font-size: 0.8rem;
+		color: #dddddd;
+		display: block;
+		padding: 5px 5px 7px 20px;
+	}
+	
+	.nav-slider-menu-items li a:hover,
+	.menu ul li a:active,
+	.menu ul li a:hover,
+	.menu ul li a:focus,
+	.menu ul li.active a{
+		color: #ffffff !important;
+	}
+	
+	.nav-slider-menu-wrapper .closebtn {
+		position: absolute;
+		top: 0;
+		right: 15px;
+		font-size: 24px;
+		margin-left: 50px;
+		padding: 0px !important;
+		color: white;
+	}
+	
+	.nav-slider-menu-title{
+			display: block;
+		border-bottom: 1px solid #cacad229 !important;
+	}
+	.left-submenu-active{
+		color: #1dc9b7;
+		text-decoration: underline;		
+	}
+	
+.menu ul li:active,
+.menu ul li:focus, 
+.menu ul li:hover {
+    background: #1DC9B7;
+    color: #ffff !important;
+}
+.mobile-view-title > li {
+padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    cursor: pointer;
+    border-bottom: 1px solid #cacad229 !important;
+}
+.mobile-view-title > li > a {
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    flex: 1;
+}
+.mobile-view-title > li > a > i {
+    text-align: center;
+    font-size: 18px;
+    margin-right: 7px;
+    display: inline-block;
+    width: 1.25em;
+}
+.mb-view  > li > a {
+	font-size: 0.8rem !important;
+    color: #dddddd !important;
+}
+.mb-view  > li {
+	    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.mobile-view-title > li:hover {
+    background: #1dc9b7;
+    color: white !important;
+}
+
+.back-to-list {
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 15px;
+    color: white;
+	margin-left:10px;
+}
+
+.mobile-view-nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0px;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 30px;
+    color: #99a8b5;
+	background: #1b3b84;
+	transition: left .3s;
+}
+
+#show-submenu {
+display:none;
+}
+.mobile-view-nav .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    font-size: 16px;
+    color: white;
+}
