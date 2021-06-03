@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 {
     public class InventoryEditViewModel : BaseViewModel
     {
-        private InventoryDataModel EditInventoryItem;
+        private InventoryDataModel  EditInventoryItem;
 
         public ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
         public ObservableCollection<LocationDetail> LocationList = new ObservableCollection<LocationDetail>();
@@ -252,7 +252,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             CurrentVendor = SelectedVendor;
         }
 
-        public void SetProductCommand(ProductDetails SelectedProduct)
+        public void SetProductCommand(ProductSearch SelectedProduct)
         {
             ItemCode = SelectedProduct.ProductCode;
             ItemName = SelectedProduct.ProductName;
