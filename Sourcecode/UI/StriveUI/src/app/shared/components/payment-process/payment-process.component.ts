@@ -146,6 +146,13 @@ export class PaymentProcessComponent implements OnInit {
 
   process() {
     this.submitted = true;
+    if (this.paymentForm.invalid) {
+      this.isBillingpage = false;
+      this.selectTab(0);
+      return;
+    } else {
+      this.isBillingpage = true;
+    }
     if (this.billingForm.invalid) {
       this.stateDropdownComponent.submitted = true;
       this.cityComponent.submitted = true;
@@ -159,29 +166,7 @@ export class PaymentProcessComponent implements OnInit {
     if (this.billingForm.invalid) {
       return;
     }
-    const amount = this.decimalPipe.transform(this.totalAmount, '.2-2');
-    const paymentDetailObj = {
-      account: this.paymentForm.value.cardNumber, // '6011000995500000', // ,
-      expiry: this.paymentForm.value.expiryDate, // '0622', //
-      amount: amount.toString(),
-      orderId: 'AB-11-9876',  // need too change
-      ccv: this.paymentForm.value.ccv // '291' //
-    };
-
-    const billingDetailObj = {
-      name: this.billingForm.value.firstName + '' + this.billingForm.value.lastName,
-      address: this.billingForm.value.address1,
-      city: 'anycity',  // need too change
-      country: 'US',  // need too change
-      region: 'NY',  // need too change
-      postal: this.billingForm.value.zip // '11111' //
-    };
-    const authObj = {
-      cardConnect: {},
-      paymentDetail: paymentDetailObj,
-      billingDetail: billingDetailObj
-    };
-    this.paymentAuth(authObj);
+    this.paymentProcess();
   }
 
   paymentAuth(authObj) {
@@ -281,6 +266,52 @@ export class PaymentProcessComponent implements OnInit {
       this.isBillingpage = true;
       this.selectTab(1);
     }
+  }
+
+  processWithoutBillingDetail() {
+    if (this.paymentForm.invalid) {
+      this.submitted = true;
+      this.isBillingpage = false;
+      return;
+    } else {
+      this.paymentProcess();
+    }
+  }
+
+  onSelect(event) {
+    console.log(event);
+    if (event.heading === 'Payment Detail') {
+      this.isBillingpage = false;
+    } else {
+      this.isBillingpage = true;
+    }
+  }
+
+
+  paymentProcess() {
+    const amount = this.decimalPipe.transform(this.totalAmount, '.2-2');
+    const paymentDetailObj = {
+      account: this.paymentForm.value.cardNumber, // '6011000995500000', // ,
+      expiry: this.paymentForm.value.expiryDate, // '0622', //
+      amount: amount.toString(),
+      orderId: 'AB-11-9876',  // need too change
+      ccv: this.paymentForm.value.ccv // '291' //
+    };
+
+    const billingDetailObj = {
+      name: this.billingForm.value.firstName + '' + this.billingForm.value.lastName,
+      address: this.billingForm.value.address1 ? this.billingForm.value.address1 : null,
+      city: null,  // need too change
+      country: null,  // need too change
+      region: null,  // need too change
+      postal: this.billingForm.value.zip ? this.billingForm.value.zip : null// '11111' //
+    };
+    const authObj = {
+      cardConnect: {},
+      paymentDetail: paymentDetailObj,
+      billingDetail: billingDetailObj
+    };
+    this.paymentAuth(authObj);
   }
 
   selectTab(tabId: number) {

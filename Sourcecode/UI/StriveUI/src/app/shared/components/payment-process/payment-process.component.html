@@ -1,7 +1,7 @@
 <div class="modal-content">
     <div class="modal-body">
         <tabset #staticTabs>
-            <tab heading="Payment Detail" id="tab1">
+            <tab heading="Payment Detail" id="tab1" (selectTab)="onSelect($event)">
                 <br>
                 <form [formGroup]="paymentForm">
                     <div class="row">
@@ -11,7 +11,6 @@
                         </div>
                         <div class="col-4">
                             <input type="text" name="customerName" class="form-control" formControlName="customerName">
-
                         </div>
                     </div>
                     <br>
@@ -115,7 +114,7 @@
                     {{errorMessage}}
                 </div>
             </tab>
-            <tab heading="Billing Detail">
+            <tab heading="Billing Detail" (selectTab)="onSelect($event)">
                 <br>
                 <form [formGroup]="billingForm">
                     <!-- <div class="row">
@@ -293,7 +292,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn theme-optional-button-color" *ngIf="!isBillingpage" (click)="next()">Next</button>
+    <button type="button" class="btn theme-optional-button-color" *ngIf="!isBillingpage" (click)="processWithoutBillingDetail()">Process</button>
     <button type="button" class="btn theme-optional-button-color" *ngIf="isBillingpage"
         (click)="process()">Process</button>
     <button type="button" class="btn theme-optional-button-color" (click)="closeModal()">Cancel</button>
