@@ -306,7 +306,8 @@ namespace Strive.BusinessEntities
             USPUPDATEPRODUCTQUANTITY,
             USPGETEMAILID,
             USPGETJOBBYID,
-            USPGETJOBDETAILBYID
+            USPGETJOBDETAILBYID,
+            USPGETTICKETSBYPAYMENTID
         }
 
         public enum Payroll

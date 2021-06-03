@@ -186,5 +186,9 @@ namespace Strive.BusinessLogic.Sales
         {
             return ResultWrap(new SalesRal(_tenant).GetServicesAndProduct, id, query, "ServiceAndProductList");
         }
+        public Result GetTicketsByPaymentId(int id)
+        {
+            return ResultWrap(new SalesRal(_tenant).GetTicketsByPaymentId, id, "TicketsbyJobPaymentId");
+        }
     }
 }
