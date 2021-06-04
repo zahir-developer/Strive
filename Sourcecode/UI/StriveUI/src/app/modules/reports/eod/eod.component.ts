@@ -331,6 +331,8 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
           this.clockDetail.forEach(item => {
             this.empTotalHours = this.empTotalHours + item.HoursPerDay;
+            item.WashHours =  item.WashHours.toString().replace('.',':');
+            item.DetailHours = item.DetailHours.toString().replace('.',':');
           });
         }
       }
