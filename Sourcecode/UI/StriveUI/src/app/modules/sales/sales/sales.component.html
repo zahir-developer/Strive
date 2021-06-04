@@ -127,9 +127,9 @@
                                     </div>
                                     <div class="row no-gutters m-t-7 payment">
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]='enableButton' (click)="processpayment()">Process</button>
+                                            [disabled]="enableButton || multipleTicketNumber.length === 0" (click)="processpayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]="!enableButton || multipleTicketNumber.length === 0"
+                                            [disabled]="!enableButton || multipleTicketNumber.length === 0 || isMultipleTicket"
                                             (click)="deleteItem('', 'rollback')">RollBack</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
                                             [disabled]="enableButton || multipleTicketNumber.length === 0"
