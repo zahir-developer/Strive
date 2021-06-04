@@ -15,7 +15,7 @@ namespace Strive.BusinessEntities.ViewModel
         public CashRegisterBillsViewModel CashRegisterBills { get; set; }
         public CashRegisterOthersViewModel CashRegisterOthers { get; set; }
 
-        public decimal? CreditCardAmount { get; set; }
+        
 
     }
    
