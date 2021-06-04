@@ -188,10 +188,10 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
-            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCard1,
-
-
+            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCardAmount ?
+             this.closeOutDetails.CashRegisterOthers.CreditCardAmount : '',
           });
+          this.closeoutRegisterForm.controls.cardAmount.disable();
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
           || this.closeOutDetails.CashRegisterRolls === null || this.closeOutDetails.CashRegisterBills === null) {
           this.cashRegisterCoinForm.enable();
@@ -324,14 +324,13 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       cashRegisterCoins: coin,
       cashRegisterBills: bill,
       cashRegisterRolls: roll,
-      cashregisterOthers: other
+      cashregisterOthers: other,
     }
     this.spinner.show();
     this.registerService.saveCashRegister(formObj, "CLOSEOUT").subscribe(data => {
       this.submitted = false;
       if (data.status === "Success") {
         this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
-
         this.spinner.hide();
         this.getCloseOutRegister();
       } else {
@@ -341,7 +340,6 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
       this.submitted = false;
       this.spinner.hide();
     });
