@@ -10,7 +10,8 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public TenantModuleViewModel Module { get; set; }
         public List<TenantModuleScreenViewModel> ModuleScreen { get; set; }
+        public List<TenantMobileApp> MobileApp { get; set; }
 
-        
+
     }
 }
