@@ -1,5 +1,6 @@
 using Foundation;
 using Greeter.Modules.Login;
+using Greeter.Modules.Service;
 using Greeter.Services.Authentication;
 using Greeter.Services.Network;
 using UIKit;
@@ -20,17 +21,20 @@ namespace NewSingleViewTemplate
             // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
             // This delegate does not imply the connecting scene or session are new (see UIApplicationDelegate `GetConfiguration` instead).
 
-            //if (scene is UIWindowScene windowScene)
-            //{
-            //    Window = new UIWindow(windowScene);
+            if (scene is UIWindowScene windowScene)
+            {
+                Window = new UIWindow(windowScene);
 
-            //    INetworkService networkService = new NetworkService();
-            //    IAuthenticationService authenticationService = new AuthenticationService(networkService);
+                INetworkService networkService = new NetworkService();
+                IAuthenticationService authenticationService = new AuthenticationService(networkService);
 
-            //    var viewController = new LoginViewController(authenticationService);
-            //    Window.RootViewController = viewController;
-            //    Window.MakeKeyAndVisible();
-            //}
+                //var viewController = new LoginViewController(authenticationService);
+
+                var viewController = new LastVisitViewController();
+
+                Window.RootViewController = viewController;
+                Window.MakeKeyAndVisible();
+            }
         }
 
         [Export("sceneDidDisconnect:")]
