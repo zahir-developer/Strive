@@ -85,7 +85,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     };
     const jobItem = [];
     jobItem.push({
-      jobItemId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobItemId : 0,
+      jobItemId: this.scheduleDetailObj.isEdit ?
+      this.scheduleDetailObj.deselectService.length > 0 ?  0 : this.scheduleDetailObj.JobItemId : 0,
       jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
       serviceId: this.scheduleDetailObj.serviceobj.ServiceId,
       isActive: true,
@@ -96,6 +97,20 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       createdBy: 0,
       updatedBy: 0
     });
+    if (this.scheduleDetailObj.isEdit) {
+      if (this.scheduleDetailObj.deselectService.length > 0) {
+        jobItem.push({
+          jobItemId: this.scheduleDetailObj.deselectService[0].JobItemId,
+          jobId:  this.selectedData.Details.JobId,
+          serviceId: this.scheduleDetailObj.deselectService[0].ServiceId,
+          isActive: true,
+          isDeleted: true,
+          commission: 0,
+          price: this.scheduleDetailObj.deselectService[0].Cost,
+          quantity: 1,
+        });
+      }
+    }
     const formObj = {
       job,
       jobItem,
