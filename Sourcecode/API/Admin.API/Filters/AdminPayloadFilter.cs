@@ -60,6 +60,7 @@ namespace Admin.API.Filters
             var TenantGuid = string.Empty;
             var schemaName = string.Empty;
             var EmployeeId = string.Empty;
+            var ClientId = string.Empty;
             var tid = string.Empty;
             var requestPath = context.HttpContext.Request.Path.Value;
 
@@ -69,14 +70,24 @@ namespace Admin.API.Filters
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
                 TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid")).Value;
                 schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
-                EmployeeId = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId")).Value;
+
+                var emp = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId"));
+
+                if (emp != null)
+                    EmployeeId = emp.Value;
+
+                var client = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("ClientId"));
+
+                if (client != null)
+                    ClientId = client.Value;
+
                 tid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("tid")).Value;
                 _tenant.TenatId = tid;
             }
-            SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId);
+            SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId, ClientId);
         }
 
-        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null)
+        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null, string clientId = null)
         {
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
 
@@ -118,6 +129,7 @@ namespace Admin.API.Filters
             _tenant.Port = Pick("SMTP", "Port");
             _tenant.FromMailAddress = Pick("SMTP", "FromAddress");
             _tenant.EmployeeId = employeeId;
+            _tenant.ClientId = clientId;
             _tenant.SchemaName = schemaName;
             
             //Folder Path

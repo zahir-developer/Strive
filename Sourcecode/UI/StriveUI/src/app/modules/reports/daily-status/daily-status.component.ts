@@ -127,24 +127,17 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     $('#table thead').html(tableheader);
     this.clockDetail.forEach(item => {
       tableBody += `<tr><td>` + item.EmployeeName + `</td><td>`;
-      var Hours = Math.floor(item?.WashHours / 60);
-      var Min = item?.WashHours - (Hours * 60);
-
       tableBody += (item?.WashHours ?
-        (Hours < 10 ? "0" + Hours : Hours) + ":" + (Min < 10 ? "0" + Min : Min)
+        (item?.WashHours).toString().replace(".",":")
         : "00:00") + `</td><td>`;
 
-      Hours = Math.floor(item?.DetailHours / 60);
-      Min = item?.DetailHours - (Hours * 60);
-
-      tableBody += (item?.DetailHours ?
-        (Hours < 10 ? "0" + Hours : Hours) + ":" + (Min < 10 ? "0" + Min : Min)
+        tableBody += (item?.DetailHours ?
+        (item?.DetailHours).toString().replace(".",":")
         : "00:00") + `</td><td>`;
 
-      Hours = Math.floor((item?.WashHours + item?.DetailHours) / 60);
-      Min = (item?.WashHours + item?.DetailHours) - (Hours * 60);
+      
       tableBody +=
-        ((Hours < 10 ? "0" + Hours : Hours) + ":" + (Min < 10 ? "0" + Min : Min))
+      (item?.WashHours + item?.DetailHours).toString().replace(".",":")
         + `</td>`;
 
       for (let i = 1; i <= count; i++) {
@@ -170,18 +163,14 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     tableBody += `</tr>`;
     $('#table tbody').html(tableBody);
 
-    var wHours = Math.floor(this.washHours / 60);
-    var wMin = this.washHours - (wHours * 60);
 
     this.totalWashHours = this.washHours > 0 ?
-      (wHours < 10 ? "0" + wHours : wHours) + ":" + (wMin < 10 ? "0" + wMin : wMin)
+    this.washHours.toString().replace(".",":")
       : "00:00";
 
-    var dHours = Math.floor(this.detailHours / 60);
-    var dMin = this.detailHours - (dHours * 60);
 
     this.totalDetailHours = this.detailHours > 0 ?
-      (dHours < 10 ? "0" + dHours : dHours) + ":" + (dMin < 10 ? "0" + dMin : dMin)
+    this.detailHours.toString().replace(".",":")
       : "00:00";
   }
   getDailyStatusReport() {
@@ -330,13 +319,14 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
         if (this.clockDetail.length > 0) {
           for (let i = 0; i < this.clockDetail.length; i++) {
+            debugger;
             employeeExportDetail.push({
               'Employee Name': this.clockDetail[i].EmployeeName,
               'Wash Hours': this.clockDetail[i].WashHours,
               'Detail Hours': this.clockDetail[i].DetailHours,
               'Total Hours': this.clockDetail[i].WashHours + this.clockDetail[i].DetailHours,
-              'In': this.clockDetail[i].Intime1 ? this.datePipe.transform(this.clockDetail[i].Intime1, 'hh:mm:ss') : '',
-              'Out': this.clockDetail[i].Outtime1 ? this.datePipe.transform(this.clockDetail[i].Outtime1, 'hh:mm:ss') : '',
+              'In': this.clockDetail[i].TimeIn1 ? this.clockDetail[i].TimeIn1 : '',
+              'Out': this.clockDetail[i].TimeOut1 ? this.clockDetail[i].TimeOut1 : '',
               'Role': this.clockDetail[i].RoleName1,
 
 

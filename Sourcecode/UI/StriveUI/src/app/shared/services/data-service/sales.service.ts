@@ -71,4 +71,8 @@ export class SalesService {
   paymentCapture(obj) {
     return this.http.post(`${UrlConfig.paymentGateway.paymentCapture}` , obj);
   }
+
+  getTicketsByPaymentId(id)  {
+    return this.http.get(`${UrlConfig.sales.getTicketsByPaymentId}` + id);
+  }
 }

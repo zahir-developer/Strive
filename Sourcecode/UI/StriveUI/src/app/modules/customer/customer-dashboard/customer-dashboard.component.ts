@@ -48,23 +48,13 @@ export class CustomerDashboardComponent implements OnInit {
     if (paramsData !== null) {
       this.clientID = paramsData;
     }
+    else
+    {
+      this.clientID = +localStorage.getItem('clientId');
+    }
+    
     this.getScheduleDetail();
     this.getVehicleListByClientId();
-  }
-
-  getDailySalesReport() {
-    const finalObj = {
-      date: moment(new Date()).format('MM/DD/YYYY'),
-      locationId: 0
-    };
-    this.customerService.getDailySalesReport(finalObj).subscribe(res => {
-      if (res.status === 'Success') {
-        const sales = JSON.parse(res.resultData);
-        this.serviceList = sales.GetDailySalesReport;
-      }
-    }, (err) => {
-      this.toastr.showMessage({ severity: 'error', title: 'Error!', body: MessageConfig.CommunicationError });
-    });
   }
 
   schedule(vechicle) {

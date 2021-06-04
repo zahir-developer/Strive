@@ -82,6 +82,7 @@ export class SalesComponent implements OnInit {
   captureObj: any = {};
   isDiscountAdded: boolean;
   addedDiscount = [];
+  isMultipleTicket: boolean;
   constructor(
     private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
@@ -120,6 +121,7 @@ export class SalesComponent implements OnInit {
   isGiftCard: boolean;
   giftcardNumber: any = '';
   ngOnInit(): void {
+    this.isMultipleTicket = false;
     this.isTenTicketNumber = false;
     this.isCreditPay = false;
     this.isGiftCard = false;
@@ -336,6 +338,7 @@ export class SalesComponent implements OnInit {
   }
 
   removeTicketNumber(ticket) {
+    this.newTicketNumber = '';
     if (this.multipleTicketNumber.length > 1) {
       this.multipleTicketSequence = false;
     }
@@ -407,7 +410,9 @@ export class SalesComponent implements OnInit {
             const jobDetail = this.itemList.Status.JobDetailViewModel;
             const invalidTicket = jobDetail.filter(item => item.JobId === +this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             if (invalidTicket.length === 0) {
-              this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+              // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+              this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
+                item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
               this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
               this.showPopup = false;
             }
@@ -441,7 +446,9 @@ export class SalesComponent implements OnInit {
               });
             }
           } else {
-            this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+            // this.removeTicketNumber(this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
+            this.multipleTicketNumber = this.multipleTicketNumber.filter(item =>
+              item !== this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
             this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.Sales.InvalidTicket });
             this.showPopup = false;
           }
@@ -474,6 +481,7 @@ export class SalesComponent implements OnInit {
           if (this.itemList?.Status?.PaymentStatusViewModel?.IsProcessed === true) {
             this.showPopup = false;
             this.enableButton = true;
+            this.getTicketsByPaymentId(this.itemList?.Status?.PaymentStatusViewModel?.JobPaymentId);
           } else {
             this.showPopup = true;
             this.enableButton = false;
@@ -489,6 +497,31 @@ export class SalesComponent implements OnInit {
       });
     }
   }
+
+  getTicketsByPaymentId(id) {
+    this.salesService.getTicketsByPaymentId(id).subscribe(res => {
+      if (res.status === 'Success') {
+        const paymentTicket = JSON.parse(res.resultData);
+        if (paymentTicket.TicketsbyJobPaymentId.length >= 2) {
+          let count = 0;
+          this.multipleTicketNumber.forEach( item => {
+            const ticket = paymentTicket.TicketsbyJobPaymentId.filter( jobTicket => jobTicket.TicketNumber === +item);
+            if (ticket.length > 0) {
+              count = count + 1;
+            }
+          });
+          if (paymentTicket.TicketsbyJobPaymentId.length === count) {
+            this.isMultipleTicket = false;
+          } else {
+            this.isMultipleTicket = true;
+          }
+        } else {
+         this.isMultipleTicket = false;
+        }
+      }
+    });
+  }
+
   clearform() {
     this.cash = this.giftCard = this.credit = 0;
   }
@@ -1358,7 +1391,7 @@ export class SalesComponent implements OnInit {
         updatedBy: 1,
         updatedDate: new Date(),
         isProcessed: true,
-        cashback:this.cashback
+        cashback: this.cashback
       },
       jobPaymentDetail: paymentDetailObj,
       giftCardHistory: giftcard.length === 0 ? null : giftcard,
