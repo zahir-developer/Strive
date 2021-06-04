@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ModelService } from '../../services/common-service/model.service';
 import { EmployeeService } from '../../services/data-service/employee.service';
 import { MakeService } from '../../services/common-service/make.service';
+import { WashService } from '../../services/data-service/wash.service';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -48,10 +49,12 @@ export class VehicleCreateEditComponent implements OnInit {
   filteredcolor: any = [];
   filteredMake: any = [];
   models: any;
+  isClientVehicle: boolean;
+  clientList: any;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
-    private spinner: NgxSpinnerService,private employeeService: EmployeeService,
+    private spinner: NgxSpinnerService, private employeeService: EmployeeService,
     private modelService: ModelService,
-    private makeService: MakeService) { }
+    private makeService: MakeService, private wash: WashService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -59,6 +62,7 @@ export class VehicleCreateEditComponent implements OnInit {
       this.viewVehicle();
     }
     if (this.isEdit === true) {
+      this.isClientVehicle = false;
       this.vehicleForm.reset();
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
@@ -67,6 +71,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
   formInitialize() {
     this.vehicleForm = this.fb.group({
+      client: [''],
       barcode: [''],
       vehicleNumber: ['',],
       make: ['', Validators.required],
@@ -104,6 +109,14 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getVehicleById() {
+    if (this.selectedData.ClientId !== null) {
+      this.vehicleForm.patchValue({
+        client: { id: this.selectedData.ClientId, name: this.selectedData.ClientName  },  // this.selectedData.ClientName
+      });
+      this.vehicleForm.controls.client.disable();
+    } else {
+      this.vehicleForm.controls.client.enable();
+    }
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
       vehicleNumber: this.selectedData.VehicleNumber,
@@ -115,7 +128,34 @@ export class VehicleCreateEditComponent implements OnInit {
       monthlyCharge: this.selectedData.MonthlyCharge.toFixed(2),
       membership: ''
     });
-    this.getModel(this.selectedData.VehicleMakeId)
+    this.getModel(this.selectedData.VehicleMakeId);
+  }
+
+  selectedClient(event) {
+    console.log(event, 'event');
+  }
+
+  filterClient(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    this.wash.getAllClients(query).subscribe(res => {
+      if (res.status === 'Success') {
+        const client = JSON.parse(res.resultData);
+        client.ClientName.forEach(item => {
+          item.fullName = item.FirstName + ' ' + item.LastName;
+        });
+        this.clientList = client.ClientName.map(item => {
+          return {
+            id: item.ClientId,
+            name: item.fullName
+          };
+        });
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
 
   viewVehicle() {
@@ -152,7 +192,7 @@ export class VehicleCreateEditComponent implements OnInit {
     for (const i of this.make) {
       const make = i;
       if (make.name.toLowerCase().includes(query.toLowerCase())) {
-        filtered.push(make);     
+        filtered.push(make);
       }
     }
     this.filteredMake = filtered;
@@ -363,17 +403,17 @@ export class VehicleCreateEditComponent implements OnInit {
   }
   selectedModel(event) {
     const id = event.id;
-    if(id !== null){
+    if (id !== null) {
       this.getModel(id)
     }
   }
 
-  getModel(id){
-    this.modelService.getModelByMakeId(id).subscribe( res => {
+  getModel(id) {
+    this.modelService.getModelByMakeId(id).subscribe(res => {
       if (res.status === 'Success') {
         const makeModel = JSON.parse(res.resultData);
         this.model = makeModel.Model;
-          this.model = this.model.map(item => {
+        this.model = this.model.map(item => {
           return {
             id: item.ModelId,
             name: item.ModelValue
@@ -384,7 +424,7 @@ export class VehicleCreateEditComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
-  
+
   getAllMake() {
     this.makeService.getMake().subscribe(res => {
       if (res.status === 'Success') {
@@ -398,9 +438,9 @@ export class VehicleCreateEditComponent implements OnInit {
         });
       }
     }
-    , (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      , (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
   }
 
   // Get vehicleCodes
@@ -409,14 +449,14 @@ export class VehicleCreateEditComponent implements OnInit {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.color = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
-      
+
         this.color = this.color.map(item => {
           return {
             id: item.CodeId,
             name: item.CodeValue
           };
         });
-       
+
         this.upchargeService();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -480,6 +520,7 @@ export class VehicleCreateEditComponent implements OnInit {
       return;
     }
     this.vehicleForm.controls.vehicleNumber.enable();
+    this.vehicleForm.controls.client.enable();
     let memberService = [];
     let clientMembershipId = '';
     if (this.isEdit === true) {
@@ -504,7 +545,7 @@ export class VehicleCreateEditComponent implements OnInit {
       }
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
-        clientId: this.selectedData.ClientId,
+        clientId: this.vehicleForm.value.client.id,
         locationId: localStorage.getItem('empLocationId'),
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
         vehicleMfr: this.vehicleForm.value.make.id,
