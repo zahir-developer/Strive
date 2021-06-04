@@ -223,7 +223,8 @@ export const UrlConfig = {
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
-    AddCreditCardPayment: `Payment/PaymentGateway/TrasactionWithUserFields`
+    AddCreditCardPayment: `Payment/PaymentGateway/TrasactionWithUserFields`,
+    getTicketsByPaymentId: `Admin/Sales/GetTicketsByPaymentId/`
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
