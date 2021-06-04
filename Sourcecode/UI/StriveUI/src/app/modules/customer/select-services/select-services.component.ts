@@ -37,10 +37,32 @@ export class SelectServicesComponent implements OnInit {
   }
 
   nextPage() {
-    const services = this.detailService.filter(item => item.ServiceId === +this.serviceForm.value.serviceID);
-    if (services.length > 0) {
-      this.scheduleDetailObj.serviceobj = services[0];
-      this.selectLocation.emit();
+    if (this.scheduleDetailObj.isEdit) {
+      const serviceId = this.selectedData.DetailsItem[0].ServiceId;
+      if (+serviceId === +this.serviceForm.value.serviceID) {
+        const services = this.detailService.filter(item => item.ServiceId === +this.serviceForm.value.serviceID);
+        if (services.length > 0) {
+          this.scheduleDetailObj.serviceobj = services[0];
+          this.scheduleDetailObj.deselectService = [];
+          this.selectLocation.emit();
+        }
+      } else {
+        const services = this.detailService.filter(item => item.ServiceId === +this.serviceForm.value.serviceID);
+        if (services.length > 0) {
+          this.scheduleDetailObj.serviceobj = services[0];
+        }
+        const selectedService = [];
+        this.selectedData.DetailsItem[0].isDeleted = true;
+        selectedService.push(this.selectedData.DetailsItem[0]);
+        this.scheduleDetailObj.deselectService = selectedService;
+        this.selectLocation.emit();
+      }
+    } else {
+      const services = this.detailService.filter(item => item.ServiceId === +this.serviceForm.value.serviceID);
+      if (services.length > 0) {
+        this.scheduleDetailObj.serviceobj = services[0];
+        this.selectLocation.emit();
+      }
     }
   }
 
@@ -58,21 +80,19 @@ export class SelectServicesComponent implements OnInit {
     this.customerService.getServices(serviceObj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         const serviceDetails = JSON.parse(res.resultData);
         if (serviceDetails.ServiceSetup.getAllServiceViewModel !== null) {
-          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage );
+          this.detailService = serviceDetails.ServiceSetup.getAllServiceViewModel.filter(item =>
+            item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailPackage);
           this.patchServiceValue();
         }
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
       this.spinner.hide();
     });
   }

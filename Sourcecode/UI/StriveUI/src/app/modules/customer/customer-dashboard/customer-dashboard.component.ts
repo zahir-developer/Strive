@@ -12,7 +12,15 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-customer-dashboard',
-  templateUrl: './customer-dashboard.component.html'
+  templateUrl: './customer-dashboard.component.html',
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 130px;
+  }
+  `]
 })
 export class CustomerDashboardComponent implements OnInit {
   @Output() selectServcie = new EventEmitter();
@@ -50,9 +58,8 @@ export class CustomerDashboardComponent implements OnInit {
     }
     else
     {
-      this.clientID = +localStorage.getItem('clientId');
+      this.clientID = 55543;  // +localStorage.getItem('clientId');
     }
-    
     this.getScheduleDetail();
     this.getVehicleListByClientId();
   }

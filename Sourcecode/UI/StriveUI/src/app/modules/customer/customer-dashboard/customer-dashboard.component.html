@@ -59,12 +59,12 @@
                                                         *ngFor="let service of todayScheduleDetail | orderBy:sort.column:'sequence':sort.descending">
                                                         <td>{{service.JobDate | date : 'MM/dd/yyyy'}}</td>
                                                         <td>{{service.TimeIn}}</td>
-                                                        <td>{{service.LocationName}}</td>
+                                                        <td class="table-ellipsis">{{service.LocationName}}</td>
                                                         <td>{{service.VehicleMake}} </td>
                                                         <td>{{service.VehicleModel}}</td>
                                                         <td>{{service.VehicleColor}}</td>
-                                                        <td>{{service.ServiceTypeName}}</td>
-                                                        <td>{{service.OutsideService}}</td>
+                                                        <td class="table-ellipsis">{{service.ServiceTypeName}}</td>
+                                                        <td class="table-ellipsis">{{service.OutsideService}}</td>
                                                         <td> <i class="mdi mdi-pencil-circle edit-list pointer theme-secondary-icon-color font-size-1-2"
                                                                 (click)="updateSchedule(service)"></i>
                                                             <i class="mdi mdi-close-circle pointer delete-list theme-optional-icon-color font-size-1-2"
