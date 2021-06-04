@@ -173,7 +173,7 @@
                                             </div>
                                             <form [formGroup]="closeoutRegisterForm" (ngSubmit)="submit()">
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-12">
+                                                    <div class="form-group col-md-8">
                                                         <label for="inputwashes"> Credit Card/Debit Card
                                                             Amount</label>
                                                         <input type="text" appTwoDecimalNumber formControlName="cardAmount" class="form-control" placeholder="$0.00" (change)="getTotalCash()">
@@ -203,7 +203,7 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12 font-size-1-7">
                                                         <label class="bold-text" for="inputquarters">Card Tips:</label>
-                                                        <label class="col-md-6 font-size-1-3">{{washTips |
+                                                        <label class="col-md-6 font-size-1-3" style="padding-left: 27px;">{{washTips |
                                                             currency}}</label>
                                                     </div>
                                                 </div>
