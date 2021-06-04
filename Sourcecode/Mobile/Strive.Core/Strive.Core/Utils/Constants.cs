@@ -41,7 +41,11 @@ namespace Strive.Core.Utils
 
         public const string URL_UPDATE_PRODUCT = "/Admin/Product/Update";
 
+        public const string URL_UPDATE_PRODUCT_QUANTITY = "/Admin/Product/UpdateProductQuantity";
+
         public const string URL_SEARCH_PRODUCT = "/Admin/Product/GetProductSearch";
+
+        public const string URL_PRODUCT_REQUEST = "/Admin/Product/ProductRequest";
 
         public const string URL_GET_PAST_SCHEDULE = "/Admin/Schedule/GetSchedule";
 

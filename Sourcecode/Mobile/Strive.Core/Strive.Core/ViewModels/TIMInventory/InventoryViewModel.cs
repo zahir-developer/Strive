@@ -18,7 +18,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public ObservableCollection<InventoryDataModel> FilteredList { get; set; } = new ObservableCollection<InventoryDataModel>();
 
-        private ObservableCollection<ProductDetails> ProductList = new ObservableCollection<ProductDetails>();
+        public ObservableCollection<ProductSearch> ProductList = new ObservableCollection<ProductSearch>();
 
         private ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
 
@@ -26,10 +26,11 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         private ObservableCollection<InventoryDataModel> EditableList = new ObservableCollection<InventoryDataModel>();
 
+
         public async Task GetProductsCommand()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var SearchText = getSearchText("");
+            var SearchText = getSearchText(" ");
             Products products = await AdminService.GetAllProducts(SearchText);
             foreach(var product in products.ProductSearch)
             {
@@ -56,13 +57,13 @@ namespace Strive.Core.ViewModels.TIMInventory
             EmployeeData.Vendors = vendors;
             _userDialog.HideLoading();
             await RaiseAllPropertiesChanged();
-        }
+        }   
 
         public async Task InventorySearchCommand(string searchedText)
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var SearchText = getSearchText(searchedText);
-            Products searchList = await AdminService.GetAllProducts(SearchText);
+            var SearchText = getSearchText(searchedText);   
+            var searchList = await AdminService.GetAllProducts(SearchText);
             ClearCommand();
             foreach (var product in searchList.ProductSearch)
             {
@@ -80,12 +81,14 @@ namespace Strive.Core.ViewModels.TIMInventory
             EditableList = FilteredList;
             await RaiseAllPropertiesChanged();
         }
-
+               
         private ProductSearches getSearchText(string searchedText)
         {
             ProductSearches searchText = new ProductSearches()
             {
-                productSearch = searchedText
+                productSearch = searchedText,
+                status = true,
+                loadThumbnailImage = true
             };
             return searchText;
         }
@@ -93,6 +96,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void IncrementCommand(int index)
         {
             FilteredList[index].Product.Quantity++;
+            UpdateProdQuantityCommand(index);
             RaiseAllPropertiesChanged();
         }
 
@@ -101,9 +105,16 @@ namespace Strive.Core.ViewModels.TIMInventory
             if (!(FilteredList[index].Product.Quantity > 0))
                 return;
             FilteredList[index].Product.Quantity--;
+            UpdateProdQuantityCommand(index);
             RaiseAllPropertiesChanged();
         }
-
+                
+        public async void UpdateProdQuantityCommand(int index)
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            await AdminService.UpdateProdQuantity(FilteredList[index].Product.ProductId, int.Parse(FilteredList[index].Product.Quantity.ToString()));
+            
+        }
         public void ClearCommand()
         {
             FilteredList.Clear();
@@ -117,6 +128,22 @@ namespace Strive.Core.ViewModels.TIMInventory
             await _navigationService.Navigate<InventoryEditViewModel>();
         }
 
+        public async void ProductRequestCommand(int quantity,int index)
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var request = FilteredList[index];
+
+            ProductRequest requestedProduct = new ProductRequest()
+            {
+                locationId = request.Product.LocationId,
+                locationName = request.Product.LocationName,
+                productId = request.Product.ProductId,
+                productName = request.Product.ProductName,
+                requestQuantity = quantity
+            };
+            await AdminService.ProductRequest(requestedProduct);
+            _userDialog.HideLoading();
+        }
         public async void AddProductCommand()
         {
             await _navigationService.Navigate<InventoryEditViewModel>();

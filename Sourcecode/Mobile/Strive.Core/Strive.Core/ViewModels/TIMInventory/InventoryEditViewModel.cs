@@ -13,7 +13,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 {
     public class InventoryEditViewModel : BaseViewModel
     {
-        private InventoryDataModel EditInventoryItem;
+        private InventoryDataModel  EditInventoryItem;
 
         public ObservableCollection<VendorDetail> VendorList = new ObservableCollection<VendorDetail>();
         public ObservableCollection<LocationDetail> LocationList = new ObservableCollection<LocationDetail>();
@@ -252,7 +252,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             CurrentVendor = SelectedVendor;
         }
 
-        public void SetProductCommand(ProductDetails SelectedProduct)
+        public void SetProductCommand(ProductSearch SelectedProduct)
         {
             ItemCode = SelectedProduct.ProductCode;
             ItemName = SelectedProduct.ProductName;
@@ -312,9 +312,21 @@ namespace Strive.Core.ViewModels.TIMInventory
                 _userDialog.AlertAsync("Please enter product Type");
                 return false;
             }
-            else if (string.IsNullOrEmpty(ItemLocation))
+            else if(ItemTypeId == 0)
+            {
+                var productType = ProductTypeList.Where(l => l.CodeValue == EditInventoryItem.Product.ProductTypeName).FirstOrDefault();
+                ItemTypeId = productType.CodeId;
+                return false;
+            }
+            else if (string.IsNullOrEmpty(ItemLocation) || (ItemLocation == ""))
             {
                 _userDialog.AlertAsync("Please enter location");
+                return false;
+            }
+            else if(ItemLocationId == 0)
+            {
+                var location = LocationList.Where(l => l.LocationName == EditInventoryItem.Product.LocationName).FirstOrDefault();
+                ItemLocationId = location.LocationId;
                 return false;
             }
             else if (string.IsNullOrEmpty(ItemCost))
@@ -341,16 +353,19 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 productCode = _SelectedItemCode,
                 productDescription = _SelectedItemDescription,
-                productType = _SelectedItemTypeId.ToString(),
+                productType = _SelectedItemTypeId,
                 productId = 0,
                 locationId = _SelectedItemLocationId,
                 productName = _SelectedItemName,
                 base64 = Base64String,
+                fileName = Filename,
+                OriginalFileName = Filename,
+                thumbFileName = "png",
                 cost = _SelectedItemCost,
                 isTaxable = false,
                 taxAmount = 0,
-                size = "",
-                quantity = _SelectedItemQuantity,
+                size = 23,
+                quantity = int.Parse(_SelectedItemQuantity),
                 isActive = true,
                 thresholdLimit = "",
                 isDeleted = false,
@@ -418,16 +433,19 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 productCode = _SelectedItemCode,
                 productDescription = _SelectedItemDescription,
-                productType = _SelectedItemTypeId.ToString(),
+                productType = _SelectedItemTypeId,
                 productId = editableProduct.Product.ProductDetail.ProductId,
                 locationId = _SelectedItemLocationId,
                 productName = _SelectedItemName,
                 base64 = Base64String,
+                fileName = Filename,
+                OriginalFileName = Filename,
+                thumbFileName = "png",
                 cost = _SelectedItemCost,
                 isTaxable = false,
                 taxAmount = 0,
-                size = "",
-                quantity = _SelectedItemQuantity,
+                size = 23,
+                quantity = int.Parse(_SelectedItemQuantity),
                 isActive = true,
                 thresholdLimit = "",
                 isDeleted = false,

@@ -8,23 +8,44 @@ using Strive.Core.Utils;
 using MvvmCross.Plugin.Messenger;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Models.Customer.Schedule;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
     public class ExtraServiceViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-
+        private int locationId = 1;
         public ObservableCollection<ServiceDetail> TotalServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
 
         public ObservableCollection<ServiceDetail> MembershipServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
 
-        public ObservableCollection<ServiceDetail> ExtraServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
+        public ObservableCollection<AllServiceDetail> ExtraServiceList { get; set; } = new ObservableCollection<AllServiceDetail>();
+
+        public ObservableCollection<AllServiceDetail> serviceList { get; set; } = new ObservableCollection<AllServiceDetail>();
 
         public ExtraServiceViewModel()
         {
-            GetServices();
+            GetAdditionalServices();
+            //GetServices();
             _messageToken = _mvxMessenger.Subscribe<ValuesChangedMessage>(OnReceivedMessageAsync);
+        }
+
+        public async void GetAdditionalServices()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            var result = await AdminService.GetScheduleServices(locationId);
+
+            if(result != null)
+            {
+                foreach(var item in result.AllServiceDetail)
+                {
+                    if(item.ServiceTypeName == "Additional Services")
+                    {
+                        serviceList.Add(item);
+                    }
+                }
+            }
         }
 
         async void GetServices()

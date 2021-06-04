@@ -36,7 +36,7 @@ namespace Strive.Core.Models.TimInventory
     {
         public string? productCode { get; set; }
         public string? productDescription { get; set; }
-        public string productType { get; set; }
+        public int productType { get; set; }
         public int productId { get; set; }
         public int locationId { get; set; }
         public string productName { get; set; }
@@ -47,9 +47,9 @@ namespace Strive.Core.Models.TimInventory
         public string cost { get; set; }
         public bool isTaxable { get; set; }
         public int taxAmount { get; set; }
-        public string size { get; set; }
+        public int size { get; set; }
         public string? sizeDescription { get; set; }
-        public string quantity { get; set; }
+        public int quantity { get; set; }
         public string? quantityDescription { get; set; }
         public bool isActive { get; set; }
         public string? thresholdLimit { get; set; }
@@ -77,7 +77,7 @@ namespace Strive.Core.Models.TimInventory
 
     public class Products
     {
-        public List<ProductDetails> ProductSearch { get; set; }
+        public List<ProductSearch> ProductSearch { get; set; }
     }
 
     public class ProductsSearch

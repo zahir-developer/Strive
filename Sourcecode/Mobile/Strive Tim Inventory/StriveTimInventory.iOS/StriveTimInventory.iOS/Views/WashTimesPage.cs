@@ -47,26 +47,26 @@ namespace StriveTimInventory.iOS.Views
             double LatCenter = 0.0;
             double LongCenter = 0.0;
             int AddressCount = 0;
-            var locationAddress = ViewModel.Location.LocationAddress;
+            var locationAddress = ViewModel.Location.Location;
             MKPointAnnotation[] annotations = new MKPointAnnotation[locationAddress.Count];
             for (int i = 0 ; i< locationAddress.Count;i++)
             {
                 var subtitle = "";
-                if (locationAddress[i].Latitude > 0 || locationAddress[i].Longitude > 0)
-                {
-                    LatCenter += locationAddress[i].Latitude;
-                    LongCenter += locationAddress[i].Longitude;
-                    ++AddressCount;
-                    var WashTime = locationAddress[i].WashTiming;
-                    var OpenTime = locationAddress[i].OpenTime;
-                    var CloseTime = locationAddress[i].CloseTime;
-                    subtitle = WashTime.ToString();
-                }
+               
+                LatCenter += (double)locationAddress[i].Latitude;
+                LongCenter += (double)locationAddress[i].Longitude;
+                ++AddressCount;
+
+                var WashTime = locationAddress[i].WashTimeMinutes;
+                var OpenTime = locationAddress[i].StartTime;
+                var CloseTime = locationAddress[i].EndTime;
+
+                subtitle = WashTime.ToString();
                 annotations[i] = new MKPointAnnotation()
                 {
                     Title = locationAddress[i].Address1,
                     Subtitle = subtitle,
-                    Coordinate = new CLLocationCoordinate2D(locationAddress[i].Latitude,locationAddress[i].Longitude)
+                    Coordinate = new CLLocationCoordinate2D((double)locationAddress[i].Latitude,(double)locationAddress[i].Longitude)
                 };
             }
             LatCenter = LatCenter / AddressCount;

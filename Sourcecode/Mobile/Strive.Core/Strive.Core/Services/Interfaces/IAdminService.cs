@@ -51,6 +51,10 @@ namespace Strive.Core.Services.Interfaces
 
         Task<PostResponse> UpdateProduct(AddProduct product);
 
+        Task<PostResponse> ProductRequest(ProductRequest product);
+
+        Task<PostResponse> UpdateProdQuantity(int Id, int quantity);
+
         Task<Clients> GetAllClient();
 
         Task<CustomerPersonalInfo> GetClientById(int Id);
