@@ -1,6 +1,19 @@
 <div class="modal-body">
     <form [formGroup]="vehicleForm">
         <div class="form-row">
+            <div class="form-group col-lg-3" *ngIf="isEdit">
+                <label for="inputBarcode">Client Name</label>
+                <div class="ui-fluid" >
+                    <div class="p-grid forms-grid">
+                        <div class="p-col-3 p-md-6">
+                            <p-autoComplete field="name" [suggestions]="clientList"
+                                (completeMethod)="filterClient($event)" [size]="10" formControlName="client" (onSelect)="selectedClient($event)"
+                                placeholder="Client Name">
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group col-lg-3">
                 <label for="inputBarcode">Barcode</label>
                 <input type="text" maxlength="25" class="form-control" formControlName="barcode" placeholder="None/UNK">
@@ -12,7 +25,7 @@
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputMake">Make<span class="required">*</span></label>
-               
+
                 <div class="ui-fluid">
                     <div class="p-grid forms-grid">
                         <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.make.errors }">
@@ -24,15 +37,16 @@
                     </div>
                 </div>
                 <div *ngIf="submitted && f.make.errors">
-                    <div *ngIf="f.make.errors.required" style="color: #dc3545; font-size: 80%; margin-top: .25rem;">Make is required</div>
+                    <div *ngIf="f.make.errors.required" style="color: #dc3545; font-size: 80%; margin-top: .25rem;">Make
+                        is required</div>
                 </div>
             </div>
             <div class="form-group col-lg-3">
                 <label for="inputModel">Model<span class="required">*</span></label>
-               
+
                 <div class="ui-fluid">
                     <div class="p-grid forms-grid">
-                        <div class="p-col-3 p-md-6" >
+                        <div class="p-col-3 p-md-6">
                             <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"
                                 (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
                                 placeholder="Model">
@@ -41,14 +55,13 @@
                     </div>
                 </div>
                 <div *ngIf="submitted && f.model.errors">
-                    <div *ngIf="f.model.errors.required" style="color: #dc3545; font-size: 80%; margin-top: .25rem;">Model is required</div>
+                    <div *ngIf="f.model.errors.required" style="color: #dc3545; font-size: 80%; margin-top: .25rem;">
+                        Model is required</div>
                 </div>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-lg-3">
                 <label for="inputColor">Color<span class="required">*</span></label>
-               
+
                 <div class="ui-fluid">
                     <div class="p-grid forms-grid">
                         <div class="p-col-3 p-md-6" [ngClass]="{ 'is-invalid':submitted && f.color.errors }">
@@ -60,18 +73,20 @@
                     </div>
                 </div>
                 <div *ngIf="submitted && f.color.errors">
-                    <div *ngIf="f.color.errors.required" style="color: #dc3545; font-size: 80%; margin-top: .25rem;">Color is required</div>
+                    <div *ngIf="f.color.errors.required" style="color: #dc3545; font-size: 80%; margin-top: .25rem;">
+                        Color is required</div>
                 </div>
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputMembership">Membership</label>
                 <select class="form-control" formControlName="membership"
                     (change)="membershipChange($event.target.value)">
+                    <option hidden selected value="">Choose</option>
                     <option *ngFor="let member of membership" value="{{member.MembershipId}}">{{member.MembershipName}}
                     </option>
                 </select>
             </div>
-           
+
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Upcharge Type</label>
                 <select class="form-control" formControlName="upchargeType"
@@ -95,7 +110,8 @@
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputService">Services</label>
                 <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
-                    [data]="additional" [disabled]="isView" formControlName="services" (onSelectAll)="onAllItemSelect($event)"  (onSelect)="onItemSelect($event)"
+                    [data]="additional" [disabled]="isView" formControlName="services"
+                    (onSelectAll)="onAllItemSelect($event)" (onSelect)="onItemSelect($event)"
                     (onDeSelect)="onItemDeselect($event)">
                 </ng-multiselect-dropdown>
             </div>
@@ -108,6 +124,8 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" data-dismiss="modal" class="btn theme-optional-button-color" (click)="cancel()">Cancel</button>
-    <button *ngIf="!isView" data-dismiss="modal" type="button" class="btn theme-primary-button-color" (click)="submit()">Save</button>
+    <button type="button" data-dismiss="modal" class="btn theme-optional-button-color"
+        (click)="cancel()">Cancel</button>
+    <button *ngIf="!isView" data-dismiss="modal" type="button" class="btn theme-primary-button-color"
+        (click)="submit()">Save</button>
 </div>
