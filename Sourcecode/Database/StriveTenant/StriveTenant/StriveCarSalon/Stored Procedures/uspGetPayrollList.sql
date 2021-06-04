@@ -12,6 +12,7 @@ Description         : To Get Employee PayRoll for Last Two Week
 FRS					: Payroll
 -----------------------------------------------------------------------------------------
 --[StriveCarSalon].[uspGetPayrollList] 20,'2021-04-08','2021-04-23'
+03-06-2021 - Vetriselvi OverTime Pay calculation and excluded overtime hours in total wash hours
 */
 as begin
   
@@ -109,8 +110,8 @@ DROP TABLE IF EXISTS #EmployeeRate
 	--CASE WHEN SUM(TotalWashHours)>@HoursLimit THEN @HoursLimit ELSE SUM(TotalWashHours) END AS TotalWashHours,
 	SUM(TotalDetailHours) TotalDetailHours,
 	--CASE WHEN ((SUM(TotalWashHours) + SUM(TotalDetailHours))>@HoursLimit AND SUM(TotalWashHours)>((SUM(TotalWashHours) + SUM(TotalDetailHours))/2)AND SUM(TotalDetailHours)<((SUM(TotalWashHours) + SUM(TotalDetailHours))/2)) THEN SUM(TotalDetailHours) ELSE 0 END AS OverTimeHours
-		
-		SUM(TotalWashHours) TotalWashHours,
+		CASE WHEN SUM(TotalWashHours)>@HoursLimit THEN (SUM(TotalWashHours) - (SUM(TotalWashHours)-@HoursLimit)) ELSE SUM(TotalWashHours)  
+		END TotalWashHours,
 	CASE WHEN SUM(TotalWashHours)>@HoursLimit THEN (SUM(TotalWashHours)-@HoursLimit) ELSE 0 
 	END AS OverTimeHours
 
@@ -182,7 +183,7 @@ SELECT
 	--		WHEN R.[Detail Desc]='Percentage' THEN ((DA.DetailAmount* r.DetailRate)/100)
 	--		END AS [DetailAmount],
 	DC.CommissionAmount AS DetailAmount,
-	CASE   WHEN ER.OverTimeHours > 0 THEN (@OverTimeWashRate * R.WashRate * ER.TotalDetailHours) ELSE 0 END AS OverTimePay, 
+	CASE   WHEN ER.OverTimeHours > 0 THEN (@OverTimeWashRate * R.WashRate * ER.OverTimeHours) ELSE 0 END AS OverTimePay, 
 	--WHEN ER.TotalWashesHours > @HoursLimit THEN CAST(((ER.TotalWashesHours - @HoursLimit) * @OverTimeWashRate) AS decimal(9,2)) ELSE 0 END AS OverTimePay,
 	ISNULL(@CollisionAmount,0.00)  AS CollisionAmount,
 	EC.Notes
