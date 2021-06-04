@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities.CashRegister.DTO
         public CashRegisterRolls CashRegisterRolls { get; set; }
         public CashRegisterBills CashRegisterBills { get; set; }
         public CashRegisterOthers CashRegisterOthers { get; set; }
+        public decimal? CreditCardAmount { get; set; }
 
     }
 
