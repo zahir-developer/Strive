@@ -8,6 +8,7 @@ import { MessageServiceToastr } from 'src/app/shared/services/common-service/mes
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-preview-appointment-detail',
@@ -26,7 +27,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     private detailService: DetailService,
     private spinner: NgxSpinnerService,
     private datePipe: DatePipe,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private codeService: CodeValueService
   ) { }
 
   ngOnInit(): void {
@@ -174,14 +176,19 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   }
 
   getJobStatus() {
-    this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
-      if (res.status === 'Success') {
-        const status = JSON.parse(res.resultData);
-        this.jobStatus = status.Codes;
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+    const jobStatusValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.jobStatus);
+    if (jobStatusValue.length > 0) {
+      this.jobStatus = jobStatusValue;
+    } else {
+      this.detailService.getJobStatus('JOBSTATUS').subscribe(res => {
+        if (res.status === 'Success') {
+          const status = JSON.parse(res.resultData);
+          this.jobStatus = status.Codes;
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
 
   backToDashboard() {

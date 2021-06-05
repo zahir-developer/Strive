@@ -13,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { DatePipe } from '@angular/common';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-cash-register',
@@ -66,7 +67,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   isTimechange: boolean;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService,
-    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe,
+    private codeValueService: CodeValueService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
@@ -261,18 +263,23 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     );
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CashIn)[0].CodeId;
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const cashRegisterVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.cashRegister);
+    if (cashRegisterVaue.length > 0) {
+      this.CahRegisterId = cashRegisterVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CashIn)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
+        if (data.status === 'Success') {
+          const dType = JSON.parse(data.resultData);
+          this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CashIn)[0].CodeId;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    );
   }
   // Add/Update CashInRegister
   submit() {
@@ -526,19 +533,25 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   }
 
   getStoreStatusList() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
-      if (data.status === 'Success') {
-        const dType = JSON.parse(data.resultData);
-        this.storeStatusList = dType.Codes;
-        // this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue === ApplicationConfig.storestatus.open);
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const storeStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.cashRegister);
+    console.log(storeStatusVaue, 'cached value ');
+    if (storeStatusVaue.length > 0) {
+      this.storeStatusList = storeStatusVaue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
+        if (data.status === 'Success') {
+          const dType = JSON.parse(data.resultData);
+          this.storeStatusList = dType.Codes;
+          // this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue === ApplicationConfig.storestatus.open);
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    );
   }
 
   inTime(event) {

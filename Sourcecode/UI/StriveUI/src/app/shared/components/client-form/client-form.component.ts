@@ -7,6 +7,7 @@ import { GetCodeService } from '../../services/data-service/getcode.service';
 import { CityComponent } from '../city/city.component';
 import { MessageConfig } from '../../services/messageConfig';
 import { ApplicationConfig } from '../../services/ApplicationConfig';
+import { CodeValueService } from '../../common-service/code-value.service';
 
 @Component({
   selector: 'app-client-form',
@@ -34,7 +35,7 @@ export class ClientFormComponent implements OnInit {
   ClientEmailAvailable: boolean;
   isAmount: boolean;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
-    private client: ClientService, private getCode: GetCodeService) { }
+    private client: ClientService, private getCode: GetCodeService, private codeService: CodeValueService) { }
 
 
   ngOnInit() {
@@ -126,16 +127,21 @@ export class ClientFormComponent implements OnInit {
 
   // Get ClientType
   getClientType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.Type = cType.Codes;
-      } else {
+    const clientTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.clientType);
+    if (clientTypeValue.length > 0) {
+      this.Type = clientTypeValue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
+        if (data.status === "Success") {
+          const cType = JSON.parse(data.resultData);
+          this.Type = cType.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
   getClientById() {
     this.selectedStateId = this.selectedData.State;
