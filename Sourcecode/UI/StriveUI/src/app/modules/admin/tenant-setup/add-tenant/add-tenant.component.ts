@@ -32,6 +32,7 @@ export class AddTenantComponent implements OnInit {
   errorMessage: boolean;
   newModuleChanges = [];
   isSelectAll: boolean;
+  isMobileAppSelectAll: boolean;
   stateList = [];
   cityList = [];
   stateId: any;
@@ -40,6 +41,7 @@ export class AddTenantComponent implements OnInit {
   reportModuleList = [];
   isEmailAvailable: boolean;
   moduleScreenList = [];
+  mobileAppList = [];
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -115,17 +117,21 @@ export class AddTenantComponent implements OnInit {
     }
   }
 
+  selectAllMobileApp(event) {
+    if (event.target.checked) {
+      this.mobileAppList.forEach(item => {
+        item.IsChecked = true;
+      });
+    } else {
+      this.mobileAppList.forEach(item => {
+        item.IsChecked = false;
+      });
+    }
+  }
+
   selectModule(module) {
     if (this.isEdit) {
       module.IsChecked = module.IsChecked ? false : true;
-      // const modules = this.moduleList.filter(item => item.ModuleId === module.ModuleId);
-      // if (modules.length > 0) {
-      //   modules[0].IsChecked = modules[0].IsChecked ? false : true;
-      //   this.newModuleChanges.push(modules[0]);
-      // } else {
-      //   module.IsChecked = module.IsChecked ? false : true;
-      //   this.newModuleChanges.push(modules[0]);
-      // }
     } else {
       module.IsChecked = module.IsChecked ? false : true;
     }
@@ -135,15 +141,6 @@ export class AddTenantComponent implements OnInit {
           item.IsChecked = true;
         }
       });
-      // if (module.ModuleName === ApplicationConfig.modules.admin) {
-      //   this.adminModuleList.forEach(item => {
-      //     item.IsChecked = true;
-      //   });
-      // } else if (module.ModuleName === ApplicationConfig.modules.report) {
-      //   this.reportModuleList.forEach(item => {
-      //     item.IsChecked = true;
-      //   });
-      // }
     } else {
       this.moduleScreenList.forEach(item => {
         if (item.ModuleId === module.ModuleId) {
@@ -156,6 +153,16 @@ export class AddTenantComponent implements OnInit {
       this.isSelectAll = true;
     } else {
       this.isSelectAll = false;
+    }
+  }
+
+  selectMobileApp(app) {
+    app.IsChecked = app.IsChecked ? false : true;
+    const isAllModuleSelect = this.mobileAppList.filter(item => !item.IsChecked);
+    if (isAllModuleSelect.length === 0) {
+      this.isMobileAppSelectAll = true;
+    } else {
+      this.isMobileAppSelectAll = false;
     }
   }
 
@@ -177,6 +184,11 @@ export class AddTenantComponent implements OnInit {
           const modulesScreen = modules.AllModule.ModuleScreen;
           this.moduleScreenList = modulesScreen;
           this.moduleScreenList.forEach(item => {
+            item.IsChecked = true;
+          });
+          this.mobileAppList = modules.AllModule.MobileApp;
+          this.isMobileAppSelectAll = true;
+          this.mobileAppList.forEach(item => {
             item.IsChecked = true;
           });
         }
@@ -346,6 +358,15 @@ export class AddTenantComponent implements OnInit {
     //   }
     // });
     // } else {
+    const mobileApp = [];
+    this.mobileAppList.forEach(item => {
+      mobileApp.push({
+        mobileAppId: item.MobileAppId,
+        mobileAppName: item.MobileAppName,
+        description: item.Description,
+        isActive: item.IsChecked
+      });
+    });
     this.moduleList.forEach(item => {
       const moduleScreen = [];
       this.moduleScreenList.forEach(screen => {
@@ -368,7 +389,8 @@ export class AddTenantComponent implements OnInit {
       obj.description = item.Description;
       moduleObj.push({
         module: obj,
-        moduleScreen
+        moduleScreen,
+        mobileApp
       });
     });
     // }
