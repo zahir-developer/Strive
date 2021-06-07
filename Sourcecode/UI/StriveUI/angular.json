@@ -35,23 +35,21 @@
               "node_modules/primeng/resources/themes/nova-light/theme.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "src/assets/css/style.css",
-              "src/assets/css/sidebar.css",
-              "src/assets/css/layout.css",
-              "src/assets/css/responsive.css",
-              "src/assets/css/color.css",
-              "src/assets/css/full-calendar.css",
-              // "src/assets/css/fullcalendar.min.css",
-              "src/styles.css"
+              "http://40.114.79.101:5005/css/style.css",
+              "http://40.114.79.101:5005/css/sidebar.css",
+              "http://40.114.79.101:5005/css/layout.css",
+              "http://40.114.79.101:5005/css/responsive.css",
+              "http://40.114.79.101:5005/css/color.css",
+              "http://40.114.79.101:5005/css/full-calendar.css",
+              "http://40.114.79.101:5005/css/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "src/assets/js/popper.min.js",
-              // "src/assets/js/default.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/moment/min/moment.min.js",
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/quill/dist/quill.js"
+              "http://localhost:60002/js/jquery.min.js",
+              "http://localhost:60002/js/popper.min.js",
+              "http://localhost:60002/js/bootstrap.min.js",
+              "http://localhost:60002/js/moment.min.js",
+              "http://localhost:60002/js/Chart.js",
+              "http://localhost:60002/js/quill.js"
             ]
           },
           "configurations": {
@@ -69,8 +67,7 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              
+              "buildOptimizer": true              
             }
           }
         },
