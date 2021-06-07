@@ -1,0 +1,14 @@
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\bin\Release\netcoreapp2.2\CDN.Static.deps.json
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\bin\Release\netcoreapp2.2\CDN.Static.runtimeconfig.json
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\bin\Release\netcoreapp2.2\CDN.Static.runtimeconfig.dev.json
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\bin\Release\netcoreapp2.2\CDN.Static.dll
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\bin\Release\netcoreapp2.2\CDN.Static.pdb
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.csprojAssemblyReference.cache
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.csproj.CoreCompileInputs.cache
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.RazorAssemblyInfo.cache
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.RazorAssemblyInfo.cs
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.AssemblyInfoInputs.cache
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.AssemblyInfo.cs
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.RazorTargetAssemblyInfo.cache
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.dll
+E:\Projects\Mammoth\Strive\Sourcecode\API\CDN.Static\obj\Release\netcoreapp2.2\CDN.Static.pdb
