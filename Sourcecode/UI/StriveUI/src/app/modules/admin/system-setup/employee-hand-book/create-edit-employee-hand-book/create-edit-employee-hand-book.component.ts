@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { EmployeeService } from 'src/app/shared/services/data-service/employee.service';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-create-edit-employee-hand-book',
@@ -54,7 +55,8 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
     private toastr: ToastrService,
     private document: DocumentService,
     private spinner: NgxSpinnerService,
-    private getCode: GetCodeService
+    private getCode: GetCodeService,
+    private codeValueService: CodeValueService
   ) { }
 
   ngOnInit() {
@@ -105,16 +107,22 @@ export class CreateEditEmployeeHandBookComponent implements OnInit {
   }
 
   getDocumentSubType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentSubType).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.subdocumentType = dType.Codes;
-      } else {
+    const documentSubTypeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.documentSubType);
+    console.log(documentSubTypeVaue, 'cached value ');
+    if (documentSubTypeVaue.length > 0) {
+      this.subdocumentType = documentSubTypeVaue.Codes;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.documentSubType).subscribe(data => {
+        if (data.status === "Success") {
+          const dType = JSON.parse(data.resultData);
+          this.subdocumentType = dType.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
 
 

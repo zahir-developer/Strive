@@ -40,7 +40,7 @@ export class TodayScheduleComponent implements OnInit {
   getTodayDateScheduleList() {
     const todayDate = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd');
     const locationId = localStorage.getItem('empLocationId');
-    const clientID = 0;
+    const clientID = null;
     const finalObj = {
       jobDate: todayDate,
       locationId

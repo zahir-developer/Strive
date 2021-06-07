@@ -6,6 +6,7 @@ import { GetCodeService } from 'src/app/shared/services/data-service/getcode.ser
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-ad-setup-list',
@@ -38,7 +39,9 @@ export class AdSetupListComponent implements OnInit {
     private adSetup: AdSetupService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService, private getCode: GetCodeService,
-    private confirmationService: ConfirmationUXBDialogService) { }
+    private confirmationService: ConfirmationUXBDialogService,
+    private codeValueService: CodeValueService
+    ) { }
 
   ngOnInit() {
     this.sortColumn = {
@@ -88,16 +91,22 @@ export class AdSetupListComponent implements OnInit {
   }
 
   getDocumentType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Ads)[0].CodeId;
-      } else {
+    const documentTypeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.documentType);
+    console.log(documentTypeVaue, 'cached value ');
+    if (documentTypeVaue.length > 0) {
+      this.documentTypeId = documentTypeVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Ads)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
+        if (data.status === "Success") {
+          const dType = JSON.parse(data.resultData);
+          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Ads)[0].CodeId;
+        } else {
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
   }
   paginate(event) {
 

@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 
 @Component({
@@ -43,8 +44,8 @@ export class EmployeeHandBookComponent implements OnInit {
 
   constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-
-    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
+    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService,
+    private codeValueService: CodeValueService) { }
   ngOnInit(): void {
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.EmployeeHandbook,
@@ -108,18 +109,24 @@ this.header = "Edit Employee Handbook";
       });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.EmployeeHandBook)[0].CodeId;
-        this.getDocument();
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const documentTypeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.documentType);
+    console.log(documentTypeVaue, 'cached value ');
+    if (documentTypeVaue.length > 0) {
+      this.documentTypeId = documentTypeVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Ads)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
+        if (data.status === "Success") {
+          const dType = JSON.parse(data.resultData);
+          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.EmployeeHandBook)[0].CodeId;
+          this.getDocument();
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
   }
 
   getDocument() {

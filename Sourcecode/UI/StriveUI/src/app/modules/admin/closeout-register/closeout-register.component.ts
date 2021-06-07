@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { DatePipe } from '@angular/common';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-closeout-register',
@@ -67,7 +68,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   cashTipsEnable: boolean;
   constructor(
     private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService, private toastr: ToastrService,
-    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe,
+    private codeValueService: CodeValueService) { }
 
   ngOnInit() {
     this.isTimechange = false;
@@ -189,7 +191,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
             cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCardAmount ?
-             this.closeOutDetails.CashRegisterOthers.CreditCardAmount : '',
+              this.closeOutDetails.CashRegisterOthers.CreditCardAmount : '',
           });
           this.closeoutRegisterForm.controls.cardAmount.disable();
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
@@ -220,17 +222,23 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CloseOut)[0].CodeId;
-      } else {
+    const closeRegisterVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.cashRegister);
+    console.log(closeRegisterVaue, 'cached Value');
+    if (closeRegisterVaue.length > 0) {
+      this.CloseRegisterId = closeRegisterVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CloseOut)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
+        if (data.status === "Success") {
+          const dType = JSON.parse(data.resultData);
+          this.CloseRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CloseOut)[0].CodeId;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      );
     }
-    );
   }
 
   // Add/Update CloseOutRegister
@@ -489,19 +497,24 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
     );
   }
   getStoreStatusList() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
-      if (data.status === 'Success') {
-        const dType = JSON.parse(data.resultData);
-        this.storeStatusList = dType.Codes;
-        this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue !== ApplicationConfig.storestatus.open);
-      } else {
+    const storeStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.cashRegister);
+    console.log(storeStatusVaue, 'cached value ');
+    if (storeStatusVaue.length > 0) {
+      this.storeStatusList = storeStatusVaue;
+      this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue !== ApplicationConfig.storestatus.open);
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
+        if (data.status === 'Success') {
+          const dType = JSON.parse(data.resultData);
+          this.storeStatusList = dType.Codes;
+          this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue !== ApplicationConfig.storestatus.open);
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
     }
-
-    );
   }
 
 }

@@ -138,12 +138,16 @@ export class ProductCreateEditComponent implements OnInit {
   // Get Size
   getSize() {
     const sizeCodes = this.codeService.getCodeValueByType(ApplicationConfig.CodeValueByType.Size);
-    this.getCode.getCodeByCategory(ApplicationConfig.CodeValueByType.Size).subscribe(res => {
-      if (res.status === 'Success') {
-        const code = JSON.parse(res.resultData);
-        this.size = code.Codes;
-      }
-    });
+    if (sizeCodes.length > 0) {
+      this.size = sizeCodes;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.CodeValueByType.Size).subscribe(res => {
+        if (res.status === 'Success') {
+          const code = JSON.parse(res.resultData);
+          this.size = code.Codes;
+        }
+      });
+    }
   }
   // Get All Vendors
   getAllVendor() {
@@ -473,7 +477,7 @@ export class ProductCreateEditComponent implements OnInit {
   }
 
   settingType(event) {
-    const type =  event.target.value;
+    const type = event.target.value;
     if (type === 'plus') {
       const quantity = this.productSetupForm.value.quantity;
       this.productSetupForm.patchValue({

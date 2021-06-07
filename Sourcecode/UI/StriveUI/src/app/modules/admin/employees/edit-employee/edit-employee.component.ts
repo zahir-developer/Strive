@@ -12,6 +12,7 @@ import { CityComponent } from 'src/app/shared/components/city/city.component';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-edit-employee',
@@ -82,7 +83,8 @@ export class EditEmployeeComponent implements OnInit {
     private employeeService: EmployeeService,
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
-    private getCode: GetCodeService
+    private getCode: GetCodeService,
+    private codeValueService: CodeValueService
   ) { }
 
   ngOnInit(): void {
@@ -140,31 +142,43 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   getImmigrationStatus() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.imigirationStatus = cType.Codes;
-        this.dropdownSetting();
-        this.employeeDetail();
-      } else {
+    const imigirationStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.immigrationStatus);
+    console.log(imigirationStatusVaue, 'cached value ');
+    if (imigirationStatusVaue.length > 0) {
+      this.imigirationStatus = imigirationStatusVaue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
+        if (data.status === "Success") {
+          const cType = JSON.parse(data.resultData);
+          this.imigirationStatus = cType.Codes;
+          this.dropdownSetting();
+          this.employeeDetail();
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
 
   getGenderDropdownValue() {
-    this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      if (res.status === 'Success') {
-        const gender = JSON.parse(res.resultData);
-        this.gender = gender.Codes;
-      } else {
+    const genderVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.gender);
+    console.log(genderVaue, 'cached Value');
+    if (genderVaue.length > 0) {
+      this.gender = genderVaue;
+    } else {
+      this.employeeService.getDropdownValue('GENDER').subscribe(res => {
+        if (res.status === 'Success') {
+          const gender = JSON.parse(res.resultData);
+          this.gender = gender.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
   getSelectedStateId(event) {
     this.State = event;

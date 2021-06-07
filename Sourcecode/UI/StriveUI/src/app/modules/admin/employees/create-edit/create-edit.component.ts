@@ -13,6 +13,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ClientFormComponent } from 'src/app/shared/components/client-form/client-form.component';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import * as _ from 'underscore';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 declare var $: any;
 @Component({
@@ -83,7 +84,8 @@ export class CreateEditComponent implements OnInit {
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private getCode: GetCodeService
+    private getCode: GetCodeService,
+    private codeValueService: CodeValueService
   ) { }
 
   ngOnInit() {
@@ -133,17 +135,23 @@ export class CreateEditComponent implements OnInit {
   }
 
   getImmigrationStatus() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.imigirationStatus = cType.Codes;
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const imigirationStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.immigrationStatus);
+    console.log(imigirationStatusVaue, 'cached value ');
+    if (imigirationStatusVaue.length > 0) {
+      this.imigirationStatus = imigirationStatusVaue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
+        if (data.status === "Success") {
+          const cType = JSON.parse(data.resultData);
+          this.imigirationStatus = cType.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
   }
 
   employeeDetail() {
@@ -242,16 +250,22 @@ export class CreateEditComponent implements OnInit {
   }
 
   getGenderDropdownValue() {
-    this.employeeService.getDropdownValue('GENDER').subscribe(res => {
-      if (res.status === 'Success') {
-        const gender = JSON.parse(res.resultData);
-        this.gender = gender.Codes;
-      } else {
+    const genderVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.gender);
+    console.log(genderVaue, 'cached Value');
+    if (genderVaue.length > 0) {
+      this.gender = genderVaue;
+    } else {
+      this.employeeService.getDropdownValue('GENDER').subscribe(res => {
+        if (res.status === 'Success') {
+          const gender = JSON.parse(res.resultData);
+          this.gender = gender.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
 
   getLocation() {

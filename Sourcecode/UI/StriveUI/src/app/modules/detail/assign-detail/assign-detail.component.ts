@@ -9,6 +9,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-assign-detail',
@@ -38,7 +39,8 @@ export class AssignDetailComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private detailServices: DetailService,
     private spinner : NgxSpinnerService,
-    private toastr : ToastrService
+    private toastr : ToastrService,
+    private codeService: CodeValueService
   ) { }
 
   ngOnInit(): void {
@@ -275,15 +277,21 @@ export class AssignDetailComponent implements OnInit {
   }
 
   getAllServiceType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(data => {
-      if (data.status === 'Success') {
-        const cType = JSON.parse(data.resultData);
-        this.serviceType = cType.Codes.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];
-        this.getDetailService();
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+    const serviceTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.serviceType);
+    if (serviceTypeValue.length > 0) {
+      this.serviceType = serviceTypeValue.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];
+      this.getDetailService();
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(data => {
+        if (data.status === 'Success') {
+          const cType = JSON.parse(data.resultData);
+          this.serviceType = cType.Codes.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge)[0];
+          this.getDetailService();
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
 
   getDetailService() {

@@ -22,6 +22,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { PaymentProcessComponent } from 'src/app/shared/components/payment-process/payment-process.component';
 import { DecimalPipe } from '@angular/common';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -88,7 +89,7 @@ export class SalesComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute, private codes: GetCodeService, private decimalPipe: DecimalPipe) { }
+    private route: ActivatedRoute, private codes: GetCodeService, private decimalPipe: DecimalPipe, private codeService: CodeValueService) { }
   ItemName = '';
   ticketNumber = '';
   count = 2;
@@ -155,37 +156,52 @@ export class SalesComponent implements OnInit {
     modalRef.componentInstance.itemList = this.itemList.Status;
   }
   getServiceType() {
-    this.codes.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(res => {
-      if (res.status === 'Success') {
-        const sType = JSON.parse(res.resultData);
-        this.serviceType = sType.Codes;
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-      }
-    });
+    const serviceTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.serviceType);
+    if (serviceTypeValue.length > 0) {
+      this.serviceType = serviceTypeValue;
+    } else {
+      this.codes.getCodeByCategory(ApplicationConfig.Category.serviceType).subscribe(res => {
+        if (res.status === 'Success') {
+          const sType = JSON.parse(res.resultData);
+          this.serviceType = sType.Codes;
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+        }
+      });
+    }
   }
 
 
   getPaymentType() {
-    this.codes.getCodeByCategory(ApplicationConfig.Category.paymentType).subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.PaymentType = sType.Codes;
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-      }
-    });
+    const paymentTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.paymentType);
+    if (paymentTypeValue.length > 0) {
+      this.PaymentType = paymentTypeValue;
+    } else {
+      this.codes.getCodeByCategory(ApplicationConfig.Category.paymentType).subscribe(data => {
+        if (data.status === 'Success') {
+          const sType = JSON.parse(data.resultData);
+          this.PaymentType = sType.Codes;
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+        }
+      });
+    }
   }
 
   getPaymentStatus() {
-    this.codes.getCodeByCategory(ApplicationConfig.Category.paymentStatus).subscribe(data => {
-      if (data.status === 'Success') {
-        const sType = JSON.parse(data.resultData);
-        this.PaymentStatus = sType.Codes;
-      } else {
-        this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
-      }
-    });
+    const paymentstatusValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.paymentStatus);
+    if (paymentstatusValue.length > 0) {
+      this.PaymentStatus = paymentstatusValue;
+    } else {
+      this.codes.getCodeByCategory(ApplicationConfig.Category.paymentStatus).subscribe(data => {
+        if (data.status === 'Success') {
+          const sType = JSON.parse(data.resultData);
+          this.PaymentStatus = sType.Codes;
+        } else {
+          this.messageService.showMessage({ severity: 'error', title: 'Error', body: MessageConfig.CommunicationError });
+        }
+      });
+    }
   }
 
   getAllServiceandProduct() {

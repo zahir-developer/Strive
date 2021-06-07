@@ -271,6 +271,30 @@ export class AddTenantComponent implements OnInit {
       });
     });
     this.moduleScreenList = moduleScreen;
+    const mobileApp = [];
+    this.tenantModule.mobileApp.forEach(item => {
+      if (item.isActive) {
+        item.IsChecked = true;
+      } else {
+        item.IsChecked = false;
+      }
+    });
+    this.tenantModule.mobileApp.forEach(item => {
+      mobileApp.push({
+        Description: item.description,
+        IsActive: item.isActive,
+        IsChecked: item.IsChecked,
+        MobileAppId: item.mobileAppId,
+        MobileAppName: item.mobileAppName
+      });
+    });
+    const isAllMobileAppSelect = this.tenantModule.mobileApp.filter(item => !item.IsChecked);
+    if (isAllMobileAppSelect.length === 0) {
+      this.isMobileAppSelectAll = true;
+    } else {
+      this.isMobileAppSelectAll = false;
+    }
+    this.mobileAppList = mobileApp;
     // const adminScreen = [];
     // const reportScreen = [];
     // this.tenantModule.moduleScreen.forEach(item => {
