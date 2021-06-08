@@ -154,7 +154,8 @@ export class ClientCreateEditComponent implements OnInit {
       isCreditAccount: this.clientFormComponent.clientForm.value.creditAccount,
       clientType: (this.clientFormComponent.clientForm.value.type === '' || this.clientFormComponent.clientForm.value.type == null) ?
         0 : this.clientFormComponent.clientForm.value.type,
-      amount: this.clientFormComponent.clientForm.value.amount
+      amount: this.clientFormComponent.clientForm.value.amount,
+      authId: this.selectedData.AuthId
     };
     const myObj = {
       client: formObj,
