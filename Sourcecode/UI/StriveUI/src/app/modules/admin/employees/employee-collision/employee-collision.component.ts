@@ -191,7 +191,8 @@ export class EmployeeCollisionComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: this.collisionForm.value.dateOfCollision,
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+      locationId : localStorage.getItem('empLocationId')
     };
     const finalObj = {
       employeeLiability: liabilityObj,
