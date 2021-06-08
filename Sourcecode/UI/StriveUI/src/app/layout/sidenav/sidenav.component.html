@@ -17,7 +17,7 @@
             <li class="" *ngIf="false"><a [routerLink]='["./Customer-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa fa-2x fa-dollar"></i>Customer Sales</a></li>
             <li class="" *ngIf="whiteLabellingModule === true"><a [routerLink]='["./white-labelling"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
             class="fa-2x mdi mdi-square-edit-outline"></i>While Labelling</a></li>
-            <li *ngIf="customerView === true" routerLinkActive="active-route"><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message"></i>Customer</a></li>
+            <li *ngIf="customerView === true" routerLinkActive="active-route"><a [routerLink]='["./customer"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-account-group"></i>Customer</a></li>
             <li *ngIf="customerHistoryView === true"><a [routerLink]='["./customer-history"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i
             class="fa-2x  mdi mdi-account-group"></i>Customer History</a></li>
             <li class="" *ngIf="messengerModule === true"><a [routerLink]='["./messenger"]' [routerLinkActive]='["link-active"]' (click)="closeNav()"><i class="fa-2x  mdi mdi-message"></i>Messenger</a>
