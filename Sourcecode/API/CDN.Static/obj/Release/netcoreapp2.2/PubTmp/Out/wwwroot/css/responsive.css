@@ -1,0 +1,396 @@
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .web-display {
+        display: none !important;
+    }
+    .mob-display {
+        display: block !important;
+    }
+    #page-content {
+        padding: 1.5rem;
+    }
+    #content-wrapper {
+        margin-left: 0px !important;
+    }
+
+    .setup-cta-btn button {
+        width: 100%;
+        padding: 0.25rem 0.7rem;
+    }
+
+    button {
+        font-size: 0.8rem !important;
+    }
+
+    .mm-b-10 {
+        margin-bottom: 10px;
+    }
+    .resp-title{
+		font-size: 1rem;
+	}
+	.responsive-m-l-26{
+		margin-left:0px;
+	}
+}
+
+@media (max-width: 991.98px) {
+    .admin-menu ul li.message-notification .dropdown-menu {
+        right: 60px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .web-nav {
+        position: absolute;
+        left: -70px;
+    }
+    .setup-list {
+        padding-right: 0px !important;
+    }
+    .admin-menu > .m-r-20 {
+        margin-right: 5px !important;
+    }
+    .admin-menu ul li {
+        padding: 15px 9px;
+    }
+    .title-border > h3 {
+        font-size: 1.2rem;
+    }
+    .tab-pane > h4 {
+        font-size: 1.2rem;
+    }
+    .tl-bills {
+        margin-bottom: 0px !important;
+    }
+    .tl-cash {
+        margin-bottom: 0px !important;
+    }
+    .datepick {
+        font-size: 1.2rem;
+        width: 110px;
+    }
+    .mob-goal {
+        display: block !important;
+    }
+    .web-goal {
+        display: none !important;
+    }
+    .search-container{
+		
+		float:none !important;
+	}
+	.mob-washes-notification{
+		display:none;
+    }
+    .nav-tab-link {
+        padding: .3rem 0.2rem .3rem 0.2rem;
+        font-size: 14px;
+        }
+        .nav-tab-link > .p-r-15 {
+            padding-right:0px;
+        }
+        .nav-tab-link > .p-l-10 {
+            padding-left:0px;
+        }
+                .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-months > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-years > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-decades > .table-condensed,
+    .date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+         width: 300px;
+    }
+    .w-50 {
+        width: 40%!important;
+    }
+	
+}
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+	.search-container{
+		
+		float:none !important;
+	}
+	
+    .web-display {
+        display: none !important;
+    }
+    .mob-display {
+        display: block !important;
+    }
+    .setup-list {
+        padding-right: 0px !important;
+    }
+    .modal-xl {
+        max-width: auto;
+    }
+    #content-wrapper {
+        margin-left: 0px !important;
+    }
+    .web-nav {
+        position: absolute;
+        left: -70px;
+    }
+
+    .admin-menu > .m-r-20 {
+        margin-right: 5px !important;
+    }
+    .admin-menu ul li {
+        padding: 15px 9px;
+    }
+    .title-border > h3 {
+        font-size: 1.2rem;
+    }
+    .tab-pane > h4 {
+        font-size: 1.2rem;
+    }
+    .tl-bills {
+        margin-bottom: 0px !important;
+    }
+    .tl-cash {
+        margin-bottom: 0px !important;
+    }
+    .datepick {
+        font-size: 1.2rem;
+        width: 110px;
+    }
+    .mob-goal {
+        display: block !important;
+    }
+    .web-goal {
+        display: none !important;
+    }
+    .mob-washes-notification {
+		display:none;
+	}
+		.btn-responsive {
+		font-size: 0.75rem !important;
+		    padding: 6px 8px !important;
+    }
+    .nav-tab-link {
+        padding: .3rem 0.2rem .3rem 0.2rem;
+        font-size: 14px;
+        }
+        .nav-tab-link > .p-r-15 {
+            padding-right:0px;
+        }
+        .nav-tab-link > .p-l-10 {
+            padding-left:0px;
+        }
+        .resp-title{
+            font-size: 1rem;
+        }
+        .responsive-m-l-26{
+            margin-left:0px;
+        }
+            .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-months > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-years > .table-condensed ,
+    .date-inline > .datepicker > .datepicker-decades > .table-condensed,
+    .date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+         width: 300px;
+    }
+    .w-50 {
+        width: 40%!important;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .web-display {
+        display: none !important;
+    }
+    .mob-display {
+        display: block !important;
+    }
+    .setup-list {
+        padding-right: 0px !important;
+    }
+    .modal-xl {
+        max-width: 80%;
+    }
+    #content-wrapper {
+        margin-left: 0px !important;
+    }
+    .mobile-view-nav {
+        display: none !important;
+    }
+    .tl-bills {
+        margin-bottom: 0px !important;
+    }
+    .tl-cash {
+        margin-bottom: 0px !important;
+    }
+    .mob-goal {
+        display: none !important;
+    }
+    .col-ipad {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+		.btn-responsive {
+		font-size: 0.70rem !important;
+		    padding: 6px 4px !important;
+	}
+    .nav-tab-link {
+        padding: .3rem 0.2rem .3rem 0.2rem;
+        font-size: 14px;
+        }
+        .nav-tab-link > .p-r-15 {
+            padding-right:0px;
+        }
+        .nav-tab-link > .p-l-10 {
+            padding-left:0px;
+        }	
+        .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 200px;
+}
+.w-50 {
+    width: 40%!important;
+}
+
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .modal-xl {
+        max-width: 80%;
+    }
+    .mob-display {
+        display: none !important;
+    }
+    .mobile-view-nav {
+        display: none !important;
+    }
+    .nav-pills > .nav-item > .nav-link {
+        padding: 6px !important;
+        font-size: 13px;
+    }
+    .setup-list {
+        padding-right: 0px !important;
+    }
+    .setup-content {
+        padding-left: 15px !important;
+    }
+    .tl-bills {
+        margin-bottom: 0px !important;
+    }
+    .tl-cash {
+        margin-bottom: 0px !important;
+    }
+    .mob-goal {
+        display: none !important;
+    }
+    .btn-responsive {
+		font-size: 0.75rem !important;
+		    padding: 6px 8px !important;
+    }
+    .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 260px;
+}
+.w-50 {
+    width: 40%!important;
+}
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .modal-xl {
+        max-width: 70%;
+    }
+    .mob-display {
+        display: none !important;
+    }
+    .mobile-view-nav {
+        display: none !important;
+    }
+    .mob-goal {
+        display: none !important;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1418px) {
+    .weather-title {
+        font-size: 13px !important;
+        padding-left: 7px !important;
+		font-weight: 500 !important;
+    }
+		.btn-responsive {
+		font-size: 0.85rem !important;
+		   padding: .375rem .5rem !important;
+    }
+    .date-inline > .datepicker > .datepicker-days > .table-condensed ,
+.date-inline > .datepicker > .datepicker-months > .table-condensed ,
+.date-inline > .datepicker > .datepicker-years > .table-condensed ,
+.date-inline > .datepicker > .datepicker-decades > .table-condensed,
+.date-inline > .datepicker > .datepicker-centuries > .table-condensed{
+	 width: 300px;
+}
+	.w-50 {
+    width: 40%!important;
+}
+}
+
+@media (min-width: 320px) and (max-width: 568px) {
+    .datepick {
+        font-size: 1.1rem;
+        width: 94px;
+    }
+    .input-group-addon > i {
+        font-size: 1.3rem !important;
+    }
+    .sm-bill {
+        padding: 5px 15px;
+    }
+    .sm-roll {
+        padding: 5px 12px;
+    }
+    .list-group-horizontal > li > span {
+        font-size: 9px !important;
+    }
+    .list-group-horizontal > li {
+        padding: 4px 4px !important;
+    }
+    .resp-title{
+		font-size: 0.9rem;
+	}
+	.responsive-m-l-26{
+		margin-left:0px;
+	}
+	.date-pick {
+    width: 191px!important;
+	}
+	.date-pick  > i {
+    margin: 6px 9px 4px 10px;
+}
+.date-pick   > .input-large {
+	    font-size: 0.8rem;
+}
+.w-50 {
+    width: 40%!important;
+}
+}
+
+@media (min-device-width: 768px) and (max-device-width: 1024px) {
+    .col-ipad {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+.nav-tab-link {
+    padding: .3rem 0.2rem .3rem 0.2rem;
+    font-size: 14px;
+	}
+	.nav-tab-link > .p-r-15 {
+		padding-right:0px;
+	}
+	.nav-tab-link > .p-l-10 {
+		padding-left:0px;
+	}
