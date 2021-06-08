@@ -19,11 +19,11 @@ namespace Greeter
             base.ViewDidLoad();
 
             // Initial UI Customisation
-            AddLeftPadding(tfUserId, UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            AddRightPadding(tfUserId, UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfUserId.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfUserId.AddRightPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
 
-            AddLeftPadding(tfPswd, UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            AddRightPadding(tfPswd, UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            tfPswd.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfPswd.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
             //Clicks
             btnLogin.TouchUpInside += delegate

@@ -8,7 +8,7 @@ using UIKit;
 
 namespace Greeter
 {
-    public partial class LocationViewController : BaseViewController, IUIPickerViewDataSource, IUIPickerViewDelegate
+    public partial class LocationViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
     {
         // Data
         public string[] locs = new string[] {
@@ -17,8 +17,10 @@ namespace Greeter
             "Main Street 3"
         };
 
+        const string PICKER_TOOLBAR_TITLE = "Location";
+
         // Views
-        UIPickerView pvLoc = new();
+        UIPickerView pvLoc = new UIPickerView();
 
         public LocationViewController(IntPtr handle) : base(handle)
         {
@@ -31,39 +33,30 @@ namespace Greeter
             // Initial UI Settings
             tfLocation.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfLocation.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
-
-            //pvLoc.Model = new LocationModel();
-
-            pvLoc.Delegate = this;
+            AddPickerToolbar(tfLocation, PICKER_TOOLBAR_TITLE, PickerDone);
 
             tfLocation.InputView = pvLoc;
 
+            pvLoc.DataSource = this;
+
+            pvLoc.Delegate = this;
+
+            //Clicks
             btnNext.TouchUpInside += delegate
             {
                 NavigateToTabsScreen();
             };
         }
 
-        UIStoryboard GetStoryboard(string name)
+        void PickerDone()
         {
-            return UIStoryboard.FromName(name, null);
-        }
-
-        UIStoryboard GetHomeStorybpard()
-        {
-            return GetStoryboard(StoryBoardNames.HOME);
-        }
-
-        UIViewController GetViewController(UIStoryboard sb, Type t)
-        {
-            //string dsa = nameof(t);
-
-            return sb.InstantiateViewController(nameof(TabViewController));
+            int pos = (int)pvLoc.SelectedRowInComponent(0);
+            tfLocation.Text = locs[pos];
         }
 
         void NavigateToTabsScreen()
         {
-            UIViewController vcTabs = GetViewController(GetHomeStorybpard(), typeof(TabViewController));
+            UIViewController vcTabs = GetViewController(GetHomeStorybpard(), nameof(TabViewController));
 
             NavigateToWithAnim(vcTabs);
         }
@@ -81,7 +74,7 @@ namespace Greeter
         [Export("pickerView:didSelectRow:inComponent:")]
         public void Selected(UIPickerView pickerView, nint row, nint component)
         {
-            tfLocation.Text = locs[row];
+
         }
 
         [Export("pickerView:titleForRow:forComponent:")]

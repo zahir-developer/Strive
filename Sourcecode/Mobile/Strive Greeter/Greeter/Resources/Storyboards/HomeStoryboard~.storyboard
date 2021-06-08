@@ -538,7 +538,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z76-WF-r2O">
                                         <rect key="frame" x="457" y="1055" width="407" height="54"/>
-                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                        <color key="backgroundColor" red="0.1137254902" green="0.78823529410000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="6iI-aA-mnb"/>
                                         </constraints>
@@ -1216,9 +1216,6 @@
         <image name="splash_bg" width="768" height="1024"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

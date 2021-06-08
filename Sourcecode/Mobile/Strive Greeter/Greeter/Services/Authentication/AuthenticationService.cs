@@ -5,7 +5,7 @@ using Greeter.Services.Network;
 
 namespace Greeter.Services.Authentication
 {
-    public class AuthenticationService: IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         readonly INetworkService networkService;
         public AuthenticationService(INetworkService networkService)
@@ -13,7 +13,7 @@ namespace Greeter.Services.Authentication
 
         public Task<BaseResponse> LoginAsync(string userId, string password)
         {
-            IRestRequest request = new RestRequest(Constants.LOGIN_API, HttpMethod.Post);
+            IRestRequest request = new RestRequest(Urls.LOGIN_API, HttpMethod.Post);
             request.AddBody(new { userId, password });
             return networkService.ExecuteAsync<BaseResponse>(request);
         }

@@ -21,7 +21,7 @@ namespace Greeter.Services.Network
             };
         }
 
-        public async Task<TResult> ExecuteAsync<TResult>(IRestRequest request, string baseUrl = Constants.BASE_URL) where TResult : BaseResponse
+        public async Task<TResult> ExecuteAsync<TResult>(IRestRequest request, string baseUrl = Urls.BASE_URL) where TResult : BaseResponse
         {
             using var urlSession = NSUrlSession.SharedSession;
             using var urlRequest = CreateRequest(request, baseUrl);

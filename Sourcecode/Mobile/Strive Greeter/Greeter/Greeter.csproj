@@ -156,6 +156,7 @@
         <InterfaceDefinition Include="Storyboards\HomeStoryboard.storyboard" />
         <InterfaceDefinition Include="Storyboards\UserStoryboard.storyboard" />
         <InterfaceDefinition Include="Resources\Storyboards\UserStoryboard~.storyboard" />
+        <InterfaceDefinition Include="Resources\Storyboards\HomeStoryboard~.storyboard" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -196,18 +197,6 @@
         <Compile Include="Modules\TabViewController.designer.cs">
           <DependentUpon>TabViewController.cs</DependentUpon>
         </Compile>
-        <Compile Include="Storyboards\EmailViewController.cs" />
-        <Compile Include="Storyboards\EmailViewController.designer.cs">
-          <DependentUpon>EmailViewController.cs</DependentUpon>
-        </Compile>
-        <Compile Include="Storyboards\VerifyVehicleInfoViewController.cs" />
-        <Compile Include="Storyboards\VerifyVehicleInfoViewController.designer.cs">
-          <DependentUpon>VerifyVehicleInfoViewController.cs</DependentUpon>
-        </Compile>
-        <Compile Include="Storyboards\ServiceQuestionViewController.cs" />
-        <Compile Include="Storyboards\ServiceQuestionViewController.designer.cs">
-          <DependentUpon>ServiceQuestionViewController.cs</DependentUpon>
-        </Compile>
         <Compile Include="Extensions\StringExtension.cs" />
         <Compile Include="Extensions\UIExtension.cs" />
      
@@ -220,6 +209,19 @@
             <DependentUpon>Modules\Home\WashTimeViewController.cs</DependentUpon>
         </Compile>
 
+        <Compile Include="Modules\Service\LastVisitViewController.cs" />
+        <Compile Include="Modules\Service\EmailViewController.cs" />
+        <Compile Include="Modules\Service\EmailViewController.designer.cs">
+          <DependentUpon>EmailViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Service\ServiceQuestionViewController.cs" />
+        <Compile Include="Modules\Service\ServiceQuestionViewController.designer.cs">
+          <DependentUpon>ServiceQuestionViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Service\VerifyVehicleInfoViewController.cs" />
+        <Compile Include="Modules\Service\VerifyVehicleInfoViewController.designer.cs">
+          <DependentUpon>VerifyVehicleInfoViewController.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

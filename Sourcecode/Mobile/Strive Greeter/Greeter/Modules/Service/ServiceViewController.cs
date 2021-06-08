@@ -120,7 +120,16 @@ namespace Greeter
 
             //UIStoryboard sb = UIStoryboard.FromName("", null);
 
-            UIViewController vc = this.Storyboard.InstantiateViewController(nameof(ServiceQuestionViewController));
+            var vc = (ServiceQuestionViewController)this.Storyboard.InstantiateViewController(nameof(ServiceQuestionViewController));
+
+            if (IsWash)
+            {
+                vc.ServiceType = ServiceType.Wash;
+            }
+            else
+            {
+                vc.ServiceType = ServiceType.Detail;
+            }
 
             NavigateToWithAnim(vc);
         }
