@@ -17,5 +17,7 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? Cost { get; set; }
         public bool? IsActive { get; set; }
         public int? DiscountServiceType  {get;set;}
+
+        public TimeSpan? Hours { get; set; }
     }
 }

@@ -69,6 +69,9 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public string DiscountType { get; set; }
 
+        [Column]
+        public TimeSpan? Hours  { get; set; }
+
 
     }
 }

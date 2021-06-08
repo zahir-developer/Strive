@@ -29,5 +29,8 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public bool? IsCeramic { get; set; }
         public int? ServiceCategory { get; set; }
 
+        public TimeSpan? Hours { get; set; }
+
+
     }
 }
