@@ -141,8 +141,12 @@ namespace Strive.Core.ViewModels.TIMInventory
                 productName = request.Product.ProductName,
                 requestQuantity = quantity
             };
-            await AdminService.ProductRequest(requestedProduct);
-            _userDialog.HideLoading();
+            var response = await AdminService.ProductRequest(requestedProduct);
+            if (response.Status == null)
+            {
+                _userDialog.HideLoading();
+                _userDialog.AlertAsync("Request has been sent successfully");
+            }           
         }
         public async void AddProductCommand()
         {

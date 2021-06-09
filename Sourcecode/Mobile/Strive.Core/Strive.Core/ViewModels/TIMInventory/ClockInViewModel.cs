@@ -122,7 +122,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 {
                     timeClockId = 0,
                     employeeId = 1,
-                    locationId = 1,
+                    locationId = EmployeeData.selectedLocationId,
                     roleId = FirstSelectedRole.Tag,
                     eventDate = DateUtils.GetStringFromDate(DateTime.Now),
                     inTime = DateUtils.GetStringFromDate(DateTime.Now),

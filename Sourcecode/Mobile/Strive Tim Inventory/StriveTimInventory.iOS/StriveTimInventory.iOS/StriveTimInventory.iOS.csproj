@@ -496,6 +496,7 @@
         <InterfaceDefinition Include="Views\MembershipView\TermsView.xib" />
         <InterfaceDefinition Include="Views\MembershipView\SignatureView.xib" />
         <InterfaceDefinition Include="Views\MembershipView\VehicleMembershipDetailView.xib" />
+        <InterfaceDefinition Include="Views\LocationView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -615,6 +616,11 @@
         </Compile>
         <Compile Include="Views\MembershipView\ClientDetailSource.cs" />
         <Compile Include="Views\InventoryNewPicker.cs" />
+        <Compile Include="Views\LocationView.cs" />
+        <Compile Include="Views\LocationView.designer.cs">
+          <DependentUpon>LocationView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\LocationPicker.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
