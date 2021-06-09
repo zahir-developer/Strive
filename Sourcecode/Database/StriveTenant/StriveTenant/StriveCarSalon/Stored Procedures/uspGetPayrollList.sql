@@ -13,6 +13,7 @@ FRS					: Payroll
 -----------------------------------------------------------------------------------------
 --[StriveCarSalon].[uspGetPayrollList] 20,'2021-04-08','2021-04-23'
 03-06-2021 - Vetriselvi OverTime Pay calculation and excluded overtime hours in total wash hours
+  4  |  2021-June-08  | Vetriselvi  | Added Location filter in Collision  
 */
 as begin
   
@@ -36,6 +37,7 @@ JOIN
 	tblEmployeeLiabilityDetail tblELD ON tblEL.LiabilityId=tblELD.LiabilityId AND tblEL.IsActive=1 AND ISNULL(tblEL.IsDeleted,0)=0
 	LEFT JOIN	tblCodeValue tblCV ON		tblCV.id=tblEL.LiabilityType
     LEFT JOIN	tblCodeCategory tblCC ON		tblCC.id=tblCV.CategoryId
+	WHERE tblEL.LocationId = @LocationId
 --WHERE tblEL.LiabilityDate BETWEEN @StartDate AND @EndDate
 
 

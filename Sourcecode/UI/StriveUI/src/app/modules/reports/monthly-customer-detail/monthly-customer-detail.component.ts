@@ -91,6 +91,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
       const userData = obj.userData;
       let total = 0;
       let wash = 0;
+      let totalMembership =0;
 
       userData.forEach((o, index) => {
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
@@ -98,10 +99,11 @@ export class MonthlyCustomerDetailComponent implements OnInit {
             ('Membership - ' + o.MemberShipName) : 'DriveUp') +
           '</td><td>' + this.currencyPipe.transform(o.MembershipPrice, 'USD') + '</td><td>' + this.currencyPipe.transform(o.TicketAmount, 'USD') + '</td></tr>';
         total += o.TicketAmount;
+        totalMembership += o.MembershipPrice
         wash += 1;
       });
       tableStr += '<tr><th>Washes</th><td>' + (wash ) + '</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>'
-        + this.currencyPipe.transform(total, 'USD') + '</th><th> Difference : 10</th></tr>';
+        + this.currencyPipe.transform(total, 'USD') + '</th><th> Difference : '+ this.currencyPipe.transform(total - totalMembership, 'USD') + '</th></tr>';
     });
     $('#customerDetail tbody').html(tableStr);
   }
