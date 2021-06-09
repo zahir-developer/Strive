@@ -16,6 +16,7 @@ using Strive.RepositoryCqrs;
 using Strive.BusinessEntities.DTO.Sales;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessLogic.DTO.Client;
+using Strive.BusinessEntities.DTO.Report;
 
 namespace Strive.ResourceAccess
 {
@@ -151,7 +152,15 @@ namespace Strive.ResourceAccess
 
         }
 
+        public List<ClientEmailBlastViewModel> GetClientList(EmailBlastDto emailBlast)
+        {
+            _prm.Add("fromDate", emailBlast.fromDate);
+            _prm.Add("toDate", emailBlast.toDate);
+            _prm.Add("isMembership", emailBlast.IsMembership);
 
+            return db.Fetch<ClientEmailBlastViewModel>(EnumSP.Client.USPGETCLIENTLIST.ToString(), _prm);
+
+        }
 
     }
 }

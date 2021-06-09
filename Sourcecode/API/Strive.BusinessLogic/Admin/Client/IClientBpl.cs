@@ -9,6 +9,7 @@ using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
 using Strive.Common;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.BusinessLogic.Client
 {
@@ -31,6 +32,6 @@ namespace Strive.BusinessLogic.Client
 
         Result GetAllClientName(string name);
         Result ClientEmailExist(string email);
-
+        List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto emailBlast);
     }
 }

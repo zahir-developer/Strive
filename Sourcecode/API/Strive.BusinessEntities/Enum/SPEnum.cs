@@ -153,7 +153,8 @@ namespace Strive.BusinessEntities
             USPGETALLCLIENTNAME,
             uspGetClientCodes,
             uspGetClientAndVehicle,
-            USPISCLIENTAVAILABLE
+            USPISCLIENTAVAILABLE,
+            USPGETCLIENTLIST
         }
         public enum GiftCard
         {

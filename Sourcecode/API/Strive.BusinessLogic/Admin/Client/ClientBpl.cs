@@ -18,6 +18,7 @@ using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.BusinessLogic
 {
@@ -177,7 +178,12 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).ClientEmailExist, email, "emailExist");
         }
-
+        public List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto  emailBlast)
+        {
+            List<ClientEmailBlastViewModel> client = new List<ClientEmailBlastViewModel>();
+            client =new ClientRal(_tenant).GetClientList(emailBlast);
+            return client;
+        }
 
     }
 }
