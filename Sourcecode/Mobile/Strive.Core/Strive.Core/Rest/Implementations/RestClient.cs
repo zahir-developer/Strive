@@ -9,6 +9,7 @@ using MvvmCross.Base;
 using MvvmCross.Logging;
 using Strive.Core.Models;
 using Strive.Core.Models.TimInventory;
+using Strive.Core.Resources;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Utils;
 
@@ -119,6 +120,10 @@ namespace Strive.Core.Rest.Implementations
             if (response.statusCode == 200 && response.resultData == null)
             {
                 return isValid;
+            }
+            else if(response.statusCode == 403 && response.resultData == null)
+            {
+                _userDialog.AlertAsync(Strings.UsernamePasswordIncorrect);
             }
             return !isValid;
         }

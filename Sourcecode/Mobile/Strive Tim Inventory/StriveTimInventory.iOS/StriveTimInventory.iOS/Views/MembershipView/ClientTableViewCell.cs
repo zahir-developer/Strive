@@ -80,6 +80,16 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             {
                 SelectMembershipcell();
             }
+            if (MembershipData.MembershipDetailView != null)
+            {
+                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
+                if ((SelectedMembership != null) && (SelectedMembership.Services == item.ServiceName))
+                {
+                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    cell.UserInteractionEnabled = false;
+                }
+            }
+
             //var GrayedItem = GrayedList.Where(s => s.ServiceId == item.ServiceId).FirstOrDefault();
             //if(GrayedItem != null)
             //{
@@ -95,6 +105,13 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             ItemTitle.Text = vehicle.VehicleColor + " " + vehicle.VehicleMfr + " " + vehicle.VehicleModel;
             
             if(vehicle.IsMembership)
+            {
+                if(vehicle.MembershipName != null && vehicle.MembershipName.Contains("Mammoth"))
+                {
+                    ItemIcon.Image = UIImage.FromBundle("member-active");
+                }
+            }            
+            else if(vehicle.MembershipName.Contains("Mammoth"))
             {
                 ItemIcon.Image = UIImage.FromBundle("member-active");
             }
