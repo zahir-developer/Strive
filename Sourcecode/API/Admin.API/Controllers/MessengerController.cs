@@ -69,14 +69,19 @@ namespace Admin.API.Controllers
             {
                 if (chatMessageDto.ChatMessageRecipient.RecipientGroupId == null && chatMessageDto.ChatMessageRecipient.RecipientId > 0)
                 {
-                    await _hubContext.Clients.Client(chatMessageDto.ConnectionId).SendAsync("ReceivePrivateMessage", chatMessageDto);
+                    if(_hubContext != null)
+                        if(_hubContext.Clients != null && chatMessageDto.ConnectionId != null)
+                            await _hubContext.Clients.Client(chatMessageDto.ConnectionId).SendAsync("ReceivePrivateMessage", chatMessageDto);
                 }
                 else if (chatMessageDto.ChatMessageRecipient.RecipientGroupId > 0 && chatMessageDto.ChatMessageRecipient.RecipientId == null)
                 {
                     if (chatMessageDto.GroupId != null)
                     {
-                        //await _hubContext.Clients.All.SendAsync("ReceiveGroupMessage", chatMessageDto);
-                        await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceiveGroupMessage", chatMessageDto);
+                        if (_hubContext != null)
+                            if (_hubContext.Clients != null && chatMessageDto.GroupId != null)
+                                await _hubContext.Clients.Group(chatMessageDto.GroupId).SendAsync("ReceiveGroupMessage", chatMessageDto);
+                                //await _hubContext.Clients.All.SendAsync("ReceiveGroupMessage", chatMessageDto);
+
                     }
                 }
             }

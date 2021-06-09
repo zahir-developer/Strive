@@ -122,7 +122,7 @@ export class MessengerEmployeeSearchComponent implements OnInit {
       } else {
         this.showPopup();
       }
-      this.emitFirstMessage.emit(selectedEmp);
+      // this.emitFirstMessage.emit(selectedEmp);
     } else if (this.selectedEmployee?.IsGroup === false) {
       const emp = this.checkDuplicate();
       if (emp.length > 1) {
