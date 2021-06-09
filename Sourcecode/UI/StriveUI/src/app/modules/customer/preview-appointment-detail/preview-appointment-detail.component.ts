@@ -20,8 +20,9 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   @Output() dashboardPage = new EventEmitter();
   @Input() scheduleDetailObj?: any;
   @Input() selectedData?: any;
-  ticketNumber: any;
-  jobTypeId: any;
+  ticketNumber: number; 
+  jobId: number;
+  jobTypeId: number;
   jobStatus: any = [];
   constructor(
     private detailService: DetailService,
@@ -32,9 +33,23 @@ export class PreviewAppointmentDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.ticketNumber = Math.floor(100000 + Math.random() * 900000);
+    this.getTicketNumber();
     this.getJobStatus();
     this.getJobType();
+  }
+
+  getTicketNumber() {
+      this.detailService.getTicketNumber().subscribe(data => {
+        const ticket = JSON.parse(data.resultData);
+        if (data.status === 'Success') {
+          const ticket = JSON.parse(data.resultData);
+          this.ticketNumber = ticket.GetTicketNumber.JobId;
+          this.jobId = ticket.GetTicketNumber.JobId;
+        }
+        else {
+          this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+        }
+      });
   }
 
   bookNow() {
@@ -44,7 +59,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       jobStatusId = jobstatus[0].CodeId;
     }
     const job = {
-      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : this.jobId,
       ticketNumber: this.ticketNumber,
       locationId: this.scheduleDetailObj.locationObj.LocationId,
       clientId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.ClientId : this.scheduleDetailObj.vechicleDetail.ClientId,
@@ -66,7 +81,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     };
     const jobDetail = {
       jobDetailId: 0,
-      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : this.jobId,
       bayId: this.scheduleDetailObj.Slot.BayId,
       isActive: true,
       isDeleted: false,
@@ -76,7 +91,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     const baySchedule = {
       bayScheduleId: 0,
       bayId: this.scheduleDetailObj.Slot.BayId,
-      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : this.jobId,
       scheduleDate: this.datePipe.transform(this.scheduleDetailObj.InTime, 'yyyy-MM-dd'),
       scheduleInTime: this.datePipe.transform(this.scheduleDetailObj.InTime, 'HH:mm'),
       scheduleOutTime: this.datePipe.transform(this.scheduleDetailObj.OutTime, 'HH:mm'),
@@ -89,12 +104,12 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     jobItem.push({
       jobItemId: this.scheduleDetailObj.isEdit ?
       this.scheduleDetailObj.deselectService.length > 0 ?  0 : this.scheduleDetailObj.JobItemId : 0,
-      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : 0,
+      jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : this.jobId,
       serviceId: this.scheduleDetailObj.serviceobj.ServiceId,
       isActive: true,
       isDeleted: false,
       commission: 0,
-      price: this.scheduleDetailObj.serviceobj.Cost,
+      price: this.scheduleDetailObj.serviceobj.Price,
       quantity: 1,
       createdBy: 0,
       updatedBy: 0
@@ -108,7 +123,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
           isActive: true,
           isDeleted: true,
           commission: 0,
-          price: this.scheduleDetailObj.deselectService[0].Cost,
+          price: this.scheduleDetailObj.deselectService[0].Price,
           quantity: 1,
         });
       }
@@ -137,7 +152,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.detailService.addDetail(formObj).subscribe(res => {
+      this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
 
