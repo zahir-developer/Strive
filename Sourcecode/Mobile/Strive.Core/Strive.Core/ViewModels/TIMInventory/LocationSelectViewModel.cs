@@ -47,6 +47,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 EmployeeData.ClockInStatus = SingleTimeClock;
             }
             await _navigationService.Navigate<RootViewModel>();
+            _navigationService.Close(this);
             await RaiseAllPropertiesChanged();
         }
     }
