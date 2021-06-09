@@ -336,6 +336,7 @@ export class PayrollsGridComponent implements OnInit {
         "createdDate": new Date(),
         "updatedBy": this.employeeId,
         "updatedDate": new Date(),
+        "locationId":this.locationId
       },
       "payrollEmployee": updatedObj
     }
