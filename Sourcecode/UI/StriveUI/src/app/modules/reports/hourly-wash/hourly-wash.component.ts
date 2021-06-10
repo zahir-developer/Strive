@@ -290,6 +290,14 @@ export class HourlyWashComponent implements OnInit {
       const wash = hourlyWash.map(item => {
         return {
           JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
+          Temperature : +item.Temperature,
+          Rain : +item.Rain,
+          Score : +item.TotalWashHours == 0 ? 0 : (((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+          (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
+          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal))/item.TotalWashHours).toFixed(2),
+          Goal : +item.Goal,
+          NoOfWashes : +item.NoOfWashes,
+          TotalWashHours : +item.TotalWashHours,
           Day: this.datePipe.transform(item.JobDate, 'EEE'),
           _7AM: +item._7AM,
           _8AM: +item._8AM,
@@ -304,9 +312,22 @@ export class HourlyWashComponent implements OnInit {
           _5PM: +item._5PM,
           _6PM: +item._6PM,
           _7PM: +item._7PM,
-          TotalWashCount: (+item._1PM) + (+item._2PM) + (+item._3PM) + (+item._4PM) + (+item._5PM) +
-            (+item._6PM) + (+item._7AM) + (+item._7PM) + (+item._8AM)
-            + (+item._9AM) + (+item._10AM) + (+item._11AM) + (+item._12AM)
+          TotalWashCount: (+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+            (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
+            + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal),
+            _7AMTotal: +item._7AMTotal,
+            _8AMTotal: +item._8AMTotal,
+            _9AMTotal: +item._9AMTotal,
+            _10AMTotal: +item._10AMTotal,
+            _11AMTotal: +item._11AMTotal,
+            _12PMTotal: +item._12AMTotal,
+            _1PMTotal: +item._1PMTotal,
+            _2PMTotal: +item._2PMTotal,
+            _3PMTotal: +item._3PMTotal,
+            _4PMTotal: +item._4PMTotal,
+            _5PMTotal: +item._5PMTotal,
+            _6PMTotal: +item._6PMTotal,
+            _7PMTotal: +item._7PMTotal,
         };
       });
       return wash;
