@@ -76,7 +76,7 @@ namespace StriveTimInventory.iOS.Views
             View.AddGestureRecognizer(Tap);
 
             ItemQuantity.KeyboardType = UIKeyboardType.NumberPad;
-            ItemCost.KeyboardType = UIKeyboardType.NumberPad;
+            ItemCost.KeyboardType = UIKeyboardType.NumbersAndPunctuation;
             ItemPrice.KeyboardType = UIKeyboardType.NumberPad;
 
             //ChangeOrientation();

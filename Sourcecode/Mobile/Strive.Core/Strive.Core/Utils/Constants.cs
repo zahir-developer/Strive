@@ -25,6 +25,8 @@ namespace Strive.Core.Utils
 
         public const string URL_SAVE_CLOCKIN_TIME = "/Admin/TimeClock/Save";
 
+        public const string URL_GET_ALLDEALS = "/Admin/DealSetup/GetAllDeals";
+
         public const string URL_GET_ALL_PRODUCTS = "/Admin/Product/GetAll";
 
         public const string URL_GET_ALL_VENDORS = "/Admin/Vendor/GetAll";

@@ -134,8 +134,8 @@ namespace Strive.Core.ViewModels.TIMInventory
                 return _SelectedItemCost;
             }
             set {
-                int number = 0;
-                bool isNumeric = int.TryParse(value, out number);
+                double number = 0;
+                bool isNumeric = double.TryParse(value, out number);
                 if (((isNumeric) && number > 0) || value == "")
                 {
                     SetProperty(ref _SelectedItemCost, value);
@@ -148,8 +148,8 @@ namespace Strive.Core.ViewModels.TIMInventory
                 return _SelectedItemPrice;
             }
             set {
-                int number = 0;
-                bool isNumeric = int.TryParse(value, out number);
+                double number = 0;
+                bool isNumeric = double.TryParse(value, out number);
                 if (((isNumeric) && number > 0) || value == "")
                 {
                     SetProperty(ref _SelectedItemPrice, value);

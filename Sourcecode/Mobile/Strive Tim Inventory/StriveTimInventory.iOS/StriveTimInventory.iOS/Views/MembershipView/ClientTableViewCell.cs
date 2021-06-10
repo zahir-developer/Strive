@@ -110,11 +110,19 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 {
                     ItemIcon.Image = UIImage.FromBundle("member-active");
                 }
-            }            
-            else if(vehicle.MembershipName.Contains("Mammoth"))
-            {
-                ItemIcon.Image = UIImage.FromBundle("member-active");
             }
+            else if(vehicle.MembershipName != null)
+            {
+                if (vehicle.MembershipName.Contains("Mammoth"))
+                {
+                    ItemIcon.Image = UIImage.FromBundle("member-active");
+                }
+                else
+                {
+                    ItemIcon.Image = UIImage.FromBundle("member-inactive");
+
+                }
+            }           
             else
             {
                 ItemIcon.Image = UIImage.FromBundle("member-inactive");

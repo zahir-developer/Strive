@@ -35,6 +35,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DeleteResponse> SaveClockInTime(TimeClockRoot ClockInRequest);
 
+        Task<DealsList> GetAllDeals();
+
         Task<Products> GetAllProducts(ProductSearches searchQuery);
 
         Task<Vendors> GetAllVendors();
