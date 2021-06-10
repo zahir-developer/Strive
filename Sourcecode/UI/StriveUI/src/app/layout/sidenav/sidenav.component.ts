@@ -68,6 +68,19 @@ export class SidenavComponent implements OnInit {
     this.user.navName.subscribe((data = []) => {
       this.roles = [];
       this.localStorageUpdation = 'localStorageUpdation'
+      
+    this.salesModule = false;
+    this.adminModule = false;
+    this.detailModule = false;
+    this.washModule = false;
+    this.dashBoardModule = false;
+    this.customerModule = false;
+    this.reportModule = false;
+    this.whiteLabellingModule = false;
+    this.payRollModule = false;
+    this.checkOutModule = false;
+    this.messengerModule = false;
+
       if (data) {
         const newparsedData = JSON.parse(data);
         for (let i = 0; i < newparsedData?.length; i++) {
@@ -93,7 +106,7 @@ export class SidenavComponent implements OnInit {
   }
 
   routingNav(ModuleNameLocal, viewNameLocal) {
-    // Sales Module        
+        // Sales Module        
     if (ModuleNameLocal === "Sales") {
       this.salesModule = true;
     }

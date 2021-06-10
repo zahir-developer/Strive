@@ -83,6 +83,8 @@ export class UserDataService {
       localStorage.setItem('clientId', token.ClientDetails.ClientDetail.ClientId);
       localStorage.setItem('employeeName', token.ClientDetails.ClientDetail.FirstName + ' ' +
         token.ClientDetails.ClientDetail.LastName);
+      this.setHeaderName(token.ClientDetails.ClientDetail.FirstName + ' ' +
+      token.ClientDetails.ClientDetail.LastName);
       localStorage.setItem('roleId', token.ClientDetails.RolePermissionViewModel[0].RoleId);
       localStorage.setItem('employeeFirstName', token.ClientDetails.ClientDetail.FirstName);
       localStorage.setItem('employeeLastName', token.ClientDetails.ClientDetail.LastName);

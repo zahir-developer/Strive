@@ -81,13 +81,13 @@
                                     <ul *ngIf="msgList.length !== 0" class="conversation-list chat-box-slide" #scrollMe>
                                         <li *ngFor="let msg of msgList odd"
                                             [ngClass]="{'odd': employeeId === msg.SenderId}" class="clearfix">
-                                            <div class="chat-avatar">
+                                            <div class="chat-avatar" *ngIf="msg.MessageBody !== ''">
                                                 <div
                                                     class="profile-image m-r-10 m-t-9 group-icon-color font-size-1-2 align-middle">
                                                     {{ msg.SenderFirstName.charAt(0).toUpperCase() + (msg?.SenderLastName !== null ? msg?.SenderLastName.charAt(0).toUpperCase() : '')}}
                                                 </div>
                                             </div>
-                                            <div class="conversation-text">
+                                            <div class="conversation-text" *ngIf="msg.MessageBody !== ''">
                                                 <div class="ctext-wrap">
                                                     <p> {{msg.MessageBody}} </p>
                                                 </div> <span
@@ -114,9 +114,8 @@
                         <div class="col-xl-9 m-b-6 card internal-employee" *ngIf="!previouslyMessaged">
                             <div class="card-body">
                                 <div class="text-center" style="padding: 250px 0;">
-                                    <p class="font-weight-800 font-size-1-5 line-height-0">No Conversation..</p>
+                                    <p class="font-weight-800 font-size-1-5 line-height-0">No Conversation history found.</p>
                                 </div>
-                               
                             </div>
                         </div>
                         <div class="col-xl-3" id="show-search-emp">
