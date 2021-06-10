@@ -56,7 +56,8 @@ export class MembershipCreateEditComponent implements OnInit {
       upcharge: ['', Validators.required],
       status: ['',],
       price: ['', Validators.required],
-      notes: ['',]
+      notes: ['',],
+      discountedPrice:['',]
     });
     this.membershipForm.patchValue({ status: 0 });
     if (this.isEdit !== true) {
@@ -159,6 +160,7 @@ export class MembershipCreateEditComponent implements OnInit {
       membershipName: this.selectedData.Membership.MembershipName,
       notes: this.selectedData.Membership.Notes,
       price: this.selectedData?.Membership?.Price?.toFixed(2),
+      discountedPrice:this.selectedData?.Membership.DiscountedPrice?.toFixed(2),
       status: this.selectedData.Membership.Status === true ? 0 : 1
     });
     if (this.selectedData.MembershipService.filter(i => 
@@ -372,6 +374,7 @@ export class MembershipCreateEditComponent implements OnInit {
       membershipName: this.membershipForm.value.membershipName === '' ? 'None/UNK' : this.membershipForm.value.membershipName,
       price: this.membershipForm.value.price ? this.membershipForm.value.price : 0,
       notes: this.membershipForm.value.notes ? this.membershipForm.value.notes : '',
+      discountedPrice:this.membershipForm.value.discountedPrice ? this.membershipForm.value.discountedPrice : 0,
       locationId: localStorage.getItem('empLocationId'),
       isActive: Number(this.membershipForm.value.status) === 0 ? true : false,
       isDeleted: false,
