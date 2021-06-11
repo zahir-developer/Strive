@@ -111,7 +111,8 @@ export class ServiceCreateEditComponent implements OnInit {
       suggested: [''],
       serviceCategory: [''],
       isCeramic: [''],
-      location: [[], Validators.required]
+      location: [[], Validators.required],
+      hours:['']
     });
     this.serviceSetupForm.patchValue({ status: 0 });
   }
@@ -205,7 +206,8 @@ export class ServiceCreateEditComponent implements OnInit {
           discountServiceType: this.selectedService?.DiscountServiceType,
           parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1,
-          location: selectedLocation
+          location: selectedLocation,          
+          hours:this.selectedService?.hours
         });
         this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceTypeId);
@@ -455,6 +457,7 @@ categoryName(){
             updatedDate: new Date(),
             discountServiceType: this.serviceSetupForm.value.discountServiceType,
             discountType: this.serviceSetupForm.value.discountType,
+            hours: this.serviceSetupForm.value.hours
           });
       });
     }
