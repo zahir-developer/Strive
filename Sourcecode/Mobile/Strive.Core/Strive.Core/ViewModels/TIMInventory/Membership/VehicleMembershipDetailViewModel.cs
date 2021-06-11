@@ -102,7 +102,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     {
                         clientMembershipId = ClientMembership,
                         clientVehicleId = MembershipData.SelectedVehicle.VehicleId,
-                        locationId = 1,
+                        locationId = EmployeeData.selectedLocationId,
                         membershipId = MembershipData.MembershipDetailView.ClientVehicleMembership.MembershipId,
                         startDate = DateUtils.GetTodayDateString(),
                         endDate = DateUtils.GetTodayDateString(),

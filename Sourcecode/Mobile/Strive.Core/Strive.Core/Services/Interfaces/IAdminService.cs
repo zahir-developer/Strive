@@ -11,6 +11,7 @@ using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.TimInventory;
+using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
 namespace Strive.Core.Services.Interfaces
 {
@@ -34,15 +35,27 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DeleteResponse> SaveClockInTime(TimeClockRoot ClockInRequest);
 
-        Task<Products> GetAllProducts();
+        Task<DealsList> GetAllDeals();
+
+        Task<Products> GetAllProducts(ProductSearches searchQuery);
 
         Task<Vendors> GetAllVendors();
 
-        Task<PostResponse> AddProduct(ProductDetail product);
+        Task<LocationProd> GetAllLocationName();
+
+        Task<ProductType> GetProductType();
+
+        Task<PostResponse> AddProduct(AddProduct product);
 
         Task<DeleteResponse> DeleteProduct(int Id);
 
-        Task<PostResponse> UpdateProduct(ProductDetail product);
+        Task<EditProduct.ProductDetail_Id> GetProductByID(int Id);
+
+        Task<PostResponse> UpdateProduct(AddProduct product);
+
+        Task<PostResponse> ProductRequest(ProductRequest product);
+
+        Task<PostResponse> UpdateProdQuantity(int Id, int quantity);
 
         Task<Clients> GetAllClient();
 

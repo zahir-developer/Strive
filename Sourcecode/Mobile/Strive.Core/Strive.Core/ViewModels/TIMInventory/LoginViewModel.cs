@@ -93,28 +93,28 @@ namespace Strive.Core.ViewModels.TIMInventory
                 _userDialog.ShowLoading(Strings.LoggingIn, Acr.UserDialogs.MaskType.Gradient);
                 var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
                 if (response.Token != null)
-                {
+                {                     
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     ApiUtils.Token = response.Token;
-                    var request = new TimeClockRequest()
-                    {
-                        locationId = 1,
-                        employeeId = response.EmployeeDetails.EmployeeLogin.EmployeeId,
-                        roleId = 5,
-                        date = DateUtils.GetTodayDateString()
-                    };
-                    var status = await AdminService.GetClockInStatus(request);
-                    if (status.TimeClock.Count > 0)
-                    {
-                        var SingleTimeClock = new TimeClockRoot();
-                        SingleTimeClock.TimeClock = status.TimeClock[0];
-                        EmployeeData.ClockInStatus = SingleTimeClock;
-                    }
-                   
-                    await _navigationService.Navigate<RootViewModel>();
-                    _UserId = "";
-                    _Password = "";
-                    await RaiseAllPropertiesChanged();
+                    //var request = new TimeClockRequest()
+                    //{
+                    //    locationId = 1,
+                    //    employeeId = response.EmployeeDetails.EmployeeLogin.EmployeeId,
+                    //    roleId = 5,
+                    //    date = DateUtils.GetTodayDateString()
+                    //};
+                    //var status = await AdminService.GetClockInStatus(request);
+                    //if (status.TimeClock.Count > 0)
+                    //{
+                    //    var SingleTimeClock = new TimeClockRoot();
+                    //    SingleTimeClock.TimeClock = status.TimeClock[0];
+                    //    EmployeeData.ClockInStatus = SingleTimeClock;
+                    //}
+
+                    await _navigationService.Navigate<LocationSelectViewModel>();
+                    //_UserId = "";
+                    //_Password = "";
+                    //await RaiseAllPropertiesChanged();
                 }
             }
         }

@@ -19,6 +19,8 @@ namespace Strive.Core.Utils.TimInventory
         public static string ViewSourceUrl { get; set; }
 
         public static bool load { get; set; }
+
+        public static int selectedLocationId { get; set; }
     }
 
     public static class MembershipData

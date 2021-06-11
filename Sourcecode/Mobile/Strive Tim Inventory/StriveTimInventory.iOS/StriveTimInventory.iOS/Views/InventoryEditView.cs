@@ -11,6 +11,7 @@ using MvvmCross.Platforms.Ios.Binding.Views;
 using System.Collections;
 using CoreGraphics;
 using CoreImage;
+using System.Threading.Tasks;
 
 namespace StriveTimInventory.iOS.Views
 {
@@ -18,7 +19,7 @@ namespace StriveTimInventory.iOS.Views
     {
         public static IMvxMessenger _mvxMessenger = Mvx.IoCProvider.Resolve<IMvxMessenger>();
         private MvxSubscriptionToken _messageToken;
-
+        public bool isCaptured;
         UIImagePickerController imagePicker;
 
         public InventoryEditView() : base("InventoryEditView", null)
@@ -36,6 +37,18 @@ namespace StriveTimInventory.iOS.Views
             pickerView.ShowSelectionIndicator = true;
             SupplierName.InputView = pickerView;
 
+            var pickerView1 = new UIPickerView();
+            var pickerViewModel1 = new InventoryNewPicker(pickerView1, ViewModel, true);
+            pickerView1.Model = pickerViewModel1;
+            pickerView1.ShowSelectionIndicator = true;
+            ItemLocation.InputView = pickerView1;
+
+            var pickerView2 = new UIPickerView();
+            var pickerViewModel2 = new InventoryNewPicker(pickerView2, ViewModel, false);
+            pickerView2.Model = pickerViewModel2;
+            pickerView2.ShowSelectionIndicator = true;
+            ItemType.InputView = pickerView2;
+
             var set = this.CreateBindingSet<InventoryEditView, InventoryEditViewModel>();
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(EditImageButton).To(vm => vm.Commands["NavigateUploadImage"]);
@@ -47,6 +60,10 @@ namespace StriveTimInventory.iOS.Views
             set.Bind(ItemName).To(vm => vm.ItemName);
             set.Bind(ItemDescription).To(vm => vm.ItemDescription);
             set.Bind(ItemQuantity).To(vm => vm.ItemQuantity);
+            set.Bind(ItemLocation).To(vm => vm.ItemLocation);
+            set.Bind(ItemType).To(vm => vm.ItemType);
+            set.Bind(ItemCost).To(vm => vm.ItemCost);
+            set.Bind(ItemPrice).To(vm => vm.ItemPrice);
             set.Bind(SupplierName).To(vm => vm.SupplierName);
             set.Bind(SupplierContact).To(vm => vm.SupplierContact);
             set.Bind(SupplierFax).To(vm => vm.SupplierFax);
@@ -59,14 +76,33 @@ namespace StriveTimInventory.iOS.Views
             View.AddGestureRecognizer(Tap);
 
             ItemQuantity.KeyboardType = UIKeyboardType.NumberPad;
+            ItemCost.KeyboardType = UIKeyboardType.NumbersAndPunctuation;
+            ItemPrice.KeyboardType = UIKeyboardType.NumberPad;
 
-            ChangeOrientation();
+            //ChangeOrientation();
         }
 
-        public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+        public override async void ViewDidAppear(bool animated)
         {
-            ChangeOrientation();
+            var locationList = await GetLocationList();
         }
+
+        private async Task<bool> GetLocationList()
+        {
+            await ViewModel.GetAllLocNameCommand();
+            await ViewModel.GetProductTypeCommand();
+            return true;
+        }
+
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
+        {
+            return UIInterfaceOrientationMask.Portrait;
+        }
+
+        //public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+        //{
+        //    ChangeOrientation();
+        //}
 
         void ChangeOrientation()
         {
@@ -116,6 +152,7 @@ namespace StriveTimInventory.iOS.Views
         private void CaptureFromCamera()
         {
             imagePicker.SourceType = UIImagePickerControllerSourceType.Camera;
+            isCaptured = true;
             PickImage();
         }
 
@@ -127,6 +164,7 @@ namespace StriveTimInventory.iOS.Views
 
         private void SetImage(string url)
         {
+            ViewModel.Filename = url + ".png";
             ItemImage.Image = UIImage.FromBundle(url);
             ConvertToBase64(UIImage.FromBundle(url));
         }
@@ -158,9 +196,28 @@ namespace StriveTimInventory.iOS.Views
                     break;
             }
 
-            NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerReferenceUrl")] as NSUrl;
+            NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerImageURL")] as NSUrl;
             if (referenceURL != null)
+            {
                 Console.WriteLine("Url:" + referenceURL.ToString());
+                string[] list = referenceURL.ToString().Split("/");
+                foreach(var item in list)
+                {
+                    if(item.EndsWith(".png") || item.EndsWith(".jpeg"))
+                    {
+                        ViewModel.Filename = item;
+                    }
+                }
+            }
+            else
+            {
+                if (isCaptured)
+                {
+                    System.Random random = new System.Random();
+                         
+                    ViewModel.Filename = "Image" + random.Next().ToString() + ".png"; 
+                }
+            }
 
             if (isImage)
             {

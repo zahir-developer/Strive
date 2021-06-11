@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading.Tasks;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Binding.Views;
@@ -23,6 +23,9 @@ namespace StriveTimInventory.iOS.Views
         public static readonly int ExpandedHeight = 380;
 
         public static readonly int NormalHeight = 120;
+        public int quantity;
+        public int index;
+        UIAlertView alert = new UIAlertView();
         static InventoryViewCell()
         {
             Nib = UINib.FromName("InventoryViewCell", NSBundle.MainBundle);
@@ -56,14 +59,18 @@ namespace StriveTimInventory.iOS.Views
             cell.IncrementButton.SetBackgroundImage(UIImage.FromBundle(ImageUtils.ICON_WASHER), UIControlState.Highlighted);
             cell.ItemCountLabel.Text = ViewModel.FilteredList[index].Product.Quantity.ToString();
             cell.RequestView.Hidden = false;
-            cell.IncrementButton.Tag = cell.DecrementButton.Tag = cell.ItemEditButton.Tag = index;
-
-            if(ViewModel.FilteredList[index].Product.base64 != null)
+            cell.IncrementButton.Tag = cell.DecrementButton.Tag = cell.ItemEditButton.Tag = cell.RequestButton.Tag = index;
+                                       
+            if (ViewModel.FilteredList[index].Product.Base64 != null)
             {
-                var imageBytes = Convert.FromBase64String(ViewModel.FilteredList[index].Product.base64);
+                var imageBytes = Convert.FromBase64String(ViewModel.FilteredList[index].Product.Base64);
                 var imageData = NSData.FromArray(imageBytes);
                 var uiImage = UIImage.LoadFromData(imageData);
                 cell.ItemImage.Image = uiImage;
+            }
+            else
+            {
+                cell.ItemImage.Image = UIImage.FromBundle("white-ellipse");
             }
 
             cell.IncrementButton.TouchUpInside -= IncrementButtonPressed;
@@ -137,6 +144,32 @@ namespace StriveTimInventory.iOS.Views
         partial void EditItemTouch(UIButton sender)
         {
             ViewModel.EditCommand((int)sender.Tag);
+        }
+
+        partial void RequestBtnTouch(UIButton sender)
+        {
+            index = (int)sender.Tag;
+          
+            alert.AlertViewStyle = UIAlertViewStyle.PlainTextInput;
+            alert.Title = "Product Request";
+            alert.GetTextField(0).Placeholder = "Enter the quantity";
+            alert.AddButton("OK");
+            alert.Show();
+
+            alert.Clicked += Alert_Clicked;             
+        }
+
+        private void Alert_Clicked(object sender, UIButtonEventArgs e)
+        {
+            string request = alert.GetTextField(0).Text;
+            if (request != "")
+            {
+                quantity = int.Parse(request);
+            }
+            if (quantity > 0)
+            {
+                ViewModel.ProductRequestCommand(quantity,index);
+            }
         }
     }
 }

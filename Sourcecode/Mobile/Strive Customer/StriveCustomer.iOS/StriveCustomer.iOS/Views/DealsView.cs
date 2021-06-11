@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoreGraphics;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
@@ -60,10 +61,19 @@ namespace StriveCustomer.iOS.Views
                 Console.WriteLine("Scanned Barcode: " + result.Text);
         }
 
+        public override async void ViewDidAppear(bool animated)
+        {
+            getDeals();
+        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
+        }
+
+        public async Task getDeals()
+        {
+            await ViewModel.GetAllDealsCommand();
         }
     }
 }

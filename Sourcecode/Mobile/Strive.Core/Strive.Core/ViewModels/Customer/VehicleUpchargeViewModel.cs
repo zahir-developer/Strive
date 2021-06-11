@@ -58,13 +58,16 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
             foreach (var upcharges in selectedMembership.MembershipDetail)
             {
-                MembershipDetails.filteredList.
+                if(upcharges.Upcharges != null)
+                {
+                    MembershipDetails.filteredList.
                     ServicesWithPrice.
                     Add(
                      completeList.
                      ServicesWithPrice.
                      Find(c => c.ServiceId == upcharges.ServiceId)
                     );
+                }                
 
             }
             _userDialog.HideLoading();

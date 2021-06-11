@@ -60,7 +60,8 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task GetPastServiceDetails()
         {
-            var result = await AdminService.GetSchedulePastService(89);
+            _userDialog.ShowLoading(Strings.Loading);
+            var result = await AdminService.GetSchedulePastService(0);
             if(result == null)
             {
                 _userDialog.Toast("No Schedules have been found !");
@@ -69,6 +70,7 @@ namespace Strive.Core.ViewModels.Customer
             {
                 pastServiceHistory = result;
             }
+            _userDialog.HideLoading();
         }
 
         #endregion Commands

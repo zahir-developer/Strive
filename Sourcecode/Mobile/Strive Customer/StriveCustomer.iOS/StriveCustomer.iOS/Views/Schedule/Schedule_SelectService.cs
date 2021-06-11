@@ -64,7 +64,7 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             await ViewModel.GetScheduledServices();
 
-            if(this.ViewModel.scheduleServices != null && this.ViewModel.scheduleServices.ServicesWithPrice.Count > 0)
+            if(this.ViewModel.scheduleServices != null && this.ViewModel.scheduleServices.AllServiceDetail.Count > 0)
             {
                 var selectServiceSource = new Schedule_SelectService_Source(this.ViewModel);
                 SelectService_TableView.Source = selectServiceSource;

@@ -26,16 +26,19 @@ namespace Strive.Core.ViewModels.TIMInventory
         }
 
         public async Task ClientSearchCommand(string SearchText)
-        {
-            _userDialog.ShowLoading("Fetching Clients");
-            var result = await AdminService.SearchClient(SearchText);
-            if(result != null)
+        {           
+            if(FilteredList.Count <= 0 || SearchText != "")
             {
-                FilteredList = result.ClientSearch;
-            }
-            //FilteredList = new ObservableCollection<ClientInfo>(ClientList.
-            //    Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
-            await RaiseAllPropertiesChanged();
+                _userDialog.ShowLoading("Fetching Clients");
+                var result = await AdminService.SearchClient(SearchText);
+                if (result != null)
+                {
+                    FilteredList = result.ClientSearch;
+                }
+                //FilteredList = new ObservableCollection<ClientInfo>(ClientList.
+                //    Where(s => s.FirstName.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())));
+                await RaiseAllPropertiesChanged();
+            }            
         }
 
         public async Task GetAllClientsCommand()
