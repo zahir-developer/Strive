@@ -1,5 +1,5 @@
-﻿--[StriveCarSalon].[uspGetScheduleAndForcasted]1,null,'2021-05-01','2021-05-07'
-CREATE PROC [StriveCarSalon].[uspGetScheduleAndForcasted] 
+﻿--[StriveCarSalon].[uspGetScheduleAndForcasted]1,null,'2021-05-01','2021-05-23'
+CREATE PROCEDURE [StriveCarSalon].[uspGetScheduleAndForcasted] 
 @LocationId int,
 @EmployeeId int = NULL,
 @ScheduledStartDate Date = NULL,--lastweek
@@ -40,7 +40,8 @@ WHERE
 AND
 (ScheduledDate BETWEEN @ScheduledStartDate AND @ScheduledendDate) OR (@ScheduledStartDate IS NULL AND @ScheduledendDate IS NULL))
 
-select SUM(CONVERT(DECIMAL(4,2),(DATEDIFF(MINUTE,StartTime, EndTime))))/60 as Totalhours ,ScheduledDate
+select SUM(CONVERT(DECIMAL(6,2),(DATEDIFF(MINUTE,StartTime, EndTime))))/60 as Totalhours ,ScheduledDate
+,count(distinct EmployeeId) as TotalEmployees
 from #Schedule s
 Group by s.ScheduledDate
 

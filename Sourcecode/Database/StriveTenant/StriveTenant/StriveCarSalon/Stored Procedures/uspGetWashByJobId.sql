@@ -1,10 +1,11 @@
 ﻿-- ================================================
 -- ---------------History--------------------------
 -- ================================================
--- Sample Input: [StriveCarSalon].[uspGetJobById] 205978--35746
+-- Sample Input: [StriveCarSalon].[uspGetWashByJobId]206271 205978--35746
 --05-05-2021 - Zahir - Make/Model Change - tblVehiclMake/Model table used instead of tblCodeValue table.
 --06-05-2021 - Zahir - Make/Model/Color NULL handled.
-CREATE PROC [StriveCarSalon].[uspGetJobById]
+-- 19-05-2021 -Shalini -Make/Model/Color added alias name
+CREATE PROCEDURE [StriveCarSalon].[uspGetWashByJobId]
 (@JobId int)
 AS
 BEGIN
@@ -37,9 +38,9 @@ tbj.JobId
 ,CONCAT(tblc.FirstName,' ',tblc.LastName) AS ClientName
 ,tblca.PhoneNumber
 ,tbj.VehicleId
-,ISNULL(tbj.Make,0)
-,ISNULL(tbj.Model,0)
-,ISNULL(tbj.Color,0)
+,ISNULL(tbj.Make,0) as Make
+,ISNULL(tbj.Model,0) as Model
+,ISNULL(tbj.Color,0) as Color
 ,model.ModelValue AS VehicleModel
 ,make.MakeValue As VehicleMake
 ,cvCo.valuedesc as VehicleColor

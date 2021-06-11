@@ -1,3 +1,5 @@
-﻿CREATE USER [SLSAdmin] FOR LOGIN [SLSAdmin]
+﻿CREATE USER [SLSAdmin]
     WITH DEFAULT_SCHEMA = [StriveLimoSalon];
+
+
 

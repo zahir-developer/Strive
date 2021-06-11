@@ -138,7 +138,7 @@ tblla.LocationAddressId	,
 		isnull(tblla.isDeleted,0) = 0 
 
 
-Select * from StriveCarSalon.tblLocationEmail where locationId = @tblLocationId and isDeleted = 0
+Select * from tblLocationEmail where locationId = @tblLocationId
 		
 SELECT 
 DrawerId,

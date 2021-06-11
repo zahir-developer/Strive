@@ -1,9 +1,4 @@
-﻿
-
-
-
-
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth
 -- Create date: 20-08-2020
 -- Description:	Dashboard detail for Washes
@@ -12,14 +7,15 @@
 ---------------------History--------------------
 -- =============================================
 -- 10-09-2020, Vineeth - Added IsActive condition and JobType as params
---
+-- 12-05-2021, Shalini - Added isdeleted condition and removed group by from #JobWashes
+-- 19-05-2021, Shalini - Added jobtype filter to #JobWashes
 ------------------------------------------------
 --[StriveCarSalon].[uspGetWashDashboard]20,'2021-03-18',57,'2021-03-11','2021-02-18' ,'2017-11-16' 
 --[StriveCarSalon].[uspGetWashDashboard]1,'2021-05-01',57,'2021-03-11','2021-02-18' ,'2017-11-16' 
+--[StriveCarSalon].[uspGetWashDashboard]1,'2021-05-13',57,'2021-03-11','2021-02-18' ,'2017-11-16' 
 -- =============================================
 
-
-CREATE PROCEDURE [StriveCarSalon].[uspGetWashDashboard] --[StriveCarSalon].[uspGetWashDashboard]1,'2021-04-30',57
+CREATE PROCEDURE [StriveCarSalon].[uspGetWashDashboard] 
 (@LocationId int, @CurrentDate date, @JobType int,@lastweek VARCHAR(10)= NULL,
 @lastMonth VARCHAR(10) =NULL,
 @lastThirdMonth  VARCHAR(10)= NULL)
@@ -36,24 +32,26 @@ DROP TABLE IF EXISTS #JobWashes
 Select j.JobDate, j.locationId into #JobWashes from tblJob j 
 INNER JOIN GetTable('JobType') JT on JT.valueid = j.JobType
 --INNER join GetTable('JobStatus') GT on GT.valueId = j.JobStatus and GT.valuedesc = 'Completed'
-WHERE j.JobDate in(@CurrentDate,@lastweek,@lastMonth,@lastThirdMonth) and j.Locationid=@LocationId --and j.JobType='Wash'
-and j.IsActive=1 
-GROUP BY JobDate, j.LocationId
+WHERE j.JobDate in(@CurrentDate,@lastweek,@lastMonth,@lastThirdMonth) and j.Locationid=@LocationId and j.JobType=@WashId
+and j.IsActive=1 and isnull(j.IsDeleted,0)=0
+--GROUP BY JobDate, j.LocationId
 
 DROP TABLE IF EXISTS #WashesCount
 SELECT 
 	w.LocationId,COUNT(1) AS WashesCount
 	INTO #WashesCount 
-	FROM #JobWashes w	 
+	FROM #JobWashes w	
+	where w.JobDate=@CurrentDate
+	
 	GROUP BY w.Locationid
 
 DROP TABLE IF EXISTS #DetailsCount
 SELECT  
 	tbll.LocationId,COUNT(1) AS DetailsCount
 	INTO #DetailsCount 
-	FROM [StriveCarSalon].[tblJob] tblj
-	INNER JOIN [StriveCarSalon].GetTable('JobType') jt ON(tblj.JobType=jt.valueid)
-	INNER JOIN [StriveCarSalon].tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
+	FROM [tblJob] tblj
+	INNER JOIN GetTable('JobType') jt ON(tblj.JobType=jt.valueid)
+	INNER JOIN tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
 	WHERE jt.valuedesc='Detail' AND
 	tblj.LocationId=@LocationId AND
 	tblj.JobDate=@CurrentDate AND
@@ -65,9 +63,9 @@ DROP TABLE IF EXISTS #EmployeeCount
 SELECT
 	tbll.LocationId,COUNT(distinct  tblji.EmployeeId) AS EmployeeCount
 	INTO #EmployeeCount 
-	FROM [StriveCarSalon].[tblJobItem] tblji
-	INNER JOIN [StriveCarSalon].[tblJob] tblj ON(tblji.JobId = tblj.JobId)
-	INNER JOIN [StriveCarSalon].tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
+	FROM [tblJobItem] tblji
+	INNER JOIN [tblJob] tblj ON(tblji.JobId = tblj.JobId)
+	INNER JOIN tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
 	WHERE tblj.JobType=@JobType
 	AND tblj.LocationId=@LocationId
 	AND tblj.JobDate =@CurrentDate
@@ -99,8 +97,8 @@ DROP TABLE IF EXISTS #ForecastedCars
 SELECT
     tbll.LocationId,COUNT(distinct VehicleId) AS ForecastedCars
 	INTO #ForecastedCars 
-	FROM [StriveCarSalon].[tblJob] tblj
-	INNER JOIN [StriveCarSalon].[tblLocation] tbll ON(tblj.LocationId = tbll.LocationId)
+	FROM [tblJob] tblj
+	INNER JOIN [tblLocation] tbll ON(tblj.LocationId = tbll.LocationId)
 	WHERE 
 	tblj.JobType=@JobType
 	AND
@@ -116,9 +114,9 @@ DROP TABLE IF EXISTS #Current
 SELECT
     tbll.LocationId,COUNT(VehicleId) AS [Current]
 	INTO #Current 
-	FROM [StriveCarSalon].[tblJob] tblj
-	inner join [StriveCarSalon].GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid)
-	INNER JOIN [StriveCarSalon].tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
+	FROM [tblJob] tblj
+	inner join GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid)
+	INNER JOIN tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
 	WHERE 
 	tblj.LocationId=@LocationId
 	AND
@@ -178,7 +176,7 @@ convert (decimal(18,2),(ISNULL(wc.WashesCount,0)*1.5)) AS WashTimeMinutes,
 a.JobDate ,
 WP.LocationId,
 WP.CreatedDate into #WashTime
-FROM [StriveCarSalon].[tblWeatherPrediction] WP
+FROM [tblWeatherPrediction] WP
 LEFT join #JobWashes a on CONVERT(VARCHAR(10), wp.CreatedDate, 120) = a.JobDate
 Left Join #washesCount wc on wp.LocationId =wc.LocationId
 WHERE
@@ -229,7 +227,7 @@ CASE
 	   WHEN wr.Washer >26 AND cc.Cars >7  THEN (25+(cc.Cars - 7)*2) + ((cc.Cars+tbllo.OffSet1)*tbllo.OffSet1On)
 	   WHEN wr.Washer is NULL and cc.Cars is NULL THEN 25
 	   END AS  AverageWashTime
-FROM [StriveCarSalon].[tblLocation] tbll 
+FROM [tblLocation] tbll 
 LEFT JOIN #WashesCount WC ON(tbll.LocationId = WC.LocationId)
 LEFT JOIN #DetailsCount DC ON(tbll.LocationId = DC.LocationId)
 LEFT JOIN #EmployeeCount EC ON(tbll.LocationId = EC.LocationId)

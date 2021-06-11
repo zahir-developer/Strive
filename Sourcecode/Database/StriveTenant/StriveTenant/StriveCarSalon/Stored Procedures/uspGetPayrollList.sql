@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [StriveCarSalon].[uspGetPayrollList] 
 @LocationId INT,
 @StartDate DATETIME,
@@ -132,7 +131,8 @@ GROUP BY EmployeeId,tbll.LocationId,Tbll.WorkhourThreshold,PayeeName
 
 SELECT 
 	  tblED.EmployeeId
-	, tblED.WashRate
+	--, tblED.WashRate
+	,ehr.HourlyRate as WashRate
 	,tblED.Tip
 	, tblCV.CodeValue AS [Detail Desc] 
 	, tblED.PayRate AS [DetailRate]
@@ -146,6 +146,7 @@ ON		tblCV.id=tblED.ComType
 LEFT JOIN
 	tblCodeCategory tblCC
 ON		tblCC.id=tblCV.CategoryId
+LEFT JOIN tblEmployeeHourlyRate ehr on ehr.EmployeeId = tblED.EmployeeId
 --WHERE 
 --	tblCC.Category='CommisionType'
 

@@ -1,9 +1,14 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		Zahir
 -- Create date: 07-Dec-2020
 -- Description:	Client login Authenticate
+--EXEC [StriveCarSalon].[uspGetClientUserByAuthId] 1720
 -- =============================================
+-- =============================================
+-- --------------History------------------------
+-- =============================================
+-- 20-05-2021, Zahir	- Changed the roleName from client to Customer
+
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetClientUserByAuthId] 
 (@AuthId int)
@@ -33,8 +38,8 @@ module.ModuleName,
 modscrn.ViewName,
 fld.FieldName
 FROM #Client c 
-JOIN tblRoleMaster rolmas on rolmas.RoleName = 'Client'
-left join TblRolePermissiondetail rolper on rolper.RoleId = rolmas.RoleMasterId AND ISNULL(rolper.IsDeleted,0)=0 AND ISNULL(rolper.IsActive, 1) = 1
+JOIN tblRoleMaster rolmas on rolmas.RoleName = 'Customer'
+left join TblRolePermission rolper on rolper.RoleId = rolmas.RoleMasterId AND ISNULL(rolper.IsDeleted,0)=0 AND ISNULL(rolper.IsActive, 1) = 1
 left join TblModule module on rolper.ModuleId=module.ModuleId AND ISNULL(module.IsDeleted,0)=0 AND ISNULL(module.IsActive, 1) = 1
 left join TblModuleScreen modscrn on rolper.ModuleScreenId=modscrn.ModuleScreenId AND ISNULL(modscrn.IsDeleted,0)=0 AND ISNULL(modscrn.IsActive, 1) = 1
 left join TblField fld  on rolper.FieldId=fld.FieldId AND ISNULL(fld.IsDeleted,0)=0 AND ISNULL(fld.IsActive, 1) = 1

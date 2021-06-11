@@ -1,4 +1,4 @@
-﻿--136,2056,'2021-01-03','2021-01-09'
+﻿--[StriveCarSalon].[uspGetTimeClockWeekDetails] 1492,1,'2021-05-16','2021-05-22'
 CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails] 
 @EmployeeId INT,
 @LocationId INT,
@@ -15,7 +15,8 @@ FRS					: TimeClock Maintainance
 -----------------------------------------------------------------------------------------
   1  |  2020-Sep-01   | Lenin		| Added RollBack for errored transaction 
   2  |  2020-Sep-16   | Zahir		| Procedure Name changed. Column name changes added. Parameter name changes.
-
+  3  |  2021-MAy-20   | Shalini		| Wash rate changed..taking from employeehourlyrate table
+  
 
 -----------------------------------------------------------------------------------------
 */
@@ -105,13 +106,15 @@ GROUP BY jse.EmployeeId
 DROP TABLE IF EXISTS #Rate
 SELECT 
 	  tblED.EmployeeId
-	, ISNULL(tblED.WashRate,0)AS WashRate
+	,ISNULL(ehr.HourlyRate,0)AS WashRate
+	--, ISNULL(tblED.WashRate,0)AS WashRate
 	, tblCV.CodeValue AS [Detail Desc] 
 	, ISNULL(tblED.ComRate,0) as DetailRate
 INTO
 	#Rate
 FROM 
 	tblEmployeeDetail tblED
+	left join  tblEmployeeHourlyRate ehr on tblED.EmployeeId=ehr.EmployeeId
 LEFT JOIN
 	tblCodeValue tblCV
 ON		tblCV.id=tblED.ComType

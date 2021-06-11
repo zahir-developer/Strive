@@ -1,6 +1,4 @@
-﻿
-
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth B
 -- Create date: 03-11-2020
 -- Description:	To get Dashboard Details
@@ -12,7 +10,7 @@ CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics]
 AS
 BEGIN
 Declare @WashId INT = (Select valueid from GetTable('JobType') where valuedesc='Wash')
-Declare @WashServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Washes')
+Declare @WashServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Wash Package')
 Declare @DetailServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Detail Package')
 Declare @AdditionalServiceId INT = (Select valueid from GetTable('ServiceType') where valuedesc='Additional Services')
 Declare @DetailId INT = (Select valueid from GetTable('JobType') where valuedesc='Detail')

@@ -23,7 +23,8 @@ SELECT TOP 1
 	prd.ThresholdLimit,
 	loc.LocationName,
 	tbpt.valuedesc as ProductTypeName,
-	tbsz.valuedesc as SizeName
+	tbsz.valuedesc as SizeName,
+	prd.IsActive
 FROM [tblProduct] prd
 inner JOIN [tblLocation] as loc ON (prd.LocationId = loc.LocationId)
 LEFT JOIN [GetTable]('ProductType') tbpt ON (prd.ProductType = tbpt.valueid)

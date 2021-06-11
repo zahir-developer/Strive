@@ -1,5 +1,21 @@
-﻿
- -- [StriveCarSalon].[uspGetItemListByTicketNumber]'993311' '651284,537631,566450,118839,833659'
+﻿/*
+-----------------------------------------------------------------------------------------
+Author              : Lenin
+Create date         : 04-06-2020
+Description         : Sample Procedure to the service job, product item and summary of the ticket
+FRS					: Admin - Sales
+Sample Input		: [StriveCarSalon].[uspGetItemListByTicketNumber]'206193'
+					  [StriveCarSalon].[uspGetItemListByTicketNumber]'651284,537631,566450,118839,833659'
+-----------------------------------------------------------------------------------------
+ Rev | Date Modified | Developer	| Change Summary
+-----------------------------------------------------------------------------------------
+  1  |  2020-08-01   | Lenin		| Added RollBack for errored transaction 
+  1  |  2021-05-13   | Zahir		| JobId column used instead of TicketNumber for getting the job details.
+
+
+-----------------------------------------------------------------------------------------
+*/
+
 CREATE PROCEDURE [StriveCarSalon].[uspGetItemListByTicketNumber]
 @TicketNumber varchar(max),
 @LocationId INT = NULL
@@ -33,12 +49,11 @@ ON		tbljbI.ServiceId = tblsr.ServiceId
 LEFT JOIN 
 	tblCodeValue tblcv
 ON		tblcv.id=tblsr.ServiceType
-WHERE 
-	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%' AND (tbljb.LocationId = @LocationId OR @LocationId IS NULL)
+WHERE tbljb.JobId in (Select ID from Split(@TicketNumber)) AND (tbljb.LocationId = @LocationId OR @LocationId IS NULL)
 AND ISNULL(tbljbI.IsDeleted,0)=0 
-AND ISNULL(tbljbI.IsActive,1)=1 
+--AND ISNULL(tbljbI.IsActive,1)=1 
 AND ISNULL(tbljb.IsDeleted,0)=0 
-AND ISNULL(tbljb.IsActive,1)=1
+--AND ISNULL(tbljb.IsActive,1)=1
 
 -- Product List
 DROP TABLE IF EXISTS #JobProductList
@@ -69,12 +84,11 @@ ON		tblp.ProductId=tbljbP.ProductId
 LEFT JOIN 
 	tblCodeValue tblCV 
 ON		tblP.ProductType = tblcv.id
-WHERE 
-	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljb.TicketNumber)+',%' AND (tbljb.LocationId = @LocationId OR @LocationId IS NULL)
+WHERE tbljb.JobId in (Select ID from Split(@TicketNumber)) AND (tbljb.LocationId = @LocationId OR @LocationId IS NULL)
 AND ISNULL(tbljbP.IsDeleted,0)=0 
 AND ISNULL(tbljbP.IsActive,1)=1 
 AND ISNULL(tbljb.IsDeleted,0)=0 
-AND ISNULL(tbljb.IsActive,1)=1
+--AND ISNULL(tbljb.IsActive,1)=1
 
 
 --Item Total
@@ -168,10 +182,9 @@ AND		ISNULL(tbljpd.IsDeleted,0)=0
 LEFT JOIN 
 	#PaymentType tblpt
 on		tbljpd.PaymentType = tblpt.id
-WHERE 
-	 ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),tbljob.TicketNumber)+',%'
+WHERE tbljob.JobId in (Select ID from Split(@TicketNumber))
 AND	ISNULL(tbljob.IsDeleted,0)=0 
-AND ISNULL(tbljob.IsActive,1)=1 
+--AND ISNULL(tbljob.IsActive,1)=1 
 AND	ISNULL(tbljp.IsDeleted,0)=0 
 AND ISNULL(tbljp.IsActive,1)=1 
 AND	ISNULL(tbljpd.IsDeleted,0)=0 
@@ -208,15 +221,16 @@ FROM
 --WHERE  ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),job.TicketNumber)+',%'
 --order by JobPaymentId desc
 
-Select DISTINCT ISNULL(tbljp.JobPaymentId, 0) as JobPaymentId, ISNULL(tbljp.IsProcessed, 0) as IsProcessed, ISNULL(tbljp.IsRollBack, 0) as IsRollBack
+Select DISTINCT ISNULL(job.JobPaymentId, 0) as JobPaymentId, ISNULL(tbljp.IsProcessed, 0) as IsProcessed, ISNULL(tbljp.IsRollBack, 0) as IsRollBack
 from tblJob job 
-LEFT JOIN tblJobPayment tbljp on job.JobId = tbljp.JobId
-WHERE  ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),job.TicketNumber)+',%'
+LEFT JOIN tblJobPayment tbljp on job.JobPaymentId = tbljp.JobPaymentId
+WHERE job.JobId in (Select ID from Split(@TicketNumber))
 order by JobPaymentId desc
 
 
 --JobId, TicketNumber
-Select JobId,TicketNumber from tblJob where ','+@TicketNumber+',' LIKE '%,'+CONVERT(VARCHAR(50),TicketNumber)+',%' and IsActive=1 and ISNULL(IsDeleted,0)=0
+Select JobId,TicketNumber,IsActive from tblJob where JobId in (Select ID from Split(@TicketNumber)) and ISNULL(IsDeleted,0)=0
+
 END
 GO
 

@@ -1,12 +1,10 @@
 ﻿
-
-CREATE PROCEDURE [StriveCarSalon].[uspUserCreation]
+CREATE PROCEDURE [CON].[uspUserCreation]
 (  
 @SchemaName VARCHAR(64),  
 @TenantName VARCHAR(64),  
 @UserName VARCHAR(64),  
-@PasswordHash VARCHAR(128), 
-@AuthId INT
+@PasswordHash VARCHAR(128)  
 )  
 AS  
   
@@ -79,7 +77,7 @@ SET @sql = 'GRANT SELECT, INSERT, UPDATE, DELETE, ALTER, CREATE SEQUENCE, EXECUT
   
 EXEC ( @sql);  
   
-EXEC [StriveCarSalon].[uspCopyStriveCarSalonbjects] 'StriveCarSalon',@SchemaName
-EXEC [StriveCarSalon].[uspMasterDataInsert] @SchemaName ,@AuthID
+EXEC [CON].[uspCopyDbobjects] 'CON',@SchemaName
+EXEC [CON].[uspMasterDataInsert] @SchemaName  
   
 END

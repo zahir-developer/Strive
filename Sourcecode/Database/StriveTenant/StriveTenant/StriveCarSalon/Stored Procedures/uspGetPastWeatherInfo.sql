@@ -27,6 +27,7 @@ WHERE j.JobDate = @date
 GROUP BY LocationId
 
 SELECT 
+WP.WeatherId,
 WP.Weather,
 WP.RainProbability,
 WP.PredictedBusiness,

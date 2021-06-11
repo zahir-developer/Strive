@@ -1,11 +1,17 @@
-﻿CREATE     PROCEDURE [StriveCarSalon].[uspGetHourlyWashReport] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetHourlyWashReport] 
 @locationId INT, @fromDate Date, @endDate Date
 AS
 -- =============================================
 -- Author:		Zahir Hussain M
 -- Create date: 01-Dec-2020
 -- Description:	Returns the Hourly wash report data and Sales data. EXEC [StriveCarSalon].USPGETHOURLYWASHREPORT 2034, '2021-01-03', '2020-01-17' 
+--[StriveCarSalon].[uspGetHourlyWashReport] 1,'2021-05-18','2021-05-18'
 -- =============================================
+----------History-------------
+-- =============================================
+-- 18-05-2021, Shalini - changed the actualtimeout conversion and commented the previous one
+-- =============================================
+
 BEGIN
 
 DROP TABLE IF EXISTS #WashHours
@@ -17,9 +23,9 @@ DECLARE @WashJobType INT = (Select top 1 valueid from GetTable('JobType') where 
 
 
 SELECT 
-	JobDate,
-	CONVERT(varchar(15), DATEPART(HOUR,CONVERT(datetime, SWITCHOFFSET(CONVERT(datetimeoffset, ActualTimeOut), 
-                            DATENAME(TzOffset, SYSDATETIMEOFFSET()))) ),100)as [Hour] 
+	JobDate,datepart(hour,cast(ActualTimeOut as time)) as [Hour]
+	--CONVERT(varchar(15), DATEPART(HOUR,CONVERT(datetime, SWITCHOFFSET(CONVERT(datetimeoffset, ActualTimeOut), 
+ --                           DATENAME(TzOffset, SYSDATETIMEOFFSET()))) ),100)as [Hour] 
 INTO 
 	#WashHours
 FROM 

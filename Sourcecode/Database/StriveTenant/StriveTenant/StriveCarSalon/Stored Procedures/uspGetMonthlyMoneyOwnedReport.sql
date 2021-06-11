@@ -1,11 +1,10 @@
-﻿
-CREATE procedure [StriveCarSalon].[uspGetMonthlyMoneyOwnedReport] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetMonthlyMoneyOwnedReport] 
 (@Date varchar(7),@LocationId int)
 AS
 BEGIN
 DECLARE @CompletedJobStatus INT =(SELECT valueid FROM GetTable('JobStatus') WHERE valuedesc='Completed')
 DECLARE @WashJobType INT =(SELECT valueid FROM GetTable('JobType') WHERE valuedesc='Wash')
-DECLARE @WashServiceType INT =(SELECT valueid FROM GetTable('ServiceType') WHERE valuedesc='Washes')
+DECLARE @WashServiceType INT =(SELECT valueid FROM GetTable('ServiceType') WHERE valuedesc='Wash Package')
 
 DROP TABLE IF EXISTS #CustomerCountForLocation
 
