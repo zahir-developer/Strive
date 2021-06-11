@@ -20,4 +20,9 @@ begin
 	from tblModuleScreen ms
 	where ms.IsDeleted = 0
 
+	select 
+	ma.mobileAppId,
+	ma.MobileAppName,
+	ma.IsActive
+	from tblMobileApp ma
 end

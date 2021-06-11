@@ -1,5 +1,4 @@
-﻿
--- ================================================
+﻿-- ================================================
 -- Author:		Benny Johnson
 -- Create date: 01-08-2020
 -- Description:	Retrieve Vehicle Detail by ClientId
@@ -12,6 +11,8 @@
 --                      for any vehicle of 
 --                      respective client,
 --						Added distinct conditon
+-- 08-jun-2021, shalini - Added unk for make,mode
+--08-jun-2021, shalini - Added IsDiscount field
 
 ------------------------------------------------
 -- =============================================
@@ -62,11 +63,12 @@ SELECT
 	cvl.IsActive,
 	cvl.MonthlyCharge,
 	@IsMembership as IsMembership,
+	cvmd.IsDiscount,
 	tblm.MembershipName	
 	,make.MakeId as VehicleMakeId
-	,make.MakeValue as VehicleMfr
+	,IsNull(make.MakeValue,'Unk') as VehicleMfr
 	,model.ModelId as VehicleModelId
-	,model.ModelValue as VehicleModel
+	,IsNull(model.ModelValue,'Unk') as VehicleModel
 FROM 
 tblclient cl
 INNER JOIN tblClientVehicle cvl ON cl.ClientId = cvl.ClientId

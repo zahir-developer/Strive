@@ -2,10 +2,10 @@
     [ProductId]           INT                IDENTITY (1, 1) NOT NULL,
     [ProductName]         VARCHAR (50)       NULL,
     [ProductCode]         VARCHAR (10)       NULL,
-    [ProductDescription]  VARCHAR (50)       NULL,
+    [ProductDescription]  VARCHAR (100)      NULL,
     [ProductType]         INT                NULL,
-    [FileName]            VARCHAR (100)      NULL,
-    [ThumbFileName]       VARCHAR (50)       NULL,
+    [FileName]            VARCHAR (200)      NULL,
+    [ThumbFileName]       VARCHAR (200)      NULL,
     [LocationId]          INT                NULL,
     [VendorId]            INT                NULL,
     [Size]                INT                NULL,
@@ -30,6 +30,8 @@
     CONSTRAINT [FK_tblProduct_Size] FOREIGN KEY ([Size]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id]),
     CONSTRAINT [FK_tblProduct_VendorId] FOREIGN KEY ([VendorId]) REFERENCES [StriveCarSalon].[tblVendor] ([VendorId])
 );
+
+
 
 
 

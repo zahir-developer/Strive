@@ -100,7 +100,7 @@ SELECT
 	FROM [tblJob] tblj
 	INNER JOIN [tblLocation] tbll ON(tblj.LocationId = tbll.LocationId)
 	WHERE 
-	tblj.JobType=@JobType
+	tblj.JobType=@WashId
 	AND
 	tblj.LocationId=@LocationId
 	AND
@@ -122,7 +122,7 @@ SELECT
 	AND
 	tblj.JobDate=@CurrentDate
 	AND 
-	tblj.JobType=@JobType
+	tblj.JobType=@WashId
 	--AND	js.valuedesc='Completed'
 	AND
 	isnull(tblj.IsDeleted,0)=0

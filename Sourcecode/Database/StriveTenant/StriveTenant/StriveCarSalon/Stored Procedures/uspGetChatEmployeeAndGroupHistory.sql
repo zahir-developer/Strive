@@ -1,8 +1,9 @@
-﻿-- =============================================
+﻿
+-- =============================================
 -- Author:		Zahir Hussain M
 -- Create date: 10-Nov-2020
 -- Description:	Returns the list of Recent Chat employee and Chat group informations
--- Example: [StriveCarSalon].[uspGetChatEmployeeAndGroupHistory] 1462
+-- Example: [StriveCarSalon].[uspGetChatEmployeeAndGroupHistory] 1496
 -- =============================================
 CREATE PROCEDURE [StriveCarSalon].[uspGetChatEmployeeAndGroupHistory] 
 	@EmployeeId INT
@@ -86,7 +87,7 @@ SELECT GRP.ChatGroupId as Id, GRP.GroupId, GRP.GroupName, SenderId, Max(MsgRec.C
 FROM StriveCarSalon.tblChatGroup GRP
 JOIN StriveCarSalon.tblChatUserGroup UsrGRP on GRP.ChatGroupId = GRP.ChatGroupId
 JOIN StriveCarSalon.tblChatMessageRecipient MsgRec on MsgRec.RecipientGroupId = GRP.ChatGroupId
-LEFT JOIN StriveCarSalon.tblChatGroupRecipient grpRec on grpRec.ChatGroupId = grp.ChatGroupId and grpRec.RecipientId = @EmployeeId
+INNER JOIN StriveCarSalon.tblChatGroupRecipient grpRec on grpRec.ChatGroupId = grp.ChatGroupId and grpRec.RecipientId = @EmployeeId
 WHERE UsrGRP.UserId = @EmployeeId
 GROUP BY GRP.ChatGroupId, MsgRec.RecipientId, SenderId, GroupId, GroupName, grpRec.IsRead
 ),

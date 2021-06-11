@@ -2,11 +2,13 @@
 -- Author:		Zahir Hussain 
 -- Create date: 03-12-2020
 -- Description:	Gets the Daily Status - Detail Info and Wash Info 
- --[StriveCarSalon].[uspGetDailyStatusInfo] 1,'2021-05-20'
+ --[StriveCarSalon].[uspGetDailyStatusInfo] 1,'2021-05-31'
 -- =============================================
 -------------history-----------------
 -- =============================================
 -- 1  shalini 2021-05-20  -wash rate taken from employeehourlyrate table
+-- 2  shalini 2021-05-31  -datediff modifed from hours to minutes
+-- 3  shalini 2021-06-03  -round of wsash hours to 2 decimal points
 -- =============================================
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetDailyStatusInfo]
@@ -26,7 +28,9 @@ where L.LocationId = @LocationId and JobDate = @Date --and Js.SalesRep is not nu
 group by L.LocationId,J.TicketNumber,SE.EmployeeId,E.FirstName, E.LastName
 
 
-Select count(e.EmployeeId) WashEmployeeCount, SUM(ISNULL(DateDiff(HOUR,InTime,OutTime), 0) * ISNULL(ehr.HourlyRate,0)) as WashExpense from tblTimeClock tc 
+Select count(e.EmployeeId) WashEmployeeCount,
+Cast(SUM(ISNULL(DateDiff(MINUTE,InTime,OutTime)/60.0, 0) * ISNULL(ehr.HourlyRate,0))as numeric(18,2)) as WashExpense
+from tblTimeClock tc 
 INNER JOIN tblEmployee e on e.EmployeeId = tc.EmployeeId
 INNER JOIN tblRoleMaster r on r.RoleMasterId = tc.RoleId and r.RoleName = 'Washer'
 LEFT JOIN tblEmployeeDetail ed on e.EmployeeId = ed.EmployeeId 

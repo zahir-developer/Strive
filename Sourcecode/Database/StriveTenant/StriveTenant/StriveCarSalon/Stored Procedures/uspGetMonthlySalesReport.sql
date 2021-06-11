@@ -1,6 +1,4 @@
-﻿
- 
-CREATE procedure [StriveCarSalon].[uspGetMonthlySalesReport]
+﻿CREATE procedure [StriveCarSalon].[uspGetMonthlySalesReport]
 (@LocationId INT, @FromDate date, @EndDate date)
 
 AS
@@ -10,6 +8,10 @@ AS
 -- Description:	To get Monthly sales report info
 -- [StriveCarSalon].[uspGetMonthlySalesReport] 1,'2021-05-01','2021-05-31'
 -- =============================================
+
+-- 21-May-2021, Zahir - Used price field from JobItem table instead of sthe service table.
+--					  - Removed product Item table - Need to be taken separately bcz only service shown in the result.
+
 BEGIN
 DECLARE @RoleMasterId int = (select RoleMasterId from tblRoleMaster where RoleName='Manager')
 

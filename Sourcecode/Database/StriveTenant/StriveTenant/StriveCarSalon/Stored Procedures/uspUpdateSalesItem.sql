@@ -1,5 +1,5 @@
-﻿CREATE PROC [StriveCarSalon].[uspUpdateSalesItem]
-(@JobItemId int,@ServiceId int,@Quantity int,@Price decimal)
+﻿CREATE PROCEDURE [StriveCarSalon].[uspUpdateSalesItem]
+(@JobItemId int,@ServiceId int,@Quantity int,@Price decimal(19,2))
 AS
 BEGIN
 

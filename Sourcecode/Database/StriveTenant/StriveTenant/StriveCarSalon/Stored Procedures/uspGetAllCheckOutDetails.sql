@@ -12,7 +12,7 @@
 --23-04-2021 - Zahir - JOB Status join changed to Left from Inner.
 --05-05-2021 - Zahir - tblVehicleMake/Model table used instead of tblCodevalue table.
 --14-05-2021 - Zahir - Changed tblClient/tblClientVehicle INNER JOIN to Left Join. (Services added from sales won't have client information)	
---04-06-2021 - Zahir - 	
+--04-06-2021 - Zahir - Unk added for Model/Make/Color if empty.	
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetAllCheckOutDetails]
 @locationId int =null,
@@ -94,8 +94,8 @@ js.valuedesc,
 tblj.JobPaymentId,
 tblj.TicketNumber,
 tblj.IsHold,
-ISNULL(tblc.FirstName, '-') AS CustomerFirstName,
-ISNULL(tblc.LastName, '-') AS CustomerLastName,
+tblc.FirstName AS CustomerFirstName,
+tblc.LastName AS CustomerLastName,
 ISNULL(vm.MakeValue, 'Unk') AS VehicleMake,
 ISNULL(vmo.ModelValue, 'Unk') AS VehicleModel,
 ISNULL(vc.valuedesc, 'Unk') AS VehicleColor,
@@ -297,13 +297,65 @@ select * from #GetAllServices
 IF ( @Query IS NULL OR @Query = '' ) AND (@StartDate IS NULL AND @EndDate IS NULL)
 BEGIN 
 
-select count(1) as Count from tblJob where ISNULL(IsDeleted,0) = 0 
-
+select distinct count(1) as Count 
+FROM 	#Jobs tblj WITH(NOLOCK)
+INNER JOIN	GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
+LEFT JOIN	GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid)
+LEFT JOIN	tblClient tblc  WITH(NOLOCK) ON(tblj.ClientId = tblc.ClientId)
+LEFT JOIN	tblClientVehicle tblcv  WITH(NOLOCK) ON(tblj.VehicleId = tblcv.VehicleId)
+LEFT JOIN	tblVehicleMake vm ON(tblcv.VehicleMfr = vm.MakeId)
+LEFT JOIN	tblVehicleModel vmo ON(tblcv.VehicleModel = vmo.ModelId) and vm.MakeId = vmo.MakeId
+LEFT JOIN	GetTable('VehicleColor') vc ON(tblcv.VehicleColor = vc.valueid)
+INNER JOIN	tblJobItem tblji  WITH(NOLOCK) ON(tblji.JobId = tblj.JobId)
+INNER JOIN	tblService tbls  WITH(NOLOCK) ON(tblji.ServiceId = tbls.ServiceId)
+INNER JOIN GetTable('ServiceType') st ON(tbls.ServiceType = st.valueid)
+LEFT JOIN    tblClientVehicleMembershipDetails tblcvmd  WITH(NOLOCK) ON tblcv.VehicleId = tblcvmd.ClientVehicleId AND  ISNULL(tblcvmd.IsActive,1) = 1 AND ISNULL(tblcvmd.IsDeleted,0) = 0
+LEFT JOIN	tblMembership tblm  WITH(NOLOCK) ON(tblm.MembershipId = tblcvmd.MembershipId) AND ISNULL(tblm.IsActive, 1) = 1 AND ISNULL(tblm.IsDeleted,0)=0
+LEFT JOIN	tblJobPayment tbljp  WITH(NOLOCK) ON tblj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
+LEFT JOIN	GetTable('PaymentStatus') ps ON(tbljp.PaymentStatus = ps.valueid)
+LEFT JOIN    #PaymentNeedToDone pntd ON(tblj.JobId = pntd.JobId)
+WHERE tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail') AND st.valuedesc IN('Wash Package','Detail Package','Additional Services')
+AND ISNULL(tblj.CheckOut,0)=0 
+AND ISNULL(tblji.IsDeleted,0) = 0 
+AND ISNULL(tblcvmd.IsDeleted,0) = 0
 END
 
 IF (@Query IS Not NULL AND @Query != '') OR (@StartDate IS NOT NULL AND @EndDate IS NOT NULL)
 BEGIN
-select count(1) as Count from #GetAllServices
+select distinct count(1) as Count 
+FROM 	#Jobs tblj WITH(NOLOCK)
+INNER JOIN	GetTable('JobType') jt ON(tblj.JobType = jt.valueid)
+LEFT JOIN	GetTable('JobStatus') js ON(tblj.JobStatus = js.valueid)
+LEFT JOIN	tblClient tblc  WITH(NOLOCK) ON(tblj.ClientId = tblc.ClientId)
+LEFT JOIN	tblClientVehicle tblcv  WITH(NOLOCK) ON(tblj.VehicleId = tblcv.VehicleId)
+LEFT JOIN	tblVehicleMake vm ON(tblcv.VehicleMfr = vm.MakeId)
+LEFT JOIN	tblVehicleModel vmo ON(tblcv.VehicleModel = vmo.ModelId) and vm.MakeId = vmo.MakeId
+LEFT JOIN	GetTable('VehicleColor') vc ON(tblcv.VehicleColor = vc.valueid)
+INNER JOIN	tblJobItem tblji  WITH(NOLOCK) ON(tblji.JobId = tblj.JobId)
+INNER JOIN	tblService tbls  WITH(NOLOCK) ON(tblji.ServiceId = tbls.ServiceId)
+INNER JOIN GetTable('ServiceType') st ON(tbls.ServiceType = st.valueid)
+LEFT JOIN    tblClientVehicleMembershipDetails tblcvmd  WITH(NOLOCK) ON tblcv.VehicleId = tblcvmd.ClientVehicleId AND  ISNULL(tblcvmd.IsActive,1) = 1 AND ISNULL(tblcvmd.IsDeleted,0) = 0
+LEFT JOIN	tblMembership tblm  WITH(NOLOCK) ON(tblm.MembershipId = tblcvmd.MembershipId) AND ISNULL(tblm.IsActive, 1) = 1 AND ISNULL(tblm.IsDeleted,0)=0
+LEFT JOIN	tblJobPayment tbljp  WITH(NOLOCK) ON tblj.JobPaymentId = tbljp.JobPaymentId AND tbljp.IsProcessed=1 AND ISNULL(tbljp.IsRollBack,0)=0 AND tbljp.IsActive = 1 AND ISNULL(tbljp.IsDeleted,0)=0 
+LEFT JOIN	GetTable('PaymentStatus') ps ON(tbljp.PaymentStatus = ps.valueid)
+LEFT JOIN    #PaymentNeedToDone pntd ON(tblj.JobId = pntd.JobId)
+WHERE tblj.TicketNumber != '' and	jt.valuedesc IN('Wash','Detail') AND st.valuedesc IN('Wash Package','Detail Package','Additional Services')
+AND ISNULL(tblj.CheckOut,0)=0 
+AND ISNULL(tblji.IsDeleted,0) = 0 
+AND ISNULL(tblcvmd.IsDeleted,0) = 0 and
+(
+@Query is null OR	tblj.TicketNumber like '%'+@Query+'%'
+OR tblj.TimeIn like '%'+@Query+'%'
+OR tblj.EstimatedTimeOut like '%'+@Query+'%'
+OR tblm.MembershipName like '%'+@Query+'%'
+OR ps.valuedesc like '%'+@Query+'%'
+OR tblc.FirstName like '%' +@Query+'%'
+OR tblc.LastName like '%' +@Query+'%'
+OR vm.MakeValue like '%' +@Query+'%'
+OR vmo.ModelValue like '%' +@Query+'%'
+OR vc.valuedesc like '%' +@Query+'%' 
+OR tbls.ServiceName  like '%' +@Query+'%'
+)OR CONCAT_WS(' ',tblc.FirstName,tblc.LastName) like '%'+@Query+'%'
 END
 
 END

@@ -1,4 +1,9 @@
-﻿--[uspGetCustomerHistory]1,'2021-01-01','2021-12-31',null,1,10,'asc','FirstName'
+﻿-------------history-----------------
+-- =============================================
+-- 1  shalini 2021-06-01  -added order by desc jobdate
+
+-- =============================================
+--[uspGetCustomerHistory]1,'2021-01-01','2021-12-31',null,1,10,'asc','FirstName'
 CREATE Procedure [StriveCarSalon].[uspGetCustomerHistory]
 @locationId int,
 @fromDate date null,
@@ -91,7 +96,7 @@ and
   (@Query is null or tblm.MembershipName  like '%'+@Query+'%') OR
   (@Query is null or tblcv.Barcode  like '%'+@Query+'%') OR
   (@Query is null or tbls.ServiceName  like '%'+@Query+'%'))
-ORDER BY js.valuedesc 
+ORDER BY  tblj.Jobdate desc
 
 SELECT 
 	  JobId

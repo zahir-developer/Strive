@@ -1,6 +1,4 @@
-﻿
-
--- =============================================
+﻿-- =============================================
 -- Author:		Vineeth B
 -- Create date: 31-08-2020
 -- Description:	To get Detail against id
@@ -21,10 +19,10 @@
 -- 23-09-2020, Vineeth - Added cost property in JobItem
 -- 28-09-2020, Zahir - Added JobStatus property
 --------------------------------------------------------
--- EXEC [StriveCarSalon].[uspGetDetailJobById] 205955
+-- EXEC [StriveCarSalon].[uspGetDetailJobById] 207321
 -- =====================================================
 
-CREATE   PROC [StriveCarSalon].[uspGetDetailJobById] 
+CREATE PROCEDURE [StriveCarSalon].[uspGetDetailJobById] 
 (@JobId int)
 AS
 BEGIN
@@ -87,7 +85,9 @@ s.ServiceType as ServiceTypeId,
 ISNULL(ct.valuedesc,'') CommissionType,
 ISNULL(s.CommissionCost,0.00) CommissionCost,
 s.ServiceName,
-s.Cost
+--s.Cost,
+tblji.Price,
+tblji.Price as Cost
 from tblJobItem tblji with(nolock)
 INNER JOIN tblService s ON s.ServiceId = tblji.ServiceId
 LEFT JOIN GetTable('CommisionType') ct on ct.valueid = s.CommisionType
@@ -101,7 +101,8 @@ tbljse.JobServiceEmployeeId,
 tbljse.JobItemId,
 tbljse.ServiceId,
 tbls.ServiceName,
-tbls.Cost,
+--tbls.Cost,
+tblji.price as Cost,
 tbljse.EmployeeId,
 ISNULL(tbljse.CommissionAmount,'0.00')CommissionAmount,
 CONCAT(tble.FirstName,' ',tble.LastName) AS EmployeeName

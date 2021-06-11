@@ -477,6 +477,12 @@
     <Build Include="Security\StriveSuperAdminTest_1.sql" />
     <Build Include="Security\StriveCarSalonTest.sql" />
     <None Include="Scripts\Data\RolePermission\RolePermissionCustomer.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspUpdateQuantity.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetVendorByProductId.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetTicketsByPaymentId.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetMembershipDiscount.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetCreditCardTips.sql" />
+    <Build Include="StriveCarSalon\Stored Procedures\uspGetClientList.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare1.scmp" />
