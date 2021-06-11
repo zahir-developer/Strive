@@ -90,7 +90,8 @@ export class ProductSetupListComponent implements OnInit {
   // Get All Product
   getAllproductSetupDetails() {
     const obj = {
-      productSearch: this.search
+      productSearch: this.search,    
+      status: this.searchStatus === '' ? null : this.searchStatus
     };
     this.isLoading = true;
     this.productService.getProduct(obj).subscribe(data => {
