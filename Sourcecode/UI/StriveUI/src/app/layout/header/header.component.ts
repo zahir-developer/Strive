@@ -73,9 +73,10 @@ export class HeaderComponent implements OnInit {
       }
     });
 
-    this.getWeatherDetails();
-    this.getUnReadMessage();
-
+    if (localStorage.getItem('IsAuthenticated').toString() === 'true') {
+      this.getWeatherDetails();
+      this.getUnReadMessage();
+    }
   }
   // Get WeatherDetails
   getWeatherDetails = () => {
