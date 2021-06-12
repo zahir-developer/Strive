@@ -63,6 +63,16 @@ namespace Greeter
                 TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f)
             };
             UINavigationBar.Appearance.SetTitleTextAttributes(titleAttribute);
+
+            var barButtonTitleTextAttribute = new UITextAttributes
+            {
+                Font = UIFont.SystemFontOfSize(17),
+                TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f)
+            };
+
+            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Normal);
+            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Highlighted);
+            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Focused);
         }
     }
 }
