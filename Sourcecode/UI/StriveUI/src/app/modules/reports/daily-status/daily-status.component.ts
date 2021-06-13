@@ -318,21 +318,33 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         let employeeExportDetail: any = [];
 
         if (this.clockDetail.length > 0) {
+          const count = Math.max(...this.clockDetail?.map(val => val.count));
           for (let i = 0; i < this.clockDetail.length; i++) {
             debugger;
             employeeExportDetail.push({
-              'Employee Name': this.clockDetail[i].EmployeeName,
-              'Wash Hours': this.clockDetail[i].WashHours,
-              'Detail Hours': this.clockDetail[i].DetailHours,
-              'Total Hours': this.clockDetail[i].WashHours + this.clockDetail[i].DetailHours,
-              'In': this.clockDetail[i].TimeIn1 ? this.clockDetail[i].TimeIn1 : '',
-              'Out': this.clockDetail[i].TimeOut1 ? this.clockDetail[i].TimeOut1 : '',
-              'Role': this.clockDetail[i].RoleName1,
+             
+                            'Employee Name': this.clockDetail[i].EmployeeName,
+                            'Wash Hours': this.clockDetail[i].WashHours,
+                            'Detail Hours': this.clockDetail[i].DetailHours,
+                            'Total Hours': this.clockDetail[i].WashHours + this.clockDetail[i].DetailHours,
+                            // 'In': this.clockDetail[i].TimeIn1 ? this.clockDetail[i].TimeIn1 : '',
+                            // 'Out': this.clockDetail[i].TimeOut1 ? this.clockDetail[i].TimeOut1 : '',
+                            // 'Role': this.clockDetail[i].RoleName1,              
+                          });
+                          
+            // var detail ="";
+            for (let j = 1; j <= count; j++) {
+            const TimeIn = 'TimeIn' + j;
+            const TimeOut = 'TimeOut' + j;
+            const RoleName = 'RoleName' + j;
+            
+            employeeExportDetail[i][TimeIn] = this.clockDetail[i][TimeIn]!= undefined  ? this.clockDetail[i][TimeIn] : '', 
 
+            employeeExportDetail[i][TimeOut] = this.clockDetail[i][TimeOut] != undefined ? this.clockDetail[i][TimeOut] : '',
+            employeeExportDetail[i][RoleName]= this.clockDetail[i][RoleName] != undefined ? this.clockDetail[i][RoleName] : '' ,
 
-            })
             console.log(employeeExportDetail, 'export')
-          }
+          }}
         }
 
 
