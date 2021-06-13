@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CoreGraphics;
 using UIKit;
 
 namespace Greeter.Extensions
@@ -23,7 +23,14 @@ namespace Greeter.Extensions
         {
             view.Layer.CornerRadius = 5;
             view.Layer.ShadowColor = UIColor.Gray.CGColor;
-            view.Layer.ShadowOffset = new CoreGraphics.CGSize(width: 0, height: 1);
+            view.Layer.ShadowOffset = new CGSize(width: 0, height: 1);
+            view.Layer.ShadowOpacity = 0.2f;
+        }
+
+        public static void AddHearderViewShadow(this UIView view)
+        {
+            view.Layer.ShadowColor = UIColor.Gray.CGColor;
+            view.Layer.ShadowOffset = new CGSize(0f, 3f);
             view.Layer.ShadowOpacity = 0.2f;
         }
     }

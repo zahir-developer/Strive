@@ -16,11 +16,10 @@ namespace Greeter.Storyboards
             "Main Street 2",
             "Main Street 3"
         };
+        string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
 
         public ServiceType ServiceType;
         ChoiceType choiceType;
-
-        string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
 
         //Views
         UIPickerView pv = new UIPickerView();
@@ -127,9 +126,10 @@ namespace Greeter.Storyboards
         void Initialise()
         {
             NavigationController.NavigationBar.Hidden = false;
-
             Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];
 
+
+            string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
             DateTime dt = GetCurrentDate();
             lblDate.Text = dt.ToString(Constants.DATE_FORMAT);
             lblTime.Text = dt.ToString(Constants.TIME_FORMAT);
@@ -243,7 +243,6 @@ namespace Greeter.Storyboards
         void NavigateToVerifyScreen()
         {
             UIViewController vc = GetViewController(GetHomeStorybpard(), nameof(VerifyVehicleInfoViewController));
-
             NavigateToWithAnim(vc);
         }
 
@@ -289,5 +288,4 @@ namespace Greeter.Storyboards
         Washpackage,
         DetailPackage
     }
-
 }

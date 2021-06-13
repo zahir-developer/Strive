@@ -35,13 +35,9 @@ namespace NewSingleViewTemplate
                 //var viewController = new LastVisitViewController();
 
                 var nc = new UINavigationController();
-
                 var vcs = new UIViewController[] { viewController };
-
                 nc.ViewControllers = vcs;
-
                 Window.RootViewController = nc;
-
                 Window.MakeKeyAndVisible();
             }
         }
