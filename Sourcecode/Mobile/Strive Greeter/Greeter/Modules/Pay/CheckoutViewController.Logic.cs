@@ -16,6 +16,23 @@ namespace Greeter.Modules.Pay
                 new Checkout(),
                 new Checkout(),
                 new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
+                new Checkout(),
                 new Checkout()
             };
         }

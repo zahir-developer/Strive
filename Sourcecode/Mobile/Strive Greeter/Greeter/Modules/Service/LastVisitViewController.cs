@@ -39,6 +39,7 @@ namespace Greeter.Modules.Service
 
         void SetupView()
         {
+            NavigationController.NavigationBar.Hidden = false;
             Title = "Last Service Visit";
 
             var backgroundImage = new UIImageView(UIImage.FromBundle(ImageNames.SPLASH_BG));

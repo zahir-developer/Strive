@@ -35,6 +35,16 @@ namespace Greeter
             Initialise();
 
             //Clicks
+            tfLocation.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            btnDropdown.TouchUpInside += delegate
+            {
+                tfLocation.BecomeFirstResponder();
+            };
+
             btnNext.TouchUpInside += delegate
             {
                 NavigateToTabsScreen();

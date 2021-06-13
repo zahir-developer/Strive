@@ -28,6 +28,7 @@
     public class ImageNames
     {
         internal const string SPLASH_BG = "splash_bg";
+        internal const string CHECKOUT = "checkout";
     }
 
     public class Messages
