@@ -239,8 +239,13 @@
         <Compile Include="Modules\Pay\CheckoutViewController.Logic.cs">
              <DependentUpon>Modules\Pay\CheckoutViewController.cs</DependentUpon>
         </Compile>
+        <Compile Include="Modules\Pay\PaymentViewController.cs" />
+        <Compile Include="Modules\Pay\PaymentViewController.Logic.cs">
+            <DependentUpon>Modules\Pay\PaymentViewController.cs</DependentUpon>
+        </Compile>
         <Compile Include="Modules\Pay\CheckoutStatus.cs" />
         <Compile Include="DTOs\Checkout.cs" />
+        
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

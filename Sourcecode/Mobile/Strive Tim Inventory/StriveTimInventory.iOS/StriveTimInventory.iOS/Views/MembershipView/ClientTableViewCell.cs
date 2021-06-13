@@ -46,7 +46,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
             }
         }
 
-        public void SetClientDetail(ClientInfo item)
+        public void SetClientDetail(ClientViewModel item)
         {
             ItemTitle.Text = item.FirstName + " " + item.LastName;
             ItemIcon.Image = UIImage.FromBundle("member-inactive");
@@ -87,6 +87,24 @@ namespace StriveTimInventory.iOS.Views.MembershipView
                 {
                     cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                     cell.UserInteractionEnabled = false;
+                }
+            }
+            else
+            {
+                var SelectedMembership = MembershipData.MembershipServiceList.Membership.Where(m => m.MembershipId == MembershipData.SelectedMembership.MembershipId).FirstOrDefault();
+                if (SelectedMembership != null)
+                {
+                    string[] selectedServices = SelectedMembership.Services.Split(",");
+
+                    foreach(var itm in selectedServices)
+                    {
+                        string service = item.ServiceName.Replace(" ", "");
+                        if(service.Equals(itm))
+                        {
+                            cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                            cell.UserInteractionEnabled = true;
+                        }
+                    }                   
                 }
             }
 
