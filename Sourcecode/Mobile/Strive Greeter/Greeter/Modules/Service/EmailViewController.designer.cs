@@ -32,19 +32,14 @@ namespace Greeter.Storyboards
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnEmpSent != null) {
-				btnEmpSent.Dispose ();
-				btnEmpSent = null;
-			}
-
-			if (btnPrint != null) {
-				btnPrint.Dispose ();
-				btnPrint = null;
-			}
-
 			if (btnCustomerSend != null) {
 				btnCustomerSend.Dispose ();
 				btnCustomerSend = null;
+			}
+
+			if (btnEmpSent != null) {
+				btnEmpSent.Dispose ();
+				btnEmpSent = null;
 			}
 
 			if (btnPay != null) {
@@ -52,14 +47,19 @@ namespace Greeter.Storyboards
 				btnPay = null;
 			}
 
-			if (tfCust != null) {
-				tfCust.Dispose ();
-				tfCust = null;
+			if (btnPrint != null) {
+				btnPrint.Dispose ();
+				btnPrint = null;
 			}
 
 			if (tfEmp != null) {
 				tfEmp.Dispose ();
 				tfEmp = null;
+			}
+
+			if (tfCust != null) {
+				tfCust.Dispose ();
+				tfCust = null;
 			}
 		}
 	}

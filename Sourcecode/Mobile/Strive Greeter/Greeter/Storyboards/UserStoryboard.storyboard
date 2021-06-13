@@ -11,13 +11,12 @@
         <!--Navigation Controller-->
         <scene sceneID="pOa-fC-tEJ">
             <objects>
-                <navigationController id="kJs-Is-JPw" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="kJs-Is-JPw" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Y0P-u5-CGh">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="fRY-gQ-j5g" kind="relationship" relationship="rootViewController" id="BB4-jq-ZU2"/>
+                        <segue destination="fRY-gQ-j5g" kind="relationship" relationship="rootViewController" id="yhE-ry-C1A"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lwq-Vt-IGE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -27,7 +26,7 @@
         <!--Login View Controller-->
         <scene sceneID="yxw-D7-Ah9">
             <objects>
-                <viewController id="fRY-gQ-j5g" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="fRY-gQ-j5g" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zxM-f8-3ib"/>
                         <viewControllerLayoutGuide type="bottom" id="0tC-UL-vWV"/>
@@ -51,7 +50,7 @@
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oN3-qu-vpW">
                                         <rect key="frame" x="0.0" y="271" width="325" height="48"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kc4-Lg-dv7">
@@ -59,7 +58,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="0BQ-84-ZZs"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXq-BS-Xbr">
@@ -68,7 +67,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="p4a-I1-3Cz"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <state key="normal" title="LOGIN">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -155,7 +154,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="xvb-8G-sPG"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tgs-Nd-XrQ">
@@ -171,7 +170,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="bvr-pu-q0J"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <state key="normal" title="NEXT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>

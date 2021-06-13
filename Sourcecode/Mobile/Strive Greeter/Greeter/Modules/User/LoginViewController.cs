@@ -18,12 +18,7 @@ namespace Greeter
         {
             base.ViewDidLoad();
 
-            // Initial UI Customisation
-            tfUserId.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            tfUserId.AddRightPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-
-            tfPswd.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            tfPswd.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            Initialise();
 
             //Clicks
             btnLogin.TouchUpInside += delegate
@@ -35,6 +30,18 @@ namespace Greeter
             {
                 ChaangeEye(isEyeOpen);
             };
+        }
+
+        void Initialise()
+        {
+            NavigationController.NavigationBar.Hidden = true;
+
+            // Initial UI Customisation
+            tfUserId.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfUserId.AddRightPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+
+            tfPswd.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfPswd.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
         }
 
         void ChaangeEye(bool isOpen)

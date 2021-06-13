@@ -20,6 +20,8 @@ namespace Greeter.Storyboards
         public ServiceType ServiceType;
         ChoiceType choiceType;
 
+        string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
+
         //Views
         UIPickerView pv = new UIPickerView();
 
@@ -31,17 +33,103 @@ namespace Greeter.Storyboards
         {
             base.ViewDidLoad();
 
-            Init();
+            Initialise();
 
             //Clicks
             btnNext.TouchUpInside += delegate
             {
                 NavigateToVerifyScreen();
             };
+
+            //Choice type change
+            tfType.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.Type;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfMake.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.Make;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfColor.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.Color;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfBarcode.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.Barcode;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfWashPkg.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.Washpackage;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfDetailPkg.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.DetailPackage;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfUpcharge.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.Upcharge;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfAdditionalService.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.AdditionalService;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
+
+            tfAirFreshner.EditingDidBegin += delegate
+            {
+                choiceType = ChoiceType.AirFreshner;
+                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+                //int pos = cities.IndexOf(cityTextField.Text);
+                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            };
         }
 
-        void Init()
+        void Initialise()
         {
+            NavigationController.NavigationBar.Hidden = false;
+
+            Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];
+
             DateTime dt = GetCurrentDate();
             lblDate.Text = dt.ToString(Constants.DATE_FORMAT);
             lblTime.Text = dt.ToString(Constants.TIME_FORMAT);
@@ -91,6 +179,11 @@ namespace Greeter.Storyboards
             pv.Delegate = this;
         }
 
+        //public override void ViewDidDisappear(bool animated)
+        //{
+        //    base.ViewDidDisappear(animated);
+        //}
+
         DateTime GetCurrentDate()
         {
             return DateTime.Now;
@@ -137,10 +230,12 @@ namespace Greeter.Storyboards
             switch (type)
             {
                 case ServiceType.Wash:
-                    tfDetailPkg.Frame = new CoreGraphics.CGRect(0, 0, 0, 0);
+                    tfdetailHeight.Constant = 0;
+                    tfdetailTop.Constant = 0;
                     break;
                 case ServiceType.Detail:
-                    tfWashPkg.Frame = new CoreGraphics.CGRect(0, 0, 0, 0);
+                    tfwashHeight.Constant = 0;
+                    tfwashTop.Constant = 0;
                     break;
             }
         }

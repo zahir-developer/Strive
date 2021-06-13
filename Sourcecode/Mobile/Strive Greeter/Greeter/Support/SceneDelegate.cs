@@ -1,6 +1,6 @@
 using Foundation;
-using Greeter.Modules.Login;
-using Greeter.Modules.Service;
+using Greeter;
+using Greeter.Common;
 using Greeter.Services.Authentication;
 using Greeter.Services.Network;
 using UIKit;
@@ -28,11 +28,20 @@ namespace NewSingleViewTemplate
                 INetworkService networkService = new NetworkService();
                 IAuthenticationService authenticationService = new AuthenticationService(networkService);
 
-                //var viewController = new LoginViewController(authenticationService);
+                var sb = UIStoryboard.FromName(StoryBoardNames.USER, null);
 
-                var viewController = new LastVisitViewController();
+                var viewController = sb.InstantiateViewController(nameof(LoginViewController));
 
-                Window.RootViewController = viewController;
+                //var viewController = new LastVisitViewController();
+
+                var nc = new UINavigationController();
+
+                var vcs = new UIViewController[] { viewController };
+
+                nc.ViewControllers = vcs;
+
+                Window.RootViewController = nc;
+
                 Window.MakeKeyAndVisible();
             }
         }

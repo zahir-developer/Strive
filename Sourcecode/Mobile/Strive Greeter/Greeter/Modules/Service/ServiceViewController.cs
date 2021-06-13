@@ -3,6 +3,7 @@
 using System;
 using Greeter.Common;
 using Greeter.Extensions;
+using Greeter.Modules.Service;
 using Greeter.Storyboards;
 using UIKit;
 
@@ -35,10 +36,10 @@ namespace Greeter
             txtFieldBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
             //Clicks
-            btnBack.TouchUpInside += delegate
-            {
-                GoBackWithAnimation();
-            };
+            //btnBack.TouchUpInside += delegate
+            //{
+            //    GoBackWithAnimation();
+            //};
 
             btnWash.TouchUpInside += delegate
             {
@@ -99,9 +100,7 @@ namespace Greeter
 
         void NavigateToLastService()
         {
-            ShowAlertMsg(lblLastService.Text);
-
-            // TODO : 
+            NavigateToWithAnim(new LastVisitViewController());
         }
 
         void NavigateToIssue()
