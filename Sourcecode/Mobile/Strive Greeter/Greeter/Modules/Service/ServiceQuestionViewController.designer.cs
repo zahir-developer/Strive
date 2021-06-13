@@ -37,7 +37,13 @@ namespace Greeter.Storyboards
 		UIKit.UITextField tfColor { get; set; }
 
 		[Outlet]
+		UIKit.NSLayoutConstraint tfdetailHeight { get; set; }
+
+		[Outlet]
 		UIKit.UITextField tfDetailPkg { get; set; }
+
+		[Outlet]
+		UIKit.NSLayoutConstraint tfdetailTop { get; set; }
 
 		[Outlet]
 		UIKit.UITextField tfMake { get; set; }
@@ -49,10 +55,26 @@ namespace Greeter.Storyboards
 		UIKit.UITextField tfUpcharge { get; set; }
 
 		[Outlet]
+		UIKit.NSLayoutConstraint tfwashHeight { get; set; }
+
+		[Outlet]
 		UIKit.UITextField tfWashPkg { get; set; }
+
+		[Outlet]
+		UIKit.NSLayoutConstraint tfwashTop { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnCancel != null) {
+				btnCancel.Dispose ();
+				btnCancel = null;
+			}
+
+			if (btnNext != null) {
+				btnNext.Dispose ();
+				btnNext = null;
+			}
+
 			if (lblDate != null) {
 				lblDate.Dispose ();
 				lblDate = null;
@@ -61,41 +83,6 @@ namespace Greeter.Storyboards
 			if (lblTime != null) {
 				lblTime.Dispose ();
 				lblTime = null;
-			}
-
-			if (tfType != null) {
-				tfType.Dispose ();
-				tfType = null;
-			}
-
-			if (tfMake != null) {
-				tfMake.Dispose ();
-				tfMake = null;
-			}
-
-			if (tfColor != null) {
-				tfColor.Dispose ();
-				tfColor = null;
-			}
-
-			if (tfBarcode != null) {
-				tfBarcode.Dispose ();
-				tfBarcode = null;
-			}
-
-			if (tfWashPkg != null) {
-				tfWashPkg.Dispose ();
-				tfWashPkg = null;
-			}
-
-			if (tfDetailPkg != null) {
-				tfDetailPkg.Dispose ();
-				tfDetailPkg = null;
-			}
-
-			if (tfUpcharge != null) {
-				tfUpcharge.Dispose ();
-				tfUpcharge = null;
 			}
 
 			if (tfAdditionalService != null) {
@@ -108,14 +95,59 @@ namespace Greeter.Storyboards
 				tfAirFreshner = null;
 			}
 
-			if (btnCancel != null) {
-				btnCancel.Dispose ();
-				btnCancel = null;
+			if (tfBarcode != null) {
+				tfBarcode.Dispose ();
+				tfBarcode = null;
 			}
 
-			if (btnNext != null) {
-				btnNext.Dispose ();
-				btnNext = null;
+			if (tfColor != null) {
+				tfColor.Dispose ();
+				tfColor = null;
+			}
+
+			if (tfDetailPkg != null) {
+				tfDetailPkg.Dispose ();
+				tfDetailPkg = null;
+			}
+
+			if (tfMake != null) {
+				tfMake.Dispose ();
+				tfMake = null;
+			}
+
+			if (tfType != null) {
+				tfType.Dispose ();
+				tfType = null;
+			}
+
+			if (tfUpcharge != null) {
+				tfUpcharge.Dispose ();
+				tfUpcharge = null;
+			}
+
+			if (tfWashPkg != null) {
+				tfWashPkg.Dispose ();
+				tfWashPkg = null;
+			}
+
+			if (tfwashHeight != null) {
+				tfwashHeight.Dispose ();
+				tfwashHeight = null;
+			}
+
+			if (tfdetailHeight != null) {
+				tfdetailHeight.Dispose ();
+				tfdetailHeight = null;
+			}
+
+			if (tfdetailTop != null) {
+				tfdetailTop.Dispose ();
+				tfdetailTop = null;
+			}
+
+			if (tfwashTop != null) {
+				tfwashTop.Dispose ();
+				tfwashTop = null;
 			}
 		}
 	}

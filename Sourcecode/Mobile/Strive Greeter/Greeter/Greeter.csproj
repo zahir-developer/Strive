@@ -130,6 +130,15 @@
         <ImageAsset Include="Resources\Colors.xcassets\Contents.json" />
         <ImageAsset Include="Resources\Colors.xcassets\app_color.colorset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\AppIcon.appiconset\Contents.json" />
+        <ImageAsset Include="Resources\Colors.xcassets\app_secondary_color.colorset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Contents.json" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -221,6 +230,10 @@
         <Compile Include="Modules\Service\VerifyVehicleInfoViewController.cs" />
         <Compile Include="Modules\Service\VerifyVehicleInfoViewController.designer.cs">
           <DependentUpon>VerifyVehicleInfoViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Storyboards\PaymentSucessViewController.cs" />
+        <Compile Include="Storyboards\PaymentSucessViewController.designer.cs">
+          <DependentUpon>PaymentSucessViewController.cs</DependentUpon>
         </Compile>
         <Compile Include="Modules\Pay\CheckoutViewController.cs" />
         <Compile Include="Modules\Pay\CheckoutViewController.Logic.cs">

@@ -11,13 +11,14 @@ namespace Greeter
     public partial class LocationViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
     {
         // Data
+        const string SCREEN_TITLE = "Location";
+        const string PICKER_TOOLBAR_TITLE = SCREEN_TITLE;
+
         public string[] locs = new string[] {
             "Main Street 1",
             "Main Street 2",
             "Main Street 3"
         };
-
-        const string PICKER_TOOLBAR_TITLE = "Location";
 
         // Views
         UIPickerView pvLoc = new UIPickerView();
@@ -30,22 +31,29 @@ namespace Greeter
         {
             base.ViewDidLoad();
 
-            // Initial UI Settings
-            tfLocation.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            tfLocation.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
-            AddPickerToolbar(tfLocation, PICKER_TOOLBAR_TITLE, PickerDone);
-
-            tfLocation.InputView = pvLoc;
-
-            pvLoc.DataSource = this;
-
-            pvLoc.Delegate = this;
+            // Initial UI
+            Initialise();
 
             //Clicks
             btnNext.TouchUpInside += delegate
             {
                 NavigateToTabsScreen();
             };
+        }
+
+        void Initialise()
+        {
+            NavigationItem.HidesBackButton = true;
+
+            Title = SCREEN_TITLE;
+
+            tfLocation.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfLocation.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            AddPickerToolbar(tfLocation, PICKER_TOOLBAR_TITLE, PickerDone);
+
+            tfLocation.InputView = pvLoc;
+            pvLoc.DataSource = this;
+            pvLoc.Delegate = this;
         }
 
         void PickerDone()
@@ -58,7 +66,9 @@ namespace Greeter
         {
             UIViewController vcTabs = GetViewController(GetHomeStorybpard(), nameof(TabViewController));
 
-            NavigateToWithAnim(vcTabs);
+            NavigationController.ViewControllers = new UIViewController[] { vcTabs };
+
+            //NavigateToWithAnim(vcTabs);
         }
 
         public nint GetComponentCount(UIPickerView pickerView)

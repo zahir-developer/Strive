@@ -22,7 +22,7 @@ namespace Greeter.Extensions
         public static void MakecardView(this UIView view)
         {
             view.Layer.CornerRadius = 5;
-            view.Layer.ShadowColor = UIColor.Gray.CGColor;
+            view.Layer.ShadowColor = UIColor.LightGray.CGColor;
             view.Layer.ShadowOffset = new CoreGraphics.CGSize(width: 0, height: 0);
             view.Layer.ShadowRadius = 6;
             view.Layer.ShadowOpacity = 0.3f;
