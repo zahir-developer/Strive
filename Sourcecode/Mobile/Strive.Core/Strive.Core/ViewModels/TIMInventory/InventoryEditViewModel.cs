@@ -42,7 +42,11 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 SetProductCommand(EditInventoryItem.Product);
                 ItemLocation = EditInventoryItem.Product.LocationName;
-                ItemType = EditInventoryItem.Product.ProductTypeName;               
+                ItemType = EditInventoryItem.Product.ProductTypeName;
+                if(EditInventoryItem.Product.Base64 != null)
+                {
+                    Base64String = EditInventoryItem.Product.Base64;
+                }
             }           
             RaiseAllPropertiesChanged();
         }
@@ -412,6 +416,12 @@ namespace Strive.Core.ViewModels.TIMInventory
             if (ValidateCommand() == false)
             {
                 return;
+            }
+
+            if(Filename == null)
+            {
+                System.Random random = new System.Random();
+                Filename = "Image" + random.Next().ToString() + ".png";
             }
             var updateProduct = PrepareUpdateProduct();
             var response = await AdminService.UpdateProduct(updateProduct);

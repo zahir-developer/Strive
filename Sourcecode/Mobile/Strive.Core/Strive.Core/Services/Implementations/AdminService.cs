@@ -151,9 +151,9 @@ namespace Strive.Core.Services.Implementations
             var result = await _restClient.MakeApiCall<PostResponse>(url, HttpMethod.Post);
             return result;
         }
-        public async Task<Clients> GetAllClient()
+        public async Task<ClientResponse> GetAllClient(ClientRequest clientRequest)
         {
-            return await _restClient.MakeApiCall<Clients>(ApiUtils.URL_GET_ALL_CLIENT, HttpMethod.Get);
+            return await _restClient.MakeApiCall<ClientResponse>(ApiUtils.URL_GET_ALL_CLIENT, HttpMethod.Post, clientRequest);
         }
 
         public async Task<ProductsSearch> SearchProduct(string productName)
