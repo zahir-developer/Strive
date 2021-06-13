@@ -49,6 +49,14 @@ namespace StriveTimInventory.iOS.Views
             pickerView2.ShowSelectionIndicator = true;
             ItemType.InputView = pickerView2;
 
+            if(ViewModel.Base64String != null)
+            {
+                var imageBytes = Convert.FromBase64String(ViewModel.Base64String);
+                var imageData = NSData.FromArray(imageBytes);
+                var uiImage = UIImage.LoadFromData(imageData);
+                ItemImage.Image = uiImage;
+            }
+
             var set = this.CreateBindingSet<InventoryEditView, InventoryEditViewModel>();
             set.Bind(BackButton).To(vm => vm.Commands["NavigateBack"]);
             set.Bind(EditImageButton).To(vm => vm.Commands["NavigateUploadImage"]);
