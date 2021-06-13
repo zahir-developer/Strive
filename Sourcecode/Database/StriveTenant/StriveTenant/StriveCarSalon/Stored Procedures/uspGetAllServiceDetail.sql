@@ -20,4 +20,5 @@ WHERE ISNULL(tbls.IsDeleted,0)=0 and ISNULL(tbls.IsActive,1)=1
 and (tbls.LocationId =@locationId or @locationId is NULL)
 AND
 tbls.IsActive=1 
+ORDER BY tbls.ServiceName ASC
 END

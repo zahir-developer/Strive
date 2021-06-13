@@ -19,7 +19,7 @@ namespace StriveTimInventory.iOS.Views
     {
         public static IMvxMessenger _mvxMessenger = Mvx.IoCProvider.Resolve<IMvxMessenger>();
         private MvxSubscriptionToken _messageToken;
-
+        public bool isCaptured;
         UIImagePickerController imagePicker;
 
         public InventoryEditView() : base("InventoryEditView", null)
@@ -76,7 +76,7 @@ namespace StriveTimInventory.iOS.Views
             View.AddGestureRecognizer(Tap);
 
             ItemQuantity.KeyboardType = UIKeyboardType.NumberPad;
-            ItemCost.KeyboardType = UIKeyboardType.NumberPad;
+            ItemCost.KeyboardType = UIKeyboardType.NumbersAndPunctuation;
             ItemPrice.KeyboardType = UIKeyboardType.NumberPad;
 
             //ChangeOrientation();
@@ -152,6 +152,7 @@ namespace StriveTimInventory.iOS.Views
         private void CaptureFromCamera()
         {
             imagePicker.SourceType = UIImagePickerControllerSourceType.Camera;
+            isCaptured = true;
             PickImage();
         }
 
@@ -195,9 +196,28 @@ namespace StriveTimInventory.iOS.Views
                     break;
             }
 
-            NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerReferenceUrl")] as NSUrl;
+            NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerImageURL")] as NSUrl;
             if (referenceURL != null)
+            {
                 Console.WriteLine("Url:" + referenceURL.ToString());
+                string[] list = referenceURL.ToString().Split("/");
+                foreach(var item in list)
+                {
+                    if(item.EndsWith(".png") || item.EndsWith(".jpeg"))
+                    {
+                        ViewModel.Filename = item;
+                    }
+                }
+            }
+            else
+            {
+                if (isCaptured)
+                {
+                    System.Random random = new System.Random();
+                         
+                    ViewModel.Filename = "Image" + random.Next().ToString() + ".png"; 
+                }
+            }
 
             if (isImage)
             {

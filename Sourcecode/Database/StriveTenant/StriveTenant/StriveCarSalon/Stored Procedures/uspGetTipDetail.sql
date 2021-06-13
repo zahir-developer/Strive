@@ -1,4 +1,4 @@
-﻿ --[StriveCarSalon].[uspGetTipDetail] 1,'2021-04-02'
+﻿--[StriveCarSalon].[uspGetTipDetail] 1,'2021-04-02'
 CREATE PROCEDURE [StriveCarSalon].[uspGetTipDetail]
 (@locationId INT, @date DATE)
 AS
@@ -18,7 +18,7 @@ into #TotalJobs
 from [tblJob] tblj 
 INNER JOIN GetTable('JobType') jt on(tblj.JobType = jt.valueid) 
 INNER JOIN tblJobPayment jp on tblj.JobId = jp.JobId
-WHERE --tblj.LocationId = @LocationId AND--
+WHERE tblj.LocationId = @LocationId AND
 tblj.JobDate = @date and 
 (jt.valueid = @Wash OR jt.valueid = @Detail)
 

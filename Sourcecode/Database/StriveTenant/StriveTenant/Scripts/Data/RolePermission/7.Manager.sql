@@ -27,18 +27,27 @@ DECLARE @Screen_MonthlyCustomerDetailReportId INT = (SELECT TOP 1 ModuleScreenId
 DECLARE @Screen_HourlyWashreportId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScreen WHERE ViewName = 'HourlyWashreport')
 DECLARE @Screen_DailySalesreportId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScreen WHERE ViewName = 'DailySalesreport')
 
---field
 
+
+--field
 
 DECLARE @Field_StoreLocationId INT = (SELECT TOP 1 FieldId FROM tblField WHERE ViewName = 'DailySalesreport')
 
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_EODReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_DailyStatusScreenId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_DailyTipreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyTipreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlySalesReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyCustomerSummaryReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyMoneyOwedReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyCustomerDetailReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_HourlyWashreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
-Insert into tblRolePermissionDetail (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_DailySalesreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_EODReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_DailyStatusScreenId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_DailyTipreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyTipreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlySalesReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyCustomerSummaryReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyMoneyOwedReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_MonthlyCustomerDetailReportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_HourlyWashreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ReportId, @Screen_DailySalesreportId, @Field_StoreLocationId, @AllPermission, @ManagerRoleId, @IsDeActive, @IsDeleted);
+
+
+DECLARE @Screen_CustomerHistoryId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScreen WHERE ViewName = 'CustomerHistory')
+
+DECLARE @AdminRoleId INT = (SELECT TOP 1 RoleMasterId FROM tblRoleMaster WHERE RoleName = 'Admin')
+
+Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_CustomerHistoryId, @Screen_CustomerHistoryId, NULL, @AllPermission, @AdminRoleId, 1, 0);
+

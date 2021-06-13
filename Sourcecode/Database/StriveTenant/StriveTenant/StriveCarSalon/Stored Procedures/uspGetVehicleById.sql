@@ -1,5 +1,10 @@
-﻿--[StriveCarSalon].[uspGetVehicleById]  49218
-CREATE PROC [StriveCarSalon].[uspGetVehicleById] 
+﻿-------------history-----------------
+-- =============================================
+-- 1  shalini 2021-06-04  -added client Name
+
+-- =============================================
+--[StriveCarSalon].[uspGetVehicleById]  49302
+CREATE PROCEDURE [StriveCarSalon].[uspGetVehicleById] 
 (@VehicleId int)
 AS
 BEGIN
@@ -7,6 +12,7 @@ BEGIN
 SELECT
 	cvl.VehicleId AS ClientVehicleId
 	,cvl.ClientId
+	,Concat (cl.FirstName , ' ', cl.LastName) as ClientName
 	,cvl.VehicleNumber
 	--,cvl.VehicleMfr AS VehicleMakeId
 	--,cvMfr.valuedesc AS VehicleMake
@@ -22,7 +28,7 @@ SELECT
 	,model.ModelId as VehicleModelId
 	,model.ModelValue as ModelName
 FROM tblClientVehicle cvl 
-
+inner join tblClient cl on cvl.ClientId =cl.ClientId
 --INNER JOIN strivecarsalon.GetTable('VehicleManufacturer') cvMfr ON cvl.VehicleMfr = cvMfr.valueid
 --INNER JOIN strivecarsalon.GetTable('VehicleModel') cvMo ON cvl.VehicleModel = cvMo.valueid
 LEFT join tblVehicleMake make on cvl.VehicleMfr=make.MakeId

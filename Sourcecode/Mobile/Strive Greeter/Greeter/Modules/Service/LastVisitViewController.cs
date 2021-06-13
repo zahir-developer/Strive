@@ -392,7 +392,7 @@ namespace Greeter.Modules.Service
             startTimeTitleLabel.CenterYAnchor.ConstraintEqualTo(timeBackgroundView.CenterYAnchor).Active = true;
 
             startTimeLabel.LeadingAnchor.ConstraintEqualTo(startTimeTitleLabel.TrailingAnchor, 5).Active = true;
-            startTimeLabel.TrailingAnchor.ConstraintEqualTo(timeBackgroundView.CenterXAnchor).Active = true;
+            startTimeLabel.TrailingAnchor.ConstraintEqualTo(timeBackgroundView.CenterXAnchor, constant: 20).Active = true;
             startTimeLabel.CenterYAnchor.ConstraintEqualTo(timeBackgroundView.CenterYAnchor).Active = true;
             startTimeLabel.SetContentHuggingPriority(249, UILayoutConstraintAxis.Horizontal);
 

@@ -40,7 +40,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             _userDialog.ShowLoading(Strings.Loading);
             var request = new TimeClockRequest()
             {
-                locationId = 1,
+                locationId = EmployeeData.selectedLocationId,
                 employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
                 roleId = 5,
                 date = DateUtils.GetTodayDateString()

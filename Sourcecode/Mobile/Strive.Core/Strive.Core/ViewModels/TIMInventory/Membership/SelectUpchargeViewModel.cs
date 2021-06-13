@@ -5,13 +5,13 @@ using Strive.Core.Utils;
 using MvvmCross.Plugin.Messenger;
 using Strive.Core.Resources;
 using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Utils.TimInventory;
 
 namespace Strive.Core.ViewModels.TIMInventory.Membership
 {
     public class SelectUpchargeViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-        private int locationId = 1;
 
         public ObservableCollection<string> UpchargesList { get; set; } = new ObservableCollection<string>();
         public AvailableServicesModel serviceDetail = new AvailableServicesModel();
@@ -27,7 +27,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         public async void GetUpchargeList()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            serviceDetail = await AdminService.GetScheduleServices(locationId);
+            serviceDetail = await AdminService.GetScheduleServices(EmployeeData.selectedLocationId);
             
             if(serviceDetail != null)
             {

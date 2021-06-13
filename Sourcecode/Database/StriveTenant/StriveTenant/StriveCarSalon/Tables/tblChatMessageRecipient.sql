@@ -7,9 +7,11 @@
     [SenderId]         INT    NULL,
     CONSTRAINT [PK_tblChatMessageRecipient] PRIMARY KEY CLUSTERED ([ChatRecipientId] ASC),
     CONSTRAINT [FK_tblChatMessageRecipient_ChatMessageId] FOREIGN KEY ([ChatMessageId]) REFERENCES [StriveCarSalon].[tblChatMessage] ([ChatMessageId]),
-    CONSTRAINT [FK_tblChatMessageRecipient_RecipientGroupId] FOREIGN KEY ([RecipientGroupId]) REFERENCES [StriveCarSalon].[tblChatUserGroup] ([ChatGroupUserId]),
+    CONSTRAINT [FK_tblChatMessageRecipient_RecipientGroupId] FOREIGN KEY ([RecipientGroupId]) REFERENCES [StriveCarSalon].[tblChatGroup] ([ChatGroupId]),
     CONSTRAINT [FK_tblChatMessageRecipient_SenderId] FOREIGN KEY ([SenderId]) REFERENCES [StriveCarSalon].[tblEmployee] ([EmployeeId])
 );
+
+
 
 
 

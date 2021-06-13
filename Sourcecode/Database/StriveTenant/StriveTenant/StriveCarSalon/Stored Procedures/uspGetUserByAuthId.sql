@@ -1,6 +1,5 @@
-﻿
---[StriveCarSalon].[uspGetUserByAuthId]2499
-CREATE proc [StriveCarSalon].[uspGetUserByAuthId] 
+﻿--[StriveCarSalon].[uspGetUserByAuthId]2499
+CREATE PROCEDURE [StriveCarSalon].[uspGetUserByAuthId] 
 (@AuthId int)
 as
 begin
@@ -80,7 +79,7 @@ fld.FieldName
 FROM tblEmployee emp 
 left join tblEmployeeRole emprol on emprol.EmployeeId=emp.EmployeeId
 left join tblRoleMaster rolmas on emprol.RoleId=rolmas.RoleMasterId
-left join TblRolePermissiondetail rolper on rolper.RoleId=emprol.RoleId
+left join TblRolePermission rolper on rolper.RoleId=emprol.RoleId
 left join TblModule module on rolper.ModuleId=module.ModuleId
 left join TblModuleScreen modscrn on rolper.ModuleScreenId=modscrn.ModuleScreenId
 left join TblField fld  on rolper.FieldId=fld.FieldId AND fld.IsActive =1

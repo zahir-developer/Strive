@@ -68,6 +68,10 @@ namespace StriveTimInventory.iOS.Views
                 var uiImage = UIImage.LoadFromData(imageData);
                 cell.ItemImage.Image = uiImage;
             }
+            else
+            {
+                cell.ItemImage.Image = UIImage.FromBundle("white-ellipse");
+            }
 
             cell.IncrementButton.TouchUpInside -= IncrementButtonPressed;
             cell.IncrementButton.TouchUpInside += IncrementButtonPressed;

@@ -15,7 +15,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
     public class ExtraServiceViewModel : BaseViewModel
     {
         private MvxSubscriptionToken _messageToken;
-        private int locationId = 1;
+       
         public ObservableCollection<ServiceDetail> TotalServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
 
         public ObservableCollection<ServiceDetail> MembershipServiceList { get; set; } = new ObservableCollection<ServiceDetail>();
@@ -34,7 +34,7 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
         public async void GetAdditionalServices()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var result = await AdminService.GetScheduleServices(locationId);
+            var result = await AdminService.GetScheduleServices(EmployeeData.selectedLocationId);
 
             if(result != null)
             {
@@ -112,20 +112,26 @@ namespace Strive.Core.ViewModels.TIMInventory.Membership
                     isDeleted = false
                 });
             }
-
-            foreach (var service in ExtraServiceList)
+            if(ExtraServiceList.Count == 0)
             {
-                MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
-                {
-                    clientVehicleMembershipServiceId = 0,
-                    clientMembershipId = ClientMembership,
-                    serviceId = service.ServiceId,
-                    serviceTypeId = 0,
-                    isActive = true,
-                    isDeleted = false
-                });
+                _userDialog.AlertAsync("Select a service to proceed further");
             }
-            _navigationService.Navigate<TermsViewModel>();
+            else
+            {
+                foreach (var service in ExtraServiceList)
+                {
+                    MembershipData.ExtraServices.Add(new ClientVehicleMembershipService()
+                    {
+                        clientVehicleMembershipServiceId = 0,
+                        clientMembershipId = ClientMembership,
+                        serviceId = service.ServiceId,
+                        serviceTypeId = 0,
+                        isActive = true,
+                        isDeleted = false
+                    });
+                }
+                _navigationService.Navigate<TermsViewModel>();
+            }           
         }
     }
 }

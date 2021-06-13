@@ -5,6 +5,7 @@
     [Amount]             DECIMAL (16, 2)    NULL,
     [TaxAmount]          DECIMAL (16, 2)    NULL,
     [Signature]          VARCHAR (10)       NULL,
+    [ReferenceNumber]    NVARCHAR (50)      NULL,
     [IsActive]           BIT                NULL,
     [IsDeleted]          BIT                NULL,
     [CreatedBy]          INT                NULL,
@@ -15,5 +16,7 @@
     CONSTRAINT [FK_tblJobPaymentDetail_JobPaymentId] FOREIGN KEY ([JobPaymentId]) REFERENCES [StriveCarSalon].[tblJobPayment] ([JobPaymentId]),
     CONSTRAINT [FK_tblJobPaymentDetail_PaymentType] FOREIGN KEY ([PaymentType]) REFERENCES [StriveCarSalon].[tblCodeValue] ([id])
 );
+
+
 GO
 

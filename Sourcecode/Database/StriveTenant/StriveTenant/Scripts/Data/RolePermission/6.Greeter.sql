@@ -20,6 +20,7 @@ DECLARE @Module_MessengerId INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE Mo
 DECLARE @Module_ProfileId INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleName = 'Profile')
 DECLARE @Module_TicketsId INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleName = 'Tickets')
 DECLARE @Module_CheckOutId INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleName = 'Checkout')
+DECLARE @Module_CustomerHistoryId INT = (SELECT TOP 1 ModuleId FROM tblModule WHERE ModuleName = 'CustomerHistory')
 --sceeen
 
 DECLARE @Screen_MessengerId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScreen WHERE ViewName = 'Messenger')
@@ -28,6 +29,7 @@ DECLARE @Screen_MyProfileId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScr
 DECLARE @Screen_MyTicketsId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScreen WHERE ViewName = 'MyTickets')
 DECLARE @Screen_MyScheduleId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScreen WHERE ViewName = 'MySchedule')
 
+DECLARE @Screen_CustomerHistoryId INT = (SELECT TOP 1 ModuleScreenId FROM tblModuleScreen WHERE ViewName = 'CustomerHistory')
 Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ScheduleId, @Screen_MyScheduleId, NULL, @AllPermission, @GreeterRoleId, @IsActive, @IsDeleted);
 Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ProfileId, @Screen_MyProfileId, NULL, @AllPermission, @GreeterRoleId, @IsActive, @IsDeleted);
 Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_MessengerId, @Screen_MessengerId, NULL, @AllPermission, @GreeterRoleId, @IsActive, @IsDeleted);
@@ -47,3 +49,5 @@ Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,Role
 Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_ProfileId, @Screen_MyProfileId, NULL, @AllPermission, @DetailerRoleId, @IsActive, @IsDeleted);
 Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_MessengerId, @Screen_MessengerId, NULL, @AllPermission, @DetailerRoleId, @IsActive, @IsDeleted);
 Insert into tblRolePermission (ModuleId,ModuleScreenId,FieldId,PermissionId,RoleId,IsActive,IsDeleted) values(@Module_TicketsId, @Screen_MyTicketsId, NULL, @AllPermission, @DetailerRoleId, @IsActive, @IsDeleted);
+
+

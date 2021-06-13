@@ -1,7 +1,17 @@
-﻿CREATE PROCEDURE [StriveCarSalon].[uspGetProducts] 
-(@ProductSearch varchar(50)=null, @ProductTypeNames varchar(50) = null)
+﻿-------------history-----------------
+-- =============================================
+-- 1  shalini 2021-06-01  -added status in search filter
+--[StriveCarSalon].[uspGetProducts]
+-- =============================================
+CREATE PROCEDURE [StriveCarSalon].[uspGetProducts] 
+(@ProductSearch varchar(50)=null, @ProductTypeNames varchar(50) = null,@status bit=null)
 AS
 BEGIN
+
+if @ProductSearch = ''
+BEGIN
+SET @ProductSearch = NULL
+END
 
 SELECT 
 	prd.ProductId, 
@@ -54,12 +64,12 @@ LEFT JOIN [GetTable]('Size') tbsz ON (prd.Size = tbsz.valueid)
 
 WHERE isnull(prd.IsDeleted,0)=0
 AND
- (@ProductSearch is null or prd.ProductName like '%'+@ProductSearch+'%' or loc.LocationName like'%'+@ProductSearch+'%' 
+ ((@ProductSearch is null or prd.ProductName like '%'+@ProductSearch+'%' or loc.LocationName like'%'+@ProductSearch+'%' 
    --or ven.VendorName like '%'+@ProductSearch+'%' 
-   or tbsz.valuedesc like '%'+@ProductSearch+'%'
-    or tbpt.valuedesc like '%'+@ProductSearch+'%') AND 
-	(tbpt.valuedesc IN (@ProductTypeNames) 
-	OR (@ProductTypeNames is NULL))
+or tbsz.valuedesc like '%'+@ProductSearch+'%'
+or tbpt.valuedesc like '%'+@ProductSearch+'%') AND 
+(tbpt.valuedesc IN (@ProductTypeNames) OR (@ProductTypeNames is NULL)) And
+(@status is null or prd.IsActive = @status))
  --or prd. like '%'+@LocationSearch+'%' or tblla.Address2 like '%'+@LocationSearch+'%'
  --or tblla.PhoneNumber like '%'+@LocationSearch+'%'
  --or tblla.Email like '%'+@LocationSearch+'%')

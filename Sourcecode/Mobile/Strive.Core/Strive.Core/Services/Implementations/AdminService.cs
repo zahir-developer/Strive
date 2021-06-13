@@ -79,6 +79,11 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
         }
 
+        public async Task<DealsList> GetAllDeals()
+        {
+            return await _restClient.MakeApiCall<DealsList>(ApiUtils.URL_GET_ALLDEALS, HttpMethod.Get);
+        }
+
         public async Task<Products> GetAllProducts(ProductSearches searchQuery)
         {
             return await _restClient.MakeApiCall<Products>(ApiUtils.URL_GET_ALL_PRODUCTS, HttpMethod.Post, searchQuery);

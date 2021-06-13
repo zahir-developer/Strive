@@ -1,4 +1,4 @@
-﻿CREATE PROC [StriveCarSalon].[uspGetSchedule] 
+﻿CREATE PROCEDURE [StriveCarSalon].[uspGetSchedule] 
 @LocationId int,
 @EmployeeId int = NULL,
 @ScheduledStartDate Date = NULL,
@@ -7,8 +7,10 @@ AS
 BEGIN  
 
 --[StriveCarSalon].[uspGetSchedule] 0, '2020-08-12', '2020-08-12'
---[StriveCarSalon].[uspGetSchedule] 1, '2020-08-01', '2020-08-30'
-
+--[StriveCarSalon].[uspGetSchedule] 1,null, '2021-06-11', '2021-06-13'
+/*
+'2021-06-11' - Vetriselvi - Fixed calculation exception for total hours
+*/
 
 DROP TABLE IF EXISTS #Schedule
 
@@ -46,7 +48,7 @@ AND
 Select * from #Schedule
 
 
-select SUM(CONVERT(DECIMAL(4,2),(DATEDIFF(MINUTE,StartTime, EndTime))))/60 as Totalhours 
+select convert(varchar,(SUM(DATEDIFF(MINUTE,StartTime, EndTime)))/60 )+'.'+ convert(varchar,(SUM(DATEDIFF(MINUTE,StartTime, EndTime)))%60) as Totalhours 
 from #Schedule
 
 select count(distinct EmployeeId) as TotalEmployees from #Schedule 

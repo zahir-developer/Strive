@@ -1,11 +1,11 @@
-﻿
+﻿--[StriveCarSalon].[uspGetMonthlyMoneyOwnedReport]  '2021-05',1
 CREATE procedure [StriveCarSalon].[uspGetMonthlyMoneyOwnedReport] 
 (@Date varchar(7),@LocationId int)
 AS
 BEGIN
 DECLARE @CompletedJobStatus INT =(SELECT valueid FROM GetTable('JobStatus') WHERE valuedesc='Completed')
 DECLARE @WashJobType INT =(SELECT valueid FROM GetTable('JobType') WHERE valuedesc='Wash')
-DECLARE @WashServiceType INT =(SELECT valueid FROM GetTable('ServiceType') WHERE valuedesc='Washes')
+DECLARE @WashServiceType INT =(SELECT valueid FROM GetTable('ServiceType') WHERE valuedesc='Wash Package')
 
 DROP TABLE IF EXISTS #CustomerCountForLocation
 
@@ -20,7 +20,8 @@ LEFT JOIN tblClient tblc ON(tblj.ClientId = tblc.ClientId)
 WHERE tblj.JobType=@WashJobType AND tbls.ServiceType=@WashServiceType AND tblj.JobStatus=@CompletedJobStatus 
 AND SUBSTRING(CAST(tblj.JobDate AS VARCHAR(10)),1,7)=@Date AND
 --AND tblj.JobDate=@Date AND 
-tblj.IsActive=1 AND tblji.IsActive=1 AND tbls.IsActive=1 AND tblcvmd.IsActive=1
+tblj.IsActive=1 AND tblji.IsActive=1 AND tbls.IsActive=1 
+--AND tblcvmd.IsActive=1
 AND tblc.IsActive=1 AND ISNULL(tblj.IsDeleted,0)=0
 AND ISNULL(tblji.IsDeleted,0)=0 AND ISNULL(tbls.IsDeleted,0)=0 AND ISNULL(tblcvmd.IsDeleted,0)=0
 AND ISNULL(tblc.IsDeleted,0)=0 AND ISNULL(tbll.IsDeleted,0)=0 
@@ -33,13 +34,14 @@ SUM(ISNULL(tblcvmd.TotalPrice,0.00))AccountAmount,CAST(SUM(ISNULL(tblji.Price,0.
 Count(tblj.JobId) NumberOfWashes--,CAST((tblcvmd.TotalPrice/tblj.JobId) AS decimal)Average
 INTO #TotalWashCount FROM tblJob tblj INNER JOIN tblJobItem tblji ON(tblj.JobId=tblji.JobId) 
 INNER JOIN tblService tbls ON(tblji.ServiceId = tbls.ServiceId)
-INNER JOIN tblClientVehicleMembershipDetails tblcvmd ON(tblj.VehicleId = tblcvmd.ClientVehicleId)
+left JOIN tblClientVehicleMembershipDetails tblcvmd ON(tblj.VehicleId = tblcvmd.ClientVehicleId)
 INNER JOIN tblClient tblc ON(tblj.ClientId = tblc.ClientId)
 INNER JOIN tblLocation tbll ON(tblj.LocationId = tbll.LocationId)
 WHERE tblj.JobType=@WashJobType AND tbls.ServiceType = @WashServiceType AND tblj.JobStatus=@CompletedJobStatus 
 AND SUBSTRING(CAST(tblj.JobDate AS VARCHAR(10)),1,7)=@Date AND 
 --AND tblj.JobDate=@Date AND 
-tblj.IsActive=1 AND tblji.IsActive=1 AND tbls.IsActive=1 AND tblcvmd.IsActive=1
+tblj.IsActive=1 AND tblji.IsActive=1 AND tbls.IsActive=1
+-- AND tblcvmd.IsActive=1
 AND tblc.IsActive=1 AND ISNULL(tblj.IsDeleted,0)=0
 AND ISNULL(tblji.IsDeleted,0)=0 AND ISNULL(tbls.IsDeleted,0)=0 AND ISNULL(tblcvmd.IsDeleted,0)=0
 AND ISNULL(tblc.IsDeleted,0)=0 AND ISNULL(tbll.IsDeleted,0)=0 
@@ -94,7 +96,9 @@ twc.LocationName,CONCAT(twc.FirstName,' ',twc.LastName)CustomerName,
 twc.AccountAmount,twc.WashesAmount,--,twc.NumberOfWashes,
 cc.WashCount,CAST((twc.AccountAmount/twc.NumberOfWashes) AS decimal(9,2))Average
 ,mcoof.TotalJobAmount
-from #TotalWashCount twc LEFT JOIN #CustomerCountForLocation cc ON(twc.ClientId = cc.ClientId AND twc.LocationId = cc.LocationId AND twc.JobDate = cc.JobDate)
-LEFT JOIN #membershipcustomeronotherfranchise mcoof ON twc.JobDate = mcoof.JobDate and twc.ClientId = mcoof.ClientId and twc.locationId = mcoof.LocationId
+from #TotalWashCount twc LEFT JOIN #CustomerCountForLocation cc 
+ON(twc.ClientId = cc.ClientId AND twc.LocationId = cc.LocationId AND twc.JobDate = cc.JobDate)
+LEFT JOIN #membershipcustomeronotherfranchise mcoof ON twc.JobDate = mcoof.JobDate and twc.ClientId = mcoof.ClientId 
+and twc.locationId = mcoof.LocationId
 
 END
