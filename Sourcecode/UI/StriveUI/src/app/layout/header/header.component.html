@@ -20,7 +20,7 @@
 
         <li class="admin-menu">
             <ul class="d-flex float-right align-self-center m-r-20">
-                <li class="p-5 mob-washes-notification">
+                <li *ngIf="this.isCustomer === true" class="p-5 mob-washes-notification">
                     <p class="mb-0 text-muted bg-white weather-notification"> <span class="mr-2">
                             <i class="mdi mdi-weather-partly-cloudy theme-light-yellow-color"></i> {{temperature ?
                             temperature : 0}}°/{{rainPrediction ? rainPrediction: 0}}%</span>
@@ -30,7 +30,7 @@
                     </p>
                 </li>
                 <!-- <li> <a href="#"><i class="fa fa-gear"></i></a> </li> -->
-                <li class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span
+                <li *ngIf="this.isCustomer === true"  class="message-notification"> <a href="#" class="dropdown dropdown-toggle position-relative hide-arrow" id="MessageNotificationMenuToggle" data-toggle="dropdown"><i class="fa fa-comment"></i> <span
                             class="badge position-absolute theme-notification-background-icon-color"
                             [hidden]="unReadMessageDetail?.length === 0">{{unReadMessageDetail?.length}}</span>
                         <span class="sr-only ">unread messages</span></a>

@@ -318,8 +318,8 @@ export class TimeClockWeekComponent implements OnInit {
 
       const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime;
       const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime;
-      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
-      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
+      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
+      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
       const inTime = new Date(inTimeHours);
       const outTime = new Date(outFormat);
       const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
@@ -353,8 +353,8 @@ export class TimeClockWeekComponent implements OnInit {
       const DateMonthInTime = currentTime.EventDate + ' ' + currentTime.InTime;
       const DateMonthOutTime = currentTime.EventDate + ' ' + currentTime.OutTime;
 
-      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
-      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD hh:mm A');
+      const inTimeHours = moment(DateMonthInTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
+      const outFormat = moment(DateMonthOutTime, 'YYYY-MM-DD HH mm').format('YYYY-MM-DD HH:mm');
       const inTime = new Date(inTimeHours);
       const outTime = new Date(outFormat);
       const inTimeMins = inTime.getHours() * 60 + inTime.getMinutes();
@@ -397,7 +397,7 @@ export class TimeClockWeekComponent implements OnInit {
     this.replicateClockList.forEach(item => {
       item.checkInDetail.forEach(checkIn => {
         if (this.roleList.filter(role => +role.RoleMasterId === +checkIn.RoleId)[0]?.RoleName === 'Washer') {
-          let n = checkIn.TotalHours.search(":");
+         let n = checkIn.TotalHours.search(":");
           let h = checkIn.TotalHours.substring(0, n);
           let m = checkIn.TotalHours.substring(n + 1, n + 3);
           let hrs = +h;

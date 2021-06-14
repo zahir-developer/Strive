@@ -639,7 +639,7 @@ export class SalesComponent implements OnInit {
 
   openCash() {
     const cashTotal = this.cash !== 0 ? this.cash : this.getBalanceDue();
-    this.cashTotal = cashTotal >= 0 ? cashTotal : 0;
+    this.cashTotal = cashTotal >= 0 ? Number(cashTotal.toFixed(2)) : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('creditcardpopup').style.width = '0';
