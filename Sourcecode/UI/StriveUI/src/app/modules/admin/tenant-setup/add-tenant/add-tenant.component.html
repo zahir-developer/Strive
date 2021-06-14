@@ -159,7 +159,36 @@
                 <div class="card  m-b-10">
                     <div class="card-body">
                         <div class="title-border p-b-5 m-b-5 m-t-10">
-                            <h6 class="d-inline-block font-weight-600">Modules
+                            <h6 class="d-inline-block font-weight-600">Mobile Apps
+                            </h6>
+                            <div class="d-inline-block custom-control custom-checkbox m-l-40">
+                                <input class="custom-control-input" type="checkbox" id="flexCheckDefault"
+                                    [checked]="isMobileAppSelectAll" (change)="selectAllMobileApp($event)">
+                                <label class="custom-control-label" for="flexCheckDefault">
+                                    Select All
+                                </label>
+                            </div>
+                            <div class="pull-right m-t-4 pointer">
+                                <a> <em class="fa fa-angle-up font-size-1-4"></em> </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-b-20">
+                        <div class="col-md-3" *ngFor="let app of mobileAppList">
+                            <div class="custom-control custom-checkbox m-l-30 m-t-5 m-b-5">
+                                <input class="custom-control-input" type="checkbox" id="{{app.MobileAppName}}"
+                                    [checked]="app.IsChecked" (change)="selectMobileApp(app)">
+                                <label class="custom-control-label" for="{{app.MobileAppName}}">
+                                    {{app.MobileAppName}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card  m-b-10">
+                    <div class="card-body">
+                        <div class="title-border p-b-5 m-b-5 m-t-10">
+                            <h6 class="d-inline-block font-weight-600">Web App - Modules
                             </h6>
                             <div class="d-inline-block custom-control custom-checkbox m-l-40">
                                 <input class="custom-control-input" type="checkbox" id="flexCheckDefault"
@@ -206,35 +235,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card  m-b-10">
-                    <div class="card-body">
-                        <div class="title-border p-b-5 m-b-5 m-t-10">
-                            <h6 class="d-inline-block font-weight-600">Mobile App
-                            </h6>
-                            <div class="d-inline-block custom-control custom-checkbox m-l-40">
-                                <input class="custom-control-input" type="checkbox" id="flexCheckDefault"
-                                    [checked]="isMobileAppSelectAll" (change)="selectAllMobileApp($event)">
-                                <label class="custom-control-label" for="flexCheckDefault">
-                                    Select All
-                                </label>
-                            </div>
-                            <div class="pull-right m-t-4 pointer">
-                                <a> <em class="fa fa-angle-up font-size-1-4"></em> </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row m-b-20">
-                        <div class="col-md-3" *ngFor="let app of mobileAppList">
-                            <div class="custom-control custom-checkbox m-l-30 m-t-5 m-b-5">
-                                <input class="custom-control-input" type="checkbox" id="{{app.MobileAppName}}"
-                                    [checked]="app.IsChecked" (change)="selectMobileApp(app)">
-                                <label class="custom-control-label" for="{{app.MobileAppName}}">
-                                    {{app.MobileAppName}}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="m-t-12 pull-right mw-100">
                     <button type="button" class="btn theme-optional-button-color m-r-5"
                         (click)="cancel()">Cancel</button>
