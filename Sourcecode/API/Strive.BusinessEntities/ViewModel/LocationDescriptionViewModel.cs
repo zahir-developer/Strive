@@ -14,5 +14,6 @@ namespace Strive.BusinessEntities.ViewModel
         public List<LocationEmailViewModel> LocationEmail { get; set; }
         public DrawerViewModel Drawer { get; set; }
         public LocationOffsetViewModel LocationOffset { get; set; }
+        public List<MerchantDetailViewModel> MerchantDetail { get; set; }
     }
 }
