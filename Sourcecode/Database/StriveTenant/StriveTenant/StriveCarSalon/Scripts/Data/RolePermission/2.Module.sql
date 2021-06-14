@@ -1,5 +1,3 @@
-
-
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Dashboard', 1, 0)
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Washes', 1, 0)
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Detail', 1, 0)
@@ -11,12 +9,5 @@ INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Admin',  1,
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('PayRoll', 1, 0)
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Checkout',  1, 0)
 INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Customer',  1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Vehicles',  1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Employee',  1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('SystemSetup', 1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('CashRegister', 1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('CloseOutRegister', 1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('TimeClockMaintenance', 1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Scheduling',  1, 0)
-INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('Client',  1, 0)
+INSERT [tblModule] ( [ModuleName], [IsActive], [IsDeleted]) VALUES ('CustomerHistory',  1, 0)
 
