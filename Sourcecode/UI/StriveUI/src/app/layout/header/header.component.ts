@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   lastName: string;
   unReadMessageDetail: any = [];
   locationName: string;
+  isCustomer: boolean;
   weatherDetails: any;
   rainPrediction: any;
   temperature: number;
@@ -39,6 +40,8 @@ export class HeaderComponent implements OnInit {
     this.userService.headerName.subscribe(data => {
       this.empName = data;
     });
+
+    this.isCustomer = localStorage.getItem('empRoles')!="Customer";
 
     this.userService.cityName.subscribe(data => {
       if (data !== null) {
@@ -73,8 +76,12 @@ export class HeaderComponent implements OnInit {
       }
     });
 
-    this.getWeatherDetails();
-    this.getUnReadMessage();
+     if (localStorage.getItem('IsAuthenticated') != null){
+      if (localStorage.getItem('IsAuthenticated').toString() === 'true') {
+        this.getWeatherDetails();
+        this.getUnReadMessage();
+      }
+    }
 
   }
   // Get WeatherDetails

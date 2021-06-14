@@ -121,7 +121,7 @@
                                                         <td style="text-align: left;" class="m-l-120">
                                                             {{dailyStatusWashInfo?.WashExpense | currency}}</td>
                                                     </tr>
-                                                    <tr *ngIf="dailyStatusWashInfo?.WashEmployeeCount === 0">
+                                                    <tr *ngIf="dailyStatusWashInfo == null">
                                                         <td colspan="3" class="text-center">
                                                             No records found
                                                         </td>

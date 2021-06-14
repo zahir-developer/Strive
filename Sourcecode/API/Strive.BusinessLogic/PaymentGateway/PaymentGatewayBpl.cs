@@ -46,9 +46,22 @@ namespace Strive.BusinessLogic.PaymentGateway
             request.Add("region", cardPaymentDto.BillingDetail.Region);
             // Cardholder Zip-Code
             request.Add("postal", cardPaymentDto.BillingDetail.Postal);
-            // Profile
-            request.Add("profile", cardPaymentDto.CardConnect.Profile);
-            request.Add("ecomind", cardPaymentDto.CardConnect.EcomInd);
+            
+
+            if(cardPaymentDto.IsRepeatTransaction)
+            {
+                // Profile
+                request.Add("profile", cardPaymentDto.CardConnect.Profile);
+                
+                // flag these authorizations as recurring billing
+                request.Add("ecomind", cardPaymentDto.CardConnect.EcomInd);
+
+                //to identify these authorizations as merchant-initiated stored credential transactions
+                request.Add("cof", "M");
+
+                //cofscheduled
+                request.Add("cofscheduled", "Y");
+            }
             request.Add("track", cardPaymentDto.CardConnect.Track);
             request.Add("capture", cardPaymentDto.CardConnect.Capture);
             request.Add("bin", cardPaymentDto.CardConnect.Bin);
