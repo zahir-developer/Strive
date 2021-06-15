@@ -17,6 +17,8 @@ namespace Strive.BusinessEntities.DTO.Location
         public string UserName { get; set; }
 
 
-        public int? MID { get; set; }
+        public string MID { get; set; }
+
+        public string Password { get; set; }
     }
 }

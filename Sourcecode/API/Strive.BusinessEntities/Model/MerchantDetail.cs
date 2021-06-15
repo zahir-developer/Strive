@@ -14,7 +14,7 @@ namespace Strive.BusinessEntities.Model
         public int? LocationId { get; set; }
 
         [Column]
-        public int? MID { get; set; }
+        public string MID { get; set; }
 
         [Column]
         public string UserName { get; set; }

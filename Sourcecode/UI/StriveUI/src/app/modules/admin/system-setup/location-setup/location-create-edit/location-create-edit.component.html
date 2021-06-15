@@ -6,28 +6,35 @@
                 <div class="form-row">
                     <div class="form-group col-lg-3">
                         <label for="inputLocationName">Name<span class="required">*</span></label>
-                        <input type="text" maxlength="100" appAlphaNumeric class="form-control" formControlName="locationName" placeholder="Location Name" [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
+                        <input type="text" maxlength="100" appAlphaNumeric class="form-control"
+                            formControlName="locationName" placeholder="Location Name"
+                            [ngClass]="{ 'is-invalid': submitted && f.locationName.errors }">
                         <div *ngIf="submitted && f.locationName.errors" class="invalid-feedback">
                             <div *ngIf="f.locationName.errors.required">Name is required</div>
                         </div>
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputLocationAddress">Address<span class="required">*</span></label>
-                        <input type="text" maxlength="50" class="form-control" formControlName="locationAddress" placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
+                        <input type="text" maxlength="50" class="form-control" formControlName="locationAddress"
+                            placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.locationAddress.errors }">
                         <div *ngIf="submitted && f.locationAddress.errors" class="invalid-feedback">
                             <div *ngIf="f.locationAddress.errors.required">Address is required</div>
                         </div>
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputLocationAddress">Address 2</label>
-                        <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2" placeholder="Address 2" [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
+                        <input type="text" maxlength="50" class="form-control" formControlName="locationAddress2"
+                            placeholder="Address 2"
+                            [ngClass]="{ 'is-invalid': submitted && f.locationAddress2.errors }">
                         <div *ngIf="submitted && f.locationAddress2.errors" class="invalid-feedback">
                             <div *ngIf="f.locationAddress2.errors.required">Address 2 is required</div>
                         </div>
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputZipcode">ZipCode<span class="required">*</span></label>
-                        <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control" placeholder="Zip" formControlName="zipcode" [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
+                        <input numbersOnly type="text" maxlength="5" minlength="5" class="form-control"
+                            placeholder="Zip" formControlName="zipcode"
+                            [ngClass]="{ 'is-invalid':submitted  && f.zipcode.errors }">
                         <div *ngIf="submitted  && f.zipcode.errors" class="invalid-feedback">
                             <div *ngIf="f.zipcode.errors.required">Zipcode is required</div>
                             <div *ngIf=" f.zipcode.errors && !f.zipcode.errors.required">Please enter a valid Zipcode
@@ -38,21 +45,26 @@
                 <div class="form-row">
                     <div class="form-group col-lg-3">
                         <label for="inputCountry">Country<span class="required">*</span></label>
-                        <app-country-dropdown [selectedCountryId]="selectedCountryId" (countryId)="getSelectedCountryId($event)">
+                        <app-country-dropdown [selectedCountryId]="selectedCountryId"
+                            (countryId)="getSelectedCountryId($event)">
                         </app-country-dropdown>
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputState">State<span class="required">*</span></label>
-                        <app-state-dropdown [selectedStateId]="selectedStateId" [isdisable]="true" (stateId)="getSelectedStateId($event)">
+                        <app-state-dropdown [selectedStateId]="selectedStateId" [isdisable]="true"
+                            (stateId)="getSelectedStateId($event)">
                         </app-state-dropdown>
                     </div>
                     <div class="form-group  col-lg-3 ">
                         <label for="inputState">City<span class="required">*</span></label>
-                        <app-city [State]="State" (selectCity)="selectCity($event)" [selectedStateId]="selectedStateId" [selectedCityId]="selectedCityId"></app-city>
+                        <app-city [State]="State" (selectCity)="selectCity($event)" [selectedStateId]="selectedStateId"
+                            [selectedCityId]="selectedCityId"></app-city>
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputPhoneNumber">Phone Number</label>
-                        <input appPhoneMask type="text" maxlength="14" class="form-control" formControlName="phoneNumber" placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid':f.phoneNumber.errors }">
+                        <input appPhoneMask type="text" maxlength="14" class="form-control"
+                            formControlName="phoneNumber" placeholder="(XXX) XXX-XXXX"
+                            [ngClass]="{ 'is-invalid':f.phoneNumber.errors }">
                         <div *ngIf=" f.phoneNumber.errors" class="invalid-feedback">
                             <div *ngIf="f.phoneNumber.errors.minlength">Phone number must be 10 digits</div>
                         </div>
@@ -63,21 +75,26 @@
                     <div class="form-group col-lg-3">
                         <label for="inputEmail">Email</label>
                         <div class="form-row">
-                            <input type="email" maxlength="50" class="col-10 form-control" formControlName="email" placeholder="Email">
-                            <button type="button" class="btn theme-primary-button-color col-2 btn-sm" (click)="addEmail()"><i
-                                    class="fa fa-plus"  aria-hidden="true"></i></button>
+                            <input type="email" maxlength="50" class="col-10 form-control" formControlName="email"
+                                placeholder="Email">
+                            <button type="button" class="btn theme-primary-button-color col-2 btn-sm"
+                                (click)="addEmail()"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
-                        <span *ngFor="let email of emailList" style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;" class="badge badge-secondary m-t-5"><span>{{email.EmailAddress}}</span>
-                        <em class="fa fa-times-circle" *ngIf="isEdit" (click)="removeEmail(email)"></em></span>
+                        <span *ngFor="let email of emailList"
+                            style="font-size:1em; display:table; cursor: pointer;margin-bottom: 4px;"
+                            class="badge badge-secondary m-t-5"><span>{{email.EmailAddress}}</span>
+                            <em class="fa fa-times-circle" *ngIf="isEdit" (click)="removeEmail(email)"></em></span>
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="inputWorkThreshold">Work Hour Threshold</label>
-                        <input type="number" class="form-control" formControlName="workHourThreshold" [appMaxLength]="9" step="0.25" placeholder="0.00">
+                        <input type="number" class="form-control" formControlName="workHourThreshold" [appMaxLength]="9"
+                            step="0.25" placeholder="0.00">
                     </div>
                     <div class="form-group col-lg-3">
                         <label></label>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" formControlName="franchise" (change)="change($event.target.checked)">
+                            <input class="form-check-input" type="checkbox" formControlName="franchise"
+                                (change)="change($event.target.checked)">
                             <label class="form-check-label" for="gridCheck">Franchise</label>
                         </div>
                     </div>
@@ -100,7 +117,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Offset1</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control" [(ngModel)]="offset1" [disabled]="!isOffset" placeholder="0.00">
+                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control"
+                                [(ngModel)]="offset1" [disabled]="!isOffset" placeholder="0.00">
                         </div>
                     </div>
                     <!-- <p-inputSwitch [style]="{'font-size':'10px'}" [(ngModel)]="offset1"></p-inputSwitch> -->
@@ -109,7 +127,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetA</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control" [(ngModel)]="offsetA" placeholder="0.00">
+                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control"
+                                [(ngModel)]="offsetA" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -117,7 +136,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetB</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control" [(ngModel)]="offsetB" placeholder="0.00">
+                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control"
+                                [(ngModel)]="offsetB" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -125,7 +145,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetC</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control" [(ngModel)]="offsetC" placeholder="0.00">
+                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control"
+                                [(ngModel)]="offsetC" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -133,7 +154,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetD</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control" [(ngModel)]="offsetD" placeholder="0.00">
+                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control"
+                                [(ngModel)]="offsetD" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -141,7 +163,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetE</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control" [(ngModel)]="offsetE" placeholder="0.00">
+                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control"
+                                [(ngModel)]="offsetE" placeholder="0.00">
                         </div>
                     </div>
                 </div>
@@ -149,9 +172,30 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">offsetF</label>
                         <div class="col-sm-8 m-l-35">
-                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control" [(ngModel)]="offsetF" placeholder="0.00">
+                            <input type="text" [appMaxLength]="3" appTwoDecimalNumber class="form-control"
+                                [(ngModel)]="offsetE" placeholder="0.00">
                         </div>
                     </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading="Merchant Details">
+            <br>
+            <div class="form-row">
+                <div class="form-group col-lg-4">
+                    <label class="col-form-label">Merchant Id</label>
+                        <input type="text" [appMaxLength]="20" numbersOnly class="form-control"
+                            [(ngModel)]="merchantId" placeholder="Merchant Id">
+                </div>
+                <div class="form-group col-lg-4">
+                    <label class="col-form-label">Merchant User Name</label>
+                        <input type="text" maxlength="50" class="form-control"
+                            [(ngModel)]="merchantUserName" placeholder="User Name">
+                </div>
+                <div class="form-group col-lg-4">
+                    <label class="col-form-label">Password</label>
+                        <input type="password" maxlength="50" class="form-control"
+                            [(ngModel)]="merchantPassword" placeholder="Password">
                 </div>
             </div>
         </tab>

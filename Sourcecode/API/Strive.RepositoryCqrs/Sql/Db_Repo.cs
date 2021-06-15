@@ -556,10 +556,11 @@ namespace Strive.RepositoryCqrs
                             }
                             else
                             {
-                               
-                                if (baseTable !=null ? prp.Name == ("BaySchedule")|| prp.Name ==( "JobDetail") : false)
+
+                                //if (baseTable !=null ? prp.Name == ("BaySchedule")|| prp.Name ==( "JobDetail") : false)
+                                var propValue = GetPropertyValue(model, prp.Name + "Id");
+                                if (propValue == 0 && propValue != null)
                                 {
-                                    
                                     var Id = dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                                 }
                                 else
@@ -576,6 +577,16 @@ namespace Strive.RepositoryCqrs
                 }
             }
             return true;
+        }
+
+        public static int? GetPropertyValue(object model, string propertyName)
+        {
+            var value = model.GetType()?.GetProperty(propertyName)?.GetValue(model, null);
+
+            if (value != null)
+                return (int)value;
+            else
+                return null;
         }
 
         public int Add<T>(T tview)
