@@ -29,7 +29,7 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public bool? IsCeramic { get; set; }
         public int? ServiceCategory { get; set; }
 
-        public string Hours { get; set; }
+        public decimal? EstimatedTime { get; set; }
 
 
     }

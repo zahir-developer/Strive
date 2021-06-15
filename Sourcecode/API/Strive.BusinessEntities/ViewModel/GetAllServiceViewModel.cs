@@ -18,6 +18,6 @@ namespace Strive.BusinessEntities.ViewModel
         public bool? IsActive { get; set; }
         public int? DiscountServiceType  {get;set;}
 
-        public TimeSpan? Hours { get; set; }
+        public decimal? EstimatedTime { get; set; }
     }
 }

@@ -13,7 +13,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-service-create-edit',
-  templateUrl: './service-create-edit.component.html'
+  templateUrl: './service-create-edit.component.html',
+  styleUrls: ['./service-create-edit.component.css']
 })
 export class ServiceCreateEditComponent implements OnInit {
   serviceSetupForm: FormGroup;
@@ -54,7 +55,7 @@ export class ServiceCreateEditComponent implements OnInit {
   detailUpcharge: boolean;
   CategoryName: any;
   Category: any[];
-
+  Hours: any;
 
 
   constructor(
@@ -112,7 +113,7 @@ export class ServiceCreateEditComponent implements OnInit {
       serviceCategory: [''],
       isCeramic: [''],
       location: [[], Validators.required],
-      hours:['']
+      estimatedTime:['']
     });
     this.serviceSetupForm.patchValue({ status: 0 });
   }
@@ -189,6 +190,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.Category = element;
           }
         });
+        
         this.serviceSetupForm.patchValue({
           
           serviceType: this.selectedService?.ServiceTypeId,
@@ -207,7 +209,7 @@ export class ServiceCreateEditComponent implements OnInit {
           parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1,
           location: selectedLocation,          
-          hours:this.selectedService?.hours
+          estimatedTime:this.selectedService?.EstimatedTime
         });
         this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceTypeId);
@@ -457,7 +459,7 @@ categoryName(){
             updatedDate: new Date(),
             discountServiceType: this.serviceSetupForm.value.discountServiceType,
             discountType: this.serviceSetupForm.value.discountType,
-            hours: this.serviceSetupForm.value.hours
+            estimatedTime: this.serviceSetupForm.value.estimatedTime
           });
       });
     }

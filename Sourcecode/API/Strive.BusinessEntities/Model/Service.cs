@@ -70,8 +70,7 @@ namespace Strive.BusinessEntities.Model
         public string DiscountType { get; set; }
 
         [Column]
-        public TimeSpan? Hours  { get; set; }
-
+        public decimal? EstimatedTime { get; set; }
 
     }
 }
