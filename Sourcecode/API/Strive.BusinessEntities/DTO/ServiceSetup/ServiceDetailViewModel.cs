@@ -18,6 +18,8 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public string DiscountType { get; set; }
         public bool IsCeramic { get; set; }
 
+        public decimal? EstimatedTime { get; set; }
+
 
     }
 }
