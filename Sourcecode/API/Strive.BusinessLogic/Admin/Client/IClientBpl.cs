@@ -33,5 +33,7 @@ namespace Strive.BusinessLogic.Client
         Result GetAllClientName(string name);
         Result ClientEmailExist(string email);
         List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto emailBlast);
+
+        Result ClientCSVExport(EmailBlastDto emailBlast);
     }
 }
