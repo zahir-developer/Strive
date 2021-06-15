@@ -13,7 +13,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-service-create-edit',
-  templateUrl: './service-create-edit.component.html'
+  templateUrl: './service-create-edit.component.html',
+  styleUrls: ['./service-create-edit.component.css'],
 })
 export class ServiceCreateEditComponent implements OnInit {
   serviceSetupForm: FormGroup;
@@ -54,7 +55,7 @@ export class ServiceCreateEditComponent implements OnInit {
   detailUpcharge: boolean;
   CategoryName: any;
   Category: any[];
-
+  hours = '6:00 am';
 
 
   constructor(
@@ -189,6 +190,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.Category = element;
           }
         });
+        
         this.serviceSetupForm.patchValue({
           
           serviceType: this.selectedService?.ServiceTypeId,

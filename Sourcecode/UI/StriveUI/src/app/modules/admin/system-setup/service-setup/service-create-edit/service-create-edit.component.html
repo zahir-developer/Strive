@@ -87,10 +87,23 @@
 
                 </div>
             </div>
+            
             <div class="form-group col-lg-4" *ngIf="isDetails">
                 <label for="inputMinutes">Minutes</label>
-                <input type="time"  class="form-control" formControlName="hours" placeholder="00:00">
+                <!-- <div class="d-inline-block" style="padding-left: 15px; padding-right: 15px;"> -->
+                    <ngx-timepicker-field [format]="24" class="form-control" formControlName="hours">
+                    </ngx-timepicker-field>
+                <!-- </div> -->
+                <!-- <label for="inputMinutes">Minutes</label>
+                <input type="time"  class="form-control" formControlName="hours" placeholder="00:00"> -->
 
+            </div>
+            <div class="form-group col-lg-4" *ngIf="isAdditional">
+                <label for="inputMinutes">Minutes</label>
+                
+                    <ngx-timepicker-field [format]="24" class="form-control" formControlName="hours">
+                    </ngx-timepicker-field>
+              
             </div>
 
             <div class="form-group col-lg-4" *ngIf="isDetails">
