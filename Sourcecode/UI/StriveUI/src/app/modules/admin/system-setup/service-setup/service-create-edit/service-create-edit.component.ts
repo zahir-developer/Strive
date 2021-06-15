@@ -55,7 +55,6 @@ export class ServiceCreateEditComponent implements OnInit {
   detailUpcharge: boolean;
   CategoryName: any;
   Category: any[];
-  hours = '6:00 am';
 
 
   constructor(
