@@ -58,6 +58,9 @@ export class PreviewAppointmentDetailComponent implements OnInit {
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
     }
+
+    var BaySchedule = [];
+
     const job = {
       jobId: this.scheduleDetailObj.isEdit ? this.selectedData.Details.JobId : this.jobId,
       ticketNumber: this.ticketNumber,
@@ -88,6 +91,8 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       createdBy: 0,
       updatedBy: 0
     };
+
+    
     const baySchedule = {
       bayScheduleId: 0,
       bayId: this.scheduleDetailObj.Slot.BayId,
@@ -100,6 +105,9 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       createdBy: 0,
       updatedBy: 0,
     };
+
+    BaySchedule.push(baySchedule);
+
     const jobItem = [];
     jobItem.push({
       jobItemId: this.scheduleDetailObj.isEdit ?
@@ -132,7 +140,7 @@ export class PreviewAppointmentDetailComponent implements OnInit {
       job,
       jobItem,
       jobDetail,
-      baySchedule
+       BaySchedule: BaySchedule
     };
     if (this.scheduleDetailObj.isEdit) {
       this.spinner.show();
