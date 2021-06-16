@@ -9,7 +9,7 @@
                     </div>
                     
                     <div class="form-row">
-                        <div class="form-group d-flex">
+                        <div class="col-md-3 m-t-31">
                             <label for="inputBarcode">Select Date</label> &nbsp;
                             <div class="input-icon-right date-pick">
                                 <i class="mdi mdi-calendar-range"></i>
@@ -18,7 +18,7 @@
                                     [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
                             </div>
                         </div>&nbsp;
-                        <div class="form-group d-flex">
+                        <div class="col-md-3 m-t-31">
                             <label for="inputClient">Membership</label>&nbsp;&nbsp;
                                 <div class="p-grid forms-grid">
                                     <select class="form-control" [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
@@ -29,8 +29,8 @@
                                 </div>
                             
                         </div>&nbsp;
-                        <div class="form-group d-flex">
-                            <label for="inputClient"></label>                           
+                        <div class="col-md-3 m-t-31">
+                            <label for="inputClient">Export Type</label>                           
                                 <div class="p-grid forms-grid">
                                     <select class="form-control" [(ngModel)]="ExportType" name="ExportType" id="inputExport">
                                         
@@ -39,7 +39,7 @@
                                     </select>                                       
                                 </div>
                         </div>
-                        <div class="form-group d-flex">
+                        <div class="col-md-2 m-t-63">
                             <label for="inputClient"></label>
                             <button type="button" (click)="ExportMailDetails()"  class="btn theme-primary-button-color btn-sm m-l-10">Export</button>
                         </div>
