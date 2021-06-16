@@ -21,6 +21,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
 import { MakeService } from 'src/app/shared/services/common-service/make.service';
 import { ModelService } from 'src/app/shared/services/common-service/model.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -113,6 +114,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   isDetails: boolean;
   upcharge: any;
   noCeramicUpcharges: any[];
+  allServiceDetails: any;
+  estimatedTimeOut: any = null;
+  detailEstimatedTime: any = null;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -165,6 +169,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       inTime: [''],
       dueTime: [''],
       outsideServie: ['']
+
     });
     if (this.isView) {
       this.detailForm.disable();
@@ -215,7 +220,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   addDueTime() {
-    let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes() + 30);
+    let outTime = this.bayScheduleObj.date.setMinutes(this.bayScheduleObj.date.getMinutes()); //+ 30);
     outTime = this.datePipe.transform(outTime, 'MM/dd/yyyy HH:mm');
     this.detailForm.patchValue({
       dueTime: outTime
@@ -349,6 +354,42 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailForm.patchValue({ upcharges: +data ? +data : '' });
     this.detailForm.patchValue({ upchargeType: +data ? +data : '' });
     this.getUpcharge();
+    this.changeTimeout(data);
+  }
+
+  changeTimeout(serviceId) {
+    const allServices = JSON.parse(this.allServiceDetails);
+    const service = allServices.AllServiceDetail.filter(s => s.ServiceId == serviceId);
+    let estimatedMinute = service[0].EstimatedTime;
+
+    if (estimatedMinute !== null) {
+      console.log(estimatedMinute, 'EstimatedMinute');
+
+      if (this.detailEstimatedTime !== null && estimatedMinute > 0) {
+        estimatedMinute = estimatedMinute - this.detailEstimatedTime;
+      }
+
+      this.detailEstimatedTime = service[0].EstimatedTime;
+
+      var startDueTime;
+
+      if (this.estimatedTimeOut === null)
+        startDueTime = this.bayScheduleObj.date;
+      else
+        startDueTime = this.estimatedTimeOut;
+
+      const originalDueTime = new Date(startDueTime);
+      let dueTime = new Date(originalDueTime.getTime() + (estimatedMinute * 60) * 60000);
+
+      this.estimatedTimeOut = dueTime;
+
+      const finalDueTime = this.datePipe.transform(dueTime, 'MM/dd/yyyy HH:mm');
+
+      this.detailForm.patchValue({
+        dueTime: finalDueTime
+      });
+    }
+
   }
 
   outSideService(data) {
@@ -425,6 +466,25 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     } else {
       data.IsChecked = data.IsChecked ? false : true;
     }
+
+    if (data !== null) {
+
+      if (this.estimatedTimeOut === null) {
+        this.estimatedTimeOut = new Date(this.bayScheduleObj.date);
+      }
+
+      const originalDueTime = new Date(this.estimatedTimeOut);
+      if (data.IsChecked)
+        this.estimatedTimeOut = new Date(originalDueTime.getTime() + (data.EstimatedTime * 60) * 60000);
+      else
+        this.estimatedTimeOut = new Date(originalDueTime.getTime() - (data.EstimatedTime * 60) * 60000);
+
+      const finalDueTime = this.datePipe.transform(this.estimatedTimeOut, 'MM/dd/yyyy HH:mm');
+
+      this.detailForm.patchValue({
+        dueTime: finalDueTime
+      });
+    }
   }
 
   getAllClient() {
@@ -473,6 +533,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.serviceSetupService.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(res => {
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
+        this.allServiceDetails = res.resultData;
         if (serviceDetails.AllServiceDetail !== null) {
           this.outsideServices = serviceDetails.AllServiceDetail.filter(item =>
             Number(item.ServiceTypeId) === this.outsideServiceId);
@@ -984,6 +1045,202 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       createdBy: 0,
       updatedBy: 0
     };
+
+    var finalDueTime = new Date(this.detailForm.value.dueTime);
+    var initialTimeIn = new Date(this.bayScheduleObj.date);
+
+    var BaySchedule = [];
+
+    const finalHour = finalDueTime.getHours();
+    const initialHour = initialTimeIn.getHours();
+
+    const finalminutes = finalDueTime.getMinutes();
+    const initialminutes = initialTimeIn.getMinutes();
+
+    var tempfinalminutes = finalminutes;
+    var tempinitialHour = initialHour;
+
+    if (((finalHour == initialHour) || (initialHour + 1 == finalHour)) && ((initialminutes) == 30 && initialminutes != finalminutes)) {
+
+      var startTime;
+      var endTime;
+
+      var hour = initialHour;
+      var endHour = initialHour;
+
+      //HH:00, HH:30
+      if (initialminutes < tempfinalminutes) {
+        startTime = ":00";
+        endTime = ":30";
+        tempfinalminutes = 0;
+      }
+      //HH:30, HH+1:00
+      else if (finalHour > initialHour) {
+        startTime = ":30";
+        endTime = ":00";
+        endHour = initialHour + 1;
+      }
+      else //HH:30, HH:00
+      {
+        startTime = ":30";
+        endTime = ":00";
+        tempfinalminutes = 30;
+        hour = initialHour + 1;
+      }
+
+      let baySchedule = {
+        bayScheduleId: 0,
+        bayId: this.detailForm.value.bay,
+        jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
+        scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
+        scheduleInTime: hour + startTime,
+        scheduleOutTime: endHour + endTime,
+        isActive: true,
+        isDeleted: false,
+        createdBy: 0,
+        updatedBy: 0,
+      };
+
+      BaySchedule.push(baySchedule);
+    }
+    else {
+
+      //Loop 1
+      var startTime;
+      var endTime;
+      var hour = initialHour;
+      var endHour = initialHour;
+
+      tempinitialHour = initialHour;
+      //2:00 > 1:00
+      while (finalHour >= tempinitialHour) {
+
+        var temp = [1, 2];
+        hour = tempinitialHour;
+        var tempInitialminutes = initialminutes;
+
+
+        temp.forEach(element => {
+
+          if (finalminutes !== tempInitialminutes || finalHour != tempinitialHour || finalHour == initialHour) {
+            //HH:30, HH:00
+            if (tempInitialminutes > tempfinalminutes) {
+              startTime = ":30";
+              endTime = ":00";
+              tempfinalminutes = 30;
+              tempInitialminutes = 0;
+              endHour = tempinitialHour + 1;
+            }
+            else
+              //HH:00, HH:30
+              if (tempInitialminutes < tempfinalminutes) {
+                startTime = ":00";
+                endTime = ":30";
+                tempfinalminutes = 0;
+                tempInitialminutes = 30;
+                if (endHour != hour)
+                  hour = endHour;
+              }
+              else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0)) {
+                startTime = ":00";
+                endTime = ":30";
+                tempInitialminutes = 30;
+              }
+              else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 30)) {
+                startTime = ":30";
+                endTime = ":00";
+                tempInitialminutes = 0;
+                tempfinalminutes = 30;
+                endHour = tempinitialHour + 1;
+              }
+              else //HH:30, HH:00
+              {
+                startTime = ":30";
+                endTime = ":00";
+                tempfinalminutes = 30;
+                endHour = tempinitialHour + 1;
+              }
+
+            let baySchedule = {
+              bayScheduleId: 0,
+              bayId: this.detailForm.value.bay,
+              jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
+              scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
+              scheduleInTime: hour + startTime,
+              scheduleOutTime: endHour + endTime,
+              isActive: true,
+              isDeleted: false,
+              createdBy: 0,
+              updatedBy: 0,
+            };
+
+            BaySchedule.push(baySchedule);
+
+            /*
+            //Loop 2
+            //HH:30, HH:00
+            if (tempInitialminutes > tempfinalminutes) {
+              startTime = ":30";
+              endTime = ":00";
+              tempfinalminutes = 30;
+              tempInitialminutes = 0;
+              endHour = tempinitialHour + 1;
+            }
+            else
+            //HH:00, HH:30
+            if (tempInitialminutes < tempfinalminutes) {
+              startTime = ":00";
+              endTime = ":30";
+              tempfinalminutes = 0;
+              tempInitialminutes = 30;
+            }
+            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0)) {
+              startTime = ":00";
+              endTime = ":30";
+              tempInitialminutes = 30;
+            }
+            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 30)) {
+              startTime = ":30";
+              endTime = ":00";
+              tempInitialminutes = 0;
+              tempfinalminutes = 30;
+              endHour = tempinitialHour + 1;
+            }
+            else //HH:30, HH:00
+            {
+              startTime = ":30";
+              endTime = ":00";
+              tempfinalminutes = 30;
+              endHour = tempinitialHour + 1;
+            }
+  
+            baySchedule = {
+              bayScheduleId: 0,
+              bayId: this.detailForm.value.bay,
+              jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
+              scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
+              scheduleInTime: hour + startTime,
+              scheduleOutTime: endHour + endTime,
+              isActive: true,
+              isDeleted: false,
+              createdBy: 0,
+              updatedBy: 0,
+            };
+  
+            BaySchedule.push(baySchedule);
+            */
+          }
+        });
+
+        tempinitialHour++;
+      }
+
+    }
+
+
+
+
+
     const baySchedule = {
       bayScheduleId: 0,
       bayId: this.detailForm.value.bay,
@@ -1046,8 +1303,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       job,
       jobItem: this.jobItems,
       jobDetail,
-      baySchedule
+      BaySchedule: BaySchedule
     };
+
     if (this.isEdit === true) {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
