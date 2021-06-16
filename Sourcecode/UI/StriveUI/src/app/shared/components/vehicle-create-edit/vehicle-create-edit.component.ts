@@ -90,6 +90,7 @@ export class VehicleCreateEditComponent implements OnInit {
     this.getAllMake();
     this.getVehicleMembership();
     this.getMembershipService();
+
   }
 
   get f() {
@@ -114,9 +115,14 @@ export class VehicleCreateEditComponent implements OnInit {
         client: { id: this.selectedData.ClientId, name: this.selectedData.ClientName  },  // this.selectedData.ClientName
       });
       this.vehicleForm.controls.client.disable();
+      this.getMembershipDiscount(this.selectedData?.ClientId);
     } else {
       this.vehicleForm.controls.client.enable();
     }
+
+
+
+
     this.vehicleForm.patchValue({
       barcode: this.selectedData.Barcode,
       vehicleNumber: this.selectedData.VehicleNumber,
@@ -337,6 +343,22 @@ export class VehicleCreateEditComponent implements OnInit {
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+  getMembershipDiscount(clientId)
+  {
+    this.vehicle.GetMembershipDiscountStatus(clientId).subscribe(res => {
+      if (res.status === 'Success') {
+        console.log(res);
+
+        const discountStatus = JSON.parse(res.resultData);
+
+        if(discountStatus == true)
+          this.toastr.success(MessageConfig.Admin.Vehicle.membershipDiscountAvailable, 'Membership');
+        else
+        this.toastr.info(MessageConfig.Admin.Vehicle.membershipDiscountNotAvailable, 'Membership');
+      }
     });
   }
 
