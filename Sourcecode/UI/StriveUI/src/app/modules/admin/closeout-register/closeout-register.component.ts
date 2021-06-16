@@ -190,8 +190,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
           this.getTotalCash();
           this.closeoutRegisterForm.patchValue({
-            cardAmount: this.closeOutDetails.CashRegisterOthers.CreditCardAmount ?
-              this.closeOutDetails.CashRegisterOthers.CreditCardAmount : '',
+            cardAmount: this.closeOutDetails.CardAmount.CardAmount ?
+              this.closeOutDetails.CardAmount.CardAmount : '',
           });
           this.closeoutRegisterForm.controls.cardAmount.disable();
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
