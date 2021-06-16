@@ -108,7 +108,7 @@ namespace Strive.BusinessLogic
                 string emplocation = string.Empty;
                 foreach (var empLoc in employeeLocations)
                 {
-                    emplocation += empLoc.LocationName + ", ";
+                    emplocation += empLoc.LocationName + ",";
                 }
                 char[] chars = { ',' };
                 emplocation = emplocation.TrimEnd(chars);
@@ -148,7 +148,7 @@ namespace Strive.BusinessLogic
             string emailList = string.Empty;
             foreach (var email in emailId)
             {
-                emailList += email.Email + ", ";
+                emailList += email.Email + ",";
             }
             emailList = emailList.TrimEnd(charToTrim);
             var sub = EmailSubject.Manager;
