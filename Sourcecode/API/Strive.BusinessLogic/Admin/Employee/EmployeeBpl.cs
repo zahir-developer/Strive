@@ -101,14 +101,14 @@ namespace Strive.BusinessLogic
         {
             if (employeeLocations != null)
             {
-                string subject = "Welcome to Strive !";
+                var subject = EmailSubject.WelcomeEmail;
                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
 
                 keyValues.Add("{{employeeName}}", employee.Employee.FirstName);
                 string emplocation = string.Empty;
                 foreach (var empLoc in employeeLocations)
                 {
-                    emplocation += empLoc.LocationName + ", ";
+                    emplocation += empLoc.LocationName + ",";
                 }
                 char[] chars = { ',' };
                 emplocation = emplocation.TrimEnd(chars);
@@ -116,7 +116,7 @@ namespace Strive.BusinessLogic
                 string emprole = string.Empty;
                 foreach (var empRole in employeeRoles)
                 {
-                    emprole += empRole.RoleName + ", ";
+                    emprole += empRole.RoleName + ",";
                 }
                 char[] comma = { ',' };
                 emprole = emprole.TrimEnd(comma);
@@ -139,7 +139,7 @@ namespace Strive.BusinessLogic
             string id = string.Empty;
             foreach (var item in employee.EmployeeLocation)
             {
-                id += item.LocationId + ", ";
+                id += item.LocationId + ",";
             }
 
             id = id.TrimEnd(charToTrim);
@@ -148,10 +148,10 @@ namespace Strive.BusinessLogic
             string emailList = string.Empty;
             foreach (var email in emailId)
             {
-                emailList += email.Email + ", ";
+                emailList += email.Email + ",";
             }
             emailList = emailList.TrimEnd(charToTrim);
-            string sub = "New Employee Info!";
+            var sub = EmailSubject.Manager;
             Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
             //keyValues1.Add("{{Manager/Operator}}", email.FirstName);
             keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);

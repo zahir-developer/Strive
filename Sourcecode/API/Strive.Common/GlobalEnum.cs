@@ -25,6 +25,7 @@ namespace Strive.Common
         public static string ProductThreshold = "Product threshold limit";
         public static string VehicleHold = "Vehicle is oh Hold!!";
         public static string WelcomeEmail = "Welcom To Strive";
+        public static string Manager = "New Employee Info!!";
     }
 
 
