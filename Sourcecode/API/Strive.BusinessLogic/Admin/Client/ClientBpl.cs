@@ -184,6 +184,9 @@ namespace Strive.BusinessLogic
             client =new ClientRal(_tenant).GetClientList(emailBlast);
             return client;
         }
-
+        public Result ClientCSVExport(EmailBlastDto emailBlast)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientList, emailBlast, "ClientCSVExport");
+        }
     }
 }

@@ -156,11 +156,17 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("fromDate", emailBlast.fromDate);
             _prm.Add("toDate", emailBlast.toDate);
-            _prm.Add("isMembership", emailBlast.IsMembership);
+            _prm.Add("IsMemebership", emailBlast.IsMembership);
 
             return db.Fetch<ClientEmailBlastViewModel>(EnumSP.Client.USPGETCLIENTLIST.ToString(), _prm);
 
         }
+
+        //public List<ClientEmailBlastViewModel> GetStatementByClientId(int id)
+        //{
+        //    _prm.Add("ClientId", id);
+        //    return db.Fetch<ClientStatementViewModel>(SPEnum.USPGETVEHICLESTATEMENTBYCLIENTID.ToString(), _prm);
+        //}
 
     }
 }

@@ -81,6 +81,8 @@ export const UrlConfig = {
     updateClient: `Admin/Client/UpdateClientVehicle`,
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
+    getClientList: `Admin/Client/EmailBlast/`,
+    getCSVClientList: `Admin/Client/EmailBlastCSV/`,
   },
   details: {
     addDetail: `Admin/Details/AddDetails`,

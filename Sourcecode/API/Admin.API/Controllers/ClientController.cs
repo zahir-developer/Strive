@@ -96,7 +96,7 @@ namespace Admin.API.Controllers
 
         [HttpPost]
         [Route("EmailBlast")]
-        public IActionResult GetClientList(EmailBlastDto emailBlast)
+        public IActionResult GetClientList([FromBody] EmailBlastDto emailBlast)
         {
             var result = _bplManager.ClientExport(emailBlast);
             using (var workbook = new XLWorkbook())
@@ -137,6 +137,12 @@ namespace Admin.API.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        [Route("EmailBlastCSV")]
+
+        public Result GetClientListCSV([FromBody] EmailBlastDto emailBlast) => _bplManager.ClientCSVExport(emailBlast);
+        
 
     }
 }

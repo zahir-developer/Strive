@@ -1,0 +1,51 @@
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel" aria-labelledby="v-pills-basic-tab">
+        <div class="card m-b-10">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="title-border p-b-20 m-b-15">
+                        <h5 class="d-inline-block">Export Customer Detail</h5>&nbsp;
+                        
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="col-md-3 m-t-31">
+                            <label for="inputBarcode">Select Date</label> &nbsp;
+                            <div class="input-icon-right date-pick">
+                                <i class="mdi mdi-calendar-range"></i>
+                                <input type="text" placeholder="Daterangepicker" name="dateRange" class="form-control"
+                                    [(ngModel)]="daterangepickerModel" bsDaterangepicker (bsValueChange)="onValueChange($event)"
+                                    [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
+                            </div>
+                        </div>&nbsp;
+                        <div class="col-md-3 m-t-31">
+                            <label for="inputClient">Membership</label>&nbsp;&nbsp;
+                                <div class="p-grid forms-grid">
+                                    <select class="form-control" [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
+                                        <option value="" selected hidden>Status</option>
+                                        <option *ngFor="let status of Status" value="{{status.id}}">
+                                            {{status.Value}}</option>
+                                    </select> 
+                                </div>
+                            
+                        </div>&nbsp;
+                        <div class="col-md-3 m-t-31">
+                            <label for="inputClient">Export Type</label>                           
+                                <div class="p-grid forms-grid">
+                                    <select class="form-control" [(ngModel)]="ExportType" name="ExportType" id="inputExport">
+                                        
+                                        <option *ngFor="let file of fileExportType" value="{{file.id}}">
+                                            {{file.name}}</option>
+                                    </select>                                       
+                                </div>
+                        </div>
+                        <div class="col-md-2 m-t-63">
+                            <label for="inputClient"></label>
+                            <button type="button" (click)="ExportMailDetails()"  class="btn theme-primary-button-color btn-sm m-l-10">Export</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

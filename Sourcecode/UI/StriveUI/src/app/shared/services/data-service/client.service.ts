@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpUtilsService } from '../../util/http-utils.service';
 import { UrlConfig } from '../url.config';
+import { HttpHeaders } from '@angular/common/http';
 
 
 @Injectable({
@@ -47,4 +48,14 @@ export class ClientService {
   getHistoryByClientId(id) {
     return this.http.get(`${UrlConfig.client.getHistoryByClientId}` + id);
   }
+  getClientList(obj) {
+  const headers = new HttpHeaders();
+
+    return this.http.post(`${UrlConfig.client.getClientList}`, obj,{ responseType: 'arraybuffer', headers: headers } );
+  }
+
+  
+  getCSVClientList(obj) {
+      return this.http.post(`${UrlConfig.client.getCSVClientList}` , obj);
+    }
 }
