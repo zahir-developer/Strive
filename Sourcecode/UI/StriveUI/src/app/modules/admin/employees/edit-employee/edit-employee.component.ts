@@ -144,9 +144,9 @@ export class EditEmployeeComponent implements OnInit {
   getImmigrationStatus() {
     const imigirationStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.immigrationStatus);
     console.log(imigirationStatusVaue, 'cached value ');
-    if (imigirationStatusVaue.length > 0) {
-      this.imigirationStatus = imigirationStatusVaue;
-    } else {
+    // if (imigirationStatusVaue.length > 0) {
+    //   this.imigirationStatus = imigirationStatusVaue;
+    // } else {
       this.getCode.getCodeByCategory(ApplicationConfig.Category.immigrationStatus).subscribe(data => {
         if (data.status === "Success") {
           const cType = JSON.parse(data.resultData);
@@ -159,7 +159,7 @@ export class EditEmployeeComponent implements OnInit {
       }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
-    }
+    // }
   }
 
   getGenderDropdownValue() {
