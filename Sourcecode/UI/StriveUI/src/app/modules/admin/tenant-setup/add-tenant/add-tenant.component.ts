@@ -183,6 +183,8 @@ export class AddTenantComponent implements OnInit {
           });
           const modulesScreen = modules.AllModule.ModuleScreen;
           this.moduleScreenList = modulesScreen;
+
+          console.log(modulesScreen);
           this.moduleScreenList.forEach(item => {
             item.IsChecked = true;
           });
@@ -393,7 +395,11 @@ export class AddTenantComponent implements OnInit {
     });
     this.moduleList.forEach(item => {
       const moduleScreen = [];
+      console.log(this.moduleScreenList);
+      
       this.moduleScreenList.forEach(screen => {
+      console.log(screen, 'screen');
+
         // if (adminscreen.IsChecked) {
         if (item.ModuleId === screen.ModuleId) {
           moduleScreen.push({
@@ -401,7 +407,7 @@ export class AddTenantComponent implements OnInit {
             moduleId: screen.ModuleId,
             viewName: screen.ViewName,
             isActive: screen.IsChecked,
-            description: item.Description
+            description: screen.Description
           });
         }
         // }
