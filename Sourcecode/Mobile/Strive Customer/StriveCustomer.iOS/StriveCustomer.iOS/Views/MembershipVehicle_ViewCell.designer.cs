@@ -16,18 +16,26 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UIButton Membership_CellBtn { get; set; }
 
 		[Outlet]
+		UIKit.UIView Membership_CellView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel Membership_VehicleLbl { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Membership_CellBtn != null) {
+				Membership_CellBtn.Dispose ();
+				Membership_CellBtn = null;
+			}
+
 			if (Membership_VehicleLbl != null) {
 				Membership_VehicleLbl.Dispose ();
 				Membership_VehicleLbl = null;
 			}
 
-			if (Membership_CellBtn != null) {
-				Membership_CellBtn.Dispose ();
-				Membership_CellBtn = null;
+			if (Membership_CellView != null) {
+				Membership_CellView.Dispose ();
+				Membership_CellView = null;
 			}
 		}
 	}
