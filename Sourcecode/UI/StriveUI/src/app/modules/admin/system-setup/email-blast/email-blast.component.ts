@@ -27,12 +27,13 @@ export class EmailBlastComponent implements OnInit {
   isMembership: any;
   isLoading = false;
   ExportDate: any = [];
+  isExport = false;
   // isTableEmpty: boolean;
   // showDialog: boolean;
   // selectedData: any;
   // header: any;
   // DealsDetails: any;
-  searchStatus = false;
+  searchStatus = '';
   ExportType = 0;
   Status: any;
   // actionType: string;
@@ -46,7 +47,7 @@ export class EmailBlastComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.isLoading = false;
-    this.Status = [{ id: false, Value: 'No' }, { id: true, Value: 'Yes' }, { id: '', Value: 'All' }];
+    this.Status = [ { id: '', Value: 'All' },{ id: false, Value: 'No' }, { id: true, Value: 'Yes' }];
     // this.getDeals(); 
     this.fileExportType = [
       { id: 0, name: 'Select' },
@@ -87,25 +88,26 @@ export class EmailBlastComponent implements OnInit {
       isMembership: this.searchStatus
     };
    
-        // const client = JSON.parse(data.resultData);
-        // this.ExportDate = client;
-
-        const fileType = Number(this.ExportType);
+    const fileType = Number(this.ExportType);
    
         switch (fileType) {
           case 0:{            
-             this.toastr.error("Select type to export", 'Error!');
+             this.toastr.warning(MessageConfig.Admin.SystemSetup.EmailBlast.Warning, 'Warning!');
+             break;
           }
           case 1: {
-           
+            this.isExport = true;
             this.Client.getCSVClientList(obj).subscribe(data => {
-               if (data.status === 'Success') {                
+               if (data.status === 'Success') {      
+                this.isExport = false;
                const csvData = JSON.parse(data.resultData);
+               if(csvData.ClientCSVExport.length ==0) {
+                this.toastr.warning(MessageConfig.Admin.SystemSetup.EmailBlast.Total, 'Warning!');
+               }    else{
                 this.excelService.exportAsCSVFile(csvData.ClientCSVExport, 'PromotionEmail' +
-                  this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') );
-    
-    
+                  this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') );   
                 return data;
+               }
               }
           
           }, (err) => {
@@ -115,11 +117,15 @@ export class EmailBlastComponent implements OnInit {
             break;
           }
           case 2: {
+            this.isExport = true;
             this.Client.getClientList(obj).subscribe(data => {
-            if (data) {
+              this.isExport = false;
+            if (data.byteLength > 0 ) {
               this.download(data, 'excel', 'PromotionEmail_' +
               this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy'));
               return data;
+            }else{
+              this.toastr.warning(MessageConfig.Admin.SystemSetup.EmailBlast.Total, 'Warning!');
             }
         }, (err) => {
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');

@@ -99,42 +99,53 @@ namespace Admin.API.Controllers
         public IActionResult GetClientList([FromBody] EmailBlastDto emailBlast)
         {
             var result = _bplManager.ClientExport(emailBlast);
-            using (var workbook = new XLWorkbook())
+            if (result.Count > 0)
             {
-                var worksheet = workbook.Worksheets.Add("Client List");
-                var currentRow = 1;
-                worksheet.Cell(currentRow, 1).Value = "First Name";
-                worksheet.Cell(currentRow, 2).Value = "Last Name";
-                worksheet.Cell(currentRow, 3).Value = "Email";
-                worksheet.Cell(currentRow, 4).Value = "Client Type";
-                worksheet.Cell(currentRow, 5).Value = "VehicleId";
-                worksheet.Cell(currentRow, 6).Value = "Vehicle Barcode";
-                worksheet.Cell(currentRow, 7).Value = "IsMembership";
-                if (result!= null)
+                using (var workbook = new XLWorkbook())
                 {
-                    foreach (var client in result)
+                    var worksheet = workbook.Worksheets.Add("Client List");
+                    var currentRow = 1;
+                    worksheet.Cell(currentRow, 1).Value = "First Name";
+                    worksheet.Cell(currentRow, 2).Value = "Last Name";
+                    worksheet.Cell(currentRow, 3).Value = "Email";
+                    worksheet.Cell(currentRow, 4).Value = "Client Type";
+                    worksheet.Cell(currentRow, 5).Value = "VehicleId";
+                    worksheet.Cell(currentRow, 6).Value = "Vehicle Barcode";
+                    worksheet.Cell(currentRow, 7).Value = "IsMembership";
+                    if (result != null)
                     {
-                        currentRow++;
-                        worksheet.Cell(currentRow, 1).Value = client.FirstName;
-                        worksheet.Cell(currentRow, 2).Value = client.LastName;
-                        worksheet.Cell(currentRow, 3).Value = client.Email;
-                        worksheet.Cell(currentRow, 4).Value = client.Type;
-                        worksheet.Cell(currentRow, 5).Value = client.VehicleId;
-                        worksheet.Cell(currentRow, 6).Value = client.barcode;
-                        worksheet.Cell(currentRow, 7).Value = client.IsMembership;
-                    }
-                    
-                }
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    var content = stream.ToArray();
+                        foreach (var client in result)
+                        {
+                            currentRow++;
+                            worksheet.Cell(currentRow, 1).Value = client.FirstName;
+                            worksheet.Cell(currentRow, 2).Value = client.LastName;
+                            worksheet.Cell(currentRow, 3).Value = client.Email;
+                            worksheet.Cell(currentRow, 4).Value = client.Type;
+                            worksheet.Cell(currentRow, 5).Value = client.VehicleId;
+                            worksheet.Cell(currentRow, 6).Value = client.barcode;
+                            worksheet.Cell(currentRow, 7).Value = client.IsMembership;
+                        }
 
-                    return File(
-                        content,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "ClientLsit.xlsx");
+                    }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+
+                        return File(
+                            content,
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "ClientLsit.xlsx");
+                    }
                 }
+            }
+            else
+            {
+                var content = new byte[0];
+                return File(
+                           content,
+                           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                           "ClientLsit.xlsx");
             }
         }
 

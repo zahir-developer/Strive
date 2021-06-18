@@ -256,6 +256,11 @@ export const MessageConfig = {
             Add: 'Tenant saved successfully !',
             Update: 'Tenant updated successfully !',
             Email: 'Email already exists.'
+         },
+         EmailBlast:
+         {
+            Warning: 'Select type to export !',
+            Total: 'There\'s no data on the selected date!',
          }
       }
    }
