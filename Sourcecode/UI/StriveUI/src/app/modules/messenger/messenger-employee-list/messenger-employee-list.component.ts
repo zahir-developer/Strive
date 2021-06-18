@@ -43,7 +43,7 @@ export class MessengerEmployeeListComponent implements OnInit {
           }
         }
       }, (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        //this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
 
