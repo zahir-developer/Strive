@@ -10,6 +10,8 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RecurringPaymentComponent } from 'src/app/shared/components/recurring-payment/recurring-payment.component';
 
 @Component({
   selector: 'app-add-tenant',
@@ -47,7 +49,8 @@ export class AddTenantComponent implements OnInit {
     private toastr: ToastrService,
     private tenantSetupService: TenantSetupService,
     private spinner: NgxSpinnerService,
-    private client: ClientService
+    private client: ClientService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -550,6 +553,17 @@ export class AddTenantComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  creditProcess() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(RecurringPaymentComponent, ngbModalOptions);
+    modalRef.componentInstance.tenantName = this.personalform.value.firstName + " " + this.personalform.value.lastName;
+   
   }
 
 

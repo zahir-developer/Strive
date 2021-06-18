@@ -152,6 +152,17 @@
                                         formControlName="deactivation" #dd="bsDatepicker" (focus)="dd.show()"
                                         (focus)="pd.hide()" class="form-control" bsDatepicker>
                                 </div>
+                                <!-- <div class="col-md-3 form-group">
+                                    <label  class="custom-control-label" for="payRecurring">Pay</label>
+                                    <input class="custom-control-input" type="checkbox" id="payRecurring"
+                                    [checked]="isMobileAppSelectAll" (change)="creditProcess">
+                                </div> -->
+                                <!-- <div class="col-md-3 m-t-31">
+                                    <button type="button" class="btn theme-primary-button-color" (click)="creditProcess()">Pay</button>
+                                </div>
+								 -->
+								
+
                             </div>
                         </form>
                     </div>
@@ -237,9 +248,13 @@
                 </div>
                 
                 <div class="m-t-12 pull-right mw-100">
-                    <button type="button" class="btn theme-optional-button-color m-r-5"
+                    <button type="button" class="btn theme-optional-button-color m-r-10"
                         (click)="cancel()">Cancel</button>
-                    <button type="button" class="btn theme-primary-button-color" (click)="addTenant()">Save</button>
+                    <button type="button" class="btn theme-primary-button-color m-r-5" (click)="addTenant()">Save</button>
+                    
+                        <button type="button" class="btn theme-primary-button-color" (click)="creditProcess()">Pay</button>
+                    
+                    
                 </div>
             </div>
         </div>
