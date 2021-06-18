@@ -44,13 +44,7 @@ namespace StriveCustomer.iOS.Views
 
             this.mapDelegate = new MapDelegate();
             this.WashTimeWebView.Delegate = this.mapDelegate;
-
-            WashTimeWebView.AddAnnotation(new MKPointAnnotation
-            {
-                Title = "MyAnnotation",
-                Coordinate = new CLLocationCoordinate2D(42.364260, -71.120824)
-            });                                                    
-
+            
             var geofenceRegioncenter = new CLLocationCoordinate2D(8.185458, 77.401112);
             var geofenceRegion = new CLCircularRegion(geofenceRegioncenter, 100, "notifymeonExit");
             geofenceRegion.NotifyOnEntry = true;
@@ -137,7 +131,7 @@ namespace StriveCustomer.iOS.Views
             private bool CustomMapLoaded = false; 
             private bool isOpen = true;
             static string pId = "Annotation";
-                       
+            string Title = "";
             public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
             { 
                 if (annotation is MKUserLocation)
@@ -148,8 +142,10 @@ namespace StriveCustomer.iOS.Views
 
                 if(pinView == null)
                     pinView = new MKPinAnnotationView(annotation, pId);
-
-                //var Title = pinView.Annotation.GetTitle();
+                if(pinView.Annotation != null)
+                {
+                    Title = pinView.Annotation.GetTitle();
+                }
                 //var Subtitle = pinView.Annotation.GetSubtitle();
 
                 //if (Regex.Matches(Subtitle, @"[a-zA-Z]").Count > 0)
@@ -164,13 +160,17 @@ namespace StriveCustomer.iOS.Views
                 var ButtonBackgroundView = new UIButton(new CGRect(x: 0, y: 0, width: 105, height: 40));
                 ButtonBackgroundView.Layer.CornerRadius = 5;
                 ButtonBackgroundView.BackgroundColor = UIColor.Clear.FromHex(0xFCC201);
+              
                 if (washlocations.Location != null)
                 {
-                    for (int i = 0; i < washlocations.Location.Count; i++)
+                    foreach(var item in washlocations.Location)
                     {
-                        var WashTime = washlocations.Location[i].WashTimeMinutes;
-                        ButtonBackgroundView.SetTitle(WashTime.ToString() + "mins", UIControlState.Normal);
-                    }
+                        if(Title == item.LocationName)
+                        {
+                            var WashTime = item.WashTimeMinutes;
+                            ButtonBackgroundView.SetTitle(WashTime.ToString() + "mins", UIControlState.Normal);
+                        }
+                    }                                
                 }
                 else
                 {

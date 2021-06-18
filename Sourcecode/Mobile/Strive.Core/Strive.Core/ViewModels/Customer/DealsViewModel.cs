@@ -8,7 +8,8 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class DealsViewModel : BaseViewModel
     {
-        public DealsList Deals { get; set; } = new DealsList();
+        public ObservableCollection<GetAllDeal> Deals { get; set; } = new ObservableCollection<GetAllDeal>();
+        //public DealsList Deals { get; set; } = new DealsList();
         public DealsViewModel()
         {
             for(int i =1;i<=2;i++)
@@ -21,7 +22,14 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task GetAllDealsCommand()
         {
-            Deals = await AdminService.GetAllDeals();
+            if(Deals.Count == 0)
+            {
+                var result = await AdminService.GetAllDeals();
+                foreach (var item in result.GetAllDeals)
+                {
+                    Deals.Add(item);
+                }
+            }           
         }
 
         public async Task NavigateToDetailCommand(string item)

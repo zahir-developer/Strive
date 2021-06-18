@@ -48,7 +48,7 @@ namespace StriveCustomer.iOS.Views
                         
             if ((upchargeList.ServicesWithPrice[indexPath.Row].Upcharges.Length != 0) || (!recentUpcharge.Contains(upchargeList.ServicesWithPrice[indexPath.Row].Upcharges)))
             {
-                cell.setUpchargeData(recentUpcharge, indexPath);
+                cell.setUpchargeData(recentUpcharge, indexPath, cell);
                 recentUpcharge.Add(upchargeList.ServicesWithPrice[indexPath.Row].Upcharges);
             }            
             return cell;

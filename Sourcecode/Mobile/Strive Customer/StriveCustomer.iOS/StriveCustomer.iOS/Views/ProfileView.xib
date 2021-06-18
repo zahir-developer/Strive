@@ -72,73 +72,73 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8PN-Tw-eyU">
-                                    <rect key="frame" x="45" y="68" width="70" height="20"/>
+                                    <rect key="frame" x="40" y="68" width="70" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact No:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQV-UT-TtU">
-                                    <rect key="frame" x="45" y="103" width="77" height="20"/>
+                                    <rect key="frame" x="40" y="103" width="77" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Xz-9J-EBb">
-                                    <rect key="frame" x="45" y="143" width="57" height="20"/>
+                                    <rect key="frame" x="40" y="143" width="57" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zip Code:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mBc-ot-nTO">
-                                    <rect key="frame" x="45" y="183" width="61.5" height="20"/>
+                                    <rect key="frame" x="40" y="183" width="61.5" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sec. Phone.No:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m7N-Ni-ogd">
-                                    <rect key="frame" x="45" y="223" width="98" height="20"/>
+                                    <rect key="frame" x="40" y="223" width="98" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyU-fh-RRY">
-                                    <rect key="frame" x="45" y="263" width="39.5" height="20"/>
+                                    <rect key="frame" x="40" y="263" width="39.5" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jessica" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGr-SW-uzx">
-                                    <rect key="frame" x="163" y="68" width="45" height="20"/>
+                                    <rect key="frame" x="153" y="68" width="45" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9992-123-123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aY4-fv-Ecv">
-                                    <rect key="frame" x="163" y="103" width="89" height="20"/>
+                                    <rect key="frame" x="153" y="103" width="89" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3j-Ex-YiA">
-                                    <rect key="frame" x="163" y="143" width="53" height="20"/>
+                                    <rect key="frame" x="153" y="143" width="53" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMo-1d-GN4">
-                                    <rect key="frame" x="163" y="183" width="53" height="20"/>
+                                    <rect key="frame" x="153" y="183" width="53" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9992-123-123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMM-Fx-HRZ">
-                                    <rect key="frame" x="163" y="223" width="89" height="20"/>
+                                    <rect key="frame" x="153" y="223" width="89" height="20"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqS-NA-u9m">
-                                    <rect key="frame" x="163" y="263" width="53" height="20"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loreum" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqS-NA-u9m">
+                                    <rect key="frame" x="109.5" y="263.5" width="53" height="19.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                     <color key="textColor" red="0.017316631969999999" green="0.075824089349999998" blue="0.23828119040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -146,6 +146,7 @@
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
+                                <constraint firstItem="wqS-NA-u9m" firstAttribute="leading" secondItem="iyU-fh-RRY" secondAttribute="trailing" constant="30" id="3JX-NT-Mla"/>
                                 <constraint firstItem="m7N-Ni-ogd" firstAttribute="top" secondItem="mBc-ot-nTO" secondAttribute="bottom" constant="20" id="4Qg-eR-69F"/>
                                 <constraint firstItem="CMM-Fx-HRZ" firstAttribute="centerY" secondItem="m7N-Ni-ogd" secondAttribute="centerY" id="9hO-Jz-chM"/>
                                 <constraint firstItem="dGr-SW-uzx" firstAttribute="centerY" secondItem="8PN-Tw-eyU" secondAttribute="centerY" id="Fc7-Rg-rtf"/>
@@ -162,13 +163,12 @@
                                 <constraint firstItem="aY4-fv-Ecv" firstAttribute="centerY" secondItem="nQV-UT-TtU" secondAttribute="centerY" id="bTY-6w-qwW"/>
                                 <constraint firstItem="aY4-fv-Ecv" firstAttribute="leading" secondItem="dGr-SW-uzx" secondAttribute="leading" id="cv5-7n-9Eq"/>
                                 <constraint firstItem="mBc-ot-nTO" firstAttribute="leading" secondItem="3Xz-9J-EBb" secondAttribute="leading" id="eDb-A2-sKh"/>
-                                <constraint firstItem="8PN-Tw-eyU" firstAttribute="leading" secondItem="bzN-Y0-mSp" secondAttribute="leading" constant="20" id="fDv-yv-z7i"/>
+                                <constraint firstItem="8PN-Tw-eyU" firstAttribute="leading" secondItem="bzN-Y0-mSp" secondAttribute="leading" constant="15" id="fDv-yv-z7i"/>
                                 <constraint firstItem="nQV-UT-TtU" firstAttribute="leading" secondItem="8PN-Tw-eyU" secondAttribute="leading" id="faq-Zh-5eY"/>
-                                <constraint firstItem="wqS-NA-u9m" firstAttribute="leading" secondItem="CMM-Fx-HRZ" secondAttribute="leading" id="haQ-Gt-RiG"/>
                                 <constraint firstItem="mBc-ot-nTO" firstAttribute="top" secondItem="3Xz-9J-EBb" secondAttribute="bottom" constant="20" id="ius-Sj-2hY"/>
                                 <constraint firstItem="8PN-Tw-eyU" firstAttribute="top" secondItem="bzN-Y0-mSp" secondAttribute="bottom" constant="21" id="jl2-oO-6RT"/>
                                 <constraint firstItem="Al7-4I-r8X" firstAttribute="leading" secondItem="bzN-Y0-mSp" secondAttribute="trailing" constant="10" id="k46-39-V2l"/>
-                                <constraint firstItem="dGr-SW-uzx" firstAttribute="leading" secondItem="Al7-4I-r8X" secondAttribute="leading" constant="25" id="kOM-98-MG1"/>
+                                <constraint firstItem="dGr-SW-uzx" firstAttribute="leading" secondItem="Al7-4I-r8X" secondAttribute="leading" constant="15" id="kOM-98-MG1"/>
                                 <constraint firstItem="N3j-Ex-YiA" firstAttribute="leading" secondItem="aY4-fv-Ecv" secondAttribute="leading" id="lUI-JQ-VI6"/>
                                 <constraint firstItem="CMM-Fx-HRZ" firstAttribute="leading" secondItem="TMo-1d-GN4" secondAttribute="leading" id="mrI-sC-o8r"/>
                                 <constraint firstItem="m7N-Ni-ogd" firstAttribute="leading" secondItem="mBc-ot-nTO" secondAttribute="leading" id="rrL-7O-5Dc"/>

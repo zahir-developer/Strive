@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Acr.UserDialogs;
 using Foundation;
+using MvvmCross;
 using MvvmCross.Platforms.Ios.Binding.Views;
 using Strive.Core.Models.TimInventory;
 using UIKit;
@@ -15,6 +17,8 @@ namespace StriveTimInventory.iOS.Views
         private static string CellId = "EmployeeRolesCell";
 
         public IList<EmployeeRole> RolesList { get; set; }
+
+        private static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
 
         public EmployeeRolesViewSource(UICollectionView collectionView)
             : base(collectionView, EmployeeRolesCell.Key)
@@ -55,6 +59,7 @@ namespace StriveTimInventory.iOS.Views
             NSIndexPath indexPath, object item)
         {
             EmployeeRolesCell cell = (EmployeeRolesCell)collectionView.DequeueReusableCell(CellId, indexPath);
+            _userDialog.AlertAsync("Got Roles");
             cell.SetCell(cell, RolesList[indexPath.Row]);
             return cell;
         }

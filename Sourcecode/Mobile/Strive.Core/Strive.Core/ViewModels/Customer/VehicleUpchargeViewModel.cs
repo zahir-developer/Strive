@@ -17,8 +17,8 @@ namespace Strive.Core.ViewModels.Customer
         #region Properties
 
         public SelectedServiceList selectedMembership { get; set; }
+        public ServiceList upchargeFullList { get; set; } = new ServiceList();
         
-
         #endregion Properties
 
         #region Commands
@@ -50,15 +50,23 @@ namespace Strive.Core.ViewModels.Customer
         {
             _userDialog.ShowLoading(Strings.Loading);
             var completeList = await AdminService.GetVehicleServices();
-            if (completeList == null)
+            if (completeList != null)
             {
+                upchargeFullList.ServicesWithPrice = new List<ServiceDetail>();
+                foreach(var item in completeList.ServicesWithPrice)
+                {
+                    if( item.ServiceTypeName == "Wash-Upcharge")
+                    {
+                        upchargeFullList.ServicesWithPrice.Add(item);
+                    }
+                }
                 _userDialog.HideLoading();
             }
             MembershipDetails.filteredList = new ServiceList();
             MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
             foreach (var upcharges in selectedMembership.MembershipDetail)
             {
-                if(upcharges.Upcharges != null)
+                if (upcharges.Upcharges != null)
                 {
                     MembershipDetails.filteredList.
                     ServicesWithPrice.
@@ -67,8 +75,7 @@ namespace Strive.Core.ViewModels.Customer
                      ServicesWithPrice.
                      Find(c => c.ServiceId == upcharges.ServiceId)
                     );
-                }                
-
+                }               
             }
             _userDialog.HideLoading();
 

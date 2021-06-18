@@ -21,7 +21,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<EmployeeResultData> EmployeeLogin(EmployeeLoginRequest request);
 
-        Task<EmployeeResultData> CustomerLogin(CustomerLoginRequest loginRequest);
+        Task<CustomerLoginResponse> CustomerLogin(CustomerLoginRequest loginRequest);
 
         Task<CustomerResponse> CustomerSignUp(CustomerSignUp signUpRequest);
 

@@ -8,16 +8,16 @@ namespace Strive.Core.Models.Customer
     {
         public int ClientVehicleId { get; set; }
         public int ClientId { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public string VehicleNumber { get; set; }
         public int VehicleMakeId { get; set; }
         public string VehicleMake { get; set; }
-        public int VehicleModelId { get; set; }
+        public int? VehicleModelId { get; set; }
         public int? VehicleModelNo { get; set; }
         public string VehicleYear { get; set; }
-        public int VehicleColor { get; set; }
+        public int? VehicleColor { get; set; }
         public int? Upcharge { get; set; }
-        public double MonthlyCharge { get; set; }
+        public double? MonthlyCharge { get; set; }
         public string Barcode { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }
