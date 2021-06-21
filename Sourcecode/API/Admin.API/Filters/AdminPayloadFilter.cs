@@ -90,15 +90,18 @@ namespace Admin.API.Filters
         private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null, string clientId = null)
         {
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
+            var strAdminConnectionString = Pick("ConnectionStrings", "StriveAuthAdmin");
 
             if (isAuth)
             {
                 _tenant.SetAuthDBConnection(strConnectionString);
                 _tenant.SetConnection(strConnectionString);
+                _tenant.SetAuthAdminDBConnection(strAdminConnectionString);
             }
             else
             {
                 _tenant.SetAuthDBConnection(strConnectionString);
+                _tenant.SetAuthAdminDBConnection(strAdminConnectionString);
 
                 var strTenantSchema = _cache.GetString(schemaName);
                 var isSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));

@@ -169,8 +169,12 @@ export const MessageConfig = {
          Communication: 'Weather Communication Error!',
          Update: 'Weather Saved Successfully!',
       },
-
-
+      Tenant: {
+         Add: 'Tenant saved successfully !',
+         Update: 'Tenant updated successfully !',
+         EmailAlreadyExists: 'Email already exists.',
+         EmailAvailable: 'Email available to create account.'
+      },
       SystemSetup: {
          BasicSetup:
          {
@@ -252,11 +256,6 @@ export const MessageConfig = {
             Add: 'Vendor added successfully !',
             Update: 'Vendor updated successfully !',
             Delete: 'Vendor deleted successfully !',
-         },
-         TenantSetup: {
-            Add: 'Tenant saved successfully !',
-            Update: 'Tenant updated successfully !',
-            Email: 'Email already exists.'
          },
          EmailBlast:
          {

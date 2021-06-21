@@ -15,7 +15,7 @@ namespace Strive.ResourceAccess
 {
     public class TenantRal : RalBase
     {
-        public TenantRal(ITenantHelper tenant, bool isAuth = false) : base(tenant, isAuth)
+        public TenantRal(ITenantHelper tenant, bool isAuth = false, bool isTenantAdmin = false) : base(tenant, isAuth, isTenantAdmin)
         {
         }
 

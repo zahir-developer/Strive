@@ -50,10 +50,10 @@ namespace Strive.Common
 
         IDbConnection db();
         IDbConnection dbAuth();
+        IDbConnection dbAuthAdmin();
         void SetConnection(string con);
-
         void SetAuthDBConnection(string con);
-
+        void SetAuthAdminDBConnection(string con);
         void SetTenantGuid(string tenantGuid);
     }
 
@@ -62,6 +62,7 @@ namespace Strive.Common
         public string TenantConnectionStringTemplate = string.Empty;
         public string stringCurrentConnection = string.Empty;
         public string stringAuthConnection = string.Empty;
+        public string stringAuthAdminConnection { get; set; }
         public string stringTenantGuid = string.Empty;
 
 
@@ -130,6 +131,11 @@ namespace Strive.Common
             stringAuthConnection = con;
         }
 
+        public void SetAuthAdminDBConnection(string con)
+        {
+            stringAuthAdminConnection = con;
+        }
+
         public IDbConnection db()
         {
             return new SqlConnection(stringCurrentConnection);
@@ -138,6 +144,11 @@ namespace Strive.Common
         public IDbConnection dbAuth()
         {
             return new SqlConnection(stringAuthConnection);
+        }
+
+        public IDbConnection dbAuthAdmin()
+        {
+            return new SqlConnection(stringAuthAdminConnection);
         }
     }
 }

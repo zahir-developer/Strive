@@ -33,6 +33,10 @@ export class ClientService {
     return this.http.get(`${UrlConfig.client.clientEmailCheck}` , { params: { email: email } });
   }
 
+  ValidateTenantEmail(email) {
+    return this.http.get(`${UrlConfig.employee.validateEmail}` + email);
+  }
+
   getClientById(id: number) {
     return this.http.get(`${UrlConfig.client.getClientById}` + id);
   }

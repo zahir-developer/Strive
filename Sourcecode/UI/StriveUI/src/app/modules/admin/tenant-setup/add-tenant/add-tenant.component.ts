@@ -399,9 +399,9 @@ export class AddTenantComponent implements OnInit {
     this.moduleList.forEach(item => {
       const moduleScreen = [];
       console.log(this.moduleScreenList);
-      
+
       this.moduleScreenList.forEach(screen => {
-      console.log(screen, 'screen');
+        console.log(screen, 'screen');
 
         // if (adminscreen.IsChecked) {
         if (item.ModuleId === screen.ModuleId) {
@@ -447,7 +447,7 @@ export class AddTenantComponent implements OnInit {
       subscriptionId: 0,
       tenantName: this.companyform.value.company,
       passwordHash: '',
-      expiryDate: moment(this.companyform.value.deactivation).format(),
+      expiryDate: this.companyform.value.deactivation !== '' ? moment(this.companyform.value.deactivation).format() : null,
       subscriptionDate: moment(this.companyform.value.dateOfSubscription).format(),
       paymentDate: moment(this.companyform.value.paymentDate).format(),
       locations: +this.companyform.value.noOfLocation,
@@ -463,7 +463,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.updateTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Update, 'Success!');
+          this.toastr.success(MessageConfig.Admin.Tenant.Update, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -475,7 +475,7 @@ export class AddTenantComponent implements OnInit {
       this.tenantSetupService.addTenant(finalObj).subscribe(res => {
         this.spinner.hide();
         if (res.status === 'Success') {
-          this.toastr.success(MessageConfig.Admin.SystemSetup.TenantSetup.Add, 'Success!');
+          this.toastr.success(MessageConfig.Admin.Tenant.Add, 'Success!');
           this.navigate();
         }
       }, (err) => {
@@ -539,14 +539,15 @@ export class AddTenantComponent implements OnInit {
     if (this.personalform.controls.email.errors !== null) {
       return;
     }
-    this.client.ClientEmailCheck(this.personalform.controls.email.value).subscribe(res => {
+    this.client.ValidateTenantEmail(this.personalform.controls.email.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
-        if (sameEmail.emailExist === true) {
+        if (sameEmail.EmailIdExist === true) {
           this.isEmailAvailable = true;
-          this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
+          this.toastr.warning(MessageConfig.Admin.Tenant.EmailAlreadyExists, 'Warning!');
         } else {
           this.isEmailAvailable = false;
+          this.toastr.info(MessageConfig.Admin.Tenant.EmailAvailable, 'Info!');
 
         }
       }
