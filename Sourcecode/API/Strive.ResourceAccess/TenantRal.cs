@@ -119,5 +119,11 @@ namespace Strive.ResourceAccess
             _prm.Add("stateId", stateId);
             return db.Fetch<CityDto>(EnumSP.Tenant.USPGETCITYBYSTATEID.ToString(), _prm);
         }
+
+        public MaxLocationViewModel GetLoationMaxLimit(int tenantId)
+        {
+            _prm.Add("tenantId", tenantId);
+            return db.FetchSingle<MaxLocationViewModel>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
+        }
     }
 }

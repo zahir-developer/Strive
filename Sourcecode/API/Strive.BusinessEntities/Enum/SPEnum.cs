@@ -18,6 +18,7 @@ namespace Strive.BusinessEntities
             USPTENANTADMINLOGIN,
             USPGETCITYBYSTATEID,
             USPGETSTATE,
+            USPGETLOCATIONLIMIT
         }
 
         public enum Authentication
