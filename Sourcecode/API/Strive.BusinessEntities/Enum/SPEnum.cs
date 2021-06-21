@@ -18,6 +18,7 @@ namespace Strive.BusinessEntities
             USPTENANTADMINLOGIN,
             USPGETCITYBYSTATEID,
             USPGETSTATE,
+            USPGETLOCATIONLIMIT
         }
 
         public enum Authentication
@@ -130,6 +131,7 @@ namespace Strive.BusinessEntities
             USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
             uspGetMembershipListByVehicleId,
             USPGETALLMEMBERSHIPNAME,
+            USPGETUSERMEMBERSHIP,
         }
 
         public enum Checklist

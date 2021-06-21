@@ -23,6 +23,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { PaymentProcessComponent } from 'src/app/shared/components/payment-process/payment-process.component';
 import { DecimalPipe } from '@angular/common';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -84,8 +85,11 @@ export class SalesComponent implements OnInit {
   isDiscountAdded: boolean;
   addedDiscount = [];
   isMultipleTicket: boolean;
+  merchantUserName : any =  '';
+  password : any =  '';
+  isValidMember: boolean = false;
   constructor(
-    private membershipService: MembershipService, private salesService: SalesService, private router: Router,
+    private toastr: ToastrService,private membershipService: MembershipService, private salesService: SalesService, private router: Router,
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
@@ -127,7 +131,7 @@ export class SalesComponent implements OnInit {
     this.isCreditPay = false;
     this.isGiftCard = false;
     this.locationId = +localStorage.getItem('empLocationId');
-    this.isDiscountAdded = false;
+    this.isDiscountAdded = false;   
     this.giftCardFromInit();
     this.addItemFormInit();
     const paramsData = this.route.snapshot.queryParamMap.get('ticketNumber');
@@ -674,12 +678,29 @@ export class SalesComponent implements OnInit {
   closediscount() {
     document.getElementById('discountpopup').style.width = '0';
   }
+
+  openMembershipLogin(){
+    document.getElementById('Giftcardpopup').style.width = '0';
+    document.getElementById('discountpopup').style.width = '0';
+    document.getElementById('cashpopup').style.width = '0';
+
+    if( this.isValidMember == true){
+      document.getElementById('creditcardpopup').style.width = '300px';  
+      document.getElementById('verifyMembership').style.width = '0';
+      this.creditProcess();
+    }else{
+      document.getElementById('verifyMembership').style.width = '400px';
+      // this.ValidateMembership();
+    }
+  }
+
   opencreditcard() {
     const creditTotal = this.credit !== 0 ? this.credit : this.getBalanceDue();
     this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
     this.cashback = this.initialcashback;
-    document.getElementById('creditcardpopup').style.width = '300px';
+    document.getElementById('creditcardpopup').style.width = '300px';    
+    document.getElementById('verifyMembership').style.width = '0';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
     document.getElementById('cashpopup').style.width = '0';
@@ -688,6 +709,38 @@ export class SalesComponent implements OnInit {
   closecreditcard() {
     document.getElementById('creditcardpopup').style.width = '0';
   }
+
+  closeVerifyMembership() {
+    document.getElementById('verifyMembership').style.width = '0';
+  }
+
+  ValidateMembership(){
+   
+    const obj = {
+      locationId : this.locationId,
+      userName : this.merchantUserName,
+     password : this.password
+    };
+
+    this.membershipService.getMembershipSearch(obj).subscribe(data => {
+      if (data.status === 'Success') {
+        const membership = JSON.parse(data.resultData);
+       if(membership.MembershipValidation.length ==0){
+        this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.InValidMember });
+       }else{
+        this.isValidMember = true;        
+        document.getElementById('verifyMembership').style.width = '0';
+        this.messageService.showMessage({ severity:  'success', title: 'Success', body: MessageConfig.Sales.ValidMember });
+        this.creditProcess();
+       }
+      } else {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
   editItem(event) {
     if (this.enableButton == true) {
       return

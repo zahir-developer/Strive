@@ -92,7 +92,9 @@ export const MessageConfig = {
       jobDelete: 'Ticket Deleted Successfully',
       paymentSave: 'Payment completed successfully',
       purchasedGiftcard: 'Currently purchased giftcard can\'t be used for payment',
-      alreadyAdded: 'GiftCard already added'
+      alreadyAdded: 'GiftCard already added',
+      InValidMember: 'Invalid Member details',
+     ValidMember : 'Valided successfully !',
    },
    Messenger: {
       Message: 'Please enter a message!',
