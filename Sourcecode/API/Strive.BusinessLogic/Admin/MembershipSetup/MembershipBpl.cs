@@ -61,5 +61,10 @@ namespace Strive.BusinessLogic.MembershipSetup
         {
             return ResultWrap(new MembershipSetupRal(_tenant).GetAllMembershipName, "MembershipName");
         }
+        public Result GetMembershipDetails(MembershipSearch search)
+        {
+            return ResultWrap(new MembershipSetupRal(_tenant).GetMembershipDetails,search, "MembershipValidation");
+        }
+
     }
 }

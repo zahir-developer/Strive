@@ -34,4 +34,7 @@ export class MembershipService {
   searchMembership(obj) {
     return this.http.post(`${UrlConfig.MembershipSetup.membershipSearch}`, obj);
   }
+  getMembershipSearch(obj) {
+    return this.http.post(`${UrlConfig.MembershipSetup.getMembershipDetails}`, obj);
+  }
 }
