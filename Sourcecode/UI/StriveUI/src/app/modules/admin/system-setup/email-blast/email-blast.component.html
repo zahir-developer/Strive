@@ -22,7 +22,6 @@
                             <label for="inputClient">Membership</label>&nbsp;&nbsp;
                                 <div class="p-grid forms-grid">
                                     <select class="form-control" [(ngModel)]="searchStatus" name="searchStatus" id="inputSearchbyStatus">
-                                        <option value="" selected hidden>Status</option>
                                         <option *ngFor="let status of Status" value="{{status.id}}">
                                             {{status.Value}}</option>
                                     </select> 
@@ -41,7 +40,7 @@
                         </div>
                         <div class="col-md-2 m-t-63">
                             <label for="inputClient"></label>
-                            <button type="button" (click)="ExportMailDetails()"  class="btn theme-primary-button-color btn-sm m-l-10">Export</button>
+                            <button type="button" (click)="ExportMailDetails()" [disabled]="isExport" class="btn theme-primary-button-color btn-sm m-l-10">Export</button>
                         </div>
                     </div>
                     </div>

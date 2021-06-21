@@ -5,6 +5,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { TenantSetupService } from 'src/app/shared/services/data-service/tenant-setup.service';
 
+
 @Component({
   selector: 'app-tenant-setup',
   templateUrl: './tenant-setup.component.html'
@@ -139,5 +140,8 @@ export class TenantSetupComponent implements OnInit {
     this.page = this.page;
     this.getTenantList();
   }
+
+  
+
 
 }

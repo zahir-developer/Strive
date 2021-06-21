@@ -60,7 +60,7 @@ export class EmployeeListComponent implements OnInit {
       debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
-        this.seachEmployee();
+        this.newSeachEmployee();
       });
    }
 
@@ -178,6 +178,11 @@ export class EmployeeListComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();
     });
+  }
+  newSeachEmployee()
+  {
+    this.page = 1;
+    this.seachEmployee();
   }
 
   seachEmployee() {

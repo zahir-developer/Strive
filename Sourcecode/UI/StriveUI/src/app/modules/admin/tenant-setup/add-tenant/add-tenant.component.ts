@@ -10,6 +10,8 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { ClientService } from 'src/app/shared/services/data-service/client.service';
+import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RecurringPaymentComponent } from 'src/app/shared/components/recurring-payment/recurring-payment.component';
 
 @Component({
   selector: 'app-add-tenant',
@@ -47,7 +49,8 @@ export class AddTenantComponent implements OnInit {
     private toastr: ToastrService,
     private tenantSetupService: TenantSetupService,
     private spinner: NgxSpinnerService,
-    private client: ClientService
+    private client: ClientService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -183,6 +186,8 @@ export class AddTenantComponent implements OnInit {
           });
           const modulesScreen = modules.AllModule.ModuleScreen;
           this.moduleScreenList = modulesScreen;
+
+          console.log(modulesScreen);
           this.moduleScreenList.forEach(item => {
             item.IsChecked = true;
           });
@@ -393,7 +398,11 @@ export class AddTenantComponent implements OnInit {
     });
     this.moduleList.forEach(item => {
       const moduleScreen = [];
+      console.log(this.moduleScreenList);
+      
       this.moduleScreenList.forEach(screen => {
+      console.log(screen, 'screen');
+
         // if (adminscreen.IsChecked) {
         if (item.ModuleId === screen.ModuleId) {
           moduleScreen.push({
@@ -401,7 +410,7 @@ export class AddTenantComponent implements OnInit {
             moduleId: screen.ModuleId,
             viewName: screen.ViewName,
             isActive: screen.IsChecked,
-            description: item.Description
+            description: screen.Description
           });
         }
         // }
@@ -544,6 +553,17 @@ export class AddTenantComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  }
+
+  creditProcess() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    };
+    const modalRef = this.modalService.open(RecurringPaymentComponent, ngbModalOptions);
+    modalRef.componentInstance.tenantName = this.personalform.value.firstName + " " + this.personalform.value.lastName;
+   
   }
 
 

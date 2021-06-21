@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.Location;
 using Strive.BusinessEntities.DTO.MembershipSetup;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
@@ -59,6 +60,16 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
             return result;
         }
+
+        public List<MerchantDetailViewModel> GetMembershipDetails(MembershipSearch search)
+        {
+            _prm.Add("@tblLocationId", search.LocationId);
+            _prm.Add("@userName", search.UserName);
+            _prm.Add("@password", search.Password);
+            var result = db.Fetch<MerchantDetailViewModel>(EnumSP.Membership.USPGETUSERMEMBERSHIP.ToString(), _prm);
+            return result;
+        }
+
         public bool GetVehicleMembershipByMembershipId(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);

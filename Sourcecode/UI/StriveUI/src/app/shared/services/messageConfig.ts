@@ -92,7 +92,9 @@ export const MessageConfig = {
       jobDelete: 'Ticket Deleted Successfully',
       paymentSave: 'Payment completed successfully',
       purchasedGiftcard: 'Currently purchased giftcard can\'t be used for payment',
-      alreadyAdded: 'GiftCard already added'
+      alreadyAdded: 'GiftCard already added',
+      InValidMember: 'Invalid Member details',
+     ValidMember : 'Valided successfully !',
    },
    Messenger: {
       Message: 'Please enter a message!',
@@ -138,7 +140,8 @@ export const MessageConfig = {
          Delete: 'Vehicle deleted successfully !',
          memberShip: 'Vehicle cannot be deleted, Vehicle has a active membership.',
          membershipDiscountAvailable: 'Membership discount available !',
-         membershipDiscountNotAvailable: 'No membership discount available !'
+         membershipDiscountNotAvailable: 'No membership discount available !',
+         membershipDiscountNotUpdated: 'Discount Amount not updated in Membership setup !'
       },
 
       GiftCard:
@@ -256,6 +259,11 @@ export const MessageConfig = {
             Add: 'Tenant saved successfully !',
             Update: 'Tenant updated successfully !',
             Email: 'Email already exists.'
+         },
+         EmailBlast:
+         {
+            Warning: 'Select type to export !',
+            Total: 'There\'s no data on the selected date!',
          }
       }
    }

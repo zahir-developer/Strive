@@ -51,6 +51,7 @@ export class VehicleCreateEditComponent implements OnInit {
   models: any;
   isClientVehicle: boolean;
   clientList: any;
+  MembershipDiscount: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
     private modelService: ModelService,
@@ -112,7 +113,7 @@ export class VehicleCreateEditComponent implements OnInit {
   getVehicleById() {
     if (this.selectedData.ClientId !== null) {
       this.vehicleForm.patchValue({
-        client: { id: this.selectedData.ClientId, name: this.selectedData.ClientName  },  // this.selectedData.ClientName
+        client: { id: this.selectedData.ClientId, name: this.selectedData.ClientName },  // this.selectedData.ClientName
       });
       this.vehicleForm.controls.client.disable();
       this.getMembershipDiscount(this.selectedData?.ClientId);
@@ -280,9 +281,22 @@ export class VehicleCreateEditComponent implements OnInit {
         this.memberOnchangePatchedService = [];
         const membership = JSON.parse(res.resultData);
         if (membership.MembershipAndServiceDetail.Membership !== null) {
-          this.vehicleForm.patchValue({
-            monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
-          });
+
+          if (this.MembershipDiscount) {
+            if (membership.MembershipAndServiceDetail.Membership.DiscountedPrice !== null) {
+              this.vehicleForm.patchValue({
+                monthlyCharge: membership.MembershipAndServiceDetail.Membership?.DiscountedPrice?.toFixed(2)
+              });
+            }
+            else {
+              this.toastr.warning(MessageConfig.Admin.Vehicle.membershipDiscountNotUpdated, 'Warning!');
+            }
+          }
+          else {
+            this.vehicleForm.patchValue({
+              monthlyCharge: membership.MembershipAndServiceDetail.Membership?.Price?.toFixed(2)
+            });
+          }
         }
         if (membership.MembershipAndServiceDetail.MembershipService !== null) {
           this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
@@ -346,18 +360,15 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
-  getMembershipDiscount(clientId)
-  {
+  getMembershipDiscount(clientId) {
     this.vehicle.GetMembershipDiscountStatus(clientId).subscribe(res => {
       if (res.status === 'Success') {
-        console.log(res);
-
-        const discountStatus = JSON.parse(res.resultData);
-
-        if(discountStatus == true)
+        const discount = JSON.parse(res.resultData);
+        this.MembershipDiscount += discount.Status;
+        if (discount.Status === true)
           this.toastr.success(MessageConfig.Admin.Vehicle.membershipDiscountAvailable, 'Membership');
         else
-        this.toastr.info(MessageConfig.Admin.Vehicle.membershipDiscountNotAvailable, 'Membership');
+          this.toastr.info(MessageConfig.Admin.Vehicle.membershipDiscountNotAvailable, 'Membership');
       }
     });
   }
@@ -431,20 +442,22 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getModel(id) {
-    this.modelService.getModelByMakeId(id).subscribe(res => {
-      if (res.status === 'Success') {
-        const makeModel = JSON.parse(res.resultData);
-        this.model = makeModel.Model;
-        this.model = this.model.map(item => {
-          return {
-            id: item.ModelId,
-            name: item.ModelValue
-          };
-        });
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+    if (id !== null) {
+      this.modelService.getModelByMakeId(id).subscribe(res => {
+        if (res.status === 'Success') {
+          const makeModel = JSON.parse(res.resultData);
+          this.model = makeModel.Model;
+          this.model = this.model.map(item => {
+            return {
+              id: item.ModelId,
+              name: item.ModelValue
+            };
+          });
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
 
   getAllMake() {
@@ -603,7 +616,8 @@ export class VehicleCreateEditComponent implements OnInit {
         createdDate: new Date(),
         updatedBy: +localStorage.getItem('empId'),
         updatedDate: new Date(),
-        totalPrice: this.vehicleForm.value.monthlyCharge
+        totalPrice: this.vehicleForm.value.monthlyCharge,
+        isDiscount: this.MembershipDiscount
       };
       let membershipServices = [];
       if (memberService !== undefined && memberService.length) {

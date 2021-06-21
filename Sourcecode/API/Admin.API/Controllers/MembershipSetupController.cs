@@ -52,5 +52,10 @@ namespace Admin.Api.Controllers
         [HttpGet]
         [Route("GetAllMembershipName")]
         public Result GetAllMembershipName() => _bplManager.GetAllMembershipName();
+
+        [HttpPost]
+        [Route("GetMembershipDetails")]
+        public Result GetMembershipDetails([FromBody] MembershipSearch search) => _bplManager.GetMembershipDetails(search);
+
     }
 }

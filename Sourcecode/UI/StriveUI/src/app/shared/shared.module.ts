@@ -58,6 +58,7 @@ import { IdleLockoutComponent } from './components/idle-lockout/idle-lockout.com
 import { SessionLogoutComponent } from './components/session-logout/session-logout.component';
 import { DashboardStaticsComponent } from './components/dashboard-statics/dashboard-statics.component';
 import { PaymentProcessComponent } from './components/payment-process/payment-process.component';
+import { RecurringPaymentComponent } from './components/recurring-payment/recurring-payment.component';
 import { QRCodeModule } from 'angular2-qrcode';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputMaskModule} from 'primeng/inputmask';
@@ -105,7 +106,7 @@ import {CurrencyPipe} from '@angular/common';
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent, AlphaNumericDirective, FilterPipe],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent,RecurringPaymentComponent, AlphaNumericDirective, FilterPipe],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,QRCodeModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,
@@ -116,7 +117,7 @@ import {CurrencyPipe} from '@angular/common';
      VehicleCreateEditComponent, TooltipModule, MonthPickerComponent, YearPickerComponent, LocationDropdownComponent,
       OrderByPipe, InputSwitchModule, TwoDecimalPositiveNegativeNumberDirective, TabsModule, NavigatePageDirective,
       AlphaNumericDirective, InputMaskModule, KeyFilterModule, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent,
-       PaymentProcessComponent, CalendarModule, FilterPipe, CurrencyPipe],
+       PaymentProcessComponent,RecurringPaymentComponent, CalendarModule, FilterPipe, CurrencyPipe],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [MessageServiceToastr, DatePipe, DecimalPipe, CurrencyPipe],
 
