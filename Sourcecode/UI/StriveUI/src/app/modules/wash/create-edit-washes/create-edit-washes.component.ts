@@ -1042,12 +1042,14 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
         this.upchargeList = jobtype.upcharge;
+        var serviceId = 0
         if (this.upchargeList?.length > 0) {
+          serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
           this.washForm.patchValue({
-            upcharges: this.upchargeList[this.upchargeList.length - 1].ServiceId,
-            upchargeType: this.upchargeList[this.upchargeList.length - 1].ServiceId
+            upcharges: serviceId,
+            upchargeType: serviceId
           });
-          this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
+          this.upchargeService(serviceId);
         }
         // else {
         //   this.washForm.patchValue({

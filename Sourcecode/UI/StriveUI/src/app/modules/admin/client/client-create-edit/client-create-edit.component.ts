@@ -216,9 +216,13 @@ export class ClientCreateEditComponent implements OnInit {
   closePopupEmit(event) {
     if (event.status === 'saved') {
       var oExists = this.clonedVehicleDetails.find(x => x.VehicleId === this.vehicle.vehicleValue.ClientVehicleId);
-      if(oExists.length==0){
+      if(this.vehicle.vehicleValue.ClientVehicleId == undefined){
+        this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
+        }
+      else if(oExists.length==0){
       this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
-      }else{
+      }
+      /*else{
 
         this.clonedVehicleDetails.forEach(item => {
           if (item.VehicleId === this.vehicle.vehicleValue.ClientVehicleId) {
@@ -232,16 +236,16 @@ export class ClientCreateEditComponent implements OnInit {
             item.VehicleNumber = this.vehicle.vehicleValue.VehicleNumber;
           }
         });
-      /*  var oIndex = this.clonedVehicleDetails.findIndex(x => x.VehicleId === this.vehicle.vehicleValue.ClientVehicleId);
-        this.clonedVehicleDetails[oIndex].Barcode = this.vehicle.vehicleValue.Barcode;
-        this.clonedVehicleDetails[oIndex].ClientId = this.vehicle.vehicleValue.ClientId;
-        this.clonedVehicleDetails[oIndex].MembershipName = this.vehicle.vehicleValue.MembershipName;
-        this.clonedVehicleDetails[oIndex].Upcharge = this.vehicle.vehicleValue.Upcharge;
-        this.clonedVehicleDetails[oIndex].VehicleColor = this.vehicle.vehicleValue.VehicleColor;
-        this.clonedVehicleDetails[oIndex].VehicleMfr = this.vehicle.vehicleValue.VehicleMfr;
-        this.clonedVehicleDetails[oIndex].VehicleModel = this.vehicle.vehicleValue.VehicleModel;
-        this.clonedVehicleDetails[oIndex].VehicleNumber = this.vehicle.vehicleValue.VehicleNumber;*/
-      }
+        // var oIndex = this.clonedVehicleDetails.findIndex(x => x.VehicleId === this.vehicle.vehicleValue.ClientVehicleId);
+        // this.clonedVehicleDetails[oIndex].Barcode = this.vehicle.vehicleValue.Barcode;
+        // this.clonedVehicleDetails[oIndex].ClientId = this.vehicle.vehicleValue.ClientId;
+        // this.clonedVehicleDetails[oIndex].MembershipName = this.vehicle.vehicleValue.MembershipName;
+        // this.clonedVehicleDetails[oIndex].Upcharge = this.vehicle.vehicleValue.Upcharge;
+        // this.clonedVehicleDetails[oIndex].VehicleColor = this.vehicle.vehicleValue.VehicleColor;
+        // this.clonedVehicleDetails[oIndex].VehicleMfr = this.vehicle.vehicleValue.VehicleMfr;
+        // this.clonedVehicleDetails[oIndex].VehicleModel = this.vehicle.vehicleValue.VehicleModel;
+        // this.clonedVehicleDetails[oIndex].VehicleNumber = this.vehicle.vehicleValue.VehicleNumber;
+      }*/
       if (this.clonedVehicleDetails.length > 0) {
         this.vehicleDetails = [];
         this.clonedVehicleDetails.forEach(item => {
