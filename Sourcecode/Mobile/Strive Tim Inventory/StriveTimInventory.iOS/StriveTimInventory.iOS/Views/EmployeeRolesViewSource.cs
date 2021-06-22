@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Acr.UserDialogs;
 using Foundation;
 using MvvmCross;
@@ -16,9 +17,8 @@ namespace StriveTimInventory.iOS.Views
 
         private static string CellId = "EmployeeRolesCell";
 
-        public IList<EmployeeRole> RolesList { get; set; }
-
-        private static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
+        //public IList<EmployeeRole> RolesList { get; set; }
+        public ObservableCollection<EmployeeRole> RolesList { get; set; }
 
         public EmployeeRolesViewSource(UICollectionView collectionView)
             : base(collectionView, EmployeeRolesCell.Key)
@@ -35,11 +35,11 @@ namespace StriveTimInventory.iOS.Views
             {
                 if (value != null)
                 {
-                    RolesList = (IList<EmployeeRole>)value;
+                    RolesList = (ObservableCollection<EmployeeRole>)value;
                 }
                 else
                 {
-                    RolesList = new List<EmployeeRole>();
+                    RolesList = new ObservableCollection<EmployeeRole>();
                 }
                 base.ItemsSource = value;
             }
@@ -59,7 +59,6 @@ namespace StriveTimInventory.iOS.Views
             NSIndexPath indexPath, object item)
         {
             EmployeeRolesCell cell = (EmployeeRolesCell)collectionView.DequeueReusableCell(CellId, indexPath);
-            _userDialog.AlertAsync("Got Roles");
             cell.SetCell(cell, RolesList[indexPath.Row]);
             return cell;
         }

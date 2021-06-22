@@ -6,14 +6,16 @@ using Strive.Core.Utils.TimInventory;
 using System;
 using System.Globalization;
 using Strive.Core.Resources;
+using System.Collections.ObjectModel;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
     public class ClockInViewModel : BaseViewModel
     {
-        private List<EmployeeRole> _RolesList;
+        //private List<EmployeeRole> _RolesList;
+        private ObservableCollection<EmployeeRole> _RolesList;
 
-        public List<EmployeeRole> RolesList {
+        public ObservableCollection<EmployeeRole> RolesList {
             get
             {
                 return _RolesList;
@@ -35,7 +37,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         private void InitList()
         {
-            _RolesList = new List<EmployeeRole>();
+            _RolesList = new ObservableCollection<EmployeeRole>();
             if (EmployeeData.EmployeeDetails != null)
             {
                 List<EmployeeRoleApi> roles = EmployeeData.EmployeeDetails.EmployeeRoles;
