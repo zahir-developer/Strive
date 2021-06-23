@@ -82,7 +82,7 @@ namespace Strive.Core.Models.Customer
         public static string vehicleMakeName { get; set; }
         public static int colorNumber { get; set; }
         public static string colorName { get; set; }
-        public static int modelNumber { get; set; }
+        public static int? modelNumber { get; set; }
         public static string modelName { get; set; }
         public static List<int> selectedAdditionalServices;
         public static ServiceList filteredList { get; set; }
