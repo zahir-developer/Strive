@@ -35,8 +35,13 @@ namespace Strive.BusinessLogic.Location
             location.Location.WashTimeMinutes = random.Next(30, 45);
             location.Bay = CreateBay();
             location.Drawer = CreateDrawer();
-            ////CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-            ////var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            List<Geocode> lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            if (lstGeocode.Count > 0)
+            {
+                location.LocationAddress.Latitude = Convert.ToDecimal(lstGeocode[0].lat);
+                location.LocationAddress.Longitude = Convert.ToDecimal(lstGeocode[0].lon);
+            }
             try
             {
                 var LocationGeo = GetLocationGeo(location.LocationAddress);
@@ -61,8 +66,13 @@ namespace Strive.BusinessLogic.Location
 
         public Result UpdateLocation(LocationDto location)
         {
-            // CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
-            // var lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            CommonBpl commonBpl = new CommonBpl(_cache, _tenant);
+            List<Geocode> lstGeocode = commonBpl.GetGeocode(location.LocationAddress);
+            if (lstGeocode.Count > 0)
+            {
+                location.LocationAddress.Latitude = Convert.ToDecimal(lstGeocode[0].lat);
+                location.LocationAddress.Longitude = Convert.ToDecimal(lstGeocode[0].lon);
+            }
             return ResultWrap(new LocationRal(_tenant).UpdateLocation, location, "Status");
         }
 

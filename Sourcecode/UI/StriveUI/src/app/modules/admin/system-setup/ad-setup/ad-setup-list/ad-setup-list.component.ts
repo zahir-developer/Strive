@@ -166,6 +166,7 @@ export class AdSetupListComponent implements OnInit {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Admin.SystemSetup.AdSetup.Delete, 'Success!');
+        this.page = 1;
         this.getAlladSetupDetails();
       } else {
         this.spinner.hide();

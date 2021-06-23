@@ -68,6 +68,7 @@ export class MonthlyCustomerSummaryComponent implements OnInit {
   }
 
   refresh() {
+    this.page = 1;
     this.date = new Date();
     this.locationId = +localStorage.getItem('empLocationId');
     this.locationDropdownComponent.locationId = +localStorage.getItem('empLocationId')

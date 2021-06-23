@@ -398,4 +398,8 @@ export class PayrollsGridComponent implements OnInit {
     });
   }
 
+  newRunReport() {
+    this.page = 1;
+    this.runReport();
+      }
 }

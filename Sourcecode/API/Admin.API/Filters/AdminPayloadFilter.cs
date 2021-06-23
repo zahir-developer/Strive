@@ -173,6 +173,10 @@ namespace Admin.API.Filters
             _tenant.AzureStorageContainer = Pick("Azure", "Container");
             _tenant.AzureBlobHtmlTemplate = Pick("Azure", "BlobHtmlTemplate");
 
+
+            //Location
+            _tenant.OSMUri = Pick("Location", "OSMUri");
+            _tenant.UserAgent = Pick("Location", "UserAgent");
         }
     }
 }

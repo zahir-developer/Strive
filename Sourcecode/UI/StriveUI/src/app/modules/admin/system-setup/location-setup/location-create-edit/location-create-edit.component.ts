@@ -252,7 +252,10 @@ export class LocationCreateEditComponent implements OnInit {
       createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: this.employeeId,
-      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+      cityName : this.cityComponent.city.name,
+      stateName : this.stateDropdownComponent.state.name
+
     };
     const formObj = {
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,

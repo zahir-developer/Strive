@@ -105,6 +105,7 @@ export class TenantSetupComponent implements OnInit {
   }
 
   reloadGrid() {
+    this.page = 1;
     this.isEdit = false;
     this.showDialog = false;
     this.getTenantList();
@@ -138,6 +139,10 @@ export class TenantSetupComponent implements OnInit {
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
     this.page = this.page;
+    this.getTenantList();
+  }
+  newTenantList(){
+    this.page = 1;
     this.getTenantList();
   }
 
