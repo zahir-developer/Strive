@@ -61,7 +61,7 @@ export class ServiceSetupListComponent implements OnInit {
   }
   
   getAllserviceSetup(){
-    this.page = ApplicationConfig.PaginationConfig.page;
+    this.page = 1;
     this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.getAllserviceSetupDetails();
 
@@ -175,7 +175,7 @@ export class ServiceSetupListComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Admin.SystemSetup.ServiceSetup.Delete, 'Success!');
         this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.ServiceSetup, sortOrder: ApplicationConfig.Sorting.SortOrder.ServiceSetup.order };
-
+        this.page = 1;
         this.getAllserviceSetupDetails();
       } else {
         this.spinner.hide();

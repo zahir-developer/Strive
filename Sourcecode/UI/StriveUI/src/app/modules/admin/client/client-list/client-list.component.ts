@@ -69,6 +69,12 @@ export class ClientListComponent implements OnInit {
     this.getAllClientDetails();
   }
 
+  newgetAllClientDetails()
+  {
+    this.page = 1;
+    this.getAllClientDetails();
+  }
+
   // Get All Client
   getAllClientDetails() {
     const obj = {
@@ -164,7 +170,7 @@ export class ClientListComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Client.Delete, 'Success!');
         this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
-
+        this.page=1;
         this.getAllClientDetails();
       } else {
         this.spinner.hide();

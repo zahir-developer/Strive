@@ -228,7 +228,7 @@ export class VehicleListComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
         this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };
-
+        this.page = 1;
         this.getAllVehicleDetails();
       } else {
         this.spinner.hide();
@@ -302,6 +302,11 @@ export class VehicleListComponent implements OnInit {
  }
 
  
+newgetAllVehicleDetails()
+{
+  this.page = 1;
+  this.getAllVehicleDetails();
+}
 
  selectedCls(column) {
    if (column ===  this.sortColumn.sortBy &&  this.sortColumn.sortOrder === 'DESC') {

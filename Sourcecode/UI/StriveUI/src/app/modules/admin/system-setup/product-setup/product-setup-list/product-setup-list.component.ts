@@ -190,6 +190,7 @@ export class ProductSetupListComponent implements OnInit {
         this.spinner.hide();
 
         this.toastr.success(MessageConfig.Admin.SystemSetup.ProductSetup.Delete, 'Success!');
+        this.page = 1;
         this.getAllproductSetupDetails();
       } else {
         this.spinner.hide();

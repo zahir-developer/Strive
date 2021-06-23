@@ -106,6 +106,7 @@ export class WashesListComponent implements OnInit {
     if (event !== null) {
       this.startDate = event[0];
       this.endDate = event[1];
+      this.page = 1;
       this.getAllWashDetails();
     }
     else {
@@ -236,7 +237,7 @@ export class WashesListComponent implements OnInit {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Wash.Delete, 'Success!');
         this.sortColumn = { sortBy: ApplicationConfig.Sorting.SortBy.Washes, sortOrder: ApplicationConfig.Sorting.SortOrder.Washes.order };
-
+        this.page = 1;
         this.getAllWashDetails();
       } else {
         this.spinner.hide();

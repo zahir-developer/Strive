@@ -127,6 +127,7 @@ export class GiftCardComponent implements OnInit {
     this.getAllGiftCard();
   }
   searchGift() {
+    this.page =1;
     this.search = this.search;
     this.getAllGiftCard();
   }
