@@ -86,23 +86,32 @@ namespace Strive.BusinessLogic.Common
             return _result;
         }
 
-        internal object GetGeocode(LocationAddress locationAddress)
+        internal List<Geocode> GetGeocode(LocationAddress locationAddress)
         {
-            string osmUri = "https://nominatim.openstreetmap.org/search?q=255+South%20Main%20Street,+Alpharetta+GA+30009&format=json";
+            string osmUri = _tenant.OSMUri + locationAddress.Address1 +","+ locationAddress.CityName +"+"+ locationAddress.StateName  + "+" + locationAddress.Zip
+                + "&format=json";
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(osmUri);
             request.Method = "GET";
+            request.UserAgent = _tenant.UserAgent;
             string apiResponse = String.Empty;
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            try
             {
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                apiResponse = reader.ReadToEnd();
-                reader.Close();
-                dataStream.Close();
-            }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    Stream dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    apiResponse = reader.ReadToEnd();
+                    reader.Close();
+                    dataStream.Close();
+                }
 
-            List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
-            return lstGeocode;
+                List<Geocode> lstGeocode = JsonConvert.DeserializeObject<List<Geocode>>(apiResponse);
+                return lstGeocode;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public void DeleteUser(int authId)
@@ -382,9 +391,9 @@ namespace Strive.BusinessLogic.Common
 
             string emailContent = GetMailContent(htmlTemplate, keyValues);
 
-            if(emailContent == string.Empty)
+            if (emailContent == string.Empty)
             {
-                foreach(var key in keyValues)
+                foreach (var key in keyValues)
                 {
                     emailContent += key.Key + ": " + key.Value + ";";
                 }
@@ -393,13 +402,13 @@ namespace Strive.BusinessLogic.Common
             SendMail(emailId, emailContent, "Welcome to Strive !!!");
         }
 
-        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues,string sub)
+        public void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues, string sub)
         {
             try
             {
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
 
-                if (htmlTemplate == HtmlTemplate.GeneralMail|| htmlTemplate == HtmlTemplate.NewEmployeeInfo || htmlTemplate == HtmlTemplate.ProductThreshold || htmlTemplate == HtmlTemplate.ProductRequest)
+                if (htmlTemplate == HtmlTemplate.GeneralMail || htmlTemplate == HtmlTemplate.NewEmployeeInfo || htmlTemplate == HtmlTemplate.ProductThreshold || htmlTemplate == HtmlTemplate.ProductRequest)
                 {
                     SendMultipleMail(emailId, emailContent, sub);
                 }
@@ -449,24 +458,24 @@ namespace Strive.BusinessLogic.Common
         }
         public void SendMultipleMail(string email, string body, string subject)
         {
-           
+
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress(_tenant.FromMailAddress); //From Email Id  
             mailMessage.Subject = subject; //Subject of Email  
             mailMessage.Body = body; //body or message of Email  
             mailMessage.IsBodyHtml = true;
 
-            
+
             string[] BCCId = email.Split(',');
             foreach (string BCCEmail in BCCId)
             {
                 mailMessage.Bcc.Add(new MailAddress(BCCEmail)); //Adding Multiple BCC email Id  
             }
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();  // creating object of smptpclient  
-            smtp.Host = _tenant.SMTPClient;            
+            smtp.Host = _tenant.SMTPClient;
             NetworkCredential NetworkCred = new NetworkCredential();
             NetworkCred.UserName = _tenant.FromMailAddress;
-            NetworkCred.Password=_tenant.SMTPPassword ;
+            NetworkCred.Password = _tenant.SMTPPassword;
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = NetworkCred;
             smtp.EnableSsl = true;
@@ -500,7 +509,7 @@ namespace Strive.BusinessLogic.Common
                 {
 
                 }
-                
+
                 client.Send(message);
                 client.Disconnect(true);
             }
@@ -566,6 +575,6 @@ namespace Strive.BusinessLogic.Common
 
 
 
-      
+
     }
 }

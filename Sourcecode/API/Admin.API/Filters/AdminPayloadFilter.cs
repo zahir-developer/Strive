@@ -167,6 +167,10 @@ namespace Admin.API.Filters
             //Applicationurl
             _tenant.ApplicationUrl = Pick("ApplicationUrl", "Url");
             _tenant.MobileUrl = Pick("ApplicationUrl", "MobileUrl");
+
+            //Location
+            _tenant.OSMUri = Pick("Location", "OSMUri");
+            _tenant.UserAgent = Pick("Location", "UserAgent");
         }
     }
 }

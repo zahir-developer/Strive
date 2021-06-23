@@ -37,6 +37,8 @@ namespace Strive.Common
         string VehicleImageFolder { get; set; }
         string ApplicationUrl { get; set; }
         string MobileUrl { get; set; }
+         string OSMUri { get; set; }
+         string UserAgent { get; set; }
 
 
         #region CardConnect
@@ -98,6 +100,8 @@ namespace Strive.Common
         public string VehicleImageFolder { get; set; }
         public string ApplicationUrl { get; set; }
         public string MobileUrl { get; set; }
+        public string OSMUri { get; set; }
+        public string UserAgent { get; set; }
 
         #region
 
