@@ -103,6 +103,7 @@ namespace Greeter.Modules.Pay
             totalAmountDueLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             totalAmountDueLabel.Font = UIFont.SystemFontOfSize(18);
             totalAmountDueLabel.TextColor = UIColor.Black;
+            totalAmountDueLabel.Text = "$15.00";
             backgroundView.Add(totalAmountDueLabel);
 
             var paymentInfoTitleLabel = new UILabel(CGRect.Empty);
@@ -319,19 +320,19 @@ namespace Greeter.Modules.Pay
         [Export("textFieldShouldReturn:")]
         public bool ShouldReturn(UITextField textField)
         {
-            if(textField == customerNameTextField)
+            if (textField == customerNameTextField)
             {
                 tipAmountTextField.BecomeFirstResponder();
             }
-            else if(textField == tipAmountTextField)
+            else if (textField == tipAmountTextField)
             {
                 cardNumberTextField.BecomeFirstResponder();
             }
-            else if(textField == cardNumberTextField)
+            else if (textField == cardNumberTextField)
             {
                 expirationDateTextField.BecomeFirstResponder();
             }
-            else if(textField == expirationDateTextField)
+            else if (textField == expirationDateTextField)
             {
                 securityCodeTextField.BecomeFirstResponder();
             }

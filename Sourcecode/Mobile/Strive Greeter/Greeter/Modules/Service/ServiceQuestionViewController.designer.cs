@@ -62,6 +62,9 @@ namespace Greeter.Storyboards
 
 		[Outlet]
 		UIKit.NSLayoutConstraint tfwashTop { get; set; }
+
+		[Outlet]
+		UIKit.UIView viewHeader { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -105,9 +108,19 @@ namespace Greeter.Storyboards
 				tfColor = null;
 			}
 
+			if (tfdetailHeight != null) {
+				tfdetailHeight.Dispose ();
+				tfdetailHeight = null;
+			}
+
 			if (tfDetailPkg != null) {
 				tfDetailPkg.Dispose ();
 				tfDetailPkg = null;
+			}
+
+			if (tfdetailTop != null) {
+				tfdetailTop.Dispose ();
+				tfdetailTop = null;
 			}
 
 			if (tfMake != null) {
@@ -125,29 +138,24 @@ namespace Greeter.Storyboards
 				tfUpcharge = null;
 			}
 
-			if (tfWashPkg != null) {
-				tfWashPkg.Dispose ();
-				tfWashPkg = null;
-			}
-
 			if (tfwashHeight != null) {
 				tfwashHeight.Dispose ();
 				tfwashHeight = null;
 			}
 
-			if (tfdetailHeight != null) {
-				tfdetailHeight.Dispose ();
-				tfdetailHeight = null;
-			}
-
-			if (tfdetailTop != null) {
-				tfdetailTop.Dispose ();
-				tfdetailTop = null;
+			if (tfWashPkg != null) {
+				tfWashPkg.Dispose ();
+				tfWashPkg = null;
 			}
 
 			if (tfwashTop != null) {
 				tfwashTop.Dispose ();
 				tfwashTop = null;
+			}
+
+			if (viewHeader != null) {
+				viewHeader.Dispose ();
+				viewHeader = null;
 			}
 		}
 	}

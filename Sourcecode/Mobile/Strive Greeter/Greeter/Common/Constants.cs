@@ -29,6 +29,13 @@
     {
         internal const string SPLASH_BG = "splash_bg";
         internal const string CHECKOUT = "checkout";
+        internal const string PAY = "pay";
+    }
+
+    public class ColorNames
+    {
+        internal const string APP_COLOR = "app_color";
+        internal const string APP_SECONDARY_COLOR = "app_secondary_color";
     }
 
     public class Messages

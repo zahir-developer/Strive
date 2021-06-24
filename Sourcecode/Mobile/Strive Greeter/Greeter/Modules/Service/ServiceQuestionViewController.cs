@@ -128,8 +128,8 @@ namespace Greeter.Storyboards
             NavigationController.NavigationBar.Hidden = false;
             Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];
 
+            viewHeader.AddHearderViewShadow();
 
-            string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
             DateTime dt = GetCurrentDate();
             lblDate.Text = dt.ToString(Constants.DATE_FORMAT);
             lblTime.Text = dt.ToString(Constants.TIME_FORMAT);

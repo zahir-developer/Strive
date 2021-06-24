@@ -26,8 +26,8 @@
         <MtouchArch>x86_64</MtouchArch>
         <MtouchLink>None</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>iOS Team Provisioning Profile: com.greeter</CodesignProvision>
-        <CodesignKey>Apple Development: anbalagan.d@zohocorp.com (B2Y6569T52)</CodesignKey>
+        <CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -50,11 +50,10 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>Apple Development: anbalagan.d@zohocorp.com (B2Y6569T52)</CodesignKey>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
         <MtouchLink>SdkOnly</MtouchLink>
         <LangVersion>latest</LangVersion>
-        <CodesignProvision>iOS Team Provisioning Profile: com.greeter</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -139,6 +138,11 @@
         <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346.png" />
         <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Colors.xcassets\app_dark_color.colorset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -159,6 +163,7 @@
         <Folder Include="Extensions\" />
         <Folder Include="Storyboards\" />
         <Folder Include="Modules\User\" />
+        <Folder Include="Sources\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -166,6 +171,8 @@
         <InterfaceDefinition Include="Storyboards\UserStoryboard.storyboard" />
         <InterfaceDefinition Include="Resources\Storyboards\UserStoryboard~.storyboard" />
         <InterfaceDefinition Include="Resources\Storyboards\HomeStoryboard~.storyboard" />
+        <InterfaceDefinition Include="Cells\IssueCell.xib" />
+        <InterfaceDefinition Include="Cells\ImageCell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -177,7 +184,6 @@
         <Compile Include="Support\SceneDelegate.cs" />
         <Compile Include="Common\Constants.cs" />
         <Compile Include="Common\AppSettings.cs" />
-        <Compile Include="Cells\IssueCell.cs" />
         <Compile Include="Cells\CheckoutCell.cs" />
         <Compile Include="Services\Authentication\IAuthenticationService.cs" />
         <Compile Include="Services\Authentication\AuthenticationService.cs" />
@@ -246,6 +252,19 @@
         <Compile Include="Modules\Pay\CheckoutStatus.cs" />
         <Compile Include="DTOs\Checkout.cs" />
         
+        <Compile Include="Cells\IssueCell.cs" />
+        <Compile Include="Cells\IssueCell.designer.cs">
+          <DependentUpon>IssueCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Cells\ImageCell.cs" />
+        <Compile Include="Cells\ImageCell.designer.cs">
+          <DependentUpon>ImageCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Storyboards\IssuesViewController.cs" />
+        <Compile Include="Storyboards\IssuesViewController.designer.cs">
+          <DependentUpon>IssuesViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Sources\IssuesSource.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

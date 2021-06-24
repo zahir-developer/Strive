@@ -1,4 +1,5 @@
 using Foundation;
+using Greeter.Common;
 using Greeter.Modules.Login;
 using Greeter.Services.Authentication;
 using Greeter.Services.Network;
@@ -64,15 +65,33 @@ namespace Greeter
             };
             UINavigationBar.Appearance.SetTitleTextAttributes(titleAttribute);
 
-            var barButtonTitleTextAttribute = new UITextAttributes
-            {
-                Font = UIFont.SystemFontOfSize(17),
-                TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f)
-            };
+            //var barButtonTitleTextAttribute = new UITextAttributes
+            //{
+            //    Font = UIFont.SystemFontOfSize(17),
+            //    TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f)
+            //};
 
-            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Normal);
-            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Highlighted);
-            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Focused);
+            //UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Normal);
+            //UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Highlighted);
+            //UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Focused);
+
+            //var barButtonUnselectedTitleTextAttribute = new UITextAttributes
+            //{
+            //    Font = UIFont.SystemFontOfSize(10),
+            //    TextColor = UIColor.White
+            //};
+            //UITabBarItem.Appearance.SetTitleTextAttributes(barButtonUnselectedTitleTextAttribute, UIControlState.Normal);
+
+            //var barButtonSelectedTitleTextAttribute = new UITextAttributes
+            //{
+            //    Font = UIFont.SystemFontOfSize(10),
+            //    TextColor = UIColor.Green
+            //};
+            //UITabBarItem.Appearance.SetTitleTextAttributes(barButtonSelectedTitleTextAttribute, UIControlState.Selected);
+
+            UITabBar.Appearance.UnselectedItemTintColor = UIColor.White;
+
+            UITabBar.Appearance.TintColor = UIColor.FromRGB(12, 78, 71);
         }
     }
 }

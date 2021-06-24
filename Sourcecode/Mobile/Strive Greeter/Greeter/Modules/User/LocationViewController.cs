@@ -40,10 +40,10 @@ namespace Greeter
                 return false;
             };
 
-            btnDropdown.TouchUpInside += delegate
-            {
-                tfLocation.BecomeFirstResponder();
-            };
+            //btnDropdown.TouchUpInside += delegate
+            //{
+            //    tfLocation.BecomeFirstResponder();
+            //};
 
             btnNext.TouchUpInside += delegate
             {
