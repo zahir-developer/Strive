@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using GoogleMaps.LocationServices;
+using Strive.BusinessEntities.DTO.MembershipSetup;
+
 namespace Strive.BusinessLogic.Location
 {
     public class LocationBpl : Strivebase, ILocationBpl
@@ -178,6 +180,10 @@ namespace Strive.BusinessLogic.Location
         public Result GetAllLocationName()
         {
             return ResultWrap(new LocationRal(_tenant).GetAllLocationName, "Location");
+        }
+        public Result GetMerchantDetails(MerchantSearch search)
+        {
+            return ResultWrap(new LocationRal(_tenant).GetMerchantDetails, search, "MerchantValidation");
         }
     }
 }

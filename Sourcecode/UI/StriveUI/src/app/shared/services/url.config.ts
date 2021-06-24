@@ -138,7 +138,8 @@ export const UrlConfig = {
     updateLocation: `Admin/Location/Update`,
     getLocationById: `Admin/Location/GetById`,
     getLocationSearch: `Admin/Location/GetLocationSearch`,
-    getAllLocationName: `Admin/Location/GetAllLocationName`
+    getAllLocationName: `Admin/Location/GetAllLocationName`,
+    getMerchantDetails: `Admin/Location/GetMerchantDetails`,
   },
   MembershipSetup: {
     getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName`,
@@ -153,7 +154,6 @@ export const UrlConfig = {
     getAllMembership: `Admin/MembershipSetup/GetAll`,
     getAllMembershipName: `Admin/MembershipSetup/GetAllMembershipName`,
     deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,
-    getMembershipDetails: `Admin/MembershipSetup/GetMembershipDetails`,
   },
 
   Messenger:

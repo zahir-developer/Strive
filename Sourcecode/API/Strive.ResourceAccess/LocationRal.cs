@@ -121,6 +121,14 @@ namespace Strive.ResourceAccess
         {
             return db.Fetch<LocationNameViewModel>(EnumSP.Location.USPGETALLLOCATIONNAME.ToString(), _prm);
         }
+        public List<MerchantDetailViewModel> GetMerchantDetails(MerchantSearch search)
+        {
+            _prm.Add("@tblLocationId", search.LocationId);
+            _prm.Add("@userName", search.UserName);
+            _prm.Add("@password", search.Password);
+            var result = db.Fetch<MerchantDetailViewModel>(EnumSP.Location.USPGETMERCHANTDETAIL.ToString(), _prm);
+            return result;
+        }
 
     }
 }

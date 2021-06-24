@@ -61,14 +61,6 @@ namespace Strive.ResourceAccess
             return result;
         }
 
-        public List<MerchantDetailViewModel> GetMembershipDetails(MembershipSearch search)
-        {
-            _prm.Add("@tblLocationId", search.LocationId);
-            _prm.Add("@userName", search.UserName);
-            _prm.Add("@password", search.Password);
-            var result = db.Fetch<MerchantDetailViewModel>(EnumSP.Membership.USPGETUSERMEMBERSHIP.ToString(), _prm);
-            return result;
-        }
 
         public bool GetVehicleMembershipByMembershipId(int membershipid)
         {

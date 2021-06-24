@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.DTO.MembershipSetup
+namespace Strive.BusinessEntities.DTO.Location
 {
-    public class MembershipSearch
+    public class MerchantSearch
     {
 
         public string UserName { get; set; }

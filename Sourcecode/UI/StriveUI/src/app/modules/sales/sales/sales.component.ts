@@ -24,6 +24,8 @@ import { PaymentProcessComponent } from 'src/app/shared/components/payment-proce
 import { DecimalPipe } from '@angular/common';
 import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 import { ToastrService } from 'ngx-toastr';
+import { LocationService } from 'src/app/shared/services/data-service/location.service';
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -93,6 +95,7 @@ export class SalesComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService, private modalService: NgbModal, private fb: FormBuilder,
     private messageService: MessageServiceToastr, private service: ServiceSetupService,
     private giftcardService: GiftCardService, private spinner: NgxSpinnerService,
+    private locationService: LocationService,
     private route: ActivatedRoute, private codes: GetCodeService, private decimalPipe: DecimalPipe, private codeService: CodeValueService) { }
   ItemName = '';
   ticketNumber = '';
@@ -722,10 +725,10 @@ export class SalesComponent implements OnInit {
      password : this.password
     };
 
-    this.membershipService.getMembershipSearch(obj).subscribe(data => {
+    this.locationService.getMerchantSearch(obj).subscribe(data => {
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
-       if(membership.MembershipValidation.length ==0){
+       if(membership.MerchantValidation.length ==0){
         this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.InValidMember });
        }else{
         this.isValidMember = true;        

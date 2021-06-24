@@ -131,7 +131,6 @@ namespace Strive.BusinessEntities
             USPGETMEMBERSHIPSERVICEBYMEMBERSHIPID,
             uspGetMembershipListByVehicleId,
             USPGETALLMEMBERSHIPNAME,
-            USPGETUSERMEMBERSHIP,
         }
 
         public enum Checklist
@@ -186,7 +185,8 @@ namespace Strive.BusinessEntities
             USPGETALLLOCATIONOFFSET,
             USPDELETELOCATIONOFFSET,
             USPADDBAYSLOT,
-            USPGETALLLOCATIONNAME
+            USPGETALLLOCATIONNAME,
+            USPGETMERCHANTDETAIL,
         }
         public enum ServiceSetup
         {
