@@ -48,6 +48,15 @@ namespace Strive.Common
         string CCPassword { get; set; }
         string MID { get; set; }
 
+
+        #endregion
+
+        #region AzureWebApp
+
+        string AzureStorageConn { get; set; }
+        string AzureStorageContainer { get; set; }
+        string AzureBlobHtmlTemplate { get; set; }
+
         #endregion
 
         IDbConnection db();
@@ -114,6 +123,15 @@ namespace Strive.Common
         public string MID { get; set; }
 
         #endregion
+
+        #region AzureWebApp
+
+        public string AzureStorageConn { get; set; }
+        public string AzureStorageContainer { get; set; }
+        public string AzureBlobHtmlTemplate { get; set; }
+
+        #endregion
+
         public TenantHelper(IDistributedCache cache)
         {
             _cache = cache;

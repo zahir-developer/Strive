@@ -168,6 +168,12 @@ namespace Admin.API.Filters
             _tenant.ApplicationUrl = Pick("ApplicationUrl", "Url");
             _tenant.MobileUrl = Pick("ApplicationUrl", "MobileUrl");
 
+            //Azure Web App
+            _tenant.AzureStorageConn = Pick("Azure", "ConnctionString");
+            _tenant.AzureStorageContainer = Pick("Azure", "Container");
+            _tenant.AzureBlobHtmlTemplate = Pick("Azure", "BlobHtmlTemplate");
+
+
             //Location
             _tenant.OSMUri = Pick("Location", "OSMUri");
             _tenant.UserAgent = Pick("Location", "UserAgent");
