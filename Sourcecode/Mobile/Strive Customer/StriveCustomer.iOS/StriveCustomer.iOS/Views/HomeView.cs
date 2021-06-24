@@ -160,34 +160,36 @@ namespace StriveCustomer.iOS.Views
                 var ButtonBackgroundView = new UIButton(new CGRect(x: 0, y: 0, width: 105, height: 40));
                 ButtonBackgroundView.Layer.CornerRadius = 5;
                 ButtonBackgroundView.BackgroundColor = UIColor.Clear.FromHex(0xFCC201);
-              
-                if (washlocations.Location != null)
+
+                if (washlocations != null)
                 {
-                    foreach(var item in washlocations.Location)
+                    if (washlocations.Location != null)
                     {
-                        if(Title == item.LocationName)
+                        foreach (var item in washlocations.Location)
                         {
-                            var WashTime = item.WashTimeMinutes;
-                            ButtonBackgroundView.SetTitle(WashTime.ToString() + "mins", UIControlState.Normal);
+                            if (Title == item.LocationName)
+                            {
+                                var WashTime = item.WashTimeMinutes;
+                                ButtonBackgroundView.SetTitle(WashTime.ToString() + "mins", UIControlState.Normal);
+                            }
                         }
-                    }                                
+                    }
+                    else
+                    {
+                        ButtonBackgroundView.SetTitle("", UIControlState.Normal);
+                    }
+                    pinView.RightCalloutAccessoryView = ButtonBackgroundView;
+
+                    UIButton carButton = new UIButton(new CGRect(x: 30, y: 0, width: 20, height: 40));
+                    carButton.Layer.CornerRadius = 5;
+                    carButton.SetBackgroundImage(UIImage.FromBundle("icon-car"), UIControlState.Normal);
+                    pinView.LeftCalloutAccessoryView = carButton;
+
+                    //pinView.LeftCalloutAccessoryView = ButtonBackgroundView;
+                    //pinView.RightCalloutAccessoryView = new UIImageView(UIImage.FromFile("icon-car"));
+
+                    //CreateCustomView(Title, Subtitle, isOpen);
                 }
-                else
-                {
-                    ButtonBackgroundView.SetTitle("Wash Time", UIControlState.Normal);
-                }
-                pinView.RightCalloutAccessoryView = ButtonBackgroundView;
-
-                UIButton carButton = new UIButton(new CGRect(x: 30, y: 0, width: 20, height: 40));
-                carButton.Layer.CornerRadius = 5;
-                carButton.SetBackgroundImage(UIImage.FromBundle("icon-car"), UIControlState.Normal);
-                pinView.LeftCalloutAccessoryView = carButton;
-
-                //pinView.LeftCalloutAccessoryView = ButtonBackgroundView;
-                //pinView.RightCalloutAccessoryView = new UIImageView(UIImage.FromFile("icon-car"));
-
-                //CreateCustomView(Title, Subtitle, isOpen);
-
                 ((MKPinAnnotationView)pinView).PinColor = MKPinAnnotationColor.Red;
                 pinView.CanShowCallout = true;
 

@@ -3,6 +3,7 @@ using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,11 +50,11 @@ namespace Strive.Core.ViewModels.Customer
         public async Task getAllServiceList()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var completeList = await AdminService.GetVehicleServices();
-            if (completeList != null)
+           MembershipDetails.completeList = await AdminService.GetVehicleServices();
+            if (MembershipDetails.completeList != null)
             {
                 upchargeFullList.ServicesWithPrice = new List<ServiceDetail>();
-                foreach(var item in completeList.ServicesWithPrice)
+                foreach(var item in MembershipDetails.completeList.ServicesWithPrice)
                 {
                     if( item.ServiceTypeName == "Wash-Upcharge")
                     {
@@ -71,7 +72,7 @@ namespace Strive.Core.ViewModels.Customer
                     MembershipDetails.filteredList.
                     ServicesWithPrice.
                     Add(
-                     completeList.
+                     MembershipDetails.completeList.
                      ServicesWithPrice.
                      Find(c => c.ServiceId == upcharges.ServiceId)
                     );
@@ -104,7 +105,11 @@ namespace Strive.Core.ViewModels.Customer
         }
 
         public async void NavToAdditionalServices()
-        {
+        {            
+            MembershipDetails.filteredList = new ServiceList();
+            MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();            
+            MembershipDetails.filteredList.ServicesWithPrice.Add(upchargeFullList.ServicesWithPrice.Find(a => a.ServiceId == MembershipDetails.selectedUpCharge));
+                   
             await _navigationService.Navigate<VehicleAdditionalServiceViewModel>();
         }
         #endregion Commands

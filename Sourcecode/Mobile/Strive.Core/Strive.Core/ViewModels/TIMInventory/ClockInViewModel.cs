@@ -6,12 +6,14 @@ using Strive.Core.Utils.TimInventory;
 using System;
 using System.Globalization;
 using Strive.Core.Resources;
+using System.Collections.ObjectModel;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
     public class ClockInViewModel : BaseViewModel
     {
         private List<EmployeeRole> _RolesList;
+        //private ObservableCollection<EmployeeRole> _RolesList;
 
         public List<EmployeeRole> RolesList {
             get

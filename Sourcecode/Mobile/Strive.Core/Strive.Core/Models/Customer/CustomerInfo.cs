@@ -86,6 +86,7 @@ namespace Strive.Core.Models.Customer
         public static string modelName { get; set; }
         public static List<int> selectedAdditionalServices;
         public static ServiceList filteredList { get; set; }
+        public static ServiceList completeList { get; set; }
         public static ClientVehicleRoot customerVehicleDetails { get; set; }
         public static List<ClientVehicleMembershipService> selectedMembershipServices { get; set; }
         public static int clientVehicleID { get; set; }

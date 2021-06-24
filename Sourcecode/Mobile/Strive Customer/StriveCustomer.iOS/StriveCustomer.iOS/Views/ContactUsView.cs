@@ -18,12 +18,13 @@ namespace StriveCustomer.iOS.Views
         private MapDelegate mapDelegate;
         public ContactUsView() : base("ContactUsView", null)
         {
-        }
+        }             
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
             InitialSetUp();
+            MaintainData.SetMapData(LocationNameLbl, locationValue_Lbl, phoneValue_Lbl, mailValue_Lbl, timeValue_Lbl);
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -79,15 +80,30 @@ namespace StriveCustomer.iOS.Views
             SetMapAnnotations();
         }
 
-        private void setData()
+        public void setData(int index)
         {
-            LocationNameLbl.Text = locations.Location[0].LocationName;
-            locationValue_Lbl.Text = locations.Location[0].Address1;
-            phoneValue_Lbl.Text = locations.Location[0].PhoneNumber;
-            mailValue_Lbl.Text = locations.Location[0].Email;
-            if(locations.Location[0].StartTime != null)
+            LocationNameLbl.Text = washlocations.Location[index].LocationName;
+            locationValue_Lbl.Text = washlocations.Location[index].Address1;
+            phoneValue_Lbl.Text = washlocations.Location[index].PhoneNumber;
+            mailValue_Lbl.Text = washlocations.Location[index].Email;
+            if(washlocations.Location[index].StartTime != null)
             {
-                timeValue_Lbl.Text = locations.Location[0].StartTime + "to" + locations.Location[0].EndTime;
+                timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
+            }
+        } 
+        public void setAnnotationData(UILabel locationName, UILabel locationValue_Lbls, UILabel phoneValue_Lbls, UILabel mailValue_Lbls, UILabel timeValue_Lbls, int index)
+        {
+            LocationNameLbl = locationName;
+            locationValue_Lbl = locationValue_Lbls;
+            phoneValue_Lbl = phoneValue_Lbls;
+            mailValue_Lbl = mailValue_Lbls;
+            LocationNameLbl.Text = washlocations.Location[index].LocationName;
+            locationValue_Lbl.Text = washlocations.Location[index].Address1;
+            phoneValue_Lbl.Text = washlocations.Location[index].PhoneNumber;
+            mailValue_Lbl.Text = washlocations.Location[index].Email;
+            if (washlocations.Location[index].StartTime != null)
+            {
+                timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
             }
         }
 
@@ -120,13 +136,32 @@ namespace StriveCustomer.iOS.Views
             }
             LatCenter = LatCenter / AddressCount;
             LongCenter = LongCenter / AddressCount;
-            setData();
+            setData(0);
+        }
+
+        public class MaintainData
+        {
+            public static UILabel LocationNameLbl { get; set; }
+            public static UILabel locationValue_Lbl { get; set; }
+            public static UILabel phoneValue_Lbl { get; set; }
+            public static UILabel mailValue_Lbl { get; set; }
+            public static UILabel timeValue_Lbl { get; set; }
+
+            public static void SetMapData(UILabel locationName, UILabel locationValue_Lbls, UILabel phoneValue_Lbls, UILabel mailValue_Lbls, UILabel timeValue_Lbls)
+            {
+                LocationNameLbl = locationName;
+                locationValue_Lbl = locationValue_Lbls;
+                phoneValue_Lbl = phoneValue_Lbls;
+                mailValue_Lbl = mailValue_Lbls;
+                timeValue_Lbl = timeValue_Lbls;
+            }
         }
 
         public class MapDelegate : MKMapViewDelegate
         {           
             static string pId = "Annotation";
             string Title = "";
+            ContactUsView objContactUsView = new ContactUsView();
             public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
             {
                 if (annotation is MKUserLocation)
@@ -153,7 +188,7 @@ namespace StriveCustomer.iOS.Views
                         if (Title == item.LocationName)
                         {
                             var WashTime = item.WashTimeMinutes;
-                            ButtonBackgroundView.SetTitle(WashTime.ToString() + "mins", UIControlState.Normal);
+                            ButtonBackgroundView.SetTitle(WashTime.ToString() + "mins", UIControlState.Normal);                            
                         }
                     }                                      
                 }
@@ -179,7 +214,16 @@ namespace StriveCustomer.iOS.Views
                 var coordinate = view.Annotation.Coordinate;
                 var mapItem = new MKMapItem(new MKPlacemark(coordinate));
                 mapItem.Name = view.Annotation.GetTitle();
-                mapItem.OpenInMaps();
+                //mapItem.OpenInMaps();
+                var index = 0;
+                foreach(var item in washlocations.Location)
+                {
+                    if(mapItem.Name == item.LocationName)
+                    {
+                        objContactUsView.setAnnotationData(MaintainData.LocationNameLbl, MaintainData.locationValue_Lbl, MaintainData.phoneValue_Lbl, MaintainData.mailValue_Lbl, MaintainData.timeValue_Lbl, index);
+                    }
+                    index++;
+                }
             }
         }
 
