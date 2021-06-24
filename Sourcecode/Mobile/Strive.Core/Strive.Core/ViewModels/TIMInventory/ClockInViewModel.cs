@@ -12,10 +12,10 @@ namespace Strive.Core.ViewModels.TIMInventory
 {
     public class ClockInViewModel : BaseViewModel
     {
-        //private List<EmployeeRole> _RolesList;
-        private ObservableCollection<EmployeeRole> _RolesList;
+        private List<EmployeeRole> _RolesList;
+        //private ObservableCollection<EmployeeRole> _RolesList;
 
-        public ObservableCollection<EmployeeRole> RolesList {
+        public List<EmployeeRole> RolesList {
             get
             {
                 return _RolesList;
@@ -37,7 +37,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         private void InitList()
         {
-            _RolesList = new ObservableCollection<EmployeeRole>();
+            _RolesList = new List<EmployeeRole>();
             if (EmployeeData.EmployeeDetails != null)
             {
                 List<EmployeeRoleApi> roles = EmployeeData.EmployeeDetails.EmployeeRoles;

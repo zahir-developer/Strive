@@ -17,8 +17,8 @@ namespace StriveTimInventory.iOS.Views
 
         private static string CellId = "EmployeeRolesCell";
 
-        //public IList<EmployeeRole> RolesList { get; set; }
-        public ObservableCollection<EmployeeRole> RolesList { get; set; }
+        public IList<EmployeeRole> RolesList { get; set; }
+        //public ObservableCollection<EmployeeRole> RolesList { get; set; }
 
         public EmployeeRolesViewSource(UICollectionView collectionView)
             : base(collectionView, EmployeeRolesCell.Key)
@@ -35,11 +35,11 @@ namespace StriveTimInventory.iOS.Views
             {
                 if (value != null)
                 {
-                    RolesList = (ObservableCollection<EmployeeRole>)value;
+                    RolesList = (IList<EmployeeRole>)value;
                 }
                 else
                 {
-                    RolesList = new ObservableCollection<EmployeeRole>();
+                    RolesList = new List<EmployeeRole>();
                 }
                 base.ItemsSource = value;
             }
