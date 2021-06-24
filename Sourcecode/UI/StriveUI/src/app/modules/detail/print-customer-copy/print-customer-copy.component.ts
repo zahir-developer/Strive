@@ -32,7 +32,7 @@ export class PrintCustomerCopyComponent implements OnInit {
   getServiceType() {
     const serviceTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.serviceType);
     if (serviceTypeValue.length > 0) {
-      this.serviceEnum = serviceTypeValue.Codes;
+      this.serviceEnum = serviceTypeValue;
       this.bindingService();
     } else {
       this.wash.getServiceType('SERVICETYPE').subscribe(data => {
@@ -66,7 +66,7 @@ export class PrintCustomerCopyComponent implements OnInit {
     const content = document.getElementById('print-section').innerHTML;
     const printContent = '<!DOCTYPE html><html><head><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>'
       + '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/><style>@media print {@page {size: portrait;}}'
-      + '</style><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script></head><body>' + content + '<body></html>';
+      + '</style><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script><title>Customer Copy</title></head><body>' + content + '<body></html>';
 
     const popupWin = window.open('', '_blank', 'scrollbars=1,width:100%;height:100%');
     popupWin.document.open();
