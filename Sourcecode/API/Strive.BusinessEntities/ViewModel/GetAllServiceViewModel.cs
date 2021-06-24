@@ -15,9 +15,10 @@ namespace Strive.BusinessEntities.ViewModel
         public string Upcharges { get; set; }
         public decimal? Price { get; set; }
         public decimal? Cost { get; set; }
+        public string Description { get; set; }
         public bool? IsActive { get; set; }
         public int? DiscountServiceType  {get;set;}
-
+        
         public decimal? EstimatedTime { get; set; }
     }
 }

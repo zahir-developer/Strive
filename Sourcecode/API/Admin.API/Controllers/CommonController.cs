@@ -104,6 +104,13 @@ namespace Admin.API.Controllers
 
         }
 
+        [HttpPut]
+        [Route("Template")]
+        public string Template(string templateName)
+        {
+            return _commonBpl.Template(templateName);
+        }
+
 
     }
 }

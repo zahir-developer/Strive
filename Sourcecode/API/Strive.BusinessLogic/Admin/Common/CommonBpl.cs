@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Hosting;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -391,7 +392,7 @@ namespace Strive.BusinessLogic.Common
             keyValues.Add("{{emailId}}", emailId);
             keyValues.Add("{{password}}", defaultPassword);
 
-            string emailContent = GetBlobMailContent(htmlTemplate, keyValues);
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
 
             if (emailContent == string.Empty)
             {
@@ -408,7 +409,7 @@ namespace Strive.BusinessLogic.Common
         {
             try
             {
-                string emailContent = GetBlobMailContent(htmlTemplate, keyValues);
+                string emailContent = GetMailContent(htmlTemplate, keyValues);
 
                 if (htmlTemplate == HtmlTemplate.GeneralMail || htmlTemplate == HtmlTemplate.NewEmployeeInfo || htmlTemplate == HtmlTemplate.ProductThreshold || htmlTemplate == HtmlTemplate.ProductRequest)
                 {
@@ -424,7 +425,7 @@ namespace Strive.BusinessLogic.Common
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
         }
 
@@ -434,7 +435,7 @@ namespace Strive.BusinessLogic.Common
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
             keyValues.Add("{emailId}", emailId);
             keyValues.Add("{ticketNumber}", ticketNumber);
-            string emailContent = GetBlobMailContent(htmlTemplate, keyValues);
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
             SendMail(emailId, emailContent, "Vehicle is on Hold");
         }
         public void SendProductThresholdEmail(HtmlTemplate htmlTemplate, string emailId, string productName)
@@ -443,7 +444,7 @@ namespace Strive.BusinessLogic.Common
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
             keyValues.Add("{{emailId}}", emailId);
             keyValues.Add("{{productName}}", productName);
-            string emailContent = GetBlobMailContent(htmlTemplate, keyValues);
+            string emailContent = GetMailContent(htmlTemplate, keyValues);
             SendMail(emailId, emailContent, "The Product has reached its threshold Limit");
         }
 
@@ -529,6 +530,8 @@ namespace Strive.BusinessLogic.Common
 
         public string GetMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
         {
+            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
+
             string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
 
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
@@ -609,7 +612,24 @@ namespace Strive.BusinessLogic.Common
         }
 
 
+        public string Template(string templateName)
+        {
+            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
 
+            string subPath = _tenant.HtmlTemplates + templateName.ToString() + ".html";
+
+            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
+
+            string MailText = string.Empty;
+
+            StreamReader str = new StreamReader(subPath);
+            MailText = str.ReadToEnd();
+
+
+            str.Close();
+
+            return MailText;
+        }
 
     }
 }

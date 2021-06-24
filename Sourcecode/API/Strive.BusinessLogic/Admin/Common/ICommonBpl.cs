@@ -23,6 +23,6 @@ namespace Strive.BusinessLogic.Common
         Result GetUpchargeByType(UpchargeDto upchargeDto);
         //void SendMultipleMail(string email, string body, string subject);
         void SendEmail(HtmlTemplate htmlTemplate, string emailId, Dictionary<string, string> keyValues, string sub);
-
+        string Template(string templateName);
     }
 }
