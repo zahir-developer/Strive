@@ -138,7 +138,7 @@ export class CheckoutGridComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllUncheckedVehicleDetails();
   }
   changeSorting(column) {

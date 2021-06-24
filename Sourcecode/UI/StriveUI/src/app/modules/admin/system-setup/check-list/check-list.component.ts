@@ -122,7 +122,7 @@ export class CheckListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllcheckListDetails();
   }
   onRoleDeSelect(event) {

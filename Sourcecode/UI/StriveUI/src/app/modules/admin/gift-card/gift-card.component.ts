@@ -123,7 +123,7 @@ export class GiftCardComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllGiftCard();
   }
   searchGift() {

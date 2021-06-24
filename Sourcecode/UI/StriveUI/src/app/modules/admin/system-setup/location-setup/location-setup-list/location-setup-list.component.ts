@@ -130,7 +130,7 @@ export class LocationSetupListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllLocationSetupDetails();
   }
   // Get Location Search
