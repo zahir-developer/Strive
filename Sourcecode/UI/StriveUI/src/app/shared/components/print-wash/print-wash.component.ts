@@ -25,7 +25,7 @@ export class PrintWashComponent implements OnInit {
       + '</style><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script></head><body><table><thead><tr><td><div class="row" style="width:100%;" id="header"><div class="col-12" style="font-size:14px;margin-right:15px;">' + header
       +   '</div></div></td></tr></thead><tbody><tr><td>' + body + '</td></tr></tbody><tfoot><tr><td><div class="fixed-bottom border-top"  style="width:100%;" id="footer"><div style="font-size:14px;margin-right:15px;float:left;">' + footer + '</div></div></td></tr></tfoot></table><body></html>';
 
-    const content = '<!DOCTYPE html><html><head><title>Hourly Wash Report</title><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>'
+    const content = '<!DOCTYPE html><html><head><title>Wash Details</title><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>'
       + '<link rel = "stylesheet" type = "text/css" media = "print"/><style type = "text/css">   @media print{body{ width: 950px; background-color: red;} }'
       + '</style><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script></head><body><table><thead id="header"><tr><td>'
       + '</td></tr><tr><td><div class="fixed-top" "><div style="font-size:14px;margin-right:15px;">' + header + '</div></div></td></tr></thead><tbody><tr><td><div class="upperTeethData print-table-border"><div></div><div style="position:relative; top:100px">' + body + '</div></div></td></tr><tr><td>'
