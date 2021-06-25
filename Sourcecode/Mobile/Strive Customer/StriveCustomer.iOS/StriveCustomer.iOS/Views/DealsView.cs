@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AVFoundation;
 using CoreGraphics;
+using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer;
@@ -39,7 +41,7 @@ namespace StriveCustomer.iOS.Views
             var DealsTableSource = new DealsTableSource(VehiclesTableView, ViewModel);
 
             var set = this.CreateBindingSet<DealsView, DealsViewModel>();
-            set.Bind(DealsTableSource).To(vm => vm.DealsList);
+            set.Bind(DealsTableSource).To(vm => vm.Deals);
             set.Bind(DealsTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             set.Apply();
 
@@ -74,6 +76,25 @@ namespace StriveCustomer.iOS.Views
         public async Task getDeals()
         {
             await ViewModel.GetAllDealsCommand();
+        }
+
+        public bool IsCameraAuthorized()
+        {
+            AVAuthorizationStatus authStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+
+            switch (authStatus)
+            {
+                case AVAuthorizationStatus.NotDetermined:
+                    return false;                   
+                case AVAuthorizationStatus.Restricted:
+                    return false;
+                case AVAuthorizationStatus.Denied:
+                    return false;
+                case AVAuthorizationStatus.Authorized:
+                    return true;
+                default:
+                   return false;
+            }
         }
     }
 }

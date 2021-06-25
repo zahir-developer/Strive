@@ -65,7 +65,7 @@ namespace StriveCustomer.iOS.Views
 
             if (MembershipDetails.filteredList != null)
             {
-                var source = new UpchargesVehicleDataSource(MembershipDetails.filteredList);
+                var source = new UpchargesVehicleDataSource(ViewModel.upchargeFullList);
                 UpchargesVehicle_TableView.Source = source;
                 UpchargesVehicle_TableView.TableFooterView = new UIView(CGRect.Empty);
                 UpchargesVehicle_TableView.DelaysContentTouches = false;

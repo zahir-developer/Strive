@@ -61,7 +61,7 @@ namespace Strive.Core.ViewModels.Customer
         public async Task GetPastServiceDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var result = await AdminService.GetSchedulePastService(0);
+            var result = await AdminService.GetSchedulePastService(CustomerInfo.ClientID);
             if(result == null)
             {
                 _userDialog.Toast("No Schedules have been found !");

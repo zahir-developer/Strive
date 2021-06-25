@@ -16,6 +16,7 @@ namespace Greeter.Storyboards
             "Main Street 2",
             "Main Street 3"
         };
+
         string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
 
         public ServiceType ServiceType;
@@ -125,6 +126,8 @@ namespace Greeter.Storyboards
 
         void Initialise()
         {
+            string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
+
             NavigationController.NavigationBar.Hidden = false;
             Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];
 

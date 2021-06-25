@@ -50,7 +50,7 @@ namespace StriveCustomer.iOS.Views
             await this.ViewModel.GetCompleteVehicleDetails();
 
             MembershipDetails.colorNumber = this.ViewModel.clientVehicleDetail.Status.ColorId;
-            MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId;
+            MembershipDetails.modelNumber = this.ViewModel.clientVehicleDetail.Status.VehicleModelId ?? 0;
             MembershipDetails.vehicleMakeNumber = this.ViewModel.clientVehicleDetail.Status.VehicleMakeId;
 
             if (this.ViewModel.selectedVehicleInfo != null || this.ViewModel.selectedVehicleInfo.Status.Count > 0)
@@ -58,7 +58,7 @@ namespace StriveCustomer.iOS.Views
                 EditVehicleName.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor + " " +
                                    this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr + " " +
                                    this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel;                
-                EditBarCode_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "1234";
+                EditBarCode_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().Barcode ?? "";
                 EditVehicleMake_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleMfr ?? "";
                 EditVehicleModel_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleModel ?? "";
                 EditVehicleColor_Value.Text = this.ViewModel.selectedVehicleInfo.Status.FirstOrDefault().VehicleColor ?? "";

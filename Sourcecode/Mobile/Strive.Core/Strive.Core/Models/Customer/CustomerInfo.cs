@@ -16,7 +16,7 @@ namespace Strive.Core.Models.Customer
         public static DateTime notifyWashTime { get; set; }
         public static int selectedDeal { get; set; } = -1;
         public static CustomerPersonalInfo customerPersonalInfo { get; set; }
-        public static int ClientID { get; set; } = 82;
+        public static int ClientID { get; set; } 
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
         public static int colorNumber { get; set; }
@@ -76,12 +76,13 @@ namespace Strive.Core.Models.Customer
         public static int selectedModel { get; set; }
         public static int selectedMake { get; set; }
         public static int selectedMembership { get; set; }
+        public static MembershipServices selectedMembershipDetail { get; set; }
         public static int selectedUpCharge { get; set; }
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
         public static int colorNumber { get; set; }
         public static string colorName { get; set; }
-        public static int modelNumber { get; set; }
+        public static int? modelNumber { get; set; }
         public static string modelName { get; set; }
         public static List<int> selectedAdditionalServices;
         public static ServiceList filteredList { get; set; }
