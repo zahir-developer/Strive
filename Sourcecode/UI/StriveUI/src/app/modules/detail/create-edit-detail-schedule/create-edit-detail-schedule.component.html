@@ -113,8 +113,8 @@
                         <label for="inputVehicle">Vehicle<span class="required">*</span></label>
                         <select class="form-control" formControlName="vehicle" [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }" (change)="vehicleChange($event.target.value)">
                             <option hidden selected value="">Choose</option>
-                            <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
-                                {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
+                            <option *ngFor="let v of vehicle" value="{{v.VehicleId}}">
+                                {{v.VehicleMfr}}, {{v.VehicleModel}}, {{v.VehicleColor}}
                             </option>
                         </select>
                         <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
@@ -235,7 +235,7 @@
                             <div class="col-md-3" *ngFor="let addService of additional">
                                 <div class="custom-control custom-checkbox m-t-10">
                                     <input type="checkbox" class="custom-control-input" id="{{addService.ServiceId}}" (change)="change(addService)" [checked]="addService.IsChecked" [disabled]="isView" />
-                                    <label class="custom-control-label" for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
+                                    <label class="custom-control-label text-capital" for="{{addService.ServiceId}}">{{addService.ServiceName}}</label>
                                 </div>
                             </div>
                         </div>

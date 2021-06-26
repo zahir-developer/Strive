@@ -660,7 +660,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.detailForm.get('vehicle').enable();
     }
 
-
+    this.getUpcharge();
   }
 
   getColor() {
