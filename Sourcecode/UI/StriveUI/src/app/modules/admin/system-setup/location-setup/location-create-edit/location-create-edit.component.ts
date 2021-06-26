@@ -163,7 +163,7 @@ export class LocationCreateEditComponent implements OnInit {
       this.offsetE = this.selectedData.LocationOffset.OffSetE;
       this.offsetF = this.selectedData.LocationOffset.OffSetF;
     }
-    if (this.selectedData.LocationOffset !== null) {
+    if (this.selectedData.MerchantDetail !== null) {
       this.merchantId = this.selectedData?.MerchantDetail.MID;
       this.merchantUserName = this.selectedData?.MerchantDetail.UserName;
       this.merchantPassword = this.selectedData?.MerchantDetail.Password;
