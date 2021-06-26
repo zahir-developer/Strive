@@ -60,11 +60,9 @@ export class ServiceSetupListComponent implements OnInit {
     this.getAllserviceSetupDetails();
   }
   
-  getAllserviceSetup(){
+  searchService(){
     this.page = 1;
-    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
     this.getAllserviceSetupDetails();
-
   }
 
   // Get All Services
@@ -115,8 +113,7 @@ export class ServiceSetupListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = 1;
-    this.getAllserviceSetupDetails();
+    this.searchService();
   }
   searchKeyup(event) {
     if (event) {
