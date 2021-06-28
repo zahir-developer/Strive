@@ -286,6 +286,7 @@
         <Compile Include="Services\Network\ApiService.cs" />
         <Compile Include="DTOs\Model.cs" />
         <Compile Include="MvvmCross\Setup.cs" />
+        <Compile Include="Modules\Home\WashStationAnnotationView.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
