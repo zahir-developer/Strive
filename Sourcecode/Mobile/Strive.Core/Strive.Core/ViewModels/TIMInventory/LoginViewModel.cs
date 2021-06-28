@@ -11,13 +11,14 @@ namespace Strive.Core.ViewModels.TIMInventory
     {
         public LoginViewModel()
         {
-           
+
         }
 
         #region Properties
         private bool _isPasswordSecure = true;
 
-        public bool isPasswordSecure {
+        public bool isPasswordSecure
+        {
             get
             {
                 return _isPasswordSecure;
@@ -28,7 +29,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        private string _UserId = "";
+        private string _UserId = "caradmin@strive.com";
 
         public string UserId
         {
@@ -42,7 +43,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
         }
 
-        private string _Password = "";
+        private string _Password = "pass@123";
 
         public string Password
         {
@@ -93,7 +94,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 _userDialog.ShowLoading(Strings.LoggingIn, Acr.UserDialogs.MaskType.Gradient);
                 var response = await AdminService.EmployeeLogin(new EmployeeLoginRequest(UserId, Password));
                 if (response.Token != null)
-                {                     
+                {
                     EmployeeData.EmployeeDetails = response.EmployeeDetails;
                     ApiUtils.Token = response.Token;
                     //var request = new TimeClockRequest()
@@ -122,7 +123,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         async Task<bool> ValidateCredentialsAsync()
         {
             bool isValid = true;
-            if(!Validations.validateEmail(UserId))
+            if (!Validations.validateEmail(UserId))
             {
                 await _userDialog.AlertAsync(Strings.ValidEmail, Strings.Alert);
                 return !isValid;
@@ -142,7 +143,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void DoLogin()
         {
-            AdminService.Login("Admin", "Admin"); 
+            AdminService.Login("Admin", "Admin");
         }
 
         #endregion Commands

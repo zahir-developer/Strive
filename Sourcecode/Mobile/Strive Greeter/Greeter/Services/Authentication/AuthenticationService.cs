@@ -11,11 +11,11 @@ namespace Greeter.Services.Authentication
         public AuthenticationService(INetworkService networkService)
             => this.networkService = networkService;
 
-        public Task<BaseResponse> LoginAsync(string userId, string password)
+        public Task<LoginResponse> LoginAsync(string userId, string password)
         {
-            IRestRequest request = new RestRequest(Urls.LOGIN_API, HttpMethod.Post);
+            IRestRequest request = new RestRequest(Urls.LOGIN, HttpMethod.Post);
             request.AddBody(new { userId, password });
-            return networkService.ExecuteAsync<BaseResponse>(request);
+            return networkService.ExecuteAsync<LoginResponse, CommonResponse>(request);
         }
     }
 }

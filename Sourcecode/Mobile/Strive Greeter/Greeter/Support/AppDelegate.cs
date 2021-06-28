@@ -1,8 +1,6 @@
 using Foundation;
-using Greeter.Common;
-using Greeter.Modules.Login;
-using Greeter.Services.Authentication;
-using Greeter.Services.Network;
+using Greeter.MvvmCross;
+using MvvmCross.Platforms.Ios.Core;
 using UIKit;
 
 namespace Greeter
@@ -10,7 +8,7 @@ namespace Greeter
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : UIResponder, IUIApplicationDelegate
+    public class AppDelegate : MvxApplicationDelegate<Setup, App>, IUIApplicationDelegate
     {
 
         [Export("window")]
@@ -90,8 +88,9 @@ namespace Greeter
             //UITabBarItem.Appearance.SetTitleTextAttributes(barButtonSelectedTitleTextAttribute, UIControlState.Selected);
 
             UITabBar.Appearance.UnselectedItemTintColor = UIColor.White;
-
             UITabBar.Appearance.TintColor = UIColor.FromRGB(12, 78, 71);
+
+            //UITabBar.Appearance.TintColor = UIColor.FromName(ColorNames.APP_COLOR);
         }
     }
 }

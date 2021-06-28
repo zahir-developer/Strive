@@ -7,7 +7,7 @@ namespace Greeter.DTOs
         [JsonProperty("statusCode")]
         public int StatusCode { get; set; }
 
-        [JsonProperty("message")]
+        [JsonProperty("status")]
         public string Message { get; set; }
     }
 }

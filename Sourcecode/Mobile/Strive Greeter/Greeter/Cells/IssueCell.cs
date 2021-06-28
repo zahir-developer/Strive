@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Foundation;
+using Greeter.Sources;
 using UIKit;
 
 namespace Greeter.Cells
@@ -23,9 +24,13 @@ namespace Greeter.Cells
         public override void AwakeFromNib()
         {
             base.AwakeFromNib();
+
+            var imagesSource = new ImagesSource();
+            cvImages.RegisterNibForCell(ImageCell.Nib, ImageCell.Key);
+            cvImages.Source = imagesSource;
         }
 
-        public void UpdateData(string date, string desc, string[] images)
+        public void SetupData(string date, string desc, string[] images)
         {
             // TODO : update data to ui
         }

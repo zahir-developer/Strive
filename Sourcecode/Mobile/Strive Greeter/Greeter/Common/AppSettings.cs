@@ -7,6 +7,8 @@ namespace Greeter.Common
     {
         public static bool IsLogin => !string.IsNullOrEmpty(Token);
 
+        public static string BearereToken => "Bearer " + Token;
+
         public static string Token
         {
             get => Preferences.Get(nameof(Token), string.Empty);

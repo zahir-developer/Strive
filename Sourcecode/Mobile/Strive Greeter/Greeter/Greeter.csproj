@@ -24,20 +24,10 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <MtouchArch>x86_64</MtouchArch>
-        <MtouchLink>None</MtouchLink>
+        <MtouchLink>SdkOnly</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
         <CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
         <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-        <DebugType>none</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-        <MtouchLink>None</MtouchLink>
-        <MtouchArch>x86_64</MtouchArch>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -50,9 +40,9 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignKey>iPhone Developer</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
-        <MtouchLink>SdkOnly</MtouchLink>
+        <MtouchLink>None</MtouchLink>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -67,6 +57,19 @@
         <MtouchLink>SdkOnly</MtouchLink>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
+      <Optimize>false</Optimize>
+      <DefineConstants></DefineConstants>
+      <WarningLevel>4</WarningLevel>
+      <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+      <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+      <MtouchVerbosity></MtouchVerbosity>
+      <MtouchEnableSGenConc>false</MtouchEnableSGenConc>
+      <MtouchLink>SdkOnly</MtouchLink>
+      <MtouchArch>x86_64</MtouchArch>
+      <CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+      <LangVersion>latest</LangVersion>
+    </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
         <Reference Include="System.Xml" />
@@ -80,6 +83,9 @@
       <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
       <PackageReference Include="Newtonsoft.Json">
         <Version>13.0.1</Version>
+      </PackageReference>
+      <PackageReference Include="MvvmCross">
+        <Version>8.0.1</Version>
       </PackageReference>
     </ItemGroup>
     <ItemGroup>
@@ -143,6 +149,10 @@
         <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Icon awesome-home%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Icon awesome-home%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Icon awesome-home.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -164,6 +174,7 @@
         <Folder Include="Storyboards\" />
         <Folder Include="Modules\User\" />
         <Folder Include="Sources\" />
+        <Folder Include="MvvmCross\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -265,6 +276,16 @@
           <DependentUpon>IssuesViewController.cs</DependentUpon>
         </Compile>
         <Compile Include="Sources\IssuesSource.cs" />
+        <Compile Include="Storyboards\AddIssueViewController.cs" />
+        <Compile Include="Storyboards\AddIssueViewController.designer.cs">
+          <DependentUpon>AddIssueViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Sources\ImagesSource.cs" />
+        <Compile Include="Modules\User\LoginViewModel.cs" />
+        <Compile Include="MvvmCross\App.cs" />
+        <Compile Include="Services\Network\ApiService.cs" />
+        <Compile Include="DTOs\Model.cs" />
+        <Compile Include="MvvmCross\Setup.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

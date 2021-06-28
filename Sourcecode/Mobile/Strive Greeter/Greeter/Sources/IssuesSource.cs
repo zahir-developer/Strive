@@ -13,13 +13,14 @@ namespace Greeter.Sources
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            UITableViewCell cell = tableView.DequeueReusableCell(IssueCell.Key);
+            IssueCell cell = (IssueCell)tableView.DequeueReusableCell(IssueCell.Key);
+            //cell.UpdateData();
             return cell;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return 10;
+            return 5;
         }
     }
 }

@@ -66,13 +66,11 @@ namespace Greeter
             {
                 if (txtFieldBarcode.Text.IsEmpty())
                 {
-                    ShowAlertMsg(btnSelect.TitleLabel.Text);
-
-                    NavigateToWashOrDetailScreen();
+                    ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
                 }
                 else
                 {
-                    ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
+                    NavigateToWashOrDetailScreen();
                 }
             };
 

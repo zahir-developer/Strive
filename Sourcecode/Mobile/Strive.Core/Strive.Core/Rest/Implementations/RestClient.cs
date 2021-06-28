@@ -8,7 +8,6 @@ using MvvmCross;
 using MvvmCross.Base;
 using MvvmCross.Logging;
 using Strive.Core.Models;
-using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Utils;
@@ -31,12 +30,13 @@ namespace Strive.Core.Rest.Implementations
         {
             string stringSerialized;
             BaseResponse baseResponse = new BaseResponse();
-            url = ApiUtils.AZURE_URL + url;
+            url = ApiUtils.BASE_URL + url;
             //url = url.Replace("http://", "https://");
 
             using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiUtils.Token);
+                httpClient.Timeout = TimeSpan.FromMinutes(2);
                 using (var request = new HttpRequestMessage { RequestUri = new Uri(url), Method = method })
                 {
                     if (method != HttpMethod.Get)
@@ -51,7 +51,7 @@ namespace Strive.Core.Rest.Implementations
                     {
                         Console.WriteLine(request);
                         response = await httpClient.SendAsync(request).ConfigureAwait(true);
-                        Console.WriteLine(response); 
+                        Console.WriteLine(response);
                     }
                     catch (Exception ex)
                     {
@@ -70,7 +70,7 @@ namespace Strive.Core.Rest.Implementations
                         Console.WriteLine(stringSerialized);
                         baseResponse = _jsonConverter.DeserializeObject<BaseResponse>(stringSerialized);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         _userDialog.HideLoading();
                         if (!url.Contains("Login"))
@@ -91,7 +91,7 @@ namespace Strive.Core.Rest.Implementations
                     if (!ValidateResponse(baseResponse))
                     {
                         _userDialog.HideLoading();
-                        if(!url.Contains("Login"))
+                        if (!url.Contains("Login"))
                         {
                             await _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
                         }
@@ -104,10 +104,10 @@ namespace Strive.Core.Rest.Implementations
             }
         }
 
-        bool ValidateResponse (BaseResponse response)
+        bool ValidateResponse(BaseResponse response)
         {
             bool isValid = true;
-            if(response.statusCode == 200)
+            if (response.statusCode == 200)
             {
                 return isValid;
             }
@@ -121,7 +121,7 @@ namespace Strive.Core.Rest.Implementations
             {
                 return isValid;
             }
-            else if(response.statusCode == 403 && response.resultData == null)
+            else if (response.statusCode == 403 && response.resultData == null)
             {
                 _userDialog.AlertAsync(Strings.UsernamePasswordIncorrect);
             }

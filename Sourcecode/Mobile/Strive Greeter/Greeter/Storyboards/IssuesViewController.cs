@@ -8,7 +8,7 @@ using UIKit;
 
 namespace Greeter.Storyboards
 {
-    public partial class IssuesViewController : UIViewController
+    public partial class IssuesViewController : BaseViewController
     {
         // Data
         const string SCREEN_TITLE = "Issues";
@@ -21,14 +21,34 @@ namespace Greeter.Storyboards
         {
             base.ViewDidLoad();
             Initialise();
+
+            btnAddIssue.TouchUpInside += (s, e) =>
+            {
+
+            };
+
+            btnAddIssue.TouchUpInside += BtnAddIssueTouchUpInside;
+        }
+
+        private void BtnAddIssueTouchUpInside(object sender, EventArgs e)
+        {
+            PresentAddIssuePopUp();
+        }
+
+        void PresentAddIssuePopUp()
+        {
+            UIViewController vc = GetViewController(GetHomeStorybpard(), nameof(AddIssueViewController));
+            vc.ModalPresentationStyle = UIModalPresentationStyle.BlurOverFullScreen;
+            PresentViewController(vc, true, null);
         }
 
         void Initialise()
         {
             Title = SCREEN_TITLE;
             viewHeader.AddHearderViewShadow();
-            tvIssues.RegisterClassForCellReuse(typeof(IssueCell), IssueCell.Key);
+            tvIssues.RegisterNibForCellReuse(IssueCell.Nib, IssueCell.Key);
             tvIssues.Source = new IssuesSource();
+            tvIssues.ReloadData();
         }
     }
 }
