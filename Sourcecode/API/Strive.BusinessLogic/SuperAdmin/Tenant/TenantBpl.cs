@@ -121,7 +121,7 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         public Result GetLocationMaxLimit(int tenantId)
         {
 
-            return ResultWrap(new TenantRal(_tenant, true).GetLoationMaxLimit, tenantId, "cities");
+            return ResultWrap(new TenantRal(_tenant, true).GetLoationMaxLimit, tenantId, "maxCount");
 
 
         }
