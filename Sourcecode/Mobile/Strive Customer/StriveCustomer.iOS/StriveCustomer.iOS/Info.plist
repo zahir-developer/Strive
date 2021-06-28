@@ -9,7 +9,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -17,12 +17,9 @@
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
-		<integer>2</integer>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile~ipad</key>
-	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -49,21 +46,12 @@
 		<string>OpenSans-SemiBold.ttf</string>
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>&quot;App wants to use the location service&quot;</string>
+	<string>App wants to use the location service</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>&quot;App wants to use the location service&quot;</string>
+	<string>App wants to use the location service</string>
 	<key>NSCameraUsageDescription</key>
 	<string>App wants to access the camera</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>MKDirectionsRequest</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.apple.maps.directionsrequest</string>
-			</array>
-		</dict>
-	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App wants to use the location service</string>
 </dict>
 </plist>

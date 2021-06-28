@@ -45,6 +45,11 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void NavToSignatureView()
         {
+            foreach(var item in MembershipDetails.selectedAdditionalServices)
+            {
+                MembershipDetails.filteredList.ServicesWithPrice.Add(MembershipDetails.completeList.ServicesWithPrice.Find(a => a.ServiceId == item));
+            }
+
             await _navigationService.Navigate<MembershipSignatureViewModel>();
         }
         #endregion Commands

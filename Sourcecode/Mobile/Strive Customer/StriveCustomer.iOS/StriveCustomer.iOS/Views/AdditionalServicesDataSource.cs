@@ -55,6 +55,7 @@ namespace StriveCustomer.iOS.Views
         {
              MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
              cell.updateServices(indexPath);
+             MembershipDetails.selectedAdditionalServices.Add(services[indexPath.Row].ServiceId);
         }
     }
 }

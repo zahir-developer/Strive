@@ -60,7 +60,7 @@ namespace StriveCustomer.iOS.Views
             this.upchargeList = serviceList;
 
             Membership_VehicleLbl.Text = upchargeList[indexpath.Row];
-            if (upchargeList[indexpath.Row] == MembershipDetails.filteredList.ServicesWithPrice[0].Upcharges)
+            if ((MembershipDetails.filteredList.ServicesWithPrice.Count > 0) && (upchargeList[indexpath.Row] == MembershipDetails.filteredList.ServicesWithPrice[0].Upcharges))
             {
                 //Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
                 cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);

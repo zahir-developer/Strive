@@ -64,7 +64,7 @@ namespace StriveTimInventory.iOS.Views
                 subtitle = WashTime.ToString();
                 annotations[i] = new MKPointAnnotation()
                 {
-                    Title = locationAddress[i].Address1,
+                    Title = locationAddress[i].LocationName,
                     Subtitle = subtitle,
                     Coordinate = new CLLocationCoordinate2D((double)locationAddress[i].Latitude,(double)locationAddress[i].Longitude)
                 };
