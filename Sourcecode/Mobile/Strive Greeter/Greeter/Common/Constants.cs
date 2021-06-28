@@ -12,7 +12,6 @@
         internal const string BASE_URL = "https://strivedev.azurewebsites.net";
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
-        //  /Admin/Washes/GetByBarCode/{barcode}
         internal const string BARCODE = "/Admin/Washes/GetByBarCode/";
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
     }

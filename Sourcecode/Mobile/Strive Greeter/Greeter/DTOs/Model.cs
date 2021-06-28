@@ -6,14 +6,8 @@ namespace Greeter.DTOs
 {
     //public record Model(string UserId, string pswd);
 
-    public class CommonResponse
+    public class CommonResponse : BaseResponse
     {
-        [JsonProperty("statusCode")]
-        public int StatusCode { get; set; }
-
-        [JsonProperty("status")]
-        public string Message { get; set; }
-
         [JsonProperty("resultData")]
         public string ResultData { get; set; }
 

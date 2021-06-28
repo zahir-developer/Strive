@@ -15,7 +15,7 @@ namespace Greeter.Services.Authentication
         {
             IRestRequest request = new RestRequest(Urls.LOGIN, HttpMethod.Post);
             request.AddBody(new { userId, password });
-            return networkService.ExecuteAsync<LoginResponse, CommonResponse>(request);
+            return networkService.ExecuteAsync<LoginResponse>(request);
         }
     }
 }

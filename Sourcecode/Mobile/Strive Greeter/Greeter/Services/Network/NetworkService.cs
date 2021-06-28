@@ -22,44 +22,7 @@ namespace Greeter.Services.Network
             };
         }
 
-        //public async Task<TResult> ExecuteAsync<TResult>(IRestRequest request, string baseUrl = Urls.BASE_URL) where TResult : BaseResponse
-        //{
-        //    using var urlSession = NSUrlSession.SharedSession;
-        //    using var urlRequest = CreateRequest(request, baseUrl);
-
-        //    using var task = urlSession.CreateDataTaskAsync(urlRequest, out NSUrlSessionDataTask sessionDataTask);
-        //    sessionDataTask.Resume();
-
-        //    try
-        //    {
-        //        var dataTaskRequest = await task;
-        //        var urlResponse = dataTaskRequest.Response as NSHttpUrlResponse;
-
-        //        if (urlResponse?.StatusCode >= 200 || urlResponse?.StatusCode <= 299)
-        //        {
-        //            using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
-        //            var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
-        //            result.StatusCode = (int)urlResponse?.StatusCode;
-        //            return result;
-        //        }
-        //        else
-        //        {
-        //            var errorResult = Activator.CreateInstance<TResult>();
-        //            errorResult.StatusCode = (int)urlResponse.StatusCode;
-        //            errorResult.Message = urlResponse.StatusCode.ToString();
-        //            return errorResult;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        var errorResult = Activator.CreateInstance<TResult>();
-        //        errorResult.StatusCode = 707;
-        //        errorResult.Message = e.Message;
-        //        return errorResult;
-        //    }
-        //}
-
-        public async Task<TResult> ExecuteAsync<TResult, T>(IRestRequest request, string baseUrl = Urls.BASE_URL) where TResult : BaseResponse where T : CommonResponse
+        public async Task<TResult> ExecuteAsync<TResult>(IRestRequest request, string baseUrl = Urls.BASE_URL) where TResult : BaseResponse
         {
             using var urlSession = NSUrlSession.SharedSession;
             using var urlRequest = CreateRequest(request, baseUrl);
@@ -76,7 +39,7 @@ namespace Greeter.Services.Network
                 {
                     using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
                     var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
-
+                    result.StatusCode = (int)urlResponse?.StatusCode;
                     return result;
                 }
                 else
@@ -95,6 +58,43 @@ namespace Greeter.Services.Network
                 return errorResult;
             }
         }
+
+        //public async Task<TResult> ExecuteAsync<TResult, T>(IRestRequest request, string baseUrl = Urls.BASE_URL) where TResult : BaseResponse where T : CommonResponse
+        //{
+        //    using var urlSession = NSUrlSession.SharedSession;
+        //    using var urlRequest = CreateRequest(request, baseUrl);
+
+        //    using var task = urlSession.CreateDataTaskAsync(urlRequest, out NSUrlSessionDataTask sessionDataTask);
+        //    sessionDataTask.Resume();
+
+        //    try
+        //    {
+        //        var dataTaskRequest = await task;
+        //        var urlResponse = dataTaskRequest.Response as NSHttpUrlResponse;
+
+        //        if (urlResponse?.StatusCode >= 200 || urlResponse?.StatusCode <= 299)
+        //        {
+        //            using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
+        //            var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
+
+        //            return result;
+        //        }
+        //        else
+        //        {
+        //            var errorResult = Activator.CreateInstance<TResult>();
+        //            errorResult.StatusCode = (int)urlResponse.StatusCode;
+        //            errorResult.Message = urlResponse.StatusCode.ToString();
+        //            return errorResult;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        var errorResult = Activator.CreateInstance<TResult>();
+        //        errorResult.StatusCode = 707;
+        //        errorResult.Message = e.Message;
+        //        return errorResult;
+        //    }
+        //}
 
         NSUrlRequest CreateRequest(IRestRequest request, string baseUrl)
         {
@@ -144,8 +144,5 @@ namespace Greeter.Services.Network
                 HttpMethod.Delete => "Delete",
                 _ => throw new ArgumentException($"{httpMethod} Http method not support")
             };
-
-        // Todo => Need to move to somewhere which will be apt as per single responsibility pattern
-
     }
 }
