@@ -72,6 +72,6 @@ namespace Greeter.Services.Network
             return response;
         }
 
-        T ParseJsonString<T>(string jsonString) => (T)JsonConvert.DeserializeObject<T>(jsonString);
+        T ParseJsonString<T>(string jsonString) => JsonConvert.DeserializeObject<T>(jsonString);
     }
 }

@@ -13,13 +13,9 @@ namespace Greeter.Services.Network
         public object? Body { get; private set; }
         public HttpMethod Method { get; private set; } = HttpMethod.Get;
 
-        public RestRequest(string path, HttpMethod method) : this(path)
+        public RestRequest(string path, HttpMethod method)
         {
             Method = method;
-        }
-
-        public RestRequest(string path)
-        {
             Parameter = new Dictionary<string, string>();
             Header = new Dictionary<string, string>();
             Path = path;
