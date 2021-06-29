@@ -1,0 +1,212 @@
+<div class="border-bottom  col-12 p-b-10 m-b-15 p-l-0">
+    <h3 class="d-inline-block">Irregularities Report - </h3>
+    <div class="date d-inline-block datepicker-view" data-date-format="dd/mm/yyyy">
+
+        <input type="text" class="datepick" [(ngModel)]="date" #dp="bsDatepicker" (focus)="dp.show()"
+            (bsValueChange)="onValueChange($event)" (keydown)="$event.preventDefault()" [bsConfig]="bsConfig"
+            bsDatepicker [outsideClick]="true"><span class="input-group-addon">
+            <i class="font-size-1-5 theme-secondary-color mdi mdi-calendar-month" (click)="dp.show()"></i></span>
+    </div>
+</div>
+<div class="col-lg-12 p-l-0 p-r-0">
+    <div class="row no-gutter">
+        <div class="col-12">
+            <div class="row no-gutter">
+                <div class="col-lg-2">
+                    <app-location-dropdown (emitLocation)="onLocationChange($event)"></app-location-dropdown>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn theme-primary-button-color"
+                        (click)="getIrregulrities()">Preview</button>
+                </div>
+            </div>
+            <div class="card m-t-10">
+                <div class="card-body p-10">
+                    <div class="row">
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <div class="d-inline-block align-middle">
+                                    <app-export-filetype (emitExportType)="getfileType($event)"></app-export-filetype>
+                                </div>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [disabled] = "!fileTypeEvent"
+                                    (click)="export()">Export</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color" [useExistingCss]="true"
+                                [printStyle]="{input: {'visibility': 'hidden'}, button: {'visibility': 'hidden'}}"
+                                printTitle="Daily Tip Report"  printSectionId="dailyreport" ngxPrint >Print</button>&nbsp;
+                                <button type="button" class="btn theme-primary-button-color"
+                                    (click)="refresh()">Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end card-->
+            <!-- end card-->
+            <div class="card m-t-10">
+                <div class="card-body">
+                    <div id="dailyreport">
+                    <div class="p-b-5 m-b-8">
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Irregularities Report </span>
+                           
+                        </h4>
+                        <div class="pull-right card-widgets"> <a data-toggle="collapse" href="#Irregularitiesreport"
+                                role="button" aria-expanded="false" aria-controls="Monthlyreport"><i
+                                    class="theme-font-color font-size-1-5 mdi mdi-chevron-up"></i></a> </div>
+                    </div>
+                    <div id="Irregularitiesreport" class="collapse show">
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Vehicles with no info </span> </h4>
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <td>	Date	</td>
+                                        <td>	Time 	</td>
+                                        <td>	Tkt #	</td>
+                                        <td>	Color	</td>
+                                        <td>	Make	</td>
+                                        <td>	Model	</td>
+                                        <td>	Extra service	</td>
+                                        <td>	Sale amt	</td>
+                                        <td>	Discount	</td>
+                                        <td>	paid by	</td>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                      
+                                    </tr>
+                                    <tr >
+                                        <td colspan="3" class="text-center" >No Records Found</td>
+                                    </tr>
+                                </tbody>
+                               
+                            </table>
+                           
+                        </div>
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Missing ticket numbers </span> </h4>
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <td>	Date	</td>
+                                        <td>	Time 	</td>
+                                        <td>	Tkt #	</td>
+                                        <td>	Color	</td>
+                                        <td>	Make	</td>
+                                        <td>	Model	</td>
+                                        <td>	Extra service	</td>
+                                        <td>	Sale amt	</td>
+                                        <td>	Discount	</td>
+                                        <td>	paid by	</td>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                      
+                                    </tr>
+                                    <tr >
+                                        <td colspan="3" class="text-center" >No Records Found</td>
+                                    </tr>
+                                </tbody>
+                               
+                            </table>
+                           
+                        </div>
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Price change or Modification </span> </h4>
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <td>	Date	</td>
+                                        <td>	Time 	</td>
+                                        <td>	Tkt #	</td>
+                                        <td>	Color	</td>
+                                        <td>	Make	</td>
+                                        <td>	Model	</td>
+                                        <td>	Extra service	</td>
+                                        <td>	Sale amt	</td>
+                                        <td>	Discount	</td>
+                                        <td>	paid by	</td>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                      
+                                    </tr>
+                                    <tr >
+                                        <td colspan="3" class="text-center" >No Records Found</td>
+                                    </tr>
+                                </tbody>
+                               
+                            </table>
+                           
+                        </div>
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Coupons </span> </h4>
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <td>	Date	</td>
+                                        <td>	Time 	</td>
+                                        <td>	Tkt #	</td>
+                                        <td>	Color	</td>
+                                        <td>	Make	</td>
+                                        <td>	Model	</td>
+                                        <td>	Extra service	</td>
+                                        <td>	Sale amt	</td>
+                                        <td>	Discount	</td>
+                                        <td>	paid by	</td>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                      
+                                    </tr>
+                                    <tr >
+                                        <td colspan="3" class="text-center" >No Records Found</td>
+                                    </tr>
+                                </tbody>
+                               
+                            </table>
+                           
+                        </div>
+                        <h4 class="d-inline-block align-middle"><span class="resp-title">Deposit off </span> </h4>
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <td>	Date	</td>
+                                        <td>	Time 	</td>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                      
+                                    </tr>
+                                    <tr >
+                                        <td colspan="3" class="text-center" >No Records Found</td>
+                                    </tr>
+                                </tbody>
+                               
+                            </table>
+                           
+                        </div>
+                    </div>
+                    
+                </div>
+              
+                </div>
+                <!-- end card-body -->
+            </div>
+            <!-- end card-->
+        </div>
+    </div>
+</div>
