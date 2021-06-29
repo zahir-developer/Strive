@@ -221,9 +221,9 @@ export class AddTenantComponent implements OnInit {
     this.companyform.patchValue({  // moment(employeeInfo.HiredDate).toDate()
       company: detail.companyName,
       noOfLocation: +detail.maxLocation,
-      dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : '',
-      paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : '',
-      deactivation: detail.expiryDate ? moment(detail.expiryDate).toDate() : ''
+      dateOfSubscription: detail.subscriptionDate ? moment(detail.subscriptionDate).toDate() : null,
+      paymentDate: detail.paymentDate ? moment(detail.paymentDate).toDate() : null,
+      deactivation: detail.expiryDate !== '' ? moment(detail.expiryDate).toDate() : null
     });
 
     const selectedState = this.stateList.filter(item => item.StateId === detail.state);
