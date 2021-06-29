@@ -12,6 +12,7 @@ import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
+import { UserSignUpComponent } from './sign-up/sign-up.component';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/token.interceptor';
 import { TableModule } from 'primeng/table';
@@ -82,6 +83,7 @@ const load = (http: HttpClient) => {
     SidenavComponent,
     LoginComponent,
     SignupComponent,
+    UserSignUpComponent,
     HelpsComponent,
     ViewCustomerDetailsComponent,
     CreateCustomerDetailsComponent,

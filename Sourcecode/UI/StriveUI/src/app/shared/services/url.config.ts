@@ -335,7 +335,8 @@ export const UrlConfig = {
     getTenantDetailById: `Admin/Tenant/TenantById/`,
     updateTenant: `Admin/Tenant/UpdateTenant`,
     getStateList: `Admin/Tenant/StateList`,
-    getCityByStateId: `Admin/Tenant/GetCityByStateId/`
+    getCityByStateId: `Admin/Tenant/GetCityByStateId/`,
+    getMaxLocationCount :'Admin/Tenant/GetLocationMaxLimit/'
   },
 
   paymentGateway: {

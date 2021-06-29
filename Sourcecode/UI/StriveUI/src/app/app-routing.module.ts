@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, ExtraOptions, PreloadAllModules } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { UserSignUpComponent } from './sign-up/sign-up.component';
 import { HelpsComponent } from './helps/helps.component';
 import { AuthGuard } from './shared/guards/auth-guard.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { label: 'forgot-password', title: 'forgot-password' } },
   { path: 'location', component: SelectLocationComponent, data: { label: 'select-location', title: 'select-location' } },
   { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
+  { path: 'usersignup', component: UserSignUpComponent, data: { label: 'signup', title: 'signup' } },
   { path: 'helps', component: HelpsComponent },
   { path: 'side-nav', component: SidenavComponent },
 

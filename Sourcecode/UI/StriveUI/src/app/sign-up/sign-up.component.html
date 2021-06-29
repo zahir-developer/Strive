@@ -1,0 +1,118 @@
+<section id="login">
+  <!--sign-up-->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7 web-display"> </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 d-flex vh-100 login-panel theme-wrapper-color">
+        <div class="login-panel-container my-auto w-100">
+          <div class="login-form">
+            <h1 class="form-title p-b-20 text-uppercase"> SignUp </h1>
+            <form [formGroup]="loginForm" (ngSubmit)="signUp()">
+              
+              <div class="form-group">
+                <label for="firstName">First Name<span class="required">*</span></label>
+                <input type="text" class="form-control" id="firstName" (keydown.space)="$event.preventDefault()"
+                  formControlName="firstName" placeholder="Enter First Name">
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name<span class="required">*</span></label>
+                <input type="text" class="form-control" id="lastName" (keydown.space)="$event.preventDefault()"
+                  formControlName="lastName" placeholder="Enter Last Name">
+              </div>
+              <div class="form-group">
+                <label for="emailId">Email address<span class="required">*</span></label>
+                <input type="email" class="form-control" id="emailId" (keydown.space)="$event.preventDefault()"
+                  formControlName="username" aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="lastName">Phone Number<span class="required">*</span></label>
+                <input  tabindex="5" type="text" appPhoneMask maxlength="14" class="form-control" id="phoneNumber" (keydown.space)="$event.preventDefault()"
+                  formControlName="phoneNumber" placeholder="Enter Phone Number" placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid': submitted && f.phone1.errors }">
+                 
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password<span class="required">*</span></label>
+                <input type="password" class="form-control" (keydown.space)="$event.preventDefault()"
+                  formControlName="password" id="password" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password<span class="required">*</span></label>
+                <input type="text" class="form-control" id="confirmPassword" (keydown.space)="$event.preventDefault()"
+                  formControlName="confirmPassword" placeholder="Enter Confirm Password">
+              </div>
+              <div class="form-group">
+                <label for="VehicleInformation>">Vehicle information</label>
+
+                <div class="form-group">
+                  <!-- <label for="inputVehicle">Vehicle<span class="required">*</span></label>
+                  <select class="form-control" formControlName="vehicle"
+                      (change)="vehicleChange($event.target.value)"
+                      [ngClass]="{ 'is-invalid': submitted && f.vehicle.errors }">
+                      <option hidden selected value="">Choose</option>
+                      <option *ngFor="let score of vehicle" value="{{score.VehicleId}}">
+                          {{score.VehicleMfr}},{{score.VehicleModel}},{{score.VehicleColor}}
+                      </option>
+                  </select>
+                  <div *ngIf="submitted && f.vehicle.errors" class="invalid-feedback">
+                      <div *ngIf="f.vehicle.errors.required">Vehicle is required</div>
+                  </div> -->
+               
+                    <label for="inputType">Make</label>
+
+                    <div class="ui-fluid">
+                        <div class="p-grid forms-grid">
+                            <div class="p-col-3 p-md-6">
+                                <p-autoComplete field="name" [suggestions]="filteredMake" 
+                                     (completeMethod)="filterMake($event)"
+                                    (onSelect)="selectedModel($event)"   [size]="10" formControlName="type" placeholder="Make">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <label for="inputModel">Model</label>
+                    <div class="ui-fluid">
+                        <div class="p-grid forms-grid">
+                            <div class="p-col-3 p-md-6">
+                                <p-autoComplete field="name" [suggestions]="filteredModel"
+                                    
+                                    (completeMethod)="filterModel($event)" [size]="10"
+                                    formControlName="model" placeholder="Model">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="inputColor">Color</label>
+                    <div class="ui-fluid">
+                        <div class="p-grid forms-grid">
+                            <div class="p-col-3 p-md-6">
+                                <p-autoComplete field="name" [suggestions]="filteredcolor"
+                                   
+                                    (completeMethod)="filterColor($event)" [size]="10"
+                                    formControlName="color" placeholder="Color">
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn theme-primary-button-color w-100 btn-sm">Submit</button>
+              </div>
+              <div class="form-group" style="cursor: pointer;"> <a (click)="signUp()"
+                  class="theme-primary-color">Return to Login</a> </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--sign-up-->

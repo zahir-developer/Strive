@@ -37,4 +37,8 @@ export class TenantSetupService {
   getCityByStateId(stateID) {
     return this.http.get(`${UrlConfig.tenantSetup.getCityByStateId}` + stateID);
   }
+  
+  getMaxLocationCount(id) {
+    return this.http.get(`${UrlConfig.tenantSetup.getMaxLocationCount}` + id);
+  }
 }

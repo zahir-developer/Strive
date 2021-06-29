@@ -263,6 +263,10 @@ export const MessageConfig = {
          {
             Warning: 'Select type to export !',
             Total: 'There\'s no data on the selected date!',
+         },
+         Location:
+         {
+            Warning: 'Reached Max Limit. !',
          }
       }
    }
