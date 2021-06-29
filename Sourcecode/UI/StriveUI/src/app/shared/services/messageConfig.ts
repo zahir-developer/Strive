@@ -153,7 +153,7 @@ export const MessageConfig = {
          invalidCard: 'Invalid Gift Card Number',
          insuffBalnce: 'Insufficient Balance',
          ActivityAdd: 'Activity Added Successfully!',
-         redeemAmount: 'RedeemAmount amunt is greether than available amount'
+         redeemAmount: 'Redeem amount is greater than available amount.'
       },
 
       CashRegister:

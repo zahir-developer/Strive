@@ -25,6 +25,7 @@ using System.Net.Mail;
 
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Hosting;
+using System.Security.Authentication;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -501,16 +502,18 @@ namespace Strive.BusinessLogic.Common
 
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
-                client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
-
                 // Note: only needed if the SMTP server requires authentication
                 try
                 {
+                    client.SslProtocols |= SslProtocols.Tls;
+                    client.CheckCertificateRevocation = false;
+                    client.Connect(_tenant.SMTPClient, _tenant.Port.toInt(), false);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
                     client.Authenticate(_tenant.FromMailAddress, _tenant.SMTPPassword);
                 }
                 catch (Exception ex)
                 {
-
+                    throw ex;
                 }
 
                 client.Send(message);

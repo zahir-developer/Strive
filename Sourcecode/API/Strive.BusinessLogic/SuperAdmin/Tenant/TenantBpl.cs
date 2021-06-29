@@ -31,7 +31,7 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
                     string hashPassword = Pass.Hash(newPassword);
                     tenant.TenantViewModel.PasswordHash = hashPassword;
 
-                    string tenantGuid = new TenantRal(_tenant, true, true).CreateTenant(tenant.TenantViewModel);
+                    string tenantGuid = new TenantRal(_tenant, true).CreateTenant(tenant.TenantViewModel);
 
                     //Change Tenant Connection
                     /*
