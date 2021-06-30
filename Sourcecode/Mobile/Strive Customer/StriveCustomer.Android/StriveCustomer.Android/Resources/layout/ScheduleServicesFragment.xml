@@ -63,8 +63,7 @@
             <Button
                 android:id="@+id/ScheduleServiceCancel_Button"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1"
+                android:layout_height="wrap_content"
                 android:background="@drawable/secondarybutton"
                 android:textColor="@android:color/white"
                 android:fontFamily="@font/opensans_bold"

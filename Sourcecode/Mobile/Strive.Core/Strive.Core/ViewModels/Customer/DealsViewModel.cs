@@ -22,6 +22,7 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task GetAllDealsCommand()
         {
+            _userDialog.ShowLoading("Loading");
             if(Deals.Count == 0)
             {
                 var result = await AdminService.GetAllDeals();
@@ -29,7 +30,8 @@ namespace Strive.Core.ViewModels.Customer
                 {
                     Deals.Add(item);
                 }
-            }           
+            }
+            _userDialog.HideLoading();
         }
 
         public async Task NavigateToDetailCommand(string item)
