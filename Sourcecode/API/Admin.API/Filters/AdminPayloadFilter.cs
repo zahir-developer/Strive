@@ -62,6 +62,7 @@ namespace Admin.API.Filters
             var EmployeeId = string.Empty;
             var ClientId = string.Empty;
             var tid = string.Empty;
+            var TenantId = string.Empty;
             var requestPath = context.HttpContext.Request.Path.Value;
 
             if (!requestPath.Contains("/Auth/") && !requestPath.Contains("/Signup/") && !requestPath.Contains("/External/"))
@@ -69,6 +70,7 @@ namespace Admin.API.Filters
                 isAuth = false;
                 userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
                 TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid")).Value;
+                TenantId = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantId")).Value;
                 schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
 
                 var emp = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId"));
@@ -87,7 +89,7 @@ namespace Admin.API.Filters
             SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId, ClientId);
         }
 
-        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null, string clientId = null)
+        private void SetDbConnection(string userGuid, string schemaName, bool isAuth = false, string tenantGuid = null, string employeeId = null, string clientId = null, string tenantId = null)
         {
             var strConnectionString = Pick("ConnectionStrings", "StriveConnection");
             var strAdminConnectionString = Pick("ConnectionStrings", "StriveAuthAdmin");
@@ -118,7 +120,7 @@ namespace Admin.API.Filters
 
                 if (isSchemaAvailable)
                 {
-                    _tenant.SetTenantGuid(tenantGuid);
+                    _tenant.SetTenantGuid(tenantGuid, Convert.ToInt32(string.IsNullOrEmpty(tenantId) ? "0" : tenantId));
                 }
 
                 strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";

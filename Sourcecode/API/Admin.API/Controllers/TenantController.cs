@@ -82,10 +82,10 @@ namespace Admin.API.Controllers
             return _bplManager.GetCityByStateId(stateId);
         }
         [HttpGet]
-        [Route("GetLocationMaxLimit/{tenantId}")]
-        public Result GetLocationMaxLimit(int tenantId)
+        [Route("GetLocationMaxLimit")]
+        public Result GetLocationMaxLimit()
         {
-            return _bplManager.GetLocationMaxLimit(tenantId);
+            return _bplManager.GetLocationMaxLimit();
         }
 
         #endregion

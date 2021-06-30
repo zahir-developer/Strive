@@ -116,14 +116,10 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         public Result GetCityByStateId(int stateId)
         {
             return ResultWrap(new TenantRal(_tenant, true).GetCityByStateId, stateId, "cities");
-
         }
-        public Result GetLocationMaxLimit(int tenantId)
+        public Result GetLocationMaxLimit()
         {
-
-            return ResultWrap(new TenantRal(_tenant, true).GetLoationMaxLimit, tenantId, "maxCount");
-
-
+            return ResultWrap(new TenantRal(_tenant, true).GetLoationMaxLimit, _tenant.TenantId, "maxCount");
         }
     }
 }
