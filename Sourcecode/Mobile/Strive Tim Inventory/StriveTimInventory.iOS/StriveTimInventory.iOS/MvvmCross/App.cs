@@ -1,9 +1,7 @@
-﻿using System;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.ViewModels;
-using Strive.Core;
 
 namespace StriveTimInventory.iOS.MvvmCross
 {

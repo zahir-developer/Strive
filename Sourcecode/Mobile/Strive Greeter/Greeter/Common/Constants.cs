@@ -1,4 +1,6 @@
-﻿namespace Greeter.Common
+﻿using System.Drawing;
+
+namespace Greeter.Common
 {
     public class Constants
     {
@@ -12,7 +14,10 @@
         internal const string BASE_URL = "https://strivedev.azurewebsites.net";
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
+        // Format : /Admin/Washes/GetByBarCode/{barcode}
         internal const string BARCODE = "/Admin/Washes/GetByBarCode/";
+        // Format : /Admin/Common/GetCodesByCategory/{globalCode}
+        internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
     }
 
@@ -33,6 +38,7 @@
         internal const string SPLASH_BG = "splash_bg";
         internal const string CHECKOUT = "checkout";
         internal const string PAY = "pay";
+        internal const string HOME = "home";
     }
 
     public class ColorNames
@@ -41,12 +47,19 @@
         internal const string APP_SECONDARY_COLOR = "app_secondary_color";
     }
 
+    public class Colors
+    {
+        internal static Color APP_BASE_COLOR = Color.FromArgb(29, 201, 183);
+    }
+
     public class Messages
     {
-        internal const string BARCODE_EMPTY = "Please enter the Barcode";
-        internal const string USER_ID_AND_PSWD_EMPTY = "Please enter the User ID and Password";
-        internal const string USER_ID_EMPTY = "Please enter the User ID";
-        internal const string PSWD_EMPTY = "Please enter the Password";
+        internal const string BARCODE_EMPTY = "Please enter the barcode";
+        internal const string USER_ID_AND_PSWD_EMPTY = "Please enter your user id and password";
+        internal const string USER_ID_EMPTY = "Please enter your user id";
+        internal const string PSWD_EMPTY = "Please enter your password";
+        internal const string LOCATION_EMPTY = "Please select the location";
+        internal const string BARCODE_WRONG = "Invalid barcode";
     }
 
     public class StatusCodes

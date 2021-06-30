@@ -1,10 +1,12 @@
 
 using Greeter.Common;
+using Greeter.Modules.User;
+using MvvmCross.Platforms.Ios.Views;
 using UIKit;
 
 namespace Greeter.Modules.Login
 {
-    public partial class LoginViewController : UIViewController
+    public partial class LoginViewController : MvxViewController<LoginViewModel>
     {
         UITextField userNameTextField;
 

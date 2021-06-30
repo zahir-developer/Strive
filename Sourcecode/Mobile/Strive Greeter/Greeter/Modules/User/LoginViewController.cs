@@ -48,7 +48,12 @@ namespace Greeter
             tfPswd.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfPswd.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
-            // Set view model and data bindings
+            //SetBinding();
+        }
+
+        void SetBinding()
+        {
+            // Set data to view
             //var set = this.CreateBindingSet<LoginViewController, LoginViewModel>();
             //set.Bind(tfUserId).To(vm => vm.Email);
             //set.Bind(btnLogin).To(vm => vm.LoginCmd);
@@ -87,7 +92,11 @@ namespace Greeter
             }
 
             var req = new LoginRequest() { Email = email, Pswd = pswd };
+
+            ShowActivityIndicator();
             var response = await new ApiService(new NetworkService()).DoLogin(req);
+            HideActivityIndicator();
+
             AppSettings.Token = response.AuthToken;
 
             // Navigation

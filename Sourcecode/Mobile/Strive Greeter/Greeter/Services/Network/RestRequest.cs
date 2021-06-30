@@ -13,7 +13,7 @@ namespace Greeter.Services.Network
         public object? Body { get; private set; }
         public HttpMethod Method { get; private set; } = HttpMethod.Get;
 
-        public RestRequest(string path, HttpMethod method)
+        public RestRequest(string path, HttpMethod method = HttpMethod.Get)
         {
             Method = method;
             Parameter = new Dictionary<string, string>();

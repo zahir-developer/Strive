@@ -1,4 +1,5 @@
 ﻿using System;
+using Greeter.Modules.Base;
 using Greeter.Modules.User;
 using MvvmCross.IoC;
 using MvvmCross.ViewModels;
@@ -13,7 +14,7 @@ namespace Greeter.MvvmCross
                 //.EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
-            RegisterAppStart<LoginViewModel>();
+            RegisterAppStart<BaseViewModel>();
         }
     }
 }

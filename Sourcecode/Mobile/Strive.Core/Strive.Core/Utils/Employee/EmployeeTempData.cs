@@ -1,11 +1,8 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Models.Employee.PersonalDetails;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using EmployeeList = Strive.Core.Models.Employee.Messenger.EmployeeList;
-using EmployeeList_Contact = Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts.EmployeeList;
 namespace Strive.Core.Utils.Employee
 {
     // Employee Temp Data
@@ -75,7 +72,7 @@ namespace Strive.Core.Utils.Employee
             IsCreateGroup = false;
         }
 
-        
+
         #endregion Commands
     }
 
@@ -89,7 +86,7 @@ namespace Strive.Core.Utils.Employee
 
     }
     public static class EmployeePersonalDetails
-    { 
+    {
         public static string FirstName { get; set; }
         public static string LastName { get; set; }
         public static int? GenderCodeID { get; set; } = -1;

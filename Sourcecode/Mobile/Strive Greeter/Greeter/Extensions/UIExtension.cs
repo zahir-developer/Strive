@@ -1,5 +1,8 @@
-﻿using CoreGraphics;
+﻿using System;
+using CoreGraphics;
+using Greeter.Common;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter.Extensions
 {
@@ -33,6 +36,30 @@ namespace Greeter.Extensions
             view.Layer.ShadowColor = UIColor.Gray.CGColor;
             view.Layer.ShadowOffset = new CGSize(0f, 3f);
             view.Layer.ShadowOpacity = 0.2f;
+        }
+
+        public static void MakeRoundedView(this UIView view)
+        {
+            view.Layer.CornerRadius = view.Frame.Height / 2;
+            view.ClipsToBounds = true;
+        }
+
+        public static UIActivityIndicatorView AddActivityIndicator(this UIView view)
+        {
+            var activityIndicatorView = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+            activityIndicatorView.Color = Colors.APP_BASE_COLOR.ToPlatformColor();
+            activityIndicatorView.Center = view.Center;
+            view.AddSubview(activityIndicatorView);
+            return activityIndicatorView;
+        }
+
+        public static UIColor FromHex(this UIColor color, int hexValue)
+        {
+            return UIColor.FromRGB(
+                (((float)((hexValue & 0xFF0000) >> 16)) / 255.0f),
+                (((float)((hexValue & 0xFF00) >> 8)) / 255.0f),
+                (((float)(hexValue & 0xFF)) / 255.0f)
+            );
         }
     }
 }

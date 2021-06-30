@@ -22,7 +22,6 @@ namespace StriveTimInventory.iOS.MvvmCross
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IRestClient, RestClient>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IAdminService, AdminService>();
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IMessengerService, MessengerService>();
-
             Mvx.IoCProvider.ConstructAndRegisterSingleton<ILocationService, LocationService>();
         }
 

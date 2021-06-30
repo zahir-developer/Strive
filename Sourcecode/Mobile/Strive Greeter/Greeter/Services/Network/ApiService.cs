@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
 using Newtonsoft.Json;
@@ -36,7 +37,7 @@ namespace Greeter.Services.Network
             //IRestRequest request = new RestRequest(Urls.LOCATIONS, HttpMethod.Get);
             //request.AddHeader("Authorization", AppSettings.BearereToken);
             //return iNetworkService.ExecuteAsync<LocationsResponse, CommonResponse>(request);
-            return DoApiCall<LocationsResponse>(Urls.LOCATIONS, HttpMethod.Get);
+            return DoApiCall<LocationsResponse>(Urls.LOCATIONS);
         }
 
         public Task<BarcodeResponse> GetBarcode(string barcode)
@@ -45,20 +46,36 @@ namespace Greeter.Services.Network
             //IRestRequest request = new RestRequest(subUrl, HttpMethod.Get);
             //request.AddHeader("Authorization", AppSettings.BearereToken);
             //return iNetworkService.ExecuteAsync<BarcodeResponse, CommonResponse>(request);
-            return DoApiCall<BarcodeResponse>(url, HttpMethod.Get);
+            return DoApiCall<BarcodeResponse>(url);
         }
 
-        public Task<CheckoutResponse> GetCheckoutList()
+        public Task<GlobalDataResponse> GetGlobalData(string dataType)
+        {
+            var url = Urls.GLOBAL_DATA + dataType;
+            //IRestRequest request = new RestRequest(subUrl, HttpMethod.Get);
+            //request.AddHeader("Authorization", AppSettings.BearereToken);
+            //return iNetworkService.ExecuteAsync<BarcodeResponse, CommonResponse>(request);
+            return DoApiCall<GlobalDataResponse>(url);
+        }
+
+        public Task<CheckoutResponse> GetCheckoutList(CheckoutRequest req)
         {
             //IRestRequest request = new RestRequest(Urls.CHECKOUTS, HttpMethod.Get);
             //request.AddHeader("Authorization", AppSettings.BearereToken);
             //return iNetworkService.ExecuteAsync<CheckoutResponse, CommonResponse>(request);
-            return DoApiCall<CheckoutResponse>(Urls.CHECKOUTS, HttpMethod.Get);
+            return DoApiCall<CheckoutResponse>(Urls.CHECKOUTS, HttpMethod.Post, req);
         }
 
-        async Task<T> DoApiCall<T>(string subUrl, HttpMethod method, object req = null, bool isBearerToken = true) where T : BaseResponse
+        async Task<T> DoApiCall<T>(string subUrl, HttpMethod method = HttpMethod.Get, object req = null, bool isBearerToken = true) where T : BaseResponse
         {
             IRestRequest request = new RestRequest(subUrl, method);
+
+            if (isBearerToken)
+            {
+                request.AddHeader("Authorization", AppSettings.BearereToken);
+                Debug.WriteLine("Bearer Token : " + AppSettings.BearereToken);
+            }
+
             if ((method == HttpMethod.Post || method == HttpMethod.Put) && req is not null)
             {
                 request.AddBody(req);

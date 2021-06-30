@@ -39,7 +39,7 @@ namespace Greeter.DTOs
     public class Location
     {
         [JsonProperty("LocationId")]
-        public string ID { get; set; }
+        public long ID { get; set; }
 
         [JsonProperty("LocationName")]
         public string Name { get; set; }
@@ -47,22 +47,104 @@ namespace Greeter.DTOs
 
     public class BarcodeResponse : BaseResponse
     {
-        [JsonProperty("")]
-        public string Soemthing { get; set; }
+        [JsonProperty("ClientAndVehicleDetail")]
+        public List<ClientAndVehicleDetail> ClientAndVehicleDetailList { get; set; }
+    }
+
+    public class ClientAndVehicleDetail
+    {
+        [JsonProperty("ClientId")]
+        public long ClientId { get; set; }
+
+        [JsonProperty("Barcode")]
+        public string Barcode { get; set; }
+
+        [JsonProperty("Upcharge")]
+        public string Upcharge { get; set; }
+    }
+
+    public class GlobalDataResponse : BaseResponse
+    {
+        [JsonProperty("Codes")]
+        public List<Code> Codes { get; set; }
+    }
+
+    public class Code
+    {
+        [JsonProperty("CodeId")]
+        public string CodeID { get; set; }
+
+        [JsonProperty("CodeValue")]
+        public string CodeValue { get; set; }
+    }
+
+    public class CheckoutRequest
+    {
+        [JsonProperty("EndDate")]
+        public string EndDate { get; set; }
+
+        [JsonProperty("StartDate")]
+        public string StartDate { get; set; }
+
+        [JsonProperty("locationId")]
+        public long LocationID { get; set; }
+
+        [JsonProperty("sortBy")]
+        public string SortBy { get; set; }
+
+        [JsonProperty("sortOrder")]
+        public string SortOrder { get; set; }
+
+        [JsonProperty("status")]
+        public bool Status { get; set; }
     }
 
     public class CheckoutResponse : BaseResponse
     {
-        [JsonProperty("")]
-        public List<Checkuot> Locations { get; set; }
+        [JsonProperty("GetCheckedInVehicleDetails")]
+        public CheckinVehicleDetails CheckinVehicleDetails { get; set; }
     }
 
-    public class Checkuot
+    public class CheckinVehicleDetails : BaseResponse
     {
-        [JsonProperty("")]
+        [JsonProperty("checkOutViewModel")]
+        public List<Checkout> CheckOutList { get; set; }
+    }
+
+
+    public class Checkout
+    {
+        [JsonProperty("TicketNumber")]
         public string ID { get; set; }
 
-        [JsonProperty("")]
-        public string Name { get; set; }
+        [JsonProperty("ColorCode")]
+        public string ColorCode { get; set; }
+
+        [JsonProperty("CustomerFirstName")]
+        public string CustomerFirstName { get; set; }
+
+        [JsonProperty("CustomerLastName")]
+        public string CustomerLastName { get; set; }
+
+        [JsonProperty("VehicleMake")]
+        public string VehicleMake { get; set; }
+
+        [JsonProperty("VehicleModel")]
+        public string VehicleModel { get; set; }
+
+        [JsonProperty("VehicleColor")]
+        public string VehicleColor { get; set; }
+
+        [JsonProperty("Services")]
+        public string Services { get; set; }
+
+        [JsonProperty("AdditionalServices")]
+        public string AdditionalServices { get; set; }
+
+        [JsonProperty("Checkin")]
+        public string CheckinTime { get; set; }
+
+        [JsonProperty("Checkout")]
+        public string CheckoutTime { get; set; }
     }
 }

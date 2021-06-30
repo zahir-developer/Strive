@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Foundation;
 using Greeter.Cells;
 using UIKit;
@@ -7,8 +8,11 @@ namespace Greeter.Sources
 {
     public class ImagesSource : UICollectionViewSource
     {
-        public ImagesSource()
+        public List<string> imagePaths;
+
+        public ImagesSource(List<string> imagePaths = null)
         {
+            this.imagePaths = imagePaths;
         }
 
         public override nint NumberOfSections(UICollectionView collectionView)
@@ -18,13 +22,13 @@ namespace Greeter.Sources
 
         public override nint GetItemsCount(UICollectionView collectionView, nint section)
         {
-            return 3;
+            return imagePaths?.Count ?? 3;
         }
 
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = (ImageCell)collectionView.DequeueReusableCell(ImageCell.Key, indexPath);
-            //var animal = animals[indexPath.Row];
+            cell.UpdateData(imagePaths?[indexPath.Row]);
             return cell;
         }
     }

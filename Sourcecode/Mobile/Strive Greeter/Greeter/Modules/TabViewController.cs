@@ -2,6 +2,7 @@
 
 using System;
 using Greeter.Common;
+using Greeter.Modules.Home;
 using Greeter.Modules.Pay;
 using UIKit;
 
@@ -22,7 +23,9 @@ namespace Greeter
         {
             base.ViewWillAppear(animated);
 
-
+            var vc1 = new WashTimeViewController();
+            var tabbarItem1 = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
+            vc1.TabBarItem = tabbarItem1;
             var item3 = new PaymentViewController();
             var icon3 = new UITabBarItem(title: "Pay", image: UIImage.FromBundle(ImageNames.PAY), null);
             item3.TabBarItem = icon3;
@@ -30,6 +33,7 @@ namespace Greeter
             var icon4 = new UITabBarItem(title: "Checkout", image: UIImage.FromBundle(ImageNames.CHECKOUT), null);
             item4.TabBarItem = icon4;
             var controllers = ViewControllers;
+            controllers[0] = vc1;
             controllers[2] = item3;
             controllers[3] = item4;
             ViewControllers = controllers;

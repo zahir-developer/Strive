@@ -5,7 +5,6 @@ using Foundation;
 using Newtonsoft.Json;
 using System.Linq;
 using System;
-using System.Collections.Generic;
 
 namespace Greeter.Services.Network
 {

@@ -13,10 +13,34 @@ namespace Greeter.Storyboards
 	partial class ServiceQuestionViewController
 	{
 		[Outlet]
+		UIKit.UIButton btnAddtionalDropdown { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnAirFReshnersDropdown { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnCancel { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnColorDropdown { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnDetailPkgDropdown { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnMakeDropdown { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnNext { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnTypeDropdown { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnUpchargeDropdown { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnWashPkgDropdown { get; set; }
 
 		[Outlet]
 		UIKit.UILabel lblDate { get; set; }
@@ -156,6 +180,46 @@ namespace Greeter.Storyboards
 			if (viewHeader != null) {
 				viewHeader.Dispose ();
 				viewHeader = null;
+			}
+
+			if (btnTypeDropdown != null) {
+				btnTypeDropdown.Dispose ();
+				btnTypeDropdown = null;
+			}
+
+			if (btnMakeDropdown != null) {
+				btnMakeDropdown.Dispose ();
+				btnMakeDropdown = null;
+			}
+
+			if (btnColorDropdown != null) {
+				btnColorDropdown.Dispose ();
+				btnColorDropdown = null;
+			}
+
+			if (btnWashPkgDropdown != null) {
+				btnWashPkgDropdown.Dispose ();
+				btnWashPkgDropdown = null;
+			}
+
+			if (btnDetailPkgDropdown != null) {
+				btnDetailPkgDropdown.Dispose ();
+				btnDetailPkgDropdown = null;
+			}
+
+			if (btnUpchargeDropdown != null) {
+				btnUpchargeDropdown.Dispose ();
+				btnUpchargeDropdown = null;
+			}
+
+			if (btnAddtionalDropdown != null) {
+				btnAddtionalDropdown.Dispose ();
+				btnAddtionalDropdown = null;
+			}
+
+			if (btnAirFReshnersDropdown != null) {
+				btnAirFReshnersDropdown.Dispose ();
+				btnAirFReshnersDropdown = null;
 			}
 		}
 	}

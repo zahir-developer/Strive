@@ -6,7 +6,6 @@ using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {
-
     public partial class ClockInView : MvxViewController<ClockInViewModel>
     {
         private EmployeeRolesViewSource RolesCollectionViewSource;

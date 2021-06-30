@@ -38,7 +38,7 @@ namespace Greeter.Storyboards
         void PresentAddIssuePopUp()
         {
             UIViewController vc = GetViewController(GetHomeStorybpard(), nameof(AddIssueViewController));
-            vc.ModalPresentationStyle = UIModalPresentationStyle.BlurOverFullScreen;
+            vc.ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
             PresentViewController(vc, true, null);
         }
 

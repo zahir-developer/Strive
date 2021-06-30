@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Drawing;
 using CoreGraphics;
 using Foundation;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter.Cells
 {
-    public class CheckoutCell: UITableViewCell
+    public class CheckoutCell : UITableViewCell
     {
         public static readonly NSString Key = new NSString("CheckoutCell");
 
@@ -147,13 +150,13 @@ namespace Greeter.Cells
 
         public void SetupData(Checkout checkout)
         {
-            //TODO set all value here
-
-            statusIndicatorView.BackgroundColor = UIColor.Red;
-            checkoutIdLabel.Text = "5919875";
-            customerNameLabel.Text = "Eda Gislon";
-            serviceInfoLabel.Text = "Aston Martin/Blue \nServices: Mammoth \nAdditional Services : Shampoo Carpet , Clean Leather...";
-            checkInAndOutTimingLabel.Text = "  Check in 10:07 - Check in 12:07  ";
+            statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
+            checkoutIdLabel.Text = checkout.ID;
+            customerNameLabel.Text = checkout.CustomerFirstName + " " + checkout.CustomerLastName;
+            serviceInfoLabel.Text = checkout.VehicleModel + "/" + checkout.VehicleColor + "\n" + "Services: " + checkout.Services;
+            if (checkout.AdditionalServices is not null)
+                serviceInfoLabel.Text += "\n" + "Additional Services: " + checkout.AdditionalServices;
+            checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check in " + checkout.CheckoutTime + "  ";
             statusIndicatorImage.Image = new UIImage();
             paidStatusLabel.Text = "Paid";
             amountLabel.Text = "$90";

@@ -175,6 +175,7 @@
         <Folder Include="Modules\User\" />
         <Folder Include="Sources\" />
         <Folder Include="MvvmCross\" />
+        <Folder Include="Modules\Checkout\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -252,15 +253,10 @@
         <Compile Include="Storyboards\PaymentSucessViewController.designer.cs">
           <DependentUpon>PaymentSucessViewController.cs</DependentUpon>
         </Compile>
-        <Compile Include="Modules\Pay\CheckoutViewController.cs" />
-        <Compile Include="Modules\Pay\CheckoutViewController.Logic.cs">
-             <DependentUpon>Modules\Pay\CheckoutViewController.cs</DependentUpon>
-        </Compile>
         <Compile Include="Modules\Pay\PaymentViewController.cs" />
         <Compile Include="Modules\Pay\PaymentViewController.Logic.cs">
             <DependentUpon>Modules\Pay\PaymentViewController.cs</DependentUpon>
         </Compile>
-        <Compile Include="Modules\Pay\CheckoutStatus.cs" />
         <Compile Include="DTOs\Checkout.cs" />
         
         <Compile Include="Cells\IssueCell.cs" />
@@ -287,6 +283,13 @@
         <Compile Include="DTOs\Model.cs" />
         <Compile Include="MvvmCross\Setup.cs" />
         <Compile Include="Modules\Home\WashStationAnnotationView.cs" />
+        <Compile Include="Modules\Base\BaseViewModel.cs" />
+        <Compile Include="Modules\User\LocationViewModel.cs" />
+        <Compile Include="Modules\Checkout\CheckoutViewController.cs" />
+        <Compile Include="Modules\Checkout\CheckoutViewController.Logic.cs">
+          <DependentUpon>..\Pay\Modules\Pay\CheckoutViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Checkout\CheckoutStatus.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

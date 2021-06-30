@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
 using CoreGraphics;
 using Foundation;
 using Greeter.Common;
+using Greeter.Storyboards;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter.Modules.Pay
 {
-    public partial class PaymentViewController : UIViewController, IUITextFieldDelegate
+    public partial class PaymentViewController : BaseViewController, IUITextFieldDelegate
     {
         WeakReference<UITextField> focusedTextField = new(null);
 
@@ -169,10 +170,16 @@ namespace Greeter.Modules.Pay
             var payButton = new UIButton(CGRect.Empty);
             payButton.TranslatesAutoresizingMaskIntoConstraints = false;
             payButton.SetTitle("Pay", UIControlState.Normal);
-            payButton.BackgroundColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
+            payButton.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
             payButton.SetTitleColor(UIColor.White, UIControlState.Normal);
             payButton.Font = UIFont.SystemFontOfSize(18);
             backgroundView.Add(payButton);
+
+            // Clicks
+            payButton.TouchUpInside += delegate
+            {
+                NavigateToPaymentSuccessScreen();
+            };
 
             backgroundImage.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
             backgroundImage.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor).Active = true;
@@ -255,6 +262,12 @@ namespace Greeter.Modules.Pay
             payButton.CenterXAnchor.ConstraintEqualTo(backgroundView.CenterXAnchor).Active = true;
             payButton.HeightAnchor.ConstraintEqualTo(50).Active = true;
             payButton.WidthAnchor.ConstraintEqualTo(250).Active = true;
+        }
+
+        void NavigateToPaymentSuccessScreen()
+        {
+            var vcLocation = GetHomeStorybpard().InstantiateViewController(nameof(PaymentSucessViewController));
+            NavigateToWithAnim(vcLocation);
         }
 
         void KeyBoardHandling()

@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Modules.Base;
 using Greeter.Services.Network;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 
 namespace Greeter.Modules.User
 {
-    public class LoginViewModel : MvxViewModel
+    public class LoginViewModel : BaseViewModel
     {
         public LoginViewModel()
         {
@@ -35,7 +36,6 @@ namespace Greeter.Modules.User
 
         public string Pswd { get => pswd; set => pswd = value; }
 
-
         //Click Commands
         public IMvxCommand LoginCmd => new MvxCommand(DoLogin);
         async void DoLogin()
@@ -60,6 +60,10 @@ namespace Greeter.Modules.User
             var req = new LoginRequest() { Email = email, Pswd = pswd };
             var response = await new ApiService(new NetworkService()).DoLogin(req);
             AppSettings.Token = response.AuthToken;
+
+            GoToLocationsScreen();
         }
+
+        Task GoToLocationsScreen() => navigationService.Navigate<LocationViewModel>();
     }
 }

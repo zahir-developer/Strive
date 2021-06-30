@@ -9,34 +9,43 @@ using System.CodeDom.Compiler;
 
 namespace Greeter
 {
-	[Register ("LocationViewController")]
-	partial class LocationViewController
-	{
-		[Outlet]
-		UIKit.UIButton btnDropdown { get; set; }
+    [Register("LocationViewController")]
+    partial class LocationViewController
+    {
+        [Outlet]
+        UIKit.UIButton btnDropdown { get; set; }
 
-		[Outlet]
-		UIKit.UIButton btnNext { get; set; }
+        [Outlet]
+        UIKit.UIButton btnNext { get; set; }
 
-		[Outlet]
-		UIKit.UITextField tfLocation { get; set; }
-		
-		void ReleaseDesignerOutlets ()
-		{
-			if (tfLocation != null) {
-				tfLocation.Dispose ();
-				tfLocation = null;
-			}
+        [Outlet]
+        UIKit.UITextField tfLocation { get; set; }
 
-			if (btnNext != null) {
-				btnNext.Dispose ();
-				btnNext = null;
-			}
+        void ReleaseDesignerOutlets()
+        {
+            if (btnDropdown != null)
+            {
+                btnDropdown.Dispose();
+                btnDropdown = null;
+            }
 
-			if (btnDropdown != null) {
-				btnDropdown.Dispose ();
-				btnDropdown = null;
-			}
-		}
-	}
+            if (btnNext != null)
+            {
+                btnNext.Dispose();
+                btnNext = null;
+            }
+
+            if (tfLocation != null)
+            {
+                tfLocation.Dispose();
+                tfLocation = null;
+            }
+
+            if (btnDropdown != null)
+            {
+                btnDropdown.Dispose();
+                btnDropdown = null;
+            }
+        }
+    }
 }

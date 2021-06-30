@@ -57,7 +57,7 @@ namespace Greeter.Modules.Home
 
         void SetupNavigationItem()
         {
-            Title = "Wash Time";
+            Title = "Home";
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
             {
                 //TODO logout action here

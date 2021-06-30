@@ -1,5 +1,7 @@
 ﻿using System;
 using Greeter.Common;
+using Greeter.Extensions;
+using Greeter.Modules.Base;
 using MvvmCross.Platforms.Ios.Views;
 using UIKit;
 
@@ -7,12 +9,51 @@ namespace Greeter
 {
     public class BaseViewController : UIViewController
     {
+        UIActivityIndicatorView activityIndicator;
+
         public BaseViewController()
         {
         }
 
         protected internal BaseViewController(IntPtr handle) : base(handle)
         {
+        }
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            activityIndicator = View.AddActivityIndicator();
+            //SetBinding();
+        }
+
+        void SetBinding()
+        {
+            //var set = this.CreateBindingSet<BaseViewController, BaseViewModel>();
+            //set.Bind(View.UserInteractionEnabled).To(vm => vm.);
+            //set.Apply();
+        }
+
+        void DisableUIInteraction()
+        {
+            View.UserInteractionEnabled = false;
+        }
+
+        void EnableUIInteraction()
+        {
+            View.UserInteractionEnabled = true;
+        }
+
+        public void ShowActivityIndicator()
+        {
+            DisableUIInteraction();
+            activityIndicator.StartAnimating();
+        }
+
+        public void HideActivityIndicator()
+        {
+            EnableUIInteraction();
+            activityIndicator.StopAnimating();
         }
 
         void GoBack(bool isAnimation)
@@ -23,7 +64,6 @@ namespace Greeter
         public UIViewController GetViewController(UIStoryboard sb, string vcId)
         {
             //string dsa = nameof(t);
-
             return sb.InstantiateViewController(vcId);
         }
 
@@ -65,15 +105,10 @@ namespace Greeter
         public void ShowAlertMsg(string msg)
         {
             string title = "Alert";
-
             string ok = "OK";
 
             var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
-
-            //Add Action
             okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default, null));
-
-            // Present Alert
             PresentViewController(okAlertController, true, null);
         }
 
@@ -94,42 +129,31 @@ namespace Greeter
         public void AddPickerToolbar(UITextField textField, string title, Action action)
         {
             const string CANCEL_BUTTON_TXT = "Cancel";
-
             const string DONE_BUTTON_TXT = "Done";
 
             var toolbarDone = new UIToolbar();
-
             toolbarDone.SizeToFit();
 
-            UIBarButtonItem barBtnCancel = new UIBarButtonItem(CANCEL_BUTTON_TXT, UIBarButtonItemStyle.Plain, (sender, s) =>
+            var barBtnCancel = new UIBarButtonItem(CANCEL_BUTTON_TXT, UIBarButtonItemStyle.Plain, (sender, s) =>
             {
                 textField.EndEditing(false);
             });
 
-            UIBarButtonItem barBtnDone = new UIBarButtonItem(DONE_BUTTON_TXT, UIBarButtonItemStyle.Done, (sender, s) =>
+            var barBtnDone = new UIBarButtonItem(DONE_BUTTON_TXT, UIBarButtonItemStyle.Done, (sender, s) =>
             {
                 textField.EndEditing(false);
                 action.Invoke();
             });
 
-            //barBtnDone.CustomView = btnDone;
+            var barBtnSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
 
-            UIBarButtonItem barBtnSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
-
-            UILabel lbl = new UILabel();
-
-            //lbl.Frame = new CoreGraphics.CGRect(0, 0, View.Frame.Width / 3, toolbarDone.Frame.Height);
-
+            var lbl = new UILabel();
             lbl.Text = title;
-
             lbl.TextAlignment = UITextAlignment.Center;
-
             lbl.Font = UIFont.BoldSystemFontOfSize(size: 16.0f);
-
-            UIBarButtonItem lblBtn = new UIBarButtonItem(lbl);
+            var lblBtn = new UIBarButtonItem(lbl);
 
             toolbarDone.Items = new UIBarButtonItem[] { barBtnCancel, barBtnSpace, lblBtn, barBtnSpace, barBtnDone };
-
             textField.InputAccessoryView = toolbarDone;
         }
     }

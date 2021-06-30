@@ -1,9 +1,4 @@
-﻿using System;
-using MvvmCross.Binding.BindingContext;
-using MvvmCross.Platforms.Ios.Views;
-using Strive.Core.ViewModels;
-using Strive.Core.ViewModels.TIMInventory;
-using UIKit;
+﻿using UIKit;
 
 namespace StriveTimInventory.iOS.Views
 {

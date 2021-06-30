@@ -30,7 +30,7 @@ namespace Greeter.Cells
             cvImages.Source = imagesSource;
         }
 
-        public void SetupData(string date, string desc, string[] images)
+        public void UpdateData(string date, string desc, string[] images)
         {
             // TODO : update data to ui
         }

@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
+using Greeter.DTOs;
+using Greeter.Services.Network;
 using UIKit;
 
 namespace Greeter.Modules.Pay
 {
-    public partial class CheckoutViewController : UIViewController, IUITableViewDataSource, IUITableViewDelegate
+    public partial class CheckoutViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
     {
         UITableView checkoutTableView;
 
@@ -18,10 +21,28 @@ namespace Greeter.Modules.Pay
             SetupView();
             RegisterCells();
             SetupNavigationItem();
+            GetData();
 
             //Setup Delegate and DataSource
             checkoutTableView.WeakDelegate = this;
             checkoutTableView.WeakDataSource = this;
+        }
+
+        async Task GetData()
+        {
+            var req = new CheckoutRequest();
+            req.StartDate = "2021-06-01";
+            req.EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            req.LocationID = AppSettings.LocationID;
+            req.SortBy = "TicketNumber";
+            req.SortOrder = "ASC";
+            req.Status = true;
+
+            ShowActivityIndicator();
+            var response = await new ApiService(new NetworkService()).GetCheckoutList(req);
+            HideActivityIndicator();
+            Checkouts = response.CheckinVehicleDetails.CheckOutList;
+            checkoutTableView.ReloadData();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -77,7 +98,7 @@ namespace Greeter.Modules.Pay
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(CheckoutCell.Key) as CheckoutCell;
-            cell.SetupData(new DTOs.Checkout());
+            cell.SetupData(Checkouts[indexPath.Row]);
             return cell;
         }
     }
