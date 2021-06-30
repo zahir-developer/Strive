@@ -177,7 +177,7 @@ namespace Admin.API.Controllers
                         //worksheet2.Cell(currentRow, 7).Value = oItem.;
                         worksheet2.Cell(currentRow, 8).Value = oItem.GiftCard;
                         //worksheet2.Cell(currentRow, 9).Value = oItem.;
-                        //worksheet2.Cell(currentRow, 10).Value = oItem.;
+                        worksheet2.Cell(currentRow, 10).Value = oItem.Total;
                         worksheet2.Cell(currentRow, 11).Value = oItem.Tips;
                         currentColumn = 11;
                         foreach (var oWash in hourlyWashResult.LocationWashServiceViewModel)

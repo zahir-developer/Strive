@@ -173,7 +173,7 @@ export class HourlyWashComponent implements OnInit {
                   Account: sale.Account,
                   BC: sale.Credit,
                   Deposits: 0,
-                  Tips: 0,
+                  Tips: sale.Tips,
                   Actual: 0,
                   Sales: sale.Total,
                   Difference: 0,
@@ -371,6 +371,7 @@ export class HourlyWashComponent implements OnInit {
         item.serviceName.forEach(name => {
           saleName.push(name);
         });
+        debugger;
         sale.push({
           JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
           Day: this.datePipe.transform(item.JobDate, 'EEE'),
@@ -382,7 +383,7 @@ export class HourlyWashComponent implements OnInit {
           GiftCard: item.GiftCard,
           Managers: '',
           Sales: item.Sales,
-          Tips: 0,
+          Tips: item.Tips,
         });
       });
       sale.forEach(item => {
