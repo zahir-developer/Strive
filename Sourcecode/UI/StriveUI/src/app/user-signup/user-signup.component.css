@@ -7,3 +7,7 @@
 ::ng-deep .ui-fluid .ui-autocomplete-input {
     height: 3rem;
 }
+
+.panelfixheight {
+    min-height: 50rem !important;
+}

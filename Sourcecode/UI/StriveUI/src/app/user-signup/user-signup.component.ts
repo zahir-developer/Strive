@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -24,10 +24,13 @@ export class UserSignupComponent implements OnInit {
   filteredModel: any[];
   vehicleModelTotalList: any;
   modelTotalList: any;
-
   filteredColor: any[];
   colorTotalList: any;
   submitted: boolean = false;
+  vehicleForm: FormGroup;
+  items: FormArray;
+  formVal: boolean = false;
+  errorText: string;
 
   constructor(private fb: FormBuilder, private makeService: MakeService, private modelService: ModelService,
     private toastr: ToastrService, private wash: WashService, private router: Router, private spinner: NgxSpinnerService,
@@ -37,6 +40,7 @@ export class UserSignupComponent implements OnInit {
     this.createSignupForm();
     this.getVehicleMakeList();
     this.getVehicleColorList();
+    this.createVehicleForm();
   }
 
   createSignupForm() {
@@ -47,17 +51,38 @@ export class UserSignupComponent implements OnInit {
       password: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      vehicleModel: ['', Validators.required],
-      vehicleType: ['', Validators.required],
-      vehicleColor: ['', Validators.required],
-    },{
-      validator: ConfirmPasswordValidator("password", "confirmPassword")
     });
   }
 
-  get f() {
-    return this.userSignupForm.controls;
+  createVehicleForm() {
+    this.vehicleForm = new FormGroup({
+      items: new FormArray([this.createItem()])
+    });
   }
+
+  createItem() {
+    return this.fb.group({
+      vehicleModel: ['', Validators.required],
+      vehicleType: ['', Validators.required],
+      vehicleColor: ['', Validators.required],
+    });
+  }
+
+  get aliasesArrayControl() {
+    return (this.vehicleForm.get('items') as FormArray).controls;
+  }
+
+  addVehicleRow() {
+    if (this.vehicleForm.invalid) {
+      this.formVal = true;
+      this.errorText = 'Please fill all the vehicle info field'
+    } else if (this.vehicleForm.valid) {
+      this.formVal = false;
+      this.items = this.vehicleForm.get('items') as FormArray;
+      this.items.push(this.createItem());
+    }
+  }
+
 
   ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
@@ -79,79 +104,91 @@ export class UserSignupComponent implements OnInit {
 
 
   userSignupSubmit() {
-  this.submitted = true;
-  console.log(this.userSignupForm.controls);
-  const groupList = {
-    "client": {
-      "clientId": 0,
-      "firstName": this.userSignupForm.controls.firstName.value ? this.userSignupForm.controls.firstName.value : '',
-      "middleName": "",
-      "lastName": this.userSignupForm.controls.lastName.value ? this.userSignupForm.controls.lastName.value : '',
-      "gender": 0,
-      "maritalStatus": 0,
-      "birthDate": "",
-      "notes": "",
-      "recNotes": "",
-      "score": 0,
-      "noEmail": true,
-      "clientType": 0,
-      "authId": 0,
-      "isActive": true,
-      "isDeleted": true,
-      "createdBy": 0,
-      "createdDate": "",
-      "updatedBy": 0,
-      "updatedDate": "",
-      "amount": 0,
-      "isCreditAccount": true
-    },
-    "clientVehicle": [
-      {
-        "vehicleId": 0,
+    console.log(this.userSignupForm.controls);
+    this.submitted = true;
+    if (this.userSignupForm.invalid) {
+      this.formVal = true;
+      this.fieldValidation();
+      return;
+    } else if (this.userSignupForm.valid) {
+      this.formVal = true;
+      if (this.userSignupForm.controls.password.value !== this.userSignupForm.controls.confirmPassword.value) {
+        this.errorText = "Passsword and Confirm Password didn't match"
+        return;
+      }
+    }
+    this.formVal = false;
+    const groupList = {
+      "client": {
         "clientId": 0,
-        "locationId": 0,
-        "vehicleNumber": "",
-        "vehicleMfr": 0,
-        "vehicleModel": this.userSignupForm.controls.vehicleModel.value.code ? this.userSignupForm.controls.vehicleModel.value.code : 0,
-        "vehicleModelNo": 0,
-        "vehicleYear": "",
-        "vehicleColor": this.userSignupForm.controls.vehicleColor.value.code ? this.userSignupForm.controls.vehicleColor.value.code : 0,
-        "upcharge": 0,
-        "barcode": "",
+        "firstName": this.userSignupForm.controls.firstName.value ? this.userSignupForm.controls.firstName.value : '',
+        "middleName": "",
+        "lastName": this.userSignupForm.controls.lastName.value ? this.userSignupForm.controls.lastName.value : '',
+        "gender": 0,
+        "maritalStatus": 0,
+        "birthDate": "",
         "notes": "",
+        "recNotes": "",
+        "score": 0,
+        "noEmail": true,
+        "clientType": 0,
+        "authId": 0,
         "isActive": true,
         "isDeleted": true,
         "createdBy": 0,
         "createdDate": "",
         "updatedBy": 0,
         "updatedDate": "",
-        "monthlyCharge": 0
-      }
-    ],
-    "clientAddress": [
-      {
-        "clientAddressId": 0,
-        "clientId": 0,
-        "address1": "",
-        "address2": "",
-        "phoneNumber": this.userSignupForm.controls.phoneNumber.value ? this.userSignupForm.controls.phoneNumber.value.replace(/[^a-zA-Z0-9]/g, "") : '',
-        "phoneNumber2": "",
-        "email": this.userSignupForm.controls.userEmail.value ? this.userSignupForm.controls.userEmail.value : '',
-        "city": 0,
-        "state": 0,
-        "country": 0,
-        "zip": "",
-        "isActive": true,
-        "isDeleted": true,
-        "createdBy": 0,
-        "createdDate": "",
-        "updatedBy": 0,
-        "updatedDate": ""
-      }
-    ]
-  }
-  this.spinner.show();
-  this.client.addClient(groupList).subscribe(data => {
+        "amount": 0,
+        "isCreditAccount": true
+      },
+      "clientVehicle": [
+        {
+          "vehicleId": 0,
+          "clientId": 0,
+          "locationId": 0,
+          "vehicleNumber": "",
+          "vehicleMfr": 0,
+          "vehicleModel": 0,
+          "vehicleModelNo": 0,
+          "vehicleYear": "",
+          "vehicleColor": 0,
+          "upcharge": 0,
+          "barcode": "",
+          "notes": "",
+          "isActive": true,
+          "isDeleted": true,
+          "createdBy": 0,
+          "createdDate": "",
+          "updatedBy": 0,
+          "updatedDate": "",
+          "monthlyCharge": 0
+        }
+      ],
+      "clientAddress": [
+        {
+          "clientAddressId": 0,
+          "clientId": 0,
+          "address1": "",
+          "address2": "",
+          "phoneNumber": this.userSignupForm.controls.phoneNumber.value ? this.userSignupForm.controls.phoneNumber.value.replace(/[^a-zA-Z0-9]/g, "") : '',
+          "phoneNumber2": "",
+          "email": this.userSignupForm.controls.userEmail.value ? this.userSignupForm.controls.userEmail.value : '',
+          "city": 0,
+          "state": 0,
+          "country": 0,
+          "zip": "",
+          "isActive": true,
+          "isDeleted": true,
+          "createdBy": 0,
+          "createdDate": "",
+          "updatedBy": 0,
+          "updatedDate": ""
+        }
+      ]
+    }
+    this.spinner.show();
+    this.client.addClient(groupList).subscribe(data => {
       if (data.status === 'Success') {
         alert('welcome');
         this.spinner.hide();
@@ -160,13 +197,27 @@ export class UserSignupComponent implements OnInit {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    },(err) => {
+    }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
-
-
   }
 
+
+  fieldValidation() {
+    if (this.userSignupForm.controls.firstName.invalid || this.userSignupForm.controls.firstName.value === '') {
+      this.errorText = "Please enter first name"
+    } else if (this.userSignupForm.controls.lastName.invalid || this.userSignupForm.controls.lastName.value === '') {
+      this.errorText = "Please enter last name"
+    } else if (this.userSignupForm.controls.userEmail.invalid || this.userSignupForm.controls.userEmail.value === '') {
+      this.errorText = "Please enter email"
+    } else if (this.userSignupForm.controls.phoneNumber.invalid || this.userSignupForm.controls.phoneNumber.value === '') {
+      this.errorText = "Please enter phone number"
+    } else if (this.userSignupForm.controls.password.invalid || this.userSignupForm.controls.password.value === '') {
+      this.errorText = "Please enter password"
+    } else if (this.userSignupForm.controls.confirmPassword.invalid || this.userSignupForm.controls.confirmPassword.value === '') {
+      this.errorText = "Please enter confirm password"
+    }
+  }
 
   filterType(event) {
     let filtered: any[] = [];
@@ -281,7 +332,7 @@ export class UserSignupComponent implements OnInit {
   }
 
   loginPage() {
-    this.router.navigate(['/login']) 
+    this.router.navigate(['/login'])
   }
 
 

@@ -337,10 +337,12 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
             empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees : 0;
           if (empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel !== null) {
             empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel.forEach(item => {
+             const startTime = item.StartTime.split('+');
+             const endTime = item.EndTime.split('+');
               const emp = {
                 id: +item.ScheduleId,
-                start: moment(item.StartTime).format('YYYY-MM-DDTHH:mm:ss'),
-                end: moment(item.EndTime).format('YYYY-MM-DDTHH:mm:ss'),
+                start: moment(startTime[0]).format('YYYY-MM-DDTHH:mm:ss'),
+                end: moment(endTime[0]).format('YYYY-MM-DDTHH:mm:ss'),
                 title: item.EmployeeName + '\xa0 \xa0 ' + item.LocationName,
                 textColor: 'white',
                 backgroundColor: item.IsEmployeeAbscent === true ? '#A9A9A9' : item.ColorCode,
