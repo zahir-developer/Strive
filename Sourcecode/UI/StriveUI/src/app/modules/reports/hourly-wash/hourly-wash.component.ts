@@ -172,11 +172,11 @@ export class HourlyWashComponent implements OnInit {
                   GiftCard: sale.GiftCard,
                   Account: sale.Account,
                   BC: sale.Credit,
-                  Deposits: 0,
+                  Deposits: sale.Cash,
                   Tips: sale.Tips,
-                  Actual: 0,
+                  Actual: sale.Total + sale.Tips,
                   Sales: sale.Total,
-                  Difference: 0,
+                  Difference: sale.Difference,
                   Managers: ''
                 });
               });

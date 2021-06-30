@@ -171,12 +171,11 @@ namespace Admin.API.Controllers
                         worksheet2.Cell(currentRow, 1).Value = oItem.JobDate;
                         worksheet2.Cell(currentRow, 2).Value = oItem.JobDate.ToString("ddd");
                         worksheet2.Cell(currentRow, 3).Value = oItem.Account;
-                        //worksheet2.Cell(currentRow, 4).Value = oItem.ac;
+                        worksheet2.Cell(currentRow, 4).Value = oItem.Total + oItem.Tips;
                         worksheet2.Cell(currentRow, 5).Value = oItem.Credit;
-                        //worksheet2.Cell(currentRow, 6).Value = oItem.;
-                        //worksheet2.Cell(currentRow, 7).Value = oItem.;
+                        worksheet2.Cell(currentRow, 6).Value = oItem.Cash;
+                        worksheet2.Cell(currentRow, 7).Value = oItem.Difference;
                         worksheet2.Cell(currentRow, 8).Value = oItem.GiftCard;
-                        //worksheet2.Cell(currentRow, 9).Value = oItem.;
                         worksheet2.Cell(currentRow, 10).Value = oItem.Total;
                         worksheet2.Cell(currentRow, 11).Value = oItem.Tips;
                         currentColumn = 11;
