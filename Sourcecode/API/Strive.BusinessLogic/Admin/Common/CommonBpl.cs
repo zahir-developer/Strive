@@ -26,6 +26,7 @@ using System.Net.Mail;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Hosting;
 using System.Security.Authentication;
+using Strive.BusinessLogic.EmailHelper.Dto;
 
 namespace Strive.BusinessLogic.Common
 {
@@ -92,7 +93,7 @@ namespace Strive.BusinessLogic.Common
 
         internal List<Geocode> GetGeocode(LocationAddress locationAddress)
         {
-            string osmUri = _tenant.OSMUri + locationAddress.Address1 +","+ locationAddress.CityName +"+"+ locationAddress.StateName  + "+" + locationAddress.Zip
+            string osmUri = _tenant.OSMUri + locationAddress.Address1 + "," + locationAddress.CityName + "+" + locationAddress.StateName + "+" + locationAddress.Zip
                 + "&format=json";
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(osmUri);
             request.Method = "GET";
@@ -410,16 +411,18 @@ namespace Strive.BusinessLogic.Common
         {
             try
             {
+
+                EmailSettingDto emailSettingDto = new EmailSettingDto();
+                emailSettingDto.FromEmail = _tenant.FromMailAddress;
+                emailSettingDto.UsernameEmail = _tenant.FromMailAddress;
+                emailSettingDto.UsernamePassword = _tenant.SMTPPassword;
+                emailSettingDto.PrimaryPort = _tenant.Port.toInt();
+                emailSettingDto.PrimaryDomain = _tenant.SMTPClient;
+
                 string emailContent = GetMailContent(htmlTemplate, keyValues);
 
-                if (htmlTemplate == HtmlTemplate.GeneralMail || htmlTemplate == HtmlTemplate.NewEmployeeInfo || htmlTemplate == HtmlTemplate.ProductThreshold || htmlTemplate == HtmlTemplate.ProductRequest)
-                {
-                    SendMultipleMail(emailId, emailContent, sub);
-                }
-                else
-                {
-                    SendMail(emailId, emailContent, sub);
-                }
+                EmailHelper.EmailSender emailSender = new EmailHelper.EmailSender(emailSettingDto);
+                emailSender.Initialize(sub, emailId, emailContent);
 
                 //SendMail(emailId, emailContent, "Welcome to Strive !!!");
 
@@ -533,27 +536,7 @@ namespace Strive.BusinessLogic.Common
 
         public string GetMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
         {
-            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
-
-            string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
-
-            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
-
-            string MailText = string.Empty;
-            if (File.Exists(subPath))
-            {
-                StreamReader str = new StreamReader(subPath);
-                MailText = str.ReadToEnd();
-
-                foreach (var item in keyValues)
-                {
-
-                    MailText = MailText.Replace(item.Key, item.Value);
-                }
-                str.Close();
-            }
-
-            return MailText;
+            return GetBlobMailContent(module, keyValues);
         }
 
         public string GetBlobMailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
