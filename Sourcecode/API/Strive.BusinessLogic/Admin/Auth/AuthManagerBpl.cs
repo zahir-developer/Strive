@@ -74,7 +74,7 @@ namespace Strive.BusinessLogic.Auth
         {
             SetTenantSchematoCache(tSchema);
             _tenant.SetConnection(GetTenantConnectionString(tSchema, tcon));
-            _tenant.SetTenantGuid(tSchema.TenantGuid.ToString(), tSchema.TenantId);
+            _tenant.SetTenantGuid(tSchema.TenantGuid.ToString());
         }
 
         private void ValidateLogin(Authentication authentication)

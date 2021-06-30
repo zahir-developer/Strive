@@ -119,7 +119,8 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         }
         public Result GetLocationMaxLimit()
         {
-            return ResultWrap(new TenantRal(_tenant, true).GetLoationMaxLimit, _tenant.TenantId, "maxCount");
+            int tenantId = 1;
+            return ResultWrap(new TenantRal(_tenant, true).GetLoationMaxLimit, tenantId, "maxCount");
         }
     }
 }

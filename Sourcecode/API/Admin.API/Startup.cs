@@ -248,7 +248,9 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", "http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5000", "http://40.114.79.101:5003", "http://40.114.79.101:5007", "http://40.114.79.101:5009", "http://strive.localqa.com").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", 
+                "http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5000", "http://40.114.79.101:5003", 
+                "http://40.114.79.101:5007", "http://40.114.79.101:5009", "http://strive.localqa.com").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // global cors policy

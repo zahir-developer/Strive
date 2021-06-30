@@ -11,7 +11,6 @@ namespace Strive.Common
     {
         int TokenExpiryMintues { get; set; }
         string TenantGuid { get; set; }
-        int TenantId { get; set; }
         string SMTPClient { get; set; }
         string SMTPPassword { get; set; }
         string Port { get; set; }
@@ -38,8 +37,8 @@ namespace Strive.Common
         string VehicleImageFolder { get; set; }
         string ApplicationUrl { get; set; }
         string MobileUrl { get; set; }
-         string OSMUri { get; set; }
-         string UserAgent { get; set; }
+        string OSMUri { get; set; }
+        string UserAgent { get; set; }
 
 
         #region CardConnect
@@ -66,7 +65,7 @@ namespace Strive.Common
         void SetConnection(string con);
         void SetAuthDBConnection(string con);
         void SetAuthAdminDBConnection(string con);
-        void SetTenantGuid(string tenantGuid, int tenantId);
+        void SetTenantGuid(string tenantGuid);
     }
 
     public class TenantHelper : ITenantHelper
@@ -82,7 +81,6 @@ namespace Strive.Common
 
         public int TokenExpiryMintues { get; set; }
         public string TenantGuid { get; set; }
-        
 
         public string SMTPClient { get; set; }
         public string SMTPPassword { get; set; }
@@ -113,7 +111,6 @@ namespace Strive.Common
         public string MobileUrl { get; set; }
         public string OSMUri { get; set; }
         public string UserAgent { get; set; }
-        public int TenantId { get; set; }
 
         #region
 
@@ -145,10 +142,9 @@ namespace Strive.Common
             stringCurrentConnection = con;
         }
 
-        public void SetTenantGuid(string tenantGuid, int tenantId)
+        public void SetTenantGuid(string tenantGuid)
         {
             TenantGuid = tenantGuid;
-            TenantId = tenantId;
             stringTenantGuid = tenantGuid;
         }
 
