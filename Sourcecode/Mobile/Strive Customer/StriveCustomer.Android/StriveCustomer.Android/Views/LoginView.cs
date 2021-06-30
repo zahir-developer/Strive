@@ -46,8 +46,8 @@ namespace StriveCustomer.Android.Views
             //signUp = FindViewById<TextView>(Resource.Id.signUpLinkText);
             //signUp.PaintFlags = PaintFlags.UnderlineText;
             rememberMe = FindViewById<TextView>(Resource.Id.rememberMeLabel);
-            forgotPassword = FindViewById<TextView>(Resource.Id.forgotPasswordLink);
-            forgotPassword.PaintFlags = PaintFlags.UnderlineText;
+            //forgotPassword = FindViewById<TextView>(Resource.Id.forgotPasswordLink);
+            //forgotPassword.PaintFlags = PaintFlags.UnderlineText;
             //newAccount = FindViewById<TextView>(Resource.Id.newAccount);
             rememberMeCheck = FindViewById<CheckBox>(Resource.Id.rememberMeCheck);
 
@@ -66,7 +66,7 @@ namespace StriveCustomer.Android.Views
             basicSetup();
             rememberMeCheck.Click += checkStoredCredentials;
            // signUp.Click += navigateToSignUp;
-            forgotPassword.Click += navigateToForgotPassword;
+           // forgotPassword.Click += navigateToForgotPassword;
         }
 
         private void checkStoredCredentials(object o, EventArgs e)
@@ -106,7 +106,7 @@ namespace StriveCustomer.Android.Views
 
         private void navigateToForgotPassword(object o, EventArgs e)
         {
-            ViewModel.ForgotPasswordCommand();
+            //ViewModel.ForgotPasswordCommand();
         }
 
         private void basicSetup()

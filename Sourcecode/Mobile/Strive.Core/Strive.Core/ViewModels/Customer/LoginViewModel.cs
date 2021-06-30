@@ -40,10 +40,18 @@ namespace Strive.Core.ViewModels.Customer
                     if(loginResponse.ClientDetails != null)
                     {
                         CustomerInfo.ClientID = loginResponse.ClientDetails.ClientDetail.ClientId;
+                        if (!string.IsNullOrEmpty(loginResponse.Token))
+                        {
+                            await _navigationService.Navigate<DashboardViewModel>();
+                        }
+                        else
+                        {
+                            _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                        }
                     }
-                    if (!string.IsNullOrEmpty(loginResponse.Token))
+                    else
                     {
-                        await _navigationService.Navigate<DashboardViewModel>();
+                        _userDialog.Alert(Strings.UsernamePasswordIncorrect);
                     }
                 }
                 else
