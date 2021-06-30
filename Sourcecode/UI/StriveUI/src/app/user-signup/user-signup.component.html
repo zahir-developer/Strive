@@ -44,11 +44,6 @@
                                     <input type="password" class="form-control" id="passwords"
                                         formControlName="password" placeholder="Password"
                                         (keydown.space)="$event.preventDefault()">
-                                    <!-- <div *ngIf="submitted && userSignupForm.get('password').errors"
-                                        class="alert alert-danger">
-                                        <div *ngIf="userSignupForm.get('password').errors.required">Password is required
-                                        </div>
-                                    </div> -->
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -56,15 +51,6 @@
                                     <input type="password" class="form-control" id="confirms"
                                         formControlName="confirmPassword" placeholder="Confirm Password"
                                         (keydown.space)="$event.preventDefault()">
-                                    <!-- <div *ngIf="submitted && userSignupForm.get('confirmPassword').errors"
-                                        class="alert alert-danger">
-                                        <div *ngIf="userSignupForm.get('confirmPassword').errors.required">Confirm
-                                            Password is required</div>
-                                        <div
-                                            *ngIf="userSignupForm.get('confirmPassword').errors.confirmPasswordValidator">
-                                            Passsword and
-                                            Confirm Password didn't match. </div>
-                                    </div> -->
                                 </div>
                             </div>
 

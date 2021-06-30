@@ -104,7 +104,6 @@ export class UserSignupComponent implements OnInit {
 
 
   userSignupSubmit() {
-    console.log(this.userSignupForm.controls);
     this.submitted = true;
     if (this.userSignupForm.invalid) {
       this.formVal = true;
@@ -117,78 +116,97 @@ export class UserSignupComponent implements OnInit {
         return;
       }
     }
-    this.formVal = false;
-    const groupList = {
-      "client": {
-        "clientId": 0,
-        "firstName": this.userSignupForm.controls.firstName.value ? this.userSignupForm.controls.firstName.value : '',
-        "middleName": "",
-        "lastName": this.userSignupForm.controls.lastName.value ? this.userSignupForm.controls.lastName.value : '',
-        "gender": 0,
-        "maritalStatus": 0,
-        "birthDate": "",
-        "notes": "",
-        "recNotes": "",
-        "score": 0,
-        "noEmail": true,
-        "clientType": 0,
-        "authId": 0,
-        "isActive": true,
-        "isDeleted": true,
-        "createdBy": 0,
-        "createdDate": "",
-        "updatedBy": 0,
-        "updatedDate": "",
-        "amount": 0,
-        "isCreditAccount": true
-      },
-      "clientVehicle": [
-        {
-          "vehicleId": 0,
-          "clientId": 0,
-          "locationId": 0,
-          "vehicleNumber": "",
-          "vehicleMfr": 0,
-          "vehicleModel": 0,
-          "vehicleModelNo": 0,
-          "vehicleYear": "",
-          "vehicleColor": 0,
-          "upcharge": 0,
-          "barcode": "",
-          "notes": "",
-          "isActive": true,
-          "isDeleted": true,
-          "createdBy": 0,
-          "createdDate": "",
-          "updatedBy": 0,
-          "updatedDate": "",
-          "monthlyCharge": 0
+
+    if (this.vehicleForm.invalid) {
+      this.formVal = true;
+      this.vehicleForm.controls.items.value.forEach(data => {
+        if (data.vehicleType === '') {
+          this.errorText = "Please enter make"
+          return;
+        } else if (data.vehicleModel === '') {
+          this.errorText = "Please enter model"
+          return;
+        } else if (data.vehicleColor === '') {
+          this.errorText = "Please enter color"
+          return;
         }
-      ],
-      "clientAddress": [
-        {
-          "clientAddressId": 0,
-          "clientId": 0,
-          "address1": "",
-          "address2": "",
-          "phoneNumber": this.userSignupForm.controls.phoneNumber.value ? this.userSignupForm.controls.phoneNumber.value.replace(/[^a-zA-Z0-9]/g, "") : '',
-          "phoneNumber2": "",
-          "email": this.userSignupForm.controls.userEmail.value ? this.userSignupForm.controls.userEmail.value : '',
-          "city": 0,
-          "state": 0,
-          "country": 0,
-          "zip": "",
-          "isActive": true,
-          "isDeleted": true,
-          "createdBy": 0,
-          "createdDate": "",
-          "updatedBy": 0,
-          "updatedDate": ""
-        }
-      ]
+      });
+      return;
     }
+    this.formVal = false;
+
+    const client = {
+      "clientId": 0,
+      "firstName": this.userSignupForm.controls.firstName.value ? this.userSignupForm.controls.firstName.value : '',
+      "middleName": null,
+      "lastName": this.userSignupForm.controls.lastName.value ? this.userSignupForm.controls.lastName.value : '',
+      "gender": null,
+      "maritalStatus": null,
+      "birthDate": "",
+      "notes": "",
+      "recNotes": "",
+      "score": 0,
+      "clientType": 0,
+      "isActive": true,
+      "isDeleted": false,
+      "createdBy": 0,
+      "createdDate": new Date(),
+      "updatedBy": 0,
+      "updatedDate": new Date(),
+      "isCreditAccount": true
+    }
+
+    const clientAddress = [
+      {
+        "clientAddressId": 0,
+        "clientId": 0,
+        "address1": null,
+        "address2": null,
+        "phoneNumber": this.userSignupForm.controls.phoneNumber.value ? this.userSignupForm.controls.phoneNumber.value : '',
+        "phoneNumber2": "",
+        "email": this.userSignupForm.controls.userEmail.value ? this.userSignupForm.controls.userEmail.value : '',
+        "state": null,
+        "country": null,
+        "zip": null,
+        "isActive": true,
+        "isDeleted": false,
+        "createdBy": 0,
+        "createdDate": new Date(),
+        "updatedBy": 0,
+        "updatedDate": new Date()
+      }
+    ]
+
+    const vehicle = [
+      {
+        "vehicleId": 0,
+        "locationId": 0,
+        "vehicleNumber": "",
+        "vehicleMfr": 0,
+        "vehicleModel": 0,
+        "vehicleModelNo": null,
+        "vehicleYear": null,
+        "vehicleColor": 0,
+        "upcharge": 0,
+        "barcode": "",
+        "notes": null,
+        "isActive": true,
+        "isDeleted": false,
+        "createdBy": 0,
+        "createdDate": new Date(),
+        "updatedBy": 0,
+        "updatedDate": new Date(),
+      }
+    ]
+
+    const totalList = {
+      "client": client,
+      "clientAddress": clientAddress,
+      "clientVehicle": vehicle
+    }
+
     this.spinner.show();
-    this.client.addClient(groupList).subscribe(data => {
+    this.client.addClient(totalList).subscribe(data => {
       if (data.status === 'Success') {
         alert('welcome');
         this.spinner.hide();
@@ -210,7 +228,8 @@ export class UserSignupComponent implements OnInit {
       this.errorText = "Please enter last name"
     } else if (this.userSignupForm.controls.userEmail.invalid || this.userSignupForm.controls.userEmail.value === '') {
       this.errorText = "Please enter email"
-    } else if (this.userSignupForm.controls.phoneNumber.invalid || this.userSignupForm.controls.phoneNumber.value === '') {
+    } else if (this.userSignupForm.controls.phoneNumber.invalid || this.userSignupForm.controls.phoneNumber.value === '' ||
+      this.userSignupForm.controls.phoneNumber.value.replace(/[^a-zA-Z0-9]/g, "").length === 1) {
       this.errorText = "Please enter phone number"
     } else if (this.userSignupForm.controls.password.invalid || this.userSignupForm.controls.password.value === '') {
       this.errorText = "Please enter password"
@@ -218,6 +237,7 @@ export class UserSignupComponent implements OnInit {
       this.errorText = "Please enter confirm password"
     }
   }
+
 
   filterType(event) {
     let filtered: any[] = [];
