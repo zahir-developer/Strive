@@ -14,6 +14,6 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
         Result UpdateTenant(TenantCreateViewModel tenant);
         Result GetState();
         Result GetCityByStateId(int id);
-        Result GetLocationMaxLimit(int tenantId);
+        Result GetLocationMaxLimit();
     }
 }

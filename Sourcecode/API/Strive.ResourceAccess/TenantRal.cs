@@ -122,7 +122,7 @@ namespace Strive.ResourceAccess
 
         public MaxLocationViewModel GetLoationMaxLimit(int tenantId)
         {
-            _prm.Add("tenantId", tenantId);
+            _prm.Add("tenantGuidId", tenantId);
             return db.FetchSingle<MaxLocationViewModel>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
         }
     }

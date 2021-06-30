@@ -61,7 +61,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
             return ResultWrap(new ReportRal(_tenant).GetEODSalesReport, salesReportDto, "GetEODSalesReport");
         }
 
-       
+
         public DailyStatusReportPrintViewModel GetDailyStatusExport(EODReportDto eodReportDto)
         {
             try
@@ -74,7 +74,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 //Employee TimeClock
                 TimeClockLocationDto timeClockLocationDto = new TimeClockLocationDto();
                 timeClockLocationDto.LocationId = eodReportDto.LocationId;
-                timeClockLocationDto.Date =  eodReportDto.Date;
+                timeClockLocationDto.Date = eodReportDto.Date;
                 var timeClockRal = new TimeClockRal(_tenant);
                 dailyStatusReportPrintViewModel.EmployeeTimeClock = timeClockRal.TimeClockEmployeeHourDetail(timeClockLocationDto);
 
@@ -85,7 +85,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
 
-               dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
+                dailyStatusReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
 
 
 
@@ -106,7 +106,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
 
         public EODReportPrintViewModel GetEODSalesExport(EODReportDto eodReportDto)
         {
-           try
+            try
             {
                 EODReportPrintViewModel eodReportPrintViewModel = new EODReportPrintViewModel();
                 eodReportPrintViewModel.EmployeeTimeClock = new TimeClockEmployeeHourViewModel();
@@ -116,8 +116,8 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 eodReportPrintViewModel.DailyStatusDetailInfoViews = new DailyStatusViewModel();
 
                 //coins,bills,rolls                
-                var cashRal = new CashRegisterRal(_tenant);             
-               eodReportPrintViewModel.CashRegister = cashRal.GetCloseOutRegisterDetails(eodReportDto.CashRegisterType, eodReportDto.LocationId, eodReportDto.Date);
+                var cashRal = new CashRegisterRal(_tenant);
+                eodReportPrintViewModel.CashRegister = cashRal.GetCloseOutRegisterDetails(eodReportDto.CashRegisterType, eodReportDto.LocationId, eodReportDto.Date);
 
                 if (eodReportPrintViewModel.CashRegister.CashRegisterCoins != null)
                 {
@@ -138,7 +138,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                     eodReportPrintViewModel.CashRegister.CashRegisterBills.s50 = Convert.ToDecimal(50 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s50);
                     eodReportPrintViewModel.CashRegister.CashRegisterBills.s100 = Convert.ToDecimal(100 * eodReportPrintViewModel.CashRegister.CashRegisterBills.s100);
                 }
-                
+
                 //Sales
                 SalesReportDto salesReportDto = new SalesReportDto();
                 salesReportDto.LocationId = eodReportDto.LocationId;
@@ -156,7 +156,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 eodReportPrintViewModel.EmployeeTimeClock = timeClockRal.TimeClockEmployeeHourDetail(timeClockLocationDto);
 
 
-            
+
                 //Washes and Details
                 DailyStatusReportDto dailyStatusReportDto = new DailyStatusReportDto();
                 dailyStatusReportDto.LocationId = eodReportDto.LocationId;
@@ -169,14 +169,14 @@ namespace Strive.BusinessLogic.MonthlySalesReport
                 dailyStatusReportInfoDto.LocationId = eodReportDto.LocationId;
                 dailyStatusReportInfoDto.Date = eodReportDto.Date;
                 var detailInfoRal = new ReportRal(_tenant);
-                
+
                 eodReportPrintViewModel.DailyStatusDetailInfoViews = detailInfoRal.GetDailyStatusInfo(dailyStatusReportDto);
                 return eodReportPrintViewModel;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }   
+            }
         }
         public Result GetDailySalesReport(DailySalesReportDto DailySalesReport)
         {
@@ -202,6 +202,26 @@ namespace Strive.BusinessLogic.MonthlySalesReport
             result.HourlyWashEmployeeViewModel = washHourSalesResult.HourlyWashEmployeeViewModel;
 
             return ResultWrap(result, "GetHourlyWashReport");
+        }
+
+        public HourlyWashSalesReportViewModel GetHourlyWashExport(SalesReportDto salesReportDto)
+        {
+            var ReportRal = new ReportRal(_tenant);
+
+            HourlyWashSalesReportViewModel result = new HourlyWashSalesReportViewModel();
+            result.WashHoursViewModel = new List<WashHoursViewModel>();
+            result.SalesSummaryViewModel = new List<SalesSummaryViewModel>();
+            result.LocationWashServiceViewModel = new List<LocationWashServiceViewModel>();
+
+            var washResult = ReportRal.GetHourlyWashReport(salesReportDto);
+
+            var washHourSalesResult = ReportRal.GetHourWashSalesReport(salesReportDto);
+
+            result.WashHoursViewModel = washResult;
+            result.SalesSummaryViewModel = washHourSalesResult.SalesSummaryViewModel;
+            result.LocationWashServiceViewModel = washHourSalesResult.LocationWashServiceViewModel;
+            result.HourlyWashEmployeeViewModel = washHourSalesResult.HourlyWashEmployeeViewModel;
+            return result;
         }
     }
 }

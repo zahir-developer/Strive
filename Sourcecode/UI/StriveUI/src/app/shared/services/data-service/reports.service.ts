@@ -75,4 +75,9 @@ export class ReportsService {
 
 
   }
+  getHourlyWashExport(obj){
+    const headers = new HttpHeaders();
+
+    return this.http.post(`${UrlConfig.reports.getHourlyWashExport}`, obj,{ responseType: 'arraybuffer', headers: headers } );
+  }
 }

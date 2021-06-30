@@ -134,14 +134,14 @@ namespace Admin.API.Filters
             _tenant.EmployeeId = employeeId;
             _tenant.ClientId = clientId;
             _tenant.SchemaName = schemaName;
-            
+
             //Folder Path
             _tenant.ProductImageFolder = Pick("FolderPath", "ProductImage");
             _tenant.LogoImageFolder = Pick("FolderPath", "LogoImage");
             _tenant.DocumentUploadFolder = Pick("FolderPath", "EmployeeDocument");
             _tenant.GeneralDocumentFolder = Pick("FolderPath", "GeneralDocument");
             _tenant.VehicleImageFolder = Pick("FolderPath", "VehicleImage");
-            
+
             //File Format
             _tenant.DocumentFormat = Pick("FileFormat", "EmployeeDocument");
             _tenant.ProductImageFormat = Pick("FileFormat", "ProductImage");

@@ -72,6 +72,137 @@ namespace Admin.API.Controllers
         public Result GetHourlyWashReport([FromBody] SalesReportDto salesReportDto) => _bplManager.GetHourlyWashReport(salesReportDto);
 
 
+        [HttpPost]
+        [Route("HourlyWashExport")]
+        public IActionResult GetHourlyWashExport([FromBody] SalesReportDto salesReportDto)
+        {
+
+            var hourlyWashResult = _bplManager.GetHourlyWashExport(salesReportDto);
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("HourlyWashReport");
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "Day & Date";
+                worksheet.Cell(currentRow, 2).Value = "Temp";
+                worksheet.Cell(currentRow, 3).Value = "Rain";
+                worksheet.Cell(currentRow, 4).Value = "No of washes";
+                worksheet.Cell(currentRow, 5).Value = "Score";
+                worksheet.Cell(currentRow, 6).Value = "_7 AM";
+                worksheet.Cell(currentRow, 7).Value = "_8 AM";
+                worksheet.Cell(currentRow, 8).Value = "_9 AM";
+                worksheet.Cell(currentRow, 9).Value = "_10 AM";
+                worksheet.Cell(currentRow, 10).Value = "_11 AM";
+                worksheet.Cell(currentRow, 11).Value = "_12 PM";
+                worksheet.Cell(currentRow, 12).Value = "_1 PM";
+                worksheet.Cell(currentRow, 13).Value = "_2 PM";
+                worksheet.Cell(currentRow, 14).Value = "_3 PM";
+                worksheet.Cell(currentRow, 15).Value = "_4 PM";
+                worksheet.Cell(currentRow, 16).Value = "_5 PM";
+                worksheet.Cell(currentRow, 17).Value = "_6 PM";
+                worksheet.Cell(currentRow, 18).Value = "_7 PM";
+
+                if (hourlyWashResult.WashHoursViewModel != null)
+                {
+                    foreach (var oItem in hourlyWashResult.WashHoursViewModel)
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = oItem.JobDate;
+                        worksheet.Cell(currentRow, 2).Value = oItem.Temperature;
+                        worksheet.Cell(currentRow, 3).Value = oItem.Rain;
+                        worksheet.Cell(currentRow, 4).Value = oItem.NoOfWashes;
+                        worksheet.Cell(currentRow, 5).Value = oItem.Goal;
+                        worksheet.Cell(currentRow, 6).Value = oItem._7AMTotal;
+                        worksheet.Cell(currentRow, 7).Value = oItem._8AMTotal;
+                        worksheet.Cell(currentRow, 8).Value = oItem._9AMTotal;
+                        worksheet.Cell(currentRow, 9).Value = oItem._10AMTotal;
+                        worksheet.Cell(currentRow, 10).Value = oItem._11AMTotal;
+                        worksheet.Cell(currentRow, 11).Value = oItem._12AMTotal;
+                        worksheet.Cell(currentRow, 12).Value = oItem._1PMTotal;
+                        worksheet.Cell(currentRow, 13).Value = oItem._2PMTotal;
+                        worksheet.Cell(currentRow, 14).Value = oItem._3PMTotal;
+                        worksheet.Cell(currentRow, 15).Value = oItem._4PMTotal;
+                        worksheet.Cell(currentRow, 16).Value = oItem._5PMTotal;
+                        worksheet.Cell(currentRow, 17).Value = oItem._6PMTotal;
+                        worksheet.Cell(currentRow, 18).Value = oItem._7PMTotal;
+                        currentRow++;
+                        worksheet.Cell(currentRow, 6).Value = oItem._7AM;
+                        worksheet.Cell(currentRow, 7).Value = oItem._8AM;
+                        worksheet.Cell(currentRow, 8).Value = oItem._9AM;
+                        worksheet.Cell(currentRow, 9).Value = oItem._10AM;
+                        worksheet.Cell(currentRow, 10).Value = oItem._11AM;
+                        worksheet.Cell(currentRow, 11).Value = oItem._12AM;
+                        worksheet.Cell(currentRow, 12).Value = oItem._1PM;
+                        worksheet.Cell(currentRow, 13).Value = oItem._2PM;
+                        worksheet.Cell(currentRow, 14).Value = oItem._3PM;
+                        worksheet.Cell(currentRow, 15).Value = oItem._4PM;
+                        worksheet.Cell(currentRow, 16).Value = oItem._5PM;
+                        worksheet.Cell(currentRow, 17).Value = oItem._6PM;
+                        worksheet.Cell(currentRow, 18).Value = oItem._7PM;
+                    }
+                }
+
+                var worksheet2 = workbook.Worksheets.Add("HourlySalesDetail");
+                currentRow = 1;
+                int currentColumn = 11;
+
+                worksheet2.Cell(currentRow, 1).Value = "JobDate";
+                worksheet2.Cell(currentRow, 2).Value = "Day";
+                worksheet2.Cell(currentRow, 3).Value = "Account";
+                worksheet2.Cell(currentRow, 4).Value = "Actual";
+                worksheet2.Cell(currentRow, 5).Value = "BC";
+                worksheet2.Cell(currentRow, 6).Value = "Deposits";
+                worksheet2.Cell(currentRow, 7).Value = "Difference";
+                worksheet2.Cell(currentRow, 8).Value = "GiftCard";
+                worksheet2.Cell(currentRow, 9).Value = "Managers";
+                worksheet2.Cell(currentRow, 10).Value = "Sales";
+                worksheet2.Cell(currentRow, 11).Value = "Tips";
+                foreach (var oItem in hourlyWashResult.LocationWashServiceViewModel)
+                {
+                    currentColumn++;
+                    worksheet2.Cell(currentRow, currentColumn).Value = oItem.WashCount;
+                }
+                if (hourlyWashResult.SalesSummaryViewModel != null)
+                {
+                    foreach (var oItem in hourlyWashResult.SalesSummaryViewModel)
+                    {
+                        currentRow++;
+
+                        worksheet2.Cell(currentRow, 1).Value = oItem.JobDate;
+                        worksheet2.Cell(currentRow, 2).Value = oItem.JobDate.ToString("ddd");
+                        worksheet2.Cell(currentRow, 3).Value = oItem.Account;
+                        //worksheet2.Cell(currentRow, 4).Value = oItem.ac;
+                        worksheet2.Cell(currentRow, 5).Value = oItem.Credit;
+                        //worksheet2.Cell(currentRow, 6).Value = oItem.;
+                        //worksheet2.Cell(currentRow, 7).Value = oItem.;
+                        worksheet2.Cell(currentRow, 8).Value = oItem.GiftCard;
+                        //worksheet2.Cell(currentRow, 9).Value = oItem.;
+                        worksheet2.Cell(currentRow, 10).Value = oItem.Total;
+                        worksheet2.Cell(currentRow, 11).Value = oItem.Tips;
+                        currentColumn = 11;
+                        foreach (var oWash in hourlyWashResult.LocationWashServiceViewModel)
+                        {
+                            if (oWash.JobDate == oItem.JobDate)
+                            {
+                                currentColumn++;
+                                worksheet2.Cell(currentRow, currentColumn).Value = oWash.WashCount;
+                            }
+                        }
+                    }
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "HourlyWashReport.xlsx");
+                }
+            }
+        }
         /// <summary>
         /// Method to Get EOD Sales Report.
         /// </summary>

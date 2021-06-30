@@ -212,7 +212,8 @@ export const UrlConfig = {
     getEodSaleReport: `Admin/Report/EODSalesReport`,
     getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getDailySalesReport: `Admin/Report/DailySalesReport`,
-    getHourlyWashReport: `Admin/Report/GetHourlyWashReport`
+    getHourlyWashReport: `Admin/Report/GetHourlyWashReport`,
+    getHourlyWashExport: `Admin/Report/HourlyWashExport`
   },
   sales: {
     addListItem: `Admin/Sales/AddListItem`,
