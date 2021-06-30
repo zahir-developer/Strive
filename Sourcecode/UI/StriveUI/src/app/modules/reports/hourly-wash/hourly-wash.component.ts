@@ -64,11 +64,11 @@ export class HourlyWashComponent implements OnInit {
   weeklyDateAssign() {
     const currentDate = new Date();
     const first = currentDate.getDate() - currentDate.getDay();
-    const last = first + 6;
+    const last = first + 7;
     this.startDate = new Date(currentDate.setDate(first));
     this.currentWeek = this.startDate;
     this.endDate = new Date(currentDate.setDate(last));
-    this.endDate = this.endDate.setDate(this.startDate.getDate() + 6);
+    this.endDate = this.endDate.setDate(this.startDate.getDate() + 7);
     this.endDate = new Date(moment(this.endDate).format());
     this.daterangepickerModel = [this.startDate, this.endDate];
   }
@@ -173,7 +173,7 @@ export class HourlyWashComponent implements OnInit {
                   Account: sale.Account,
                   BC: sale.Credit,
                   Deposits: 0,
-                  Tips: 0,
+                  Tips: sale.Tips,
                   Actual: 0,
                   Sales: sale.Total,
                   Difference: 0,
@@ -272,11 +272,25 @@ export class HourlyWashComponent implements OnInit {
       }
       case 3: {
         $('#printReport').hide();
-        const hourlySalesDetail = this.salesObj(this.salesDetails);
-        this.excelService.exportAsCSVFile(this.hourlyWashReport, 'HourlyWashReport_' +
-          this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
-        this.excelService.exportAsCSVFile(hourlySalesDetail, 'HourlySalesDetail' +
-          this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
+        // const hourlySalesDetail = this.salesObj(this.salesDetails);
+        // this.excelService.exportAsCSVFile(this.hourlyWashReport, 'HourlyWashReport_' +
+        //   this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
+        // this.excelService.exportAsCSVFile(hourlySalesDetail, 'HourlySalesDetail' +
+        //   this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') + '_' + locationName);
+        const finalObj = {
+          locationId: +this.locationId,
+          fromDate: moment(this.startDate).format(),
+          endDate: moment(this.endDate).format()
+        };
+
+        this.reportsService.getHourlyWashExport(finalObj).subscribe(data => {
+          if (data) {
+            this.download(data, 'excel', 'Hourly Wash Report');
+            return data;
+          }
+        }, (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        })
         break;
       }
       default: {
@@ -285,6 +299,19 @@ export class HourlyWashComponent implements OnInit {
     }
   }
 
+  download(data: any, type, fileName = 'Excel') {
+    let format: string;
+    format = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    let a: HTMLAnchorElement;
+    a = document.createElement('a');
+    document.body.appendChild(a);
+    const blob = new Blob([data], { type: format });
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+  }
+  
   customizeObj(hourlyWash) {
     if (hourlyWash.length > 0) {
       const wash = hourlyWash.map(item => {
@@ -344,6 +371,7 @@ export class HourlyWashComponent implements OnInit {
         item.serviceName.forEach(name => {
           saleName.push(name);
         });
+        debugger;
         sale.push({
           JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
           Day: this.datePipe.transform(item.JobDate, 'EEE'),
@@ -355,7 +383,7 @@ export class HourlyWashComponent implements OnInit {
           GiftCard: item.GiftCard,
           Managers: '',
           Sales: item.Sales,
-          Tips: 0,
+          Tips: item.Tips,
         });
       });
       sale.forEach(item => {

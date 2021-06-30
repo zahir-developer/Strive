@@ -23,6 +23,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         Result GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned);
         Result GetEODSalesReport(SalesReportDto salesReportDto);
         EODReportPrintViewModel GetEODSalesExport(EODReportDto eodReportDto);
+        HourlyWashSalesReportViewModel GetHourlyWashExport(SalesReportDto salesReportDto);
         DailyStatusReportPrintViewModel GetDailyStatusExport(EODReportDto eodReportDto);
 
         Result GetDailySalesReport(DailySalesReportDto DailySalesReport);

@@ -39,6 +39,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { CodeValueService } from './shared/common-service/code-value.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { UserSignupComponent } from './user-signup/user-signup.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -91,6 +92,7 @@ const load = (http: HttpClient) => {
     ForgotPasswordComponent,
     SelectLocationComponent,
     UnauthorizedComponent,
+    UserSignupComponent
   ],
   imports: [
     BrowserModule,
