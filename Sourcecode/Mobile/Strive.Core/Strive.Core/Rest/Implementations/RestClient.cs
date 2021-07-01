@@ -30,7 +30,7 @@ namespace Strive.Core.Rest.Implementations
         {
             string stringSerialized;
             BaseResponse baseResponse = new BaseResponse();
-            url = ApiUtils.AZURE_URL + url;
+            url = ApiUtils.AZURE_URL_TEST + url;
             //url = url.Replace("http://", "https://");
 
             using (var httpClient = new HttpClient())
