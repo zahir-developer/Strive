@@ -6,7 +6,9 @@ namespace Strive.Core.Utils
        // public const string BASE_URL = "http://10.0.2.2:60001";
 
         public const string BASE_URL = "http://14.141.185.75:5004";
-        public const string AZURE_URL = "http://40.114.79.101:5004"; 
+        public const string AZURE_URL = "http://40.114.79.101:5004";
+        //public const string AZURE_URL = "https://mammothdev.azurewebsites.net";
+
         public static string Token { get; set; }
 
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
@@ -76,6 +78,10 @@ namespace Strive.Core.Utils
         public const string URL_SAVE_CLIENT_INFO = "/Admin/Client/UpdateClientVehicle";
 
         public const string URL_GET_VEHICLE_CODES = "/Admin/Vehicle/GetVehicleCodes";
+
+        public const string URL_GET_MAKE_LIST = "/Admin/Common/GetAllMake";
+
+        public const string URL_GET_MODEL_LIST = "/Admin/Common/GetModelById/{0}";
 
         public const string URL_UPDATE_VEHICLE_INFO = "/Admin/Vehicle/Update";
 

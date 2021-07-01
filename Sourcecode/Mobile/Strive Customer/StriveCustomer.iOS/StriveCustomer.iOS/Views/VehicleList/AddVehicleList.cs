@@ -65,12 +65,21 @@ namespace StriveCustomer.iOS.Views
             colorList = new List<string>();
             modelList = new List<string>();                                       
             
-            getPickerData();
-            MakePicker(makeList,VehicleMake_TextField);
-            MakePicker(modelList,VehicleModel_TextField);
-            MakePicker(colorList,VehicleColor_TextField);
+            getPickerData();           
         }
 
+        partial void VehicleMake_SpinnerTouchEnd(UITextField sender)
+        {
+            if(VehicleMake_TextField.Text != null)
+            {
+                getModelList();               
+            }
+        }
+
+        partial void VehicleModel_SpinnerTouchBegin(UITextField sender)
+        {           
+           
+        }
         private void MakePicker(List<string> source,UITextField textField)
         {
             var picker = new UIPickerView
@@ -91,9 +100,10 @@ namespace StriveCustomer.iOS.Views
         private async void getPickerData()
         {
             await ViewModel.getVehicleDetails();
+            await ViewModel.GetMakeList();
             makeOptions = ViewModel.manufacturerName;
             colorOptions = ViewModel.colorName;
-            modelOptions = ViewModel.modelName;
+            //modelOptions = ViewModel.modelName;
 
             var preselectedManufacturer = 0;
             foreach (var makeName in ViewModel.manufacturerName)
@@ -115,27 +125,38 @@ namespace StriveCustomer.iOS.Views
                     MembershipDetails.selectedColor = preselectedColor;
                 }
                 preselectedColor++;
-            }
-
-            var preselectedModel = 0;
-            foreach (var modelName in ViewModel.modelName)
-            {
-                modelList.Add(modelName.Value);
-                if (MembershipDetails.modelNumber == modelName.Key)
-                {
-                    MembershipDetails.selectedModel = preselectedModel;
-                }
-                preselectedModel++;
-            }
+            }            
 
             makeList.Insert(0, "Select Manufacturer");
             makeList.RemoveAt(1);
             colorList.Insert(0, "Select Color");
             colorList.RemoveAt(1);
-            modelList.Insert(0, "Select Model");
-            modelList.RemoveAt(1);                                   
-        }
 
+            MakePicker(makeList, VehicleMake_TextField);
+            MakePicker(colorList, VehicleColor_TextField);
+            MakePicker(modelList, VehicleModel_TextField);
+        }
+        private async void getModelList()
+        {
+            await ViewModel.GetModelList(VehicleMake_TextField.Text);
+
+            if (ViewModel.modelList != null)
+            {
+                var preselectedModel = 0;
+                foreach (var modelName in ViewModel.modelList.Model)
+                {
+                    modelList.Add(modelName.ModelValue);
+                    if (MembershipDetails.modelNumber == modelName.ModelId)
+                    {
+                        MembershipDetails.selectedModel = preselectedModel;
+                    }
+                    preselectedModel++;
+                }
+                modelList.Insert(0, "Select Model");
+                modelList.RemoveAt(1);
+                MakePicker(modelList, VehicleModel_TextField);
+            }
+        }
         partial void SelectMembership_Touch(UIButton sender)
         {
             if (MembershipDetails.clientVehicleID != 0)

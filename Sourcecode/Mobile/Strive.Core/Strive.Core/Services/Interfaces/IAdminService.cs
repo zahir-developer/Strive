@@ -84,6 +84,9 @@ namespace Strive.Core.Services.Interfaces
 
         Task<VehicleCodes> GetVehicleCodes();
 
+        Task<MakeList> GetMakeList();
+        Task<ModelList> GetModelList(int Id);
+
         Task<GeneralResponse> AddCustomerVehicle(CustomerVehicles addVehicle);
 
         Task<GeneralResponse> DeleteCustomerVehicle(int VehicleID);

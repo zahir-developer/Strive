@@ -52,6 +52,18 @@ namespace StriveCustomer.iOS.Views
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Account";
+
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
+
             PastDetail_Segment.Hidden = true;
             PersonalInfo_Segment.Hidden = false;
             VehicleList_Segment.Hidden = true;
@@ -133,14 +145,14 @@ namespace StriveCustomer.iOS.Views
 
             if (personalInfoViewModel.customerInfo.Status.Count > 0)
             {
-                FullName_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName;
+                FullName_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.LastOrDefault().LastName;
                 ContactNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
                 Address_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Address1;
                 ZipCode_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
                 PhoneNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
                 Email_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
 
-                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName;
+                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.LastOrDefault().LastName;
                 MyProfileCustomerInfo.ContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
                 MyProfileCustomerInfo.Email = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
                 MyProfileCustomerInfo.SecondaryContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;

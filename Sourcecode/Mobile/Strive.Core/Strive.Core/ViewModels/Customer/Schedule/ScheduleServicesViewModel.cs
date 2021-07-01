@@ -24,7 +24,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         public async Task GetScheduledServices()
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-            var result = await AdminService.GetScheduleServices(8);
+            var result = await AdminService.GetScheduleServices(1);
             
             if(result == null)
             {
