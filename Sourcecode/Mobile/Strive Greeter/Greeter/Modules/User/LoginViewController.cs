@@ -13,7 +13,7 @@ namespace Greeter
 {
     public partial class LoginViewController : BaseViewController
     {
-        bool isEyeOpen = false;
+        //bool isEyeOpen = false;
 
         public LoginViewController(IntPtr handle) : base(handle)
         {
@@ -33,7 +33,7 @@ namespace Greeter
 
             btnEye.TouchUpInside += delegate
             {
-                ChaangeEye(isEyeOpen);
+                ChaangeEye(tfPswd.SecureTextEntry);
             };
         }
 
@@ -65,11 +65,14 @@ namespace Greeter
             if (isOpen)
             {
                 // TODO : Close Eye Image Change and disable text shown in pswd
+
             }
             else
             {
                 // TODO : Open Eye Image Change and show text in pswd
             }
+
+            tfPswd.SecureTextEntry = !isOpen;
         }
 
         async Task LoginClicked(string email, string pswd)

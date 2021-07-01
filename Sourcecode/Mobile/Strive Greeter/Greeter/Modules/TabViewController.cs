@@ -43,13 +43,11 @@ namespace Greeter
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
-
         }
 
         public override void ViewDidDisappear(bool animated)
         {
             base.ViewDidDisappear(animated);
-            NavigationController.NavigationBar.Hidden = false;
         }
     }
 }

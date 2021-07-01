@@ -30,12 +30,15 @@ namespace NewSingleViewTemplate
 
                 var sb = UIStoryboard.FromName(StoryBoardNames.USER, null);
 
-                var viewController = sb.InstantiateViewController(nameof(LoginViewController));
+                UIViewController vc;
 
-                //var viewController = new LastVisitViewController();
+                if (!AppSettings.IsLogin)
+                    vc = sb.InstantiateViewController(nameof(LoginViewController));
+                else
+                    vc = sb.InstantiateViewController(nameof(LocationViewController));
 
                 var nc = new UINavigationController();
-                var vcs = new UIViewController[] { viewController };
+                var vcs = new UIViewController[] { vc };
                 nc.ViewControllers = vcs;
                 Window.RootViewController = nc;
                 Window.MakeKeyAndVisible();

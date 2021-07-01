@@ -44,7 +44,7 @@ namespace Greeter
 
             GetData();
 
-            /// For Restricting typing in the location field
+            // For Restricting typing in the location field
             tfLocation.ShouldChangeCharacters = (textField, range, replacementString) =>
             {
                 return false;
@@ -82,7 +82,7 @@ namespace Greeter
 
         void Initialise()
         {
-            NavigationItem.HidesBackButton = true;
+            NavigationController.NavigationBar.Hidden = true;
 
             Title = SCREEN_TITLE;
 

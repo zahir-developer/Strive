@@ -23,7 +23,7 @@ namespace Greeter.Storyboards
 
         void Initialise()
         {
-
+            NavigationController.NavigationBar.Hidden = false;
             Title = SCREEN_TITLE;
         }
     }

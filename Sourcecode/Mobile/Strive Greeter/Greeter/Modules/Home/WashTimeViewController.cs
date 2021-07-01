@@ -4,6 +4,7 @@ using CoreGraphics;
 using Foundation;
 using CoreLocation;
 using System;
+using Greeter.Common;
 
 namespace Greeter.Modules.Home
 {
@@ -25,6 +26,8 @@ namespace Greeter.Modules.Home
 
         void SetupView()
         {
+            NavigationController.NavigationBar.Hidden = false;
+
             mapView = new MKMapView(CGRect.Empty)
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
@@ -61,6 +64,8 @@ namespace Greeter.Modules.Home
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
             {
                 //TODO logout action here
+                AppSettings.Clear();
+                NavigationController.PopToRootViewController(true);
             });
         }
 

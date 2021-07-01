@@ -93,8 +93,11 @@ namespace Greeter
             ShowActivityIndicator();
             var response = await new ApiService(new NetworkService()).GetBarcode(barcode);
             HideActivityIndicator();
-            if (response.ClientAndVehicleDetailList != null || response.ClientAndVehicleDetailList.Count > 0)
+            if (response.ClientAndVehicleDetailList != null && response.ClientAndVehicleDetailList.Count > 0)
+            {
+                barcodeResponse = response;
                 NavigateToWashOrDetailScreen(true);
+            }
             else
                 ShowAlertMsg(Common.Messages.BARCODE_WRONG);
         }

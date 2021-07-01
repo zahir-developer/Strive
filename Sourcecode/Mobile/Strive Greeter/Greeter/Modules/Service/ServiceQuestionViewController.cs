@@ -15,11 +15,11 @@ namespace Greeter.Storyboards
 {
     public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
     {
-        //string[] data = new string[] {
-        //    "Main Street 1",
-        //    "Main Street 2",
-        //    "Main Street 3"
-        //};
+        string[] sampleData = new string[] {
+            "Main Street 1",
+            "Main Street 2",
+            "Main Street 3"
+        };
 
         string[] data;
 
@@ -32,10 +32,10 @@ namespace Greeter.Storyboards
         public string Barcode;
 
         // Data
-        List<Code> Models;
+        List<Code> Makes;
         List<Code> Colors;
 
-        string[] models;
+        string[] makes;
         string[] colors;
 
         //Views
@@ -64,10 +64,7 @@ namespace Greeter.Storyboards
             tfType.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Type;
-                data = models;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(models, tfType.Text);
-                pv.Select(pos, 0, false);
+                data = sampleData;
             };
 
             btnTypeDropdown.TouchUpInside += delegate
@@ -78,10 +75,10 @@ namespace Greeter.Storyboards
             tfMake.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Make;
-                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
-                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
-                //int pos = cities.IndexOf(cityTextField.Text);
-                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+                data = makes;
+                pv.ReloadComponent(0);
+                int pos = Array.IndexOf(makes, tfType.Text);
+                pv.Select(pos, 0, false);
             };
 
             btnMakeDropdown.TouchUpInside += delegate
@@ -103,18 +100,20 @@ namespace Greeter.Storyboards
                 tfColor.BecomeFirstResponder();
             };
 
-            tfBarcode.EditingDidBegin += delegate
-            {
-                choiceType = ChoiceType.Barcode;
-                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
-                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
-                //int pos = cities.IndexOf(cityTextField.Text);
-                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
-            };
+            //tfBarcode.EditingDidBegin += delegate
+            //{
+            //    choiceType = ChoiceType.Barcode;
+            //    data = sampleData;
+            //    //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
+            //    //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
+            //    //int pos = cities.IndexOf(cityTextField.Text);
+            //    //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+            //};
 
             tfWashPkg.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Washpackage;
+                data = sampleData;
                 //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
                 //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
                 //int pos = cities.IndexOf(cityTextField.Text);
@@ -129,6 +128,7 @@ namespace Greeter.Storyboards
             tfDetailPkg.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.DetailPackage;
+                data = sampleData;
                 //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
                 //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
                 //int pos = cities.IndexOf(cityTextField.Text);
@@ -143,6 +143,7 @@ namespace Greeter.Storyboards
             tfUpcharge.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Upcharge;
+                data = sampleData;
                 //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
                 //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
                 //int pos = cities.IndexOf(cityTextField.Text);
@@ -157,6 +158,7 @@ namespace Greeter.Storyboards
             tfAdditionalService.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.AdditionalService;
+                data = sampleData;
                 //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
                 //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
                 //int pos = cities.IndexOf(cityTextField.Text);
@@ -171,6 +173,7 @@ namespace Greeter.Storyboards
             tfAirFreshner.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.AirFreshner;
+                data = sampleData;
                 //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
                 //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
                 //int pos = cities.IndexOf(cityTextField.Text);
@@ -191,9 +194,9 @@ namespace Greeter.Storyboards
         async Task GetData()
         {
             ShowActivityIndicator();
-            var modelResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLEMODEL");
-            Models = modelResponse.Codes;
-            models = modelResponse.Codes.Select(x => x.CodeValue).ToArray();
+            var makesResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLEMANUFACTURER");
+            Makes = makesResponse.Codes;
+            makes = makesResponse.Codes.Select(x => x.CodeValue).ToArray();
             var colorResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLECOLOR");
             Colors = colorResponse.Codes;
             colors = colorResponse.Codes.Select(x => x.CodeValue).ToArray();
@@ -202,8 +205,16 @@ namespace Greeter.Storyboards
 
         void UpdateBarcodeData()
         {
-            if (String.IsNullOrEmpty(Barcode))
+            if (!String.IsNullOrEmpty(Barcode))
             {
+                btnTypeDropdown.Hidden = true;
+                btnMakeDropdown.Hidden = true;
+                btnColorDropdown.Hidden = true;
+
+                tfType.UserInteractionEnabled = false;
+                tfMake.UserInteractionEnabled = false;
+                tfColor.UserInteractionEnabled = false;
+
                 tfBarcode.Text = Barcode;
             }
         }
@@ -245,7 +256,7 @@ namespace Greeter.Storyboards
             AddPickerToolbar(tfType, tfType.Placeholder, PickerDone);
             AddPickerToolbar(tfMake, tfMake.Placeholder, PickerDone);
             AddPickerToolbar(tfColor, tfColor.Placeholder, PickerDone);
-            AddPickerToolbar(tfBarcode, tfBarcode.Placeholder, PickerDone);
+            //AddPickerToolbar(tfBarcode, tfBarcode.Placeholder, PickerDone);
             AddPickerToolbar(tfWashPkg, tfWashPkg.Placeholder, PickerDone);
             AddPickerToolbar(tfDetailPkg, tfDetailPkg.Placeholder, PickerDone);
             AddPickerToolbar(tfUpcharge, tfUpcharge.Placeholder, PickerDone);
@@ -255,12 +266,59 @@ namespace Greeter.Storyboards
             tfType.InputView = pv;
             tfMake.InputView = pv;
             tfColor.InputView = pv;
-            tfBarcode.InputView = pv;
+            //tfBarcode.InputView = pv;
             tfUpcharge.InputView = pv;
             tfWashPkg.InputView = pv;
             tfDetailPkg.InputView = pv;
             tfAdditionalService.InputView = pv;
             tfAirFreshner.InputView = pv;
+
+            // For Restricting typing in the location field
+            tfType.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfMake.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfColor.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfBarcode.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfUpcharge.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfWashPkg.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfDetailPkg.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfAdditionalService.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
+            tfAirFreshner.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                return false;
+            };
+
 
             pv.DataSource = this;
             pv.Delegate = this;
@@ -340,7 +398,7 @@ namespace Greeter.Storyboards
 
         public nint GetRowsInComponent(UIPickerView pickerView, nint component)
         {
-            return data.Length;
+            return data?.Length ?? 0;
         }
 
         [Export("pickerView:didSelectRow:inComponent:")]

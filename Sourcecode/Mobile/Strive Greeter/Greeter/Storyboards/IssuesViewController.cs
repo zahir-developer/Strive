@@ -44,6 +44,7 @@ namespace Greeter.Storyboards
 
         void Initialise()
         {
+            NavigationController.NavigationBar.Hidden = false;
             Title = SCREEN_TITLE;
             viewHeader.AddHearderViewShadow();
             tvIssues.RegisterNibForCellReuse(IssueCell.Nib, IssueCell.Key);
