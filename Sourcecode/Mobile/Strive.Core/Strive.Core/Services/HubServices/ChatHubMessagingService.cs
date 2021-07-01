@@ -34,7 +34,7 @@ namespace Strive.Core.Services.HubServices
             if (string.IsNullOrEmpty(ConnectionID) || connection == null)
             {
                 //connection = new HubConnectionBuilder().WithUrl("http://10.0.2.2:60001/ChatMessageHub").Build();
-                connection = new HubConnectionBuilder().WithUrl(ApiUtils.BASE_URL + "/chatMessageHub").Build();
+                connection = new HubConnectionBuilder().WithUrl(ApiUtils.AZURE_URL_TEST + "/chatMessageHub").Build();
                 try
                 {
                     await connection?.StartAsync();
