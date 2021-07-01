@@ -25,18 +25,14 @@ namespace Strive.Core.ViewModels.Customer
 
         public async Task GetAllDealsCommand()
         {
-            _userDialog.ShowLoading(Strings.Loading);
-            if (Deals.Count == 0)
+            _userDialog.ShowLoading("Loading");
+            if(Deals.Count == 0)
             {
                 var result = await AdminService.GetAllDeals();
                 foreach (var item in result.GetAllDeals)
                 {
                     Deals.Add(item);
                 }
-            }
-            else
-            {
-                _userDialog.Alert("Deals not found.");
             }
             _userDialog.HideLoading();
         }

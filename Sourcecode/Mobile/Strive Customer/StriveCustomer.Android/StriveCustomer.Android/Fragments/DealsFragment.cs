@@ -30,6 +30,7 @@ namespace StriveCustomer.Android.Fragments
         private Button qrCode;
         Context context;
         List<DealsDemoData> dealsDemoDatas;
+        public RecyclerView dealsRecyclerView;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,16 +45,15 @@ namespace StriveCustomer.Android.Fragments
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootview = this.BindingInflate(Resource.Layout.DealsScreenFragment, null);
             qrCode = rootview.FindViewById<Button>(Resource.Id.qrCodeScan);
-           
-            var dealsRecyclerView = rootview.FindViewById<RecyclerView>(Resource.Id.dealsList);
+            this.ViewModel = new DealsViewModel();
+
+            dealsRecyclerView = rootview.FindViewById<RecyclerView>(Resource.Id.dealsList);
             dealsRecyclerView.HasFixedSize = true;
             var layoutManager = new LinearLayoutManager(context);
             dealsRecyclerView.SetLayoutManager(layoutManager);
             qrCode.Click += QrCode_Click;
-            dealsDemoDatas = new List<DealsDemoData>();
-            LoadDealsDemoData();
-            DealsAdapter dealsAdapter = new DealsAdapter(dealsDemoDatas, context);
-            dealsRecyclerView.SetAdapter(dealsAdapter);
+            GetDeals();
+            
             return rootview;
         }
         private async void QrCode_Click(object sender, EventArgs e)
@@ -71,34 +71,11 @@ namespace StriveCustomer.Android.Fragments
                await AndroidPermissions.checkCameraPermission(this);
             }
         }
-        public void LoadDealsDemoData()
+        public async void GetDeals()
         {
-
-            DealsDemoData deal1 = new DealsDemoData()
-            {
-                DealId = 0,
-                DealName = "Bounce Back Coupon",
-                StartDate = "30 Jun 2020",
-                EndDate = "Aug 31 2020",
-                ExpiryDate = "20/8/2020",
-                DealWashes = "1",
-                DealCost = "$10",
-                Description = "Discount offer on your 1st wash"
-            };
-            dealsDemoDatas.Add(deal1);
-
-            DealsDemoData deal2 = new DealsDemoData()
-            {
-                DealId = 1,
-                DealName = "Buy 10 get 1 Free Wash",
-                StartDate = "30 Jun 2020",
-                EndDate = "Aug 31 2020",
-                ExpiryDate = "20/8/2020",
-                DealWashes = "2/10+1",
-                DealCost = "$10",
-                Description = "Discount offer on your 1st wash"
-            };
-            dealsDemoDatas.Add(deal2);
+            await this.ViewModel.GetAllDealsCommand();
+            DealsAdapter dealsAdapter = new DealsAdapter(this.ViewModel.Deals, context);
+            dealsRecyclerView.SetAdapter(dealsAdapter);
         }
     }
 }

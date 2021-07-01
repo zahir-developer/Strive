@@ -5,6 +5,7 @@ using Foundation;
 using Newtonsoft.Json;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace Greeter.Services.Network
 {
@@ -58,6 +59,43 @@ namespace Greeter.Services.Network
             }
         }
 
+        //public async Task<TResult> ExecuteAsync<TResult, T>(IRestRequest request, string baseUrl = Urls.BASE_URL) where TResult : BaseResponse where T : CommonResponse
+        //{
+        //    using var urlSession = NSUrlSession.SharedSession;
+        //    using var urlRequest = CreateRequest(request, baseUrl);
+
+        //    using var task = urlSession.CreateDataTaskAsync(urlRequest, out NSUrlSessionDataTask sessionDataTask);
+        //    sessionDataTask.Resume();
+
+        //    try
+        //    {
+        //        var dataTaskRequest = await task;
+        //        var urlResponse = dataTaskRequest.Response as NSHttpUrlResponse;
+
+        //        if (urlResponse?.StatusCode >= 200 || urlResponse?.StatusCode <= 299)
+        //        {
+        //            using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
+        //            var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
+
+        //            return result;
+        //        }
+        //        else
+        //        {
+        //            var errorResult = Activator.CreateInstance<TResult>();
+        //            errorResult.StatusCode = (int)urlResponse.StatusCode;
+        //            errorResult.Message = urlResponse.StatusCode.ToString();
+        //            return errorResult;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        var errorResult = Activator.CreateInstance<TResult>();
+        //        errorResult.StatusCode = 707;
+        //        errorResult.Message = e.Message;
+        //        return errorResult;
+        //    }
+        //}
+
         NSUrlRequest CreateRequest(IRestRequest request, string baseUrl)
         {
             var urlString = baseUrl + request.Path;
@@ -74,7 +112,11 @@ namespace Greeter.Services.Network
             var urlRequest = new NSMutableUrlRequest(NSUrl.FromString(urlString))
             {
                 HttpMethod = GetHttpMethod(request.Method)
+                //HttpMethod = request.Method.ToString()
             };
+
+            request.Header.Add("Content-Type", "application/json");
+            //request.Header.Add("Accept", "application/json");
 
             if (request.Header is not null)
             {

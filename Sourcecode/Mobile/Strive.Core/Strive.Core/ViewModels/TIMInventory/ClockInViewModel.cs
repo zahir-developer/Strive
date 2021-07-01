@@ -176,11 +176,13 @@ namespace Strive.Core.ViewModels.TIMInventory
             string imagepath = role.ImageUriHover;
             imagepath += "-hover";
             role.ImageUri = imagepath;
+            _userDialog.Toast("You have selected " + role.Title +" role");
         }
 
         public void RoleDeSelectedCommand(EmployeeRole role)
         {
             role.ImageUri = role.ImageUriHover;
+            _userDialog.Toast("You have deselected " + role.Title + " role");
         }
     }
 }

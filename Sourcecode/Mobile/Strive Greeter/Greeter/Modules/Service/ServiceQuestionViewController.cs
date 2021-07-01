@@ -16,6 +16,7 @@ namespace Greeter.Storyboards
             "Main Street 2",
             "Main Street 3"
         };
+
         string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
 
         public ServiceType ServiceType;
@@ -129,6 +130,8 @@ namespace Greeter.Storyboards
 
             NavigationController.NavigationBar.Hidden = false;
             Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];
+
+            viewHeader.AddHearderViewShadow();
 
             DateTime dt = GetCurrentDate();
             lblDate.Text = dt.ToString(Constants.DATE_FORMAT);

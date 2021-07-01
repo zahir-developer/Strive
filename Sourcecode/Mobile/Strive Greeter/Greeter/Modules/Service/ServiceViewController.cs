@@ -28,9 +28,6 @@ namespace Greeter
         {
             base.ViewDidLoad();
 
-            // Values
-            //float paddingTextField = 60;
-
             // Initial UI Settings
             txtFieldBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             txtFieldBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
@@ -69,13 +66,11 @@ namespace Greeter
             {
                 if (txtFieldBarcode.Text.IsEmpty())
                 {
-                    ShowAlertMsg(btnSelect.TitleLabel.Text);
-
-                    NavigateToWashOrDetailScreen();
+                    ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
                 }
                 else
                 {
-                    ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
+                    NavigateToWashOrDetailScreen();
                 }
             };
 
@@ -105,9 +100,8 @@ namespace Greeter
 
         void NavigateToIssue()
         {
-            ShowAlertMsg(lblViewIssue.Text);
-
-            // TODO : 
+            var vc = this.Storyboard.InstantiateViewController(nameof(IssuesViewController));
+            NavigateToWithAnim(vc);
         }
 
         void NavigateToWashOrDetailScreen()

@@ -31,9 +31,8 @@ namespace Greeter.Modules.Home
                 WeakDelegate = this,
                 MapType = MKMapType.Hybrid
             };
-            
-            View.Add(mapView);
 
+            View.Add(mapView);
 
             mapView.Register(typeof(WashStationAnnotationView), MKMapViewDefault.AnnotationViewReuseIdentifier);
 

@@ -1,7 +1,6 @@
 using Foundation;
-using Greeter.Modules.Login;
-using Greeter.Services.Authentication;
-using Greeter.Services.Network;
+using Greeter.MvvmCross;
+using MvvmCross.Platforms.Ios.Core;
 using UIKit;
 
 namespace Greeter
@@ -9,7 +8,7 @@ namespace Greeter
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : UIResponder, IUIApplicationDelegate
+    public class AppDelegate : MvxApplicationDelegate<Setup, App>, IUIApplicationDelegate
     {
 
         [Export("window")]
@@ -64,15 +63,34 @@ namespace Greeter
             };
             UINavigationBar.Appearance.SetTitleTextAttributes(titleAttribute);
 
-            var barButtonTitleTextAttribute = new UITextAttributes
-            {
-                Font = UIFont.SystemFontOfSize(17),
-                TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f)
-            };
+            //var barButtonTitleTextAttribute = new UITextAttributes
+            //{
+            //    Font = UIFont.SystemFontOfSize(17),
+            //    TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f)
+            //};
 
-            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Normal);
-            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Highlighted);
-            UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Focused);
+            //UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Normal);
+            //UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Highlighted);
+            //UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonTitleTextAttribute, UIControlState.Focused);
+
+            //var barButtonUnselectedTitleTextAttribute = new UITextAttributes
+            //{
+            //    Font = UIFont.SystemFontOfSize(10),
+            //    TextColor = UIColor.White
+            //};
+            //UITabBarItem.Appearance.SetTitleTextAttributes(barButtonUnselectedTitleTextAttribute, UIControlState.Normal);
+
+            //var barButtonSelectedTitleTextAttribute = new UITextAttributes
+            //{
+            //    Font = UIFont.SystemFontOfSize(10),
+            //    TextColor = UIColor.Green
+            //};
+            //UITabBarItem.Appearance.SetTitleTextAttributes(barButtonSelectedTitleTextAttribute, UIControlState.Selected);
+
+            UITabBar.Appearance.UnselectedItemTintColor = UIColor.White;
+            UITabBar.Appearance.TintColor = UIColor.FromRGB(12, 78, 71);
+
+            //UITabBar.Appearance.TintColor = UIColor.FromName(ColorNames.APP_COLOR);
         }
     }
 }

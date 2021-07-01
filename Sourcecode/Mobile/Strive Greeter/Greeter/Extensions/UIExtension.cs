@@ -29,6 +29,7 @@ namespace Greeter.Extensions
 
         public static void AddHearderViewShadow(this UIView view)
         {
+            view.Layer.MasksToBounds = false;
             view.Layer.ShadowColor = UIColor.Gray.CGColor;
             view.Layer.ShadowOffset = new CGSize(0f, 3f);
             view.Layer.ShadowOpacity = 0.2f;

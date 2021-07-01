@@ -24,20 +24,10 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <MtouchArch>x86_64</MtouchArch>
-        <MtouchLink>None</MtouchLink>
+        <MtouchLink>SdkOnly</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>iOS Team Provisioning Profile: com.greeter</CodesignProvision>
-        <CodesignKey>Apple Development: anbalagan.d@zohocorp.com (B2Y6569T52)</CodesignKey>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-        <DebugType>none</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-        <MtouchLink>None</MtouchLink>
-        <MtouchArch>x86_64</MtouchArch>
+        <CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -50,11 +40,10 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>Apple Development: anbalagan.d@zohocorp.com (B2Y6569T52)</CodesignKey>
+        <CodesignKey>iPhone Developer</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
-        <MtouchLink>SdkOnly</MtouchLink>
+        <MtouchLink>None</MtouchLink>
         <LangVersion>latest</LangVersion>
-        <CodesignProvision>iOS Team Provisioning Profile: com.greeter</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -67,6 +56,19 @@
         <CodesignKey>iPhone Developer</CodesignKey>
         <MtouchLink>SdkOnly</MtouchLink>
         <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
+      <Optimize>false</Optimize>
+      <DefineConstants></DefineConstants>
+      <WarningLevel>4</WarningLevel>
+      <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+      <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+      <MtouchVerbosity></MtouchVerbosity>
+      <MtouchEnableSGenConc>false</MtouchEnableSGenConc>
+      <MtouchLink>SdkOnly</MtouchLink>
+      <MtouchArch>x86_64</MtouchArch>
+      <CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+      <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -81,6 +83,9 @@
       <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
       <PackageReference Include="Newtonsoft.Json">
         <Version>13.0.1</Version>
+      </PackageReference>
+      <PackageReference Include="MvvmCross">
+        <Version>8.0.1</Version>
       </PackageReference>
     </ItemGroup>
     <ItemGroup>
@@ -139,6 +144,15 @@
         <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346.png" />
         <ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Colors.xcassets\app_dark_color.colorset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\close_red.imageset\Icon material-add-circle.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Icon awesome-home%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Icon awesome-home%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\home.imageset\Icon awesome-home.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -159,6 +173,8 @@
         <Folder Include="Extensions\" />
         <Folder Include="Storyboards\" />
         <Folder Include="Modules\User\" />
+        <Folder Include="Sources\" />
+        <Folder Include="MvvmCross\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -166,6 +182,8 @@
         <InterfaceDefinition Include="Storyboards\UserStoryboard.storyboard" />
         <InterfaceDefinition Include="Resources\Storyboards\UserStoryboard~.storyboard" />
         <InterfaceDefinition Include="Resources\Storyboards\HomeStoryboard~.storyboard" />
+        <InterfaceDefinition Include="Cells\IssueCell.xib" />
+        <InterfaceDefinition Include="Cells\ImageCell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -177,7 +195,6 @@
         <Compile Include="Support\SceneDelegate.cs" />
         <Compile Include="Common\Constants.cs" />
         <Compile Include="Common\AppSettings.cs" />
-        <Compile Include="Cells\IssueCell.cs" />
         <Compile Include="Cells\CheckoutCell.cs" />
         <Compile Include="Services\Authentication\IAuthenticationService.cs" />
         <Compile Include="Services\Authentication\AuthenticationService.cs" />
@@ -246,6 +263,30 @@
         <Compile Include="Modules\Pay\CheckoutStatus.cs" />
         <Compile Include="DTOs\Checkout.cs" />
         
+        <Compile Include="Cells\IssueCell.cs" />
+        <Compile Include="Cells\IssueCell.designer.cs">
+          <DependentUpon>IssueCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Cells\ImageCell.cs" />
+        <Compile Include="Cells\ImageCell.designer.cs">
+          <DependentUpon>ImageCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Storyboards\IssuesViewController.cs" />
+        <Compile Include="Storyboards\IssuesViewController.designer.cs">
+          <DependentUpon>IssuesViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Sources\IssuesSource.cs" />
+        <Compile Include="Storyboards\AddIssueViewController.cs" />
+        <Compile Include="Storyboards\AddIssueViewController.designer.cs">
+          <DependentUpon>AddIssueViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Sources\ImagesSource.cs" />
+        <Compile Include="Modules\User\LoginViewModel.cs" />
+        <Compile Include="MvvmCross\App.cs" />
+        <Compile Include="Services\Network\ApiService.cs" />
+        <Compile Include="DTOs\Model.cs" />
+        <Compile Include="MvvmCross\Setup.cs" />
+        <Compile Include="Modules\Home\WashStationAnnotationView.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

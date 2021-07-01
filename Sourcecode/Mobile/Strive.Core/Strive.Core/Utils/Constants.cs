@@ -3,11 +3,10 @@ namespace Strive.Core.Utils
 {
     public class ApiUtils
     {
-       // public const string BASE_URL = "http://10.0.2.2:60001";
+        // public const string BASE_URL = "http://10.0.2.2:60001";
 
-        public const string BASE_URL = "http://14.141.185.75:5004";
+        //public const string BASE_URL = "http://14.141.185.75:5004";
         public const string AZURE_URL = "http://40.114.79.101:5004";
-        //public const string AZURE_URL = "https://mammothdev.azurewebsites.net";
 
         public static string Token { get; set; }
 
@@ -71,7 +70,7 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_CLIENT_VEHICLE_SERVICES_LIST = "/Admin/ServiceSetup/GetAllServiceDetail";
 
-        public const string URL_GET_SELECTED_MEMBERSHIP_SERVICES = "/Admin/MembershipSetup/GetAllMembershipById/";  
+        public const string URL_GET_SELECTED_MEMBERSHIP_SERVICES = "/Admin/MembershipSetup/GetAllMembershipById/";
 
         public const string URL_GET_CLIENT_BY_ID = "/Admin/Client/GetClientById/{0}";
 
@@ -99,8 +98,8 @@ namespace Strive.Core.Utils
 
         public const string URL_MESSENGER_CONTACTS = "/Admin/Employee/GetAllEmployeeDetail";
 
-        public const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage"; 
-        
+        public const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage";
+
         public const string URL_MESSENGER_SEND_CHAT_MESSAGE = "/Admin/Messenger/SendChatMessage";
 
         public const string URL_MESSENGER_CREATE_GROUP_CHAT = "/Admin/Messenger/CreateChatGroup";
@@ -109,8 +108,8 @@ namespace Strive.Core.Utils
 
         public const string URL_COMMON_TYPES = "/Admin/Common/GetCodesByCategory/";
 
-        public const string URL_GET_GROUP_PARTICIPANTS = "/Admin/Messenger/GetChatGroupEmployeelist/{0}"; 
-    
+        public const string URL_GET_GROUP_PARTICIPANTS = "/Admin/Messenger/GetChatGroupEmployeelist/{0}";
+
         public const string URL_GROUP_PARTICIPANT_DELETE = "/Admin/Messenger/DeleteChatGroupUser/{0}";
 
         public const string URL_ADD_COLLISIONS = "/Admin/Collision/Add";
@@ -122,7 +121,7 @@ namespace Strive.Core.Utils
         public const string URL_GET_COLLISIONS = "/Admin/Collision/GetCollisionById/";
 
         public const string URL_SAVE_DOCUMENTS = "/Admin/Document/SaveDocument";
-            
+
         public const string URL_CHECKOUT_DETAILS = "/Admin/Checkout/GetAllCheckoutDetails/";
 
         public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllDetails";
