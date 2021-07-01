@@ -31,7 +31,7 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            
+            InitialSetup();
             SetMaps();
 
             CustomerInfo.setMapInfo();
@@ -51,6 +51,19 @@ namespace StriveCustomer.iOS.Views
             geofenceRegion.NotifyOnExit = true;
             locationManager.StartMonitoring(geofenceRegion);
             locationManager.Delegate = new MyLocationDelegate(WashTimeWebView);
+        }
+        private void InitialSetup()
+        {
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
         }
         private async void SetMaps()
         {            

@@ -2,7 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using Strive.Core.Models.Customer;
+using Strive.Core.Resources;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.Customer
 {
@@ -39,5 +42,26 @@ namespace Strive.Core.ViewModels.Customer
             await _navigationService.Navigate<DealsDetailViewModel>();
         }
 
+        public void LogoutCommand()
+        {
+            var confirmconfig = new ConfirmConfig
+            {
+                Title = Strings.LogoutTitle,
+                Message = Strings.LogoutMessage,
+                CancelText = Strings.LogoutCancelButton,
+                OkText = Strings.LogoutSuccessButton,
+                OnAction = success =>
+                {
+                    if (success)
+                    {
+                        CustomerInfo.Clear();
+                        _navigationService.Close(this);
+                        _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit!"));
+                    }
+                }
+
+            };
+            _userDialog.Confirm(confirmconfig);
+        }
     } 
 }

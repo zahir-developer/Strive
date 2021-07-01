@@ -1,6 +1,7 @@
 ﻿using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -129,6 +130,21 @@ namespace Strive.Core.ViewModels.Customer
             if (string.IsNullOrEmpty(Email))
             {
                 _userDialog.Alert("Please enter your email Id.");
+                return proceed = false;
+            }
+            if (!Validations.validateEmail(Email))
+            {
+                _userDialog.Alert("Enter a valid email Id.");
+                return proceed = false;
+            }
+            if (!Validations.validatePhone(ContactNumber))
+            {
+                _userDialog.Alert("Enter a valid phone number.");
+                return proceed = false;
+            }
+            if (!Validations.validatePhone(SecondaryContactNumber))
+            {
+                _userDialog.Alert("Enter a valid secondary phone number.");
                 return proceed = false;
             }
             return proceed;

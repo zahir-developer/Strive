@@ -78,6 +78,10 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_VEHICLE_CODES = "/Admin/Vehicle/GetVehicleCodes";
 
+        public const string URL_GET_MAKE_LIST = "/Admin/Common/GetAllMake";
+
+        public const string URL_GET_MODEL_LIST = "/Admin/Common/GetModelById/{0}";
+
         public const string URL_UPDATE_VEHICLE_INFO = "/Admin/Vehicle/Update";
 
         public const string URL_ADD_VEHICLE_INFO = "/Admin/Vehicle/AddVehicle";

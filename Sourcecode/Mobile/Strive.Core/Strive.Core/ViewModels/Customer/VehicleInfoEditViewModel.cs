@@ -4,6 +4,7 @@ using Strive.Core.Resources;
 using Strive.Core.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +25,15 @@ namespace Strive.Core.ViewModels.Customer
         public clientVehicle clientVehicle { get; set; }
         public CustomerVehicles clientVehicles { get; set; }
         public VehicleList vehicleLists { get; set; }
+        public MakeList makeList { get; set; }
+        public ModelList modelList { get; set; }
+
+        #endregion Properties
 
 
-    #endregion Properties
+        #region Commands
 
-
-    #region Commands
-
-    public async Task getVehicleDetails()
+        public async Task getVehicleDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
 
@@ -62,7 +64,30 @@ namespace Strive.Core.ViewModels.Customer
             }
             _userDialog.HideLoading();
         }
-
+        public async Task GetMakeList()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+            makeList = await AdminService.GetMakeList();
+            _userDialog.HideLoading();
+        }
+        public async Task GetModelList(string selectedMake)
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+                        
+            foreach(var item in makeList.Make)
+            {
+                string selectedMake1 = selectedMake.Replace(" ", "");
+                if (selectedMake1 == item.MakeValue)
+                {
+                    var result = await AdminService.GetModelList(item.MakeId);
+                    if(result != null)
+                    {
+                        modelList = result;
+                    }
+                }
+            }
+            _userDialog.HideLoading();
+        }
         public async void SelectMembership()
         {
             if(MembershipDetails.clientVehicleID != 0)

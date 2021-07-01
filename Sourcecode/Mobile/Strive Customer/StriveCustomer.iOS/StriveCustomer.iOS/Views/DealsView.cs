@@ -29,13 +29,16 @@ namespace StriveCustomer.iOS.Views
 
             NavigationItem.Title = "Deals";
 
-            //LogoutButton.Title = "Logout";
-            //LogoutButton.SetTitleTextAttributes(new UITextAttributes()
-            //{
-            //    Font = DesignUtils.OpenSansRegularTwelve(),
-            //    TextColor = UIColor.Clear.FromHex(0x24489A),
-            //}, UIControlState.Normal);
-            //NavigationItem.LeftBarButtonItem = LogoutButton;
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
 
 
             var DealsTableSource = new DealsTableSource(VehiclesTableView, ViewModel);

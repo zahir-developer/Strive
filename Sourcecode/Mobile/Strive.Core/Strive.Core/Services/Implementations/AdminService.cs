@@ -221,6 +221,16 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<VehicleCodes>(ApiUtils.URL_GET_VEHICLE_CODES, HttpMethod.Post);
         }
 
+        public async Task<MakeList> GetMakeList()
+        {
+            return await _restClient.MakeApiCall<MakeList>(ApiUtils.URL_GET_MAKE_LIST, HttpMethod.Get);
+        }
+
+        public async Task<ModelList> GetModelList(int Id)
+        {
+            return await _restClient.MakeApiCall<ModelList>(string.Format(ApiUtils.URL_GET_MODEL_LIST, Id), HttpMethod.Get, Id);
+        }
+
         public async Task<CustomerResponse> SaveClientInfo(CustomerInfoModel infoModel)
         {
             return await _restClient.MakeApiCall<CustomerResponse>(ApiUtils.URL_SAVE_CLIENT_INFO, HttpMethod.Post, infoModel);
