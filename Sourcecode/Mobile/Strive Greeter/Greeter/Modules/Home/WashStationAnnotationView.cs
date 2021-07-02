@@ -1,13 +1,14 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
+using Greeter.Common;
 using MapKit;
 using UIKit;
 
 namespace Greeter.Modules.Home
 {
     [Register("WashStationAnnotation")]
-    public class WashStationAnnotationView: MKAnnotationView
+    public class WashStationAnnotationView : MKAnnotationView
     {
         public WashStationAnnotationView(IntPtr handle) : base(handle)
         {
@@ -73,7 +74,8 @@ namespace Greeter.Modules.Home
 
             var carImageView = new UIImageView(CGRect.Empty);
             carImageView.TranslatesAutoresizingMaskIntoConstraints = false;
-            carImageView.BackgroundColor = UIColor.Gray;
+            //carImageView.BackgroundColor = UIColor.Gray;
+            carImageView.Image = UIImage.FromBundle(ImageNames.CAR);
             timeContainerView.Add(carImageView);
 
             var timeLabel = new UILabel(CGRect.Empty);
@@ -132,7 +134,7 @@ namespace Greeter.Modules.Home
     }
 
 
-    class PinView: UIView
+    class PinView : UIView
     {
         public PinView(CGRect frame) : base(frame: frame)
         {

@@ -39,7 +39,7 @@ namespace Greeter.DTOs
     public class Location
     {
         [JsonProperty("LocationId")]
-        public long ID { get; set; }
+        public int ID { get; set; }
 
         [JsonProperty("LocationName")]
         public string Name { get; set; }
@@ -53,14 +53,47 @@ namespace Greeter.DTOs
 
     public class ClientAndVehicleDetail
     {
-        [JsonProperty("ClientId")]
-        public long ClientId { get; set; }
+        //[JsonProperty("ClientId")]
+        //public long ClientId { get; set; }
 
         [JsonProperty("Barcode")]
         public string Barcode { get; set; }
 
-        [JsonProperty("Upcharge")]
-        public string Upcharge { get; set; }
+        //[JsonProperty("Upcharge")]
+        //public string Upcharge { get; set; }
+    }
+
+    public class MakeResponse : BaseResponse
+    {
+        [JsonProperty("Make")]
+        public List<Make> MakeList { get; set; }
+    }
+
+    public class Make
+    {
+        [JsonProperty("MakeId")]
+        public string ID { get; set; }
+
+        [JsonProperty("MakeValue")]
+        public string Name { get; set; }
+    }
+
+    public class ServiceResponse : BaseResponse
+    {
+        [JsonProperty("AllServiceDetail")]
+        public List<ServiceDetail> ServiceDetailList { get; set; }
+    }
+
+    public class ServiceDetail
+    {
+        [JsonProperty("ServiceId")]
+        public string ID { get; set; }
+
+        [JsonProperty("ServiceName")]
+        public string Name { get; set; }
+
+        [JsonProperty("ServiceTypeName")]
+        public string Type { get; set; }
     }
 
     public class GlobalDataResponse : BaseResponse
@@ -72,10 +105,10 @@ namespace Greeter.DTOs
     public class Code
     {
         [JsonProperty("CodeId")]
-        public string CodeID { get; set; }
+        public string ID { get; set; }
 
         [JsonProperty("CodeValue")]
-        public string CodeValue { get; set; }
+        public string Name { get; set; }
     }
 
     public class CheckoutRequest

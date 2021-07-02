@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
@@ -25,48 +26,48 @@ namespace Greeter.Services.Network
 
         public Task<LoginResponse> DoLogin(LoginRequest req)
         {
-            //IRestRequest request = new RestRequest(Urls.LOGIN, HttpMethod.Post);
-            //request.AddBody(req);
-            //return iNetworkService.ExecuteAsync<LoginResponse, CommonResponse>(request);
-
-            return DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, req, false);
+            return DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
         }
 
         public Task<LocationsResponse> GetLocations()
         {
-            //IRestRequest request = new RestRequest(Urls.LOCATIONS, HttpMethod.Get);
-            //request.AddHeader("Authorization", AppSettings.BearereToken);
-            //return iNetworkService.ExecuteAsync<LocationsResponse, CommonResponse>(request);
             return DoApiCall<LocationsResponse>(Urls.LOCATIONS);
         }
 
         public Task<BarcodeResponse> GetBarcode(string barcode)
         {
             var url = Urls.BARCODE + barcode;
-            //IRestRequest request = new RestRequest(subUrl, HttpMethod.Get);
-            //request.AddHeader("Authorization", AppSettings.BearereToken);
-            //return iNetworkService.ExecuteAsync<BarcodeResponse, CommonResponse>(request);
             return DoApiCall<BarcodeResponse>(url);
         }
+
+        public Task<MakeResponse> GetAllMake()
+        {
+            return DoApiCall<MakeResponse>(Urls.ALL_MAKE);
+        }
+
+        public Task<ServiceResponse> GetAllSericeDetails(int locationId)
+        {
+            var parameters = new Dictionary<string, string>() { { nameof(locationId), locationId.ToString() } };
+            return DoApiCall<ServiceResponse>(Urls.ALL_SERVICE_DETAILS, HttpMethod.Get, parameters);
+        }
+
+        //public Task<> GetAllServiceDetails()
+        //{
+        //    return DoApiCall<>(Urls.ALL_SERVICE_DETAILS);
+        //}
 
         public Task<GlobalDataResponse> GetGlobalData(string dataType)
         {
             var url = Urls.GLOBAL_DATA + dataType;
-            //IRestRequest request = new RestRequest(subUrl, HttpMethod.Get);
-            //request.AddHeader("Authorization", AppSettings.BearereToken);
-            //return iNetworkService.ExecuteAsync<BarcodeResponse, CommonResponse>(request);
             return DoApiCall<GlobalDataResponse>(url);
         }
 
         public Task<CheckoutResponse> GetCheckoutList(CheckoutRequest req)
         {
-            //IRestRequest request = new RestRequest(Urls.CHECKOUTS, HttpMethod.Get);
-            //request.AddHeader("Authorization", AppSettings.BearereToken);
-            //return iNetworkService.ExecuteAsync<CheckoutResponse, CommonResponse>(request);
-            return DoApiCall<CheckoutResponse>(Urls.CHECKOUTS, HttpMethod.Post, req);
+            return DoApiCall<CheckoutResponse>(Urls.CHECKOUTS, HttpMethod.Post, null, req);
         }
 
-        async Task<T> DoApiCall<T>(string subUrl, HttpMethod method = HttpMethod.Get, object req = null, bool isBearerToken = true) where T : BaseResponse
+        async Task<T> DoApiCall<T>(string subUrl, HttpMethod method = HttpMethod.Get, Dictionary<string, string> parameters = null, object req = null, bool isBearerToken = true) where T : BaseResponse
         {
             IRestRequest request = new RestRequest(subUrl, method);
 
@@ -80,6 +81,15 @@ namespace Greeter.Services.Network
             {
                 request.AddBody(req);
             }
+
+            if (parameters is not null && parameters.Count > 0)
+            {
+                foreach (var keyValuePair in parameters)
+                {
+                    request.AddParameter(keyValuePair.Key, keyValuePair.Value);
+                }
+            }
+
             var commonResponse = await iNetworkService.ExecuteAsync<CommonResponse>(request);
 
             // Parse json string result to json 

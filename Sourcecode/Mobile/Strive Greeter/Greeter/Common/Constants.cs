@@ -14,10 +14,13 @@ namespace Greeter.Common
         internal const string BASE_URL = "https://strivedev.azurewebsites.net";
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
-        // Format : /Admin/Washes/GetByBarCode/{barcode}
+
+        // Url Format Example : /Admin/Washes/GetByBarCode/{barcode}
         internal const string BARCODE = "/Admin/Washes/GetByBarCode/";
-        // Format : /Admin/Common/GetCodesByCategory/{globalCode}
+        // Url Format Example : /Admin/Common/GetCodesByCategory/{globalCode}
         internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
+        internal const string ALL_MAKE = "/Admin/Common/GetAllMake";
+        internal const string ALL_SERVICE_DETAILS = "/Admin/ServiceSetup/GetAllServiceDetail";
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
     }
 
@@ -39,6 +42,7 @@ namespace Greeter.Common
         internal const string CHECKOUT = "checkout";
         internal const string PAY = "pay";
         internal const string HOME = "home";
+        internal const string CAR = "car";
     }
 
     public class ColorNames

@@ -15,6 +15,16 @@ namespace Greeter.Storyboards
 {
     public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
     {
+        class ServiceTypes
+        {
+            public const string AIR_FRESHNERS = "Air Fresheners";
+            public const string ADDITIONAL_SERVICES = "Additional Services";
+            public const string WASH_PACKAGE = "Wash Package";
+            public const string DETAIL_PACKAGE = "Detail Package";
+            public const string WASH_UPCHARGE = "Wash-Upcharge";
+            public const string DETAIL_UPCHARGE = "Detail-Upcharge";
+        }
+
         string[] sampleData = new string[] {
             "Main Street 1",
             "Main Street 2",
@@ -32,11 +42,23 @@ namespace Greeter.Storyboards
         public string Barcode;
 
         // Data
-        List<Code> Makes;
+        List<Code> Types;
+        List<Make> Makes;
         List<Code> Colors;
+        List<ServiceDetail> WashPackages;
+        List<ServiceDetail> DetailPackages;
+        List<ServiceDetail> Upcharges;
+        List<ServiceDetail> AdditionalServices;
+        List<ServiceDetail> AirFreshners;
 
+        string[] types;
         string[] makes;
         string[] colors;
+        string[] washPackages;
+        string[] detailPackages;
+        string[] upcharges;
+        string[] additionalServices;
+        string[] airFreshners;
 
         //Views
         UIPickerView pv = new UIPickerView();
@@ -113,11 +135,10 @@ namespace Greeter.Storyboards
             tfWashPkg.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Washpackage;
-                data = sampleData;
-                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
-                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
-                //int pos = cities.IndexOf(cityTextField.Text);
-                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+                data = washPackages;
+                pv.ReloadComponent(0);
+                int pos = Array.IndexOf(washPackages, tfWashPkg.Text);
+                pv.Select(pos, 0, false);
             };
 
             btnWashPkgDropdown.TouchUpInside += delegate
@@ -128,11 +149,10 @@ namespace Greeter.Storyboards
             tfDetailPkg.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.DetailPackage;
-                data = sampleData;
-                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
-                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
-                //int pos = cities.IndexOf(cityTextField.Text);
-                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+                data = detailPackages;
+                pv.ReloadComponent(0);
+                int pos = Array.IndexOf(detailPackages, tfDetailPkg.Text);
+                pv.Select(pos, 0, false);
             };
 
             btnDetailPkgDropdown.TouchUpInside += delegate
@@ -143,11 +163,10 @@ namespace Greeter.Storyboards
             tfUpcharge.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Upcharge;
-                data = sampleData;
-                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
-                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
-                //int pos = cities.IndexOf(cityTextField.Text);
-                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+                data = upcharges;
+                pv.ReloadComponent(0);
+                int pos = Array.IndexOf(upcharges, tfUpcharge.Text);
+                pv.Select(pos, 0, false);
             };
 
             btnUpchargeDropdown.TouchUpInside += delegate
@@ -158,11 +177,10 @@ namespace Greeter.Storyboards
             tfAdditionalService.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.AdditionalService;
-                data = sampleData;
-                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
-                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
-                //int pos = cities.IndexOf(cityTextField.Text);
-                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+                data = additionalServices;
+                pv.ReloadComponent(0);
+                int pos = Array.IndexOf(additionalServices, tfAdditionalService.Text);
+                pv.Select(pos, 0, false);
             };
 
             btnAddtionalDropdown.TouchUpInside += delegate
@@ -173,11 +191,10 @@ namespace Greeter.Storyboards
             tfAirFreshner.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.AirFreshner;
-                data = sampleData;
-                //cityCountryPickerView.DataSource = new MyPikcerSource(cities);
-                //cityCountryPickerView.Delegate = new CityCountryPikcerDelegate(cities, this);
-                //int pos = cities.IndexOf(cityTextField.Text);
-                //cityCountryPickerView.Select(pos, Constants.ZERO, false);
+                data = airFreshners;
+                pv.ReloadComponent(0);
+                int pos = Array.IndexOf(airFreshners, tfAirFreshner.Text);
+                pv.Select(pos, 0, false);
             };
 
             btnAirFReshnersDropdown.TouchUpInside += delegate
@@ -194,12 +211,41 @@ namespace Greeter.Storyboards
         async Task GetData()
         {
             ShowActivityIndicator();
-            var makesResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLEMANUFACTURER");
-            Makes = makesResponse.Codes;
-            makes = makesResponse.Codes.Select(x => x.CodeValue).ToArray();
+            var typesResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLEMANUFACTURER");
+            Types = typesResponse.Codes;
+            makes = Types?.Select(x => x.Name).ToArray();
+            var makesResponse = await new ApiService(new NetworkService()).GetAllMake();
+            Makes = makesResponse?.MakeList;
+            makes = Makes?.Select(x => x.Name).ToArray();
+
             var colorResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLECOLOR");
-            Colors = colorResponse.Codes;
-            colors = colorResponse.Codes.Select(x => x.CodeValue).ToArray();
+            Colors = colorResponse?.Codes;
+            colors = colorResponse?.Codes.Select(x => x.Name).ToArray();
+
+            var allServiceResponse = await new ApiService(new NetworkService()).GetAllSericeDetails(AppSettings.LocationID);
+            if (ServiceType == ServiceType.Wash)
+            {
+                WashPackages = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_PACKAGE)).ToList();
+                washPackages = WashPackages.Select(x => x.Name).ToArray();
+
+                Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_UPCHARGE)).ToList();
+            }
+            else
+            {
+                DetailPackages = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.DETAIL_PACKAGE)).ToList();
+                detailPackages = DetailPackages.Select(x => x.Name).ToArray();
+
+                Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.DETAIL_UPCHARGE)).ToList();
+            }
+
+            upcharges = Upcharges.Select(x => x.Name).ToArray();
+
+            AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
+            additionalServices = AdditionalServices.Select(x => x.Name).ToArray();
+
+            AirFreshners = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.AIR_FRESHNERS)).ToList();
+            airFreshners = AirFreshners.Select(x => x.Name).ToArray();
+
             HideActivityIndicator();
         }
 

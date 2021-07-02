@@ -68,7 +68,7 @@ namespace Greeter.Storyboards
             cvImages.RegisterNibForCell(ImageCell.Nib, ImageCell.Key);
             cvImages.Source = new ImagesSource(imagePaths);
 
-            //CreateCamera();
+            CreateCamera();
         }
 
         void ShowOrHideHint(int len, UILabel lbl)
