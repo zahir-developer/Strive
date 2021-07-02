@@ -65,7 +65,7 @@
                                 <div [formGroupName]="i">
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
-                                            <label for="inputType">Make<span class="required">*</span></label>
+                                            <label *ngIf="i === 0" for="inputType">Make<span class="required">*</span></label>
                                             <div class="ui-fluid">
                                                 <div class="p-fluid p-grid p-formgrid">
                                                     <div class="p-col-3 p-md-6">
@@ -80,7 +80,7 @@
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label for="inputModel">Model<span class="required">*</span></label>
+                                            <label *ngIf="i === 0" for="inputModel">Model<span class="required">*</span></label>
                                             <div class="ui-fluid">
                                                 <div class="p-grid forms-grid p-fluid p-grid p-formgrid">
                                                     <div class="p-col-3 p-md-6">
@@ -94,7 +94,7 @@
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label for="inputColor">Color<span class="required">*</span></label>
+                                            <label *ngIf="i === 0" for="inputColor">Color<span class="required">*</span></label>
                                             <div class="ui-fluid">
                                                 <div class="p-grid forms-grid">
                                                     <div class="p-col-3 p-md-6">

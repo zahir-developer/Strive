@@ -31,6 +31,7 @@ export class UserSignupComponent implements OnInit {
   items: FormArray;
   formVal: boolean = false;
   errorText: string;
+  vehicleArray: any;
 
   constructor(private fb: FormBuilder, private makeService: MakeService, private modelService: ModelService,
     private toastr: ToastrService, private wash: WashService, private router: Router, private spinner: NgxSpinnerService,
@@ -75,7 +76,7 @@ export class UserSignupComponent implements OnInit {
   addVehicleRow() {
     if (this.vehicleForm.invalid) {
       this.formVal = true;
-      this.errorText = 'Please fill all the vehicle info field'
+      this.errorText = 'Please enter all the vehicle info'
     } else if (this.vehicleForm.valid) {
       this.formVal = false;
       this.items = this.vehicleForm.get('items') as FormArray;
@@ -134,6 +135,7 @@ export class UserSignupComponent implements OnInit {
       return;
     }
     this.formVal = false;
+    this.vehicleArrayGroup();
 
     const client = {
       "clientId": 0,
@@ -142,11 +144,11 @@ export class UserSignupComponent implements OnInit {
       "lastName": this.userSignupForm.controls.lastName.value ? this.userSignupForm.controls.lastName.value : '',
       "gender": null,
       "maritalStatus": null,
-      "birthDate": "",
+      "birthDate": null,
       "notes": "",
       "recNotes": "",
       "score": 0,
-      "clientType": 0,
+      "clientType": "82",
       "isActive": true,
       "isDeleted": false,
       "createdBy": 0,
@@ -177,32 +179,10 @@ export class UserSignupComponent implements OnInit {
       }
     ]
 
-    const vehicle = [
-      {
-        "vehicleId": 0,
-        "locationId": 0,
-        "vehicleNumber": "",
-        "vehicleMfr": 0,
-        "vehicleModel": 0,
-        "vehicleModelNo": null,
-        "vehicleYear": null,
-        "vehicleColor": 0,
-        "upcharge": 0,
-        "barcode": "",
-        "notes": null,
-        "isActive": true,
-        "isDeleted": false,
-        "createdBy": 0,
-        "createdDate": new Date(),
-        "updatedBy": 0,
-        "updatedDate": new Date(),
-      }
-    ]
-
     const totalList = {
       "client": client,
       "clientAddress": clientAddress,
-      "clientVehicle": vehicle
+      "clientVehicle": this.vehicleArray,
     }
 
     this.spinner.show();
@@ -283,7 +263,6 @@ export class UserSignupComponent implements OnInit {
   filterModel(event) {
     let filtered: any[] = [];
     let query = event.query;
-    console.log(this.modelTotalList);
     if (this.modelTotalList) {
       for (let i = 0; i < this.modelTotalList.length; i++) {
         let modelList = this.modelTotalList[i];
@@ -309,7 +288,6 @@ export class UserSignupComponent implements OnInit {
             };
           });
         }
-        console.log(this.modelTotalList);
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -320,7 +298,6 @@ export class UserSignupComponent implements OnInit {
   filterColor(event) {
     let filtered: any[] = [];
     let query = event.query;
-    console.log(this.colorTotalList);
     if (this.colorTotalList) {
       for (let i = 0; i < this.colorTotalList.length; i++) {
         let colorList = this.colorTotalList[i];
@@ -355,5 +332,32 @@ export class UserSignupComponent implements OnInit {
     this.router.navigate(['/login'])
   }
 
+
+  vehicleArrayGroup() {
+    const totalArray = [];
+    for (let i = 0; i < this.vehicleForm.value.items.length; i++) {
+      const group = {
+        "vehicleId": 0,
+        "locationId": 0,
+        "vehicleNumber": "",
+        "vehicleMfr": this.vehicleForm.value.items[i].vehicleType.code,
+        "vehicleModel": this.vehicleForm.value.items[i].vehicleModel.code,
+        "vehicleModelNo": null,
+        "vehicleYear": null,
+        "vehicleColor": this.vehicleForm.value.items[i].vehicleColor.code,
+        "upcharge": 0,
+        "barcode": "",
+        "notes": null,
+        "isActive": true,
+        "isDeleted": false,
+        "createdBy": 0,
+        "createdDate": new Date(),
+        "updatedBy": 0,
+        "updatedDate": new Date(),
+      }
+      totalArray.push(group);
+    }
+    this.vehicleArray = totalArray;
+  }
 
 }
