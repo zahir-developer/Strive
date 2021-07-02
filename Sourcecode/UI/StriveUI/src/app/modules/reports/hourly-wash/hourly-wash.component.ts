@@ -173,10 +173,9 @@ export class HourlyWashComponent implements OnInit {
                   Account: sale.Account,
                   BC: sale.Credit,
                   Deposits: sale.Cash,
-                  Tips: sale.Tips,
                   Actual: sale.Total + sale.Tips,
                   Sales: sale.Total,
-                  Difference: sale.Difference,
+                  Difference: sale.Tips,
                   Managers: ''
                 });
               });
@@ -188,7 +187,6 @@ export class HourlyWashComponent implements OnInit {
                 Account: 0,
                 BC: 0,
                 Deposits: 0,
-                Tips: 0,
                 Actual: 0,
                 Sales: 0,
                 Difference: 0,
@@ -207,7 +205,6 @@ export class HourlyWashComponent implements OnInit {
             this.totalBC = this.totalBC + item.BC;
             this.totalAccount = this.totalAccount + item.Account;
             this.totalGiftCard = this.totalGiftCard + item.GiftCard;
-            this.totalTips = this.totalTips + item.Tips;
             this.totalActual = this.totalActual + item.Actual;
             this.totalSales = this.totalSales + item.Sales;
             this.totalDifference = this.totalDifference + item.Difference;
@@ -382,8 +379,7 @@ export class HourlyWashComponent implements OnInit {
           Difference: 0,
           GiftCard: item.GiftCard,
           Managers: '',
-          Sales: item.Sales,
-          Tips: item.Tips,
+          Sales: item.Sales
         });
       });
       sale.forEach(item => {
