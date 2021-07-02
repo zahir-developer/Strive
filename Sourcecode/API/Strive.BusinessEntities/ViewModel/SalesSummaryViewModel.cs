@@ -25,6 +25,5 @@ namespace Strive.BusinessEntities.ViewModel
         public bool? IsProcessed { get; set; }
         public bool? IsRollBack { get; set; }
         public decimal? Tips { get; set; }
-        public decimal? Difference { get; set; }
     }
 }
