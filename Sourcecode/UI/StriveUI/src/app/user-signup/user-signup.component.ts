@@ -188,7 +188,6 @@ export class UserSignupComponent implements OnInit {
     this.spinner.show();
     this.client.addClient(totalList).subscribe(data => {
       if (data.status === 'Success') {
-        alert('welcome');
         this.spinner.hide();
         this.toastr.success(MessageConfig.Client.Add, 'Success');
       } else {
@@ -196,6 +195,7 @@ export class UserSignupComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
+      this.spinner.hide();
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
