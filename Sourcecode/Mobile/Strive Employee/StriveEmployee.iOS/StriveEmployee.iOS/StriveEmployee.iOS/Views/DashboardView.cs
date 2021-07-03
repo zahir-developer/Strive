@@ -5,6 +5,7 @@ using MvvmCross.ViewModels;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.iOS.UIUtils;
+using Strive.Core.ViewModels.Employee.MyProfile;
 
 namespace StriveEmployee.iOS.Views
 {
@@ -25,10 +26,10 @@ namespace StriveEmployee.iOS.Views
             base.ViewDidLoad();
 
             var viewControllers = new UIViewController[4];
-            viewControllers[0] = CreateTabFor(0, "Message", "icon-message", "icon-message-active", typeof(MessengerViewModel));
-            viewControllers[1] = CreateTabFor(1, "Schedule", "icon-schedule", "icon-schedule-active", typeof(MessengerViewModel));
-            viewControllers[2] = CreateTabFor(2, "Profile", "icon-profile", "icon-profile-active", typeof(MessengerViewModel));
-            viewControllers[3] = CreateTabFor(3, "Ticket", "icon-ticket", "icon-ticket-active", typeof(MessengerViewModel));
+            viewControllers[0] = CreateTabFor(0, "Message", "icon-message", "icon-message-active", typeof(EmployeeInfoViewModel));
+            viewControllers[1] = CreateTabFor(1, "Schedule", "icon-schedule", "icon-schedule-active", typeof(EmployeeInfoViewModel));
+            viewControllers[2] = CreateTabFor(2, "Profile", "icon-profile", "icon-profile-active", typeof(EmployeeInfoViewModel));
+            viewControllers[3] = CreateTabFor(3, "Ticket", "icon-ticket", "icon-ticket-active", typeof(EmployeeInfoViewModel));
 
             ViewControllers = viewControllers;
             CustomizableViewControllers = new UIViewController[] { };

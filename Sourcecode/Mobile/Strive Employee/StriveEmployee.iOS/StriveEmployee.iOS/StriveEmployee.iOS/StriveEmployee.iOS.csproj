@@ -81,6 +81,16 @@
     <Compile Include="Views\DashboardView.designer.cs">
       <DependentUpon>DashboardView.cs</DependentUpon>
     </Compile>
+    <InterfaceDefinition Include="Views\ProfileView.xib" />
+    <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Views\ProfileView.designer.cs">
+      <DependentUpon>ProfileView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\CollisionCell.xib" />
+    <Compile Include="Views\CollisionCell.cs" />
+    <Compile Include="Views\CollisionCell.designer.cs">
+      <DependentUpon>CollisionCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
