@@ -59,6 +59,15 @@ namespace Greeter.DTOs
         [JsonProperty("Barcode")]
         public string Barcode { get; set; }
 
+        [JsonProperty("VehicleMfr")]
+        public int MakeID { get; set; }
+
+        [JsonProperty("VehicleModel")]
+        public string Model { get; set; }
+
+        [JsonProperty("VehicleColor")]
+        public int ColorID { get; set; }
+
         //[JsonProperty("Upcharge")]
         //public string Upcharge { get; set; }
     }
@@ -72,9 +81,24 @@ namespace Greeter.DTOs
     public class Make
     {
         [JsonProperty("MakeId")]
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         [JsonProperty("MakeValue")]
+        public string Name { get; set; }
+    }
+
+    public class ModelResponse : BaseResponse
+    {
+        [JsonProperty("Model")]
+        public List<Model> ModelList { get; set; }
+    }
+
+    public class Model
+    {
+        [JsonProperty("ModelId")]
+        public int ID { get; set; }
+
+        [JsonProperty("ModelValue")]
         public string Name { get; set; }
     }
 
@@ -88,6 +112,9 @@ namespace Greeter.DTOs
     {
         [JsonProperty("ServiceId")]
         public string ID { get; set; }
+
+        [JsonProperty("ServiceTypeId")]
+        public string TypeId { get; set; }
 
         [JsonProperty("ServiceName")]
         public string Name { get; set; }
@@ -105,10 +132,136 @@ namespace Greeter.DTOs
     public class Code
     {
         [JsonProperty("CodeId")]
-        public string ID { get; set; }
+        public long ID { get; set; }
 
         [JsonProperty("CodeValue")]
         public string Name { get; set; }
+    }
+
+    public class TicketResponse : BaseResponse
+    {
+        [JsonProperty("GetTicketNumber")]
+        public Ticket Ticket { get; set; }
+    }
+
+    public class Ticket
+    {
+        [JsonProperty("TicketNumber")]
+        public long TicketNo { get; set; }
+
+        //[JsonProperty("JobId")]
+        //public string Name { get; set; }
+    }
+
+    public class CreateServiceRequest : BaseResponse
+    {
+        [JsonProperty("job")]
+        public Job Job { get; set; }
+
+        [JsonProperty("jobItem")]
+        public List<JobItem> JobItems { get; set; }
+    }
+
+    public class Job
+    {
+        //[JsonProperty("actualTimeOut")]
+        //public DateTime ActualTimeOut { get; set; }
+
+        [JsonProperty("clientId")] // Optional
+        public long ClientId { get; set; }
+
+        [JsonProperty("color")]
+        public long ColorId { get; set; }
+
+        //[JsonProperty("createdBy")]
+        //public long CreatedByID { get; set; }
+
+        //[JsonProperty("createdDate")]
+        //public DateTime CreatedDate { get; set; }
+
+        [JsonProperty("estimatedTimeOut")]
+        public DateTime EstimatedTimeOut { get; set; }
+
+        //[JsonProperty("isActive")]
+        //public DateTime IsActive { get; set; }
+
+        //[JsonProperty("isDeleted")]
+        //public DateTime IsDeleted { get; set; }
+
+        //[JsonProperty("jobDate")]
+        //public DateTime JobDate { get; set; }
+
+        [JsonProperty("jobId")]
+        public long JobId { get; set; }
+
+        [JsonProperty("jobStatus")]
+        public long JobStatusID { get; set; }
+
+        [JsonProperty("jobType")]
+        public long JobTypeID { get; set; }
+
+        [JsonProperty("locationId")]
+        public long LocationID { get; set; }
+
+        [JsonProperty("make")]
+        public long MakeID { get; set; }
+
+        [JsonProperty("model")]
+        public long ModelID { get; set; }
+
+        //[JsonProperty("notes")]
+        //public string Notes { get; set; }
+
+        [JsonProperty("ticketNumber")]
+        public long TicketNumber { get; set; }
+
+        //[JsonProperty("timeIn")]
+        //public DateTime TimeIn { get; set; }
+
+        //[JsonProperty("updatedBy")]
+        //public long UpdatedByID { get; set; }
+
+        [JsonProperty("updatedDate")]
+        public DateTime UpdatedDate { get; set; }
+
+        //[JsonProperty("vehicleId")]
+        //public long VehicleId { get; set; }
+    }
+
+    public class JobItem
+    {
+        [JsonProperty("commission")]
+        public int commission { get; set; }
+
+        [JsonProperty("createdBy")]
+        public long createdByID { get; set; }
+
+        [JsonProperty("createdDate")]
+        public DateTime createdDate { get; set; }
+
+        [JsonProperty("jobId")]
+        public long jobId { get; set; }
+
+        [JsonProperty("jobItemId")]
+        public long jobItemId { get; set; }
+
+        [JsonProperty("price")]
+        public float price { get; set; }
+
+        [JsonProperty("quantity")]
+        public int quantity { get; set; }
+
+        [JsonProperty("reviewNote")]
+        public string reviewNote { get; set; }
+
+        [JsonProperty("serviceId")]
+        public long serviceId { get; set; }
+
+        [JsonProperty("updatedBy")]
+        public long updatedByID { get; set; }
+
+        [JsonProperty("updatedDate")]
+        public long updatedDateID { get; set; }
     }
 
     public class CheckoutRequest
@@ -144,7 +297,6 @@ namespace Greeter.DTOs
         public List<Checkout> CheckOutList { get; set; }
     }
 
-
     public class Checkout
     {
         [JsonProperty("TicketNumber")]
@@ -171,6 +323,9 @@ namespace Greeter.DTOs
         [JsonProperty("Services")]
         public string Services { get; set; }
 
+        [JsonProperty("Cost")]
+        public float Cost { get; set; }
+
         [JsonProperty("AdditionalServices")]
         public string AdditionalServices { get; set; }
 
@@ -179,5 +334,11 @@ namespace Greeter.DTOs
 
         [JsonProperty("Checkout")]
         public string CheckoutTime { get; set; }
+
+        [JsonProperty("MembershipName")]
+        public string MembershipName { get; set; }
+
+        [JsonProperty("PaymentStatus")]
+        public string PaymentStatus { get; set; }
     }
 }

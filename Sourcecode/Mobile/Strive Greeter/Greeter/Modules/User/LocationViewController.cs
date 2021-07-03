@@ -74,9 +74,9 @@ namespace Greeter
             var response = await new ApiService(new NetworkService()).GetLocations();
             HideActivityIndicator();
 
-            locations = response.Locations;
+            locations = response?.Locations;
 
-            locs = response.Locations.Select(x => x.Name).ToArray();
+            locs = locations?.Select(x => x.Name).ToArray();
             pvLoc.ReloadComponent(0);
         }
 
@@ -97,8 +97,11 @@ namespace Greeter
 
         void PickerDone()
         {
-            int pos = (int)pvLoc.SelectedRowInComponent(0);
-            tfLocation.Text = locs[pos];
+            if (locs?.Length > 0)
+            {
+                int pos = (int)pvLoc.SelectedRowInComponent(0);
+                tfLocation.Text = locs[pos];
+            }
         }
 
         void NavigateToTabsScreen()
@@ -117,7 +120,7 @@ namespace Greeter
 
         public nint GetRowsInComponent(UIPickerView pickerView, nint component)
         {
-            return locs.Length;
+            return locs?.Length ?? 0;
         }
 
         [Export("pickerView:didSelectRow:inComponent:")]

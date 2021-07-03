@@ -15,16 +15,6 @@ namespace Greeter.Storyboards
 {
     public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
     {
-        class ServiceTypes
-        {
-            public const string AIR_FRESHNERS = "Air Fresheners";
-            public const string ADDITIONAL_SERVICES = "Additional Services";
-            public const string WASH_PACKAGE = "Wash Package";
-            public const string DETAIL_PACKAGE = "Detail Package";
-            public const string WASH_UPCHARGE = "Wash-Upcharge";
-            public const string DETAIL_UPCHARGE = "Detail-Upcharge";
-        }
-
         string[] sampleData = new string[] {
             "Main Street 1",
             "Main Street 2",
@@ -40,10 +30,19 @@ namespace Greeter.Storyboards
 
         //Selected Items
         public string Barcode;
+        public int MakeID;
+        public string Model;
+        public long ColorID;
+
+        int modelId;
+        string make;
+        string color;
+        long jobStatusId;
+        long jobTypeId;
 
         // Data
-        List<Code> Types;
         List<Make> Makes;
+        List<Model> Models;
         List<Code> Colors;
         List<ServiceDetail> WashPackages;
         List<ServiceDetail> DetailPackages;
@@ -51,8 +50,8 @@ namespace Greeter.Storyboards
         List<ServiceDetail> AdditionalServices;
         List<ServiceDetail> AirFreshners;
 
-        string[] types;
         string[] makes;
+        string[] models;
         string[] colors;
         string[] washPackages;
         string[] detailPackages;
@@ -72,21 +71,21 @@ namespace Greeter.Storyboards
             base.ViewDidLoad();
 
             Initialise();
-            UpdateBarcodeData();
 
-            GetData();
+            _ = GetData();
 
             //Clicks
             btnNext.TouchUpInside += delegate
             {
-                NavigateToVerifyScreen();
+                //NavigateToVerifyScreen();
+                CreateService(MakeID, modelId, ColorID);
             };
 
             //Choice type change
             tfType.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Type;
-                data = sampleData;
+                UpdatePickerView(makes, pv, tfType.Text);
             };
 
             btnTypeDropdown.TouchUpInside += delegate
@@ -97,10 +96,7 @@ namespace Greeter.Storyboards
             tfMake.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Make;
-                data = makes;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(makes, tfType.Text);
-                pv.Select(pos, 0, false);
+                UpdatePickerView(models, pv, tfMake.Text, false);
             };
 
             btnMakeDropdown.TouchUpInside += delegate
@@ -111,10 +107,7 @@ namespace Greeter.Storyboards
             tfColor.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Color;
-                data = colors;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(colors, tfColor.Text);
-                pv.Select(pos, 0, false);
+                UpdatePickerView(colors, pv, tfColor.Text);
             };
 
             btnColorDropdown.TouchUpInside += delegate
@@ -135,10 +128,7 @@ namespace Greeter.Storyboards
             tfWashPkg.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Washpackage;
-                data = washPackages;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(washPackages, tfWashPkg.Text);
-                pv.Select(pos, 0, false);
+                UpdatePickerView(washPackages, pv, tfWashPkg.Text);
             };
 
             btnWashPkgDropdown.TouchUpInside += delegate
@@ -149,10 +139,7 @@ namespace Greeter.Storyboards
             tfDetailPkg.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.DetailPackage;
-                data = detailPackages;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(detailPackages, tfDetailPkg.Text);
-                pv.Select(pos, 0, false);
+                UpdatePickerView(detailPackages, pv, tfDetailPkg.Text);
             };
 
             btnDetailPkgDropdown.TouchUpInside += delegate
@@ -163,10 +150,7 @@ namespace Greeter.Storyboards
             tfUpcharge.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Upcharge;
-                data = upcharges;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(upcharges, tfUpcharge.Text);
-                pv.Select(pos, 0, false);
+                UpdatePickerView(upcharges, pv, tfUpcharge.Text);
             };
 
             btnUpchargeDropdown.TouchUpInside += delegate
@@ -177,10 +161,7 @@ namespace Greeter.Storyboards
             tfAdditionalService.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.AdditionalService;
-                data = additionalServices;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(additionalServices, tfAdditionalService.Text);
-                pv.Select(pos, 0, false);
+                UpdatePickerView(additionalServices, pv, tfAdditionalService.Text);
             };
 
             btnAddtionalDropdown.TouchUpInside += delegate
@@ -191,10 +172,7 @@ namespace Greeter.Storyboards
             tfAirFreshner.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.AirFreshner;
-                data = airFreshners;
-                pv.ReloadComponent(0);
-                int pos = Array.IndexOf(airFreshners, tfAirFreshner.Text);
-                pv.Select(pos, 0, false);
+                UpdatePickerView(airFreshners, pv, tfAirFreshner.Text);
             };
 
             btnAirFReshnersDropdown.TouchUpInside += delegate
@@ -208,27 +186,62 @@ namespace Greeter.Storyboards
             };
         }
 
+        void UpdatePickerView(string[] data, UIPickerView pv, string selectedText, bool isPreviousValueSelect = true)
+        {
+            this.data = data;
+            pv.ReloadComponent(0);
+            int pos = 0;
+            if (isPreviousValueSelect && data != null)
+            {
+                pos = Array.IndexOf(data, selectedText);
+            }
+
+            if (pos != -1 && pos < data.Length)
+                pv.Select(pos, 0, false);
+        }
+
+        //void SelectItem(UIPickerView pv, int pos)
+        //{
+
+        //}
+
+        async Task GetModlesByMake(int makeId)
+        {
+            ShowActivityIndicator();
+            var modelsResponse = await new ApiService(new NetworkService()).GetModelsByMake(makeId);
+            Models = modelsResponse.ModelList;
+            models = Models?.Select(x => x.Name).ToArray();
+            HideActivityIndicator();
+        }
+
         async Task GetData()
         {
             ShowActivityIndicator();
-            var typesResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLEMANUFACTURER");
-            Types = typesResponse.Codes;
-            makes = Types?.Select(x => x.Name).ToArray();
-            var makesResponse = await new ApiService(new NetworkService()).GetAllMake();
+            var apiService = new ApiService(new NetworkService());
+
+            var makesResponse = await apiService.GetAllMake();
             Makes = makesResponse?.MakeList;
             makes = Makes?.Select(x => x.Name).ToArray();
 
-            var colorResponse = await new ApiService(new NetworkService()).GetGlobalData("VEHICLECOLOR");
+            var colorResponse = await apiService.GetGlobalData("VEHICLECOLOR");
             Colors = colorResponse?.Codes;
             colors = colorResponse?.Codes.Select(x => x.Name).ToArray();
 
-            var allServiceResponse = await new ApiService(new NetworkService()).GetAllSericeDetails(AppSettings.LocationID);
+            var jobStatusResponse = await apiService.GetGlobalData("JOBSTATUS");
+            //var Colors = colorResponse?.Codes;
+            jobStatusId = jobStatusResponse?.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID ?? -1;
+
+            var jobTypeResponse = await apiService.GetGlobalData("JOBTYPE");
+
+            var allServiceResponse = await apiService.GetAllSericeDetails(AppSettings.LocationID);
             if (ServiceType == ServiceType.Wash)
             {
                 WashPackages = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_PACKAGE)).ToList();
                 washPackages = WashPackages.Select(x => x.Name).ToArray();
 
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_UPCHARGE)).ToList();
+
+                jobStatusId = jobStatusResponse?.Codes.Where(x => x.Name.Equals("Wash")).FirstOrDefault().ID ?? -1;
             }
             else
             {
@@ -236,6 +249,8 @@ namespace Greeter.Storyboards
                 detailPackages = DetailPackages.Select(x => x.Name).ToArray();
 
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.DETAIL_UPCHARGE)).ToList();
+
+                jobStatusId = jobStatusResponse?.Codes.Where(x => x.Name.Equals("Detail")).FirstOrDefault().ID ?? -1;
             }
 
             upcharges = Upcharges.Select(x => x.Name).ToArray();
@@ -245,6 +260,13 @@ namespace Greeter.Storyboards
 
             AirFreshners = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.AIR_FRESHNERS)).ToList();
             airFreshners = AirFreshners.Select(x => x.Name).ToArray();
+
+            if (!String.IsNullOrEmpty(Barcode))
+            {
+                make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
+                color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
+                UpdateBarcodeData();
+            }
 
             HideActivityIndicator();
         }
@@ -262,6 +284,45 @@ namespace Greeter.Storyboards
                 tfColor.UserInteractionEnabled = false;
 
                 tfBarcode.Text = Barcode;
+                tfType.Text = make;
+                tfMake.Text = Model;
+                tfColor.Text = color;
+            }
+        }
+
+        async Task CreateService(long makeId, long modelId, long colorId, long vehicleId = -1, long clientId = -1, long jobTypeId = -1)
+        {
+            var apiService = new ApiService(new NetworkService());
+            var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
+
+            if (ticketResponse?.Ticket?.TicketNo != 0)
+            {
+                var req = new CreateServiceRequest()
+                {
+                    Job = new Job()
+                    {
+                        JobId = ticketResponse.Ticket.TicketNo,
+                        JobStatusID = jobStatusId,
+                        JobTypeID = jobTypeId,
+                        MakeID = MakeID,
+                        ModelID = modelId,
+                        ColorId = colorId,
+                    }
+                };
+
+                var createServiceResponse = await apiService.CreateService(req);
+                if (createServiceResponse?.IsSuccess() ?? false)
+                {
+                    ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG);
+                }
+                else
+                {
+                    ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
+                }
+            }
+            else
+            {
+                ShowAlertMsg(Common.Messages.TICKET_CERATION_ISSUE);
             }
         }
 
@@ -370,11 +431,6 @@ namespace Greeter.Storyboards
             pv.Delegate = this;
         }
 
-        //public override void ViewDidDisappear(bool animated)
-        //{
-        //    base.ViewDidDisappear(animated);
-        //}
-
         DateTime GetCurrentDate()
         {
             return DateTime.Now;
@@ -384,36 +440,45 @@ namespace Greeter.Storyboards
         {
             int pos = (int)pv.SelectedRowInComponent(0);
 
-            switch (choiceType)
-            {
-                case ChoiceType.Type:
-                    tfType.Text = data[pos];
-                    break;
-                case ChoiceType.Make:
-                    tfMake.Text = data[pos];
-                    break;
-                case ChoiceType.Color:
-                    tfColor.Text = data[pos];
-                    break;
-                case ChoiceType.Barcode:
-                    tfBarcode.Text = data[pos];
-                    break;
-                case ChoiceType.Upcharge:
-                    tfUpcharge.Text = data[pos];
-                    break;
-                case ChoiceType.AdditionalService:
-                    tfAdditionalService.Text = data[pos];
-                    break;
-                case ChoiceType.AirFreshner:
-                    tfAirFreshner.Text = data[pos];
-                    break;
-                case ChoiceType.Washpackage:
-                    tfWashPkg.Text = data[pos];
-                    break;
-                case ChoiceType.DetailPackage:
-                    tfDetailPkg.Text = data[pos];
-                    break;
-            }
+            if (data?.Length > 0)
+                switch (choiceType)
+                {
+                    case ChoiceType.Type:
+                        if (tfType.Text != data[pos])
+                        {
+                            tfType.Text = data[pos];
+                            tfMake.Text = string.Empty;
+                            _ = GetModlesByMake(Makes[pos].ID);
+                            MakeID = Makes[pos].ID;
+                        }
+                        break;
+                    case ChoiceType.Make:
+                        tfMake.Text = data[pos];
+                        modelId = Models[pos].ID;
+                        break;
+                    case ChoiceType.Color:
+                        tfColor.Text = data[pos];
+                        ColorID = Colors[pos].ID;
+                        break;
+                    case ChoiceType.Barcode:
+                        tfBarcode.Text = data[pos];
+                        break;
+                    case ChoiceType.Upcharge:
+                        tfUpcharge.Text = data[pos];
+                        break;
+                    case ChoiceType.AdditionalService:
+                        tfAdditionalService.Text = data[pos];
+                        break;
+                    case ChoiceType.AirFreshner:
+                        tfAirFreshner.Text = data[pos];
+                        break;
+                    case ChoiceType.Washpackage:
+                        tfWashPkg.Text = data[pos];
+                        break;
+                    case ChoiceType.DetailPackage:
+                        tfDetailPkg.Text = data[pos];
+                        break;
+                }
         }
 
         void ChangeScreenType(ServiceType type)
@@ -458,6 +523,16 @@ namespace Greeter.Storyboards
         {
             return data[row];
         }
+    }
+
+    class ServiceTypes
+    {
+        public const string AIR_FRESHNERS = "Air Fresheners";
+        public const string ADDITIONAL_SERVICES = "Additional Services";
+        public const string WASH_PACKAGE = "Wash Package";
+        public const string DETAIL_PACKAGE = "Detail Package";
+        public const string WASH_UPCHARGE = "Wash-Upcharge";
+        public const string DETAIL_UPCHARGE = "Detail-Upcharge";
     }
 
     public enum ServiceType

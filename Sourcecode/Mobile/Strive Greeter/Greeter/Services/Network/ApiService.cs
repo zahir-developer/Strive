@@ -45,6 +45,12 @@ namespace Greeter.Services.Network
             return DoApiCall<MakeResponse>(Urls.ALL_MAKE);
         }
 
+        public Task<ModelResponse> GetModelsByMake(int makeId)
+        {
+            var url = Urls.MODELS_BY_MAKE + makeId;
+            return DoApiCall<ModelResponse>(url);
+        }
+
         public Task<ServiceResponse> GetAllSericeDetails(int locationId)
         {
             var parameters = new Dictionary<string, string>() { { nameof(locationId), locationId.ToString() } };
@@ -60,6 +66,17 @@ namespace Greeter.Services.Network
         {
             var url = Urls.GLOBAL_DATA + dataType;
             return DoApiCall<GlobalDataResponse>(url);
+        }
+
+        public Task<TicketResponse> GetTicketNumber(int locationId)
+        {
+            var url = Urls.TICKET_NUMBER + locationId;
+            return DoApiCall<TicketResponse>(url);
+        }
+
+        public Task<BaseResponse> CreateService(CreateServiceRequest req)
+        {
+            return DoApiCall<BaseResponse>(Urls.CREATE_SERVICE, HttpMethod.Post, null, req);
         }
 
         public Task<CheckoutResponse> GetCheckoutList(CheckoutRequest req)
@@ -92,10 +109,15 @@ namespace Greeter.Services.Network
 
             var commonResponse = await iNetworkService.ExecuteAsync<CommonResponse>(request);
 
-            // Parse json string result to json 
-            var response = ParseJsonString<T>(commonResponse.ResultData);
-            response.StatusCode = commonResponse.StatusCode;
-            response.Message = commonResponse.Message;
+            // Parse json string result to json
+            T response = null;
+            if (commonResponse?.ResultData != null)
+            {
+                response = ParseJsonString<T>(commonResponse?.ResultData);
+                response.StatusCode = commonResponse.StatusCode;
+                response.Message = commonResponse.Message;
+            }
+
             return response;
         }
 

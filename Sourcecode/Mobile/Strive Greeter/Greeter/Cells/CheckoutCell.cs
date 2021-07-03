@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using CoreGraphics;
 using Foundation;
 using Greeter.DTOs;
-using Greeter.Extensions;
 using UIKit;
 using Xamarin.Essentials;
 
@@ -22,6 +20,7 @@ namespace Greeter.Cells
         UILabel paidStatusLabel;
         UILabel amountLabel;
         UILabel remainingBalanceLabel;
+        UIView paidStatusContainer;
 
         public CheckoutCell(IntPtr p) : base(p)
         {
@@ -87,6 +86,8 @@ namespace Greeter.Cells
             paidStatusLabel.TextColor = UIColor.FromRGB(2.0f / 255.0f, 20.0f / 255.0f, 61.0f / 255.0f);
             paidStatusLabel.Font = UIFont.SystemFontOfSize(16);
             paidStatusContainer.Add(paidStatusLabel);
+
+            paidStatusContainer.Hidden = true;
 
             amountLabel = new UILabel(CGRect.Empty);
             amountLabel.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -158,8 +159,18 @@ namespace Greeter.Cells
                 serviceInfoLabel.Text += "\n" + "Additional Services: " + checkout.AdditionalServices;
             checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check in " + checkout.CheckoutTime + "  ";
             statusIndicatorImage.Image = new UIImage();
-            paidStatusLabel.Text = "Paid";
-            amountLabel.Text = "$90";
+            if (checkout.PaymentStatus.Equals("Success"))
+            {
+                paidStatusLabel.Text = "Paid";
+                paidStatusContainer.Hidden = false;
+            }
+            else
+            {
+                paidStatusLabel.Text = string.Empty;
+                paidStatusContainer.Hidden = true;
+            }
+
+            amountLabel.Text = "$" + checkout.Cost;
             remainingBalanceLabel.Text = "    Remaining Bal. $15    ";
         }
     }

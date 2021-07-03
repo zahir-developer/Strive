@@ -20,7 +20,12 @@ namespace Greeter.Common
         // Url Format Example : /Admin/Common/GetCodesByCategory/{globalCode}
         internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
         internal const string ALL_MAKE = "/Admin/Common/GetAllMake";
+        // Url Format Example :/Admin/Common/GetModelById/{makeId}
+        internal const string MODELS_BY_MAKE = "/Admin/Common/GetModelById/";
         internal const string ALL_SERVICE_DETAILS = "/Admin/ServiceSetup/GetAllServiceDetail";
+        //  Url Format Example : /Admin/Common/GetTicketNumber/{locationId}
+        internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
+        internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
     }
 
@@ -64,6 +69,9 @@ namespace Greeter.Common
         internal const string PSWD_EMPTY = "Please enter your password";
         internal const string LOCATION_EMPTY = "Please select the location";
         internal const string BARCODE_WRONG = "Invalid barcode";
+        internal const string SERVICE_CREATED_MSG = "Service created cuccessFully";
+        internal const string SERVICE_CREATION_ISSUE = "Couldn't generate Service";
+        internal const string TICKET_CERATION_ISSUE = "Couldn't generate ticket";
     }
 
     public class StatusCodes
