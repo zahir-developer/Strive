@@ -1,35 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using UIKit;
 
 namespace Greeter.Sources
 {
-    public class ImagesSource : UICollectionViewSource
+    public class ImagesSource : NSObject, IUICollectionViewDataSource, IUICollectionViewDelegateFlowLayout
     {
-        public List<string> imagePaths;
+        readonly List<string> imagePaths;
 
         public ImagesSource(List<string> imagePaths = null)
-        {
-            this.imagePaths = imagePaths;
-        }
+            => this.imagePaths = imagePaths;
 
-        public override nint NumberOfSections(UICollectionView collectionView)
-        {
-            return 1;
-        }
+        public nint GetItemsCount(UICollectionView collectionView, nint section) => imagePaths.Count;
 
-        public override nint GetItemsCount(UICollectionView collectionView, nint section)
-        {
-            return imagePaths?.Count ?? 3;
-        }
-
-        public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
+        public UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = (ImageCell)collectionView.DequeueReusableCell(ImageCell.Key, indexPath);
-            cell.UpdateData(imagePaths?[indexPath.Row]);
+            cell.UpdateData(imagePaths[indexPath.Row]);
             return cell;
         }
+
+        [Export("collectionView:layout:sizeForItemAtIndexPath:")]
+        public CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
+            => new(56, 56);
     }
 }
