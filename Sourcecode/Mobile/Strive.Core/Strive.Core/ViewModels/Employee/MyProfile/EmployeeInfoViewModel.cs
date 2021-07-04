@@ -24,7 +24,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
         public async Task GetPersonalEmployeeInfo()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var result = await AdminService.GetPersonalDetails(1463);
+            var result = await AdminService.GetPersonalDetails(EmployeeTempData.EmployeeID);
             if(result == null)
             {
                 _userDialog.Toast("No relatable data");

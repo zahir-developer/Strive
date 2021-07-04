@@ -22,7 +22,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
         public async Task GetDocumentInfo()
         {
             _userDialog.ShowLoading(Strings.Loading);
-            var result = await AdminService.GetPersonalDetails(1463);
+            var result = await AdminService.GetPersonalDetails(EmployeeTempData.EmployeeID);
             if (result == null)
             {
                 DocumentDetails = null;

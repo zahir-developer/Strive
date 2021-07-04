@@ -19,11 +19,11 @@
       android:icon="@drawable/profile"
       app:showAsAction="ifRoom" />
 
-  <item
+  <!--<item
       android:id="@+id/menu_myTickets"
       android:enabled="true"
       android:icon="@drawable/ticket"
-      app:showAsAction="ifRoom" />
+      app:showAsAction="ifRoom" />-->
   <item
     android:id="@+id/menu_checkOut"
     android:enabled="true"
