@@ -134,8 +134,12 @@ namespace Greeter
                 var vehicleDetail = barcodeResponse.ClientAndVehicleDetailList[0];
                 vc.Barcode = vehicleDetail.Barcode;
                 vc.MakeID = vehicleDetail.MakeID;
+                vc.ModelID = vehicleDetail.ModelID;
                 vc.Model = vehicleDetail.Model;
+
                 vc.ColorID = vehicleDetail.ColorID;
+                vc.ClientID = vehicleDetail.ClientID;
+                vc.VehicleID = vehicleDetail.VehicleID;
             }
 
             if (IsWash)

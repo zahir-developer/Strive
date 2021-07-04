@@ -102,13 +102,13 @@ namespace Greeter
             GoBack(true);
         }
 
-        public void ShowAlertMsg(string msg)
+        public void ShowAlertMsg(string msg, Action okAction = null)
         {
             string title = "Alert";
             string ok = "OK";
 
             var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
-            okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default, null));
+            okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default, (action) => okAction?.Invoke()));
             PresentViewController(okAlertController, true, null);
         }
 

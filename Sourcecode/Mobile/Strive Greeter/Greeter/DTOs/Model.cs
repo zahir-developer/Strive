@@ -69,14 +69,20 @@ namespace Greeter.DTOs
 
     public class ClientAndVehicleDetail
     {
-        //[JsonProperty("ClientId")]
-        //public long ClientId { get; set; }
+        [JsonProperty("ClientId")]
+        public long ClientID { get; set; }
+
+        [JsonProperty("VehicleId")]
+        public long VehicleID { get; set; }
 
         [JsonProperty("Barcode")]
         public string Barcode { get; set; }
 
         [JsonProperty("VehicleMfr")]
-        public int MakeID { get; set; }
+        public long MakeID { get; set; }
+
+        [JsonProperty("VehicleModelId")]
+        public long ModelID { get; set; }
 
         [JsonProperty("VehicleModel")]
         public string Model { get; set; }

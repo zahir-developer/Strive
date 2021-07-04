@@ -32,11 +32,14 @@ namespace Greeter.Storyboards
 
         //Selected Items
         public string Barcode;
-        public int MakeID;
+        public long MakeID;
+        public long ModelID;
         public string Model;
         public long ColorID;
+        public long ClientID;
+        public long VehicleID;
 
-        int modelId;
+        //int modelId;
         string make;
         string color;
         long jobStatusId;
@@ -84,7 +87,7 @@ namespace Greeter.Storyboards
             btnNext.TouchUpInside += delegate
             {
                 //NavigateToVerifyScreen();
-                _ = CreateService(MakeID, modelId, ColorID, mainService, upcharge, additional, airFreshner, jobTypeId: jobTypeId);
+                _ = CreateService(MakeID, ModelID, ColorID, jobTypeId, jobStatusId, mainService, upcharge, additional, airFreshner, ClientID, VehicleID);
             };
 
             //Choice type change
@@ -296,7 +299,7 @@ namespace Greeter.Storyboards
             }
         }
 
-        async Task CreateService(long makeId, long modelId, long colorId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = -1, long clientId = -1, long jobTypeId = -1)
+        async Task CreateService(long makeId, long modelId, long colorId, long jobTypeId, long jobStatusId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = 0, long clientId = 0)
         {
             if (makeId == 0 || modelId == 0 || colorId == 0 || mainService == null)
             {
@@ -361,15 +364,19 @@ namespace Greeter.Storyboards
 
                 Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
 
-                //var createServiceResponse = await apiService.CreateService(req);
-                //if (createServiceResponse?.IsSuccess() ?? false)
-                //{
-                //    ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG);
-                //}
-                //else
-                //{
-                //    ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
-                //}
+                var createServiceResponse = await apiService.CreateService(req);
+                if (createServiceResponse?.IsSuccess() ?? false)
+                {
+                    ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG, () =>
+                    {
+                        var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 1];
+                        this.NavigationController.PopToViewController(vc, true);
+                    });
+                }
+                else
+                {
+                    ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
+                }
             }
             else
             {
@@ -505,7 +512,7 @@ namespace Greeter.Storyboards
                         break;
                     case ChoiceType.Make:
                         tfModel.Text = data[pos];
-                        modelId = Models[pos].ID;
+                        ModelID = Models[pos].ID;
                         break;
                     case ChoiceType.Color:
                         tfColor.Text = data[pos];
