@@ -5,6 +5,7 @@ using StriveEmployee.iOS.UIUtils;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
+using CoreGraphics;
 
 namespace StriveEmployee.iOS.Views
 {
@@ -29,6 +30,7 @@ namespace StriveEmployee.iOS.Views
         }
         private void InitialSetup()
         {
+            collisionView = new CollisionsViewModel();
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
                 Font = DesignUtils.OpenSansBoldFifteen(),
@@ -64,6 +66,10 @@ namespace StriveEmployee.iOS.Views
                 EmployeeInfo_Segment.Hidden = true;
                 EmployeeCollision_View.Hidden = false;
                 EmployeeDocument_View.Hidden = true;
+
+                Collision_TableView.RegisterNibForCellReuse(CollisionCell.Nib, CollisionCell.Key);
+                Collision_TableView.BackgroundColor = UIColor.Clear;
+                Collision_TableView.ReloadData();
 
                 GetCollisionInfo();
             }
@@ -133,7 +139,15 @@ namespace StriveEmployee.iOS.Views
 
         private async void GetCollisionInfo()
         {
-            //await collisionView.GetCollisionInfo();
+            await collisionView.GetCollisionInfo();
+            if (collisionView.CollisionDetails != null && collisionView.CollisionDetails.Employee.EmployeeCollision != null)
+            {
+                var collisionSource = new CollisionDataSource(collisionView.CollisionDetails.Employee.EmployeeCollision);
+                Collision_TableView.Source = collisionSource;
+                Collision_TableView.TableFooterView = new UIView(CGRect.Empty);
+                Collision_TableView.DelaysContentTouches = false;
+                Collision_TableView.ReloadData();
+            }
         }
     }
 }

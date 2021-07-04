@@ -13,6 +13,12 @@ namespace StriveEmployee.iOS.Views
 	partial class ProfileView
 	{
 		[Outlet]
+		UIKit.UITableView Collision_TableView { get; set; }
+
+		[Outlet]
+		UIKit.UITableView Documents_TableView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel Emp_Address { get; set; }
 
 		[Outlet]
@@ -62,6 +68,11 @@ namespace StriveEmployee.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Collision_TableView != null) {
+				Collision_TableView.Dispose ();
+				Collision_TableView = null;
+			}
+
 			if (Emp_Address != null) {
 				Emp_Address.Dispose ();
 				Emp_Address = null;
@@ -135,6 +146,11 @@ namespace StriveEmployee.iOS.Views
 			if (EmployeeProfile_View != null) {
 				EmployeeProfile_View.Dispose ();
 				EmployeeProfile_View = null;
+			}
+
+			if (Documents_TableView != null) {
+				Documents_TableView.Dispose ();
+				Documents_TableView = null;
 			}
 		}
 	}

@@ -91,6 +91,7 @@
     <Compile Include="Views\CollisionCell.designer.cs">
       <DependentUpon>CollisionCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\CollisionDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

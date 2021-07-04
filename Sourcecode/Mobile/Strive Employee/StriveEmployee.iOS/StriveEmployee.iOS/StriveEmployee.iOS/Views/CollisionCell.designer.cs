@@ -29,14 +29,9 @@ namespace StriveEmployee.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (Collision_CellView != null) {
-				Collision_CellView.Dispose ();
-				Collision_CellView = null;
-			}
-
-			if (Collision_CellImage != null) {
-				Collision_CellImage.Dispose ();
-				Collision_CellImage = null;
+			if (Collision_CellAmount != null) {
+				Collision_CellAmount.Dispose ();
+				Collision_CellAmount = null;
 			}
 
 			if (Collision_CellDate != null) {
@@ -44,14 +39,19 @@ namespace StriveEmployee.iOS.Views
 				Collision_CellDate = null;
 			}
 
-			if (Collision_CellAmount != null) {
-				Collision_CellAmount.Dispose ();
-				Collision_CellAmount = null;
+			if (Collision_CellImage != null) {
+				Collision_CellImage.Dispose ();
+				Collision_CellImage = null;
 			}
 
 			if (Collision_CellText != null) {
 				Collision_CellText.Dispose ();
 				Collision_CellText = null;
+			}
+
+			if (Collision_CellView != null) {
+				Collision_CellView.Dispose ();
+				Collision_CellView = null;
 			}
 		}
 	}
