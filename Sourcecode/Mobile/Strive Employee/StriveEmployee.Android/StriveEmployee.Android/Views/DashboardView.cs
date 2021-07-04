@@ -69,9 +69,9 @@ namespace StriveEmployee.Android.Views
                     selected_MvxFragment = profile_Fragment;
                     break;
 
-                case Resource.Id.menu_myTickets:
-                    selected_MvxFragment = myTicket_Fragment;
-                    break;
+                //case Resource.Id.menu_myTickets:
+                //    selected_MvxFragment = myTicket_Fragment;
+                //    break;
 
                 case Resource.Id.menu_checkOut:
                     selected_MvxFragment = checkOut_Fragment;
