@@ -27,7 +27,6 @@ namespace Greeter.Storyboards
             base.ViewDidLoad();
 
             tvIssueDetail.Delegate = this;
-
             Initialise();
 
             //   tvIssueDetail.EndEditing += delegate {

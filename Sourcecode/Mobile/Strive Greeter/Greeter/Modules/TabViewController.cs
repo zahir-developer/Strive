@@ -17,13 +17,15 @@ namespace Greeter
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            NavigationController.NavigationBar.Hidden = false;
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
 
-            NavigationController.NavigationBar.Hidden = false;
+
             var vc1 = new WashTimeViewController();
             var tabbarItem1 = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
             vc1.TabBarItem = tabbarItem1;

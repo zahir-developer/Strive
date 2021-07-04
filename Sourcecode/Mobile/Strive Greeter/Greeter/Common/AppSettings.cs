@@ -21,6 +21,11 @@ namespace Greeter.Common
             set => Preferences.Set(nameof(LocationID), value);
         }
 
+        public static long UserID
+        {
+            get => Preferences.Get(nameof(UserID), 0);
+            set => Preferences.Set(nameof(UserID), value);
+        }
 
         public static void Clear() => Preferences.Clear();
     }

@@ -101,6 +101,7 @@ namespace Greeter
             HideActivityIndicator();
 
             AppSettings.Token = response.AuthToken;
+            AppSettings.UserID = response.EmployeeDetails.EmployeeLogin.EmployeeId;
 
             // Navigation
             NavigateToLocationScreen();

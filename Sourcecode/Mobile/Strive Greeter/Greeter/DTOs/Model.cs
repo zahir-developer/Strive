@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Greeter.Common;
 using Newtonsoft.Json;
 
 namespace Greeter.DTOs
@@ -28,6 +29,21 @@ namespace Greeter.DTOs
     {
         [JsonProperty("Token")]
         public string AuthToken { get; set; }
+
+        [JsonProperty("EmployeeDetails")]
+        public EmployeeDetails EmployeeDetails { get; set; }
+    }
+
+    public class EmployeeDetails
+    {
+        [JsonProperty("EmployeeLogin")]
+        public EmployeeLogin EmployeeLogin { get; set; }
+    }
+
+    public class EmployeeLogin
+    {
+        [JsonProperty("EmployeeId")]
+        public long EmployeeId { get; set; }
     }
 
     public class LocationsResponse : BaseResponse
@@ -111,7 +127,7 @@ namespace Greeter.DTOs
     public class ServiceDetail
     {
         [JsonProperty("ServiceId")]
-        public string ID { get; set; }
+        public long ID { get; set; }
 
         [JsonProperty("ServiceTypeId")]
         public string TypeId { get; set; }
@@ -121,6 +137,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("ServiceTypeName")]
         public string Type { get; set; }
+
+        //[JsonProperty("price")]
+        //public float Price { get; set; }
     }
 
     public class GlobalDataResponse : BaseResponse
@@ -153,7 +172,7 @@ namespace Greeter.DTOs
         //public string Name { get; set; }
     }
 
-    public class CreateServiceRequest : BaseResponse
+    public class CreateServiceRequest
     {
         [JsonProperty("job")]
         public Job Job { get; set; }
@@ -164,8 +183,8 @@ namespace Greeter.DTOs
 
     public class Job
     {
-        //[JsonProperty("actualTimeOut")]
-        //public DateTime ActualTimeOut { get; set; }
+        [JsonProperty("actualTimeOut")]
+        public DateTime? ActualTimeOut { get; } = null;
 
         [JsonProperty("clientId")] // Optional
         public long ClientId { get; set; }
@@ -173,23 +192,23 @@ namespace Greeter.DTOs
         [JsonProperty("color")]
         public long ColorId { get; set; }
 
-        //[JsonProperty("createdBy")]
-        //public long CreatedByID { get; set; }
+        [JsonProperty("createdBy")]
+        public long CreatedByID { get; } = AppSettings.UserID;
 
-        //[JsonProperty("createdDate")]
-        //public DateTime CreatedDate { get; set; }
+        [JsonProperty("createdDate")]
+        public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("estimatedTimeOut")]
-        public DateTime EstimatedTimeOut { get; set; }
+        public DateTime EstimatedTimeOut { get; } = DateTime.Now.AddHours(1);
 
-        //[JsonProperty("isActive")]
-        //public DateTime IsActive { get; set; }
+        [JsonProperty("isActive")]
+        public bool IsActive { get; } = true;
 
-        //[JsonProperty("isDeleted")]
-        //public DateTime IsDeleted { get; set; }
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; } = false;
 
-        //[JsonProperty("jobDate")]
-        //public DateTime JobDate { get; set; }
+        [JsonProperty("jobDate")]
+        public DateTime JobDate { get; } = DateTime.Now;
 
         [JsonProperty("jobId")]
         public long JobId { get; set; }
@@ -210,58 +229,58 @@ namespace Greeter.DTOs
         public long ModelID { get; set; }
 
         //[JsonProperty("notes")]
-        //public string Notes { get; set; }
+        //public string Notes { get; }
 
         [JsonProperty("ticketNumber")]
         public long TicketNumber { get; set; }
 
-        //[JsonProperty("timeIn")]
-        //public DateTime TimeIn { get; set; }
+        [JsonProperty("timeIn")]
+        public DateTime TimeIn { get; } = DateTime.Now;
 
-        //[JsonProperty("updatedBy")]
-        //public long UpdatedByID { get; set; }
+        [JsonProperty("updatedBy")]
+        public long UpdatedByID { get; } = AppSettings.UserID;
 
         [JsonProperty("updatedDate")]
-        public DateTime UpdatedDate { get; set; }
+        public DateTime UpdatedDate { get; } = DateTime.Now;
 
-        //[JsonProperty("vehicleId")]
+        //[JsonProperty("vehicleId")] // Optional
         //public long VehicleId { get; set; }
     }
 
     public class JobItem
     {
         [JsonProperty("commission")]
-        public int commission { get; set; }
+        public int commission { get; } = 0;
 
         [JsonProperty("createdBy")]
-        public long createdByID { get; set; }
+        public long createdByID { get; } = AppSettings.UserID;
 
         [JsonProperty("createdDate")]
-        public DateTime createdDate { get; set; }
+        public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("jobId")]
-        public long jobId { get; set; }
+        public long JobId { get; set; }
 
         [JsonProperty("jobItemId")]
-        public long jobItemId { get; set; }
+        public long jobItemId { get; } = 0;
 
-        [JsonProperty("price")]
-        public float price { get; set; }
+        //[JsonProperty("price")]
+        //public float Price { get; set; }
 
         [JsonProperty("quantity")]
-        public int quantity { get; set; }
+        public int Quantity { get; } = 1;
 
         [JsonProperty("reviewNote")]
-        public string reviewNote { get; set; }
+        public string reviewNote { get; } = null;
 
         [JsonProperty("serviceId")]
-        public long serviceId { get; set; }
+        public long ServiceId { get; set; }
 
         [JsonProperty("updatedBy")]
-        public long updatedByID { get; set; }
+        public long updatedByID { get; } = AppSettings.UserID;
 
         [JsonProperty("updatedDate")]
-        public long updatedDateID { get; set; }
+        public DateTime UpdatedDate { get; } = DateTime.Now;
     }
 
     public class CheckoutRequest

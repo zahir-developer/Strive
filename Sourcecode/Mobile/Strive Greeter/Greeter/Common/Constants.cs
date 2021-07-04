@@ -72,6 +72,9 @@ namespace Greeter.Common
         internal const string SERVICE_CREATED_MSG = "Service created cuccessFully";
         internal const string SERVICE_CREATION_ISSUE = "Couldn't generate Service";
         internal const string TICKET_CERATION_ISSUE = "Couldn't generate ticket";
+        internal const string WARNING_FOR_MANDATORY_FILEDS_IN_SERVICE = "Please fill all mandatory fields make, model, color and {0}";
+        internal const string WAH_PACKAGE = "wash package";
+        internal const string DETAIL_PACKAGE = "detail package";
     }
 
     public class StatusCodes

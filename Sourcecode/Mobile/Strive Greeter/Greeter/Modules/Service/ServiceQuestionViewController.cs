@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
@@ -9,6 +10,7 @@ using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Network;
+using Newtonsoft.Json;
 using UIKit;
 
 namespace Greeter.Storyboards
@@ -39,6 +41,10 @@ namespace Greeter.Storyboards
         string color;
         long jobStatusId;
         long jobTypeId;
+        JobItem mainService;
+        JobItem upcharge;
+        JobItem additional;
+        JobItem airFreshner;
 
         // Data
         List<Make> Makes;
@@ -78,25 +84,25 @@ namespace Greeter.Storyboards
             btnNext.TouchUpInside += delegate
             {
                 //NavigateToVerifyScreen();
-                CreateService(MakeID, modelId, ColorID);
+                _ = CreateService(MakeID, modelId, ColorID, mainService, upcharge, additional, airFreshner, jobTypeId: jobTypeId);
             };
 
             //Choice type change
-            tfType.EditingDidBegin += delegate
+            tfMake.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Type;
-                UpdatePickerView(makes, pv, tfType.Text);
+                UpdatePickerView(makes, pv, tfMake.Text);
             };
 
             btnTypeDropdown.TouchUpInside += delegate
             {
-                tfType.BecomeFirstResponder();
+                tfMake.BecomeFirstResponder();
             };
 
-            tfMake.EditingDidBegin += delegate
+            tfModel.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Make;
-                UpdatePickerView(models, pv, tfMake.Text, false);
+                UpdatePickerView(models, pv, tfModel.Text, false);
             };
 
             btnMakeDropdown.TouchUpInside += delegate
@@ -241,7 +247,7 @@ namespace Greeter.Storyboards
 
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_UPCHARGE)).ToList();
 
-                jobStatusId = jobStatusResponse?.Codes.Where(x => x.Name.Equals("Wash")).FirstOrDefault().ID ?? -1;
+                jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals("Wash")).FirstOrDefault().ID ?? -1;
             }
             else
             {
@@ -250,7 +256,7 @@ namespace Greeter.Storyboards
 
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.DETAIL_UPCHARGE)).ToList();
 
-                jobStatusId = jobStatusResponse?.Codes.Where(x => x.Name.Equals("Detail")).FirstOrDefault().ID ?? -1;
+                jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals("Detail")).FirstOrDefault().ID ?? -1;
             }
 
             upcharges = Upcharges.Select(x => x.Name).ToArray();
@@ -279,21 +285,62 @@ namespace Greeter.Storyboards
                 btnMakeDropdown.Hidden = true;
                 btnColorDropdown.Hidden = true;
 
-                tfType.UserInteractionEnabled = false;
                 tfMake.UserInteractionEnabled = false;
+                tfModel.UserInteractionEnabled = false;
                 tfColor.UserInteractionEnabled = false;
 
                 tfBarcode.Text = Barcode;
-                tfType.Text = make;
-                tfMake.Text = Model;
+                tfMake.Text = make;
+                tfModel.Text = Model;
                 tfColor.Text = color;
             }
         }
 
-        async Task CreateService(long makeId, long modelId, long colorId, long vehicleId = -1, long clientId = -1, long jobTypeId = -1)
+        async Task CreateService(long makeId, long modelId, long colorId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = -1, long clientId = -1, long jobTypeId = -1)
         {
+            if (makeId == 0 || modelId == 0 || colorId == 0 || mainService == null)
+            {
+                string msg = string.Empty;
+                if (ServiceType == ServiceType.Wash)
+                    msg = string.Format(Common.Messages.WARNING_FOR_MANDATORY_FILEDS_IN_SERVICE, Common.Messages.WAH_PACKAGE);
+                else
+                    msg = string.Format(Common.Messages.WARNING_FOR_MANDATORY_FILEDS_IN_SERVICE, Common.Messages.DETAIL_PACKAGE);
+                ShowAlertMsg(msg);
+                return;
+            }
+
             var apiService = new ApiService(new NetworkService());
             var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
+
+            long jobId = ticketResponse.Ticket.TicketNo;
+
+            var jobItems = new List<JobItem>();
+
+            mainService.JobId = jobId;
+            jobItems.Add(mainService);
+
+            if (upcharge != null)
+            {
+                upcharge.JobId = jobId;
+                jobItems.Add(upcharge);
+            }
+
+            if (additional != null)
+            {
+                additional.JobId = jobId;
+                jobItems.Add(upcharge);
+            }
+
+            if (airFreshner != null)
+            {
+                airFreshner.JobId = jobId;
+                jobItems.Add(airFreshner);
+            }
+
+            //for (int i = 0; i < jobItems.Count; i++)
+            //{
+
+            //}
 
             if (ticketResponse?.Ticket?.TicketNo != 0)
             {
@@ -301,24 +348,28 @@ namespace Greeter.Storyboards
                 {
                     Job = new Job()
                     {
-                        JobId = ticketResponse.Ticket.TicketNo,
+                        JobId = jobId,
                         JobStatusID = jobStatusId,
                         JobTypeID = jobTypeId,
                         MakeID = MakeID,
                         ModelID = modelId,
                         ColorId = colorId,
-                    }
+                        LocationID = AppSettings.LocationID
+                    },
+                    JobItems = jobItems
                 };
 
-                var createServiceResponse = await apiService.CreateService(req);
-                if (createServiceResponse?.IsSuccess() ?? false)
-                {
-                    ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG);
-                }
-                else
-                {
-                    ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
-                }
+                Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
+
+                //var createServiceResponse = await apiService.CreateService(req);
+                //if (createServiceResponse?.IsSuccess() ?? false)
+                //{
+                //    ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG);
+                //}
+                //else
+                //{
+                //    ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
+                //}
             }
             else
             {
@@ -339,10 +390,10 @@ namespace Greeter.Storyboards
             lblDate.Text = dt.ToString(Constants.DATE_FORMAT);
             lblTime.Text = dt.ToString(Constants.TIME_FORMAT);
 
-            tfType.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            tfType.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             tfMake.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfMake.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            tfModel.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
+            tfModel.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             tfColor.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfColor.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             tfBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
@@ -360,8 +411,8 @@ namespace Greeter.Storyboards
 
             ChangeScreenType(ServiceType);
 
-            AddPickerToolbar(tfType, tfType.Placeholder, PickerDone);
             AddPickerToolbar(tfMake, tfMake.Placeholder, PickerDone);
+            AddPickerToolbar(tfModel, tfModel.Placeholder, PickerDone);
             AddPickerToolbar(tfColor, tfColor.Placeholder, PickerDone);
             //AddPickerToolbar(tfBarcode, tfBarcode.Placeholder, PickerDone);
             AddPickerToolbar(tfWashPkg, tfWashPkg.Placeholder, PickerDone);
@@ -370,8 +421,8 @@ namespace Greeter.Storyboards
             AddPickerToolbar(tfAdditionalService, tfAdditionalService.Placeholder, PickerDone);
             AddPickerToolbar(tfAirFreshner, tfAirFreshner.Placeholder, PickerDone);
 
-            tfType.InputView = pv;
             tfMake.InputView = pv;
+            tfModel.InputView = pv;
             tfColor.InputView = pv;
             //tfBarcode.InputView = pv;
             tfUpcharge.InputView = pv;
@@ -381,12 +432,12 @@ namespace Greeter.Storyboards
             tfAirFreshner.InputView = pv;
 
             // For Restricting typing in the location field
-            tfType.ShouldChangeCharacters = (textField, range, replacementString) =>
+            tfMake.ShouldChangeCharacters = (textField, range, replacementString) =>
             {
                 return false;
             };
 
-            tfMake.ShouldChangeCharacters = (textField, range, replacementString) =>
+            tfModel.ShouldChangeCharacters = (textField, range, replacementString) =>
             {
                 return false;
             };
@@ -444,16 +495,16 @@ namespace Greeter.Storyboards
                 switch (choiceType)
                 {
                     case ChoiceType.Type:
-                        if (tfType.Text != data[pos])
+                        if (tfMake.Text != data[pos])
                         {
-                            tfType.Text = data[pos];
-                            tfMake.Text = string.Empty;
+                            tfMake.Text = data[pos];
+                            tfModel.Text = string.Empty;
                             _ = GetModlesByMake(Makes[pos].ID);
                             MakeID = Makes[pos].ID;
                         }
                         break;
                     case ChoiceType.Make:
-                        tfMake.Text = data[pos];
+                        tfModel.Text = data[pos];
                         modelId = Models[pos].ID;
                         break;
                     case ChoiceType.Color:
@@ -465,18 +516,29 @@ namespace Greeter.Storyboards
                         break;
                     case ChoiceType.Upcharge:
                         tfUpcharge.Text = data[pos];
+                        upcharge = upcharge ?? new JobItem();
+                        upcharge.ServiceId = Upcharges[pos].ID;
                         break;
                     case ChoiceType.AdditionalService:
                         tfAdditionalService.Text = data[pos];
+                        additional = additional ?? new JobItem();
+                        additional.ServiceId = AdditionalServices[pos].ID;
                         break;
                     case ChoiceType.AirFreshner:
                         tfAirFreshner.Text = data[pos];
+                        airFreshner = airFreshner ?? new JobItem();
+                        airFreshner.ServiceId = AirFreshners[pos].ID;
                         break;
                     case ChoiceType.Washpackage:
                         tfWashPkg.Text = data[pos];
+                        mainService = mainService ?? new JobItem();
+                        mainService.ServiceId = WashPackages[pos].ID;
+                        //price = washPackages[pos].pr,
                         break;
                     case ChoiceType.DetailPackage:
                         tfDetailPkg.Text = data[pos];
+                        mainService = mainService ?? new JobItem();
+                        mainService.ServiceId = DetailPackages[pos].ID;
                         break;
                 }
         }

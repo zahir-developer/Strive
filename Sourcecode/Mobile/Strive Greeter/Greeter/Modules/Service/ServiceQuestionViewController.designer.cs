@@ -73,7 +73,7 @@ namespace Greeter.Storyboards
 		UIKit.UITextField tfMake { get; set; }
 
 		[Outlet]
-		UIKit.UITextField tfType { get; set; }
+		UIKit.UITextField tfModel { get; set; }
 
 		[Outlet]
 		UIKit.UITextField tfUpcharge { get; set; }
@@ -92,14 +92,54 @@ namespace Greeter.Storyboards
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAddtionalDropdown != null) {
+				btnAddtionalDropdown.Dispose ();
+				btnAddtionalDropdown = null;
+			}
+
+			if (btnAirFReshnersDropdown != null) {
+				btnAirFReshnersDropdown.Dispose ();
+				btnAirFReshnersDropdown = null;
+			}
+
 			if (btnCancel != null) {
 				btnCancel.Dispose ();
 				btnCancel = null;
 			}
 
+			if (btnColorDropdown != null) {
+				btnColorDropdown.Dispose ();
+				btnColorDropdown = null;
+			}
+
+			if (btnDetailPkgDropdown != null) {
+				btnDetailPkgDropdown.Dispose ();
+				btnDetailPkgDropdown = null;
+			}
+
+			if (btnMakeDropdown != null) {
+				btnMakeDropdown.Dispose ();
+				btnMakeDropdown = null;
+			}
+
 			if (btnNext != null) {
 				btnNext.Dispose ();
 				btnNext = null;
+			}
+
+			if (btnTypeDropdown != null) {
+				btnTypeDropdown.Dispose ();
+				btnTypeDropdown = null;
+			}
+
+			if (btnUpchargeDropdown != null) {
+				btnUpchargeDropdown.Dispose ();
+				btnUpchargeDropdown = null;
+			}
+
+			if (btnWashPkgDropdown != null) {
+				btnWashPkgDropdown.Dispose ();
+				btnWashPkgDropdown = null;
 			}
 
 			if (lblDate != null) {
@@ -147,19 +187,19 @@ namespace Greeter.Storyboards
 				tfdetailTop = null;
 			}
 
+			if (tfUpcharge != null) {
+				tfUpcharge.Dispose ();
+				tfUpcharge = null;
+			}
+
 			if (tfMake != null) {
 				tfMake.Dispose ();
 				tfMake = null;
 			}
 
-			if (tfType != null) {
-				tfType.Dispose ();
-				tfType = null;
-			}
-
-			if (tfUpcharge != null) {
-				tfUpcharge.Dispose ();
-				tfUpcharge = null;
+			if (tfModel != null) {
+				tfModel.Dispose ();
+				tfModel = null;
 			}
 
 			if (tfwashHeight != null) {
@@ -180,46 +220,6 @@ namespace Greeter.Storyboards
 			if (viewHeader != null) {
 				viewHeader.Dispose ();
 				viewHeader = null;
-			}
-
-			if (btnTypeDropdown != null) {
-				btnTypeDropdown.Dispose ();
-				btnTypeDropdown = null;
-			}
-
-			if (btnMakeDropdown != null) {
-				btnMakeDropdown.Dispose ();
-				btnMakeDropdown = null;
-			}
-
-			if (btnColorDropdown != null) {
-				btnColorDropdown.Dispose ();
-				btnColorDropdown = null;
-			}
-
-			if (btnWashPkgDropdown != null) {
-				btnWashPkgDropdown.Dispose ();
-				btnWashPkgDropdown = null;
-			}
-
-			if (btnDetailPkgDropdown != null) {
-				btnDetailPkgDropdown.Dispose ();
-				btnDetailPkgDropdown = null;
-			}
-
-			if (btnUpchargeDropdown != null) {
-				btnUpchargeDropdown.Dispose ();
-				btnUpchargeDropdown = null;
-			}
-
-			if (btnAddtionalDropdown != null) {
-				btnAddtionalDropdown.Dispose ();
-				btnAddtionalDropdown = null;
-			}
-
-			if (btnAirFReshnersDropdown != null) {
-				btnAirFReshnersDropdown.Dispose ();
-				btnAirFReshnersDropdown = null;
 			}
 		}
 	}
