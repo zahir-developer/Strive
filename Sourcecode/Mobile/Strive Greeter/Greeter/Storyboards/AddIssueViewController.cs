@@ -3,20 +3,20 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Sources;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter.Storyboards
 {
     public partial class AddIssueViewController : UIViewController, IUITextViewDelegate
     {
-        UIImagePickerController imagePickerController;
-        List<string> imagePaths;
+        readonly List<string> imagePaths = new();
 
-        private const string PUBLIC_IMAGE = "public.image";
-        private const string PUBLIC_VIDEO = "public.video";
+        ImagesSource imagesSource;
 
         public AddIssueViewController(IntPtr handle) : base(handle)
         {
@@ -29,33 +29,12 @@ namespace Greeter.Storyboards
             tvIssueDetail.Delegate = this;
             Initialise();
 
-            //   tvIssueDetail.EndEditing += delegate {
-            //       return true;
-            //};
-
-            //tvIssueDetail.ShouldChangeText += delegate
-            //{
-            //    Debug.WriteLine("Chnged Text : " + tvIssueDetail.Text);
-            //    return true;
-            //};
-
-            //tvIssueDetail.ShouldChangeTextInRange = (range, replacementText) =>
-            //{
-            //    return true;
-            //};
-
-            //mobNoTxtField.ShouldChangeCharacters = (textField, range, replacementString) =>
-            //{
-            //    var newLength = textField.Text.Length + replacementString.Length - range.Length;
-            //    return newLength <= 14;
-            //};
-
             tvIssueDetail.Layer.BorderWidth = 1;
             tvIssueDetail.Layer.BorderColor = UIColor.LightGray.CGColor;
             tvIssueDetail.Layer.CornerRadius = 5;
 
             //Clicks
-            lblAddPhotos.AddGestureRecognizer(new UITapGestureRecognizer(OpenCamera));
+            lblAddPhotos.AddGestureRecognizer(new UITapGestureRecognizer(TakePictureFromCamera));
             btnCancel.TouchUpInside += (s, e) => DismissViewController(true, null);
             btnSave.TouchUpInside += BtnSave_TouchUpInside;
         }
@@ -63,16 +42,16 @@ namespace Greeter.Storyboards
         void Initialise()
         {
             ShowOrHideHint(tvIssueDetail.Text.Length, lblIssueDetailHint);
+            imagesSource = new ImagesSource(imagePaths);
 
             cvImages.RegisterNibForCell(ImageCell.Nib, ImageCell.Key);
-            cvImages.Source = new ImagesSource(imagePaths);
-
-            CreateCamera();
+            cvImages.WeakDataSource = imagesSource;
+            cvImages.WeakDelegate = imagesSource;
         }
 
         void ShowOrHideHint(int len, UILabel lbl)
         {
-            lbl.Hidden = len == 0 ? false : true;
+            lbl.Hidden = len != 0;
         }
 
         private void BtnSave_TouchUpInside(object sender, EventArgs e)
@@ -88,68 +67,34 @@ namespace Greeter.Storyboards
             return true;
         }
 
-        // CHOOSE CAMERA CANCELLED ACTION
-        void Canceled(object sender, EventArgs e)
+        async void TakePictureFromCamera()
         {
-            CloseCamera();
-        }
-
-        void CreateCamera()
-        {
-            imagePickerController = new UIImagePickerController();
-            imagePickerController.SourceType = UIImagePickerControllerSourceType.Camera;
-            imagePickerController.FinishedPickingMedia += Finished;
-            imagePickerController.Canceled += Canceled;
-        }
-
-        void OpenCamera()
-        {
-            PresentViewController(imagePickerController, true, null);
-        }
-
-        // IMAGE CHOOSED ACTION
-        public void Finished(object sender, UIImagePickerMediaPickedEventArgs e)
-        {
-            CloseCamera();
-
-            bool isImage = false;
-            switch (e.Info[UIImagePickerController.MediaType].ToString())
+            try
             {
-                case PUBLIC_IMAGE:
-                    isImage = true;
-                    break;
-                case PUBLIC_VIDEO:
-                    break;
+                var cameraResponse = await MediaPicker.CapturePhotoAsync();
+                var stream = await cameraResponse.OpenReadAsync();
+
+                var tempFilePath = string.Empty;
+
+                if (stream != null && stream != Stream.Null)
+                {
+                    tempFilePath = Path.Combine(FileSystem.CacheDirectory, cameraResponse.FileName);
+                    using (var fileStream = new FileStream(tempFilePath, FileMode.CreateNew))
+                    {
+                        await stream.CopyToAsync(fileStream);
+                        await stream.FlushAsync();
+                    }
+
+                    await stream.DisposeAsync();
+                }
+
+                imagePaths.Add(tempFilePath);
+                cvImages.ReloadData();
             }
-
-            if (!isImage) return;
-
-            UIImage image = e.Info[UIImagePickerController.OriginalImage] as UIImage;
-
-
-            NSUrl referenceURL = e.Info[UIImagePickerController.ReferenceUrl] as NSUrl;
-
-            if (referenceURL != null)
+            catch (Exception e)
             {
-                Debug.WriteLine("Image Path : " + referenceURL.ToString());
+                Debug.WriteLine(e.Message);
             }
-            else return;
-
-            if (imagePaths is null)
-            {
-                imagePaths = new List<string>();
-            }
-
-            var imagePath = "";
-            imagePaths.Add(imagePath);
-
-            cvImages.Source = new ImagesSource(imagePaths);
-            cvImages.ReloadData();
-        }
-
-        void CloseCamera()
-        {
-            imagePickerController.DismissViewController(true, null);
         }
     }
 }

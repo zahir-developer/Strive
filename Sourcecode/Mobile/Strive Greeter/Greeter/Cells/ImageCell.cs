@@ -45,9 +45,7 @@ namespace Greeter.Cells
             imgvClose.Hidden = !isCloseOptionNeeded;
 
             if (path is not null)
-                imgv.Image = UIImage.LoadFromData(NSData.FromUrl(NSUrl.FromString(path)));
-
-            //imgv.Image = UIImage.FromFile(path);
+                imgv.Image = UIImage.FromFile(path);
         }
     }
 }

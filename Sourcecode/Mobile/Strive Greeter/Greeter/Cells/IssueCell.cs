@@ -11,6 +11,8 @@ namespace Greeter.Cells
         public static readonly NSString Key = new NSString("IssueCell");
         public static readonly UINib Nib;
 
+        ImagesSource imagesSource = new(new System.Collections.Generic.List<string>());
+
         static IssueCell()
         {
             Nib = UINib.FromName("IssueCell", NSBundle.MainBundle);
@@ -25,9 +27,9 @@ namespace Greeter.Cells
         {
             base.AwakeFromNib();
 
-            var imagesSource = new ImagesSource();
             cvImages.RegisterNibForCell(ImageCell.Nib, ImageCell.Key);
-            cvImages.Source = imagesSource;
+            cvImages.WeakDataSource = imagesSource;
+            cvImages.WeakDelegate = imagesSource;
         }
 
         public void UpdateData(string date, string desc, string[] images)

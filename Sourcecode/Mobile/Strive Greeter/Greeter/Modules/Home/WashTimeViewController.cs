@@ -26,8 +26,6 @@ namespace Greeter.Modules.Home
 
         void SetupView()
         {
-            NavigationController.NavigationBar.Hidden = false;
-
             mapView = new MKMapView(CGRect.Empty)
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
@@ -65,7 +63,11 @@ namespace Greeter.Modules.Home
             {
                 //TODO logout action here
                 AppSettings.Clear();
-                NavigationController.PopToRootViewController(true);
+
+                UIViewController loginViewController = UIStoryboard.FromName(StoryBoardNames.USER, null)
+                                      .InstantiateViewController(nameof(LoginViewController));
+
+                TabBarController.NavigationController.SetViewControllers(new UIViewController[] { loginViewController }, true);
             });
         }
 
