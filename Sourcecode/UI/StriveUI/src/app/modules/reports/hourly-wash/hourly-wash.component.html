@@ -216,15 +216,15 @@
                                     <tr>
                                         <th scope="col">Day</th>
                                         <th scope="col">Date</th>
-                                        <th scope="col" class="text-right" *ngFor="let name of washServiceName">{{name}}
+                                        <th scope="col" class="text-right tabresiz" *ngFor="let name of washServiceName">{{name}}
                                         </th>
-                                        <th scope="col" class="text-right">Deposits </th>
-                                        <th scope="col" class="text-right">BC </th>
-                                        <th scope="col" class="text-right">Accounts </th>
-                                        <th scope="col" class="text-right">Gift Cards</th>
-                                        <th scope="col" class="text-right">Actual</th>
-                                        <th scope="col" class="text-right">Sales </th>
-                                        <th scope="col" class="text-right">Difference</th>
+                                        <th scope="col" class="text-right tabresiz">Deposits </th>
+                                        <th scope="col" class="text-right tabresiz">BC </th>
+                                        <th scope="col" class="text-right tabresiz">Accounts </th>
+                                        <th scope="col" class="text-right tabresiz">Gift Cards</th>
+                                        <th scope="col" class="text-right tabresiz">Actual</th>
+                                        <th scope="col" class="text-right tabresiz">Sales </th>
+                                        <th scope="col" class="text-right tabresiz">Difference</th>
                                         <th scope="col">Managers</th>
                                     </tr>
                                 </thead>
@@ -556,3 +556,10 @@
         <!-- end card-body -->
     </div>
 </div>
+
+
+<style>
+    .tabresiz {
+        min-width: 10rem !important;
+    }
+</style>
