@@ -74,10 +74,19 @@ namespace Greeter
             var response = await new ApiService(new NetworkService()).GetLocations();
             HideActivityIndicator();
 
-            locations = response?.Locations;
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
 
-            locs = locations?.Select(x => x.Name).ToArray();
-            pvLoc.ReloadComponent(0);
+            if (response.IsSuccess())
+            {
+                locations = response?.Locations;
+
+                locs = locations?.Select(x => x.Name).ToArray();
+                pvLoc.ReloadComponent(0);
+            }
         }
 
         void Initialise()

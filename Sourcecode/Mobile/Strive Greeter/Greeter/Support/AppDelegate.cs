@@ -1,4 +1,5 @@
 using Foundation;
+using Greeter.Common;
 using Greeter.MvvmCross;
 using MvvmCross.Platforms.Ios.Core;
 using UIKit;
@@ -32,6 +33,19 @@ namespace Greeter
             //    Window.RootViewController = viewController;
             //    Window.MakeKeyAndVisible();
             //}
+
+            var sb = UIStoryboard.FromName(StoryBoardNames.USER, null);
+            UIViewController vc;
+
+            if (!AppSettings.IsLogin)
+                vc = sb.InstantiateViewController(nameof(LoginViewController));
+            else if (AppSettings.LocationID == 0)
+                vc = sb.InstantiateViewController(nameof(LocationViewController));
+            else
+            {
+                sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+                vc = sb.InstantiateViewController(nameof(TabViewController));
+            }
 
             return true;
         }

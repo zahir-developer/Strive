@@ -22,6 +22,18 @@ namespace Greeter.Storyboards
 		UIKit.UIButton btnConfirm { get; set; }
 
 		[Outlet]
+		UIKit.UILabel lblBarcode { get; set; }
+
+		[Outlet]
+		UIKit.UILabel lblCustName { get; set; }
+
+		[Outlet]
+		UIKit.UILabel lblType { get; set; }
+
+		[Outlet]
+		UIKit.UILabel lblvehicle { get; set; }
+
+		[Outlet]
 		UIKit.UIView viewBarcode { get; set; }
 
 		[Outlet]
@@ -35,26 +47,6 @@ namespace Greeter.Storyboards
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (viewCustName != null) {
-				viewCustName.Dispose ();
-				viewCustName = null;
-			}
-
-			if (viewVehicle != null) {
-				viewVehicle.Dispose ();
-				viewVehicle = null;
-			}
-
-			if (viewBarcode != null) {
-				viewBarcode.Dispose ();
-				viewBarcode = null;
-			}
-
-			if (viewType != null) {
-				viewType.Dispose ();
-				viewType = null;
-			}
-
 			if (btnBack != null) {
 				btnBack.Dispose ();
 				btnBack = null;
@@ -68,6 +60,46 @@ namespace Greeter.Storyboards
 			if (btnConfirm != null) {
 				btnConfirm.Dispose ();
 				btnConfirm = null;
+			}
+
+			if (lblCustName != null) {
+				lblCustName.Dispose ();
+				lblCustName = null;
+			}
+
+			if (viewBarcode != null) {
+				viewBarcode.Dispose ();
+				viewBarcode = null;
+			}
+
+			if (viewCustName != null) {
+				viewCustName.Dispose ();
+				viewCustName = null;
+			}
+
+			if (viewType != null) {
+				viewType.Dispose ();
+				viewType = null;
+			}
+
+			if (viewVehicle != null) {
+				viewVehicle.Dispose ();
+				viewVehicle = null;
+			}
+
+			if (lblType != null) {
+				lblType.Dispose ();
+				lblType = null;
+			}
+
+			if (lblvehicle != null) {
+				lblvehicle.Dispose ();
+				lblvehicle = null;
+			}
+
+			if (lblBarcode != null) {
+				lblBarcode.Dispose ();
+				lblBarcode = null;
 			}
 		}
 	}

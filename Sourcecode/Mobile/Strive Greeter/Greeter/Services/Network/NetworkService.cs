@@ -5,6 +5,7 @@ using Foundation;
 using Newtonsoft.Json;
 using System.Linq;
 using System;
+using Xamarin.Essentials;
 
 namespace Greeter.Services.Network
 {
@@ -31,22 +32,33 @@ namespace Greeter.Services.Network
 
             try
             {
-                var dataTaskRequest = await task;
-                var urlResponse = dataTaskRequest.Response as NSHttpUrlResponse;
-
-                if (urlResponse?.StatusCode >= 200 || urlResponse?.StatusCode <= 299)
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet || Connectivity.ConnectionProfiles.Contains(ConnectionProfile.WiFi))
                 {
-                    using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
-                    var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
-                    result.StatusCode = (int)urlResponse?.StatusCode;
-                    return result;
+                    var dataTaskRequest = await task;
+                    var urlResponse = dataTaskRequest.Response as NSHttpUrlResponse;
+
+                    if (urlResponse?.StatusCode >= 200 || urlResponse?.StatusCode <= 299)
+                    {
+                        using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
+                        var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
+                        result.StatusCode = (int)urlResponse?.StatusCode;
+                        return result;
+                    }
+                    else
+                    {
+                        var errorResult = Activator.CreateInstance<TResult>();
+                        errorResult.StatusCode = (int)urlResponse.StatusCode;
+                        errorResult.Message = urlResponse.StatusCode.ToString();
+                        return errorResult;
+                    }
                 }
                 else
                 {
-                    var errorResult = Activator.CreateInstance<TResult>();
-                    errorResult.StatusCode = (int)urlResponse.StatusCode;
-                    errorResult.Message = urlResponse.StatusCode.ToString();
-                    return errorResult;
+                    var response = Activator.CreateInstance<TResult>();
+                    // Status Code for no network cnnectivity 
+                    response.StatusCode = -1;
+                    response.Message = Constants.DATE_FORMAT;
+                    return response;
                 }
             }
             catch (Exception e)

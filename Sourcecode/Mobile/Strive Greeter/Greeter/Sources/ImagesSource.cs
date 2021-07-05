@@ -11,10 +11,9 @@ namespace Greeter.Sources
     {
         readonly List<string> imagePaths;
 
-        public ImagesSource(List<string> imagePaths = null)
-            => this.imagePaths = imagePaths;
+        public ImagesSource(List<string> imagePaths = null) => this.imagePaths = imagePaths;
 
-        public nint GetItemsCount(UICollectionView collectionView, nint section) => imagePaths.Count;
+        public nint GetItemsCount(UICollectionView collectionView, nint section) => imagePaths?.Count ?? 3;
 
         public UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {

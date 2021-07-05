@@ -5,6 +5,7 @@ using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using Greeter.Services.Network;
 using UIKit;
 
@@ -21,7 +22,7 @@ namespace Greeter.Modules.Pay
             SetupView();
             RegisterCells();
             SetupNavigationItem();
-            GetData();
+            _ = GetData();
 
             //Setup Delegate and DataSource
             checkoutTableView.WeakDelegate = this;
@@ -31,7 +32,7 @@ namespace Greeter.Modules.Pay
         async Task GetData()
         {
             var req = new CheckoutRequest();
-            req.StartDate = "2021-06-01";
+            req.StartDate = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
             req.EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
             req.LocationID = AppSettings.LocationID;
             req.SortBy = "TicketNumber";
@@ -41,8 +42,18 @@ namespace Greeter.Modules.Pay
             ShowActivityIndicator();
             var response = await new ApiService(new NetworkService()).GetCheckoutList(req);
             HideActivityIndicator();
-            Checkouts = response.CheckinVehicleDetails.CheckOutList;
-            checkoutTableView.ReloadData();
+
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
+
+            if (response.IsSuccess())
+            {
+                Checkouts = response.CheckinVehicleDetails.CheckOutList;
+                checkoutTableView.ReloadData();
+            }
         }
 
         public override void ViewWillAppear(bool animated)

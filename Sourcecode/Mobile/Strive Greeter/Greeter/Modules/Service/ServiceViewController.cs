@@ -75,7 +75,7 @@ namespace Greeter
                 }
                 else
                 {
-                    GetBarcodeDetails(txtFieldBarcode.Text);
+                    _ = GetBarcodeDetails(txtFieldBarcode.Text);
                 }
             };
 
@@ -93,7 +93,14 @@ namespace Greeter
             ShowActivityIndicator();
             var response = await new ApiService(new NetworkService()).GetBarcode(barcode);
             HideActivityIndicator();
-            if (response.ClientAndVehicleDetailList != null && response.ClientAndVehicleDetailList.Count > 0)
+
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
+
+            if (response.IsSuccess() && response.ClientAndVehicleDetailList != null && response.ClientAndVehicleDetailList.Count > 0)
             {
                 barcodeResponse = response;
                 NavigateToWashOrDetailScreen(true);

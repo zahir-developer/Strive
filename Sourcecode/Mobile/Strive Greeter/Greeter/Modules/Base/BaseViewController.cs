@@ -1,8 +1,6 @@
 ﻿using System;
 using Greeter.Common;
 using Greeter.Extensions;
-using Greeter.Modules.Base;
-using MvvmCross.Platforms.Ios.Views;
 using UIKit;
 
 namespace Greeter
@@ -108,7 +106,11 @@ namespace Greeter
             string ok = "OK";
 
             var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
-            okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default, (action) => okAction?.Invoke()));
+            okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default,
+                alert =>
+                {
+                    okAction?.Invoke();
+                }));
             PresentViewController(okAlertController, true, null);
         }
 

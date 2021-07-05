@@ -100,8 +100,17 @@ namespace Greeter
             var response = await new ApiService(new NetworkService()).DoLogin(req);
             HideActivityIndicator();
 
-            AppSettings.Token = response.AuthToken;
-            AppSettings.UserID = response.EmployeeDetails.EmployeeLogin.EmployeeId;
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
+
+            if (response.IsSuccess())
+            {
+                AppSettings.Token = response?.AuthToken;
+                AppSettings.UserID = response?.EmployeeDetails?.EmployeeLogin?.EmployeeId ?? 0;
+            }
 
             // Navigation
             NavigateToLocationScreen();

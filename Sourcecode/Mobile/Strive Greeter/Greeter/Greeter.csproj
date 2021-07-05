@@ -254,10 +254,6 @@
         <Compile Include="Modules\Service\VerifyVehicleInfoViewController.designer.cs">
           <DependentUpon>VerifyVehicleInfoViewController.cs</DependentUpon>
         </Compile>
-        <Compile Include="Storyboards\PaymentSucessViewController.cs" />
-        <Compile Include="Storyboards\PaymentSucessViewController.designer.cs">
-          <DependentUpon>PaymentSucessViewController.cs</DependentUpon>
-        </Compile>
         <Compile Include="Modules\Pay\PaymentViewController.cs" />
         <Compile Include="Modules\Pay\PaymentViewController.Logic.cs">
             <DependentUpon>Modules\Pay\PaymentViewController.cs</DependentUpon>
@@ -272,15 +268,7 @@
         <Compile Include="Cells\ImageCell.designer.cs">
           <DependentUpon>ImageCell.cs</DependentUpon>
         </Compile>
-        <Compile Include="Storyboards\IssuesViewController.cs" />
-        <Compile Include="Storyboards\IssuesViewController.designer.cs">
-          <DependentUpon>IssuesViewController.cs</DependentUpon>
-        </Compile>
         <Compile Include="Sources\IssuesSource.cs" />
-        <Compile Include="Storyboards\AddIssueViewController.cs" />
-        <Compile Include="Storyboards\AddIssueViewController.designer.cs">
-          <DependentUpon>AddIssueViewController.cs</DependentUpon>
-        </Compile>
         <Compile Include="Sources\ImagesSource.cs" />
         <Compile Include="Modules\User\LoginViewModel.cs" />
         <Compile Include="MvvmCross\App.cs" />
@@ -295,6 +283,18 @@
           <DependentUpon>..\Pay\Modules\Pay\CheckoutViewController.cs</DependentUpon>
         </Compile>
         <Compile Include="Modules\Checkout\CheckoutStatus.cs" />
+        <Compile Include="Modules\Service\IssuesViewController.cs" />
+        <Compile Include="Modules\Service\IssuesViewController.designer.cs">
+          <DependentUpon>IssuesViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Service\AddIssueViewController.cs" />
+        <Compile Include="Modules\Service\AddIssueViewController.designer.cs">
+          <DependentUpon>AddIssueViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Pay\PaymentSucessViewController.cs" />
+        <Compile Include="Modules\Pay\PaymentSucessViewController.designer.cs">
+          <DependentUpon>PaymentSucessViewController.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

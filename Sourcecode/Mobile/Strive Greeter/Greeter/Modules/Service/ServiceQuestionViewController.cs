@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
@@ -10,7 +9,6 @@ using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Network;
-using Newtonsoft.Json;
 using UIKit;
 
 namespace Greeter.Storyboards
@@ -42,7 +40,7 @@ namespace Greeter.Storyboards
         //int modelId;
         string make;
         string color;
-        long jobStatusId;
+        //long jobStatusId;
         long jobTypeId;
         JobItem mainService;
         JobItem upcharge;
@@ -86,8 +84,7 @@ namespace Greeter.Storyboards
             //Clicks
             btnNext.TouchUpInside += delegate
             {
-                //NavigateToVerifyScreen();
-                _ = CreateService(MakeID, ModelID, ColorID, jobTypeId, jobStatusId, mainService, upcharge, additional, airFreshner, ClientID, VehicleID);
+                _ = CreateService(MakeID, ModelID, ColorID, jobTypeId, mainService, upcharge, additional, airFreshner, ClientID, VehicleID);
             };
 
             //Choice type change
@@ -236,10 +233,6 @@ namespace Greeter.Storyboards
             Colors = colorResponse?.Codes;
             colors = colorResponse?.Codes.Select(x => x.Name).ToArray();
 
-            var jobStatusResponse = await apiService.GetGlobalData("JOBSTATUS");
-            //var Colors = colorResponse?.Codes;
-            jobStatusId = jobStatusResponse?.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID ?? -1;
-
             var jobTypeResponse = await apiService.GetGlobalData("JOBTYPE");
 
             var allServiceResponse = await apiService.GetAllSericeDetails(AppSettings.LocationID);
@@ -299,7 +292,7 @@ namespace Greeter.Storyboards
             }
         }
 
-        async Task CreateService(long makeId, long modelId, long colorId, long jobTypeId, long jobStatusId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = 0, long clientId = 0)
+        async Task CreateService(long makeId, long modelId, long colorId, long jobTypeId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = 0, long clientId = 0)
         {
             if (makeId == 0 || modelId == 0 || colorId == 0 || mainService == null)
             {
@@ -312,76 +305,7 @@ namespace Greeter.Storyboards
                 return;
             }
 
-            var apiService = new ApiService(new NetworkService());
-            var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
-
-            long jobId = ticketResponse.Ticket.TicketNo;
-
-            var jobItems = new List<JobItem>();
-
-            mainService.JobId = jobId;
-            jobItems.Add(mainService);
-
-            if (upcharge != null)
-            {
-                upcharge.JobId = jobId;
-                jobItems.Add(upcharge);
-            }
-
-            if (additional != null)
-            {
-                additional.JobId = jobId;
-                jobItems.Add(upcharge);
-            }
-
-            if (airFreshner != null)
-            {
-                airFreshner.JobId = jobId;
-                jobItems.Add(airFreshner);
-            }
-
-            //for (int i = 0; i < jobItems.Count; i++)
-            //{
-
-            //}
-
-            if (ticketResponse?.Ticket?.TicketNo != 0)
-            {
-                var req = new CreateServiceRequest()
-                {
-                    Job = new Job()
-                    {
-                        JobId = jobId,
-                        JobStatusID = jobStatusId,
-                        JobTypeID = jobTypeId,
-                        MakeID = MakeID,
-                        ModelID = modelId,
-                        ColorId = colorId,
-                        LocationID = AppSettings.LocationID
-                    },
-                    JobItems = jobItems
-                };
-
-                Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
-
-                var createServiceResponse = await apiService.CreateService(req);
-                if (createServiceResponse?.IsSuccess() ?? false)
-                {
-                    ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG, () =>
-                    {
-                        var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 1];
-                        this.NavigationController.PopToViewController(vc, true);
-                    });
-                }
-                else
-                {
-                    ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
-                }
-            }
-            else
-            {
-                ShowAlertMsg(Common.Messages.TICKET_CERATION_ISSUE);
-            }
+            NavigateToVerifyScreen();
         }
 
         void Initialise()
@@ -484,7 +408,6 @@ namespace Greeter.Storyboards
                 return false;
             };
 
-
             pv.DataSource = this;
             pv.Delegate = this;
         }
@@ -567,7 +490,19 @@ namespace Greeter.Storyboards
 
         void NavigateToVerifyScreen()
         {
-            UIViewController vc = GetViewController(GetHomeStorybpard(), nameof(VerifyVehicleInfoViewController));
+            var vc = (VerifyVehicleInfoViewController)GetViewController(GetHomeStorybpard(), nameof(VerifyVehicleInfoViewController));
+            vc.MakeID = MakeID;
+            vc.ModelID = ModelID;
+            vc.ColorID = ColorID;
+            vc.Make = tfMake.Text;
+            vc.Model = tfModel.Text;
+            vc.Color = tfColor.Text;
+            vc.Barcode = Barcode;
+            vc.JobTypeID = jobTypeId;
+            vc.MainService = mainService;
+            vc.Upcharge = upcharge;
+            vc.Additional = additional;
+            vc.AirFreshner = airFreshner;
             NavigateToWithAnim(vc);
         }
 
