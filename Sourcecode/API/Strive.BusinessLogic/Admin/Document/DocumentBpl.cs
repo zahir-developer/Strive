@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Security.Cryptography;
 using Strive.BusinessEntities.Document;
+using Azure.Storage.Blobs;
 
 namespace Strive.BusinessLogic.Document
 {
@@ -84,6 +85,7 @@ namespace Strive.BusinessLogic.Document
             {
                 doc.Filename = Upload(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT, doc.Base64, doc.Filename);
                 doc.FileType = Path.GetExtension(doc.Filename);
+                doc.Filepath = GetUploadFolderPath(GlobalUpload.DocumentType.EMPLOYEEDOCUMENT);
                 if (doc.Filename == string.Empty)
                 {
                     ArchiveEmployeeFiles(employeeDocuments);
@@ -95,16 +97,19 @@ namespace Strive.BusinessLogic.Document
 
         public string Upload(GlobalUpload.DocumentType uploadFolder, string Base64Url, string fileName)
         {
+            BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
             string uploadPath = GetUploadFolderPath(uploadFolder);
             fileName = fileName.Replace(Path.GetExtension(fileName), string.Empty) + "_" + Guid.NewGuid().ToString() + Path.GetExtension(fileName);
-            if (!File.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath);
 
             uploadPath = uploadPath + fileName;
             byte[] tempBytes = Convert.FromBase64String(Base64Url);
-            File.WriteAllBytes(uploadPath, tempBytes);
-            return fileName;
 
+            BlobClient blob = container.GetBlobClient(uploadPath);
+
+            // Upload local file
+            blob.Upload(new MemoryStream(tempBytes));
+            //File.WriteAllBytes(uploadPath, tempBytes);
+            return fileName;
         }
 
         public string ValidateFileFormat(GlobalUpload.DocumentType upload, string fileName)
@@ -202,15 +207,17 @@ namespace Strive.BusinessLogic.Document
 
             string base64data = string.Empty;
 
-            if (!File.Exists(path))
-                return string.Empty;
+            BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
 
-            using ( FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                byte[] data = new byte[(int)fileStream.Length];
-                fileStream.Read(data, 0, data.Length);
-                base64data = Convert.ToBase64String(data);
-            }
+            BlobClient blob = container.GetBlobClient(path);
+
+            Stream stream = new System.IO.MemoryStream();
+
+            stream = blob.OpenRead();
+
+            StreamReader str = new StreamReader(stream);
+
+            base64data += str.ReadToEnd();
 
             return base64data;
         }
@@ -370,9 +377,6 @@ namespace Strive.BusinessLogic.Document
             documentModel.Document.OriginalFileName = documentModel.Document.FileName;
             documentModel.Document.FileName = fileName;
             documentModel.Document.FilePath = GetUploadFolderPath(documentModel.DocumentType) + fileName;
-
-
-
 
             return ResultWrap(new DocumentRal(_tenant).UpdateDocument, documentModel, "UpdateDocument");
 

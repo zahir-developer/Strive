@@ -8,6 +8,7 @@ import { MakeService } from '../shared/services/common-service/make.service';
 import { ModelService } from '../shared/services/common-service/model.service';
 import { ClientService } from '../shared/services/data-service/client.service';
 import { WashService } from '../shared/services/data-service/wash.service';
+import { LoginService } from '../shared/services/login.service';
 import { MessageConfig } from '../shared/services/messageConfig';
 
 @Component({
@@ -33,10 +34,11 @@ export class UserSignupComponent implements OnInit {
   errorText: string;
   vehicleArray: any;
   emailVal = false;
-
+  token: any; 
   constructor(private fb: FormBuilder, private makeService: MakeService, private modelService: ModelService,
     private toastr: ToastrService, private wash: WashService, private router: Router, private spinner: NgxSpinnerService,
-    private client: ClientService, private activatedRoute: ActivatedRoute) { }
+    private client: ClientService, private activatedRoute: ActivatedRoute,
+    private login: LoginService) { }
 
   ngOnInit() {
     this.getSignupToken();
@@ -172,7 +174,7 @@ export class UserSignupComponent implements OnInit {
         "address1": null,
         "address2": null,
         "phoneNumber": this.userSignupForm.controls.phoneNumber.value ? this.userSignupForm.controls.phoneNumber.value : '',
-        "phoneNumber2": "",
+        "phoneNumber2": null,
         "email": this.userSignupForm.controls.userEmail.value ? this.userSignupForm.controls.userEmail.value : '',
         "state": null,
         "country": null,
@@ -186,14 +188,15 @@ export class UserSignupComponent implements OnInit {
       }
     ]
 
-    const totalList = {
+    const finalObj = {
       "client": client,
       "clientAddress": clientAddress,
       "clientVehicle": this.vehicleArray,
+      "token" : this.token
     }
 
     this.spinner.show();
-    this.client.addClient(totalList).subscribe(data => {
+    this.login.createAccount(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Client.Add, 'Success');
@@ -319,19 +322,16 @@ export class UserSignupComponent implements OnInit {
 
 
   getVehicleColorList() {
-    this.wash.getVehicleColor().subscribe(data => {
+    this.makeService.getColor().subscribe(data => {
       if (data.status === 'Success') {
-        const vehicle = JSON.parse(data.resultData);
-        const colorList = vehicle.VehicleDetails.filter(item => item.Category === 'VehicleColor');
-        if (colorList) {
-          this.colorTotalList = colorList.map(item => {
+        const result = JSON.parse(data.resultData);
+          this.colorTotalList = result.Color.map(item => {
             return {
-              code: item.CodeId,
-              name: item.CodeValue
+              code: item.ColorId,
+              name: item.ColorValue
             };
           });
         }
-      }
     });
   }
 
@@ -369,11 +369,11 @@ export class UserSignupComponent implements OnInit {
 
 
   emailCheck() {
-    this.client.ClientEmailCheck(this.userSignupForm.controls.userEmail.value).subscribe(res => {
+    this.login.emailIdExists(this.userSignupForm.controls.userEmail.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
         if (sameEmail.EmailIdExist === true) {
-          this.errorText = 'Email already exists,please create account'
+          this.errorText = 'Email already exists, Please try login.'
           this.formVal = true;
           this.emailVal = true;
         } else {
@@ -390,6 +390,7 @@ export class UserSignupComponent implements OnInit {
   getSignupToken() {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params.token) { 
+        this.token = params.token;
         console.log(params.token,'sign token');
       }
     });

@@ -48,15 +48,11 @@ export class UserSignUpComponent implements OnInit {
      private router: Router, private route: ActivatedRoute,
     // private authService: AuthService, 
     private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
-    private msgService: MessengerService, 
-    private user: UserDataService,
     private logoService: LogoService,
-    private spinner: NgxSpinnerService, 
     private makeService: MakeService,
     private modelService: ModelService,
     private toastr: ToastrService,
-    private wash: WashService,
-    private landing: LandingService, private codeValueService: CodeValueService) { }
+    private wash: WashService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({

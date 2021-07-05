@@ -39,7 +39,8 @@ namespace Strive.BusinessEntities
             USPRESETPASSWORD,
             USPVERIFYOTP,
             USPDELETEUSER,
-            USPGETCLIENTUSERBYAUTHID
+            USPGETCLIENTUSERBYAUTHID,
+            USPEMAILEXIST
         }
 
 
@@ -89,13 +90,9 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEBYEMPID,
             USPGETEMPLOYEEROLES,
             USPGETALLEMPLOYEEDETAIL,
-            USPEMAILEXIST,
             USPGETEMPLOYEEROLEBYID,
             USPGETCITYBYSTATE,
             USPGETEMPLOYEEBYID,
-            USPGETMODELBYMAKE,
-            USPGETALLMAKE,
-            USPGETUPCHARGEBYTYPE,
             USPGETEMPLOYEEHOURLYRATEBYID
         }
 
@@ -253,6 +250,10 @@ namespace Strive.BusinessEntities
             uspGetVehicleCodes,
             USPGETVEHICLEMEMBERSHIPBYVEHICLEID,
             USPGETMEMBERSHIPBYVEHICLEID,
+            USPGETMODELBYMAKE,
+            USPGETALLMAKE,
+            USPGETALLCOLOR,
+            USPGETUPCHARGEBYTYPE,
         }
         public enum Vendor
         {
