@@ -92,8 +92,11 @@ export class MonthlyCustomerDetailComponent implements OnInit {
       let total = 0;
       let wash = 0;
       let totalMembership =0;
+      let totalDifference = 0;
 
       userData.forEach((o, index) => {
+         totalDifference = totalDifference + o.MembershipPrice
+        
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
           '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + (o.MemberShipName !== '' ?
             ('Membership - ' + o.MemberShipName) : 'DriveUp') +
@@ -103,7 +106,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
         wash += 1;
       });
       tableStr += '<tr><th>Washes</th><td>' + (wash ) + '</td><td></td><td></td><td></td><td></td colspan=2><th>Customer Total</th><th>'
-        + this.currencyPipe.transform(total, 'USD') + '</th><th> Difference : '+ this.currencyPipe.transform(total - totalMembership, 'USD') + '</th></tr>';
+        + this.currencyPipe.transform(total, 'USD') + '</th><th> Difference : '+ this.currencyPipe.transform(totalDifference, 'USD') + '</th></tr>';
     });
     $('#customerDetail tbody').html(tableStr);
   }

@@ -76,8 +76,8 @@ export class HeaderComponent implements OnInit {
       }
     });
 
-     if (localStorage.getItem('IsAuthenticated') != null){
-      if (localStorage.getItem('IsAuthenticated').toString() === 'true') {
+     if (localStorage.getItem('isAuthenticated') != null){
+      if (localStorage.getItem('isAuthenticated').toString() === 'true') {
         this.getWeatherDetails();
         this.getUnReadMessage();
       }
