@@ -6,12 +6,14 @@ using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
 using CoreGraphics;
+using Strive.Core.ViewModels.Employee.MyProfile.Documents;
 
 namespace StriveEmployee.iOS.Views
 {
     public partial class ProfileView : MvxViewController<EmployeeInfoViewModel>
     {
         private CollisionsViewModel collisionView;
+        private DocumentsViewModel documentsView;
         public ProfileView() : base("ProfileView", null)
         {
         }
@@ -31,6 +33,7 @@ namespace StriveEmployee.iOS.Views
         private void InitialSetup()
         {
             collisionView = new CollisionsViewModel();
+            documentsView = new DocumentsViewModel();
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
                 Font = DesignUtils.OpenSansBoldFifteen(),
@@ -78,6 +81,12 @@ namespace StriveEmployee.iOS.Views
                 EmployeeInfo_Segment.Hidden = true;
                 EmployeeCollision_View.Hidden = true;
                 EmployeeDocument_View.Hidden = false;
+
+                Documents_TableView.RegisterNibForCellReuse(DocumentsCell.Nib, DocumentsCell.Key);
+                Documents_TableView.BackgroundColor = UIColor.Clear;
+                Documents_TableView.ReloadData();
+
+                GetDocumentInfo();
             }
         }
         private async void GetEmployeeDetails()
@@ -148,6 +157,19 @@ namespace StriveEmployee.iOS.Views
                 Collision_TableView.DelaysContentTouches = false;
                 Collision_TableView.ReloadData();
             }
+        }
+
+        private async void GetDocumentInfo()
+        {
+            await documentsView.GetDocumentInfo();
+            if (documentsView.DocumentDetails != null && documentsView.DocumentDetails.Employee.EmployeeDocument != null)
+            {
+                var documentSource = new DocumentDataSource(documentsView.DocumentDetails.Employee.EmployeeDocument);
+                Documents_TableView.Source = documentSource;
+                Documents_TableView.TableFooterView = new UIView(CGRect.Empty);
+                Documents_TableView.DelaysContentTouches = false;
+                Documents_TableView.ReloadData();
+            }                
         }
     }
 }
