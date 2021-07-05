@@ -154,7 +154,7 @@ export class HourlyWashComponent implements OnInit {
               this.washServiceName.forEach(name => {
                 const nameBased = washService.filter(ele => ele.ServiceName === name);
                 nameBased.forEach(count => {
-                  washCount = washCount + count.WashCount;
+                  washCount =  count.WashCount;
                 });
                 serviceName.push({
                   serviceName: name,
@@ -368,7 +368,6 @@ export class HourlyWashComponent implements OnInit {
         item.serviceName.forEach(name => {
           saleName.push(name);
         });
-        debugger;
         sale.push({
           JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
           Day: this.datePipe.transform(item.JobDate, 'EEE'),
