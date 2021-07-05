@@ -81,6 +81,23 @@
     <Compile Include="Views\DashboardView.designer.cs">
       <DependentUpon>DashboardView.cs</DependentUpon>
     </Compile>
+    <InterfaceDefinition Include="Views\ProfileView.xib" />
+    <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Views\ProfileView.designer.cs">
+      <DependentUpon>ProfileView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\CollisionCell.xib" />
+    <Compile Include="Views\CollisionCell.cs" />
+    <Compile Include="Views\CollisionCell.designer.cs">
+      <DependentUpon>CollisionCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CollisionDataSource.cs" />
+    <InterfaceDefinition Include="Views\DocumentsCell.xib" />
+    <Compile Include="Views\DocumentsCell.cs" />
+    <Compile Include="Views\DocumentsCell.designer.cs">
+      <DependentUpon>DocumentsCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocumentDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -194,6 +211,10 @@
     <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-ticket-active.imageset\ticket%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -213,6 +234,7 @@
     <Folder Include="Resources\Assets.xcassets\icon-schedule-active.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-ticket.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-ticket-active.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-view.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
