@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmPasswordValidator } from '../error_helper/password-mismatch';
@@ -32,12 +32,14 @@ export class UserSignupComponent implements OnInit {
   formVal: boolean = false;
   errorText: string;
   vehicleArray: any;
+  emailVal = false;
 
   constructor(private fb: FormBuilder, private makeService: MakeService, private modelService: ModelService,
     private toastr: ToastrService, private wash: WashService, private router: Router, private spinner: NgxSpinnerService,
-    private client: ClientService,) { }
+    private client: ClientService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.getSignupToken();
     this.createSignupForm();
     this.getVehicleMakeList();
     this.getVehicleColorList();
@@ -134,6 +136,11 @@ export class UserSignupComponent implements OnInit {
       });
       return;
     }
+
+    if (this.emailVal === true) {
+      return;
+    }
+
     this.formVal = false;
     this.vehicleArrayGroup();
 
@@ -359,5 +366,34 @@ export class UserSignupComponent implements OnInit {
     }
     this.vehicleArray = totalArray;
   }
+
+
+  emailCheck() {
+    this.client.ClientEmailCheck(this.userSignupForm.controls.userEmail.value).subscribe(res => {
+      if (res.status === 'Success') {
+        const sameEmail = JSON.parse(res.resultData);
+        if (sameEmail.EmailIdExist === true) {
+          this.errorText = 'Email already exists,please create account'
+          this.formVal = true;
+          this.emailVal = true;
+        } else {
+          this.formVal = false;
+          this.emailVal = false;
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+
+  getSignupToken() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params.token) { 
+        console.log(params.token,'sign token');
+      }
+    });
+  }
+
 
 }

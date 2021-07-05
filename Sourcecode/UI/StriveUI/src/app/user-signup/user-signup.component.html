@@ -26,7 +26,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="emailId">Email address<span class="required">*</span></label>
                                     <input type="email" class="form-control" id="emailId" formControlName="userEmail"
-                                        placeholder="Email" (keydown.space)="$event.preventDefault()">
+                                        placeholder="Email" (keydown.space)="$event.preventDefault()" (change)="emailCheck()">
                                 </div>
 
                                 <div class="form-group col-md-6">

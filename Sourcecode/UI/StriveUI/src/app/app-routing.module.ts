@@ -12,10 +12,12 @@ import { UserSignupComponent } from './user-signup/user-signup.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
+  { path: 'login/:token', component: LoginComponent, data: { label: 'login', title: 'login' } },
   { path: 'forgot-password', component: ForgotPasswordComponent, data: { label: 'forgot-password', title: 'forgot-password' } },
   { path: 'location', component: SelectLocationComponent, data: { label: 'select-location', title: 'select-location' } },
   // { path: 'signup', component: SignupComponent, data: { label: 'login', title: 'login' } },
   { path: 'signup', component: UserSignupComponent, data: { label: 'signup', title: 'signup' } },
+  { path: 'signup/:token', component: UserSignupComponent, data: { label: 'signup', title: 'signup' } },
   { path: 'helps', component: HelpsComponent },
   { path: 'side-nav', component: SidenavComponent },
 

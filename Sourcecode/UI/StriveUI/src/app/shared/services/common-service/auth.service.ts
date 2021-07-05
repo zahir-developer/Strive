@@ -98,6 +98,25 @@ export class AuthService {
     this.router.navigate([`/login`], { relativeTo: this.route });
   }
 
+
+  logoutSecond() {
+    this.clearCacheValue();
+    this.loggedIn.next(false);
+    localStorage.removeItem('views');
+    localStorage.removeItem('navName');
+    // localStorage.clear();
+    this.stopRefreshTokenTimer();
+    document.documentElement.style.setProperty(`--primary-color`, '#1DC5B3');
+    document.documentElement.style.setProperty(`--navigation-color`, '#24489A');
+    document.documentElement.style.setProperty(`--secondary-color`, '#F2FCFE');
+    document.documentElement.style.setProperty(`--tertiary-color`, '#10B7A5');
+    document.documentElement.style.setProperty(`--body-color`, '#F2FCFE');
+  }
+
+
+
+
+
   refreshLogout() {
     this.clearCacheValue();
   }

@@ -33,18 +33,21 @@ export class LoginComponent implements OnInit {
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   dashBoardModule: boolean;
   isRememberMe: boolean;
+  showAccount = false;
+
   constructor(
     private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
     private msgService: MessengerService, private user: UserDataService,
     private logoService: LogoService,
     private spinner: NgxSpinnerService, private weatherService: WeatherService,
-    private landing: LandingService, private codeValueService: CodeValueService) { }
+    private landing: LandingService, private codeValueService: CodeValueService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
     });
-    this.authService.logout();
+    this.getQueryToken();
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
@@ -157,4 +160,25 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+
+  createAccount() {
+    this.router.navigate(['/signup'], { queryParams: { token: '12345' } });
+  }
+
+  getQueryToken() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params.token) {
+        this.showAccount = true;
+        this.authService.logoutSecond();
+      } else {
+        this.showAccount = false;
+        this.authService.logout();
+      }
+      localStorage.setItem('GUIDCODE', params.token);
+    });
+  }
+
+
+
 }
