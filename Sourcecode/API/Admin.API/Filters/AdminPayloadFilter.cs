@@ -82,7 +82,7 @@ namespace Admin.API.Filters
                     ClientId = client.Value;
 
                 tid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("tid")).Value;
-                _tenant.TenatId = tid;
+                _tenant.TenantId = tid;
             }
             SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId, ClientId);
         }

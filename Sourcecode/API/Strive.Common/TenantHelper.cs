@@ -28,7 +28,7 @@ namespace Strive.Common
         string LogoImageFormat { get; set; }
         int LogoThumbHeight { get; set; }
         int LogoThumbWidth { get; set; }
-        string TenatId { get; set; }
+        string TenantId { get; set; }
         string TermsAndCondition { get; set; }
         string EmployeeHandbook { get; set; }
         string GeneralDocumentFolder { get; set; }
@@ -99,7 +99,7 @@ namespace Strive.Common
         public string LogoImageFormat { get; set; }
         public int LogoThumbHeight { get; set; }
         public int LogoThumbWidth { get; set; }
-        public string TenatId { get; set; }
+        public string TenantId { get; set; }
         public string TermsAndCondition { get; set; }
         public string EmployeeHandbook { get; set; }
         public string GeneralDocumentFolder { get; set; }

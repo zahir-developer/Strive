@@ -347,7 +347,7 @@ namespace Strive.BusinessLogic.Common
 
         public string GetUserSignupInviteCode(UserType userType, bool TenantHasClientData = false, int clientId = 0)
         {
-            string invitationCode = $"{_tenant.TenatId},{userType},{TenantHasClientData.toInt()},{clientId}{DateTime.Today.ToString()}";
+            string invitationCode = $"{_tenant.TenantId},{userType},{TenantHasClientData.toInt()},{clientId}{DateTime.Today.ToString()}";
             string encryptedInvitationCode = Crypt.Encrypt(invitationCode);
             return encryptedInvitationCode;
         }

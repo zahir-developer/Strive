@@ -178,6 +178,11 @@ namespace Strive.ResourceAccess
             return db.Fetch<UpchargeViewModel>(EnumSP.Employee.USPGETUPCHARGEBYTYPE.ToString(), _prm);
         }
 
+        public MaxLocationViewModel GetLoationMaxLimit(int tenantId)
+        {
+            _prm.Add("tenantId", tenantId);
+            return db.FetchSingle<MaxLocationViewModel>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
+        }
 
     }
 }

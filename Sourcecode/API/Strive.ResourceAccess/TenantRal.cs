@@ -120,10 +120,17 @@ namespace Strive.ResourceAccess
             return db.Fetch<CityDto>(EnumSP.Tenant.USPGETCITYBYSTATEID.ToString(), _prm);
         }
 
-        public MaxLocationViewModel GetLoationMaxLimit(int tenantId)
+        public int GetLoationMaxLimit(int tenantId)
         {
-            _prm.Add("tenantGuidId", tenantId);
-            return db.FetchSingle<MaxLocationViewModel>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
+            _prm.Add("tenantId", tenantId);
+            return db.FetchSingle<int>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
         }
+
+        public int GetLocationCount(int tenantId)
+        {
+            _prm.Add("tenantId", tenantId);
+            return db.FetchSingle<int>(EnumSP.Tenant.USPGETLOCATIONCOUNT.ToString(), _prm);
+        }
+        
     }
 }
