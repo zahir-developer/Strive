@@ -30,7 +30,7 @@ export class ClientService {
     return this.http.delete(`${UrlConfig.client.deleteClient}` + id);
   }
   ClientEmailCheck(email) {
-    return this.http.get(`${UrlConfig.client.clientEmailCheck}` , { params: { email: email } });
+    return this.http.get(`${UrlConfig.employee.validateEmail}` + email );
   }
 
   ValidateTenantEmail(email) {

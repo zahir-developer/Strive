@@ -1629,7 +1629,9 @@ export class SalesComponent implements OnInit {
     if (this.isAccount) {
       this.removAddedAmount(+this.account);
       this.account = +this.washes[0].Price;
+
       this.calculateTotalpaid(+this.account);
+      this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.MembershipApplied });
     }
   }
   quantityFocus(event) {

@@ -210,17 +210,38 @@ export class ClientCreateEditComponent implements OnInit {
       });
     }
   }
+  Validate() {
+    if (this.isEdit === true) {
+      this.submit();
+    }
+    else {
+      this.client.ClientEmailCheck(this.clientFormComponent.clientForm.value.email).subscribe(res => {
+        if (res.status === 'Success') {
+          const sameEmail = JSON.parse(res.resultData);
+          if (sameEmail.EmailIdExist === true) {
+            this.clientFormComponent.ClientEmailAvailable = true;
+            this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
+          } else {
+            this.clientFormComponent.ClientEmailAvailable = false;
+            this.submit();
+          }
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
+  }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
       var oExists = this.clonedVehicleDetails.find(x => x.VehicleId === this.vehicle.vehicleValue.ClientVehicleId);
-      if(this.vehicle.vehicleValue.ClientVehicleId == undefined){
+      if (this.vehicle.vehicleValue.ClientVehicleId == undefined) {
         this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
-        }
-      else if(oExists.length==0){
-      this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
+      }
+      else if (oExists.length == 0) {
+        this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
       }
       /*else{
 
@@ -254,8 +275,8 @@ export class ClientCreateEditComponent implements OnInit {
       }
       let len = this.vehicleDetails.length;
       this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
-      if(this.vehicle.addVehicle != undefined){
-      this.vehicleDet.push(this.vehicle.addVehicle);
+      if (this.vehicle.addVehicle != undefined) {
+        this.vehicleDet.push(this.vehicle.addVehicle);
       }
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;

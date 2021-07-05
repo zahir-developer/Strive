@@ -66,6 +66,7 @@ export const MessageConfig = {
    {
       clientExist: 'Client with the same First Name, Last Name & Phone # already exists!',
       emailExist: 'Client Email already exists',
+      emailNotExist: 'Email available to create customer!',
       Add: 'Client added successfully !',
       Update: 'Client updated successfully !',
       Delete: 'Client deleted successfully !'
@@ -94,7 +95,8 @@ export const MessageConfig = {
       purchasedGiftcard: 'Currently purchased giftcard can\'t be used for payment',
       alreadyAdded: 'GiftCard already added',
       InValidMember: 'Invalid Member details',
-     ValidMember : 'Valided successfully !',
+      ValidMember : 'Valided successfully !',
+      MembershipApplied : 'Membership applied successfully !',
    },
    Messenger: {
       Message: 'Please enter a message!',
@@ -184,7 +186,8 @@ export const MessageConfig = {
             Update: 'Location updated successfully !',
             Delete: 'Location deleted successfully !',
             Email: 'Only five Emailids can be added !',
-            InvalidEmail: 'Please provide valid email !'
+            InvalidEmail: 'Please provide valid email !',
+            LocationLimit: 'Maximum location Limit reached. !',
          },
          ServiceSetup:
          {
@@ -263,10 +266,6 @@ export const MessageConfig = {
          {
             Warning: 'Select type to export !',
             Total: 'There\'s no data on the selected date!',
-         },
-         Location:
-         {
-            Warning: 'Reached Max Limit. !',
          }
       }
    }

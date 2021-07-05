@@ -102,7 +102,6 @@ export class ClientFormComponent implements OnInit {
 
           } else {
             this.ClientNameAvailable = false;
-
           }
         }
       }, (err) => {
@@ -207,12 +206,12 @@ export class ClientFormComponent implements OnInit {
     this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
-        if (sameEmail.emailExist === true) {
+        if (sameEmail.EmailIdExist === true) {
           this.ClientEmailAvailable = true;
           this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
         } else {
           this.ClientEmailAvailable = false;
-
+          this.toastr.info(MessageConfig.Client.emailNotExist, 'Information!');
         }
       }
     }, (err) => {
