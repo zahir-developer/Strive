@@ -37,6 +37,7 @@ export class PaymentProcessComponent implements OnInit {
   card: string;
   isBillingpage: boolean;
   errorMessage: string;
+  constTotalAmount:0;
   constructor(
     private activeModal: NgbActiveModal,
     private paymentService: PaymentService,
@@ -55,6 +56,7 @@ export class PaymentProcessComponent implements OnInit {
     this.errorMessage = '';
     this.formInitialize();
     this.getClientDetail();
+    this.constTotalAmount = this.totalAmount;
   }
 
   closeModal() {
@@ -132,7 +134,7 @@ export class PaymentProcessComponent implements OnInit {
 
   tipAmountAdded() {
     const tip = this.paymentForm.value.tipAmount ? this.paymentForm.value.tipAmount : 0;
-    this.totalAmount = this.totalAmount + (+tip);
+    this.totalAmount = this.constTotalAmount + (+tip);
   }
 
   getSelectedStateId(event) {
