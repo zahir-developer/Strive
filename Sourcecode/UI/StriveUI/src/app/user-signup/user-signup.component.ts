@@ -80,7 +80,7 @@ export class UserSignupComponent implements OnInit {
   addVehicleRow() {
     if (this.vehicleForm.invalid) {
       this.formVal = true;
-      this.errorText = 'Please enter all the vehicle info'
+      this.errorText = 'Please enter vehicle details'
     } else if (this.vehicleForm.valid) {
       this.formVal = false;
       this.items = this.vehicleForm.get('items') as FormArray;
@@ -117,7 +117,7 @@ export class UserSignupComponent implements OnInit {
     } else if (this.userSignupForm.valid) {
       this.formVal = true;
       if (this.userSignupForm.controls.password.value !== this.userSignupForm.controls.confirmPassword.value) {
-        this.errorText = "Passsword and Confirm Password didn't match"
+        this.errorText = "Passsword and Confirm Password didn't match."
         return;
       }
     }
@@ -126,13 +126,13 @@ export class UserSignupComponent implements OnInit {
       this.formVal = true;
       this.vehicleForm.controls.items.value.forEach(data => {
         if (data.vehicleType === '') {
-          this.errorText = "Please enter make"
+          this.errorText = "Please enter Vehicle Make."
           return;
         } else if (data.vehicleModel === '') {
-          this.errorText = "Please enter model"
+          this.errorText = "Please enter Vehicle Model."
           return;
         } else if (data.vehicleColor === '') {
-          this.errorText = "Please enter color"
+          this.errorText = "Please enter Vehicle Color."
           return;
         }
       });
@@ -140,6 +140,7 @@ export class UserSignupComponent implements OnInit {
     }
 
     if (this.emailVal) {
+      this.errorText = 'Email already exists, Please try login.';
       return;
     }
 
@@ -192,7 +193,8 @@ export class UserSignupComponent implements OnInit {
       "client": client,
       "clientAddress": clientAddress,
       "clientVehicle": this.vehicleArray,
-      "token" : this.token
+      "token" : this.token,
+      "password" : this.userSignupForm.controls.password.value
     }
 
     this.spinner.show();
@@ -213,18 +215,18 @@ export class UserSignupComponent implements OnInit {
 
   fieldValidation() {
     if (this.userSignupForm.controls.firstName.invalid || this.userSignupForm.controls.firstName.value === '') {
-      this.errorText = "Please enter first name"
+      this.errorText = "Please enter first name."
     } else if (this.userSignupForm.controls.lastName.invalid || this.userSignupForm.controls.lastName.value === '') {
-      this.errorText = "Please enter last name"
+      this.errorText = "Please enter last name."
     } else if (this.userSignupForm.controls.userEmail.invalid || this.userSignupForm.controls.userEmail.value === '') {
-      this.errorText = "Please enter email"
+      this.errorText = "Please enter email address."
     } else if (this.userSignupForm.controls.phoneNumber.invalid || this.userSignupForm.controls.phoneNumber.value === '' ||
       this.userSignupForm.controls.phoneNumber.value.replace(/[^a-zA-Z0-9]/g, "").length === 1) {
-      this.errorText = "Please enter phone number"
+      this.errorText = "Please enter phone number."
     } else if (this.userSignupForm.controls.password.invalid || this.userSignupForm.controls.password.value === '') {
-      this.errorText = "Please enter password"
+      this.errorText = "Please enter password."
     } else if (this.userSignupForm.controls.confirmPassword.invalid || this.userSignupForm.controls.confirmPassword.value === '') {
-      this.errorText = "Please enter confirm password"
+      this.errorText = "Please enter confirm password."
     }
   }
 
@@ -319,8 +321,6 @@ export class UserSignupComponent implements OnInit {
     this.filteredColor = filtered;
   }
 
-
-
   getVehicleColorList() {
     this.makeService.getColor().subscribe(data => {
       if (data.status === 'Success') {
@@ -387,7 +387,7 @@ export class UserSignupComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   } else {
-    this.errorText = 'You have entered an invalid email'
+    this.errorText = 'Please enter valid email Id.'
     this.formVal = true;
     this.emailVal = true;
   }
@@ -398,7 +398,6 @@ export class UserSignupComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params.token) { 
         this.token = params.token;
-        console.log(params.token,'sign token');
       }
     });
   }

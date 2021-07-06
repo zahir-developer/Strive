@@ -100,8 +100,8 @@ namespace Admin.Api.Controllers
             }
         }
 
-        [HttpGet, Route("EmailIdExists")]
-        public void EmailIdExist(string email) => _bplManager.EmailIdExists(email);
+        [HttpGet, Route("EmailIdExists/{email}")]
+        public Result EmailIdExist(string email) => _bplManager.EmailIdExists(email);
 
 
         [HttpGet]
