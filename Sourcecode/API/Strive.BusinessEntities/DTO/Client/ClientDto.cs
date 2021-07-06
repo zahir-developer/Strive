@@ -14,5 +14,7 @@ namespace Strive.BusinessEntities.DTO.Client
         public List<ClientAddress> ClientAddress { get; set; }
 
         public Guid? Token { get; set; }
+
+        public string Password { get; set; }
     }
 }

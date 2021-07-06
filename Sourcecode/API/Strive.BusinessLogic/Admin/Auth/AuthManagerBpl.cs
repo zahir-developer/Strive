@@ -200,6 +200,15 @@ namespace Strive.BusinessLogic.Auth
                 if (tSchema == null)
                     return Helper.BindValidationErrorResult("Invalid Authentication Token");
 
+                //Create Account - Auth db
+                var comBpl = new CommonBpl(_cache, _tenant);
+
+                var accountDetail = client.ClientAddress.FirstOrDefault();
+
+                var clientLogin = comBpl.CreateLogin(UserType.Client, accountDetail.Email, accountDetail.PhoneNumber, client.Password);
+                client.Client.AuthId = clientLogin.authId;
+
+                //Create Customer - Tenant db
                 CacheLogin(tSchema, conn);
 
                 var clientBpl = new ClientBpl(_cache, _tenant);

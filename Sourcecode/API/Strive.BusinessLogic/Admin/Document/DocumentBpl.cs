@@ -105,7 +105,7 @@ namespace Strive.BusinessLogic.Document
             byte[] tempBytes = Convert.FromBase64String(Base64Url);
 
             BlobClient blob = container.GetBlobClient(uploadPath);
-
+            
             // Upload local file
             blob.Upload(new MemoryStream(tempBytes));
             //File.WriteAllBytes(uploadPath, tempBytes);
@@ -209,15 +209,33 @@ namespace Strive.BusinessLogic.Document
 
             BlobContainerClient container = new BlobContainerClient(_tenant.AzureStorageConn, _tenant.AzureStorageContainer);
 
-            BlobClient blob = container.GetBlobClient(path);
+            try
+            {
+                BlobClient blob = container.GetBlobClient(path);
 
-            Stream stream = new System.IO.MemoryStream();
+                if (blob.Exists())
+                {
+                    Stream stream = new System.IO.MemoryStream();
 
-            stream = blob.OpenRead();
+                    stream = blob.OpenRead();
 
-            StreamReader str = new StreamReader(stream);
+                    StreamReader str = new StreamReader(stream);
+                    byte[] dataByte = new byte[stream.Length];
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        stream.CopyTo(ms);
+                        dataByte = ms.ToArray();
+                    }
 
-            base64data += str.ReadToEnd();
+                    // Convert the array to a base 64 string.
+                    base64data = Convert.ToBase64String(dataByte);
+                }
+            }
+            catch
+            {
+
+                //throw;
+            }
 
             return base64data;
         }
@@ -297,29 +315,12 @@ namespace Strive.BusinessLogic.Document
         {
             string path = string.Empty;
             string subPath = string.Empty;
-            switch (module)
-            {
-                case GlobalUpload.DocumentType.EMPLOYEEDOCUMENT:
-                    subPath = _tenant.DocumentUploadFolder;
-                    break;
-                case GlobalUpload.DocumentType.PRODUCTIMAGE:
-                    subPath = _tenant.ProductImageFolder;
-                    break;
-                case GlobalUpload.DocumentType.LOGO:
-                    subPath = _tenant.LogoImageFolder;
-                    break;
-                case GlobalUpload.DocumentType.VEHICLEIMAGE:
-                    subPath = _tenant.VehicleImageFolder;
-                    break;
-                default:
-                    subPath = _tenant.GeneralDocumentFolder + module.ToString() + "\\" ;
-                    break;
-            }
 
+            subPath = _tenant.TenantFolder.Replace("DOCUMENT_TYPE", module.ToString());
+            
             subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
 
             return path + subPath;
-
         }
 
         public string SaveThumbnail(GlobalUpload.DocumentType documentType, int Width, int Height, string base64String, string fileName)
@@ -353,7 +354,7 @@ namespace Strive.BusinessLogic.Document
 
         public int AddDocument(DocumentDto documentModel)
         {
-           
+
             string fileName = Upload(documentModel.DocumentType, documentModel.Document.Base64, documentModel.Document.FileName);
 
             documentModel.Document.OriginalFileName = documentModel.Document.FileName;
@@ -418,21 +419,21 @@ namespace Strive.BusinessLogic.Document
             var document = new DocumentRal(_tenant).GetDocumentById(documentId);
 
             document.Document.Base64 = GetBase64(documentType, document.Document.FileName);
-            
+
             return document;
         }
 
-        public bool  DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
+        public bool DeleteDocumentById(int documentId, GlobalUpload.DocumentType documentType)
         {
             var docRal = new DocumentRal(_tenant);
-          
+
             var doc = docRal.GetDocumentById(documentId);
             var result = docRal.DeleteDocument(documentId);
 
             if (result)
             {
                 DeleteFile(documentType, doc.Document.FileName);
-            }           
+            }
 
             return result;
         }

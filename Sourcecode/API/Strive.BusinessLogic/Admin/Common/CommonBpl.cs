@@ -297,9 +297,12 @@ namespace Strive.BusinessLogic.Common
             return true;
         }
 
-        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo)
+        public (int authId, string password) CreateLogin(UserType userType, string emailId, string mobileNo, string password = "")
         {
-            string randomPassword = RandomString(6);
+            string randomPassword = password;
+
+            if (randomPassword == string.Empty)
+                randomPassword = RandomString(6);
 
             string passwordHash = Pass.Hash(randomPassword);
 
@@ -315,8 +318,6 @@ namespace Strive.BusinessLogic.Common
                 CreatedDate = DateTime.Now
             };
             var authId = new CommonRal(_tenant, true).CreateLogin(authMaster);
-
-
 
             return (authId, randomPassword);
         }

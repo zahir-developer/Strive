@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   dashBoardModule: boolean;
   isRememberMe: boolean;
-  showAccount = false;
   emailregex: RegExp = /^[ A-Za-z0-9@.+]*$/;
+  showSignup = true;
 
   constructor(
     private loginService: LoginService, private router: Router, private route: ActivatedRoute,
@@ -164,19 +164,14 @@ export class LoginComponent implements OnInit {
 
 
   createAccount() {
-    this.router.navigate(['/signup'], { queryParams: { token: '12345' } });
+    this.router.navigate(['/signup'], { queryParams: { token: '0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE' } });
   }
 
   getQueryToken() {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params.token) {
-        this.showAccount = true;
-        this.authService.logoutSecond();
-      } else {
-        this.showAccount = false;
-        this.authService.logout();
+        this.showSignup = true;
       }
-      localStorage.setItem('GUIDCODE', params.token);
     });
   }
 

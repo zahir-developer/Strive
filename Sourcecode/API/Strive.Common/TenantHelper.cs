@@ -57,6 +57,8 @@ namespace Strive.Common
         string AzureStorageContainer { get; set; }
         string AzureBlobHtmlTemplate { get; set; }
 
+        string TenantFolder { get; set; }
+
         #endregion
 
         IDbConnection db();
@@ -129,6 +131,8 @@ namespace Strive.Common
         public string AzureStorageConn { get; set; }
         public string AzureStorageContainer { get; set; }
         public string AzureBlobHtmlTemplate { get; set; }
+
+        public string TenantFolder { get; set; }
 
         #endregion
 
