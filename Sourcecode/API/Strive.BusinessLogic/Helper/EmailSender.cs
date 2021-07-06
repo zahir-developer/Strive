@@ -63,7 +63,7 @@ namespace Strive.BusinessLogic.EmailHelper
             emailMessage.From.Add(new MailboxAddress(_settings.FromEmail,_settings.FromEmail));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = message.Content };
 
             return emailMessage;
         }
@@ -80,7 +80,7 @@ namespace Strive.BusinessLogic.EmailHelper
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
                     client.Authenticate(_settings.UsernameEmail, _settings.UsernamePassword);
 
-                    client.Send(mailMessage);
+                     client.Send(mailMessage);
                 }
                 catch
                 {

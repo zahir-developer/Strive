@@ -172,6 +172,7 @@ namespace Admin.API.Filters
             _tenant.AzureStorageConn = Pick("Azure", "ConnctionString");
             _tenant.AzureStorageContainer = Pick("Azure", "Container");
             _tenant.AzureBlobHtmlTemplate = Pick("Azure", "BlobHtmlTemplate");
+            _tenant.TenantFolder = Pick("Azure", "TenantFolder");
 
 
             //Location
