@@ -11,8 +11,8 @@
             <form [formGroup]="loginForm" (ngSubmit)="LoginSubmit()">
               <div class="form-group">
                 <label for="emailId">Email address</label>
-                <input type="email" class="form-control" id="emailId" (keydown.space)="$event.preventDefault()"
-                  formControlName="username" aria-describedby="emailHelp" placeholder="Enter email">
+                <input type="email" class="form-control" id="emailId"
+                  formControlName="username" aria-describedby="emailHelp" placeholder="Enter email" [pKeyFilter]="emailregex">
               </div>
               <div class="form-group">
                 <label for="password">Password</label>

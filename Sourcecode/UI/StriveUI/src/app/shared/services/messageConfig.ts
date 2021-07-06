@@ -96,6 +96,7 @@ export const MessageConfig = {
       alreadyAdded: 'GiftCard already added',
       InValidMember: 'Invalid Member details',
       ValidMember : 'Valided successfully !',
+      CreditAccountApplied: 'Credit account applied successfully !',
       MembershipApplied : 'Membership applied successfully !',
    },
    Messenger: {

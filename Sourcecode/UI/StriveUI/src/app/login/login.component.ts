@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
   dashBoardModule: boolean;
   isRememberMe: boolean;
   showAccount = false;
+  emailregex: RegExp = /^[ A-Za-z0-9@.+]*$/;
 
   constructor(
     private loginService: LoginService, private router: Router, private route: ActivatedRoute,

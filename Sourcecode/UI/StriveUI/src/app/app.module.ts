@@ -40,7 +40,7 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { CodeValueService } from './shared/common-service/code-value.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { UserSignupComponent } from './user-signup/user-signup.component';
-
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#FF7900',
@@ -122,6 +122,7 @@ const load = (http: HttpClient) => {
     NgbModule,
     NgxPrintModule,
     NgIdleKeepaliveModule.forRoot(),
+    KeyFilterModule
   ],
   exports: [
     HttpClientModule,
