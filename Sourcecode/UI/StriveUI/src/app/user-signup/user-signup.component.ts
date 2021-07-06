@@ -52,7 +52,7 @@ export class UserSignupComponent implements OnInit {
     this.userSignupForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      userEmail: ['', [Validators.required, Validators.email]],
+      userEmail: ['', [Validators.required]],
       password: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -139,7 +139,7 @@ export class UserSignupComponent implements OnInit {
       return;
     }
 
-    if (this.emailVal === true) {
+    if (this.emailVal) {
       return;
     }
 
@@ -368,7 +368,8 @@ export class UserSignupComponent implements OnInit {
   }
 
 
-  emailCheck() {
+  emailCheck(email) {
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
     this.login.emailIdExists(this.userSignupForm.controls.userEmail.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
@@ -382,8 +383,14 @@ export class UserSignupComponent implements OnInit {
         }
       }
     }, (err) => {
+      this.emailVal = true;
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+  } else {
+    this.errorText = 'You have entered an invalid email'
+    this.formVal = true;
+    this.emailVal = true;
+  }
   }
 
 
