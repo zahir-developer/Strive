@@ -205,6 +205,8 @@ namespace Strive.BusinessLogic.Auth
 
                 var accountDetail = client.ClientAddress.FirstOrDefault();
 
+                _tenant.TenantGuid = client.Token.GetValueOrDefault().ToString();
+
                 var clientLogin = comBpl.CreateLogin(UserType.Client, accountDetail.Email, accountDetail.PhoneNumber, client.Password);
                 client.Client.AuthId = clientLogin.authId;
 
