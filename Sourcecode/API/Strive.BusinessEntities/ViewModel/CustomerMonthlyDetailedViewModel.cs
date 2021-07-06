@@ -23,6 +23,7 @@ namespace Strive.BusinessEntities.ViewModel
         public string PaymentDescription { get; set; }
         public string MemberShipName { get; set; }
         public decimal TicketAmount { get; set; }
+        public decimal DifferenceAmount { get; set; }
 
     }
 }

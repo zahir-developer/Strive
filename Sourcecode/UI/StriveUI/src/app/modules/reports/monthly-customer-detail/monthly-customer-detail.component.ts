@@ -95,7 +95,7 @@ export class MonthlyCustomerDetailComponent implements OnInit {
       let totalDifference = 0;
 
       userData.forEach((o, index) => {
-         totalDifference = totalDifference + o.MembershipPrice
+         totalDifference = totalDifference + o.DifferenceAmount
         
         tableStr += '<tr>' + (index === 0 ? '<td rowspan="' + userData.length + '">' + obj.name + '</td>' : '') + '<td>' + o.TicketNumber + '</td><td>' + o.Color +
           '</td><td>' + o.Model + '</td><td>' + this.datePipe.transform(o.JobDate, 'MM/dd/yyyy') + '</td><td>' + (o.MemberShipName !== '' ?
