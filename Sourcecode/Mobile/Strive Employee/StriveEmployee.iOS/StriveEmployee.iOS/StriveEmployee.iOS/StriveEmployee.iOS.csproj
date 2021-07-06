@@ -98,6 +98,17 @@
       <DependentUpon>DocumentsCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\DocumentDataSource.cs" />
+    <InterfaceDefinition Include="Views\CheckOutView.xib" />
+    <Compile Include="Views\CheckOutView.cs" />
+    <Compile Include="Views\CheckOutView.designer.cs">
+      <DependentUpon>CheckOutView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\CheckOut_Cell.xib" />
+    <Compile Include="Views\CheckOut_Cell.cs" />
+    <Compile Include="Views\CheckOut_Cell.designer.cs">
+      <DependentUpon>CheckOut_Cell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Checkout_DataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -215,6 +226,14 @@
     <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-view.imageset\Subtraction 16%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -235,6 +254,8 @@
     <Folder Include="Resources\Assets.xcassets\icon-ticket.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-ticket-active.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-view.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-checkout.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\icon-checkout-active.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

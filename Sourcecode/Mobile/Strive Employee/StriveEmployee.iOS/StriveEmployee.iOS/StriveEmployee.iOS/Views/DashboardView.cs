@@ -6,6 +6,7 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.iOS.UIUtils;
 using Strive.Core.ViewModels.Employee.MyProfile;
+using Strive.Core.ViewModels.Employee.CheckOut;
 
 namespace StriveEmployee.iOS.Views
 {
@@ -25,12 +26,12 @@ namespace StriveEmployee.iOS.Views
                 return;
             base.ViewDidLoad();
 
-            var viewControllers = new UIViewController[4];
+            var viewControllers = new UIViewController[5];
             viewControllers[0] = CreateTabFor(0, "Message", "icon-message", "icon-message-active", typeof(EmployeeInfoViewModel));
             viewControllers[1] = CreateTabFor(1, "Schedule", "icon-schedule", "icon-schedule-active", typeof(EmployeeInfoViewModel));
             viewControllers[2] = CreateTabFor(2, "Profile", "icon-profile", "icon-profile-active", typeof(EmployeeInfoViewModel));
             viewControllers[3] = CreateTabFor(3, "Ticket", "icon-ticket", "icon-ticket-active", typeof(EmployeeInfoViewModel));
-
+            viewControllers[4] = CreateTabFor(4, "CheckOut", "icon-checkout", "icon-checkout-active", typeof(CheckOutViewModel));
             ViewControllers = viewControllers;
             CustomizableViewControllers = new UIViewController[] { };
             TabBar.BarTintColor = UIColor.Clear.FromHex(0x1DC9B7);
