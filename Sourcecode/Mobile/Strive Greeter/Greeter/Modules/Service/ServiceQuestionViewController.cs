@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
@@ -528,6 +529,17 @@ namespace Greeter.Storyboards
             return data[row];
         }
     }
+
+    //enum fds
+    //{
+    //    [EnumMember(Value = "AirFresheners")]
+    //    AIR_FRESHNERS,
+    //}
+
+    //enum fsd
+    //{
+    //    "Air Fresheners"
+    //}
 
     class ServiceTypes
     {

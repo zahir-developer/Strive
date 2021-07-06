@@ -157,7 +157,7 @@ namespace Greeter.Cells
             serviceInfoLabel.Text = checkout.VehicleModel + "/" + checkout.VehicleColor + "\n" + "Services: " + checkout.Services;
             if (checkout.AdditionalServices is not null)
                 serviceInfoLabel.Text += "\n" + "Additional Services: " + checkout.AdditionalServices;
-            checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check in " + checkout.CheckoutTime + "  ";
+            checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check out " + checkout.CheckoutTime + "  ";
             statusIndicatorImage.Image = new UIImage();
             if (checkout.PaymentStatus.Equals("Success"))
             {

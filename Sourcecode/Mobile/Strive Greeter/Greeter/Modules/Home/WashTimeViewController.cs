@@ -61,7 +61,6 @@ namespace Greeter.Modules.Home
             Title = "Home";
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
             {
-                //TODO logout action here
                 AppSettings.Clear();
 
                 UIViewController loginViewController = UIStoryboard.FromName(StoryBoardNames.USER, null)
