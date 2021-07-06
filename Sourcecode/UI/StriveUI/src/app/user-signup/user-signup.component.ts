@@ -33,6 +33,7 @@ export class UserSignupComponent implements OnInit {
   errorText: string;
   vehicleArray: any;
   emailVal = false;
+  
 
   constructor(private fb: FormBuilder, private makeService: MakeService, private modelService: ModelService,
     private toastr: ToastrService, private wash: WashService, private router: Router, private spinner: NgxSpinnerService,
@@ -50,7 +51,7 @@ export class UserSignupComponent implements OnInit {
     this.userSignupForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      userEmail: ['', [Validators.required, Validators.email]],
+      userEmail: ['', [Validators.required]],
       password: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -137,7 +138,7 @@ export class UserSignupComponent implements OnInit {
       return;
     }
 
-    if (this.emailVal === true) {
+    if (this.emailVal) {
       return;
     }
 
@@ -196,6 +197,8 @@ export class UserSignupComponent implements OnInit {
     this.client.addClient(totalList).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
+        this.userSignupForm.reset();
+        this.vehicleForm.reset();
         this.toastr.success(MessageConfig.Client.Add, 'Success');
       } else {
         this.spinner.hide();
@@ -368,22 +371,29 @@ export class UserSignupComponent implements OnInit {
   }
 
 
-  emailCheck() {
-    this.client.ClientEmailCheck(this.userSignupForm.controls.userEmail.value).subscribe(res => {
-      if (res.status === 'Success') {
-        const sameEmail = JSON.parse(res.resultData);
-        if (sameEmail.EmailIdExist === true) {
-          this.errorText = 'Email already exists,please create account'
-          this.formVal = true;
-          this.emailVal = true;
-        } else {
-          this.formVal = false;
-          this.emailVal = false;
+  emailCheck(email) {
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+      this.client.ClientEmailCheck(this.userSignupForm.controls.userEmail.value).subscribe(res => {
+        if (res.status === 'Success') {
+          const sameEmail = JSON.parse(res.resultData);
+          if (sameEmail.EmailIdExist === true) {
+            this.errorText = 'Email already exists,please return to login'
+            this.formVal = true;
+            this.emailVal = true;
+          } else {
+            this.formVal = false;
+            this.emailVal = false;
+          }
         }
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      }, (err) => {
+        this.emailVal = true;
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });  
+    } else {
+       this.errorText = 'You have entered an invalid email'
+       this.formVal = true;
+       this.emailVal = true;
+    }
   }
 
 
@@ -397,3 +407,5 @@ export class UserSignupComponent implements OnInit {
 
 
 }
+
+
