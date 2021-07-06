@@ -23,7 +23,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
         {
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetPersonalDetails(EmployeeTempData.EmployeeID);
-            if (result == null)
+            if (result == null || result.Employee.EmployeeDocument == null)
             {
                 DocumentDetails = null;
                 _userDialog.Toast("No relatable data");
