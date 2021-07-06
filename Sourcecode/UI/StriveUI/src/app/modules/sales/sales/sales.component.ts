@@ -1299,7 +1299,7 @@ export class SalesComponent implements OnInit {
     let discount = null;
     giftcard = this.giftcards.map(item => {
       return {
-        giftCardHistoryId: 1,
+        giftCardHistoryId: 0,
         giftCardId: item.id,
         locationId: this.locationId,
         transactionType: 1,
