@@ -572,6 +572,29 @@ namespace Strive.BusinessLogic.Common
             return MailText;
         }
 
+        public string MailContent(HtmlTemplate module, Dictionary<string, string> keyValues)
+        {
+            //string subPath = _tenant.AppRootPath + "\\wwwroot\\Template\\" + module.ToString() + ".html";
+
+            string subPath = _tenant.HtmlTemplates + module.ToString() + ".html";
+
+            subPath = subPath.Replace("TENANT_NAME", _tenant.SchemaName);
+
+            string MailText = string.Empty;
+
+            StreamReader str = new StreamReader(subPath);
+            MailText = str.ReadToEnd();
+
+            str.Close();
+
+            foreach (var item in keyValues)
+            {
+                MailText = MailText.Replace(item.Key, item.Value);
+            }
+
+            return MailText;
+        }
+
         public Result GetTicketNumber(int locationId)
         {
             return ResultWrap(new CommonRal(_tenant, false).GetTicketNumber, locationId, "GetTicketNumber");

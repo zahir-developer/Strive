@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessLogic.Auth;
 using Strive.Common;
@@ -61,18 +62,9 @@ namespace Admin.Api.Controllers
         }
 
         [HttpPost, Route("CustomerSignup")]
-        public Result CustomerSignup([FromBody]AuthMaster authMaster)
+        public Result CustomerSignup([FromBody]ClientDto clientDto)
         {
-            Newtonsoft.Json.Linq.JObject _resultContent = new Newtonsoft.Json.Linq.JObject();
-            Result _result;
-
-            var result = _bplManager.CreateLogin(UserType.Employee, HtmlTemplate.ClientSignUp, authMaster.EmailId, authMaster.MobileNumber);
-
-
-            _resultContent.Add((result > 0).WithName("Status"));
-            _result = Helper.BindSuccessResult(_resultContent);
-            return _result;
-
+            return _bplManager.CreateCustomer(clientDto, GetTenantConnection());
         }
 
         [HttpPost, Route("ResetPassword")]
@@ -90,7 +82,6 @@ namespace Admin.Api.Controllers
         [HttpGet, Route("Logout")]
         public void Logout(string token) => _bplManager.Logout(token, GetSecretKey());
 
-        #endregion
 
         [HttpGet, Route("LogoutAllApp")]
         public void LogoutAllApp (string tokenkey) => _bplManager.Logout(tokenkey, GetSecretKey());
@@ -108,5 +99,33 @@ namespace Admin.Api.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet, Route("EmailIdExists")]
+        public void EmailIdExist(string email) => _bplManager.EmailIdExists(email);
+
+
+        [HttpGet]
+        [Route("GetAllMake")]
+        public Result GetAllMake()
+        {
+            return _bplManager.GetAllMake();
+        }
+
+        [HttpGet]
+        [Route("GetAllColor")]
+        public Result GetAllColor()
+        {
+            return _bplManager.GetAllColor();
+        }
+
+        [HttpGet]
+        [Route("GetModelById/{makeId}")]
+        public Result GetModelByMakeId(int makeId)
+        {
+            return _bplManager.GetModelByMakeId(makeId);
+        }
+
+        #endregion
+
     }
 }

@@ -136,7 +136,7 @@ namespace Strive.ResourceAccess
         public bool GetEmailIdExist(string email)
         {
             _prm.Add("@Email", email);
-            var result = db.FetchSingle<bool>(EnumSP.Employee.USPEMAILEXIST.ToString(), _prm);
+            var result = db.FetchSingle<bool>(EnumSP.Authentication.USPEMAILEXIST.ToString(), _prm);
             return result;
         }
         public List<CityDto> GetCityByStateId(int stateId)
@@ -163,19 +163,19 @@ namespace Strive.ResourceAccess
         public List<ModelDto> GetModelByMakeId(int makeId)
         {
             _prm.Add("makeId", makeId);
-            return db.Fetch<ModelDto>(EnumSP.Employee.USPGETMODELBYMAKE.ToString(), _prm);
+            return db.Fetch<ModelDto>(EnumSP.Vehicle.USPGETMODELBYMAKE.ToString(), _prm);
         }
 
         public List<MakeDto> GetAllMake()
         {
-            return db.Fetch<MakeDto>(EnumSP.Employee.USPGETALLMAKE.ToString(), _prm);
+            return db.Fetch<MakeDto>(EnumSP.Vehicle.USPGETALLMAKE.ToString(), _prm);
         }
 
         public List<UpchargeViewModel> GetUpchargeByType(UpchargeDto upchargeDto)
         {
             _prm.Add("ModelId", upchargeDto.ModelId);
             _prm.Add("ServiceType", upchargeDto.UpchargeServiceType);
-            return db.Fetch<UpchargeViewModel>(EnumSP.Employee.USPGETUPCHARGEBYTYPE.ToString(), _prm);
+            return db.Fetch<UpchargeViewModel>(EnumSP.Vehicle.USPGETUPCHARGEBYTYPE.ToString(), _prm);
         }
 
         public MaxLocationViewModel GetLoationMaxLimit(int tenantId)

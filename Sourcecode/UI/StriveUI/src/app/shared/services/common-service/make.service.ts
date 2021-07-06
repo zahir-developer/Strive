@@ -10,6 +10,10 @@ export class MakeService {
   
 
   getMake() {
-    return this.http.get(`${UrlConfig.common.makeList}`);
+    return this.http.get(`${UrlConfig.Auth.allmake}`);
+  }
+
+  getColor() {
+    return this.http.get(`${UrlConfig.Auth.color}`);
   }
 }

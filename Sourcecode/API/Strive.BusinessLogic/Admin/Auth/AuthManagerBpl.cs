@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.Auth;
+using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
@@ -190,6 +191,32 @@ namespace Strive.BusinessLogic.Auth
             throw new NotImplementedException();
         }
 
+        public Result CreateCustomer(ClientDto client, string conn)
+        {
+            if (client.Token != null)
+            {
+                TenantSchema tSchema = new TenantRal(_tenant, true).TenantAdminLogin(client.Token.GetValueOrDefault());
+
+                if (tSchema == null)
+                    return Helper.BindValidationErrorResult("Invalid Authentication Token");
+
+                CacheLogin(tSchema, conn);
+
+                var clientBpl = new ClientBpl(_cache, _tenant);
+
+                var createClient = clientBpl.SaveClientDetails(client);
+
+                return createClient;
+            }
+            else
+                return Helper.BindValidationErrorResult("Invalid Authentication Token");
+        }
+
+        public Result EmailIdExists(string emailId)
+        {
+            return ResultWrap(new AuthRal(_tenant).EmailIdExists, emailId, "EmailIdExist");
+        }
+
         public int CreateLogin(UserType userType, HtmlTemplate htmlTemplate, string emailId, string mobileNumber)
         {
             var commonBpl = new CommonBpl(_cache, _tenant);
@@ -219,6 +246,22 @@ namespace Strive.BusinessLogic.Auth
         public Result VerifyOTP(string emailId, string otp)
         {
             return new CommonBpl(_cache, _tenant).VerfiyOTP(emailId, otp);
+        }
+
+        public Result GetModelByMakeId(int makeId)
+        {
+            return ResultWrap(new AuthRal(_tenant).GetModelByMakeId, makeId, "Model");
+
+        }
+
+        public Result GetAllMake()
+        {
+            return ResultWrap(new AuthRal(_tenant).GetAllMake, "Make");
+        }
+
+        public Result GetAllColor()
+        {
+            return ResultWrap(new AuthRal(_tenant).GetAllColor, "Color");
         }
 
         //public Microsoft.Owin.Security.AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
