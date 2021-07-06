@@ -81,34 +81,49 @@
     <Compile Include="Views\DashboardView.designer.cs">
       <DependentUpon>DashboardView.cs</DependentUpon>
     </Compile>
-    <InterfaceDefinition Include="Views\ProfileView.xib" />
-    <Compile Include="Views\ProfileView.cs" />
-    <Compile Include="Views\ProfileView.designer.cs">
+    <Compile Include="Views\Profile\ProfileView.cs" />
+    <Compile Include="Views\Profile\ProfileView.designer.cs">
       <DependentUpon>ProfileView.cs</DependentUpon>
     </Compile>
-    <InterfaceDefinition Include="Views\CollisionCell.xib" />
-    <Compile Include="Views\CollisionCell.cs" />
-    <Compile Include="Views\CollisionCell.designer.cs">
+    <InterfaceDefinition Include="Views\Profile\ProfileView.xib" />
+    <Compile Include="Views\Profile\CollisionCell.cs" />
+    <Compile Include="Views\Profile\CollisionCell.designer.cs">
       <DependentUpon>CollisionCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CollisionDataSource.cs" />
-    <InterfaceDefinition Include="Views\DocumentsCell.xib" />
-    <Compile Include="Views\DocumentsCell.cs" />
-    <Compile Include="Views\DocumentsCell.designer.cs">
+    <InterfaceDefinition Include="Views\Profile\CollisionCell.xib" />
+    <Compile Include="Views\Profile\CollisionDataSource.cs" />
+    <Compile Include="Views\Profile\DocumentDataSource.cs" />
+    <Compile Include="Views\Profile\DocumentsCell.cs" />
+    <Compile Include="Views\Profile\DocumentsCell.designer.cs">
       <DependentUpon>DocumentsCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\DocumentDataSource.cs" />
-    <InterfaceDefinition Include="Views\CheckOutView.xib" />
-    <Compile Include="Views\CheckOutView.cs" />
-    <Compile Include="Views\CheckOutView.designer.cs">
-      <DependentUpon>CheckOutView.cs</DependentUpon>
-    </Compile>
-    <InterfaceDefinition Include="Views\CheckOut_Cell.xib" />
-    <Compile Include="Views\CheckOut_Cell.cs" />
-    <Compile Include="Views\CheckOut_Cell.designer.cs">
+    <InterfaceDefinition Include="Views\Profile\DocumentsCell.xib" />
+    <Compile Include="Views\CheckOut\CheckOut_Cell.cs" />
+    <Compile Include="Views\CheckOut\CheckOut_Cell.designer.cs">
       <DependentUpon>CheckOut_Cell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Checkout_DataSource.cs" />
+    <InterfaceDefinition Include="Views\CheckOut\CheckOut_Cell.xib" />
+    <Compile Include="Views\CheckOut\Checkout_DataSource.cs" />
+    <Compile Include="Views\CheckOut\CheckOutView.cs" />
+    <Compile Include="Views\CheckOut\CheckOutView.designer.cs">
+      <DependentUpon>CheckOutView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\CheckOut\CheckOutView.xib" />
+    <InterfaceDefinition Include="Views\Messenger\MessengerView.xib" />
+    <Compile Include="Views\Messenger\MessengerView.cs" />
+    <Compile Include="Views\Messenger\MessengerView.designer.cs">
+      <DependentUpon>MessengerView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Schedule\ScheduleView.xib" />
+    <Compile Include="Views\Schedule\ScheduleView.cs" />
+    <Compile Include="Views\Schedule\ScheduleView.designer.cs">
+      <DependentUpon>ScheduleView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Tickets\TicketView.xib" />
+    <Compile Include="Views\Tickets\TicketView.cs" />
+    <Compile Include="Views\Tickets\TicketView.designer.cs">
+      <DependentUpon>TicketView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -256,6 +271,11 @@
     <Folder Include="Resources\Assets.xcassets\icon-view.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-checkout.imageset\" />
     <Folder Include="Resources\Assets.xcassets\icon-checkout-active.imageset\" />
+    <Folder Include="Views\Profile\" />
+    <Folder Include="Views\CheckOut\" />
+    <Folder Include="Views\Messenger\" />
+    <Folder Include="Views\Schedule\" />
+    <Folder Include="Views\Tickets\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

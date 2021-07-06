@@ -23,7 +23,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Collisions
         {
             _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.GetPersonalDetails(EmployeeTempData.EmployeeID);
-            if (result == null)
+            if (result == null || result.Employee.EmployeeCollision == null)
             {
                 CollisionDetails = null;
                 _userDialog.Toast("No relatable data");
