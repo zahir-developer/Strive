@@ -152,6 +152,7 @@ export class HourlyWashComponent implements OnInit {
             if (washService.length > 0) {
               let washCount = 0;
               this.washServiceName.forEach(name => {
+                washCount = 0;
                 const nameBased = washService.filter(ele => ele.ServiceName === name);
                 nameBased.forEach(count => {
                   washCount =  count.WashCount;
