@@ -25,32 +25,36 @@ namespace Strive.Core.ViewModels.Owner
 
         public async Task DoLoginCommand()
         {
-            if (validateCommand())
+            if(doNetworkCheck())
             {
-                _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-                var loginResponse = await AdminService.EmployeeLogin(new EmployeeLoginRequest(loginEmailPhone, loginPassword));
-                if (loginResponse != null)
+                if (validateCommand())
                 {
-                    ApiUtils.Token = loginResponse.Token;
-                    //MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
-                    //MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
-                    //EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
-
-                    if (!string.IsNullOrEmpty(loginResponse.Token))
+                    _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+                    var loginResponse = await AdminService.EmployeeLogin(new EmployeeLoginRequest(loginEmailPhone, loginPassword));
+                    if (loginResponse != null)
                     {
-                        await _navigationService.Navigate<DashboardViewModel>();
+                        ApiUtils.Token = loginResponse.Token;
+                        //MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
+                        //MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
+                        //EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
+
+                        if (!string.IsNullOrEmpty(loginResponse.Token))
+                        {
+                            await _navigationService.Navigate<DashboardViewModel>();
+                        }
                     }
+                    else
+                    {
+                        _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                    }
+                    _userDialog.HideLoading();
                 }
                 else
                 {
                     _userDialog.Alert(Strings.UsernamePasswordIncorrect);
                 }
-                _userDialog.HideLoading();
             }
-            else
-            {
-                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
-            }
+           
         }
 
         public bool validateCommand()
@@ -79,12 +83,19 @@ namespace Strive.Core.ViewModels.Owner
             rememberMe = !rememberMe;
         }
 
-        public void doNetworkCheck()
+        public bool doNetworkCheck()
          {
+            var netwrokstatus = false;
             if(NetworkStatus == false)
             {
-                _userDialog.Alert("Network error. Check your network and try again.");
+                _userDialog.Alert("Unexpected error.");
+                netwrokstatus = false;
             }
+            else
+            {
+                netwrokstatus = true;
+            }
+            return netwrokstatus;
         }
 
         #endregion Commands
