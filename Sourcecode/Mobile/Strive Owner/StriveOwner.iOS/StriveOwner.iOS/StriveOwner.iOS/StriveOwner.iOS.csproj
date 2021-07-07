@@ -131,6 +131,14 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-strive-splash.imageset\Strive-Logo-Splash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Icon ionic-ios-checkbox %282%29.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checked.imageset\Group 517%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -140,10 +148,13 @@
         <Folder Include="Views\Login\" />
         <Folder Include="Resources\Assets.xcassets\splash.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-strive-splash.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
         <InterfaceDefinition Include="Views\Login\LoginView.xib" />
+        <InterfaceDefinition Include="Views\DashboardView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -163,12 +174,28 @@
         <Compile Include="Views\Login\LoginView.designer.cs">
           <DependentUpon>LoginView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\DashboardView.cs" />
+        <Compile Include="Views\DashboardView.designer.cs">
+          <DependentUpon>DashboardView.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
         <Project>{E04062FE-730C-4674-AA48-D4EEF5B1D1A4}</Project>
         <Name>Strive.Core</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <BundleResource Include="Resources\OpenSans-Bold.ttf" />
+      <BundleResource Include="Resources\OpenSans-BoldItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-ExtraBold.ttf" />
+      <BundleResource Include="Resources\OpenSans-ExtraBoldItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Italic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Light.ttf" />
+      <BundleResource Include="Resources\OpenSans-LightItalic.ttf" />
+      <BundleResource Include="Resources\OpenSans-Regular.ttf" />
+      <BundleResource Include="Resources\OpenSans-SemiBold.ttf" />
+      <BundleResource Include="Resources\OpenSans-SemiBoldItalic.ttf" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
