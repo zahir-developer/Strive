@@ -98,6 +98,14 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.msgService.closeConnection();
     this.authService.logout();
+    $(document).ready(function(){ 
+      $('#reportSliderMenu').css('width','0px')
+      $('#navSliderMenu').css('width','0px')
+      $('#content-wrapper').css('marginLeft','0px')
+    })
+    document.getElementById('reportSliderMenu').style.width = '0';
+    document.getElementById('navSliderMenu').style.width = '0';
+    document.getElementById('content-wrapper').style.marginLeft = '0';
   }
 
   openmbsidebar() {
@@ -126,4 +134,5 @@ export class HeaderComponent implements OnInit {
   navigateToMessage(message) {
     this.router.navigate(['/messenger']);
   }
+
 }
