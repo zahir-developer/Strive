@@ -25,7 +25,7 @@ namespace StriveOwner.Android.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.activity_main);
+            SetContentView(Resource.Layout.LoginActivity);
             sample = this.FindViewById<Button>(Resource.Id.loginButton);
             sample.Click += Sample_Click;
         }
