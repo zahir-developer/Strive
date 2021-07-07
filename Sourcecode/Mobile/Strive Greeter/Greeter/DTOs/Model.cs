@@ -59,6 +59,15 @@ namespace Greeter.DTOs
 
         [JsonProperty("LocationName")]
         public string Name { get; set; }
+
+        [JsonProperty("Latitude")]
+        public double Latitude { get; set; }
+
+        [JsonProperty("Longitude")]
+        public double Longitude { get; set; }
+
+        [JsonProperty("WashTimeMinutes")]
+        public short WashTimeMinutes { get; set; }
     }
 
     public class BarcodeResponse : BaseResponse
@@ -90,8 +99,14 @@ namespace Greeter.DTOs
         [JsonProperty("VehicleColor")]
         public int ColorID { get; set; }
 
-        //[JsonProperty("Upcharge")]
-        //public string Upcharge { get; set; }
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        //[JsonProperty("MiddleName")]
+        //public string MiddleName { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
     }
 
     public class MakeResponse : BaseResponse

@@ -68,7 +68,7 @@ namespace Greeter.Cells
             checkInAndOutTimingLabel.Layer.CornerRadius = 5;
             containerView.Add(checkInAndOutTimingLabel);
 
-            var paidStatusContainer = new UIView(CGRect.Empty);
+            paidStatusContainer = new UIView(CGRect.Empty);
             paidStatusContainer.TranslatesAutoresizingMaskIntoConstraints = false;
             paidStatusContainer.Layer.CornerRadius = 5;
             paidStatusContainer.BackgroundColor = UIColor.LightGray;

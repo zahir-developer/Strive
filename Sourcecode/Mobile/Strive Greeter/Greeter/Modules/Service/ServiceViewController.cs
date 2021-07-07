@@ -23,7 +23,7 @@ namespace Greeter
         // State Values
         bool IsWash = true;
 
-        BarcodeResponse barcodeResponse;
+        //BarcodeResponse barcodeResponse;
 
         public ServiceViewController(IntPtr handle) : base(handle)
         {
@@ -102,8 +102,8 @@ namespace Greeter
 
             if (response.IsSuccess() && response.ClientAndVehicleDetailList != null && response.ClientAndVehicleDetailList.Count > 0)
             {
-                barcodeResponse = response;
-                NavigateToWashOrDetailScreen(true);
+                //barcodeResponse = response;
+                NavigateToWashOrDetailScreen(response.ClientAndVehicleDetailList[0]);
             }
             else
                 ShowAlertMsg(Common.Messages.BARCODE_WRONG);
@@ -125,7 +125,7 @@ namespace Greeter
             NavigateToWithAnim(vc);
         }
 
-        void NavigateToWashOrDetailScreen(bool isFromBarcode = false)
+        void NavigateToWashOrDetailScreen(ClientAndVehicleDetail clientDetail = null)
         {
             //if (IsWash)
             //    ShowAlertMsg(btnWash.TitleLabel.Text);
@@ -136,17 +136,18 @@ namespace Greeter
 
             var vc = (ServiceQuestionViewController)this.Storyboard.InstantiateViewController(nameof(ServiceQuestionViewController));
 
-            if (isFromBarcode)
+            if (clientDetail != null)
             {
-                var vehicleDetail = barcodeResponse.ClientAndVehicleDetailList[0];
-                vc.Barcode = vehicleDetail.Barcode;
-                vc.MakeID = vehicleDetail.MakeID;
-                vc.ModelID = vehicleDetail.ModelID;
-                vc.Model = vehicleDetail.Model;
+                //var clientDetail = barcodeResponse.ClientAndVehicleDetailList[0];
+                vc.Barcode = clientDetail.Barcode;
+                vc.MakeID = clientDetail.MakeID;
+                vc.ModelID = clientDetail.ModelID;
+                vc.Model = clientDetail.Model;
 
-                vc.ColorID = vehicleDetail.ColorID;
-                vc.ClientID = vehicleDetail.ClientID;
-                vc.VehicleID = vehicleDetail.VehicleID;
+                vc.ColorID = clientDetail.ColorID;
+                vc.ClientID = clientDetail.ClientID;
+                vc.VehicleID = clientDetail.VehicleID;
+                vc.CustName = clientDetail.FirstName + " " + clientDetail.LastName;
             }
 
             if (IsWash)

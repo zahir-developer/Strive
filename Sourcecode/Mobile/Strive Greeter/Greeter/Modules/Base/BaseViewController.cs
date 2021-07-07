@@ -21,7 +21,6 @@ namespace Greeter
         {
             base.ViewDidLoad();
 
-            activityIndicator = View.AddActivityIndicator();
             //SetBinding();
         }
 
@@ -45,13 +44,14 @@ namespace Greeter
         public void ShowActivityIndicator()
         {
             DisableUIInteraction();
+            activityIndicator = View.AddActivityIndicator();
             activityIndicator.StartAnimating();
         }
 
         public void HideActivityIndicator()
         {
             EnableUIInteraction();
-            activityIndicator.StopAnimating();
+            activityIndicator.RemoveFromSuperview();
         }
 
         void GoBack(bool isAnimation)

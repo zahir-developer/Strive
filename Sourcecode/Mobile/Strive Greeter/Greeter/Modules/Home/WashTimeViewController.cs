@@ -5,10 +5,14 @@ using Foundation;
 using CoreLocation;
 using System;
 using Greeter.Common;
+using System.Threading.Tasks;
+using Greeter.Services.Network;
+using Greeter.Extensions;
+using System.Linq;
 
 namespace Greeter.Modules.Home
 {
-    public partial class WashTimeViewController : UIViewController, IMKMapViewDelegate
+    public partial class WashTimeViewController : BaseViewController, IMKMapViewDelegate
     {
         MKMapView mapView;
 
@@ -22,6 +26,7 @@ namespace Greeter.Modules.Home
 
             SetupView();
             SetupNavigationItem();
+            _ = GetData();
         }
 
         void SetupView()
@@ -68,6 +73,24 @@ namespace Greeter.Modules.Home
 
                 TabBarController.NavigationController.SetViewControllers(new UIViewController[] { loginViewController }, true);
             });
+        }
+
+        async Task GetData()
+        {
+            ShowActivityIndicator();
+            var response = await new ApiService(new NetworkService()).GetLocations();
+            HideActivityIndicator();
+
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
+
+            if (response.IsSuccess())
+            {
+                var locations = response?.Locations;
+            }
         }
 
         [Export("mapView:viewForAnnotation:")]

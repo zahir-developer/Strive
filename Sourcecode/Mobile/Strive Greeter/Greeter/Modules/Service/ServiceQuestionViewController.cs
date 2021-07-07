@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
@@ -22,15 +21,15 @@ namespace Greeter.Storyboards
             "Main Street 3"
         };
 
+        // Common data for picker (Note : whenever dropdown is clicked we need to assign/change this array values)
         string[] data;
-
-        string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
 
         public ServiceType ServiceType;
         ChoiceType choiceType;
 
         //Selected Items
         public string Barcode;
+        public string CustName;
         public long MakeID;
         public long ModelID;
         public string Model;
@@ -85,7 +84,7 @@ namespace Greeter.Storyboards
             //Clicks
             btnNext.TouchUpInside += delegate
             {
-                _ = CreateService(MakeID, ModelID, ColorID, jobTypeId, mainService, upcharge, additional, airFreshner, ClientID, VehicleID);
+                CreateService(MakeID, ModelID, ColorID, jobTypeId, mainService, upcharge, additional, airFreshner, ClientID, VehicleID);
             };
 
             //Choice type change
@@ -207,11 +206,6 @@ namespace Greeter.Storyboards
                 pv.Select(pos, 0, false);
         }
 
-        //void SelectItem(UIPickerView pv, int pos)
-        //{
-
-        //}
-
         async Task GetModlesByMake(int makeId)
         {
             ShowActivityIndicator();
@@ -244,7 +238,7 @@ namespace Greeter.Storyboards
 
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_UPCHARGE)).ToList();
 
-                jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals("Wash")).FirstOrDefault().ID ?? -1;
+                jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Wash.ToString())).FirstOrDefault().ID ?? -1;
             }
             else
             {
@@ -253,7 +247,7 @@ namespace Greeter.Storyboards
 
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.DETAIL_UPCHARGE)).ToList();
 
-                jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals("Detail")).FirstOrDefault().ID ?? -1;
+                jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Detail.ToString())).FirstOrDefault().ID ?? -1;
             }
 
             upcharges = Upcharges.Select(x => x.Name).ToArray();
@@ -293,7 +287,7 @@ namespace Greeter.Storyboards
             }
         }
 
-        async Task CreateService(long makeId, long modelId, long colorId, long jobTypeId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = 0, long clientId = 0)
+        void CreateService(long makeId, long modelId, long colorId, long jobTypeId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = 0, long clientId = 0)
         {
             if (makeId == 0 || modelId == 0 || colorId == 0 || mainService == null)
             {
@@ -504,6 +498,7 @@ namespace Greeter.Storyboards
             vc.Upcharge = upcharge;
             vc.Additional = additional;
             vc.AirFreshner = airFreshner;
+            vc.CustName = CustName;
             NavigateToWithAnim(vc);
         }
 
@@ -532,7 +527,7 @@ namespace Greeter.Storyboards
 
     //enum fds
     //{
-    //    [EnumMember(Value = "AirFresheners")]
+    //    [EnumMember(Value = "Air Fresheners")]
     //    AIR_FRESHNERS,
     //}
 

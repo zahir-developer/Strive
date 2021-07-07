@@ -17,7 +17,6 @@ namespace Greeter.Services.Network
     public class ApiService : IApiService
     {
         readonly INetworkService iNetworkService;
-        private object myProperty;
 
         public ApiService(INetworkService iNetworkService)
         {

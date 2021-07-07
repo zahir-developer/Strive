@@ -25,7 +25,6 @@ namespace Greeter
         {
             base.ViewWillAppear(animated);
 
-
             var vc1 = new UINavigationController(new WashTimeViewController());
             var tabbarItem1 = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
             vc1.TabBarItem = tabbarItem1;

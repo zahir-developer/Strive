@@ -32,8 +32,8 @@ namespace Greeter.Modules.Pay
         async Task GetData()
         {
             var req = new CheckoutRequest();
-            req.StartDate = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
-            req.EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            req.StartDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            req.EndDate = req.StartDate;
             req.LocationID = AppSettings.LocationID;
             req.SortBy = "TicketNumber";
             req.SortOrder = "ASC";

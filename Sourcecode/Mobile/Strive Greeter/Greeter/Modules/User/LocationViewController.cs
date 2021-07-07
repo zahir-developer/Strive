@@ -42,7 +42,7 @@ namespace Greeter
             // Initial UI
             Initialise();
 
-            GetData();
+            _ = GetData();
 
             // For Restricting typing in the location field
             tfLocation.ShouldChangeCharacters = (textField, range, replacementString) =>
