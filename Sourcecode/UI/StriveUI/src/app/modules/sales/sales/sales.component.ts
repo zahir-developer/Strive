@@ -26,6 +26,8 @@ import { CodeValueService } from 'src/app/shared/common-service/code-value.servi
 import { ToastrComponentlessModule, ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
+import { AnySoaRecord } from 'dns';
+declare var $: any;
 
 @Component({
   selector: 'app-sales',
@@ -73,8 +75,9 @@ export class SalesComponent implements OnInit {
   PaymentType: any;
   PaymentStatus: any;
   accountDetails: any;
-  isAccount: any;
-  isMembership: boolean;
+  serviceGroup = false;
+  isAccount = false;
+  isMembership = false;
   discountList: any = [];
   isAccountButton = false;
   ticketNumberGeneration: boolean;
@@ -410,19 +413,18 @@ export class SalesComponent implements OnInit {
           this.vehicleIds = accountDetails.Account.SalesAccountViewModel?.VehicleId
           this.accountDetails = accountDetails.Account;
           this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
-          if(this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount && this.accountDetails.SalesAccountViewModel?.MembershipId !== 0)
-          {
+          if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount && this.accountDetails.SalesAccountViewModel?.MembershipId !== 0 &&
+            this.accountDetails.SalesAccountViewModel?.MembershipId !== null) {
+            this.serviceGroup = true;
             this.isAccount = true;
             this.isMembership = true;
           }
           else if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount) {
+            this.serviceGroup = true;
             this.isAccount = true;
-            this.accountEnable = true;
-            this.isMembership = false;
           }
           else if (this.accountDetails.SalesAccountViewModel?.MembershipId !== 0 || this.accountDetails.SalesAccountViewModel?.MembershipId !== null) {
-            this.isAccount = false;
-            this.accountEnable = true;
+            this.serviceGroup = true;
             this.isMembership = true;
           }
         }
@@ -1086,8 +1088,7 @@ export class SalesComponent implements OnInit {
     this.totalPaid = this.totalPaid - amount;
   }
   calculateTotalpaid(amount) {
-    this.totalPaid = 0;
-    this.totalPaid = this.totalPaid + amount;
+    this.totalPaid = amount;
   }
   addCash(cash) {
     this.cashTotal = +this.cashTotal + cash;
@@ -1657,46 +1658,48 @@ export class SalesComponent implements OnInit {
   }
 
   processAccount() {
-    this.totalAmount = 0;
     this.isAccountButton = !this.isAccountButton;
-      if (this.isAccount) {
-        this.removAddedAmount(this.account);
-        this.allService.forEach(ele => {
-          this.totalAmount += ele.Price
-        });
-        this.account = this.totalAmount;
-        this.calculateTotalpaid(this.account);
-        this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.CreditAccountApplied });
-      }
-      else if (this.isMembership) {
-        if (this.vehicleIds) {
-          this.vehicle.getVehicleMembershipDetailsByVehicleId(this.vehicleIds).subscribe(res => {
-            if (res.status === 'Success') {
-              const vehicle = JSON.parse(res.resultData);
-              if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService?.length !== 0) {
-                const totalService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService
-                this.filterRecord = [];
-                totalService.forEach(list => {
-                  const lists = this.totalWashService.filter(ele => ele.ServiceId === list.ServiceId)
-                  const dels = lists[0]
-                  this.filterRecord.push(dels);
+    if (this.serviceGroup && this.isAccount) {
+      this.removAddedAmount(this.account);
+      this.totalAmount = 0;
+      this.allService.forEach(ele => {
+        this.totalAmount += ele.Price
+      });
+      this.account = this.totalAmount;
+      this.calculateTotalpaid(this.account);
+      this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.CreditAccountApplied });
+    }
+    else if (this.serviceGroup && this.isMembership) {
+      if (this.vehicleIds) {
+        this.vehicle.getVehicleMembershipDetailsByVehicleId(this.vehicleIds).subscribe(res => {
+          if (res.status === 'Success') {
+            const vehicle = JSON.parse(res.resultData);
+            if (vehicle.VehicleMembershipDetails.ClientVehicleMembershipService?.length !== 0) {
+              const totalService = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService
+              this.filterRecord = [];
+              totalService.forEach(list => {
+                const lists = this.totalWashService.filter(ele => ele.ServiceId === list.ServiceId)
+                const dels = lists[0]
+                this.filterRecord.push(dels);
+              });
+              this.filterRecord = [...this.totalChargeService, ...this.filterRecord, ...this.washPackage]
+              if (this.filterRecord.length !== 0) {
+                this.totalAmount = 0;
+                this.filterRecord.forEach(ele => {
+                  this.totalAmount += ele.Price
                 });
-                this.filterRecord = [...this.totalChargeService, ...this.filterRecord, ...this.washPackage]
-                console.log(this.filterRecord);
-                if (this.filterRecord.length !== 0) {
-                  this.filterRecord.forEach(ele => {
-                    this.totalAmount += ele.Price
-                  });
-                  this.account = this.totalAmount;
-                  this.calculateTotalpaid(this.account);
-                  this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.MembershipApplied });
-                }
+                this.account = this.totalAmount;
+                this.calculateTotalpaid(this.account);
+                this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.MembershipApplied });
               }
             }
-          }, (err) => {
-            this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-          });
+          }
+        }, (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
       }
+    } else if (this.serviceGroup && this.isAccount && this.isMembership) {
+      this.confirmationPopUp();
     }
   }
 
@@ -1709,5 +1712,28 @@ export class SalesComponent implements OnInit {
       e.preventDefault();
     }
   }
+
+
+  confirmationPopUp() {
+    $(document).ready(function () {
+      $('#saleConfirm').modal('show');
+    });
+  }
+
+  applyGroup(event) {
+    switch (event) {
+      case 'credit':
+        this.isAccount = true;
+        this.isMembership = false;
+        this.processAccount();
+        return;
+      case 'membership':
+        this.isMembership = true;
+        this.isAccount = false;
+        this.processAccount();
+        return;
+    }
+  }
+
 
 }
