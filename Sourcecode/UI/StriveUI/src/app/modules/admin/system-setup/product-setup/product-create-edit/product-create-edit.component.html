@@ -77,9 +77,6 @@
             <label for="inputCost">Cost (Per Unit)</label>
             <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control" formControlName="cost"
                 placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted && f.cost.errors }">
-            <div *ngIf="submitted && f.cost.errors" class="invalid-feedback">
-                <div *ngIf="f.cost.errors.required">Cost is required</div>
-            </div>
             <div *ngIf="submitted  && costErrMsg && !f.cost.errors.required" style="font-size: small;color: #dc3545;">
                 Cost should not be 0
             </div>
