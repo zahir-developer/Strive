@@ -335,62 +335,61 @@ export class ProductCreateEditComponent implements OnInit {
     if (this.productSetupForm.value.locationName || this.productSetupForm.value.vendor) {
       this.productList = [];
       this.vendorList = [];
+
+      if (this.productSetupForm.value.vendor.length !== 0) {
+        this.productSetupForm.value.vendor.forEach(vendor => {
+          this.vendorList.push({
+            productVendorId: this.isEdit && vendor.productVendorId !== undefined ? vendor.productVendorId : 0,
+            productId: this.isEdit ? this.selectedProduct.ProductId : 0,
+            vendorId: vendor.item_id,
+            isActive: true,
+            isDeleted: false,
+          });
+        });
+        if (this.productVendorList.length > 0) {
+          const deletedVendors = this.productVendorList.filter(s => s.IsDeleted === true);
+
+          if (deletedVendors.length > 0) {
+            deletedVendors.forEach(vendor => {
+              this.vendorList.push(vendor);
+            });
+          }
+        }
+      }
+
       for (let i = 0; i < this.productSetupForm.value.locationName.length; i++) {
         const product = {
           "product": {
-          "productCode": null,
-          "productDescription": null,
-          "productType": this.productSetupForm.value.productType,
-          "productId": this.isEdit ? this.selectedProduct.ProductId : 0,
-          "locationId": this.productSetupForm.value.locationName[i].item_id,
-          "productName": this.productSetupForm.value.name,
-          "fileName": this.fileName,
-          "OriginalFileName": this.fileName,
-          "thumbFileName": this.fileThumb,
-          "base64": this.fileUploadformData,
-          "cost": this.productSetupForm.value.cost,
-          "isTaxable": this.isChecked,
-          "taxAmount": this.isChecked ? this.productSetupForm.value.taxAmount : 0,
-          "size": this.productSetupForm.value.size,
-          "sizeDescription": this.textDisplay ? this.productSetupForm.value.other : null,
-          "quantity": this.productSetupForm.value.quantity,
-          "quantityDescription": null,
-          "isActive": +this.productSetupForm.value.status === 1 ? true : false,
-          "thresholdLimit": this.productSetupForm.value.thresholdAmount,
-          "isDeleted": false,
-          "price": this.productSetupForm.value.suggested
+            "productCode": null,
+            "productDescription": null,
+            "productType": this.productSetupForm.value.productType,
+            "productId": this.isEdit ? this.selectedProduct.ProductId : 0,
+            "locationId": this.productSetupForm.value.locationName[i].item_id,
+            "productName": this.productSetupForm.value.name,
+            "fileName": this.fileName,
+            "OriginalFileName": this.fileName,
+            "thumbFileName": this.fileThumb,
+            "base64": this.fileUploadformData,
+            "cost": this.productSetupForm.value.cost,
+            "isTaxable": this.isChecked,
+            "taxAmount": this.isChecked ? this.productSetupForm.value.taxAmount : 0,
+            "size": this.productSetupForm.value.size,
+            "sizeDescription": this.textDisplay ? this.productSetupForm.value.other : null,
+            "quantity": this.productSetupForm.value.quantity,
+            "quantityDescription": null,
+            "isActive": +this.productSetupForm.value.status === 1 ? true : false,
+            "thresholdLimit": this.productSetupForm.value.thresholdAmount,
+            "isDeleted": false,
+            "price": this.productSetupForm.value.suggested
+          },
+          "productVendor": this.vendorList
         }
-      }
         this.productList.push(product);
       }
     }
 
-    if (this.productSetupForm.value.vendor.length !== 0) {
-      this.productSetupForm.value.vendor.forEach(vendor => {
-        this.vendorList.push({
-          productVendorId: this.isEdit && vendor.productVendorId !== undefined ? vendor.productVendorId : 0,
-          productId: this.isEdit ? this.selectedProduct.ProductId : 0,
-          vendorId: vendor.item_id,
-          isActive: true,
-          isDeleted: false,
-        });
-      });
-      if (this.productVendorList.length > 0) {
-        const deletedVendors = this.productVendorList.filter(s => s.IsDeleted === true);
-
-        if (deletedVendors.length > 0) {
-          deletedVendors.forEach(vendor => {
-            this.vendorList.push(vendor);
-          });
-        }
-      }
-    }
-
-
-
     const finalObj = {
-      product: this.productList,
-      productVendor: this.vendorList
+       Product: this.productList
     };
     console.log(finalObj, 'new object');
     if (this.isEdit === true) {

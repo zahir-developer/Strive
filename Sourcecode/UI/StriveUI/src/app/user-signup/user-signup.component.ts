@@ -431,7 +431,6 @@ export class UserSignupComponent implements OnInit {
           this.errorText = "Please enter email address."
         } else if (event !== '') {
           this.emailCheck(event);
-          this.formVal = false;
         }
         break;
       }
