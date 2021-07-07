@@ -88,8 +88,8 @@ export class ClientFormComponent implements OnInit {
 
   sameClientName() {
     const clientNameDto = {
-      FirstName: this.clientForm.value.fName,
-      LastName: this.clientForm.value.lName,
+      FirstName: this.clientForm.value.fName.replace(' ', ''),
+      LastName: this.clientForm.value.lName.replace(' ', ''),
       PhoneNumber: this.clientForm.value.phone1
     };
     if (this.clientForm.value.fName && this.clientForm.value.lName && this.clientForm.value.phone1) {

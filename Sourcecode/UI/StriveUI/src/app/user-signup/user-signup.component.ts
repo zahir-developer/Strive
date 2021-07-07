@@ -34,7 +34,8 @@ export class UserSignupComponent implements OnInit {
   errorText: string;
   vehicleArray: any;
   emailVal = false;
-  token: any; 
+  token: any;
+  userGroup: any;
   constructor(private fb: FormBuilder, private makeService: MakeService, private modelService: ModelService,
     private toastr: ToastrService, private wash: WashService, private router: Router, private spinner: NgxSpinnerService,
     private client: ClientService, private activatedRoute: ActivatedRoute,
@@ -193,8 +194,8 @@ export class UserSignupComponent implements OnInit {
       "client": client,
       "clientAddress": clientAddress,
       "clientVehicle": this.vehicleArray,
-      "token" : this.token,
-      "password" : this.userSignupForm.controls.password.value
+      "token": this.token,
+      "password": this.userSignupForm.controls.password.value
     }
 
     this.spinner.show();
@@ -325,13 +326,13 @@ export class UserSignupComponent implements OnInit {
     this.makeService.getColor().subscribe(data => {
       if (data.status === 'Success') {
         const result = JSON.parse(data.resultData);
-          this.colorTotalList = result.Color.map(item => {
-            return {
-              code: item.ColorId,
-              name: item.ColorValue
-            };
-          });
-        }
+        this.colorTotalList = result.Color.map(item => {
+          return {
+            code: item.ColorId,
+            name: item.ColorValue
+          };
+        });
+      }
     });
   }
 
@@ -370,36 +371,97 @@ export class UserSignupComponent implements OnInit {
 
   emailCheck(email) {
     if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-    this.login.emailIdExists(this.userSignupForm.controls.userEmail.value).subscribe(res => {
-      if (res.status === 'Success') {
-        const sameEmail = JSON.parse(res.resultData);
-        if (sameEmail.EmailIdExist === true) {
-          this.errorText = 'Email already exists, Please try login.'
-          this.formVal = true;
-          this.emailVal = true;
-        } else {
-          this.formVal = false;
-          this.emailVal = false;
+      this.login.emailIdExists(this.userSignupForm.controls.userEmail.value).subscribe(res => {
+        if (res.status === 'Success') {
+          const sameEmail = JSON.parse(res.resultData);
+          if (sameEmail.EmailIdExist === true) {
+            this.errorText = 'Email already exists, Please try login.'
+            this.formVal = true;
+            this.emailVal = true;
+          } else {
+            this.formVal = false;
+            this.emailVal = false;
+          }
         }
-      }
-    }, (err) => {
+      }, (err) => {
+        this.emailVal = true;
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    } else {
+      this.errorText = 'Please enter valid email Id.'
+      this.formVal = true;
       this.emailVal = true;
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
-  } else {
-    this.errorText = 'Please enter valid email Id.'
-    this.formVal = true;
-    this.emailVal = true;
-  }
+    }
   }
 
 
   getSignupToken() {
     this.activatedRoute.queryParams.subscribe(params => {
-      if (params.token) { 
+      if (params.token) {
         this.token = params.token;
       }
     });
+  }
+
+  validateGroup(event, user) {
+    this.formVal = false;
+    this.userGroup = user;
+    switch (this.userGroup) {
+      case 'first': {
+        if (event === '') {
+          this.formVal = true;
+          this.errorText = "Please enter first name."
+        } else if (event !== '') {
+          this.formVal = false;
+        }
+        break;
+      }
+      case 'last': {
+        if (event === '') {
+          this.formVal = true;
+          this.errorText = "Please enter last name."
+        } else if (event !== '') {
+          this.formVal = false;
+        }
+        break;
+      }
+      case 'email': {
+        if (event === '') {
+          this.formVal = true;
+          this.errorText = "Please enter email address."
+        } else if (event !== '') {
+          this.emailCheck(event);
+        }
+        break;
+      }
+      case 'phone': {
+        if (event === '') {
+          this.formVal = true;
+          this.errorText = "Please enter phone number."
+        } else if (event !== '') {
+          this.formVal = false;
+        }
+        break;
+      }
+      case 'password': {
+        if (event === '') {
+          this.formVal = true;
+          this.errorText = "Please enter password."
+        } else if (event !== '') {
+          this.formVal = false;
+        }
+        break;
+      }
+      case 'confirm': {
+        if (event === '') {
+          this.formVal = true;
+          this.errorText = "Please enter confirm password."
+        } else if (event !== '') {
+          this.formVal = false;
+        }
+        break;
+      }
+    }
   }
 
 

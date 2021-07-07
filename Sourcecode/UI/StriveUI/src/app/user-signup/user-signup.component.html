@@ -12,13 +12,13 @@
                                 <div class="form-group col-md-6">
                                     <label for="firstName">First Name<span class="required">*</span></label>
                                     <input type="text" class="form-control" id="firstName" formControlName="firstName"
-                                        placeholder="First Name" (keydown.space)="$event.preventDefault()">
+                                        placeholder="First Name" (keydown.space)="$event.preventDefault()" (change)="validateGroup($event.target.value,'first')">
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="lastName">Last Name<span class="required">*</span></label>
                                     <input type="text" class="form-control" id="lastName" formControlName="lastName"
-                                        placeholder="Last Name" (keydown.space)="$event.preventDefault()">
+                                        placeholder="Last Name" (keydown.space)="$event.preventDefault()" (change)="validateGroup($event.target.value,'last')">
                                 </div>
                             </div>
 
@@ -26,14 +26,14 @@
                                 <div class="form-group col-md-6">
                                     <label for="emailId">Email address<span class="required">*</span></label>
                                     <input type="email" class="form-control" id="emailId" formControlName="userEmail"
-                                        placeholder="Email" (keydown.space)="$event.preventDefault()" (change)="emailCheck($event.target.value)">
+                                        placeholder="Email" (keydown.space)="$event.preventDefault()" (change)="validateGroup($event.target.value,'email')">
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="phoneNumber">Phone Number<span class="required">*</span></label>
                                     <input type="text" appPhoneMask maxlength="14" class="form-control" id="phoneNumber"
                                         formControlName="phoneNumber" placeholder="Phone Number"
-                                        (keydown.space)="$event.preventDefault()">
+                                        (keydown.space)="$event.preventDefault()" (change)="validateGroup($event.target.value,'phone')">
                                 </div>
                             </div>
 
@@ -43,14 +43,14 @@
                                     <label for="passwords">Password<span class="required">*</span></label>
                                     <input type="password" class="form-control" id="passwords"
                                         formControlName="password" placeholder="Password"
-                                        (keydown.space)="$event.preventDefault()">
+                                        (keydown.space)="$event.preventDefault()" (change)="validateGroup($event.target.value,'password')">
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label for="confirms">Confirm Password<span class="required">*</span></label>
                                     <input type="password" class="form-control" id="confirms"
                                         formControlName="confirmPassword" placeholder="Confirm Password"
-                                        (keydown.space)="$event.preventDefault()">
+                                        (keydown.space)="$event.preventDefault()" (change)="validateGroup($event.target.value,'confirm')">
                                 </div>
                             </div>
 
