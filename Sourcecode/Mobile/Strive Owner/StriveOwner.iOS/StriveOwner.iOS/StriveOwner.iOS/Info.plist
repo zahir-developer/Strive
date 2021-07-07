@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>StriveOwner.iOS</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.telliant.StriveOwner-iOS</string>
+	<string>com.telliant.StriveOwner</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
