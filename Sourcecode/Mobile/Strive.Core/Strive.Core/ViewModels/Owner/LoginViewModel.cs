@@ -6,7 +6,10 @@ namespace Strive.Core.ViewModels.Owner
 {
     public class LoginViewModel : BaseViewModel
     {
+        public LoginViewModel()
+        {
 
+        }
 
         public async void getNavigation()
         {
