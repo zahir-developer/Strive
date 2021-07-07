@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
-using Greeter.DTOs;
-using Greeter.Extensions;
-using Greeter.Services.Network;
 using UIKit;
 
 namespace Greeter.Modules.Pay
@@ -22,38 +18,10 @@ namespace Greeter.Modules.Pay
             SetupView();
             RegisterCells();
             SetupNavigationItem();
-            _ = GetData();
 
             //Setup Delegate and DataSource
             checkoutTableView.WeakDelegate = this;
             checkoutTableView.WeakDataSource = this;
-        }
-
-        async Task GetData()
-        {
-            var req = new CheckoutRequest();
-            req.StartDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
-            req.EndDate = req.StartDate;
-            req.LocationID = AppSettings.LocationID;
-            req.SortBy = "TicketNumber";
-            req.SortOrder = "ASC";
-            req.Status = true;
-
-            ShowActivityIndicator();
-            var response = await new ApiService(new NetworkService()).GetCheckoutList(req);
-            HideActivityIndicator();
-
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
-
-            if (response.IsSuccess())
-            {
-                Checkouts = response.CheckinVehicleDetails.CheckOutList;
-                checkoutTableView.ReloadData();
-            }
         }
 
         public override void ViewWillAppear(bool animated)
@@ -111,6 +79,43 @@ namespace Greeter.Modules.Pay
             var cell = tableView.DequeueReusableCell(CheckoutCell.Key) as CheckoutCell;
             cell.SetupData(Checkouts[indexPath.Row]);
             return cell;
+        }
+
+        [Export("tableView:trailingSwipeActionsConfigurationForRowAtIndexPath:")]
+        public UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
+        {
+            var action1 = UIContextualAction.FromContextualActionStyle(
+                UIContextualActionStyle.Normal,
+                "Action 1",
+                (flagAction, view, success) =>
+                {
+                    success(true);
+                });
+            action1.Image = UIImage.FromBundle("tick");
+            action1.BackgroundColor = UIColor.Blue;
+
+            var action2 = UIContextualAction.FromContextualActionStyle(
+                UIContextualActionStyle.Normal,
+                "Action 2",
+                (flagAction, view, success) =>
+                {
+                    success(true);
+                });
+
+            action2.Image = UIImage.FromBundle("tick");
+            action2.BackgroundColor = UIColor.Yellow;
+
+            var action3 = UIContextualAction.FromContextualActionStyle(
+                UIContextualActionStyle.Normal,
+                "Action 3",
+                (flagAction, view, success) =>
+                {
+                    success(true);
+                });
+            action3.Image = UIImage.FromBundle("tick");
+            action3.BackgroundColor = UIColor.Green;
+
+            return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
         }
     }
 }

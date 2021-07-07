@@ -74,7 +74,6 @@ namespace Greeter.Modules.Home
 
             var carImageView = new UIImageView(CGRect.Empty);
             carImageView.TranslatesAutoresizingMaskIntoConstraints = false;
-            //carImageView.BackgroundColor = UIColor.Gray;
             carImageView.Image = UIImage.FromBundle(ImageNames.CAR);
             timeContainerView.Add(carImageView);
 
