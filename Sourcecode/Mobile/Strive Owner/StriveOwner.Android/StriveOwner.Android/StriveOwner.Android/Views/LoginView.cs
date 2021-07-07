@@ -66,7 +66,7 @@ namespace StriveOwner.Android.Views
 
         private void Login_Click(object sender, EventArgs e)
         {
-            this.ViewModel.doNetworkCheck();
+            this.ViewModel.DoLoginCommand();
         }
         private void RememberMe_CheckBox_Click(object sender, EventArgs e)
         {
@@ -86,7 +86,7 @@ namespace StriveOwner.Android.Views
                 password_EditText.SetText(password, null);
                 if (!String.IsNullOrEmpty(emailPhone_EditText.Text) && !String.IsNullOrEmpty(password_EditText.Text))
                 {
-                    ViewModel.doNetworkCheck();
+                    ViewModel.DoLoginCommand();
                 }
             }
             else
