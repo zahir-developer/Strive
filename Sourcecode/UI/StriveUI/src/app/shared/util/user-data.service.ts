@@ -77,6 +77,7 @@ export class UserDataService {
 
     }
     else if (token.ClientDetails !== undefined) {
+      this.setViews(token?.ClientDetails?.RolePermissionViewModel);
       this.setSides(JSON.stringify(token?.ClientDetails?.RolePermissionViewModel));
       localStorage.setItem('authorizationToken', token.Token);
       localStorage.setItem('refreshToken', token.RefreshToken);
