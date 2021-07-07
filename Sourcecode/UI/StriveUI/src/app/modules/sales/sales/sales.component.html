@@ -112,7 +112,7 @@
                                             <div> Discount </div>
                                         </div>
                                         <div class="icon-btn col-sm"
-                                            [class.disabled]="enableButton || !isAccount || multipleTicketSequence"
+                                            [class.disabled]="enableButton || !isAccount || !isMembership || multipleTicketSequence"
                                             [ngClass]="{'disable': enableButton || !isAccount || multipleTicketSequence, 'enable': !enableButton || isAccount || !multipleTicketSequence}"
                                             (click)="processAccount()">
                                             <img src="http://40.114.79.101:5005/images/Account.png" alt="" />

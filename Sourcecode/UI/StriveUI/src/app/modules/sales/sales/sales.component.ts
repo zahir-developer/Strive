@@ -410,15 +410,20 @@ export class SalesComponent implements OnInit {
           this.vehicleIds = accountDetails.Account.SalesAccountViewModel?.VehicleId
           this.accountDetails = accountDetails.Account;
           this.clientId = this.accountDetails.SalesAccountViewModel?.ClientId ? this.accountDetails.SalesAccountViewModel?.ClientId : 0;
-          if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount) {
+          if(this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount && this.accountDetails.SalesAccountViewModel?.MembershipId !== 0)
+          {
+            this.isAccount = true;
+            this.isMembership = true;
+          }
+          else if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount) {
             this.isAccount = true;
             this.accountEnable = true;
             this.isMembership = false;
           }
           else if (this.accountDetails.SalesAccountViewModel?.MembershipId !== 0 || this.accountDetails.SalesAccountViewModel?.MembershipId !== null) {
-            this.isAccount = true;
-            this.accountEnable = false;
-            this.isMembership = true
+            this.isAccount = false;
+            this.accountEnable = true;
+            this.isMembership = true;
           }
         }
       });
@@ -1654,8 +1659,7 @@ export class SalesComponent implements OnInit {
   processAccount() {
     this.totalAmount = 0;
     this.isAccountButton = !this.isAccountButton;
-    if (this.isAccount) {
-      if (this.accountEnable) {
+      if (this.isAccount) {
         this.removAddedAmount(this.account);
         this.allService.forEach(ele => {
           this.totalAmount += ele.Price
@@ -1692,8 +1696,6 @@ export class SalesComponent implements OnInit {
           }, (err) => {
             this.toastr.error(MessageConfig.CommunicationError, 'Error!');
           });
-
-        }
       }
     }
   }
