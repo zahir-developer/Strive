@@ -79,6 +79,14 @@ namespace Strive.Core.ViewModels.Owner
             rememberMe = !rememberMe;
         }
 
+        public void doNetworkCheck()
+         {
+            if(NetworkStatus == false)
+            {
+                _userDialog.Alert("Network error. Check your network and try again.");
+            }
+        }
+
         #endregion Commands
 
         #region Properties
@@ -87,6 +95,7 @@ namespace Strive.Core.ViewModels.Owner
         public string loginPassword { get; set; }
         public bool rememberMe { get; set; }
         public static string ConnectionID;
+        public bool NetworkStatus { get; set; } = false;
 
         public string Title
         {

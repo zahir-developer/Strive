@@ -68,6 +68,7 @@
     <Compile Include="MvvmCross\Setup.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\LoginView.cs" />
     <Compile Include="Views\sampleView.cs" />
   </ItemGroup>
