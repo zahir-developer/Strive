@@ -28,6 +28,7 @@ export class EmailBlastComponent implements OnInit {
   isLoading = false;
   ExportDate: any = [];
   isExport = false;
+  newCsvData: any;
   // isTableEmpty: boolean;
   // showDialog: boolean;
   // selectedData: any;
@@ -101,10 +102,21 @@ export class EmailBlastComponent implements OnInit {
                if (data.status === 'Success') {      
                 this.isExport = false;
                const csvData = JSON.parse(data.resultData);
-               if(csvData.ClientCSVExport.length ==0) {
+               this.newCsvData = csvData.ClientCSVExport.filter(function (ele) {
+                delete ele.Address1;
+                delete ele.barcode;
+                delete ele.ClientId;
+                delete ele.PhoneNumber;
+                delete ele.IsActive;
+                delete ele.ClientMembershipId;
+                delete ele.ClientType
+                return true;
+            });
+            console.log(this.newCsvData,'result');
+               if(this.newCsvData.length ==0) {
                 this.toastr.warning(MessageConfig.Admin.SystemSetup.EmailBlast.Total, 'Warning!');
                }    else{
-                this.excelService.exportAsCSVFile(csvData.ClientCSVExport, 'PromotionEmail' +
+                this.excelService.exportAsCSVFile(this.newCsvData, 'PromotionEmail' +
                   this.datePipe.transform(this.todayDate, 'MM') + '/' + this.datePipe.transform(this.todayDate, 'yyyy') );   
                 return data;
                }
