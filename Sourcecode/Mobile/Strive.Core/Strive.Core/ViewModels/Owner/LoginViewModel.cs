@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Acr.UserDialogs;
+using Strive.Core.Models.TimInventory;
+using Strive.Core.Resources;
+using Strive.Core.Utils;
 
 namespace Strive.Core.ViewModels.Owner
 {
@@ -15,5 +20,101 @@ namespace Strive.Core.ViewModels.Owner
         {
             await _navigationService.Navigate<SampleViewModel>();
         }
+
+        #region Commands
+
+        public async Task DoLoginCommand()
+        {
+            if (validateCommand())
+            {
+                _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+                var loginResponse = await AdminService.EmployeeLogin(new EmployeeLoginRequest(loginEmailPhone, loginPassword));
+                if (loginResponse != null)
+                {
+                    ApiUtils.Token = loginResponse.Token;
+                    //MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
+                    //MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
+                    //EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
+
+                    if (!string.IsNullOrEmpty(loginResponse.Token))
+                    {
+                        await _navigationService.Navigate<DashboardViewModel>();
+                    }
+                }
+                else
+                {
+                    _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                }
+                _userDialog.HideLoading();
+            }
+            else
+            {
+                _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+            }
+        }
+
+        public bool validateCommand()
+        {
+            bool isValid;
+
+            if (Validations.validateEmail(loginEmailPhone)
+                || Validations.validatePhone(loginEmailPhone))
+            {
+                isValid = true;
+            }
+            else if (String.IsNullOrEmpty(loginEmailPhone)
+                || String.IsNullOrEmpty(loginPassword))
+            {
+                isValid = false;
+            }
+            else
+            {
+                isValid = false;
+            }
+            return isValid;
+        }
+
+        public void RememberMeButtonCommand()
+        {
+            rememberMe = !rememberMe;
+        }
+
+        #endregion Commands
+
+        #region Properties
+
+        public string loginEmailPhone { get; set; }
+        public string loginPassword { get; set; }
+        public bool rememberMe { get; set; }
+        public static string ConnectionID;
+
+        public string Title
+        {
+            get
+            {
+                return Strings.CUSTOMER_APP_TITLE;
+            }
+            set { }
+        }
+
+        public string Login
+        {
+            get
+            {
+                return Strings.Login;
+            }
+            set { }
+        }
+
+        public string RememberPassword
+        {
+            get
+            {
+                return Strings.RememberPassword;
+            }
+            set { }
+        }       
+               
+        #endregion Properties
     }
 }
