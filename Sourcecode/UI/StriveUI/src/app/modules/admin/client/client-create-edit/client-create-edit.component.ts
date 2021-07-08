@@ -161,7 +161,9 @@ export class ClientCreateEditComponent implements OnInit {
     const myObj = {
       client: formObj,
       clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,
-      clientAddress: this.address
+      clientAddress: this.address,
+      token: null,
+      password: null
     }
     if (this.isEdit === true) {
       this.spinner.show();

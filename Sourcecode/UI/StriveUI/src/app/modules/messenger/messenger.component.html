@@ -96,7 +96,8 @@
                                             </div>
                                         </li>
                                     </ul>
-                                    <div *ngIf="selectedEmployee !== undefined" class="border-top m-t-16">
+                                    <div class="border-top m-t-16">
+                                    <!-- <div *ngIf="selectedEmployee !== undefined" class="border-top m-t-16"> -->
                                         <div class="row m-t-10">
                                             <div class="col mb-2 mb-sm-0">
                                                 <input type="text" [(ngModel)]="messageBody"
@@ -111,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-9 m-b-6 card internal-employee" *ngIf="!previouslyMessaged">
+                        <div class="col-xl-9 m-b-6 card internal-employee" *ngIf="selectedEmployee === null || selectedEmployee === undefined">
                             <div class="card-body">
                                 <div class="text-center" style="padding: 250px 0;">
                                     <p class="font-weight-800 font-size-1-5 line-height-0">No Conversation history found.</p>
