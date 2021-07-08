@@ -112,8 +112,8 @@
                                             <div> Discount </div>
                                         </div>
                                         <div class="icon-btn col-sm"
-                                            [class.disabled]="enableButton || !isAccount || !isMembership || multipleTicketSequence"
-                                            [ngClass]="{'disable': enableButton || !isAccount || multipleTicketSequence, 'enable': !enableButton || isAccount || !multipleTicketSequence}"
+                                            [class.disabled]="enableButton || !serviceGroup  ||multipleTicketSequence"
+                                            [ngClass]="{'disable': enableButton || !serviceGroup ||multipleTicketSequence, 'enable': !enableButton || serviceGroup || !multipleTicketSequence}"
                                             (click)="processAccount()">
                                             <img src="http://40.114.79.101:5005/images/Account.png" alt="" />
                                             <div> Account </div>
@@ -702,6 +702,26 @@
                     </div>
                     <!-- end row-->
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="saleConfirm" tabindex="-1" role="dialog" aria-labelledby="saleConfirm" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Credit and Membership</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
+                        aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <p>User have both Credit and Membership.Please select an Option.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn theme-optional-button-color" data-dismiss="modal" (click)="applyGroup('credit')">Apply Credit</button>
+                <button type="button" class="btn theme-primary-button-color" (click)="applyGroup('membership')" style="margin-left: 8rem;" data-dismiss="modal">Apply Membership</button>
             </div>
         </div>
     </div>
