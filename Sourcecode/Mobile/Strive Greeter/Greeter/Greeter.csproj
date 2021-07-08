@@ -26,7 +26,7 @@
         <MtouchArch>x86_64</MtouchArch>
         <MtouchLink>SdkOnly</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+        <CodesignProvision>Strive Greeter Appstore</CodesignProvision>
         <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
@@ -53,9 +53,10 @@
         <WarningLevel>4</WarningLevel>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <MtouchArch>ARM64</MtouchArch>
-        <CodesignKey>iPhone Developer</CodesignKey>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <MtouchLink>SdkOnly</MtouchLink>
         <LangVersion>latest</LangVersion>
+        <CodesignProvision>Strive Greeter Appstore</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
       <Optimize>false</Optimize>
@@ -294,6 +295,10 @@
         <Compile Include="Modules\Pay\PaymentSucessViewController.cs" />
         <Compile Include="Modules\Pay\PaymentSucessViewController.designer.cs">
           <DependentUpon>PaymentSucessViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Storyboards\MessagingViewController.cs" />
+        <Compile Include="Storyboards\MessagingViewController.designer.cs">
+          <DependentUpon>MessagingViewController.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

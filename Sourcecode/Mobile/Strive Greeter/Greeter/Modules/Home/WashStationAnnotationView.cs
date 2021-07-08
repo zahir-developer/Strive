@@ -10,6 +10,9 @@ namespace Greeter.Modules.Home
     [Register("WashStationAnnotation")]
     public class WashStationAnnotationView : MKAnnotationView
     {
+        UILabel stationNameLabel;
+        UILabel timeLabel;
+
         public WashStationAnnotationView(IntPtr handle) : base(handle)
         {
             SetupView();
@@ -57,7 +60,7 @@ namespace Greeter.Modules.Home
             infoContainerView.Layer.ShadowRadius = 3;
             Add(infoContainerView);
 
-            var stationNameLabel = new UILabel(CGRect.Empty);
+            stationNameLabel = new(CGRect.Empty);
             stationNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             stationNameLabel.Text = "Old Milton Parkway";
             stationNameLabel.TextColor = UIColor.FromRGB(42.0f / 255.0f, 193.0f / 255.0f, 177.0f / 255.0f);
@@ -78,7 +81,7 @@ namespace Greeter.Modules.Home
             carImageView.Image = UIImage.FromBundle(ImageNames.CAR);
             timeContainerView.Add(carImageView);
 
-            var timeLabel = new UILabel(CGRect.Empty);
+            timeLabel = new(CGRect.Empty);
             timeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             timeLabel.Text = "30Mins";
             timeLabel.TextColor = UIColor.FromRGB(0f / 255.0f, 46.0f / 255.0f, 41.0f / 255.0f);
@@ -131,8 +134,13 @@ namespace Greeter.Modules.Home
             timeLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.TrailingAnchor, constant: -12).Active = true;
             timeLabel.CenterYAnchor.ConstraintEqualTo(timeContainerView.CenterYAnchor).Active = true;
         }
-    }
 
+        internal void UpdateDataToUI(string locName, short washTimeMins)
+        {
+            stationNameLabel.Text = locName;
+            timeLabel.Text = washTimeMins.ToString();
+        }
+    }
 
     class PinView : UIView
     {

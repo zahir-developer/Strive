@@ -8,7 +8,8 @@ using Greeter.Common;
 using System.Threading.Tasks;
 using Greeter.Services.Network;
 using Greeter.Extensions;
-using System.Linq;
+using Greeter.DTOs;
+using System.Collections.Generic;
 
 namespace Greeter.Modules.Home
 {
@@ -61,6 +62,31 @@ namespace Greeter.Modules.Home
             mapView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
         }
 
+        void CenterMap(double lat, double lon)
+        {
+            var mapCenter = new CLLocationCoordinate2D(lat, lon);
+            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1000, 1000);
+            mapView.CenterCoordinate = mapCenter;
+            mapView.Region = mapRegion;
+        }
+
+        void PlaceLocationDetailsToMap(List<Location> locs)
+        {
+            int len = locs.Count;
+            for (int i = 0; i < len; i++)
+            {
+                mapView.AddAnnotation(new MKPointAnnotation
+                {
+                    Coordinate = new CLLocationCoordinate2D(locs[i].Latitude, locs[i].Longitude)
+                });
+
+                if (i == 0)
+                {
+                    CenterMap(locs[i].Latitude, locs[i].Longitude);
+                }
+            }
+        }
+
         void SetupNavigationItem()
         {
             Title = "Home";
@@ -89,7 +115,7 @@ namespace Greeter.Modules.Home
 
             if (response.IsSuccess())
             {
-                var locations = response?.Locations;
+                //PlaceLocationDetailsToMap(response?.Locations);
             }
         }
 

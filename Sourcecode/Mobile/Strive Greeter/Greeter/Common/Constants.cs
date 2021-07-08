@@ -12,9 +12,9 @@ namespace Greeter.Common
     public class Urls
     {
         //Dev 
-        internal const string BASE_URL = "https://strivedev.azurewebsites.net";
+        //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
-        //internal const string BASE_URL = "http://40.114.79.101:5004";
+        internal const string BASE_URL = "http://40.114.79.101:5004";
 
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Greeter.Common;
@@ -110,16 +111,27 @@ namespace Greeter.Services.Network
 
             // Parse json string result to json
             T response = null;
-            if (commonResponse?.ResultData != null)
+            try
             {
-                response = ParseJsonString<T>(commonResponse?.ResultData);
-                response.StatusCode = commonResponse.StatusCode;
-                response.Message = commonResponse.Message;
+                if (commonResponse?.ResultData != null)
+                {
+                    response = ParseJsonString<T>(commonResponse?.ResultData);
+                    response.StatusCode = commonResponse.StatusCode;
+                    response.Message = commonResponse.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Json parse Exception " + ex.Message);
             }
 
             return response;
         }
 
-        T ParseJsonString<T>(string jsonString) => JsonConvert.DeserializeObject<T>(jsonString);
+        T ParseJsonString<T>(string jsonString) => JsonConvert.DeserializeObject<T>(jsonString,
+            new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
     }
 }

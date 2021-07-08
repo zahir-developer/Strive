@@ -28,7 +28,7 @@ namespace Greeter
             // Clicks
             btnLogin.TouchUpInside += delegate
             {
-                LoginClicked(tfUserId.Text, tfPswd.Text);
+                _ = LoginClicked(tfUserId.Text, tfPswd.Text);
             };
 
             btnEye.TouchUpInside += delegate
@@ -94,6 +94,7 @@ namespace Greeter
                 return;
             }
 
+            // Do Login
             var req = new LoginRequest() { Email = email, Pswd = pswd };
 
             ShowActivityIndicator();

@@ -21,6 +21,12 @@ namespace Greeter.Common
             set => Preferences.Set(nameof(LocationID), value);
         }
 
+        public static int WashTime
+        {
+            get => Preferences.Get(nameof(WashTime), 0);
+            set => Preferences.Set(nameof(WashTime), value);
+        }
+
         public static long UserID
         {
             get => Preferences.Get(nameof(UserID), 0);

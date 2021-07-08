@@ -37,12 +37,9 @@ namespace Greeter
             txtFieldBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             txtFieldBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
-            //Clicks
-            //btnBack.TouchUpInside += delegate
-            //{
-            //    GoBackWithAnimation();
-            //};
+            lblWashTime.Text = AppSettings.WashTime.ToString() + ":00";
 
+            //Clicks
             btnWash.TouchUpInside += delegate
             {
                 IsWash = true;

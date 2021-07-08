@@ -62,6 +62,7 @@ namespace Greeter
                 {
                     int pos = (int)pvLoc.SelectedRowInComponent(0);
                     AppSettings.LocationID = locations[pos].ID;
+                    AppSettings.WashTime = locations[pos].WashTimeMinutes;
                     NavigateToTabsScreen();
                 }
                 else ShowAlertMsg(Common.Messages.LOCATION_EMPTY);
