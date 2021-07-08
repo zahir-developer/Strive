@@ -147,7 +147,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
 
   LoadMessageChat(employeeObj) {
+
     this.spinner.show();
+    this.previouslyMessaged = true;
     this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
     this.isGroupChat = employeeObj.IsGroup;
@@ -329,6 +331,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   sendFirstMessage(selectedEmployee) {
+    this.previouslyMessaged = true;
     this.sendMessage(true);
   }
 

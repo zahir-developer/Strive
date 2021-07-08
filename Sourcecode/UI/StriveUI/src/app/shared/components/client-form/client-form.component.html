@@ -43,7 +43,7 @@
                         placeholder="(XXX) XXX-XXXX" [ngClass]="{ 'is-invalid': submitted && f.phone1.errors }">
                     <div *ngIf="submitted && f.phone1.errors" class="invalid-feedback">
                         <div *ngIf="f.phone1.errors.required">Phone Number is required</div>
-                        <div *ngIf="f.phone1.errors.minlength">Password must be at least 10 characters</div>
+                        <div *ngIf="f.phone1.errors.minlength">Phone Number must be at least 10 characters</div>
                     </div>
                 </div>
                 <div class="col-md-6 p-r-0  form-group">
