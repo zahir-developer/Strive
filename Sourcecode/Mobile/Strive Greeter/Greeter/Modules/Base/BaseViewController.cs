@@ -5,9 +5,25 @@ using UIKit;
 
 namespace Greeter
 {
-    public class BaseViewController : UIViewController
+    public abstract class BaseViewController : UIViewController
     {
         UIActivityIndicatorView activityIndicator;
+
+        UITapGestureRecognizer tapArroundTapGesture;
+
+        bool dismissKeyboardOnTapArround;
+        protected virtual bool DismissKeyboardOnTapArround
+        {
+            get => dismissKeyboardOnTapArround;
+            set
+            {
+                dismissKeyboardOnTapArround = value;
+                if (value)
+                    SetTapArround();
+                else
+                    RemoveTapArround();
+            }
+        }
 
         public BaseViewController()
         {
@@ -22,6 +38,25 @@ namespace Greeter
             base.ViewDidLoad();
 
             //SetBinding();
+
+            if (DismissKeyboardOnTapArround)
+                SetTapArround();
+        }
+
+        void SetTapArround()
+        {
+            if (tapArroundTapGesture is not null && !IsViewLoaded) return;
+
+            tapArroundTapGesture = new UITapGestureRecognizer(_ => View.EndEditing(true));
+
+            View.AddGestureRecognizer(tapArroundTapGesture);
+        }
+
+        void RemoveTapArround()
+        {
+            if (tapArroundTapGesture is null && !IsViewLoaded) return;
+
+            View.RemoveGestureRecognizer(tapArroundTapGesture);
         }
 
         void SetBinding()
