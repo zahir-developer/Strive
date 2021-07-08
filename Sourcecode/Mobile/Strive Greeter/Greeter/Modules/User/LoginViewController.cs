@@ -35,6 +35,8 @@ namespace Greeter
             {
                 ChaangeEye(tfPswd.SecureTextEntry);
             };
+
+            DismissKeyboardOnTapArround = true;
         }
 
         void Initialise()
