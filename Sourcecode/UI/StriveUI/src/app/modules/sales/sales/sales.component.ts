@@ -1088,7 +1088,7 @@ export class SalesComponent implements OnInit {
     this.totalPaid = this.totalPaid - amount;
   }
   calculateTotalpaid(amount) {
-    this.totalPaid = amount;
+    this.totalPaid = this.totalPaid + amount;
   }
   addCash(cash) {
     this.cashTotal = +this.cashTotal + cash;
