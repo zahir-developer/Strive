@@ -34,10 +34,7 @@ namespace Greeter
             base.ViewDidLoad();
 
             // Initial UI Settings
-            txtFieldBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
-            txtFieldBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
-
-            lblWashTime.Text = AppSettings.WashTime.ToString() + ":00";
+            Initialise();
 
             //Clicks
             btnWash.TouchUpInside += delegate
@@ -83,6 +80,15 @@ namespace Greeter
 
             lblLastService.AddGestureRecognizer(new UITapGestureRecognizer(LastServiceTap));
             lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(NavigateToIssue));
+        }
+
+        void Initialise()
+        {
+            txtFieldBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            txtFieldBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+
+            lblWashTime.Text = AppSettings.WashTime.ToString() + ":00";
+            DismissKeyboardOnTapArround = true;
         }
 
         async Task GetBarcodeDetails(string barcode)

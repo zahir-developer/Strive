@@ -12,6 +12,7 @@ namespace Greeter
         UITapGestureRecognizer tapArroundTapGesture;
 
         bool dismissKeyboardOnTapArround;
+
         protected virtual bool DismissKeyboardOnTapArround
         {
             get => dismissKeyboardOnTapArround;
@@ -148,20 +149,6 @@ namespace Greeter
                 }));
             PresentViewController(okAlertController, true, null);
         }
-
-        //public void AddLeftPadding(UITextField tf, float padding)
-        //{
-        //    UIView paddingView = new UIView(new CoreGraphics.CGRect(0, 0, padding, tf.Frame.Height));
-        //    tf.LeftView = paddingView;
-        //    tf.LeftViewMode = UITextFieldViewMode.Always;
-        //}
-
-        //public void AddRightPadding(UITextField tf, float padding)
-        //{
-        //    UIView paddingView = new UIView(new CoreGraphics.CGRect(0, 0, padding, tf.Frame.Height));
-        //    tf.RightView = paddingView;
-        //    tf.RightViewMode = UITextFieldViewMode.Always;
-        //}
 
         public void AddPickerToolbar(UITextField textField, string title, Action action)
         {

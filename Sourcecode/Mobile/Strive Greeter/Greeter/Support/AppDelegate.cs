@@ -1,7 +1,5 @@
 using Foundation;
 using Greeter.Common;
-using Greeter.MvvmCross;
-using MvvmCross.Platforms.Ios.Core;
 using UIKit;
 
 namespace Greeter

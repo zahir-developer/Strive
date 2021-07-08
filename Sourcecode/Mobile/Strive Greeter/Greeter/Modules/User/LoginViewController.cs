@@ -25,6 +25,11 @@ namespace Greeter
 
             Initialise();
 
+#if DEBUG
+            tfUserId.Text = "caradmin@strive.com";
+            tfPswd.Text = "pass@123";
+#endif
+
             // Clicks
             btnLogin.TouchUpInside += delegate
             {
@@ -35,13 +40,12 @@ namespace Greeter
             {
                 ChaangeEye(tfPswd.SecureTextEntry);
             };
-
-            DismissKeyboardOnTapArround = true;
         }
 
         void Initialise()
         {
             NavigationController.NavigationBar.Hidden = true;
+            DismissKeyboardOnTapArround = true;
 
             // Initial UI Customisation
             tfUserId.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
