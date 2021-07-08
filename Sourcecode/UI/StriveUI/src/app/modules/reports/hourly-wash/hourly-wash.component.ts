@@ -101,11 +101,12 @@ export class HourlyWashComponent implements OnInit {
   viewHourlyReport() {
     const finalObj = {
       locationId: +this.locationId,
-      fromDate: moment(this.startDate).format(),
-      endDate: moment(this.endDate).format()
+      fromDate: this.startDate,
+      endDate: this.endDate
     };
     this.spinner.show();
     this.reportsService.getHourlyWashReport(finalObj).subscribe(res => {
+      this.spinner.hide();
       if (res.status === 'Success') {
         this.spinner.hide()
         const hourlyRate = JSON.parse(res.resultData);
@@ -132,6 +133,9 @@ export class HourlyWashComponent implements OnInit {
         if (hourlyRate.GetHourlyWashReport.WashHoursViewModel !== null) {
           this.hourlyWashReport = hourlyRate.GetHourlyWashReport.WashHoursViewModel;
           this.hourlyWashReport = this.customizeObj(this.hourlyWashReport);
+          for (let i = 0; i < this.hourlyWashReport.length; i++) {
+            this.hourlyWashReport[i].JobDate =  moment(this.hourlyWashReport[i].JobDate, "M/D/YYYY").format("MM/DD/YYYY")
+          }
         }
         if (hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel !== null) {
           this.hourlyWashManager = hourlyRate.GetHourlyWashReport.HourlyWashEmployeeViewModel;
@@ -235,7 +239,7 @@ export class HourlyWashComponent implements OnInit {
       else{
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
+        console.log('welcome3');
       }
     }, (err) => {
       this.spinner.hide();
