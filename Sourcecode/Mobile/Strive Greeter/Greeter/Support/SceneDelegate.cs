@@ -1,8 +1,6 @@
 using Foundation;
 using Greeter;
 using Greeter.Common;
-using Greeter.Services.Authentication;
-using Greeter.Services.Network;
 using UIKit;
 
 namespace NewSingleViewTemplate
