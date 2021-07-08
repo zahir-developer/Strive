@@ -418,14 +418,17 @@ export class SalesComponent implements OnInit {
             this.serviceGroup = true;
             this.isAccount = true;
             this.isMembership = true;
+            console.log('welcome1');
           }
           else if (this.accountDetails.SalesAccountCreditViewModel?.IsCreditAccount) {
             this.serviceGroup = true;
             this.isAccount = true;
+            this.isMembership = false;
           }
           else if (this.accountDetails.SalesAccountViewModel?.MembershipId !== 0 || this.accountDetails.SalesAccountViewModel?.MembershipId !== null) {
             this.serviceGroup = true;
             this.isMembership = true;
+            this.isAccount = false;
           }
         }
       });
@@ -1659,7 +1662,7 @@ export class SalesComponent implements OnInit {
 
   processAccount() {
     this.isAccountButton = !this.isAccountButton;
-    if (this.serviceGroup && this.isAccount) {
+    if (this.serviceGroup && this.isAccount && !this.isMembership) {
       this.removAddedAmount(this.account);
       this.totalAmount = 0;
       this.allService.forEach(ele => {
@@ -1669,7 +1672,7 @@ export class SalesComponent implements OnInit {
       this.calculateTotalpaid(this.account);
       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.CreditAccountApplied });
     }
-    else if (this.serviceGroup && this.isMembership) {
+    else if (this.serviceGroup && this.isMembership && !this.isAccount) {
       if (this.vehicleIds) {
         this.vehicle.getVehicleMembershipDetailsByVehicleId(this.vehicleIds).subscribe(res => {
           if (res.status === 'Success') {
@@ -1699,6 +1702,7 @@ export class SalesComponent implements OnInit {
         });
       }
     } else if (this.serviceGroup && this.isAccount && this.isMembership) {
+      console.log('welcome2');
       this.confirmationPopUp();
     }
   }
