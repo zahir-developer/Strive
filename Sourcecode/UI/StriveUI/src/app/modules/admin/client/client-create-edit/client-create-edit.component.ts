@@ -163,7 +163,7 @@ export class ClientCreateEditComponent implements OnInit {
       clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,
       clientAddress: this.address,
       token: null,
-      password: null
+      password: ''
     }
     if (this.isEdit === true) {
       this.spinner.show();

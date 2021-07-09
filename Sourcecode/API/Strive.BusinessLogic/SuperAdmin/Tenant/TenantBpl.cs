@@ -123,7 +123,7 @@ namespace Strive.BusinessLogic.SuperAdmin.Tenant
 
             var maxLocation = new TenantRal(_tenant, true).GetLoationMaxLimit(tenantId);
 
-            var locationCount = new TenantRal(_tenant, true).GetLocationCount(tenantId);
+            var locationCount = new TenantRal(_tenant).GetLocationCount(tenantId);
 
             var result = locationCount >= maxLocation;
 
