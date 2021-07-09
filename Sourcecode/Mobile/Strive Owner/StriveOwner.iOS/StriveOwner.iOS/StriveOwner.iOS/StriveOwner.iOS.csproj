@@ -197,6 +197,7 @@
         <InterfaceDefinition Include="Views\Login\LoginView.xib" />
         <InterfaceDefinition Include="Views\DashboardView.xib" />
         <InterfaceDefinition Include="Views\CheckOut\CheckOutView.xib" />
+        <InterfaceDefinition Include="Views\CheckOut\CheckOut_Cell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -224,6 +225,11 @@
         <Compile Include="Views\CheckOut\CheckOutView.designer.cs">
           <DependentUpon>CheckOutView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\CheckOut\CheckOut_Cell.cs" />
+        <Compile Include="Views\CheckOut\CheckOut_Cell.designer.cs">
+          <DependentUpon>CheckOut_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CheckOut\CheckOut_DataSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
