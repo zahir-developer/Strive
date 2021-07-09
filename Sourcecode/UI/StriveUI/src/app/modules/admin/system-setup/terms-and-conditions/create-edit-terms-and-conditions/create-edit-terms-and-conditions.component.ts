@@ -25,6 +25,7 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   submitted: any;
   employeeId: any;
   subdocumentType: any;
+  documentSubTypeValue: any;
   fileType: string[];
   fileTypes: string;
   fileSize: number;
@@ -49,22 +50,22 @@ export class CreateEditTermsAndConditionsComponent implements OnInit {
   }
 
   getDocumentType() {
-    const documentSubTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.documentSubType);
-    if (documentSubTypeValue.length > 0) {
-      this.subdocumentType = documentSubTypeValue.Codes;
-    } else {
-      this.getCode.getCodeByCategory(ApplicationConfig.Category.documentSubType).subscribe(data => {
-        if (data.status === "Success") {
-          const dType = JSON.parse(data.resultData);
-          this.subdocumentType = dType.Codes;
-        } else {
-          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-        }
-      }, (err) => {
+    // this.documentSubTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.documentSubType);
+    // if (this.documentSubTypeValue.length !== 0) {
+    //   this.subdocumentType = this.documentSubTypeValue.Codes;
+    // }
+    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentSubType).subscribe(data => {
+      if (data.status === "Success") {
+        const dType = JSON.parse(data.resultData);
+        this.subdocumentType = dType.Codes;
+      } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
-    }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
+
   formInitialize() {
     this.termsForm = this.fb.group({
       createdDate: [''],

@@ -12,7 +12,7 @@
 
             <div class="form-group col-lg-4">
                 <label for="inputDescription"> Launch Date<span class="required">*</span></label>
-                <input type="text" placeholder="Select a Date" name="dateRange" class="form-control" [ngClass]="{ 'is-invalid': submitted  && f.daterangepickerModel.errors }" formControlName="daterangepickerModel" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()" (bsValueChange)="onValueChange($event)"
+                <input type="text" placeholder="Select a Date" maxlength="100" name="dateRange" class="form-control" [ngClass]="{ 'is-invalid': submitted  && f.daterangepickerModel.errors }" formControlName="daterangepickerModel" bsDatepicker #dp="bsDatepicker" (focus)="dp.show()" (bsValueChange)="onValueChange($event)"
                     [bsConfig]="{ maxDateRange: 7 , showWeekNumbers: false , displayMonths : 1 , selectFromOtherMonth : true}">
 
                 <div *ngIf="submitted  && f.daterangepickerModel.errors" class="invalid-feedback">
@@ -43,7 +43,8 @@
         <div class="form-row">
             <div class="form-group col-lg-4">
                 <label for="inputDescription"> Description<span class="required">*</span></label>
-                <textarea maxlength="100" rows="2" class="form-control" formControlName="description" placeholder="Description" [ngClass]="{ 'is-invalid': submitted  && f.description.errors }"></textarea>
+                <textarea maxlength="200" rows="2" class="form-control" formControlName="description" placeholder="Description" [ngClass]="{ 'is-invalid': submitted  && f.description.errors }"></textarea>
+                <small class="form-text text-muted">Description: (max.length: 200)</small>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                     <div *ngIf="f.description.errors.required">Description is required</div>
                 </div>

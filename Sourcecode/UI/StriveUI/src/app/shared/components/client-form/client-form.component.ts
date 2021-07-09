@@ -34,6 +34,7 @@ export class ClientFormComponent implements OnInit {
   ClientNameAvailable: any;
   ClientEmailAvailable: boolean;
   isAmount: boolean;
+  creditCheck = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService, private codeService: CodeValueService) { }
 
@@ -147,6 +148,7 @@ export class ClientFormComponent implements OnInit {
     this.State = this.selectedStateId;
     this.selectedCityId = this.selectedData.City;
     this.city = this.selectedCityId;
+    this.creditCheck = this.selectedData.IsCreditAccount
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
       lName: this.selectedData.LastName,
