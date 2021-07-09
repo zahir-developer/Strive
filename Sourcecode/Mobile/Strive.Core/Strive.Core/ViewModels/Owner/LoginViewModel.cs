@@ -25,8 +25,8 @@ namespace Strive.Core.ViewModels.Owner
 
         public async Task DoLoginCommand()
         {
-            if(doNetworkCheck())
-            {
+            //if(doNetworkCheck())
+            //{
                 if (validateCommand())
                 {
                     _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
@@ -53,7 +53,7 @@ namespace Strive.Core.ViewModels.Owner
                 {
                     _userDialog.Alert(Strings.UsernamePasswordIncorrect);
                 }
-            }
+            //}
            
         }
 
