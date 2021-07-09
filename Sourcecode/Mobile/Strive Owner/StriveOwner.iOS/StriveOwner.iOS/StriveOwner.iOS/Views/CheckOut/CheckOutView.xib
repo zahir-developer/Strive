@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CheckOutView">
+            <connections>
+                <outlet property="CheckOut_TableView" destination="eMw-U0-Ug1" id="th0-si-U0h"/>
+                <outlet property="CheckOut_View" destination="Jad-EU-jlS" id="dC7-75-ULg"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="vaV-gf-Boo">
+                    <rect key="frame" x="-10" y="-10" width="434" height="916"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jad-EU-jlS">
+                    <rect key="frame" x="33.5" y="148" width="347" height="600"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eMw-U0-Ug1">
+                            <rect key="frame" x="0.0" y="0.0" width="347" height="600"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="eMw-U0-Ug1" firstAttribute="centerX" secondItem="Jad-EU-jlS" secondAttribute="centerX" id="2R5-qX-hab"/>
+                        <constraint firstItem="eMw-U0-Ug1" firstAttribute="centerY" secondItem="Jad-EU-jlS" secondAttribute="centerY" id="SnX-Cb-DgT"/>
+                        <constraint firstItem="eMw-U0-Ug1" firstAttribute="top" secondItem="Jad-EU-jlS" secondAttribute="top" id="ct1-Ij-irA"/>
+                        <constraint firstItem="eMw-U0-Ug1" firstAttribute="leading" secondItem="Jad-EU-jlS" secondAttribute="leading" id="q9x-w6-j40"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vaV-gf-Boo" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="4ch-EN-zkD"/>
+                <constraint firstItem="vaV-gf-Boo" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="8pA-ik-krR"/>
+                <constraint firstItem="Jad-EU-jlS" firstAttribute="centerX" secondItem="vaV-gf-Boo" secondAttribute="centerX" id="IwG-7P-lCm"/>
+                <constraint firstAttribute="bottom" secondItem="vaV-gf-Boo" secondAttribute="bottom" constant="-10" id="KK7-8y-VKa"/>
+                <constraint firstItem="Jad-EU-jlS" firstAttribute="height" secondItem="vaV-gf-Boo" secondAttribute="height" multiplier="0.655022" id="MAz-99-lqT"/>
+                <constraint firstItem="vaV-gf-Boo" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="QMs-Z5-53U"/>
+                <constraint firstItem="Jad-EU-jlS" firstAttribute="centerY" secondItem="vaV-gf-Boo" secondAttribute="centerY" id="Z2d-Nq-3gv"/>
+                <constraint firstAttribute="trailing" secondItem="vaV-gf-Boo" secondAttribute="trailing" constant="-10" id="aAD-rG-gby"/>
+                <constraint firstItem="Jad-EU-jlS" firstAttribute="width" secondItem="vaV-gf-Boo" secondAttribute="width" multiplier="0.8" id="cwl-sa-lou"/>
+                <constraint firstItem="vaV-gf-Boo" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="jIV-VW-zgP"/>
+            </constraints>
+            <point key="canvasLocation" x="121" y="1"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="splash" width="390" height="812"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -139,6 +139,38 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-unchecked.imageset\Rectangle 196%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message-active.imageset\Group 370%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout.imageset\Icon awesome-flag-checkered%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Icon-home.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Icon-home%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home.imageset\Icon-home%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Icon awesome-home.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Icon awesome-home%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-home-active.imageset\Icon awesome-home%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Group 366.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Group 366%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\Group 366%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Inventory.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Inventory%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\Inventory%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%403x-2.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%402x-1.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -150,11 +182,22 @@
         <Folder Include="Resources\Assets.xcassets\icon-strive-splash.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-checked.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-unchecked.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-message.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-message-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checkout.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-checkout-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-home.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-home-active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\" />
+        <Folder Include="Views\CheckOut\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
         <InterfaceDefinition Include="Views\Login\LoginView.xib" />
         <InterfaceDefinition Include="Views\DashboardView.xib" />
+        <InterfaceDefinition Include="Views\CheckOut\CheckOutView.xib" />
+        <InterfaceDefinition Include="Views\CheckOut\CheckOut_Cell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -178,6 +221,15 @@
         <Compile Include="Views\DashboardView.designer.cs">
           <DependentUpon>DashboardView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\CheckOut\CheckOutView.cs" />
+        <Compile Include="Views\CheckOut\CheckOutView.designer.cs">
+          <DependentUpon>CheckOutView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CheckOut\CheckOut_Cell.cs" />
+        <Compile Include="Views\CheckOut\CheckOut_Cell.designer.cs">
+          <DependentUpon>CheckOut_Cell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\CheckOut\CheckOut_DataSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
