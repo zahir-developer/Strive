@@ -82,7 +82,7 @@
                                 <tbody *ngIf="hourlyWashReport.length > 0">
                                     <tr class="hourlywash-striped" *ngFor="let hours of hourlyWashReport">
                                         <th scope="row" class="align-middle text-center">{{hours.Day}}
-                                            <br>{{hours.JobDate | date : 'MM/dd/yyyy' }}</th>
+                                            <br>{{hours.JobDate}}</th>
                                         <td>
                                             <input type="text" class="form-control p-10 text-right" disabled
                                                 placeholder="{{hours.Temperature}}">

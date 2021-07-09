@@ -133,7 +133,7 @@
         <div class="form-group col-lg-6 col-xl-2  m-t-40">
             <div class="custom-control custom-checkbox custom-control-inline m-r-0">
                 <div class="form-check">
-                    <input class="form-check-input" tabindex="15" type="checkbox" formControlName="creditAccount"
+                    <input class="form-check-input" tabindex="15" type="checkbox" [(ngModel)]="creditCheck" formControlName="creditAccount"
                         (change)="change($event.target.checked)">
                     <label class="form-check-label" for="gridCheck">Credit Account</label>
                 </div>
