@@ -176,6 +176,7 @@ export class SalesComponent implements OnInit {
     modalRef.componentInstance.isModal = true;
     modalRef.componentInstance.printTicketNumber = this.printTicketNumber;
     modalRef.componentInstance.itemList = this.itemList.Status;
+    modalRef.componentInstance.cashBack = this.cashback;
   }
   getServiceType() {
     const serviceTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.serviceType);
