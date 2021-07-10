@@ -57,7 +57,7 @@ namespace Greeter.Common
     {
         internal const string SPLASH_BG = "splash_bg";
         internal const string CHECKOUT = "checkout";
-        internal const string PAY = "pay";
+        internal const string DOLLAR = "dollar";
         internal const string HOME = "home";
         internal const string CAR = "car";
         internal const string SEND = "send";

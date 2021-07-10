@@ -41,12 +41,13 @@ namespace Greeter.Modules.Pay
 
         void SetupView()
         {
-            Title = "Payment";
+            Title = "Pay";
 
             View.AddGestureRecognizer(new UITapGestureRecognizer(DidTapAround));
 
             var backgroundImage = new UIImageView(UIImage.FromBundle(ImageNames.SPLASH_BG));
             backgroundImage.TranslatesAutoresizingMaskIntoConstraints = false;
+            backgroundImage.ContentMode = UIViewContentMode.ScaleAspectFill;
             View.Add(backgroundImage);
 
             scrollView = new UIScrollView(CGRect.Empty);
