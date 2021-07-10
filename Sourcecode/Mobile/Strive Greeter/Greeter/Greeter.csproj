@@ -176,6 +176,10 @@
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png" />
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180.png" />
 
+        <ImageAsset Include="Resources\Assets.xcassets\send.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\send.imageset\send%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send.imageset\send%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send.imageset\send%402x-1.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -200,6 +204,7 @@
         <Folder Include="MvvmCross\" />
         <Folder Include="Modules\Checkout\" />
         <Folder Include="Resources\Assets.xcassets\car.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\send.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -318,6 +323,12 @@
         <Compile Include="Storyboards\MessagingViewController.designer.cs">
           <DependentUpon>MessagingViewController.cs</DependentUpon>
         </Compile>
+        <Compile Include="Modules\Message\ChatViewController.cs" />
+        <Compile Include="Modules\Message\ChatViewController.Logic.cs">
+            <DependentUpon>Modules\Message\ChatViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Cells\MessageIncomingCell.cs" />
+        <Compile Include="Cells\MessageOutgoingCell.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -9,7 +9,7 @@ namespace Greeter.Cells
 {
     public class CheckoutCell : UITableViewCell
     {
-        public static readonly NSString Key = new NSString("CheckoutCell");
+        public static readonly NSString Key = new("CheckoutCell");
 
         UIView statusIndicatorView;
         UILabel checkoutIdLabel;

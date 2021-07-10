@@ -60,6 +60,7 @@ namespace Greeter.Common
         internal const string PAY = "pay";
         internal const string HOME = "home";
         internal const string CAR = "car";
+        internal const string SEND = "send";
     }
 
     public class ColorNames
