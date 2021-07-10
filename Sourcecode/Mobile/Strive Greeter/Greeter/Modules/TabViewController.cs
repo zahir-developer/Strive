@@ -29,7 +29,7 @@ namespace Greeter
             var tabbarItem1 = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
             vc1.TabBarItem = tabbarItem1;
             var item3 = new PaymentViewController();
-            var icon3 = new UITabBarItem(title: "Pay", image: UIImage.FromBundle(ImageNames.PAY), null);
+            var icon3 = new UITabBarItem(title: "Pay", image: UIImage.FromBundle(ImageNames.DOLLAR), null);
             item3.TabBarItem = icon3;
             var item4 = new CheckoutViewController();
             var icon4 = new UITabBarItem(title: "Checkout", image: UIImage.FromBundle(ImageNames.CHECKOUT), null);

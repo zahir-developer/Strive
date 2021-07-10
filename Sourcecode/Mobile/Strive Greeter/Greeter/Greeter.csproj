@@ -110,10 +110,6 @@
         <ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Contents.json" />
-        <ImageAsset Include="Resources\Assets.xcassets\pay.imageset\Group 58.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\pay.imageset\Contents.json" />
-        <ImageAsset Include="Resources\Assets.xcassets\pay.imageset\Group 58%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\pay.imageset\Group 58%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\messaging.imageset\Group 370%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\messaging.imageset\Group 370%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\messaging.imageset\Contents.json" />
@@ -179,7 +175,11 @@
         <ImageAsset Include="Resources\Assets.xcassets\send.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\send.imageset\send%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\send.imageset\send%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\send.imageset\send%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send.imageset\send%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%402x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -206,6 +206,7 @@
         <Folder Include="Resources\Assets.xcassets\car.imageset\" />
         <Folder Include="Resources\Assets.xcassets\send.imageset\" />
         <Folder Include="Services\Api\" />
+
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -318,10 +319,6 @@
         <Compile Include="Modules\Pay\PaymentSucessViewController.cs" />
         <Compile Include="Modules\Pay\PaymentSucessViewController.designer.cs">
           <DependentUpon>PaymentSucessViewController.cs</DependentUpon>
-        </Compile>
-        <Compile Include="Storyboards\MessagingViewController.cs" />
-        <Compile Include="Storyboards\MessagingViewController.designer.cs">
-          <DependentUpon>MessagingViewController.cs</DependentUpon>
         </Compile>
         <Compile Include="Modules\Message\ChatViewController.cs" />
         <Compile Include="Modules\Message\ChatViewController.Logic.cs">

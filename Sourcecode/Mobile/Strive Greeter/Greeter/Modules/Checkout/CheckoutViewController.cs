@@ -36,6 +36,7 @@ namespace Greeter.Modules.Pay
         {
             var backgroundImage = new UIImageView(UIImage.FromBundle(ImageNames.SPLASH_BG));
             backgroundImage.TranslatesAutoresizingMaskIntoConstraints = false;
+            backgroundImage.ContentMode = UIViewContentMode.ScaleAspectFill;
             View.Add(backgroundImage);
 
             backgroundImage.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
