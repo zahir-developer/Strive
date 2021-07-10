@@ -2,6 +2,7 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.Common;
+using Greeter.DTOs;
 using MapKit;
 using UIKit;
 
@@ -62,7 +63,6 @@ namespace Greeter.Modules.Home
 
             stationNameLabel = new(CGRect.Empty);
             stationNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            stationNameLabel.Text = "Old Milton Parkway";
             stationNameLabel.TextColor = UIColor.FromRGB(42.0f / 255.0f, 193.0f / 255.0f, 177.0f / 255.0f);
             stationNameLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Bold);
             stationNameLabel.Lines = 2;
@@ -82,7 +82,6 @@ namespace Greeter.Modules.Home
 
             timeLabel = new(CGRect.Empty);
             timeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            timeLabel.Text = "30Mins";
             timeLabel.TextColor = UIColor.FromRGB(0f / 255.0f, 46.0f / 255.0f, 41.0f / 255.0f);
             timeLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Bold);
             timeContainerView.Add(timeLabel);
@@ -134,10 +133,10 @@ namespace Greeter.Modules.Home
             timeLabel.CenterYAnchor.ConstraintEqualTo(timeContainerView.CenterYAnchor).Active = true;
         }
 
-        internal void UpdateDataToUI(string locName, short washTimeMins)
+        internal void SetupData(Location location)
         {
-            stationNameLabel.Text = locName;
-            timeLabel.Text = washTimeMins.ToString();
+            stationNameLabel.Text = location.Name;
+            timeLabel.Text = $"{location.WashTimeMinutes}Mins";
         }
     }
 

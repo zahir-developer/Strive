@@ -5,11 +5,9 @@ using Foundation;
 using CoreLocation;
 using System;
 using Greeter.Common;
-using System.Threading.Tasks;
-using Greeter.Services.Network;
-using Greeter.Extensions;
 using Greeter.DTOs;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Greeter.Modules.Home
 {
@@ -43,19 +41,6 @@ namespace Greeter.Modules.Home
 
             mapView.Register(typeof(WashStationAnnotationView), MKMapViewDefault.AnnotationViewReuseIdentifier);
 
-            const double lat = 11.6612012;
-            const double lon = 78.1602498;
-
-            var mapCenter = new CLLocationCoordinate2D(lat, lon);
-            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1000, 1000);
-            mapView.CenterCoordinate = mapCenter;
-            mapView.Region = mapRegion;
-
-            mapView.AddAnnotation(new MKPointAnnotation
-            {
-                Coordinate = new CLLocationCoordinate2D(lat, lon)
-            });
-
             mapView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
             mapView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor).Active = true;
             mapView.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
@@ -70,21 +55,20 @@ namespace Greeter.Modules.Home
             mapView.Region = mapRegion;
         }
 
-        void PlaceLocationDetailsToMap(List<Location> locs)
+        void PlaceLocationDetailsToMap(List<Location> locations)
         {
-            int len = locs.Count;
-            for (int i = 0; i < len; i++)
-            {
-                mapView.AddAnnotation(new MKPointAnnotation
-                {
-                    Coordinate = new CLLocationCoordinate2D(locs[i].Latitude, locs[i].Longitude)
-                });
+            if (locations == null) return;
 
-                if (i == 0)
-                {
-                    CenterMap(locs[i].Latitude, locs[i].Longitude);
-                }
-            }
+            locations = locations.FindAll(location => location.Latitude != 0 && location.Longitude != 0);
+            var annotations = locations.ConvertAll(location => new MKPointAnnotation
+            {
+                Coordinate = new CLLocationCoordinate2D(location.Latitude, location.Longitude)
+            }).ToArray();
+
+            mapView.AddAnnotations(annotations);
+
+            var location = locations.First();
+            CenterMap(location.Latitude, location.Longitude);
         }
 
         void SetupNavigationItem()
@@ -101,28 +85,13 @@ namespace Greeter.Modules.Home
             });
         }
 
-        async Task GetData()
-        {
-            ShowActivityIndicator();
-            var response = await new ApiService(new NetworkService()).GetLocations();
-            HideActivityIndicator();
-
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
-
-            if (response.IsSuccess())
-            {
-                //PlaceLocationDetailsToMap(response?.Locations);
-            }
-        }
-
         [Export("mapView:viewForAnnotation:")]
         public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
-            return mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier);
+            var annotationView = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as WashStationAnnotationView;
+            var location = locations.First(location => location.Latitude == annotation.Coordinate.Latitude && location.Longitude == annotation.Coordinate.Longitude);
+            annotationView.SetupData(location);
+            return annotationView;
         }
     }
 }
