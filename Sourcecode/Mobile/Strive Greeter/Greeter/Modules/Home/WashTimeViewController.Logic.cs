@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Services.Api;
 using Greeter.Services.Network;
 
 namespace Greeter.Modules.Home
@@ -17,7 +18,7 @@ namespace Greeter.Modules.Home
         async Task GetData()
         {
             ShowActivityIndicator();
-            var response = await new ApiService(new NetworkService()).GetLocations();
+            var response = await new UserApi().GetLocations();
             HideActivityIndicator();
 
             if (response.IsNoInternet())

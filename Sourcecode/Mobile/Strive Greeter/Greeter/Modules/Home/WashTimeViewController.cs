@@ -60,6 +60,7 @@ namespace Greeter.Modules.Home
             if (locations == null) return;
 
             locations = locations.FindAll(location => location.Latitude != 0 && location.Longitude != 0);
+
             var annotations = locations.ConvertAll(location => new MKPointAnnotation
             {
                 Coordinate = new CLLocationCoordinate2D(location.Latitude, location.Longitude)

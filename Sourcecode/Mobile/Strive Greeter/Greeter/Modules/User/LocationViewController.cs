@@ -8,6 +8,7 @@ using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Services.Api;
 using Greeter.Services.Network;
 using UIKit;
 
@@ -72,7 +73,7 @@ namespace Greeter
         async Task GetData()
         {
             ShowActivityIndicator();
-            var response = await new ApiService(new NetworkService()).GetLocations();
+            var response = await new UserApi().GetLocations();
             HideActivityIndicator();
 
             if (response.IsNoInternet())

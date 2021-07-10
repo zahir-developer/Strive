@@ -9,7 +9,9 @@ namespace Greeter.Services.Network
         [NotNull]
         public string Path { get; private set; }
         public Dictionary<string, string>? Parameter { get; private set; }
+
         public Dictionary<string, string>? Header { get; private set; }
+
         public object? Body { get; private set; }
         public HttpMethod Method { get; private set; } = HttpMethod.Get;
 

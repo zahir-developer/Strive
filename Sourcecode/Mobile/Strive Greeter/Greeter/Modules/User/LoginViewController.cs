@@ -6,6 +6,7 @@ using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Modules.User;
+using Greeter.Services.Authentication;
 using Greeter.Services.Network;
 using MvvmCross.Binding.BindingContext;
 
@@ -104,7 +105,7 @@ namespace Greeter
             var req = new LoginRequest() { Email = email, Pswd = pswd };
 
             ShowActivityIndicator();
-            var response = await new ApiService(new NetworkService()).DoLogin(req);
+            var response = await new AuthenticationService().DoLogin(req);
             HideActivityIndicator();
 
             if (response.IsNoInternet())

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
-using Greeter.Services.Network;
+using Greeter.Services.Api;
 
 namespace Greeter.Modules.Pay
 {
@@ -30,7 +30,7 @@ namespace Greeter.Modules.Pay
             };
 
             ShowActivityIndicator();
-            var response = await new ApiService(new NetworkService()).GetCheckoutList(checkoutRequest);
+            var response = await new CheckoutApi().GetCheckoutList(checkoutRequest);
             HideActivityIndicator();
 
             if (response.IsNoInternet())

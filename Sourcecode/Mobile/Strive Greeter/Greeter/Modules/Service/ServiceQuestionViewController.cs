@@ -8,7 +8,7 @@ using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
-using Greeter.Services.Network;
+using Greeter.Services.Api;
 using UIKit;
 
 namespace Greeter.Storyboards
@@ -209,7 +209,7 @@ namespace Greeter.Storyboards
         async Task GetModlesByMake(int makeId)
         {
             ShowActivityIndicator();
-            var modelsResponse = await new ApiService(new NetworkService()).GetModelsByMake(makeId);
+            var modelsResponse = await new WashApi().GetModelsByMake(makeId);
             Models = modelsResponse.ModelList;
             models = Models?.Select(x => x.Name).ToArray();
             HideActivityIndicator();
@@ -218,7 +218,7 @@ namespace Greeter.Storyboards
         async Task GetData()
         {
             ShowActivityIndicator();
-            var apiService = new ApiService(new NetworkService());
+            var apiService = new WashApi();
 
             var makesResponse = await apiService.GetAllMake();
             Makes = makesResponse?.MakeList;

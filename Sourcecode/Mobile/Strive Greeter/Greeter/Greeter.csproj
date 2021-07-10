@@ -205,6 +205,7 @@
         <Folder Include="Modules\Checkout\" />
         <Folder Include="Resources\Assets.xcassets\car.imageset\" />
         <Folder Include="Resources\Assets.xcassets\send.imageset\" />
+        <Folder Include="Services\Api\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -296,7 +297,6 @@
         <Compile Include="Sources\ImagesSource.cs" />
         <Compile Include="Modules\User\LoginViewModel.cs" />
         <Compile Include="MvvmCross\App.cs" />
-        <Compile Include="Services\Network\ApiService.cs" />
         <Compile Include="DTOs\Model.cs" />
         <Compile Include="MvvmCross\Setup.cs" />
         <Compile Include="Modules\Home\WashStationAnnotationView.cs" />
@@ -329,6 +329,10 @@
         </Compile>
         <Compile Include="Cells\MessageIncomingCell.cs" />
         <Compile Include="Cells\MessageOutgoingCell.cs" />
+        <Compile Include="Services\Api\WashApi.cs" />
+        <Compile Include="Services\Api\CheckoutApi.cs" />
+        <Compile Include="Services\Api\UserApi.cs" />
+        <Compile Include="Services\Api\ApiService.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
