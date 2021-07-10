@@ -22,6 +22,8 @@ namespace Greeter.Storyboards
         public long ModelID;
         public long ColorID;
         public long JobTypeID;
+        public long ClientID;
+        public long VehicleID;
         public JobItem MainService;
         public JobItem Upcharge;
         public JobItem Additional;
@@ -46,6 +48,12 @@ namespace Greeter.Storyboards
             UpdateData();
 
             //Clicks
+            btnCancel.TouchUpInside += delegate
+            {
+                var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
+                NavigationController.PopToViewController(vc, true);
+            };
+
             btnConfirm.TouchUpInside += delegate
             {
                 _ = CreateService();
@@ -73,10 +81,9 @@ namespace Greeter.Storyboards
         async Task CreateService()
         {
             ShowActivityIndicator();
+
             var apiService = new ApiService(new NetworkService());
-
             var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
-
             long jobId = ticketResponse.Ticket.TicketNo;
 
             var jobItems = new List<JobItem>();
@@ -105,7 +112,7 @@ namespace Greeter.Storyboards
             var jobStatusResponse = await apiService.GetGlobalData("JOBSTATUS");
             long jobStatusId = jobStatusResponse.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID;
 
-            if (ticketResponse?.Ticket?.TicketNo != 0)
+            if (jobId != 0)
             {
                 var req = new CreateServiceRequest()
                 {
@@ -117,6 +124,8 @@ namespace Greeter.Storyboards
                         MakeID = MakeID,
                         ModelID = ModelID,
                         ColorId = ColorID,
+                        ClientId = ClientID,
+                        VehicleId = VehicleID,
                         LocationID = AppSettings.LocationID
                     },
                     JobItems = jobItems
@@ -137,8 +146,16 @@ namespace Greeter.Storyboards
                 {
                     ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG, () =>
                     {
-                        var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
-                        this.NavigationController.PopToViewController(vc, true);
+                        //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
+                        //this.NavigationController.PopToViewController(vc, true);
+
+                        var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
+                        vc.Make = Make;
+                        vc.Model = Model;
+                        vc.Color = Color;
+                        vc.CustName = CustName;
+                        vc.Service = req;
+                        NavigationController.PushViewController(vc, true);
                     });
                 }
                 else

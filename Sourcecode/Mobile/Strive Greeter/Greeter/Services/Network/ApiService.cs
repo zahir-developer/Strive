@@ -84,6 +84,12 @@ namespace Greeter.Services.Network
             return DoApiCall<CheckoutResponse>(Urls.CHECKOUTS, HttpMethod.Post, null, req);
         }
 
+        public Task<BaseResponse> SendEmail(string email, string subject, string body)
+        {
+            var parameters = new Dictionary<string, string>() { { nameof(email), email }, { nameof(subject), email }, { nameof(body), body } };
+            return DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post);
+        }
+
         async Task<T> DoApiCall<T>(string subUrl, HttpMethod method = HttpMethod.Get, Dictionary<string, string> parameters = null, object req = null, bool isBearerToken = true) where T : BaseResponse
         {
             IRestRequest request = new RestRequest(subUrl, method);

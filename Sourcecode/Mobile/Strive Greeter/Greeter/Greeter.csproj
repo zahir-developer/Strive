@@ -57,7 +57,7 @@
         <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <MtouchLink>SdkOnly</MtouchLink>
         <LangVersion>latest</LangVersion>
-        <CodesignProvision>Strive Greeter Appstore</CodesignProvision>
+        <CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
       <Optimize>false</Optimize>

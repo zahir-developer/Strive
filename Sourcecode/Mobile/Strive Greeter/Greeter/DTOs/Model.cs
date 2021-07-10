@@ -159,8 +159,11 @@ namespace Greeter.DTOs
         [JsonProperty("ServiceTypeName")]
         public string Type { get; set; }
 
-        //[JsonProperty("price")]
-        //public float Price { get; set; }
+        [JsonProperty("price")]
+        public float Price { get; set; }
+
+        [JsonProperty("Upcharges")]
+        public string Upcharges { get; set; }
     }
 
     public class GlobalDataResponse : BaseResponse
@@ -264,8 +267,8 @@ namespace Greeter.DTOs
         [JsonProperty("updatedDate")]
         public DateTime UpdatedDate { get; } = DateTime.Now;
 
-        //[JsonProperty("vehicleId")] // Optional
-        //public long VehicleId { get; set; }
+        [JsonProperty("vehicleId")] // Optional
+        public long VehicleId { get; set; }
     }
 
     public class JobItem
@@ -285,8 +288,8 @@ namespace Greeter.DTOs
         [JsonProperty("jobItemId")]
         public long jobItemId { get; } = 0;
 
-        //[JsonProperty("price")]
-        //public float Price { get; set; }
+        [JsonProperty("price")]
+        public float Price { get; set; }
 
         [JsonProperty("quantity")]
         public int Quantity { get; } = 1;

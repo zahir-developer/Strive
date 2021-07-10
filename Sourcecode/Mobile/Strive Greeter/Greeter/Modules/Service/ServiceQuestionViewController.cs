@@ -250,7 +250,7 @@ namespace Greeter.Storyboards
                 jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Detail.ToString())).FirstOrDefault().ID ?? -1;
             }
 
-            upcharges = Upcharges.Select(x => x.Name).ToArray();
+            upcharges = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToArray();
 
             AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
             additionalServices = AdditionalServices.Select(x => x.Name).ToArray();
@@ -499,6 +499,8 @@ namespace Greeter.Storyboards
             vc.Additional = additional;
             vc.AirFreshner = airFreshner;
             vc.CustName = CustName;
+            vc.ClientID = ClientID;
+            vc.VehicleID = VehicleID;
             NavigateToWithAnim(vc);
         }
 

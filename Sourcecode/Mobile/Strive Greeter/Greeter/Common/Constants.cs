@@ -14,7 +14,14 @@ namespace Greeter.Common
         //Dev 
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
-        internal const string BASE_URL = "http://40.114.79.101:5004";
+        //internal const string BASE_URL = "http://40.114.79.101:5004";
+
+        // Mamooth Dev
+        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+
+        //QA
+        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+
 
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
@@ -31,6 +38,7 @@ namespace Greeter.Common
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
         internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
+        internal const string SEND_EMAIL = "/Admin/Common/SendMail";
     }
 
     public class UIConstants
@@ -73,12 +81,13 @@ namespace Greeter.Common
         internal const string PSWD_EMPTY = "Please enter your password";
         internal const string LOCATION_EMPTY = "Please select the location";
         internal const string BARCODE_WRONG = "Invalid barcode";
-        internal const string SERVICE_CREATED_MSG = "Service created cuccessFully";
+        internal const string SERVICE_CREATED_MSG = "Service created successFully";
         internal const string SERVICE_CREATION_ISSUE = "Couldn't generate Service";
         internal const string TICKET_CERATION_ISSUE = "Couldn't generate ticket";
         internal const string WARNING_FOR_MANDATORY_FILEDS_IN_SERVICE = "Please fill all mandatory fields make, model, color and {0}";
         internal const string WAH_PACKAGE = "wash package";
         internal const string DETAIL_PACKAGE = "detail package";
+        internal const string EMAIL_SENT_MSG = "Email sent successFully";
     }
 
     public class StatusCodes

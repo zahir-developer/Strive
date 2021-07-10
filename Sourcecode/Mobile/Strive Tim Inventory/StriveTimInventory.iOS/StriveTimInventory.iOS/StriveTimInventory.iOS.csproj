@@ -28,6 +28,7 @@
         <MtouchDebug>true</MtouchDebug>
         <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <IOSDebuggerPort>28844</IOSDebuggerPort>
+        <CodesignProvision>Strive Tim Distribution</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <DebugType>none</DebugType>
