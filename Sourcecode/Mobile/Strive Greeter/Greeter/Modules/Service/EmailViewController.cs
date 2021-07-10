@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
@@ -50,20 +51,29 @@ namespace Greeter.Storyboards
                 _ = SendToCustomer(tfCust.Text);
             };
 
+            btnPrint.TouchUpInside += delegate
+            {
+                //TODO : 
+            };
+
             btnPay.TouchUpInside += delegate
             {
                 NavigateToPayScreen();
             };
         }
 
-        void CheckvalidEmail(string email)
+        bool CheckValidEmail(string email)
         {
-            // TODO : email validation
+            return Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
         }
 
         async Task SendToCustomer(string email)
         {
-            // TODO : email validation call
+            if (!CheckValidEmail(email))
+            {
+                ShowAlertMsg(Common.Messages.EMAIL_WARNING);
+                return;
+            }
 
             ShowActivityIndicator();
 

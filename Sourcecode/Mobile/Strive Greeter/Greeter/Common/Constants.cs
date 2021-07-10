@@ -88,6 +88,7 @@ namespace Greeter.Common
         internal const string WAH_PACKAGE = "wash package";
         internal const string DETAIL_PACKAGE = "detail package";
         internal const string EMAIL_SENT_MSG = "Email sent successFully";
+        internal const string EMAIL_WARNING = "Please enter the valid email id";
     }
 
     public class StatusCodes
