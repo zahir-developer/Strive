@@ -32,7 +32,7 @@ namespace Greeter.Services.Network
 
             try
             {
-                if (Connectivity.NetworkAccess == NetworkAccess.Internet || Connectivity.ConnectionProfiles.Contains(ConnectionProfile.WiFi))
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
                     var dataTaskRequest = await task;
                     var urlResponse = dataTaskRequest.Response as NSHttpUrlResponse;
@@ -55,7 +55,7 @@ namespace Greeter.Services.Network
                 else
                 {
                     var response = Activator.CreateInstance<TResult>();
-                    // Status Code for no network cnnectivity 
+                    // Status Code for no network connectivity 
                     response.StatusCode = -1;
                     response.Message = Constants.DATE_FORMAT;
                     return response;

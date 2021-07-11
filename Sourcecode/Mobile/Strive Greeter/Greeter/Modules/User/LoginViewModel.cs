@@ -4,6 +4,7 @@ using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Modules.Base;
+using Greeter.Services.Authentication;
 using Greeter.Services.Network;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
@@ -58,7 +59,7 @@ namespace Greeter.Modules.User
             }
 
             var req = new LoginRequest() { Email = email, Pswd = pswd };
-            var response = await new ApiService(new NetworkService()).DoLogin(req);
+            var response = await new AuthenticationService().DoLogin(req);
             AppSettings.Token = response.AuthToken;
 
             GoToLocationsScreen();

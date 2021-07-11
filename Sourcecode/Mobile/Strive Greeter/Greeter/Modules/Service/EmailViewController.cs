@@ -2,12 +2,12 @@
 
 using System;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Services.Api;
 using Greeter.Services.Network;
 using UIKit;
 
@@ -62,14 +62,9 @@ namespace Greeter.Storyboards
             };
         }
 
-        bool CheckValidEmail(string email)
-        {
-            return Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-        }
-
         async Task SendToCustomer(string email)
         {
-            if (!CheckValidEmail(email))
+            if (!email.IsEmail())
             {
                 ShowAlertMsg(Common.Messages.EMAIL_WARNING);
                 return;
@@ -103,7 +98,7 @@ namespace Greeter.Storyboards
             body += "Total Amount : " + totalAmt.ToString();
             Debug.WriteLine("Email Body :" + body);
 
-            var response = await new ApiService(new NetworkService()).SendEmail(email, subject, body);
+            var response = await new WashApi().SendEmail(email, subject, body);
             if (response.IsNoInternet())
             {
                 ShowAlertMsg(response.Message);

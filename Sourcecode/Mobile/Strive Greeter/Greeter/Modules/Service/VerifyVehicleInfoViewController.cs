@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Services.Api;
 using Greeter.Services.Network;
 using Newtonsoft.Json;
 using UIKit;
@@ -82,7 +83,7 @@ namespace Greeter.Storyboards
         {
             ShowActivityIndicator();
 
-            var apiService = new ApiService(new NetworkService());
+            var apiService = new WashApi();
             var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
             long jobId = ticketResponse.Ticket.TicketNo;
 

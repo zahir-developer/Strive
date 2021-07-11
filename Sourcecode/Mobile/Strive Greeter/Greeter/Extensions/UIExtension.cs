@@ -8,20 +8,6 @@ namespace Greeter.Extensions
 {
     public static class UIExtension
     {
-        public static void AddLeftPadding(this UITextField tf, float padding)
-        {
-            var paddingView = new UIView(frame: new CoreGraphics.CGRect(0, 0, padding, tf.Frame.Height));
-            tf.LeftView = paddingView;
-            tf.LeftViewMode = UITextFieldViewMode.Always;
-        }
-
-        public static void AddRightPadding(this UITextField txtField, float padding)
-        {
-            var paddingView = new UIView(frame: new CoreGraphics.CGRect(0, 0, padding, txtField.Frame.Height));
-            txtField.RightView = paddingView;
-            txtField.RightViewMode = UITextFieldViewMode.Always;
-        }
-
         public static void MakecardView(this UIView view)
         {
             view.Layer.CornerRadius = 5;
@@ -53,12 +39,26 @@ namespace Greeter.Extensions
             return activityIndicatorView;
         }
 
+        public static void AddLeftPadding(this UITextField tf, float padding)
+        {
+            var paddingView = new UIView(frame: new CGRect(0, 0, padding, tf.Frame.Height));
+            tf.LeftView = paddingView;
+            tf.LeftViewMode = UITextFieldViewMode.Always;
+        }
+
+        public static void AddRightPadding(this UITextField txtField, float padding)
+        {
+            var paddingView = new UIView(frame: new CGRect(0, 0, padding, txtField.Frame.Height));
+            txtField.RightView = paddingView;
+            txtField.RightViewMode = UITextFieldViewMode.Always;
+        }
+
         public static UIColor FromHex(this UIColor color, int hexValue)
         {
             return UIColor.FromRGB(
-                (((float)((hexValue & 0xFF0000) >> 16)) / 255.0f),
-                (((float)((hexValue & 0xFF00) >> 8)) / 255.0f),
-                (((float)(hexValue & 0xFF)) / 255.0f)
+                ((hexValue & 0xFF0000) >> 16) / 255.0f,
+                ((hexValue & 0xFF00) >> 8) / 255.0f,
+                (hexValue & 0xFF) / 255.0f
             );
         }
     }

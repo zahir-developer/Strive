@@ -23,12 +23,12 @@ namespace Greeter.Modules.Login
 
             if (!IsValidData()) return;
 
-            var result = await authenticationService.LoginAsync("", "");
+            //var result = await authenticationService.LoginAsync("", "");
 
-            if(!result.IsSuccess())
-            {
-                //TODO show failure message here
-            }
+            //if(!result.IsSuccess())
+            //{
+            //TODO show failure message here
+            //}
 
             //TODO handle success
         }
