@@ -1,7 +1,6 @@
 using Foundation;
 using Greeter;
 using Greeter.Common;
-using Greeter.Modules.Message;
 using UIKit;
 
 namespace NewSingleViewTemplate
@@ -41,11 +40,11 @@ namespace NewSingleViewTemplate
                     vc = sb.InstantiateViewController(nameof(TabViewController));
                 }
 
-                //vc = sb.InstantiateViewController(nameof(LoginViewController));
+                vc = sb.InstantiateViewController(nameof(LoginViewController));
 
-                var nc = new UINavigationController(new GroupViewController());
-                //var vcs = new UIViewController[] { vc };
-                //nc.ViewControllers = vcs;
+                var nc = new UINavigationController();
+                var vcs = new UIViewController[] { vc };
+                nc.ViewControllers = vcs;
                 Window.RootViewController = nc;
                 Window.MakeKeyAndVisible();
             }
