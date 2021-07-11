@@ -3,6 +3,7 @@
 using System;
 using Greeter.Common;
 using Greeter.Modules.Home;
+using Greeter.Modules.Message;
 using Greeter.Modules.Pay;
 using UIKit;
 
@@ -25,19 +26,27 @@ namespace Greeter
         {
             base.ViewWillAppear(animated);
 
-            var vc1 = new UINavigationController(new WashTimeViewController());
-            var tabbarItem1 = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
-            vc1.TabBarItem = tabbarItem1;
+            var washTimeNavigationController = new UINavigationController(new WashTimeViewController());
+            var washTimeTabBarItem = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
+            washTimeNavigationController.TabBarItem = washTimeTabBarItem;
+
             var item3 = new PaymentViewController();
             var icon3 = new UITabBarItem(title: "Pay", image: UIImage.FromBundle(ImageNames.DOLLAR), null);
             item3.TabBarItem = icon3;
+
             var item4 = new CheckoutViewController();
             var icon4 = new UITabBarItem(title: "Checkout", image: UIImage.FromBundle(ImageNames.CHECKOUT), null);
             item4.TabBarItem = icon4;
+
+            var messageNavigationController = new UINavigationController(new MessageHomeViewController());
+            var messageTabBarItem = new UITabBarItem(title: "Message", image: UIImage.FromBundle(ImageNames.MESSAGE), null);
+            messageNavigationController.TabBarItem = messageTabBarItem;
+
             var controllers = ViewControllers;
-            controllers[0] = vc1;
+            controllers[0] = washTimeNavigationController;
             controllers[2] = item3;
             controllers[3] = item4;
+            controllers[4] = messageNavigationController;
             ViewControllers = controllers;
             NavigationController.NavigationBar.Hidden = true;
         }

@@ -40,7 +40,7 @@ namespace NewSingleViewTemplate
                     vc = sb.InstantiateViewController(nameof(TabViewController));
                 }
 
-                //vc = sb.InstantiateViewController(nameof(LoginViewController));
+                vc = sb.InstantiateViewController(nameof(LoginViewController));
 
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };
