@@ -56,10 +56,7 @@ namespace Greeter.Services.Api
             {
                 if (commonResponse?.ResultData != null)
                 {
-                    //response = ParseJsonString<T>(commonResponse?.ResultData);
-
                     response = commonResponse?.ResultData.ParseJsonString<T>();
-
                     response.StatusCode = commonResponse.StatusCode;
                     response.Message = commonResponse.Message;
                 }

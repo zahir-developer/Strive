@@ -4,6 +4,7 @@ using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter.Modules.Pay
 {
@@ -87,34 +88,34 @@ namespace Greeter.Modules.Pay
         {
             var action1 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
-                "Action 1",
+                "Hold",
                 (flagAction, view, success) =>
                 {
                     success(true);
                 });
             action1.Image = UIImage.FromBundle("tick");
-            action1.BackgroundColor = UIColor.Blue;
+            action1.BackgroundColor = UIColor.Yellow;
 
             var action2 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
-                "Action 2",
+                "Complete",
                 (flagAction, view, success) =>
                 {
                     success(true);
                 });
 
             action2.Image = UIImage.FromBundle("tick");
-            action2.BackgroundColor = UIColor.Yellow;
+            action2.BackgroundColor = UIColor.Green;
 
             var action3 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
-                "Action 3",
+                "Checkout",
                 (flagAction, view, success) =>
                 {
                     success(true);
                 });
             action3.Image = UIImage.FromBundle("tick");
-            action3.BackgroundColor = UIColor.Green;
+            action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
 
             return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
         }

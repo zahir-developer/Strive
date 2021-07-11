@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using System;
 using Xamarin.Essentials;
+using System.Diagnostics;
 
 namespace Greeter.Services.Network
 {
@@ -109,38 +110,54 @@ namespace Greeter.Services.Network
 
         NSUrlRequest CreateRequest(IRestRequest request, string baseUrl)
         {
-            var urlString = baseUrl + request.Path;
-            if (request.Parameter is not null && request.Parameter.Count > 0)
-            {
-                urlString += "?";
+            NSMutableUrlRequest urlRequest = null;
 
-                foreach (var keyValuePair in request.Parameter)
+            try
+            {
+                var urlString = baseUrl + request.Path;
+                if (request.Parameter is not null && request.Parameter.Count > 0)
                 {
-                    urlString += $"{keyValuePair.Key}={keyValuePair.Value}";
+                    urlString += "?";
+
+                    foreach (var keyValuePair in request.Parameter)
+                    {
+                        if (!urlString[urlString.Length - 1].Equals('?'))
+                        {
+                            urlString += "&";
+                        }
+
+                        urlString += $"{keyValuePair.Key}={keyValuePair.Value}";
+                    }
+                }
+
+                var url = NSUrl.FromString(urlString);
+
+                urlRequest = new NSMutableUrlRequest(url)
+                {
+                    HttpMethod = GetHttpMethod(request.Method)
+                    //HttpMethod = request.Method.ToString()
+                };
+
+                request.Header.Add("Content-Type", "application/json");
+                //request.Header.Add("Accept", "application/json");
+
+                if (request.Header is not null)
+                {
+                    urlRequest.Headers = NSDictionary.FromObjectsAndKeys(
+                        request.Header.Values.ToArray(),
+                        request.Header.Keys.ToArray()
+                    );
+                }
+
+                if (request.Body is not null)
+                {
+                    var bodyString = JsonConvert.SerializeObject(request.Body, serializerSettings);
+                    urlRequest.Body = NSData.FromString(bodyString);
                 }
             }
-
-            var urlRequest = new NSMutableUrlRequest(NSUrl.FromString(urlString))
+            catch (Exception ex)
             {
-                HttpMethod = GetHttpMethod(request.Method)
-                //HttpMethod = request.Method.ToString()
-            };
-
-            request.Header.Add("Content-Type", "application/json");
-            //request.Header.Add("Accept", "application/json");
-
-            if (request.Header is not null)
-            {
-                urlRequest.Headers = NSDictionary.FromObjectsAndKeys(
-                    request.Header.Values.ToArray(),
-                    request.Header.Keys.ToArray()
-                );
-            }
-
-            if (request.Body is not null)
-            {
-                var bodyString = JsonConvert.SerializeObject(request.Body, serializerSettings);
-                urlRequest.Body = NSData.FromString(bodyString);
+                Debug.WriteLine(ex.Message);
             }
 
             return urlRequest;

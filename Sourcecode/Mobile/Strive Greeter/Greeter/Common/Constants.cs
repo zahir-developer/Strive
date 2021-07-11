@@ -11,17 +11,16 @@ namespace Greeter.Common
 
     public class Urls
     {
-        //Dev 
-        //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
+        //Strive Dev By Zahir
+        internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         //internal const string BASE_URL = "http://40.114.79.101:5004";
 
         // Mamooth Dev
-        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         //QA
         //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
-
 
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
@@ -37,8 +36,13 @@ namespace Greeter.Common
         //  Url Format Example : /Admin/Common/GetTicketNumber/{locationId}
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
         internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
-        internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
         internal const string SEND_EMAIL = "/Admin/Common/SendMail";
+
+        internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
+        internal const string DO_PAYMENT = "/Payroll/PaymentGateway/Auth";
+        internal const string HOLD_CHECKOUT = "/Admin/Checkout/UpdateJobStatusHold";
+        internal const string COMPLETE_CHECKOUT = "/Admin/Checkout/UpdateJobStatusComplete";
+        internal const string DO_CHECKOUT = "/Admin/Checkout/UpdateCheckoutDetails";
     }
 
     public class UIConstants
@@ -90,6 +94,7 @@ namespace Greeter.Common
         internal const string DETAIL_PACKAGE = "detail package";
         internal const string EMAIL_SENT_MSG = "Email sent successFully";
         internal const string EMAIL_WARNING = "Please enter the valid email id";
+        internal const string EMAIL_MISSING = "Please enter the email id";
     }
 
     public class StatusCodes

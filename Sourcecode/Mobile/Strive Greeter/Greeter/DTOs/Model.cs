@@ -384,4 +384,103 @@ namespace Greeter.DTOs
         [JsonProperty("PaymentStatus")]
         public string PaymentStatus { get; set; }
     }
+
+    public class HoldCheckoutReq
+    {
+        [JsonProperty("id")]
+        public long ID { get; set; }
+
+        [JsonProperty("email")]
+        public string Email { get; set; }
+
+        [JsonProperty("ticketNumber")]
+        public long TicketNumber { get; set; }
+
+        [JsonProperty("isHold")]
+        public bool IsHold { get; } = true;
+    }
+
+    public class CompleteCheckoutReq
+    {
+        [JsonProperty("jobId")]
+        public long JobId { get; set; }
+
+        [JsonProperty("actualTimeOut")]
+        public DateTime ActualTimeOut { get; } = DateTime.Now;
+    }
+
+    public class DoCheckoutReq
+    {
+        [JsonProperty("jobId")]
+        public long JobId { get; set; }
+
+        [JsonProperty("checkOut")]
+        public bool Checkout { get; } = true;
+
+        [JsonProperty("checkOutTime")]
+        public DateTime CheckOutTime { get; } = DateTime.Now;
+    }
+
+    public class DoPaymentReq
+    {
+        //[JsonProperty("cardConnect")]
+        //public object CardConnect { get; set; }
+
+        [JsonProperty("paymentDetail")]
+        public PaymentDetail PaymentDetail { get; set; }
+
+        //[JsonProperty("billingDetail")]
+        //public BillingDetail BillingDetail { get; set; }
+
+        //[JsonProperty("isRepeatTransaction")]
+        //public bool isRepeatTransaction { get; } = false;
+    }
+
+    public class PaymentDetail
+    {
+        [JsonProperty("account")]
+        public string Account { get; set; }
+
+        [JsonProperty("expiry")]
+        public DateTime Expiry { get; set; }
+
+        [JsonProperty("amount")]
+        public float Amount { get; set; }
+
+        [JsonProperty("orderId")]
+        public long OrderID { get; set; }
+
+        //[JsonProperty("batchid")]
+        //public long BatchID { get; set; }
+
+        //[JsonProperty("currency")]
+        //public string Currency { get; set; }
+
+        //[JsonProperty("receipt")]
+        //public string Receipt { get; set; }
+
+        [JsonProperty("ccv")]
+        public short CCV { get; set; }
+    }
+
+    public class BillingDetail
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("address")]
+        public string Address { get; set; }
+
+        [JsonProperty("city")]
+        public string City { get; set; }
+
+        [JsonProperty("country")]
+        public string Country { get; set; }
+
+        [JsonProperty("region")]
+        public string Region { get; set; }
+
+        [JsonProperty("postal")]
+        public string Postal { get; set; }
+    }
 }

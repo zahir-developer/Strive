@@ -458,7 +458,7 @@ namespace Greeter.Storyboards
                         tfWashPkg.Text = data[pos];
                         mainService = mainService ?? new JobItem();
                         mainService.ServiceId = WashPackages[pos].ID;
-                        //price = washPackages[pos].pr,
+                        //price = washPackages[pos].,
                         break;
                     case ChoiceType.DetailPackage:
                         tfDetailPkg.Text = data[pos];
@@ -496,6 +496,7 @@ namespace Greeter.Storyboards
             vc.JobTypeID = jobTypeId;
             vc.MainService = mainService;
             vc.Upcharge = upcharge;
+            vc.UpchargeTypeName = tfUpcharge.Text;
             vc.Additional = additional;
             vc.AirFreshner = airFreshner;
             vc.CustName = CustName;

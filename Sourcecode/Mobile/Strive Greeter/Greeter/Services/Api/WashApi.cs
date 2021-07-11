@@ -71,8 +71,8 @@ namespace Greeter.Services.Api
 
         public Task<BaseResponse> SendEmail(string email, string subject, string body)
         {
-            var parameters = new Dictionary<string, string>() { { nameof(email), email }, { nameof(subject), email }, { nameof(body), body } };
-            return apiService.DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post);
+            var parameters = new Dictionary<string, string>() { { nameof(email), email }, { nameof(subject), subject }, { nameof(body), body } };
+            return apiService.DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post, parameters);
         }
     }
 }

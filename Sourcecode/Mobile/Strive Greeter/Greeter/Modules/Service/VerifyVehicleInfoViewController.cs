@@ -35,7 +35,7 @@ namespace Greeter.Storyboards
         public string Color = string.Empty;
         public string Barcode;
         public string CustName;
-        public string UpchargeType;
+        public string UpchargeTypeName;
 
         public VerifyVehicleInfoViewController(IntPtr handle) : base(handle)
         {
@@ -64,9 +64,9 @@ namespace Greeter.Storyboards
         void UpdateData()
         {
             lblvehicle.Text = Make + " " + Model + " " + Color;
-            lblBarcode.Text = Barcode ?? "-";
-            lblCustName.Text = CustName ?? "Drive up";
-            lblType.Text = UpchargeType ?? "-";
+            lblBarcode.Text = !Barcode.IsEmpty() ? Barcode : "-";
+            lblCustName.Text = !CustName.IsEmpty() ? CustName : "Drive up";
+            lblType.Text = !UpchargeTypeName.IsEmpty() ? UpchargeTypeName : "-";
         }
 
         void Initialise()

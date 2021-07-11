@@ -10,7 +10,7 @@ namespace Greeter.Services.Api
         Task<LocationsResponse> GetLocations();
     }
 
-    public class UserApi
+    public class UserApi : IUserApi
     {
         readonly IApiService apiService = new ApiService();
 

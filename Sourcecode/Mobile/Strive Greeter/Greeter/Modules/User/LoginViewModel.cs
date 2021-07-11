@@ -59,7 +59,7 @@ namespace Greeter.Modules.User
             }
 
             var req = new LoginRequest() { Email = email, Pswd = pswd };
-            var response = await new AuthenticationService().DoLogin(req);
+            var response = await new AuthenticationService().LoginAsync(req);
             AppSettings.Token = response.AuthToken;
 
             GoToLocationsScreen();

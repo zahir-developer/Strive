@@ -21,7 +21,7 @@ namespace Greeter.Services.Authentication
 
         readonly IApiService apiService = new ApiService();
 
-        public Task<LoginResponse> DoLogin(LoginRequest req)
+        public Task<LoginResponse> LoginAsync(LoginRequest req)
         {
             return apiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
         }

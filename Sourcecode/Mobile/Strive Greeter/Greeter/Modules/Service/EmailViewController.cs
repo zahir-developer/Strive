@@ -42,11 +42,19 @@ namespace Greeter.Storyboards
 
             Initialise();
 
+
+#if DEBUG
+            tfCust.Text = "karthiknever16@gmail.com";
+#endif
+
             //Clicks
             btnCustomerSend.TouchUpInside += delegate
             {
-                if (string.IsNullOrEmpty(tfCust.Text))
+                if (tfCust.Text.IsEmpty())
+                {
+                    ShowAlertMsg(Common.Messages.EMAIL_MISSING);
                     return;
+                }
 
                 _ = SendToCustomer(tfCust.Text);
             };
@@ -73,25 +81,25 @@ namespace Greeter.Storyboards
             ShowActivityIndicator();
 
             var subject = "Wash Receipt";
-            var body = "Ticket Number : " + Service.Job.JobId + "/n/n";
+            var body = "Ticket Number : " + Service.Job.JobId + "\n\n";
 
             if (Service.Job.ClientId != 0)
             {
-                body += "Client Details : " + "/n"
-                    + "Client Name - " + CustName + "/n/n";
+                body += "Client Details : " + "\n"
+                    + "Client Name - " + CustName + "\n\n";
             }
 
-            body += "Vehicle Details : " + "/n" +
-                 "Make - " + Make +
-                 "Model - " + Model +
-                 "Color - " + Color + "/n/n" +
-                 "Services : " + "/n";
+            body += "Vehicle Details : " + "\n" +
+                 "Make - " + Make + "\n" +
+                "Model - " + Model + "\n" +
+                 "Color - " + Color + "\n\n" +
+                 "Services : " + "\n";
 
             var totalAmt = 0f;
             for (int i = 0; i < Service.JobItems.Count; i++)
             {
                 var job = Service.JobItems[i];
-                body += job.JobId + " - " + job.Price + "/n";
+                body += job.JobId + " - " + job.Price + "\n";
                 totalAmt += job.Price;
             }
 
