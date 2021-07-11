@@ -180,6 +180,14 @@
         <ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%401x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\search.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\search.imageset\search%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\search.imageset\search%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\search.imageset\search%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -203,6 +211,7 @@
         <Folder Include="Sources\" />
         <Folder Include="MvvmCross\" />
         <Folder Include="Modules\Checkout\" />
+        <Folder Include="Resources\Assets.xcassets\add_circle.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -323,6 +332,29 @@
         </Compile>
         <Compile Include="Cells\MessageIncomingCell.cs" />
         <Compile Include="Cells\MessageOutgoingCell.cs" />
+        <Compile Include="Modules\Message\MessageHomeViewController.cs" />
+        <Compile Include="Modules\Message\MessageHomeViewController.Logic.cs">
+            <DependentUpon>Modules\Message\MessageHomeViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Modules\Message\RecentMessageViewController.cs" />
+        <Compile Include="Modules\Message\RecentMessageViewController.Logic.cs">
+            <DependentUpon>Modules\Message\RecentMessageViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Cells\RecentMessageCell.cs" />
+        <Compile Include="Modules\Message\ContactViewController.cs" />
+        <Compile Include="Modules\Message\ContactViewController.Logic.cs">
+            <DependentUpon>Modules\Message\ContactViewController.cs</DependentUpon> 
+        </Compile>
+        <Compile Include="Cells\ContactCell.cs" />
+        <Compile Include="Modules\Message\GroupViewController.cs" />
+        <Compile Include="Modules\Message\GroupViewController.Logic.cs">
+            <DependentUpon>Modules\Message\GroupViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Cells\MessageGroupCell.cs" />
+        <Compile Include="Modules\Message\GroupParticipantsViewController.cs" />
+        <Compile Include="Modules\Message\GroupParticipantsViewController.Logic.cs">
+            <DependentUpon>Modules\Message\GroupParticipantsViewController.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

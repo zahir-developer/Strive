@@ -61,6 +61,10 @@ namespace Greeter.Common
         internal const string HOME = "home";
         internal const string CAR = "car";
         internal const string SEND = "send";
+        internal const string TICK = "tick";
+        internal const string SEARCH = "search";
+        internal const string CLOSE_SOLID = "close_red";
+        internal const string ADD_CIRCLE = "add_circle";
     }
 
     public class ColorNames
