@@ -31,6 +31,7 @@ namespace Greeter.Modules.Message
             recentMessageTableView.RowHeight = 70;
             recentMessageTableView.SeparatorInsetReference = UITableViewSeparatorInsetReference.CellEdges;
             recentMessageTableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.Interactive;
+            recentMessageTableView.TableFooterView = new UIView();
             View.Add(recentMessageTableView);
 
             recentMessageTableView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
@@ -43,7 +44,7 @@ namespace Greeter.Modules.Message
         {
             Title = "Recent Chats";
 
-            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.DOLLAR), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
+            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.ADD_CIRCLE), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
             {
 
             });
@@ -64,6 +65,13 @@ namespace Greeter.Modules.Message
             var cell = tableView.DequeueReusableCell(RecentMessageCell.Key) as RecentMessageCell;
             cell.SetupData();
             return cell;
+        }
+
+        [Export("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            NavigationController.PushViewController(new ChatViewController(), animated: true);
+
         }
     }
 }

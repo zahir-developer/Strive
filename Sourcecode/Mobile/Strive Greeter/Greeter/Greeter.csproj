@@ -188,6 +188,10 @@
         <ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%401x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\more.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%401x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />

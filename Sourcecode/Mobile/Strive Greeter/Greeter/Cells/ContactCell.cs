@@ -6,6 +6,18 @@ using UIKit;
 
 namespace Greeter.Cells
 {
+    public enum ContactCellConfigureType
+    {
+        CreateGroup,
+        Participant,
+        ContactList
+    }
+
+    public interface IContactCellDelegate
+    {
+        public void RemoveParticipant(object item);
+    }
+
     public class ContactCell : UITableViewCell
     {
         public static readonly NSString Key = new("ContactCell");
@@ -13,6 +25,8 @@ namespace Greeter.Cells
         UILabel contactIntialLabel;
         UILabel contactNameLabel;
         UIImageView selectionImageView;
+
+        public WeakReference<IContactCellDelegate> Delegate;
 
         public ContactCell(IntPtr p) : base(p)
         {
@@ -41,7 +55,7 @@ namespace Greeter.Cells
 
             selectionImageView = new UIImageView(CGRect.Empty);
             selectionImageView.TranslatesAutoresizingMaskIntoConstraints = false;
-            selectionImageView.Image = UIImage.FromBundle(ImageNames.TICK);
+            selectionImageView.AddGestureRecognizer(new UITapGestureRecognizer(OnRemoveSelected));
             ContentView.Add(selectionImageView);
 
             contactIntialLabel.LeadingAnchor.ConstraintEqualTo(ContentView.LeadingAnchor, constant: 30).Active = true;
@@ -55,17 +69,41 @@ namespace Greeter.Cells
 
             selectionImageView.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: -30).Active = true;
             selectionImageView.CenterYAnchor.ConstraintEqualTo(ContentView.CenterYAnchor).Active = true;
-            selectionImageView.WidthAnchor.ConstraintEqualTo(20).Active = true;
-            selectionImageView.HeightAnchor.ConstraintEqualTo(20).Active = true;
+            selectionImageView.WidthAnchor.ConstraintEqualTo(25).Active = true;
+            selectionImageView.HeightAnchor.ConstraintEqualTo(25).Active = true;
+        }
+
+        void OnRemoveSelected()
+        {
+            //TODO implement remove logic
+            if (Delegate is null) return;
+
+            if(Delegate.TryGetTarget(out IContactCellDelegate cellDelegate))
+            {
+                cellDelegate.RemoveParticipant(new { });
+            }
         }
 
         //TODO Pass Real time data here and set later
-        public void SetupData()
+        public void SetupData(ContactCellConfigureType configureType)
         {
             contactIntialLabel.Text = "WH";
             contactNameLabel.Text = "William Hoeger";
 
-            ContentView.BackgroundColor = UIColor.FromRGB(225.0f / 255.0f, 255.0f / 255.0f, 251.0f / 255.0f);
+            if (configureType == ContactCellConfigureType.CreateGroup)
+            {
+                //TODO check selection condition and change background if is selected
+                ContentView.BackgroundColor = UIColor.FromRGB(225.0f / 255.0f, 255.0f / 255.0f, 251.0f / 255.0f);
+                selectionImageView.Image = UIImage.FromBundle(ImageNames.TICK);
+                selectionImageView.UserInteractionEnabled = false;
+            }
+            else if(configureType == ContactCellConfigureType.Participant)
+            {
+                selectionImageView.Image = UIImage.FromBundle(ImageNames.CLOSE_SOLID);
+                selectionImageView.UserInteractionEnabled = true;
+            }
+
+            selectionImageView.Hidden = configureType == ContactCellConfigureType.ContactList;
         }
     }
 }

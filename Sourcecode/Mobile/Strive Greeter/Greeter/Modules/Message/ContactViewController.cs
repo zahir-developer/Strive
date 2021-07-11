@@ -22,6 +22,8 @@ namespace Greeter.Modules.Message
             //Setup Delegate and DataSource
             contactTableView.WeakDelegate = this;
             contactTableView.WeakDataSource = this;
+
+            HidesBottomBarWhenPushed = true;
         }
 
         void SetupView()
@@ -106,7 +108,7 @@ namespace Greeter.Modules.Message
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
-            cell.SetupData();
+            cell.SetupData(ContactCellConfigureType.ContactList);
             return cell;
         }
 
