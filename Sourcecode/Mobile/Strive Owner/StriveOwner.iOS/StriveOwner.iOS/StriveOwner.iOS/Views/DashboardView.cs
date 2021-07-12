@@ -28,7 +28,7 @@ namespace StriveOwner.iOS.Views
             viewControllers[0] = CreateTabFor(0, "Message", "icon-home", "icon-home-active", typeof(CheckOutViewModel));
             viewControllers[1] = CreateTabFor(1, "Schedule", "icon-checkout", "icon-checkout-active", typeof(CheckOutViewModel));
             viewControllers[2] = CreateTabFor(2, "Profile", "icon-message", "icon-message-active", typeof(CheckOutViewModel));
-            viewControllers[3] = CreateTabFor(3, "Ticket", "icon-tim-inventory", "icon-tim-inventory-active", typeof(CheckOutViewModel));
+            viewControllers[3] = CreateTabFor(3, "Ticket", "icon-tim-inventory", "icon-tim-inventory-active", typeof(InventoryViewModel));
             ViewControllers = viewControllers;
             CustomizableViewControllers = new UIViewController[] { };
             TabBar.BarTintColor = UIColor.Clear.FromHex(0x1DC9B7);

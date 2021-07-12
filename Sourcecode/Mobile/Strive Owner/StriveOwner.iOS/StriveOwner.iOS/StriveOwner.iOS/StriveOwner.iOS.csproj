@@ -46,8 +46,10 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>iPhone Developer</CodesignKey>
+        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
+        <MtouchLink>SdkOnly</MtouchLink>
+        <CodesignProvision>Strive Owner Release</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -171,6 +173,10 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%403x-2.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-message.imageset\Group 2330%402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Ellipse 85.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\icons8-trash-30.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -191,6 +197,9 @@
         <Folder Include="Resources\Assets.xcassets\icon-tim-inventory.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-tim-inventory-active.imageset\" />
         <Folder Include="Views\CheckOut\" />
+        <Folder Include="Views\Inventory\" />
+        <Folder Include="Resources\Assets.xcassets\white-ellipse.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-trash.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -198,6 +207,8 @@
         <InterfaceDefinition Include="Views\DashboardView.xib" />
         <InterfaceDefinition Include="Views\CheckOut\CheckOutView.xib" />
         <InterfaceDefinition Include="Views\CheckOut\CheckOut_Cell.xib" />
+        <InterfaceDefinition Include="Views\Inventory\InventoryView.xib" />
+        <InterfaceDefinition Include="Views\Inventory\InventoryProd_Cell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -230,6 +241,15 @@
           <DependentUpon>CheckOut_Cell.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\CheckOut\CheckOut_DataSource.cs" />
+        <Compile Include="Views\Inventory\InventoryView.cs" />
+        <Compile Include="Views\Inventory\InventoryView.designer.cs">
+          <DependentUpon>InventoryView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Inventory\InventoryDataSource.cs" />
+        <Compile Include="Views\Inventory\InventoryProd_Cell.cs" />
+        <Compile Include="Views\Inventory\InventoryProd_Cell.designer.cs">
+          <DependentUpon>InventoryProd_Cell.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
