@@ -127,7 +127,8 @@
                                     </div>
                                     <div class="row no-gutters m-t-7 payment">
                                         <button type="button" class="btn col-sm btn-payment actived"
-                                            [disabled]="enableButton || multipleTicketNumber.length === 0" (click)="processpayment()">Process</button>
+                                            [disabled]="enableButton || multipleTicketNumber.length === 0"
+                                            (click)="processpayment()">Process</button>
                                         <button type="button" class="btn col-sm btn-payment actived"
                                             [disabled]="!enableButton || multipleTicketNumber.length === 0 || isMultipleTicket"
                                             (click)="deleteItem('', 'rollback')">RollBack</button>
@@ -291,38 +292,42 @@
                                         </div>
                                     </div>
                                     <!-- Verify Membership -->
-                                    <div id="verifyMembership" class="gift-card"> <span class="closebtn"
-                                        (click)="closeVerifyMembership()">&times;</span>
-                                    <div class="card-body">
-                                        <div class="title-border p-b-5 m-b-5">
-                                            <h4 class="d-inline-block">Merchant Login</h4>
-                                        </div>
-                                        <div class="row no-gutters m-t-20">
-                                            <div class="col-lg-12"> <span class="">
+                                    <!-- <div id="verifyMembership" class="gift-card"> <span class="closebtn"
+                                            (click)="closeVerifyMembership()">&times;</span>
+                                        <div class="card-body">
+                                            <div class="title-border p-b-5 m-b-5">
+                                                <h4 class="d-inline-block">Merchant Login</h4>
+                                            </div>
+                                            <div class="row no-gutters m-t-20">
+                                                <div class="col-lg-12"> <span class="">
                                                         <label
-                                                            style=" font-size: 17px;color: #1DC9B7; font-weight: 500;">User Name</label>
-                                                            <input type="text" class="form-control d-inline-block w-55 align-middle" 
-                                                            placeholder='Merchant User Name' [(ngModel)]="merchantUserName">
-                                                        </span>
+                                                            style=" font-size: 17px;color: #1DC9B7; font-weight: 500;">User
+                                                            Name</label>
+                                                        <input type="text"
+                                                            class="form-control d-inline-block w-55 align-middle"
+                                                            placeholder='Merchant User Name'
+                                                            [(ngModel)]="merchantUserName">
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row no-gutters m-t-20">
-                                            <div class="col-lg-12"> <span class=""><label
+                                            <div class="row no-gutters m-t-20">
+                                                <div class="col-lg-12"> <span class=""><label
                                                             style=" font-size: 17px;color: #1DC9B7; font-weight: 500;">Password</label>
-                                                            <input type="password" class="form-control d-inline-block w-35 align-middle  m-r-6" 
+                                                        <input type="password"
+                                                            class="form-control d-inline-block w-35 align-middle  m-r-6"
                                                             placeholder='Password' [(ngModel)]="password"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row no-gutters m-t-15 m-b-20">
+                                                <div class="col-lg-12 text-center">
+                                                    <button type="button" class="btn theme-optional-button-color"
+                                                        (click)="closeVerifyMembership()">Cancel</button>&nbsp;
+                                                    <button type="button" class="btn theme-primary-button-color"
+                                                        (click)="ValidateMembership()">Login</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row no-gutters m-t-15 m-b-20">
-                                            <div class="col-lg-12 text-center">
-                                                <button type="button" class="btn theme-optional-button-color"
-                                                    (click)="closeVerifyMembership()">Cancel</button>&nbsp;
-                                                <button type="button" class="btn theme-primary-button-color"
-                                                    (click)="ValidateMembership()">Login</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </div> -->
                                     <!-- cash popup -->
                                     <div id="cashpopup" class="gift-card"> <span class="closebtn"
                                             (click)="closecash()">&times;</span>
@@ -446,7 +451,8 @@
                                                     <div class="p-grid forms-grid">
                                                         <div class="p-col-3 p-md-6">
                                                             <p-autoComplete class="d-inline-block align-middle"
-                                                                formControlName="itemName" [suggestions]="serviceAndProduct"
+                                                                formControlName="itemName"
+                                                                [suggestions]="serviceAndProduct"
                                                                 (completeMethod)="filterItem($event)"
                                                                 (onSelect)="selectedItem($event)" field="name"
                                                                 [size]="10" appendTo="body" placeholder="Item">
@@ -720,8 +726,10 @@
                 <p>User have both Credit and Membership.Please select an Option.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn theme-optional-button-color" data-dismiss="modal" (click)="applyGroup('credit')">Apply Credit</button>
-                <button type="button" class="btn theme-primary-button-color" (click)="applyGroup('membership')" style="margin-left: 8rem;" data-dismiss="modal">Apply Membership</button>
+                <button type="button" class="btn theme-optional-button-color" data-dismiss="modal"
+                    (click)="applyGroup('credit')">Apply Credit</button>
+                <button type="button" class="btn theme-primary-button-color" (click)="applyGroup('membership')"
+                    style="margin-left: 8rem;" data-dismiss="modal">Apply Membership</button>
             </div>
         </div>
     </div>
