@@ -100,14 +100,15 @@ export class EmployeeCollisionComponent implements OnInit {
     //     client: clientName[0]
     //   });
     // }
-    const clientName = detail.ClientFirstName + '' + detail.ClientLastName;
+    const clientName = detail.ClientFirstName + ' ' + detail.ClientLastName;
     this.collisionForm.patchValue({
       dateOfCollision: moment(detail.CreatedDate).toDate(),
       amount: this.liabilityDetail.Amount.toFixed(2),
       reason: this.liabilityDetail.Description,
       client: { id: detail.ClientId , name: clientName }
     });
-    this.selectedClient(detail.ClientId);
+    const clientId = {id: detail.ClientId}
+    this.selectedClient(clientId);
   }
 
   getLiabilityType() {
