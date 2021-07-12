@@ -117,11 +117,11 @@ namespace Strive.BusinessLogic
             var addresssDetail = new LocationRal(_tenant).GetLocationAddressDetails(locationId);
 
             //Get Current weather:
-            string startTime = "now";
-            string endTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH\\:mm").ToString();
+            string startTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ").ToString(); ;
+            string endTime = DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ssZ").ToString();
             string[] fields = new string[] { "precipitation", "precipitation_probability", "temp" };
 
-            var query = "?location_id=" + addresssDetail.WeatherLocationId + "&lat=" + addresssDetail.Latitude + "&lon=" + addresssDetail.Longitude + "&start_time=" + startTime + "&end_time=" + endTime + "&unit_system=si&fields=temp&fields=precipitation_probability&fields=precipitation";
+            var query = "?location=" + addresssDetail.Latitude + "," + addresssDetail.Longitude  + "&startTime=" + startTime + "&endTime=" + endTime+ "&fields=temperature,precipitationProbability,precipitationType&timesteps=1h&units=metric";
 
             weatherInfoView = await GetWeatherInfoAsync(baseUrl, apiKey, apiMethod, query);
 
@@ -160,11 +160,11 @@ namespace Strive.BusinessLogic
                     {
                         result = await response.Content.ReadAsStringAsync();
                     }
-                    var res = JsonConvert.DeserializeObject<List<WeatherData>>(result);
+                    var res = JsonConvert.DeserializeObject<WeatherData>(result);
 
                     //Current Weather
-                    weatherInfo.Temporature = ConvertToFahrenheit(res.FirstOrDefault().Temp[0].Min.Value.GetValueOrDefault(0)).ToString();
-                    weatherInfo.RainPercentage = res.FirstOrDefault().PrecipitationProbability.Value.ToString();
+                    weatherInfo.Temporature = ConvertToFahrenheit(res.Data.timelines[0].intervals[0].values.temperature).ToString();
+                    weatherInfo.RainPercentage = res.Data.timelines[0].intervals[0].values.precipitationType ==1? res.Data.timelines[0].intervals[0].values.precipitationProbability.ToString("0.00"): "0";
                     weatherInfoView.CurrentWeather = weatherInfo;
 
                     //LastWeekWeather
@@ -199,12 +199,15 @@ namespace Strive.BusinessLogic
 
     public class WeatherData
     {
-        [JsonProperty("Temp")]
-        public List<Temp> Temp { get; set; }
-        [JsonProperty("Precipitation")]
-        public List<Precipitation> Precipitation { get; set; }
-        [JsonProperty("precipitation_probability")]
-        public PrecipitationProbability PrecipitationProbability { get; set; }
+        [JsonProperty("data")]
+        public Data Data { get; set; }
+
+        //[JsonProperty("Temp")]
+        //public List<Temp> Temp { get; set; }
+        //[JsonProperty("Precipitation")]
+        //public List<Precipitation> Precipitation { get; set; }
+        //[JsonProperty("precipitation_probability")]
+        //public PrecipitationProbability PrecipitationProbability { get; set; }
     }
 }
 
