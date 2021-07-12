@@ -325,6 +325,19 @@
 		<Compile Include="Services\Api\CheckoutApi.cs" />
 		<Compile Include="Services\Api\UserApi.cs" />
 		<Compile Include="Services\Api\ApiService.cs" />
+		<Compile Include="Modules\Message\ContactViewController.cs" />
+		<Compile Include="Modules\Message\ContactViewController.Logic.cs" />
+		<Compile Include="Modules\Message\GroupParticipantsViewController.cs" />
+		<Compile Include="Modules\Message\GroupParticipantsViewController.Logic.cs" />
+		<Compile Include="Modules\Message\GroupViewController.cs" />
+		<Compile Include="Modules\Message\GroupViewController.Logic.cs" />
+		<Compile Include="Modules\Message\MessageHomeViewController.cs" />
+		<Compile Include="Modules\Message\MessageHomeViewController.Logic.cs" />
+		<Compile Include="Modules\Message\RecentMessageViewController.cs" />
+		<Compile Include="Modules\Message\RecentMessageViewController.Logic.cs" />
+		<Compile Include="Cells\ContactCell.cs" />
+		<Compile Include="Cells\MessageGroupCell.cs" />
+		<Compile Include="Cells\RecentMessageCell.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

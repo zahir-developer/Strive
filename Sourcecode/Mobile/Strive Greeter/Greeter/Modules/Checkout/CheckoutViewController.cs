@@ -91,7 +91,9 @@ namespace Greeter.Modules.Pay
                 "Hold",
                 (flagAction, view, success) =>
                 {
-                    success(true);
+                    //success(true);
+
+                    HoldBtnClicked(Checkouts[indexPath.Row]);
                 });
             action1.Image = UIImage.FromBundle("tick");
             action1.BackgroundColor = UIColor.Yellow;
@@ -101,7 +103,9 @@ namespace Greeter.Modules.Pay
                 "Complete",
                 (flagAction, view, success) =>
                 {
-                    success(true);
+                    //success(true);
+
+                    CompleteBtnClicked(Checkouts[indexPath.Row]);
                 });
 
             action2.Image = UIImage.FromBundle("tick");
@@ -112,7 +116,9 @@ namespace Greeter.Modules.Pay
                 "Checkout",
                 (flagAction, view, success) =>
                 {
-                    success(true);
+                    //success(true);
+
+                    CheckoutBtnClicked(Checkouts[indexPath.Row]);
                 });
             action3.Image = UIImage.FromBundle("tick");
             action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();

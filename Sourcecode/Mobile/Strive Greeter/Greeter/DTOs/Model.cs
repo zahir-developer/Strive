@@ -273,8 +273,8 @@ namespace Greeter.DTOs
 
     public class JobItem
     {
-        [JsonProperty("commission")]
-        public int commission { get; } = 0;
+        //[JsonProperty("commission")]
+        //public int commission { get; } = 0;
 
         [JsonProperty("createdBy")]
         public long createdByID { get; } = AppSettings.UserID;
@@ -285,8 +285,8 @@ namespace Greeter.DTOs
         [JsonProperty("jobId")]
         public long JobId { get; set; }
 
-        [JsonProperty("jobItemId")]
-        public long jobItemId { get; } = 0;
+        //[JsonProperty("jobItemId")]
+        //public long jobItemId { get; } = 0;
 
         [JsonProperty("price")]
         public float Price { get; set; }
@@ -294,8 +294,8 @@ namespace Greeter.DTOs
         [JsonProperty("quantity")]
         public int Quantity { get; } = 1;
 
-        [JsonProperty("reviewNote")]
-        public string reviewNote { get; } = null;
+        //[JsonProperty("reviewNote")]
+        //public string ReviewNote { get; } = null;
 
         [JsonProperty("serviceId")]
         public long ServiceId { get; set; }
@@ -343,7 +343,7 @@ namespace Greeter.DTOs
     public class Checkout
     {
         [JsonProperty("TicketNumber")]
-        public string ID { get; set; }
+        public long ID { get; set; }
 
         [JsonProperty("ColorCode")]
         public string ColorCode { get; set; }
@@ -390,11 +390,11 @@ namespace Greeter.DTOs
         [JsonProperty("id")]
         public long ID { get; set; }
 
-        [JsonProperty("email")]
-        public string Email { get; set; }
+        //[JsonProperty("email")]
+        //public string Email { get; set; }
 
-        [JsonProperty("ticketNumber")]
-        public long TicketNumber { get; set; }
+        //[JsonProperty("ticketNumber")]
+        //public long TicketNumber { get; set; }
 
         [JsonProperty("isHold")]
         public bool IsHold { get; } = true;

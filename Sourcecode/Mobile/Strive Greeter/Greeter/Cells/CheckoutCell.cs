@@ -152,7 +152,7 @@ namespace Greeter.Cells
         public void SetupData(Checkout checkout)
         {
             statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
-            checkoutIdLabel.Text = checkout.ID;
+            checkoutIdLabel.Text = checkout.ID.ToString();
             customerNameLabel.Text = checkout.CustomerFirstName + " " + checkout.CustomerLastName;
             serviceInfoLabel.Text = checkout.VehicleModel + "/" + checkout.VehicleColor + "\n" + "Services: " + checkout.Services;
             if (checkout.AdditionalServices is not null)

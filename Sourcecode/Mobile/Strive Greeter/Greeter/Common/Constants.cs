@@ -101,6 +101,15 @@ namespace Greeter.Common
         internal const string EMAIL_SENT_MSG = "Email sent successFully";
         internal const string EMAIL_WARNING = "Please enter the valid email id";
         internal const string EMAIL_MISSING = "Please enter the email id";
+
+        internal const string HOLD_VERIFICATION_MSG = "Are you sure want to change the status to hold?";
+        internal const string SERVICE_HOLD_SUCCESS_MSG = "Service status changed to hold successfully";
+
+        internal const string COMPLETE_VERIFICATION_MSG = "Are you sure want to change the status to complete?";
+        internal const string SERVICE_COMPLETED_SUCCESS_MSG = "Service has been completed successfully";
+
+        internal const string CHECKOUT_VERIFICATION_MSG = "Are you sure want to change the status to checkout?";
+        internal const string SERVICE_CHECKED_OUT_SUCCESS_MSG = "Vehicle has been checked out successfully";
     }
 
     public class StatusCodes

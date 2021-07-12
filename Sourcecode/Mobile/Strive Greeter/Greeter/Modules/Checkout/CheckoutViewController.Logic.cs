@@ -46,5 +46,110 @@ namespace Greeter.Modules.Pay
                     checkoutTableView.ReloadData();
             }
         }
+
+        void HoldBtnClicked(Checkout checkout)
+        {
+            ShowAlertMsg(Common.Messages.HOLD_VERIFICATION_MSG, () =>
+            {
+                _ = HoldCheckout(checkout);
+            });
+        }
+
+        async Task HoldCheckout(Checkout checkout)
+        {
+            var checkoutHoldReq = new HoldCheckoutReq
+            {
+                ID = checkout.ID,
+            };
+
+            ShowActivityIndicator();
+            var response = await new CheckoutApi().HoldCheckout(checkoutHoldReq);
+            HideActivityIndicator();
+
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
+
+            if (response.IsSuccess())
+            {
+                ShowAlertMsg(Common.Messages.SERVICE_HOLD_SUCCESS_MSG, () =>
+                {
+                    // Refreshing checkout list
+                    _ = GetCheckoutListAsync();
+                });
+            }
+        }
+
+        void CompleteBtnClicked(Checkout checkout)
+        {
+            ShowAlertMsg(Common.Messages.COMPLETE_VERIFICATION_MSG, () =>
+            {
+                _ = HoldCheckout(checkout);
+            });
+        }
+
+        async Task CompleteCheckout(Checkout checkout)
+        {
+            var checkoutCompleteReq = new CompleteCheckoutReq
+            {
+                JobId = checkout.ID,
+            };
+
+            ShowActivityIndicator();
+            var response = await new CheckoutApi().CompleteCheckout(checkoutCompleteReq);
+            HideActivityIndicator();
+
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
+
+            if (response.IsSuccess())
+            {
+                ShowAlertMsg(Common.Messages.SERVICE_COMPLETED_SUCCESS_MSG, () =>
+                {
+                    // Refreshing checkout list
+                    _ = GetCheckoutListAsync();
+                });
+            }
+        }
+
+        void CheckoutBtnClicked(Checkout checkout)
+        {
+            ShowAlertMsg(Common.Messages.CHECKOUT_VERIFICATION_MSG, () =>
+            {
+                _ = HoldCheckout(checkout);
+            });
+        }
+
+        async Task Checkout(Checkout checkout)
+        {
+            var checkoutReq = new DoCheckoutReq
+            {
+                JobId = checkout.ID,
+            };
+
+            ShowActivityIndicator();
+            var response = await new CheckoutApi().DoCheckout(checkoutReq);
+            HideActivityIndicator();
+
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(response.Message);
+                return;
+            }
+
+            if (response.IsSuccess())
+            {
+                ShowAlertMsg(Common.Messages.SERVICE_CHECKED_OUT_SUCCESS_MSG, () =>
+                {
+                    // Refreshing checkout list
+                    _ = GetCheckoutListAsync();
+                });
+            }
+        }
     }
 }
