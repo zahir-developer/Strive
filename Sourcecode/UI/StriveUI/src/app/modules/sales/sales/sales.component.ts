@@ -1672,6 +1672,7 @@ export class SalesComponent implements OnInit {
       this.allService.forEach(ele => {
         this.totalAmount += ele.Price
       });
+      this.account = this.totalAmount;
       this.calculateTotalpaid(this.totalAmount);
       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.CreditAccountApplied });
     }
@@ -1696,6 +1697,7 @@ export class SalesComponent implements OnInit {
                 });
                 console.log(this.amountCheck);
                 if (this.amountCheck) {
+                  this.account = this.totalAmount;
                   this.calculateTotalpaid(this.totalAmount);
                   this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.MembershipApplied });
                 }

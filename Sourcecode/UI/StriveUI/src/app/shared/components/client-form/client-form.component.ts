@@ -35,6 +35,7 @@ export class ClientFormComponent implements OnInit {
   ClientEmailAvailable: boolean;
   isAmount: boolean;
   creditCheck = false;
+  emailregex: RegExp = /^[ A-Za-z0-9@.]*$/;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private client: ClientService, private getCode: GetCodeService, private codeService: CodeValueService) { }
 

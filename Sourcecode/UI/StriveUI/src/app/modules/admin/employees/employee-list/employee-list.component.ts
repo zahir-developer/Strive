@@ -45,6 +45,7 @@ export class EmployeeListComponent implements OnInit {
   pageSizeList: any[];
   sortColumn: { sortBy: string; sortOrder: string; };
   searchUpdate = new Subject<string>();
+  statusGroup = true;
 
   constructor(
     private employeeService: EmployeeService,
@@ -196,7 +197,7 @@ export class EmployeeListComponent implements OnInit {
       query: this.search,
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
-      status: true
+      status: this.statusGroup
     };
     this.employeeDetails = [];
     this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
@@ -426,6 +427,11 @@ export class EmployeeListComponent implements OnInit {
       return 'fa-sort-asc';
     }
     return '';
+  }
+
+
+  selectOption(event) {
+    this.statusGroup = event === 'true' ? true: false;
   }
 
 

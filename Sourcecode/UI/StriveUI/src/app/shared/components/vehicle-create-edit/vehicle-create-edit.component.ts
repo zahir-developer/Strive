@@ -43,6 +43,7 @@ export class VehicleCreateEditComponent implements OnInit {
   memberOnchangePatchedService: any = [];
   selectedservice: any = [];
   extraService: any = [];
+  washService: any = [];
   washesDropdown: any = [];
   submitted: boolean;
   filteredModel: any = [];
@@ -300,10 +301,10 @@ export class VehicleCreateEditComponent implements OnInit {
         }
         if (membership.MembershipAndServiceDetail.MembershipService !== null) {
           this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
-          const washService = this.membershipServices.filter(item =>
+          this.washService = this.membershipServices.filter(item =>
             item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
-          if (washService.length > 0) {
-            this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
+          if (this.washService.length > 0) {
+            this.vehicleForm.patchValue({ wash: this.washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
           }
           const upchargeServcie = this.membershipServices.filter(item =>
@@ -311,11 +312,16 @@ export class VehicleCreateEditComponent implements OnInit {
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-          if (this.membershipServices.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) { // Additonal Services
+          if (this.membershipServices.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices || ApplicationConfig.Enum.ServiceType.WashPackage).length !== 0) { // Additonal Services
             this.memberOnchangePatchedService = this.membershipServices.filter(item =>
-              (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+              (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices || ApplicationConfig.Enum.ServiceType.WashPackage);
           }
           this.memberOnchangePatchedService.forEach(element => {
+            if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
+              this.selectedservice.push(element);
+            }
+          });
+          this.washService.forEach(element => {
             if (this.selectedservice.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
               this.selectedservice.push(element);
             }
@@ -343,7 +349,7 @@ export class VehicleCreateEditComponent implements OnInit {
                 element.IsDeleted = true;
               }
             });
-          }
+          }``
         } else {
           this.vehicleForm.patchValue({
             upcharge: '',
@@ -416,8 +422,8 @@ export class VehicleCreateEditComponent implements OnInit {
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
-          if (this.membershipServices.filter(i => (i.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) {
-            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices);
+          if (this.membershipServices.filter(i => (i.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices || ApplicationConfig.Enum.ServiceType.WashPackage).length !== 0) {
+            this.memberOnchangePatchedService = this.membershipServices.filter(item => (item.ServiceTypeName) === ApplicationConfig.Enum.ServiceType.AdditonalServices || ApplicationConfig.Enum.ServiceType.WashPackage);
             if (this.memberOnchangePatchedService.length !== 0) {
               this.patchedService.forEach(element => {
                 if (this.memberOnchangePatchedService.filter(i => i.ServiceId === element.ServiceId)[0] === undefined) {
@@ -578,6 +584,21 @@ export class VehicleCreateEditComponent implements OnInit {
       } else {
         memberService = this.memberService;
       }
+
+      if(this.washService[0] !== undefined)
+      {
+        const serviceId = this.washService[0].ServiceId;
+        this.memberService.push(
+          {
+            ClientVehicleMembershipServiceId : 0,
+            IsDeleted : false,
+            ClientMembershipId : clientMembershipId,
+            ServiceId : serviceId,
+            IsActive : true,
+          }
+        )
+      }
+      
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
         clientId: this.vehicleForm.value.client.id,
