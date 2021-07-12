@@ -728,10 +728,12 @@ export class SalesComponent implements OnInit {
 
     if (this.isValidMember == true) {
       document.getElementById('creditcardpopup').style.width = '300px';
-      document.getElementById('verifyMembership').style.width = '0';
+      //document.getElementById('verifyMembership').style.width = '0';
       this.creditProcess();
     } else {
-      document.getElementById('verifyMembership').style.width = '400px';
+      //document.getElementById('verifyMembership').style.width = '400px';
+      document.getElementById('creditcardpopup').style.width = '300px';
+      this.creditProcess();
       // this.ValidateMembership();
     }
   }
