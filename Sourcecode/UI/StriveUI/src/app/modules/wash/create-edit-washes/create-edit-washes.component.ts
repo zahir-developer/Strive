@@ -949,7 +949,9 @@ export class CreateEditWashesComponent implements OnInit {
     const myObj = {
       client: formObj,
       clientVehicle: null,
-      clientAddress: this.address
+      clientAddress: this.address,
+      token: null,
+      password: ''
     }
     this.spinner.show();
     this.client.addClient(myObj).subscribe(data => {
