@@ -202,8 +202,6 @@
 		<Folder Include="Sources\" />
 		<Folder Include="MvvmCross\" />
 		<Folder Include="Modules\Checkout\" />
-		<Folder Include="Resources\Assets.xcassets\car.imageset\" />
-		<Folder Include="Resources\Assets.xcassets\send.imageset\" />
 		<Folder Include="Services\Api\" />
 	</ItemGroup>
 	<ItemGroup>
@@ -235,7 +233,9 @@
 		<Compile Include="DTOs\BaseResponse.cs" />
 		<Compile Include="Extensions\BaseResponseExtension.cs" />
 		<Compile Include="Modules\Login\LoginViewController.cs" />
-		<Compile Include="Modules\Login\LoginViewController.Logic.cs" />
+		<Compile Include="Modules\Login\LoginViewController.Logic.cs">
+			<DependentUpon>Modules\Login\LoginViewController.cs</DependentUpon>
+        </Compile>
 		<Compile Include="Modules\Base\BaseViewController.cs" />
 		<Compile Include="Modules\User\LocationViewController.cs" />
 		<Compile Include="Modules\User\LocationViewController.designer.cs">
@@ -326,15 +326,25 @@
 		<Compile Include="Services\Api\UserApi.cs" />
 		<Compile Include="Services\Api\ApiService.cs" />
 		<Compile Include="Modules\Message\ContactViewController.cs" />
-		<Compile Include="Modules\Message\ContactViewController.Logic.cs" />
+		<Compile Include="Modules\Message\ContactViewController.Logic.cs">
+			<DependentUpon>Modules\Message\ContactViewController.cs</DependentUpon>
+        </Compile>
 		<Compile Include="Modules\Message\GroupParticipantsViewController.cs" />
-		<Compile Include="Modules\Message\GroupParticipantsViewController.Logic.cs" />
+		<Compile Include="Modules\Message\GroupParticipantsViewController.Logic.cs">
+			<DependentUpon>Modules\Message\GroupParticipantsViewController.cs</DependentUpon>
+        </Compile>
 		<Compile Include="Modules\Message\GroupViewController.cs" />
-		<Compile Include="Modules\Message\GroupViewController.Logic.cs" />
+		<Compile Include="Modules\Message\GroupViewController.Logic.cs">
+			<DependentUpon>Modules\Message\GroupViewController.cs</DependentUpon>
+        </Compile>
 		<Compile Include="Modules\Message\MessageHomeViewController.cs" />
-		<Compile Include="Modules\Message\MessageHomeViewController.Logic.cs" />
+		<Compile Include="Modules\Message\MessageHomeViewController.Logic.cs">
+			<DependentUpon>Modules\Message\MessageHomeViewController.cs</DependentUpon> 
+        </Compile>
 		<Compile Include="Modules\Message\RecentMessageViewController.cs" />
-		<Compile Include="Modules\Message\RecentMessageViewController.Logic.cs" />
+		<Compile Include="Modules\Message\RecentMessageViewController.Logic.cs">
+			<DependentUpon>Modules\Message\RecentMessageViewController.cs</DependentUpon>
+        </Compile>
 		<Compile Include="Cells\ContactCell.cs" />
 		<Compile Include="Cells\MessageGroupCell.cs" />
 		<Compile Include="Cells\RecentMessageCell.cs" />
