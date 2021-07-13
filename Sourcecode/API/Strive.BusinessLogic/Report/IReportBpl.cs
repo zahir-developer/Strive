@@ -28,5 +28,7 @@ namespace Strive.BusinessLogic.MonthlySalesReport
 
         Result GetDailySalesReport(DailySalesReportDto DailySalesReport);
         Result GetHourlyWashReport(SalesReportDto salesReportDto);
+        Result GetIrregularitiesReport(IrregularitiesDto Irregularities);
+        IrregularitiesViewModel GetIrregularitiesExport(IrregularitiesDto eodReportDto);
     }
 }

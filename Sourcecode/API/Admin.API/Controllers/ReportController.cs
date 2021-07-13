@@ -524,5 +524,148 @@ namespace Admin.API.Controllers
         [HttpPost]
         [Route("DailySalesReport")]
         public Result uspGetDailySalesReport([FromBody] DailySalesReportDto DailySalesReport) => _bplManager.GetDailySalesReport(DailySalesReport);
+
+        [HttpGet]
+        [Route("GetIrregularitiesReport")]
+        public Result GetIrregularitiesReport(IrregularitiesDto Irregularities) => _bplManager.GetIrregularitiesReport(Irregularities);
+
+        [HttpPost]
+        [Route("IrregularitiesExport")]
+        public IActionResult GetIrregularitiesExport([FromBody] IrregularitiesDto reportDto)
+        {
+            
+            var rptResult = _bplManager.GetIrregularitiesExport(reportDto);
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Vehicles with no info");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Manager";
+                worksheet.Cell(currentRow, 2).Value = "Date";
+                worksheet.Cell(currentRow, 3).Value = "Barcode";
+                worksheet.Cell(currentRow, 4).Value = "Time";
+                worksheet.Cell(currentRow, 5).Value = "Tkt #";
+                worksheet.Cell(currentRow, 6).Value = "Color";
+                worksheet.Cell(currentRow, 7).Value = "Make";
+                worksheet.Cell(currentRow, 8).Value = "Model";
+                worksheet.Cell(currentRow, 9).Value = "Extra serv";
+                worksheet.Cell(currentRow, 10).Value = "Sale amt";
+                worksheet.Cell(currentRow, 11).Value = "Discount";
+                worksheet.Cell(currentRow, 12).Value = "paid by"; 	
+
+                if (rptResult.VehiclesInfo != null)
+                {
+                    foreach (var VehiclesInfo in rptResult.VehiclesInfo)
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = VehiclesInfo.Manager;
+                        worksheet.Cell(currentRow, 2).Value = VehiclesInfo.JobDate;
+                        worksheet.Cell(currentRow, 3).Value = VehiclesInfo.Barcode;
+                        worksheet.Cell(currentRow, 4).Value = VehiclesInfo.TimeIn;
+                        worksheet.Cell(currentRow, 5).Value = VehiclesInfo.TicketNumber;
+                        worksheet.Cell(currentRow, 6).Value = VehiclesInfo.Color;
+                        worksheet.Cell(currentRow, 7).Value = VehiclesInfo.Make;
+                        worksheet.Cell(currentRow, 8).Value = VehiclesInfo.Model;
+                        worksheet.Cell(currentRow, 9).Value = VehiclesInfo.ExtraServices;
+                        worksheet.Cell(currentRow, 10).Value = VehiclesInfo.SaleAmt;
+                        worksheet.Cell(currentRow, 11).Value = VehiclesInfo.Discount;
+                        worksheet.Cell(currentRow, 12).Value = VehiclesInfo.PaidBy;
+                    }
+                }
+
+                var worksheet2 = workbook.Worksheets.Add("Missing ticket numbers");
+                 currentRow = 1;
+                worksheet2.Cell(currentRow, 1).Value = "Manager";
+                worksheet2.Cell(currentRow, 2).Value = "Date";
+                worksheet2.Cell(currentRow, 3).Value = "Barcode";
+                worksheet2.Cell(currentRow, 4).Value = "Time";
+                worksheet2.Cell(currentRow, 5).Value = "Tkt #";
+                worksheet2.Cell(currentRow, 6).Value = "Color";
+                worksheet2.Cell(currentRow, 7).Value = "Make";
+                worksheet2.Cell(currentRow, 8).Value = "Model";
+                worksheet2.Cell(currentRow, 9).Value = "Extra serv";
+                worksheet2.Cell(currentRow, 10).Value = "Sale amt";
+                worksheet2.Cell(currentRow, 11).Value = "Discount";
+                worksheet2.Cell(currentRow, 12).Value = "paid by";
+
+                if (rptResult.MissingTicket != null)
+                {
+                    foreach (var MissingTicket in rptResult.MissingTicket)
+                    {
+                        currentRow++;
+                        worksheet2.Cell(currentRow, 1).Value = MissingTicket.Manager;
+                        worksheet2.Cell(currentRow, 2).Value = MissingTicket.JobDate;
+                        worksheet2.Cell(currentRow, 3).Value = MissingTicket.Barcode;
+                        worksheet2.Cell(currentRow, 4).Value = MissingTicket.TimeIn;
+                        worksheet2.Cell(currentRow, 5).Value = MissingTicket.TicketNumber;
+                        worksheet2.Cell(currentRow, 6).Value = MissingTicket.Color;
+                        worksheet2.Cell(currentRow, 7).Value = MissingTicket.Make;
+                        worksheet2.Cell(currentRow, 8).Value = MissingTicket.Model;
+                        worksheet2.Cell(currentRow, 9).Value = MissingTicket.ExtraServices;
+                        worksheet2.Cell(currentRow, 10).Value = MissingTicket.SaleAmt;
+                        worksheet2.Cell(currentRow, 11).Value = MissingTicket.Discount;
+                        worksheet2.Cell(currentRow, 12).Value = MissingTicket.PaidBy;
+                    }
+                }
+                var worksheet3 = workbook.Worksheets.Add("Coupons");
+                currentRow = 1;
+                worksheet3.Cell(currentRow, 1).Value = "Manager";
+                worksheet3.Cell(currentRow, 2).Value = "Date";
+                worksheet3.Cell(currentRow, 3).Value = "Barcode";
+                worksheet3.Cell(currentRow, 4).Value = "Time";
+                worksheet3.Cell(currentRow, 5).Value = "Tkt #";
+                worksheet3.Cell(currentRow, 6).Value = "Color";
+                worksheet3.Cell(currentRow, 7).Value = "Make";
+                worksheet3.Cell(currentRow, 8).Value = "Model";
+                worksheet3.Cell(currentRow, 9).Value = "Extra serv";
+                worksheet3.Cell(currentRow, 10).Value = "Sale amt";
+                worksheet3.Cell(currentRow, 11).Value = "Discount";
+                worksheet3.Cell(currentRow, 12).Value = "paid by";
+
+                if (rptResult.Coupon != null)
+                {
+                    foreach (var Coupon in rptResult.Coupon)
+                    {
+                        currentRow++;
+                        worksheet3.Cell(currentRow, 1).Value = Coupon.Manager;
+                        worksheet3.Cell(currentRow, 2).Value = Coupon.JobDate;
+                        worksheet3.Cell(currentRow, 3).Value = Coupon.Barcode;
+                        worksheet3.Cell(currentRow, 4).Value = Coupon.TimeIn;
+                        worksheet3.Cell(currentRow, 5).Value = Coupon.TicketNumber;
+                        worksheet3.Cell(currentRow, 6).Value = Coupon.Color;
+                        worksheet3.Cell(currentRow, 7).Value = Coupon.Make;
+                        worksheet3.Cell(currentRow, 8).Value = Coupon.Model;
+                        worksheet3.Cell(currentRow, 9).Value = Coupon.ExtraServices;
+                        worksheet3.Cell(currentRow, 10).Value = Coupon.SaleAmt;
+                        worksheet3.Cell(currentRow, 11).Value = Coupon.Discount;
+                        worksheet3.Cell(currentRow, 12).Value = Coupon.PaidBy;
+                    }
+                }
+
+                var worksheet4 = workbook.Worksheets.Add("Deposit off");
+                currentRow = 1;
+                worksheet4.Cell(currentRow, 1).Value = "Manager";
+                worksheet4.Cell(currentRow, 2).Value = "JobDate";
+                worksheet4.Cell(currentRow, 3).Value = "Difference";
+
+                foreach (var deposit in rptResult.DepositOff)
+                {
+                    currentRow++;
+                    worksheet4.Cell(currentRow, 1).Value = deposit.Manager;
+                    worksheet4.Cell(currentRow, 2).Value = deposit.JobDate;
+                    worksheet4.Cell(currentRow, 3).Value = deposit.Difference;
+
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "StatusReport.xlsx");
+                }
+            }
+        }
     }
 }
