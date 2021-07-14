@@ -33,7 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   intervalId: any;
   subscriptionAuthenticate: Subscription;
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
-  RefreshTokenLog = [];
+  sessionRefresh = []
+  RefreshTokenLog: any;
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -140,8 +141,10 @@ export class AppComponent implements OnInit, OnDestroy {
           "time": time,
           "Date": today
       }
-      this.RefreshTokenLog.push(list);
-      console.log(this.RefreshTokenLog,'timer list');
+      this.sessionRefresh.push(list);
+      const count = this.sessionRefresh.map(e =>e.time).map((e,i,fin) =>fin.indexOf(e) === i && i)
+      .filter(e =>this.sessionRefresh[e]).map(e =>this.sessionRefresh[e])
+      console.log(count,'session refresh time capture');
 
 
     });
