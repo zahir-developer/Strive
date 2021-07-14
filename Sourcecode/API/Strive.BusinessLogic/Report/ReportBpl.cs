@@ -223,5 +223,37 @@ namespace Strive.BusinessLogic.MonthlySalesReport
             result.HourlyWashEmployeeViewModel = washHourSalesResult.HourlyWashEmployeeViewModel;
             return result;
         }
+
+        public Result GetIrregularitiesReport(IrregularitiesDto irregularitiesDto)
+        {
+            return ResultWrap(new ReportRal(_tenant).GetIrregularitiesReport, irregularitiesDto, "GetIrregularitiesReport");
+        }
+        public IrregularitiesViewModel GetIrregularitiesExport(IrregularitiesDto irregularitiesDto)
+        {
+            try
+            {
+                IrregularitiesViewModel irregularitiesViewModel = new IrregularitiesViewModel();
+                irregularitiesViewModel.VehiclesInfo = new List<IrregularityViewModel>();
+                irregularitiesViewModel.MissingTicket = new List<IrregularityViewModel>();
+                irregularitiesViewModel.Coupon = new List<IrregularityViewModel>();
+                irregularitiesViewModel.DepositOff = new List<DepositOffViewModel>();
+
+
+                var ReportRal = new ReportRal(_tenant);
+
+                var result = ReportRal.GetIrregularitiesReport(irregularitiesDto);
+
+                irregularitiesViewModel.VehiclesInfo = result.VehiclesInfo;
+                irregularitiesViewModel.MissingTicket = result.MissingTicket;
+                irregularitiesViewModel.Coupon = result.Coupon;
+                irregularitiesViewModel.DepositOff = result.DepositOff;
+
+                return irregularitiesViewModel;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
