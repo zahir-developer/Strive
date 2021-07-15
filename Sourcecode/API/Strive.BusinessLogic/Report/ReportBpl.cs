@@ -233,9 +233,9 @@ namespace Strive.BusinessLogic.MonthlySalesReport
             try
             {
                 IrregularitiesViewModel irregularitiesViewModel = new IrregularitiesViewModel();
-                irregularitiesViewModel.VehiclesInfo = new List<IrregularityViewModel>();
-                irregularitiesViewModel.MissingTicket = new List<IrregularityViewModel>();
-                irregularitiesViewModel.Coupon = new List<IrregularityViewModel>();
+                irregularitiesViewModel.VehiclesInfo = new List<IrregularityDetailViewModel>();
+                irregularitiesViewModel.MissingTicket = new List<IrregularityDetailViewModel>();
+                irregularitiesViewModel.Coupon = new List<IrregularityDetailViewModel>();
                 irregularitiesViewModel.DepositOff = new List<DepositOffViewModel>();
 
 

@@ -42,6 +42,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@Query", searchDto.Query);
             _prm.Add("@SortOrder", searchDto.SortOrder);
             _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@Status", searchDto.Status);
             return db.FetchMultiResult<EmployeeViewModel>(EnumSP.Employee.USPGETALLEMPLOYEEDETAIL.ToString(), _prm);
         }
 

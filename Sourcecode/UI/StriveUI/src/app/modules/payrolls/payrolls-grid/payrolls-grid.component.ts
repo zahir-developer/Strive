@@ -299,7 +299,8 @@ export class PayrollsGridComponent implements OnInit {
         if (oldPayroll.Adjustment !== +item.Adjustment) {
           updateObj.push({
             id: item.EmployeeId,
-            adjustment: +item.Adjustment
+            adjustment: +item.Adjustment,
+            LocationId:this.locationId
           });
         }
       }
