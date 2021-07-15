@@ -39,6 +39,8 @@ namespace Strive.ResourceAccess
             {
                 _prm.Add("@EmployeeId", item.id);
                 _prm.Add("@Adjustment", item.adjustment);
+                _prm.Add("@LocationId", item.LocationId);
+                
                 db.Save(EnumSP.Payroll.USPUPDATEEMPLOYEEADJUSTMENT.ToString(), _prm);
             }
             return true;
