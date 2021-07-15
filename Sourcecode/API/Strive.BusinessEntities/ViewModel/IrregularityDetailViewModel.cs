@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Strive.BusinessEntities.ViewModel
 {
-  public  class IrregularityViewModel
+  public  class IrregularityDetailViewModel
     {
         public string Manager { get; set; }
         public DateTime? JobDate { get; set; }
