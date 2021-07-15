@@ -49,7 +49,7 @@
                         <div class="p-col-3 p-md-6">
                             <p-autoComplete field="name" [suggestions]="filteredModel" (onBlur)="checkValue('model')"
                                 (completeMethod)="filterModel($event)" [size]="10" formControlName="model"
-                                placeholder="Model">
+                                placeholder="Model" (onSelect)="getUpcharge()">
                             </p-autoComplete>
                         </div>
                     </div>
