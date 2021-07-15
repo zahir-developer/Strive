@@ -206,14 +206,16 @@ export class HourlyWashComponent implements OnInit {
             }
           });
           this.salesDetails.forEach(item => {
-            this.totalDeposits = this.totalDeposits + item.Deposits;
-            this.totalBC = this.totalBC + item.BC;
-            this.totalAccount = this.totalAccount + item.Account;
-            this.totalGiftCard = this.totalGiftCard + item.GiftCard;
-            this.totalActual = this.totalActual + item.Actual;
-            this.totalSales = this.totalSales + item.Sales;
-            this.totalDifference = this.totalDifference + item.Difference;
+            this.totalDeposits = parseFloat((this.totalDeposits + item.Deposits).toFixed(2));
+            this.totalBC = parseFloat((this.totalBC + item.BC).toFixed(2));
+            this.totalAccount = parseFloat((this.totalAccount + item.Account).toFixed(2));
+            this.totalGiftCard = parseFloat((this.totalGiftCard + item.GiftCard).toFixed(2));
+            this.totalActual = parseFloat((this.totalActual + item.Actual).toFixed(2));
+            this.totalSales = parseFloat((this.totalSales + item.Sales).toFixed(2));
+            this.totalDifference = parseFloat((this.totalDifference + item.Difference).toFixed(2));
           });
+
+          
           this.salesDetails.forEach( item => {
             const manager = _.where(this.hourlyWashManager, { JobDate: item.JobDate });
             if (manager.length > 0) {
