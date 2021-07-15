@@ -1687,13 +1687,17 @@ export class SalesComponent implements OnInit {
               totalService.forEach(list => {
                 const lists = this.totalWashService.filter(ele => ele.ServiceId === list.ServiceId)
                 const dels = lists[0]
-                this.filterRecord.push(dels);
+                if(dels != undefined){
+                  this.filterRecord.push(dels);
+                }
               });
               this.filterRecord = [...this.totalChargeService, ...this.filterRecord, ...this.washPackage]
               if (this.filterRecord.length !== 0) {
                 this.totalAmount = 0;
                 this.filterRecord.forEach(ele => {
+                  if(ele != undefined){
                   this.totalAmount += ele.Price
+                  }
                 });
                 console.log(this.amountCheck);
                 if (this.amountCheck) {
