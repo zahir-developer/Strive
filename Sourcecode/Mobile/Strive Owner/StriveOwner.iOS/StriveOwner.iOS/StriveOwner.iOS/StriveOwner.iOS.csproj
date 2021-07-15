@@ -200,6 +200,7 @@
         <Folder Include="Views\Inventory\" />
         <Folder Include="Resources\Assets.xcassets\white-ellipse.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-trash.imageset\" />
+        <Folder Include="Views\Messenger\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -209,6 +210,9 @@
         <InterfaceDefinition Include="Views\CheckOut\CheckOut_Cell.xib" />
         <InterfaceDefinition Include="Views\Inventory\InventoryView.xib" />
         <InterfaceDefinition Include="Views\Inventory\InventoryProd_Cell.xib" />
+        <InterfaceDefinition Include="Views\Messenger\MessengerView.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Messenger_CellView.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Contact_CellView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -250,6 +254,20 @@
         <Compile Include="Views\Inventory\InventoryProd_Cell.designer.cs">
           <DependentUpon>InventoryProd_Cell.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\Messenger\MessengerView.cs" />
+        <Compile Include="Views\Messenger\MessengerView.designer.cs">
+          <DependentUpon>MessengerView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Messenger_CellView.cs" />
+        <Compile Include="Views\Messenger\Messenger_CellView.designer.cs">
+          <DependentUpon>Messenger_CellView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Messenger_BaseDataSource.cs" />
+        <Compile Include="Views\Messenger\Contact_CellView.cs" />
+        <Compile Include="Views\Messenger\Contact_CellView.designer.cs">
+          <DependentUpon>Contact_CellView.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Contact_DataSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
