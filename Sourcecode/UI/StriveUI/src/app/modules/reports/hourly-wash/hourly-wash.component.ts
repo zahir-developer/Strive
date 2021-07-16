@@ -206,14 +206,16 @@ export class HourlyWashComponent implements OnInit {
             }
           });
           this.salesDetails.forEach(item => {
-            this.totalDeposits = this.totalDeposits + item.Deposits;
-            this.totalBC = this.totalBC + item.BC;
-            this.totalAccount = this.totalAccount + item.Account;
-            this.totalGiftCard = this.totalGiftCard + item.GiftCard;
-            this.totalActual = this.totalActual + item.Actual;
-            this.totalSales = this.totalSales + item.Sales;
-            this.totalDifference = this.totalDifference + item.Difference;
+            this.totalDeposits = parseFloat((this.totalDeposits + item.Deposits).toFixed(2));
+            this.totalBC = parseFloat((this.totalBC + item.BC).toFixed(2));
+            this.totalAccount = parseFloat((this.totalAccount + item.Account).toFixed(2));
+            this.totalGiftCard = parseFloat((this.totalGiftCard + item.GiftCard).toFixed(2));
+            this.totalActual = parseFloat((this.totalActual + item.Actual).toFixed(2));
+            this.totalSales = parseFloat((this.totalSales + item.Sales).toFixed(2));
+            this.totalDifference = parseFloat((this.totalDifference + item.Difference).toFixed(2));
           });
+
+          
           this.salesDetails.forEach( item => {
             const manager = _.where(this.hourlyWashManager, { JobDate: item.JobDate });
             if (manager.length > 0) {
@@ -321,7 +323,9 @@ export class HourlyWashComponent implements OnInit {
           JobDate: this.datePipe.transform(item.JobDate, 'MM-dd-yyyy'),
           Temperature : +item.Temperature,
           Rain : +item.Rain,
-          Score : +item.TotalWashHours == 0 ? 0 : (((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+          Score : item.TotalWashHours == "0.00" ? ((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+          (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
+          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal)) : (((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
           (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
           + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal))/item.TotalWashHours).toFixed(2),
           Goal : +item.Goal,

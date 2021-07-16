@@ -80,4 +80,16 @@ export class ReportsService {
 
     return this.http.post(`${UrlConfig.reports.getHourlyWashExport}`, obj,{ responseType: 'arraybuffer', headers: headers } );
   }
+
+
+  getIrregularityReports(obj) {
+    return this.http.get(`${UrlConfig.reports.getIrregularityReports}`,{ params: { LocationId: obj.locationId, FromDate: obj.fromDate, EndDate: obj.endDate} });
+  }
+
+getIrregularityExport(obj) {
+  return this.http.get(`${UrlConfig.reports.getIrregularityExport}`,{ params: { LocationId: obj.locationId, FromDate: obj.fromDate, EndDate: obj.endDate} });
+}
+
+
+
 }

@@ -93,11 +93,13 @@ export class GiftCardComponent implements OnInit {
     this.giftCardService.getAllGiftCard(obj).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         const giftcard = JSON.parse(res.resultData);
         if (giftcard.GiftCard.GiftCardViewModel !== null) {
           this.giftCardList = giftcard.GiftCard.GiftCardViewModel;
           const totalCount = giftcard.GiftCard.Count.Count;
+          for(let i=0; i< this.giftCardList.length; i++) {
+            this.giftCardList[i].GiftCardCode = this.giftCardList[i].GiftCardCode.trim();
+          }
           this.giftCardList.forEach(item => {
             item.searchName = item.GiftCardCode + '' + item.GiftCardName;
           });
@@ -348,7 +350,7 @@ export class GiftCardComponent implements OnInit {
   changeSorting(column) {
     this.sortColumn = {
       sortBy: column,
-      sortOrder: this.sortColumn.sortOrder == 'ASC' ? 'DESC' : 'ASC'
+      sortOrder: this.sortColumn.sortOrder === 'ASC' ? 'DESC' : 'ASC'
     }
 
     this.selectedCls(this.sortColumn)

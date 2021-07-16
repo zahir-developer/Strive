@@ -9,6 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AdSetupService } from 'src/app/shared/services/data-service/ad-setup.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -42,6 +44,8 @@ export class VehicleListComponent implements OnInit {
   isOpenImage: boolean;
   originalImage = '';
   sortColumn: { sortBy: string; sortOrder: string; };
+  searchUpdate = new Subject<string>();
+
   constructor(
     private vehicle: VehicleService,
     private toastr: ToastrService,
@@ -50,7 +54,15 @@ export class VehicleListComponent implements OnInit {
     private confirmationService: ConfirmationUXBDialogService,
     private memberService: MembershipService,
     private route: ActivatedRoute
-  ) { }
+  ) { 
+    this.searchUpdate.pipe(
+      debounceTime(ApplicationConfig.debounceTime.sec),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.page = 1;
+        this.getAllVehicleDetails();
+      });
+  }
 
   ngOnInit() {
     this.sortColumn =  { sortBy: ApplicationConfig.Sorting.SortBy.Vehicle, sortOrder: ApplicationConfig.Sorting.SortOrder.Vehicle.order };

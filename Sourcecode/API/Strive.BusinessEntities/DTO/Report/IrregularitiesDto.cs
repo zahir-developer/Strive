@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strive.BusinessEntities.DTO
+namespace Strive.BusinessEntities.DTO.Report
 {
-    public class EmployeeAdjustmentDto
+   public class IrregularitiesDto
     {
-        public int id { get; set;}
-        public decimal adjustment { get; set; }
         public int LocationId { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

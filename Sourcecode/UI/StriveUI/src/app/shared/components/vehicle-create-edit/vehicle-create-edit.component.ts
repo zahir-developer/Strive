@@ -11,6 +11,8 @@ import { ModelService } from '../../services/common-service/model.service';
 import { EmployeeService } from '../../services/data-service/employee.service';
 import { MakeService } from '../../services/common-service/make.service';
 import { WashService } from '../../services/data-service/wash.service';
+import { CodeValueService } from '../../common-service/code-value.service';
+import { GetUpchargeService } from '../../services/common-service/get-upcharge.service';
 
 @Component({
   selector: 'app-vehicle-create-edit',
@@ -52,11 +54,14 @@ export class VehicleCreateEditComponent implements OnInit {
   models: any;
   isClientVehicle: boolean;
   clientList: any;
+  upchargeId: any;
+  serviceEnum: any;
+  upchargeList: any;
   MembershipDiscount: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
     private modelService: ModelService,
-    private makeService: MakeService, private wash: WashService) { }
+    private makeService: MakeService, private wash: WashService, private codeValueService: CodeValueService, private GetUpchargeService: GetUpchargeService) { }
 
   ngOnInit() {
     this.formInitialize();
@@ -69,6 +74,7 @@ export class VehicleCreateEditComponent implements OnInit {
       this.getVehicleById();
       this.getVehicleMembershipDetailsByVehicleId();
     }
+    this.getServiceType();
   }
 
   formInitialize() {
@@ -349,7 +355,7 @@ export class VehicleCreateEditComponent implements OnInit {
                 element.IsDeleted = true;
               }
             });
-          }``
+          } ``
         } else {
           this.vehicleForm.patchValue({
             upcharge: '',
@@ -585,20 +591,19 @@ export class VehicleCreateEditComponent implements OnInit {
         memberService = this.memberService;
       }
 
-      if(this.washService[0] !== undefined)
-      {
+      if (this.washService[0] !== undefined) {
         const serviceId = this.washService[0].ServiceId;
         this.memberService.push(
           {
-            ClientVehicleMembershipServiceId : 0,
-            IsDeleted : false,
-            ClientMembershipId : clientMembershipId,
-            ServiceId : serviceId,
-            IsActive : true,
+            ClientVehicleMembershipServiceId: 0,
+            IsDeleted: false,
+            ClientMembershipId: clientMembershipId,
+            ServiceId: serviceId,
+            IsActive: true,
           }
         )
       }
-      
+
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
         clientId: this.vehicleForm.value.client.id,
@@ -785,5 +790,44 @@ export class VehicleCreateEditComponent implements OnInit {
       this.vehicleForm.patchValue({ upchargeType: event.target.value });
     }
   }
+
+
+  getServiceType() {
+    const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
+    if (serviceTypeValue.length > 0) {
+      this.serviceEnum = serviceTypeValue;
+      this.upchargeId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0]?.CodeId;
+    }
+  }
+
+
+  getUpcharge() {
+    if (!this.upchargeId || !this.vehicleForm.value.model?.id) {
+      return;
+    }
+    const obj = {
+      "upchargeServiceType": this.upchargeId,
+      "modelId": this.vehicleForm.value.model?.id
+    };
+
+    this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+      if (res.status === 'Success') {
+        const jobtype = JSON.parse(res.resultData);
+        this.upchargeList = jobtype.upcharge;
+        var serviceId = 0
+        if (this.upchargeList?.length > 0) {
+          serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
+          this.vehicleForm.patchValue({
+            "upcharge": serviceId,
+            "upchargeType": serviceId
+          });
+        }
+      }
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
+  }
+
+
 }
 

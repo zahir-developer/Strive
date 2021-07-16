@@ -41,6 +41,7 @@
                                             <div class="form-group d-flex"> <input type="search" class="form-control"
                                                     [(ngModel)]="search" name="search" id="inputSearchbyName"
                                                     placeholder="Search"
+                                                    (ngModelChange)="this.searchUpdate.next($event)"
                                                     (keyup)="$event.keyCode == 13 ? newgetAllVehicleDetails() : null">
                                             </div>
                                             <div class="form-group col-sm m-l-5">

@@ -273,7 +273,7 @@ export const ApplicationConfig = {
     },
 
     debounceTime: {
-        sec: 1000
+        sec: 1500
     },
 
     modules: {

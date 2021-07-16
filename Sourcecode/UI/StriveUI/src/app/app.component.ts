@@ -33,6 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   intervalId: any;
   subscriptionAuthenticate: Subscription;
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
+  sessionRefresh = []
+  RefreshTokenLog: any;
   constructor(
     private user: UserDataService,
     private router: Router,
@@ -103,7 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     idle.onIdleEnd.subscribe(() => {
-      // console.log('onIdle');
+      console.log('step1');
       this.sessionLogoutComponent.idleClear();
       this.sessionLogoutComponent.dialogDisplay = false;
       this.dialogDisplay = false;
@@ -113,7 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
       clearInterval(this.intervalId);
     });
     idle.onTimeoutWarning.subscribe((countdown) => {
-      // console.log('onTimeoutWarning');
+      console.log(countdown,'step2');
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogDisplay = true;
       // this.idleState = 'You will time out in ' + countdown + ' seconds!'
@@ -124,7 +126,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     );
     idle.onTimeout.subscribe(() => {
-      // console.log('onTimeout');
+      console.log('step3');
       this.dialogDisplay = true;
       this.sessionLogoutComponent.dialogType = 'timeout';
       this.sessionLogoutComponent.dialogDisplay = true;
@@ -132,9 +134,22 @@ export class AppComponent implements OnInit, OnDestroy {
       this.header = 'Session Expired';
       this.authService.refreshLogout();
       clearInterval(this.intervalId);
+
+      var today = new Date();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const list = {
+          "time": time,
+          "Date": today
+      }
+      this.sessionRefresh.push(list);
+      const count = this.sessionRefresh.map(e =>e.time).map((e,i,fin) =>fin.indexOf(e) === i && i)
+      .filter(e =>this.sessionRefresh[e]).map(e =>this.sessionRefresh[e])
+      console.log(count,'session refresh time capture');
+
+
     });
     idle.onIdleStart.subscribe(() => {
-      //  console.log('onIdleStart');
+      console.log('step4');
       clearInterval(this.intervalId);
       this.timeCounter(timer);
     }
