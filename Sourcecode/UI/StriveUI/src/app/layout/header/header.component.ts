@@ -67,12 +67,14 @@ export class HeaderComponent implements OnInit {
     this.selectLocation.obsCityName.subscribe(city => {
       if (city !== null) {
         this.cityName = city;
+        localStorage.setItem('cityGroup', this.cityName);
       }
     });
 
     this.selectLocation.obsLocationName.subscribe(location => {
       if (location !== null) {
         this.locationName = location;
+        localStorage.setItem('streetGroup', this.locationName);
       }
     });
 

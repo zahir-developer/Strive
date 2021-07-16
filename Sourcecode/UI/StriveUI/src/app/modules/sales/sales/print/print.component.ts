@@ -18,15 +18,14 @@ export class PrintComponent implements OnInit {
   @Input() printTicketNumber: any;
   @Input() cashBack: any;
   today = new Date();
+  time: any;
   constructor(private activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
-    this.addressLine1 = 'Old Milton Mammoth Detail Salon';
-    this.addressLine2 = '2145, Old Milton Parkaway';
-    this.city = 'Alpharetta, GA 30004';
-    this.phone = '(770)521-0599';
-    this.invoiceDate = '9/18/2020';
-    this.invoiceTime = '9:26 AM';
+    this.addressLine1 =  localStorage.getItem('streetGroup');
+    this.city = localStorage.getItem('cityGroup');
+    this.today = new Date();
+    this.time = this.today.getHours() + ":" + this.today.getMinutes() + ":" + this.today.getSeconds();
   }
 cancel() {
   this.activeModal.close();

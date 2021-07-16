@@ -25,7 +25,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="emailId">Email address<span class="required">*</span></label>
-                                    <input type="email" class="form-control" id="emailId" formControlName="userEmail"
+                                    <input type="email" class="form-control" id="emailId" formControlName="userEmail" [pKeyFilter]="emailregex"
                                         placeholder="Email" (keydown.space)="$event.preventDefault()" (change)="validateGroup($event.target.value,'email')">
                                 </div>
 

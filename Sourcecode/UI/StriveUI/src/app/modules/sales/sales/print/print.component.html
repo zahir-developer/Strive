@@ -3,22 +3,21 @@
         <div class="row">
             <div class="col-12 address">
                 {{addressLine1}}<br>
-                {{addressLine2}}<br>
                 {{city}}<br>
                 {{phone}}<br>
             </div>
         </div>
         <br><br>
         <div class="row">
-            <div class="col-12" style="text-align: center;">
-                <label>Ticket #</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{printTicketNumber}}</span>
+            <div class="col-12">
+                <label><strong>Ticket # </strong></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{printTicketNumber}}</span>
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col-12">
-                {{today | date: 'MM/dd/yyyy'}} &nbsp;
-                {{today | date: 'hh:mm aa'}}
+               <strong>Date:</strong> {{today | date: 'MM/dd/yyyy'}} &nbsp;
+                <strong>Time:</strong> {{time}}
             </div>
         </div>
         <div class="row">
@@ -37,6 +36,11 @@
                                 <td>{{item?.ServiceName}}</td>
                                 <td>{{item?.Quantity}}</td>
                                 <td style="text-align: right;">{{item?.Price | currency}}</td>
+                            </tr>
+                            <tr *ngFor="let items of itemList.ProductItemViewModel">
+                                <td>{{items?.ProductName}}</td>
+                                <td>{{items?.Quantity}}</td>
+                                <td style="text-align: right;">{{items?.Price | currency}}</td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="pointer" style="text-align: right;">Sub Total <br> Tax <br> Total
