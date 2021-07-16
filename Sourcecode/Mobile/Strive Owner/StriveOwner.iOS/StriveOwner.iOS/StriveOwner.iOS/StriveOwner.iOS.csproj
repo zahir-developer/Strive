@@ -177,6 +177,10 @@
         <ImageAsset Include="Resources\Assets.xcassets\white-ellipse.imageset\Ellipse 85.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\Contents.json" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-trash.imageset\icons8-trash-30.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%401x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -201,6 +205,8 @@
         <Folder Include="Resources\Assets.xcassets\white-ellipse.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-trash.imageset\" />
         <Folder Include="Views\Messenger\" />
+        <Folder Include="Views\Messenger\Chat\" />
+        <Folder Include="Resources\Assets.xcassets\send-msg.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -213,6 +219,9 @@
         <InterfaceDefinition Include="Views\Messenger\MessengerView.xib" />
         <InterfaceDefinition Include="Views\Messenger\Messenger_CellView.xib" />
         <InterfaceDefinition Include="Views\Messenger\Contact_CellView.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Chat\ChatViewController.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Chat\MessageIncomingCell.xib" />
+        <InterfaceDefinition Include="Views\Messenger\Chat\MessageOutgoingCell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -268,6 +277,18 @@
           <DependentUpon>Contact_CellView.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\Messenger\Contact_DataSource.cs" />
+        <Compile Include="Views\Messenger\Chat\ChatViewController.cs" />
+        <Compile Include="Views\Messenger\Chat\ChatViewController.designer.cs">
+          <DependentUpon>ChatViewController.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Chat\MessageIncomingCell.cs" />
+        <Compile Include="Views\Messenger\Chat\MessageIncomingCell.designer.cs">
+          <DependentUpon>MessageIncomingCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.cs" />
+        <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.designer.cs">
+          <DependentUpon>MessageOutgoingCell.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
