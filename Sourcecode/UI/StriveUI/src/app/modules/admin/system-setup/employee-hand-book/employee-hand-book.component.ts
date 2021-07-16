@@ -41,6 +41,10 @@ export class EmployeeHandBookComponent implements OnInit {
   sortColumn: { sortBy: string; sortOrder: string; };
   actionType: string;
   header: string;
+  collectionSize: number = 0;
+  pageSize: number;
+  pageSizeList: number[];
+  page: number;
 
   constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -53,6 +57,10 @@ export class EmployeeHandBookComponent implements OnInit {
     }
     this.isLoading = false;
     this.getDocumentType();
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    this.getDocument();
   }
 
   adddata(data, handbookDetails?) {
@@ -139,7 +147,9 @@ this.header = "Edit Employee Handbook";
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
         this.sort(ApplicationConfig.Sorting.SortBy.EmployeeHandbook)
-
+        this.collectionSize = Math.ceil(this.document.length / this.pageSize) * 10;
+        console.log(this.collectionSize);
+        this.isTableEmpty = false;
       } else {
         this.isLoading = false;
 
@@ -237,5 +247,20 @@ this.header = "Edit Employee Handbook";
     }
     return '';
   }
+
+
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getDocument();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = 1;
+    this.getDocument();
+  }
+
+
+
 
 }
