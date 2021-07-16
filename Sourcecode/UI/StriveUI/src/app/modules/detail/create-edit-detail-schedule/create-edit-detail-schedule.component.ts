@@ -47,7 +47,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   upcharges = [];
   airFreshner: any;
   UpchargeType: any;
-  jobItems: any;
+  jobItems = [];
   washItem: any = [];
   membership: any;
   timeInDate: any;
@@ -307,7 +307,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   washService(data) {
-    console.log(data, 'washservice')
     this.isDetails = true;
     if (this.isEdit) {
       this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = true;
@@ -1237,10 +1236,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
     }
 
-
-
-
-
     const baySchedule = {
       bayScheduleId: 0,
       bayId: this.detailForm.value.bay,
@@ -1256,49 +1251,57 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.washItem.forEach(element => {
       this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
     });
-    this.jobItems = this.additionalService.map(item => {
-      return {
-        jobItemId: 0,
-        jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
-        serviceId: item.ServiceId,
-        isActive: true,
-        isDeleted: false,
-        commission: 0,
-        price: item.Price,
-        quantity: 1,
-        createdBy: 0,
-        updatedBy: 0
-      };
-    });
-    this.washItem.forEach(element => {
+    if (this.additionalService.length > 0) {
+      const details = this.additionalService.map(item => {
+        return {
+          jobItemId: 0,
+          jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
+          serviceId: item.ServiceId,
+          isActive: true,
+          isDeleted: false,
+          commission: 0,
+          price: item.Price,
+          quantity: 1,
+          createdBy: 0,
+          updatedBy: 0
+        };
+      });
+      this.jobItems = [...details];
+    }
+    for (let i = 0; i < this.washItem.length; i++) {
       this.jobItems.push({
-        jobItemId: element.JobItemId,
-        jobId: element.JobId ? element.JobId : this.jobID,
-        serviceId: element.ServiceId,
+        jobItemId: this.washItem[i].JobItemId,
+        jobId: this.washItem[i].JobId ? this.washItem[i].JobId : this.jobID,
+        serviceId: this.washItem[i].ServiceId,
         isActive: true,
-        isDeleted: element.IsDeleted ? element.IsDeleted : false,
+        isDeleted: this.washItem[i].IsDeleted ? this.washItem[i].IsDeleted : false,
         commission: 0,
-        price: element.Price,
+        price: this.washItem[i].Price,
         quantity: 1,
         createdBy: 0,
         updatedBy: 0
       });
-    });
-    this.assignedDetailService.forEach(item => {
+    }
+    for (let j = 0; j < this.assignedDetailService.length; j++) {
       this.jobItems.push({
         jobItemId: 0,
         jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
-        serviceId: item.ServiceId,
+        serviceId: this.assignedDetailService[j].ServiceId,
         isActive: true,
         isDeleted: false,
         createdBy: 0,
         updatedBy: 0,
         commission: 0,
-        price: item.Price,
+        price: this.assignedDetailService[j].Price,
         quantity: 1,
-        employeeId: item.EmployeeId
+        employeeId: this.assignedDetailService[j].EmployeeId
       });
-    });
+    }
+
+    this.jobItems = this.jobItems.filter(data =>
+      data.price !== undefined
+    );
+
     const formObj = {
       job,
       jobItem: this.jobItems,
@@ -1352,6 +1355,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailService.getDetailById(jobID).subscribe(res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
+        console.log(details, 'result data');
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
         this.washItem = this.selectedData.DetailsItem;
