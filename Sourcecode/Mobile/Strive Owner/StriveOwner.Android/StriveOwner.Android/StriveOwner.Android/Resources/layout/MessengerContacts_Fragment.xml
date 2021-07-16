@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+    <android.support.v7.widget.SearchView
+        android:id="@+id/contacts_SearchView"
+        android:layout_marginTop="@dimen/ten"
+        android:layout_marginLeft="@dimen/ten"
+        android:layout_marginRight="@dimen/ten"
+        android:background="@drawable/color_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:queryHint="Search Employees"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contacts_RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
