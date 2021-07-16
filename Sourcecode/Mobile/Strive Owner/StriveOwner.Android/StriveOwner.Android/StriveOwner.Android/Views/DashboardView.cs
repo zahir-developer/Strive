@@ -57,17 +57,17 @@ namespace StriveOwner.Android.Views
                     selected_MvxFragment = messenger_Fragment;
                     break;
 
-                    //case Resource.Id.menu_schedule:
-                    //    selected_MvxFragment = schedule_Fragment;
-                    //    break;
+                case Resource.Id.menu_schedule:
+                    selected_MvxFragment = messenger_Fragment;
+                    break;
 
-                    //case Resource.Id.menu_profile:
-                    //    selected_MvxFragment = profile_Fragment;
-                    //    break;
+                case Resource.Id.menu_profile:
+                    selected_MvxFragment = messenger_Fragment;
+                    break;
 
-                    //case Resource.Id.menu_checkOut:
-                    //    selected_MvxFragment = checkOut_Fragment;
-                    //    break;
+                case Resource.Id.menu_checkOut:
+                    selected_MvxFragment = messenger_Fragment;
+                    break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }

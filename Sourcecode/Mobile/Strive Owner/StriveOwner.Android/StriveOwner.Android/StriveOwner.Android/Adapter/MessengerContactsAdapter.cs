@@ -17,7 +17,7 @@ using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils.Employee;
 using StriveOwner.Android.Fragments;
-using StriveEmployee.Android.Listeners;
+using StriveOwner.Android.Listeners;
 
 namespace StriveOwner.Android.Adapter
 {
