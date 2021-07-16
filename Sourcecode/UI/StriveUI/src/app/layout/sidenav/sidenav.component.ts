@@ -49,6 +49,7 @@ export class SidenavComponent implements OnInit {
   hourlyWashReportView: boolean = false
   customerHistoryView: boolean = false
   customerView: boolean = false
+  irregularReportView = true;
 
   roles = [];
   newRolePermission: string;
@@ -83,6 +84,7 @@ export class SidenavComponent implements OnInit {
 
       if (data) {
         const newparsedData = JSON.parse(data);
+        console.log(newparsedData,'testing user name');
         for (let i = 0; i < newparsedData?.length; i++) {
           const viewName = newparsedData[i].ViewName;
           const rollName = newparsedData[i].RollName;
@@ -191,6 +193,9 @@ export class SidenavComponent implements OnInit {
       }
       else if (viewNameLocal === 'DailySalesreport') {
         this.dailyTipReportView = true;
+      }
+      else if (viewNameLocal === 'DailySalesreport') {
+        this.irregularReportView = true;
       }
     }
     // White Labelling

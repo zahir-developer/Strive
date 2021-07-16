@@ -217,7 +217,9 @@ export const UrlConfig = {
     getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getDailySalesReport: `Admin/Report/DailySalesReport`,
     getHourlyWashReport: `Admin/Report/GetHourlyWashReport`,
-    getHourlyWashExport: `Admin/Report/HourlyWashExport`
+    getHourlyWashExport: `Admin/Report/HourlyWashExport`,
+    getIrregularityReports: `Admin/Report/GetIrregularitiesReport`,
+    getIrregularityExport: `Admin/Report/IrregularitiesExport`,
   },
   sales: {
     addListItem: `Admin/Sales/AddListItem`,
