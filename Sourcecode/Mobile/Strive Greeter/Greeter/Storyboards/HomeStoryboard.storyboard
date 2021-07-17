@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kEu-jC-MZN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kEu-jC-MZN">
     <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -15,7 +15,7 @@
             <objects>
                 <viewController id="bTh-oa-yQe" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6eS-RY-TST">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="F0m-gY-o1l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -57,7 +57,7 @@
             <objects>
                 <viewController id="3uc-Py-uIS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DzO-AG-PNa">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="gIC-06-CNm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -79,7 +79,7 @@
             <objects>
                 <viewController id="LNC-AB-Heq" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hm8-h2-9wx">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="PEu-ED-0iZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -95,7 +95,7 @@
             <objects>
                 <viewController id="Pq4-Cm-QNu" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UPb-5v-4Q6">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Mxg-RZ-B8u">
@@ -122,7 +122,7 @@
             <objects>
                 <viewController id="hgK-oW-beU" customClass="ServiceViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m85-U6-sIV">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="zxG-DS-ZQx">
@@ -1539,8 +1539,29 @@
                     <view key="view" contentMode="scaleToFill" id="IMd-is-Si2">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gXL-PN-fEi">
+                                <rect key="frame" x="312" y="473" width="400" height="400"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="400" id="NeJ-GI-Tqy"/>
+                                    <constraint firstAttribute="height" constant="400" id="oy3-hi-LMx"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ezJ-qw-VgE"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="gXL-PN-fEi" firstAttribute="centerY" secondItem="ezJ-qw-VgE" secondAttribute="centerY" id="9c3-br-b4G"/>
+                            <constraint firstItem="gXL-PN-fEi" firstAttribute="centerX" secondItem="ezJ-qw-VgE" secondAttribute="centerX" id="miI-o9-hBp"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iEX-g1-mbn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

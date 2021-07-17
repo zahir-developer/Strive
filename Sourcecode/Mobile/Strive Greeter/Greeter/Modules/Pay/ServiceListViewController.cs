@@ -4,11 +4,10 @@ using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
 using UIKit;
-using Xamarin.Essentials;
 
 namespace Greeter.Modules.Pay
 {
-    public partial class CheckoutViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
+    public partial class ServiceListViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
     {
         UITableView checkoutTableView;
 
@@ -79,51 +78,8 @@ namespace Greeter.Modules.Pay
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(CheckoutCell.Key) as CheckoutCell;
-            cell.SetupData(Checkouts[indexPath.Row]);
+            cell.SetupData(Checkouts[indexPath.Row], true, PayBtnClicked);
             return cell;
-        }
-
-        [Export("tableView:trailingSwipeActionsConfigurationForRowAtIndexPath:")]
-        public UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
-        {
-            var action1 = UIContextualAction.FromContextualActionStyle(
-                UIContextualActionStyle.Normal,
-                "Hold",
-                (flagAction, view, success) =>
-                {
-                    //success(true);
-                    tableView.Editing = false;
-                    HoldBtnClicked(Checkouts[indexPath.Row]);
-                });
-            action1.Image = UIImage.FromBundle("tick");
-            action1.BackgroundColor = ColorConverters.FromHex("#ff9d00").ToPlatformColor();
-
-            var action2 = UIContextualAction.FromContextualActionStyle(
-                UIContextualActionStyle.Normal,
-                "Complete",
-                (flagAction, view, success) =>
-                {
-                    //success(true);
-                    tableView.Editing = false;
-                    CompleteBtnClicked(Checkouts[indexPath.Row]);
-                });
-
-            action2.Image = UIImage.FromBundle("tick");
-            action2.BackgroundColor = ColorConverters.FromHex("#138a32").ToPlatformColor();
-
-            var action3 = UIContextualAction.FromContextualActionStyle(
-                UIContextualActionStyle.Normal,
-                "Checkout",
-                (flagAction, view, success) =>
-                {
-                    //success(true);
-                    tableView.Editing = false;
-                    CheckoutBtnClicked(Checkouts[indexPath.Row]);
-                });
-            action3.Image = UIImage.FromBundle("tick");
-            action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
-
-            return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
         }
     }
 }

@@ -160,7 +160,7 @@ namespace Greeter.Storyboards
 
             if (response.IsSuccess())
             {
-                ShowAlertMsg(Common.Messages.EMAIL_SENT_MSG);
+                ShowAlertMsg(Common.Messages.EMAIL_SENT_MSG, titleTxt : Common.Messages.EMAIL);
             }
         }
 

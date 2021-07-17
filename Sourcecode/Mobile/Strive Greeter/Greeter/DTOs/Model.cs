@@ -96,6 +96,9 @@ namespace Greeter.DTOs
         [JsonProperty("VehicleModelId")]
         public long ModelID { get; set; }
 
+        [JsonProperty("Upcharge")]
+        public long UpchargeID { get; set; }
+
         [JsonProperty("VehicleModel")]
         public string Model { get; set; }
 

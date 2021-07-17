@@ -151,6 +151,7 @@ namespace Greeter
                 vc.ClientID = clientDetail.ClientID;
                 vc.VehicleID = clientDetail.VehicleID;
                 vc.CustName = clientDetail.FirstName + " " + clientDetail.LastName;
+                vc.UpchargeID = clientDetail.UpchargeID;
             }
 
             if (IsWash)

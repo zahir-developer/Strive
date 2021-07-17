@@ -30,7 +30,7 @@ namespace Greeter
             var washTimeTabBarItem = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
             washTimeNavigationController.TabBarItem = washTimeTabBarItem;
 
-            var item3 = new PaymentViewController();
+            var item3 = new ServiceListViewController();
             var icon3 = new UITabBarItem(title: "Pay", image: UIImage.FromBundle(ImageNames.DOLLAR), null);
             item3.TabBarItem = icon3;
 

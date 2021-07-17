@@ -50,7 +50,7 @@ namespace Greeter.Services.Network
                         var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
                         result.StatusCode = (int)urlResponse?.StatusCode;
 
-                        Debug.WriteLine("Response : " + JsonConvert.SerializeObject(result));
+                        Debug.WriteLine("Response String : " + JsonConvert.SerializeObject(result));
 
                         return result;
                     } // Un-Authorized

@@ -6,6 +6,7 @@ using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Network;
+using Newtonsoft.Json;
 
 namespace Greeter.Services.Api
 {
@@ -59,6 +60,8 @@ namespace Greeter.Services.Api
                     response = commonResponse?.ResultData.ParseJsonString<T>();
                     response.StatusCode = commonResponse.StatusCode;
                     response.Message = commonResponse.Message;
+
+                    Debug.WriteLine("De-serilised Response : " + JsonConvert.SerializeObject(response));
                 }
             }
             catch (Exception ex)

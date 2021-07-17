@@ -52,7 +52,7 @@ namespace Greeter.Modules.Pay
             ShowAlertMsg(Common.Messages.HOLD_VERIFICATION_MSG, () =>
             {
                 _ = HoldCheckout(checkout);
-            }, true);
+            }, true, Common.Messages.HOLD);
         }
 
         async Task HoldCheckout(Checkout checkout)
@@ -78,7 +78,7 @@ namespace Greeter.Modules.Pay
                 {
                     // Refreshing checkout list
                     _ = GetCheckoutListAsync();
-                });
+                }, titleTxt: Common.Messages.HOLD);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Greeter.Modules.Pay
             ShowAlertMsg(Common.Messages.COMPLETE_VERIFICATION_MSG, () =>
             {
                 _ = CompleteCheckout(checkout);
-            }, true);
+            }, true, Common.Messages.COMPLETE);
         }
 
         async Task CompleteCheckout(Checkout checkout)
@@ -113,7 +113,7 @@ namespace Greeter.Modules.Pay
                 {
                     // Refreshing checkout list
                     _ = GetCheckoutListAsync();
-                });
+                }, titleTxt: Common.Messages.COMPLETE);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Greeter.Modules.Pay
             ShowAlertMsg(Common.Messages.CHECKOUT_VERIFICATION_MSG, () =>
             {
                 _ = Checkout(checkout);
-            }, true);
+            }, true, Common.Messages.CHECKOUT);
         }
 
         async Task Checkout(Checkout checkout)
@@ -148,7 +148,7 @@ namespace Greeter.Modules.Pay
                 {
                     // Refreshing checkout list
                     _ = GetCheckoutListAsync();
-                });
+                }, titleTxt:Common.Messages.CHECKOUT);
             }
         }
     }

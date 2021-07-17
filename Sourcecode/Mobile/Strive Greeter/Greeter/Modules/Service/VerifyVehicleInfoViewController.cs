@@ -92,28 +92,28 @@ namespace Greeter.Storyboards
             MainService.JobId = jobId;
             jobItems.Add(MainService);
 
-            float detailTimeMins = 0;
+            float serviceTimeMins = 0;
 
-            detailTimeMins += MainService.Time;
+            //detailTimeMins += MainService.Time;
 
             if (Upcharge != null)
             {
                 Upcharge.JobId = jobId;
-                detailTimeMins += Upcharge.Time;
+                serviceTimeMins += Upcharge.Time;
                 jobItems.Add(Upcharge);
             }
 
             if (Additional != null)
             {
                 Additional.JobId = jobId;
-                detailTimeMins += Additional.Time;
+                serviceTimeMins += Additional.Time;
                 jobItems.Add(Upcharge);
             }
 
             if (AirFreshner != null)
             {
                 AirFreshner.JobId = jobId;
-                detailTimeMins += AirFreshner.Time;
+                serviceTimeMins += AirFreshner.Time;
                 jobItems.Add(AirFreshner);
             }
 
@@ -140,9 +140,9 @@ namespace Greeter.Storyboards
                 };
 
                 if (ServiceType == ServiceType.Wash)
-                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime);
+                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins);
                 else
-                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(detailTimeMins);
+                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(MainService.Time + serviceTimeMins);
 
                 Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
 
@@ -169,7 +169,7 @@ namespace Greeter.Storyboards
                         vc.CustName = CustName;
                         vc.Service = req;
                         NavigationController.PushViewController(vc, true);
-                    });
+                    }, titleTxt : Common.Messages.SERVICE);
                 }
                 else
                 {

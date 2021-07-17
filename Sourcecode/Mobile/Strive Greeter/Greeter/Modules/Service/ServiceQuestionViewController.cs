@@ -36,6 +36,7 @@ namespace Greeter.Storyboards
         public long ColorID;
         public long ClientID;
         public long VehicleID;
+        public long UpchargeID;
 
         //int modelId;
         string make;
@@ -264,6 +265,14 @@ namespace Greeter.Storyboards
             {
                 make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
                 color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
+                var barcodeUpcharge = Upcharges.Where(x => x.ID == UpchargeID).FirstOrDefault();
+
+                upcharge = upcharge ?? new JobItem();
+                upcharge.ServiceId = barcodeUpcharge.ID;
+                upcharge.SeriveName = barcodeUpcharge.Name + " - " + barcodeUpcharge.Upcharges;
+                upcharge.Price = barcodeUpcharge.Price;
+                upcharge.Time = barcodeUpcharge.Time;
+
                 UpdateBarcodeData();
             }
 
@@ -290,6 +299,7 @@ namespace Greeter.Storyboards
                 tfMake.Text = make;
                 tfModel.Text = Model;
                 tfColor.Text = color;
+                tfUpcharge.Text = upcharge.SeriveName;
             }
         }
 

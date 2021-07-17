@@ -66,7 +66,7 @@ namespace Greeter
                     AppSettings.WashTime = locations[pos].WashTimeMinutes;
                     NavigateToTabsScreen();
                 }
-                else ShowAlertMsg(Common.Messages.LOCATION_EMPTY);
+                else ShowAlertMsg(Common.Messages.LOCATION_EMPTY, titleTxt: Common.Messages.LOCATION);
             };
         }
 

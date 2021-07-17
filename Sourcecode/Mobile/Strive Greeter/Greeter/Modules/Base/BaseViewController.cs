@@ -136,11 +136,16 @@ namespace Greeter
             GoBack(true);
         }
 
-        public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false)
+        public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)
         {
             string title = "Alert";
             string ok = "Ok";
             string cancel = "Cancel";
+
+            if (!string.IsNullOrEmpty(titleTxt))
+            {
+                title = titleTxt;
+            }
 
             var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
             okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default,

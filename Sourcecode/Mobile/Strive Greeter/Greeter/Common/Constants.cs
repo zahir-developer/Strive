@@ -12,13 +12,13 @@ namespace Greeter.Common
     public class Urls
     {
         //Strive Dev By Zahir
-        internal const string BASE_URL = "https://strivedev.azurewebsites.net";
+        //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
         //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         //QA
-        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         //internal const string BASE_URL = "http://40.114.79.101:5004";
 
@@ -118,6 +118,13 @@ namespace Greeter.Common
 
         internal const string CHECKOUT_VERIFICATION_MSG = "Are you sure want to change the status to checkout?";
         internal const string SERVICE_CHECKED_OUT_SUCCESS_MSG = "Vehicle has been checked out successfully";
+
+        internal const string HOLD = "Hold";
+        internal const string COMPLETE = "Complete";
+        internal const string CHECKOUT = "Checkout";
+        internal const string LOCATION = "Location";
+        internal const string SERVICE = "Service";
+        internal const string EMAIL = "Email";
     }
 
     public class StatusCodes

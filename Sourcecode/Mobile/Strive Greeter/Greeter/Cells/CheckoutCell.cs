@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
+using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using UIKit;
@@ -22,6 +23,7 @@ namespace Greeter.Cells
         UILabel amountLabel;
         //UILabel remainingBalanceLabel;
         UIView paidStatusContainer;
+        UIButton payButton;
 
         public CheckoutCell(IntPtr p) : base(p)
         {
@@ -90,6 +92,17 @@ namespace Greeter.Cells
 
             paidStatusContainer.Hidden = true;
 
+            payButton = new UIButton(CGRect.Empty);
+            payButton.TranslatesAutoresizingMaskIntoConstraints = false;
+            payButton.SetTitle("PAY", UIControlState.Normal);
+            payButton.TitleLabel.TextColor = UIColor.White;
+            payButton.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            payButton.Font = UIFont.BoldSystemFontOfSize(18);
+            
+            containerView.Add(payButton);
+
+            payButton.Hidden = true;
+
             amountLabel = new UILabel(CGRect.Empty);
             amountLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             amountLabel.TextColor = UIColor.FromRGB(2.0f / 255.0f, 20.0f / 255.0f, 61.0f / 255.0f);
@@ -133,6 +146,11 @@ namespace Greeter.Cells
             paidStatusContainer.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, constant: 20).Active = true;
             paidStatusContainer.HeightAnchor.ConstraintEqualTo(40).Active = true;
 
+            payButton.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -20).Active = true;
+            payButton.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, constant: 20).Active = true;
+            payButton.HeightAnchor.ConstraintEqualTo(40).Active = true;
+            payButton.WidthAnchor.ConstraintEqualTo(100).Active = true;
+
             statusIndicatorImage.LeadingAnchor.ConstraintEqualTo(paidStatusContainer.LeadingAnchor, constant: 12).Active = true;
             statusIndicatorImage.HeightAnchor.ConstraintEqualTo(24).Active = true;
             statusIndicatorImage.WidthAnchor.ConstraintEqualTo(24).Active = true;
@@ -150,7 +168,7 @@ namespace Greeter.Cells
             //remainingBalanceLabel.HeightAnchor.ConstraintEqualTo(30).Active = true;
         }
 
-        public void SetupData(Checkout checkout)
+        public void SetupData(Checkout checkout, bool isPayOptionNeeded = false, Action<long> pay = null)
         {
             if (!checkout.ColorCode.IsEmpty())
                 statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
@@ -161,7 +179,7 @@ namespace Greeter.Cells
                 serviceInfoLabel.Text += "\n" + "Additional Services: " + checkout.AdditionalServices;
             checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check out " + checkout.CheckoutTime + "  ";
             statusIndicatorImage.Image = new UIImage();
-            if (checkout.PaymentStatus.Equals("Success"))
+            if (!checkout.PaymentStatus.Equals("Success"))
             {
                 paidStatusLabel.Text = "Paid";
                 paidStatusContainer.Hidden = false;
@@ -172,8 +190,15 @@ namespace Greeter.Cells
                 paidStatusContainer.Hidden = true;
             }
 
+            if (isPayOptionNeeded)
+            {
+                payButton.Hidden = checkout.PaymentStatus.Equals("Success") ? false : true;
+            }
+
             amountLabel.Text = "$" + checkout.Cost;
             //remainingBalanceLabel.Text = "    Remaining Bal. $15    ";
+
+            payButton.TouchUpInside += (s, e) => pay?.Invoke(checkout.ID);
         }
     }
 }
