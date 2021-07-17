@@ -9,7 +9,6 @@ using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Api;
-using Greeter.Services.Network;
 using Newtonsoft.Json;
 using UIKit;
 
@@ -36,6 +35,7 @@ namespace Greeter.Storyboards
         public string Barcode;
         public string CustName;
         public string UpchargeTypeName;
+        public ServiceType ServiceType;
 
         public VerifyVehicleInfoViewController(IntPtr handle) : base(handle)
         {
@@ -83,7 +83,7 @@ namespace Greeter.Storyboards
         {
             ShowActivityIndicator();
 
-            var apiService = new WashApi();
+            var apiService = new WashApiService();
             var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
             long jobId = ticketResponse.Ticket.TicketNo;
 
@@ -92,25 +92,32 @@ namespace Greeter.Storyboards
             MainService.JobId = jobId;
             jobItems.Add(MainService);
 
+            float detailTimeMins = 0;
+
+            detailTimeMins += MainService.Time;
+
             if (Upcharge != null)
             {
                 Upcharge.JobId = jobId;
+                detailTimeMins += Upcharge.Time;
                 jobItems.Add(Upcharge);
             }
 
             if (Additional != null)
             {
                 Additional.JobId = jobId;
+                detailTimeMins += Additional.Time;
                 jobItems.Add(Upcharge);
             }
 
             if (AirFreshner != null)
             {
                 AirFreshner.JobId = jobId;
+                detailTimeMins += AirFreshner.Time;
                 jobItems.Add(AirFreshner);
             }
 
-            var jobStatusResponse = await apiService.GetGlobalData("JOBSTATUS");
+            var jobStatusResponse = await new GeneralApiService().GetGlobalData("JOBSTATUS");
             long jobStatusId = jobStatusResponse.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID;
 
             if (jobId != 0)
@@ -127,10 +134,15 @@ namespace Greeter.Storyboards
                         ColorId = ColorID,
                         ClientId = ClientID,
                         VehicleId = VehicleID,
-                        LocationID = AppSettings.LocationID
+                        LocationID = AppSettings.LocationID,
                     },
                     JobItems = jobItems
                 };
+
+                if (ServiceType == ServiceType.Wash)
+                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime);
+                else
+                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(detailTimeMins);
 
                 Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
 

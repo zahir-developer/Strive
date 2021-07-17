@@ -26,7 +26,7 @@
 		<MtouchArch>x86_64</MtouchArch>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<MtouchDebug>true</MtouchDebug>
-		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
+		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
@@ -321,9 +321,8 @@
 		</Compile>
 		<Compile Include="Cells\MessageIncomingCell.cs" />
 		<Compile Include="Cells\MessageOutgoingCell.cs" />
-		<Compile Include="Services\Api\WashApi.cs" />
-		<Compile Include="Services\Api\CheckoutApi.cs" />
-		<Compile Include="Services\Api\UserApi.cs" />
+		<Compile Include="Services\Api\WashApiService.cs" />
+		<Compile Include="Services\Api\CheckoutApiService.cs" />
 		<Compile Include="Services\Api\ApiService.cs" />
 		<Compile Include="Modules\Message\ContactViewController.cs" />
 		<Compile Include="Modules\Message\ContactViewController.Logic.cs">
@@ -348,6 +347,9 @@
 		<Compile Include="Cells\ContactCell.cs" />
 		<Compile Include="Cells\MessageGroupCell.cs" />
 		<Compile Include="Cells\RecentMessageCell.cs" />
+		<Compile Include="Services\Api\GeneralApiService.cs" />
+		<Compile Include="Services\Api\VehicleApiService.cs" />
+		<Compile Include="Services\Api\PaymentApiService.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

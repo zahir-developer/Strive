@@ -2,6 +2,7 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using UIKit;
 using Xamarin.Essentials;
 
@@ -19,7 +20,7 @@ namespace Greeter.Cells
         UIImageView statusIndicatorImage;
         UILabel paidStatusLabel;
         UILabel amountLabel;
-        UILabel remainingBalanceLabel;
+        //UILabel remainingBalanceLabel;
         UIView paidStatusContainer;
 
         public CheckoutCell(IntPtr p) : base(p)
@@ -95,14 +96,14 @@ namespace Greeter.Cells
             amountLabel.Font = UIFont.BoldSystemFontOfSize(30);
             containerView.Add(amountLabel);
 
-            remainingBalanceLabel = new UILabel(CGRect.Empty);
-            remainingBalanceLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            remainingBalanceLabel.TextColor = UIColor.White;
-            remainingBalanceLabel.BackgroundColor = UIColor.Red;
-            remainingBalanceLabel.Font = UIFont.BoldSystemFontOfSize(15);
-            remainingBalanceLabel.Layer.CornerRadius = 5;
-            remainingBalanceLabel.Layer.MasksToBounds = true;
-            containerView.Add(remainingBalanceLabel);
+            //remainingBalanceLabel = new UILabel(CGRect.Empty);
+            //remainingBalanceLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            //remainingBalanceLabel.TextColor = UIColor.White;
+            //remainingBalanceLabel.BackgroundColor = UIColor.Red;
+            //remainingBalanceLabel.Font = UIFont.BoldSystemFontOfSize(15);
+            //remainingBalanceLabel.Layer.CornerRadius = 5;
+            //remainingBalanceLabel.Layer.MasksToBounds = true;
+            //containerView.Add(remainingBalanceLabel);
 
             containerView.LeadingAnchor.ConstraintEqualTo(ContentView.LeadingAnchor).Active = true;
             containerView.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor).Active = true;
@@ -144,14 +145,15 @@ namespace Greeter.Cells
             amountLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -100).Active = true;
             amountLabel.TopAnchor.ConstraintEqualTo(containerView.CenterYAnchor).Active = true;
 
-            remainingBalanceLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -50).Active = true;
-            remainingBalanceLabel.TopAnchor.ConstraintEqualTo(amountLabel.BottomAnchor, constant: 10).Active = true;
-            remainingBalanceLabel.HeightAnchor.ConstraintEqualTo(30).Active = true;
+            //remainingBalanceLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -50).Active = true;
+            //remainingBalanceLabel.TopAnchor.ConstraintEqualTo(amountLabel.BottomAnchor, constant: 10).Active = true;
+            //remainingBalanceLabel.HeightAnchor.ConstraintEqualTo(30).Active = true;
         }
 
         public void SetupData(Checkout checkout)
         {
-            statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
+            if (!checkout.ColorCode.IsEmpty())
+                statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
             checkoutIdLabel.Text = checkout.ID.ToString();
             customerNameLabel.Text = checkout.CustomerFirstName + " " + checkout.CustomerLastName;
             serviceInfoLabel.Text = checkout.VehicleModel + "/" + checkout.VehicleColor + "\n" + "Services: " + checkout.Services;
@@ -171,7 +173,7 @@ namespace Greeter.Cells
             }
 
             amountLabel.Text = "$" + checkout.Cost;
-            remainingBalanceLabel.Text = "    Remaining Bal. $15    ";
+            //remainingBalanceLabel.Text = "    Remaining Bal. $15    ";
         }
     }
 }

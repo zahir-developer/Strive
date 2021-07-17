@@ -136,10 +136,11 @@ namespace Greeter
             GoBack(true);
         }
 
-        public void ShowAlertMsg(string msg, Action okAction = null)
+        public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false)
         {
             string title = "Alert";
-            string ok = "OK";
+            string ok = "Ok";
+            string cancel = "Cancel";
 
             var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
             okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default,
@@ -147,6 +148,8 @@ namespace Greeter
                 {
                     okAction?.Invoke();
                 }));
+            if (isCancel)
+                okAlertController.AddAction(UIAlertAction.Create(cancel, UIAlertActionStyle.Cancel, null));
             PresentViewController(okAlertController, true, null);
         }
 

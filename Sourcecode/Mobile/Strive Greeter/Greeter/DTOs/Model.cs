@@ -30,6 +30,9 @@ namespace Greeter.DTOs
         [JsonProperty("Token")]
         public string AuthToken { get; set; }
 
+        [JsonProperty("RefreshToken")]
+        public string RefreshToken { get; set; }
+
         [JsonProperty("EmployeeDetails")]
         public EmployeeDetails EmployeeDetails { get; set; }
     }
@@ -164,6 +167,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("Upcharges")]
         public string Upcharges { get; set; }
+
+        [JsonProperty("EstimatedTime")]
+        public float Time { get; set; }
     }
 
     public class GlobalDataResponse : BaseResponse
@@ -223,7 +229,7 @@ namespace Greeter.DTOs
         public DateTime CreatedDate { get; } = DateTime.Now;
 
         [JsonProperty("estimatedTimeOut")]
-        public DateTime EstimatedTimeOut { get; } = DateTime.Now.AddHours(1);
+        public DateTime EstimatedTimeOut { get; set; }
 
         [JsonProperty("isActive")]
         public bool IsActive { get; } = true;
@@ -305,6 +311,12 @@ namespace Greeter.DTOs
 
         [JsonProperty("updatedDate")]
         public DateTime UpdatedDate { get; } = DateTime.Now;
+
+        [JsonIgnore]
+        public string SeriveName { get; set; }
+
+        [JsonIgnore]
+        public float Time { get; set; }
     }
 
     public class CheckoutRequest
@@ -421,7 +433,7 @@ namespace Greeter.DTOs
         public DateTime CheckOutTime { get; } = DateTime.Now;
     }
 
-    public class DoPaymentReq
+    public class PaymentAuthReq
     {
         //[JsonProperty("cardConnect")]
         //public object CardConnect { get; set; }
@@ -447,8 +459,8 @@ namespace Greeter.DTOs
         [JsonProperty("amount")]
         public float Amount { get; set; }
 
-        [JsonProperty("orderId")]
-        public long OrderID { get; set; }
+        //[JsonProperty("orderId")]
+        //public long OrderID { get; set; }
 
         //[JsonProperty("batchid")]
         //public long BatchID { get; set; }
@@ -468,19 +480,178 @@ namespace Greeter.DTOs
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("address")]
-        public string Address { get; set; }
+        //[JsonProperty("address")]
+        //public string Address { get; set; }
 
-        [JsonProperty("city")]
-        public string City { get; set; }
+        //[JsonProperty("city")]
+        //public string City { get; set; }
 
-        [JsonProperty("country")]
-        public string Country { get; set; }
+        //[JsonProperty("country")]
+        //public string Country { get; set; }
 
-        [JsonProperty("region")]
-        public string Region { get; set; }
+        //[JsonProperty("region")]
+        //public string Region { get; set; }
 
-        [JsonProperty("postal")]
-        public string Postal { get; set; }
+        //[JsonProperty("postal")]
+        //public string Postal { get; set; }
+    }
+
+    public class PaymentCaptureReq
+    {
+        [JsonProperty("authCode")]
+        public string AuthCode { get; set; }
+
+        [JsonProperty("amount")]
+        public float Amount { get; set; }
+
+        [JsonProperty("retRef")]
+        public string RetRef { get; set; }
+
+        //[JsonProperty("invoiceId")]
+        //public object InvoiceID { get; set; }
+    }
+
+    public class AddPaymentReq
+    {
+        [JsonProperty("jobPayment")]
+        public JobPayment JobPayment { get; set; }
+
+        [JsonProperty("jobPaymentDetail")]
+        public JobPaymentDetail JobPaymentDetail { get; set; }
+
+        //[JsonProperty("giftCardHistory")]
+        //public object GiftCardHistory { get; } = null;
+
+        //[JsonProperty("jobPaymentCreditCard")]
+        //public object JobPaymentCreditCard { get; } = null;
+    }
+
+    public class JobPayment
+    {
+        //[JsonProperty("jobPaymentId")]
+        //public long JobPaymentId { get; } = 0;
+
+        //[JsonProperty("membershipId")]
+        //public string membershipId { get; } = null
+
+        [JsonProperty("jobId")]
+        public long JobId { get; set; }
+
+        //[JsonProperty("drawerId")]
+        //public short DrawerId { get; set; }
+
+        [JsonProperty("amount")]
+        public float Amount { get; set; }
+
+        [JsonProperty("taxAmount")]
+        public float TaxAmount { get; } = 0;
+
+        [JsonProperty("approval")]
+        public bool Approval { get; } = true;
+
+        [JsonProperty("paymentStatus")]
+        public long PaymentStatus { get; set; }
+
+        //[JsonProperty("comments")]
+        //public string Comments { get; } = null;
+
+        //[JsonProperty("isActive")]
+        //public bool IsActive { get; } = true;
+
+        //[JsonProperty("isDeleted")]
+        //public bool isDeleted { get; } = false;
+
+        [JsonProperty("createdBy")]
+        public long CreatedBy { get; } = AppSettings.UserID;
+
+        [JsonProperty("createdDate")]
+        public DateTime CreatedDate { get; } = DateTime.Now;
+
+        //[JsonProperty("updatedBy")]
+        //public long UpdatedBy { get; } = AppSettings.UserID;
+
+        //[JsonProperty("updatedDate")]
+        //public DateTime UpdatedDate { get; } = DateTime.Now;
+
+        [JsonProperty("isProcessed")]
+        public bool IsProcessed { get; } = true;
+
+        //[JsonProperty("cashback")]
+        //public int Cashback { get; } = 0;
+    }
+
+    public class JobPaymentDetail
+    {
+        //[JsonProperty("jobPaymentDetailId")]
+        //public int JobPaymentDetailID { get; } = 0;
+
+        //[JsonProperty("jobPaymentId")]
+        //public int JobPaymentId { get; } = 0;
+
+        [JsonProperty("paymentType")]
+        public short PaymentType { get; set; }
+
+        [JsonProperty("amount")]
+        public float Amount { get; set; }
+
+        //[JsonProperty("taxAmount")]
+        //public float TaxAmount { get; } = 0;
+
+        //[JsonProperty("signature")]
+        //public string Signature { get; } = string.Empty;
+
+        //[JsonProperty("isActive")]
+        //public bool IsActive { get; } = true;
+
+        //[JsonProperty("isDeleted")]
+        //public bool IsDeleted { get; } = false;
+
+        [JsonProperty("createdBy")]
+        public long CreatedBy { get; } = AppSettings.UserID;
+
+        [JsonProperty("createdDate")]
+        public DateTime CreatedDate { get; } = DateTime.Now;
+
+        //[JsonProperty("updatedBy")]
+        //public long UpdatedBy { get; } = AppSettings.UserID;
+
+        //[JsonProperty("updatedDate")]
+        //public DateTime UpdatedDate { get; } = DateTime.Now;
+    }
+
+    public class GetDetailEmployeeReq
+    {
+        [JsonProperty("locationId")]
+        public int LocationID { get; set; }
+
+        [JsonProperty("date")]
+        public DateTime CurrentDate { get; } = DateTime.Now.AddMonths(-1);
+    }
+
+    public class EmployeeListResponse : BaseResponse
+    {
+        [JsonProperty("result")]
+        public List<Employee> EmployeeList { get; set; }
+    }
+
+    public class Employee
+    {
+        [JsonProperty("EmployeeId")]
+        public int ID { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+    }
+
+    public class RefreshTokenReq
+    {
+        [JsonProperty("token")]
+        public string Token { get; set; }
+
+        [JsonProperty("refreshToken")]
+        public string RefreshToken { get; set; }
     }
 }

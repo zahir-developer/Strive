@@ -73,7 +73,7 @@ namespace Greeter
         async Task GetData()
         {
             ShowActivityIndicator();
-            var response = await new UserApi().GetLocations();
+            var response = await new GeneralApiService().GetLocations();
             HideActivityIndicator();
 
             if (response.IsNoInternet())

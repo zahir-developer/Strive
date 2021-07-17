@@ -92,7 +92,7 @@ namespace Greeter.Modules.Pay
                 (flagAction, view, success) =>
                 {
                     //success(true);
-
+                    tableView.Editing = false;
                     HoldBtnClicked(Checkouts[indexPath.Row]);
                 });
             action1.Image = UIImage.FromBundle("tick");
@@ -104,7 +104,7 @@ namespace Greeter.Modules.Pay
                 (flagAction, view, success) =>
                 {
                     //success(true);
-
+                    tableView.Editing = false;
                     CompleteBtnClicked(Checkouts[indexPath.Row]);
                 });
 
@@ -117,7 +117,7 @@ namespace Greeter.Modules.Pay
                 (flagAction, view, success) =>
                 {
                     //success(true);
-
+                    tableView.Editing = false;
                     CheckoutBtnClicked(Checkouts[indexPath.Row]);
                 });
             action3.Image = UIImage.FromBundle("tick");

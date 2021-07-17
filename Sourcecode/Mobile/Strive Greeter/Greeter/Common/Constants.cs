@@ -14,16 +14,17 @@ namespace Greeter.Common
         //Strive Dev By Zahir
         internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
-        //internal const string BASE_URL = "http://40.114.79.101:5004";
-
         // Mamooth Dev
         //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         //QA
         //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
+        //internal const string BASE_URL = "http://40.114.79.101:5004";
+
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
+        internal const string REFRESH_TOKEN = "/Auth/Refresh";
 
         // Url Format Example : /Admin/Washes/GetByBarCode/{barcode}
         internal const string BARCODE = "/Admin/Washes/GetByBarCode/";
@@ -33,13 +34,19 @@ namespace Greeter.Common
         // Url Format Example :/Admin/Common/GetModelById/{makeId}
         internal const string MODELS_BY_MAKE = "/Admin/Common/GetModelById/";
         internal const string ALL_SERVICE_DETAILS = "/Admin/ServiceSetup/GetAllServiceDetail";
+
         //  Url Format Example : /Admin/Common/GetTicketNumber/{locationId}
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
         internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
         internal const string SEND_EMAIL = "/Admin/Common/SendMail";
+        internal const string DETAILER_EMPLOYEES = "/Admin/TimeClock/GetClockedInDetailer";
+        internal const string WASH_TIME = "/Admin/Washes/GetWashTimeDetail/";
+
+        internal const string PAYMENT_AUTH = "/Payroll/PaymentGateway/Auth";
+        internal const string PAYMENT_CAPTURE = "/Payroll/PaymentGateway/Capture";
+        internal const string ADD_PAYMENT = "/Admin/Sales/AddPayment";
 
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
-        internal const string DO_PAYMENT = "/Payroll/PaymentGateway/Auth";
         internal const string HOLD_CHECKOUT = "/Admin/Checkout/UpdateJobStatusHold";
         internal const string COMPLETE_CHECKOUT = "/Admin/Checkout/UpdateJobStatusComplete";
         internal const string DO_CHECKOUT = "/Admin/Checkout/UpdateCheckoutDetails";
@@ -101,6 +108,7 @@ namespace Greeter.Common
         internal const string EMAIL_SENT_MSG = "Email sent successFully";
         internal const string EMAIL_WARNING = "Please enter the valid email id";
         internal const string EMAIL_MISSING = "Please enter the email id";
+        internal const string EMPLOYEE_MISSING = "Please select the employee";
 
         internal const string HOLD_VERIFICATION_MSG = "Are you sure want to change the status to hold?";
         internal const string SERVICE_HOLD_SUCCESS_MSG = "Service status changed to hold successfully";
@@ -116,6 +124,7 @@ namespace Greeter.Common
     {
         internal const int SUCCESS = 200;
         internal const int BAD_REQUEST = 400;
-        internal const int INTERNAL_SERVER_ERROR = 401;
+        internal const int INTERNAL_SERVER_ERROR = 500;
+        internal const int UN_AUTHORIZED = 401;
     }
 }

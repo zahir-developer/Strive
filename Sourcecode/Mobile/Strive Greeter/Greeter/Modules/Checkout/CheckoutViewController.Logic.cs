@@ -21,7 +21,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutRequest = new CheckoutRequest
             {
-                StartDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
+                StartDate = DateTime.Now.Date.AddMonths(-1).ToString("yyyy-MM-dd"),
                 EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
                 LocationID = AppSettings.LocationID,
                 SortBy = "TicketNumber",
@@ -30,7 +30,7 @@ namespace Greeter.Modules.Pay
             };
 
             ShowActivityIndicator();
-            var response = await new CheckoutApi().GetCheckoutList(checkoutRequest);
+            var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
             HideActivityIndicator();
 
             if (response.IsNoInternet())
@@ -52,7 +52,7 @@ namespace Greeter.Modules.Pay
             ShowAlertMsg(Common.Messages.HOLD_VERIFICATION_MSG, () =>
             {
                 _ = HoldCheckout(checkout);
-            });
+            }, true);
         }
 
         async Task HoldCheckout(Checkout checkout)
@@ -63,7 +63,7 @@ namespace Greeter.Modules.Pay
             };
 
             ShowActivityIndicator();
-            var response = await new CheckoutApi().HoldCheckout(checkoutHoldReq);
+            var response = await new CheckoutApiService().HoldCheckout(checkoutHoldReq);
             HideActivityIndicator();
 
             if (response.IsNoInternet())
@@ -86,8 +86,8 @@ namespace Greeter.Modules.Pay
         {
             ShowAlertMsg(Common.Messages.COMPLETE_VERIFICATION_MSG, () =>
             {
-                _ = HoldCheckout(checkout);
-            });
+                _ = CompleteCheckout(checkout);
+            }, true);
         }
 
         async Task CompleteCheckout(Checkout checkout)
@@ -98,7 +98,7 @@ namespace Greeter.Modules.Pay
             };
 
             ShowActivityIndicator();
-            var response = await new CheckoutApi().CompleteCheckout(checkoutCompleteReq);
+            var response = await new CheckoutApiService().CompleteCheckout(checkoutCompleteReq);
             HideActivityIndicator();
 
             if (response.IsNoInternet())
@@ -121,8 +121,8 @@ namespace Greeter.Modules.Pay
         {
             ShowAlertMsg(Common.Messages.CHECKOUT_VERIFICATION_MSG, () =>
             {
-                _ = HoldCheckout(checkout);
-            });
+                _ = Checkout(checkout);
+            }, true);
         }
 
         async Task Checkout(Checkout checkout)
@@ -133,7 +133,7 @@ namespace Greeter.Modules.Pay
             };
 
             ShowActivityIndicator();
-            var response = await new CheckoutApi().DoCheckout(checkoutReq);
+            var response = await new CheckoutApiService().DoCheckout(checkoutReq);
             HideActivityIndicator();
 
             if (response.IsNoInternet())

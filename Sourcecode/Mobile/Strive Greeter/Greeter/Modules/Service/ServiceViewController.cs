@@ -7,7 +7,6 @@ using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Modules.Service;
 using Greeter.Services.Api;
-using Greeter.Services.Network;
 using Greeter.Storyboards;
 using UIKit;
 
@@ -95,7 +94,7 @@ namespace Greeter
         async Task GetBarcodeDetails(string barcode)
         {
             ShowActivityIndicator();
-            var response = await new WashApi().GetBarcode(barcode);
+            var response = await new VehicleApiService().GetBarcode(barcode);
             HideActivityIndicator();
 
             if (response.IsNoInternet())

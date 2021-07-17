@@ -15,11 +15,11 @@ namespace Greeter.Storyboards
 {
     public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
     {
-        string[] sampleData = new string[] {
-            "Main Street 1",
-            "Main Street 2",
-            "Main Street 3"
-        };
+        //string[] sampleData = new string[] {
+        //    "Main Street 1",
+        //    "Main Street 2",
+        //    "Main Street 3"
+        //};
 
         // Common data for picker (Note : whenever dropdown is clicked we need to assign/change this array values)
         string[] data;
@@ -202,14 +202,14 @@ namespace Greeter.Storyboards
                 pos = Array.IndexOf(data, selectedText);
             }
 
-            if (pos != -1 && pos < data.Length)
+            if (pos != -1 && pos < data?.Length)
                 pv.Select(pos, 0, false);
         }
 
         async Task GetModlesByMake(int makeId)
         {
             ShowActivityIndicator();
-            var modelsResponse = await new WashApi().GetModelsByMake(makeId);
+            var modelsResponse = await new VehicleApiService().GetModelsByMake(makeId);
             Models = modelsResponse.ModelList;
             models = Models?.Select(x => x.Name).ToArray();
             HideActivityIndicator();
@@ -218,7 +218,7 @@ namespace Greeter.Storyboards
         async Task GetData()
         {
             ShowActivityIndicator();
-            var apiService = new WashApi();
+            var apiService = new GeneralApiService();
 
             var makesResponse = await apiService.GetAllMake();
             Makes = makesResponse?.MakeList;
@@ -230,7 +230,9 @@ namespace Greeter.Storyboards
 
             var jobTypeResponse = await apiService.GetGlobalData("JOBTYPE");
 
-            var allServiceResponse = await apiService.GetAllSericeDetails(AppSettings.LocationID);
+            var washApiService = new WashApiService();
+
+            var allServiceResponse = await washApiService.GetAllSericeDetails(AppSettings.LocationID);
             if (ServiceType == ServiceType.Wash)
             {
                 WashPackages = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_PACKAGE)).ToList();
@@ -266,6 +268,10 @@ namespace Greeter.Storyboards
             }
 
             HideActivityIndicator();
+
+#if DEBUG
+
+#endif
         }
 
         void UpdateBarcodeData()
@@ -443,27 +449,41 @@ namespace Greeter.Storyboards
                         tfUpcharge.Text = data[pos];
                         upcharge = upcharge ?? new JobItem();
                         upcharge.ServiceId = Upcharges[pos].ID;
+                        upcharge.SeriveName = Upcharges[pos].Name;
+                        upcharge.Price = Upcharges[pos].Price;
+                        upcharge.Time = Upcharges[pos].Time;
                         break;
                     case ChoiceType.AdditionalService:
                         tfAdditionalService.Text = data[pos];
                         additional = additional ?? new JobItem();
                         additional.ServiceId = AdditionalServices[pos].ID;
+                        additional.SeriveName = AdditionalServices[pos].Name;
+                        additional.Price = AdditionalServices[pos].Price;
+                        additional.Time = AdditionalServices[pos].Time;
                         break;
                     case ChoiceType.AirFreshner:
                         tfAirFreshner.Text = data[pos];
                         airFreshner = airFreshner ?? new JobItem();
                         airFreshner.ServiceId = AirFreshners[pos].ID;
+                        airFreshner.SeriveName = AirFreshners[pos].Name;
+                        airFreshner.Price = AirFreshners[pos].Price;
+                        airFreshner.Time = AirFreshners[pos].Time;
                         break;
                     case ChoiceType.Washpackage:
                         tfWashPkg.Text = data[pos];
                         mainService = mainService ?? new JobItem();
                         mainService.ServiceId = WashPackages[pos].ID;
-                        //price = washPackages[pos].,
+                        mainService.SeriveName = WashPackages[pos].Name;
+                        mainService.Price = WashPackages[pos].Price;
+                        mainService.Time = WashPackages[pos].Time;
                         break;
                     case ChoiceType.DetailPackage:
                         tfDetailPkg.Text = data[pos];
                         mainService = mainService ?? new JobItem();
                         mainService.ServiceId = DetailPackages[pos].ID;
+                        mainService.SeriveName = DetailPackages[pos].Name;
+                        mainService.Price = DetailPackages[pos].Price;
+                        mainService.Time = DetailPackages[pos].Time;
                         break;
                 }
         }
@@ -502,6 +522,7 @@ namespace Greeter.Storyboards
             vc.CustName = CustName;
             vc.ClientID = ClientID;
             vc.VehicleID = VehicleID;
+            vc.ServiceType = ServiceType;
             NavigateToWithAnim(vc);
         }
 

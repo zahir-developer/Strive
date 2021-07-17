@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kEu-jC-MZN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kEu-jC-MZN">
     <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -532,6 +532,7 @@
                     </view>
                     <connections>
                         <outlet property="btnCustomerSend" destination="Jov-mt-xqq" id="g64-gf-eEA"/>
+                        <outlet property="btnEmpDropdown" destination="0LZ-Qo-ZxL" id="Fga-U5-B0Q"/>
                         <outlet property="btnEmpSent" destination="T4W-o9-tod" id="4Ww-ZK-y0z"/>
                         <outlet property="btnPay" destination="z76-WF-r2O" id="pvV-Zh-kql"/>
                         <outlet property="btnPrint" destination="aAP-wU-M9x" id="psw-HD-O7a"/>
@@ -1530,6 +1531,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GFv-X6-Vyv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2669.53125" y="164.71449487554904"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="keE-yr-W7i">
+            <objects>
+                <viewController id="wuF-lS-1dy" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IMd-is-Si2">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ezJ-qw-VgE"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iEX-g1-mbn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3651" y="160"/>
         </scene>
         <!--Add Issue View Controller-->
         <scene sceneID="9Kp-BZ-uY6">

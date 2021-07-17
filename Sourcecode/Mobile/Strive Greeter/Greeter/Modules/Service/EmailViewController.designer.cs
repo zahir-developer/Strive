@@ -16,6 +16,9 @@ namespace Greeter.Storyboards
 		UIKit.UIButton btnCustomerSend { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnEmpDropdown { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnEmpSent { get; set; }
 
 		[Outlet]
@@ -52,14 +55,19 @@ namespace Greeter.Storyboards
 				btnPrint = null;
 			}
 
+			if (tfCust != null) {
+				tfCust.Dispose ();
+				tfCust = null;
+			}
+
 			if (tfEmp != null) {
 				tfEmp.Dispose ();
 				tfEmp = null;
 			}
 
-			if (tfCust != null) {
-				tfCust.Dispose ();
-				tfCust = null;
+			if (btnEmpDropdown != null) {
+				btnEmpDropdown.Dispose ();
+				btnEmpDropdown = null;
 			}
 		}
 	}

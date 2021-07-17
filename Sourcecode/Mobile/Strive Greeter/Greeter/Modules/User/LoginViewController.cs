@@ -117,6 +117,7 @@ namespace Greeter
             if (response.IsSuccess())
             {
                 AppSettings.Token = response?.AuthToken;
+                AppSettings.RefreshToken = response?.RefreshToken;
                 AppSettings.UserID = response?.EmployeeDetails?.EmployeeLogin?.EmployeeId ?? 0;
             }
 

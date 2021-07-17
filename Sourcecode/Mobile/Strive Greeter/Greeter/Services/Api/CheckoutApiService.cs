@@ -5,12 +5,12 @@ using Greeter.Services.Network;
 
 namespace Greeter.Services.Api
 {
-    public interface ICheckoutApi
+    public interface ICheckoutApiService
     {
         Task<CheckoutResponse> GetCheckoutList(CheckoutRequest req);
     }
 
-    public class CheckoutApi : ICheckoutApi
+    public class CheckoutApiService : ICheckoutApiService
     {
         readonly IApiService apiService = new ApiService();
 
@@ -20,11 +20,6 @@ namespace Greeter.Services.Api
         }
 
         public Task<BaseResponse> HoldCheckout(HoldCheckoutReq req)
-        {
-            return apiService.DoApiCall<BaseResponse>(Urls.DO_PAYMENT, HttpMethod.Post, null, req);
-        }
-
-        public Task<BaseResponse> Pay(DoPaymentReq req)
         {
             return apiService.DoApiCall<BaseResponse>(Urls.HOLD_CHECKOUT, HttpMethod.Post, null, req);
         }

@@ -7,12 +7,20 @@ namespace Greeter.Common
     {
         public static bool IsLogin => !string.IsNullOrEmpty(Token);
 
+        public static bool IsHavingLocation => LocationID != 0;
+
         public static string BearereToken => "Bearer " + Token;
 
         public static string Token
         {
             get => Preferences.Get(nameof(Token), string.Empty);
             set => Preferences.Set(nameof(Token), value);
+        }
+
+        public static string RefreshToken
+        {
+            get => Preferences.Get(nameof(RefreshToken), string.Empty);
+            set => Preferences.Set(nameof(RefreshToken), value);
         }
 
         public static int LocationID

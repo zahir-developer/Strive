@@ -25,5 +25,10 @@ namespace Greeter.Services.Authentication
         {
             return apiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
         }
+
+        public Task<BaseResponse> RefreshToken(RefreshTokenReq req)
+        {
+            return apiService.DoApiCall<BaseResponse>(Urls.REFRESH_TOKEN, HttpMethod.Post, null, req, false);
+        }
     }
 }

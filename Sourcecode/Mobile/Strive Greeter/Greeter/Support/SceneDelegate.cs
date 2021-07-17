@@ -30,15 +30,15 @@ namespace NewSingleViewTemplate
 
                 UIViewController vc;
 
-                if (!AppSettings.IsLogin)
-                    vc = sb.InstantiateViewController(nameof(LoginViewController));
-                else if (AppSettings.LocationID == 0)
-                    vc = sb.InstantiateViewController(nameof(LocationViewController));
-                else
-                {
-                    sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
-                    vc = sb.InstantiateViewController(nameof(TabViewController));
-                }
+                //if (!AppSettings.IsLogin)
+                //    vc = sb.InstantiateViewController(nameof(LoginViewController));
+                //else if (!AppSettings.IsHavingLocation)
+                //    vc = sb.InstantiateViewController(nameof(LocationViewController));
+                //else
+                //{
+                //    sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+                //    vc = sb.InstantiateViewController(nameof(TabViewController));
+                //}
 
                 vc = sb.InstantiateViewController(nameof(LoginViewController));
 
