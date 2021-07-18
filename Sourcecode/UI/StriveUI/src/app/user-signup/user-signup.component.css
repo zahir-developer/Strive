@@ -11,3 +11,11 @@
 .panelfixheight {
     min-height: 50rem !important;
 }
+
+.firstBoxs {
+padding-top: 2.5rem;
+}
+
+.secondBoxs {
+    padding-top: 0.5rem;
+}

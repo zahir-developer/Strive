@@ -465,5 +465,10 @@ export class UserSignupComponent implements OnInit {
     }
   }
 
+  deleteAddressGroup(index: number) {
+    const add = this.vehicleForm.get('items') as FormArray;
+    add.removeAt(index)
+  }
+
 
 }
