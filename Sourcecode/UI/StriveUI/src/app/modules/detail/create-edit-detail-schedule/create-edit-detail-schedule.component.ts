@@ -21,7 +21,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
 import { MakeService } from 'src/app/shared/services/common-service/make.service';
 import { ModelService } from 'src/app/shared/services/common-service/model.service';
-import { element } from 'protractor';
+declare var $: any;
 
 @Component({
   selector: 'app-create-edit-detail-schedule',
@@ -117,6 +117,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   allServiceDetails: any;
   estimatedTimeOut: any = null;
   detailEstimatedTime: any = null;
+  duplicateLoop = true;
   constructor(
     private fb: FormBuilder,
     private wash: WashService,
@@ -151,6 +152,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.getAllBayById();
     this.getTicketNumber();
     // this.getJobType();
+    console.log(this.isEdit, 'welcome1');
   }
 
   formInitialize() {
@@ -1327,7 +1329,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
-    } else {
+    }
+    else {
       this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
@@ -1366,6 +1369,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
+    this.closeSchedules();
   }
 
   getAllBayById() {
@@ -1733,5 +1737,13 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
+closeSchedules() {
+  $(document).ready(function(){ 
+    $('#closeSchedules').trigger("click");
+    });
+}
+
+
 }
 

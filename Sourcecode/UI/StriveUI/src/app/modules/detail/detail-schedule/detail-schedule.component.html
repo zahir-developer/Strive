@@ -139,7 +139,7 @@
 <p-dialog [(visible)]="showDialog" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '85vw'}" [baseZIndex]="10000">
     <p-header>
         {{actionType}}
-        <button type="button" class="btn theme-primary-button-color float-right" (click)="closeModal()">Close</button>
+        <button type="button" class="btn theme-primary-button-color float-right" id="closeSchedules" (click)="closeModal()">Close</button>
     </p-header>
     <app-create-edit-detail-schedule *ngIf="showDialog" [isView]="isView" [isEdit]="isEdit" [bayScheduleObj]="bayScheduleObj" [selectedData]="selectedData" [jobTypeId]="jobTypeId" (closeDialog)="closeDialog($event)" (refreshDetailGrid)="refreshDetailGrid()"></app-create-edit-detail-schedule>
 </p-dialog>
