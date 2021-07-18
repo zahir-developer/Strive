@@ -36,7 +36,8 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
             });
             if (result == null)
             {
-
+                CheckOutVehicleDetails = null;
+                _userDialog.ShowLoading("No details available at this time.", MaskType.Gradient);
             }
             else
             {

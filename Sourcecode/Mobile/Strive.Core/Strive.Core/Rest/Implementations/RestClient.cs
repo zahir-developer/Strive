@@ -19,7 +19,7 @@ namespace Strive.Core.Rest.Implementations
         private readonly IMvxJsonConverter _jsonConverter;
         private readonly IMvxLog _mvxLog;
         private static IUserDialogs _userDialog = Mvx.IoCProvider.Resolve<IUserDialogs>();
-
+        private string URL { get; set; }
         public RestClient(IMvxJsonConverter jsonConverter, IMvxLog mvxLog)
         {
             _jsonConverter = jsonConverter;
@@ -30,7 +30,8 @@ namespace Strive.Core.Rest.Implementations
         {
             string stringSerialized;
             BaseResponse baseResponse = new BaseResponse();
-            url = ApiUtils.AZURE_URL + url;
+            url = ApiUtils.AZURE_URL_TEST + url;
+            URL = url;
             //url = url.Replace("http://", "https://");
 
             using (var httpClient = new HttpClient())
@@ -81,7 +82,7 @@ namespace Strive.Core.Rest.Implementations
                         return _jsonConverter.DeserializeObject<TResult>(baseResponse.resultData);
                     }
 
-                    if (WeirdResponse(baseResponse))
+                    if (!WeirdResponse(baseResponse))
                     {
                         _userDialog.HideLoading();
                         baseResponse.resultData = "null";
@@ -121,11 +122,21 @@ namespace Strive.Core.Rest.Implementations
             {
                 return isValid;
             }
-            else if (response.statusCode == 403 && response.resultData == null)
+            else if(response.statusCode == 200 && response.resultData != null)
             {
-                _userDialog.AlertAsync(Strings.UsernamePasswordIncorrect);
+                return isValid;
             }
-            return !isValid;
+            else if (response.statusCode == 403 && response.resultData == null && string.Equals(URL, "/Auth/Login"))
+            {
+               _userDialog.AlertAsync(Strings.UsernamePasswordIncorrect);
+                isValid = false;
+            }
+            else
+            {
+                _userDialog.AlertAsync("The operation cannot be completed at this time.", "Unexpected Error");
+                isValid = false;
+            }
+            return isValid;
         }
     }
 }

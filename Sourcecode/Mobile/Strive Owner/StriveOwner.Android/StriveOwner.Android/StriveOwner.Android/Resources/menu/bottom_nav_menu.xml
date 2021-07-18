@@ -4,19 +4,19 @@
   <item
       android:id="@+id/menu_messenger"
       android:enabled="true"
-      android:icon="@drawable/chat"
+      android:icon="@drawable/awesome_home"
       app:showAsAction="ifRoom" />
 
   <item
       android:id="@+id/menu_schedule"
       android:enabled="true"
-      android:icon="@drawable/clock"
+      android:icon="@drawable/awesome_flag_check"
       app:showAsAction="ifRoom" />
 
   <item
       android:id="@+id/menu_profile"
       android:enabled="true"
-      android:icon="@drawable/profile"
+      android:icon="@drawable/messenger"
       app:showAsAction="ifRoom" />
 
   <!--<item
@@ -27,6 +27,6 @@
   <item
     android:id="@+id/menu_checkOut"
     android:enabled="true"
-    android:icon="@drawable/racing_flag"
+    android:icon="@drawable/group_366"
     app:showAsAction="ifRoom" />
 </menu>
