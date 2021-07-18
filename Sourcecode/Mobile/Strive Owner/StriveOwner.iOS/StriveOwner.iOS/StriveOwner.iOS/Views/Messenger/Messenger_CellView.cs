@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using CoreGraphics;
 using Foundation;
+using Strive.Core.Models.Employee.Messenger;
 using UIKit;
 
 namespace StriveOwner.iOS.Views.Messenger
@@ -10,6 +12,8 @@ namespace StriveOwner.iOS.Views.Messenger
         public static readonly NSString Key = new NSString("Messenger_CellView");
         public static readonly UINib Nib;
 
+        private char[] firstInitial;
+        private char[] secondInitial;
         UILabel userIntialLabel;
         UILabel userNameLabel;
         UILabel dateTimeLabel;
@@ -75,12 +79,69 @@ namespace StriveOwner.iOS.Views.Messenger
             messageContentLabel.TopAnchor.ConstraintEqualTo(userNameLabel.BottomAnchor, constant: 3).Active = true;
         }
 
-        public void SetupData()
+        public void SetupData(ChatEmployeeList recentChat)
         {
             userIntialLabel.Text = "WH";
             userNameLabel.Text = "William Hoeger";
             dateTimeLabel.Text = "5.18 PM";
             messageContentLabel.Text = "Checkout cashier section";
+
+            if (!String.IsNullOrEmpty(recentChat.FirstName))
+            {
+                firstInitial = recentChat.FirstName.ToCharArray();
+            }
+            if (!String.IsNullOrEmpty(recentChat.LastName))
+            {
+                secondInitial = recentChat.LastName.ToCharArray();
+            }
+            if (secondInitial == null)
+            {
+                if (firstInitial.Length != 0)
+                {
+                    userIntialLabel.Text = firstInitial.ElementAt(0).ToString() + firstInitial.ElementAt(1).ToString();
+                    userNameLabel.Text = recentChat.FirstName + " " + recentChat.LastName;
+                }
+            }
+            else if (firstInitial == null)
+            {
+                if (secondInitial.Length != 0)
+                {
+                    userIntialLabel.Text = secondInitial.ElementAt(0).ToString() + secondInitial.ElementAt(1).ToString();
+                    userNameLabel.Text = recentChat.FirstName + " " + recentChat.LastName;
+                }
+            }
+            else
+            {
+                userIntialLabel.Text = firstInitial.ElementAt(0).ToString() + secondInitial.ElementAt(0).ToString();
+                userNameLabel.Text = recentChat.FirstName + " " + recentChat.LastName;
+            }
+            if (!String.IsNullOrEmpty(recentChat.RecentChatMessage))
+            {
+                DateTime UTCFormat = DateTime.Parse(recentChat.CreatedDate);
+                DateTime TimeKindFormat = DateTime.SpecifyKind(UTCFormat, DateTimeKind.Utc);
+                DateTime localFormat = TimeKindFormat.ToLocalTime();
+                var lastMessage = localFormat.ToString().Split(" ");
+                if (String.Equals(DateTime.Now.Date.ToString(), localFormat.Date.ToString()))
+                {
+                    var messageTime = lastMessage[1].Split(":");
+
+                    var TimeofDay = int.Parse(messageTime[0]);
+
+                    if (TimeofDay >= 12)
+                    {
+                        dateTimeLabel.Text = messageTime[0] + ":" + messageTime[1] + " " + "PM";
+                    }
+                    else
+                    {
+                        dateTimeLabel.Text = messageTime[0] + ":" + messageTime[1] + " " + "AM";
+                    }
+                }
+                else
+                {
+                    dateTimeLabel.Text = lastMessage[0];
+                }
+                messageContentLabel.Text = recentChat.RecentChatMessage;
+            }
         }
     }
 }

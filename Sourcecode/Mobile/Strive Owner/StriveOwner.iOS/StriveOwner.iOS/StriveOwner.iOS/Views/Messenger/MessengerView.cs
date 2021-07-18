@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Employee.Messenger;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.iOS.UIUtils;
@@ -11,6 +15,9 @@ namespace StriveOwner.iOS.Views.Messenger
     public partial class MessengerView : MvxViewController<MessengerViewModel>
     {
         public MessengerContactViewModel contactSView;
+        public Msg_RecentChatViewModel recentViewModel;
+        public static string ConnectionID;
+
         public MessengerView() : base("MessengerView", null)
         {
         }
@@ -30,6 +37,8 @@ namespace StriveOwner.iOS.Views.Messenger
         void DoInitialSetup()
         {
             contactSView = new MessengerContactViewModel();
+            recentViewModel = new Msg_RecentChatViewModel();
+
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
                 Font = DesignUtils.OpenSansBoldFifteen(),
@@ -49,7 +58,15 @@ namespace StriveOwner.iOS.Views.Messenger
             Messenger_TableView.BackgroundColor = UIColor.Clear;
             Messenger_TableView.ReloadData();
 
-            setData();
+            if (ChatHubMessagingService.RecipientsID == null)
+            {
+                ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
+                ChatHubMessagingService.RecipientsID.CollectionChanged += RecipientsID_CollectionChanged;
+            }
+            EstablishHubConnection();
+
+            getRecentContacts();
+            //setData();
         }
 
         partial void Messenger_SegmentTouch(UISegmentedControl sender)
@@ -85,9 +102,58 @@ namespace StriveOwner.iOS.Views.Messenger
             }
         }
 
+        private async void RecipientsID_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                if (MessengerTempData.RecipientsConnectionID == null)
+                {
+                    MessengerTempData.RecipientsConnectionID = new Dictionary<string, string>();
+                }
+                foreach (var item in e.NewItems)
+                {
+                    var datas = (RecipientsCommunicationID)item;
+                    if (MessengerTempData.RecipientsConnectionID.ContainsKey(datas.employeeId))
+                    {
+                        MessengerTempData.RecipientsConnectionID.Remove(datas.employeeId);
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                    else
+                    {
+                        MessengerTempData.RecipientsConnectionID.Add(datas.employeeId, datas.communicationId);
+                    }
+                }
+            }
+        }
+
+        private async void EstablishHubConnection()
+        {
+            ConnectionID = await this.ViewModel.StartCommunication();
+
+            await ChatHubMessagingService.SendEmployeeCommunicationId(EmployeeTempData.EmployeeID.ToString(), ConnectionID);
+
+            MessengerTempData.ConnectionID = ConnectionID;
+
+            await this.ViewModel.SetChatCommunicationDetails(MessengerTempData.ConnectionID);
+            await ChatHubMessagingService.SubscribeChatEvent();
+
+        }
+
+        private async void getRecentContacts()
+        {
+            await recentViewModel.GetRecentContactsList();
+            if (recentViewModel.EmployeeList != null)
+            {
+                if (recentViewModel.EmployeeList.ChatEmployeeList.Count > 0)
+                {
+                    setData();
+                }
+            }
+        }
+
         void setData()
         {
-            var messageSource = new Messenger_BaseDataSource();
+            var messageSource = new Messenger_BaseDataSource(recentViewModel.EmployeeList.ChatEmployeeList);
             Messenger_TableView.Source = messageSource;
             Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
             Messenger_TableView.DelaysContentTouches = false;
@@ -102,7 +168,7 @@ namespace StriveOwner.iOS.Views.Messenger
 
                 if (MessengerTempData.employeeList_Contact != null || employeeLists != null || employeeLists.EmployeeList != null || employeeLists.EmployeeList.Employee != null)
                 {
-                    var contactSource = new Contact_DataSource(employeeLists.EmployeeList.Employee);
+                    var contactSource = new Contact_DataSource(employeeLists.EmployeeList.Employee, contactSView);
                     Messenger_TableView.Source = contactSource;
                     Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
                     Messenger_TableView.DelaysContentTouches = false;
