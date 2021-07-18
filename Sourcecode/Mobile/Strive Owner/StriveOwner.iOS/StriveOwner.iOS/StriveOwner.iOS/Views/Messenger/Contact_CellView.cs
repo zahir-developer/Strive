@@ -145,5 +145,10 @@ namespace StriveOwner.iOS.Views.Messenger
                 }
             }
         }
+
+        public void setGroupCell(string groupName)
+        {
+            contactNameLabel.Text = groupName;
+        }
     }
 }

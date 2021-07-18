@@ -143,7 +143,10 @@ namespace StriveOwner.iOS.Views.CheckOut
 
         public void SetupData(checkOutViewModel checkout)
         {
-            statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
+            if (checkout.ColorCode != null && checkout.ColorCode != "")
+            {
+                statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
+            }
             checkoutIdLabel.Text = checkout.TicketNumber;
             customerNameLabel.Text = checkout.CustomerFirstName + " " + checkout.CustomerLastName;
             serviceInfoLabel.Text = checkout.VehicleDescription;

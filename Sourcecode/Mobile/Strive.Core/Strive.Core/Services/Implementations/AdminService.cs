@@ -12,6 +12,7 @@ using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.PersonalDetails;
+using Strive.Core.Models.Owner;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Interfaces;
@@ -325,6 +326,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo)
         {
             return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_UPDATE_EMPLOYEE_PERSONAL_DETAILS, HttpMethod.Post, employeeInfo);
+        }
+
+        public async Task<employeeSchedule> GetScheduleList(ScheduleRequest scheduleRequest)
+        {
+            return await _restClient.MakeApiCall<employeeSchedule>(ApiUtils.URL_GET_EMPLOYEE_SCHEDULE, HttpMethod.Post, scheduleRequest);
         }
     }
     public static class RestUtils

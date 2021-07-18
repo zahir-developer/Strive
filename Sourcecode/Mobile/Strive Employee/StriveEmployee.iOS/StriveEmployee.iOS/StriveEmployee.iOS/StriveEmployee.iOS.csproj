@@ -126,6 +126,12 @@
     <Compile Include="Views\Tickets\TicketView.designer.cs">
       <DependentUpon>TicketView.cs</DependentUpon>
     </Compile>
+    <InterfaceDefinition Include="Views\Schedule\empSchedule_Cell.xib" />
+    <Compile Include="Views\Schedule\empSchedule_Cell.cs" />
+    <Compile Include="Views\Schedule\empSchedule_Cell.designer.cs">
+      <DependentUpon>empSchedule_Cell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Schedule\Emp_Schedule_DataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
