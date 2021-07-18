@@ -14,8 +14,8 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="d-inline-block m-b-5">Checkout - </h4>
-                                <div class="date d-inline-block datepicker-view " data-date-format="dd/mm/yyyy">
+                                <h4 class="d-inline-block m-b-5">Checkout</h4>
+                                <div class="date d-inline-block datepicker-view p-l-10" data-date-format="dd/mm/yyyy">
                                     <input type="text" placeholder="Daterangepicker" name="dateRange"
                                         class="form-control" [(ngModel)]="daterangepickerModel" bsDaterangepicker
                                         (bsValueChange)="onValueChange($event)"
@@ -27,8 +27,8 @@
                                     <form>
                                         <div class="form-row">
                                             <div class="form-group d-flex">
-                                                <input type="search" class="form-control" [(ngModel)]="query" size="25"
-                                                    name="search" id="inputSearch" placeholder="Search"
+                                                <input type="search" class="form-control" [(ngModel)]="query" size="37"
+                                                    name="search" id="inputSearch" placeholder="Search by Ticket #, Client Name, Service..."
                                                     (ngModelChange)="this.searchUpdate.next($event)">
                                             </div>
                                             <div class="form-group d-flex col-sm m-l-5">

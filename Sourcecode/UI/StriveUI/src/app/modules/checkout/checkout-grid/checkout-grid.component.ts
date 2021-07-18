@@ -85,6 +85,7 @@ export class CheckoutGridComponent implements OnInit {
   }
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
+    this.search = this.query;
     const obj = {
       locationId: localStorage.getItem('empLocationId'),
       StartDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
