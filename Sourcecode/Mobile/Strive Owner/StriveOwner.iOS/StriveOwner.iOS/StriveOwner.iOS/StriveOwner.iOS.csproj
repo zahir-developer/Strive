@@ -207,6 +207,7 @@
         <Folder Include="Views\Messenger\" />
         <Folder Include="Views\Messenger\Chat\" />
         <Folder Include="Resources\Assets.xcassets\send-msg.imageset\" />
+        <Folder Include="Views\HomeView\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -222,6 +223,7 @@
         <InterfaceDefinition Include="Views\Messenger\Chat\ChatViewController.xib" />
         <InterfaceDefinition Include="Views\Messenger\Chat\MessageIncomingCell.xib" />
         <InterfaceDefinition Include="Views\Messenger\Chat\MessageOutgoingCell.xib" />
+        <InterfaceDefinition Include="Views\HomeView\HomeView.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -288,6 +290,11 @@
         <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.cs" />
         <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.designer.cs">
           <DependentUpon>MessageOutgoingCell.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Messenger\Chat\ChatDataSource.cs" />
+        <Compile Include="Views\HomeView\HomeView.cs" />
+        <Compile Include="Views\HomeView\HomeView.designer.cs">
+          <DependentUpon>HomeView.cs</DependentUpon>
         </Compile>
     </ItemGroup>
     <ItemGroup>
