@@ -6,6 +6,7 @@ using Acr.UserDialogs;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
+using Strive.Core.Utils.Employee;
 
 namespace Strive.Core.ViewModels.Owner
 {
@@ -32,11 +33,11 @@ namespace Strive.Core.ViewModels.Owner
                     if (loginResponse != null)
                     {
                         ApiUtils.Token = loginResponse.Token;
-                        //MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
-                        //MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
-                        //EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
+                        MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
+                        MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
+                        EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
 
-                        if (!string.IsNullOrEmpty(loginResponse.Token))
+                    if (!string.IsNullOrEmpty(loginResponse.Token))
                         {
                             await _navigationService.Navigate<DashboardViewModel>();
                         }

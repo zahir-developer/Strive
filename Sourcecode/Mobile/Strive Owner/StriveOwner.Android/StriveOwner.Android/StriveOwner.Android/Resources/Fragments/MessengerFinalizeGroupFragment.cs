@@ -89,7 +89,7 @@ namespace StriveOwner.Android.Fragments
 
         private void getParticipants()
         {
-            messengerFinalizeGroup_Adapter = new MessengerFinalizeGroupAdapter(Context, MessengerTempData.SelectedParticipants);
+            messengerFinalizeGroup_Adapter = new MessengerFinalizeGroupAdapter(Context, MessengerTempData.createGroup_Contact);
             var layoutManager = new LinearLayoutManager(Context);
             finalizeGroup_recyclerView.SetLayoutManager(layoutManager);
             finalizeGroup_recyclerView.SetAdapter(messengerFinalizeGroup_Adapter);

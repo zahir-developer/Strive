@@ -17,6 +17,7 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Fragments;
+using StriveOwner.Android.Fragments.CheckOut;
 
 namespace StriveOwner.Android.Views
 {
@@ -28,16 +29,16 @@ namespace StriveOwner.Android.Views
         private BottomNavigationView bottom_NavigationView;
         private MvxFragment selected_MvxFragment;
         private MessengerFragment messenger_Fragment;
-        //private MyProfileFragment profile_Fragment;
+        private CheckOutFragment checkOut_Fragment;
         //private ScheduleFragment schedule_Fragment;
         //private MyTicketFragment myTicket_Fragment;
-        //private CheckOutFragment checkOut_Fragment;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.DashboardViewScreen);
             this.ViewModel = new DashboardViewModel();
             messenger_Fragment = new MessengerFragment();
+            checkOut_Fragment = new CheckOutFragment();
             //profile_Fragment = new MyProfileFragment();
             //schedule_Fragment = new ScheduleFragment();
             //myTicket_Fragment = new MyTicketFragment();
@@ -66,7 +67,7 @@ namespace StriveOwner.Android.Views
                     break;
 
                 case Resource.Id.menu_checkOut:
-                    selected_MvxFragment = messenger_Fragment;
+                    selected_MvxFragment = checkOut_Fragment;
                     break;
             }
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
