@@ -320,6 +320,9 @@ namespace Greeter.DTOs
 
         [JsonIgnore]
         public float Time { get; set; }
+
+        [JsonIgnore]
+        public bool IsMainService { get; set; }
     }
 
     public class CheckoutRequest
@@ -341,6 +344,14 @@ namespace Greeter.DTOs
 
         [JsonProperty("status")]
         public bool Status { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty("pageNo")]
+        public short PageNo { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty("pageSize")]
+        public short Limit { get; set; }
     }
 
     public class CheckoutResponse : BaseResponse
@@ -457,7 +468,7 @@ namespace Greeter.DTOs
         public string Account { get; set; }
 
         [JsonProperty("expiry")]
-        public DateTime Expiry { get; set; }
+        public string Expiry { get; set; }
 
         [JsonProperty("amount")]
         public float Amount { get; set; }
@@ -549,8 +560,8 @@ namespace Greeter.DTOs
         [JsonProperty("taxAmount")]
         public float TaxAmount { get; } = 0;
 
-        [JsonProperty("approval")]
-        public bool Approval { get; } = true;
+        //[JsonProperty("approval")]
+        //public bool Approval { get; } = true;
 
         [JsonProperty("paymentStatus")]
         public long PaymentStatus { get; set; }
@@ -576,8 +587,8 @@ namespace Greeter.DTOs
         //[JsonProperty("updatedDate")]
         //public DateTime UpdatedDate { get; } = DateTime.Now;
 
-        [JsonProperty("isProcessed")]
-        public bool IsProcessed { get; } = true;
+        //[JsonProperty("isProcessed")]
+        //public bool IsProcessed { get; } = true;
 
         //[JsonProperty("cashback")]
         //public int Cashback { get; } = 0;

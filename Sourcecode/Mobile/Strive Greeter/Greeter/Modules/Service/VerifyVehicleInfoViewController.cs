@@ -81,104 +81,112 @@ namespace Greeter.Storyboards
 
         async Task CreateService()
         {
-            ShowActivityIndicator();
-
-            var apiService = new WashApiService();
-            var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
-            long jobId = ticketResponse.Ticket.TicketNo;
-
-            var jobItems = new List<JobItem>();
-
-            MainService.JobId = jobId;
-            jobItems.Add(MainService);
-
-            float serviceTimeMins = 0;
-
-            //detailTimeMins += MainService.Time;
-
-            if (Upcharge != null)
+            try
             {
-                Upcharge.JobId = jobId;
-                serviceTimeMins += Upcharge.Time;
-                jobItems.Add(Upcharge);
-            }
+                ShowActivityIndicator();
 
-            if (Additional != null)
-            {
-                Additional.JobId = jobId;
-                serviceTimeMins += Additional.Time;
-                jobItems.Add(Upcharge);
-            }
+                var apiService = new WashApiService();
+                var ticketResponse = await apiService.GetTicketNumber(AppSettings.LocationID);
+                long jobId = ticketResponse.Ticket.TicketNo;
 
-            if (AirFreshner != null)
-            {
-                AirFreshner.JobId = jobId;
-                serviceTimeMins += AirFreshner.Time;
-                jobItems.Add(AirFreshner);
-            }
+                var jobItems = new List<JobItem>();
 
-            var jobStatusResponse = await new GeneralApiService().GetGlobalData("JOBSTATUS");
-            long jobStatusId = jobStatusResponse.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID;
+                MainService.JobId = jobId;
+                jobItems.Add(MainService);
 
-            if (jobId != 0)
-            {
-                var req = new CreateServiceRequest()
+                float serviceTimeMins = 0;
+
+                //detailTimeMins += MainService.Time;
+
+                if (Upcharge != null)
                 {
-                    Job = new Job()
-                    {
-                        JobId = jobId,
-                        JobStatusID = jobStatusId,
-                        JobTypeID = JobTypeID,
-                        MakeID = MakeID,
-                        ModelID = ModelID,
-                        ColorId = ColorID,
-                        ClientId = ClientID,
-                        VehicleId = VehicleID,
-                        LocationID = AppSettings.LocationID,
-                    },
-                    JobItems = jobItems
-                };
-
-                if (ServiceType == ServiceType.Wash)
-                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins);
-                else
-                    req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(MainService.Time + serviceTimeMins);
-
-                Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
-
-                var createServiceResponse = await apiService.CreateService(req);
-                HideActivityIndicator();
-
-                if (createServiceResponse.IsNoInternet())
-                {
-                    ShowAlertMsg(createServiceResponse.Message);
-                    return;
+                    Upcharge.JobId = jobId;
+                    serviceTimeMins += Upcharge.Time;
+                    jobItems.Add(Upcharge);
                 }
 
-                if (createServiceResponse?.IsSuccess() ?? false)
+                if (Additional != null)
                 {
-                    ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG, () =>
+                    Additional.JobId = jobId;
+                    serviceTimeMins += Additional.Time;
+                    jobItems.Add(Upcharge);
+                }
+
+                if (AirFreshner != null)
+                {
+                    AirFreshner.JobId = jobId;
+                    serviceTimeMins += AirFreshner.Time;
+                    jobItems.Add(AirFreshner);
+                }
+
+                var jobStatusResponse = await new GeneralApiService().GetGlobalData("JOBSTATUS");
+                long jobStatusId = jobStatusResponse.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID;
+
+                if (jobId != 0)
+                {
+                    var req = new CreateServiceRequest()
                     {
+                        Job = new Job()
+                        {
+                            JobId = jobId,
+                            JobStatusID = jobStatusId,
+                            JobTypeID = JobTypeID,
+                            MakeID = MakeID,
+                            ModelID = ModelID,
+                            ColorId = ColorID,
+                            ClientId = ClientID,
+                            VehicleId = VehicleID,
+                            LocationID = AppSettings.LocationID,
+                        },
+                        JobItems = jobItems
+                    };
+
+                    if (ServiceType == ServiceType.Wash)
+                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins);
+                    else
+                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(MainService.Time + serviceTimeMins);
+
+                    Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
+
+                    var createServiceResponse = await apiService.CreateService(req);
+                    HideActivityIndicator();
+
+                    if (createServiceResponse.IsNoInternet())
+                    {
+                        ShowAlertMsg(createServiceResponse.Message);
+                        return;
+                    }
+
+                    if (createServiceResponse?.IsSuccess() ?? false)
+                    {
+                        ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG, () =>
+                        {
                         //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
                         //this.NavigationController.PopToViewController(vc, true);
 
                         var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
-                        vc.Make = Make;
-                        vc.Model = Model;
-                        vc.Color = Color;
-                        vc.CustName = CustName;
-                        vc.Service = req;
-                        NavigationController.PushViewController(vc, true);
-                    }, titleTxt : Common.Messages.SERVICE);
+                            vc.Make = Make;
+                            vc.Model = Model;
+                            vc.Color = Color;
+                            vc.CustName = CustName;
+                            vc.Service = req;
+                            NavigationController.PushViewController(vc, true);
+                        }, titleTxt: Common.Messages.SERVICE);
+                    }
+                    else
+                    {
+                        ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
+                    }
                 }
                 else
                 {
-                    ShowAlertMsg(Common.Messages.SERVICE_CREATION_ISSUE);
+                    ShowAlertMsg(Common.Messages.TICKET_CERATION_ISSUE);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ShowAlertMsg(Common.Messages.TICKET_CERATION_ISSUE);
+                Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+                HideActivityIndicator();
             }
         }
 

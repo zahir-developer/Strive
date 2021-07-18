@@ -85,10 +85,11 @@ namespace Greeter.Cells
         }
 
         //TODO Pass Real time data here and set later
-        public void SetupData(ContactCellConfigureType configureType)
+        public void SetupData(ContactCellConfigureType configureType, string name)
         {
-            contactIntialLabel.Text = "WH";
-            contactNameLabel.Text = "William Hoeger";
+            string[] names = name.Split(" ");
+            contactIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
+            contactNameLabel.Text = name;
 
             if (configureType == ContactCellConfigureType.CreateGroup)
             {

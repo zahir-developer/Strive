@@ -68,7 +68,7 @@ namespace Greeter.Modules.Home
 
             mapView.AddAnnotations(annotations);
 
-            var location = locations.First();
+            var location = locations.Single(x => x.ID == AppSettings.LocationID);
             CenterMap(location.Latitude, location.Longitude);
         }
 

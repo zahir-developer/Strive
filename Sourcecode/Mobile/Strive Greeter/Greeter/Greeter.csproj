@@ -351,6 +351,8 @@
 		<Compile Include="Services\Api\PaymentApiService.cs" />
 		<Compile Include="Modules\Pay\ServiceListViewController.cs" />
 		<Compile Include="Modules\Pay\ServiceListViewController.Logic.cs" />
+		<Compile Include="Extensions\ListExtension.cs" />
+		<Compile Include="Common\BuildEnvironment.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -58,7 +58,7 @@ namespace Greeter.Cells
         }
 
         //TODO pass model object here and set real data
-        void SetupData()
+        void SetupData(string name)
         {
 
         }

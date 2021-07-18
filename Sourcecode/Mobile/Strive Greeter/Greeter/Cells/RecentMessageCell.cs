@@ -69,10 +69,11 @@ namespace Greeter.Cells
         }
 
         //TODO Pass Real time data here and set later
-        public void SetupData()
+        public void SetupData(string name)
         {
-            userIntialLabel.Text = "WH";
-            userNameLabel.Text = "William Hoeger";
+            string[] names = name.Split(" ");
+            userIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
+            userNameLabel.Text = name;
             dateTimeLabel.Text = "5.18 PM";
             messageContentLabel.Text = "Checkout cashier section";
         }

@@ -89,6 +89,10 @@ namespace Greeter
 
             lblWashTime.Text = AppSettings.WashTime.ToString() + ":00";
             DismissKeyboardOnTapArround = true;
+
+            #if DEBUG
+              txtFieldBarcode.Text = "ZNL9678";
+            #endif
         }
 
         async Task GetBarcodeDetails(string barcode)

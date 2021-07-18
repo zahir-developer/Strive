@@ -9,12 +9,13 @@ namespace Greeter.Modules.Message
 
         public GroupViewController()
         {
-            groups.Add("");
-            groups.Add("");
-            groups.Add("");
-            groups.Add("");
-            groups.Add("");
-            groups.Add("");
+            groups.Add("OM Detailers");
+            groups.Add("OM Washers");
+            groups.Add("MS Washers");
+            groups.Add("MS Detailers");
+            groups.Add("Old Milton Employees");
+            groups.Add("Main Street Employees");
+            groups.Add("Holcomb Bridge Employees");
         }
 
         Task GetMessageGroups()

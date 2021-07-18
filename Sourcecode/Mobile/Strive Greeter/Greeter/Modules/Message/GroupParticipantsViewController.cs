@@ -95,7 +95,7 @@ namespace Greeter.Modules.Message
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
-            cell.SetupData(ContactCellConfigureType.Participant);
+            cell.SetupData(ContactCellConfigureType.Participant, participants[indexPath.Row]);
             return cell;
         }
 

@@ -9,11 +9,11 @@ namespace Greeter.Modules.Message
 
         public RecentMessageViewController()
         {
-            recentMessageHistory.Add("");
-            recentMessageHistory.Add("");
-            recentMessageHistory.Add("");
-            recentMessageHistory.Add("");
-            recentMessageHistory.Add("");
+            recentMessageHistory.Add("Brittany Rose");
+            recentMessageHistory.Add("OM Detailers");
+            recentMessageHistory.Add("Peter Parker");
+            recentMessageHistory.Add("Daniel Steel");
+            recentMessageHistory.Add("Old Milton Employees");
         }
 
         Task GetRecentsMessageHistory()

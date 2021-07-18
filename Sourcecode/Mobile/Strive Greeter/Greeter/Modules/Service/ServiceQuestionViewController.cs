@@ -265,13 +265,16 @@ namespace Greeter.Storyboards
             {
                 make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
                 color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
-                var barcodeUpcharge = Upcharges.Where(x => x.ID == UpchargeID).FirstOrDefault();
+                var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
 
-                upcharge = upcharge ?? new JobItem();
-                upcharge.ServiceId = barcodeUpcharge.ID;
-                upcharge.SeriveName = barcodeUpcharge.Name + " - " + barcodeUpcharge.Upcharges;
-                upcharge.Price = barcodeUpcharge.Price;
-                upcharge.Time = barcodeUpcharge.Time;
+                if (barcodeUpcharge is not null)
+                {
+                    upcharge = upcharge ?? new JobItem();
+                    upcharge.ServiceId = barcodeUpcharge.ID;
+                    upcharge.SeriveName = barcodeUpcharge.Name + " - " + barcodeUpcharge.Upcharges;
+                    upcharge.Price = barcodeUpcharge.Price;
+                    upcharge.Time = barcodeUpcharge.Time;
+                }
 
                 UpdateBarcodeData();
             }
@@ -299,7 +302,7 @@ namespace Greeter.Storyboards
                 tfMake.Text = make;
                 tfModel.Text = Model;
                 tfColor.Text = color;
-                tfUpcharge.Text = upcharge.SeriveName;
+                tfUpcharge.Text = upcharge?.SeriveName;
             }
         }
 
@@ -482,6 +485,7 @@ namespace Greeter.Storyboards
                     case ChoiceType.Washpackage:
                         tfWashPkg.Text = data[pos];
                         mainService = mainService ?? new JobItem();
+                        mainService.IsMainService = true;
                         mainService.ServiceId = WashPackages[pos].ID;
                         mainService.SeriveName = WashPackages[pos].Name;
                         mainService.Price = WashPackages[pos].Price;
@@ -490,6 +494,7 @@ namespace Greeter.Storyboards
                     case ChoiceType.DetailPackage:
                         tfDetailPkg.Text = data[pos];
                         mainService = mainService ?? new JobItem();
+                        mainService.IsMainService = true;
                         mainService.ServiceId = DetailPackages[pos].ID;
                         mainService.SeriveName = DetailPackages[pos].Name;
                         mainService.Price = DetailPackages[pos].Price;

@@ -9,6 +9,7 @@ using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Modules.Pay;
 using Greeter.Services.Api;
 using UIKit;
 
@@ -84,13 +85,21 @@ namespace Greeter.Storyboards
 
             btnPrint.TouchUpInside += delegate
             {
-                //TODO : 
+                //TODO : Temprary Loader to hide not done this functionality
+                _ = ShowLoader();
             };
 
             btnPay.TouchUpInside += delegate
             {
                 NavigateToPayScreen();
             };
+        }
+
+        async Task ShowLoader()
+        {
+            ShowActivityIndicator();
+            await Task.Delay(3000);
+            HideActivityIndicator();
         }
 
         async Task GetData()
@@ -110,57 +119,65 @@ namespace Greeter.Storyboards
 
         async Task SendToCustomer(string email)
         {
-            if (!email.IsEmail())
+            try
             {
-                ShowAlertMsg(Common.Messages.EMAIL_WARNING);
-                return;
+                if (!email.IsEmail())
+                {
+                    ShowAlertMsg(Common.Messages.EMAIL_WARNING);
+                    return;
+                }
+
+                ShowActivityIndicator();
+
+                var subject = "Wash Receipt";
+
+                //TODO : Email Body Teplate Issue Fix
+                var body = "<p>Ticket Number : </p>" + Service.Job.JobId + "<br /><br />";
+
+                if (Service.Job.ClientId != 0)
+                {
+                    body += "<p>Client Details : </p>" + ""
+                        + "<p>Client Name - " + CustName + "</p><br />";
+                }
+
+                body += "<p>Vehicle Details : </p>" +
+                     "<p>Make - " + Make + "</p>" +
+                    "<p>Model - " + Model + "</p>" +
+                     "<p>Color - " + Color + "</p><br />" +
+                     "<p>Services : " + "</p>";
+
+                var totalAmt = 0f;
+                for (int i = 0; i < Service.JobItems.Count; i++)
+                {
+                    var job = Service.JobItems[i];
+                    body += "<p>" + job.SeriveName + " - " + job.Price + "</p>";
+                    totalAmt += job.Price;
+                }
+
+                body += "<br/ ><p>" + "Total Amount : " + totalAmt.ToString() + "</p>";
+
+                //body = "<div>Something</div>";
+
+                //Debug.WriteLine("Email Body :" + body);
+
+                var response = await new WashApiService().SendEmail(email, subject, body);
+                HideActivityIndicator();
+
+                if (response.IsNoInternet())
+                {
+                    ShowAlertMsg(response.Message);
+                    return;
+                }
+
+                if (response.IsSuccess())
+                {
+                    ShowAlertMsg(Common.Messages.EMAIL_SENT_MSG, titleTxt: Common.Messages.EMAIL);
+                }
             }
-
-            ShowActivityIndicator();
-
-            var subject = "Wash Receipt";
-
-            //TODO : Email Body Teplate Issue Fix
-            var body = "<p>Ticket Number : </p>" + Service.Job.JobId + "<br /><br />";
-
-            if (Service.Job.ClientId != 0)
+            catch (Exception ex)
             {
-                body += "<p>Client Details : </p>" + ""
-                    + "<p>Client Name - " + CustName + "</p><br />";
-            }
-
-            body += "<p>Vehicle Details : </p>" +
-                 "<p>Make - " + Make + "</p>" +
-                "<p>Model - " + Model + "</p>" +
-                 "<p>Color - " + Color + "</p><br />" +
-                 "<p>Services : " + "</p>";
-
-            var totalAmt = 0f;
-            for (int i = 0; i < Service.JobItems.Count; i++)
-            {
-                var job = Service.JobItems[i];
-                body += "<p>" + job.SeriveName + " - " + job.Price + "</p>";
-                totalAmt += job.Price;
-            }
-
-            body += "<br/ ><p>" + "Total Amount : " + totalAmt.ToString() + "</p>";
-
-            body = "<div>Something</div>";
-
-            Debug.WriteLine("Email Body :" + body);
-
-            var response = await new WashApiService().SendEmail(email, subject, body);
-            HideActivityIndicator();
-
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
-
-            if (response.IsSuccess())
-            {
-                ShowAlertMsg(Common.Messages.EMAIL_SENT_MSG, titleTxt : Common.Messages.EMAIL);
+                Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+                HideActivityIndicator();
             }
         }
 
@@ -196,7 +213,23 @@ namespace Greeter.Storyboards
 
         void NavigateToPayScreen()
         {
-            UIViewController vc = GetViewController(GetHomeStorybpard(), nameof(PaymentSucessViewController));
+            var vc = new PaymentViewController();
+            vc.JobID = Service.Job.JobId;
+            vc.Make = Make;
+            vc.Model = Model;
+            vc.Color = Color;
+
+            var mainService  = Service.JobItems.First(x => x.IsMainService);
+
+            vc.ServiceName = mainService.SeriveName;
+
+            var totalAmt = 0f;
+            for (int i = 0; i < Service.JobItems.Count; i++)
+            {
+                totalAmt += Service.JobItems[i].Price;
+            }
+
+            vc.Amount = totalAmt;
             NavigateToWithAnim(vc);
         }
 

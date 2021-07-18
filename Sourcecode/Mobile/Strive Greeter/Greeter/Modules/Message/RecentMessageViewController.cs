@@ -63,7 +63,7 @@ namespace Greeter.Modules.Message
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(RecentMessageCell.Key) as RecentMessageCell;
-            cell.SetupData();
+            cell.SetupData(recentMessageHistory[indexPath.Row]);
             return cell;
         }
 

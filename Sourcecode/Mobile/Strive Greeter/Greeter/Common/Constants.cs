@@ -7,20 +7,36 @@ namespace Greeter.Common
         // 12 hour clock
         internal const string TIME_FORMAT = "hh:mm tt";
         internal const string DATE_FORMAT = "dd/MM/yyyy";
+
+        internal const short PAGINATION_LIMIT = 10;
     }
 
     public class Urls
     {
         //Strive Dev By Zahir
+        internal const string STRIVE_DEV_BASE_URL = "https://strivedev.azurewebsites.net";
+
+        // Mamooth Dev
+        internal const string  MAMMOTH_DEV_BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+
+        //QA
+        internal const string MAMMOTH_DEV_QA_BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+
+        //Live
+        internal const string LIVE_BASE_URL = "https://strivedev.azurewebsites.net";
+
+
+
+        //Strive Dev By Zahir
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
-        //QA
-        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        // Mammoth QA
+        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
-        //internal const string BASE_URL = "http://40.114.79.101:5004";
+
 
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
@@ -118,6 +134,8 @@ namespace Greeter.Common
 
         internal const string CHECKOUT_VERIFICATION_MSG = "Are you sure want to change the status to checkout?";
         internal const string SERVICE_CHECKED_OUT_SUCCESS_MSG = "Vehicle has been checked out successfully";
+
+        internal const string CARD_DETAILS_EMPTY_MISSING_MSG = "Please fill your all card details";
 
         internal const string HOLD = "Hold";
         internal const string COMPLETE = "Complete";

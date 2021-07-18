@@ -2,6 +2,7 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.Common;
+using Greeter.Extensions;
 using Greeter.Storyboards;
 using UIKit;
 using Xamarin.Essentials;
@@ -28,8 +29,13 @@ namespace Greeter.Modules.Pay
             base.ViewDidLoad();
 
             SetupView();
-
             KeyBoardHandling();
+            UpdateData();
+        }
+
+        void UpdateData()
+        {
+            totalAmountDueLabel.Text = $"${Amount}";
         }
 
         public override void ViewWillAppear(bool animated)
@@ -42,6 +48,7 @@ namespace Greeter.Modules.Pay
         void SetupView()
         {
             Title = "Pay";
+            NavigationController.NavigationBar.Hidden = false;
 
             View.AddGestureRecognizer(new UITapGestureRecognizer(DidTapAround));
 
@@ -179,7 +186,15 @@ namespace Greeter.Modules.Pay
             // Clicks
             payButton.TouchUpInside += delegate
             {
-                NavigateToPaymentSuccessScreen();
+                short ccv = 0;
+                if (!securityCodeTextField.Text.IsEmpty())
+                    ccv = Convert.ToInt16(securityCodeTextField.Text);
+
+                float tipAmount = 0;
+                if (!tipAmountTextField.Text.IsEmpty())
+                    tipAmount = float.Parse(tipAmountTextField.Text);
+
+                 _ = PayAsync(cardNumberTextField.Text, expirationDateTextField.Text, ccv, tipAmount);
             };
 
             backgroundImage.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;

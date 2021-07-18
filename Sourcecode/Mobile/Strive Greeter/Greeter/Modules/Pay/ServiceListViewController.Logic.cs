@@ -47,9 +47,23 @@ namespace Greeter.Modules.Pay
             }
         }
 
-        void PayBtnClicked(long serviceId)
+        void PayBtnClicked(Checkout checkout)
         {
-            ShowAlertMsg("Pay clicked");
+            //ShowAlertMsg("Pay clicked");
+            NavigateToPayScreen(checkout);
+        }
+
+        void NavigateToPayScreen(Checkout checkout)
+        {
+            var vc = new PaymentViewController();
+            vc.JobID = checkout.ID;
+            vc.Make = checkout.VehicleMake;
+            vc.Model = checkout.VehicleModel;
+            vc.Color = checkout.VehicleColor;
+            vc.ServiceName = checkout.Services;
+            vc.Amount = checkout.Cost;
+            vc.IsFromNewService = false;
+            NavigateToWithAnim(vc);
         }
     }
 }

@@ -48,10 +48,11 @@ namespace Greeter.Cells
         }
 
         //TODO Pass Real time data here and set later
-        public void SetupData()
+        public void SetupData(string name)
         {
-            groupIntialLabel.Text = "NY";
-            groupNameLabel.Text = "New York Branch I";
+            string[] names = name.Split(" ");
+            groupIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
+            groupNameLabel.Text = name;
         }
     }
 }

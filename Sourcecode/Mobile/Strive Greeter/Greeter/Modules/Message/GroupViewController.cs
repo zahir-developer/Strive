@@ -111,7 +111,7 @@ namespace Greeter.Modules.Message
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(MessageGroupCell.Key) as MessageGroupCell;
-            cell.SetupData();
+            cell.SetupData(groups[indexPath.Row]);
             return cell;
         }
     }

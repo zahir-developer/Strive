@@ -10,14 +10,18 @@ namespace Greeter.Modules.Pay
 {
     public partial class CheckoutViewController
     {
-        List<Checkout> Checkouts;
+        List<Checkout> Checkouts = new List<Checkout>();
+
+        bool isFinished = false;
+        short lastPagePos = 0;
+        readonly short limit = Constants.PAGINATION_LIMIT;
 
         public CheckoutViewController()
         {
-            GetCheckoutListAsync().ConfigureAwait(false);
+            LoadItems(lastPagePos).ConfigureAwait(false);
         }
 
-        async Task GetCheckoutListAsync()
+        async Task<List<Checkout>> GetCheckoutListAsync(short pagePos)
         {
             var checkoutRequest = new CheckoutRequest
             {
@@ -27,21 +31,61 @@ namespace Greeter.Modules.Pay
                 SortBy = "TicketNumber",
                 SortOrder = "ASC",
                 Status = true,
+                PageNo = pagePos,
+                Limit = limit
             };
 
             ShowActivityIndicator();
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
             HideActivityIndicator();
 
+            List<Checkout> checkouts = null;
+
             if (response.IsNoInternet())
             {
                 ShowAlertMsg(response.Message);
-                return;
+                return checkouts;
             }
 
             if (response.IsSuccess())
             {
-                Checkouts = response.CheckinVehicleDetails.CheckOutList;
+                checkouts = response.CheckinVehicleDetails.CheckOutList;
+
+                if (checkouts.Count == 0)
+                {
+                    isFinished = true;
+                }
+
+                return checkouts;
+            }
+
+            return checkouts;
+        }
+
+        void RefreshCheckouts()
+        {
+            RestartPagination();
+            _ = LoadItems(lastPagePos);
+        }
+
+        void RestartPagination()
+        {
+            lastPagePos = 0;
+            isFinished = false;
+        }
+
+        async Task LoadItems(short lastPagePos)
+        {
+           var list = await GetCheckoutListAsync((short)(lastPagePos + 1));
+
+            if (list.Count < limit)
+            {
+                isFinished = true;
+            }
+
+            if (list is not null)
+            {
+                Checkouts.AddRange(list);
                 if (IsViewLoaded)
                     checkoutTableView.ReloadData();
             }
@@ -77,7 +121,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_HOLD_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    _ = GetCheckoutListAsync();
+                    RefreshCheckouts();
                 }, titleTxt: Common.Messages.HOLD);
             }
         }
@@ -112,7 +156,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_COMPLETED_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    _ = GetCheckoutListAsync();
+                    RefreshCheckouts();
                 }, titleTxt: Common.Messages.COMPLETE);
             }
         }
@@ -147,7 +191,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_CHECKED_OUT_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    _ = GetCheckoutListAsync();
+                    RefreshCheckouts();
                 }, titleTxt:Common.Messages.CHECKOUT);
             }
         }

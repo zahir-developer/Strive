@@ -168,7 +168,7 @@ namespace Greeter.Cells
             //remainingBalanceLabel.HeightAnchor.ConstraintEqualTo(30).Active = true;
         }
 
-        public void SetupData(Checkout checkout, bool isPayOptionNeeded = false, Action<long> pay = null)
+        public void SetupData(Checkout checkout, bool isPayOptionNeeded = false, Action<Checkout> pay = null)
         {
             if (!checkout.ColorCode.IsEmpty())
                 statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
@@ -198,7 +198,7 @@ namespace Greeter.Cells
             amountLabel.Text = "$" + checkout.Cost;
             //remainingBalanceLabel.Text = "    Remaining Bal. $15    ";
 
-            payButton.TouchUpInside += (s, e) => pay?.Invoke(checkout.ID);
+            payButton.TouchUpInside += (s, e) => pay?.Invoke(checkout);
         }
     }
 }

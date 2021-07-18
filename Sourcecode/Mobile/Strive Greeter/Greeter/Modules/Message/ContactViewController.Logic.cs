@@ -9,12 +9,13 @@ namespace Greeter.Modules.Message
 
         public ContactViewController()
         {
-            contacts.Add("");
-            contacts.Add("");
-            contacts.Add("");
-            contacts.Add("");
-            contacts.Add("");
-            contacts.Add("");
+            contacts.Add("William Jones");
+            contacts.Add("Jimmy Tester");
+            contacts.Add("Brittany Rose");
+            contacts.Add("John Rambo");
+            contacts.Add("Daniel Steel");
+            contacts.Add("Bruce Wayne");
+            contacts.Add("Peter Parker");
         }
 
         Task GetContacts()

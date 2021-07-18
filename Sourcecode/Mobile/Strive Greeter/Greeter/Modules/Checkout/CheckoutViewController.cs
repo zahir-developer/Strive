@@ -79,6 +79,14 @@ namespace Greeter.Modules.Pay
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(CheckoutCell.Key) as CheckoutCell;
+
+            var row = (int)indexPath.Row;
+            var lastPos = Checkouts.Count - 1;
+            if (row == lastPos - 1)
+            {
+                //_ = LoadItems(lastPagePos);
+            }
+
             cell.SetupData(Checkouts[indexPath.Row]);
             return cell;
         }

@@ -19,7 +19,7 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<BaseResponse>(Urls.PAYMENT_CAPTURE, HttpMethod.Post, null, req);
         }
 
-        public Task<BaseResponse> PaymentCapture(AddPaymentReq req)
+        public Task<BaseResponse> AddPayment(AddPaymentReq req)
         {
             return apiService.DoApiCall<BaseResponse>(Urls.ADD_PAYMENT, HttpMethod.Post, null, req);
         }
