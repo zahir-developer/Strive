@@ -1571,10 +1571,10 @@
             </objects>
             <point key="canvasLocation" x="2669.53125" y="164.71449487554904"/>
         </scene>
-        <!--View Controller-->
+        <!--Pager View Controller-->
         <scene sceneID="keE-yr-W7i">
             <objects>
-                <viewController id="wuF-lS-1dy" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PagerViewController" id="wuF-lS-1dy" customClass="PagerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IMd-is-Si2">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
