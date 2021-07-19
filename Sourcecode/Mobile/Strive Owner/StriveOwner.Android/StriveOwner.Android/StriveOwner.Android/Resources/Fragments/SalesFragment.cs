@@ -11,6 +11,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Strive.Core.ViewModels.Owner;
 
 namespace StriveOwner.Android.Resources.Fragments
@@ -26,10 +27,10 @@ namespace StriveOwner.Android.Resources.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+            var ignore = base.OnCreateView(inflater, container, savedInstanceState);
+            var rootView = this.BindingInflate(Resource.Layout.Sales_Fragment, null);
 
-            return base.OnCreateView(inflater, container, savedInstanceState);
+            return rootView;
         }
     }
 }

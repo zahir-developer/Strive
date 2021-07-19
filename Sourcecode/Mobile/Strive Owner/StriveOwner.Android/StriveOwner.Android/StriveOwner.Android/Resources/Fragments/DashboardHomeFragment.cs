@@ -75,7 +75,7 @@ namespace StriveOwner.Android.Resources.Fragments
                     var nameSplits = location.LocationName.Split(" ");
                     foreach (var name in nameSplits)
                     {
-                        if(!string.Equals(name, "DETAIL") || !string.Equals(name, "SALON") || !string.Equals(name, "MAMMOTH") )
+                        if(!string.Equals(name.ToUpper(), "DETAIL") || !string.Equals(name.ToUpper(), "SALON") || !string.Equals(name.ToUpper(), "MAMMOTH") )
                         locationBtn.Text += name + " ";
                     }
                     
