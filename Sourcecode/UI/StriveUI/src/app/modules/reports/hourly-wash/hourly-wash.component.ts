@@ -325,9 +325,9 @@ export class HourlyWashComponent implements OnInit {
           Rain : +item.Rain,
           Score : item.TotalWashHours == "0.00" ? ((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
           (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
-          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal)) : (((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
+          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal)) : ((((+item._1PMTotal) + (+item._2PMTotal) + (+item._3PMTotal) + (+item._4PMTotal) + (+item._5PMTotal) +
           (+item._6PMTotal) + (+item._7AMTotal) + (+item._7PMTotal) + (+item._8AMTotal)
-          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal))/item.TotalWashHours).toFixed(2),
+          + (+item._9AMTotal) + (+item._10AMTotal) + (+item._11AMTotal) + (+item._12AMTotal))/item.TotalWashHours)*100).toFixed(2),
           Goal : +item.Goal,
           NoOfWashes : +item.NoOfWashes,
           TotalWashHours : +item.TotalWashHours,
