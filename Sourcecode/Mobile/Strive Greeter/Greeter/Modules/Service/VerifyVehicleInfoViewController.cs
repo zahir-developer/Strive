@@ -134,8 +134,8 @@ namespace Greeter.Storyboards
                             MakeID = MakeID,
                             ModelID = ModelID,
                             ColorId = ColorID,
-                            ClientId = ClientID,
-                            VehicleId = VehicleID,
+                            ClientId = ClientID != 0 ? ClientID : null,
+                            VehicleId = VehicleID != 0 ? VehicleID : null,
                             LocationID = AppSettings.LocationID,
                         },
                         JobItems = jobItems

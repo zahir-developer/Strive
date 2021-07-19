@@ -25,6 +25,9 @@ namespace Greeter.Cells
         UIView paidStatusContainer;
         UIButton payButton;
 
+        Checkout checkout;
+        Action<Checkout> pay = null;
+
         public CheckoutCell(IntPtr p) : base(p)
         {
             SetupView();
@@ -166,6 +169,9 @@ namespace Greeter.Cells
             //remainingBalanceLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -50).Active = true;
             //remainingBalanceLabel.TopAnchor.ConstraintEqualTo(amountLabel.BottomAnchor, constant: 10).Active = true;
             //remainingBalanceLabel.HeightAnchor.ConstraintEqualTo(30).Active = true;
+
+            //Clicks
+            payButton.TouchUpInside += (s, e) => pay?.Invoke(checkout);
         }
 
         public void SetupData(Checkout checkout, bool isPayOptionNeeded = false, Action<Checkout> pay = null)
@@ -198,7 +204,8 @@ namespace Greeter.Cells
             amountLabel.Text = "$" + checkout.Cost;
             //remainingBalanceLabel.Text = "    Remaining Bal. $15    ";
 
-            payButton.TouchUpInside += (s, e) => pay?.Invoke(checkout);
+            this.checkout = checkout;
+            this.pay = pay;
         }
     }
 }

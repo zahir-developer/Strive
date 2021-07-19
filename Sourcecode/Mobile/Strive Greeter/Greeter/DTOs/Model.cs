@@ -220,7 +220,7 @@ namespace Greeter.DTOs
         public DateTime? ActualTimeOut { get; } = null;
 
         [JsonProperty("clientId")] // Optional
-        public long ClientId { get; set; }
+        public long? ClientId { get; set; } = null;
 
         [JsonProperty("color")]
         public long ColorId { get; set; }
@@ -277,7 +277,7 @@ namespace Greeter.DTOs
         public DateTime UpdatedDate { get; } = DateTime.Now;
 
         [JsonProperty("vehicleId")] // Optional
-        public long VehicleId { get; set; }
+        public long? VehicleId { get; set; } = null;
     }
 
     public class JobItem

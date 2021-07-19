@@ -25,8 +25,6 @@ namespace Greeter.Common
         //Live
         internal const string LIVE_BASE_URL = "https://strivedev.azurewebsites.net";
 
-
-
         //Strive Dev By Zahir
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
@@ -96,6 +94,7 @@ namespace Greeter.Common
         internal const string MESSAGE = "messaging";
         internal const string PAID = "paid";
         internal const string CHECKOUT_ACTION = "checkout_action";
+        internal const string COMPLETE = "complete";
     }
 
     public class ColorNames
@@ -123,7 +122,7 @@ namespace Greeter.Common
         internal const string WARNING_FOR_MANDATORY_FILEDS_IN_SERVICE = "Please fill all mandatory fields make, model, color and {0}";
         internal const string WAH_PACKAGE = "wash package";
         internal const string DETAIL_PACKAGE = "detail package";
-        internal const string EMAIL_SENT_MSG = "Email sent successFully";
+        internal const string EMAIL_SENT_MSG = "Email sent successfully";
         internal const string EMAIL_WARNING = "Please enter the valid email id";
         internal const string EMAIL_MISSING = "Please enter the email id";
         internal const string EMPLOYEE_MISSING = "Please select the employee";
