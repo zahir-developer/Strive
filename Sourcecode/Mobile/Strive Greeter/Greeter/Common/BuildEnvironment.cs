@@ -1,36 +1,47 @@
 ﻿using System;
 namespace Greeter.Common
 {
-    public static class BuildEnvironment
+    public class BuildEnvironment
     {
-        // Decides base url
-        static readonly BuildEnvironments BUILD_ENV = BuildEnvironments.StriveDev;
+        public static string BASE_URL = BuildEnvironment.GetBaseUrl(BuildEnvironments.MamoothDev);
 
-        // Gives respective base Url or base endpoint for api Call
-        public static string BaseUrl
+        // Gives respective base Url or base endpoint for an api Call
+        static string GetBaseUrl(BuildEnvironments buildEnv)
         {
-            get
-            {
                 string baseUrl = string.Empty;
 
-                if (BUILD_ENV == BuildEnvironments.StriveDev)
+                if (buildEnv == BuildEnvironments.StriveDev)
                 {
-                    baseUrl = Urls.STRIVE_DEV_BASE_URL;
+                    baseUrl = BaseUrls.STRIVE_DEV_BASE_URL;
                 }
-                else if (BUILD_ENV == BuildEnvironments.MamoothDev)
+                else if (buildEnv == BuildEnvironments.MamoothDev)
                 {
-                    baseUrl = Urls.MAMMOTH_DEV_BASE_URL;
+                    baseUrl = BaseUrls.MAMMOTH_DEV_BASE_URL;
                 }
-                else if (BUILD_ENV == BuildEnvironments.MamoothQA)
+                else if (buildEnv == BuildEnvironments.MamoothQA)
                 {
-                    baseUrl = Urls.MAMMOTH_DEV_QA_BASE_URL;
+                    baseUrl = BaseUrls.MAMMOTH_DEV_QA_BASE_URL;
                 }
-                else if (BUILD_ENV == BuildEnvironments.Live)
+                else if (buildEnv == BuildEnvironments.Live)
                 {
-                    baseUrl = Urls.LIVE_BASE_URL;
+                    baseUrl = BaseUrls.LIVE_BASE_URL;
                 }
                 return baseUrl;
-            }
+        }
+
+        class BaseUrls
+        {
+            //Strive Dev By Zahir
+            internal const string STRIVE_DEV_BASE_URL = "https://strivedev.azurewebsites.net";
+
+            // Mamooth Dev
+            internal const string MAMMOTH_DEV_BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+
+            //Mamooth QA
+            internal const string MAMMOTH_DEV_QA_BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+
+            //Live
+            internal const string LIVE_BASE_URL = "https://strivedev.azurewebsites.net";
         }
     }
 

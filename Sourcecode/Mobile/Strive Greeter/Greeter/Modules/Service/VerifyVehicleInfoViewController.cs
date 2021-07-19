@@ -65,9 +65,11 @@ namespace Greeter.Storyboards
         {
             lblvehicle.Text = Make + " " + Model + " " + Color;
             lblBarcode.Text = !Barcode.IsEmpty() ? Barcode : "-";
-            lblCustName.Text = !CustName.IsEmpty() ? CustName : "Drive up";
+            lblCustName.Text = CustomerName;
             lblType.Text = !UpchargeTypeName.IsEmpty() ? UpchargeTypeName : "-";
         }
+
+        string CustomerName => !CustName.IsEmpty() ? CustName : "Drive up";
 
         void Initialise()
         {

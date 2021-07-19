@@ -35,6 +35,7 @@ namespace Greeter.Modules.Pay
 
         void UpdateData()
         {
+            customerNameTextField.Text = CustName;
             totalAmountDueLabel.Text = $"${Amount}";
         }
 
@@ -87,7 +88,7 @@ namespace Greeter.Modules.Pay
 
             var tipAmountNameLabel = new UILabel(CGRect.Empty);
             tipAmountNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            tipAmountNameLabel.Text = "Tip Amount";
+            tipAmountNameLabel.Text = "Tip Amount($)";
             tipAmountNameLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
             tipAmountNameLabel.Font = UIFont.SystemFontOfSize(18);
             backgroundView.Add(tipAmountNameLabel);
@@ -103,7 +104,7 @@ namespace Greeter.Modules.Pay
 
             var totalAmountDueTitleLabel = new UILabel(CGRect.Empty);
             totalAmountDueTitleLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            totalAmountDueTitleLabel.Text = "Total Amount Due";
+            totalAmountDueTitleLabel.Text = "Total Amount";
             totalAmountDueTitleLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
             totalAmountDueTitleLabel.Font = UIFont.SystemFontOfSize(18);
             backgroundView.Add(totalAmountDueTitleLabel);
@@ -112,14 +113,14 @@ namespace Greeter.Modules.Pay
             totalAmountDueLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             totalAmountDueLabel.Font = UIFont.SystemFontOfSize(18);
             totalAmountDueLabel.TextColor = UIColor.Black;
-            totalAmountDueLabel.Text = "$15.00";
+            //totalAmountDueLabel.Text = "$15.00";
             backgroundView.Add(totalAmountDueLabel);
 
             var paymentInfoTitleLabel = new UILabel(CGRect.Empty);
             paymentInfoTitleLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             paymentInfoTitleLabel.Text = "Payment Info";
             paymentInfoTitleLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
-            paymentInfoTitleLabel.Font = UIFont.SystemFontOfSize(18);
+            paymentInfoTitleLabel.Font = UIFont.BoldSystemFontOfSize(20);
             backgroundView.Add(paymentInfoTitleLabel);
 
             paymentInfoLabel = new UILabel(CGRect.Empty);
@@ -344,6 +345,20 @@ namespace Greeter.Modules.Pay
         void DidTapAround()
         {
             View.EndEditing(true);
+        }
+
+        [Export("textField:shouldChangeCharactersInRange:replacementString:")]
+        public bool ShouldChangeCharacters(UITextField textField, NSRange range, string replacementString)
+        {
+            var value = true;
+
+            // For Restricting typing in the customer name field
+            if (textField == customerNameTextField)
+            {
+                value = false;
+            }
+
+            return value;
         }
 
         [Export("textFieldShouldReturn:")]

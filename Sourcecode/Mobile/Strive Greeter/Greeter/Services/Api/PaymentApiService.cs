@@ -9,9 +9,9 @@ namespace Greeter.Services.Api
     {
         readonly IApiService apiService = new ApiService();
 
-        public Task<BaseResponse> PaymentAuth(PaymentAuthReq req)
+        public Task<PayAuthResponse> PaymentAuth(PaymentAuthReq req)
         {
-            return apiService.DoApiCall<BaseResponse>(Urls.PAYMENT_AUTH, HttpMethod.Post, null, req);
+            return apiService.DoApiCall<PayAuthResponse>(Urls.PAYMENT_AUTH, HttpMethod.Post, null, req);
         }
 
         public Task<BaseResponse> PaymentCapture(PaymentCaptureReq req)

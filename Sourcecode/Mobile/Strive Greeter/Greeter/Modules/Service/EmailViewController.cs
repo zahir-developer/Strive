@@ -34,7 +34,7 @@ namespace Greeter.Storyboards
         List<Employee> Employees;
         string[] employeeNames;
 
-        long selectedEmpId = 0;
+        string selectedEmpEmailId;
 
         //Views
         UIPickerView pv = new UIPickerView();
@@ -62,14 +62,13 @@ namespace Greeter.Storyboards
 
             btnEmpSent.TouchUpInside += delegate
             {
-                if (selectedEmpId == 0)
+                if (selectedEmpEmailId.IsEmpty())
                 {
                     ShowAlertMsg(Common.Messages.EMPLOYEE_MISSING);
                     return;
                 }
 
-                //TODO : send employee email once done from api team
-                //_ = SendToCustomer(tfCust.Text);
+                _ = SendEmail(selectedEmpEmailId);
             };
 
             btnCustomerSend.TouchUpInside += delegate
@@ -80,7 +79,7 @@ namespace Greeter.Storyboards
                     return;
                 }
 
-                _ = SendToCustomer(tfCust.Text);
+                _ = SendEmail(tfCust.Text);
             };
 
             btnPrint.TouchUpInside += delegate
@@ -117,7 +116,7 @@ namespace Greeter.Storyboards
             HideActivityIndicator();
         }
 
-        async Task SendToCustomer(string email)
+        async Task SendEmail(string email)
         {
             try
             {
@@ -208,7 +207,7 @@ namespace Greeter.Storyboards
         {
             int pos = (int)pv.SelectedRowInComponent(0);
             tfEmp.Text = employeeNames[pos];
-            selectedEmpId = Employees[pos].ID;
+            selectedEmpEmailId = Employees[pos].EmailID;
         }
 
         void NavigateToPayScreen()
@@ -218,6 +217,7 @@ namespace Greeter.Storyboards
             vc.Make = Make;
             vc.Model = Model;
             vc.Color = Color;
+            vc.CustName = CustName;
 
             var mainService  = Service.JobItems.First(x => x.IsMainService);
 

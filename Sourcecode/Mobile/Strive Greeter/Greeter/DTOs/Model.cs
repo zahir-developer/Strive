@@ -449,14 +449,14 @@ namespace Greeter.DTOs
 
     public class PaymentAuthReq
     {
-        //[JsonProperty("cardConnect")]
-        //public object CardConnect { get; set; }
+        [JsonProperty("cardConnect")]
+        public object CardConnect { get; } = new();
 
         [JsonProperty("paymentDetail")]
         public PaymentDetail PaymentDetail { get; set; }
 
-        //[JsonProperty("billingDetail")]
-        //public BillingDetail BillingDetail { get; set; }
+        [JsonProperty("billingDetail")]
+        public BillingDetail BillingDetail { get; } = new();
 
         //[JsonProperty("isRepeatTransaction")]
         //public bool isRepeatTransaction { get; } = false;
@@ -491,8 +491,8 @@ namespace Greeter.DTOs
 
     public class BillingDetail
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        //[JsonProperty("name")]
+        //public string Name { get; set; }
 
         //[JsonProperty("address")]
         //public string Address { get; set; }
@@ -522,7 +522,7 @@ namespace Greeter.DTOs
         public string RetRef { get; set; }
 
         //[JsonProperty("invoiceId")]
-        //public object InvoiceID { get; set; }
+        //public object InvoiceID { get; } = new();
     }
 
     public class AddPaymentReq
@@ -557,8 +557,8 @@ namespace Greeter.DTOs
         [JsonProperty("amount")]
         public float Amount { get; set; }
 
-        [JsonProperty("taxAmount")]
-        public float TaxAmount { get; } = 0;
+        //[JsonProperty("taxAmount")]
+        //public float TaxAmount { get; } = 0;
 
         //[JsonProperty("approval")]
         //public bool Approval { get; } = true;
@@ -603,7 +603,7 @@ namespace Greeter.DTOs
         //public int JobPaymentId { get; } = 0;
 
         [JsonProperty("paymentType")]
-        public short PaymentType { get; set; }
+        public long PaymentType { get; set; }
 
         [JsonProperty("amount")]
         public float Amount { get; set; }
@@ -658,6 +658,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("LastName")]
         public string LastName { get; set; }
+
+        [JsonProperty("")]
+        public string EmailID { get; set; }
     }
 
     public class RefreshTokenReq
@@ -667,5 +670,14 @@ namespace Greeter.DTOs
 
         [JsonProperty("refreshToken")]
         public string RefreshToken { get; set; }
+    }
+
+    public class PayAuthResponse : BaseResponse
+    {
+        [JsonProperty("authcode")]
+        public string Authcode { get; set; }
+
+        [JsonProperty("retref")]
+        public string Retref { get; set; }
     }
 }

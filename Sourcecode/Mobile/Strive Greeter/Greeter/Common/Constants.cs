@@ -13,17 +13,17 @@ namespace Greeter.Common
 
     public class Urls
     {
-        //Strive Dev By Zahir
-        internal const string STRIVE_DEV_BASE_URL = "https://strivedev.azurewebsites.net";
+        ////Strive Dev By Zahir
+        //internal const string STRIVE_DEV_BASE_URL = "https://strivedev.azurewebsites.net";
 
-        // Mamooth Dev
-        internal const string  MAMMOTH_DEV_BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        //// Mamooth Dev
+        //internal const string  MAMMOTH_DEV_BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
-        //QA
-        internal const string MAMMOTH_DEV_QA_BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        ////QA
+        //internal const string MAMMOTH_DEV_QA_BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
-        //Live
-        internal const string LIVE_BASE_URL = "https://strivedev.azurewebsites.net";
+        ////Live
+        //internal const string LIVE_BASE_URL = "https://strivedev.azurewebsites.net";
 
         //Strive Dev By Zahir
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
