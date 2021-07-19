@@ -25,6 +25,9 @@ namespace Greeter.Cells
         UIView paidStatusContainer;
         UIButton payButton;
 
+        Checkout checkout;
+        Action<Checkout> pay = null;
+
         public CheckoutCell(IntPtr p) : base(p)
         {
             SetupView();
@@ -74,14 +77,14 @@ namespace Greeter.Cells
             paidStatusContainer = new UIView(CGRect.Empty);
             paidStatusContainer.TranslatesAutoresizingMaskIntoConstraints = false;
             paidStatusContainer.Layer.CornerRadius = 5;
-            paidStatusContainer.BackgroundColor = UIColor.LightGray;
+            paidStatusContainer.BackgroundColor = ColorConverters.FromHex("#AFE9E3").ToPlatformColor();
             paidStatusContainer.Layer.MaskedCorners = CoreAnimation.CACornerMask.MinXMinYCorner | CoreAnimation.CACornerMask.MinXMaxYCorner;
             paidStatusContainer.Layer.CornerRadius = 5;
             containerView.Add(paidStatusContainer);
 
             statusIndicatorImage = new UIImageView(CGRect.Empty);
             statusIndicatorImage.TranslatesAutoresizingMaskIntoConstraints = false;
-            statusIndicatorImage.BackgroundColor = UIColor.Blue;
+            statusIndicatorImage.Image = UIImage.FromBundle(ImageNames.PAID);
             paidStatusContainer.Add(statusIndicatorImage);
 
             paidStatusLabel = new UILabel(CGRect.Empty);
@@ -166,6 +169,9 @@ namespace Greeter.Cells
             //remainingBalanceLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -50).Active = true;
             //remainingBalanceLabel.TopAnchor.ConstraintEqualTo(amountLabel.BottomAnchor, constant: 10).Active = true;
             //remainingBalanceLabel.HeightAnchor.ConstraintEqualTo(30).Active = true;
+
+            //Clicks
+            payButton.TouchUpInside += (s, e) => pay?.Invoke(checkout);
         }
 
         public void SetupData(Checkout checkout, bool isPayOptionNeeded = false, Action<Checkout> pay = null)
@@ -178,7 +184,7 @@ namespace Greeter.Cells
             if (checkout.AdditionalServices is not null)
                 serviceInfoLabel.Text += "\n" + "Additional Services: " + checkout.AdditionalServices;
             checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check out " + checkout.CheckoutTime + "  ";
-            statusIndicatorImage.Image = new UIImage();
+            //statusIndicatorImage.Image = new UIImage();
             if (!checkout.PaymentStatus.Equals("Success"))
             {
                 paidStatusLabel.Text = "Paid";
@@ -198,7 +204,8 @@ namespace Greeter.Cells
             amountLabel.Text = "$" + checkout.Cost;
             //remainingBalanceLabel.Text = "    Remaining Bal. $15    ";
 
-            payButton.TouchUpInside += (s, e) => pay?.Invoke(checkout);
+            this.checkout = checkout;
+            this.pay = pay;
         }
     }
 }

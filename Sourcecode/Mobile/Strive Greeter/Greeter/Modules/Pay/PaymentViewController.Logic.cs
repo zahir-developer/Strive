@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Services.Api;
 using Greeter.Storyboards;
+using Newtonsoft.Json;
 
 namespace Greeter.Modules.Pay
 {
@@ -77,7 +80,7 @@ namespace Greeter.Modules.Pay
 
                 //        if (paymentResponse.IsSuccess())
                 //        {
-                            var vc = (PaymentSucessViewController)GetViewController(GetHomeStorybpard(), nameof(PaymentSucessViewController));
+                var vc = (PaymentSucessViewController)GetViewController(GetHomeStorybpard(), nameof(PaymentSucessViewController));
                 vc.TicketID = JobID;
                 vc.Make = Make;
                 vc.Model = Model;

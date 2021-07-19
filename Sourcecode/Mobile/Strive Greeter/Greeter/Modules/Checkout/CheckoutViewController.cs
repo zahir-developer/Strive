@@ -116,7 +116,8 @@ namespace Greeter.Modules.Pay
                     CompleteBtnClicked(Checkouts[indexPath.Row]);
                 });
 
-            action2.Image = UIImage.FromBundle("tick");
+            action2.Image = UIImage.FromBundle(ImageNames.TICK);
+            //action2.Image.ApplyTintColor(UIColor.White);
             action2.BackgroundColor = ColorConverters.FromHex("#138a32").ToPlatformColor();
 
             var action3 = UIContextualAction.FromContextualActionStyle(
@@ -128,7 +129,8 @@ namespace Greeter.Modules.Pay
                     tableView.Editing = false;
                     CheckoutBtnClicked(Checkouts[indexPath.Row]);
                 });
-            action3.Image = UIImage.FromBundle("tick");
+            action3.Image = UIImage.FromBundle(ImageNames.TICK);
+            //action3.Image.ApplyTintColor(UIColor.White);
             action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
 
             return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });

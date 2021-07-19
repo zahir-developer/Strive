@@ -40,10 +40,11 @@
 		<WarningLevel>4</WarningLevel>
 		<MtouchArch>ARM64</MtouchArch>
 		<CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-		<CodesignKey>iPhone Developer</CodesignKey>
+		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<MtouchDebug>true</MtouchDebug>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<LangVersion>latest</LangVersion>
+		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
 		<DebugType>none</DebugType>
@@ -107,10 +108,6 @@
 		<ImageAsset Include="Resources\Assets.xcassets\services.imageset\Icon awesome-car-alt%402x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\services.imageset\Contents.json" />
 		<ImageAsset Include="Resources\Assets.xcassets\services.imageset\Icon awesome-car-alt.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%403x.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%402x.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Contents.json" />
 		<ImageAsset Include="Resources\Assets.xcassets\messaging.imageset\Group 370%403x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\messaging.imageset\Group 370%402x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\messaging.imageset\Contents.json" />
@@ -178,6 +175,24 @@
 		<ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%401x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%403x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\dollar.imageset\dollar%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\paid.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\paid.imageset\Icon awesome-check-square.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\paid.imageset\Icon awesome-check-square%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\paid.imageset\Icon awesome-check-square%402x-1.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\paid.imageset\Icon awesome-check-square%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\paid.imageset\Icon awesome-check-square-1.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\complete.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\complete.imageset\mdi-file-clock.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\complete.imageset\mdi-file-clock%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\complete.imageset\mdi-file-clock%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout_action.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout_action.imageset\Icon awesome-shopping-cart.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout_action.imageset\Icon awesome-shopping-cart%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout_action.imageset\Icon awesome-shopping-cart%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%403x.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Resources\" />
@@ -202,6 +217,10 @@
 		<Folder Include="MvvmCross\" />
 		<Folder Include="Modules\Checkout\" />
 		<Folder Include="Services\Api\" />
+		<Folder Include="Resources\Assets.xcassets\paid.imageset\" />
+		<Folder Include="Resources\Assets.xcassets\complete.imageset\" />
+		<Folder Include="Resources\Assets.xcassets\checkout_action.imageset\" />
+		<Folder Include="Resources\Assets.xcassets\checkout.imageset\" />
 	</ItemGroup>
 	<ItemGroup>
 		<InterfaceDefinition Include="LaunchScreen.storyboard" />
