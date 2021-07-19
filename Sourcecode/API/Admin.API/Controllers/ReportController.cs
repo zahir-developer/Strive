@@ -365,12 +365,29 @@ namespace Admin.API.Controllers
                 worksheet5.Cell(17, 1).Value = "Gift Card";
                 worksheet5.Cell(18, 1).Value = "Total Paid";
                 worksheet5.Cell(19, 1).Value = "Cash back";
+                
+                var inTotal = eodResult.CashInRegister.CashRegisterCoins.Pennies + eodResult.CashInRegister.CashRegisterCoins.Nickels +
+                                                eodResult.CashInRegister.CashRegisterCoins.Dimes + eodResult.CashInRegister.CashRegisterCoins.Quarters +
+                                                eodResult.CashInRegister.CashRegisterCoins.HalfDollars + eodResult.CashInRegister.CashRegisterRolls.Pennies +
+                                                eodResult.CashInRegister.CashRegisterRolls.Nickels + eodResult.CashInRegister.CashRegisterRolls.Dimes +
+                                                eodResult.CashInRegister.CashRegisterRolls.Quarters + eodResult.CashInRegister.CashRegisterRolls.HalfDollars +
+                                                eodResult.CashInRegister.CashRegisterBills.s1 + eodResult.CashInRegister.CashRegisterBills.s5 +
+                                                eodResult.CashInRegister.CashRegisterBills.s10 + eodResult.CashInRegister.CashRegisterBills.s20 +
+                                                eodResult.CashInRegister.CashRegisterBills.s50 + eodResult.CashInRegister.CashRegisterBills.s100;
+                var outTotal = eodResult.CashRegister.CashRegisterCoins.Pennies + eodResult.CashRegister.CashRegisterCoins.Nickels +
+                                                eodResult.CashRegister.CashRegisterCoins.Dimes + eodResult.CashRegister.CashRegisterCoins.Quarters +
+                                                eodResult.CashRegister.CashRegisterCoins.HalfDollars + eodResult.CashRegister.CashRegisterRolls.Pennies +
+                                                eodResult.CashRegister.CashRegisterRolls.Nickels + eodResult.CashRegister.CashRegisterRolls.Dimes +
+                                                eodResult.CashRegister.CashRegisterRolls.Quarters + eodResult.CashRegister.CashRegisterRolls.HalfDollars + eodResult.CashRegister.CashRegisterBills.s1 + eodResult.CashRegister.CashRegisterBills.s5 + eodResult.CashRegister.CashRegisterBills.s10 + eodResult.CashRegister.CashRegisterBills.s20 + eodResult.CashRegister.CashRegisterBills.s50 + eodResult.CashRegister.CashRegisterBills.s100
+                                                + eodResult.CashRegister.CashRegister.Tips;
+
                 var sales = eodResult.Sales.EODSalesDetails;
                 {
-                    worksheet5.Cell(1, 2).Value = "";
-                    worksheet5.Cell(2, 2).Value = "0.00";
-                    worksheet5.Cell(3, 2).Value = "0.00";
-                    worksheet5.Cell(4, 2).Value = "0.00";
+
+                    worksheet5.Cell(1, 2).Value = sales.Total.GetValueOrDefault() + sales.TaxAmount.GetValueOrDefault();
+                    worksheet5.Cell(2, 2).Value = inTotal;
+                    worksheet5.Cell(3, 2).Value = outTotal;
+                    worksheet5.Cell(4, 2).Value = inTotal - outTotal;
                     worksheet5.Cell(5, 2).Value = sales.Credit.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(6, 2).Value = sales.TotalPaid.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(7, 2).Value = sales.Account.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
@@ -380,8 +397,8 @@ namespace Admin.API.Controllers
                     worksheet5.Cell(11, 2).Value = sales.TaxAmount.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(12, 2).Value = sales.GrandTotal.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(13, 2).Value = sales.Cash.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
-                    worksheet5.Cell(14, 2).Value = "0.00";
-                    worksheet5.Cell(15, 2).Value = sales.Credit.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(14, 2).Value = sales.Credit.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
+                    worksheet5.Cell(15, 2).Value = "0.00";
                     worksheet5.Cell(16, 2).Value = sales.Account.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(17, 2).Value = sales.GiftCard.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
                     worksheet5.Cell(18, 2).Value = sales.TotalPaid.GetValueOrDefault().ToString("C", CultureInfo.GetCultureInfo("en-US"));
@@ -533,7 +550,7 @@ namespace Admin.API.Controllers
         [Route("IrregularitiesExport")]
         public IActionResult GetIrregularitiesExport([FromBody] IrregularitiesDto reportDto)
         {
-            
+
             var rptResult = _bplManager.GetIrregularitiesExport(reportDto);
             using (var workbook = new XLWorkbook())
             {
@@ -550,7 +567,7 @@ namespace Admin.API.Controllers
                 worksheet.Cell(currentRow, 9).Value = "Extra serv";
                 worksheet.Cell(currentRow, 10).Value = "Sale amt";
                 worksheet.Cell(currentRow, 11).Value = "Discount";
-                worksheet.Cell(currentRow, 12).Value = "paid by"; 	
+                worksheet.Cell(currentRow, 12).Value = "paid by";
 
                 if (rptResult.VehiclesInfo != null)
                 {
@@ -573,7 +590,7 @@ namespace Admin.API.Controllers
                 }
 
                 var worksheet2 = workbook.Worksheets.Add("Missing ticket numbers");
-                 currentRow = 1;
+                currentRow = 1;
                 worksheet2.Cell(currentRow, 1).Value = "Manager";
                 worksheet2.Cell(currentRow, 2).Value = "Date";
                 worksheet2.Cell(currentRow, 3).Value = "Barcode";
