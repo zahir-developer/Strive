@@ -454,6 +454,7 @@ export class SalesComponent implements OnInit {
           this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
+          console.log(this.itemList,'welcome data');
           if (this.itemList.Status.SalesItemViewModel !== null) {
             const jobDetail = this.itemList.Status.JobDetailViewModel;
             const invalidTicket = jobDetail.filter(item => item.JobId === +this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
@@ -539,6 +540,7 @@ export class SalesComponent implements OnInit {
           if (this.itemList?.Status?.ProductItemViewModel !== null && this.itemList?.Status?.ProductItemViewModel !== undefined) {
             this.Products = this.itemList?.Status?.ProductItemViewModel;
             console.log(this.Products, 'products');
+
           }
           if (this.itemList?.Status?.PaymentStatusViewModel?.IsProcessed === true) {
             this.showPopup = false;
@@ -1672,6 +1674,11 @@ export class SalesComponent implements OnInit {
       this.allService.forEach(ele => {
         this.totalAmount += ele.Price
       });
+      if(this.Products.length !== 0) {
+        this.Products.forEach(ele => {
+          this.totalAmount += ele.Price + ele.TaxAmount;
+        });
+      }
       this.account = this.totalAmount;
       this.calculateTotalpaid(this.totalAmount);
       this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.CreditAccountApplied });
@@ -1699,7 +1706,11 @@ export class SalesComponent implements OnInit {
                   this.totalAmount += ele.Price
                   }
                 });
-                console.log(this.amountCheck);
+                if(this.Products.length !== 0) {
+                  this.Products.forEach(ele => {
+                    this.totalAmount += ele.Price + ele.TaxAmount;
+                  });
+                }
                 if (this.amountCheck) {
                   this.account = this.totalAmount;
                   this.calculateTotalpaid(this.totalAmount);
