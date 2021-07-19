@@ -431,7 +431,11 @@ export class EmployeeListComponent implements OnInit {
 
 
   selectOption(event) {
+    if(event === 'null') {
+      this.statusGroup = null
+    } else {
     this.statusGroup = event === 'true' ? true: false;
+    }
   }
 
 

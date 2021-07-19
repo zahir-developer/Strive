@@ -39,17 +39,21 @@
                                     <form>
                                         <div class="form-row">
 
-                                            <div class="form-group d-flex m-r-10">
-                                                <select class="form-control" (change)="selectOption($event.target.value)" [ngModelOptions]="{standalone: true}" [(ngModel)]="statusGroup">
-                                                    <option value="" selected disabled>Status</option>
-                                                    <option value=true>Active</option>
-                                                    <option value=false>InActive</option>
-                                                </select>
-                                            </div>
-        
                                             <div class="form-group d-flex"> <input type="search" class="form-control"
                                                     [(ngModel)]="search" name="search" id="inputSearchbyName"
-                                                    placeholder="Search by Name"  (ngModelChange)="this.searchUpdate.next($event)"> </div>
+                                                    placeholder="Search by Name"  (ngModelChange)="this.searchUpdate.next($event)"> 
+                                                    &nbsp; &nbsp;
+                                                    <div class="form-group d-flex" style="width: 60%;">
+                                                        <select class="form-control" (change)="selectOption($event.target.value)" [ngModelOptions]="{standalone: true}" [(ngModel)]="statusGroup">
+                                                            <option value="" selected disabled>Status</option>
+                                                            <option value=null>All</option>
+                                                            <option value=true>Active</option>
+                                                            <option value=false>InActive</option>
+                                                        </select>
+                                                    </div>
+                                                
+                                                
+                                                </div>
                                             <div class="form-group col-sm m-l-5">
 
                                                 <button type="button"
