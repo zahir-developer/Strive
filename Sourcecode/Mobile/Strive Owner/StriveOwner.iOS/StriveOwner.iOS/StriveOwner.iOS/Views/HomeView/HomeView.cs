@@ -33,6 +33,9 @@ namespace StriveOwner.iOS.Views.HomeView
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Dashboard";
+
+            DashboardParentView.Layer.CornerRadius = 5;
+            DashboardInnerView.Layer.CornerRadius = 5;
         }
     }
 }

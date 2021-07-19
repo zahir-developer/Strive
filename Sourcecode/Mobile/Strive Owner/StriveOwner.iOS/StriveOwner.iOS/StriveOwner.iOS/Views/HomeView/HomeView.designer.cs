@@ -1,21 +1,34 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace StriveOwner.iOS.Views.HomeView
 {
-    [Register("HomeView")]
-    partial class HomeView
-    {
-        void ReleaseDesignerOutlets()
-        {
-        }
-    }
+	[Register ("HomeView")]
+	partial class HomeView
+	{
+		[Outlet]
+		UIKit.UIView DashboardInnerView { get; set; }
+
+		[Outlet]
+		UIKit.UIView DashboardParentView { get; set; }
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (DashboardParentView != null) {
+				DashboardParentView.Dispose ();
+				DashboardParentView = null;
+			}
+
+			if (DashboardInnerView != null) {
+				DashboardInnerView.Dispose ();
+				DashboardInnerView = null;
+			}
+		}
+	}
 }
