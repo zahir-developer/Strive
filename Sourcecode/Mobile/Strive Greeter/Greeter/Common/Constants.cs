@@ -116,7 +116,7 @@ namespace Greeter.Common
         internal const string PSWD_EMPTY = "Please enter your password";
         internal const string LOCATION_EMPTY = "Please select the location";
         internal const string BARCODE_WRONG = "Invalid barcode";
-        internal const string SERVICE_CREATED_MSG = "Service created successFully";
+        internal const string SERVICE_CREATED_MSG = "Service created successfully";
         internal const string SERVICE_CREATION_ISSUE = "Couldn't generate Service";
         internal const string TICKET_CERATION_ISSUE = "Couldn't generate ticket";
         internal const string WARNING_FOR_MANDATORY_FILEDS_IN_SERVICE = "Please fill all mandatory fields make, model, color and {0}";
