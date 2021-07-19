@@ -94,6 +94,8 @@ namespace Greeter.Common
         internal const string ADD_CIRCLE = "add_circle";
         internal const string More = "more";
         internal const string MESSAGE = "messaging";
+        internal const string PAID = "paid";
+        internal const string CHECKOUT_ACTION = "checkout_action";
     }
 
     public class ColorNames
