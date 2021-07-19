@@ -51,7 +51,7 @@ namespace StriveEmployee.iOS.Views.Schedule
         {
             await ViewModel.GetScheduleList();
 
-            if(ViewModel.scheduleList != null)
+            if(ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
             {
                 setData(DateTime.Now.ToString("yyyy-MM-dd"));
             }
@@ -79,8 +79,10 @@ namespace StriveEmployee.iOS.Views.Schedule
         partial void scheduleDate_Touch(UIDatePicker sender)
         {
             var selectedDate = ScheduleDateView.Date;
-
-            setData(selectedDate.ToString());
+            if (ViewModel.scheduleList != null && ViewModel.scheduleList.ScheduleDetailViewModel != null)
+            {
+                setData(selectedDate.ToString());
+            }
         }
     }
 }

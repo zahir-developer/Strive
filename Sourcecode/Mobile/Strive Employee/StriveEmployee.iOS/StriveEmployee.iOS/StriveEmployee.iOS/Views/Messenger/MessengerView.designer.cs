@@ -1,21 +1,61 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace StriveEmployee.iOS.Views.Messenger
 {
-    [Register("MessengerView")]
-    partial class MessengerView
-    {
-        void ReleaseDesignerOutlets()
-        {
-        }
-    }
+	[Register ("MessengerView")]
+	partial class MessengerView
+	{
+		[Outlet]
+		UIKit.UIView Messenger_HomeView { get; set; }
+
+		[Outlet]
+		UIKit.UISearchBar Messenger_SearchBar { get; set; }
+
+		[Outlet]
+		UIKit.UISegmentedControl Messenger_SegCtrl { get; set; }
+
+		[Outlet]
+		UIKit.UITableView Messenger_TableView { get; set; }
+
+		[Outlet]
+		UIKit.NSLayoutConstraint SearchBar_HeightConst { get; set; }
+
+		[Action ("Messenger_SegmentTouch:")]
+		partial void Messenger_SegmentTouch (UIKit.UISegmentedControl sender);
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (Messenger_HomeView != null) {
+				Messenger_HomeView.Dispose ();
+				Messenger_HomeView = null;
+			}
+
+			if (Messenger_SearchBar != null) {
+				Messenger_SearchBar.Dispose ();
+				Messenger_SearchBar = null;
+			}
+
+			if (Messenger_SegCtrl != null) {
+				Messenger_SegCtrl.Dispose ();
+				Messenger_SegCtrl = null;
+			}
+
+			if (Messenger_TableView != null) {
+				Messenger_TableView.Dispose ();
+				Messenger_TableView = null;
+			}
+
+			if (SearchBar_HeightConst != null) {
+				SearchBar_HeightConst.Dispose ();
+				SearchBar_HeightConst = null;
+			}
+		}
+	}
 }

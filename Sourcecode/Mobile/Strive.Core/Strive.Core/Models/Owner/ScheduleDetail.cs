@@ -30,7 +30,7 @@ namespace Strive.Core.Models.Owner
 
     public class ScheduleHoursViewModel
     {
-        public double Totalhours { get; set; }
+        public double? Totalhours { get; set; }
         public string ScheduledDate { get; set; }
         public int? TotalEmployees { get; set; }
     }
