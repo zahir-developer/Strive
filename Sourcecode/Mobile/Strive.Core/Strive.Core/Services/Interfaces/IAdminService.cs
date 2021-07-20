@@ -125,6 +125,8 @@ namespace Strive.Core.Services.Interfaces
         Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo);
 
         Task<employeeSchedule> GetScheduleList(ScheduleRequest scheduleRequest);
-    
+
+        Task<StatisticsData> getDashboardServices(StatisticRequest statisticsRequest);
+
     }
 }

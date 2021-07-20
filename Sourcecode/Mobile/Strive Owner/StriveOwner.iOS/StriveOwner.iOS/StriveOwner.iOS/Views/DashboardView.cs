@@ -23,8 +23,7 @@ namespace StriveOwner.iOS.Views
                 return;
             base.ViewDidLoad();
 
-            var viewControllers = new UIViewController[4
-                ];
+            var viewControllers = new UIViewController[4];
             viewControllers[0] = CreateTabFor(0, "Home", "icon-home", "icon-home-active", typeof(HomeViewModel));
             viewControllers[1] = CreateTabFor(1, "Checkout", "icon-checkout", "icon-checkout-active", typeof(CheckOutViewModel));
             viewControllers[2] = CreateTabFor(2, "Message", "icon-message", "icon-message-active", typeof(MessengerViewModel));
