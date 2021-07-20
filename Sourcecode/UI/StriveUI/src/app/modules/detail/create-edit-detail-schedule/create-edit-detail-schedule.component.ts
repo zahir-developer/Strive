@@ -152,7 +152,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.getAllBayById();
     this.getTicketNumber();
     // this.getJobType();
-    console.log(this.isEdit, 'welcome1');
   }
 
   formInitialize() {
@@ -1048,7 +1047,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     };
 
     var finalDueTime = new Date(this.detailForm.value.dueTime);
-    var initialTimeIn = new Date(this.bayScheduleObj.date);
+    const initialDate = this.bayScheduleObj ? this.bayScheduleObj.date : this.selectedData.Details.JobDate
+    var initialTimeIn = new Date(initialDate);
 
     var BaySchedule = [];
 
@@ -1358,7 +1358,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.detailService.getDetailById(jobID).subscribe(res => {
       if (res.status === 'Success') {
         const details = JSON.parse(res.resultData);
-        console.log(details, 'result data');
         this.selectedData = details.DetailsForDetailId;
         this.isEdit = true;
         this.washItem = this.selectedData.DetailsItem;
