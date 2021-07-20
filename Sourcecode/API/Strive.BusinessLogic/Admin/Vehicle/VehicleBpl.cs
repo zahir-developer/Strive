@@ -122,7 +122,7 @@ namespace Strive.BusinessLogic.Vehicle
             var documentBpl = new DocumentBpl(_cache, _tenant);
             foreach(var vehicle in vehicleThumnail)
             {
-                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ThumbnailFileName);
+                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ImageName);
             }
 
             return ResultWrap(vehicleThumnail, "VehicleThumbnails");

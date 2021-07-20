@@ -66,6 +66,7 @@ namespace Strive.BusinessEntities
             uspGetDailyStatusInfo,
             uspGetDailyClockDetail,
             USPGETMONTHLYMONEYOWNEDREPORT,
+            USPGETMONEYOWEDREPORTDETAIL,
             USPGETEODSALESREPORT,
             USPGETDAILYSALESREPORT,
             USPGETHOURLYWASHREPORT,
