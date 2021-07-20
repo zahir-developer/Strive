@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
-      android:id="@+id/menu_messenger"
+      android:id="@+id/dashboardhome"
       android:enabled="true"
       android:icon="@drawable/awesome_home"
       app:showAsAction="ifRoom" />
 
   <item
-      android:id="@+id/menu_schedule"
+      android:id="@+id/dashboardcheckOut"
       android:enabled="true"
       android:icon="@drawable/awesome_flag_check"
       app:showAsAction="ifRoom" />
 
   <item
-      android:id="@+id/menu_profile"
+      android:id="@+id/dashboardmessenger"
       android:enabled="true"
       android:icon="@drawable/messenger"
       app:showAsAction="ifRoom" />
@@ -25,7 +25,7 @@
       android:icon="@drawable/ticket"
       app:showAsAction="ifRoom" />-->
   <item
-    android:id="@+id/menu_checkOut"
+    android:id="@+id/dashboardinventory"
     android:enabled="true"
     android:icon="@drawable/group_366"
     app:showAsAction="ifRoom" />

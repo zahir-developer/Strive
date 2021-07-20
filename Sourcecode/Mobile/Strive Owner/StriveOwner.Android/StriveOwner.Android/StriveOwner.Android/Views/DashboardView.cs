@@ -18,6 +18,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Fragments;
 using StriveOwner.Android.Fragments.CheckOut;
+using StriveOwner.Android.Resources.Fragments;
 
 namespace StriveOwner.Android.Views
 {
@@ -30,8 +31,7 @@ namespace StriveOwner.Android.Views
         private MvxFragment selected_MvxFragment;
         private MessengerFragment messenger_Fragment;
         private CheckOutFragment checkOut_Fragment;
-        //private ScheduleFragment schedule_Fragment;
-        //private MyTicketFragment myTicket_Fragment;
+        private DashboardHomeFragment dashboardhome_Fragment;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -39,10 +39,7 @@ namespace StriveOwner.Android.Views
             this.ViewModel = new DashboardViewModel();
             messenger_Fragment = new MessengerFragment();
             checkOut_Fragment = new CheckOutFragment();
-            //profile_Fragment = new MyProfileFragment();
-            //schedule_Fragment = new ScheduleFragment();
-            //myTicket_Fragment = new MyTicketFragment();
-            //checkOut_Fragment = new CheckOutFragment();
+            dashboardhome_Fragment = new DashboardHomeFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
@@ -54,19 +51,19 @@ namespace StriveOwner.Android.Views
             selected_MvxFragment = null;
             switch (e.Item.ItemId)
             {
-                case Resource.Id.menu_messenger:
+                case Resource.Id.dashboardhome:
+                    selected_MvxFragment = dashboardhome_Fragment;
+                    break;
+
+                case Resource.Id.dashboardinventory:
                     selected_MvxFragment = messenger_Fragment;
                     break;
 
-                case Resource.Id.menu_schedule:
+                case Resource.Id.dashboardmessenger:
                     selected_MvxFragment = messenger_Fragment;
                     break;
 
-                case Resource.Id.menu_profile:
-                    selected_MvxFragment = messenger_Fragment;
-                    break;
-
-                case Resource.Id.menu_checkOut:
+                case Resource.Id.dashboardcheckOut:
                     selected_MvxFragment = checkOut_Fragment;
                     break;
             }
@@ -80,7 +77,7 @@ namespace StriveOwner.Android.Views
 
         private void SelectInitial_Fragment()
         {
-            selected_MvxFragment = messenger_Fragment;
+            selected_MvxFragment = dashboardhome_Fragment;
             SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
 
