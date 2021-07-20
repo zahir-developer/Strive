@@ -135,6 +135,13 @@ export class WashesListComponent implements OnInit {
         this.getJobType();
         if (wash.Washes !== null) {
           this.washDetails = wash?.Washes?.AllWashesViewModel;
+          console.log(this.washDetails,'data result');
+          for(let k=0; k< this.washDetails.length; k++) {
+            if(this.washDetails[k].ClientName === " ") {
+              this.washDetails[k].ClientName = "DRIVE UP"
+            }
+          }
+          console.log(this.washDetails,'data result1');
           const totalRowCount = wash?.Washes?.Count?.Count;
           if (this.washDetails?.length > 0) {
             for (let i = 0; i < this.washDetails.length; i++) {
@@ -263,6 +270,7 @@ export class WashesListComponent implements OnInit {
   }
 
   add(data, washDetails?) {
+    console.log(washDetails);
     if (data === 'add') {
       this.headerData = 'Add New Service';
       this.selectedData = washDetails;
@@ -280,8 +288,15 @@ export class WashesListComponent implements OnInit {
     this.washes.getWashById(washDet.JobId).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
         const wash = JSON.parse(data.resultData);
+        if(wash.WashesDetail?.Washes) {
+        for(let i=0; i< wash.WashesDetail.Washes.length; i++) {
+         if(wash.WashesDetail.Washes[i].ClientName === " ") {
+           wash.WashesDetail.Washes[i].ClientName = "DRIVE UP"
+         }
+        }
+      }
+        console.log(wash,'welcome new');
         if (label === 'edit') {
           this.headerData = 'Edit Service';
           this.selectedData = wash.WashesDetail;
