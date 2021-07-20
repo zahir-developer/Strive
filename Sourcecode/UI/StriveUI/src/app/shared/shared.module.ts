@@ -67,6 +67,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { FilterPipe } from './pipe/filter.pipe';
 import { DecimalPipe } from '@angular/common';
 import {CurrencyPipe} from '@angular/common';
+import { SessionExpiredComponent } from './components/session-expired/session-expired.component';
 
 @NgModule({
   imports: [
@@ -106,7 +107,7 @@ import {CurrencyPipe} from '@angular/common';
     NoOfDetailsComponent, WashEmployeesComponent, ScoreComponent, ForecastedCarsComponent,
     AverageWashTimeComponent, CalendarMaskDirective, PrintWashComponent, ClientFormComponent, VehicleCreateEditComponent,
     MonthPickerComponent, YearPickerComponent, LocationDropdownComponent, ExportFiletypeComponent, SsnNumberMaskDirective
-    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent,RecurringPaymentComponent, AlphaNumericDirective, FilterPipe],
+    ,SearchPipe, OrderByPipe, TwoDecimalPositiveNegativeNumberDirective, NavigatePageDirective, IdleLockoutComponent, SessionLogoutComponent, DashboardStaticsComponent, PaymentProcessComponent,RecurringPaymentComponent, AlphaNumericDirective, FilterPipe, SessionExpiredComponent],
   exports: [CommonModule, FullCalendarModule, TimepickerModule, CardComponent, AutoCompleteModule,
     AccordionModule, ConfirmationDialogComponent, ConfirmDialogModule,QRCodeModule,
     StateDropdownComponent, CountryDropdownComponent, RouterModule, FormsModule, HttpClientModule, ReactiveFormsModule, PhoneMaskDirective,

@@ -100,6 +100,9 @@ export class SalesComponent implements OnInit {
   totalChargeService: any;
   washPackage: any;
   amountCheck = true;
+  accountPayType: any;
+  paymentType = false;
+
 
   constructor(
     private toastr: ToastrService, private membershipService: MembershipService, private salesService: SalesService, private router: Router,
@@ -454,7 +457,6 @@ export class SalesComponent implements OnInit {
           this.spinner.hide();
           this.enableAdd = true;
           this.itemList = JSON.parse(data.resultData);
-          console.log(this.itemList,'welcome data');
           if (this.itemList.Status.SalesItemViewModel !== null) {
             const jobDetail = this.itemList.Status.JobDetailViewModel;
             const invalidTicket = jobDetail.filter(item => item.JobId === +this.multipleTicketNumber[this.multipleTicketNumber.length - 1]);
@@ -1430,15 +1432,22 @@ export class SalesComponent implements OnInit {
       };
       paymentDetailObj.push(Tips);
     }
+
     if (this.account !== 0) {
-      let accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
-      if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== ApplicationConfig.CodeValue.Comp) {
-        accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
+      // if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== ApplicationConfig.CodeValue.Comp) {
+      //}
+      if (this.paymentType === true) {
+        this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
+      } else if (this.paymentType === false) {
+        this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
+      } else {
+        this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
       }
+
       const accountDet = {
         jobPaymentDetailId: 0,
         jobPaymentId: 0,
-        paymentType: accountPayType,
+        paymentType: this.accountPayType,
         amount: this.account ? +this.account : 0,
         taxAmount: 0,
         signature: '',
@@ -1674,7 +1683,7 @@ export class SalesComponent implements OnInit {
       this.allService.forEach(ele => {
         this.totalAmount += ele.Price
       });
-      if(this.Products.length !== 0) {
+      if (this.Products.length !== 0) {
         this.Products.forEach(ele => {
           this.totalAmount += ele.Price + ele.TaxAmount;
         });
@@ -1694,7 +1703,7 @@ export class SalesComponent implements OnInit {
               totalService.forEach(list => {
                 const lists = this.totalWashService.filter(ele => ele.ServiceId === list.ServiceId)
                 const dels = lists[0]
-                if(dels != undefined){
+                if (dels != undefined) {
                   this.filterRecord.push(dels);
                 }
               });
@@ -1702,11 +1711,11 @@ export class SalesComponent implements OnInit {
               if (this.filterRecord.length !== 0) {
                 this.totalAmount = 0;
                 this.filterRecord.forEach(ele => {
-                  if(ele != undefined){
-                  this.totalAmount += ele.Price
+                  if (ele != undefined) {
+                    this.totalAmount += ele.Price
                   }
                 });
-                if(this.Products.length !== 0) {
+                if (this.Products.length !== 0) {
                   this.Products.forEach(ele => {
                     this.totalAmount += ele.Price + ele.TaxAmount;
                   });
@@ -1752,11 +1761,13 @@ export class SalesComponent implements OnInit {
         this.isAccount = true;
         this.isMembership = false;
         this.processAccount();
+        this.paymentType = true;
         return;
       case 'membership':
         this.isMembership = true;
         this.isAccount = false;
         this.processAccount();
+        this.paymentType = false;
         return;
     }
   }

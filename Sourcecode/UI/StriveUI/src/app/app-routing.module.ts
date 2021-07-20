@@ -9,6 +9,7 @@ import { SelectLocationComponent } from './select-location/select-location.compo
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { UserSignupComponent } from './user-signup/user-signup.component';
+import { SessionExpiredComponent } from './shared/components/session-expired/session-expired.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { label: 'login', title: 'login' } },
@@ -72,6 +73,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/customer-sales/customer-sales.module').then(mod => mod.CustomerSalesModule)
   },
   { path: 'unauthorized', component: UnauthorizedComponent, data: { label: 'unauthorized', title: 'unauthorized' } },
+
+  { path: 'session-expired' , component: SessionExpiredComponent, data: { label: 'session', title: 'session' }},
   {
     path: '',
     redirectTo: '',

@@ -15,6 +15,7 @@ import { tap, mapTo, share } from 'rxjs/operators';
 import { ApplicationConfig } from '../shared/services/ApplicationConfig';
 import { WeatherService } from '../shared/services/common-service/weather.service';
 import { LogoService } from '../shared/services/common-service/logo.service';
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -55,6 +56,7 @@ export class LoginComponent implements OnInit {
       isRemember: new FormControl(false)
     });
     this.bindValue();
+    this.sidenavsHide();
   }
 
   bindValue() {
@@ -175,6 +177,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
+  sidenavsHide() {
+    $(document).ready(function(){ 
+      $('#sidenavSec').css('display','none');
+      $('#footerSec').css('display','none');
+      $('#headerSec').css('display','none');
+     });
+  }
 
 }
