@@ -177,9 +177,9 @@ namespace StriveOwner.Android.Resources.Fragments
             base.OnActivityCreated(savedInstanceState);
 
             dashhome_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
-            dashhome_ViewPagerAdapter.AddFragment(servicesFragment, "Recent");
-            dashhome_ViewPagerAdapter.AddFragment(salesFragment, "Contact");
-            dashhome_ViewPagerAdapter.AddFragment(revenueFragment, "Groups");
+            dashhome_ViewPagerAdapter.AddFragment(servicesFragment, "Service");
+            dashhome_ViewPagerAdapter.AddFragment(salesFragment, "Sales");
+            dashhome_ViewPagerAdapter.AddFragment(revenueFragment, "Revenue");
             dashhome_ViewPager.Adapter = dashhome_ViewPagerAdapter;
             dashhome_TabLayout.SetupWithViewPager(dashhome_ViewPager);
         }

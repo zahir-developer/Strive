@@ -8,7 +8,7 @@
       app:showAsAction="ifRoom" />
 
   <item
-      android:id="@+id/dashboardinventory"
+      android:id="@+id/dashboardcheckOut"
       android:enabled="true"
       android:icon="@drawable/awesome_flag_check"
       app:showAsAction="ifRoom" />
@@ -25,7 +25,7 @@
       android:icon="@drawable/ticket"
       app:showAsAction="ifRoom" />-->
   <item
-    android:id="@+id/dashboardcheckOut"
+    android:id="@+id/dashboardinventory"
     android:enabled="true"
     android:icon="@drawable/group_366"
     app:showAsAction="ifRoom" />
