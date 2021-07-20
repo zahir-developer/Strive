@@ -95,6 +95,8 @@ namespace Greeter.Common
         internal const string PAID = "paid";
         internal const string CHECKOUT_ACTION = "checkout_action";
         internal const string COMPLETE = "complete";
+        internal const string ADD_GROUP = "add_group";
+        internal const string REFRESH = "refresh";
     }
 
     public class ColorNames

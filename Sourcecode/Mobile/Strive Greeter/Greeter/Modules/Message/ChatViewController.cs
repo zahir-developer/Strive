@@ -103,6 +103,11 @@ namespace Greeter.Modules.Message
         void SetupNavigationItem()
         {
             Title = "Group Chat";
+
+            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.ADD_CIRCLE), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
+            {
+
+            });
         }
 
         void RegisterCell()

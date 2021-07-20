@@ -114,5 +114,11 @@ namespace Greeter.Modules.Message
             cell.SetupData(groups[indexPath.Row]);
             return cell;
         }
+
+        [Export("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            NavigationController.PushViewController(new ChatViewController(), animated: true);
+        }
     }
 }
