@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.iOS.UIUtils;
@@ -37,14 +38,19 @@ namespace StriveOwner.iOS.Views.HomeView
             DashboardParentView.Layer.CornerRadius = 5;
             DashboardInnerView.Layer.CornerRadius = 5;
 
+            ScheduleTableView.RegisterNibForCellReuse(DBSchedule_Cell.Nib, DBSchedule_Cell.Key);
+            ScheduleTableView.BackgroundColor = UIColor.Clear;
+            ScheduleTableView.ReloadData();
+
             getStatisticsData();
         }
          
         private async void getStatisticsData()
         {
             await ViewModel.getStatistics();
-
+            await ViewModel.getDashboardSchedule();
             setData();
+            setScheduleData();
         }
 
         private void setData()
@@ -74,6 +80,17 @@ namespace StriveOwner.iOS.Views.HomeView
             }
         }
 
+        private void setScheduleData()
+        {
+            if (ViewModel.dbSchedule != null)
+            {
+                var scheduleSource = new DBSchedule_DataSource(ViewModel.dbSchedule);
+                ScheduleTableView.Source = scheduleSource;
+                ScheduleTableView.TableFooterView = new UIView(CGRect.Empty);
+                ScheduleTableView.DelaysContentTouches = false;
+                ScheduleTableView.ReloadData();
+            }
+        }
         partial void DashboardServices_Touch(UISegmentedControl sender)
         {
             var index = dashboardService_Seg.SelectedSegment;

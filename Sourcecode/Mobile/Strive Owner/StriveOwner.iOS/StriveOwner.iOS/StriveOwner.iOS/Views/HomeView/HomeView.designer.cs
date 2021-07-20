@@ -52,6 +52,9 @@ namespace StriveOwner.iOS.Views.HomeView
 		UIKit.UIImageView forecastedImage { get; set; }
 
 		[Outlet]
+		UIKit.UITableView ScheduleTableView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel scoreCount { get; set; }
 
 		[Outlet]
@@ -80,6 +83,26 @@ namespace StriveOwner.iOS.Views.HomeView
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (carWashTimeCount != null) {
+				carWashTimeCount.Dispose ();
+				carWashTimeCount = null;
+			}
+
+			if (carWashTimeImage != null) {
+				carWashTimeImage.Dispose ();
+				carWashTimeImage = null;
+			}
+
+			if (carWashtimelbl != null) {
+				carWashtimelbl.Dispose ();
+				carWashtimelbl = null;
+			}
+
+			if (current_ForecastedLbl != null) {
+				current_ForecastedLbl.Dispose ();
+				current_ForecastedLbl = null;
+			}
+
 			if (DashboardInnerView != null) {
 				DashboardInnerView.Dispose ();
 				DashboardInnerView = null;
@@ -95,69 +118,9 @@ namespace StriveOwner.iOS.Views.HomeView
 				dashboardService_Seg = null;
 			}
 
-			if (WashLbl != null) {
-				WashLbl.Dispose ();
-				WashLbl = null;
-			}
-
-			if (DetailLbl != null) {
-				DetailLbl.Dispose ();
-				DetailLbl = null;
-			}
-
-			if (washEmployeeLbl != null) {
-				washEmployeeLbl.Dispose ();
-				washEmployeeLbl = null;
-			}
-
-			if (scoreLbl != null) {
-				scoreLbl.Dispose ();
-				scoreLbl = null;
-			}
-
-			if (current_ForecastedLbl != null) {
-				current_ForecastedLbl.Dispose ();
-				current_ForecastedLbl = null;
-			}
-
-			if (carWashtimelbl != null) {
-				carWashtimelbl.Dispose ();
-				carWashtimelbl = null;
-			}
-
-			if (washCount != null) {
-				washCount.Dispose ();
-				washCount = null;
-			}
-
 			if (detailCount != null) {
 				detailCount.Dispose ();
 				detailCount = null;
-			}
-
-			if (employeeCount != null) {
-				employeeCount.Dispose ();
-				employeeCount = null;
-			}
-
-			if (scoreCount != null) {
-				scoreCount.Dispose ();
-				scoreCount = null;
-			}
-
-			if (forecastedCount != null) {
-				forecastedCount.Dispose ();
-				forecastedCount = null;
-			}
-
-			if (carWashTimeCount != null) {
-				carWashTimeCount.Dispose ();
-				carWashTimeCount = null;
-			}
-
-			if (washImage != null) {
-				washImage.Dispose ();
-				washImage = null;
 			}
 
 			if (detailImage != null) {
@@ -165,14 +128,19 @@ namespace StriveOwner.iOS.Views.HomeView
 				detailImage = null;
 			}
 
-			if (washEmployeeImage != null) {
-				washEmployeeImage.Dispose ();
-				washEmployeeImage = null;
+			if (DetailLbl != null) {
+				DetailLbl.Dispose ();
+				DetailLbl = null;
 			}
 
-			if (scoreImage != null) {
-				scoreImage.Dispose ();
-				scoreImage = null;
+			if (employeeCount != null) {
+				employeeCount.Dispose ();
+				employeeCount = null;
+			}
+
+			if (forecastedCount != null) {
+				forecastedCount.Dispose ();
+				forecastedCount = null;
 			}
 
 			if (forecastedImage != null) {
@@ -180,9 +148,49 @@ namespace StriveOwner.iOS.Views.HomeView
 				forecastedImage = null;
 			}
 
-			if (carWashTimeImage != null) {
-				carWashTimeImage.Dispose ();
-				carWashTimeImage = null;
+			if (scoreCount != null) {
+				scoreCount.Dispose ();
+				scoreCount = null;
+			}
+
+			if (scoreImage != null) {
+				scoreImage.Dispose ();
+				scoreImage = null;
+			}
+
+			if (scoreLbl != null) {
+				scoreLbl.Dispose ();
+				scoreLbl = null;
+			}
+
+			if (washCount != null) {
+				washCount.Dispose ();
+				washCount = null;
+			}
+
+			if (washEmployeeImage != null) {
+				washEmployeeImage.Dispose ();
+				washEmployeeImage = null;
+			}
+
+			if (washEmployeeLbl != null) {
+				washEmployeeLbl.Dispose ();
+				washEmployeeLbl = null;
+			}
+
+			if (washImage != null) {
+				washImage.Dispose ();
+				washImage = null;
+			}
+
+			if (WashLbl != null) {
+				WashLbl.Dispose ();
+				WashLbl = null;
+			}
+
+			if (ScheduleTableView != null) {
+				ScheduleTableView.Dispose ();
+				ScheduleTableView = null;
 			}
 		}
 	}

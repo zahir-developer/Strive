@@ -128,5 +128,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<StatisticsData> getDashboardServices(StatisticRequest statisticsRequest);
 
+        Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId);
+
     }
 }

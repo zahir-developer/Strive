@@ -20,6 +20,7 @@
                 <outlet property="DashboardInnerView" destination="ZG5-z4-JS5" id="Anb-wl-u16"/>
                 <outlet property="DashboardParentView" destination="IPb-KN-mQO" id="PkE-rz-AXR"/>
                 <outlet property="DetailLbl" destination="hMI-Jl-1tv" id="P46-Wd-PjW"/>
+                <outlet property="ScheduleTableView" destination="ZQ9-iQ-ogo" id="l1z-bw-YvX"/>
                 <outlet property="WashLbl" destination="Y1w-Z3-7u2" id="UdG-i0-2LH"/>
                 <outlet property="carWashTimeCount" destination="jvg-bi-9Gm" id="U6c-dL-c2Z"/>
                 <outlet property="carWashTimeImage" destination="HbG-JO-b88" id="XRF-H7-LmB"/>

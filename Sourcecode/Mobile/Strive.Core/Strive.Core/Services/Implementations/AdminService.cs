@@ -337,6 +337,17 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<StatisticsData>(ApiUtils.URL_GET_DASHBOARD_STATISTICS, HttpMethod.Post, statisticsRequest);
         }
+
+        public async Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId)
+        {
+            var uriBuilder = ApiUtils.URL_SCHEDULE_PAST_SERVICE;
+            var string1 = "?JobDate=" + jobDate;
+            var string2 = "&LocationId=" + locationId;
+
+            var url = uriBuilder + string1 + string2;
+
+            return await _restClient.MakeApiCall<ScheduleModel>(url, HttpMethod.Get);
+    }
     }
     public static class RestUtils
     {
