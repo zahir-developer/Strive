@@ -4,11 +4,17 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MessengerView">
             <connections>
+                <outlet property="Messenger_HomeView" destination="dOd-1F-lKF" id="y0l-at-UoR"/>
+                <outlet property="Messenger_SearchBar" destination="BIU-EE-oer" id="dbh-VW-tZX"/>
+                <outlet property="Messenger_SegCtrl" destination="5FP-hP-E7J" id="YsF-T4-jAu"/>
+                <outlet property="Messenger_TableView" destination="h5P-2e-evr" id="2bp-gx-5eN"/>
+                <outlet property="SearchBar_HeightConst" destination="lul-77-I4O" id="HqD-RS-hmq"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -20,12 +26,70 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="pCt-BW-FTz">
                     <rect key="frame" x="-10" y="-10" width="434" height="916"/>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dOd-1F-lKF">
+                    <rect key="frame" x="23.5" y="123" width="367" height="650"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zy-il-Bvr">
+                            <rect key="frame" x="337" y="0.0" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="cDR-1E-Mba"/>
+                                <constraint firstAttribute="width" constant="30" id="ecv-7Y-HsZ"/>
+                            </constraints>
+                        </button>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5FP-hP-E7J">
+                            <rect key="frame" x="0.0" y="0.0" width="332" height="46"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="VNZ-bz-B3n"/>
+                            </constraints>
+                            <segments>
+                                <segment title="Recents"/>
+                                <segment title="Contacts"/>
+                                <segment title="Groups"/>
+                            </segments>
+                            <color key="selectedSegmentTintColor" red="0.1137254902" green="0.78823529410000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="Messenger_SegmentTouch:" destination="-1" eventType="valueChanged" id="HFG-IW-kd2"/>
+                            </connections>
+                        </segmentedControl>
+                        <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="BIU-EE-oer">
+                            <rect key="frame" x="0.0" y="50" width="367" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="lul-77-I4O"/>
+                            </constraints>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h5P-2e-evr">
+                            <rect key="frame" x="0.0" y="105" width="367" height="545"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="h5P-2e-evr" firstAttribute="leading" secondItem="BIU-EE-oer" secondAttribute="leading" id="0pN-tY-Yt0"/>
+                        <constraint firstItem="5FP-hP-E7J" firstAttribute="top" secondItem="dOd-1F-lKF" secondAttribute="top" id="6ik-AB-8CW"/>
+                        <constraint firstItem="6zy-il-Bvr" firstAttribute="top" secondItem="dOd-1F-lKF" secondAttribute="top" id="9L0-9p-Xov"/>
+                        <constraint firstItem="BIU-EE-oer" firstAttribute="leading" secondItem="5FP-hP-E7J" secondAttribute="leading" id="FTz-Z6-fLj"/>
+                        <constraint firstAttribute="bottom" secondItem="h5P-2e-evr" secondAttribute="bottom" id="Fa7-KD-PzY"/>
+                        <constraint firstItem="5FP-hP-E7J" firstAttribute="leading" secondItem="dOd-1F-lKF" secondAttribute="leading" id="Kfc-Ef-tUg"/>
+                        <constraint firstItem="6zy-il-Bvr" firstAttribute="leading" secondItem="5FP-hP-E7J" secondAttribute="trailing" constant="5" id="KrF-Gw-2Ia"/>
+                        <constraint firstItem="h5P-2e-evr" firstAttribute="centerX" secondItem="BIU-EE-oer" secondAttribute="centerX" id="KtJ-Do-9Wq"/>
+                        <constraint firstAttribute="trailing" secondItem="6zy-il-Bvr" secondAttribute="trailing" id="P6S-I8-Ae7"/>
+                        <constraint firstItem="h5P-2e-evr" firstAttribute="top" secondItem="BIU-EE-oer" secondAttribute="bottom" constant="5" id="RdA-2K-let"/>
+                        <constraint firstItem="BIU-EE-oer" firstAttribute="top" secondItem="5FP-hP-E7J" secondAttribute="bottom" constant="5" id="abP-uo-rDq"/>
+                        <constraint firstItem="BIU-EE-oer" firstAttribute="centerX" secondItem="dOd-1F-lKF" secondAttribute="centerX" id="c0Z-7F-WqS"/>
+                        <constraint firstItem="BIU-EE-oer" firstAttribute="leading" secondItem="dOd-1F-lKF" secondAttribute="leading" id="lgC-NC-j0d"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="dOd-1F-lKF" firstAttribute="height" secondItem="pCt-BW-FTz" secondAttribute="height" multiplier="0.709607" id="2Po-r4-hHf"/>
+                <constraint firstItem="dOd-1F-lKF" firstAttribute="centerX" secondItem="pCt-BW-FTz" secondAttribute="centerX" id="4Kj-22-e7b"/>
                 <constraint firstAttribute="bottom" secondItem="pCt-BW-FTz" secondAttribute="bottom" constant="-10" id="Crb-8u-mU5"/>
                 <constraint firstItem="pCt-BW-FTz" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="Ybo-c8-EQj"/>
                 <constraint firstItem="pCt-BW-FTz" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="abI-E6-JAG"/>
+                <constraint firstItem="dOd-1F-lKF" firstAttribute="width" secondItem="pCt-BW-FTz" secondAttribute="width" multiplier="0.845622" id="cmO-LX-q1f"/>
+                <constraint firstItem="dOd-1F-lKF" firstAttribute="centerY" secondItem="pCt-BW-FTz" secondAttribute="centerY" id="dVU-2l-PfF"/>
                 <constraint firstItem="pCt-BW-FTz" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="hNG-xb-lDq"/>
                 <constraint firstItem="pCt-BW-FTz" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="mp3-TF-m4u"/>
                 <constraint firstAttribute="trailing" secondItem="pCt-BW-FTz" secondAttribute="trailing" constant="-10" id="olJ-Hu-kpf"/>
@@ -35,5 +99,8 @@
     </objects>
     <resources>
         <image name="splash" width="390" height="812"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

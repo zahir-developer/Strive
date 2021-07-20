@@ -1,21 +1,189 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace StriveOwner.iOS.Views.HomeView
 {
-    [Register("HomeView")]
-    partial class HomeView
-    {
-        void ReleaseDesignerOutlets()
-        {
-        }
-    }
+	[Register ("HomeView")]
+	partial class HomeView
+	{
+		[Outlet]
+		UIKit.UILabel carWashTimeCount { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView carWashTimeImage { get; set; }
+
+		[Outlet]
+		UIKit.UILabel carWashtimelbl { get; set; }
+
+		[Outlet]
+		UIKit.UILabel current_ForecastedLbl { get; set; }
+
+		[Outlet]
+		UIKit.UIView DashboardInnerView { get; set; }
+
+		[Outlet]
+		UIKit.UIView DashboardParentView { get; set; }
+
+		[Outlet]
+		UIKit.UISegmentedControl dashboardService_Seg { get; set; }
+
+		[Outlet]
+		UIKit.UILabel detailCount { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView detailImage { get; set; }
+
+		[Outlet]
+		UIKit.UILabel DetailLbl { get; set; }
+
+		[Outlet]
+		UIKit.UILabel employeeCount { get; set; }
+
+		[Outlet]
+		UIKit.UILabel forecastedCount { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView forecastedImage { get; set; }
+
+		[Outlet]
+		UIKit.UILabel scoreCount { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView scoreImage { get; set; }
+
+		[Outlet]
+		UIKit.UILabel scoreLbl { get; set; }
+
+		[Outlet]
+		UIKit.UILabel washCount { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView washEmployeeImage { get; set; }
+
+		[Outlet]
+		UIKit.UILabel washEmployeeLbl { get; set; }
+
+		[Outlet]
+		UIKit.UIImageView washImage { get; set; }
+
+		[Outlet]
+		UIKit.UILabel WashLbl { get; set; }
+
+		[Action ("DashboardServices_Touch:")]
+		partial void DashboardServices_Touch (UIKit.UISegmentedControl sender);
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (DashboardInnerView != null) {
+				DashboardInnerView.Dispose ();
+				DashboardInnerView = null;
+			}
+
+			if (DashboardParentView != null) {
+				DashboardParentView.Dispose ();
+				DashboardParentView = null;
+			}
+
+			if (dashboardService_Seg != null) {
+				dashboardService_Seg.Dispose ();
+				dashboardService_Seg = null;
+			}
+
+			if (WashLbl != null) {
+				WashLbl.Dispose ();
+				WashLbl = null;
+			}
+
+			if (DetailLbl != null) {
+				DetailLbl.Dispose ();
+				DetailLbl = null;
+			}
+
+			if (washEmployeeLbl != null) {
+				washEmployeeLbl.Dispose ();
+				washEmployeeLbl = null;
+			}
+
+			if (scoreLbl != null) {
+				scoreLbl.Dispose ();
+				scoreLbl = null;
+			}
+
+			if (current_ForecastedLbl != null) {
+				current_ForecastedLbl.Dispose ();
+				current_ForecastedLbl = null;
+			}
+
+			if (carWashtimelbl != null) {
+				carWashtimelbl.Dispose ();
+				carWashtimelbl = null;
+			}
+
+			if (washCount != null) {
+				washCount.Dispose ();
+				washCount = null;
+			}
+
+			if (detailCount != null) {
+				detailCount.Dispose ();
+				detailCount = null;
+			}
+
+			if (employeeCount != null) {
+				employeeCount.Dispose ();
+				employeeCount = null;
+			}
+
+			if (scoreCount != null) {
+				scoreCount.Dispose ();
+				scoreCount = null;
+			}
+
+			if (forecastedCount != null) {
+				forecastedCount.Dispose ();
+				forecastedCount = null;
+			}
+
+			if (carWashTimeCount != null) {
+				carWashTimeCount.Dispose ();
+				carWashTimeCount = null;
+			}
+
+			if (washImage != null) {
+				washImage.Dispose ();
+				washImage = null;
+			}
+
+			if (detailImage != null) {
+				detailImage.Dispose ();
+				detailImage = null;
+			}
+
+			if (washEmployeeImage != null) {
+				washEmployeeImage.Dispose ();
+				washEmployeeImage = null;
+			}
+
+			if (scoreImage != null) {
+				scoreImage.Dispose ();
+				scoreImage = null;
+			}
+
+			if (forecastedImage != null) {
+				forecastedImage.Dispose ();
+				forecastedImage = null;
+			}
+
+			if (carWashTimeImage != null) {
+				carWashTimeImage.Dispose ();
+				carWashTimeImage = null;
+			}
+		}
+	}
 }

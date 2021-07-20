@@ -4,11 +4,15 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScheduleView">
             <connections>
+                <outlet property="ScheduleDateView" destination="6cV-yt-Raa" id="6KG-N4-WME"/>
+                <outlet property="ScheduleParentView" destination="G67-D2-8YY" id="XiJ-qh-6Mm"/>
+                <outlet property="empSchedule_TableView" destination="DaE-ca-2Ef" id="F1B-Tu-tC8"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -20,20 +24,57 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="ZL8-8i-GfU">
                     <rect key="frame" x="-10" y="-10" width="434" height="916"/>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G67-D2-8YY">
+                    <rect key="frame" x="15" y="148" width="384" height="600"/>
+                    <subviews>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="6cV-yt-Raa">
+                            <rect key="frame" x="15" y="15" width="354" height="327"/>
+                            <date key="minimumDate" timeIntervalSinceReferenceDate="648298800">
+                                <!--2021-07-18 11:00:00 +0000-->
+                            </date>
+                            <connections>
+                                <action selector="scheduleDate_Touch:" destination="-1" eventType="valueChanged" id="2vr-7U-Xax"/>
+                            </connections>
+                        </datePicker>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DaE-ca-2Ef">
+                            <rect key="frame" x="15" y="352" width="354" height="233"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="6cV-yt-Raa" firstAttribute="height" secondItem="G67-D2-8YY" secondAttribute="height" multiplier="0.545" id="9JT-Hu-8vh"/>
+                        <constraint firstAttribute="trailing" secondItem="6cV-yt-Raa" secondAttribute="trailing" constant="15" id="AVe-jK-aSs"/>
+                        <constraint firstItem="DaE-ca-2Ef" firstAttribute="centerX" secondItem="G67-D2-8YY" secondAttribute="centerX" id="CBg-Zf-GEr"/>
+                        <constraint firstItem="6cV-yt-Raa" firstAttribute="centerX" secondItem="G67-D2-8YY" secondAttribute="centerX" id="GUJ-dl-Ey6"/>
+                        <constraint firstItem="DaE-ca-2Ef" firstAttribute="width" secondItem="6cV-yt-Raa" secondAttribute="width" id="T3m-Zp-Ew2"/>
+                        <constraint firstAttribute="bottom" secondItem="DaE-ca-2Ef" secondAttribute="bottom" constant="15" id="ToA-92-GF6"/>
+                        <constraint firstItem="6cV-yt-Raa" firstAttribute="leading" secondItem="G67-D2-8YY" secondAttribute="leading" constant="15" id="n6r-q2-pfC"/>
+                        <constraint firstItem="DaE-ca-2Ef" firstAttribute="top" secondItem="6cV-yt-Raa" secondAttribute="bottom" constant="10" id="oNr-q0-zIs"/>
+                        <constraint firstItem="6cV-yt-Raa" firstAttribute="top" secondItem="G67-D2-8YY" secondAttribute="top" constant="15" id="x2f-db-NJe"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="2Ob-c0-8BJ"/>
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="96p-M9-Bbq"/>
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="ChM-Qq-qxO"/>
+                <constraint firstItem="G67-D2-8YY" firstAttribute="centerY" secondItem="ZL8-8i-GfU" secondAttribute="centerY" id="Odp-Cc-Vd4"/>
+                <constraint firstItem="G67-D2-8YY" firstAttribute="height" secondItem="ZL8-8i-GfU" secondAttribute="height" multiplier="0.655022" id="bqt-GV-LjD"/>
+                <constraint firstItem="G67-D2-8YY" firstAttribute="centerX" secondItem="ZL8-8i-GfU" secondAttribute="centerX" id="bys-HM-SQ0"/>
                 <constraint firstItem="ZL8-8i-GfU" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="hAg-fd-bjt"/>
                 <constraint firstAttribute="bottom" secondItem="ZL8-8i-GfU" secondAttribute="bottom" constant="-10" id="kty-VV-KSW"/>
+                <constraint firstItem="G67-D2-8YY" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="15" id="oQM-Ws-fH4"/>
                 <constraint firstAttribute="trailing" secondItem="ZL8-8i-GfU" secondAttribute="trailing" constant="-10" id="wVn-Rc-uAW"/>
             </constraints>
-            <point key="canvasLocation" x="121" y="1"/>
+            <point key="canvasLocation" x="120.28985507246378" y="0.6696428571428571"/>
         </view>
     </objects>
     <resources>
         <image name="splash" width="390" height="812"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

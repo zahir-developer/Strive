@@ -10,6 +10,7 @@ using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.PersonalDetails;
+using Strive.Core.Models.Owner;
 using Strive.Core.Models.TimInventory;
 using EditProduct = Strive.Core.Models.TimInventory.Product_Id;
 
@@ -122,6 +123,10 @@ namespace Strive.Core.Services.Interfaces
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
 
         Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo);
-    
+
+        Task<employeeSchedule> GetScheduleList(ScheduleRequest scheduleRequest);
+
+        Task<StatisticsData> getDashboardServices(StatisticRequest statisticsRequest);
+
     }
 }

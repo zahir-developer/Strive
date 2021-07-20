@@ -58,6 +58,10 @@ namespace Strive.Core.ViewModels.Employee
             return EmployeeLists;
         }
 
+        public void navigateToChat()
+        {
+            _navigationService.Navigate<MessengerPersonalChatViewModel>();
+        }
         #endregion Commands
     }
 }

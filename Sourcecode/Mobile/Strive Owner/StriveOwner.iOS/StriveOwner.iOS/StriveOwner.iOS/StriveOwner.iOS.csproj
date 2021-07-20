@@ -80,6 +80,9 @@
       <PackageReference Include="System.Net.Http">
         <Version>4.3.4</Version>
       </PackageReference>
+      <PackageReference Include="OxyPlot.Xamarin.iOS">
+        <Version>1.0.0</Version>
+      </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -181,6 +184,80 @@
         <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%401x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Icon map-car-wash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Icon map-car-wash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\Icon map-car-wash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Score.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Icon material-local-car-wash.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Icon material-local-car-wash%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Details.imageset\Icon material-local-car-wash%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Icon awesome-user-alt.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Icon awesome-user-alt%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\Icon awesome-user-alt%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Score.imageset\scoreboard.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Current  Forecasted Cars.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Current  Forecasted Cars%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\Current  Forecasted Cars%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Average Car Wash Time.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Average Car Wash Time%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\Average Car Wash Time%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Icon metro-chart-dots.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Icon metro-chart-dots%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\graph-chart.imageset\Icon metro-chart-dots%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Wash Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Wash Sales%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-WashSales.imageset\Wash Sales%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Detail Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Detail Sales%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-DetailSales.imageset\Detail Sales%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Icon metro-dollar2.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Icon metro-dollar2%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\Icon metro-dollar2%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Merchandise Sales %402x-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Merchandise Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\Merchandise Sales %403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Icon awesome-percent.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Icon awesome-percent%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-TotalSales.imageset\Icon awesome-percent%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Monthly Client Sales.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Monthly Client Sales%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\Monthly Client Sales%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Ave Wash %24 per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Ave Wash %24 per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Wash.imageset\Ave Wash %24 per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Ave Detail %24 per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Ave Detail %24 per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-Detail.imageset\Ave Detail %24 per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Ave Extra Service %24 per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Ave Extra Service %24 per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\Ave Extra Service %24 per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Current  Forecasted Cars.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Current  Forecasted Cars%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\Current  Forecasted Cars%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Labor cost per car.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Labor cost per car%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\LaborCost.imageset\Labor cost per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car-1.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car %402x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -208,6 +285,25 @@
         <Folder Include="Views\Messenger\Chat\" />
         <Folder Include="Resources\Assets.xcassets\send-msg.imageset\" />
         <Folder Include="Views\HomeView\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Washes.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Details.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-WashEmployees.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Score.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-Cars.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Dashboard-WashTime.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\graph-chart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-WashSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-DetailSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-ExtraServiceSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-MerchandiseSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-TotalSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DB-MonthlyClientSales.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-Wash.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-Detail.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-ExtraService.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\LaborCost.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\DetailCost.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -296,6 +392,7 @@
         <Compile Include="Views\HomeView\HomeView.designer.cs">
           <DependentUpon>HomeView.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\Messenger\MsgGroup_DataSource.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

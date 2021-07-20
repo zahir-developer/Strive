@@ -45,8 +45,9 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>StriveEmployeeRelease</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -125,6 +126,40 @@
     <Compile Include="Views\Tickets\TicketView.cs" />
     <Compile Include="Views\Tickets\TicketView.designer.cs">
       <DependentUpon>TicketView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Schedule\empSchedule_Cell.xib" />
+    <Compile Include="Views\Schedule\empSchedule_Cell.cs" />
+    <Compile Include="Views\Schedule\empSchedule_Cell.designer.cs">
+      <DependentUpon>empSchedule_Cell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Schedule\Emp_Schedule_DataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\Messenger_CellView.xib" />
+    <Compile Include="Views\Messenger\Messenger_CellView.cs" />
+    <Compile Include="Views\Messenger\Messenger_CellView.designer.cs">
+      <DependentUpon>Messenger_CellView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messenger\MessengerRecents_DataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\Contact_CellView.xib" />
+    <Compile Include="Views\Messenger\Contact_CellView.cs" />
+    <Compile Include="Views\Messenger\Contact_CellView.designer.cs">
+      <DependentUpon>Contact_CellView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messenger\Contact_DataSource.cs" />
+    <Compile Include="Views\Messenger\MsgGroup_DataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\Chat\ChatViewController.xib" />
+    <Compile Include="Views\Messenger\Chat\ChatViewController.cs" />
+    <Compile Include="Views\Messenger\Chat\ChatViewController.designer.cs">
+      <DependentUpon>ChatViewController.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Messenger\Chat\MessageIncomingCell.xib" />
+    <Compile Include="Views\Messenger\Chat\MessageIncomingCell.cs" />
+    <Compile Include="Views\Messenger\Chat\MessageIncomingCell.designer.cs">
+      <DependentUpon>MessageIncomingCell.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Messenger\Chat\MessageOutgoingCell.xib" />
+    <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.cs" />
+    <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.designer.cs">
+      <DependentUpon>MessageOutgoingCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +313,7 @@
     <Folder Include="Views\Messenger\" />
     <Folder Include="Views\Schedule\" />
     <Folder Include="Views\Tickets\" />
+    <Folder Include="Views\Messenger\Chat\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

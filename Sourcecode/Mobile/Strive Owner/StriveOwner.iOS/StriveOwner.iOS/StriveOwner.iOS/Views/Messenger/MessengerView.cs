@@ -80,7 +80,7 @@ namespace StriveOwner.iOS.Views.Messenger
                 Messenger_TableView.BackgroundColor = UIColor.Clear;
                 Messenger_TableView.ReloadData();
 
-                setData();
+                getRecentContacts();
             }
             else if(index == 1)
             {
@@ -96,9 +96,11 @@ namespace StriveOwner.iOS.Views.Messenger
             {
                 SearchBar_HeightConst.Constant = 50;
 
-                Messenger_TableView.RegisterNibForCellReuse(Messenger_CellView.Nib, Messenger_CellView.Key);
+                Messenger_TableView.RegisterNibForCellReuse(Contact_CellView.Nib, Contact_CellView.Key);
                 Messenger_TableView.BackgroundColor = UIColor.Clear;
                 Messenger_TableView.ReloadData();
+
+                setGroupData();
             }
         }
 
@@ -175,6 +177,15 @@ namespace StriveOwner.iOS.Views.Messenger
                     Messenger_TableView.ReloadData();
                 }
             }           
+        }
+
+        void setGroupData()
+        {
+            var groupSource = new MsgGroup_DataSource();
+            Messenger_TableView.Source = groupSource;
+            Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
+            Messenger_TableView.DelaysContentTouches = false;
+            Messenger_TableView.ReloadData();
         }
     }
 }

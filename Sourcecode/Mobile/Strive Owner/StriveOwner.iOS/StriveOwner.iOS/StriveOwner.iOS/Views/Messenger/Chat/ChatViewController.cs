@@ -119,7 +119,7 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
 
         void SetupNavigationItem()
         {
-            Title = "Group Chat";
+            Title = "Personal Chat";
         }
 
         void RegisterCell()
