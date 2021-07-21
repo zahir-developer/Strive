@@ -157,7 +157,7 @@ namespace Greeter.Storyboards
 
                 //body = "<div>Something</div>";
 
-                //Debug.WriteLine("Email Body :" + body);
+                Debug.WriteLine("Email Body :" + body);
 
                 var response = await new WashApiService().SendEmail(email, subject, body);
                 HideActivityIndicator();

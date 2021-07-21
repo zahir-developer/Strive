@@ -60,12 +60,12 @@ namespace Greeter.Storyboards
         }
 
         [Export("textView:shouldChangeTextInRange:replacementText:")]
-        public bool ShouldChangeText(UITextView textView, NSRange range, string text)
+        public bool ShouldChangeText(UITextView textView, NSRange range, string replacementString)
         {
             //int len = textView.Text.Length + text.Length - (int)range.Length;
 
             var oldNSString = new NSString(textView.Text ?? "");
-            var replacedString = oldNSString.Replace(range, new NSString(text));
+            var replacedString = oldNSString.Replace(range, new NSString(replacementString));
 
             ShowOrHideHint((int)replacedString.Length, lblIssueDetailHint);
 

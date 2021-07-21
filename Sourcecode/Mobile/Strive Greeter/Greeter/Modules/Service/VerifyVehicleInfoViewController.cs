@@ -131,6 +131,7 @@ namespace Greeter.Storyboards
                         Job = new Job()
                         {
                             JobId = jobId,
+                            TicketNumber = jobId,
                             JobStatusID = jobStatusId,
                             JobTypeID = JobTypeID,
                             MakeID = MakeID,

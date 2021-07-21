@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
@@ -21,7 +22,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutRequest = new CheckoutRequest
             {
-                StartDate = DateTime.Now.Date.AddMonths(-1).ToString("yyyy-MM-dd"),
+                StartDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
                 EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
                 LocationID = AppSettings.LocationID,
                 SortBy = "TicketNumber",
@@ -41,15 +42,19 @@ namespace Greeter.Modules.Pay
 
             if (response.IsSuccess())
             {
-                Checkouts = response.CheckinVehicleDetails.CheckOutList;
+                Checkouts = FilterUnpaidItems(response?.CheckinVehicleDetails?.CheckOutList);
                 if (IsViewLoaded)
                     checkoutTableView.ReloadData();
             }
         }
 
+        List<Checkout> FilterUnpaidItems(List<Checkout> checkouts)
+        {
+            return checkouts?.Where(checkout => checkout.PaymentStatus.Equals("Success")).ToList();
+        }
+
         void PayBtnClicked(Checkout checkout)
         {
-            //ShowAlertMsg("Pay clicked");
             NavigateToPayScreen(checkout);
         }
 

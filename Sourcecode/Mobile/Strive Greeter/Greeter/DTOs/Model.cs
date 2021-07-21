@@ -345,13 +345,13 @@ namespace Greeter.DTOs
         [JsonProperty("status")]
         public bool Status { get; set; }
 
-        [JsonIgnore]
-        [JsonProperty("pageNo")]
-        public short PageNo { get; set; }
+        //[JsonIgnore]
+        //[JsonProperty("pageNo")]
+        //public short PageNo { get; set; }
 
-        [JsonIgnore]
-        [JsonProperty("pageSize")]
-        public short Limit { get; set; }
+        //[JsonIgnore]
+        //[JsonProperty("pageSize")]
+        //public short Limit { get; set; }
     }
 
     public class CheckoutResponse : BaseResponse
@@ -525,13 +525,13 @@ namespace Greeter.DTOs
         //public object InvoiceID { get; } = new();
     }
 
-    public class AddPaymentReq
+    public class SalesPaymentDto
     {
         [JsonProperty("jobPayment")]
         public JobPayment JobPayment { get; set; }
 
         [JsonProperty("jobPaymentDetail")]
-        public JobPaymentDetail JobPaymentDetail { get; set; }
+        public List<JobPaymentDetail> JobPaymentDetails { get; set; }
 
         //[JsonProperty("giftCardHistory")]
         //public object GiftCardHistory { get; } = null;
@@ -540,25 +540,37 @@ namespace Greeter.DTOs
         //public object JobPaymentCreditCard { get; } = null;
     }
 
+    public class AddPaymentReq
+    {
+        [JsonProperty("SalesPaymentDto")]
+        public SalesPaymentDto SalesPaymentDto { get; set; }
+
+        [JsonProperty("locationId")]
+        public long LocationID { get; set; }
+
+        [JsonProperty("jobId")]
+        public long JobID { get; set; } 
+    }
+
     public class JobPayment
     {
         //[JsonProperty("jobPaymentId")]
-        //public long JobPaymentId { get; } = 0;
+        //public long JobPaymentID { get; } = 0;
 
         //[JsonProperty("membershipId")]
-        //public string membershipId { get; } = null
+        //public string membershipID { get; } = null;
 
         [JsonProperty("jobId")]
-        public long JobId { get; set; }
+        public long JobID { get; set; }
 
         //[JsonProperty("drawerId")]
-        //public short DrawerId { get; set; }
+        //public short DrawerID { get; set; }
 
         [JsonProperty("amount")]
         public float Amount { get; set; }
 
-        //[JsonProperty("taxAmount")]
-        //public float TaxAmount { get; } = 0;
+        [JsonProperty("taxAmount")]
+        public float TaxAmount { get; } = 0;
 
         //[JsonProperty("approval")]
         //public bool Approval { get; } = true;
@@ -600,7 +612,7 @@ namespace Greeter.DTOs
         //public int JobPaymentDetailID { get; } = 0;
 
         //[JsonProperty("jobPaymentId")]
-        //public int JobPaymentId { get; } = 0;
+        //public int JobPaymentID { get; } = 0;
 
         [JsonProperty("paymentType")]
         public long PaymentType { get; set; }
@@ -608,11 +620,11 @@ namespace Greeter.DTOs
         [JsonProperty("amount")]
         public float Amount { get; set; }
 
-        //[JsonProperty("taxAmount")]
-        //public float TaxAmount { get; } = 0;
+        [JsonProperty("taxAmount")]
+        public float TaxAmount { get; } = 0;
 
         //[JsonProperty("signature")]
-        //public string Signature { get; } = string.Empty;
+        //public string Signature { get; } = null;
 
         //[JsonProperty("isActive")]
         //public bool IsActive { get; } = true;

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Api;
@@ -65,53 +67,60 @@ namespace Greeter.Modules.Pay
                         Amount = Amount,
                     };
 
-                    Debug.WriteLine(JsonConvert.SerializeObject(paymentCaptureReq));
+                    Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
                     var captureResponse = await apiService.PaymentCapture(paymentCaptureReq);
 
                     if (captureResponse.IsSuccess())
                     {
                         var generalApiService = new GeneralApiService();
                         var paymentStatusResponse = await generalApiService.GetGlobalData("PAYMENTSTATUS");
-                        Debug.WriteLine("Payment Status Response : " + JsonConvert.SerializeObject(paymentStatusResponse));
+                        //Debug.WriteLine("Payment Status Response : " + JsonConvert.SerializeObject(paymentStatusResponse));
                         var paymentStatusId = paymentStatusResponse?.Codes.First(x => x.Name.Equals(PaymentStatus.Success.ToString())).ID ?? -1;
 
                         var paymentTypeResponse = await generalApiService.GetGlobalData("PAYMENTTYPE");
-                        Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
-                        var paymentTypeId = paymentStatusResponse?.Codes.First(x => x.Name.Equals(PaymentType.Card.ToString())).ID ?? -1;
+                        //Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
+                        var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Card.ToString())).ID ?? -1;
 
                         var addPaymentReqReq = new AddPaymentReq
                         {
-                            JobPayment = new JobPayment()
+                            SalesPaymentDto = new SalesPaymentDto()
                             {
-                                JobId = JobID,
-                                Amount = Amount,
-                                PaymentStatus = paymentStatusId
+                                JobPayment = new JobPayment()
+                                {
+                                    JobID = JobID,
+                                    Amount = Amount,
+                                    PaymentStatus = paymentStatusId
+                                },
+
+                                JobPaymentDetails = new List<JobPaymentDetail>() {
+                                    new JobPaymentDetail()
+                                    {
+                                        Amount = Amount,
+                                        PaymentType = paymentTypeId
+                                    }
+                                }
                             },
+                            LocationID = AppSettings.LocationID,
+                            JobID = JobID
+                    };
 
-                            JobPaymentDetail = new JobPaymentDetail()
-                            {
-                                 Amount = Amount,
-                                 PaymentType = paymentTypeId
-                            }
-                        };
+                        //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
 
-                        Debug.WriteLine(JsonConvert.SerializeObject(addPaymentReqReq));
+                        var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
+                        HideActivityIndicator();
 
-                        //        var paymentResponse = await new PaymentApiService().AddPayment(addPaymentReqReq);
-                        //        HideActivityIndicator();
-
-                        //        if (paymentResponse.IsSuccess())
-                        //        {
-                        //var vc = (PaymentSucessViewController)GetViewController(GetHomeStorybpard(), nameof(PaymentSucessViewController));
-                        //vc.TicketID = JobID;
-                        //vc.Make = Make;
-                        //vc.Model = Model;
-                        //vc.Color = Color;
-                        //vc.ServiceName = ServiceName;
-                        //vc.Amount = Amount;
-                        //vc.IsFromNewService = IsFromNewService;
-                        //NavigateToWithAnim(vc);
-                        //        }
+                        if (paymentResponse.IsSuccess())
+                        {
+                            var vc = (PaymentSucessViewController)GetViewController(GetHomeStorybpard(), nameof(PaymentSucessViewController));
+                            vc.TicketID = JobID;
+                            vc.Make = Make;
+                            vc.Model = Model;
+                            vc.Color = Color;
+                            vc.ServiceName = ServiceName;
+                            vc.Amount = Amount;
+                            vc.IsFromNewService = IsFromNewService;
+                            NavigateToWithAnim(vc);
+                        }
                     }
                 }
             }

@@ -12,27 +12,28 @@ namespace Greeter.Modules.Pay
     {
         List<Checkout> Checkouts = new List<Checkout>();
 
-        bool isFinished = false;
-        short lastPagePos = 0;
-        readonly short limit = Constants.PAGINATION_LIMIT;
+        //bool isFinished = false;
+        //short lastPagePos = 0;
+        //readonly short limit = Constants.PAGINATION_LIMIT;
 
         public CheckoutViewController()
         {
-            LoadItems(lastPagePos).ConfigureAwait(false);
+            //LoadItems(lastPagePos).ConfigureAwait(false);
+            GetCheckoutListAsync().ConfigureAwait(false);
         }
 
-        async Task<List<Checkout>> GetCheckoutListAsync(short pagePos)
+        async Task<List<Checkout>> GetCheckoutListAsync()
         {
             var checkoutRequest = new CheckoutRequest
             {
-                StartDate = DateTime.Now.Date.AddMonths(-1).ToString("yyyy-MM-dd"),
+                StartDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
                 EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
                 LocationID = AppSettings.LocationID,
                 SortBy = "TicketNumber",
                 SortOrder = "ASC",
                 Status = true,
-                PageNo = pagePos,
-                Limit = limit
+                //PageNo = pagePos,
+                //Limit = limit
             };
 
             ShowActivityIndicator();
@@ -49,12 +50,11 @@ namespace Greeter.Modules.Pay
 
             if (response.IsSuccess())
             {
-                checkouts = response.CheckinVehicleDetails.CheckOutList;
-
-                if (checkouts.Count == 0)
-                {
-                    isFinished = true;
-                }
+                //checkouts = response.CheckinVehicleDetails.CheckOutList;
+                //if (checkouts.Count == 0)
+                //{
+                //    isFinished = true;
+                //}
 
                 return checkouts;
             }
@@ -62,34 +62,35 @@ namespace Greeter.Modules.Pay
             return checkouts;
         }
 
-        void RefreshCheckouts()
+        async Task RefreshCheckouts()
         {
-            RestartPagination();
-            _ = LoadItems(lastPagePos);
+            //RestartPagination();
+            //_ = LoadItems(lastPagePos);
+            Checkouts = await GetCheckoutListAsync();
         }
 
-        void RestartPagination()
-        {
-            lastPagePos = 0;
-            isFinished = false;
-        }
+        //void RestartPagination()
+        //{
+        //    lastPagePos = 0;
+        //    isFinished = false;
+        //}
 
-        async Task LoadItems(short lastPagePos)
-        {
-           var list = await GetCheckoutListAsync((short)(lastPagePos + 1));
+        //async Task LoadItems(short lastPagePos)
+        //{
+        //   var list = await GetCheckoutListAsync((short)(lastPagePos + 1));
 
-            if (list.Count < limit)
-            {
-                isFinished = true;
-            }
+        //    if (list.Count < limit)
+        //    {
+        //        isFinished = true;
+        //    }
 
-            if (list is not null)
-            {
-                Checkouts.AddRange(list);
-                if (IsViewLoaded)
-                    checkoutTableView.ReloadData();
-            }
-        }
+        //    if (list is not null)
+        //    {
+        //        Checkouts.AddRange(list);
+        //        if (IsViewLoaded)
+        //            checkoutTableView.ReloadData();
+        //    }
+        //}
 
         void HoldBtnClicked(Checkout checkout)
         {
