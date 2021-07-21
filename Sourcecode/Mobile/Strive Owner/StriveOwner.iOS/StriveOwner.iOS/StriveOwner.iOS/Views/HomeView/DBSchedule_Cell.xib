@@ -28,24 +28,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ANr-28-YuW">
-                                <rect key="frame" x="20" y="20" width="20" height="20"/>
+                                <rect key="frame" x="20" y="20" width="15" height="15"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="Smi-Gf-g3z"/>
-                                    <constraint firstAttribute="width" constant="20" id="iCs-82-DZo"/>
+                                    <constraint firstAttribute="height" constant="15" id="Smi-Gf-g3z"/>
+                                    <constraint firstAttribute="width" constant="15" id="iCs-82-DZo"/>
                                 </constraints>
-                                <state key="normal" image="icon-rightArrow" backgroundImage="icon-rightArrow"/>
+                                <state key="normal" image="icon-rightArrow"/>
                                 <connections>
                                     <action selector="BayBtn_Touch:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="CsO-N9-3HK"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bay 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rtT-ji-Z1M">
-                                <rect key="frame" x="60" y="10" width="42" height="22"/>
+                                <rect key="frame" x="55" y="10" width="42" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ticket# : 386598" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQt-i6-xDn">
-                                <rect key="frame" x="60" y="37" width="124" height="22"/>
+                                <rect key="frame" x="55" y="37" width="124" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" red="0.0078431372550000003" green="0.078431372550000003" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -53,7 +53,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ANr-28-YuW" firstAttribute="centerY" secondItem="GZK-4x-ft1" secondAttribute="centerY" id="3pP-dl-TAp"/>
+                            <constraint firstItem="ANr-28-YuW" firstAttribute="top" secondItem="GZK-4x-ft1" secondAttribute="top" constant="20" id="FSL-jo-eod"/>
                             <constraint firstAttribute="height" constant="60" id="HF0-au-OSr"/>
                             <constraint firstItem="AQt-i6-xDn" firstAttribute="leading" secondItem="rtT-ji-Z1M" secondAttribute="leading" id="MeK-gx-lXG"/>
                             <constraint firstItem="rtT-ji-Z1M" firstAttribute="leading" secondItem="ANr-28-YuW" secondAttribute="trailing" constant="20" id="arp-ZQ-TMp"/>
@@ -63,7 +63,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kdv-f8-TCW">
-                        <rect key="frame" x="16" y="70" width="288" height="190"/>
+                        <rect key="frame" x="16" y="80" width="288" height="190"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time In:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adl-ea-mDI">
                                 <rect key="frame" x="40" y="5" width="95.5" height="19.5"/>
@@ -197,7 +197,7 @@
                     <constraint firstItem="kdv-f8-TCW" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" id="bd9-kd-l41"/>
                     <constraint firstItem="GZK-4x-ft1" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" id="dAV-Mp-JW6"/>
                     <constraint firstItem="GZK-4x-ft1" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" id="gxl-vY-85U"/>
-                    <constraint firstItem="kdv-f8-TCW" firstAttribute="top" secondItem="GZK-4x-ft1" secondAttribute="bottom" constant="10" id="wda-fQ-zw3"/>
+                    <constraint firstItem="kdv-f8-TCW" firstAttribute="top" secondItem="GZK-4x-ft1" secondAttribute="bottom" constant="20" id="wda-fQ-zw3"/>
                     <constraint firstAttribute="trailing" secondItem="GZK-4x-ft1" secondAttribute="trailing" id="xOn-9c-qwY"/>
                 </constraints>
             </tableViewCellContentView>

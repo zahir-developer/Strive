@@ -33,7 +33,7 @@ namespace StriveOwner.iOS.Views.HomeView
         {
             isexpanded = expand;
             BayNameLbl.Text = item.BayName;
-            TicketNo_Lbl.Text = item.TicketNumber;
+            TicketNo_Lbl.Text = "Ticket#: " + item.TicketNumber;
             TimeInValue.Text = item.TimeIn;
             ClientValue.Text = item.ClientName;
             PhoneValue.Text = item.PhoneNumber;
@@ -48,19 +48,20 @@ namespace StriveOwner.iOS.Views.HomeView
             if(ticketView_HeightConst.Constant == 0)
             {
                 showTicketView();
-                isexpanded = false;
+                isexpanded = true;
             }
             else
             {
                 hideTicketView();
-                isexpanded = true;
+                isexpanded = false;
             }
             LayoutSubviews();
             reloadParentRow();
         }
 
-        public void SetupCell(Action reloadParentRow)
+        public void SetupCell(bool expand, Action reloadParentRow)
         {
+            this.isexpanded = expand;
             this.reloadParentRow = reloadParentRow;
 
             if (isexpanded)
@@ -73,16 +74,31 @@ namespace StriveOwner.iOS.Views.HomeView
             }
         }
 
+
         public void showTicketView()
         {
-            ticketView_HeightConst.Constant = 90;
+            ticketView_HeightConst.Constant = 200;
             TicketView.Hidden = false;
         }
 
         public void hideTicketView()
         {
             ticketView_HeightConst.Constant = 0;
-            TicketView.Hidden = false;
+            TicketView.Hidden = true;
+        }
+
+        public void ExpandView(bool isExpand)
+        {
+            if (isExpand)
+            {
+                ticketView_HeightConst.Constant = 200;
+                TicketView.Hidden = false;
+            }
+            else
+            {
+                ticketView_HeightConst.Constant = 0;
+                TicketView.Hidden = true;
+            }
         }
     }
 }

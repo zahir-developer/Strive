@@ -68,7 +68,7 @@ namespace StriveOwner.iOS.Views.HomeView
                 detailCount.Text = ViewModel.statisticsData.DetailCount.ToString();
                 employeeCount.Text = ViewModel.statisticsData.EmployeeCount.ToString();
                 scoreCount.Text = ViewModel.statisticsData.Score.ToString();
-                forecastedCount.Text = ViewModel.statisticsData.ForecastedCar.ToString();
+                forecastedCount.Text = ViewModel.statisticsData.Currents.ToString() +"/"+ ViewModel.statisticsData.ForecastedCar.ToString();
                 carWashTimeCount.Text = ViewModel.statisticsData.WashTime.ToString();
 
                 washImage.Image = UIImage.FromBundle("Dashboard-Washes");
@@ -84,7 +84,7 @@ namespace StriveOwner.iOS.Views.HomeView
         {
             if (ViewModel.dbSchedule != null)
             {
-                var scheduleSource = new DBSchedule_DataSource(ViewModel.dbSchedule);
+                var scheduleSource = new DBSchedule_DataSource(ScheduleTableView,ViewModel.dbSchedule);
                 ScheduleTableView.Source = scheduleSource;
                 ScheduleTableView.TableFooterView = new UIView(CGRect.Empty);
                 ScheduleTableView.DelaysContentTouches = false;
