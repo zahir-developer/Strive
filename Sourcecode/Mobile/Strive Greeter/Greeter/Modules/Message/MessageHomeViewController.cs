@@ -240,9 +240,15 @@ namespace Greeter.Modules.Message
             UpdateIndicatorPosition(MenuType.Group);
         }
 
-        void MoreTapped()
+        void MoreTapped(UITapGestureRecognizer tapGestureRecognizer)
         {
-
+            var moreOptionViewController = new MoreOptionViewController();
+            moreOptionViewController.ModalPresentationStyle = UIModalPresentationStyle.Popover;
+            moreOptionViewController.PopoverPresentationController.SourceView = tapGestureRecognizer.View;
+            //moreOptionViewController.PopoverPresentationController.SourceRect = new CGRect(0, 0, 180, 80);
+            moreOptionViewController.PreferredContentSize = new CGSize(250, 100);
+            moreOptionViewController.PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Up;
+            PresentViewController(moreOptionViewController, true, null);
         }
 
         void UpdateIndicatorPosition(MenuType menuType)
@@ -272,7 +278,7 @@ namespace Greeter.Modules.Message
         {
             var viewController = pageViewController.ViewControllers[0];
 
-            Title = viewController.Title;
+            Title = "Message";
             NavigationItem.RightBarButtonItems = viewController.NavigationItem.RightBarButtonItems;
             NavigationItem.LeftBarButtonItems = viewController.NavigationItem.LeftBarButtonItems;
         }

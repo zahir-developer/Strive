@@ -139,6 +139,9 @@ namespace Greeter.Cells
 
             serviceInfoLabel.LeadingAnchor.ConstraintEqualTo(statusIndicatorView.TrailingAnchor, constant: 35).Active = true;
             serviceInfoLabel.TopAnchor.ConstraintEqualTo(customerNameLabel.BottomAnchor, constant: 10).Active = true;
+            serviceInfoLabel.TrailingAnchor.ConstraintEqualTo(amountLabel.LeadingAnchor, constant: -20).Active = true;
+            serviceInfoLabel.SetContentCompressionResistancePriority(249, UILayoutConstraintAxis.Horizontal);
+            serviceInfoLabel.SetContentHuggingPriority(249, UILayoutConstraintAxis.Horizontal);
 
             checkInAndOutTimingLabel.LeadingAnchor.ConstraintEqualTo(statusIndicatorView.TrailingAnchor, constant: 35).Active = true;
             checkInAndOutTimingLabel.TopAnchor.ConstraintEqualTo(serviceInfoLabel.BottomAnchor, constant: 10).Active = true;

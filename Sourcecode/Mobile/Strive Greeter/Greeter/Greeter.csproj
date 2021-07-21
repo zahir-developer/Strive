@@ -84,7 +84,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.2" />
-		<PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
 		<PackageReference Include="Newtonsoft.Json">
 			<Version>13.0.1</Version>
 		</PackageReference>
@@ -132,10 +132,6 @@
 		<ImageAsset Include="Resources\Colors.xcassets\app_color.colorset\Contents.json" />
 		<ImageAsset Include="Resources\Assets.xcassets\AppIcon.appiconset\Contents.json" />
 		<ImageAsset Include="Resources\Colors.xcassets\app_secondary_color.colorset\Contents.json" />
-		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Contents.json" />
-		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%402x.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%403x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346%402x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346%403x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\tick.imageset\Group 2346.png" />
@@ -193,6 +189,30 @@
 		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%402x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\checkout.imageset\Icon awesome-flag-checkered%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\search.imageset\search%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\search.imageset\search%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\search.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\search.imageset\search%401x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%401x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%401x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\more.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_group.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_group.imageset\Icon material-group-add.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_group.imageset\Icon material-group-add%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\add_group.imageset\Icon material-group-add%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\refresh.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\refresh.imageset\Icon ionic-ios-refresh.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\refresh.imageset\Icon ionic-ios-refresh%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\refresh.imageset\Icon ionic-ios-refresh%403x.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Resources\" />
@@ -217,10 +237,6 @@
 		<Folder Include="MvvmCross\" />
 		<Folder Include="Modules\Checkout\" />
 		<Folder Include="Services\Api\" />
-		<Folder Include="Resources\Assets.xcassets\paid.imageset\" />
-		<Folder Include="Resources\Assets.xcassets\complete.imageset\" />
-		<Folder Include="Resources\Assets.xcassets\checkout_action.imageset\" />
-		<Folder Include="Resources\Assets.xcassets\checkout.imageset\" />
 	</ItemGroup>
 	<ItemGroup>
 		<InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -376,6 +392,7 @@
 		<Compile Include="Storyboards\PagerViewController.designer.cs">
 		  <DependentUpon>PagerViewController.cs</DependentUpon>
 		</Compile>
+		<Compile Include="Modules\Message\MoreOptionViewController.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
