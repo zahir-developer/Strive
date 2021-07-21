@@ -55,9 +55,9 @@
 		<CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
 		<MtouchArch>ARM64</MtouchArch>
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
-		<MtouchLink>SdkOnly</MtouchLink>
+		<MtouchLink>Full</MtouchLink>
 		<LangVersion>latest</LangVersion>
-		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
+		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
 		<Optimize>false</Optimize>
@@ -87,9 +87,6 @@
 		<PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
 		<PackageReference Include="Newtonsoft.Json">
 			<Version>13.0.1</Version>
-		</PackageReference>
-		<PackageReference Include="MvvmCross">
-			<Version>8.0.1</Version>
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
