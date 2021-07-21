@@ -19,14 +19,14 @@ namespace Greeter.Modules.Pay
         public CheckoutViewController()
         {
             //LoadItems(lastPagePos).ConfigureAwait(false);
-            GetCheckoutListAsync().ConfigureAwait(false);
+            GetCheckouts().ConfigureAwait(false);
         }
 
         async Task<List<Checkout>> GetCheckoutListAsync()
         {
             var checkoutRequest = new CheckoutRequest
             {
-                StartDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
+                StartDate = DateTime.Now.AddMonths(-1).Date.ToString("yyyy-MM-dd"),
                 EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
                 LocationID = AppSettings.LocationID,
                 SortBy = "TicketNumber",
@@ -50,7 +50,7 @@ namespace Greeter.Modules.Pay
 
             if (response.IsSuccess())
             {
-                //checkouts = response.CheckinVehicleDetails.CheckOutList;
+                checkouts = response.CheckinVehicleDetails.CheckOutList;
                 //if (checkouts.Count == 0)
                 //{
                 //    isFinished = true;
@@ -62,11 +62,13 @@ namespace Greeter.Modules.Pay
             return checkouts;
         }
 
-        async Task RefreshCheckouts()
+        async Task GetCheckouts()
         {
             //RestartPagination();
             //_ = LoadItems(lastPagePos);
             Checkouts = await GetCheckoutListAsync();
+            if (IsViewLoaded)
+                checkoutTableView.ReloadData();
         }
 
         //void RestartPagination()
@@ -122,7 +124,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_HOLD_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    RefreshCheckouts();
+                    _ = GetCheckouts();
                 }, titleTxt: Common.Messages.HOLD);
             }
         }
@@ -157,7 +159,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_COMPLETED_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    RefreshCheckouts();
+                    _ = GetCheckouts();
                 }, titleTxt: Common.Messages.COMPLETE);
             }
         }
@@ -192,7 +194,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_CHECKED_OUT_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    RefreshCheckouts();
+                    _ = GetCheckouts();
                 }, titleTxt:Common.Messages.CHECKOUT);
             }
         }

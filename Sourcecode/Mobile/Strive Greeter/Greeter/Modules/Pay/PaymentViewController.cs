@@ -364,58 +364,6 @@ namespace Greeter.Modules.Pay
         {
             var value = true;
 
-            // For Restricting typing in the customer name field
-            //if (textField == customerNameTextField)
-            //{
-            //    value = false;
-            //}
-
-            if (textField == tipAmountTextField)
-            {
-                // When Erase
-                //if (replacementString.Equals(string.Empty))
-                //{
-                    //if (lastEditedPos == 4) return false;
-
-                    //string one = tipAmountTextField.Text.Substring(0, 1);
-                    //string two = tipAmountTextField.Text.Substring(1, 1);
-                    //string three = tipAmountTextField.Text.Substring(3, 1);
-                    //string four = tipAmountTextField.Text.Substring(4, 1);
-
-                    //string[] values1 = new string[4] { one, two, three, four };
-                    //int pos = values1.Length - 1 - lastEditedPos;
-                    //values1[pos] = "0";
-                    //tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, values1[0], values1[1], values1[2], values1[3]);
-                    //lastEditedPos++;
-
-                    //return false;
-                //}
-                //else
-                //{
-                    if (lastEditedPos == 0) return false;
-
-                    // For 
-                    // Skip pos 2 - it is dot
-                    string second = tipAmountTextField.Text.Substring(1, 1);
-                    string third = tipAmountTextField.Text.Substring(3, 1);
-                    string fourth = tipAmountTextField.Text.Substring(4, 1);
-
-                    string[] values = new string[4] { second, third, fourth, replacementString };
-                    tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, values[0], values[1], values[2], values[3]);
-                    lastEditedPos--;
-
-                    //var char = new NSString().cstring (using: NSStringEncoding.UTF8) {
-                    //    let isBackSpace = strcmp(char, "\\b")
-                    //    if (isBackSpace == -92)
-                    //{
-
-                    //    }
-                    //}
-
-                    return false;
-                //}
-            }
-
             if (textField == cardNumberTextField)
             {
                 var oldNSString = new NSString(cardNumberTextField.Text ?? "");

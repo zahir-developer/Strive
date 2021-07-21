@@ -10,7 +10,7 @@ using Greeter.Services.Api;
 namespace Greeter.Modules.Pay
 {
 	public partial class ServiceListViewController
-	{
+    {
 		List<Checkout> Checkouts;
 
         public ServiceListViewController()
@@ -22,7 +22,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutRequest = new CheckoutRequest
             {
-                StartDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
+                StartDate = DateTime.Now.AddMonths(-1).Date.ToString("yyyy-MM-dd"),
                 EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
                 LocationID = AppSettings.LocationID,
                 SortBy = "TicketNumber",
