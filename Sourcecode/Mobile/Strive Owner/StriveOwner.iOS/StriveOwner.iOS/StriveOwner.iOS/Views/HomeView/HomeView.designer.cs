@@ -52,6 +52,12 @@ namespace StriveOwner.iOS.Views.HomeView
 		UIKit.UIImageView forecastedImage { get; set; }
 
 		[Outlet]
+		UIKit.UISegmentedControl LocationSegment { get; set; }
+
+		[Outlet]
+		OxyPlot.Xamarin.iOS.PlotView plotView { get; set; }
+
+		[Outlet]
 		UIKit.UITableView ScheduleTableView { get; set; }
 
 		[Outlet]
@@ -80,6 +86,9 @@ namespace StriveOwner.iOS.Views.HomeView
 
 		[Action ("DashboardServices_Touch:")]
 		partial void DashboardServices_Touch (UIKit.UISegmentedControl sender);
+
+		[Action ("locationSegment_Touch:")]
+		partial void locationSegment_Touch (UIKit.UISegmentedControl sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -148,6 +157,16 @@ namespace StriveOwner.iOS.Views.HomeView
 				forecastedImage = null;
 			}
 
+			if (plotView != null) {
+				plotView.Dispose ();
+				plotView = null;
+			}
+
+			if (ScheduleTableView != null) {
+				ScheduleTableView.Dispose ();
+				ScheduleTableView = null;
+			}
+
 			if (scoreCount != null) {
 				scoreCount.Dispose ();
 				scoreCount = null;
@@ -188,9 +207,9 @@ namespace StriveOwner.iOS.Views.HomeView
 				WashLbl = null;
 			}
 
-			if (ScheduleTableView != null) {
-				ScheduleTableView.Dispose ();
-				ScheduleTableView = null;
+			if (LocationSegment != null) {
+				LocationSegment.Dispose ();
+				LocationSegment = null;
 			}
 		}
 	}

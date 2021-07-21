@@ -56,9 +56,44 @@ namespace StriveOwner.iOS.Views.HomeView
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (BayButton != null) {
+				BayButton.Dispose ();
+				BayButton = null;
+			}
+
+			if (BayNameLbl != null) {
+				BayNameLbl.Dispose ();
+				BayNameLbl = null;
+			}
+
 			if (BayView != null) {
 				BayView.Dispose ();
 				BayView = null;
+			}
+
+			if (ClientValue != null) {
+				ClientValue.Dispose ();
+				ClientValue = null;
+			}
+
+			if (MakeValue != null) {
+				MakeValue.Dispose ();
+				MakeValue = null;
+			}
+
+			if (PhoneValue != null) {
+				PhoneValue.Dispose ();
+				PhoneValue = null;
+			}
+
+			if (ServiceValue != null) {
+				ServiceValue.Dispose ();
+				ServiceValue = null;
+			}
+
+			if (TicketNo_Lbl != null) {
+				TicketNo_Lbl.Dispose ();
+				TicketNo_Lbl = null;
 			}
 
 			if (TicketView != null) {
@@ -71,34 +106,9 @@ namespace StriveOwner.iOS.Views.HomeView
 				ticketView_HeightConst = null;
 			}
 
-			if (BayButton != null) {
-				BayButton.Dispose ();
-				BayButton = null;
-			}
-
-			if (BayNameLbl != null) {
-				BayNameLbl.Dispose ();
-				BayNameLbl = null;
-			}
-
-			if (TicketNo_Lbl != null) {
-				TicketNo_Lbl.Dispose ();
-				TicketNo_Lbl = null;
-			}
-
 			if (TimeInValue != null) {
 				TimeInValue.Dispose ();
 				TimeInValue = null;
-			}
-
-			if (ClientValue != null) {
-				ClientValue.Dispose ();
-				ClientValue = null;
-			}
-
-			if (PhoneValue != null) {
-				PhoneValue.Dispose ();
-				PhoneValue = null;
 			}
 
 			if (TimeOutValue != null) {
@@ -109,16 +119,6 @@ namespace StriveOwner.iOS.Views.HomeView
 			if (UpchargeValue != null) {
 				UpchargeValue.Dispose ();
 				UpchargeValue = null;
-			}
-
-			if (MakeValue != null) {
-				MakeValue.Dispose ();
-				MakeValue = null;
-			}
-
-			if (ServiceValue != null) {
-				ServiceValue.Dispose ();
-				ServiceValue = null;
 			}
 		}
 	}

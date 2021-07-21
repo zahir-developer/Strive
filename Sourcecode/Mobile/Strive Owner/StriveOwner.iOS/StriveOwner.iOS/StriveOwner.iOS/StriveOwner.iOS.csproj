@@ -262,6 +262,18 @@
         <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -309,6 +321,9 @@
         <Folder Include="Resources\Assets.xcassets\LaborCost.imageset\" />
         <Folder Include="Resources\Assets.xcassets\DetailCost.imageset\" />
         <Folder Include="Resources\Assets.xcassets\icon-rightArrow.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\barChart-Active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\pieChart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\lineChart.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

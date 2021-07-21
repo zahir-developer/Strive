@@ -31,7 +31,8 @@ namespace StriveOwner.iOS.Views.HomeView
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return isexpanded ? DBSchedule_Cell.ExpandedHeight:DBSchedule_Cell.NormalHeight; 
+            //return isexpanded ? DBSchedule_Cell.ExpandedHeight:DBSchedule_Cell.NormalHeight;
+            return 260;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -52,8 +53,8 @@ namespace StriveOwner.iOS.Views.HomeView
         {
             DBSchedule_Cell cell = (DBSchedule_Cell)tableView.DequeueReusableCell(CellId, indexPath);
             cell.SetupView(list.DetailsGrid.BayJobDetailViewModel[indexPath.Row], isexpanded);
-            cell.SetupCell(isexpanded, () =>
-               tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None));
+            //cell.SetupCell(isexpanded, () =>
+            //   tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None));
             return cell;
         }        
     }

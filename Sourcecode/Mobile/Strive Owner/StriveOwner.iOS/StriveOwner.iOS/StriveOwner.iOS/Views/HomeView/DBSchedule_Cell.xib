@@ -62,8 +62,8 @@
                             <constraint firstItem="rtT-ji-Z1M" firstAttribute="top" secondItem="GZK-4x-ft1" secondAttribute="top" constant="10" id="rHU-GI-mW6"/>
                         </constraints>
                     </view>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kdv-f8-TCW">
-                        <rect key="frame" x="16" y="80" width="288" height="190"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kdv-f8-TCW">
+                        <rect key="frame" x="16" y="70" width="288" height="190"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time In:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adl-ea-mDI">
                                 <rect key="frame" x="40" y="5" width="95.5" height="19.5"/>
@@ -104,8 +104,8 @@
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcharges:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZa-OK-HoV">
-                                <rect key="frame" x="40" y="103" width="95.5" height="19.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make/Model/Color:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZa-OK-HoV">
+                                <rect key="frame" x="9.5" y="103" width="126" height="19.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -122,14 +122,14 @@
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make/Model/Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMn-86-h5a">
-                                <rect key="frame" x="9.5" y="127.5" width="126" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Service:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMn-86-h5a">
+                                <rect key="frame" x="85" y="127.5" width="50.5" height="20"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Out(Est.):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouV-3V-8YP">
-                                <rect key="frame" x="40" y="152.5" width="95.5" height="19.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcharges:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouV-3V-8YP">
+                                <rect key="frame" x="62" y="152.5" width="73.5" height="19.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="14"/>
                                 <color key="textColor" red="0.1529411765" green="0.2666666667" blue="0.43137254899999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -162,13 +162,13 @@
                             <constraint firstItem="Bzu-i8-ycg" firstAttribute="centerY" secondItem="DVx-EE-RbO" secondAttribute="centerY" id="6kp-pw-AdG"/>
                             <constraint firstItem="DVx-EE-RbO" firstAttribute="top" secondItem="w2m-Dq-wbd" secondAttribute="bottom" constant="5" id="8Cf-QA-Vbc"/>
                             <constraint firstItem="w2m-Dq-wbd" firstAttribute="top" secondItem="adl-ea-mDI" secondAttribute="bottom" constant="5" id="9Au-lR-a0b"/>
+                            <constraint firstItem="NZa-OK-HoV" firstAttribute="trailing" secondItem="Web-Hq-F7B" secondAttribute="trailing" id="9CO-zR-LKq"/>
                             <constraint firstItem="DVx-EE-RbO" firstAttribute="leading" secondItem="w2m-Dq-wbd" secondAttribute="leading" id="B9r-A4-iKR"/>
                             <constraint firstItem="w2m-Dq-wbd" firstAttribute="leading" secondItem="adl-ea-mDI" secondAttribute="leading" id="Cep-af-NIB"/>
                             <constraint firstItem="Web-Hq-F7B" firstAttribute="top" secondItem="DVx-EE-RbO" secondAttribute="bottom" constant="5" id="FSg-iH-kdS"/>
                             <constraint firstItem="sey-0v-eMS" firstAttribute="centerY" secondItem="Web-Hq-F7B" secondAttribute="centerY" id="Htm-sr-8tM"/>
                             <constraint firstItem="2xw-6Q-tlz" firstAttribute="centerY" secondItem="w2m-Dq-wbd" secondAttribute="centerY" id="Pyj-2j-bl8"/>
                             <constraint firstItem="2xw-6Q-tlz" firstAttribute="leading" secondItem="hhZ-Kn-0xM" secondAttribute="leading" id="R1W-rl-hrq"/>
-                            <constraint firstItem="NZa-OK-HoV" firstAttribute="width" secondItem="Web-Hq-F7B" secondAttribute="width" id="UTS-Hc-0L0"/>
                             <constraint firstItem="ouV-3V-8YP" firstAttribute="trailing" secondItem="UMn-86-h5a" secondAttribute="trailing" id="Uf2-VZ-YyA"/>
                             <constraint firstItem="hhZ-Kn-0xM" firstAttribute="leading" secondItem="adl-ea-mDI" secondAttribute="trailing" constant="20" id="VbI-kR-RkZ"/>
                             <constraint firstItem="Web-Hq-F7B" firstAttribute="width" secondItem="DVx-EE-RbO" secondAttribute="width" id="Yoj-g5-4XH"/>
@@ -178,7 +178,6 @@
                             <constraint firstItem="sRO-QZ-H4j" firstAttribute="centerY" secondItem="UMn-86-h5a" secondAttribute="centerY" id="c27-A7-tOo"/>
                             <constraint firstItem="sRO-QZ-H4j" firstAttribute="leading" secondItem="l9h-so-PFv" secondAttribute="leading" id="cQo-Co-kyQ"/>
                             <constraint firstAttribute="height" constant="190" id="ceq-n0-uXh"/>
-                            <constraint firstItem="NZa-OK-HoV" firstAttribute="leading" secondItem="Web-Hq-F7B" secondAttribute="leading" id="dbP-UV-pgf"/>
                             <constraint firstItem="NZa-OK-HoV" firstAttribute="top" secondItem="Web-Hq-F7B" secondAttribute="bottom" constant="5" id="eH1-Iy-MaT"/>
                             <constraint firstItem="l9h-so-PFv" firstAttribute="leading" secondItem="sey-0v-eMS" secondAttribute="leading" id="f4f-Qh-ucG"/>
                             <constraint firstItem="adl-ea-mDI" firstAttribute="top" secondItem="kdv-f8-TCW" secondAttribute="top" constant="5" id="jEh-ZR-1wR"/>
@@ -197,7 +196,7 @@
                     <constraint firstItem="kdv-f8-TCW" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leadingMargin" id="bd9-kd-l41"/>
                     <constraint firstItem="GZK-4x-ft1" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" id="dAV-Mp-JW6"/>
                     <constraint firstItem="GZK-4x-ft1" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" id="gxl-vY-85U"/>
-                    <constraint firstItem="kdv-f8-TCW" firstAttribute="top" secondItem="GZK-4x-ft1" secondAttribute="bottom" constant="20" id="wda-fQ-zw3"/>
+                    <constraint firstItem="kdv-f8-TCW" firstAttribute="top" secondItem="GZK-4x-ft1" secondAttribute="bottom" constant="10" id="wda-fQ-zw3"/>
                     <constraint firstAttribute="trailing" secondItem="GZK-4x-ft1" secondAttribute="trailing" id="xOn-9c-qwY"/>
                 </constraints>
             </tableViewCellContentView>
@@ -206,14 +205,14 @@
                 <outlet property="BayNameLbl" destination="rtT-ji-Z1M" id="JqO-ug-lIo"/>
                 <outlet property="BayView" destination="GZK-4x-ft1" id="R35-mF-Wa5"/>
                 <outlet property="ClientValue" destination="2xw-6Q-tlz" id="Eay-17-GxY"/>
-                <outlet property="MakeValue" destination="sRO-QZ-H4j" id="SCt-eP-C1w"/>
+                <outlet property="MakeValue" destination="l9h-so-PFv" id="bJH-F5-k0H"/>
                 <outlet property="PhoneValue" destination="Bzu-i8-ycg" id="hos-d7-o5Z"/>
-                <outlet property="ServiceValue" destination="dv9-MQ-dQa" id="6S1-PO-cHs"/>
+                <outlet property="ServiceValue" destination="sRO-QZ-H4j" id="n1z-zV-ORf"/>
                 <outlet property="TicketNo_Lbl" destination="AQt-i6-xDn" id="6Ei-Ei-eSb"/>
                 <outlet property="TicketView" destination="kdv-f8-TCW" id="CoG-mg-ESn"/>
                 <outlet property="TimeInValue" destination="hhZ-Kn-0xM" id="Qz3-r3-3mZ"/>
                 <outlet property="TimeOutValue" destination="sey-0v-eMS" id="M7v-bq-aMf"/>
-                <outlet property="UpchargeValue" destination="l9h-so-PFv" id="iDg-p0-Jfs"/>
+                <outlet property="UpchargeValue" destination="dv9-MQ-dQa" id="dIb-ZR-OBt"/>
                 <outlet property="ticketView_HeightConst" destination="ceq-n0-uXh" id="tAg-SN-at7"/>
             </connections>
             <point key="canvasLocation" x="82.608695652173921" y="18.75"/>

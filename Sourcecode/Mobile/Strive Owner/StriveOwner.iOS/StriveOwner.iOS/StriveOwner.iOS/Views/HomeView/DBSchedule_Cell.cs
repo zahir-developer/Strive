@@ -40,65 +40,66 @@ namespace StriveOwner.iOS.Views.HomeView
             TimeOutValue.Text = item.EstimatedTimeOut;
             MakeValue.Text= item.VehicleMake+"/"+item.VehicleModel+"/"+item.VehicleColor;
             ServiceValue.Text = item.ServiceTypeName;
-            UpchargeValue.Text= item.Upcharge.ToString();                      
+            UpchargeValue.Text= item.Upcharge.ToString();
+            TicketView.Hidden = false;
         }
 
         partial void BayBtn_Touch(UIButton sender)
         {
-            if(ticketView_HeightConst.Constant == 0)
-            {
-                showTicketView();
-                isexpanded = true;
-            }
-            else
-            {
-                hideTicketView();
-                isexpanded = false;
-            }
-            LayoutSubviews();
-            reloadParentRow();
+            //if(ticketView_HeightConst.Constant == 0)
+            //{
+            //    showTicketView();
+            //    isexpanded = true;
+            //}
+            //else
+            //{
+            //    hideTicketView();
+            //    isexpanded = false;
+            //}
+            //LayoutSubviews();
+            //reloadParentRow();
         }
 
-        public void SetupCell(bool expand, Action reloadParentRow)
-        {
-            this.isexpanded = expand;
-            this.reloadParentRow = reloadParentRow;
+        //public void SetupCell(bool expand, Action reloadParentRow)
+        //{
+        //    this.isexpanded = expand;
+        //    this.reloadParentRow = reloadParentRow;
 
-            if (isexpanded)
-            {
-                showTicketView();
-            }
-            else
-            {
-                hideTicketView();
-            }
-        }
+        //    if (isexpanded)
+        //    {
+        //        showTicketView();
+        //    }
+        //    else
+        //    {
+        //        hideTicketView();
+        //    }
+        //}
 
 
-        public void showTicketView()
-        {
-            ticketView_HeightConst.Constant = 200;
-            TicketView.Hidden = false;
-        }
+        //public void showTicketView()
+        //{
+        //    ticketView_HeightConst.Constant = 200;
+        //    TicketView.Hidden = false;
+        //}
 
-        public void hideTicketView()
-        {
-            ticketView_HeightConst.Constant = 0;
-            TicketView.Hidden = true;
-        }
+        //public void hideTicketView()
+        //{
+        //    ticketView_HeightConst.Constant = 0;
+        //    TicketView.Hidden = false;
+        //}
 
-        public void ExpandView(bool isExpand)
-        {
-            if (isExpand)
-            {
-                ticketView_HeightConst.Constant = 200;
-                TicketView.Hidden = false;
-            }
-            else
-            {
-                ticketView_HeightConst.Constant = 0;
-                TicketView.Hidden = true;
-            }
-        }
+        //public void ExpandView(bool isExpand)
+        //{
+        //    if (isExpand)
+        //    {
+        //        ticketView_HeightConst.Constant = 200;
+        //        TicketView.Hidden = false;
+        //    }
+        //    else
+        //    {
+        //        ticketView_HeightConst.Constant = 0;
+        //        TicketView.Hidden = false;
+        //    }
+        //}
     }
 }
