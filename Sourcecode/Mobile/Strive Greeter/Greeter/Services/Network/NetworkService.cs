@@ -7,6 +7,8 @@ using System.Linq;
 using System;
 using Xamarin.Essentials;
 using System.Diagnostics;
+using Greeter.Services.Authentication;
+using Greeter.Extensions;
 
 namespace Greeter.Services.Network
 {
@@ -40,11 +42,12 @@ namespace Greeter.Services.Network
 
                     // Log
                     Debug.WriteLine("Url : " + urlRequest.Url.ToString());
+                    Debug.WriteLine("Bearer Token : " + AppSettings.BearereToken);
 
                     if (request.Body is not null)
                         Debug.WriteLine("Request Body : " + JsonConvert.SerializeObject(request.Body));
 
-                    if (urlResponse?.StatusCode >= 200 || urlResponse?.StatusCode <= 299)
+                    if (urlResponse?.StatusCode >= 200 && urlResponse?.StatusCode <= 299)
                     {
                         using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
                         var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
@@ -55,10 +58,23 @@ namespace Greeter.Services.Network
 
                         return result;
                     } // Un-Authorized
-                    //else if (urlResponse.StatusCode == StatusCodes.UN_AUTHORIZED)
-                    //{
-
-                    //}
+                    else if (urlResponse.StatusCode == StatusCodes.UN_AUTHORIZED)
+                    {
+                        var refreshApiResponse = await new AuthenticationService().ResfreshApiCall(AppSettings.Token, AppSettings.RefreshToken);
+                        if (refreshApiResponse?.IsSuccess() ?? false)
+                        {
+                            AppSettings.Token = refreshApiResponse.Token;
+                            AppSettings.RefreshToken = refreshApiResponse?.RefreshToken;
+                            return await this.ExecuteAsync<TResult>(request);
+                        }
+                        else
+                        {
+                            var errorResult = Activator.CreateInstance<TResult>();
+                            errorResult.StatusCode = (int)urlResponse.StatusCode;
+                            errorResult.Message = urlResponse.StatusCode.ToString();
+                            return errorResult;
+                        }
+                    }
                     else
                     {
                         var errorResult = Activator.CreateInstance<TResult>();

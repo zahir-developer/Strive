@@ -33,7 +33,6 @@ namespace Greeter.Services.Api
             if (isBearerToken)
             {
                 request.AddHeader("Authorization", AppSettings.BearereToken);
-                Debug.WriteLine("Bearer Token : " + AppSettings.BearereToken);
             }
 
             if ((method == HttpMethod.Post || method == HttpMethod.Put) && req is not null)
@@ -66,7 +65,7 @@ namespace Greeter.Services.Api
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Json parse Exception " + ex.Message);
+                Debug.WriteLine("Exception " + ex.Message);
             }
 
             return response;

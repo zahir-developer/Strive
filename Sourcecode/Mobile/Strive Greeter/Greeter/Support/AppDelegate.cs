@@ -1,5 +1,6 @@
 using Foundation;
 using Greeter.Common;
+using Greeter.Services.Authentication;
 using UIKit;
 
 namespace Greeter
@@ -9,9 +10,12 @@ namespace Greeter
     [Register("AppDelegate")]
     public class AppDelegate : UIResponder, IUIApplicationDelegate
     {
-
         [Export("window")]
         public UIWindow Window { get; set; }
+
+        // App Level Services
+            public IAuthenticationService AuthenticationService = new AuthenticationService();
+
 
         [Export("application:didFinishLaunchingWithOptions:")]
         public bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)

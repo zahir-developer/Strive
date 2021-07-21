@@ -8,10 +8,11 @@ namespace Greeter
     public abstract class BaseViewController : UIViewController
     {
         UIActivityIndicatorView activityIndicator;
-
         UITapGestureRecognizer tapArroundTapGesture;
 
         bool dismissKeyboardOnTapArround;
+
+        public AppDelegate App = UIApplication.SharedApplication.Delegate as AppDelegate;
 
         protected virtual bool DismissKeyboardOnTapArround
         {

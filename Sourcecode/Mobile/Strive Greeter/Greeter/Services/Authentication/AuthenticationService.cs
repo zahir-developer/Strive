@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using Greeter.Services.Api;
 using Greeter.Services.Network;
 
@@ -26,9 +27,27 @@ namespace Greeter.Services.Authentication
             return apiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
         }
 
-        public Task<BaseResponse> RefreshToken(RefreshTokenReq req)
+        public Task<RefreshTokenResponse> RefreshToken(RefreshTokenReq req)
         {
-            return apiService.DoApiCall<BaseResponse>(Urls.REFRESH_TOKEN, HttpMethod.Post, null, req, false);
+            return apiService.DoApiCall<RefreshTokenResponse>(Urls.REFRESH_TOKEN, HttpMethod.Post, null, req, false);
+        }
+
+        public async Task<RefreshTokenResponse> ResfreshApiCall(string token, string refreshToken)
+        {
+            var req = new RefreshTokenReq()
+            {
+                Token = token,
+                RefreshToken = refreshToken
+            };
+
+            var response = await RefreshToken(req);
+
+            if (response.IsSuccess())
+            {
+                return response;
+            }
+
+            return null;
         }
     }
 }

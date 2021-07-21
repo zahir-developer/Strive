@@ -684,7 +684,16 @@ namespace Greeter.DTOs
         public string RefreshToken { get; set; }
     }
 
-    public class PayAuthResponse : BaseResponse
+    public class RefreshTokenResponse : BaseResponse
+    {
+        [JsonProperty("")]
+        public string Token { get; set; }
+
+        [JsonProperty("")]
+        public string RefreshToken { get; set; }
+    }
+
+        public class PayAuthResponse : BaseResponse
     {
         [JsonProperty("authcode")]
         public string Authcode { get; set; }
