@@ -32,6 +32,7 @@ namespace StriveOwner.Android.Views
         private MessengerFragment messenger_Fragment;
         private CheckOutFragment checkOut_Fragment;
         private DashboardHomeFragment dashboardhome_Fragment;
+        private InventoryMainFragment inventoryMain_Fragment;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -40,6 +41,7 @@ namespace StriveOwner.Android.Views
             messenger_Fragment = new MessengerFragment();
             checkOut_Fragment = new CheckOutFragment();
             dashboardhome_Fragment = new DashboardHomeFragment();
+            inventoryMain_Fragment = new InventoryMainFragment();
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;
@@ -56,7 +58,7 @@ namespace StriveOwner.Android.Views
                     break;
 
                 case Resource.Id.dashboardinventory:
-                    selected_MvxFragment = messenger_Fragment;
+                    selected_MvxFragment = inventoryMain_Fragment;
                     break;
 
                 case Resource.Id.dashboardmessenger:
