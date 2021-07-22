@@ -50,7 +50,10 @@
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/scheduleInfo"
                     android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
+                    android:background="#F2FCFE"
                     android:layout_height="230dp"/>
             </LinearLayout>
         </ScrollView>

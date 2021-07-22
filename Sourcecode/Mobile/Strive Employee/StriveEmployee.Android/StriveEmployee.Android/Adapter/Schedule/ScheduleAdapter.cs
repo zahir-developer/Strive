@@ -39,7 +39,23 @@ namespace StriveEmployee.Android.Adapter.Schedule
         {
             scheduleViewHolder = holder as ScheduleAdapterViewHolder;
             scheduleViewHolder.locationNameSchedule.Text = scheduleDetail.ScheduleDetailViewModel[position].LocationName;
-            scheduleViewHolder.locationstartandend.Text = "Start Time ="+ scheduleDetail.ScheduleDetailViewModel[position].StartTime + "\t\t\tEnd Time =" + scheduleDetail.ScheduleDetailViewModel[position].EndTime;
+            if(!string.IsNullOrEmpty(scheduleDetail.ScheduleDetailViewModel[position].StartTime) && !string.IsNullOrEmpty(scheduleDetail.ScheduleDetailViewModel[position].EndTime))
+            {
+                var start = scheduleDetail.ScheduleDetailViewModel[position].StartTime.Split('T');
+                var startTime = start[1].Split(":");
+                var end = scheduleDetail.ScheduleDetailViewModel[position].StartTime.Split('T');
+                var endTime = end[1].Split(":");
+                if(int.Parse(startTime[0]) > 12)
+                {
+                    scheduleViewHolder.locationstartandend.Text = "Start Time =" + startTime[0] + "PM"+ "\tEnd Time =" + endTime[0] + "PM";
+                }
+                else
+                {
+                    scheduleViewHolder.locationstartandend.Text = "Start Time =" + startTime[0] + "AM" + "\tEnd Time =" + endTime[0] + "PM";
+                }
+            }
+           
+            
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -65,7 +81,7 @@ namespace StriveEmployee.Android.Adapter.Schedule
         public TextView locationstartandend;
         public ScheduleAdapterViewHolder(View schedule) : base(schedule)
         {
-            locationNameSchedule = schedule.FindViewById<Button>(Resource.Id.locationNameSchedule);
+            locationNameSchedule = schedule.FindViewById<TextView>(Resource.Id.locationNameSchedule);
             locationstartandend = schedule.FindViewById<TextView>(Resource.Id.locationstartandend);
         }
     }
