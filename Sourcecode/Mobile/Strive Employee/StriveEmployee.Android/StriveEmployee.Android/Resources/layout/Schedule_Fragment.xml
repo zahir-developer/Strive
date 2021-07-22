@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -48,8 +49,9 @@
                 </LinearLayout>
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/scheduleInfo"
+                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="230dp"/>
             </LinearLayout>
         </ScrollView>
 </LinearLayout>

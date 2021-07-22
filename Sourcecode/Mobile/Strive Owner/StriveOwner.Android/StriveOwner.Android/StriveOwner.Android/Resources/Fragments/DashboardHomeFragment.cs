@@ -102,11 +102,9 @@ namespace StriveOwner.Android.Resources.Fragments
             bay3_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_3);
             OwnerTempData.LocationID = 1;
             GetStatistics(OwnerTempData.LocationID);
-
-            GetLocations();
-            hidebay1Details();
-            hidebay2Details();
-            hidebay3Details();
+            GetDashData(OwnerTempData.LocationID);
+            
+           
 
             return rootView;
         }
@@ -114,6 +112,12 @@ namespace StriveOwner.Android.Resources.Fragments
         private async void GetStatistics(int locationID)
         {
             await ViewModel.getStatistics(locationID);
+        }
+
+        private async void GetDashData(int locationID)
+        {
+            await ViewModel.getDashboardSchedule(locationID);
+            GetLocations();
         }
 
         private async void GetLocations()
@@ -148,6 +152,9 @@ namespace StriveOwner.Android.Resources.Fragments
                     row.AddView(locationBtn);
                 }
                 locationsLayout.AddView(row);
+                hidebay1Details();
+                hidebay2Details();
+                hidebay3Details();
             }
 
         }
@@ -168,33 +175,43 @@ namespace StriveOwner.Android.Resources.Fragments
 
         private void hidebay1Details()
         {
-            bay1_timein.Visibility = ViewStates.Gone;
-            bay1_client.Visibility = ViewStates.Gone;
-            bay1_phone.Visibility = ViewStates.Gone;
-            bay1_timeout.Visibility = ViewStates.Gone;
-            bay1_makemodelcolor.Visibility = ViewStates.Gone;
-            bay1_services.Visibility = ViewStates.Gone;
-            bay1_upcharges.Visibility = ViewStates.Gone;
+            if(this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
+            {
+                bay1_timein.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].TimeIn;
+                bay1_client.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].ClientName;
+                bay1_phone.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].PhoneNumber;
+                bay1_timeout.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].EstimatedTimeOut;
+                bay1_makemodelcolor.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].VehicleMake + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].VehicleModel + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].VehicleColor;
+                bay1_services.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].ServiceTypeName;
+                bay1_upcharges.Text = "$" + " " + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[0].Upcharge.ToString();
+            }
+         
         }
         private void hidebay2Details()
         {
-            bay2_timein.Visibility = ViewStates.Gone;
-            bay2_client.Visibility = ViewStates.Gone;
-            bay2_phone.Visibility = ViewStates.Gone;
-            bay2_timeout.Visibility = ViewStates.Gone;
-            bay2_makemodelcolor.Visibility = ViewStates.Gone;
-            bay2_services.Visibility = ViewStates.Gone;
-            bay2_upcharges.Visibility = ViewStates.Gone;
+            if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
+            {
+                bay2_timein.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].TimeIn;
+                bay2_client.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].ClientName;
+                bay2_phone.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].PhoneNumber;
+                bay2_timeout.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].EstimatedTimeOut;
+                bay2_makemodelcolor.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].VehicleMake + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].VehicleModel + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].VehicleColor;
+                bay2_services.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].ServiceTypeName;
+                bay2_upcharges.Text = "$" + " " + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[1].Upcharge.ToString();
+            }           
         }
         private void hidebay3Details()
         {
-            bay3_timein.Visibility = ViewStates.Gone;
-            bay3_client.Visibility = ViewStates.Gone;
-            bay3_phone.Visibility = ViewStates.Gone;
-            bay3_timeout.Visibility = ViewStates.Gone;
-            bay3_makemodelcolor.Visibility = ViewStates.Gone;
-            bay3_services.Visibility = ViewStates.Gone;
-            bay3_upcharges.Visibility = ViewStates.Gone;
+            if (this.ViewModel.dbSchedule != null && this.ViewModel.dbSchedule.DetailsGrid != null && this.ViewModel.dbSchedule.DetailsGrid.BayDetailViewModel != null && this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
+            {
+                bay3_timein.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].TimeIn;
+                bay3_client.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].ClientName;
+                bay3_phone.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].PhoneNumber;
+                bay3_timeout.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].EstimatedTimeOut;
+                bay3_makemodelcolor.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].VehicleMake + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].VehicleModel + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].VehicleColor;
+                bay3_services.Text = this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].ServiceTypeName;
+                bay3_upcharges.Text = "$" + " " + this.ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel[2].Upcharge.ToString();
+            }           
         }
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
