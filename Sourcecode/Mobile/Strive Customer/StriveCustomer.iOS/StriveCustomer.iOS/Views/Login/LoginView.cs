@@ -27,6 +27,16 @@ namespace StriveCustomer.iOS.Views.Login
             set.Bind(LoginButton).To(vm => vm.Commands["DoLogin"]);
             set.Bind(ForgotPasswordButton).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
+
+            SignupLbl.UserInteractionEnabled = true;
+
+            Action action = () =>
+            {
+                UIApplication.SharedApplication.OpenUrl(new NSUrl("https://mammothuat-qa.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE"));
+            };
+
+            UITapGestureRecognizer tap = new UITapGestureRecognizer(action);
+            SignupLbl.AddGestureRecognizer(tap);
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
