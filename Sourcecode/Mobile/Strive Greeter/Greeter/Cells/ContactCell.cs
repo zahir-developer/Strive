@@ -2,20 +2,15 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.Common;
+using Greeter.DTOs;
+using Greeter.Modules.Message;
 using UIKit;
 
 namespace Greeter.Cells
 {
-    public enum ContactCellConfigureType
-    {
-        CreateGroup,
-        Participant,
-        ContactList
-    }
-
     public interface IContactCellDelegate
     {
-        public void RemoveParticipant(object item);
+        public void RemoveParticipant(Contact contact);
     }
 
     public class ContactCell : UITableViewCell
@@ -27,6 +22,8 @@ namespace Greeter.Cells
         UIImageView selectionImageView;
 
         public WeakReference<IContactCellDelegate> Delegate;
+
+        Contact contact;
 
         public ContactCell(IntPtr p) : base(p)
         {
@@ -80,31 +77,43 @@ namespace Greeter.Cells
 
             if(Delegate.TryGetTarget(out IContactCellDelegate cellDelegate))
             {
-                cellDelegate.RemoveParticipant(new { });
+                cellDelegate.RemoveParticipant(contact);
             }
         }
 
         //TODO Pass Real time data here and set later
-        public void SetupData(ContactCellConfigureType configureType, string name)
+        public void SetupData(ContactConfigureType configureType, Contact contact)
         {
-            string[] names = name.Split(" ");
-            contactIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
-            contactNameLabel.Text = name;
+            this.contact = contact;
 
-            if (configureType == ContactCellConfigureType.CreateGroup)
-            {
-                //TODO check selection condition and change background if is selected
-                ContentView.BackgroundColor = UIColor.FromRGB(225.0f / 255.0f, 255.0f / 255.0f, 251.0f / 255.0f);
-                selectionImageView.Image = UIImage.FromBundle(ImageNames.TICK);
-                selectionImageView.UserInteractionEnabled = false;
-            }
-            else if(configureType == ContactCellConfigureType.Participant)
+            string[] names = contact.Name.Split(" ");
+            contactIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
+            contactNameLabel.Text = contact.Name;
+
+            if (configureType == ContactConfigureType.CreateGroup)
             {
                 selectionImageView.Image = UIImage.FromBundle(ImageNames.CLOSE_SOLID);
                 selectionImageView.UserInteractionEnabled = true;
             }
-
-            selectionImageView.Hidden = configureType == ContactCellConfigureType.ContactList;
+            else if(configureType == ContactConfigureType.Participant)
+            {
+                selectionImageView.Image = UIImage.FromBundle(ImageNames.CLOSE_SOLID);
+                selectionImageView.UserInteractionEnabled = true;
+            }
+            else if(configureType == ContactConfigureType.ContactList)
+            {
+                selectionImageView.Image = UIImage.FromBundle(ImageNames.TICK);
+                selectionImageView.UserInteractionEnabled = false;
+                selectionImageView.Hidden = !contact.IsSelected;
+                if (contact.IsSelected)
+                {
+                    ContentView.BackgroundColor = UIColor.FromRGB(225.0f / 255.0f, 255.0f / 255.0f, 251.0f / 255.0f);
+                }
+                else
+                {
+                    ContentView.BackgroundColor = UIColor.White;
+                }
+            }
         }
     }
 }

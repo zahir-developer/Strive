@@ -2,7 +2,6 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
-using Greeter.Common;
 using UIKit;
 
 namespace Greeter.Modules.Message
@@ -43,11 +42,6 @@ namespace Greeter.Modules.Message
         void SetupNavigationItem()
         {
             Title = "Recent Chats";
-
-            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.ADD_CIRCLE), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
-            {
-
-            });
         }
 
         void RegisterCell()

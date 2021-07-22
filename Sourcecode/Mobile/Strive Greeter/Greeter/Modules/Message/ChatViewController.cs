@@ -108,7 +108,7 @@ namespace Greeter.Modules.Message
             {
                 NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.PARTICIPANTS), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
                 {
-                    NavigationController.PushViewController(new GroupParticipantsViewController(), true);
+                    NavigationController.PushViewController(new GroupParticipantsViewController(false), true);
                 });
             }
         }
