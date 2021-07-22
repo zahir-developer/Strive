@@ -13,6 +13,8 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Strive.Core.Models.TimInventory;
+using Strive.Core.Utils.Owner;
+using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Resources.Fragments;
 using static Android.App.ActionBar;
 
@@ -23,12 +25,21 @@ namespace StriveOwner.Android.Adapter
 
         Context context;
         ObservableCollection<InventoryDataModel> inventorylist = new ObservableCollection<InventoryDataModel>();
-        InventoryMainAdapterViewHolder inventoryViewHolder;
+        public InventoryMainAdapterViewHolder inventoryViewHolder;
         private Dialog popupMainInvetory;
+        private InventoryViewModel invVM = new InventoryViewModel();
+
         public InventoryMainAdapter(Context context, ObservableCollection<InventoryDataModel> inventorylist)
         {
             this.context = context;
             this.inventorylist = inventorylist;
+            GetData();
+
+        }
+        public async void GetData()
+        {
+            await invVM.GetProductsCommand();
+            await invVM.GetVendorsCommand();
         }
 
         public override long GetItemId(int position)
@@ -40,10 +51,35 @@ namespace StriveOwner.Android.Adapter
         {
             inventoryViewHolder = holder as InventoryMainAdapterViewHolder;
             inventoryViewHolder.productCode.Text = inventorylist[position].Product.ProductCode;
+            OwnerTempData.ItemCode = inventorylist[position].Product.ProductCode;
             inventoryViewHolder.productName.Text = inventorylist[position].Product.ProductName;
+            OwnerTempData.ItemName = inventorylist[position].Product.ProductName;
             inventoryViewHolder.productDescription.Text = inventorylist[position].Product.ProductDescription;
+            OwnerTempData.ItemDescription = inventorylist[position].Product.ProductDescription;
             inventoryViewHolder.productViewMore.Click += ProductViewMore_Click;
             inventoryViewHolder.productViewMore.Tag = "Tag" + position;
+            inventoryViewHolder.quantityInc.Click += QuantityInc_Click;
+            inventoryViewHolder.quantityInc.Tag = "Tag" + position;
+            inventoryViewHolder.quantityDec.Click += QuantityDec_Click;
+            inventoryViewHolder.quantityDec.Tag = "Tag" + position;
+            inventoryViewHolder.quantityProds.Text = inventorylist[position].Product.Quantity.ToString();
+            OwnerTempData.ItemQuantity = inventorylist[position].Product.Quantity.ToString();
+        }
+
+        private async void QuantityDec_Click(object sender, EventArgs e)
+        {
+            var objs = (TextView)sender;
+            var tagsOBJ = objs.Tag.ToString().Split('g');
+            var positions = int.Parse(tagsOBJ[1]);
+            invVM.DecrementCommand(positions);
+        }
+
+        private async void QuantityInc_Click(object sender, EventArgs e)
+        {
+            var objs = (TextView)sender;
+            var tagsOBJ = objs.Tag.ToString().Split('g');
+            var positions = int.Parse(tagsOBJ[1]);
+            invVM.IncrementCommand(positions);
         }
 
         private void ProductViewMore_Click(object sender, EventArgs e)
@@ -65,10 +101,15 @@ namespace StriveOwner.Android.Adapter
             var popout_Request = popupMainInvetory.FindViewById<Button>(Resource.Id.popout_Request); 
             var edit_Items = popupMainInvetory.FindViewById<TextView>(Resource.Id.edit_Items);
             popout_Name.Text = inventorylist[positions].Vendor.VendorName;
+            OwnerTempData.SupplierName = inventorylist[positions].Vendor.VendorName;
             popout_Contact.Text = inventorylist[positions].Vendor.PhoneNumber;
+            OwnerTempData.SupplierContact = inventorylist[positions].Vendor.PhoneNumber;
             popout_FAX.Text = inventorylist[positions].Vendor.Fax;
+            OwnerTempData.SupplierFax = inventorylist[positions].Vendor.Fax;
             popout_Address.Text = inventorylist[positions].Vendor.Address1;
+            OwnerTempData.SupplierAddress = inventorylist[positions].Vendor.Address1;
             popout_Email.Text = inventorylist[positions].Vendor.Email;
+            OwnerTempData.SupplierEmail = inventorylist[positions].Vendor.Email;
             edit_Items.Click += Edit_Items_Click;
             close.Click += Close_Click;
         }
@@ -112,6 +153,9 @@ namespace StriveOwner.Android.Adapter
         public TextView productCode;
         public TextView productDescription;
         public TextView productViewMore;
+        public Button quantityInc;
+        public Button quantityDec;
+        public TextView quantityProds;
 
         public InventoryMainAdapterViewHolder(View inventoryProd) : base(inventoryProd)
         {
@@ -119,6 +163,9 @@ namespace StriveOwner.Android.Adapter
             productCode = inventoryProd.FindViewById<TextView>(Resource.Id.productcode);
             productDescription = inventoryProd.FindViewById<TextView>(Resource.Id.productdescription);
             productViewMore = inventoryProd.FindViewById<TextView>(Resource.Id.productviewmore);
+            quantityInc = inventoryProd.FindViewById<Button>(Resource.Id.quantityInc);
+            quantityDec = inventoryProd.FindViewById<Button>(Resource.Id.quantityDec);
+            quantityProds = inventoryProd.FindViewById<TextView>(Resource.Id.quantityProds);
         }
 
     }
