@@ -15,6 +15,7 @@ namespace Strive.Core.Utils.Owner
         public static string SupplierFax { get; set; }
         public static string SupplierAddress { get; set; }
         public static string SupplierEmail { get; set; }
+        public static int LocationID { get; set; }
 
     }
 }

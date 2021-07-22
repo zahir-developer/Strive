@@ -26,8 +26,11 @@ namespace StriveOwner.Android.Adapter
         Context context;
         ObservableCollection<InventoryDataModel> inventorylist = new ObservableCollection<InventoryDataModel>();
         public InventoryMainAdapterViewHolder inventoryViewHolder;
+        private Dialog popupRequest;
         private Dialog popupMainInvetory;
         private InventoryViewModel invVM = new InventoryViewModel();
+        private EditText quantity;
+        private int index;
 
         public InventoryMainAdapter(Context context, ObservableCollection<InventoryDataModel> inventorylist)
         {
@@ -40,6 +43,7 @@ namespace StriveOwner.Android.Adapter
         {
             await invVM.GetProductsCommand();
             await invVM.GetVendorsCommand();
+            await invVM.InventorySearchCommand(" ");
         }
 
         public override long GetItemId(int position)
@@ -87,6 +91,7 @@ namespace StriveOwner.Android.Adapter
             var objs = (TextView)sender;
             var tagsOBJ = objs.Tag.ToString().Split('g');
             var positions = int.Parse(tagsOBJ[1]);
+            index = int.Parse(tagsOBJ[1]);
             popupMainInvetory = new Dialog(this.context);
             popupMainInvetory.SetContentView(Resource.Layout.SuppliersPopOut);
             popupMainInvetory.Window.SetSoftInputMode(SoftInput.AdjustResize);
@@ -112,6 +117,34 @@ namespace StriveOwner.Android.Adapter
             OwnerTempData.SupplierEmail = inventorylist[positions].Vendor.Email;
             edit_Items.Click += Edit_Items_Click;
             close.Click += Close_Click;
+            popout_Request.Click += Popout_Request_Click;
+        }
+
+        private void Popout_Request_Click(object sender, EventArgs e)
+        {
+            popupRequest = new Dialog(this.context);
+            popupRequest.SetContentView(Resource.Layout.RequestPopout);
+            popupRequest.Window.SetSoftInputMode(SoftInput.AdjustResize);
+            popupRequest.Show();
+            popupRequest.Window.SetLayout(LayoutParams.MatchParent, LayoutParams.WrapContent);
+            var close = popupRequest.FindViewById<ImageView>(Resource.Id.requestclosepopup);
+            var confirm = popupRequest.FindViewById<Button>(Resource.Id.confirmrequest);
+            quantity = popupRequest.FindViewById<EditText>(Resource.Id.quantityamount);
+            confirm.Click += Confirm_Click;
+            close.Click += Close_ClickRequest;
+        }
+
+        private async void Confirm_Click(object sender, EventArgs e)
+        {
+            popupRequest.Dismiss();
+            popupMainInvetory.Hide();
+            invVM.ProductRequestCommand(int.Parse(quantity.Text), index);
+        }
+
+        private void Close_ClickRequest(object sender, EventArgs e)
+        {
+            popupRequest.Dismiss();
+            popupMainInvetory.Hide();
         }
 
         private void Edit_Items_Click(object sender, EventArgs e)

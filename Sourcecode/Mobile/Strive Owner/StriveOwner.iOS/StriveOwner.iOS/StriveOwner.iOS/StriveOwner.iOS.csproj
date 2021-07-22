@@ -258,6 +258,22 @@
         <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car%403x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car-1.png" />
         <ImageAsset Include="Resources\Assets.xcassets\DetailCost.imageset\Detail cost per car %402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\icon-rightArrow.imageset\Icon ionic-md-arrow-dropright%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\barChart-Active.imageset\Icon awesome-chart-bar%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\pieChart.imageset\Icon awesome-chart-pie%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -304,6 +320,10 @@
         <Folder Include="Resources\Assets.xcassets\Ave-TotalPerCar.imageset\" />
         <Folder Include="Resources\Assets.xcassets\LaborCost.imageset\" />
         <Folder Include="Resources\Assets.xcassets\DetailCost.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\icon-rightArrow.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\barChart-Active.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\pieChart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\lineChart.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -320,6 +340,7 @@
         <InterfaceDefinition Include="Views\Messenger\Chat\MessageIncomingCell.xib" />
         <InterfaceDefinition Include="Views\Messenger\Chat\MessageOutgoingCell.xib" />
         <InterfaceDefinition Include="Views\HomeView\HomeView.xib" />
+        <InterfaceDefinition Include="Views\HomeView\DBSchedule_Cell.xib" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.plist" />
@@ -393,6 +414,11 @@
           <DependentUpon>HomeView.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\Messenger\MsgGroup_DataSource.cs" />
+        <Compile Include="Views\HomeView\DBSchedule_DataSource.cs" />
+        <Compile Include="Views\HomeView\DBSchedule_Cell.cs" />
+        <Compile Include="Views\HomeView\DBSchedule_Cell.designer.cs">
+          <DependentUpon>DBSchedule_Cell.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

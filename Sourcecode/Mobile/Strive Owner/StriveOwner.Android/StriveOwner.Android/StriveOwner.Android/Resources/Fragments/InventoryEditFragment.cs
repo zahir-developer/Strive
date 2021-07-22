@@ -65,6 +65,8 @@ namespace StriveOwner.Android.Resources.Fragments
         private void SaveButton_Click(object sender, EventArgs e)
         {
             this.ViewModel.SaveItems();
+            var selected_MvxFragment = new DashboardHomeFragment();
+            FragmentManager.BeginTransaction().Replace(Resource.Id.content_Frame, selected_MvxFragment).Commit();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

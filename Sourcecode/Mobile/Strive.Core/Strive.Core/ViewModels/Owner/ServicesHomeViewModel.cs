@@ -11,13 +11,13 @@ namespace Strive.Core.ViewModels.Owner
     public class ServicesHomeViewModel: BaseViewModel
     {
         public GetDashboardStatisticsForLocationId statisticsData { get; set; }
-        public async Task getStatistics()
+        public async Task getStatistics(int locationId)
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
 
             var result = await AdminService.getDashboardServices(new StatisticRequest
             {
-                locationId = 1,
+                locationId = locationId,
                 fromDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
                 toDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
             });

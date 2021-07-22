@@ -8,6 +8,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:weightSum="1">
          <TextView
             android:layout_width="0dp"
@@ -33,6 +34,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:gravity="left">
         <TextView
             android:layout_width="0dp"
@@ -59,6 +61,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:gravity="left">
         <TextView
             android:layout_width="0dp"
@@ -85,6 +88,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:gravity="left">
         <TextView
             android:layout_width="0dp"
@@ -111,6 +115,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:gravity="left">
         <TextView
             android:layout_width="0dp"
@@ -137,6 +142,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
         android:gravity="left">
         <TextView
             android:layout_width="0dp"
@@ -162,6 +168,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Request"
+        android:layout_marginLeft="10dp"
         android:textColor="@android:color/white"
         android:background="@drawable/primary_button"/>
     <TextView
@@ -170,6 +177,7 @@
         android:layout_height="wrap_content"
         android:textColor="#24489A"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
         android:fontFamily="@font/opensans_bold"
         android:text="Click here to edit the item"/>
 </LinearLayout>

@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
 
 namespace StriveOwner.Android.Resources.Fragments
@@ -48,7 +49,7 @@ namespace StriveOwner.Android.Resources.Fragments
         }
         private async void GetStatistics()
         {
-            await this.ViewModel.getStatistics();
+            await this.ViewModel.getStatistics(OwnerTempData.LocationID);
             noofwashes.Text = this.ViewModel.statisticsData.WashesCount.ToString();
             noofdetails.Text = this.ViewModel.statisticsData.DetailCount.ToString();
             washemployees.Text = this.ViewModel.statisticsData.EmployeeCount.ToString();

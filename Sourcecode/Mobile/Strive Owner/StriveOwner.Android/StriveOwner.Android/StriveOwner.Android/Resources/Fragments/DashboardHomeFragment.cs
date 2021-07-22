@@ -15,6 +15,7 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using Strive.Core.Utils.Owner;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.Android.Adapter;
 
@@ -99,10 +100,10 @@ namespace StriveOwner.Android.Resources.Fragments
             bay3_makemodelcolor = rootView.FindViewById<TextView>(Resource.Id.makemodelcolor_TextView_3);
             bay3_services = rootView.FindViewById<TextView>(Resource.Id.serviceshome_TextView_3);
             bay3_upcharges = rootView.FindViewById<TextView>(Resource.Id.upchargeshome_TextView_3);
-
+            OwnerTempData.LocationID = 1;
+            GetStatistics(OwnerTempData.LocationID);
 
             GetLocations();
-            GetStatistics();
             hidebay1Details();
             hidebay2Details();
             hidebay3Details();
@@ -110,9 +111,9 @@ namespace StriveOwner.Android.Resources.Fragments
             return rootView;
         }
 
-        private async void GetStatistics()
+        private async void GetStatistics(int locationID)
         {
-            await ViewModel.getStatistics();
+            await ViewModel.getStatistics(locationID);
         }
 
         private async void GetLocations()
@@ -142,12 +143,29 @@ namespace StriveOwner.Android.Resources.Fragments
                     BtnID += 1;
                     locationBtn.SetTextColor(Color.ParseColor("#ffffff"));
                     locationBtn.Id = BtnID;
+                    locationBtn.Tag = location.LocationId;
+                    locationBtn.Click += LocationBtn_Click;
                     row.AddView(locationBtn);
                 }
                 locationsLayout.AddView(row);
             }
 
         }
+
+        private void LocationBtn_Click(object sender, EventArgs e)
+        {
+            var data = (Button)sender;
+            var locationId = Convert.ToInt32(data.Tag);
+            OwnerTempData.LocationID = locationId;
+            dashhome_ViewPagerAdapter = new ViewPagerAdapter(ChildFragmentManager);
+            dashhome_ViewPagerAdapter.AddFragment(servicesFragment, "Service");
+            dashhome_ViewPagerAdapter.AddFragment(salesFragment, "Sales");
+            dashhome_ViewPagerAdapter.AddFragment(revenueFragment, "Revenue");
+            dashhome_ViewPager.Adapter = dashhome_ViewPagerAdapter;
+            dashhome_TabLayout.SetupWithViewPager(dashhome_ViewPager);
+            GetStatistics(locationId);
+        }
+
         private void hidebay1Details()
         {
             bay1_timein.Visibility = ViewStates.Gone;
