@@ -69,7 +69,7 @@ namespace StriveOwner.Android.Adapter.CheckOut
         {
             detailViewHolder = holder as CheckOutDetailsViewHolder;
             detailViewHolder.checkOutNumber_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].TicketNumber;
-            detailViewHolder.checkOutName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].CustomerFirstName + vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].CustomerLastName;
+            detailViewHolder.checkOutName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].CustomerFirstName + " "+ vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].CustomerLastName;
             detailViewHolder.checkOutVehicle_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].VehicleDescription;
             detailViewHolder.checkOutServicePrice_TextView.Text = "$" + vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Cost.ToString();
             detailViewHolder.checkOutServiceName_TextView.Text = vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].Services;
@@ -83,29 +83,40 @@ namespace StriveOwner.Android.Adapter.CheckOut
             }
             if (vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "In Progress")
             {
-
+                detailViewHolder.checkoutPayment_TextView.Text = "IN PROGRESS";
+                detailViewHolder.membershipStatus_LinearLayout.SetBackgroundColor(Color.ParseColor("#ffffff"));
+                detailViewHolder.checkOut_ImageView.Visibility = ViewStates.Gone;
             }
             else if(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Paid")
             {
                 detailViewHolder.checkoutPayment_TextView.Text = "PAID";
                 detailViewHolder.checkOut_ImageView.SetImageResource(Resource.Drawable.paidCheck);
+                detailViewHolder.checkOut_ImageView.Visibility = ViewStates.Visible;
                 detailViewHolder.membershipStatus_LinearLayout.SetBackgroundColor(Color.ParseColor("#AFE9E3"));
             }
             else if(vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Completed")
             {
-
+                detailViewHolder.checkoutPayment_TextView.Text = "COMPLETED";
+                detailViewHolder.membershipStatus_LinearLayout.SetBackgroundColor(Color.ParseColor("#ffffff"));
+                detailViewHolder.checkOut_ImageView.Visibility = ViewStates.Gone;
             }
             else if (vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Canceled")
             {
-
+                detailViewHolder.checkoutPayment_TextView.Text = "CANCELLED";
+                detailViewHolder.membershipStatus_LinearLayout.SetBackgroundColor(Color.ParseColor("#ffffff"));
+                detailViewHolder.checkOut_ImageView.Visibility = ViewStates.Gone;
             }
             else if (vehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel[position].MembershipNameOrPaymentStatus == "Open")
             {
-
+                detailViewHolder.checkoutPayment_TextView.Text = "OPEN";
+                detailViewHolder.membershipStatus_LinearLayout.SetBackgroundColor(Color.ParseColor("#ffffff"));
+                detailViewHolder.checkOut_ImageView.Visibility = ViewStates.Gone;
             }
             else
             {
-
+                detailViewHolder.checkoutPayment_TextView.Text = "OPEN";
+                detailViewHolder.membershipStatus_LinearLayout.SetBackgroundColor(Color.ParseColor("#ffffff"));
+                detailViewHolder.checkOut_ImageView.Visibility = ViewStates.Gone;
             }
         }
 

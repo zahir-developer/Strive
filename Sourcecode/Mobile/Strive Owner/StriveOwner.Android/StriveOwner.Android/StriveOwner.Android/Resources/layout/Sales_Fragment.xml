@@ -33,6 +33,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/wash_sales"/>
                 <TextView
+                    android:id="@+id/washsales"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -67,6 +68,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/detail_sales"/>
                 <TextView
+                    android:id="@+id/detailsales"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -107,6 +109,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/extra_services_sales"/>
                 <TextView
+                    android:id="@+id/extraservicesales"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -141,6 +144,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/merchandise_sales"/>
                 <TextView
+                    android:id="@+id/merchandisesales"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -181,6 +185,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/total_sales"/>
                 <TextView
+                    android:id="@+id/totalsales"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -215,6 +220,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/monthly_client_sales"/>
                 <TextView
+                    android:id="@+id/monthclientsales"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"

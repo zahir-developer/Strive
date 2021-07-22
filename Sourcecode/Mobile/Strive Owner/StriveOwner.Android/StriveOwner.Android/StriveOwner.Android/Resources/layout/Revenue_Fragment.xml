@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -33,6 +33,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/redchart"/>
                 <TextView
+                    android:id="@+id/avgmoneyewashpercar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -67,6 +68,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/yellowchart"/>
                 <TextView
+                    android:id="@+id/avgmoneyedetailpercar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -107,6 +109,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/bluechart"/>
                 <TextView
+                    android:id="@+id/avgmoneyeextraservicepercar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -141,6 +144,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/currentcars"/>
                 <TextView
+                    android:id="@+id/avgmoneytotalpercar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -181,6 +185,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/laborsales"/>
                 <TextView
+                    android:id="@+id/laborcostpercar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -215,6 +220,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/detailcost"/>
                 <TextView
+                    android:id="@+id/detailcostpercar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -226,4 +232,3 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-

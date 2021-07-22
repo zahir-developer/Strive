@@ -113,7 +113,7 @@ namespace StriveOwner.Android.Adapter
         {
             if(MessengerTempData.ClickAction == 1)
             {
-                MessengerTempData.SelectedParticipants.EmployeeList.Employee.RemoveAt(position);
+                MessengerTempData.createGroup_Contact.EmployeeList.Employee.RemoveAt(position);
                 NotifyItemRemoved(position);
                 NotifyItemRangeChanged(position, selectedParticipants.EmployeeList.Employee.Count);
                 MessengerTempData.ClickAction = 0;

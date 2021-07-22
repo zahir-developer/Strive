@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Adapter\CheckOutDetailsAdapter.cs" />
     <Compile Include="Adapter\IItemClickListener.cs" />
+    <Compile Include="Adapter\InventoryMainAdapter.cs" />
     <Compile Include="Adapter\MessengerChatAdapter.cs" />
     <Compile Include="Adapter\MessengerContactsAdapter.cs" />
     <Compile Include="Adapter\MessengerCreateGroupAdapter.cs" />
@@ -81,6 +82,8 @@
     <Compile Include="MvvmCross\Setup.cs" />
     <Compile Include="Resources\Fragments\CheckOutFragment.cs" />
     <Compile Include="Resources\Fragments\DashboardHomeFragment.cs" />
+    <Compile Include="Resources\Fragments\InventoryEditFragment.cs" />
+    <Compile Include="Resources\Fragments\InventoryMainFragment.cs" />
     <Compile Include="Resources\Fragments\MessengerContactFragment.cs" />
     <Compile Include="Resources\Fragments\MessengerCreateGroupFragment.cs" />
     <Compile Include="Resources\Fragments\MessengerFinalizeGroupFragment.cs" />
@@ -1010,6 +1013,34 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\chartpie.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\InventoryMain_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\InventoryMain_ItemView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SuppliersPopOut.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\InventoryEdit_Fragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RequestPopout.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerGroups;
+using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
@@ -16,7 +17,12 @@ namespace Strive.Core.ViewModels.Employee
     {
 
         #region Properties
-
+        public string Message { get; set; }
+        public string chatgroupsID { get; set; }
+        public int groupsID { get; set; }
+        public bool SentSuccess { get; set; }
+        public PersonalChatMessages chatMessages { get; set; }
+        public SendChatMessage sendChat { get; set; }
         public CreateGroupChat groupChatInfo { get; set; }
         public string GroupName { get; set; }
         public EmployeeList EmployeeLists { get; set; }
@@ -73,7 +79,11 @@ namespace Strive.Core.ViewModels.Employee
             else
             {
                 _userDialog.Toast("Group chat created successfully");
+                chatgroupsID = groupChatResponse.Result.GroupId;
+                groupsID = groupChatResponse.Result.ChatGroupId;
+
             }
+            await SendMessage();
             await GetContactsList("%20");
             _userDialog.HideLoading();
         }
@@ -133,6 +143,71 @@ namespace Strive.Core.ViewModels.Employee
             _userDialog.Alert("Please enter group name to save");
         }
 
+
+        public async Task SendMessage()
+        {
+            if (true)
+            {
+                sendChat = new SendChatMessage();
+                sendChat.chatMessage = new chatMessage();
+                sendChat.chatMessageRecipient = new chatMessageRecipient();
+                sendChat.chatGroupRecipient = null;
+                FillChatDetails();
+                var result = await MessengerService.SendChatMessage(sendChat);
+                if (result == null || !result.Status)
+                {
+                    SentSuccess = false;
+                    _userDialog.Toast("Message not sent");
+                }
+                else
+                {
+                    SentSuccess = result.Status;
+                    //if(MessengerTempData.IsGroup)
+                    //{
+                    //   ChatHubMessagingService.SendMessageToGroup(sendChat);
+                    //}
+                }
+            }
+        }
+        public bool CheckEmptyChat()
+        {
+            bool result = true;
+            if (String.IsNullOrEmpty(Message))
+            {
+                _userDialog.Toast("Enter a message to send");
+                return result;
+            }
+            return result = false;
+        }
+
+        public void FillChatDetails()
+        {
+            sendChat.chatMessage.chatMessageId = 0;
+            sendChat.chatMessage.subject = null;
+            sendChat.chatMessage.messagebody = "CheckMessage";
+            sendChat.chatMessage.parentChatMessageId = null;
+            sendChat.chatMessage.expiryDate = null;
+            sendChat.chatMessage.isReminder = true;
+            sendChat.chatMessage.nextRemindDate = null;
+            sendChat.chatMessage.reminderFrequencyId = null;
+            sendChat.chatMessage.createdBy = 0;
+            sendChat.chatMessage.createdDate = DateUtils.ConvertDateTimeWithZ();
+
+            sendChat.chatMessageRecipient.chatRecipientId = 0;
+            sendChat.chatMessageRecipient.chatMessageId = 0;
+            sendChat.chatMessageRecipient.isRead = false;
+            sendChat.chatMessageRecipient.senderId = EmployeeTempData.EmployeeID;
+            sendChat.chatMessageRecipient.createdDate = DateUtils.ConvertDateTimeWithZ();
+            sendChat.chatMessageRecipient.recipientGroupId = groupsID;
+            sendChat.chatMessageRecipient.recipientId = null;
+            sendChat.firstName = MessengerTempData.RecipientName;
+            sendChat.chatMessageRecipient.recipientGroupId = groupsID;
+            sendChat.groupId = chatgroupsID;
+            sendChat.connectionId = chatgroupsID;
+            sendChat.groupName = null;
+            sendChat.fullName = MessengerTempData.FirstName;
+
+        }
         #endregion Commands
     }
 }

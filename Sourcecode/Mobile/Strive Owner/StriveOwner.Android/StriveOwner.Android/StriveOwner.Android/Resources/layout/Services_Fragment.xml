@@ -33,6 +33,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/carwash"/>
                 <TextView
+                    android:id="@+id/noofwashes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -67,6 +68,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/details"/>
                 <TextView
+                    android:id="@+id/noofdetails"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -107,6 +109,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/washemp"/>
                 <TextView
+                    android:id="@+id/washemployees"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -141,6 +144,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/scoreboard"/>
                 <TextView
+                    android:id="@+id/score"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -181,6 +185,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/currentcars"/>
                 <TextView
+                    android:id="@+id/forecastedcars"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"
@@ -215,6 +220,7 @@
                    android:layout_height="25dp"
                    android:src="@drawable/carwashtime"/>
                 <TextView
+                    android:id="@+id/avgcarwashtime"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#11283D"

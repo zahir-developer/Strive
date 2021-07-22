@@ -30,7 +30,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
 
             var employeeDocuments = new employeeDocument();
 
-            employeeDocuments.employeeId = 1463;
+            employeeDocuments.employeeId = EmployeeTempData.EmployeeID;
             employeeDocuments.fileName = this.filename;
             employeeDocuments.filePath = this.filepath;
             employeeDocuments.base64 = this.filedata;
