@@ -85,6 +85,11 @@ namespace Greeter.Storyboards
 				lblVehicle.Dispose ();
 				lblVehicle = null;
 			}
+
+			if (lblService != null) {
+				lblService.Dispose ();
+				lblService = null;
+			}
 		}
 	}
 }

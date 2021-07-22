@@ -3,8 +3,8 @@ using Greeter.Modules.Base;
 
 namespace Greeter.Modules.User
 {
-    public class LocationViewModel : BaseViewModel
-    {
+    //public class LocationViewModel : BaseViewModel
+    //{
 
-    }
+    //}
 }

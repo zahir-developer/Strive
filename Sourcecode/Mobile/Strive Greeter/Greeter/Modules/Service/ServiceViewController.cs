@@ -79,7 +79,7 @@ namespace Greeter
             };
 
             lblLastService.AddGestureRecognizer(new UITapGestureRecognizer(LastServiceTap));
-            lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(NavigateToIssue));
+            lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(ViewIssueTap));
         }
 
         void Initialise()
@@ -118,7 +118,24 @@ namespace Greeter
 
         void LastServiceTap(UITapGestureRecognizer tap)
         {
+            //if (txtFieldBarcode.Text.IsEmpty())
+            //{
+            //    ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
+            //    return;
+            //}
+
             NavigateToLastService();
+        }
+
+        void ViewIssueTap()
+        {
+            //if (txtFieldBarcode.Text.IsEmpty())
+            //{
+            //    ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
+            //    return;
+            //}
+
+            NavigateToIssue();
         }
 
         void NavigateToLastService()
