@@ -213,6 +213,7 @@ export const UrlConfig = {
     getDailyClockDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getCashRegister: `Admin/CashRegister/Get`,
     getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport`,
+    getMonthlyOwedReport: `Admin/Report/GetMonthlyMoneyOwedReport`,
     getEodSaleReport: `Admin/Report/EODSalesReport`,
     getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getDailySalesReport: `Admin/Report/DailySalesReport`,
