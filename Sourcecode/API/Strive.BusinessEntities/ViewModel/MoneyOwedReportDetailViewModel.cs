@@ -11,6 +11,8 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public List<MonthlyMoneyOwedReportDetailViewModel> MoneyOwedReport { get; set; }
 
+        public List<ClientNameViewModel> Client { get; set; }
+
         public List<LocationNameViewModel> Location { get; set; }
     }
 }

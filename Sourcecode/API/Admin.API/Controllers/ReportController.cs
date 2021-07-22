@@ -60,7 +60,7 @@ namespace Admin.API.Controllers
         /// </summary>
         [HttpGet]
         [Route("GetMonthlyMoneyOwedReport")]
-        public Result GetMonthlyMoneyOwedReport(MonthlyMoneyOwedDto MonthlyMoneyOwned) => _bplManager.GetMonthlyMoneyOwedReport(MonthlyMoneyOwned);
+        public Result GetMonthlyMoneyOwedReport(MonthlyMoneyOwedDto MonthlyMoneyOwned) => _bplManager.GetMonthlyMoneyOwedReportDetail(MonthlyMoneyOwned);
 
         /// <summary>
         /// Method to Get MonthlyMoneyOwned Report.

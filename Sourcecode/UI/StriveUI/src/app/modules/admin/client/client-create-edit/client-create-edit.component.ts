@@ -51,6 +51,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.employeeId = +localStorage.getItem('empId');
     this.isVehicleEdit = false;
     this.getService();
+    this.vehicle.addVehicle = undefined;
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
     }
