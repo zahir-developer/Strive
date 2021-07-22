@@ -18,6 +18,12 @@ namespace StriveOwner.Android.Resources.Fragments
 {
     public class SalesFragment : MvxFragment<SalesHomeViewModel>
     {
+        private TextView washsales;
+        private TextView detailsales;
+        private TextView extraservicesales;
+        private TextView merchandisesales;
+        private TextView totalsales;
+        private TextView monthclientsales;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,8 +35,27 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Sales_Fragment, null);
+            this.ViewModel = new SalesHomeViewModel();
 
+            washsales = rootView.FindViewById<TextView>(Resource.Id.washsales);
+            detailsales = rootView.FindViewById<TextView>(Resource.Id.detailsales);
+            extraservicesales = rootView.FindViewById<TextView>(Resource.Id.extraservicesales);
+            merchandisesales = rootView.FindViewById<TextView>(Resource.Id.merchandisesales);
+            totalsales = rootView.FindViewById<TextView>(Resource.Id.totalsales);
+            monthclientsales = rootView.FindViewById<TextView>(Resource.Id.monthclientsales);
+
+            GetStatistics();
             return rootView;
+        }
+        private async void GetStatistics()
+        {
+            await this.ViewModel.getStatistics();
+            washsales.Text = this.ViewModel.statisticsData.WashSales.ToString();
+            detailsales.Text = this.ViewModel.statisticsData.DetailSales.ToString();
+            extraservicesales.Text = this.ViewModel.statisticsData.ExtraServiceSales.ToString();
+            merchandisesales.Text = this.ViewModel.statisticsData.MerchandizeSales.ToString();
+            totalsales.Text = this.ViewModel.statisticsData.TotalSales.ToString();
+            monthclientsales.Text = this.ViewModel.statisticsData.MonthlyClientSales.ToString();
         }
     }
 }

@@ -44,9 +44,12 @@
                     <CalendarView
                         android:id="@+id/schedule_Calendar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                     
+                        android:layout_height="wrap_content"/>                                    
                 </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/scheduleInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </ScrollView>
 </LinearLayout>

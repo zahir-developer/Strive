@@ -20,7 +20,7 @@ using StriveOwner.Android.Adapter;
 
 namespace StriveOwner.Android.Resources.Fragments
 {
-    public class DashboardHomeFragment : MvxFragment<DashboardHomeViewModel>
+    public class DashboardHomeFragment : MvxFragment<HomeViewModel>
     {
         private TextView TempTextView;
         private LinearLayout locationsLayout;
@@ -65,7 +65,7 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.DashboardHome_Fragment, null);
-            this.ViewModel = new DashboardHomeViewModel();
+            this.ViewModel = new HomeViewModel();
 
             servicesFragment = new ServicesFragment();
             salesFragment = new SalesFragment();
@@ -102,11 +102,17 @@ namespace StriveOwner.Android.Resources.Fragments
 
 
             GetLocations();
+            GetStatistics();
             hidebay1Details();
             hidebay2Details();
             hidebay3Details();
 
             return rootView;
+        }
+
+        private async void GetStatistics()
+        {
+            await ViewModel.getStatistics();
         }
 
         private async void GetLocations()

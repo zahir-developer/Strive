@@ -18,6 +18,12 @@ namespace StriveOwner.Android.Resources.Fragments
 {
     public class ServicesFragment : MvxFragment<ServicesHomeViewModel>
     {
+        private TextView noofwashes;
+        private TextView noofdetails;
+        private TextView washemployees;
+        private TextView score;
+        private TextView forecastedcars;
+        private TextView avgcarwashtime;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,8 +35,26 @@ namespace StriveOwner.Android.Resources.Fragments
         {
             var ignore = base.OnCreateView(inflater, container, savedInstanceState);
             var rootView = this.BindingInflate(Resource.Layout.Services_Fragment, null);
+            this.ViewModel = new ServicesHomeViewModel();
+            noofwashes = rootView.FindViewById<TextView>(Resource.Id.noofwashes);
+            noofdetails = rootView.FindViewById<TextView>(Resource.Id.noofdetails);
+            washemployees = rootView.FindViewById<TextView>(Resource.Id.washemployees);
+            score = rootView.FindViewById<TextView>(Resource.Id.score);
+            forecastedcars = rootView.FindViewById<TextView>(Resource.Id.forecastedcars);
+            avgcarwashtime = rootView.FindViewById<TextView>(Resource.Id.avgcarwashtime);
 
+            GetStatistics();
             return rootView;
+        }
+        private async void GetStatistics()
+        {
+            await this.ViewModel.getStatistics();
+            noofwashes.Text = this.ViewModel.statisticsData.WashesCount.ToString();
+            noofdetails.Text = this.ViewModel.statisticsData.DetailCount.ToString();
+            washemployees.Text = this.ViewModel.statisticsData.EmployeeCount.ToString();
+            score.Text = this.ViewModel.statisticsData.Score.ToString();
+            forecastedcars.Text = this.ViewModel.statisticsData.ForecastedCar.ToString();
+            avgcarwashtime.Text = this.ViewModel.statisticsData.AverageWashPerCar.ToString();
         }
     }
 }
