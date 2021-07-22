@@ -7,8 +7,21 @@ namespace Greeter.Common
         // 12 hour clock
         internal const string TIME_FORMAT = "hh:mm tt";
         internal const string DATE_FORMAT = "dd/MM/yyyy";
+        internal const string DATE_FORMAT_FOR_API = "yyyy-MM-dd";
 
         internal const short PAGINATION_LIMIT = 10;
+    }
+
+    class BundleIds
+    {
+        internal const string STRIVE_GREETER = "com.strive.greeter";
+        internal const string MOBILE_UNIT = "com.strive.mobileunit";
+    }
+
+    class AppNames
+    {
+        internal const string STRIVE_GREETER = "Greeter";
+        internal const string MOBILE_UNIT = "Mobile Unit";
     }
 
     public class Urls
@@ -29,10 +42,10 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         // Mammoth QA
-        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";

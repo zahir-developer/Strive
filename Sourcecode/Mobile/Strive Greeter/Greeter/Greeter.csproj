@@ -26,7 +26,7 @@
 		<MtouchArch>x86_64</MtouchArch>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<MtouchDebug>true</MtouchDebug>
-		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
+		<CodesignProvision>Mobile Unit Appstore</CodesignProvision>
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
@@ -57,7 +57,7 @@
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<MtouchLink>Full</MtouchLink>
 		<LangVersion>latest</LangVersion>
-		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
 		<Optimize>false</Optimize>

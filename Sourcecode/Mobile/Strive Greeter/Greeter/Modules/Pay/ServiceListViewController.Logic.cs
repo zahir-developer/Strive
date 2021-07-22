@@ -22,8 +22,8 @@ namespace Greeter.Modules.Pay
         {
             var checkoutRequest = new CheckoutRequest
             {
-                StartDate = DateTime.Now.AddMonths(-1).Date.ToString("yyyy-MM-dd"),
-                EndDate = DateTime.Now.Date.ToString("yyyy-MM-dd"),
+                StartDate = DateTime.Now.AddMonths(-1).Date.ToString(Constants.DATE_FORMAT_FOR_API),
+                EndDate = DateTime.Now.Date.ToString(Constants.DATE_FORMAT_FOR_API),
                 LocationID = AppSettings.LocationID,
                 SortBy = "TicketNumber",
                 SortOrder = "ASC",
