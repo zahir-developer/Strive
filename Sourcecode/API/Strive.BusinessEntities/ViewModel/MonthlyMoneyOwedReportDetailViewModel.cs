@@ -16,7 +16,7 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? MembershipAmount { get; set; }
         public decimal TotalJobAmount { get; set; }
         public decimal? MoneyOwed { get; set; }
-        public decimal Average { get; set; }
+        public decimal? Average { get; set; }
         public int? TotalWashCount { get; set; }
     }
 }
