@@ -45,7 +45,7 @@ namespace StriveCustomer.iOS.Views
 
             var set = this.CreateBindingSet<DealsView, DealsViewModel>();
             set.Bind(DealsTableSource).To(vm => vm.Deals);
-            set.Bind(DealsTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
+            //set.Bind(DealsTableSource).For(s => s.SelectionChangedCommand).To(vm => vm.Commands["NavigateToDetail"]);
             set.Apply();
 
             VehiclesTableView.Source = DealsTableSource;
