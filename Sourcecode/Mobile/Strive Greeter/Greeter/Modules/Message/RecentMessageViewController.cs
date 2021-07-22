@@ -70,8 +70,7 @@ namespace Greeter.Modules.Message
         [Export("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            NavigationController.PushViewController(new ChatViewController(), animated: true);
-
+            NavigationController.PushViewController(new ChatViewController(ChatType.Indivisual), animated: true);
         }
     }
 }

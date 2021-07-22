@@ -9,8 +9,10 @@ namespace Greeter.Modules.Message
         //TODO change string to model object;
         readonly List<string> Chats = new();
 
-        public ChatViewController()
+        readonly ChatType chatType;
+        public ChatViewController(ChatType chatType)
         {
+            this.chatType = chatType;
             _ = GetChatsAsync();
         }
 

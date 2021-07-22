@@ -213,6 +213,10 @@
 		<ImageAsset Include="Resources\Assets.xcassets\refresh.imageset\Icon ionic-ios-refresh.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\refresh.imageset\Icon ionic-ios-refresh%402x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\refresh.imageset\Icon ionic-ios-refresh%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\participants.imageset\Contents.json" />
+		<ImageAsset Include="Resources\Assets.xcassets\participants.imageset\Icon material-group.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\participants.imageset\Icon material-group%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\participants.imageset\Icon material-group%403x.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Resources\" />
@@ -237,6 +241,7 @@
 		<Folder Include="MvvmCross\" />
 		<Folder Include="Modules\Checkout\" />
 		<Folder Include="Services\Api\" />
+		<Folder Include="Resources\Assets.xcassets\participants.imageset\" />
 	</ItemGroup>
 	<ItemGroup>
 		<InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -385,7 +390,9 @@
 		<Compile Include="Services\Api\VehicleApiService.cs" />
 		<Compile Include="Services\Api\PaymentApiService.cs" />
 		<Compile Include="Modules\Pay\ServiceListViewController.cs" />
-		<Compile Include="Modules\Pay\ServiceListViewController.Logic.cs" />
+		<Compile Include="Modules\Pay\ServiceListViewController.Logic.cs">
+			<DependentUpon>Modules\Pay\ServiceListViewController.cs</DependentUpon>
+        </Compile>
 		<Compile Include="Extensions\ListExtension.cs" />
 		<Compile Include="Common\BuildEnvironment.cs" />
 		<Compile Include="Storyboards\PagerViewController.cs" />
@@ -393,6 +400,7 @@
 		  <DependentUpon>PagerViewController.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Modules\Message\MoreOptionViewController.cs" />
+		<Compile Include="Modules\Message\ChatType.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -97,6 +97,7 @@ namespace Greeter.Common
         internal const string COMPLETE = "complete";
         internal const string ADD_GROUP = "add_group";
         internal const string REFRESH = "refresh";
+        internal const string PARTICIPANTS = "participants";
     }
 
     public class ColorNames
