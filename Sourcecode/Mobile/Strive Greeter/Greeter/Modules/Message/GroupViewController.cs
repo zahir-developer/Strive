@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
@@ -10,6 +11,7 @@ namespace Greeter.Modules.Message
     public partial class GroupViewController : UIViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextFieldDelegate
     {
         UITableView messageGroupsTableView;
+        readonly UIRefreshControl refreshControl = new();
 
         public override void ViewDidLoad()
         {
@@ -45,12 +47,15 @@ namespace Greeter.Modules.Message
             searchImageView.Image = UIImage.FromBundle(ImageNames.SEARCH);
             searchContainerView.Add(searchImageView);
 
+            refreshControl.AddTarget((sender, e) => { OnRefersh().ConfigureAwait(false); }, UIControlEvent.ValueChanged);
+
             messageGroupsTableView = new UITableView(CGRect.Empty);
             messageGroupsTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             messageGroupsTableView.RowHeight = 70;
             messageGroupsTableView.SeparatorInsetReference = UITableViewSeparatorInsetReference.CellEdges;
             messageGroupsTableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.Interactive;
             messageGroupsTableView.TableFooterView = new UIView();
+            messageGroupsTableView.RefreshControl = refreshControl;
             View.Add(messageGroupsTableView);
 
             searchContainerView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 20).Active = true;
@@ -82,11 +87,6 @@ namespace Greeter.Modules.Message
             {
 
             });
-
-            //NavigationItem.RightBarButtonItem = new UIBarButtonItem("Save", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
-            //{
-
-            //});
         }
 
         void RegisterCell()
@@ -118,7 +118,7 @@ namespace Greeter.Modules.Message
         [Export("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            NavigationController.PushViewController(new ChatViewController(), animated: true);
+            NavigationController.PushViewController(new ChatViewController(ChatType.Group), animated: true);
         }
     }
 }

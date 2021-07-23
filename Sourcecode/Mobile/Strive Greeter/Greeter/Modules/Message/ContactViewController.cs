@@ -7,6 +7,13 @@ using UIKit;
 
 namespace Greeter.Modules.Message
 {
+    public enum ContactConfigureType
+    {
+        CreateGroup,
+        Participant,
+        ContactList
+    }
+
     public partial class ContactViewController: UIViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextFieldDelegate
     {
         UITableView contactTableView;
@@ -53,6 +60,7 @@ namespace Greeter.Modules.Message
             contactTableView.SeparatorInsetReference = UITableViewSeparatorInsetReference.CellEdges;
             contactTableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.Interactive;
             contactTableView.TableFooterView = new UIView();
+            contactTableView.AllowsMultipleSelection = true;
             View.Add(contactTableView);
 
             searchContainerView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 20).Active = true;
@@ -78,12 +86,15 @@ namespace Greeter.Modules.Message
 
         void SetupNavigationItem()
         {
-            Title = "Contacts";
-
-            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.ADD_CIRCLE), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
+            if (configureType == ContactConfigureType.CreateGroup)
             {
-
-            });
+                Title = "Create Group";
+                NavigationItem.RightBarButtonItem = new UIBarButtonItem("Next", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => OnCreateGroup());
+            }
+            else
+            {
+                Title = "Contacts";
+            }
         }
 
         void RegisterCell()
@@ -108,14 +119,16 @@ namespace Greeter.Modules.Message
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
-            cell.SetupData(ContactCellConfigureType.ContactList, contacts[indexPath.Row]);
+            cell.SetupData(ContactConfigureType.ContactList, contacts[indexPath.Row]);
             return cell;
         }
 
-        //[Export("sectionIndexTitlesForTableView:")]
-        //public string[] SectionIndexTitles(UITableView tableView)
-        //{
-        //    return new string[] { "A", "B" };
-        //}
+        [Export("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var contact = contacts[indexPath.Row];
+            contact.IsSelected = !contact.IsSelected;
+            tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
+        }
     }
 }

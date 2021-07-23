@@ -1,21 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Greeter.DTOs;
 
 namespace Greeter.Modules.Message
 {
     public partial class ContactViewController
     {
-        List<string> contacts = new();
+        List<Contact> contacts = new();
+        readonly ContactConfigureType configureType;
 
-        public ContactViewController()
+        public ContactViewController(ContactConfigureType configureType)
         {
-            contacts.Add("William Jones");
-            contacts.Add("Jimmy Tester");
-            contacts.Add("Brittany Rose");
-            contacts.Add("John Rambo");
-            contacts.Add("Daniel Steel");
-            contacts.Add("Bruce Wayne");
-            contacts.Add("Peter Parker");
+            this.configureType = configureType;
+            contacts.AddRange(new List<Contact>
+            {
+                new Contact { Name = "William Jones" },
+                new Contact { Name = "Jimmy Tester" },
+                new Contact { Name = "Brittany Rose" },
+                new Contact { Name = "John Rambo" },
+                new Contact { Name = "Daniel Steel" },
+                new Contact { Name = "Bruce Wayne" },
+                new Contact { Name = "Peter Parker" }
+            });
         }
 
         Task GetContacts()
@@ -26,6 +32,11 @@ namespace Greeter.Modules.Message
         async Task SearchContact(string keyword)
         {
             await Task.CompletedTask;
+        }
+
+        void OnCreateGroup()
+        {
+
         }
     }
 }

@@ -27,5 +27,13 @@ namespace Greeter.Modules.Message
         {
             await Task.CompletedTask;
         }
+
+        async Task OnRefersh()
+        {
+            //TODO refresh data
+
+            await Task.Delay(2000);
+            refreshControl.EndRefreshing();
+        }
     }
 }

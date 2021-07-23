@@ -86,13 +86,13 @@ namespace Greeter.Modules.Message
             groupTitleLabel.AddGestureRecognizer(new UITapGestureRecognizer(GroupTapped));
             backgroundContainerView.Add(groupTitleLabel);
 
-            var moreImageView = new UIImageView(CGRect.Empty);
-            moreImageView.TranslatesAutoresizingMaskIntoConstraints = false;
-            moreImageView.Image = UIImage.FromBundle(ImageNames.More);
-            moreImageView.UserInteractionEnabled = true;
-            moreImageView.AddGestureRecognizer(new UITapGestureRecognizer(MoreTapped));
-            moreImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-            backgroundContainerView.Add(moreImageView);
+            //var moreImageView = new UIImageView(CGRect.Empty);
+            //moreImageView.TranslatesAutoresizingMaskIntoConstraints = false;
+            //moreImageView.Image = UIImage.FromBundle(ImageNames.More);
+            //moreImageView.UserInteractionEnabled = true;
+            //moreImageView.AddGestureRecognizer(new UITapGestureRecognizer(MoreTapped));
+            //moreImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+            //backgroundContainerView.Add(moreImageView);
 
             indicatorView = new UIView(CGRect.Empty);
             indicatorView.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -122,15 +122,16 @@ namespace Greeter.Modules.Message
             contactTitleLabel.SetContentCompressionResistancePriority(249, UILayoutConstraintAxis.Horizontal);
 
             groupTitleLabel.LeadingAnchor.ConstraintEqualTo(contactTitleLabel.TrailingAnchor).Active = true;
-            groupTitleLabel.TrailingAnchor.ConstraintEqualTo(moreImageView.LeadingAnchor, constant: -30).Active = true;
+            //groupTitleLabel.TrailingAnchor.ConstraintEqualTo(moreImageView.LeadingAnchor, constant: -30).Active = true;
+            groupTitleLabel.TrailingAnchor.ConstraintEqualTo(backgroundContainerView.TrailingAnchor, constant: -30).Active = true;
             groupTitleLabel.TopAnchor.ConstraintEqualTo(backgroundContainerView.TopAnchor).Active = true;
             groupTitleLabel.HeightAnchor.ConstraintEqualTo(60).Active = true;
             groupTitleLabel.SetContentCompressionResistancePriority(249, UILayoutConstraintAxis.Horizontal);
 
-            moreImageView.TrailingAnchor.ConstraintEqualTo(backgroundContainerView.TrailingAnchor, constant: -30).Active = true;
-            moreImageView.TopAnchor.ConstraintEqualTo(backgroundContainerView.TopAnchor, constant: 20).Active = true;
-            moreImageView.WidthAnchor.ConstraintEqualTo(20).Active = true;
-            moreImageView.HeightAnchor.ConstraintEqualTo(20).Active = true;
+            //moreImageView.TrailingAnchor.ConstraintEqualTo(backgroundContainerView.TrailingAnchor, constant: -30).Active = true;
+            //moreImageView.TopAnchor.ConstraintEqualTo(backgroundContainerView.TopAnchor, constant: 20).Active = true;
+            //moreImageView.WidthAnchor.ConstraintEqualTo(20).Active = true;
+            //moreImageView.HeightAnchor.ConstraintEqualTo(20).Active = true;
 
             indicatorView.TopAnchor.ConstraintEqualTo(recentTitleLabel.BottomAnchor).Active = true;
             indicatorView.WidthAnchor.ConstraintEqualTo(150).Active = true;
@@ -155,7 +156,7 @@ namespace Greeter.Modules.Message
         void SetupPageViewController()
         {
             viewControllers[0] = new RecentMessageViewController();
-            viewControllers[1] = new ContactViewController();
+            viewControllers[1] = new ContactViewController(ContactConfigureType.ContactList);
             viewControllers[2] = new GroupViewController();
 
             pageViewController = new UIPageViewController(UIPageViewControllerTransitionStyle.Scroll, UIPageViewControllerNavigationOrientation.Horizontal)
@@ -240,16 +241,16 @@ namespace Greeter.Modules.Message
             UpdateIndicatorPosition(MenuType.Group);
         }
 
-        void MoreTapped(UITapGestureRecognizer tapGestureRecognizer)
-        {
-            var moreOptionViewController = new MoreOptionViewController();
-            moreOptionViewController.ModalPresentationStyle = UIModalPresentationStyle.Popover;
-            moreOptionViewController.PopoverPresentationController.SourceView = tapGestureRecognizer.View;
-            //moreOptionViewController.PopoverPresentationController.SourceRect = new CGRect(0, 0, 180, 80);
-            moreOptionViewController.PreferredContentSize = new CGSize(250, 100);
-            moreOptionViewController.PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Up;
-            PresentViewController(moreOptionViewController, true, null);
-        }
+        //void MoreTapped(UITapGestureRecognizer tapGestureRecognizer)
+        //{
+        //    var moreOptionViewController = new MoreOptionViewController();
+        //    moreOptionViewController.ModalPresentationStyle = UIModalPresentationStyle.Popover;
+        //    moreOptionViewController.PopoverPresentationController.SourceView = tapGestureRecognizer.View;
+        //    //moreOptionViewController.PopoverPresentationController.SourceRect = new CGRect(0, 0, 180, 80);
+        //    moreOptionViewController.PreferredContentSize = new CGSize(250, 100);
+        //    moreOptionViewController.PopoverPresentationController.PermittedArrowDirections = UIPopoverArrowDirection.Up;
+        //    PresentViewController(moreOptionViewController, true, null);
+        //}
 
         void UpdateIndicatorPosition(MenuType menuType)
         {

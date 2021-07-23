@@ -357,12 +357,31 @@ namespace Greeter.Modules.Pay
             View.EndEditing(true);
         }
 
-        short lastEditedPos = 4;
-
         [Export("textField:shouldChangeCharactersInRange:replacementString:")]
         public bool ShouldChangeCharacters(UITextField textField, NSRange range, string replacementString)
         {
-            var value = true;
+            if (textField == tipAmountTextField)
+            {
+                if (replacementString.Length > 1) return false;
+
+                var oldNSString = new NSString(tipAmountTextField.Text ?? string.Empty);
+
+                var replacedString = oldNSString.Replace(range, new NSString(replacementString))
+                    .ToString()
+                    .Replace(".", string.Empty);
+
+                if (int.TryParse(replacedString, out int tipAmount))
+                {
+                    var formattedString = tipAmount.ToString("D" + 4.ToString())
+                        .Insert(2, ".");
+
+                    if (formattedString.Length > 5) return false;
+
+                    tipAmountTextField.Text = formattedString;
+                }
+
+                return false;
+            }
 
             if (textField == cardNumberTextField)
             {
@@ -380,7 +399,7 @@ namespace Greeter.Modules.Pay
                 return replacedString.Length <= 3;
             }
 
-            return value;
+            return true;
         }
 
         [Export("textFieldShouldReturn:")]
