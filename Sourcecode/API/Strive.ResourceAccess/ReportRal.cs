@@ -133,12 +133,12 @@ namespace Strive.ResourceAccess
             var result = db.FetchMultiResult<HourlyWashSalesViewModel>(EnumSP.SalesReport.USPGETHOURLYWASHSALESREPORT.ToString(), _prm);
             return result;
         }
-        public IrregularitiesViewModel GetIrregularitiesReport(IrregularitiesDto irregularitiesDto)
+        public IrregularityViewModel GetIrregularitiesReport(IrregularitiesDto irregularitiesDto)
         {
             _prm.Add("@LocationId", irregularitiesDto.LocationId);
             _prm.Add("@FromDate", irregularitiesDto.FromDate);
             _prm.Add("@EndDate", irregularitiesDto.EndDate);
-            var result = db.FetchMultiResult<IrregularitiesViewModel>(EnumSP.SalesReport.USPGETIRREGULARITIESREPORT.ToString(), _prm);
+            var result = db.FetchMultiResult<IrregularityViewModel>(EnumSP.SalesReport.USPGETIRREGULARITIESREPORT.ToString(), _prm);
             return result;
         }
         

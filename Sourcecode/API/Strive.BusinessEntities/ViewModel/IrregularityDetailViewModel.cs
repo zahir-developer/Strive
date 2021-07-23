@@ -16,9 +16,9 @@ namespace Strive.BusinessEntities.ViewModel
         public string Color { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
-        public decimal ExtraServices { get; set; }
-        public decimal SaleAmt { get; set; }
-        public decimal Discount { get; set; }
+        public decimal? ExtraServices { get; set; }
+        public decimal? SaleAmt { get; set; }
+        public decimal? Discount { get; set; }
         public string PaidBy { get; set; }
 
     }
