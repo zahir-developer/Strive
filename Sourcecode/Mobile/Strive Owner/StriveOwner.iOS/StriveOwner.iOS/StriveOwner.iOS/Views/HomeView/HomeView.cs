@@ -225,9 +225,9 @@ namespace StriveOwner.iOS.Views.HomeView
 
             var Items = new Collection<Item>
             {
-                new Item {Label = "Main Street", Value1 = 10, Value2 = 7, Value3 = 3},
-                new Item {Label = "Old Milton", Value1 = 7, Value2 = 12, Value3 = 2},
-                new Item {Label = "Holcomb Bridge", Value1 = 13, Value2 = 7, Value3 = 3}
+                new Item {Label = "Main Street", Value1 = 5, Value2 = 3, Value3 = 0},
+                new Item {Label = "Old Milton", Value1 = 4, Value2 = 2, Value3 = 1},
+                new Item {Label = "Holcomb Bridge", Value1 = 1, Value2 = 4, Value3 = 2}
             };
 
             model.Axes.Add(new CategoryAxis { ItemsSource = Items, LabelField = "Label", AbsoluteMinimum = -0.5 });

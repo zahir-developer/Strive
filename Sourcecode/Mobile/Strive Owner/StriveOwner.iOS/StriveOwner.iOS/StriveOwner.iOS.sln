@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.809.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StriveOwner.iOS", "StriveOwner.iOS\StriveOwner.iOS.csproj", "{3ED5F467-7C95-4E9A-AF48-535035C0FBF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StriveOwner", "StriveOwner.iOS\StriveOwner.csproj", "{3ED5F467-7C95-4E9A-AF48-535035C0FBF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strive.Core", "..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj", "{E04062FE-730C-4674-AA48-D4EEF5B1D1A4}"
 EndProject

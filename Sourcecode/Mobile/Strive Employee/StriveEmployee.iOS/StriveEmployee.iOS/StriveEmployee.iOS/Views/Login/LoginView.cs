@@ -25,7 +25,7 @@ namespace StriveEmployee.iOS.Views.Login
             set.Bind(EmailTextfield).To(vm => vm.loginEmailPhone);
             set.Bind(PasswordTextfield).To(vm => vm.loginPassword);
             set.Bind(LoginBtn).To(vm => vm.Commands["DoLogin"]);
-            set.Bind(ForgotPasswordBtn).To(vm => vm.Commands["ForgotPassword"]);
+            //set.Bind(ForgotPasswordBtn).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
             // Perform any additional setup after loading the view, typically from a nib.
         }
@@ -33,6 +33,7 @@ namespace StriveEmployee.iOS.Views.Login
         void DoInitialSetup()
         {
             NavigationController.NavigationBarHidden = true;
+            LoginBtn.Layer.CornerRadius = 5;
             var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
             Tap.CancelsTouchesInView = false;
             View.AddGestureRecognizer(Tap);

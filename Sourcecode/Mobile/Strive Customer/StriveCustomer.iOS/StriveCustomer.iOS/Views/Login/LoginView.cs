@@ -4,6 +4,7 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.Customer;
 using UIKit;
 using Foundation;
+using Strive.Core.Utils;
 
 namespace StriveCustomer.iOS.Views.Login
 {
@@ -32,7 +33,7 @@ namespace StriveCustomer.iOS.Views.Login
 
             Action action = () =>
             {
-                UIApplication.SharedApplication.OpenUrl(new NSUrl("https://mammothuat-qa.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE"));
+                UIApplication.SharedApplication.OpenUrl(new NSUrl(ApiUtils.URL_CUSTOMER_SIGNUP));
             };
 
             UITapGestureRecognizer tap = new UITapGestureRecognizer(action);
