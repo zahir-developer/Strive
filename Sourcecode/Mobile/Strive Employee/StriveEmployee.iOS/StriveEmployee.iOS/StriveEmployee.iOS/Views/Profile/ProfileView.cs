@@ -94,13 +94,14 @@ namespace StriveEmployee.iOS.Views
             await ViewModel.GetGender();
             await ViewModel.GetImmigrationStatus();
             await ViewModel.GetPersonalEmployeeInfo();
-            if ((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
-                || this.ViewModel.PersonalDetails.Employee.EmployeeDocument != null || this.ViewModel.PersonalDetails.Employee.EmployeeLocations != null || this.ViewModel.PersonalDetails.Employee.EmployeeRoles != null)
+            //if ((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null) || this.ViewModel.PersonalDetails.Employee.EmployeeCollision != null
+            //    || this.ViewModel.PersonalDetails.Employee.EmployeeDocument != null || this.ViewModel.PersonalDetails.Employee.EmployeeLocations != null || this.ViewModel.PersonalDetails.Employee.EmployeeRoles != null)
+            if ((this.ViewModel.PersonalDetails.Employee != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo != null))
             {
                 SetEmployeeData();
                 Emp_Firstname.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.Firstname;
                 Emp_Lastname.Text = ViewModel.PersonalDetails.Employee.EmployeeInfo.LastName;
-                if (this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != null)
+                if (this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != null && this.ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender != 0)
                 {
                     Emp_Gender.Text = ViewModel.gender.Codes.Find(x => x.CodeId == ViewModel.PersonalDetails.Employee.EmployeeInfo.Gender).CodeValue;
                 }

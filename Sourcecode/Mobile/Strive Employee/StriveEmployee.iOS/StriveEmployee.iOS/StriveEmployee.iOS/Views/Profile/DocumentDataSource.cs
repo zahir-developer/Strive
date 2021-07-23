@@ -21,7 +21,7 @@ namespace StriveEmployee.iOS.Views
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 70;
+            return 120;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)

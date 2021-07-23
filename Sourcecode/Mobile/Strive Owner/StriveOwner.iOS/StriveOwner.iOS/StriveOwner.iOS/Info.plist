@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>StriveOwner.iOS</string>
+	<string>StriveOwner</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.telliant.StriveOwner</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>1.3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>

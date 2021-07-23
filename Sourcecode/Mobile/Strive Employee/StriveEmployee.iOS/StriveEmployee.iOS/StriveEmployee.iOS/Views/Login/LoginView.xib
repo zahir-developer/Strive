@@ -19,7 +19,6 @@
             <connections>
                 <outlet property="CheckBox" destination="cbV-80-7tm" id="wjK-HQ-H8E"/>
                 <outlet property="EmailTextfield" destination="jyG-XL-I3s" id="iEK-zu-Yhl"/>
-                <outlet property="ForgotPasswordBtn" destination="Vc4-H3-cbL" id="E5N-5A-8td"/>
                 <outlet property="LoginBtn" destination="rCf-Zu-vso" id="770-cj-dqc"/>
                 <outlet property="PasswordTextfield" destination="FXe-VG-IHM" id="riz-6r-tBp"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
@@ -89,51 +88,6 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vc4-H3-cbL">
-                    <rect key="frame" x="20" y="595" width="131" height="30"/>
-                    <state key="normal">
-                        <attributedString key="attributedTitle">
-                            <fragment content="Forgot Password?">
-                                <attributes>
-                                    <color key="NSColor" red="0.11373" green="0.78824000000000005" blue="0.71765000000000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <font key="NSFont" size="16" name="HelveticaNeue"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                    <integer key="NSUnderline" value="1"/>
-                                    <color key="NSUnderlineColor" red="0.11507000000000001" green="0.78556000000000004" blue="0.71555000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                    </state>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73e-GG-ZMn">
-                    <rect key="frame" x="96.5" y="685" width="221" height="21"/>
-                    <attributedString key="attributedText">
-                        <fragment content="Create a new account">
-                            <attributes>
-                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <font key="NSFont" size="16" name="HelveticaNeue"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                            </attributes>
-                        </fragment>
-                        <fragment content=" ">
-                            <attributes>
-                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                <font key="NSFont" size="16" name="HelveticaNeue"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                            </attributes>
-                        </fragment>
-                        <fragment content="SignUp">
-                            <attributes>
-                                <color key="NSColor" red="0.11455" green="0.78910999999999998" blue="0.71919" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <font key="NSFont" size="18" name="HelveticaNeue"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                <integer key="NSUnderline" value="1"/>
-                                <color key="NSUnderlineColor" red="0.11455" green="0.78910999999999998" blue="0.71919" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -143,7 +97,6 @@
                 <constraint firstAttribute="trailing" secondItem="Svj-RW-3Gr" secondAttribute="trailing" constant="-10" id="EAg-2r-77I"/>
                 <constraint firstItem="W4O-Hf-hTZ" firstAttribute="leading" secondItem="cbV-80-7tm" secondAttribute="trailing" constant="10" id="EHb-ms-2Es"/>
                 <constraint firstItem="rCf-Zu-vso" firstAttribute="height" secondItem="FXe-VG-IHM" secondAttribute="height" id="GGU-G7-QD3"/>
-                <constraint firstItem="Vc4-H3-cbL" firstAttribute="top" secondItem="rCf-Zu-vso" secondAttribute="bottom" constant="15" id="I8s-cx-uYs"/>
                 <constraint firstItem="jyG-XL-I3s" firstAttribute="height" secondItem="FXe-VG-IHM" secondAttribute="height" id="IG3-M1-JcC"/>
                 <constraint firstAttribute="bottom" secondItem="Svj-RW-3Gr" secondAttribute="bottom" constant="-10" id="JPm-hc-XPn"/>
                 <constraint firstItem="rCf-Zu-vso" firstAttribute="width" secondItem="FXe-VG-IHM" secondAttribute="width" id="K7r-l4-DUo"/>
@@ -158,11 +111,8 @@
                 <constraint firstItem="4GG-N3-W8I" firstAttribute="width" secondItem="Svj-RW-3Gr" secondAttribute="width" multiplier="0.3066" id="i1u-tq-J61"/>
                 <constraint firstItem="W4O-Hf-hTZ" firstAttribute="centerY" secondItem="cbV-80-7tm" secondAttribute="centerY" id="qub-6b-vvZ"/>
                 <constraint firstItem="6T5-qD-PDT" firstAttribute="top" secondItem="4GG-N3-W8I" secondAttribute="bottom" constant="70" id="smJ-H6-vEV"/>
-                <constraint firstItem="73e-GG-ZMn" firstAttribute="top" secondItem="Vc4-H3-cbL" secondAttribute="bottom" constant="60" id="v49-3q-znb"/>
                 <constraint firstItem="FXe-VG-IHM" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="w3E-ck-emz"/>
                 <constraint firstItem="cbV-80-7tm" firstAttribute="leading" secondItem="FXe-VG-IHM" secondAttribute="leading" id="wbH-k3-gVS"/>
-                <constraint firstItem="Vc4-H3-cbL" firstAttribute="leading" secondItem="FXe-VG-IHM" secondAttribute="leading" id="x2k-yl-YHQ"/>
-                <constraint firstItem="73e-GG-ZMn" firstAttribute="centerX" secondItem="FXe-VG-IHM" secondAttribute="centerX" id="xgu-uw-HSO"/>
                 <constraint firstItem="FXe-VG-IHM" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="y5A-tf-tRr"/>
                 <constraint firstItem="cbV-80-7tm" firstAttribute="top" secondItem="FXe-VG-IHM" secondAttribute="bottom" constant="15" id="yMs-Hy-EdI"/>
             </constraints>

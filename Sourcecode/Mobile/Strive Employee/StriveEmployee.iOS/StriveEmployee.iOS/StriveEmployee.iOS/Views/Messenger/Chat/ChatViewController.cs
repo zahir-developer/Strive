@@ -10,7 +10,7 @@ using UIKit;
 
 namespace StriveEmployee.iOS.Views.Messenger.Chat
 {
-    public partial class ChatViewController : MvxViewController<MessengerPersonalChatViewModel>
+    public partial class ChatViewController : MvxViewController<MessengerPersonalChatViewModel>, IUITableViewDataSource, IUITableViewDelegate, IUITextViewDelegate
     {
         UITableView chatTableView;
         UIView messageBoxContainer;
