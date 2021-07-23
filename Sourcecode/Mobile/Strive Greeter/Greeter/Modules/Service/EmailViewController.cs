@@ -162,11 +162,7 @@ namespace Greeter.Storyboards
                 var response = await new WashApiService().SendEmail(email, subject, body);
                 HideActivityIndicator();
 
-                if (response.IsNoInternet())
-                {
-                    ShowAlertMsg(response.Message);
-                    return;
-                }
+                HandleResponse(response);
 
                 if (response.IsSuccess())
                 {

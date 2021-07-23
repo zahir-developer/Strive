@@ -89,7 +89,7 @@ namespace Greeter.Services.Network
                     var response = Activator.CreateInstance<TResult>();
                     // Status Code for no network connectivity 
                     response.StatusCode = -1;
-                    response.Message = response.StatusCode.ToString();
+                    response.Message = Common.Messages.NO_INTERNET_MSG;
                     return response;
                 }
             }

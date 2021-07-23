@@ -34,11 +34,7 @@ namespace Greeter.Modules.Pay
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {

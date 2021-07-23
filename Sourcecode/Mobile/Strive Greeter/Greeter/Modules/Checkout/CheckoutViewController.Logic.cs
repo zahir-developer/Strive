@@ -42,11 +42,7 @@ namespace Greeter.Modules.Pay
 
             List<Checkout> checkouts = null;
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return checkouts;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {
@@ -113,11 +109,7 @@ namespace Greeter.Modules.Pay
             var response = await new CheckoutApiService().HoldCheckout(checkoutHoldReq);
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {
@@ -148,11 +140,7 @@ namespace Greeter.Modules.Pay
             var response = await new CheckoutApiService().CompleteCheckout(checkoutCompleteReq);
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {
@@ -183,11 +171,7 @@ namespace Greeter.Modules.Pay
             var response = await new CheckoutApiService().DoCheckout(checkoutReq);
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {

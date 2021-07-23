@@ -102,11 +102,7 @@ namespace Greeter
             var response = await new VehicleApiService().GetBarcode(barcode);
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess() && response.ClientAndVehicleDetailList != null && response.ClientAndVehicleDetailList.Count > 0)
             {
