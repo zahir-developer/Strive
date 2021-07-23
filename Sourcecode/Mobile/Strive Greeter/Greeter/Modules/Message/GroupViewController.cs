@@ -94,24 +94,31 @@ namespace Greeter.Modules.Message
             messageGroupsTableView.RegisterClassForCellReuse(typeof(MessageGroupCell), MessageGroupCell.Key);
         }
 
-        [Export("textView:shouldChangeTextInRange:replacementText:")]
-        public bool ShouldChangeText(UITextView textView, NSRange range, string text)
+        [Export("textField:shouldChangeCharactersInRange:replacementString:")]
+        public bool ShouldChangeCharacters(UITextField textField, NSRange range, string replacementString)
         {
-            var oldNSString = new NSString(textView.Text ?? "");
-            var replacedString = oldNSString.Replace(range, new NSString(text));
+            var oldNSString = new NSString(textField.Text ?? "");
+            var replacedString = oldNSString.Replace(range, new NSString(replacementString));
             SearchGroup(replacedString).ConfigureAwait(false);
+            RefreshContacts();
             return true;
+        }
+
+        void RefreshContacts()
+        {
+            if (IsViewLoaded)
+                messageGroupsTableView.ReloadData();
         }
 
         public nint RowsInSection(UITableView tableView, nint section)
         {
-            return groups.Count;
+            return searchedGroups?.Count ?? 0;
         }
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(MessageGroupCell.Key) as MessageGroupCell;
-            cell.SetupData(groups[indexPath.Row]);
+            cell.SetupData(searchedGroups[indexPath.Row]);
             return cell;
         }
 

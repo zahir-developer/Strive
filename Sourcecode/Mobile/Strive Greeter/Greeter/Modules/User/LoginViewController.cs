@@ -105,14 +105,10 @@ namespace Greeter
                 var req = new LoginRequest() { Email = email, Pswd = pswd };
 
                 ShowActivityIndicator();
-                var response = await new AuthenticationService().LoginAsync(req);
+                var response = await AppDelegate.AuthenticationService.LoginAsync(req);
                 HideActivityIndicator();
 
-                if (response.IsNoInternet())
-                {
-                    ShowAlertMsg(response.Message);
-                    return;
-                }
+                HandleResponse(response);
 
                 if (response.IsSuccess())
                 {
@@ -129,7 +125,7 @@ namespace Greeter
             }
             catch (Exception ex)
             {
-                ShowAlertMsg(ex.Message);
+
             }
         }
 

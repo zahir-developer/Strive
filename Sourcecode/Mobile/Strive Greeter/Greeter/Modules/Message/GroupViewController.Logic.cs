@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Greeter.Modules.Message
@@ -6,6 +7,7 @@ namespace Greeter.Modules.Message
     public partial class GroupViewController
     {
         List<string> groups = new();
+        List<string> searchedGroups;
 
         public GroupViewController()
         {
@@ -16,6 +18,8 @@ namespace Greeter.Modules.Message
             groups.Add("Old Milton Employees");
             groups.Add("Main Street Employees");
             groups.Add("Holcomb Bridge Employees");
+
+            searchedGroups = groups;
         }
 
         Task GetMessageGroups()
@@ -25,7 +29,7 @@ namespace Greeter.Modules.Message
 
         async Task SearchGroup(string keyword)
         {
-            await Task.CompletedTask;
+            searchedGroups = await Task.Run(() => groups.Where(name => name.Contains(keyword)).ToList());
         }
 
         async Task OnRefersh()

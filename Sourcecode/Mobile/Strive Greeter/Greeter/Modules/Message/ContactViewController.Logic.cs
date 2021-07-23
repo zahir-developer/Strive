@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Greeter.DTOs;
 
@@ -8,6 +9,7 @@ namespace Greeter.Modules.Message
     {
         List<Contact> contacts = new();
         readonly ContactConfigureType configureType;
+        List<Contact> searchedContacts;
 
         public ContactViewController(ContactConfigureType configureType)
         {
@@ -22,6 +24,8 @@ namespace Greeter.Modules.Message
                 new Contact { Name = "Bruce Wayne" },
                 new Contact { Name = "Peter Parker" }
             });
+
+            searchedContacts = contacts;
         }
 
         Task GetContacts()
@@ -31,7 +35,7 @@ namespace Greeter.Modules.Message
 
         async Task SearchContact(string keyword)
         {
-            await Task.CompletedTask;
+            searchedContacts = contacts.Where(contact => contact.Name.Contains(keyword)).ToList();
         }
 
         void OnCreateGroup()

@@ -102,24 +102,31 @@ namespace Greeter.Modules.Message
             contactTableView.RegisterClassForCellReuse(typeof(ContactCell), ContactCell.Key);
         }
 
-        [Export("textView:shouldChangeTextInRange:replacementText:")]
-        public bool ShouldChangeText(UITextView textView, NSRange range, string text)
+        [Export("textField:shouldChangeCharactersInRange:replacementString:")]
+        public bool ShouldChangeCharacters(UITextField textField, NSRange range, string replacementString)
         {
-            var oldNSString = new NSString(textView.Text ?? "");
-            var replacedString = oldNSString.Replace(range, new NSString(text));
+            var oldNSString = new NSString(textField.Text ?? "");
+            var replacedString = oldNSString.Replace(range, new NSString(replacementString));
             SearchContact(replacedString).ConfigureAwait(false);
+            RefreshContacts();
             return true;
+        }
+
+        void RefreshContacts()
+        {
+            if (IsViewLoaded)
+                contactTableView.ReloadData();
         }
 
         public nint RowsInSection(UITableView tableView, nint section)
         {
-            return contacts.Count;
+            return searchedContacts.Count;
         }
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
-            cell.SetupData(ContactConfigureType.ContactList, contacts[indexPath.Row]);
+            cell.SetupData(ContactConfigureType.ContactList, searchedContacts[indexPath.Row]);
             return cell;
         }
 

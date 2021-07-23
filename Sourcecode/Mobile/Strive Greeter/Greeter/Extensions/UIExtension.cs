@@ -61,5 +61,29 @@ namespace Greeter.Extensions
                 (hexValue & 0xFF) / 255.0f
             );
         }
+
+        //public static void ShowAlertMsgt(this UIViewController vc, string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)
+        //{
+        //    string title = "Alert";
+        //    string ok = "Ok";
+        //    string cancel = "Cancel";
+
+        //    if (!string.IsNullOrEmpty(titleTxt))
+        //    {
+        //        title = titleTxt;
+        //    }
+
+        //    var okAlertController = UIAlertController.Create(title, msg, UIAlertControllerStyle.Alert);
+        //    okAlertController.AddAction(UIAlertAction.Create(ok, UIAlertActionStyle.Default,
+        //        alert =>
+        //        {
+        //            okAction?.Invoke();
+        //        }));
+        //    if (isCancel)
+        //        okAlertController.AddAction(UIAlertAction.Create(cancel, UIAlertActionStyle.Cancel, null));
+        //    vc.PresentViewController(okAlertController, true, null);
+        //}
+
+        //public static AppDelegate AppDelegate(this UIViewController vc) => UIApplication.SharedApplication.Delegate as AppDelegate;
     }
 }

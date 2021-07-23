@@ -66,6 +66,7 @@ namespace Greeter.Modules.Pay
             vc.Model = checkout.VehicleModel;
             vc.Color = checkout.VehicleColor;
             vc.ServiceName = checkout.Services;
+            vc.CustName = checkout.CustomerFirstName + " "+ checkout.CustomerLastName;
             vc.Amount = checkout.Cost;
             vc.IsFromNewService = false;
             NavigateToWithAnim(vc);

@@ -70,6 +70,16 @@ namespace Greeter
             };
         }
 
+        void UpdateSelectedLocationIfAny()
+        {
+            if (AppSettings.IsHavingLocation)
+            {
+                int pos = locations.FindIndex(x => x.ID.Equals(AppSettings.LocationID));
+                pvLoc.Select(pos, 0, false);
+                tfLocation.Text = locs[pos];
+            }
+        }
+
         async Task GetData()
         {
             ShowActivityIndicator();
@@ -88,6 +98,8 @@ namespace Greeter
 
                 locs = locations?.Select(x => x.Name).ToArray();
                 pvLoc.ReloadComponent(0);
+
+                UpdateSelectedLocationIfAny();
             }
         }
 

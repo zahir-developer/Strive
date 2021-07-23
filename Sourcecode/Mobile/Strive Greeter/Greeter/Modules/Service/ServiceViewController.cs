@@ -78,6 +78,7 @@ namespace Greeter
                 NavigateToWashOrDetailScreen();
             };
 
+            lblLoc.AddGestureRecognizer(new UITapGestureRecognizer(LocationTap));
             lblLastService.AddGestureRecognizer(new UITapGestureRecognizer(LastServiceTap));
             lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(ViewIssueTap));
         }
@@ -114,6 +115,14 @@ namespace Greeter
             }
             else
                 ShowAlertMsg(Common.Messages.BARCODE_WRONG);
+        }
+
+        private void LocationTap()
+        {
+            UIViewController vc = UIStoryboard.FromName(StoryBoardNames.USER, null)
+                                 .InstantiateViewController(nameof(LocationViewController));
+
+            TabBarController.NavigationController.SetViewControllers(new UIViewController[] { vc }, true);
         }
 
         void LastServiceTap(UITapGestureRecognizer tap)

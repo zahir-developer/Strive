@@ -1,5 +1,6 @@
 ﻿using System;
 using Greeter.Common;
+using Greeter.DTOs;
 using Greeter.Extensions;
 using UIKit;
 
@@ -12,7 +13,7 @@ namespace Greeter
 
         bool dismissKeyboardOnTapArround;
 
-        public AppDelegate App = UIApplication.SharedApplication.Delegate as AppDelegate;
+        public AppDelegate AppDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
 
         protected virtual bool DismissKeyboardOnTapArround
         {
@@ -135,6 +136,28 @@ namespace Greeter
         public void GoBackWithAnimation()
         {
             GoBack(true);
+        }
+
+        // Show alert for response if needed
+        public void HandleResponse(BaseResponse response)
+        {
+            if (response.IsNoInternet())
+            {
+                ShowAlertMsg(Common.Messages.NO_INTERNET_MSG);
+                return;
+            }
+
+            if (response.IsInternalServerError())
+            {
+                ShowAlertMsg(Common.Messages.INTERNAL_SERVER_ERROR);
+                return;
+            }
+
+            if (response.IsBadRequest())
+            {
+                ShowAlertMsg(Common.Messages.BAD_REQUEST);
+                return;
+            }
         }
 
         public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)
