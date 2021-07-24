@@ -239,6 +239,7 @@
 		<Folder Include="Modules\Checkout\" />
 		<Folder Include="Services\Api\" />
 		<Folder Include="Resources\Assets.xcassets\participants.imageset\" />
+		<Folder Include="CustomView\" />
 	</ItemGroup>
 	<ItemGroup>
 		<InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -401,6 +402,7 @@
 		<Compile Include="DTOs\Contact.cs" />
 		<Compile Include="DTOs\Group.cs" />
 		<Compile Include="Services\Api\MessageApiService.cs" />
+		<Compile Include="CustomView\CustomTextField.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
