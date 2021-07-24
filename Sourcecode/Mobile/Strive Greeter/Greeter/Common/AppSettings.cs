@@ -44,13 +44,5 @@ namespace Greeter.Common
         }
 
         public static void Clear() => Preferences.Clear();
-
-        // App Level Instanaces
-        // App Level Injection not dependent on UIViewController
-        private static IApiService iApiService = null;
-        public static IApiService ApiService
-        {
-            get => iApiService == null ? new ApiService() : iApiService;
-        }
     }
 }

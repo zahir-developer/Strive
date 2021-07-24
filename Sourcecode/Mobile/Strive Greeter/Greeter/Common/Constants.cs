@@ -75,6 +75,7 @@ namespace Greeter.Common
 
         // Employees
         internal const string DETAILER_EMPLOYEES = "/Admin/TimeClock/GetClockedInDetailer";
+        internal const string CONTACTS_LIST = "/Admin/Employee/GetAllEmployeeDetail";
 
         // Payment
         internal const string PAYMENT_AUTH = "/Payroll/PaymentGateway/Auth";
@@ -89,7 +90,7 @@ namespace Greeter.Common
 
         // Message
         //internal const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage";
-        public const string RECENT_CHAT_LIST = "/Admin/Messenger/GetChatEmployeeList/";
+        internal const string RECENT_CHAT_LIST = "/Admin/Messenger/GetChatEmployeeList/";
         //public const string URL_MESSENGER_CREATE_GROUP_CHAT = "/Admin/Messenger/CreateChatGroup";
     }
 

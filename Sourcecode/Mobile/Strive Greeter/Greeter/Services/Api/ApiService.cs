@@ -18,7 +18,7 @@ namespace Greeter.Services.Api
 
     public class ApiService : IApiService
     {
-        readonly INetworkService iNetworkService = new NetworkService();
+        readonly INetworkService iNetworkService = SingleTon.NetworkService;
 
         //public Api(INetworkService iNetworkService)
         //{

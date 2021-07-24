@@ -20,41 +20,41 @@ namespace Greeter.Services.Api
 
     public class WashApiService : IWashApiService
     {
-        static readonly IApiService apiService = new ApiService();
+        //static readonly IApiService apiService = new ApiService();
 
         public Task<ServiceResponse> GetAllSericeDetails(int locationId)
         {
             var parameters = new Dictionary<string, string>() { { nameof(locationId), locationId.ToString() } };
-            return apiService.DoApiCall<ServiceResponse>(Urls.ALL_SERVICE_DETAILS, HttpMethod.Get, parameters);
+            return SingleTon.ApiService.DoApiCall<ServiceResponse>(Urls.ALL_SERVICE_DETAILS, HttpMethod.Get, parameters);
         }
 
         public Task<TicketResponse> GetWashTime(int locationId)
         {
             var url = Urls.WASH_TIME + locationId;
-            return apiService.DoApiCall<TicketResponse>(url);
+            return SingleTon.ApiService.DoApiCall<TicketResponse>(url);
         }
 
         public Task<TicketResponse> GetTicketNumber(int locationId)
         {
             var url = Urls.TICKET_NUMBER + locationId;
-            return apiService.DoApiCall<TicketResponse>(url);
+            return SingleTon.ApiService.DoApiCall<TicketResponse>(url);
         }
 
         public Task<BaseResponse> CreateService(CreateServiceRequest req)
         {
-            return apiService.DoApiCall<BaseResponse>(Urls.CREATE_SERVICE, HttpMethod.Post, null, req);
+            return SingleTon.ApiService.DoApiCall<BaseResponse>(Urls.CREATE_SERVICE, HttpMethod.Post, null, req);
         }
 
         // Return current logged-in employees
         public Task<EmployeeListResponse> GetDetailEmployees(GetDetailEmployeeReq req)
         {
-            return apiService.DoApiCall<EmployeeListResponse>(Urls.DETAILER_EMPLOYEES, HttpMethod.Post, null, req);
+            return SingleTon.ApiService.DoApiCall<EmployeeListResponse>(Urls.DETAILER_EMPLOYEES, HttpMethod.Post, null, req);
         }
 
         public Task<BaseResponse> SendEmail(string email, string subject, string body)
         {
             var parameters = new Dictionary<string, string>() { { nameof(email), email }, { nameof(subject), subject }, { nameof(body), body } };
-            return apiService.DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post, parameters);
+            return SingleTon.ApiService.DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post, parameters);
         }
     }
 }

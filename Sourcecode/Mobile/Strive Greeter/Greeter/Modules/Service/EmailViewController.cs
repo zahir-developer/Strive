@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreFoundation;
 using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
@@ -30,6 +31,7 @@ namespace Greeter.Storyboards
         public string Color;
         public string CustName;
         public CreateServiceRequest Service;
+        public ServiceType ServiceType;
 
         List<Employee> Employees;
         string[] employeeNames;
@@ -48,7 +50,7 @@ namespace Greeter.Storyboards
             base.ViewDidLoad();
 
             Initialise();
-            _ = GetData();
+            //_ = GetData();
 
 #if DEBUG
             tfCust.Text = "karthiknever16@gmail.com";
@@ -197,6 +199,11 @@ namespace Greeter.Storyboards
 
             pv.DataSource = this;
             pv.Delegate = this;
+
+            if (ServiceType == ServiceType.Wash)
+            {
+                viewDetailer.Hidden = true;
+            }
         }
 
         void PickerDone()

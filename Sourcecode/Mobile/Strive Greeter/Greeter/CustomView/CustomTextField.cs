@@ -22,6 +22,10 @@ namespace Greeter.CustomView
         {
             if (action == new Selector("paste:")) return false;
 
+            //if (action == new Selector("copy:")) return false;
+
+            if (action == new Selector("cut:")) return false;
+
             return base.CanPerform(action, withSender);
         }
     }

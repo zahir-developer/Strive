@@ -12,18 +12,18 @@ namespace Greeter.Services.Api
 
     public class VehicleApiService
     {
-        readonly IApiService apiService = new ApiService();
+        //readonly IApiService apiService = new ApiService();
 
         public Task<BarcodeResponse> GetBarcode(string barcode)
         {
             var url = Urls.BARCODE + barcode;
-            return apiService.DoApiCall<BarcodeResponse>(url);
+            return SingleTon.ApiService.DoApiCall<BarcodeResponse>(url);
         }
 
         public Task<ModelResponse> GetModelsByMake(int makeId)
         {
             var url = Urls.MODELS_BY_MAKE + makeId;
-            return apiService.DoApiCall<ModelResponse>(url);
+            return SingleTon.ApiService.DoApiCall<ModelResponse>(url);
         }
     }
 }

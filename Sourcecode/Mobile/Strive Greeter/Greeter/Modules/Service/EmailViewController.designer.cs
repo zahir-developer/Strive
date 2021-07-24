@@ -32,12 +32,20 @@ namespace Greeter.Storyboards
 
 		[Outlet]
 		UIKit.UITextField tfEmp { get; set; }
+
+		[Outlet]
+		UIKit.UIView viewDetailer { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (btnCustomerSend != null) {
 				btnCustomerSend.Dispose ();
 				btnCustomerSend = null;
+			}
+
+			if (btnEmpDropdown != null) {
+				btnEmpDropdown.Dispose ();
+				btnEmpDropdown = null;
 			}
 
 			if (btnEmpSent != null) {
@@ -65,9 +73,9 @@ namespace Greeter.Storyboards
 				tfEmp = null;
 			}
 
-			if (btnEmpDropdown != null) {
-				btnEmpDropdown.Dispose ();
-				btnEmpDropdown = null;
+			if (viewDetailer != null) {
+				viewDetailer.Dispose ();
+				viewDetailer = null;
 			}
 		}
 	}

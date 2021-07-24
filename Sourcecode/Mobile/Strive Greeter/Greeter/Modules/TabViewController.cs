@@ -27,6 +27,7 @@ namespace Greeter
         {
             base.ViewWillAppear(animated);
 
+            //var washTimeNavigationController = this.Storyboard.InstantiateViewController(nameof(EmailViewController));
             var washTimeNavigationController = new UINavigationController(new WashTimeViewController());
             var washTimeTabBarItem = new UITabBarItem(title: "Home", image: UIImage.FromBundle(ImageNames.HOME), null);
             washTimeNavigationController.TabBarItem = washTimeTabBarItem;

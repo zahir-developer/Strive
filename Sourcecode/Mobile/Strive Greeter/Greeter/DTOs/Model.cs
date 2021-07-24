@@ -752,4 +752,81 @@ namespace Greeter.DTOs
         //[JsonProperty("Selected")]
         //public bool Selected { get; set; }
     }
+
+    public class GetContactsRequest
+    {
+        //[JsonProperty("EndDate")]
+        //public string EndDate { get; set; }
+
+        //[JsonProperty("StartDate")]
+        //public string StartDate { get; set; }
+
+        [JsonProperty("locationId")]
+        public long LocationID { get; set; }
+
+        //[JsonProperty("sortBy")]
+        //public string SortBy { get; set; }
+
+        [JsonProperty("sortOrder")]
+        public string SortOrder { get; set; }
+
+        //[JsonProperty("status")]
+        //public bool Status { get; set; }
+
+        //[JsonProperty("query")]
+        //public string Query { get; set; }
+        
+        //[JsonIgnore]
+        //[JsonProperty("pageNo")]
+        //public short PageNo { get; set; }
+
+        //[JsonIgnore]
+        //[JsonProperty("pageSize")]
+        //public short Limit { get; set; }
+    }
+
+    public class ContactListResponse : BaseResponse
+    {
+        [JsonProperty("EmployeeList")]
+        public ContactListObject ContactListobj { get; set; }
+    }
+
+    public class ContactListObject
+    {
+        [JsonProperty("Employee")]
+        public List<ContactEmployee> ContactsList { get; set; }
+    }
+
+    public class ContactEmployee
+    {
+        //[JsonProperty("EmployeeId")]
+        //public long EmployeeId { get; set; }
+
+        //[JsonProperty("EmployeeCode")]
+        //public long EmployeeCode { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+
+        //[JsonProperty("MobileNo")]
+        //public string MobileNo { get; set; }
+
+        //[JsonProperty("CommunicationId")]
+        //public long CommunicationId { get; set; }
+
+        //[JsonProperty("Collisions")]
+        //public bool Collisions { get; set; }
+
+        //[JsonProperty("Documents")]
+        //public bool Documents { get; set; }
+
+        //[JsonProperty("Schedules")]
+        //public bool Schedules { get; set; }
+
+        //[JsonProperty("Status")]
+        //public bool Status { get; set; }
+    }
 }

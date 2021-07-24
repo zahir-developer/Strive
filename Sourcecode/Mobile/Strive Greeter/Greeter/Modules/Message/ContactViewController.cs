@@ -14,7 +14,7 @@ namespace Greeter.Modules.Message
         ContactList
     }
 
-    public partial class ContactViewController: UIViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextFieldDelegate
+    public partial class ContactViewController: BaseViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextFieldDelegate
     {
         UITableView contactTableView;
 
@@ -125,7 +125,7 @@ namespace Greeter.Modules.Message
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
-            cell.SetupData(ContactConfigureType.ContactList, searchedContacts[indexPath.Row]);
+            //cell.SetupData(ContactConfigureType.ContactList, searchedContacts[indexPath.Row]);
             return cell;
         }
 
@@ -133,7 +133,7 @@ namespace Greeter.Modules.Message
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             var contact = contacts[indexPath.Row];
-            contact.IsSelected = !contact.IsSelected;
+            //contact.IsSelected = !contact.IsSelected;
             tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
         }
     }

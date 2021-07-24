@@ -221,7 +221,6 @@
 		<Folder Include="Services\" />
 		<Folder Include="Common\" />
 		<Folder Include="Support\" />
-		<Folder Include="Services\Authentication\" />
 		<Folder Include="Modules\Login\" />
 		<Folder Include="Modules\Home\" />
 		<Folder Include="Modules\Message\" />
@@ -240,6 +239,8 @@
 		<Folder Include="Services\Api\" />
 		<Folder Include="Resources\Assets.xcassets\participants.imageset\" />
 		<Folder Include="CustomView\" />
+		<Folder Include="Services\Modules\" />
+		<Folder Include="Services\Modules\Authentication\" />
 	</ItemGroup>
 	<ItemGroup>
 		<InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -261,8 +262,6 @@
 		<Compile Include="Common\Constants.cs" />
 		<Compile Include="Common\AppSettings.cs" />
 		<Compile Include="Cells\CheckoutCell.cs" />
-		<Compile Include="Services\Authentication\IAuthenticationService.cs" />
-		<Compile Include="Services\Authentication\AuthenticationService.cs" />
 		<Compile Include="Services\Network\INetworkService.cs" />
 		<Compile Include="Services\Network\NetworkService.cs" />
 		<Compile Include="Services\Network\RestRequest.cs" />
@@ -358,8 +357,6 @@
 		</Compile>
 		<Compile Include="Cells\MessageIncomingCell.cs" />
 		<Compile Include="Cells\MessageOutgoingCell.cs" />
-		<Compile Include="Services\Api\WashApiService.cs" />
-		<Compile Include="Services\Api\CheckoutApiService.cs" />
 		<Compile Include="Services\Api\ApiService.cs" />
 		<Compile Include="Modules\Message\ContactViewController.cs" />
 		<Compile Include="Modules\Message\ContactViewController.Logic.cs">
@@ -384,9 +381,6 @@
 		<Compile Include="Cells\ContactCell.cs" />
 		<Compile Include="Cells\MessageGroupCell.cs" />
 		<Compile Include="Cells\RecentMessageCell.cs" />
-		<Compile Include="Services\Api\GeneralApiService.cs" />
-		<Compile Include="Services\Api\VehicleApiService.cs" />
-		<Compile Include="Services\Api\PaymentApiService.cs" />
 		<Compile Include="Modules\Pay\ServiceListViewController.cs" />
 		<Compile Include="Modules\Pay\ServiceListViewController.Logic.cs">
 			<DependentUpon>Modules\Pay\ServiceListViewController.cs</DependentUpon>
@@ -401,8 +395,16 @@
 		<Compile Include="Modules\Message\ChatType.cs" />
 		<Compile Include="DTOs\Contact.cs" />
 		<Compile Include="DTOs\Group.cs" />
-		<Compile Include="Services\Api\MessageApiService.cs" />
 		<Compile Include="CustomView\CustomTextField.cs" />
+		<Compile Include="Common\SingleTon.cs" />
+		<Compile Include="Services\Modules\Authentication\AuthenticationService.cs" />
+		<Compile Include="Services\Modules\Authentication\IAuthenticationService.cs" />
+		<Compile Include="Services\Modules\CheckoutApiService.cs" />
+		<Compile Include="Services\Modules\GeneralApiService.cs" />
+		<Compile Include="Services\Modules\MessageApiService.cs" />
+		<Compile Include="Services\Modules\PaymentApiService.cs" />
+		<Compile Include="Services\Modules\VehicleApiService.cs" />
+		<Compile Include="Services\Modules\WashApiService.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

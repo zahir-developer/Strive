@@ -169,6 +169,7 @@ namespace Greeter.Storyboards
                             vc.Color = Color;
                             vc.CustName = CustName;
                             vc.Service = req;
+                            vc.ServiceType = ServiceType;
                             NavigationController.PushViewController(vc, true);
                         }, titleTxt: Common.Messages.SERVICE);
                     }

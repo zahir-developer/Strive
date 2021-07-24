@@ -13,8 +13,6 @@ namespace Greeter
 
         bool dismissKeyboardOnTapArround;
 
-        public AppDelegate AppDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
-
         protected virtual bool DismissKeyboardOnTapArround
         {
             get => dismissKeyboardOnTapArround;

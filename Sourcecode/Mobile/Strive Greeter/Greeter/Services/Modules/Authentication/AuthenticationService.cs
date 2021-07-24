@@ -20,11 +20,12 @@ namespace Greeter.Services.Authentication
         //    return networkService.ExecuteAsync<LoginResponse>(request);
         //}
 
-        readonly IApiService apiService = new ApiService();
+        //readonly IApiService apiService = new ApiService();
+        readonly IApiService apiService = SingleTon.ApiService;
 
         public Task<LoginResponse> LoginAsync(LoginRequest req)
         {
-            return AppSettings.ApiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
+            return apiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
         }
 
         //public Task<LoginResponse> Logout(LoginRequest req)

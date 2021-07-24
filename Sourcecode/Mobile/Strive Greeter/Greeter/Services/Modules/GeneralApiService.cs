@@ -14,22 +14,22 @@ namespace Greeter.Services.Api
 
     public class GeneralApiService : IGeneralApiService
     {
-        readonly IApiService apiService = new ApiService();
+        //readonly IApiService apiService = new ApiService();
 
         public Task<LocationsResponse> GetLocations()
         {
-            return apiService.DoApiCall<LocationsResponse>(Urls.LOCATIONS);
+            return SingleTon.ApiService.DoApiCall<LocationsResponse>(Urls.LOCATIONS);
         }
 
         public Task<MakeResponse> GetAllMake()
         {
-            return apiService.DoApiCall<MakeResponse>(Urls.ALL_MAKE);
+            return SingleTon.ApiService.DoApiCall<MakeResponse>(Urls.ALL_MAKE);
         }
 
         public Task<GlobalDataResponse> GetGlobalData(string dataType)
         {
             var url = Urls.GLOBAL_DATA + dataType;
-            return apiService.DoApiCall<GlobalDataResponse>(url);
+            return SingleTon.ApiService.DoApiCall<GlobalDataResponse>(url);
         }
     }
 }
