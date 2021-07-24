@@ -34,11 +34,7 @@ namespace Greeter.Modules.Pay
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {
@@ -66,6 +62,7 @@ namespace Greeter.Modules.Pay
             vc.Model = checkout.VehicleModel;
             vc.Color = checkout.VehicleColor;
             vc.ServiceName = checkout.Services;
+            vc.CustName = checkout.CustomerFirstName + " "+ checkout.CustomerLastName;
             vc.Amount = checkout.Cost;
             vc.IsFromNewService = false;
             NavigateToWithAnim(vc);

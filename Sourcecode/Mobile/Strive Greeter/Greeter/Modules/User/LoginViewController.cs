@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Greeter.Services.Authentication;
 
 namespace Greeter
 {
@@ -81,49 +82,51 @@ namespace Greeter
 
         async Task LoginClicked(string email, string pswd)
         {
-            // Validate Fields
-            if (email.IsEmpty() && pswd.IsEmpty())
+            try
             {
-                ShowAlertMsg(Common.Messages.USER_ID_AND_PSWD_EMPTY);
-                return;
+                 // Validate Fields
+                if (email.IsEmpty() && pswd.IsEmpty())
+                {
+                    ShowAlertMsg(Common.Messages.USER_ID_AND_PSWD_EMPTY);
+                    return;
+                }
+                if (email.IsEmpty())
+                {
+                    ShowAlertMsg(Common.Messages.USER_ID_EMPTY);
+                    return;
+                }
+                if (pswd.IsEmpty())
+                {
+                    ShowAlertMsg(Common.Messages.PSWD_EMPTY);
+                    return;
+                }
+
+                // Do Login
+                var req = new LoginRequest() { Email = email, Pswd = pswd };
+
+                ShowActivityIndicator();
+                var response = await AppDelegate.AuthenticationService.LoginAsync(req);
+                HideActivityIndicator();
+
+                HandleResponse(response);
+
+                if (response.IsSuccess())
+                {
+                    AppSettings.Token = response?.AuthToken;
+                    AppSettings.RefreshToken = response?.RefreshToken;
+                    AppSettings.UserID = response?.EmployeeDetails?.EmployeeLogin?.EmployeeId ?? 0;
+
+                    Debug.WriteLine("Logged in User Id : " + AppSettings.UserID);
+                    Debug.WriteLine("Logged in Token : " + AppSettings.Token);
+                    Debug.WriteLine("Logged in RefreshToken : " + AppSettings.RefreshToken);
+
+                    NavigateToLocationScreen();
+                }
             }
-            if (email.IsEmpty())
+            catch (Exception ex)
             {
-                ShowAlertMsg(Common.Messages.USER_ID_EMPTY);
-                return;
+
             }
-            if (pswd.IsEmpty())
-            {
-                ShowAlertMsg(Common.Messages.PSWD_EMPTY);
-                return;
-            }
-
-            // Do Login
-            var req = new LoginRequest() { Email = email, Pswd = pswd };
-
-            ShowActivityIndicator();
-            var response = await App.AuthenticationService.LoginAsync(req);
-            HideActivityIndicator();
-
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
-
-            if (response.IsSuccess())
-            {
-                AppSettings.Token = response?.AuthToken;
-                AppSettings.RefreshToken = response?.RefreshToken;
-                AppSettings.UserID = response?.EmployeeDetails?.EmployeeLogin?.EmployeeId ?? 0;
-
-                Debug.WriteLine("Logged in User Id : " + AppSettings.UserID);
-                Debug.WriteLine("Logged in Token : " + AppSettings.Token);
-                Debug.WriteLine("Logged in RefreshToken : " + AppSettings.RefreshToken);
-            }
-
-            // Navigation
-            NavigateToLocationScreen();
         }
 
         void NavigateToLocationScreen()

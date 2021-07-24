@@ -70,17 +70,23 @@ namespace Greeter
             };
         }
 
+        void UpdateSelectedLocationIfAny()
+        {
+            if (AppSettings.IsHavingLocation)
+            {
+                int pos = locations.FindIndex(x => x.ID.Equals(AppSettings.LocationID));
+                pvLoc.Select(pos, 0, false);
+                tfLocation.Text = locs[pos];
+            }
+        }
+
         async Task GetData()
         {
             ShowActivityIndicator();
             var response = await new GeneralApiService().GetLocations();
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {
@@ -88,6 +94,8 @@ namespace Greeter
 
                 locs = locations?.Select(x => x.Name).ToArray();
                 pvLoc.ReloadComponent(0);
+
+                UpdateSelectedLocationIfAny();
             }
         }
 

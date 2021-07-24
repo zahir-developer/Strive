@@ -20,11 +20,7 @@ namespace Greeter.Modules.Home
             var response = await new GeneralApiService().GetLocations();
             HideActivityIndicator();
 
-            if (response.IsNoInternet())
-            {
-                ShowAlertMsg(response.Message);
-                return;
-            }
+            HandleResponse(response);
 
             if (response.IsSuccess())
             {

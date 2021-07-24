@@ -9,6 +9,7 @@ using Xamarin.Essentials;
 using System.Diagnostics;
 using Greeter.Services.Authentication;
 using Greeter.Extensions;
+using System.Net;
 
 namespace Greeter.Services.Network
 {
@@ -35,7 +36,7 @@ namespace Greeter.Services.Network
 
             try
             {
-                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                if (Connectivity.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet)
                 {
                     var dataTaskRequest = await task;
                     var urlResponse = dataTaskRequest.Response as NSHttpUrlResponse;
@@ -58,7 +59,7 @@ namespace Greeter.Services.Network
 
                         return result;
                     } // Un-Authorized
-                    else if (urlResponse.StatusCode == StatusCodes.UN_AUTHORIZED)
+                    else if (urlResponse.StatusCode == (int)HttpStatusCode.Unauthorized)
                     {
                         var refreshApiResponse = await new AuthenticationService().ResfreshApiCall(AppSettings.Token, AppSettings.RefreshToken);
                         if (refreshApiResponse?.IsSuccess() ?? false)
@@ -88,15 +89,16 @@ namespace Greeter.Services.Network
                     var response = Activator.CreateInstance<TResult>();
                     // Status Code for no network connectivity 
                     response.StatusCode = -1;
-                    response.Message = Constants.DATE_FORMAT;
+                    response.Message = Common.Messages.NO_INTERNET_MSG;
                     return response;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                Debug.WriteLine("Exception " + ex.Message);
                 var errorResult = Activator.CreateInstance<TResult>();
                 errorResult.StatusCode = 707;
-                errorResult.Message = e.Message;
+                errorResult.Message = ex.Message;
                 return errorResult;
             }
         }
@@ -166,6 +168,7 @@ namespace Greeter.Services.Network
                 {
                     HttpMethod = GetHttpMethod(request.Method)
                     //HttpMethod = request.Method.ToString()
+                    //HttpMethod = nameof(request.Method)
                 };
 
                 request.Header.Add("Content-Type", "application/json");

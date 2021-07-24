@@ -42,10 +42,10 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         // Mammoth QA
-        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";
@@ -148,6 +148,11 @@ namespace Greeter.Common
         internal const string EMAIL_MISSING = "Please enter the email id";
         internal const string EMPLOYEE_MISSING = "Please select the employee";
 
+        // Network
+        internal const string NO_INTERNET_MSG = "Please check your internet connection and try again";
+        internal const string INTERNAL_SERVER_ERROR = "Internal Server Error";
+        internal const string BAD_REQUEST = "Bad request";
+
         internal const string HOLD_VERIFICATION_MSG = "Are you sure want to change the status to hold?";
         internal const string SERVICE_HOLD_SUCCESS_MSG = "Service status changed to hold successfully";
 
@@ -167,11 +172,11 @@ namespace Greeter.Common
         internal const string EMAIL = "Email";
     }
 
-    public class StatusCodes
-    {
-        internal const int SUCCESS = 200;
-        internal const int BAD_REQUEST = 400;
-        internal const int INTERNAL_SERVER_ERROR = 500;
-        internal const int UN_AUTHORIZED = 401;
-    }
+    //public class StatusCodes
+    //{
+    //    internal const int SUCCESS = 200;
+    //    internal const int BAD_REQUEST = 400;
+    //    internal const int INTERNAL_SERVER_ERROR = 500;
+    //    internal const int UN_AUTHORIZED = 401;
+    //}
 }

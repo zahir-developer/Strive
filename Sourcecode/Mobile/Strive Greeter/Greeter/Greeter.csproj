@@ -26,7 +26,7 @@
 		<MtouchArch>x86_64</MtouchArch>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<MtouchDebug>true</MtouchDebug>
-		<CodesignProvision>Mobile Unit Appstore</CodesignProvision>
+		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
@@ -55,7 +55,7 @@
 		<CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
 		<MtouchArch>ARM64</MtouchArch>
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
-		<MtouchLink>Full</MtouchLink>
+		<MtouchLink>SdkOnly</MtouchLink>
 		<LangVersion>latest</LangVersion>
 		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
 	</PropertyGroup>

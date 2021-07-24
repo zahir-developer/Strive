@@ -37,6 +37,9 @@ namespace Greeter
 		UIKit.UILabel lblLastService { get; set; }
 
 		[Outlet]
+		UIKit.UILabel lblLoc { get; set; }
+
+		[Outlet]
 		UIKit.UILabel lblViewIssue { get; set; }
 
 		[Outlet]
@@ -52,19 +55,9 @@ namespace Greeter
 				btnBack = null;
 			}
 
-			if (btnWash != null) {
-				btnWash.Dispose ();
-				btnWash = null;
-			}
-
-			if (btnDetail != null) {
-				btnDetail.Dispose ();
-				btnDetail = null;
-			}
-
-			if (txtFieldBarcode != null) {
-				txtFieldBarcode.Dispose ();
-				txtFieldBarcode = null;
+			if (btnCancel != null) {
+				btnCancel.Dispose ();
+				btnCancel = null;
 			}
 
 			if (btnCloseBarcode != null) {
@@ -72,9 +65,9 @@ namespace Greeter
 				btnCloseBarcode = null;
 			}
 
-			if (btnCancel != null) {
-				btnCancel.Dispose ();
-				btnCancel = null;
+			if (btnDetail != null) {
+				btnDetail.Dispose ();
+				btnDetail = null;
 			}
 
 			if (btnDriveUp != null) {
@@ -87,9 +80,9 @@ namespace Greeter
 				btnSelect = null;
 			}
 
-			if (lblWashTime != null) {
-				lblWashTime.Dispose ();
-				lblWashTime = null;
+			if (btnWash != null) {
+				btnWash.Dispose ();
+				btnWash = null;
 			}
 
 			if (lblLastService != null) {
@@ -100,6 +93,21 @@ namespace Greeter
 			if (lblViewIssue != null) {
 				lblViewIssue.Dispose ();
 				lblViewIssue = null;
+			}
+
+			if (lblWashTime != null) {
+				lblWashTime.Dispose ();
+				lblWashTime = null;
+			}
+
+			if (txtFieldBarcode != null) {
+				txtFieldBarcode.Dispose ();
+				txtFieldBarcode = null;
+			}
+
+			if (lblLoc != null) {
+				lblLoc.Dispose ();
+				lblLoc = null;
 			}
 		}
 	}

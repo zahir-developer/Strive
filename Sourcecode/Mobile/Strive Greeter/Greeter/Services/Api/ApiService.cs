@@ -59,12 +59,20 @@ namespace Greeter.Services.Api
                     response = commonResponse?.ResultData.ParseJsonString<T>();
                     response.StatusCode = commonResponse.StatusCode;
                     response.Message = commonResponse.Message;
-
                     Debug.WriteLine("De-serilised Response : " + JsonConvert.SerializeObject(response));
+                }
+                else
+                {
+                    response = Activator.CreateInstance<T>();
+                    response.StatusCode = commonResponse.StatusCode;
+                    response.Message = commonResponse.StatusCode.ToString();
                 }
             }
             catch (Exception ex)
             {
+                response = Activator.CreateInstance<T>();
+                response.StatusCode = commonResponse.StatusCode;
+                response.Message = commonResponse.StatusCode.ToString();
                 Debug.WriteLine("Exception " + ex.Message);
             }
 

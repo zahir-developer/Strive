@@ -24,7 +24,7 @@ namespace Greeter.Modules.Pay
 
         UIEdgeInsets scrollViewInsets;
 
-        const string TIP_AMOUNT_FORMAT = "{0}{1}.{2}{3}";
+        const string TIP_AMOUNT_FORMAT = "{0}{1}{2}.{3}{4}";
 
         public override void ViewDidLoad()
         {
@@ -34,7 +34,7 @@ namespace Greeter.Modules.Pay
             KeyBoardHandling();
             UpdateData();
 
-            tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0 ,0);
+            tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0 ,0, 0);
 
 #if DEBUG
             cardNumberTextField.Text = "6011000995500000";
@@ -46,7 +46,12 @@ namespace Greeter.Modules.Pay
         void UpdateData()
         {
             customerNameTextField.Text = CustName;
-            totalAmountDueLabel.Text = $"${Amount}";
+            UpdateAmountLblInDollar(Amount.ToString());
+        }
+
+        void UpdateAmountLblInDollar(string amt)
+        {
+            totalAmountDueLabel.Text = $"${amt}";
         }
 
         public override void ViewWillAppear(bool animated)
@@ -201,9 +206,8 @@ namespace Greeter.Modules.Pay
                 if (!securityCodeTextField.Text.IsEmpty())
                     ccv = Convert.ToInt16(securityCodeTextField.Text);
 
-                float tipAmount = 0;
                 if (!tipAmountTextField.Text.IsEmpty())
-                    tipAmount = float.Parse(tipAmountTextField.Text);
+                    if(float.TryParse(tipAmountTextField.Text, out float tipAmount))
 
                  _ = PayAsync(cardNumberTextField.Text, expirationDateTextField.Text, ccv, tipAmount);
             };
@@ -372,12 +376,18 @@ namespace Greeter.Modules.Pay
 
                 if (int.TryParse(replacedString, out int tipAmount))
                 {
-                    var formattedString = tipAmount.ToString("D" + 4.ToString())
-                        .Insert(2, ".");
+                    var formattedString = tipAmount.ToString("D" + 5.ToString())
+                        .Insert(3, ".");
 
-                    if (formattedString.Length > 5) return false;
+                    if (formattedString.Length > 6) return false;
 
                     tipAmountTextField.Text = formattedString;
+
+                    if (!tipAmountTextField.Text.IsEmpty())
+                        if (float.TryParse(tipAmountTextField.Text, out float extraTipAmount))
+                        {
+                            UpdateAmountLblInDollar((Amount + extraTipAmount).ToString());
+                        }
                 }
 
                 return false;
