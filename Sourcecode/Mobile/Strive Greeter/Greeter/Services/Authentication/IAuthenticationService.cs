@@ -5,7 +5,7 @@ namespace Greeter.Services.Authentication
 {
     public interface IAuthenticationService
     {
-        //Task<LoginResponse> LoginAsync(string userId, string password);
         Task<LoginResponse> LoginAsync(LoginRequest req);
+        Task<RefreshTokenResponse> RefreshToken(RefreshTokenReq req);
     }
 }

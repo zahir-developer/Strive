@@ -1,8 +1,9 @@
-﻿using Xamarin.Essentials;
+﻿using Greeter.Services.Api;
+using Xamarin.Essentials;
 
 namespace Greeter.Common
 {
-    // App Level Storage (Local Storage)
+    // App Level Storage 
     public static class AppSettings
     {
         public static bool IsLogin => !string.IsNullOrEmpty(Token);
@@ -11,6 +12,7 @@ namespace Greeter.Common
 
         public static string BearereToken => "Bearer " + Token;
 
+        // App Local Storage Details
         public static string Token
         {
             get => Preferences.Get(nameof(Token), string.Empty);
@@ -42,5 +44,13 @@ namespace Greeter.Common
         }
 
         public static void Clear() => Preferences.Clear();
+
+        // App Level Instanaces
+        // App Level Injection not dependent on UIViewController
+        private static IApiService iApiService = null;
+        public static IApiService ApiService
+        {
+            get => iApiService == null ? new ApiService() : iApiService;
+        }
     }
 }

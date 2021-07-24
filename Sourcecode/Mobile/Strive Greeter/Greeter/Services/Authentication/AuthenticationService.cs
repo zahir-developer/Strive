@@ -24,8 +24,13 @@ namespace Greeter.Services.Authentication
 
         public Task<LoginResponse> LoginAsync(LoginRequest req)
         {
-            return apiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
+            return AppSettings.ApiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
         }
+
+        //public Task<LoginResponse> Logout(LoginRequest req)
+        //{
+            //return apiService.DoApiCall<LoginResponse>(Urls.LOGIN, HttpMethod.Post, null, req, false);
+        //}
 
         public Task<RefreshTokenResponse> RefreshToken(RefreshTokenReq req)
         {

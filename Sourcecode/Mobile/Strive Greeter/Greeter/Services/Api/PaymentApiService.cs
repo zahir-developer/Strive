@@ -5,7 +5,14 @@ using Greeter.Services.Network;
 
 namespace Greeter.Services.Api
 {
-    public class PaymentApiService
+    public interface IPaymentApiService
+    {
+        Task<BaseResponse> AddPayment(AddPaymentReq req);
+        Task<PayAuthResponse> PaymentAuth(PaymentAuthReq req);
+        Task<BaseResponse> PaymentCapture(PaymentCaptureReq req);
+    }
+
+    public class PaymentApiService : IPaymentApiService
     {
         readonly IApiService apiService = new ApiService();
 

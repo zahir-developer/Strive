@@ -154,7 +154,7 @@ namespace Greeter.Storyboards
                     var createServiceResponse = await apiService.CreateService(req);
                     HideActivityIndicator();
 
-                    HandleResponse(response);
+                    HandleResponse(createServiceResponse);
 
                     if (createServiceResponse?.IsSuccess() ?? false)
                     {

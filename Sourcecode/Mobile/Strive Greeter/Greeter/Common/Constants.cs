@@ -53,11 +53,12 @@ namespace Greeter.Common
         // Client
         //internal const string BASE_URL = "https://mammothuatapi.azurewebsites.net";
 
-
+        // User
         internal const string LOGIN = "/Auth/Login";
         internal const string LOCATIONS = "/Admin/Location/GetAll";
         internal const string REFRESH_TOKEN = "/Auth/Refresh";
 
+        // Service
         // Url Format Example : /Admin/Washes/GetByBarCode/{barcode}
         internal const string BARCODE = "/Admin/Washes/GetByBarCode/";
         // Url Format Example : /Admin/Common/GetCodesByCategory/{globalCode}
@@ -66,22 +67,30 @@ namespace Greeter.Common
         // Url Format Example :/Admin/Common/GetModelById/{makeId}
         internal const string MODELS_BY_MAKE = "/Admin/Common/GetModelById/";
         internal const string ALL_SERVICE_DETAILS = "/Admin/ServiceSetup/GetAllServiceDetail";
-
         //  Url Format Example : /Admin/Common/GetTicketNumber/{locationId}
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
         internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
         internal const string SEND_EMAIL = "/Admin/Common/SendMail";
-        internal const string DETAILER_EMPLOYEES = "/Admin/TimeClock/GetClockedInDetailer";
         internal const string WASH_TIME = "/Admin/Washes/GetWashTimeDetail/";
 
+        // Employees
+        internal const string DETAILER_EMPLOYEES = "/Admin/TimeClock/GetClockedInDetailer";
+
+        // Payment
         internal const string PAYMENT_AUTH = "/Payroll/PaymentGateway/Auth";
         internal const string PAYMENT_CAPTURE = "/Payroll/PaymentGateway/Capture";
         internal const string ADD_PAYMENT = "/Admin/Sales/AddPayment";
 
+        // Checkout
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
         internal const string HOLD_CHECKOUT = "/Admin/Checkout/UpdateJobStatusHold";
         internal const string COMPLETE_CHECKOUT = "/Admin/Checkout/UpdateJobStatusComplete";
-        internal const string DO_CHECKOUT = "/Admin/Checkout/UpdateCheckoutDetails";
+        internal const string DO_CHECKOUT = "/Admin/Checkou t/UpdateCheckoutDetails";
+
+        // Message
+        //internal const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage";
+        public const string RECENT_CHAT_LIST = "/Admin/Messenger/GetChatEmployeeList/";
+        //public const string URL_MESSENGER_CREATE_GROUP_CHAT = "/Admin/Messenger/CreateChatGroup";
     }
 
     public class UIConstants

@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
+using Greeter.Common;
+using Greeter.DTOs;
+using Greeter.Services.Api;
 using UIKit;
 
 namespace Greeter.Modules.Message
 {
-    public partial class RecentMessageViewController: UIViewController, IUITableViewDataSource, IUITableViewDelegate
+    public partial class RecentMessageViewController: BaseViewController, IUITableViewDataSource, IUITableViewDelegate
     {
         UITableView recentMessageTableView;
 

@@ -10,9 +10,11 @@ namespace Greeter.Services.Api
     public interface IWashApiService
     {
         // IApiService apiService => new ApiService(); // can't access in implementation class
+        Task<ServiceResponse> GetAllSericeDetails(int locationId);
+        Task<TicketResponse> GetWashTime(int locationId);
         Task<TicketResponse> GetTicketNumber(int locationId);
         Task<BaseResponse> CreateService(CreateServiceRequest req);
-        Task<ServiceResponse> GetAllSericeDetails(int locationId);
+        Task<EmployeeListResponse> GetDetailEmployees(GetDetailEmployeeReq req);
         Task<BaseResponse> SendEmail(string email, string subject, string body);
     }
 
@@ -26,15 +28,15 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<ServiceResponse>(Urls.ALL_SERVICE_DETAILS, HttpMethod.Get, parameters);
         }
 
-        public Task<TicketResponse> GetTicketNumber(int locationId)
-        {
-            var url = Urls.TICKET_NUMBER + locationId;
-            return apiService.DoApiCall<TicketResponse>(url);
-        }
-
         public Task<TicketResponse> GetWashTime(int locationId)
         {
             var url = Urls.WASH_TIME + locationId;
+            return apiService.DoApiCall<TicketResponse>(url);
+        }
+
+        public Task<TicketResponse> GetTicketNumber(int locationId)
+        {
+            var url = Urls.TICKET_NUMBER + locationId;
             return apiService.DoApiCall<TicketResponse>(url);
         }
 

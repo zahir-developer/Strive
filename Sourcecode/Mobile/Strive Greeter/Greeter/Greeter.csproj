@@ -400,6 +400,7 @@
 		<Compile Include="Modules\Message\ChatType.cs" />
 		<Compile Include="DTOs\Contact.cs" />
 		<Compile Include="DTOs\Group.cs" />
+		<Compile Include="Services\Api\MessageApiService.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

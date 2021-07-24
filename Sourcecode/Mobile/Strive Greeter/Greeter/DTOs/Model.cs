@@ -693,12 +693,63 @@ namespace Greeter.DTOs
         public string RefreshToken { get; set; }
     }
 
-        public class PayAuthResponse : BaseResponse
+    public class PayAuthResponse : BaseResponse
     {
         [JsonProperty("authcode")]
         public string Authcode { get; set; }
 
         [JsonProperty("retref")]
         public string Retref { get; set; }
+    }
+
+    public class RecentChatListResponse : BaseResponse
+    {
+        [JsonProperty("EmployeeList")]
+        public EmployeeList EmployeeList { get; set; }
+    }
+
+    public class EmployeeList
+    {
+        [JsonProperty("ChatEmployeeList")]
+        public List<RecentChat> RecentChats { get; set; }
+    }
+
+    public class RecentChat
+    {
+        [JsonProperty("Id")]
+        public long ID { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+
+        [JsonProperty("IsGroup")]
+        public bool IsGroup { get; set; }
+
+        [JsonProperty("RecentChatMessage")]
+        public string RecentChatMessage { get; set; }
+
+        //[JsonProperty("RecentChatMessage")]
+        //public DateTime CreatedDate { get; set; }
+
+        [JsonProperty("IsRead")]
+        public bool IsRead { get; set; }
+
+        [JsonProperty("ChatGroupId")]
+        public long ChatGroupId { get; set; }
+
+        [JsonProperty("GroupId")]
+        public long GroupId { get; set; }
+
+        [JsonProperty("CommunicationId")]
+        public long CommunicationId { get; set; }
+
+        [JsonProperty("ChatGroupUserId")]
+        public long ChatGroupUserId { get; set; }
+
+        //[JsonProperty("Selected")]
+        //public bool Selected { get; set; }
     }
 }
