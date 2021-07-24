@@ -29,7 +29,8 @@ namespace Greeter.Modules.Message
 
         async Task SearchGroup(string keyword)
         {
-            searchedGroups = await Task.Run(() => groups.Where(name => name.Contains(keyword)).ToList());
+            searchedGroups = await Task.Run(() => groups.Where(name => name.ToLower().Contains(keyword.ToLower().Trim())).ToList());
+            RefreshGroupsToUI();
         }
 
         async Task OnRefersh()

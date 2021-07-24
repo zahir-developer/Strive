@@ -108,11 +108,10 @@ namespace Greeter.Modules.Message
             var oldNSString = new NSString(textField.Text ?? "");
             var replacedString = oldNSString.Replace(range, new NSString(replacementString));
             SearchContact(replacedString).ConfigureAwait(false);
-            RefreshContacts();
             return true;
         }
 
-        void RefreshContacts()
+        void RefreshContactsToUI()
         {
             if (IsViewLoaded)
                 contactTableView.ReloadData();

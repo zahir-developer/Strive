@@ -731,7 +731,7 @@ namespace Greeter.DTOs
         [JsonProperty("RecentChatMessage")]
         public string RecentChatMessage { get; set; }
 
-        //[JsonProperty("RecentChatMessage")]
+        //[JsonProperty("CreatedDate")]
         //public DateTime CreatedDate { get; set; }
 
         [JsonProperty("IsRead")]

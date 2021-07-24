@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
@@ -99,12 +100,21 @@ namespace Greeter.Modules.Message
         {
             var oldNSString = new NSString(textField.Text ?? "");
             var replacedString = oldNSString.Replace(range, new NSString(replacementString));
+
+            //SearchGroup(replacedString).ConfigureAwait(false);
+            //RefreshGroupsToUI(); // refreshing issue bcoz of not awaiting to store searched contacts
+
+            //Task.Run(async () =>
+            //{
+            //    await SearchGroup(replacedString);
+            //    RefreshGroupsToUI(); // Leads to not access ui elements outside of main thread
+            //});
+
             SearchGroup(replacedString).ConfigureAwait(false);
-            RefreshContacts();
             return true;
         }
 
-        void RefreshContacts()
+        void RefreshGroupsToUI()
         {
             if (IsViewLoaded)
                 messageGroupsTableView.ReloadData();

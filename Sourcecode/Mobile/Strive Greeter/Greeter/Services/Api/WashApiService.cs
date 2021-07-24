@@ -9,7 +9,7 @@ namespace Greeter.Services.Api
 {
     public interface IWashApiService
     {
-        // IApiService apiService => new ApiService(); // can't access in implementation class
+        //IApiService apiService => new ApiService(); // can't access in implementation class
         Task<ServiceResponse> GetAllSericeDetails(int locationId);
         Task<TicketResponse> GetWashTime(int locationId);
         Task<TicketResponse> GetTicketNumber(int locationId);

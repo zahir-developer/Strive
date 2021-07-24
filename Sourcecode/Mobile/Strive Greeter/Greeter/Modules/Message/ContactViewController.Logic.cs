@@ -35,7 +35,8 @@ namespace Greeter.Modules.Message
 
         async Task SearchContact(string keyword)
         {
-            searchedContacts = contacts.Where(contact => contact.Name.Contains(keyword)).ToList();
+            searchedContacts = await Task.Run(() => contacts.Where(contact => contact.Name.ToLower().Contains(keyword.ToLower().Trim())).ToList());
+            RefreshContactsToUI();
         }
 
         void OnCreateGroup()

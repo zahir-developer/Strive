@@ -5,6 +5,6 @@ namespace Greeter.Modules.User
 {
     //public class LocationViewModel : BaseViewModel
     //{
-
+           
     //}
 }
