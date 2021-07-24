@@ -9,39 +9,29 @@ namespace Greeter.Modules.Message
 {
     public partial class RecentMessageViewController
     {
-        List<string> recentMessageHistory = new();
+        List<RecentChat> recentMessageHistory = new();
+
+        readonly MessageApiService messageApiService = new MessageApiService();
 
         public RecentMessageViewController()
         {
-            recentMessageHistory.Add("Brittany Rose");
-            recentMessageHistory.Add("OM Detailers");
-            recentMessageHistory.Add("Peter Parker");
-            recentMessageHistory.Add("Daniel Steel");
-            recentMessageHistory.Add("Old Milton Employees");
             _ = GetRecentChatsAsync();
         }
 
-        Task GetRecentsMessageHistory()
-        {
-            return Task.CompletedTask;
-        }
-
-        async Task<List<RecentChat>> GetRecentChatsAsync()
+        async Task GetRecentChatsAsync()
         {
             ShowActivityIndicator();
-            var response = await new MessageApiService().GetRecentChatList(AppSettings.UserID);
+            var response = await messageApiService.GetRecentChatList(AppSettings.UserID);
             HideActivityIndicator();
-
-            List<RecentChat> recentChats = null;
 
             HandleResponse(response);
 
-            if (response.IsSuccess())
-            {
-                recentChats = response?.EmployeeList?.RecentChats;
-            }
+            if (!response.IsSuccess()) return;
 
-            return recentChats;
+            if (response?.EmployeeList?.RecentChats != null)
+                recentMessageHistory = response?.EmployeeList?.RecentChats;
+
+            RefreshRecentChat();
         }
     }
 }

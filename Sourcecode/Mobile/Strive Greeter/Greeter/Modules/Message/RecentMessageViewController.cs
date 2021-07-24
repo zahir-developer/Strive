@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
-using Greeter.Common;
-using Greeter.DTOs;
-using Greeter.Services.Api;
 using UIKit;
 
 namespace Greeter.Modules.Message
@@ -70,6 +65,12 @@ namespace Greeter.Modules.Message
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             NavigationController.PushViewController(new ChatViewController(ChatType.Indivisual), animated: true);
+        }
+
+        void RefreshRecentChat()
+        {
+            if (IsViewLoaded)
+                recentMessageTableView.ReloadData();
         }
     }
 }

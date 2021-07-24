@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Cells
@@ -68,14 +69,12 @@ namespace Greeter.Cells
             messageContentLabel.TopAnchor.ConstraintEqualTo(userNameLabel.BottomAnchor, constant: 3).Active = true;
         }
 
-        //TODO Pass Real time data here and set later
-        public void SetupData(string name)
+        public void SetupData(RecentChat recentChat)
         {
-            string[] names = name.Split(" ");
-            userIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
-            userNameLabel.Text = name;
-            dateTimeLabel.Text = "5.18 PM";
-            messageContentLabel.Text = "Checkout cashier section";
+            userIntialLabel.Text = recentChat.FirstName.Substring(0, 1) + recentChat.LastName.Substring(0, 1);
+            userNameLabel.Text = $"{recentChat.FirstName} {recentChat.LastName}";
+            dateTimeLabel.Text = "5.18 PM"; //TODO get key from server
+            messageContentLabel.Text = recentChat.RecentChatMessage;
         }
     }
 }
