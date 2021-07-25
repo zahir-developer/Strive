@@ -12,5 +12,7 @@ namespace Greeter.Extensions
         public static bool IsBadRequest(this BaseResponse responseBase) => responseBase.StatusCode is (int)HttpStatusCode.BadRequest;
 
         public static bool IsInternalServerError(this BaseResponse responseBase) => responseBase.StatusCode is (int)HttpStatusCode.InternalServerError;
+
+        public static bool IsUnAuthorised(this BaseResponse responseBase) => responseBase.StatusCode is (int)HttpStatusCode.Unauthorized;
     }
 }

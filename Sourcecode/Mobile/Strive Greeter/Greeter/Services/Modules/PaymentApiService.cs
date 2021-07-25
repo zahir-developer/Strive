@@ -14,21 +14,21 @@ namespace Greeter.Services.Api
 
     public class PaymentApiService : IPaymentApiService
     {
-        //readonly IApiService apiService = new ApiService();
+        readonly IApiService apiService = SingleTon.ApiService;
 
         public Task<PayAuthResponse> PaymentAuth(PaymentAuthReq req)
         {
-            return SingleTon.ApiService.DoApiCall<PayAuthResponse>(Urls.PAYMENT_AUTH, HttpMethod.Post, null, req);
+            return apiService.DoApiCall<PayAuthResponse>(Urls.PAYMENT_AUTH, HttpMethod.Post, null, req);
         }
 
         public Task<BaseResponse> PaymentCapture(PaymentCaptureReq req)
         {
-            return SingleTon.ApiService.DoApiCall<BaseResponse>(Urls.PAYMENT_CAPTURE, HttpMethod.Post, null, req);
+            return apiService.DoApiCall<BaseResponse>(Urls.PAYMENT_CAPTURE, HttpMethod.Post, null, req);
         }
 
         public Task<BaseResponse> AddPayment(AddPaymentReq req)
         {
-            return SingleTon.ApiService.DoApiCall<BaseResponse>(Urls.ADD_PAYMENT, HttpMethod.Post, null, req);
+            return apiService.DoApiCall<BaseResponse>(Urls.ADD_PAYMENT, HttpMethod.Post, null, req);
         }
     }
 }

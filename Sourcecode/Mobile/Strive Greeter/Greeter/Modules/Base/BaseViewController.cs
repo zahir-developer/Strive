@@ -145,6 +145,15 @@ namespace Greeter
                 return;
             }
 
+            if (response.IsUnAuthorised())
+            {
+                ShowAlertMsg(Common.Messages.SESSION_TIMED_OUT, () =>
+                {
+                    Logout();
+                });
+                return;
+            }
+
             if (response.IsInternalServerError())
             {
                 ShowAlertMsg(Common.Messages.INTERNAL_SERVER_ERROR);
@@ -156,6 +165,15 @@ namespace Greeter
                 ShowAlertMsg(Common.Messages.BAD_REQUEST);
                 return;
             }
+        }
+
+        public void Logout()
+        {
+            AppSettings.Clear();
+
+            UIViewController loginViewController = UIStoryboard.FromName(StoryBoardNames.USER, null)
+                                  .InstantiateViewController(nameof(LoginViewController));
+            this.NavigationController.SetViewControllers(new UIViewController[] { loginViewController }, true);
         }
 
         public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)

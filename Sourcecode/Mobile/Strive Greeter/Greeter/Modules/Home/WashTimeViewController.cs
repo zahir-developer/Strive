@@ -77,12 +77,13 @@ namespace Greeter.Modules.Home
             Title = "Home";
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
             {
-                AppSettings.Clear();
+                //AppSettings.Clear();
 
-                UIViewController loginViewController = UIStoryboard.FromName(StoryBoardNames.USER, null)
-                                      .InstantiateViewController(nameof(LoginViewController));
+                //UIViewController loginViewController = UIStoryboard.FromName(StoryBoardNames.USER, null)
+                //                      .InstantiateViewController(nameof(LoginViewController));
 
-                TabBarController.NavigationController.SetViewControllers(new UIViewController[] { loginViewController }, true);
+                //TabBarController.NavigationController.SetViewControllers(new UIViewController[] { loginViewController }, true);
+                Logout();
             });
         }
 

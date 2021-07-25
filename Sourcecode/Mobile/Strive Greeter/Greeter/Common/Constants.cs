@@ -91,7 +91,13 @@ namespace Greeter.Common
         // Message
         //internal const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage";
         internal const string RECENT_CHAT_LIST = "/Admin/Messenger/GetChatEmployeeList/";
-        //public const string URL_MESSENGER_CREATE_GROUP_CHAT = "/Admin/Messenger/CreateChatGroup";
+        internal const string CREATE_GROUP = "/Admin/Messenger/CreateChatGroup";
+        // Url Format Example : /Admin/Messenger/GetChatGroupEmployeelist/{chatGroupId}
+        internal const string GROUP_USERS = "/Admin/Messenger/GetChatGroupEmployeelist/";
+        // Url Format Example : Admin/Messenger/AddEmployeeToGroup/{employeeId}/{communicationId}
+        internal const string ADD_USER_TO_GROUP = "/Admin/Messenger/AddEmployeeToGroup/";
+        internal const string REMOVE_USER_FROM_GROUP = "/Admin/Messenger/DeleteChatGroupUser/";
+        internal const string CHAT_MESSAGES = "/Admin/Messenger/GetChatMessage";
     }
 
     public class UIConstants
@@ -162,6 +168,7 @@ namespace Greeter.Common
         internal const string NO_INTERNET_MSG = "Please check your internet connection and try again";
         internal const string INTERNAL_SERVER_ERROR = "Internal Server Error";
         internal const string BAD_REQUEST = "Bad request";
+        internal const string SESSION_TIMED_OUT = "Your session was timed out.Please try login again";
 
         internal const string HOLD_VERIFICATION_MSG = "Are you sure want to change the status to hold?";
         internal const string SERVICE_HOLD_SUCCESS_MSG = "Service status changed to hold successfully";

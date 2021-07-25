@@ -1,16 +1,12 @@
 ﻿using MvvmCross;
 using Strive.Core.Models;
-using Strive.Core.Models.Employee;
 using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.Employee.Messenger.MessengerGroups;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using Strive.Core.Rest.Interfaces;
 using Strive.Core.Services.Interfaces;
 using Strive.Core.Utils;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Strive.Core.Services.Implementations

@@ -549,7 +549,7 @@ namespace Greeter.DTOs
         public long LocationID { get; set; }
 
         [JsonProperty("jobId")]
-        public long JobID { get; set; } 
+        public long JobID { get; set; }
     }
 
     public class JobPayment
@@ -686,10 +686,10 @@ namespace Greeter.DTOs
 
     public class RefreshTokenResponse : BaseResponse
     {
-        [JsonProperty("")]
+        [JsonProperty("Token")]
         public string Token { get; set; }
 
-        [JsonProperty("")]
+        [JsonProperty("RefreshToken")]
         public string RefreshToken { get; set; }
     }
 
@@ -775,7 +775,7 @@ namespace Greeter.DTOs
 
         //[JsonProperty("query")]
         //public string Query { get; set; }
-        
+
         //[JsonIgnore]
         //[JsonProperty("pageNo")]
         //public short PageNo { get; set; }
@@ -828,5 +828,197 @@ namespace Greeter.DTOs
 
         //[JsonProperty("Status")]
         //public bool Status { get; set; }
+    }
+
+    public class RemoveUserFromGroupResponse : BaseResponse
+    {
+        [JsonProperty("ChatGroupUserDelete")]
+        public bool IsSuccess { get; set; }
+    }
+
+    public class CreategroupRequest
+    {
+        [JsonProperty("chatGroup")]
+        public ChatGroup ChatGroup { get; set; }
+
+        [JsonProperty("chatUserGroup")]
+        public List<ChatUserGroup> ChatUserGroup { get; set; }
+
+        [JsonProperty("groupId")]
+        public long GroupID { get; set; }
+    }
+
+    public class ChatGroup
+    {
+        //public long ChatGroupId { get; set; }
+
+        //public long GroupId { get; set; }
+
+        [JsonProperty("groupName")]
+        public string GroupName { get; set; }
+
+        //public string Comments { get; set; }
+
+        //public bool IsActive { get; set; }
+
+        //public bool IsDeleted { get; set; }
+
+        [JsonProperty("createdBy")]
+        public int CreatedBy { get; set; }
+
+        [JsonProperty("createdDate")]
+        public string CreatedDate { get; set; }
+
+        //public int UpdatedBy { get; set; }
+
+        //public string updatedDate { get; set; }
+
+    }
+
+    public class ChatUserGroup
+    {
+        //[JsonProperty("chatGroupUserId")]
+        //public long chatGroupUserId { get; set; }
+
+        //[JsonProperty("communicationId")]
+        //public long CommunicationId { get; set; }
+
+        [JsonProperty("userId")]
+        public int UserID { get; set; }
+
+        //[JsonProperty("chatGroupId")]
+        //public long ChatGroupId { get; set; }
+
+        //[JsonProperty("isActive")]
+        //public bool IsActive { get; set; }
+
+        //[JsonProperty("isDeleted")]
+        //public bool IsDeleted { get; set; }
+
+        [JsonProperty("createdBy")]
+        public int CreatedBy { get; set; }
+
+        [JsonProperty("createdDate")]
+        public DateTime CreatedDate { get; set; }
+    }
+
+    public class CreateGroupResponse : BaseResponse
+    {
+        [JsonProperty("Result")]
+        public CreateGroupResult CreateGroupResult { get; set; }
+    }
+
+    public class CreateGroupResult
+    {
+        [JsonProperty("ChatGroupId")]
+        public long ChatGroupID { get; set; }
+
+        [JsonProperty("GroupName")]
+        public string GroupName { get; set; }
+
+        [JsonProperty("GroupId")]
+        public long GroupID { get; set; }
+    }
+
+    public class GroupUsersResponse : BaseResponse
+    {
+        [JsonProperty("EmployeeList")]
+        public GroupUserObject GroupUserObject { get; set; }
+    }
+
+    public class GroupUserObject
+    {
+        [JsonProperty("ChatEmployeeList")]
+        public List<GroupUser> Users { get; set; }
+    }
+
+    public class GroupUser
+    {
+        [JsonProperty("Id")]
+        public long ID { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
+
+        //[JsonProperty("IsGroup")]
+        //public bool IsGroup { get; set; }
+
+        //[JsonProperty("ChatGroupId")]
+        //public long ChatGroupID { get; set; }
+
+        //[JsonProperty("GroupId")]
+        //public string GroupID { get; set; }
+
+        [JsonProperty("CommunicationId")]
+        public string CommunicationId { get; set; }
+
+        //[JsonProperty("RecentChatMessage")]
+        //public string RecentChatMessage { get; set; }
+
+        //[JsonProperty("ChatGroupUserId")]
+        //public long ChatGroupUserId { get; set; }
+
+        //[JsonProperty("CreatedDate")]
+        //public string CreatedDate { get; set; }
+
+        //[JsonProperty("IsRead")]
+        //public bool IsRead { get; set; }
+
+        //[JsonProperty("Selected")]
+        //public bool Selected { get; set; }
+    }
+
+    public class ChatMessageRequest
+    {
+        [JsonProperty("SenderId")]
+        public long SenderID { get; set; }
+
+        [JsonProperty("RecipientId")]
+        public long RecipientID { get; set; }
+
+        [JsonProperty("GroupId")]
+        public long GroupID { get; set; }
+    }
+
+    public class ChatMessagesResponse : BaseResponse
+    {
+        [JsonProperty("ChatMessage")]
+        public ChatMessageObject ChatMessageObject { get; set; }
+    }
+
+    public class ChatMessageObject
+    {
+        [JsonProperty("ChatMessageDetail")]
+        public List<ChatMessage> ChatMessageDetail { get; set; }
+    }
+
+    public class ChatMessage
+    {
+        [JsonProperty("SenderId")]
+        public int SenderID { get; set; }
+
+        [JsonProperty("SenderFirstName")]
+        public string SenderFirstName { get; set; }
+
+        [JsonProperty("SenderLastName")]
+        public string SenderLastName { get; set; }
+
+        [JsonProperty("ReceipientId")]
+        public int ReceipientId { get; set; }
+
+        [JsonProperty("RecipientFirstName")]
+        public string RecipientFirstName { get; set; }
+
+        [JsonProperty("RecipientLastName")]
+        public string RecipientLastName { get; set; }
+
+        [JsonProperty("MessageBody")]
+        public string MessageBody { get; set; }
+
+        [JsonProperty("CreatedDate")]
+        public DateTime? CreatedDate { get; set; }
     }
 }
