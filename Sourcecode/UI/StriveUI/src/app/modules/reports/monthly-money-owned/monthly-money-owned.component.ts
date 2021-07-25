@@ -36,31 +36,25 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   date = new Date();
   month: number;
   year: number;
-  uniqLocationName: any = [];
-  locationName: any = [];
-  locationTotalValue = [];
-  totalOwnedValue = [];
+
   locationId: any;
-  owedLocationName = [];
   clonedownedReportList = [];
-
-  // new object declare
-
   totalResult: any;
   moneyOwnedReport: any;
-  locationGroup = [];
-  locationShortName: any;
-  filterLocation = [];
-  headerLocationRow = [];
-  headerLocationOwed = [];
-  allOwned: any;
+  locationShort: any;
+  headerLocationShort: any;
+  newMoneyOwnedReports = [];
   selectedLocation: any;
-  totalCal = 0;
-  averageCal = 0;
-  membershipCal = 0;
-  driveupCal = 0;
+  headerShortGroup: any;
+  headerOwned: any;
+  totalAmount = 0;
+  totalAverage = 0;
+  membership = 0;
+  driveUp = 0
   shortCharValue: any;
   ownedCharValue: any;
+
+
 
 
 
@@ -182,82 +176,144 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
       if (res.status === 'Success') {
         this.spinner.hide()
         this.totalResult = JSON.parse(res.resultData);
-        console.log(this.totalResult);
         this.moneyOwnedReport = this.totalResult.GetMonthlyMoneyOwedReport;
-        console.log(this.moneyOwnedReport, 'real response');
+        
+        if (this.moneyOwnedReport.Location !== null && this.moneyOwnedReport.Location.length !== 0 &&
+          this.moneyOwnedReport.MoneyOwedReport !== null && this.moneyOwnedReport.MoneyOwedReport.length !== 0) {
 
+          this.moneyOwnedReport.Location.forEach(loc => {
+            this.moneyOwnedReport.MoneyOwedReport.forEach(owned => {
 
-        this.headerLocationRow = [];
-        this.headerLocationOwed = [];
-        let shortLetter = '';
-        this.moneyOwnedReport?.Location.forEach(loc => {
-          const list = loc.LocationName.replace(/\s+/g, ' ')
-          const ShortName = list.split(' ')
-          if (ShortName.length > 1) {
-            shortLetter = ShortName[0].charAt(0).toUpperCase() + ShortName[1].charAt(0).toUpperCase();
-          } else {
-            shortLetter = ShortName[0].charAt(0).toUpperCase();
-          }
-          loc.shortName = shortLetter;
-
-          this.headerLocationRow.push(shortLetter);
-
-          this.headerLocationOwed.push("Total Owned For" + " " + shortLetter);
-        });
-
-
-        this.moneyOwnedReport?.Client.forEach(client => {
-
-          client.moneyOwedData = [];
-          client.joblocationCount = [];
-          client.OwedlocationAmount = [];
-          client.MembershipAmount = 0;
-          client.TotalWashCount = 0;
-          client.Average = 0;
-          client.TotalJobAmount = 0;
-
-          const moneyOwed = this.moneyOwnedReport.MoneyOwedReport.filter(s => s.ClientId === client.ClientId);
-
-          
-          moneyOwed.forEach(item => {
-           const filterLocation =  this.moneyOwnedReport.Location.filter(list =>list.locationId !== item.locationId)
-          });
-          
-
-          if (moneyOwed?.length > 0) {
-            client.MembershipAmount = moneyOwed[0]?.MembershipAmount;
-            client.TotalWashCount = moneyOwed[0]?.TotalWashCount;
-            client.Average = moneyOwed[0]?.Average;
-            client.TotalJobAmount = moneyOwed[0]?.TotalJobAmount;
-          }
-
-          client.joblocationCount = [];
-          client.OwedlocationAmount = [];
-          moneyOwed.forEach(moneyOwed => {
-            
-            for(let loc of this.moneyOwnedReport.Location)
-            {
-              if (moneyOwed.locationId === loc.locationId) {
-                console.log(moneyOwed.locationId === loc.locationId);
-                //Wash Count based on location
-                client.joblocationCount.push(moneyOwed.WashCount);
-                
-                //Money Owed based on location
-                client.OwedlocationAmount.push(moneyOwed.MoneyOwed);
-                break;
+              if (owned.LocationId === loc.LocationId) {
+                const spaceAvoid = owned.LocationName.replace(/\s+/g, ' ')
+                const charSplit = spaceAvoid.split(' ')
+                if (charSplit.length > 1) {
+                  this.locationShort = charSplit[0].charAt(0).toUpperCase() + charSplit[1].charAt(0).toUpperCase();
+                } else {
+                  this.locationShort = charSplit[0].charAt(0).toUpperCase();
+                }
+                loc.shortName = this.locationShort;
+                owned.shortName = this.locationShort;
               }
-              else {
-                client.joblocationCount.push(0);
-                 //Money Owed based on location
-                client.OwedlocationAmount.push(0);
-                break;
+            });
+          });
+        } else {
+          this.moneyOwnedReport.Location = []
+          this.moneyOwnedReport.MoneyOwedReport = []
+          this.newMoneyOwnedReports = []
+          this.headerOwned = []
+        }
+
+        const locationShortName = _.pluck(this.moneyOwnedReport?.Location, 'shortName');
+        this.headerLocationShort = [...new Set(locationShortName)]
+
+        if (this.moneyOwnedReport.MoneyOwedReport !== null && this.moneyOwnedReport.MoneyOwedReport.length !== 0) {
+
+          this.moneyOwnedReport.MoneyOwedReport.forEach(owned => {
+            owned.shortLocationValue = [];
+            this.headerLocationShort.forEach(element => {
+              if (owned.shortName === element) {
+                owned.shortLocationValue.push(owned.WashCount)
+              } else {
+                owned.shortLocationValue.push(0)
+              }
+            });
+          });
+
+          this.newMoneyOwnedReports = [];
+          this.moneyOwnedReport.MoneyOwedReport.forEach(owned => {
+            var newObject = {
+              "Average": owned.Average,
+              "ClientId": owned.ClientId,
+              "FirstName": owned.FirstName,
+              "LastName": owned.LastName,
+              "LocationId": owned.LocationId,
+              "LocationName": owned.LocationName,
+              "MembershipAmount": owned.MembershipAmount,
+              "MoneyOwed": owned.MoneyOwed,
+              "TotalJobAmount": owned.TotalJobAmount,
+              "TotalWashCount": owned.TotalWashCount,
+              "WashCount": owned.WashCount,
+              "shortLocationValue": owned.shortLocationValue,
+              "mulipleLocWash": [],
+              "locationTitle": this.headerLocationShort,
+              "shortName": owned.shortName
+            }
+            this.moneyOwnedReport.MoneyOwedReport.forEach(innerOwned => {
+              if (innerOwned.ClientId === owned.ClientId) {
+                newObject.mulipleLocWash.push(innerOwned.shortLocationValue)
+              }
+            });
+            this.newMoneyOwnedReports.push(newObject)
+          });
+
+          this.newMoneyOwnedReports.forEach(owned => {
+            owned.mulipleLocWash = owned.mulipleLocWash[0].map((x, idx) => owned.mulipleLocWash.reduce((sum, curr) => sum + curr[idx], 0));
+          });
+
+          const removeDuplicateClient = this.newMoneyOwnedReports.map(e => e.ClientId).map((e, i, fin) => fin.indexOf(e) === i && i)
+            .filter(e => this.newMoneyOwnedReports[e]).map(e => this.newMoneyOwnedReports[e])
+
+          this.newMoneyOwnedReports = removeDuplicateClient;
+
+
+          this.newMoneyOwnedReports.forEach(owned => {
+            owned.ownedTitle = [];
+            owned.ownedValue = [];
+            owned.total = 0;
+            owned.totalAmount = 0;
+            if (this.headerLocationShort.length !== 0) {
+              this.headerLocationShort.forEach(element => {
+                owned.ownedTitle.push("Total Owned For" + " " + element);
+              });
+            }
+
+            if (owned.mulipleLocWash.length !== 0) {
+              for (let i = 0; i < owned.mulipleLocWash.length; i++) {
+                const list = owned.mulipleLocWash[i] * owned.Average
+                owned.ownedValue.push(list);
+                owned.total += owned.mulipleLocWash[i];
               }
             }
           });
 
-          client.joblocationCount
 
-        });
+          const location = +this.locationId;
+          if (location) {
+            const locationNameBasedonID = _.where(this.moneyOwnedReport?.Location, { LocationId: +this.locationId });
+            if (locationNameBasedonID !== null && locationNameBasedonID !== undefined) {
+              this.selectedLocation = locationNameBasedonID[0]?.shortName
+            }
+          }
+
+          this.totalAmount = 0;
+          this.totalAverage = 0;
+          this.membership = 0;
+          this.driveUp = 0;
+          this.newMoneyOwnedReports.forEach(element => {
+            const index = element.locationTitle.findIndex(ele => ele === this.selectedLocation);
+            element.ownedTitle.splice(index, 1);
+            element.ownedValue.splice(index, 1);
+            this.headerShortGroup = element.locationTitle
+            this.headerOwned = element.ownedTitle;
+            this.totalAmount += element.total
+            this.totalAverage += element.Average
+            this.membership += element.MembershipAmount
+            this.driveUp += element.TotalJobAmount
+          });
+
+          let shortArray = [];
+          let ownedArray = [];
+          this.newMoneyOwnedReports.forEach(element => {
+            shortArray.push(element.mulipleLocWash)
+            const sums = shortArray[0].map((x, idx) => shortArray.reduce((sum, curr) => sum + curr[idx], 0));
+            this.shortCharValue = sums
+            ownedArray.push(element.ownedValue)
+            const owned = ownedArray[0].map((x, idx) => ownedArray.reduce((sum, curr) => sum + curr[idx], 0));
+            this.ownedCharValue = owned
+          });
+        }
+        console.log(this.newMoneyOwnedReports, 'filter results');
       } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -268,4 +324,5 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+
 }

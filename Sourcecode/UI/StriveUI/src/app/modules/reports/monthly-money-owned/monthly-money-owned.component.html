@@ -57,111 +57,54 @@
                         <div id="MonthlyMoneyreport" class="collapse show" class="card-body">
                             <div class="table-responsive" id='print-section'>
 
-                                <!-- <table class="table">
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Date of service </th>
-                                            <th scope="col">Account <br>amount</th>
-                                            <th scope="col">No. of<br> Customers</th>
-                                            <th scope="col">Customer Name</th>
-                                            <th scope="col" *ngFor="let location of uniqLocationName">
-                                                {{location.ShortName}}</th>
+                                            <th scope="col">FirstName</th>
+                                            <th scope="col">LastName</th>
+                                            <th scope="col">Membership<br>amount</th>
+                                            <th>Drive Up Rate</th>
+                                            <th *ngFor="let item of headerShortGroup">{{item}}</th>
                                             <th scope="col">Total</th>
-                                            <th scope="col">Average<br> Wash Rate</th>
-                                            <th scope="col" *ngFor="let location of owedLocationName">Total Owed <br>for
-                                                {{location.ShortName}}</th>
+                                            <th scope="col">Average</th>
+                                            <th *ngFor="let item of headerOwned">{{item}}</th>
                                         </tr>
                                     </thead>
 
-                                    <tbody *ngIf="ownedReportList.length > 0">
-                                        <tr *ngFor="let report of ownedReportList">
-                                            <th scope="row">{{report.JobDate | date : 'MM-dd-yyyy'}}</th>
-                                            <td>{{report.AccountAmount | number:'.2'}}</td>
-                                            <td>{{report.CustomerCount}}</td>
-                                            <td>{{report.CustomerName}} </td>
-                                            <td *ngFor="let loc of report.location">{{loc.locationCount}}</td>
-                                            <td>{{report.Total}}</td>
-                                            <td>{{report.WashesAmount| number:'.2-2'}}</td>
-                                            <td *ngFor="let loc of report.LocationAmount">
-                                                {{loc.locationAmount | number:'.2'}}</td>
+                                    <tbody *ngIf="newMoneyOwnedReports.length > 0">
+                                        <tr *ngFor="let report of newMoneyOwnedReports">
+                                            <td>{{report.FirstName}}</td>
+                                            <td>{{report.LastName}}</td>
+                                            <td>{{report.MembershipAmount | number:'.2'}}</td>
+                                            <td>{{report.TotalJobAmount | number:'.2'}}</td>
+                                            <td *ngFor="let value of report.mulipleLocWash">{{value}}</td>
+                                            <td>{{report.total}}</td>
+                                            <td>{{report.Average}}</td>
+                                            <td *ngFor="let value of report.ownedValue">
+                                                {{value | number:'.2'}}</td>
                                         </tr>
                                     </tbody>
 
 
-                                    <tbody *ngIf="ownedReportList.length === 0">
+                                    <tbody *ngIf="newMoneyOwnedReports.length === 0">
                                         <tr>
                                             <td colspan="6" class="text-center">No Record Found</td>
                                         </tr>
                                     </tbody>
-                                    <tfoot class="table-foot font-weight-700" *ngIf="ownedReportList.length > 0">
+
+                                    <tfoot class="table-foot font-weight-700" *ngIf="newMoneyOwnedReports.length > 0">
                                         <tr>
-                                            <td>Total </td>
-                                            <td> {{accountAmount | number:'.2'}}</td>
-                                            <td colspan="2"> </td>
-                                            <td *ngFor="let value of locationTotalValue">{{value.totalValue}} </td>
-                                            <td>{{total}}</td>
-                                            <td>{{averageWashRate | number:'.2-2'}}</td>
-                                            <td *ngFor="let value of totalOwnedValue">
-                                                {{value.totalOwnedValue | number:'.2'}}</td>
+                                            <td colspan="2">Total</td>
+                                            <td>{{membership | number:'.2'}}</td>
+                                            <td>{{driveUp | number:'.2'}}</td>
+                                            <td *ngFor="let item of shortCharValue">{{item | number:'.2'}}</td>
+                                            <td>{{totalAmount}}</td>
+                                            <td>{{totalAverage}}</td>
+                                            <td *ngFor="let item of ownedCharValue">{{item | number:'.2'}}</td>
                                         </tr>
                                     </tfoot>
 
-                                </table>  -->
-
-
-
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">First Name</th>
-                                            <th scope="col">Last Name</th>
-                                            <th scope="col">Membership<br>amount</th>
-                                            <th scope="col">Drive Up Rate</th>
-                                            <th scope="col" *ngFor="let item of headerLocationRow">{{item}}</th>
-                                            <th scope="col">Total</th>
-                                            <th scope="col">Average</th>
-                                            <th scope="col" *ngFor="let owned of headerLocationOwed">{{owned}}</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody
-                                        *ngIf="moneyOwnedReport?.Client !== null && moneyOwnedReport?.Client.length > 0">
-                                        <tr *ngFor="let report of moneyOwnedReport?.Client">
-                                            <td>{{report.FirstName}}</td>
-                                            <td>{{report.LastName}} </td>
-                                            <td>{{report.MembershipAmount | number:'.2'}}</td>
-                                            <td>{{report.TotalJobAmount | number:'.2'}}</td>
-                                            <td *ngFor="let jobCount of report.joblocationCount">{{ jobCount ? jobCount : 0  }}
-                                            </td>
-                                            <td>{{report.TotalGroup}}</td>
-                                                <td>{{report.AverageGroup | number:'.2'}} </td>
-                                            <td *ngFor="let moneyOwed of report.OwedlocationAmount">{{
-                                                moneyOwed }}</td>
-                                        </tr>
-                                    </tbody>
-
-                                    <tbody
-                                        *ngIf="moneyOwnedReport?.Client === null || moneyOwnedReport?.Client?.length === 0">
-                                        <tr>
-                                            <td colspan="6" style="text-align: end;">No Record Found</td>
-                                        </tr>
-                                    </tbody>
-
-                                    <!-- <tfoot class="table-foot font-weight-700"
-                                        *ngIf="moneyOwnedReport?.MoneyOwedReport !== null && moneyOwnedReport?.MoneyOwedReport.length > 0">
-                                        <tr>
-                                            <td colspan="2">Total</td>
-                                            <td>{{membershipCal | number:'.2'}}</td>
-                                            <td>{{driveupCal | number:'.2'}}</td>
-                                            <td *ngFor="let char of shortCharValue">{{char}}</td>
-                                            <td>{{totalCal}}</td>
-                                            <td>{{averageCal | number:'.2'}}</td>
-                                            <td *ngFor="let owned of ownedCharValue">{{owned | number:'.2'}}</td>
-                                        </tr>
-                                    </tfoot> -->
-
                                 </table>
-
                             </div>
                         </div>
                     </div>
