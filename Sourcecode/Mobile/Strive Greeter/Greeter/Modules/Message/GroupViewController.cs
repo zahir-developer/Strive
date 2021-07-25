@@ -5,6 +5,7 @@ using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Modules.Message
@@ -86,7 +87,7 @@ namespace Greeter.Modules.Message
 
             NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.ADD_CIRCLE), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
             {
-
+                NavigationController.PushViewController(new GroupParticipantsViewController(true), true);
             });
         }
 
@@ -135,7 +136,15 @@ namespace Greeter.Modules.Message
         [Export("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            NavigationController.PushViewController(new ChatViewController(ChatType.Group), animated: true);
+            var group = searchedGroups[indexPath.Row];
+            var chatInfo = new ChatInfo
+            {
+                Title = group,
+                GroupId = -1,
+                SenderId = -1,
+                RecipientId = -1
+            };
+            NavigationController.PushViewController(new ChatViewController(ChatType.Group, chatInfo), animated: true);
         }
     }
 }

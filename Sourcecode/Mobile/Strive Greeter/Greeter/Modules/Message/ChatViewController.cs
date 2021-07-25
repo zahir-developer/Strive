@@ -7,7 +7,7 @@ using UIKit;
 
 namespace Greeter.Modules.Message
 {
-    public partial class ChatViewController : UIViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextViewDelegate
+    public partial class ChatViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextViewDelegate
     {
         UITableView chatTableView;
         UIView messageBoxContainer;
@@ -102,14 +102,17 @@ namespace Greeter.Modules.Message
 
         void SetupNavigationItem()
         {
-            Title = "Group Chat";
-
             if (chatType == ChatType.Group)
             {
+                Title = "Group Chat";
                 NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.PARTICIPANTS), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
                 {
                     NavigationController.PushViewController(new GroupParticipantsViewController(false), true);
                 });
+            }
+            else
+            {
+                Title = "Chat";
             }
         }
 
@@ -149,13 +152,15 @@ namespace Greeter.Modules.Message
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            //TODO change logic later
-            if (indexPath.Row % 3 == 0)
+            var message = Chats[indexPath.Row];
+            if (message.SenderID != AppSettings.UserID)
             {
                 var incomingCell = tableView.DequeueReusableCell(MessageIncomingCell.Key) as MessageIncomingCell;
+                incomingCell.SetupData(message);
                 return incomingCell;
             }
             var outgoingCell = tableView.DequeueReusableCell(MessageOutgoingCell.Key) as MessageOutgoingCell;
+            outgoingCell.SetupData(message);
             return outgoingCell;
         }
 

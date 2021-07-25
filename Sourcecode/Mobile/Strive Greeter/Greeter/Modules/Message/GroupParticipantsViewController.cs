@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Modules.Message
 {
-    public partial class GroupParticipantsViewController : UIViewController, IUITableViewDataSource, IUITableViewDelegate, IContactCellDelegate
+    public partial class GroupParticipantsViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate, IContactCellDelegate, IContactViewControllerDelegate
     {
         UITableView participantTableView;
         UIView headerContainerView;
@@ -126,14 +128,14 @@ namespace Greeter.Modules.Message
             if (isCreateGroup)
             {
                 Title = "Create Group";
+                NavigationItem.RightBarButtonItem = new UIBarButtonItem("Create", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => _ = OnCreateGroup(groupNameTextField.Text));
             }
             else
             {
                 //TODO show group name here
                 Title = "New York Branch I";
+                NavigationItem.RightBarButtonItem = new UIBarButtonItem("Save", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => SaveParticipant());
             }
-
-            NavigationItem.RightBarButtonItem = new UIBarButtonItem("Save", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => SaveParticipant());
         }
 
         void RegisterCell()
@@ -154,14 +156,23 @@ namespace Greeter.Modules.Message
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
-            cell.SetupData(isCreateGroup ? ContactConfigureType.CreateGroup : ContactConfigureType.Participant, participants[indexPath.Row]);
+            var participant = participants[indexPath.Row];
+            var employee = new ContactEmployee { EmployeeId = participant.UserID, FirstName = participant.FirstName, LastName = participant.LastName };
+            cell.SetupData(ContactConfigureType.Participant, employee);
             cell.Delegate = new WeakReference<IContactCellDelegate>(this);
             return cell;
         }
 
         void NavigateToContact()
         {
-            NavigationController.PushViewController(new ContactViewController(ContactConfigureType.CreateGroup), true);
+            var contactViewController = new ContactViewController(ContactConfigureType.CreateGroup)
+            {
+                Delegate = new WeakReference<IContactViewControllerDelegate>(this)
+            };
+            PresentViewControllerAsync(
+                new UINavigationController(contactViewController),
+                true
+            );
         }
     }
 }

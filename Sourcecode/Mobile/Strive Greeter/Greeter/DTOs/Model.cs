@@ -799,8 +799,8 @@ namespace Greeter.DTOs
 
     public class ContactEmployee
     {
-        //[JsonProperty("EmployeeId")]
-        //public long EmployeeId { get; set; }
+        [JsonProperty("EmployeeId")]
+        public long EmployeeId { get; set; }
 
         //[JsonProperty("EmployeeCode")]
         //public long EmployeeCode { get; set; }
@@ -828,6 +828,9 @@ namespace Greeter.DTOs
 
         //[JsonProperty("Status")]
         //public bool Status { get; set; }
+
+        [JsonIgnore]
+        public bool IsSelected { get; set; }
     }
 
     public class RemoveUserFromGroupResponse : BaseResponse
@@ -884,7 +887,7 @@ namespace Greeter.DTOs
         //public long CommunicationId { get; set; }
 
         [JsonProperty("userId")]
-        public int UserID { get; set; }
+        public long UserID { get; set; }
 
         //[JsonProperty("chatGroupId")]
         //public long ChatGroupId { get; set; }
@@ -900,6 +903,13 @@ namespace Greeter.DTOs
 
         [JsonProperty("createdDate")]
         public DateTime CreatedDate { get; set; }
+
+        //Additional property needed
+        [JsonIgnore]
+        public string FirstName { get; set; }
+
+        [JsonIgnore]
+        public string LastName { get; set; }
     }
 
     public class CreateGroupResponse : BaseResponse

@@ -405,6 +405,7 @@
 		<Compile Include="Services\Modules\PaymentApiService.cs" />
 		<Compile Include="Services\Modules\VehicleApiService.cs" />
 		<Compile Include="Services\Modules\WashApiService.cs" />
+		<Compile Include="DTOs\ChatInfo.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

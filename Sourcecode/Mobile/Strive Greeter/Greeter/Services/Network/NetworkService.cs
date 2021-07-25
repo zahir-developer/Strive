@@ -51,12 +51,11 @@ namespace Greeter.Services.Network
                     if (urlResponse?.StatusCode >= 200 && urlResponse?.StatusCode <= 299)
                     {
                         using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
+                        Debug.WriteLine("Status Code : " + urlResponse.StatusCode);
+                        Debug.WriteLine("Response String : " + responseString);
+
                         var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
                         result.StatusCode = (int)urlResponse?.StatusCode;
-
-                        Debug.WriteLine("Status Code : " + urlResponse.StatusCode);
-                        Debug.WriteLine("Response String : " + JsonConvert.SerializeObject(result));
-
                         return result;
                     } // Un-Authorized
                     else if (urlResponse.StatusCode == (int)HttpStatusCode.Unauthorized)

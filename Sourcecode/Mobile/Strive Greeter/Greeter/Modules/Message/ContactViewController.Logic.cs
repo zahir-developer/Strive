@@ -16,18 +16,6 @@ namespace Greeter.Modules.Message
         public ContactViewController(ContactConfigureType configureType)
         {
             this.configureType = configureType;
-            //contacts.AddRange(new List<Contact>
-            //{
-            //    new Contact { Name = "William Jones" },
-            //    new Contact { Name = "Jimmy Tester" },
-            //    new Contact { Name = "Brittany Rose" },
-            //    new Contact { Name = "John Rambo" },
-            //    new Contact { Name = "Daniel Steel" },
-            //    new Contact { Name = "Bruce Wayne" },
-            //    new Contact { Name = "Peter Parker" }
-            //});
-
-            //searchedContacts = contacts;
             _ = GetContacts();
         }
 
@@ -46,10 +34,10 @@ namespace Greeter.Modules.Message
 
             if (!response.IsSuccess()) return;
 
-            if (response?.ContactListobj?.ContactsList != null)
+            if (response?.ContactListobj?.ContactsList is not null)
             {
-                contacts = response?.ContactListobj?.ContactsList;
-                searchedContacts = response?.ContactListobj?.ContactsList;
+                contacts = response.ContactListobj.ContactsList;
+                searchedContacts = response.ContactListobj.ContactsList;
                 RefreshContactsToUI();
             }
         }
@@ -62,9 +50,17 @@ namespace Greeter.Modules.Message
 
         string FullName(string firstName, string lastName) => $"{firstName} {lastName}";
 
-        void OnCreateGroup()
+        void OnContactSelectionCompleted()
         {
-
+            if(searchedContacts is not null)
+            {
+                var selectedContact = searchedContacts.Where(contact => contact.IsSelected);
+                if(Delegate is not null && Delegate.TryGetTarget(out IContactViewControllerDelegate @delegate))
+                {
+                    @delegate.ContactSelectionDidCompleted(new List<ContactEmployee>(selectedContact));
+                    DismissViewController(true, null);
+                }
+            }
         }
     }
 }
