@@ -1750,6 +1750,41 @@
             </objects>
             <point key="canvasLocation" x="4984.5703125" y="201.61054172767203"/>
         </scene>
+        <!--Sample View Controller-->
+        <scene sceneID="VyA-Rg-Hfi">
+            <objects>
+                <viewController storyboardIdentifier="SampleViewController" id="Vrf-Fm-qCN" customClass="SampleViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aUH-ue-Or8">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BWz-em-1qu">
+                                <rect key="frame" x="20" y="653" width="984" height="40"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <color key="tintColor" name="app_color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ydf-K7-3fL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="oVK-id-EVu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="BWz-em-1qu" firstAttribute="centerY" secondItem="oVK-id-EVu" secondAttribute="centerY" id="E7H-mC-NFz"/>
+                            <constraint firstItem="BWz-em-1qu" firstAttribute="leading" secondItem="oVK-id-EVu" secondAttribute="leading" constant="20" id="N8m-8I-sHe"/>
+                            <constraint firstItem="oVK-id-EVu" firstAttribute="trailing" secondItem="BWz-em-1qu" secondAttribute="trailing" constant="20" id="hRn-fj-UOo"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tfField" destination="BWz-em-1qu" id="zSU-nc-fX6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vrL-G0-KBR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3294" y="1076"/>
+        </scene>
     </scenes>
     <resources>
         <image name="barcode" width="34.5" height="17"/>
@@ -1773,6 +1808,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
