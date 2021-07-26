@@ -511,10 +511,15 @@ namespace Admin.API.Controllers
                 var worksheet3 = workbook.Worksheets.Add("Wash Hours");
                 worksheet3.Cell(1, 1).Value = "Wash Employee Count";
                 worksheet3.Cell(2, 1).Value = "Wash Expense";
-                var washes = statusResult.DailyStatusDetailInfoViews.DailyStatusWashInfo;
+                if (statusResult.DailyStatusDetailInfoViews.DailyStatusWashInfo != null)
                 {
-                    worksheet3.Cell(2, 1).Value = washes.WashEmployeeCount;
-                    worksheet3.Cell(2, 2).Value = washes.WashExpense;
+
+                    foreach (var WashInfo in statusResult.DailyStatusDetailInfoViews.DailyStatusWashInfo)
+                    {
+                        currentRow++;
+                        worksheet3.Cell(currentRow, 1).Value = WashInfo.WashEmployeeCount;
+                        worksheet3.Cell(currentRow, 2).Value = WashInfo.WashExpense;
+                    }
                 }
 
                 var worksheet5 = workbook.Worksheets.Add("Daily Status");
