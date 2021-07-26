@@ -2,6 +2,7 @@
 using CoreAnimation;
 using CoreGraphics;
 using Foundation;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Cells
@@ -9,6 +10,10 @@ namespace Greeter.Cells
     public class MessageIncomingCell : UITableViewCell
     {
         public static readonly NSString Key = new("MessageIncomingCell");
+
+        UILabel userNameLabel;
+        UILabel messageLabel;
+        UILabel messageTimeLabel;
 
         public MessageIncomingCell(IntPtr p) : base(p)
         {
@@ -26,9 +31,8 @@ namespace Greeter.Cells
             userImageView.Layer.MasksToBounds = true;
             ContentView.Add(userImageView);
 
-            var userNameLabel = new UILabel(CGRect.Empty);
+            userNameLabel = new UILabel(CGRect.Empty);
             userNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            userNameLabel.Text = "John";
             userNameLabel.TextAlignment = UITextAlignment.Center;
             userNameLabel.Font = UIFont.SystemFontOfSize(14);
             ContentView.Add(userNameLabel);
@@ -40,17 +44,15 @@ namespace Greeter.Cells
             bubbleBackgroundView.Layer.MaskedCorners = CACornerMask.MinXMinYCorner | CACornerMask.MaxXMinYCorner | CACornerMask.MaxXMaxYCorner;
             ContentView.Add(bubbleBackgroundView);
 
-            var messageLabel = new UILabel(CGRect.Empty);
+            messageLabel = new UILabel(CGRect.Empty);
             messageLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            messageLabel.Text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
             messageLabel.Lines = -1;
             messageLabel.TextColor = UIColor.Black;
             messageLabel.Font = UIFont.SystemFontOfSize(18);
             bubbleBackgroundView.Add(messageLabel);
 
-            var messageTimeLabel = new UILabel(CGRect.Empty);
+            messageTimeLabel = new UILabel(CGRect.Empty);
             messageTimeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            messageTimeLabel.Text = "11.15 AM | Oct 19";
             messageTimeLabel.Font = UIFont.SystemFontOfSize(14);
             messageTimeLabel.TextColor = UIColor.Gray;
             ContentView.Add(messageTimeLabel);
@@ -79,10 +81,14 @@ namespace Greeter.Cells
             messageTimeLabel.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor, constant: -10).Active = true;
         }
 
-        //TODO pass model object here and set real data
-        void SetupData()
+        public void SetupData(ChatMessage message)
         {
-
+            userNameLabel.Text = message.SenderFirstName;
+            messageLabel.Text = message.MessageBody;
+            if (message.CreatedDate.HasValue)
+            {
+                messageTimeLabel.Text = message.CreatedDate?.ToString("h:mm tt | MMM yy");
+            }
         }
     }
 }

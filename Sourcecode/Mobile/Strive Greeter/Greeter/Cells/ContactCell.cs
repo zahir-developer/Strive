@@ -10,7 +10,7 @@ namespace Greeter.Cells
 {
     public interface IContactCellDelegate
     {
-        public void RemoveParticipant(Contact contact);
+        public void RemoveParticipant(ContactEmployee contact);
     }
 
     public class ContactCell : UITableViewCell
@@ -23,7 +23,7 @@ namespace Greeter.Cells
 
         public WeakReference<IContactCellDelegate> Delegate;
 
-        Contact contact;
+        ContactEmployee contact;
 
         public ContactCell(IntPtr p) : base(p)
         {
@@ -72,7 +72,6 @@ namespace Greeter.Cells
 
         void OnRemoveSelected()
         {
-            //TODO implement remove logic
             if (Delegate is null) return;
 
             if(Delegate.TryGetTarget(out IContactCellDelegate cellDelegate))
@@ -81,26 +80,14 @@ namespace Greeter.Cells
             }
         }
 
-        //TODO Pass Real time data here and set later
-        public void SetupData(ContactConfigureType configureType, Contact contact)
+        public void SetupData(ContactConfigureType configureType, ContactEmployee contact)
         {
             this.contact = contact;
 
-            string[] names = contact.Name.Split(" ");
-            contactIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
-            contactNameLabel.Text = contact.Name;
+            contactIntialLabel.Text = contact.FirstName.Substring(0, 1) + contact.LastName.Substring(0, 1);
+            contactNameLabel.Text = $"{contact.FirstName} {contact.LastName}";
 
             if (configureType == ContactConfigureType.CreateGroup)
-            {
-                selectionImageView.Image = UIImage.FromBundle(ImageNames.CLOSE_SOLID);
-                selectionImageView.UserInteractionEnabled = true;
-            }
-            else if(configureType == ContactConfigureType.Participant)
-            {
-                selectionImageView.Image = UIImage.FromBundle(ImageNames.CLOSE_SOLID);
-                selectionImageView.UserInteractionEnabled = true;
-            }
-            else if(configureType == ContactConfigureType.ContactList)
             {
                 selectionImageView.Image = UIImage.FromBundle(ImageNames.TICK);
                 selectionImageView.UserInteractionEnabled = false;
@@ -113,6 +100,17 @@ namespace Greeter.Cells
                 {
                     ContentView.BackgroundColor = UIColor.White;
                 }
+            }
+            else if(configureType == ContactConfigureType.Participant)
+            {
+                selectionImageView.Image = UIImage.FromBundle(ImageNames.CLOSE_SOLID);
+                selectionImageView.UserInteractionEnabled = true;
+                selectionImageView.UserInteractionEnabled = true;
+            }
+            else if(configureType == ContactConfigureType.ContactList)
+            {
+                selectionImageView.UserInteractionEnabled = false;
+                selectionImageView.Hidden = true;
             }
         }
     }

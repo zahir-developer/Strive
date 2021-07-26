@@ -2,11 +2,12 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Modules.Message
 {
-    public partial class RecentMessageViewController: BaseViewController, IUITableViewDataSource, IUITableViewDelegate
+    public partial class RecentMessageViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
     {
         UITableView recentMessageTableView;
 
@@ -64,7 +65,16 @@ namespace Greeter.Modules.Message
         [Export("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            NavigationController.PushViewController(new ChatViewController(ChatType.Indivisual), animated: true);
+            var recentChat = recentMessageHistory[indexPath.Row];
+            var chatType = recentChat.IsGroup ? ChatType.Group : ChatType.Indivisual;
+            var chatInfo = new ChatInfo
+            {
+                Title = $"{recentChat.FirstName} {recentChat.LastName}",
+                GroupId = recentChat.GroupId,
+                SenderId = recentChat.ID,
+                RecipientId = recentChat.CommunicationId
+            };
+            NavigationController.PushViewController(new ChatViewController(chatType, chatInfo), animated: true);
         }
 
         void RefreshRecentChat()

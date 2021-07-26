@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Modules.Message
@@ -14,9 +16,16 @@ namespace Greeter.Modules.Message
         ContactList
     }
 
+    public interface IContactViewControllerDelegate
+    {
+        void ContactSelectionDidCompleted(List<ContactEmployee> contacts);
+    }
+
     public partial class ContactViewController: BaseViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextFieldDelegate
     {
         UITableView contactTableView;
+
+        public WeakReference<IContactViewControllerDelegate> Delegate;
 
         public override void ViewDidLoad()
         {
@@ -89,7 +98,8 @@ namespace Greeter.Modules.Message
             if (configureType == ContactConfigureType.CreateGroup)
             {
                 Title = "Create Group";
-                NavigationItem.RightBarButtonItem = new UIBarButtonItem("Next", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => OnCreateGroup());
+                NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => DismissViewController(true, null));
+                NavigationItem.RightBarButtonItem = new UIBarButtonItem("Done", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => OnContactSelectionCompleted());
             }
             else
             {
@@ -119,22 +129,37 @@ namespace Greeter.Modules.Message
 
         public nint RowsInSection(UITableView tableView, nint section)
         {
-            return searchedContacts.Count;
+            return searchedContacts?.Count ?? 0;
         }
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
-            //cell.SetupData(ContactConfigureType.ContactList, searchedContacts[indexPath.Row]);
+            cell.SetupData(configureType, searchedContacts[indexPath.Row]);
             return cell;
         }
 
         [Export("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            var contact = contacts[indexPath.Row];
-            //contact.IsSelected = !contact.IsSelected;
-            tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
+            if(configureType == ContactConfigureType.ContactList)
+            {
+                var contact = searchedContacts[indexPath.Row];
+                var chatInfo = new ChatInfo
+                {
+                    Title = $"{contact.FirstName} {contact.LastName}",
+                    GroupId = -1,
+                    SenderId = contact.EmployeeId,
+                    RecipientId = -1
+                };
+                NavigationController.PushViewController(new ChatViewController(ChatType.Indivisual, chatInfo), animated: true);
+            }
+            else if(configureType == ContactConfigureType.CreateGroup)
+            {
+                var contact = contacts[indexPath.Row];
+                contact.IsSelected = !contact.IsSelected;
+                tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
+            }
         }
     }
 }

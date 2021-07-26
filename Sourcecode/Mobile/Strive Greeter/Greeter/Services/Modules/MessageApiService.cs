@@ -10,6 +10,10 @@ namespace Greeter.Services.Api
     {
         Task<RecentChatListResponse> GetRecentChatList(long empId);
         Task<ContactListResponse> GetContactsList(GetContactsRequest req);
+        Task<ChatMessagesResponse> GetChatMessages(ChatMessageRequest req);
+        Task<CreateGroupResponse> CreateGroup(CreategroupRequest req);
+        Task<RemoveUserFromGroupResponse> RemoveUserFromGroup(long groupUserId);
+        Task<GroupUsersResponse> GetGroupUsers(long groupId);
     }
 
     public class MessageApiService : IMessageApiService
@@ -58,7 +62,7 @@ namespace Greeter.Services.Api
 
         public Task<ChatMessagesResponse> GetChatMessages(ChatMessageRequest req)
         {
-            return apiService.DoApiCall<ChatMessagesResponse>(Urls.CREATE_GROUP, HttpMethod.Post, null, req);
+            return apiService.DoApiCall<ChatMessagesResponse>(Urls.CHAT_MESSAGES, HttpMethod.Post, null, req);
         }
     }
 }

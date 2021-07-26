@@ -28,7 +28,7 @@ namespace Greeter.Modules.Message
 
             if (!response.IsSuccess()) return;
 
-            if (response?.EmployeeList?.RecentChats != null)
+            if (response?.EmployeeList?.RecentChats is not null)
                 recentMessageHistory = response?.EmployeeList?.RecentChats;
 
             RefreshRecentChat();
