@@ -254,11 +254,11 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         {
             return ResultWrap(new ReportRal(_tenant).GetIrregularitiesReport, irregularitiesDto, "GetIrregularitiesReport");
         }
-        public IrregularitiesViewModel GetIrregularitiesExport(IrregularitiesDto irregularitiesDto)
+        public IrregularityViewModel GetIrregularitiesExport(IrregularitiesDto irregularitiesDto)
         {
             try
             {
-                IrregularitiesViewModel irregularitiesViewModel = new IrregularitiesViewModel();
+                IrregularityViewModel irregularitiesViewModel = new IrregularityViewModel();
                 irregularitiesViewModel.VehiclesInfo = new List<IrregularityDetailViewModel>();
                 irregularitiesViewModel.MissingTicket = new List<IrregularityDetailViewModel>();
                 irregularitiesViewModel.Coupon = new List<IrregularityDetailViewModel>();
