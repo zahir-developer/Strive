@@ -114,12 +114,11 @@
                                                         <th scope="col" class="font-weight-1200"></th>
                                                         <th scope="col" class="font-weight-1200">Amount</th>
                                                     </tr>
-                                                    <tr *ngIf="dailyStatusWashInfo?.WashEmployeeCount !== 0">
-                                                        <td style="margin-left: 120px;">
-                                                            {{dailyStatusWashInfo?.WashEmployeeCount}}</td>
-                                                        <td></td>
-                                                        <td style="text-align: left;" class="m-l-120">
-                                                            {{dailyStatusWashInfo?.WashExpense | currency}}</td>
+                                                    <tr *ngFor="let washInfo of dailyStatusWashInfo">
+                                                        
+                                                                <td style="margin-left: 120px;">{{washInfo?.WashEmployeeCount}}</td>
+                                                                <td></td>
+                                                                <td  style="text-align: left;" class="m-l-120">{{washInfo?.WashExpense | currency}}</td>
                                                     </tr>
                                                     <tr *ngIf="dailyStatusWashInfo == null">
                                                         <td colspan="3" class="text-center">

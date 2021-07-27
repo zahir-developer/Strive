@@ -120,7 +120,7 @@ this.header = "Edit Employee Handbook";
     const documentTypeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.documentType);
     console.log(documentTypeVaue, 'cached value ');
     if (documentTypeVaue.length > 0) {
-      this.documentTypeId = documentTypeVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.Ads)[0].CodeId;
+      this.documentTypeId = documentTypeVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.EmployeeHandBook)[0].CodeId;
     } else {
       this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
         if (data.status === "Success") {

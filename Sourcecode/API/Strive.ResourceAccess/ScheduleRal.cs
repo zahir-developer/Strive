@@ -34,6 +34,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@ScheduledStartDate", Convert.ToDateTime(scheduleDetail.startDate));
             _prm.Add("@ScheduledEndDate", Convert.ToDateTime(scheduleDetail.endDate));
             _prm.Add("@LocationId", scheduleDetail.locationId);
+            _prm.Add("@EmployeeId", scheduleDetail.EmployeeId);
             return db.FetchMultiResult<ScheduleListViewModel>(EnumSP.Schedule.USPGETSCHEDULE.ToString(), _prm);
         }
         public List<ScheduleViewModel> GetScheduleById(int scheduleId)
