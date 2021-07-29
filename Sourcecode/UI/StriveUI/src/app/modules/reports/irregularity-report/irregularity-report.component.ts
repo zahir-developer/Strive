@@ -76,6 +76,31 @@ export class IrregularityReportComponent implements OnInit {
         this.ticketInfo = this.totalIrregularityReport.GetIrregularitiesReport?.MissingTicket
         this.couponsInfo = this.totalIrregularityReport.GetIrregularitiesReport?.Coupon
         this.depositsInfo = this.totalIrregularityReport.GetIrregularitiesReport?.DepositOff
+
+        if(this.vehicleInfo!=null){
+        this.vehicleInfo.forEach((o, index) => {
+          o.JobDate = this.datePipe.transform(o.JobDate, 'MM/dd/yyyy');
+         
+       });
+            }
+            if(this.ticketInfo!=null){
+             this.ticketInfo.forEach((o, index) => {
+              o.JobDate = this.datePipe.transform(o.JobDate, 'MM/dd/yyyy');
+       
+           }); 
+          }
+           if(this.couponsInfo!=null){
+           this.couponsInfo.forEach((o, index) => {
+            o.JobDate = this.datePipe.transform(o.JobDate, 'MM/dd/yyyy');
+     
+         });
+        }
+        if(this.depositsInfo!=null){
+        this.depositsInfo.forEach((o, index) => {
+         o.JobDate = this.datePipe.transform(o.JobDate, 'MM/dd/yyyy');
+  
+      });
+      }
       }
     }, (err) => {
       console.log(err);
