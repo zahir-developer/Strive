@@ -53,6 +53,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   driveUp = 0
   shortCharValue: any;
   ownedCharValue: any;
+  monthlyOwedReport = [];
 
 
 
@@ -102,23 +103,25 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
     const fileType = this.fileType !== '' ? this.fileType : '';
     if (fileType === '' || fileType === 0) {
       return;
-    } else if (this.ownedReportList.length === 0) {
+    } else if (this.newMoneyOwnedReports.length === 0) {
       return;
     }
     switch (fileType) {
       case 1: {
+        console.log('step1');
         this.excelService.exportAsPDFFile('MonthlyMoneyreport', 'MoneyOwnedReport_' + this.date + '.pdf');
         break;
       }
       case 2: {
-        const monthlyOwedReport = this.customReport(this.clonedownedReportList);
-        console.log(monthlyOwedReport, 'report');
-        this.excelService.exportAsCSVFile(monthlyOwedReport, 'MoneyOwnedReport_' + this.date);
+        console.log('step2');
+        this.customReport(this.newMoneyOwnedReports);
+        this.excelService.exportAsCSVFile(this.monthlyOwedReport, 'MoneyOwnedReport_' + this.date);
         break;
       }
       case 3: {
-        const monthlyOwedReport = this.customReport(this.clonedownedReportList);
-        this.excelService.exportAsExcelFile(monthlyOwedReport, 'MoneyOwnedReport_' + this.date);
+        console.log('step3');
+        this.customReport(this.newMoneyOwnedReports);
+        this.excelService.exportAsExcelFile(this.monthlyOwedReport, 'MoneyOwnedReport_' + this.date);
         break;
       }
       default: {
@@ -128,22 +131,31 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
   }
 
   customReport(reports) {
-    const moneyOwedReport = [];
-    const locOwed = [];
-    reports.forEach(item => {
-      item.location.forEach(loc => {
-        item[loc.locationName] = loc.locationCount;
-      });
-      item.LocationAmount.forEach(amount => {
-        item['Total Owed For' + ' ' + amount.locationName] = this.currencyPipe.transform(amount.locationAmount, 'USD');
-      });
-      moneyOwedReport.push(item);
+    this.monthlyOwedReport = [];
+    reports.forEach(ele => {
+      const list = {
+        FirstName: ele.FirstName,
+        LastName: ele.LastName,
+        Membership: ele.MembershipAmount,
+        DriveUpRate: ele.TotalJobAmount,
+        Total: ele.total,
+        Average: ele.Average
+      }
+      var result1 = ele.mulipleLocWash.reduce(function (result, field, index) {
+        result[ele.locationTitle[index]] = field;
+        return result;
+      }, {})
+
+      var result2 = ele.ownedValue.reduce(function (result, field, index) {
+        result[ele.ownedTitle[index]] = field;
+        return result;
+      }, {})
+
+      let remoteJob = {
+        ...list, ...result1, ...result2
+      };
+      this.monthlyOwedReport.push(remoteJob)
     });
-    moneyOwedReport.forEach(item => {
-      delete item.location;
-      delete item.LocationAmount;
-    });
-    return moneyOwedReport;
   }
 
   print() {
@@ -177,7 +189,7 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         this.spinner.hide()
         this.totalResult = JSON.parse(res.resultData);
         this.moneyOwnedReport = this.totalResult.GetMonthlyMoneyOwedReport;
-        
+
         if (this.moneyOwnedReport.Location !== null && this.moneyOwnedReport.Location.length !== 0 &&
           this.moneyOwnedReport.MoneyOwedReport !== null && this.moneyOwnedReport.MoneyOwedReport.length !== 0) {
 
