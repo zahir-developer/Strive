@@ -87,7 +87,9 @@ export class ReportsService {
   }
 
 getIrregularityExport(obj) {
-  return this.http.get(`${UrlConfig.reports.getIrregularityExport}`,{ params: { LocationId: obj.locationId, FromDate: obj.fromDate, EndDate: obj.endDate} });
+  
+  const headers = new HttpHeaders();
+  return this.http.post(`${UrlConfig.reports.getIrregularityExport}`, obj,{ responseType: 'arraybuffer', headers: headers });
 }
 
 
