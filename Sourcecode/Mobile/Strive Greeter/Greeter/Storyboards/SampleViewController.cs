@@ -9,13 +9,30 @@ namespace Greeter.Storyboards
 {
     public partial class SampleViewController : UIViewController
 	{
-		public SampleViewController (IntPtr handle) : base (handle)
+        //let usernameTextFieldController: MDCTextInputControllerOutlined;
+
+        TextInputControllerOutlined textInputControllerOutlined;
+
+        public SampleViewController (IntPtr handle) : base (handle)
 		{
 		}
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            var t = new TextField();
+            t.AutocorrectionType = UITextAutocorrectionType.No;
+            t.ClearButtonMode = UITextFieldViewMode.Never;
+            t.Frame = new CoreGraphics.CGRect(20, 300, 300, 70);
+
+            textInputControllerOutlined = new TextInputControllerOutlined(t);
+            textInputControllerOutlined.PlaceholderText = "Test Placeholder";
+            textInputControllerOutlined.ActiveColor = UIColor.Green;
+            textInputControllerOutlined.FloatingPlaceholderActiveColor = UIColor.Brown;
+
+
+            View.Add(t);
 
             //var bottomLine = new CALayer();
             //bottomLine.Frame = new CoreGraphics.CGRect(tfField.Bounds.X, tfField.Bounds.Height - 1, tfField.Bounds.Width, 1);

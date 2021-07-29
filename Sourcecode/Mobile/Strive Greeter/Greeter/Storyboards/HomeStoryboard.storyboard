@@ -15,7 +15,7 @@
             <objects>
                 <viewController id="bTh-oa-yQe" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6eS-RY-TST">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="F0m-gY-o1l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -57,7 +57,7 @@
             <objects>
                 <viewController id="3uc-Py-uIS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DzO-AG-PNa">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="gIC-06-CNm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -79,7 +79,7 @@
             <objects>
                 <viewController id="LNC-AB-Heq" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hm8-h2-9wx">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="PEu-ED-0iZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -95,7 +95,7 @@
             <objects>
                 <viewController id="Pq4-Cm-QNu" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UPb-5v-4Q6">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Mxg-RZ-B8u">
@@ -122,7 +122,7 @@
             <objects>
                 <viewController id="hgK-oW-beU" customClass="ServiceViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m85-U6-sIV">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1301"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="zxG-DS-ZQx">
@@ -1757,29 +1757,9 @@
                     <view key="view" contentMode="scaleToFill" id="aUH-ue-Or8">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BWz-em-1qu">
-                                <rect key="frame" x="20" y="653" width="984" height="40"/>
-                                <color key="backgroundColor" systemColor="systemYellowColor"/>
-                                <color key="tintColor" name="app_color"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Ydf-K7-3fL"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="oVK-id-EVu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="BWz-em-1qu" firstAttribute="centerY" secondItem="oVK-id-EVu" secondAttribute="centerY" id="E7H-mC-NFz"/>
-                            <constraint firstItem="BWz-em-1qu" firstAttribute="leading" secondItem="oVK-id-EVu" secondAttribute="leading" constant="20" id="N8m-8I-sHe"/>
-                            <constraint firstItem="oVK-id-EVu" firstAttribute="trailing" secondItem="BWz-em-1qu" secondAttribute="trailing" constant="20" id="hRn-fj-UOo"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="tfField" destination="BWz-em-1qu" id="zSU-nc-fX6"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vrL-G0-KBR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1808,9 +1788,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
