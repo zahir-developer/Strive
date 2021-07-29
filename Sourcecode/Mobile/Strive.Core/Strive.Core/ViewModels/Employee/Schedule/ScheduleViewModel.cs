@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Strive.Core.Models.Owner;
 using Strive.Core.Resources;
+using Strive.Core.Utils.Employee;
 
 namespace Strive.Core.ViewModels.Employee.Schedule
 {
@@ -26,6 +27,7 @@ namespace Strive.Core.ViewModels.Employee.Schedule
                 startDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
                 endDate = getEndDate().ToString("yyy-MM-dd"),
                 locationId = 0,
+                employeeId = EmployeeTempData.EmployeeID,
             });
             if(result == null)
             {

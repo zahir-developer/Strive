@@ -2,6 +2,7 @@
 using CoreAnimation;
 using CoreGraphics;
 using Foundation;
+using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using UIKit;
 
 namespace StriveEmployee.iOS.Views.Messenger.Chat
@@ -10,6 +11,10 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
     {
         public static readonly NSString Key = new NSString("MessageIncomingCell");
         public static readonly UINib Nib;
+
+        UILabel userNameLabel;
+        UILabel messageLabel;
+        UILabel messageTimeLabel;
 
         static MessageIncomingCell()
         {
@@ -34,7 +39,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             userImageView.Layer.MasksToBounds = true;
             ContentView.Add(userImageView);
 
-            var userNameLabel = new UILabel(CGRect.Empty);
+            userNameLabel = new UILabel(CGRect.Empty);
             userNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             userNameLabel.Text = "John";
             userNameLabel.TextAlignment = UITextAlignment.Center;
@@ -48,7 +53,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             bubbleBackgroundView.Layer.MaskedCorners = CACornerMask.MinXMinYCorner | CACornerMask.MaxXMinYCorner | CACornerMask.MaxXMaxYCorner;
             ContentView.Add(bubbleBackgroundView);
 
-            var messageLabel = new UILabel(CGRect.Empty);
+            messageLabel = new UILabel(CGRect.Empty);
             messageLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             messageLabel.Text = "Hello";
             messageLabel.Lines = -1;
@@ -56,7 +61,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             messageLabel.Font = UIFont.SystemFontOfSize(18);
             bubbleBackgroundView.Add(messageLabel);
 
-            var messageTimeLabel = new UILabel(CGRect.Empty);
+            messageTimeLabel = new UILabel(CGRect.Empty);
             messageTimeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             messageTimeLabel.Text = "11.15 AM | Oct 19";
             messageTimeLabel.Font = UIFont.SystemFontOfSize(14);
@@ -85,6 +90,13 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             messageTimeLabel.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: -30).Active = true;
             messageTimeLabel.TopAnchor.ConstraintEqualTo(bubbleBackgroundView.BottomAnchor, constant: 10).Active = true;
             messageTimeLabel.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor, constant: -10).Active = true;
+        }
+
+        public void SetData(ChatMessageDetail chatMessage)
+        {
+            userNameLabel.Text = chatMessage.RecipientFirstName;
+            messageLabel.Text = chatMessage.MessageBody;
+            messageTimeLabel.Text = chatMessage.CreatedDate.ToString();
         }
     }
 }

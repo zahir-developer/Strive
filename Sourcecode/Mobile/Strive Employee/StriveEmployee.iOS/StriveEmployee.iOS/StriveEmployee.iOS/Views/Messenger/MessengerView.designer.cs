@@ -27,6 +27,9 @@ namespace StriveEmployee.iOS.Views.Messenger
 		[Outlet]
 		UIKit.NSLayoutConstraint SearchBar_HeightConst { get; set; }
 
+		[Action ("MenuBtn_Touch:")]
+		partial void MenuBtn_Touch (UIKit.UIButton sender);
+
 		[Action ("Messenger_SegmentTouch:")]
 		partial void Messenger_SegmentTouch (UIKit.UISegmentedControl sender);
 		

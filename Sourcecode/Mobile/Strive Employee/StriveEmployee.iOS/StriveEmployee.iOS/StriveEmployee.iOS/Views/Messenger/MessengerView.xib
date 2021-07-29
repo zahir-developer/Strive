@@ -29,12 +29,16 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dOd-1F-lKF">
                     <rect key="frame" x="23.5" y="123" width="367" height="650"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zy-il-Bvr">
-                            <rect key="frame" x="337" y="0.0" width="30" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zy-il-Bvr">
+                            <rect key="frame" x="337" y="7.5" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="cDR-1E-Mba"/>
                                 <constraint firstAttribute="width" constant="30" id="ecv-7Y-HsZ"/>
                             </constraints>
+                            <state key="normal" image="menu-options"/>
+                            <connections>
+                                <action selector="MenuBtn_Touch:" destination="-1" eventType="touchUpInside" id="jzl-BZ-hfd"/>
+                            </connections>
                         </button>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5FP-hP-E7J">
                             <rect key="frame" x="0.0" y="0.0" width="332" height="46"/>
@@ -66,8 +70,8 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="h5P-2e-evr" firstAttribute="leading" secondItem="BIU-EE-oer" secondAttribute="leading" id="0pN-tY-Yt0"/>
+                        <constraint firstItem="6zy-il-Bvr" firstAttribute="centerY" secondItem="5FP-hP-E7J" secondAttribute="centerY" id="6YA-kg-Yh2"/>
                         <constraint firstItem="5FP-hP-E7J" firstAttribute="top" secondItem="dOd-1F-lKF" secondAttribute="top" id="6ik-AB-8CW"/>
-                        <constraint firstItem="6zy-il-Bvr" firstAttribute="top" secondItem="dOd-1F-lKF" secondAttribute="top" id="9L0-9p-Xov"/>
                         <constraint firstItem="BIU-EE-oer" firstAttribute="leading" secondItem="5FP-hP-E7J" secondAttribute="leading" id="FTz-Z6-fLj"/>
                         <constraint firstAttribute="bottom" secondItem="h5P-2e-evr" secondAttribute="bottom" id="Fa7-KD-PzY"/>
                         <constraint firstItem="5FP-hP-E7J" firstAttribute="leading" secondItem="dOd-1F-lKF" secondAttribute="leading" id="Kfc-Ef-tUg"/>
@@ -98,6 +102,7 @@
         </view>
     </objects>
     <resources>
+        <image name="menu-options" width="4" height="16"/>
         <image name="splash" width="390" height="812"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

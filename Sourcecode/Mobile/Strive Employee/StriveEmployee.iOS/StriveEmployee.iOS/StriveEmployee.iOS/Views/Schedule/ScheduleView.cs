@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Owner;
@@ -38,8 +39,8 @@ namespace StriveEmployee.iOS.Views.Schedule
             NavigationItem.Title = "Schedule";
 
             ScheduleParentView.Layer.CornerRadius = 5;
-            ScheduleDateView.Layer.CornerRadius = 5;                       
-
+            ScheduleDateView.Layer.CornerRadius = 5;
+            ScheduleDateView.MinimumDate = (Foundation.NSDate)System.DateTime.Today;           
             empSchedule_TableView.RegisterNibForCellReuse(empSchedule_Cell.Nib, empSchedule_Cell.Key);
             empSchedule_TableView.BackgroundColor = UIColor.Clear;
             empSchedule_TableView.ReloadData();
