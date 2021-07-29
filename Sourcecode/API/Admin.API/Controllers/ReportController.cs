@@ -676,13 +676,16 @@ namespace Admin.API.Controllers
                 worksheet4.Cell(currentRow, 2).Value = "JobDate";
                 worksheet4.Cell(currentRow, 3).Value = "Difference";
 
-                foreach (var deposit in rptResult.DepositOff)
+                if (rptResult.DepositOff != null)
                 {
-                    currentRow++;
-                    worksheet4.Cell(currentRow, 1).Value = deposit.Manager;
-                    worksheet4.Cell(currentRow, 2).Value = deposit.JobDate;
-                    worksheet4.Cell(currentRow, 3).Value = deposit.Difference;
+                    foreach (var deposit in rptResult.DepositOff)
+                    {
+                        currentRow++;
+                        worksheet4.Cell(currentRow, 1).Value = deposit.Manager;
+                        worksheet4.Cell(currentRow, 2).Value = deposit.JobDate;
+                        worksheet4.Cell(currentRow, 3).Value = deposit.Difference;
 
+                    }
                 }
                 using (var stream = new MemoryStream())
                 {
