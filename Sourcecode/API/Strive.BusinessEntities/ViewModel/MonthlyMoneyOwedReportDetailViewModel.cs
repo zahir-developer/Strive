@@ -9,7 +9,8 @@ namespace Strive.BusinessEntities.ViewModel
     public class MonthlyMoneyOwedReportDetailViewModel
     {
         public int ClientId { get; set; }
-        public int LocationId { get; set; }
+        public int? VehicleId { get; set; }
+        public int? LocationId { get; set; }
         public string LocationName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -41,7 +41,7 @@
             <li *ngIf="monthlyCustomerDetailView === true"><a [routerLink]='["./reports/monthly-customer-detail"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Monthly Customer Detail</a></li>
             <li *ngIf="hourlyWashReportView === true"><a [routerLink]='["./reports/hourly-wash"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Hourly Wash Report</a></li>
             <li *ngIf="dailyTipReportView === true"><a [routerLink]='["./reports/daily-sales"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Daily Sales Report</a></li>
-            <!-- <li *ngIf="irregularReportView === true"><a [routerLink]='["./reports/irregularity-report"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Irregularity Report</a></li> -->
+            <li *ngIf="irregularReportView === true"><a [routerLink]='["./reports/irregularity-report"]' [routerLinkActive]='["link-active"]' (click)="closeNav()">Irregularity Report</a></li>
         </ul>
     </div>
     <div id="navSliderMenu" class="nav-slider-menu-wrapper theme-primary-dark-background-color  d-none d-sm-none d-md-block d-lg-block d-xl-block">

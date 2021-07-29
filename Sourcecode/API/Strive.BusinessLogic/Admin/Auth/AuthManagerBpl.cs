@@ -18,6 +18,7 @@ using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Employee;
 using Strive.BusinessEntities.Employee;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.DTO.Client;
 using Strive.Common;
@@ -41,10 +42,14 @@ namespace Strive.BusinessLogic.Auth
                 TenantSchema tSchema = new AuthRal(_tenant).Login(authentication);
                 CacheLogin(tSchema, tcon);
 
+                TokenExpireViewModel tokenExpire = new TokenExpireViewModel();
+                tokenExpire.TokenExpireMinutes = _tenant.TokenExpiryMintues;
+
                 if (tSchema.UserType != (int)UserType.Client)
                 {
 
                     EmployeeLoginViewModel employee = new EmployeeRal(_tenant).GetEmployeeByAuthId(tSchema.AuthId);
+                    employee.TokenExpireMinutes = tokenExpire;
 
                     (token, refreshToken) = GetTokens(tSchema, employee, secretKey);
                     _resultContent.Add(employee.WithName("EmployeeDetails"));
@@ -52,6 +57,7 @@ namespace Strive.BusinessLogic.Auth
                 else
                 {
                     ClientLoginViewModel client = new ClientRal(_tenant).GetClientByAuthId(tSchema.AuthId);
+                    client.TokenExpireMinutes = tokenExpire;
 
                     (token, refreshToken) = GetTokens(tSchema, client, secretKey);
                     _resultContent.Add(client.WithName("ClientDetails"));
@@ -127,7 +133,8 @@ namespace Strive.BusinessLogic.Auth
                 new Claim("SchemaName", $"{tenant.Schemaname}"),
                 new Claim("TenantGuid", $"{tenant.TenantGuid}"),
                 new Claim("tid", $"{tenant.TenantId}"),
-                new Claim("AuthId", $"{tenant.AuthId}")
+                new Claim("AuthId", $"{tenant.AuthId}"),
+                new Claim("TokenExpireMinutes", $"{_tenant.TokenExpiryMintues}"),
             }.ToList();
 
             var roleIds = new Claim("RoleId", $"{ string.Join(",", employee.EmployeeRoles != null ? employee.EmployeeRoles.Select(x => x.RoleId.ToString()).ToList() : roleId.ToList())}");
