@@ -744,7 +744,7 @@ namespace Greeter.DTOs
         public long GroupId { get; set; }
 
         [JsonProperty("CommunicationId")]
-        public long CommunicationId { get; set; }
+        public string CommunicationId { get; set; }
 
         [JsonProperty("ChatGroupUserId")]
         public long ChatGroupUserId { get; set; }

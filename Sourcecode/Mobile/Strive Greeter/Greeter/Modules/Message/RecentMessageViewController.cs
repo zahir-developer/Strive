@@ -72,7 +72,7 @@ namespace Greeter.Modules.Message
                 Title = $"{recentChat.FirstName} {recentChat.LastName}",
                 GroupId = recentChat.GroupId,
                 SenderId = recentChat.ID,
-                RecipientId = recentChat.CommunicationId
+                //RecipientId = recentChat.CommunicationId
             };
             NavigationController.PushViewController(new ChatViewController(chatType, chatInfo), animated: true);
         }
