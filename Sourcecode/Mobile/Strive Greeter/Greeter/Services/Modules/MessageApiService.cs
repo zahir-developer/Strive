@@ -64,5 +64,10 @@ namespace Greeter.Services.Api
         {
             return apiService.DoApiCall<ChatMessagesResponse>(Urls.CHAT_MESSAGES, HttpMethod.Post, null, req);
         }
+
+        //public Task<ChatMessagesResponse> SendMesasge()
+        //{
+            //return apiService.DoApiCall<ChatMessagesResponse>(Urls.CHAT_MESSAGES, HttpMethod.Post, null, req);
+        //}
     }
 }

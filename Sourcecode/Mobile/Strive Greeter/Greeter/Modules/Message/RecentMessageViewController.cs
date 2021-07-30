@@ -2,6 +2,7 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
+using Greeter.Common;
 using Greeter.DTOs;
 using UIKit;
 
@@ -71,8 +72,8 @@ namespace Greeter.Modules.Message
             {
                 Title = $"{recentChat.FirstName} {recentChat.LastName}",
                 GroupId = recentChat.GroupId,
-                SenderId = recentChat.ID,
-                //RecipientId = recentChat.CommunicationId
+                SenderId = AppSettings.UserID,
+                RecipientId = recentChat.ID
             };
             NavigationController.PushViewController(new ChatViewController(chatType, chatInfo), animated: true);
         }

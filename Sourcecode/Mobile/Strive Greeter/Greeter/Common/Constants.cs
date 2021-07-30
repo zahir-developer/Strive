@@ -98,7 +98,7 @@ namespace Greeter.Common
         internal const string ADD_USER_TO_GROUP = "/Admin/Messenger/AddEmployeeToGroup/";
         internal const string REMOVE_USER_FROM_GROUP = "/Admin/Messenger/DeleteChatGroupUser/";
         internal const string CHAT_MESSAGES = "/Admin/Messenger/GetChatMessage";
-        internal const string SEND_MESSAGE = "/Admin/Messenger/";
+        internal const string SEND_MESSAGE = "/Admin/Messenger/SendChatMessage";
     }
 
     public class UIConstants
