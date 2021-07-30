@@ -43,9 +43,6 @@ namespace NewSingleViewTemplate
 
                 //vc = sb.InstantiateViewController(nameof(LoginViewController));
 
-                //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
-                //vc = sb.InstantiateViewController(nameof(SampleViewController));
-
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };
                 nc.ViewControllers = vcs;
