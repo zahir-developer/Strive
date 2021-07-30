@@ -1,6 +1,9 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
+using Greeter.Common;
+using Greeter.DTOs;
+using Greeter.Extensions;
 using UIKit;
 
 namespace Greeter.Cells
@@ -48,11 +51,16 @@ namespace Greeter.Cells
         }
 
         //TODO Pass Real time data here and set later
-        public void SetupData(string name)
+        public void SetupData(RecentChat group)
         {
-            string[] names = name.Split(" ");
-            groupIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
-            groupNameLabel.Text = name;
+            groupIntialLabel.Text = group.FirstName?.Substring(0, 1);
+            if (!group.LastName.IsEmpty())
+                groupIntialLabel.Text += group.LastName?.Substring(0, 1);
+            groupNameLabel.Text = Logic.FullName(group.FirstName, group.LastName);
+
+            //string[] names = name.Split(" ");
+            //groupIntialLabel.Text = names[0].Substring(0, 1) + names[1].Substring(0, 1);
+            //groupNameLabel.Text = name;
         }
     }
 }

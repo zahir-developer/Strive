@@ -182,6 +182,10 @@ namespace Greeter.Common
 
         internal const string CARD_DETAILS_EMPTY_MISSING_MSG = "Please fill your all card details";
 
+        internal const string GROUP_NAME_EMPTY = "Plesae enter the group name";
+        internal const string NO_GROUP_PARTICIPANTS = "Plesae add atleast one participant for a group";
+        internal const string GROUP_CREATED_MSG = "Group created successfully";
+
         internal const string HOLD = "Hold";
         internal const string COMPLETE = "Complete";
         internal const string CHECKOUT = "Checkout";

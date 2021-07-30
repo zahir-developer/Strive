@@ -11,8 +11,6 @@ namespace Greeter.Modules.Message
     {
         List<RecentChat> recentMessageHistory = new();
 
-        readonly MessageApiService messageApiService = new MessageApiService();
-
         public RecentMessageViewController()
         {
             _ = GetRecentChatsAsync();
@@ -21,6 +19,8 @@ namespace Greeter.Modules.Message
         async Task GetRecentChatsAsync()
         {
             ShowActivityIndicator();
+
+            MessageApiService messageApiService = new MessageApiService();
             var response = await messageApiService.GetRecentChatList(AppSettings.UserID);
             HideActivityIndicator();
 

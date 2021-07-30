@@ -1,35 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Greeter.Common;
+using Greeter.DTOs;
+using Greeter.Extensions;
+using Greeter.Services.Api;
 
 namespace Greeter.Modules.Message
 {
     public partial class GroupViewController
     {
-        List<string> groups = new();
-        List<string> searchedGroups;
+        List<RecentChat> groups = new();
+        List<RecentChat> searchedGroups;
 
         public GroupViewController()
         {
-            groups.Add("OM Detailers");
-            groups.Add("OM Washers");
-            groups.Add("MS Washers");
-            groups.Add("MS Detailers");
-            groups.Add("Old Milton Employees");
-            groups.Add("Main Street Employees");
-            groups.Add("Holcomb Bridge Employees");
+            //groups.Add("OM Detailers");
+            //groups.Add("OM Washers");
+            //groups.Add("MS Washers");
+            //groups.Add("MS Detailers");
+            //groups.Add("Old Milton Employees");
+            //groups.Add("Main Street Employees");
+            //groups.Add("Holcomb Bridge Employees");
 
-            searchedGroups = groups;
+            //searchedGroups = groups;
+
+            _ = GetMessageGroups();
         }
 
-        Task GetMessageGroups()
+        async Task GetMessageGroups()
         {
-            return Task.CompletedTask;
+            ShowActivityIndicator();
+            var response = await SingleTon.MessageApiService.GetRecentChatList(AppSettings.UserID);
+            HideActivityIndicator();
+
+            HandleResponse(response);
+
+            if (!response.IsSuccess()) return;
+
+            if (response?.EmployeeList?.RecentChats is not null)
+                searchedGroups = groups = response?.EmployeeList?.RecentChats?.Where(x => x.IsGroup).ToList();
+
+            RefreshGroupsToUI();
         }
 
         async Task SearchGroup(string keyword)
         {
-            searchedGroups = await Task.Run(() => groups.Where(name => name.ToLower().Contains(keyword.ToLower().Trim())).ToList());
+            searchedGroups = await Task.Run(() => groups.Where(group => Logic.FullName(group.FirstName, group.LastName).ToLower().Contains(keyword.ToLower().Trim())).ToList());
             RefreshGroupsToUI();
         }
 

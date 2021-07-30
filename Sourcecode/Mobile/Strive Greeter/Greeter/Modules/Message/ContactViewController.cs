@@ -149,8 +149,8 @@ namespace Greeter.Modules.Message
                 {
                     Title = $"{contact.FirstName} {contact.LastName}",
                     GroupId = -1,
-                    SenderId = contact.EmployeeId,
-                    RecipientId = -1
+                    SenderId = AppSettings.UserID,
+                    RecipientId = contact.EmployeeId
                 };
                 NavigationController.PushViewController(new ChatViewController(ChatType.Indivisual, chatInfo), animated: true);
             }
