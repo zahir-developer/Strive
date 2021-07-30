@@ -162,6 +162,16 @@
       <DependentUpon>MessageOutgoingCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Messenger\Chat\ChatDataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\CreateGroupView.xib" />
+    <Compile Include="Views\Messenger\CreateGroupView.cs" />
+    <Compile Include="Views\Messenger\CreateGroupView.designer.cs">
+      <DependentUpon>CreateGroupView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Messenger\SelectContactCell.xib" />
+    <Compile Include="Views\Messenger\SelectContactCell.cs" />
+    <Compile Include="Views\Messenger\SelectContactCell.designer.cs">
+      <DependentUpon>SelectContactCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -295,6 +305,10 @@
     <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260.png" />
     <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -325,6 +339,7 @@
     <Folder Include="Views\Messenger\Chat\" />
     <Folder Include="Resources\Assets.xcassets\send-msg.imageset\" />
     <Folder Include="Resources\Assets.xcassets\menu-options.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

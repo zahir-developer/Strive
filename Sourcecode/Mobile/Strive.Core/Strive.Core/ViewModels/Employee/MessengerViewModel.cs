@@ -43,5 +43,9 @@ namespace Strive.Core.ViewModels.Employee
             }
         }
 
+        public void navigateToCreateGroup()
+        {
+            _navigationService.Navigate<MessengerCreateGroupViewModel>();
+        }
     }
 }

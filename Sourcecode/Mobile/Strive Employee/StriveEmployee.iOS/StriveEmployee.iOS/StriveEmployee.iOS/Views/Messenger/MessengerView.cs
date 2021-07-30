@@ -111,7 +111,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         partial void MenuBtn_Touch(UIButton sender)
         {
-            
+            ViewModel.navigateToCreateGroup();
         }
 
         private void SearchTextchanged(object sender, UISearchBarTextChangedEventArgs e)
