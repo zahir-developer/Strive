@@ -12,6 +12,7 @@ namespace Greeter.Services.Api
         Task<ContactListResponse> GetContactsList(GetContactsRequest req);
         Task<ChatMessagesResponse> GetChatMessages(ChatMessageRequest req);
         Task<CreateGroupResponse> CreateGroup(CreategroupRequest req);
+        public Task<BaseResponse> AddUserToGroup(long userId, long communicationId);
         Task<RemoveUserFromGroupResponse> RemoveUserFromGroup(long groupUserId);
         Task<GroupUsersResponse> GetGroupUsers(long groupId);
     }
