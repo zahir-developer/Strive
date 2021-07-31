@@ -9,6 +9,7 @@ namespace Greeter.Modules.Message
     public partial class GroupParticipantsViewController
     {
         List<ChatUserGroup> participants = new();
+        List<ChatUserGroup> newlyAddedParticipants = new();
 
         readonly bool isCreateGroup;
         readonly long groupId;
@@ -58,6 +59,11 @@ namespace Greeter.Modules.Message
 
             var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeId);
             participants.RemoveAt(index);
+
+            var newParticipantIndex = newlyAddedParticipants.FindIndex(obj => obj.UserID == contact.EmployeeId);
+            if(newParticipantIndex != -1)
+                newlyAddedParticipants.RemoveAt(index);
+
             ReloadParticipantTableView();
         }
 
@@ -67,13 +73,27 @@ namespace Greeter.Modules.Message
             //participants.AddRange(participants);
             foreach(var contact in contacts)
             {
-                participants.Add(new ChatUserGroup { UserID = contact.EmployeeId, FirstName = contact.FirstName, LastName = contact.LastName });
+                var participant = new ChatUserGroup { UserID = contact.EmployeeId, FirstName = contact.FirstName, LastName = contact.LastName }
+                participants.Add(participant);
+                newlyAddedParticipants.Add(participant);
             }
             ReloadParticipantTableView();
         }
 
         async void SaveParticipant()
         {
+            ShowActivityIndicator();
+            List<Task> TaskList = new List<Task>();
+            foreach (var participant in newlyAddedParticipants)
+            {
+                var task = SingleTon.MessageApiService.AddUserToGroup(participant.UserID, 0);
+                TaskList.Add(task);
+            }
+
+            await Task.WhenAll(TaskList.ToArray());
+            HideActivityIndicator();
+
+            NavigationController.PopViewController(true);
         }
 
         async Task OnCreateGroup(string groupName)
