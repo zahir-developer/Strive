@@ -2,6 +2,7 @@
 using CoreGraphics;
 using Foundation;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using UIKit;
 
 namespace Greeter.Cells
@@ -71,7 +72,9 @@ namespace Greeter.Cells
 
         public void SetupData(RecentChat recentChat)
         {
-            userIntialLabel.Text = recentChat.FirstName.Substring(0, 1) + recentChat.LastName.Substring(0, 1);
+            userIntialLabel.Text = recentChat.FirstName?.Substring(0, 1);
+                if(!recentChat.LastName.IsEmpty())
+                    userIntialLabel.Text += recentChat.LastName?.Substring(0, 1);
             userNameLabel.Text = $"{recentChat.FirstName} {recentChat.LastName}";
             dateTimeLabel.Text = "5.18 PM"; //TODO get key from server
             messageContentLabel.Text = recentChat.RecentChatMessage;

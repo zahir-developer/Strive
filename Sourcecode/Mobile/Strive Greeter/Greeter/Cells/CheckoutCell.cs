@@ -188,7 +188,7 @@ namespace Greeter.Cells
                 serviceInfoLabel.Text += "\n" + "Additional Services: " + checkout.AdditionalServices;
             checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check out " + checkout.CheckoutTime + "  ";
             //statusIndicatorImage.Image = new UIImage();
-            if (!checkout.PaymentStatus.Equals("Success"))
+            if (checkout.PaymentStatus.Equals("Success"))
             {
                 paidStatusLabel.Text = "Paid";
                 paidStatusContainer.Hidden = false;
@@ -201,7 +201,7 @@ namespace Greeter.Cells
 
             if (isPayOptionNeeded)
             {
-                payButton.Hidden = checkout.PaymentStatus.Equals("Success") ? false : true;
+                payButton.Hidden = !checkout.PaymentStatus.Equals("Success") ? false : true;
             }
 
             amountLabel.Text = "$" + checkout.Cost;

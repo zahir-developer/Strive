@@ -744,7 +744,7 @@ namespace Greeter.DTOs
         public long GroupId { get; set; }
 
         [JsonProperty("CommunicationId")]
-        public long CommunicationId { get; set; }
+        public string CommunicationId { get; set; }
 
         [JsonProperty("ChatGroupUserId")]
         public long ChatGroupUserId { get; set; }
@@ -867,10 +867,10 @@ namespace Greeter.DTOs
         //public bool IsDeleted { get; set; }
 
         [JsonProperty("createdBy")]
-        public int CreatedBy { get; set; }
+        public long CreatedBy { get; set; }
 
         [JsonProperty("createdDate")]
-        public string CreatedDate { get; set; }
+        public DateTime CreatedDate { get; } = DateTime.Now;
 
         //public int UpdatedBy { get; set; }
 
@@ -898,11 +898,11 @@ namespace Greeter.DTOs
         //[JsonProperty("isDeleted")]
         //public bool IsDeleted { get; set; }
 
-        [JsonProperty("createdBy")]
-        public int CreatedBy { get; set; }
+        //[JsonProperty("createdBy")]
+        //public int CreatedBy { get; set; }
 
-        [JsonProperty("createdDate")]
-        public DateTime CreatedDate { get; set; }
+        //[JsonProperty("createdDate")]
+        //public DateTime CreatedDate { get; set; }
 
         //Additional property needed
         [JsonIgnore]

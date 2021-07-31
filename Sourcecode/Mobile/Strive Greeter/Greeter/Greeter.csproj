@@ -413,6 +413,7 @@
 		  <DependentUpon>SampleViewController.cs</DependentUpon>
 		</Compile>
 		<Compile Include="DTOs\ChatInfo.cs" />
+		<Compile Include="Common\Logic.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

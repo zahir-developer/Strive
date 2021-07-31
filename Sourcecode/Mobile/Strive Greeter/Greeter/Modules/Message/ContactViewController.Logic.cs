@@ -36,19 +36,16 @@ namespace Greeter.Modules.Message
 
             if (response?.ContactListobj?.ContactsList is not null)
             {
-                contacts = response.ContactListobj.ContactsList;
-                searchedContacts = response.ContactListobj.ContactsList;
+                searchedContacts = contacts = response.ContactListobj.ContactsList;
                 RefreshContactsToUI();
             }
         }
 
         async Task SearchContact(string keyword)
         {
-            searchedContacts = await Task.Run(() => contacts.Where(contact => FullName(contact.FirstName, contact.LastName).ToLower().Contains(keyword.ToLower().Trim())).ToList());
+            searchedContacts = await Task.Run(() => contacts.Where(contact => Logic.FullName(contact.FirstName, contact.LastName).ToLower().Contains(keyword.ToLower().Trim())).ToList());
             RefreshContactsToUI();
         }
-
-        string FullName(string firstName, string lastName) => $"{firstName} {lastName}";
 
         void OnContactSelectionCompleted()
         {

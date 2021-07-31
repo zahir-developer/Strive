@@ -31,6 +31,12 @@ namespace Greeter.Common
             set => Preferences.Set(nameof(LocationID), value);
         }
 
+        public static string LocationName
+        {
+            get => Preferences.Get(nameof(LocationName), string.Empty);
+            set => Preferences.Set(nameof(LocationName), value);
+        }
+
         public static int WashTime
         {
             get => Preferences.Get(nameof(WashTime), 0);

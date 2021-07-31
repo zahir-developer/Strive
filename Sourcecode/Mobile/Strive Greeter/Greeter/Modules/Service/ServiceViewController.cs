@@ -35,6 +35,7 @@ namespace Greeter
 
             // Initial UI Settings
             Initialise();
+            UpdateData();
 
             //Clicks
             btnWash.TouchUpInside += delegate
@@ -78,9 +79,14 @@ namespace Greeter
                 NavigateToWashOrDetailScreen();
             };
 
-            lblLoc.AddGestureRecognizer(new UITapGestureRecognizer(LocationTap));
+            lblChangeloc.AddGestureRecognizer(new UITapGestureRecognizer(LocationTap));
             lblLastService.AddGestureRecognizer(new UITapGestureRecognizer(LastServiceTap));
             lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(ViewIssueTap));
+        }
+
+        void UpdateData()
+        {
+            lblLocName.Text = AppSettings.LocationName;
         }
 
         void Initialise()

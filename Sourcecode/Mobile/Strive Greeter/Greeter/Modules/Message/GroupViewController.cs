@@ -10,7 +10,7 @@ using UIKit;
 
 namespace Greeter.Modules.Message
 {
-    public partial class GroupViewController : UIViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextFieldDelegate
+    public partial class GroupViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate, IUITextFieldDelegate
     {
         UITableView messageGroupsTableView;
         readonly UIRefreshControl refreshControl = new();
@@ -139,9 +139,9 @@ namespace Greeter.Modules.Message
             var group = searchedGroups[indexPath.Row];
             var chatInfo = new ChatInfo
             {
-                Title = group,
-                GroupId = -1,
-                SenderId = -1,
+                Title = Logic.FullName(group.FirstName, group.LastName),
+                GroupId = group.ChatGroupId,
+                SenderId = AppSettings.UserID,
                 RecipientId = -1
             };
             NavigationController.PushViewController(new ChatViewController(ChatType.Group, chatInfo), animated: true);

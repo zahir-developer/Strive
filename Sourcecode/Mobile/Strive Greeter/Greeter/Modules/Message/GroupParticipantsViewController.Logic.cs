@@ -13,6 +13,7 @@ namespace Greeter.Modules.Message
 
         readonly bool isCreateGroup;
         readonly long groupId;
+
         public GroupParticipantsViewController(bool isCreateGroup, long groupId = -1)
         {
             this.isCreateGroup = isCreateGroup;
@@ -103,7 +104,7 @@ namespace Greeter.Modules.Message
             var result = await SingleTon.MessageApiService.CreateGroup(
                 new CreategroupRequest
                 {
-                    ChatGroup = new ChatGroup { GroupName = groupName },
+                    ChatGroup = new ChatGroup { GroupName = groupName, CreatedBy = AppSettings.UserID },
                     ChatUserGroup = participants
                 }
             );
@@ -113,7 +114,10 @@ namespace Greeter.Modules.Message
 
             if (!result.IsSuccess()) return;
 
-            NavigationController.PopViewController(true);
+            ShowAlertMsg(Common.Messages.GROUP_CREATED_MSG, () =>
+            {
+                NavigationController.PopViewController(true);
+            });
         }
 
         bool IsValidData(string groupName)
@@ -121,11 +125,11 @@ namespace Greeter.Modules.Message
             var isValid = false;
             if (string.IsNullOrEmpty(groupName) || string.IsNullOrWhiteSpace(groupName))
             {
-                //TODO show message 
+                ShowAlertMsg(Common.Messages.GROUP_NAME_EMPTY);
             }
             else if (participants.Count == 0)
             {
-                //TODO show message 
+                ShowAlertMsg(Common.Messages.NO_GROUP_PARTICIPANTS);
             }
             else isValid = true;
             return isValid;

@@ -11,7 +11,7 @@ namespace Greeter.Storyboards
 	{
         //let usernameTextFieldController: MDCTextInputControllerOutlined;
 
-        TextInputControllerOutlined textInputControllerOutlined;
+        //TextInputControllerOutlined textInputControllerOutlined;
 
         public SampleViewController (IntPtr handle) : base (handle)
 		{
@@ -26,7 +26,7 @@ namespace Greeter.Storyboards
             t.ClearButtonMode = UITextFieldViewMode.Never;
             t.Frame = new CoreGraphics.CGRect(20, 300, 300, 70);
 
-            textInputControllerOutlined = new TextInputControllerOutlined(t);
+            TextInputControllerUnderline textInputControllerOutlined = new TextInputControllerUnderline(t);
             textInputControllerOutlined.PlaceholderText = "Test Placeholder";
             textInputControllerOutlined.ActiveColor = UIColor.Green;
             textInputControllerOutlined.FloatingPlaceholderActiveColor = UIColor.Brown;

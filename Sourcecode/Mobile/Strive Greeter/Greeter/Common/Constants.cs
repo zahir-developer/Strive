@@ -42,10 +42,10 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         // Mammoth QA
-        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";
@@ -86,7 +86,7 @@ namespace Greeter.Common
         internal const string CHECKOUTS = "/Admin/Checkout/GetAllCheckoutDetails";
         internal const string HOLD_CHECKOUT = "/Admin/Checkout/UpdateJobStatusHold";
         internal const string COMPLETE_CHECKOUT = "/Admin/Checkout/UpdateJobStatusComplete";
-        internal const string DO_CHECKOUT = "/Admin/Checkou t/UpdateCheckoutDetails";
+        internal const string DO_CHECKOUT = "/Admin/Checkout/UpdateCheckoutDetails";
 
         // Message
         //internal const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage";
@@ -98,6 +98,7 @@ namespace Greeter.Common
         internal const string ADD_USER_TO_GROUP = "/Admin/Messenger/AddEmployeeToGroup/";
         internal const string REMOVE_USER_FROM_GROUP = "/Admin/Messenger/DeleteChatGroupUser/";
         internal const string CHAT_MESSAGES = "/Admin/Messenger/GetChatMessage";
+        internal const string SEND_MESSAGE = "/Admin/Messenger/SendChatMessage";
     }
 
     public class UIConstants
@@ -180,6 +181,10 @@ namespace Greeter.Common
         internal const string SERVICE_CHECKED_OUT_SUCCESS_MSG = "Vehicle has been checked out successfully";
 
         internal const string CARD_DETAILS_EMPTY_MISSING_MSG = "Please fill your all card details";
+
+        internal const string GROUP_NAME_EMPTY = "Plesae enter the group name";
+        internal const string NO_GROUP_PARTICIPANTS = "Plesae add atleast one participant for a group";
+        internal const string GROUP_CREATED_MSG = "Group created successfully";
 
         internal const string HOLD = "Hold";
         internal const string COMPLETE = "Complete";

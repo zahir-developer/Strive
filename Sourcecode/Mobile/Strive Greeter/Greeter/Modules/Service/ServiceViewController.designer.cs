@@ -34,10 +34,16 @@ namespace Greeter
 		UIKit.UIButton btnWash { get; set; }
 
 		[Outlet]
+		UIKit.UILabel lblChangeloc { get; set; }
+
+		[Outlet]
 		UIKit.UILabel lblLastService { get; set; }
 
 		[Outlet]
 		UIKit.UILabel lblLoc { get; set; }
+
+		[Outlet]
+		UIKit.UILabel lblLocName { get; set; }
 
 		[Outlet]
 		UIKit.UILabel lblViewIssue { get; set; }
@@ -90,6 +96,11 @@ namespace Greeter
 				lblLastService = null;
 			}
 
+			if (lblLoc != null) {
+				lblLoc.Dispose ();
+				lblLoc = null;
+			}
+
 			if (lblViewIssue != null) {
 				lblViewIssue.Dispose ();
 				lblViewIssue = null;
@@ -105,9 +116,14 @@ namespace Greeter
 				txtFieldBarcode = null;
 			}
 
-			if (lblLoc != null) {
-				lblLoc.Dispose ();
-				lblLoc = null;
+			if (lblChangeloc != null) {
+				lblChangeloc.Dispose ();
+				lblChangeloc = null;
+			}
+
+			if (lblLocName != null) {
+				lblLocName.Dispose ();
+				lblLocName = null;
 			}
 		}
 	}

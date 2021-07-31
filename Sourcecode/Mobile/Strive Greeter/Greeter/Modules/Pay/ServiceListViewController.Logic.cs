@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Api;
+using Newtonsoft.Json;
 
 namespace Greeter.Modules.Pay
 {
@@ -39,6 +41,7 @@ namespace Greeter.Modules.Pay
             if (response.IsSuccess())
             {
                 Checkouts = FilterUnpaidItems(response?.CheckinVehicleDetails?.CheckOutList);
+                Debug.WriteLine("Unpaid Filtered Services " + JsonConvert.SerializeObject(Checkouts));
                 if (IsViewLoaded)
                     checkoutTableView.ReloadData();
             }
@@ -46,7 +49,7 @@ namespace Greeter.Modules.Pay
 
         List<Checkout> FilterUnpaidItems(List<Checkout> checkouts)
         {
-            return checkouts?.Where(checkout => checkout.PaymentStatus.Equals("Success")).ToList();
+            return checkouts?.Where(checkout => !checkout.PaymentStatus.Equals("Success")).ToList();
         }
 
         void PayBtnClicked(Checkout checkout)
