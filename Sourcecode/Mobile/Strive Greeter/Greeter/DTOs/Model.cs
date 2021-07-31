@@ -1017,7 +1017,7 @@ namespace Greeter.DTOs
         public string SenderLastName { get; set; }
 
         [JsonProperty("ReceipientId")]
-        public int ReceipientId { get; set; }
+        public int ReceipientID { get; set; }
 
         [JsonProperty("RecipientFirstName")]
         public string RecipientFirstName { get; set; }
@@ -1030,5 +1030,119 @@ namespace Greeter.DTOs
 
         [JsonProperty("CreatedDate")]
         public DateTime? CreatedDate { get; set; }
+    }
+
+    public class SendChatMessageReq
+    {
+        [JsonProperty("chatMessage")]
+        public ChatMessageBody ChatMessage { get; set; }
+
+        [JsonProperty("chatMessageRecipient")]
+        public ChatMessageRecipient ChatMessageRecipient { get; set; }
+
+        [JsonProperty("chatGroupRecipient")]
+        public List<ChatGroupRecipient> ChatGroupRecipient { get; set; }
+
+        [JsonProperty("connectionId")]
+        public string ConnectionID { get; set; }
+
+        [JsonProperty("fullName")]
+        public string FullName { get; set; }
+
+        [JsonProperty("groupId")]
+        public string GroupId { get; set; }
+
+        [JsonProperty("groupName")]
+        public string GroupName { get; set; }
+
+        [JsonProperty("firstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("lastName")]
+        public string LastName { get; set; }
+    }
+
+    public class ChatMessageBody
+    {
+        [JsonProperty("chatMessageId")]
+        public int ChatMessageID { get; set; }
+
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+
+        [JsonProperty("messagebody")]
+        public string Messagebody { get; set; }
+
+        [JsonProperty("parentChatMessageId")]
+        public int? ParentChatMessageID { get; set; }
+
+        [JsonProperty("expiryDate")]
+        public string ExpiryDate { get; set; }
+
+        [JsonProperty("isReminder")]
+        public bool? IsReminder { get; set; }
+
+        [JsonProperty("nextRemindDate")]
+        public string NextRemindDate { get; set; }
+
+        [JsonProperty("reminderFrequencyId")]
+        public int? ReminderFrequencyId { get; set; }
+
+        [JsonProperty("createdBy")]
+        public int? CreatedBy { get; set; }
+
+        [JsonProperty("createdDate")]
+        public string CreatedDate { get; set; }
+    }
+
+    public class ChatMessageRecipient
+    {
+        [JsonProperty("chatRecipientId")]
+        public long ChatRecipientID { get; set; }
+
+        [JsonProperty("CreatedchatMessageIdDate")]
+        public long? ChatMessageID { get; set; }
+
+        [JsonProperty("senderId")]
+        public int? RenderID { get; set; }
+
+        [JsonProperty("recipientId")]
+        public int? RecipientID { get; set; }
+
+        [JsonProperty("recipientGroupId")]
+        public int? RecipientGroupID { get; set; }
+
+        [JsonProperty("createdDate")]
+        public string CreatedDate { get; set; }
+
+        [JsonProperty("isRead")]
+        public bool? IsRead { get; set; }
+    }
+
+    public class ChatGroupRecipient
+    {
+        [JsonProperty("chatGroupRecipientId")]
+        public int ChatGroupRecipientID { get; set; }
+
+        [JsonProperty("chatGroupId")]
+        public int ChatGroupID { get; set; }
+
+        [JsonProperty("recipientId")]
+        public int? RecipientID { get; set; }
+
+        [JsonProperty("isRead")]
+        public bool IsRead { get; set; }
+
+        [JsonProperty("createdBy")]
+        public int CreatedBy { get; set; }
+
+        [JsonProperty("createdDate")]
+        public string CreatedDate { get; set; }
+    }
+
+    public class SendMessageResponse : BaseResponse
+    {
+        [JsonProperty("Status")]
+        public bool Status { get; }
     }
 }
