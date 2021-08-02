@@ -27,6 +27,11 @@ namespace Strive.BusinessLogic.TimeClock
 
         public Result SaveTimeClock(Strive.BusinessEntities.Model.TimeClockModel timeClock)
         {
+            foreach(var oTimeClock in timeClock.TimeClock.TimeClock)
+            {
+                oTimeClock.InTime = oTimeClock.InTime.Value.ToOffset(new TimeSpan(0, 0, 0, 0, 0));
+                oTimeClock.OutTime = oTimeClock.OutTime.Value.ToOffset(new TimeSpan(0, 0, 0, 0, 0));
+            }
            var result=new TimeClockRal(_tenant).SaveTimeClock( timeClock.TimeClock);
 
             if (timeClock.TimeClockWeekDetailDto != null)
