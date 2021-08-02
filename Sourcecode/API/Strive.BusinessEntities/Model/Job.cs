@@ -78,6 +78,8 @@ namespace Strive.BusinessEntities.Model
 
         [Column]
         public bool? IsHold { get; set; }
+        [Column]
+        public string BarCode { get; set; }
 
     }
 }
