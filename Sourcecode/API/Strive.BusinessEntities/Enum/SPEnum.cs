@@ -95,7 +95,8 @@ namespace Strive.BusinessEntities
             USPGETEMPLOYEEROLEBYID,
             USPGETCITYBYSTATE,
             USPGETEMPLOYEEBYID,
-            USPGETEMPLOYEEHOURLYRATEBYID
+            USPGETEMPLOYEEHOURLYRATEBYID,
+            USPGETEMPLOYEEPAYCHECK
         }
 
         public enum DashboardStatistics

@@ -52,7 +52,7 @@ namespace Strive.BusinessLogic
                         _result = Helper.ErrorMessageResult(error);
                     }
 
-                   // return _result;
+                    // return _result;
                 }
 
                 var commonBpl = new CommonBpl(_cache, _tenant);
@@ -224,6 +224,10 @@ namespace Strive.BusinessLogic
         public Result GetEmployeeHourlyRateById(int employeeId)
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeHourlyRateById, employeeId, "Employee");
+        }
+        public Result GetEmployeePayCheck(EmployeePayCheckDto checkDto)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeePayCheck, checkDto, "EmployeePayCheck");
         }
 
     }

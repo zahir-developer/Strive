@@ -98,6 +98,14 @@ namespace Strive.ResourceAccess
             var lstResult = db.Fetch<EmployeeHourlyRateDto>(EnumSP.Employee.USPGETEMPLOYEEHOURLYRATEBYID.ToString(), _prm);
             return lstResult;
         }
+        public EmployeePayCheckViewModel GetEmployeePayCheck(EmployeePayCheckDto searchDto)
+        {
+
+            _prm.Add("@EmployeeId", searchDto.EmployeeId);
+            _prm.Add("@Month", searchDto.Month);
+            _prm.Add("@Year", searchDto.Year);
+            return db.FetchMultiResult<EmployeePayCheckViewModel>(EnumSP.Employee.USPGETEMPLOYEEPAYCHECK.ToString(), _prm);
+        }
 
     }
 }
