@@ -75,7 +75,7 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<TimeClockRootList>(ApiUtils.URL_GET_CLOCKIN_STATUS, HttpMethod.Post,request);
         }
 
-        public async Task<DeleteResponse> SaveClockInTime(TimeClockRoot ClockInRequest)
+        public async Task<DeleteResponse> SaveClockInTime(TimeClockSave ClockInRequest)
         {
             return await _restClient.MakeApiCall<DeleteResponse>(ApiUtils.URL_SAVE_CLOCKIN_TIME, HttpMethod.Post, ClockInRequest);
         }

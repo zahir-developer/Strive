@@ -38,6 +38,17 @@ namespace StriveEmployee.iOS.Views.Schedule
             };
             NavigationItem.Title = "Schedule";
 
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
+
             ScheduleParentView.Layer.CornerRadius = 5;
             ScheduleDateView.Layer.CornerRadius = 5;
             ScheduleDateView.MinimumDate = (Foundation.NSDate)System.DateTime.Today;           

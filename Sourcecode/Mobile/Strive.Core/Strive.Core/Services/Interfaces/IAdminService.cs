@@ -34,7 +34,7 @@ namespace Strive.Core.Services.Interfaces
 
         Task<TimeClockRootList> GetClockInStatus(TimeClockRequest request);
 
-        Task<DeleteResponse> SaveClockInTime(TimeClockRoot ClockInRequest);
+        Task<DeleteResponse> SaveClockInTime(TimeClockSave ClockInRequest);
 
         Task<DealsList> GetAllDeals();
 

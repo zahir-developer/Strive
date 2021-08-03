@@ -1,6 +1,7 @@
 ﻿using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 using Strive.Core.Utils.Employee;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,12 @@ namespace Strive.Core.ViewModels.Employee.MyProfile
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeInfo = new EmployeeInfo();
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeLocations = new List<EmployeeLocations>();
             EmployeeTempData.EmployeePersonalDetails.Employee.EmployeeRoles = new List<EmployeeRoles>();
+        }
+
+        public async Task LogoutCommand()
+        {
+            await _navigationService.Close(this);
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit!"));
         }
 
         #endregion Commands

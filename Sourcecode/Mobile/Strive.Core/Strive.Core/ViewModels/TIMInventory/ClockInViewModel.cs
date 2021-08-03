@@ -108,39 +108,50 @@ namespace Strive.Core.ViewModels.TIMInventory
                 return;
             }
             EmployeeData.CurrentRole = FirstSelectedRole.Title;
-            PrepareClockInRequest();
-            EmployeeData.ClockInStatus.TimeClock.inTime = DateUtils.GetStringFromDate(DateTime.Now);
+            EmployeeData.SelectedRoleId = FirstSelectedRole.Tag;
+            var clockInRequest = PrepareClockInRequest();
+            //EmployeeData.ClockInStatus.TimeClock.inTime = DateUtils.GetStringFromDate(DateTime.Now);
+            EmployeeData.ClockInTime = DateUtils.GetStringFromDate(DateTime.Now);
             _userDialog.ShowLoading(Strings.Loading);
-            var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
+            var clockin = await AdminService.SaveClockInTime(clockInRequest);
             await _navigationService.Navigate<ClockedInViewModel>();
             await _navigationService.Close(this);
         }
 
-        void PrepareClockInRequest()
+        private TimeClockSave PrepareClockInRequest()
         {
-            EmployeeData.ClockInStatus = new TimeClockRoot()
+            List<TimeClock> clockInRequestList = new List<TimeClock>();
+            TimeClock clockInRequest = new TimeClock()
             {
-                TimeClock = new TimeClock()
-                {
-                    timeClockId = 0,
-                    employeeId = 1,
-                    locationId = EmployeeData.selectedLocationId,
-                    roleId = FirstSelectedRole.Tag,
-                    eventDate = DateUtils.GetStringFromDate(DateTime.Now),
-                    inTime = DateUtils.GetStringFromDate(DateTime.Now),
-                    outTime = "",
-                    eventType = 1,
-                    updatedFrom = "",
-                    status = true,
-                    comments = "",
-                    isActive = true,
-                    isDeleted = false,
-                    createdBy = 0,
-                    createdDate = DateUtils.GetStringFromDate(DateTime.Now),
-                    updatedBy = 0,
-                    updatedDate = DateUtils.GetStringFromDate(DateTime.Now)
-                }
-            }; 
+                timeClockId = 0,
+                employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
+                locationId = EmployeeData.selectedLocationId,               
+                roleId = FirstSelectedRole.Tag,
+                eventDate = DateUtils.GetStringFromDate(DateTime.Now),
+                inTime = DateUtils.GetStringFromDate(DateTime.Now),
+                outTime = DateUtils.GetStringFromDate(DateTime.Now),
+                eventType = 1,
+                updatedFrom = "",
+                status = true,
+                comments = "",
+                isActive = true,
+                isDeleted = false,
+                createdBy = 0,
+                createdDate = DateUtils.GetStringFromDate(DateTime.Now),
+                updatedBy = 0,
+                updatedDate = DateUtils.GetStringFromDate(DateTime.Now)
+            };
+            clockInRequestList.Add(clockInRequest);
+            TimeClockRootList request = new TimeClockRootList()
+            {
+                timeClock = clockInRequestList
+            };
+
+            TimeClockSave saveRequest = new TimeClockSave()
+            {
+                timeClock = request
+            };
+            return saveRequest;
         }
 
         public void RoleDecisionCommand(int index)
