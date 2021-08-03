@@ -994,7 +994,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       return;
     }
     if (!this.ticketNumber) {
-      this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+      this.toastr.warning(MessageConfig.TicketNumber, 'Warning!');
       return;
 
     }
@@ -1605,8 +1605,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   getEmployeeList() {
+    const timeIn = this.datePipe.transform(this.selectedData?.Details?.TimeIn, 'MM/dd/yyyy HH:mm');
     const timeclock = {
-      date: moment(new Date()).format(),
+      date: timeIn,
       locationId: +localStorage.getItem('empLocationId')
     };
     this.detailService.getClockedInDetailer(timeclock).subscribe(res => {

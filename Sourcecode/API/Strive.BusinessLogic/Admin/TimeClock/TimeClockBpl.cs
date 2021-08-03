@@ -27,29 +27,31 @@ namespace Strive.BusinessLogic.TimeClock
 
         public Result SaveTimeClock(Strive.BusinessEntities.Model.TimeClockModel timeClock)
         {
-            foreach(var oTimeClock in timeClock.TimeClock.TimeClock)
+            foreach (var oTimeClock in timeClock.TimeClock.TimeClock)
             {
-                oTimeClock.InTime = oTimeClock.InTime.Value.ToOffset(new TimeSpan(0, 0, 0, 0, 0));
-                oTimeClock.OutTime = oTimeClock.OutTime.Value.ToOffset(new TimeSpan(0, 0, 0, 0, 0));
+                if (oTimeClock.InTime != null)
+                    oTimeClock.InTime = new DateTimeOffset(oTimeClock.InTime.Value.DateTime, new TimeSpan(0, 0, 0));
+                if (oTimeClock.OutTime != null)
+                    oTimeClock.OutTime = new DateTimeOffset(oTimeClock.OutTime.Value.DateTime, new TimeSpan(0, 0, 0));
             }
-           var result=new TimeClockRal(_tenant).SaveTimeClock( timeClock.TimeClock);
+            var result = new TimeClockRal(_tenant).SaveTimeClock(timeClock.TimeClock);
 
             if (timeClock.TimeClockWeekDetailDto != null)
             {
                 var thresholdHours = new TimeClockRal(_tenant).GetEmployeeWeeklyTimeClockHour(timeClock.TimeClockWeekDetailDto);
 
-                if (thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
+                if (thresholdHours.LocationWorkHourThreshold != 0 && thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
                 {
-                        var emailId = new CommonRal(_tenant).GetEmailIdByRole(thresholdHours.LocationId.ToString());
+                    var emailId = new CommonRal(_tenant).GetEmailIdByRole(thresholdHours.LocationId.ToString(), timeClock.TimeClockWeekDetailDto.StartDate, timeClock.TimeClockWeekDetailDto.EndDate);
                     foreach (var item in emailId)
                     {
-                        string subject= "Threshold Work Limit";
+                        string subject = "Threshold Work Limit";
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                         keyValues.Add("{{Manager/Operator}}", item.FirstName);
                         keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
                         keyValues.Add("{{totalHours}}", thresholdHours.EmployeeWorkMinutes.ToString());
                         keyValues.Add("{{locationName}}", thresholdHours.LocationName);
-                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues,subject);
+                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues, subject);
                     }
                 }
             }
@@ -77,7 +79,7 @@ namespace Strive.BusinessLogic.TimeClock
             return ResultWrap(new TimeClockRal(_tenant).TimeClockEmployeeHourDetail, timeClockLocationDto, "Result");
         }
 
-        public Result GetClockedInDetailer (TimeClockLocationDto timeclock)
+        public Result GetClockedInDetailer(TimeClockLocationDto timeclock)
         {
             return ResultWrap(new TimeClockRal(_tenant).GetClockedInDetailer, timeclock, "result");
         }

@@ -143,7 +143,7 @@ namespace Strive.BusinessLogic
             }
 
             id = id.TrimEnd(charToTrim);
-            var emailId = new CommonRal(_tenant).GetEmailIdByRole(id);
+            var emailId = new CommonRal(_tenant).GetEmailIdByRole(id, DateTime.Now, DateTime.Now);
 
             string emailList = string.Empty;
             foreach (var email in emailId)

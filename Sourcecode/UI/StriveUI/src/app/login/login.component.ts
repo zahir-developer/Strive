@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
     });
     this.bindValue();
     this.sidenavsHide();
+    this.clearCacheValue();
   }
 
   bindValue() {
@@ -183,6 +184,13 @@ export class LoginComponent implements OnInit {
       $('#footerSec').css('display','none');
       $('#headerSec').css('display','none');
      });
+  }
+
+  clearCacheValue() {
+    localStorage.setItem('isAuthenticated', 'false');
+    localStorage.removeItem('authorizationToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('empLocation');
   }
 
 }
