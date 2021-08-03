@@ -56,6 +56,8 @@ export class ServiceCreateEditComponent implements OnInit {
   CategoryName: any;
   Category: any[];
   Hours: any;
+  pattern: RegExp = /^[ A-Za-z0-9+]*$/;
+
 
 
   constructor(
@@ -194,7 +196,7 @@ export class ServiceCreateEditComponent implements OnInit {
         this.serviceSetupForm.patchValue({
           
           serviceType: this.selectedService?.ServiceTypeId,
-          name: this.selectedService?.ServiceName,
+          name: this.selectedService?.ServiceName ? this.selectedService?.ServiceName.replace(/\s+/g, ' ').trim() : '',
           description: this.selectedService?.Description,
           cost: this.selectedService?.Cost,
           price: this.selectedService?.Price,

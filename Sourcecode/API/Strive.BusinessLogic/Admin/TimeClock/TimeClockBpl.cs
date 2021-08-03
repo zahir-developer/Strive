@@ -27,12 +27,14 @@ namespace Strive.BusinessLogic.TimeClock
 
         public Result SaveTimeClock(Strive.BusinessEntities.Model.TimeClockModel timeClock)
         {
-            foreach(var oTimeClock in timeClock.TimeClock.TimeClock)
+            foreach (var oTimeClock in timeClock.TimeClock.TimeClock)
             {
-                oTimeClock.InTime = oTimeClock.InTime.Value.ToOffset(new TimeSpan(0, 0, 0, 0, 0));
-                oTimeClock.OutTime = oTimeClock.OutTime.Value.ToOffset(new TimeSpan(0, 0, 0, 0, 0));
+                if (oTimeClock.InTime != null)
+                    oTimeClock.InTime = new DateTimeOffset(oTimeClock.InTime.Value.DateTime, new TimeSpan(0, 0, 0));
+                if (oTimeClock.OutTime != null)
+                    oTimeClock.OutTime = new DateTimeOffset(oTimeClock.OutTime.Value.DateTime, new TimeSpan(0, 0, 0));
             }
-            var result=new TimeClockRal(_tenant).SaveTimeClock( timeClock.TimeClock);
+            var result = new TimeClockRal(_tenant).SaveTimeClock(timeClock.TimeClock);
 
             if (timeClock.TimeClockWeekDetailDto != null)
             {
@@ -77,7 +79,7 @@ namespace Strive.BusinessLogic.TimeClock
             return ResultWrap(new TimeClockRal(_tenant).TimeClockEmployeeHourDetail, timeClockLocationDto, "Result");
         }
 
-        public Result GetClockedInDetailer (TimeClockLocationDto timeclock)
+        public Result GetClockedInDetailer(TimeClockLocationDto timeclock)
         {
             return ResultWrap(new TimeClockRal(_tenant).GetClockedInDetailer, timeclock, "result");
         }
