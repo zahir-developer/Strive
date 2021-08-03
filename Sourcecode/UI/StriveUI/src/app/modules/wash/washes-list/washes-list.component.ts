@@ -135,78 +135,85 @@ export class WashesListComponent implements OnInit {
         this.getJobType();
         if (wash.Washes !== null) {
           this.washDetails = wash?.Washes?.AllWashesViewModel;
-          for(let k=0; k< this.washDetails.length; k++) {
-            if(this.washDetails[k].ClientName === " ") {
-              this.washDetails[k].ClientName = "DRIVE UP"
-            }
-          }
-          const totalRowCount = wash?.Washes?.Count?.Count;
-          if (this.washDetails?.length > 0) {
-            for (let i = 0; i < this.washDetails.length; i++) {
-              this.washDetails[i].Model === 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
-              if (this.washDetails[i].Model == null && this.washDetails[i].Make == null && this.washDetails[i].Color == null) {
-                this.washDetails[i].MakeModelColorLabel = 'None';
-              }
-              else {
-                this.washDetails[i].MakeModelColorLabel =
-                  this.washDetails[i].Make + ',' + this.washDetails[i].Model + ',' + this.washDetails[i].Color
-              }
-              if (this.washDetails[i].IsPaid === 'True') {
-                this.washDetails[i].paidLabel = 'Paid'
-              }
-              else {
-                this.washDetails[i].paidLabel = 'Pay';
-              }
-              let hh = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(13, 11) : null;
-              let m = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(16, 14) : null;
-              var s = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(19, 17) : null;
-              let min = m;
-              let sec = s;
-              var dd;
-              var hr;
-              if (hh > 12) {
-                hr = hh - 12;
-                dd = "PM";
-              }
-              else {
-                hr = hh;
-                dd = "AM"
-              }
-              if (hh == 0) {
-                hh = 12;
-              }
-              let inTimeFormat = hr + ":" + min + ":" + sec + dd;
-              let outhh = this.washDetails[i]?.EstimatedTimeOut ? this.washDetails[i].EstimatedTimeOut.substring(13, 11) : null;
-              let outm = this.washDetails[i]?.EstimatedTimeOut ? this.washDetails[i].EstimatedTimeOut.substring(16, 14) : null;
-              var outs = this.washDetails[i]?.EstimatedTimeOut ? this.washDetails[i].EstimatedTimeOut.substring(19, 17) : null;
-              let outmin = outm;
 
-              let outsec = outs;
-              var outdd;
-              var outhr;
-              if (outhh > 12) {
-                outhr = outhh - 12;
-                outdd = "PM";
+          if (this.washDetails !== null) {
+            for (let k = 0; k < this.washDetails.length; k++) {
+              if (this.washDetails[k].ClientName === " ") {
+                this.washDetails[k].ClientName = "DRIVE UP"
               }
-              else {
-                outhr = outhh
-                outdd = "AM"
+            }
+            const totalRowCount = wash?.Washes?.Count?.Count;
+            if (this.washDetails?.length > 0) {
+              for (let i = 0; i < this.washDetails.length; i++) {
+                this.washDetails[i].Model === 'None' ? this.washDetails[i].Model = 'Unk' : this.washDetails[i].Model;
+                if (this.washDetails[i].Model == null && this.washDetails[i].Make == null && this.washDetails[i].Color == null) {
+                  this.washDetails[i].MakeModelColorLabel = 'None';
+                }
+                else {
+                  this.washDetails[i].MakeModelColorLabel =
+                    this.washDetails[i].Make + ',' + this.washDetails[i].Model + ',' + this.washDetails[i].Color
+                }
+                if (this.washDetails[i].IsPaid === 'True') {
+                  this.washDetails[i].paidLabel = 'Paid'
+                }
+                else {
+                  this.washDetails[i].paidLabel = 'Pay';
+                }
+                let hh = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(13, 11) : null;
+                let m = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(16, 14) : null;
+                var s = this.washDetails[i].TimeIn ? this.washDetails[i].TimeIn.substring(19, 17) : null;
+                let min = m;
+                let sec = s;
+                var dd;
+                var hr;
+                if (hh > 12) {
+                  hr = hh - 12;
+                  dd = "PM";
+                }
+                else {
+                  hr = hh;
+                  dd = "AM"
+                }
+                if (hh == 0) {
+                  hh = 12;
+                }
+                let inTimeFormat = hr + ":" + min + ":" + sec + dd;
+                let outhh = this.washDetails[i]?.EstimatedTimeOut ? this.washDetails[i].EstimatedTimeOut.substring(13, 11) : null;
+                let outm = this.washDetails[i]?.EstimatedTimeOut ? this.washDetails[i].EstimatedTimeOut.substring(16, 14) : null;
+                var outs = this.washDetails[i]?.EstimatedTimeOut ? this.washDetails[i].EstimatedTimeOut.substring(19, 17) : null;
+                let outmin = outm;
+
+                let outsec = outs;
+                var outdd;
+                var outhr;
+                if (outhh > 12) {
+                  outhr = outhh - 12;
+                  outdd = "PM";
+                }
+                else {
+                  outhr = outhh
+                  outdd = "AM"
+                }
+                if (outhh == 0) {
+                  outhh = 12;
+                }
+                let outTimeFormat = outhr + ":" + outmin + ":" + outsec + outdd;
+                this.washDetails.forEach(item => {
+                  item.EstimatedTimeOutFormat = outTimeFormat,
+                    item.TimeInFormat = inTimeFormat;
+                });
               }
-              if (outhh == 0) {
-                outhh = 12;
-              }
-              let outTimeFormat = outhr + ":" + outmin + ":" + outsec + outdd;
-              this.washDetails.forEach(item => {
-                item.EstimatedTimeOutFormat = outTimeFormat,
-                  item.TimeInFormat = inTimeFormat;
-              });
+            }
+            if (this.washDetails?.length === 0 || this.washDetails == null) {
+              this.isTableEmpty = true;
+            } else {
+              this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
+              this.isTableEmpty = false;
             }
           }
-          if (this.washDetails?.length === 0 || this.washDetails == null) {
+          else
+          {
             this.isTableEmpty = true;
-          } else {
-            this.collectionSize = Math.ceil(totalRowCount / this.pageSize) * 10;
-            this.isTableEmpty = false;
           }
         }
       } else {
@@ -287,13 +294,13 @@ export class WashesListComponent implements OnInit {
       if (data.status === 'Success') {
         this.spinner.hide();
         const wash = JSON.parse(data.resultData);
-        if(wash.WashesDetail?.Washes) {
-        for(let i=0; i< wash.WashesDetail.Washes.length; i++) {
-         if(wash.WashesDetail.Washes[i].ClientName === " " && wash.WashesDetail.Washes[i].ClientId === null) {
-           wash.WashesDetail.Washes[i].ClientName = "DRIVE UP"
-         }
+        if (wash.WashesDetail?.Washes) {
+          for (let i = 0; i < wash.WashesDetail.Washes.length; i++) {
+            if (wash.WashesDetail.Washes[i].ClientName === " " && wash.WashesDetail.Washes[i].ClientId === null) {
+              wash.WashesDetail.Washes[i].ClientName = "DRIVE UP"
+            }
+          }
         }
-      }
         if (label === 'edit') {
           this.headerData = 'Edit Service';
           this.selectedData = wash.WashesDetail;

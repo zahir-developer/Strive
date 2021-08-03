@@ -113,6 +113,12 @@ export class CheckoutGridComponent implements OnInit {
           }
           this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;
         }
+        else
+        {
+          this.isTableEmpty = true;
+          this.uncheckedVehicleDetails = [];
+        }
+          
 
         if (this.uncheckedVehicleDetails == null) {
           this.isTableEmpty = true;
