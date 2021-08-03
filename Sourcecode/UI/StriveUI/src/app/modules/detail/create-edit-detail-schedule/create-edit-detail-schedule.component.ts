@@ -308,9 +308,14 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   washService(data) {
+    if (this.washItem.length > 0) {
+      // Remove duplicate washItem
+      this.washItem = this.washItem.map(e => e.ServiceTypeId).map((e, i, fin) => fin.indexOf(e) === i && i)
+        .filter(e => this.washItem[e]).map(e => this.washItem[e])
+    }
     this.isDetails = true;
     if (this.isEdit) {
-      this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = true;
+      this.washItem.filter(i => Number(i.ServiceTypeId) === this.detailId)[0].IsDeleted = true;
       if (this.washItem.filter(i => i.ServiceId === Number(data))[0] !== undefined) {
         this.additionalService = this.additionalService.filter(i => Number(i.ServiceTypeId) !== this.detailId);
         this.washItem.filter(i => i.ServiceTypeId === this.detailId)[0].IsDeleted = false;
@@ -320,7 +325,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         if (serviceWash.length !== 0) {
           this.additionalService.push(serviceWash[0]);
           if (serviceWash[0].IsCeramic === false) {
-            console.log(this.additionalService[0], 'this.additionalService[0]')
             this.isCeramic = false;
             this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
             this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
@@ -338,7 +342,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (serviceWash.length !== 0) {
         this.additionalService.push(serviceWash[0]);
         if (serviceWash[0].IsCeramic === false) {
-          console.log(this.additionalService[0], 'this.additionalService[0]')
           this.isCeramic = false;
           this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
           this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
@@ -363,8 +366,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     let estimatedMinute = service[0].EstimatedTime;
 
     if (estimatedMinute !== null) {
-      console.log(estimatedMinute, 'EstimatedMinute');
-
       if (this.detailEstimatedTime !== null && estimatedMinute > 0) {
         estimatedMinute = estimatedMinute - this.detailEstimatedTime;
       }
@@ -454,15 +455,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   change(data) {
     const temp = this.washItem.filter(item => item.ServiceId === data.ServiceId);
     if (temp.length !== 0) {
-      if (data.IsChecked) {
-        this.washItem.forEach(item => {
-          if (item.ServiceId === data.ServiceId) {
-            item.IsDeleted = true;
-          } else {
-            item.IsDeleted = false;
-          }
-        });
-      }
+      this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted = this.washItem.filter(item => item.ServiceId === data.ServiceId)[0].IsDeleted ? false : true;
     } else {
       data.IsChecked = data.IsChecked ? false : true;
     }
@@ -517,7 +510,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.outsideServiceId = this.serviceEnum.filter(i => i.CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices)[0]?.CodeId;
       this.getAllServices();
     }
-
   }
 
   getAllServices() {
@@ -993,6 +985,10 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   saveDetail() {
+    // Remove duplicate washItem
+    this.washItem = this.washItem.map(e => e.ServiceId).map((e, i, fin) => fin.indexOf(e) === i && i)
+      .filter(e => this.washItem[e]).map(e => this.washItem[e])
+
     this.submitted = true;
     if (this.detailForm.invalid) {
       return;
@@ -1253,23 +1249,21 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.washItem.forEach(element => {
       this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
     });
-    if (this.additionalService.length > 0) {
-      const details = this.additionalService.map(item => {
-        return {
-          jobItemId: 0,
-          jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
-          serviceId: item.ServiceId,
-          isActive: true,
-          isDeleted: false,
-          commission: 0,
-          price: item.Price,
-          quantity: 1,
-          createdBy: 0,
-          updatedBy: 0
-        };
-      });
-      this.jobItems = [...details];
-    }
+    this.jobItems = this.additionalService.map(item => {
+      return {
+        jobItemId: 0,
+        jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
+        serviceId: item.ServiceId,
+        isActive: true,
+        isDeleted: false,
+        commission: 0,
+        price: item.Price,
+        quantity: 1,
+        createdBy: 0,
+        updatedBy: 0
+      };
+    });
+
     for (let i = 0; i < this.washItem.length; i++) {
       this.jobItems.push({
         jobItemId: this.washItem[i].JobItemId,
@@ -1278,7 +1272,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         isActive: true,
         isDeleted: this.washItem[i].IsDeleted ? this.washItem[i].IsDeleted : false,
         commission: 0,
-        price: this.washItem[i].Price,
+        price: this.washItem[i].Cost,
         quantity: 1,
         createdBy: 0,
         updatedBy: 0
@@ -1294,7 +1288,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         createdBy: 0,
         updatedBy: 0,
         commission: 0,
-        price: this.assignedDetailService[j].Price,
+        price: this.assignedDetailService[j].Cost,
         quantity: 1,
         employeeId: this.assignedDetailService[j].EmployeeId
       });
@@ -1737,11 +1731,11 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
-closeSchedules() {
-  $(document).ready(function(){ 
-    $('#closeSchedules').trigger("click");
+  closeSchedules() {
+    $(document).ready(function () {
+      $('#closeSchedules').trigger("click");
     });
-}
+  }
 
 
 }
