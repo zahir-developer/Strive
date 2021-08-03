@@ -590,8 +590,16 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.paidLabel = 'Pay'
     }
     const washes = this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
-      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId) : '';
-    if (washes[0].IsCeramic === false) {
+      this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId) : null;
+
+
+    var isCeramic = false;
+
+    if (washes !== undefined && washes !== null) {
+      isCeramic = washes[0].IsCeramic;
+    }
+
+    if (isCeramic === false) {
       this.isCeramic = false;
       this.upcharges = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
       this.UpchargeType = this.noCeramicUpcharges.filter(item => item.ServiceTypeId === Number(this.upchargeId));
@@ -615,7 +623,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       color: { id: this.selectedData?.Details?.Color, name: this.selectedData?.Details?.VehicleColor },
       washes: this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId ?
         this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.detailId)[0]?.ServiceId : '',
-      upchargeType: washes[0].IsCeramic === false ?
+      upchargeType: isCeramic === false ?
 
 
         this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?
@@ -623,7 +631,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.ceramicUpchargeId)[0]?.ServiceId : '',
 
 
-      upcharges: washes[0].IsCeramic === false ?
+      upcharges: isCeramic === false ?
 
 
         this.selectedData.DetailsItem.filter(i => +i.ServiceTypeId === this.upchargeId)[0]?.ServiceId ?

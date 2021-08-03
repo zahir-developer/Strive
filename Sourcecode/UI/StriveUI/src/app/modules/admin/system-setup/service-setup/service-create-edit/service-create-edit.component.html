@@ -127,8 +127,15 @@
 
                 </div>
             </div>
-
-            <div class="form-group col-lg-2" *ngIf="isDetails">
+            <div class="form-group col-lg-2" [ngClass]="{ 'col-lg-4' : isCommission || isAdditional }"  [ngClass]="{ 'col-lg-2' : isDetails }" *ngIf="isDetails">
+                <label></label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="isCeramic"
+                        (change)="changeCeramic($event.target.checked)">
+                    <label class="form-check-label" for="gridCheck">Is Ceramic</label>
+                </div>
+            </div>
+            <div class="form-group col-lg-2" [ngClass]="{ 'col-lg-4' : isCommission }" *ngIf="isDetails || isCommission">
                 <label></label>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" formControlName="commission"
@@ -136,7 +143,7 @@
                     <label class="form-check-label" for="gridCheck">Commission</label>
                 </div>
             </div>
-            <div class="form-group col-lg-4" *ngIf=" isDetails && isChecked === true">
+            <div class="form-group col-lg-4" *ngIf=" isDetails || isCommission && isChecked === true">
                 <label for="inputCommissionType">Commission Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="commissionType" (change)="getCtype($event.target.value)"
                     [ngClass]="{ 'is-invalid': submitted  && f.commissionType.errors }">
@@ -148,7 +155,7 @@
                     <div *ngIf="f.commissionType.errors.required">Type is required</div>
                 </div>
             </div>
-            <div class="form-group col-lg-4" *ngIf=" isDetails && ctypeLabel !== 'none' && isChecked === true">
+            <div class="form-group col-lg-4" *ngIf=" isDetails || isCommission && ctypeLabel !== 'none' && isChecked === true">
                 <label for="inputUpcharge">{{ctypeLabel}}<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="fee" placeholder="{{ctypeLabel}}"
                     appTwoDecimalNumber [ngClass]="{ 'is-invalid': submitted  && f.fee.errors }">
@@ -180,16 +187,6 @@
                     </option>
                 </select>
             </div>
-           
-
-            <div class="form-group col-lg-2" *ngIf="isDetails">
-                <label></label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="isCeramic"
-                        (change)="changeCeramic($event.target.checked)">
-                    <label class="form-check-label" for="gridCheck">Is Ceramic</label>
-                </div>
-            </div>
 
             <div class="form-group col-lg-4" *ngIf="isDetails">
                 <label for="inputDescription">Description</label>
@@ -199,7 +196,7 @@
                     <div *ngIf="f.description.errors.required">Description is required</div>
                 </div>
             </div>
-           
+            
             <div class="form-group col-lg-4">
                 <label for="inputStatus">Status</label>
                 <select class="form-control" formControlName="status">

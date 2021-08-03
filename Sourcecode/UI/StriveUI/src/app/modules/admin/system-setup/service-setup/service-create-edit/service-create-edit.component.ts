@@ -57,8 +57,7 @@ export class ServiceCreateEditComponent implements OnInit {
   Category: any[];
   Hours: any;
   pattern: RegExp = /^[ A-Za-z0-9+]*$/;
-
-
+  isCommission: boolean = true;
 
   constructor(
     private serviceSetup: ServiceSetupService,
@@ -319,14 +318,15 @@ export class ServiceCreateEditComponent implements OnInit {
   }
 
   checkService(typeID) {
+    this.isCommission = false;
     const serviceType = this.serviceType.filter(item => +item.CodeId === +typeID);
     if (serviceType.length > 0) {
       const type = serviceType[0].CodeValue;
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
         type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
-        this.categoryName()
-
+        this.categoryName();
+        this.isCommission = true;
       } else {
         this.isUpcharge = false;
         this.serviceSetupForm.get('upcharge').clearValidators();
@@ -334,6 +334,7 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       if (type === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
         this.isAdditional = true;
+        this.isCommission = true;
       } else {
         this.isAdditional = false;
       }
@@ -344,12 +345,13 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.washUpcharge = true;
-        
+        this.isCommission = true;
       } else {
         this.washUpcharge = false;
       }
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
         this.detailUpcharge = true;
+        this.isCommission = true;
       } else {
         this.detailUpcharge = false;
       }
