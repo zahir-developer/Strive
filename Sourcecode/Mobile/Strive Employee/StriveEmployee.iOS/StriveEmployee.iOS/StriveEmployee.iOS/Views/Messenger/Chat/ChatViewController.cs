@@ -10,7 +10,7 @@ using UIKit;
 
 namespace StriveEmployee.iOS.Views.Messenger.Chat
 {
-    public partial class ChatViewController : MvxViewController<MessengerPersonalChatViewModel>, IUITableViewDataSource, IUITableViewDelegate, IUITextViewDelegate
+    public partial class ChatViewController : MvxViewController<MessengerPersonalChatViewModel>
     {
         UITableView chatTableView;
         UIView messageBoxContainer;
@@ -29,18 +29,13 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
         {
             base.ViewDidLoad();
             ViewModel = new MessengerPersonalChatViewModel();
-            SetupView();
-            SetupNavigationItem();
-            RegisterCell();
+
+            getChatData();            
             RegisterKeyboardObserver();
-
-            getChats();
-            getChatData();
-
-            chatTableView.WeakDelegate = this;
-            chatTableView.WeakDataSource = this;
-
-            ReloadChatTableView();
+                      
+            //chatTableView.WeakDelegate = this;
+            //chatTableView.WeakDataSource = this;
+            
         }
 
         public override void DidReceiveMemoryWarning()
@@ -114,11 +109,35 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             sendImageView.BottomAnchor.ConstraintEqualTo(messageBoxContainer.BottomAnchor, constant: -10).Active = true;
             sendImageView.WidthAnchor.ConstraintEqualTo(40).Active = true;
             sendImageView.HeightAnchor.ConstraintEqualTo(40).Active = true;
+
+            if (ViewModel.chatMessages != null)
+            {
+                var chatSource = new ChatDataSource(ViewModel);
+                chatTableView.Source = chatSource;
+                chatTableView.TableFooterView = new UIView(CGRect.Empty);
+                chatTableView.DelaysContentTouches = false;
+                chatTableView.ReloadData();
+            }
         }
 
         void SetupNavigationItem()
         {
-            Title = "Personal Chat";
+            if(ViewModel.chatMessages != null)
+            {
+                if(ViewModel.chatMessages.ChatMessage.ChatMessageDetail[0].RecipientFirstName != null)
+                {
+                    Title = ViewModel.chatMessages.ChatMessage.ChatMessageDetail[0].RecipientFirstName +
+                   ViewModel.chatMessages.ChatMessage.ChatMessageDetail[0].RecipientLastName;
+                }
+                else
+                {
+                    Title = "Group Chat";
+                }               
+            }
+            else if(MessengerTempData.RecipientName != null)
+            {
+                Title = MessengerTempData.RecipientName;
+            }            
         }
 
         void RegisterCell()
@@ -131,16 +150,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
         {
             UIKeyboard.Notifications.ObserveWillShow(OnKeyboardShow);
             UIKeyboard.Notifications.ObserveWillHide(OnKeyboardHide);
-        }
-        void getChats()
-        {
-            Chats.Add("");
-            Chats.Add("");
-            Chats.Add("");
-            Chats.Add("");
-            Chats.Add("");
-            ReloadChatTableView();
-        }
+        }       
 
         private async void getChatData()
         {
@@ -151,39 +161,12 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 GroupId = MessengerTempData.GroupID
             };
             await this.ViewModel.GetAllMessages(chatData);
-            if (ViewModel.chatMessages != null)
-            {
 
-            }
+            SetupView();
+            SetupNavigationItem();
+            RegisterCell();
         }
-
-        void ReloadChatTableView(NSIndexPath[] indexPaths = null)
-        {
-            if (!IsViewLoaded) return;
-
-            if (indexPaths == null)
-                chatTableView.ReloadData();
-            else
-                chatTableView.ReloadRows(indexPaths, UITableViewRowAnimation.Fade);
-        }
-
-        public nint RowsInSection(UITableView tableView, nint section)
-        {
-            return Chats.Count;
-        }
-
-        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-        {
-            //TODO change logic later
-            if (indexPath.Row % 3 == 0)
-            {
-                var incomingCell = tableView.DequeueReusableCell(MessageIncomingCell.Key) as MessageIncomingCell;
-                return incomingCell;
-            }
-            var outgoingCell = tableView.DequeueReusableCell(MessageOutgoingCell.Key) as MessageOutgoingCell;
-            return outgoingCell;
-        }
-
+       
         [Export("textView:shouldChangeTextInRange:replacementText:")]
         public bool ShouldChangeText(UITextView textView, NSRange range, string text)
         {
@@ -192,14 +175,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
             chatMessagePlaceholderLabel.Hidden = !string.IsNullOrEmpty(replacedString);
             return true;
-        }
-
-        void InsertRowAtChatTableView(NSIndexPath[] indexPaths = null)
-        {
-            if (!IsViewLoaded && indexPaths == null) return;
-            chatTableView.InsertRows(indexPaths, UITableViewRowAnimation.Fade);
-            ScrollToBottom();
-        }
+        }        
 
         public async void OnSend()
         {
@@ -222,18 +198,17 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                     ViewModel.chatMessages.ChatMessage = new ChatMessage();
                     ViewModel.chatMessages.ChatMessage.ChatMessageDetail = new List<ChatMessageDetail>();
                     ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
-                    ReloadChatTableView();
                 }
                 else
                 {
                     ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
                 }
-                //messengerChat_Adapter.NotifyItemInserted(ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Count);
                 this.ViewModel.Message = messageTextView.Text;
                 await this.ViewModel.SendMessage();
                 if (this.ViewModel.SentSuccess)
                 {
                     messageTextView.Text = "";
+                    getChatData();
                 }
             }
             else

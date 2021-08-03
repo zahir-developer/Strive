@@ -29,8 +29,8 @@
                     <subviews>
                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="6cV-yt-Raa">
                             <rect key="frame" x="15" y="15" width="354" height="327"/>
-                            <date key="minimumDate" timeIntervalSinceReferenceDate="648298800">
-                                <!--2021-07-18 11:00:00 +0000-->
+                            <date key="minimumDate" timeIntervalSinceReferenceDate="646770600">
+                                <!--2021-06-30 18:30:00 +0000-->
                             </date>
                             <connections>
                                 <action selector="scheduleDate_Touch:" destination="-1" eventType="valueChanged" id="2vr-7U-Xax"/>

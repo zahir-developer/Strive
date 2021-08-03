@@ -8,6 +8,7 @@ namespace Strive.Core.Models.Owner
         public string startDate { get; set; }
         public string endDate { get; set; }
         public int locationId { get; set; }
+        public int employeeId { get; set; }
     }
 
     public class ScheduleDetailViewModel

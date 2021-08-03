@@ -41,6 +41,17 @@ namespace StriveEmployee.iOS.Views
             };
             NavigationItem.Title = "My Profile";
 
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
+
             EmployeeProfile_View.Layer.CornerRadius = 5;
             EmployeeInfo_Segment.Layer.CornerRadius = 5;
             EmployeeCollision_View.Layer.CornerRadius = 5;

@@ -25,6 +25,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>StriveEmployeeRelease</CodesignProvision>
+    <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -161,6 +163,17 @@
     <Compile Include="Views\Messenger\Chat\MessageOutgoingCell.designer.cs">
       <DependentUpon>MessageOutgoingCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Messenger\Chat\ChatDataSource.cs" />
+    <InterfaceDefinition Include="Views\Messenger\CreateGroupView.xib" />
+    <Compile Include="Views\Messenger\CreateGroupView.cs" />
+    <Compile Include="Views\Messenger\CreateGroupView.designer.cs">
+      <DependentUpon>CreateGroupView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Views\Messenger\SelectContactCell.xib" />
+    <Compile Include="Views\Messenger\SelectContactCell.cs" />
+    <Compile Include="Views\Messenger\SelectContactCell.designer.cs">
+      <DependentUpon>SelectContactCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -286,6 +299,18 @@
     <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-checkout-active.imageset\Icon awesome-flag-check%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%401x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\send-msg.imageset\send%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\menu-options.imageset\Group 2260%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -314,6 +339,9 @@
     <Folder Include="Views\Schedule\" />
     <Folder Include="Views\Tickets\" />
     <Folder Include="Views\Messenger\Chat\" />
+    <Folder Include="Resources\Assets.xcassets\send-msg.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\menu-options.imageset\" />
+    <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

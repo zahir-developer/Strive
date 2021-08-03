@@ -6,6 +6,7 @@ using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
 using Strive.Core.Models.TimInventory;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Strive.Core.ViewModels.TIMInventory
 {
@@ -42,15 +43,24 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 locationId = EmployeeData.selectedLocationId,
                 employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
-                roleId = 5,
+                roleId = EmployeeData.SelectedRoleId,
                 date = DateUtils.GetTodayDateString()
             };
             var status = await AdminService.GetClockInStatus(request);
-            if (status.TimeClock.Count > 0)
+            if (status.timeClock.Count > 0)
             {
                 var SingleTimeClock = new TimeClockRoot();
-                SingleTimeClock.TimeClock = status.TimeClock[0];
-                EmployeeData.ClockInStatus = SingleTimeClock;
+                foreach(var item in status.timeClock)
+                {
+                    var inTime = item.inTime.Substring(0, 19);
+                    if(EmployeeData.ClockInTime == inTime)
+                    {
+                        SingleTimeClock.TimeClock = item;
+                        EmployeeData.ClockInStatus = SingleTimeClock;
+                    }
+                }
+                //SingleTimeClock.TimeClock = status.timeClock[0];
+                //EmployeeData.ClockInStatus = SingleTimeClock;
             }
             _userDialog.HideLoading();
         }
@@ -64,7 +74,8 @@ namespace Strive.Core.ViewModels.TIMInventory
                 //Role = EmployeeData.EmployeeDetails.EmployeeRoles[0].RoleName;
                 Role = EmployeeData.CurrentRole;
                 CurrentDate = DateUtils.GetTodayDateString();
-                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInStatus.TimeClock.inTime);
+                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInTime);
+                //ClockInTime = DateUtils.GetClockInTypeString(DateUtils.GetStringFromDate(DateTime.Now));
             }
         }
 
@@ -73,10 +84,24 @@ namespace Strive.Core.ViewModels.TIMInventory
             NavigateBackCommand();
         }
 
-        public void PrepareClockoutModel()
+        public TimeClockSave PrepareClockoutModel()
         {
             EmployeeData.ClockInStatus.TimeClock.outTime = DateUtils.GetStringFromDate(DateTime.Now);
             EmployeeData.ClockInStatus.TimeClock.isActive = false;
+
+            List<TimeClock> clockInRequestList = new List<TimeClock>();            
+            clockInRequestList.Add(EmployeeData.ClockInStatus.TimeClock);
+
+            TimeClockRootList request = new TimeClockRootList()
+            {
+                timeClock = clockInRequestList
+            };
+
+            TimeClockSave saveRequest = new TimeClockSave()
+            {
+                timeClock = request
+            };
+            return saveRequest;
         }
 
         public async Task NavigateBackCommand()
@@ -87,9 +112,9 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task NavigateClockOutCommand()
         {
-            PrepareClockoutModel();
+            var clockOutRequest = PrepareClockoutModel();
             _userDialog.ShowLoading(Strings.Loading);
-            var clockin = await AdminService.SaveClockInTime(EmployeeData.ClockInStatus);
+            var clockin = await AdminService.SaveClockInTime(clockOutRequest);
             await _navigationService.Navigate<ClockOutViewModel>();
             await _navigationService.Close(this);
         }

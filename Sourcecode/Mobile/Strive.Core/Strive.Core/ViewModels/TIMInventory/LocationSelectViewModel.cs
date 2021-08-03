@@ -36,17 +36,29 @@ namespace Strive.Core.ViewModels.TIMInventory
             {
                 locationId = EmployeeData.selectedLocationId,
                 employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
-                roleId = 5,
+                roleId = EmployeeData.SelectedRoleId,
                 date = DateUtils.GetTodayDateString()
             };
-            //var status = await AdminService.GetClockInStatus(request);
-            //if (status.TimeClock.Count > 0)
-            //{
-            //    var SingleTimeClock = new TimeClockRoot();
-            //    SingleTimeClock.TimeClock = status.TimeClock[0];
-            //    EmployeeData.ClockInStatus = SingleTimeClock;
-            //}
-            await _navigationService.Navigate<RootViewModel>();
+            var status = await AdminService.GetClockInStatus(request);
+            if (status.timeClock.Count > 0)
+            {
+                var SingleTimeClock = new TimeClockRoot();
+                foreach (var item in status.timeClock)
+                {
+                    var inTime = item.inTime.Substring(0, 19);
+                    if (EmployeeData.ClockInTime == inTime)
+                    {
+                        SingleTimeClock.TimeClock = item;
+                        EmployeeData.ClockInStatus = SingleTimeClock;
+
+                        await _navigationService.Navigate<ClockedInViewModel>();
+                    }
+                }
+            }
+            else
+            {
+                await _navigationService.Navigate<RootViewModel>();
+            }
             _navigationService.Close(this);
             await RaiseAllPropertiesChanged();
         }

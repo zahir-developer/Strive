@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.Messenger;
@@ -17,6 +18,9 @@ namespace StriveEmployee.iOS.Views.Messenger
         public MessengerContactViewModel contactSView;
         public MessengerRecentContactsViewModel recentViewModel;
         public static string ConnectionID;
+        public nint index = 0;
+        public Contact_DataSource contactSource;
+
         public MessengerView() : base("MessengerView", null)
         {
         }
@@ -46,6 +50,17 @@ namespace StriveEmployee.iOS.Views.Messenger
             };
             NavigationItem.Title = "Messenger";
 
+            var leftBtn = new UIButton(UIButtonType.Custom);
+            leftBtn.SetTitle("Logout", UIControlState.Normal);
+            leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+
+            var leftBarBtn = new UIBarButtonItem(leftBtn);
+            NavigationItem.SetLeftBarButtonItems(new UIBarButtonItem[] { leftBarBtn }, false);
+            leftBtn.TouchUpInside += (sender, e) =>
+            {
+                ViewModel.LogoutCommand();
+            };
+
             var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
             Tap.CancelsTouchesInView = false;
             View.AddGestureRecognizer(Tap);
@@ -57,6 +72,8 @@ namespace StriveEmployee.iOS.Views.Messenger
             Messenger_TableView.RegisterNibForCellReuse(Messenger_CellView.Nib, Messenger_CellView.Key);
             Messenger_TableView.BackgroundColor = UIColor.Clear;
             Messenger_TableView.ReloadData();
+
+            Messenger_SearchBar.TextChanged += SearchTextchanged;
 
             if (ChatHubMessagingService.RecipientsID == null)
             {
@@ -70,7 +87,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         partial void Messenger_SegmentTouch(UISegmentedControl sender)
         {
-            var index = Messenger_SegCtrl.SelectedSegment;
+            index = Messenger_SegCtrl.SelectedSegment;
             if (index == 0)
             {
                 SearchBar_HeightConst.Constant = 0;
@@ -101,6 +118,33 @@ namespace StriveEmployee.iOS.Views.Messenger
 
                 setGroupData();
             }
+        }
+
+        partial void MenuBtn_Touch(UIButton sender)
+        {
+            ViewModel.navigateToCreateGroup();
+        }
+
+        private void SearchTextchanged(object sender, UISearchBarTextChangedEventArgs e)
+        {
+            if(index == 1)
+            {
+                if (!string.IsNullOrEmpty(e.SearchText) && MessengerTempData.employeeList_Contact != null)
+                {
+                    var searchText = e.SearchText.ToLower();                 
+                    var filteredList = MessengerTempData.employeeList_Contact.EmployeeList.Employee.Where(x => x.FirstName.ToLower().Contains(searchText)).ToList();
+
+                    contactSource = new Contact_DataSource(filteredList, contactSView);
+                    Messenger_TableView.Source = contactSource;
+                    Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
+                    Messenger_TableView.DelaysContentTouches = false;
+                    Messenger_TableView.ReloadData();
+                }
+            }
+            else if(index == 2)
+            {
+
+            }           
         }
 
         private async void RecipientsID_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -153,7 +197,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         void setData()
         {
-            var messageSource = new MessengerRecents_DataSource(recentViewModel.EmployeeList.ChatEmployeeList);
+            var messageSource = new MessengerRecents_DataSource(recentViewModel.EmployeeList.ChatEmployeeList, recentViewModel);
             Messenger_TableView.Source = messageSource;
             Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
             Messenger_TableView.DelaysContentTouches = false;
@@ -168,7 +212,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
                 if (MessengerTempData.employeeList_Contact != null || employeeLists != null || employeeLists.EmployeeList != null || employeeLists.EmployeeList.Employee != null)
                 {
-                    var contactSource = new Contact_DataSource(employeeLists.EmployeeList.Employee, contactSView);
+                    contactSource = new Contact_DataSource(employeeLists.EmployeeList.Employee, contactSView);
                     Messenger_TableView.Source = contactSource;
                     Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
                     Messenger_TableView.DelaysContentTouches = false;
