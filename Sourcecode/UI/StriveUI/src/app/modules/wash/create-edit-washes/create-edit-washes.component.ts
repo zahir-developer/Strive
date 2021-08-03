@@ -771,7 +771,7 @@ export class CreateEditWashesComponent implements OnInit {
     }
 
     if (!this.ticketNumber) {
-      this.toastr.error(MessageConfig.TicketNumber, 'Error!');
+      this.toastr.warning(MessageConfig.TicketNumber, 'Warning!');
       return;
 
     }

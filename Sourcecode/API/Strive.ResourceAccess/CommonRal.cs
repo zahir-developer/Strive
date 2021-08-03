@@ -152,9 +152,12 @@ namespace Strive.ResourceAccess
 
         }
 
-        public List<EmailListViewModel> GetEmailIdByRole(string locationId)
+        public List<EmailListViewModel> GetEmailIdByRole(string locationId, DateTime? startDate = null, DateTime? endDate = null)
         {
             _prm.Add("@locationId", locationId);
+            _prm.Add("@startDate", startDate == null ? DateTime.Now.ToString("yyy-MM-dd") : startDate.ToString());
+            _prm.Add("@endDate", endDate == null ? DateTime.Now.ToString("yyy-MM-dd") : endDate.ToString());
+
             return db.Fetch<EmailListViewModel>(EnumSP.Sales.USPGETEMAILID.ToString(), _prm);
 
         }

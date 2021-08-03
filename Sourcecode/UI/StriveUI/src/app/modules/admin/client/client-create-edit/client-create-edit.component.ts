@@ -105,7 +105,7 @@ export class ClientCreateEditComponent implements OnInit {
       return;
     }
     if (this.clientFormComponent.ClientEmailAvailable == true && this.isEdit === false) {
-      this.toastr.error(MessageConfig.Client.emailExist, 'Warning!');
+      this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
 
       return;
     }

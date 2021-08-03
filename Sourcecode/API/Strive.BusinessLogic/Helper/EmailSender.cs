@@ -31,14 +31,14 @@ namespace Strive.BusinessLogic.EmailHelper
             //_authManager = authManager;
         }
 
-        public void SendEmail(MessageDto message)
+        public async Task SendEmail(MessageDto message)
         {
             var emailMessage = CreateEmailMessage(message);
 
-            Send(emailMessage);
+            await Send(emailMessage);
         }
 
-        public void Initialize(string subject, string emailIds , string content)
+        public async Task Initialize(string subject, string emailIds , string content)
         {
             MessageDto msg = new MessageDto();
 
@@ -54,7 +54,7 @@ namespace Strive.BusinessLogic.EmailHelper
             msg.To = emailToList;
             msg.Content = content;
             msg.Subject = subject;
-            SendEmail(msg);
+            await SendEmail(msg);
         }
 
         private MimeMessage CreateEmailMessage(MessageDto message)
@@ -68,7 +68,7 @@ namespace Strive.BusinessLogic.EmailHelper
             return emailMessage;
         }
 
-        public void Send(MimeMessage mailMessage)
+        public async Task Send(MimeMessage mailMessage)
         {
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {

@@ -28,6 +28,7 @@ export class TimeClockWeekComponent implements OnInit {
     WashRate: 0
   };
   timeClockList: any = [];
+  orginalTimeClock: any = [];
   washHours: any;
   replicateClockList: any = [];
   weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -71,6 +72,7 @@ export class TimeClockWeekComponent implements OnInit {
         const weekDetails = JSON.parse(res.resultData);
         if (weekDetails.Result.TimeClockWeek !== null) {
           this.totalWeekDetail = weekDetails.Result.TimeClockWeek;
+          this.orginalTimeClock = weekDetails.Result.TimeClock;
         }
         if (weekDetails.Result.TimeClock !== null) {
           this.weekDays.forEach(day => {
@@ -209,7 +211,7 @@ export class TimeClockWeekComponent implements OnInit {
 
 
     if (this.inCorrectTotalHours === true) {
-      this.toastr.error(MessageConfig.Admin.TimeClock.HourFormat, 'Error!');
+      this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning!');
       return;
     }
     this.timeClockList.forEach(element => {
@@ -249,6 +251,8 @@ export class TimeClockWeekComponent implements OnInit {
 
       return;
     }
+
+    console.log(this.timeClockList);
     const weekDetailObj = [];
     this.timeClockList.forEach(item => {
       item.checkInDetail.forEach(time => {
@@ -266,23 +270,38 @@ export class TimeClockWeekComponent implements OnInit {
         outEventDate.setMinutes(outTimeMins);
         const inTimeFormat = this.datePipe.transform(inEventDate, 'MM/dd/yyyy HH:mm');
         const outTimeFormat = this.datePipe.transform(outEventDate, 'MM/dd/yyyy HH:mm');
-        weekDetailObj.push({
-          timeClockId: time.TimeClockId,
-          employeeId: time.employeeId,
-          locationId: time.locationId,
-          roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
-          eventDate: time.EventDate, // time.EventDate,
-          inTime: time.InTime ? inTimeFormat : null,
-          outTime: time.OutTime ? outTimeFormat : null,
-          eventType: null,
-          updatedFrom: '',
-          status: true,
-          comments: '',
-          isActive: true,
-          isDeleted: time.isDeleted
-        });
+
+        var clockItems = this.orginalTimeClock.filter(s => s.TimeClockId === time.TimeClockId);
+
+        const clockItem = clockItems[0];
+        var push = true;
+        if (clockItem !== null && clockItem !== undefined) {
+          if (this.datePipe.transform(clockItem.InTime, 'HH:mm') !== time.InTime || this.datePipe.transform(clockItem.OutTime, 'HH:mm') !== time.OutTime || clockItem.RoleId !== time.RoleId)
+            push = true;
+          else
+            push = false;
+        }
+
+        if (push) {
+          weekDetailObj.push({
+            timeClockId: time.TimeClockId,
+            employeeId: time.employeeId,
+            locationId: time.locationId,
+            roleId: (time.RoleId !== null && time.RoleId !== '') ? +time.RoleId : null,
+            eventDate: time.EventDate, // time.EventDate,
+            inTime: time.InTime ? inTimeFormat : null,
+            outTime: time.OutTime ? outTimeFormat : null,
+            eventType: null,
+            updatedFrom: '',
+            status: true,
+            comments: '',
+            isActive: true,
+            isDeleted: time.isDeleted
+          });
+        }
       });
     });
+    
     const finalObj = {
       timeClock: { timeClock: weekDetailObj },
       TimeClockWeekDetailDto: {
@@ -337,7 +356,7 @@ export class TimeClockWeekComponent implements OnInit {
         currentTime.TotalHours = 0;
         this.inCorrectTotalHours = true;
 
-        this.toastr.error(MessageConfig.Admin.TimeClock.HourFormat, 'Error!');
+        this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning!');
 
       }
       else {
@@ -373,7 +392,7 @@ export class TimeClockWeekComponent implements OnInit {
         currentTime.TotalHours = 0;
         this.inCorrectTotalHours = true;
 
-        this.toastr.error(MessageConfig.Admin.TimeClock.HourFormat, 'Error!');
+        this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning!');
 
       }
       else {
@@ -397,7 +416,7 @@ export class TimeClockWeekComponent implements OnInit {
     this.replicateClockList.forEach(item => {
       item.checkInDetail.forEach(checkIn => {
         if (this.roleList.filter(role => +role.RoleMasterId === +checkIn.RoleId)[0]?.RoleName === 'Washer') {
-         let n = checkIn.TotalHours.search(":");
+          let n = checkIn.TotalHours.search(":");
           let h = checkIn.TotalHours.substring(0, n);
           let m = checkIn.TotalHours.substring(n + 1, n + 3);
           let hrs = +h;
@@ -434,7 +453,7 @@ export class TimeClockWeekComponent implements OnInit {
 
 
     this.totalWeekDetail.TotalDetailHours = detailHour;
-   // this.washHours = washHour.split(':');
+    // this.washHours = washHour.split(':');
     this.totalWeekDetail.TotalWashHours = washHour;//this.washHours[0] <= 40 ? washHour : '40:00';
 
   }

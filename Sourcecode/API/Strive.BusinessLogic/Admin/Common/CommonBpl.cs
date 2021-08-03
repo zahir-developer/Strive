@@ -24,7 +24,6 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 
 using Azure.Storage.Blobs;
-using Microsoft.Extensions.Hosting;
 using System.Security.Authentication;
 using Strive.BusinessLogic.EmailHelper.Dto;
 

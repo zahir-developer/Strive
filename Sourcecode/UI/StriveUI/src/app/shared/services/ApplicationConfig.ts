@@ -269,7 +269,7 @@ export const ApplicationConfig = {
         allowSearchFilter: true
     },
     refreshTime: {
-        refreshTime: 4
+        refreshTime: 30
     },
 
     debounceTime: {

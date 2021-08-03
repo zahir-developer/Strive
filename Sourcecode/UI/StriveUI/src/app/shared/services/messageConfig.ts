@@ -125,9 +125,9 @@ export const MessageConfig = {
    Admin: {
       TimeClock:
       {
-         Add: 'Employee added successfully !',
-         Update: 'Employee updated successfully !',
-         Delete: 'Employee deleted successfully!',
+         Add: 'Employee Timeclock added successfully !',
+         Update: 'Employee Timeclock updated successfully !',
+         Delete: 'Employee Timeclock deleted successfully!',
          sunday: 'Sunday should be the start of the week!',
          weekRange: 'Only one week can be selected!',
          HourFormat: 'Out-Time should be greater than In-Time',
