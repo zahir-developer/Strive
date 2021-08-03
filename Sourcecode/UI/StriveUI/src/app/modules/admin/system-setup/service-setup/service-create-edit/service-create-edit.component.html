@@ -4,7 +4,7 @@
             <div class="form-group col-lg-4">
                 <label for="inputName">Name<span class="required">*</span></label>
                 <input type="text" maxlength="50" class="form-control" formControlName="name" placeholder="Service Name"
-                    appAlphaNumeric [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
+                [pKeyFilter]="pattern" [ngClass]="{ 'is-invalid': submitted  && f.name.errors }">
                 <div *ngIf="submitted  && f.name.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">Name is required</div>
                 </div>
