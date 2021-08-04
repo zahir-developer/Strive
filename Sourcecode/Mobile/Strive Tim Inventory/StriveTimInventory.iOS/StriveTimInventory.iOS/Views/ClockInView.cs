@@ -3,6 +3,8 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.ViewModels.TIMInventory;
 using UIKit;
+using System.Threading.Tasks;
+using Strive.Core.Utils.TimInventory;
 
 namespace StriveTimInventory.iOS.Views
 {
@@ -32,7 +34,7 @@ namespace StriveTimInventory.iOS.Views
         {
             RolesCollectionView.Source = RolesCollectionViewSource = new EmployeeRolesViewSource(RolesCollectionView);
 
-            RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView, ViewModel);
+            RolesCollectionView.Delegate = new EmployeeRolesViewDelegate(RolesCollectionView, ViewModel, this);
 
             var set = this.CreateBindingSet<ClockInView, ClockInViewModel>();
             set.Bind(RolesCollectionViewSource).For(v => v.ItemsSource).To(vm => vm.RolesList);
@@ -58,6 +60,7 @@ namespace StriveTimInventory.iOS.Views
             //    }, UIControlState.Normal);
             //NavigationItem.LeftBarButtonItem = LogoutButton;
             NavigationController.NavigationBarHidden = true;
+            ClockinButton.Hidden = true;
             ClockinButton.Layer.CornerRadius = 3;
         }
 
@@ -96,6 +99,24 @@ namespace StriveTimInventory.iOS.Views
             };
 
             RolesCollectionView.SetCollectionViewLayout(layout, true);
+        }
+
+        public async void ClockInBtnView()
+        {
+            await ViewModel.getClockInStatus();
+
+            if (ViewModel.clockInStatus != null && ViewModel.clockInStatus.timeClock.Count > 0)
+            {
+                foreach (var item in ViewModel.clockInStatus.timeClock)
+                {
+                    if (item.inTime == item.outTime)
+                    {
+                        EmployeeData.ClockInTime = item.inTime;
+                        ViewModel.NavToClockOut();
+                    }
+                }
+            }            
+            ClockinButton.Hidden = false;
         }
     }
 }

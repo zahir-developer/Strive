@@ -37,6 +37,10 @@ namespace Strive.Core.ViewModels.Owner
             _userDialog.HideLoading();
         }
 
+        public void navigateToChat()
+        {
+            _navigationService.Navigate<Msg_PersonalChatViewModel>();
+        }
         #endregion Commands
     }   
 }

@@ -30,6 +30,8 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         private EmployeeRole SecondSelectedRole { get; set; }
 
+        public TimeClockRootList clockInStatus { get; set; }
+
         public ClockInViewModel()
         {
             InitList();
@@ -81,7 +83,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                     _RolesList.Add(new EmployeeRole() { Title = Strings.Manager, ImageUri = ImageUtils.ICON_MANAGER, Tag = 5, ImageUriHover = ImageUtils.ICON_MANAGER });
                     break;
                 case "ADMIN":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Manager, ImageUri = ImageUtils.ICON_MANAGER, Tag = 5, ImageUriHover = ImageUtils.ICON_MANAGER });
+                    _RolesList.Add(new EmployeeRole() { Title = "Admin", ImageUri = ImageUtils.ICON_MANAGER, Tag = 5, ImageUriHover = ImageUtils.ICON_MANAGER });
                     break;
                 case "RUNNER":
                     _RolesList.Add(new EmployeeRole() { Title = Strings.Runner, ImageUri = ImageUtils.ICON_RUNNER, Tag = 6, ImageUriHover = ImageUtils.ICON_RUNNER });
@@ -194,6 +196,27 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             role.ImageUri = role.ImageUriHover;
             _userDialog.Toast("You have deselected " + role.Title + " role");
+        }               
+
+        public async Task getClockInStatus()
+        {
+            EmployeeData.SelectedRoleId = FirstSelectedRole.Tag;
+            EmployeeData.CurrentRole = FirstSelectedRole.Title;
+            var request = new TimeClockRequest()
+            {
+                locationId = EmployeeData.selectedLocationId,
+                employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
+                roleId = FirstSelectedRole.Tag,
+                date = DateUtils.GetTodayDateString()
+            };
+            var status = await AdminService.GetClockInStatus(request);
+
+            clockInStatus = status;                       
+        }
+
+        public async void NavToClockOut()
+        {
+            await _navigationService.Navigate<ClockedInViewModel>();
         }
     }
 }

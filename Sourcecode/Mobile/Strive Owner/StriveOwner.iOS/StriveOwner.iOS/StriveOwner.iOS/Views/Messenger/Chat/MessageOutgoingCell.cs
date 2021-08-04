@@ -2,6 +2,7 @@
 using CoreAnimation;
 using CoreGraphics;
 using Foundation;
+using Strive.Core.Models.Employee.Messenger.PersonalChat;
 using UIKit;
 
 namespace StriveOwner.iOS.Views.Messenger.Chat
@@ -10,6 +11,9 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
     {
         public static readonly NSString Key = new NSString("MessageOutgoingCell");
         public static readonly UINib Nib;
+
+        UILabel messageLabel;
+        UILabel messageTimeLabel;
 
         static MessageOutgoingCell()
         {
@@ -33,7 +37,7 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
             bubbleBackgroundView.Layer.MaskedCorners = CACornerMask.MinXMinYCorner | CACornerMask.MaxXMinYCorner | CACornerMask.MinXMaxYCorner;
             ContentView.Add(bubbleBackgroundView);
 
-            var messageLabel = new UILabel(CGRect.Empty);
+            messageLabel = new UILabel(CGRect.Empty);
             messageLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             messageLabel.Text = "Hai";
             messageLabel.Lines = -1;
@@ -41,7 +45,7 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
             messageLabel.Font = UIFont.SystemFontOfSize(18);
             bubbleBackgroundView.Add(messageLabel);
 
-            var messageTimeLabel = new UILabel(CGRect.Empty);
+            messageTimeLabel = new UILabel(CGRect.Empty);
             messageTimeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             messageTimeLabel.Text = "11.15 AM | Oct 19";
             messageTimeLabel.Font = UIFont.SystemFontOfSize(14);
@@ -62,6 +66,12 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
             messageTimeLabel.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: -30).Active = true;
             messageTimeLabel.TopAnchor.ConstraintEqualTo(bubbleBackgroundView.BottomAnchor, constant: 10).Active = true;
             messageTimeLabel.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor, constant: -10).Active = true;
+        }
+
+        public void SetData(ChatMessageDetail chatMessage)
+        {
+            messageLabel.Text = chatMessage.MessageBody;
+            messageTimeLabel.Text = chatMessage.CreatedDate.ToString();
         }
     }
 }
