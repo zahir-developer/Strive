@@ -77,6 +77,7 @@ namespace Strive.Core.ViewModels.Customer
                 InfoModel.client.clientId = CustomerInfo.ClientID;
                 clientAddress.clientId = CustomerInfo.ClientID;
                 clientVehicle.clientId = CustomerInfo.ClientID;
+                InfoModel.client.authId = CustomerInfo.AuthID;
                 InfoModel.client.firstName = FirstName;
                 InfoModel.client.lastName = LastName;
                 InfoModel.client.middleName = MiddleName;
@@ -142,11 +143,14 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.Alert("Enter a valid phone number.");
                 return proceed = false;
             }
-            if (!Validations.validatePhone(SecondaryContactNumber))
+            if(SecondaryContactNumber != "")
             {
-                _userDialog.Alert("Enter a valid secondary phone number.");
-                return proceed = false;
-            }
+                if (!Validations.validatePhone(SecondaryContactNumber))
+                {
+                    _userDialog.Alert("Enter a valid secondary phone number.");
+                    return proceed = false;
+                }
+            }            
             return proceed;
         }
 

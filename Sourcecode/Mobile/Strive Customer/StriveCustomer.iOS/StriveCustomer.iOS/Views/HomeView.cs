@@ -35,7 +35,7 @@ namespace StriveCustomer.iOS.Views
             SetMaps();
 
             CustomerInfo.setMapInfo();
-            WashTimeWebView.MapType = MKMapType.Standard;
+            WashTimeWebView.MapType = MKMapType.Hybrid;
             WashTimeWebView.ZoomEnabled = true;
             WashTimeWebView.ScrollEnabled = true;
 
@@ -107,12 +107,14 @@ namespace StriveCustomer.iOS.Views
                 };
                 WashTimeWebView.AddAnnotations(annotations[i]);
             }
-            LatCenter = LatCenter / AddressCount;
-            LongCenter = LongCenter / AddressCount;
+            //LatCenter = LatCenter / AddressCount;
+            //LongCenter = LongCenter / AddressCount;
             //CLLocationCoordinate2D mapCenter = new CLLocationCoordinate2D(LatCenter, LongCenter);
             //MKCoordinateRegion mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 10000, 10000);
             //WashTimeWebView.CenterCoordinate = mapCenter;
-            //WashTimeWebView.Region = mapRegion;            
+            //WashTimeWebView.Region = mapRegion;
+
+            CenterMap((double)carWashLocations.Location[0].Latitude, (double)carWashLocations.Location[0].Longitude);
         }
 
         private void isLocationEnabled()
@@ -128,7 +130,13 @@ namespace StriveCustomer.iOS.Views
             WashTimeWebView.ShowsUserLocation = true;
             SetMapAnnotations();                     
         }
-        
+        void CenterMap(double lat, double lon)
+        {
+            var mapCenter = new CLLocationCoordinate2D(lat, lon);
+            var mapRegion = MKCoordinateRegion.FromDistance(mapCenter, 1000, 1000);
+            WashTimeWebView.CenterCoordinate = mapCenter;
+            WashTimeWebView.Region = mapRegion;
+        }
         private void NavToSettings()
         {
             var url = new NSUrl("App-Prefs:root=LOCATION_SERVICES");

@@ -65,31 +65,37 @@ namespace Strive.Core.ViewModels.TIMInventory
             switch(roleName)
             {
                 case "WASHER":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Washer, ImageUri = ImageUtils.ICON_WASHER, Tag = 0, ImageUriHover = ImageUtils.ICON_WASHER });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.Washer, ImageUri = ImageUtils.ICON_WASHER, Tag = 6, ImageUriHover = ImageUtils.ICON_WASHER });
                     break;
                 case "CASHIER":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Cashier, ImageUri = ImageUtils.ICON_CASHIER, Tag = 1, ImageUriHover = ImageUtils.ICON_CASHIER });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.Cashier, ImageUri = ImageUtils.ICON_CASHIER, Tag = 4, ImageUriHover = ImageUtils.ICON_CASHIER });
                     break;
                 case "DETAILER":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Detailer, ImageUri = ImageUtils.ICON_DETAILER, Tag = 2, ImageUriHover = ImageUtils.ICON_DETAILER });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.Detailer, ImageUri = ImageUtils.ICON_DETAILER, Tag = 5, ImageUriHover = ImageUtils.ICON_DETAILER });
                     break;
                 case "FINISH BAY":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.FinishBay, ImageUri = ImageUtils.ICON_FINISH_BAY, Tag = 3, ImageUriHover = ImageUtils.ICON_FINISH_BAY });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.FinishBay, ImageUri = ImageUtils.ICON_FINISH_BAY, Tag = 9, ImageUriHover = ImageUtils.ICON_FINISH_BAY });
                     break;
                 case "GREET BAY":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.GreetBay, ImageUri = ImageUtils.ICON_GREET_BAY, Tag = 4, ImageUriHover = ImageUtils.ICON_GREET_BAY });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.GreetBay, ImageUri = ImageUtils.ICON_GREET_BAY, Tag = 8, ImageUriHover = ImageUtils.ICON_GREET_BAY });
                     break;
                 case "MANAGER":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Manager, ImageUri = ImageUtils.ICON_MANAGER, Tag = 5, ImageUriHover = ImageUtils.ICON_MANAGER });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.Manager, ImageUri = ImageUtils.ICON_MANAGER, Tag = 3, ImageUriHover = ImageUtils.ICON_MANAGER });
                     break;
                 case "ADMIN":
-                    _RolesList.Add(new EmployeeRole() { Title = "Admin", ImageUri = ImageUtils.ICON_MANAGER, Tag = 5, ImageUriHover = ImageUtils.ICON_MANAGER });
+                    _RolesList.Add(new EmployeeRole() { Title = "Admin", ImageUri = ImageUtils.ICON_MANAGER, Tag = 1, ImageUriHover = ImageUtils.ICON_MANAGER });
                     break;
                 case "RUNNER":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Runner, ImageUri = ImageUtils.ICON_RUNNER, Tag = 6, ImageUriHover = ImageUtils.ICON_RUNNER });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.Runner, ImageUri = ImageUtils.ICON_RUNNER, Tag = 7, ImageUriHover = ImageUtils.ICON_RUNNER });
                     break;
                 case "UNKNOWN":
-                    _RolesList.Add(new EmployeeRole() { Title = Strings.Unknown, ImageUri = ImageUtils.ICON_UNKNOWN, Tag = 7, ImageUriHover = ImageUtils.ICON_UNKNOWN });
+                    _RolesList.Add(new EmployeeRole() { Title = Strings.Unknown, ImageUri = ImageUtils.ICON_UNKNOWN, Tag = 10, ImageUriHover = ImageUtils.ICON_UNKNOWN });
+                    break;
+                case "OPERATOR":
+                    _RolesList.Add(new EmployeeRole() { Title = "Operator", ImageUri = ImageUtils.ICON_UNKNOWN, Tag = 2, ImageUriHover = ImageUtils.ICON_UNKNOWN });
+                    break;
+                case "CUSTOMER":
+                    _RolesList.Add(new EmployeeRole() { Title = "Customer", ImageUri = ImageUtils.ICON_UNKNOWN, Tag = 11, ImageUriHover = ImageUtils.ICON_UNKNOWN });
                     break;
                 default:
                     break;

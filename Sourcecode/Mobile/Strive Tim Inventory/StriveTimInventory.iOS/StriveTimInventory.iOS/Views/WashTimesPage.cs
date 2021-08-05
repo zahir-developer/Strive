@@ -28,7 +28,7 @@ namespace StriveTimInventory.iOS.Views
             var set = this.CreateBindingSet<WashTimesPage, WashTimesViewModel>();
             set.Bind(LogOutButton).To(vm => vm.Commands["NavigateBack"]);
             set.Apply();
-            MapView.MapType = MKMapType.MutedStandard;
+            MapView.MapType = MKMapType.Hybrid;
             SetMapCenter();
             MapView.Delegate = new MapViewDelegate();
         }

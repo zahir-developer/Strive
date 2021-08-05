@@ -2,6 +2,7 @@
 using System.Drawing;
 using CoreGraphics;
 using Foundation;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer.Schedule;
 using UIKit;
 
@@ -11,6 +12,7 @@ namespace StriveCustomer.iOS.Views.Schedule
     {       
         NSIndexPath selected_index = new NSIndexPath();
         UITableView service_tableview = new UITableView();
+        ScheduleServicesViewModel view = new ScheduleServicesViewModel();
         public static readonly NSString Key = new NSString("Schedule_SelectService_Cell");
         public static readonly UINib Nib;
 
@@ -31,6 +33,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             SelectService_CellView.Layer.CornerRadius = 5;            
             MoreValue_Const.Constant = 75;
             ViewMore_ValueLbl.Hidden = false;
+            view = viewModel;
 
             ServiceName_Lbl.Text = viewModel.scheduleServices.AllServiceDetail[indexPath.Row].ServiceName;
             SelectService_CostLbl.Text = "$" + viewModel.scheduleServices.AllServiceDetail[indexPath.Row].Price.ToString();
@@ -63,6 +66,30 @@ namespace StriveCustomer.iOS.Views.Schedule
         public void deselectRow(NSIndexPath indexPath)
         {
             SelectService_Btn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
-        }        
+        }
+
+        partial void SelectService_BtnTouch(UIButton sender)
+        {            
+            //if(SelectService_Btn.CurrentImage == UIImage.FromBundle("icon-unchecked-round"))
+            //{
+            //    updateRow(selected_index);
+            //    var selectedItem = view.scheduleServices.AllServiceDetail[selected_index.Row];
+            //    foreach (var item in view.scheduleServices.AllServiceDetail)
+            //    {
+            //        if (view.scheduleServices.AllServiceDetail[selected_index.Row].ServiceName == item.ServiceName)
+            //        {
+            //            CustomerScheduleInformation.ScheduleServiceID = view.scheduleServices.AllServiceDetail[selected_index.Row].ServiceId;
+            //            CustomerScheduleInformation.ScheduleServiceType = view.scheduleServices.AllServiceDetail[selected_index.Row].ServiceTypeId;
+            //            CustomerScheduleInformation.ScheduleServicePrice =
+            //                view.scheduleServices.AllServiceDetail[selected_index.Row].Price;
+            //            CustomerScheduleInformation.ScheduleServiceName = view.scheduleServices.AllServiceDetail[selected_index.Row].ServiceName;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    deselectRow(selected_index);
+            //}            
+        }
     }
 }
