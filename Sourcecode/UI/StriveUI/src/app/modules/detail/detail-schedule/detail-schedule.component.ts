@@ -206,7 +206,7 @@ export class DetailScheduleComponent implements OnInit {
     this.isView = false;
     this.refreshDetailGrid();
   }
-
+  
   refreshDetailGrid() {
     this.getScheduleDetailsByDate();
     this.todayScheduleComponent.getTodayDateScheduleList();
@@ -260,6 +260,15 @@ export class DetailScheduleComponent implements OnInit {
               this.style.color = 'red';
               this.style.fontWeight = 'bold';
             }
+            else{ 
+            this.style.color = '#333333';
+            this.style.fontWeight = 'normal';
+          }
+          });
+        }else{
+          $('td.ng-star-inserted a').each(function (index) {           
+              this.style.color = '#333333';
+              this.style.fontWeight = 'normal';            
           });
         }
       }
