@@ -20,7 +20,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="201" id="cxk-wN-pdQ" customClass="Schedule_SelectService_Cell">
             <rect key="frame" x="0.0" y="0.0" width="334" height="201"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxk-wN-pdQ" id="YTl-1W-gDM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" tableViewCell="cxk-wN-pdQ" id="YTl-1W-gDM">
                 <rect key="frame" x="0.0" y="0.0" width="334" height="201"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -34,9 +34,6 @@
                                     <constraint firstAttribute="height" constant="25" id="Oae-Xs-FE9"/>
                                 </constraints>
                                 <state key="normal" image="icon-unchecked-round"/>
-                                <connections>
-                                    <action selector="SelectService_BtnTouch:" destination="cxk-wN-pdQ" eventType="touchUpInside" id="MzG-vR-GJn"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interior Detail-upcharges apply" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BIz-8Q-s72">
                                 <rect key="frame" x="50" y="5" width="180.5" height="16.5"/>
@@ -111,10 +108,10 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="MoreValue_Const" destination="ea6-QK-SnX" id="P6Z-Fd-LTt"/>
-                <outlet property="SelectService_Btn" destination="mB3-yE-fLw" id="4Sb-MS-IsA"/>
+                <outlet property="SelectService_Btn" destination="mB3-yE-fLw" id="BYS-YX-wCm"/>
                 <outlet property="SelectService_CellView" destination="kqK-Az-hf9" id="guu-bG-qcp"/>
                 <outlet property="SelectService_CostLbl" destination="lZS-P6-1y9" id="kz9-8U-YOP"/>
-                <outlet property="ServiceName_Lbl" destination="BIz-8Q-s72" id="8TC-T4-0dB"/>
+                <outlet property="ServiceName_Lbl" destination="BIz-8Q-s72" id="GYW-aG-TtB"/>
                 <outlet property="ViewMore_Btn" destination="0o6-mp-mZH" id="keS-aU-fQD"/>
                 <outlet property="ViewMore_ValueLbl" destination="nKL-4P-rGG" id="EGF-eO-EMG"/>
                 <outlet property="serviceCell_ViewHeight" destination="6f4-L9-efM" id="Yxw-lS-FTE"/>

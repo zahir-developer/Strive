@@ -111,7 +111,8 @@ namespace StriveTimInventory.iOS.Views
                 {
                     if (item.inTime == item.outTime)
                     {
-                        EmployeeData.ClockInTime = item.inTime;
+                        var inTime = item.inTime.Substring(0, 19);
+                        EmployeeData.ClockInTime = inTime;
                         ViewModel.NavToClockOut();
                     }
                 }

@@ -481,6 +481,7 @@
         <Compile Include="Views\Schedule\Schedule_Confirmation.designer.cs">
           <DependentUpon>Schedule_Confirmation.cs</DependentUpon>
         </Compile>
+        <Compile Include="Views\WashStationAnnotationView.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">
