@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.Messenger;
@@ -16,7 +17,10 @@ namespace StriveOwner.iOS.Views.Messenger
     {
         public MessengerContactViewModel contactSView;
         public Msg_RecentChatViewModel recentViewModel;
+        public MessengerGroupContactViewModel groupViewModel;
         public static string ConnectionID;
+        public nint selectedIndex = 0;
+        public Contact_DataSource contactSource;
 
         public MessengerView() : base("MessengerView", null)
         {
@@ -38,7 +42,7 @@ namespace StriveOwner.iOS.Views.Messenger
         {
             contactSView = new MessengerContactViewModel();
             recentViewModel = new Msg_RecentChatViewModel();
-
+            groupViewModel = new MessengerGroupContactViewModel();
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
                 Font = DesignUtils.OpenSansBoldFifteen(),
@@ -58,6 +62,8 @@ namespace StriveOwner.iOS.Views.Messenger
             Messenger_TableView.BackgroundColor = UIColor.Clear;
             Messenger_TableView.ReloadData();
 
+            Messenger_SearchBar.TextChanged += SearchTextchanged;
+
             if (ChatHubMessagingService.RecipientsID == null)
             {
                 ChatHubMessagingService.RecipientsID = new ObservableCollection<RecipientsCommunicationID>();
@@ -74,6 +80,7 @@ namespace StriveOwner.iOS.Views.Messenger
             var index = Messenger_SegCtrl.SelectedSegment;
             if(index == 0)
             {
+                selectedIndex = index;
                 SearchBar_HeightConst.Constant = 0;
 
                 Messenger_TableView.RegisterNibForCellReuse(Messenger_CellView.Nib, Messenger_CellView.Key);
@@ -84,6 +91,7 @@ namespace StriveOwner.iOS.Views.Messenger
             }
             else if(index == 1)
             {
+                selectedIndex = index;
                 SearchBar_HeightConst.Constant = 50;
 
                 Messenger_TableView.RegisterNibForCellReuse(Contact_CellView.Nib, Contact_CellView.Key);
@@ -94,13 +102,54 @@ namespace StriveOwner.iOS.Views.Messenger
             }
             else if(index == 2)
             {
+                selectedIndex = index;
                 SearchBar_HeightConst.Constant = 50;
 
                 Messenger_TableView.RegisterNibForCellReuse(Contact_CellView.Nib, Contact_CellView.Key);
                 Messenger_TableView.BackgroundColor = UIColor.Clear;
                 Messenger_TableView.ReloadData();
 
-                setGroupData();
+                getGroupChat();
+            }
+        }
+
+        private void SearchTextchanged(object sender, UISearchBarTextChangedEventArgs e)
+        {
+            if (selectedIndex == 1)
+            {
+                if (!string.IsNullOrEmpty(e.SearchText) && MessengerTempData.employeeList_Contact != null)
+                {
+                    var searchText = e.SearchText.ToLower();
+                    var filteredList = MessengerTempData.employeeList_Contact.EmployeeList.Employee.Where(x => x.FirstName.ToLower().Contains(searchText)).ToList();
+
+                    contactSource = new Contact_DataSource(filteredList, contactSView);
+                    Messenger_TableView.Source = contactSource;
+                    Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
+                    Messenger_TableView.DelaysContentTouches = false;
+                    Messenger_TableView.ReloadData();
+                }
+                else
+                {
+                    setContactData();
+                }
+            }
+            else if (selectedIndex == 2)
+            {
+                if (!string.IsNullOrEmpty(e.SearchText) && MessengerTempData.GroupLists != null)
+                {
+                    var searchText = e.SearchText.ToLower();
+                    var filteredGroupList = MessengerTempData.GroupLists.ChatEmployeeList.Where(x => x.FirstName.ToLower().Contains(searchText)).ToList();
+
+                    var groupSource = new MsgGroup_DataSource(filteredGroupList, groupViewModel);
+                    Messenger_TableView.Source = groupSource;
+                    Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
+                    Messenger_TableView.DelaysContentTouches = false;
+                    Messenger_TableView.ReloadData();
+                }
+                else
+                {
+                    setGroupData();
+                }
             }
         }
 
@@ -155,7 +204,7 @@ namespace StriveOwner.iOS.Views.Messenger
 
         void setData()
         {
-            var messageSource = new Messenger_BaseDataSource(recentViewModel.EmployeeList.ChatEmployeeList);
+            var messageSource = new Messenger_BaseDataSource(recentViewModel.EmployeeList.ChatEmployeeList, recentViewModel);
             Messenger_TableView.Source = messageSource;
             Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
             Messenger_TableView.DelaysContentTouches = false;
@@ -179,9 +228,21 @@ namespace StriveOwner.iOS.Views.Messenger
             }           
         }
 
+        public async void getGroupChat()
+        {
+            await groupViewModel.GetGroupsList();
+            if (groupViewModel.GroupList != null)
+            {
+                if (groupViewModel.GroupList.ChatEmployeeList.Count > 0)
+                {
+                    setGroupData();
+                }
+            }
+        }
+
         void setGroupData()
         {
-            var groupSource = new MsgGroup_DataSource();
+            var groupSource = new MsgGroup_DataSource(groupViewModel.GroupList.ChatEmployeeList, groupViewModel);
             Messenger_TableView.Source = groupSource;
             Messenger_TableView.TableFooterView = new UIView(CGRect.Empty);
             Messenger_TableView.DelaysContentTouches = false;

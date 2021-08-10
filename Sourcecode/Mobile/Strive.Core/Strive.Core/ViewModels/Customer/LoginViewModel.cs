@@ -40,6 +40,7 @@ namespace Strive.Core.ViewModels.Customer
                     if(loginResponse.ClientDetails != null)
                     {
                         CustomerInfo.ClientID = loginResponse.ClientDetails.ClientDetail.ClientId;
+                        CustomerInfo.AuthID = loginResponse.ClientDetails.ClientDetail.AuthId;
                         if (!string.IsNullOrEmpty(loginResponse.Token))
                         {
                             await _navigationService.Navigate<DashboardViewModel>();

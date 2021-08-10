@@ -58,9 +58,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                         SingleTimeClock.TimeClock = item;
                         EmployeeData.ClockInStatus = SingleTimeClock;
                     }
-                }
-                //SingleTimeClock.TimeClock = status.timeClock[0];
-                //EmployeeData.ClockInStatus = SingleTimeClock;
+                }                
             }
             _userDialog.HideLoading();
         }

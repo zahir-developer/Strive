@@ -8,31 +8,36 @@ using Strive.Core.Utils.Employee;
 
 namespace Strive.Core.ViewModels.Owner
 {
-    public class Msg_RecentChatViewModel : BaseViewModel
+    public class MessengerGroupContactViewModel : BaseViewModel
     {
         #region Properties
-
-        public EmployeeList EmployeeList { get; set; }
-
+        public EmployeeList GroupList { get; set; }
         #endregion Properties
 
         #region Commands
-        public async Task GetRecentContactsList()
+        public async Task GetGroupsList()
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             var recentContact = await MessengerService.GetRecentContacts(EmployeeTempData.EmployeeID);
             if (recentContact == null || recentContact.EmployeeList == null || recentContact.EmployeeList.ChatEmployeeList == null || recentContact.EmployeeList.ChatEmployeeList.Count == 0)
             {
-                EmployeeList = null;
+                GroupList = null;
             }
             else
             {
-                EmployeeList = new EmployeeList();
-                EmployeeList.ChatEmployeeList = new List<ChatEmployeeList>();
-                MessengerTempData.RecentEmployeeLists = new EmployeeList();
-                MessengerTempData.RecentEmployeeLists.ChatEmployeeList = new List<ChatEmployeeList>();
-                EmployeeList = recentContact.EmployeeList;
-                MessengerTempData.RecentEmployeeLists = recentContact.EmployeeList;
+                GroupList = new EmployeeList();
+                GroupList.ChatEmployeeList = new List<ChatEmployeeList>();
+                MessengerTempData.GroupLists = new EmployeeList();
+                MessengerTempData.GroupLists.ChatEmployeeList = new List<ChatEmployeeList>();
+
+                foreach (var group in recentContact.EmployeeList.ChatEmployeeList)
+                {
+                    if (group.IsGroup)
+                    {
+                        GroupList.ChatEmployeeList.Add(group);
+                        MessengerTempData.GroupLists.ChatEmployeeList.Add(group);
+                    }
+                }
             }
             _userDialog.HideLoading();
         }
@@ -42,5 +47,5 @@ namespace Strive.Core.ViewModels.Owner
             _navigationService.Navigate<Msg_PersonalChatViewModel>();
         }
         #endregion Commands
-    }   
+    }
 }

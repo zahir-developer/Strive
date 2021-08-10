@@ -19,6 +19,7 @@ namespace Strive.Core.Models.Customer
         public  int score { get; set; }
         public  bool noEmail { get; set; }
         public  int? clientType { get; set; } = 199;
+        public int authId { get; set; }
         public bool isActive { get; set; } = true;
         public  bool isDeleted { get; set; }
         public  int createdBy { get; set; }

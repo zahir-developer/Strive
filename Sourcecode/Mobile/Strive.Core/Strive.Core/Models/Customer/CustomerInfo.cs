@@ -16,7 +16,8 @@ namespace Strive.Core.Models.Customer
         public static DateTime notifyWashTime { get; set; }
         public static int selectedDeal { get; set; } = -1;
         public static CustomerPersonalInfo customerPersonalInfo { get; set; }
-        public static int ClientID { get; set; } 
+        public static int ClientID { get; set; }
+        public static int AuthID { get; set; }
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
         public static int colorNumber { get; set; }
