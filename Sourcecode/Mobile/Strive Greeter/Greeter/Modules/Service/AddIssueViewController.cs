@@ -26,20 +26,20 @@ namespace Greeter.Storyboards
         {
             base.ViewDidLoad();
 
-            tvIssueDetail.Delegate = this;
-            Initialise();
+            InitialiseUI();
 
             tvIssueDetail.Layer.BorderWidth = 1;
             tvIssueDetail.Layer.BorderColor = UIColor.LightGray.CGColor;
             tvIssueDetail.Layer.CornerRadius = 5;
 
             //Clicks
+            tvIssueDetail.Delegate = this;
             lblAddPhotos.AddGestureRecognizer(new UITapGestureRecognizer(TakePictureFromCamera));
             btnCancel.TouchUpInside += (s, e) => DismissViewController(true, null);
             btnSave.TouchUpInside += BtnSave_TouchUpInside;
         }
 
-        void Initialise()
+        void InitialiseUI()
         {
             ShowOrHideHint(tvIssueDetail.Text.Length, lblIssueDetailHint);
             imagesSource = new ImagesSource(imagePaths);
@@ -47,6 +47,11 @@ namespace Greeter.Storyboards
             cvImages.RegisterNibForCell(ImageCell.Nib, ImageCell.Key);
             cvImages.WeakDataSource = imagesSource;
             cvImages.WeakDelegate = imagesSource;
+        }
+
+        void UpdateDataToUI()
+        {
+            
         }
 
         void ShowOrHideHint(int len, UILabel lbl)

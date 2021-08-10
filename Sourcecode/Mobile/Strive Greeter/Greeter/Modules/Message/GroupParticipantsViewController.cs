@@ -5,6 +5,7 @@ using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using UIKit;
 
 namespace Greeter.Modules.Message
@@ -50,6 +51,7 @@ namespace Greeter.Modules.Message
                 groupNameTextField.TranslatesAutoresizingMaskIntoConstraints = false;
                 groupNameTextField.BorderStyle = UITextBorderStyle.Line;
                 groupNameTextField.BackgroundColor = UIColor.White;
+                groupNameTextField.AddLeftRightPadding(20);
                 headerContainerView.Add(groupNameTextField);
 
                 headerContainerView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;

@@ -41,19 +41,19 @@ namespace Greeter.Services.Api
         public Task<BaseResponse> AddUserToGroup(long userId, long communicationId)
         {
             var url = Urls.ADD_USER_TO_GROUP + userId + "/" + communicationId;
-            return apiService.DoApiCall<BaseResponse>(url, HttpMethod.Delete);
+            return apiService.DoApiCall<BaseResponse>(url, HttpMethod.Put);
         }
 
         public Task<GroupUsersResponse> GetGroupUsers(long groupId)
         {
             var url = Urls.GROUP_USERS + groupId;
-            return apiService.DoApiCall<GroupUsersResponse>(url, HttpMethod.Delete);
+            return apiService.DoApiCall<GroupUsersResponse>(url);
         }
 
         public Task<BaseResponse> GetGroupMembers(long userId, long communicationId)
         {
             var url = Urls.ADD_USER_TO_GROUP + userId + "/" + communicationId;
-            return apiService.DoApiCall<BaseResponse>(url, HttpMethod.Delete);
+            return apiService.DoApiCall<BaseResponse>(url);
         }
 
         public Task<RemoveUserFromGroupResponse> RemoveUserFromGroup(long groupUserId)

@@ -414,6 +414,16 @@
 		</Compile>
 		<Compile Include="DTOs\ChatInfo.cs" />
 		<Compile Include="Common\Logic.cs" />
+		<Compile Include="CustomView\FloatingTextField.cs" />
+		<Compile Include="CustomView\FloatingTextField2.cs" />
+		<Compile Include="Storyboards\TestCustomView.cs" />
+		<Compile Include="Storyboards\TestCustomView.designer.cs">
+		  <DependentUpon>TestCustomView.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Storyboards\CustomTextField.cs" />
+		<Compile Include="Storyboards\CustomTextField.designer.cs">
+		  <DependentUpon>CustomTextField.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

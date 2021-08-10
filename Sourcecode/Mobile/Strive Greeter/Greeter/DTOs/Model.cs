@@ -474,7 +474,7 @@ namespace Greeter.DTOs
         public float Amount { get; set; }
 
         //[JsonProperty("orderId")]
-        //public long OrderID { get; set; }
+        //public string OrderID { get; } = "AB-11-9876";
 
         //[JsonProperty("batchid")]
         //public long BatchID { get; set; }
@@ -521,8 +521,8 @@ namespace Greeter.DTOs
         [JsonProperty("retRef")]
         public string RetRef { get; set; }
 
-        //[JsonProperty("invoiceId")]
-        //public object InvoiceID { get; } = new();
+        [JsonProperty("invoiceId")]
+        public object InvoiceID { get; } = new();
     }
 
     public class SalesPaymentDto
@@ -533,11 +533,11 @@ namespace Greeter.DTOs
         [JsonProperty("jobPaymentDetail")]
         public List<JobPaymentDetail> JobPaymentDetails { get; set; }
 
-        //[JsonProperty("giftCardHistory")]
-        //public object GiftCardHistory { get; } = null;
+        [JsonProperty("giftCardHistory")]
+        public object GiftCardHistory { get; } = null;
 
-        //[JsonProperty("jobPaymentCreditCard")]
-        //public object JobPaymentCreditCard { get; } = null;
+        [JsonProperty("jobPaymentCreditCard")]
+        public object JobPaymentCreditCard { get; } = null;
     }
 
     public class AddPaymentReq
@@ -554,17 +554,17 @@ namespace Greeter.DTOs
 
     public class JobPayment
     {
-        //[JsonProperty("jobPaymentId")]
-        //public long JobPaymentID { get; } = 0;
+        [JsonProperty("jobPaymentId")]
+        public long JobPaymentID { get; } = 0;
 
-        //[JsonProperty("membershipId")]
-        //public string membershipID { get; } = null;
+        [JsonProperty("membershipId")]
+        public string membershipID { get; } = null;
 
         [JsonProperty("jobId")]
         public long JobID { get; set; }
 
         //[JsonProperty("drawerId")]
-        //public short DrawerID { get; set; }
+        //public short DrawerID { get; } = 1;
 
         [JsonProperty("amount")]
         public float Amount { get; set; }
@@ -572,20 +572,20 @@ namespace Greeter.DTOs
         [JsonProperty("taxAmount")]
         public float TaxAmount { get; } = 0;
 
-        //[JsonProperty("approval")]
-        //public bool Approval { get; } = true;
+        [JsonProperty("approval")]
+        public bool Approval { get; } = true;
 
         [JsonProperty("paymentStatus")]
         public long PaymentStatus { get; set; }
 
-        //[JsonProperty("comments")]
-        //public string Comments { get; } = null;
+        [JsonProperty("comments")]
+        public string Comments { get; } = string.Empty;
 
-        //[JsonProperty("isActive")]
-        //public bool IsActive { get; } = true;
+        [JsonProperty("isActive")]
+        public bool IsActive { get; } = true;
 
-        //[JsonProperty("isDeleted")]
-        //public bool isDeleted { get; } = false;
+        [JsonProperty("isDeleted")]
+        public bool isDeleted { get; } = false;
 
         [JsonProperty("createdBy")]
         public long CreatedBy { get; } = AppSettings.UserID;
@@ -599,8 +599,8 @@ namespace Greeter.DTOs
         //[JsonProperty("updatedDate")]
         //public DateTime UpdatedDate { get; } = DateTime.Now;
 
-        //[JsonProperty("isProcessed")]
-        //public bool IsProcessed { get; } = true;
+        [JsonProperty("isProcessed")]
+        public bool IsProcessed { get; } = true;
 
         //[JsonProperty("cashback")]
         //public int Cashback { get; } = 0;
@@ -608,11 +608,11 @@ namespace Greeter.DTOs
 
     public class JobPaymentDetail
     {
-        //[JsonProperty("jobPaymentDetailId")]
-        //public int JobPaymentDetailID { get; } = 0;
+        [JsonProperty("jobPaymentDetailId")]
+        public int JobPaymentDetailID { get; } = 0;
 
-        //[JsonProperty("jobPaymentId")]
-        //public int JobPaymentID { get; } = 0;
+        [JsonProperty("jobPaymentId")]
+        public int JobPaymentID { get; } = 0;
 
         [JsonProperty("paymentType")]
         public long PaymentType { get; set; }
@@ -623,14 +623,14 @@ namespace Greeter.DTOs
         [JsonProperty("taxAmount")]
         public float TaxAmount { get; } = 0;
 
-        //[JsonProperty("signature")]
-        //public string Signature { get; } = null;
+        [JsonProperty("signature")]
+        public string Signature { get; } = string.Empty;
 
-        //[JsonProperty("isActive")]
-        //public bool IsActive { get; } = true;
+        [JsonProperty("isActive")]
+        public bool IsActive { get; } = true;
 
-        //[JsonProperty("isDeleted")]
-        //public bool IsDeleted { get; } = false;
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; } = false;
 
         [JsonProperty("createdBy")]
         public long CreatedBy { get; } = AppSettings.UserID;
@@ -927,7 +927,7 @@ namespace Greeter.DTOs
         public string GroupName { get; set; }
 
         [JsonProperty("GroupId")]
-        public long GroupID { get; set; }
+        public string GroupID { get; set; }
     }
 
     public class GroupUsersResponse : BaseResponse

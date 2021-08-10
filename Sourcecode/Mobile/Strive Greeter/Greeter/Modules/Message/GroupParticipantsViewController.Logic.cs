@@ -73,7 +73,7 @@ namespace Greeter.Modules.Message
             //participants.AddRange(participants);
             foreach(var contact in contacts)
             {
-                var participant = new ChatUserGroup { UserID = contact.EmployeeId, FirstName = contact.FirstName, LastName = contact.LastName }
+                var participant = new ChatUserGroup { UserID = contact.EmployeeId, FirstName = contact.FirstName, LastName = contact.LastName };
                 participants.Add(participant);
                 newlyAddedParticipants.Add(participant);
             }

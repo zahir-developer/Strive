@@ -3,14 +3,16 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Authentication;
+using UIKit;
 
 namespace Greeter
 {
-    public partial class LoginViewController : BaseViewController
+    public partial class LoginViewController : BaseViewController, IUITextFieldDelegate
     {
         //bool isEyeOpen = false;
 
@@ -45,6 +47,9 @@ namespace Greeter
         {
             NavigationController.NavigationBar.Hidden = true;
             DismissKeyboardOnTapArround = true;
+
+            tfUserId.WeakDelegate = this;
+            tfPswd.WeakDelegate = this;
 
             // Initial UI Customisation
             tfUserId.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
@@ -84,7 +89,7 @@ namespace Greeter
         {
             try
             {
-                 // Validate Fields
+                // Validate Fields
                 if (email.IsEmpty() && pswd.IsEmpty())
                 {
                     ShowAlertMsg(Common.Messages.USER_ID_AND_PSWD_EMPTY);
@@ -134,6 +139,13 @@ namespace Greeter
             var vcLocation = this.Storyboard.InstantiateViewController(nameof(LocationViewController));
 
             NavigateToWithAnim(vcLocation);
+        }
+
+        [Export("textFieldShouldReturn:")]
+        public bool ShouldReturn(UITextField textField)
+        {
+            textField.EndEditing(true);
+            return true;
         }
     }
 }

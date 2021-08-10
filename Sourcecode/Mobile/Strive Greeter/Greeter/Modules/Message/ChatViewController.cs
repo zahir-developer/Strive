@@ -70,7 +70,7 @@ namespace Greeter.Modules.Message
             sendImageView.TranslatesAutoresizingMaskIntoConstraints = false;
             sendImageView.Image = UIImage.FromBundle(ImageNames.SEND);
             sendImageView.UserInteractionEnabled = true;
-            sendImageView.AddGestureRecognizer(new UITapGestureRecognizer(OnSend));
+            sendImageView.AddGestureRecognizer(new UITapGestureRecognizer(SendTapped));
             messageBoxContainer.Add(sendImageView);
 
             chatTableView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
@@ -100,6 +100,11 @@ namespace Greeter.Modules.Message
             sendImageView.HeightAnchor.ConstraintEqualTo(40).Active = true;
         }
 
+        void SendTapped()
+        {
+            OnSendMsg(messageTextView.Text);
+        }
+
         void SetupNavigationItem()
         {
             if (chatType == ChatType.Group)
@@ -107,7 +112,7 @@ namespace Greeter.Modules.Message
                 Title = "Group Chat";
                 NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.PARTICIPANTS), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
                 {
-                    NavigationController.PushViewController(new GroupParticipantsViewController(false), true);
+                    NavigationController.PushViewController(new GroupParticipantsViewController(false, chatInfo?.GroupId ?? -1), true);
                 });
             }
             else

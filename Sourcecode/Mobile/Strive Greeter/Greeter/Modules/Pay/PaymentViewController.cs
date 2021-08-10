@@ -38,7 +38,7 @@ namespace Greeter.Modules.Pay
 
 #if DEBUG
             cardNumberTextField.Text = "6011000995500000";
-            expirationDateTextField.Text = "1221";
+            //expirationDateTextField.Text = "12/21";
             securityCodeTextField.Text = "291";
 #endif
         }
@@ -173,6 +173,7 @@ namespace Greeter.Modules.Pay
             expirationDateTextField.BorderStyle = UITextBorderStyle.RoundedRect;
             expirationDateTextField.Font = UIFont.SystemFontOfSize(18);
             expirationDateTextField.TextColor = UIColor.Black;
+            expirationDateTextField.Placeholder = "mm/yy"; 
             backgroundView.Add(expirationDateTextField);
 
             var securityCodeLabel = new UILabel(CGRect.Empty);
@@ -395,7 +396,7 @@ namespace Greeter.Modules.Pay
 
             if (textField == cardNumberTextField)
             {
-                var oldNSString = new NSString(cardNumberTextField.Text ?? "");
+                var oldNSString = new NSString(cardNumberTextField.Text ?? string.Empty);
                 var replacedString = oldNSString.Replace(range, new NSString(replacementString));
 
                 return replacedString.Length <= 16;
@@ -403,10 +404,26 @@ namespace Greeter.Modules.Pay
 
             if (textField == securityCodeTextField)
             {
-                var oldNSString = new NSString(securityCodeTextField.Text ?? "");
+                var oldNSString = new NSString(securityCodeTextField.Text ?? string.Empty);
                 var replacedString = oldNSString.Replace(range, new NSString(replacementString));
 
                 return replacedString.Length <= 3;
+            }
+
+            if (textField == expirationDateTextField)
+            {
+                var oldNSString = new NSString(expirationDateTextField.Text ?? string.Empty);
+                var replacedString = oldNSString.Replace(range, new NSString(replacementString)).ToString().Replace("/", string.Empty);
+
+                if (replacedString.Length > 4) return false;
+
+                if (replacedString.Length > 1)
+                {
+                    expirationDateTextField.Text = replacedString.ToString().Insert(2, "/");
+                    return false;
+                }
+                else
+                    return true;
             }
 
             return true;

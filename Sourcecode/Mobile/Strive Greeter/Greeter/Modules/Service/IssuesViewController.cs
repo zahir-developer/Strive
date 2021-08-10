@@ -20,12 +20,9 @@ namespace Greeter.Storyboards
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            Initialise();
 
-            btnAddIssue.TouchUpInside += (s, e) =>
-            {
-
-            };
+            InitialiseUI();
+            UpdateDataToUI();
 
             btnAddIssue.TouchUpInside += BtnAddIssueTouchUpInside;
         }
@@ -42,12 +39,16 @@ namespace Greeter.Storyboards
             PresentViewController(vc, true, null);
         }
 
-        void Initialise()
+        void InitialiseUI()
         {
             NavigationController.NavigationBar.Hidden = false;
-            Title = SCREEN_TITLE;
             viewHeader.AddHearderViewShadow();
             tvIssues.RegisterNibForCellReuse(IssueCell.Nib, IssueCell.Key);
+        }
+
+        void UpdateDataToUI()
+        {
+            Title = SCREEN_TITLE;
             tvIssues.Source = new IssuesSource();
             tvIssues.ReloadData();
         }

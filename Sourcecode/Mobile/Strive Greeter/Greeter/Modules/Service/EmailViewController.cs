@@ -16,7 +16,7 @@ using UIKit;
 
 namespace Greeter.Storyboards
 {
-    public partial class EmailViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
+    public partial class EmailViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource, IUITextFieldDelegate
     {
         // Data
         const string SCREEN_TITLE = "Email Receipt";
@@ -94,6 +94,13 @@ namespace Greeter.Storyboards
             {
                 NavigateToPayScreen();
             };
+        }
+
+        [Export("textFieldShouldReturn:")]
+        public bool ShouldReturn(UITextField textField)
+        {
+            textField.EndEditing(true);
+            return true;
         }
 
         async Task ShowLoader()
@@ -181,6 +188,8 @@ namespace Greeter.Storyboards
         void Initialise()
         {
             Title = SCREEN_TITLE;
+
+            tfCust.WeakDelegate = this;
 
             tfEmp.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfEmp.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);

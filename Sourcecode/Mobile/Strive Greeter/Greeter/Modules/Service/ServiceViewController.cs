@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
@@ -12,7 +13,7 @@ using UIKit;
 
 namespace Greeter
 {
-    public partial class ServiceViewController : BaseViewController
+    public partial class ServiceViewController : BaseViewController, IUITextFieldDelegate
     {
         // Static Data
         readonly UIColor unselectedBtnBgColor = UIColor.FromRGB(204, 255, 248);
@@ -94,12 +95,22 @@ namespace Greeter
             txtFieldBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             txtFieldBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
+            txtFieldBarcode.WeakDelegate = this;
+
             lblWashTime.Text = AppSettings.WashTime.ToString() + ":00";
             DismissKeyboardOnTapArround = true;
 
             #if DEBUG
-              txtFieldBarcode.Text = "ZNL9678";
+              //txtFieldBarcode.Text = "ZNL9678";
+                txtFieldBarcode.Text = "61012381";
             #endif
+        }
+
+        [Export("textFieldShouldReturn:")]
+        public bool ShouldReturn(UITextField textField)
+        {
+            textField.EndEditing(true);
+            return true;
         }
 
         async Task GetBarcodeDetails(string barcode)

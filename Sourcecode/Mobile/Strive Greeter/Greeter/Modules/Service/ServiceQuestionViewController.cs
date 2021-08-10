@@ -13,7 +13,7 @@ using UIKit;
 
 namespace Greeter.Storyboards
 {
-    public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource
+    public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource, IUITextFieldDelegate
     {
         //string[] sampleData = new string[] {
         //    "Main Street 1",
@@ -193,6 +193,13 @@ namespace Greeter.Storyboards
             };
         }
 
+        [Export("textFieldShouldReturn:")]
+        public bool ShouldReturn(UITextField textField)
+        {
+            textField.EndEditing(true);
+            return true;
+        }
+
         void UpdatePickerView(string[] data, UIPickerView pv, string selectedText, bool isPreviousValueSelect = true)
         {
             this.data = data;
@@ -329,6 +336,8 @@ namespace Greeter.Storyboards
             NavigationController.NavigationBar.Hidden = false;
             Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];
 
+            tfBarcode.WeakDelegate = this;
+
             viewHeader.AddHearderViewShadow();
 
             DateTime dt = GetCurrentDate();
@@ -341,8 +350,7 @@ namespace Greeter.Storyboards
             tfModel.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             tfColor.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfColor.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
-            tfBarcode.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
-            tfBarcode.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
+            tfBarcode.AddLeftRightPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfUpcharge.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfUpcharge.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
             tfWashPkg.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
@@ -392,10 +400,7 @@ namespace Greeter.Storyboards
                 return false;
             };
 
-            tfBarcode.ShouldChangeCharacters = (textField, range, replacementString) =>
-            {
-                return false;
-            };
+
 
             tfUpcharge.ShouldChangeCharacters = (textField, range, replacementString) =>
             {
@@ -424,6 +429,20 @@ namespace Greeter.Storyboards
 
             pv.DataSource = this;
             pv.Delegate = this;
+        }
+
+        [Export("textField:shouldChangeCharactersInRange:replacementString:")]
+        public bool ShouldChangeCharacters(UITextField textField, NSRange range, string replacementString)
+        {
+            if (textField == tfBarcode)
+            {
+                if (!String.IsNullOrEmpty(Barcode))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         DateTime GetCurrentDate()

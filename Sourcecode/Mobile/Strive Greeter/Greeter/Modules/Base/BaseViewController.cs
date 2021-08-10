@@ -174,7 +174,8 @@ namespace Greeter
             UIViewController loginViewController = UIStoryboard.FromName(StoryBoardNames.USER, null)
                                   .InstantiateViewController(nameof(LoginViewController));
 
-            TabBarController?.NavigationController.SetViewControllers(new UIViewController[] { loginViewController }, true);
+            var nc = TabBarController?.NavigationController ?? NavigationController;
+            nc?.SetViewControllers(new UIViewController[] { loginViewController }, true);
         }
 
         public void ShowAlertMsg(string msg, Action okAction = null, bool isCancel = false, string titleTxt = null)

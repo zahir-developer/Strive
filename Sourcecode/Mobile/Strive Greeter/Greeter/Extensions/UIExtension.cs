@@ -53,6 +53,13 @@ namespace Greeter.Extensions
             txtField.RightViewMode = UITextFieldViewMode.Always;
         }
 
+        public static void AddLeftRightPadding(this UITextField txtField, float padding)
+        {
+            var paddingView = new UIView(frame: new CGRect(0, 0, padding, txtField.Frame.Height));
+            txtField.RightView = txtField.LeftView = paddingView;
+            txtField.LeftViewMode = txtField.RightViewMode = UITextFieldViewMode.Always;
+        }
+
         public static UIColor FromHex(this UIColor color, int hexValue)
         {
             return UIColor.FromRGB(

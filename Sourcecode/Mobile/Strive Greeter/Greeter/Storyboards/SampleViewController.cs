@@ -21,18 +21,16 @@ namespace Greeter.Storyboards
         {
             base.ViewDidLoad();
 
-            var t = new TextField();
-            t.AutocorrectionType = UITextAutocorrectionType.No;
-            t.ClearButtonMode = UITextFieldViewMode.Never;
-            t.Frame = new CoreGraphics.CGRect(20, 300, 300, 70);
+            //var t = new TextField();
+            //t.AutocorrectionType = UITextAutocorrectionType.No;
+            //t.ClearButtonMode = UITextFieldViewMode.Never;
+            //t.Frame = new CoreGraphics.CGRect(20, 300, 300, 70);
 
-            TextInputControllerUnderline textInputControllerOutlined = new TextInputControllerUnderline(t);
-            textInputControllerOutlined.PlaceholderText = "Test Placeholder";
-            textInputControllerOutlined.ActiveColor = UIColor.Green;
-            textInputControllerOutlined.FloatingPlaceholderActiveColor = UIColor.Brown;
-
-
-            View.Add(t);
+            //TextInputControllerUnderline textInputControllerOutlined = new TextInputControllerUnderline(t);
+            //textInputControllerOutlined.PlaceholderText = "Test Placeholder";
+            //textInputControllerOutlined.ActiveColor = UIColor.Green;
+            //textInputControllerOutlined.FloatingPlaceholderActiveColor = UIColor.Brown;
+            //View.Add(t);
 
             //var bottomLine = new CALayer();
             //bottomLine.Frame = new CoreGraphics.CGRect(tfField.Bounds.X, tfField.Bounds.Height - 1, tfField.Bounds.Width, 1);

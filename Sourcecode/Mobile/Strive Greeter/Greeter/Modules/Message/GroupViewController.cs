@@ -140,9 +140,9 @@ namespace Greeter.Modules.Message
             var chatInfo = new ChatInfo
             {
                 Title = Logic.FullName(group.FirstName, group.LastName),
-                GroupId = group.ChatGroupId,
-                SenderId = AppSettings.UserID,
-                RecipientId = -1
+                GroupId = group.ID,
+                SenderId = 0,
+                RecipientId = 0
             };
             NavigationController.PushViewController(new ChatViewController(ChatType.Group, chatInfo), animated: true);
         }

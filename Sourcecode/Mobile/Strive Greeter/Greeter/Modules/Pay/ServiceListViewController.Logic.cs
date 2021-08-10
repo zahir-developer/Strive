@@ -24,13 +24,17 @@ namespace Greeter.Modules.Pay
         {
             var checkoutRequest = new CheckoutRequest
             {
-                StartDate = DateTime.Now.AddMonths(-1).Date.ToString(Constants.DATE_FORMAT_FOR_API),
+                StartDate = DateTime.Now.Date.ToString(Constants.DATE_FORMAT_FOR_API),
                 EndDate = DateTime.Now.Date.ToString(Constants.DATE_FORMAT_FOR_API),
                 LocationID = AppSettings.LocationID,
                 SortBy = "TicketNumber",
                 SortOrder = "ASC",
                 Status = true,
             };
+
+#if DEBUG
+            checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
+#endif
 
             ShowActivityIndicator();
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
