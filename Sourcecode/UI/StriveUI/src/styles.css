@@ -304,10 +304,10 @@ color-icon:hover {
     table-layout: fixed;
 }
 
-.headerfix td,
+/* .headerfix td,
 .headerfix th {
     white-space: pre-wrap !important;
-}
+} */
 
 body {
     -ms-overflow-style: none;

@@ -22,10 +22,10 @@ namespace Strive.Common
     public static class EmailSubject
     {
         public static string GiftCard = "Gift card details";
-        public static string ProductThreshold = "Product threshold limit";
-        public static string VehicleHold = "Vehicle is oh Hold!!";
-        public static string WelcomeEmail = "Welcom To Strive";
-        public static string Manager = "New Employee Info!!";
+        public static string ProductThreshold = "Product threshold limit reached";
+        public static string VehicleHold = "Vehicle is ON Hold";
+        public static string WelcomeEmail = "Welcome To Strive";
+        public static string Manager = "New Employee Info";
     }
 
 

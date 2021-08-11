@@ -62,7 +62,7 @@ namespace Strive.BusinessLogic
                         fileName = prod.FileName;
 
                     if (!string.IsNullOrEmpty(fileName))
-                        prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
+                            prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
                 }
             }
             return ResultWrap(products, "ProductSearch");
@@ -186,17 +186,17 @@ namespace Strive.BusinessLogic
             string vendorList = string.Empty;
             foreach (var vendor in vendorProduct)
             {
-                vendorList += vendor.VendorName + "-" + vendor.PhoneNumber + ","; 
+                vendorList += vendor.VendorName + "-" + vendor.PhoneNumber + ",";
             }
             vendorList = vendorList.TrimEnd(charToTrim);
             var subject = EmailSubject.ProductThreshold;
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
-           
+
             keyValues.Add("{{productName}}", productRequestDto.productName);
             keyValues.Add("{{locationName}}", productRequestDto.locationName);
             keyValues.Add("{{Vendor}}", vendorList);
             keyValues.Add("{{quantityRequest}}", productRequestDto.RequestQuantity.ToString());
-            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductRequest,emailList, keyValues, subject);
+            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductRequest, emailList, keyValues, subject);
 
             return ResultWrap(true, "MailsentToManager", "");
 

@@ -344,8 +344,18 @@ namespace Strive.BusinessLogic.Document
                     objGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     objGraphics.DrawImage(sourceImage, 0, 0, Width, Height);
 
+
+                    MemoryStream stream = new MemoryStream();
+
                     // Save the file path, note we use png format to support png file   
-                    objBitmap.Save(saveFilePath);
+                    objBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                    byte[] byteImage = stream.ToArray();
+
+                    string base64 = Convert.ToBase64String(byteImage);
+
+                    thumbFileName = Upload(GlobalUpload.DocumentType.PRODUCTIMAGE, base64, fileName);
+                    
                 }
             }
 

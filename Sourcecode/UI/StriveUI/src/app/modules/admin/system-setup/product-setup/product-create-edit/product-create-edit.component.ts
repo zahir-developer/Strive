@@ -490,13 +490,13 @@ export class ProductCreateEditComponent implements OnInit {
     if (type === 'plus') {
       const quantity = this.productSetupForm.value.quantity;
       this.productSetupForm.patchValue({
-        quantity: quantity + 1
+        quantity: +quantity + 1
       });
     } else {
       const quantity = this.productSetupForm.value.quantity;
       if (+quantity !== 0) {
         this.productSetupForm.patchValue({
-          quantity: quantity - 1
+          quantity: +quantity - 1
         });
       }
     }

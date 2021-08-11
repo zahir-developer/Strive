@@ -54,7 +54,7 @@
                     <label for="inputQuantity">Quantity</label>
                     <input type="text" [ngClass]="{ 'is-invalid': submitted && f.suggested.errors }" appTwoDecimalNumber
                         [appMaxLength]="9" class="form-control" placeholder="0.00" formControlName="quantity">
-                    <div *ngIf="submitted && f.suggested.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f.suggested.errors" class="p-t-5" style="font-size: 80%;color: #dc3545;">
                         <div *ngIf="f.suggested.errors.required">Quantity is required</div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
             <label for="inputCost">Cost (Per Unit)</label>
             <input type="text" appTwoDecimalNumber [appMaxLength]="9" class="form-control" formControlName="cost"
                 placeholder="$0.00" [ngClass]="{ 'is-invalid': submitted && f.cost.errors }">
-            <div *ngIf="submitted  && costErrMsg && !f.cost.errors.required" style="font-size: small;color: #dc3545;">
+            <div *ngIf="submitted && costErrMsg" class="p-t-5" style="font-size: 80%;color: #dc3545;">
                 Cost should not be 0
             </div>
         </div>
