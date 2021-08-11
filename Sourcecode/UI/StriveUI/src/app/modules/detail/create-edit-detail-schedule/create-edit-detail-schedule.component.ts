@@ -1408,7 +1408,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.refreshDetailGrid.emit();
+        this.refreshDetailGrid.emit(); 
+        this.closeSchedules();
       }
       else {
         this.spinner.hide();

@@ -102,6 +102,7 @@ export class EditEmployeeComponent implements OnInit {
       gender: [''],
       address: ['', Validators.required],
       mobile: ['', Validators.required],
+      Zip: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
@@ -310,6 +311,7 @@ export class EditEmployeeComponent implements OnInit {
       gender: employeeInfo.Gender ? employeeInfo.Gender : '',
       address: employeeInfo.Address1 ? employeeInfo.Address1 : '',
       mobile: employeeInfo.PhoneNumber ? employeeInfo.PhoneNumber : '',
+      Zip: employeeInfo.Zip ? employeeInfo.Zip : '',
       immigrationStatus: employeeInfo.ImmigrationStatus ? employeeInfo.ImmigrationStatus : '',
       ssn: employeeInfo.SSNo ? employeeInfo.SSNo : '',
       Tips: employeeInfo?.Tips,
@@ -509,7 +511,7 @@ export class EditEmployeeComponent implements OnInit {
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null,
+      zip: this.personalform.value.Zip,
       country: null
     };
     const newlyAddedRole = [];
