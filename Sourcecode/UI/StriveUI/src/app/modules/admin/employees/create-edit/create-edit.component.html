@@ -192,10 +192,12 @@
                                         placeholder="{{ctypeLabel}}" appTwoDecimalNumber>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="inputexemptions">Exemptions </label>
-                                    <input type="text" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions">
+                                    <label for="inputSalary">Salary</label>
+                                    <input type="text" class="form-control" id="inputSalary" [appMaxLength]="10"
+                                        formControlName="salary" appTwoDecimalNumber
+                                        placeholder="$0.00">
                                 </div>
+                                
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles</label>
                                     <ng-multiselect-dropdown [placeholder]="'Select Role'" [settings]="dropdownSettings"
@@ -212,6 +214,12 @@
                                     </ng-multiselect-dropdown>
                                 </div>
 
+                                <div class="form-group col-md-3">
+                                    <label for="inputexemptions">Exemptions </label>
+                                    <input type="text" class="form-control" id="inputexemptions"
+                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions">
+                                </div>
+                                
                                 <div class="form-group col-md-3">
                                     <label for="inputStatus">Status</label>
                                     <select id="inputStatus" class="form-control" formControlName="status">

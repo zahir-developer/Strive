@@ -566,9 +566,30 @@ namespace Strive.RepositoryCqrs
                             if (isGeneric)
                             {
                                 var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
-                                if (dynamicListObject.Count > 0)
-                                    insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+
+                                //if (dynamicListObject.Count > 0)
+                                //    insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+                                //isGeneric = false;
+
+                                List<object> insertList = new List<object>();
+                                List<object> updateList = new List<object>();
+                                foreach (var item in dynamicListObject)
+                                {
+                                    var prInfo = item.GetType().GetProperties().FirstOrDefault().GetValue(item, null) ?? 0;
+                                    if (Convert.ToInt32(prInfo) == 0)
+                                        insertList.Add(item);
+                                    else
+                                        updateList.Add(item);
+                                }
+
+                                if (insertList.Count > 0)
+                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction);
+
+                                if (updateList.Count > 0)
+                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
+
                                 isGeneric = false;
+
                             }
                             else
                             {

@@ -79,18 +79,10 @@ namespace Strive.ResourceAccess
         }
         public LocationAddress GetLocationAddressDetails(int locationId)
         {
-
-            var result = new LocationAddress();
-            var allAddress = _db.GetAll<LocationAddress>();
-
-            var locationAddress = allAddress.Where(s => s.LocationId == locationId).FirstOrDefault();
-
-            result.Latitude = locationAddress.Latitude;
-            result.Longitude = locationAddress.Longitude;
-            result.WeatherLocationId = locationAddress.WeatherLocationId;         
-
-            return result;
+            _prm.Add("locationId", locationId);
+            return db.FetchFirstResult<LocationAddress>("uspGetLocationAddress", _prm);
         }
+
         public bool AddLocationOffset(LocationOffsetDto locationOffset)
         {
             return dbRepo.InsertPc(locationOffset, "LocationId");

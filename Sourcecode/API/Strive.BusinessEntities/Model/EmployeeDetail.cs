@@ -41,7 +41,7 @@ namespace Strive.BusinessEntities.Model
         public DateTime? HiredDate { get; set; }
 
         [Column]
-        public string Salary { get; set; }
+        public decimal? Salary { get; set; }
 
         [Column]
         public string Tip { get; set; }

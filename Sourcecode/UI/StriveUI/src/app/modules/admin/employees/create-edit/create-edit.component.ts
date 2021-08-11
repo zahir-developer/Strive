@@ -126,8 +126,8 @@ export class CreateEditComponent implements OnInit {
       status: ['Active'],
       exemptions: [''],
       roles: [[]],
-      location: [[]]
-
+      location: [[]],
+      salary: ['']
     });
     this.emplistform.controls.status.disable();
     this.documentForm = this.fb.group({
@@ -429,6 +429,7 @@ export class CreateEditComponent implements OnInit {
       ComType: +this.emplistform.value.comType,
       lrt: null,
       exemptions: +this.emplistform.value.exemptions,
+      salary: +this.emplistform.value.salary,
       isActive: true,
       isDeleted: false,
     };

@@ -90,8 +90,7 @@
                 <div class="form-row border-bottom m-b-8">
                     <div class="form-group col-lg-2 col-md-2 col-xl-3">
                         <label for="inputBarcode">Barcode</label>
-                        <input type="text" maxlength="100" class="form-control" formControlName="barcode" placeholder="Barcode"
-                        (change)="getByBarcode($event.target.value)"
+                        <input type="text" maxlength="50" class="form-control" formControlName="barcode" placeholder="Barcode"
                         (keyup)="$event.keyCode == 13 ? getByBarcode($event.target.value) : null">
                     </div>
                     <div class="form-group col-md-3">

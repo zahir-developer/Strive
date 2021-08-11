@@ -433,7 +433,7 @@ export class CreateEditWashesComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.target.value === '') {
-      this.washForm.patchValue({ vehicle: '', barcode: '', type: '', model: '', color: '', pastNotes: '' });
+      this.washForm.patchValue({ vehicle: '', type: '', model: '', color: '', pastNotes: '' });
       this.washForm.get('pastNotes').enable();
     }
   }
@@ -475,6 +475,9 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   selectedClient(event) {
+
+    this.washForm.patchValue({ vehicle: '', type: '', model: '', color: '', pastNotes: '' });
+
     this.clientId = event.id;
     this.clientName = event.name;
     this.getClientPastNotes(this.clientId);
@@ -483,8 +486,10 @@ export class CreateEditWashesComponent implements OnInit {
       this.washForm.get('vehicle').disable();
       return;
     } else if (!this.isView) {
+      this.washForm.patchValue({ barcode: '' });
       this.washForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
+
     }
 
   }
@@ -634,7 +639,7 @@ export class CreateEditWashesComponent implements OnInit {
           setTimeout(() => {
             this.washForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
-              vehicle: this.barcodeDetails.VehicleId,
+              vehicle: this.barcodeDetails.VehicleId
             });
             this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
@@ -785,6 +790,7 @@ export class CreateEditWashesComponent implements OnInit {
     const job = {
       jobId: this.isEdit ? this.selectedData.Washes[0].JobId : this.jobID,
       ticketNumber: this.ticketNumber,
+      barcode: this.washForm.value.barcode,
       locationId: +localStorage.getItem('empLocationId'),
       clientId: this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,

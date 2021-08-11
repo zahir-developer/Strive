@@ -94,14 +94,12 @@ namespace Strive.BusinessLogic
                 bool result = false;
                 if (weatherPrediction.WeatherId == 0)
                 {
-                    result = new WeatherRal(_tenant).AddWeather(weatherPrediction);
+                    return ResultWrap(new WeatherRal(_tenant).AddWeather, weatherPrediction, "Status");
                 }
                 else
                 {
-                    result = new WeatherRal(_tenant).UpdateWeather(weatherPrediction);
+                    return ResultWrap(new WeatherRal(_tenant).UpdateWeather, weatherPrediction, "Status");
                 }
-                _resultContent.Add(result.WithName("Status"));
-                _result = Helper.BindSuccessResult(_resultContent);
             }
             catch (Exception ex)
             {

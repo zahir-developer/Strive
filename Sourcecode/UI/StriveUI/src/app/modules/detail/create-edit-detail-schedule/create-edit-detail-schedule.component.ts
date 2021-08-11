@@ -723,7 +723,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   onKeyUp(event) {
     if (event.target.value === '') {
-      this.detailForm.patchValue({ vehicle: '', barcode: '', type: '', model: '', color: '' });
+      this.detailForm.patchValue({ vehicle: '', type: '', model: '', color: '' });
     }
   }
 
@@ -764,6 +764,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   selectedClient(event) {
+
+    this.detailForm.patchValue({ vehicle: '', type: '', model: '', color: '' });
+
     this.clientId = event.id;
     this.clientName = event.name;
     const name = event.name.toLowerCase();
@@ -771,6 +774,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.detailForm.get('vehicle').disable();
       return;
     } else if (!this.isView) {
+      this.detailForm.patchValue({ barcode: '' });
       this.detailForm.get('vehicle').enable();
       this.getClientVehicle(this.clientId);
       this.getPastClientNotesById(this.clientId);
@@ -885,6 +889,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       jobId: this.selectedData.Details.JobId,
       ticketNumber: this.ticketNumber,
       locationId: localStorage.getItem('empLocationId'),
+      barcode: this.detailForm.value.barcode,
       clientId: this.detailForm.value.client.id,
       vehicleId: this.detailForm.value.vehicle,
       make: this.detailForm.value.type.id,
@@ -1022,6 +1027,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     const job = {
       jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
       ticketNumber: this.ticketNumber,
+      barcode: this.detailForm.value.barcode,
       locationId: localStorage.getItem('empLocationId'),
       clientId: this.detailForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.detailForm.value.vehicle,

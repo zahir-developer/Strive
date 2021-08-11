@@ -151,7 +151,7 @@ export class WashesListComponent implements OnInit {
                 }
                 else {
                   this.washDetails[i].MakeModelColorLabel =
-                    this.washDetails[i].Make + ',' + this.washDetails[i].Model + ',' + this.washDetails[i].Color
+                    this.washDetails[i].Make + '/' + this.washDetails[i].Model + '/' + this.washDetails[i].Color
                 }
                 if (this.washDetails[i].IsPaid === 'True') {
                   this.washDetails[i].paidLabel = 'Paid'
