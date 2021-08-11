@@ -108,6 +108,7 @@ export class CreateEditComponent implements OnInit {
       gender: [''],
       address: ['', Validators.required],
       mobile: ['', Validators.required],
+      Zip: ['', Validators.required],
       immigrationStatus: ['', Validators.required],
       ssn: [''],
       alienNumber: [''],
@@ -404,7 +405,7 @@ export class CreateEditComponent implements OnInit {
       email: this.emplistform.value.emailId,
       city: this.city,
       state: this.State,
-      zip: null,
+      zip: this.personalform.value.Zip,
       country: null
     };
     const employeeRoleObj = this.emplistform.value.roles.map(item => {

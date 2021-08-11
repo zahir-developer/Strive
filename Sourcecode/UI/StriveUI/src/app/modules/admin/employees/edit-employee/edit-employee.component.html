@@ -84,7 +84,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
                                     <input type="text" maxlength="14" class="form-control" appPhoneMask id="inputPhone"
-                                        formControlName="mobile" [appMaxLength]="10"
+                                        formControlName="mobile" 
                                         [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
                                     <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback"
                                         placeholder="Mobile Number">
@@ -117,6 +117,15 @@
                                     <input type="text" placeholder="Work Permit Date" formControlName="permitDate"
                                         appCalendarMask class="form-control" bsDatepicker #dp="bsDatepicker"
                                         (focus)="dp.show()">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="inputZipcode">ZipCode</label>
+                                    <input numbersOnly type="text" id="Zip" [appMaxLength]="9" [ngClass]="{ 'is-invalid': submitted && f.Zip.errors }" class="form-control" placeholder="Zip"
+                                        formControlName="Zip">
+                                        <div *ngIf="submitted && f.Zip.errors" class="invalid-feedback">
+                                            <div *ngIf="f.Zip.errors.required">ZipCode is required</div>
+                                            <div *ngIf="f.Zip.errors.minlength">ZipCode must be Minimum 5 digit</div>
+                                        </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN </label>
