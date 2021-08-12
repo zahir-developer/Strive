@@ -90,7 +90,6 @@ namespace Strive.BusinessLogic.Sales
                         {
 
                             var product = new ProductRal(_tenant).GetProductById(prod.ProductId);
-                            var productUpdate = new SalesRal(_tenant).UpdateProductQuantity(Convert.ToInt16(product.Quantity) - prod.Quantity, prod.ProductId);
                             string roles = Roles.Manager.ToString() + ',' + Roles.Operator;
 
                             //var emailId = new CommonRal(_tenant).GetEmailIdByRole(salesPayment.LocationId, roles);
@@ -104,8 +103,10 @@ namespace Strive.BusinessLogic.Sales
                             }
                             emailList = emailList.TrimEnd(charToTrim);
 
-                            if (product != null && product.Quantity != null)
+                            if (product != null)
                             {
+                                var productUpdate = new SalesRal(_tenant).UpdateProductQuantity(Convert.ToInt16(product.Quantity) - prod.Quantity, prod.ProductId);
+
                                 if ((product.Quantity - prod.Quantity) < product.ThresholdLimit)
                                 {
 
