@@ -1171,7 +1171,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
                 tempfinalminutes = 30;
                 endHour = tempinitialHour + 1;
               }
-
+              
             let baySchedule = {
               bayScheduleId: 0,
               bayId: this.detailForm.value.bay,
@@ -1247,7 +1247,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       }
 
     }
-
+    
     const baySchedule = {
       bayScheduleId: 0,
       bayId: this.detailForm.value.bay,
@@ -1339,7 +1339,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       });
     }
     else {
-      this.spinner.show();
+      this.spinner.show();    
       this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
@@ -1401,7 +1401,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
   deleteDetail() {
     this.deleteDetailList = true
-    this.body = 'Are you sure you want to Detail this Detail? All related information will be deleted and the Detail cannot be retrieved?',
+    this.body = 'Are you sure you want to Delete this Detail? All related information will be deleted and the Detail cannot be retrieved?',
       this.title = 'Delete Detail'
   }
 

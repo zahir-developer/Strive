@@ -161,6 +161,7 @@ export class SalesComponent implements OnInit {
       this.printTicketNumber = paramsData;
       this.addTicketNumber();
     }
+    this.setFocus();
     this.getServiceType();
     this.getPaymentType();
     this.getPaymentStatus();
@@ -1772,5 +1773,10 @@ export class SalesComponent implements OnInit {
     }
   }
 
+  setFocus(){
+  $(document).ready(function () {
+    $('#ticketNumber').focus();
+  });
+}
 
 }
