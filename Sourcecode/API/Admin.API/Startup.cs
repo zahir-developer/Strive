@@ -68,6 +68,8 @@ namespace Admin.API
             _logger = logger;
         }
 
+        readonly string CorsAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -135,12 +137,22 @@ namespace Admin.API
             _logger.LogInformation("Test log Strive");
 
             #region Add CORS
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+
+
+            services.AddCors(options =>
             {
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-                builder.AllowAnyOrigin();
-            }));
+                options.AddPolicy(CorsAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", 
+                "http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5000", "http://40.114.79.101:5003",
+                "http://40.114.79.101:5007", "http://40.114.79.101:5009", "http://strive.localqa.com",
+                "https://azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net")
+                .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+
+                });
+            });
+
             #endregion
 
             #region Add MVC
@@ -248,10 +260,14 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-            app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", 
-                "http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5000", "http://40.114.79.101:5003", 
-                "http://40.114.79.101:5007", "http://40.114.79.101:5009", "http://strive.localqa.com").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
-            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseCors(CorsAllowSpecificOrigins);
+
+            //app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", 
+            //    "http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5000", "http://40.114.79.101:5003", 
+            //    "http://40.114.79.101:5007", "http://40.114.79.101:5009", "http://strive.localqa.com",
+            //    "https://mammothuat.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            ////app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // global cors policy
             //app.UseCors(x => x
