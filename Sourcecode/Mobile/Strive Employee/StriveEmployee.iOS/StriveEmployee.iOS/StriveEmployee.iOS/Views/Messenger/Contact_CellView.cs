@@ -2,6 +2,7 @@
 using System.Linq;
 using CoreGraphics;
 using Foundation;
+using Strive.Core.Models.Employee.Messenger;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
 using UIKit;
 
@@ -22,6 +23,7 @@ namespace StriveEmployee.iOS.Views.Messenger
         UIImageView selectionImageView;
         private char[] firstInitial;
         private char[] secondInitial;
+        char[] secondInitials;
 
         public WeakReference<IContactCellDelegate> Delegate;
 
@@ -118,9 +120,36 @@ namespace StriveEmployee.iOS.Views.Messenger
             }
         }
 
-        public void setGroupCell(string groupName)
+        public void setGroupCell(ChatEmployeeList item)
         {
-            contactNameLabel.Text = groupName;
+            contactNameLabel.Text = item.FirstName + " " + item.LastName;
+
+            if (!String.IsNullOrEmpty(item.FirstName))
+            {
+                firstInitial = item.FirstName.ToCharArray();
+            }
+            if (!String.IsNullOrEmpty(item.LastName))
+            {
+                secondInitials = item.LastName.ToCharArray();
+            }
+            if (firstInitial != null && secondInitials != null)
+            {
+                contactIntialLabel.Text = firstInitial.ElementAt(0).ToString() + secondInitials.ElementAt(0).ToString();
+            }
+            else if (firstInitial != null)
+            {
+                if (firstInitial.Length > 0)
+                {
+                    contactIntialLabel.Text = firstInitial.ElementAt(0).ToString() + firstInitial.ElementAt(1).ToString();
+                }
+            }
+            else
+            {
+                if (secondInitials.Length > 0)
+                {
+                    contactIntialLabel.Text = secondInitials.ElementAt(0).ToString() + secondInitials.ElementAt(1).ToString();
+                }
+            }
         }
     }
 }

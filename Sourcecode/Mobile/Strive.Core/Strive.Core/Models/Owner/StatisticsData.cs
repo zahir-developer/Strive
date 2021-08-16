@@ -25,7 +25,7 @@ namespace Strive.Core.Models.Owner
         public double DetailSales { get; set; }
         public double ExtraServiceSales { get; set; }
         public double MerchandizeSales { get; set; }
-        public double TotalSales { get; set; }
+        public double? TotalSales { get; set; }
         public double MonthlyClientSales { get; set; }
         public double AverageWashPerCar { get; set; }
         public double AverageDetailPerCar { get; set; }

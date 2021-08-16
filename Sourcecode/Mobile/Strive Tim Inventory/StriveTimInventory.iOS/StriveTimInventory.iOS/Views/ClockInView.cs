@@ -109,7 +109,8 @@ namespace StriveTimInventory.iOS.Views
             {
                 foreach (var item in ViewModel.clockInStatus.timeClock)
                 {
-                    if (item.inTime == item.outTime)
+                    //if (item.inTime == item.outTime)
+                    if(item.outTime == null)
                     {
                         var inTime = item.inTime.Substring(0, 19);
                         EmployeeData.ClockInTime = inTime;

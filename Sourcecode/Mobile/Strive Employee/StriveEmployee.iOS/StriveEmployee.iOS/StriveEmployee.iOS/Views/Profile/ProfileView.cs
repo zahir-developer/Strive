@@ -7,6 +7,10 @@ using Strive.Core.ViewModels.Employee.MyProfile;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
 using CoreGraphics;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
+using Foundation;
+using System.Drawing;
+using Xamarin.Essentials;
+using System.Net;
 
 namespace StriveEmployee.iOS.Views
 {
@@ -14,6 +18,7 @@ namespace StriveEmployee.iOS.Views
     {
         private CollisionsViewModel collisionView;
         private DocumentsViewModel documentsView;
+        public ProfileView view;
         public ProfileView() : base("ProfileView", null)
         {
         }
@@ -32,6 +37,7 @@ namespace StriveEmployee.iOS.Views
         }
         private void InitialSetup()
         {
+            view = new ProfileView();
             collisionView = new CollisionsViewModel();
             documentsView = new DocumentsViewModel();
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
@@ -176,12 +182,47 @@ namespace StriveEmployee.iOS.Views
             await documentsView.GetDocumentInfo();
             if (documentsView.DocumentDetails != null && documentsView.DocumentDetails.Employee.EmployeeDocument != null)
             {
-                var documentSource = new DocumentDataSource(documentsView.DocumentDetails.Employee.EmployeeDocument);
+                var documentSource = new DocumentDataSource(documentsView.DocumentDetails.Employee.EmployeeDocument, documentsView, view);
                 Documents_TableView.Source = documentSource;
                 Documents_TableView.TableFooterView = new UIView(CGRect.Empty);
                 Documents_TableView.DelaysContentTouches = false;
                 Documents_TableView.ReloadData();
-            }                
+            }            
+        }
+
+        public void loadPdf(string filename)
+        {
+            //var webView = new UIWebView(View.Bounds);
+            //View.AddSubview(webView);
+
+            //webView.LoadRequest(new NSUrlRequest(new NSUrl(filename, false)));
+            //webView.ScalesPageToFit = true;
+
+            //UIApplication.SharedApplication.OpenUrl(new NSUrl(filename));
+
+            //var viewer = UIDocumentInteractionController.FromUrl(NSUrl.FromFilename(filename));
+            //viewer.PresentOpenInMenu(new RectangleF(0, -260, 320, 320), this.View, true);
+
+            //Browser.OpenAsync(filename);
+
+            //var imageview = new UIImageView(View.Bounds);
+
+            //imageview.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
+            //imageview.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor).Active = true;
+            //imageview.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
+            //imageview.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
+
+            //var imageBytes = Convert.FromBase64String(filename);
+            //var imageData = NSData.FromArray(imageBytes);
+            //var uiImage = UIImage.LoadFromData(imageData);
+
+            //imageview.Image = uiImage;
+
+            //View.AddSubview(imageview);
+
+            //var webClient = new WebClient();
+            //var url = new Uri("_codex.txt");
+            //webClient.DownloadDataAsync(url);
         }
     }
 }

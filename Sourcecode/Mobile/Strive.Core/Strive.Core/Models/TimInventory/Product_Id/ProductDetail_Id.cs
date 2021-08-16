@@ -17,10 +17,10 @@ namespace Strive.Core.Models.TimInventory.Product_Id
             public object Size { get; set; }
             public double Quantity { get; set; }
             public object QuantityDescription { get; set; }
-            public double Cost { get; set; }
+            public double? Cost { get; set; }
             public double Price { get; set; }
             public bool IsTaxable { get; set; }
-            public double TaxAmount { get; set; }
+            public double? TaxAmount { get; set; }
             public bool IsActive { get; set; }
             public object ThresholdLimit { get; set; }
             public string LocationName { get; set; }

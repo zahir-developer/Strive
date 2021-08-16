@@ -48,6 +48,10 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
         {
             View.BackgroundColor = UIColor.White;
 
+            var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
+            Tap.CancelsTouchesInView = false;
+            View.AddGestureRecognizer(Tap);
+
             chatTableView = new UITableView(CGRect.Empty);
             chatTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             chatTableView.EstimatedRowHeight = 60;
