@@ -26,7 +26,7 @@ namespace Strive.BusinessEntities.ViewModel
         public bool? IsTaxable { get; set; }
         public decimal? TaxAmount { get; set; }
         public bool IsActive { get; set; }
-        public int? ThresholdLimit { get; set; }
+        public decimal? ThresholdLimit { get; set; }
         public string LocationName { get; set; }
         public string VendorName { get; set; }
         public string ProductTypeName { get; set; }

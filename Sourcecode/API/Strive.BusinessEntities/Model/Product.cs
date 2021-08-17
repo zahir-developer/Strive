@@ -61,7 +61,7 @@ namespace Strive.BusinessEntities.Model
         public decimal? TaxAmount { get; set; }
 
         [Column]
-        public int? ThresholdLimit { get; set; }
+        public decimal? ThresholdLimit { get; set; }
 
         [Column]
         public bool? IsActive { get; set; }
