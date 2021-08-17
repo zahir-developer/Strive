@@ -151,7 +151,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.getEmployeeList();
     this.getAllBayById();
     this.getTicketNumber();
-    // this.getJobType();
+    this.getJobType();
   }
 
   formInitialize() {
@@ -1339,7 +1339,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       });
     }
     else {
-      this.spinner.show();    
+      this.spinner.show();   
       this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
