@@ -17,7 +17,10 @@
             <div class="row">
                 <div class="col-12">
                     <P class="text-center"><strong>Detail Packages</strong></P>
-                    <p class="text-center">{{detailService}}</p>
+                    <div *ngFor="let addService of selectedData.DetailsItem; let index = index">
+                        <p class="text-center">{{addService?.ServiceName}}</p>
+                           
+                    </div>
                 </div>
             </div>
             <br />
