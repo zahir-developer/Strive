@@ -80,11 +80,11 @@ export class TimeClockWeekComponent implements OnInit {
             const dayDetails = [];
             if (days.length > 0) {
               days.forEach(item => {
-                const inTimeHour = item.InTime.split('+');
+                const inTimeHour = item.InTime?.split('+');
                 const inTime = new Date(inTimeHour[0]);
-                const outTimeHour = item.OutTime.split('+');
-                const outTime = new Date(outTimeHour[0]);
-                const hours = item.TotalHours.split('+');
+                const outTimeHour = item.OutTime?.split('+');
+                const outTime = new Date(outTimeHour !== undefined ? outTimeHour[0]: 0);
+                const hours = item.TotalHours?.split('+');
                 const totalHours = new Date(hours[0]);
                 dayDetails.push({
                   EventDate: item.EventDate,
@@ -210,10 +210,12 @@ export class TimeClockWeekComponent implements OnInit {
     let replication = false;
 
 
-    if (this.inCorrectTotalHours === true) {
+    /*
+    if (this.inCorrectTotalHours === true ) {
       this.toastr.warning(MessageConfig.Admin.TimeClock.HourFormat, 'Warning!');
       return;
     }
+    */
     this.timeClockList.forEach(element => {
       if (element.checkInDetail !== 0) {
         element.checkInDetail.forEach(ele => {
@@ -243,9 +245,9 @@ export class TimeClockWeekComponent implements OnInit {
       return;
     }
     if (checkIn.length !== 0) {
-      this.toastr.warning(MessageConfig.Admin.TimeClock.totalHour, 'Warning!');
-
-      return;
+      //Disabled - Fails when, User not checked out.
+      //this.toastr.warning(MessageConfig.Admin.TimeClock.totalHour, 'Warning!');
+      //return;
     } else if (negativeHrs.length !== 0) {
       this.toastr.warning(MessageConfig.Admin.TimeClock.totalHourNegative, 'Warning!');
 
@@ -262,14 +264,20 @@ export class TimeClockWeekComponent implements OnInit {
         const outTime = time.OutTime.split(':');
         const inTimeHours = +inTime[0];
         const inTimeMins = +inTime[1];
-        const outTimeHours = +outTime[0];
-        const outTimeMins = +outTime[1];
+        const outTimeHours = outTime !== undefined ? +outTime[0] : 0;
+        const outTimeMins = outTime !== undefined ? +outTime[1] : 0;
         inEventDate.setHours(inTimeHours);
         inEventDate.setMinutes(inTimeMins);
         outEventDate.setHours(outTimeHours);
         outEventDate.setMinutes(outTimeMins);
         const inTimeFormat = this.datePipe.transform(inEventDate, 'MM/dd/yyyy HH:mm');
-        const outTimeFormat = this.datePipe.transform(outEventDate, 'MM/dd/yyyy HH:mm');
+
+        var outTimeFormat = null;
+        
+        if(outTimeMins > 0 || outTimeHours >0)
+        {
+          outTimeFormat = this.datePipe.transform(outEventDate, 'MM/dd/yyyy HH:mm');
+        }
 
         var clockItems = this.orginalTimeClock.filter(s => s.TimeClockId === time.TimeClockId);
 

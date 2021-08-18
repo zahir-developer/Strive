@@ -39,19 +39,21 @@ namespace Strive.BusinessLogic.TimeClock
             if (timeClock.TimeClockWeekDetailDto != null)
             {
                 var thresholdHours = new TimeClockRal(_tenant).GetEmployeeWeeklyTimeClockHour(timeClock.TimeClockWeekDetailDto);
-
-                if (thresholdHours.LocationWorkHourThreshold != 0 && thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
+                if (thresholdHours != null)
                 {
-                    var emailId = new CommonRal(_tenant).GetEmailIdByRole(thresholdHours.LocationId.ToString(), timeClock.TimeClockWeekDetailDto.StartDate, timeClock.TimeClockWeekDetailDto.EndDate);
-                    foreach (var item in emailId)
+                    if (thresholdHours.LocationWorkHourThreshold != 0 && thresholdHours.LocationWorkHourThreshold < thresholdHours.EmployeeWorkMinutes.toDecimal())
                     {
-                        string subject = "Threshold Work Limit";
-                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
-                        keyValues.Add("{{Manager/Operator}}", item.FirstName);
-                        keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
-                        keyValues.Add("{{totalHours}}", thresholdHours.EmployeeWorkMinutes.ToString());
-                        keyValues.Add("{{locationName}}", thresholdHours.LocationName);
-                        new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues, subject);
+                        var emailId = new CommonRal(_tenant).GetEmailIdByRole(thresholdHours.LocationId.ToString(), timeClock.TimeClockWeekDetailDto.StartDate, timeClock.TimeClockWeekDetailDto.EndDate);
+                        foreach (var item in emailId)
+                        {
+                            string subject = "Threshold Work Limit";
+                            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                            keyValues.Add("{{Manager/Operator}}", item.FirstName);
+                            keyValues.Add("{{employeeName}}", timeClock.TimeClockWeekDetailDto.EmployeeName);
+                            keyValues.Add("{{totalHours}}", thresholdHours.EmployeeWorkMinutes.ToString());
+                            keyValues.Add("{{locationName}}", thresholdHours.LocationName);
+                            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.EmployeeThreshold, item.Email, keyValues, subject);
+                        }
                     }
                 }
             }
