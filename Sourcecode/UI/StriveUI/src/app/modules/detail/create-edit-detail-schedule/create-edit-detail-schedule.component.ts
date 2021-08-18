@@ -1328,6 +1328,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
+          
+          this.getDetailByID(this.jobID);
         } else {
           this.spinner.hide();
 
