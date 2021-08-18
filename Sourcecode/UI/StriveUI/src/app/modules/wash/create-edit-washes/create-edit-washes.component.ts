@@ -45,6 +45,7 @@ export class CreateEditWashesComponent implements OnInit {
   type: any;
   jobTypeId: any;
   additionalService: any = [];
+  additionalServiceRemoved: any = [];
   serviceEnum: any;
   additional: any;
   washes: any;
@@ -87,6 +88,8 @@ export class CreateEditWashesComponent implements OnInit {
   paidLabel: string = 'Pay';
   upchargeList: any;
   jobID: any;
+  selectedUpcharge: number;
+  getDetailByBarcode: boolean = false;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
     private message: MessageServiceToastr,
     private landingservice: LandingService,
@@ -621,6 +624,7 @@ export class CreateEditWashesComponent implements OnInit {
 
   // Get Client And Vehicle Details By Barcode
   getByBarcode(barcode) {
+    this.getDetailByBarcode = true;
     if (barcode === '') {
       return;
     }
@@ -635,7 +639,7 @@ export class CreateEditWashesComponent implements OnInit {
         const wash = JSON.parse(data.resultData);
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-          this.getClientVehicle(this.barcodeDetails.ClientId);
+          this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId);
           setTimeout(() => {
             this.washForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
@@ -660,11 +664,14 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  getVehicleList(id) {
+  getVehicleList(id, vehicleId = 0) {
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
+        if (vehicleId != 0) {
+          this.getVehicleById(vehicleId);
+        }
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -674,15 +681,22 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   // Get Vehicle By ClientId
-  getClientVehicle(id) {
+  getClientVehicle(id, vehicleId = 0) {
+
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
         if (this.vehicle.length !== 0) {
-          this.washForm.patchValue({ vehicle: this.vehicle[this.vehicle.length - 1].VehicleId });
-          this.getVehicleById(+this.vehicle[this.vehicle.length - 1].VehicleId);
-          this.getMembership(+this.vehicle[this.vehicle.length - 1].VehicleId);
+          var vehId = 0;
+          if (vehicleId !== 0)
+            vehId = vehicleId;
+          else
+            vehId = +this.vehicle[this.vehicle.length - 1].VehicleId;
+
+          this.washForm.patchValue({ vehicle: vehId});
+          this.getVehicleById(vehId);
+          this.getMembership(vehId);
         } else {
           this.washForm.get('vehicle').reset();
         }
@@ -814,7 +828,16 @@ export class CreateEditWashesComponent implements OnInit {
     this.washItem.forEach(element => {
       this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
     });
-    this.jobItems = this.additionalService.map(item => {
+
+
+    const finalAdditionalService = [];
+    this.additionalService.forEach(service => {
+      if (this.additionalServiceRemoved.filter(s => s === service.ServiceId).length === 0) {
+        finalAdditionalService.push(service);
+      }
+    });
+
+    this.jobItems = finalAdditionalService.map(item => {
       return {
         jobItemId: 0,
         jobId: this.isEdit ? +this.selectedData.Washes[0].JobId : this.jobID,
@@ -831,6 +854,7 @@ export class CreateEditWashesComponent implements OnInit {
         updatedDate: new Date()
       };
     });
+
     this.washItem.forEach(element => {
       this.jobItems.push(element);
     });
@@ -1058,13 +1082,15 @@ export class CreateEditWashesComponent implements OnInit {
             upchargeType: serviceId
           });
           this.upchargeService(serviceId);
+          this.selectedUpcharge = serviceId;
         }
-        // else {
-        //   this.washForm.patchValue({
-        //     upcharges: '',
-        //     upchargeType: ''
-        //   });
-        // }
+        else {
+          this.additionalServiceRemoved.push(this.selectedUpcharge);
+          this.washForm.patchValue({
+            upcharges: 'None',
+            upchargeType: 'None'
+          });
+        }
 
         // if(this.upcharges){
         //   this.upcharges.forEach(element => {
