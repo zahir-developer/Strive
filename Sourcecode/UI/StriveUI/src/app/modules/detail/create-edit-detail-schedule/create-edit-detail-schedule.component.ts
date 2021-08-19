@@ -257,7 +257,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const wash = JSON.parse(data.resultData);
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-          this.getClientVehicle(this.barcodeDetails.ClientId);
+          this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId);
           this.getPastClientNotesById(this.barcodeDetails.ClientId);
           setTimeout(() => {
             this.detailForm.patchValue({
@@ -852,26 +852,33 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   }
 
   // Get Vehicle By ClientId
-  getClientVehicle(id) {
+  getClientVehicle(id, vehicleId = 0) {
+
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.vehicle = vehicle.Status;
         if (this.vehicle.length !== 0) {
-          this.detailForm.patchValue({ vehicle: this.vehicle[this.vehicle.length - 1].VehicleId });
-          this.getVehicleById(+this.vehicle[this.vehicle.length - 1].VehicleId);
-          this.getMembership(+this.vehicle[this.vehicle.length - 1].VehicleId);
+          var vehId = 0;
+          if (vehicleId !== 0)
+            vehId = vehicleId;
+          else
+            vehId = +this.vehicle[this.vehicle.length - 1].VehicleId;
+
+          this.detailForm.patchValue({ vehicle: vehId});
+          this.getVehicleById(vehId);
+          this.getMembership(vehId);
         } else {
           this.detailForm.get('vehicle').reset();
         }
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
-    }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
+    }, (err) => {
+      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    });
   }
+
 
   start() {
     const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.inProgress });
