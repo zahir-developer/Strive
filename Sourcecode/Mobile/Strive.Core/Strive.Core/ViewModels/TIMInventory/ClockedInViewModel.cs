@@ -17,8 +17,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             //Timer checkForTime = new Timer(15000);
             //checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             //checkForTime.Enabled = true;
-            GetClockStatus();
-            Init();     
+            GetClockStatus();            
         }
 
         public string Name { get; set; }
@@ -61,6 +60,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                     }
                 }                
             }
+            Init();
             _userDialog.HideLoading();
         }
 
@@ -97,7 +97,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         public TimeClockSave PrepareClockoutModel()
         {
             EmployeeData.ClockInStatus.TimeClock.outTime = DateUtils.GetStringFromDate(DateTime.Now);
-            EmployeeData.ClockInStatus.TimeClock.isActive = false;
+            EmployeeData.ClockInStatus.TimeClock.isActive = true;
 
             List<TimeClock> clockInRequestList = new List<TimeClock>();            
             clockInRequestList.Add(EmployeeData.ClockInStatus.TimeClock);

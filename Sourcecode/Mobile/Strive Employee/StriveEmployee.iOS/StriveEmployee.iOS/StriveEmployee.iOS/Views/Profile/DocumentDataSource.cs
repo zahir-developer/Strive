@@ -4,9 +4,11 @@ using System.Drawing;
 using System.IO;
 using DeviceCheck;
 using Foundation;
+using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
+using StriveEmployee.iOS.Views.Profile;
 using UIKit;
 
 namespace StriveEmployee.iOS.Views
@@ -15,8 +17,8 @@ namespace StriveEmployee.iOS.Views
     {
         List<EmployeeDocument> employeeDocuments;
         DocumentsViewModel view;
-        ProfileView webview;
-        public DocumentDataSource(List<EmployeeDocument> documentsList, DocumentsViewModel ViewModel, ProfileView pdfView)
+        MvxViewController webview;
+        public DocumentDataSource(List<EmployeeDocument> documentsList, DocumentsViewModel ViewModel, MvxViewController pdfView)
         {
             employeeDocuments = documentsList;
             view = ViewModel;
@@ -50,29 +52,20 @@ namespace StriveEmployee.iOS.Views
         {
             MyProfileTempData.EmployeeDocumentID = employeeDocuments[indexPath.Row].EmployeeDocumentId;
             MyProfileTempData.DocumentPassword = "string";
-            downloadDoc(indexPath);
-
-            var filename = employeeDocuments[indexPath.Row].FileName;
-
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var filePath = Path.Combine(documents, filename);                                                                
-                                 
+            downloadDoc(indexPath);                                 
         }
 
         public async void downloadDoc(NSIndexPath indexPath)
         {
             var fileBase64 = await view.DownloadDocument(employeeDocuments[indexPath.Row].EmployeeDocumentId, "string");
-            var backingFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "codex.txt");
+            MyProfileTempData.DocumentString = fileBase64.Document.Base64Url.ToString();
+            navigate();                       
+        }
 
-            File.WriteAllBytes(backingFile, Convert.FromBase64String(fileBase64.Document.Base64Url.ToString()));
-
-            //var viewer = UIDocumentInteractionController.FromUrl(NSUrl.FromFilename(backingFile));
-            //viewer.PresentPreview(true);
-
-            //var url = new NSUrl($"com.adobe.adobe-reader:{backingFile}");
-            //UIApplication.SharedApplication.OpenUrl(url);
-
-            //webview.loadPdf(backingFile);
-        }       
+        void navigate()
+        {
+            var pastTabView = new DocumentView();
+            webview.NavigationController.PushViewController(pastTabView, true);
+        }
     }
 }

@@ -87,6 +87,7 @@ namespace Strive.Core.Utils.Employee
         public static int LiabilityID { get; set; }
         public static int EmployeeDocumentID { get; set; }
         public static string DocumentPassword { get; set; }
+        public static string DocumentString { get; set; }
 
     }
     public static class EmployeePersonalDetails

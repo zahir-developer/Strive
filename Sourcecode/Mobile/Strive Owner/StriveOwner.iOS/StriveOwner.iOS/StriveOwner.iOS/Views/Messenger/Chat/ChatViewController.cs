@@ -183,6 +183,8 @@ namespace StriveOwner.iOS.Views.Messenger.Chat
         
         public async void OnSend()
         {
+            View.EndEditing(true);
+
             if(messageTextView.Text != null)
             {
                 var data = new ChatMessageDetail()

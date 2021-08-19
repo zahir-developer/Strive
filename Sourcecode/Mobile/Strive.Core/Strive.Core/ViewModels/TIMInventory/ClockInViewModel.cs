@@ -117,10 +117,10 @@ namespace Strive.Core.ViewModels.TIMInventory
             }
             EmployeeData.CurrentRole = FirstSelectedRole.Title;
             EmployeeData.SelectedRoleId = FirstSelectedRole.Tag;
-            var clockInRequest = PrepareClockInRequest();
-            //EmployeeData.ClockInStatus.TimeClock.inTime = DateUtils.GetStringFromDate(DateTime.Now);
+            var clockInRequest = PrepareClockInRequest();            
             var inTimeString = DateUtils.GetStringFromDate(DateTime.Now);
             EmployeeData.ClockInTime = inTimeString.Substring(0, 19);
+            
             _userDialog.ShowLoading(Strings.Loading);
             var clockin = await AdminService.SaveClockInTime(clockInRequest);
             await _navigationService.Navigate<ClockedInViewModel>();

@@ -145,19 +145,19 @@ namespace StriveCustomer.iOS.Views
 
             if (personalInfoViewModel.customerInfo.Status.Count > 0)
             {
-                FullName_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.LastOrDefault().LastName;
-                ContactNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
-                Address_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Address1;
-                ZipCode_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
-                PhoneNo_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
-                Email_Value.Text = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
+                FullName_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.FirstOrDefault().MiddleName +" "+ personalInfoViewModel.customerInfo.Status.FirstOrDefault().LastName;
+                ContactNo_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber;
+                Address_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Address1;
+                ZipCode_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Zip;
+                PhoneNo_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber2;
+                Email_Value.Text = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Email;
 
-                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.LastOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.LastOrDefault().LastName;
-                MyProfileCustomerInfo.ContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber;
-                MyProfileCustomerInfo.Email = personalInfoViewModel.customerInfo.Status.LastOrDefault().Email;
-                MyProfileCustomerInfo.SecondaryContactNumber = personalInfoViewModel.customerInfo.Status.LastOrDefault().PhoneNumber2;
-                MyProfileCustomerInfo.Address = personalInfoViewModel.customerInfo.Status.LastOrDefault().Address1;
-                MyProfileCustomerInfo.ZipCode = personalInfoViewModel.customerInfo.Status.LastOrDefault().Zip;
+                MyProfileCustomerInfo.FullName = personalInfoViewModel.customerInfo.Status.FirstOrDefault().FirstName +" "+ personalInfoViewModel.customerInfo.Status.FirstOrDefault().MiddleName + " " + personalInfoViewModel.customerInfo.Status.FirstOrDefault().LastName;
+                MyProfileCustomerInfo.ContactNumber = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber;
+                MyProfileCustomerInfo.Email = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Email;
+                MyProfileCustomerInfo.SecondaryContactNumber = personalInfoViewModel.customerInfo.Status.FirstOrDefault().PhoneNumber2;
+                MyProfileCustomerInfo.Address = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Address1;
+                MyProfileCustomerInfo.ZipCode = personalInfoViewModel.customerInfo.Status.FirstOrDefault().Zip;
             }
         }
 

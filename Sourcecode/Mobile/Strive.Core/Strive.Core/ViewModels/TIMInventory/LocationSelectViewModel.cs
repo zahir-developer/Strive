@@ -7,6 +7,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 {
     public class LocationSelectViewModel : BaseViewModel
     {
+        public bool isclocked = false;
         public LocationSelectViewModel()
         {
         }
@@ -52,10 +53,13 @@ namespace Strive.Core.ViewModels.TIMInventory
                         var inTime = EmployeeData.ClockInStatus.TimeClock.inTime.Substring(0, 19);
                         EmployeeData.ClockInTime = inTime;
                         await _navigationService.Navigate<ClockedInViewModel>();
-                        _navigationService.Close(this);
-                    }                 
+                        isclocked = true;
+                    }                    
                 }
-                await _navigationService.Navigate<RootViewModel>();
+                if (!isclocked)
+                {
+                    await _navigationService.Navigate<RootViewModel>();
+                }                
             }
             else
             {

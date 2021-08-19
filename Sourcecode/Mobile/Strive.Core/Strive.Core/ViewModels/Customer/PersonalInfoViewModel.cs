@@ -24,6 +24,7 @@ namespace Strive.Core.ViewModels.Customer
             customerInfo = new CustomerPersonalInfo();
             customerInfo.Status = new List<Status>();
             customerInfo = await AdminService.GetClientById(CustomerInfo.ClientID);
+            CustomerInfo.customerPersonalInfo = customerInfo;
             if (customerInfo == null || customerInfo.Status.Count == 0)
             {
                 _userDialog.Toast("No user information available");
