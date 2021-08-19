@@ -7,6 +7,10 @@ using Strive.Core.ViewModels.Employee.MyProfile;
 using Strive.Core.ViewModels.Employee.MyProfile.Collisions;
 using CoreGraphics;
 using Strive.Core.ViewModels.Employee.MyProfile.Documents;
+using Foundation;
+using System.Drawing;
+using Xamarin.Essentials;
+using System.Net;
 
 namespace StriveEmployee.iOS.Views
 {
@@ -14,6 +18,7 @@ namespace StriveEmployee.iOS.Views
     {
         private CollisionsViewModel collisionView;
         private DocumentsViewModel documentsView;
+        public ProfileView view;
         public ProfileView() : base("ProfileView", null)
         {
         }
@@ -32,6 +37,7 @@ namespace StriveEmployee.iOS.Views
         }
         private void InitialSetup()
         {
+            view = new ProfileView();
             collisionView = new CollisionsViewModel();
             documentsView = new DocumentsViewModel();
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
@@ -176,13 +182,13 @@ namespace StriveEmployee.iOS.Views
             await documentsView.GetDocumentInfo();
             if (documentsView.DocumentDetails != null && documentsView.DocumentDetails.Employee.EmployeeDocument != null)
             {
-                var documentSource = new DocumentDataSource(documentsView.DocumentDetails.Employee.EmployeeDocument);
+                var documentSource = new DocumentDataSource(documentsView.DocumentDetails.Employee.EmployeeDocument, documentsView, this);
                 Documents_TableView.Source = documentSource;
                 Documents_TableView.TableFooterView = new UIView(CGRect.Empty);
                 Documents_TableView.DelaysContentTouches = false;
                 Documents_TableView.ReloadData();
-            }                
-        }
+            }            
+        }       
     }
 }
 

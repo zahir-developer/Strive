@@ -1,17 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using DeviceCheck;
 using Foundation;
+using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.PersonalDetails;
+using Strive.Core.Utils.Employee;
+using Strive.Core.ViewModels.Employee.MyProfile.Documents;
+using StriveEmployee.iOS.Views.Profile;
 using UIKit;
 
 namespace StriveEmployee.iOS.Views
 {
     public class DocumentDataSource : UITableViewSource
     {
-        List<EmployeeDocument> employeeDocuments; 
-        public DocumentDataSource(List<EmployeeDocument> documentsList)
+        List<EmployeeDocument> employeeDocuments;
+        DocumentsViewModel view;
+        MvxViewController webview;
+        public DocumentDataSource(List<EmployeeDocument> documentsList, DocumentsViewModel ViewModel, MvxViewController pdfView)
         {
             employeeDocuments = documentsList;
+            view = ViewModel;
+            webview = pdfView;
         }
 
         public override nint NumberOfSections(UITableView tableView)
@@ -35,6 +46,26 @@ namespace StriveEmployee.iOS.Views
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             return employeeDocuments.Count;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            MyProfileTempData.EmployeeDocumentID = employeeDocuments[indexPath.Row].EmployeeDocumentId;
+            MyProfileTempData.DocumentPassword = "string";
+            downloadDoc(indexPath);                                 
+        }
+
+        public async void downloadDoc(NSIndexPath indexPath)
+        {
+            var fileBase64 = await view.DownloadDocument(employeeDocuments[indexPath.Row].EmployeeDocumentId, "string");
+            MyProfileTempData.DocumentString = fileBase64.Document.Base64Url.ToString();
+            navigate();                       
+        }
+
+        void navigate()
+        {
+            var pastTabView = new DocumentView();
+            webview.NavigationController.PushViewController(pastTabView, true);
         }
     }
 }

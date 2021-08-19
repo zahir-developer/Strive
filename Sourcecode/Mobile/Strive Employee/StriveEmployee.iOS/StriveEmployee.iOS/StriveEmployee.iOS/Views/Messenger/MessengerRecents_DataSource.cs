@@ -41,7 +41,7 @@ namespace StriveEmployee.iOS.Views.Messenger
             return 80;
         }
 
-        public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             MessengerTempData.resetChatData();
             if (MessengerTempData.RecentEmployeeLists.ChatEmployeeList.ElementAt(indexPath.Row).IsGroup)

@@ -81,6 +81,7 @@ namespace Strive.Core.ViewModels.Customer
                 InfoModel.client.firstName = FirstName;
                 InfoModel.client.lastName = LastName;
                 InfoModel.client.middleName = MiddleName;
+                clientAddress.clientAddressId = CustomerInfo.customerPersonalInfo.Status[0].ClientAddressId;
                 clientAddress.address1 = Address;
                 clientAddress.address2 = Address;
                 clientAddress.phoneNumber = ContactNumber;

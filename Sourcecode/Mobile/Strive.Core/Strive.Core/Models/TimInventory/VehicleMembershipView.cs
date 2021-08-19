@@ -7,7 +7,7 @@ namespace Strive.Core.Models.TimInventory
     {
         public int VehicleId { get; set; }
         public int ClientId { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public string VehicleNumber { get; set; }
         public int VehicleMfr { get; set; }
         public int VehicleModel { get; set; }
@@ -19,9 +19,9 @@ namespace Strive.Core.Models.TimInventory
         public string Notes { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int UpdatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public object MonthlyCharge { get; set; }
     }

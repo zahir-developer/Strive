@@ -17,8 +17,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             //Timer checkForTime = new Timer(15000);
             //checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             //checkForTime.Enabled = true;
-            GetClockStatus();
-            Init();     
+            GetClockStatus();            
         }
 
         public string Name { get; set; }
@@ -53,13 +52,15 @@ namespace Strive.Core.ViewModels.TIMInventory
                 foreach(var item in status.timeClock)
                 {
                     var inTime = item.inTime.Substring(0, 19);
-                    if(EmployeeData.ClockInTime == inTime)
+                    //if(EmployeeData.ClockInTime == inTime)
+                    if (item.outTime == null)
                     {
                         SingleTimeClock.TimeClock = item;
                         EmployeeData.ClockInStatus = SingleTimeClock;
                     }
                 }                
             }
+            Init();
             _userDialog.HideLoading();
         }
 
@@ -67,13 +68,24 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             if(EmployeeData.EmployeeDetails != null)
             {
-                var EmployeeDetail = EmployeeData.EmployeeDetails;
-                Name = EmployeeDetail.EmployeeLogin.Firstname + " " + EmployeeDetail.EmployeeLogin.LastName;
-                //Role = EmployeeData.EmployeeDetails.EmployeeRoles[0].RoleName;
-                Role = EmployeeData.CurrentRole;
-                CurrentDate = DateUtils.GetTodayDateString();
-                ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInTime);
-                //ClockInTime = DateUtils.GetClockInTypeString(DateUtils.GetStringFromDate(DateTime.Now));
+                if(EmployeeData.ClockInStatus.TimeClock.outTime == null)
+                {
+                    var oldEmployeeDetail = EmployeeData.EmployeeDetails;
+                    Name = oldEmployeeDetail.EmployeeLogin.Firstname + " " + oldEmployeeDetail.EmployeeLogin.LastName;
+                    Role = EmployeeData.ClockInStatus.TimeClock.roleName;
+                    CurrentDate = DateUtils.GetTodayDateString();
+                    ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInTime);
+                }
+                else
+                {
+                    var EmployeeDetail = EmployeeData.EmployeeDetails;
+                    Name = EmployeeDetail.EmployeeLogin.Firstname + " " + EmployeeDetail.EmployeeLogin.LastName;
+                    //Role = EmployeeData.EmployeeDetails.EmployeeRoles[0].RoleName;
+                    Role = EmployeeData.CurrentRole;
+                    CurrentDate = DateUtils.GetTodayDateString();
+                    ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInTime);
+                    //ClockInTime = DateUtils.GetClockInTypeString(DateUtils.GetStringFromDate(DateTime.Now));
+                }
             }
         }
 
@@ -85,7 +97,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         public TimeClockSave PrepareClockoutModel()
         {
             EmployeeData.ClockInStatus.TimeClock.outTime = DateUtils.GetStringFromDate(DateTime.Now);
-            EmployeeData.ClockInStatus.TimeClock.isActive = false;
+            EmployeeData.ClockInStatus.TimeClock.isActive = true;
 
             List<TimeClock> clockInRequestList = new List<TimeClock>();            
             clockInRequestList.Add(EmployeeData.ClockInStatus.TimeClock);
