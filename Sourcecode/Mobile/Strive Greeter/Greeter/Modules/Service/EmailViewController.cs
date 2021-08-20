@@ -84,6 +84,13 @@ namespace Greeter.Storyboards
                 _ = SendEmail(tfCust.Text);
             };
 
+            //Clicks
+            btnPayLater.TouchUpInside += delegate
+            {
+                //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
+                NavigationController.PopToRootViewController(true);
+            };
+
             btnPrint.TouchUpInside += delegate
             {
                 //TODO : Temprary Loader to hide not done this functionality

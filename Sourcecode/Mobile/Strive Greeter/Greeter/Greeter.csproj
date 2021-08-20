@@ -424,6 +424,10 @@
 		<Compile Include="Storyboards\CustomTextField.designer.cs">
 		  <DependentUpon>CustomTextField.cs</DependentUpon>
 		</Compile>
+		<Compile Include="Storyboards\SampleWebViewController.cs" />
+		<Compile Include="Storyboards\SampleWebViewController.designer.cs">
+		  <DependentUpon>SampleWebViewController.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

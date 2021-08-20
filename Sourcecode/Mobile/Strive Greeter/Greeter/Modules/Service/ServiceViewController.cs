@@ -124,6 +124,7 @@ namespace Greeter
             if (response.IsSuccess() && response.ClientAndVehicleDetailList != null && response.ClientAndVehicleDetailList.Count > 0)
             {
                 //barcodeResponse = response;
+                txtFieldBarcode.Text = string.Empty;
                 NavigateToWashOrDetailScreen(response.ClientAndVehicleDetailList[0]);
             }
             else

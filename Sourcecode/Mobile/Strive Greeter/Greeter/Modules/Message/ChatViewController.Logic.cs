@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using Newtonsoft.Json;
 
 namespace Greeter.Modules.Message
 {
     public partial class ChatViewController
     {
-        readonly List<ChatMessage> Chats = new();
+        List<ChatMessage> Chats;
 
         readonly ChatType chatType;
         readonly ChatInfo chatInfo;
@@ -38,12 +40,12 @@ namespace Greeter.Modules.Message
 
             if(result.ChatMessageObject?.ChatMessageDetail is not null)
             {
-                Chats.AddRange(result.ChatMessageObject.ChatMessageDetail);
+                Chats = result.ChatMessageObject.ChatMessageDetail;
                 ReloadChatTableView();
             }
         }
 
-        async void OnSendMsg(string text)
+        async void OnSendMsg(string text, ChatInfo chatInfo)
         {
             //TODO Check Connectivity and send data to server
 
@@ -53,23 +55,36 @@ namespace Greeter.Modules.Message
             //InsertRowAtChatTableView(new NSIndexPath[] { indexPath });
 
             ShowActivityIndicator();
-            var result = await SingleTon.MessageApiService.SendMesasge(new SendChatMessageReq
+
+            var req = new SendChatMessageReq
             {
-                //enderID = chatInfo.SenderId,
-                //GroupID = chatInfo.GroupId,
-                //RecipientID = chatInfo.RecipientId
-            });
+                ChatMessage = new ChatMessageBody()
+                {
+                    //ChatMessageID = 0
+                    Messagebody = text
+                },
+                ChatMessageRecipient = new ChatMessageRecipient()
+                {
+                    RecipientID = chatInfo.RecipientId
+                }
+            };
+
+            Debug.WriteLine("Send Chat Msg Req : " + JsonConvert.SerializeObject(req));
+
+            var response = await SingleTon.MessageApiService.SendMesasge(req);
 
             HideActivityIndicator();
 
-            //HandleResponse(result);
+            HandleResponse(response);
 
-            //if (!result.IsSuccess()) return;
+            if (!response.IsSuccess()) return;
 
-            //if (result.ChatMessageObject?.ChatMessageDetail is not null)
+            //if (response.IsSuccess())email
             //{
-            //    Chats.AddRange(result.ChatMessageObject.ChatMessageDetail);
-            //    ReloadChatTableView();
+            //Chats.AddRange(result.ChatMessageObject.ChatMessageDetail);
+                messageTextView.Text = string.Empty;
+                _ = GetChatsAsync();
+                //ReloadChatTableView();
             //}
         }
     }

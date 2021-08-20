@@ -102,7 +102,7 @@ namespace Greeter.Modules.Message
 
         void SendTapped()
         {
-            OnSendMsg(messageTextView.Text);
+            OnSendMsg(messageTextView.Text, chatInfo);
         }
 
         void SetupNavigationItem()
@@ -164,6 +164,7 @@ namespace Greeter.Modules.Message
                 incomingCell.SetupData(message);
                 return incomingCell;
             }
+
             var outgoingCell = tableView.DequeueReusableCell(MessageOutgoingCell.Key) as MessageOutgoingCell;
             outgoingCell.SetupData(message);
             return outgoingCell;
