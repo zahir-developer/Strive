@@ -42,6 +42,7 @@ namespace Greeter.Modules.Message
             {
                 Chats = result.ChatMessageObject.ChatMessageDetail;
                 ReloadChatTableView();
+                ScrollToBottom();
             }
         }
 

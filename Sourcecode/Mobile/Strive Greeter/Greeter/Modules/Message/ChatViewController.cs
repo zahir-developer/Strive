@@ -152,7 +152,7 @@ namespace Greeter.Modules.Message
 
         public nint RowsInSection(UITableView tableView, nint section)
         {
-            return Chats.Count;
+            return Chats?.Count ?? 0;
         }
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
