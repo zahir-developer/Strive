@@ -152,12 +152,14 @@ namespace Greeter.Services.Network
 
                     foreach (var keyValuePair in request.Parameter)
                     {
-                        if (!urlString[urlString.Length - 1].Equals('?'))
+                        if (!urlString[^1].Equals('?'))
                         {
                             urlString += "&";
                         }
 
-                        urlString += $"{keyValuePair.Key}={keyValuePair.Value}";
+                        var value = new NSString(keyValuePair.Value).CreateStringByAddingPercentEncoding(NSUrlUtilities_NSCharacterSet.UrlQueryAllowedCharacterSet);
+
+                        urlString += $"{keyValuePair.Key}={value}";
                     }
                 }
 
