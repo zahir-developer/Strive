@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;

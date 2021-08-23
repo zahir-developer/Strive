@@ -30,7 +30,7 @@ namespace Greeter.Modules.Message
             chatTableView.WeakDataSource = this;
 
             //Reload once more to sync with original data
-            ReloadChatTableView();
+            //ReloadChatTableView();
         }
 
         void SetupView()
@@ -141,6 +141,8 @@ namespace Greeter.Modules.Message
                 chatTableView.ReloadData();
             else
                 chatTableView.ReloadRows(indexPaths, UITableViewRowAnimation.Fade);
+            //chatTableView.ScrollToRow(NSIndexPath.FromRowSection(Chats.Count - 1, 0), UITableViewScrollPosition.Bottom, true);
+            ScrollToBottom();
         }
 
         void InsertRowAtChatTableView(NSIndexPath[] indexPaths = null)
@@ -152,7 +154,7 @@ namespace Greeter.Modules.Message
 
         public nint RowsInSection(UITableView tableView, nint section)
         {
-            return Chats.Count;
+            return Chats?.Count ?? 0;
         }
 
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -214,7 +216,7 @@ namespace Greeter.Modules.Message
             var rowCount = chatTableView.NumberOfRowsInSection(0);
             if (rowCount > 0)
             {
-                chatTableView.ScrollToRow(NSIndexPath.FromItemSection(rowCount - 1, 0), UITableViewScrollPosition.Bottom, true);
+                chatTableView.ScrollToRow(NSIndexPath.FromItemSection(rowCount - 1, 0), UITableViewScrollPosition.Bottom, false);
             }
         }
     }
