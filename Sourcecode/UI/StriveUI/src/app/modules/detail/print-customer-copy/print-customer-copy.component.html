@@ -17,8 +17,8 @@
             <div class="row">
                 <div class="col-12">
                     <P class="text-center"><strong>Detail Packages</strong></P>
-                    <div *ngFor="let addService of selectedData.DetailsItem; let index = index">
-                        <p class="text-center">{{addService?.ServiceName}}</p>
+                    <div *ngFor="let addService of detailService">
+                        <p class="text-center">{{addService}}</p>
                            
                     </div>
                 </div>
@@ -54,7 +54,9 @@
     <br/>
     <div class="row">
         <div class="col-12">
-            <div>Est: &nbsp; {{selectedData?.Details?.EstimatedTimeOut | date: 'mm'}} &nbsp;Min</div>
+            <div>Est: &nbsp; {{days}} &nbsp;Days</div>
+            <div> &nbsp; {{hours}} &nbsp;Hours</div>
+            <div> &nbsp; {{minutes}} &nbsp;Min</div>
         </div>
     </div>
     <br/>
