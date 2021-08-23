@@ -8,6 +8,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticateObservableService } from '../../observable-service/authenticate-observable.service';
 import { ApplicationConfig } from '../ApplicationConfig';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LoginService } from '../login.service';
+import { WhiteLabelService } from '../data-service/white-label.service';
+import { LogoService } from './logo.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,11 +18,18 @@ export class AuthService {
   userDetails: any;
   public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   refreshTokenTimeout;
+  whiteLabelDetail: any;
+  colorTheme: any;
+  favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
   constructor(private http: HttpUtilsService, private userService: UserDataService, private router: Router,
-    private route: ActivatedRoute, private authenticate: AuthenticateObservableService, private spinner: NgxSpinnerService) {
+    private route: ActivatedRoute, private authenticate: AuthenticateObservableService, private spinner: NgxSpinnerService,
+    private whiteLabelService: WhiteLabelService, 
+    private loginService: LoginService,
+    private logoService: LogoService
+    ) {
     if (localStorage.getItem('isAuthenticated') === 'true') {
       this.loggedIn.next(true);
     }
@@ -30,6 +40,7 @@ export class AuthService {
         if (user.status === 'Success') {
           this.userService.setUserSettings(user.resultData);
           this.startRefreshTokenTimer();
+          this.getThemeColor();
           return user;
         }
       }
@@ -82,6 +93,29 @@ export class AuthService {
   // }
 
 
+  getThemeColor() {
+    this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
+      if (res.status === 'Success') {
+        const label = JSON.parse(res.resultData);
+        this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
+        const base64 = 'data:image/png;base64,';
+        const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
+        this.favIcon.href = logoBase64;
+        this.colorTheme = label.WhiteLabelling.Theme;
+        this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
+        this.colorTheme.forEach(item => {
+          if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
+            document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
+            document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
+            document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
+            document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
+            document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
+          }
+        });
+        document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
+      }
+    });
+}
 
   logout() {
     this.clearCacheValue();

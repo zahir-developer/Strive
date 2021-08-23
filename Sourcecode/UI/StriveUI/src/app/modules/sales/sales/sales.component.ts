@@ -168,8 +168,9 @@ export class SalesComponent implements OnInit {
     this.getServiceForDiscount();
     // this.getAllServiceandProduct();
     this.getJobType();
-
   }
+
+  
   print() {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
@@ -693,7 +694,6 @@ export class SalesComponent implements OnInit {
     this.cashTotal = cashTotal >= 0 ? Number(cashTotal.toFixed(2)) : 0;
     document.getElementById('cashpopup').style.width = '300px';
     document.getElementById('Giftcardpopup').style.width = '0';
-    document.getElementById('creditcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
   }
   opengiftcard() {
@@ -704,7 +704,6 @@ export class SalesComponent implements OnInit {
     }
     this.balance = 0;
     document.getElementById('Giftcardpopup').style.width = '450px';
-    document.getElementById('creditcardpopup').style.width = '0';
     document.getElementById('cashpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
   }
@@ -720,7 +719,6 @@ export class SalesComponent implements OnInit {
     document.getElementById('discountpopup').style.width = '450px';
     document.getElementById('cashpopup').style.width = '0';
     document.getElementById('Giftcardpopup').style.width = '0';
-    document.getElementById('creditcardpopup').style.width = '0';
   }
   closediscount() {
     document.getElementById('discountpopup').style.width = '0';
@@ -732,12 +730,10 @@ export class SalesComponent implements OnInit {
     document.getElementById('cashpopup').style.width = '0';
 
     if (this.isValidMember == true) {
-      document.getElementById('creditcardpopup').style.width = '300px';
       //document.getElementById('verifyMembership').style.width = '0';
       this.creditProcess();
     } else {
       //document.getElementById('verifyMembership').style.width = '400px';
-      document.getElementById('creditcardpopup').style.width = '300px';
       this.creditProcess();
       // this.ValidateMembership();
     }
@@ -748,15 +744,10 @@ export class SalesComponent implements OnInit {
     this.creditTotal = creditTotal >= 0 ? creditTotal : 0;
     this.creditcashback = 0;
     this.cashback = this.initialcashback;
-    document.getElementById('creditcardpopup').style.width = '300px';
     document.getElementById('verifyMembership').style.width = '0';
     document.getElementById('Giftcardpopup').style.width = '0';
     document.getElementById('discountpopup').style.width = '0';
     document.getElementById('cashpopup').style.width = '0';
-  }
-
-  closecreditcard() {
-    document.getElementById('creditcardpopup').style.width = '0';
   }
 
   closeVerifyMembership() {
@@ -1032,16 +1023,8 @@ export class SalesComponent implements OnInit {
   }
   creditProcess() {
     this.removAddedAmount(this.credit);
-    this.credit = this.creditTotal - this.creditcashback;
-    if (this.credit > (this.originalGrandTotal - this.totalPaid - this.discountAmount + this.credit)) {
-      this.credit = 0;
-      this.creditcashback = 0;
-      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.creditAmount });
-      return;
-    }
+    this.credit = this.originalGrandTotal - this.totalPaid - this.discountAmount;
     this.calculateTotalpaid(this.credit);
-    this.cashback = this.cashback + this.creditcashback;
-    document.getElementById('creditcardpopup').style.width = '0';
     this.paymentProcess();
   }
 
@@ -1053,7 +1036,7 @@ export class SalesComponent implements OnInit {
     };
     const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.clientId;
-    modalRef.componentInstance.totalAmount = this.credit;
+    modalRef.componentInstance.totalAmount = (this.originalGrandTotal - this.totalPaid - this.discountAmount);
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;
@@ -1235,7 +1218,7 @@ export class SalesComponent implements OnInit {
         discountValue = washDiscountPrice + detailDiscountPrice + additionalDiscountPrice + airfreshnerDiscountPrice
           + upchargeDiscountPrice + outsideDiscountPrice + noServiceTypePrice + allServiceDiscountPrice;
       });
-      this.discountAmount = discountValue;
+      this.discountAmount = +discountValue;
     } else {
       this.discountAmount = 0;
     }
@@ -1296,9 +1279,9 @@ export class SalesComponent implements OnInit {
     this.discountList = this.discountList.filter(item => item.ServiceId !== +event.ServiceId);
     let discountAmount = 0;
     this.selectedDiscount.forEach(item => {
-      discountAmount = discountAmount + (+item.Price);
+      discountAmount = +discountAmount + (+item.Price);
     });
-    this.discountAmount = discountAmount;
+    this.discountAmount = +discountAmount;
   }
   getBalanceDue() {
     const balancedue = (this.originalGrandTotal - this.totalPaid - this.discountAmount) !== 0 ?
@@ -1308,7 +1291,7 @@ export class SalesComponent implements OnInit {
   addPayment() {
     let paymentDetailObj = [];
     const balancedue = this.getBalanceDue();
-    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0) {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0 && this.discountAmount === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment });
       return;
     }

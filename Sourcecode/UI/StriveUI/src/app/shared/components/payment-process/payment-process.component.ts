@@ -12,6 +12,7 @@ import { MessageConfig } from '../../services/messageConfig';
 import { CityComponent } from '../city/city.component';
 import { StateDropdownComponent } from '../state-dropdown/state-dropdown.component';
 import { DecimalPipe } from '@angular/common';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-payment-process',
@@ -23,6 +24,8 @@ export class PaymentProcessComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
   @ViewChild(CityComponent) cityComponent: CityComponent;
   @ViewChild('staticTabs', { static: false }) staticTabs: TabsetComponent;
+  
+
   billingForm: FormGroup;
   paymentForm: FormGroup;
   selectedStateId: any;
@@ -38,6 +41,8 @@ export class PaymentProcessComponent implements OnInit {
   isBillingpage: boolean;
   errorMessage: string;
   constTotalAmount:0;
+  private creditAmt: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public creditAmtChange: Observable<any> = this.creditAmt.asObservable();
   constructor(
     private activeModal: NgbActiveModal,
     private paymentService: PaymentService,
@@ -47,7 +52,8 @@ export class PaymentProcessComponent implements OnInit {
     private messageService: MessageServiceToastr,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    
   ) { }
 
   ngOnInit(): void {
@@ -56,7 +62,7 @@ export class PaymentProcessComponent implements OnInit {
     this.errorMessage = '';
     this.formInitialize();
     this.getClientDetail();
-    this.constTotalAmount = this.totalAmount;
+    this.constTotalAmount = this.totalAmount !== null ? this.totalAmount : 0;
   }
 
   closeModal() {
@@ -147,6 +153,14 @@ export class PaymentProcessComponent implements OnInit {
   }
 
   process() {
+
+    //Credit amount > the due amount, Return
+    /*
+    if()
+    this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.creditAmount });
+    return;
+    */
+    this.creditAmt = this.totalAmount;
     this.submitted = true;
     if (this.paymentForm.invalid) {
       this.isBillingpage = false;
