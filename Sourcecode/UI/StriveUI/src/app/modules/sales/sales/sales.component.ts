@@ -1308,7 +1308,7 @@ export class SalesComponent implements OnInit {
   addPayment() {
     let paymentDetailObj = [];
     const balancedue = this.getBalanceDue();
-    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0) {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0 && this.discountAmount === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment });
       return;
     }
