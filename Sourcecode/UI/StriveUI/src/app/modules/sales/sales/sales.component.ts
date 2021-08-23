@@ -127,7 +127,7 @@ export class SalesComponent implements OnInit {
   enableAdd = false;
   grandTotal = '';
   cash = 0;
-  credit = 0;
+  credit: any = 0;
   giftCard = 0;
   account = 0;
   totalPaid = 0;
@@ -1053,7 +1053,7 @@ export class SalesComponent implements OnInit {
     };
     const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.clientId;
-    modalRef.componentInstance.totalAmount = (this.originalGrandTotal - this.totalPaid - (Number(this.discountAmount).toFixed(2)) + this.credit);
+    modalRef.componentInstance.totalAmount = this.credit;
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;
@@ -1308,7 +1308,7 @@ export class SalesComponent implements OnInit {
   addPayment() {
     let paymentDetailObj = [];
     const balancedue = this.getBalanceDue();
-    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0 && this.discountAmount === 0) {
+    if (this.cash === 0 && this.credit === 0 && this.giftCard === 0 && this.account === 0) {
       this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.payment });
       return;
     }
@@ -1743,8 +1743,9 @@ export class SalesComponent implements OnInit {
     this.targetId = event.target.id;
   }
   allowNumbersOnly(e) {
+    console.log(e.keyCode);
     const code = (e.which) ? e.which : e.keyCode;
-    if (code > 31 && (code < 48 || code > 57)) {
+    if (code > 31 && (code < 48 || code > 57) && !(code >= 55 && code <= 63)) {
       e.preventDefault();
     }
   }
