@@ -1053,7 +1053,7 @@ export class SalesComponent implements OnInit {
     };
     const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.clientId;
-    modalRef.componentInstance.totalAmount = this.credit;
+    modalRef.componentInstance.totalAmount = (this.originalGrandTotal - this.totalPaid - (Number(this.discountAmount).toFixed(2)) + this.credit);
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;
