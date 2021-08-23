@@ -16,6 +16,10 @@ export class PrintCustomerCopyComponent implements OnInit {
   detailService: any;
   airfreshService: any;
   upchargeService: any;
+  minutes:any;
+  hours:any;
+  days:any;
+  diff:bigint;
   constructor(
     private wash: WashService,
     private toastr: ToastrService,
@@ -23,7 +27,11 @@ export class PrintCustomerCopyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.detailService = 'None';
+    this.diff = 1n;
+    this.minutes = 0;
+    this.days = 0;
+    this.hours = 0;
+    this.detailService = [];
     this.airfreshService = 'None';
     this.upchargeService = 'None';
     this.getServiceType();
@@ -48,13 +56,18 @@ export class PrintCustomerCopyComponent implements OnInit {
   }
 
   bindingService() {
+    this.diff = new Date(this.selectedData?.Details?.EstimatedTimeOut) - new Date(this.selectedData?.Details?.TimeIn);
+    this.days = Math.floor(this.diff / (60 * 60 * 24 * 1000));
+    this.hours = Math.floor(this.diff / (60 * 60 * 1000)) - (this.days * 24);
+   this.minutes = Math.floor(this.diff / (60 * 1000)) - ((this.days * 24 * 60) + (this.hours * 60));
+
     this.selectedData?.DetailsItem.forEach(item => {
       const serviceType = _.where(this.serviceEnum, { CodeId: item.ServiceTypeId });
       if (serviceType.length > 0) {
-        if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage) {
-          this.detailService = item.ServiceName + '$' + item.Cost;
-        } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
-          this.upchargeService = item.ServiceName + '$' + item.Cost;
+        if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailPackage || serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.OutsideServices || serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
+          this.detailService.push(item.ServiceName + ' $' + item.Cost);
+        } else if (serviceType[0].CodeValue.includes(ApplicationConfig.Enum.ServiceType.Upcharges) || serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge || serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
+          this.upchargeService = item.ServiceName + ' $' + item.Cost;
         } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.AirFresheners) {
           this.airfreshService = item.ServiceName;
         }

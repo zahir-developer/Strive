@@ -58,6 +58,10 @@ export class IrregularityReportComponent implements OnInit {
 
 
   onValueChange(event) {
+    if (event !== null) {
+      this.startDate = event[0];
+      this.endDate = event[1];
+    }
     console.log(event, 'date view');
   }
 
@@ -67,7 +71,7 @@ export class IrregularityReportComponent implements OnInit {
       fromDate: moment(this.startDate).format('YYYY-MM-DD'),
       endDate: moment(this.endDate).format('YYYY-MM-DD')
     };
-    this.spinner.show();
+   this.spinner.show();
     this.reportsService.getIrregularityReports(finalObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
