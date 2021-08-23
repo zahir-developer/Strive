@@ -19,7 +19,6 @@ export class PrintCustomerCopyComponent implements OnInit {
   minutes:any;
   hours:any;
   days:any;
-  diff:bigint;
   constructor(
     private wash: WashService,
     private toastr: ToastrService,
@@ -27,7 +26,6 @@ export class PrintCustomerCopyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.diff = 1n;
     this.minutes = 0;
     this.days = 0;
     this.hours = 0;
@@ -56,10 +54,10 @@ export class PrintCustomerCopyComponent implements OnInit {
   }
 
   bindingService() {
-    this.diff = new Date(this.selectedData?.Details?.EstimatedTimeOut) - new Date(this.selectedData?.Details?.TimeIn);
-    this.days = Math.floor(this.diff / (60 * 60 * 24 * 1000));
-    this.hours = Math.floor(this.diff / (60 * 60 * 1000)) - (this.days * 24);
-   this.minutes = Math.floor(this.diff / (60 * 1000)) - ((this.days * 24 * 60) + (this.hours * 60));
+    var TimeOut:any = new Date(this.selectedData.Details.EstimatedTimeOut) ;
+    var TimeIn:any = new Date(this.selectedData.Details.TimeIn);
+    var diff :any = TimeOut-TimeIn;
+    this.minutes = Math.floor((diff/1000)/60);
 
     this.selectedData?.DetailsItem.forEach(item => {
       const serviceType = _.where(this.serviceEnum, { CodeId: item.ServiceTypeId });
