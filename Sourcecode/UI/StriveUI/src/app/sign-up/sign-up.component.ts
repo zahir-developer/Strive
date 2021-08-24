@@ -75,7 +75,7 @@ export class UserSignUpComponent implements OnInit {
   
   
   getModel(id) {
-    this.modelService.getModelByMakeId(id).subscribe(res => {
+    this.modelService.getAuthModelByMakeId(id).subscribe(res => {
       if (res.status === 'Success') {
         const makeModel = JSON.parse(res.resultData);
         this.model = makeModel.Model;
@@ -98,7 +98,7 @@ export class UserSignUpComponent implements OnInit {
   }
 
   getAllMake() {
-    this.makeService.getMake().subscribe(res => {
+    this.makeService.getAuthMake().subscribe(res => {
       if (res.status === 'Success') {
         const make = JSON.parse(res.resultData);
         const makes = make.Make;

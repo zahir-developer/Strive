@@ -9,7 +9,11 @@ export class ModelService {
 
   constructor(private http: HttpUtilsService) { }
   
-  getModelByMakeId(Id) {
+  getAuthModelByMakeId(Id) {
     return this.http.get(`${UrlConfig.Auth.model}`+  Id ,  { params: { makeId: Id } });
+  }  
+
+  getModelByMakeId(Id) {
+    return this.http.get(`${UrlConfig.common.ModelByMakeId}`+  Id ,  { params: { makeId: Id } });
   }  
 }

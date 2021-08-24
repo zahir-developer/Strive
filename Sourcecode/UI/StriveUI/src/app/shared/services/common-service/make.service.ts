@@ -9,11 +9,16 @@ export class MakeService {
   constructor(private http: HttpUtilsService) { }
   
 
-  getMake() {
+  getAuthMake() {
     return this.http.get(`${UrlConfig.Auth.allmake}`);
   }
 
   getColor() {
     return this.http.get(`${UrlConfig.Auth.color}`);
   }
+
+  getMake() {
+    return this.http.get(`${UrlConfig.common.MakeList}`);
+  }
+
 }
