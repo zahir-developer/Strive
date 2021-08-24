@@ -107,7 +107,6 @@ export class LoginComponent implements OnInit {
           const token = JSON.parse(data.resultData);
           this.landing.loadTheLandingPage(true);
           this.getCodeValue();
-          this.getThemeColor();
           this.msgService.startConnection();
         } else {
           this.errorFlag = true;
@@ -130,31 +129,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate([`/forgot-password`], { relativeTo: this.route });
   }
 
-  getThemeColor() {
-    if (localStorage.getItem('isAuthenticated') === 'true') {
-      this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
-        if (res.status === 'Success') {
-          const label = JSON.parse(res.resultData);
-          this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
-          const base64 = 'data:image/png;base64,';
-          const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
-          this.favIcon.href = logoBase64;
-          this.colorTheme = label.WhiteLabelling.Theme;
-          this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
-          this.colorTheme.forEach(item => {
-            if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
-              document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
-              document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
-              document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
-              document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
-              document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
-            }
-          });
-          document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
-        }
-      });
-    }
-  }
+  
 
   getCodeValue() {
     this.getCodeService.getCodeByCategory(ApplicationConfig.Category.all).subscribe(res => {

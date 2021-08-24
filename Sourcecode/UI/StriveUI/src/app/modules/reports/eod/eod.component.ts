@@ -173,7 +173,7 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.in = cashIn.CashRegister.CashRegister.TotalAmount;
         }
 
-        this.difference = this.in - this.out;
+        this.difference = this.out - this.in;
       }
     });
   }
