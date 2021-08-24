@@ -27,6 +27,7 @@ import { ToastrComponentlessModule, ToastrService } from 'ngx-toastr';
 import { LocationService } from 'src/app/shared/services/data-service/location.service';
 import { VehicleService } from 'src/app/shared/services/data-service/vehicle.service';
 import { AnySoaRecord } from 'dns';
+import { debug } from 'console';
 declare var $: any;
 
 @Component({
@@ -1036,7 +1037,7 @@ export class SalesComponent implements OnInit {
     };
     const modalRef = this.modalService.open(PaymentProcessComponent, ngbModalOptions);
     modalRef.componentInstance.clientId = this.clientId;
-    modalRef.componentInstance.totalAmount = (this.originalGrandTotal - this.totalPaid - this.discountAmount);
+    modalRef.componentInstance.totalAmount = this.credit;
     modalRef.result.then((result) => {
       if (result.status) {
         this.isCreditPay = true;
