@@ -1023,10 +1023,12 @@ export class SalesComponent implements OnInit {
     this.clearGridItems();
   }
   creditProcess() {
-    this.removAddedAmount(this.credit);
+    if(this.isCreditPay ==false ){
+    this.removAddedAmount(+this.credit);
     this.credit = this.originalGrandTotal - this.totalPaid - this.discountAmount;
-    this.calculateTotalpaid(this.credit);
-    this.paymentProcess();
+    
+    this.paymentProcess();    
+    }
   }
 
   paymentProcess() {
@@ -1042,7 +1044,9 @@ export class SalesComponent implements OnInit {
       if (result.status) {
         this.isCreditPay = true;
         this.tips = result.tipAmount;
+        this.credit= result.totalAmount
         this.captureObj = result.authObj;
+        this.calculateTotalpaid(+this.credit);
         // this.addPayment();
         // this.paymentCapture(result.authObj);
       } else {

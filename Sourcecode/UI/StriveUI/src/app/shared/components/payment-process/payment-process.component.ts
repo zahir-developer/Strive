@@ -62,7 +62,6 @@ export class PaymentProcessComponent implements OnInit {
     this.errorMessage = '';
     this.formInitialize();
     this.getClientDetail();
-    this.constTotalAmount = this.totalAmount !== null ? this.totalAmount : 0;
   }
 
   closeModal() {
@@ -94,7 +93,7 @@ export class PaymentProcessComponent implements OnInit {
       cardNumber: ['', Validators.required],
       expiryDate: ['', Validators.required],
       ccv: ['', Validators.required],
-
+      totalAmount: this.totalAmount
     });
   }
   get payment() {
@@ -140,7 +139,7 @@ export class PaymentProcessComponent implements OnInit {
 
   tipAmountAdded() {
     const tip = this.paymentForm.value.tipAmount ? this.paymentForm.value.tipAmount : 0;
-    this.totalAmount = this.constTotalAmount + (+tip);
+    this.totalAmount = this.paymentForm.value.totalAmount + (+tip);
   }
 
   getSelectedStateId(event) {
@@ -211,6 +210,7 @@ export class PaymentProcessComponent implements OnInit {
     const obj = {
       status: true,
       tipAmount: this.paymentForm.value.tipAmount,
+      totalAmount: this.paymentForm.value.totalAmount,
       authObj: auth
     };
     this.activeModal.close(obj);
