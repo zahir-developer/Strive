@@ -14,7 +14,7 @@ namespace Strive.BusinessEntities.ViewModel
         public int? DetailCount { get; set; }
         public int? EmployeeCount { get; set; }
         public decimal? Score { get; set; }
-        public string WashTime { get; set; }
+        public decimal? WashTime { get; set; }
         public int? Currents { get; set; }
         public int? ForecastedCar { get; set; }
         public decimal? WashSales { get; set; }
