@@ -71,7 +71,7 @@ namespace Strive.ResourceAccess
         public List<ClientVehicleViewModel> GetMembershipListByVehicleId(int vehicleId)
         {
             _prm.Add("@VehicleId", vehicleId);
-            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.uspGetMembershipListByVehicleId.ToString(), _prm);
+            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETMEMBERSHIPLISTBYVEHICLEID.ToString(), _prm);
             return result;
         }
         public bool DeleteWashes(int id)
