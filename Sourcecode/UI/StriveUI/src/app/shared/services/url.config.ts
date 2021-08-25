@@ -38,11 +38,11 @@ export const UrlConfig = {
     getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     cityList: `Admin/Common/GetCodesByCategory/`,
     cityByStateId: `Admin/Common/GetCityByStateId/`,
-    modelByMakeId: `Admin/Common/GetModelById/`,
+    ModelByMakeId: `Admin/Common/GetModelById/`,
     getUpchargeType : `Admin/Common/GetUpchargeType/`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
-    makeList: `Admin/Common/GetAllMake`,
+    MakeList: `Admin/Common/GetAllMake`,
 
     countryList: `Admin/Common/CountryList`,
     getTicketNumber: `Admin/Common/GetTicketNumber/`,
