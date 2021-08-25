@@ -126,6 +126,7 @@ namespace Strive.BusinessEntities
             USPGETVEHICLEMEMBERSHIPBYMEMBERSHIPID,
             USPGETMEMBERSHIPLISTSETUPBYMEMBERSHIPID,
             USPDELETEMEMBERSHIP,
+            USPDELETEVEHICLEMEMBERSHIP,
             USPGETMEMBERSHIPBYID,
             USPSAVEMEMBERSHIPSETUP,
             USPGETMEMBERSHIPSERVICEBYVEHICLEID,
@@ -508,7 +509,7 @@ namespace Strive.BusinessEntities
         uspGetClientCodes,
         uspGetGiftCardBalance,
         uspGetClientAndVehicle,
-        uspGetMembershipListByVehicleId,
+        USPGETMEMBERSHIPLISTBYVEHICLEID,
         USPGETTICKETNUMBER,
         
         uspGetServiceByItemList,

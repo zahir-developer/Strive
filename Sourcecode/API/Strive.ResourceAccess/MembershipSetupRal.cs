@@ -44,6 +44,13 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public bool DeleteVehicleMembershipById(int ClientMembershipid)
+        {
+            _prm.Add("ClientMembershipId", ClientMembershipid);
+            db.Save(EnumSP.Membership.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
+            return true;
+        }
+
         public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
