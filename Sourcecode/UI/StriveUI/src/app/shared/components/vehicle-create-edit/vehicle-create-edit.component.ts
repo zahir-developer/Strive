@@ -34,6 +34,7 @@ export class VehicleCreateEditComponent implements OnInit {
   make: any;
   model: any;
   color: any;
+  washes: any;
   upchargeType: any;
   membership: any;
   additional: any;
@@ -312,12 +313,15 @@ export class VehicleCreateEditComponent implements OnInit {
           if (this.washService.length > 0) {
             this.vehicleForm.patchValue({ wash: this.washService[0].ServiceId });
             this.vehicleForm.controls.wash.disable();
+            this.washTypeChange(this.washService[0].ServiceId);
           }
           const upchargeServcie = this.membershipServices.filter(item =>
             item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
+
           if (upchargeServcie.length > 0) {
             this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
           }
+
           if (this.membershipServices.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices || ApplicationConfig.Enum.ServiceType.WashPackage).length !== 0) { // Additonal Services
             this.memberOnchangePatchedService = this.membershipServices.filter(item =>
               (item.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices || ApplicationConfig.Enum.ServiceType.WashPackage);
@@ -566,7 +570,10 @@ export class VehicleCreateEditComponent implements OnInit {
     if (this.vehicleForm.invalid) {
       return;
     }
-    this.vehicleForm.controls.vehicleNumber.enable();
+
+    this.washService =
+
+      this.vehicleForm.controls.vehicleNumber.enable();
     this.vehicleForm.controls.client.enable();
     let memberService = [];
     let clientMembershipId = '';
@@ -789,6 +796,21 @@ export class VehicleCreateEditComponent implements OnInit {
     } else {
       this.vehicleForm.patchValue({ upchargeType: event.target.value });
     }
+  }
+
+  washTypeChange(serviceId) {
+    const washService = this.membershipServices.filter(item =>
+      item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
+    let oldPrice = 0;
+    let newPrice = 0;
+    if (washService.length > 0) {
+      const oldUpchargeServcie = this.washService.filter(item => item.ServiceId === washService[0].ServiceId);
+      oldPrice = +this.vehicleForm.value.monthlyCharge - oldUpchargeServcie[0].Price;
+      const newUpchargeServcie = this.washService.filter(item => item.ServiceId === serviceId);
+      newPrice = oldPrice + newUpchargeServcie[0].Price;
+      this.vehicleForm.patchValue({ monthlyCharge: newPrice });
+    }
+    this.vehicleForm.patchValue({ wash: serviceId });
   }
 
 
