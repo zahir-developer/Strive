@@ -10,7 +10,7 @@ namespace Strive.BusinessEntities.DTO.Checkout
     {
         public int JobId { get; set; }
         public bool CheckOut { get; set; }
-        public DateTime CheckOutTime { get; set; }
+        public DateTimeOffset CheckOutTime { get; set; }
     }
 
 }
