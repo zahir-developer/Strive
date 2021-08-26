@@ -1143,6 +1143,30 @@ namespace Greeter.DTOs
     public class SendMessageResponse : BaseResponse
     {
         [JsonProperty("Status")]
-        public bool Status { get; }
+        public bool Status { get; set; }
+    }
+
+    public class GetAvailableScheduleReq
+    {
+        [JsonProperty("locationId")]
+        public int LocationId { get; set; }
+
+        [JsonProperty("date")]
+        public DateTime CurrentDateTime { get; } = DateTime.Now;
+    }
+
+    public class AvailableScheduleResponse : BaseResponse
+    {
+        [JsonProperty("GetTimeInDetails")]
+        public List<GetTimeInDetails> GetTimeInDetails { get; set; }
+    }
+
+    public class GetTimeInDetails
+    {
+        [JsonProperty("BayId")]
+        public int BayId { get; set; }
+
+        [JsonProperty("TimeIn")]
+        public string TimeIn { get; set; }
     }
 }

@@ -54,7 +54,9 @@ namespace Greeter.Services.Network
                         Debug.WriteLine("Status Code : " + urlResponse.StatusCode);
                         Debug.WriteLine("Response String : " + responseString);
 
-                        var result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
+                        TResult result = Activator.CreateInstance<TResult>();
+                        if(!string.IsNullOrEmpty(responseString))
+                            result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseString));
                         result.StatusCode = (int)urlResponse?.StatusCode;
                         return result;
                     } // Un-Authorized

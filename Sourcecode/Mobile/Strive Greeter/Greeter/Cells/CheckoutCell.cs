@@ -183,7 +183,7 @@ namespace Greeter.Cells
                 statusIndicatorView.BackgroundColor = ColorConverters.FromHex(checkout.ColorCode).ToPlatformColor();
             checkoutIdLabel.Text = checkout.ID.ToString();
             customerNameLabel.Text = checkout.CustomerFirstName + " " + checkout.CustomerLastName;
-            serviceInfoLabel.Text = checkout.VehicleModel + "/" + checkout.VehicleColor + "\n" + "Services: " + checkout.Services;
+            serviceInfoLabel.Text = checkout.VehicleMake + "/" + checkout.VehicleModel + "/" + checkout.VehicleColor + "\n" + "Services: " + checkout.Services;
             if (checkout.AdditionalServices is not null)
                 serviceInfoLabel.Text += "\n" + "Additional Services: " + checkout.AdditionalServices;
             checkInAndOutTimingLabel.Text = "  Check in " + checkout.CheckinTime + " - " + "Check out " + checkout.CheckoutTime + "  ";

@@ -16,6 +16,7 @@ namespace Greeter.Services.Api
         Task<BaseResponse> CreateService(CreateServiceRequest req);
         Task<EmployeeListResponse> GetDetailEmployees(GetDetailEmployeeReq req);
         Task<BaseResponse> SendEmail(string email, string subject, string body);
+        Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req);
     }
 
     public class WashApiService : IWashApiService
@@ -55,6 +56,11 @@ namespace Greeter.Services.Api
         {
             var parameters = new Dictionary<string, string>() { { nameof(email), email }, { nameof(subject), subject }, { nameof(body), body } };
             return apiService.DoApiCall<BaseResponse>(Urls.SEND_EMAIL, HttpMethod.Post, parameters);
+        }
+
+        public Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req)
+        {
+            return apiService.DoApiCall<AvailableScheduleResponse>(Urls.GET_AVAILABLILITY_SCHEDULE_TIME, HttpMethod.Post, null, req);
         }
     }
 }

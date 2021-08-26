@@ -42,10 +42,10 @@ namespace Greeter.Common
         //internal const string BASE_URL = "https://strivedev.azurewebsites.net";
 
         // Mamooth Dev
-        //internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
+        internal const string BASE_URL = "https://mammothuatapi-dev.azurewebsites.net";
 
         // Mammoth QA
-        internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
+        //internal const string BASE_URL = "https://mammothuatapi-qa.azurewebsites.net";
 
         // Client Url by Zahir - not working - don't use this one as of now
         //internal const string BASE_URL = "https://mammothuat.azurewebsites.net";
@@ -71,6 +71,7 @@ namespace Greeter.Common
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
         internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
         internal const string SEND_EMAIL = "/Admin/Common/SendMail";
+        internal const string GET_AVAILABLILITY_SCHEDULE_TIME = "/Admin/Dashboard/GetAvailablilityScheduleTime";
         internal const string WASH_TIME = "/Admin/Washes/GetWashTimeDetail/";
 
         // Employees

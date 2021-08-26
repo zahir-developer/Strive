@@ -38,7 +38,7 @@ namespace Greeter.Modules.Pay
 
 #if DEBUG
             cardNumberTextField.Text = "6011000995500000";
-            //expirationDateTextField.Text = "12/21";
+            expirationDateTextField.Text = "12/21";
             securityCodeTextField.Text = "291";
 #endif
         }
@@ -412,18 +412,18 @@ namespace Greeter.Modules.Pay
 
             if (textField == expirationDateTextField)
             {
-                var oldNSString = new NSString(expirationDateTextField.Text ?? string.Empty);
-                var replacedString = oldNSString.Replace(range, new NSString(replacementString)).ToString().Replace("/", string.Empty);
+                //var oldNSString = new NSString(expirationDateTextField.Text ?? string.Empty);
+                //var replacedString = oldNSString.Replace(range, new NSString(replacementString)).ToString().Replace("/", string.Empty);
 
-                if (replacedString.Length > 4) return false;
+                //if (replacedString.Length > 4) return false;
 
-                if (replacedString.Length > 1)
-                {
-                    expirationDateTextField.Text = replacedString.ToString().Insert(2, "/");
-                    return false;
-                }
-                else
-                    return true;
+                //if (replacedString.Length > 1)
+                //{
+                //    expirationDateTextField.Text = replacedString.ToString().Insert(2, "/");
+                //    return false;
+                //}
+                //else
+                //    return true;
             }
 
             return true;

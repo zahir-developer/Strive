@@ -126,6 +126,9 @@ namespace Greeter.Storyboards
 
                 if (jobId != 0)
                 {
+                    var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationId = AppSettings.LocationID };
+                    var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
+
                     var req = new CreateServiceRequest()
                     {
                         Job = new Job()

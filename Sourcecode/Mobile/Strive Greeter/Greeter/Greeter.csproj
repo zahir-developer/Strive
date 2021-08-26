@@ -408,10 +408,6 @@
 		<Compile Include="Services\Modules\PaymentApiService.cs" />
 		<Compile Include="Services\Modules\VehicleApiService.cs" />
 		<Compile Include="Services\Modules\WashApiService.cs" />
-		<Compile Include="Storyboards\SampleViewController.cs" />
-		<Compile Include="Storyboards\SampleViewController.designer.cs">
-		  <DependentUpon>SampleViewController.cs</DependentUpon>
-		</Compile>
 		<Compile Include="DTOs\ChatInfo.cs" />
 		<Compile Include="Common\Logic.cs" />
 		<Compile Include="CustomView\FloatingTextField.cs" />
@@ -423,10 +419,6 @@
 		<Compile Include="Storyboards\CustomTextField.cs" />
 		<Compile Include="Storyboards\CustomTextField.designer.cs">
 		  <DependentUpon>CustomTextField.cs</DependentUpon>
-		</Compile>
-		<Compile Include="Storyboards\SampleWebViewController.cs" />
-		<Compile Include="Storyboards\SampleWebViewController.designer.cs">
-		  <DependentUpon>SampleWebViewController.cs</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

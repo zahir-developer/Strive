@@ -64,7 +64,7 @@ namespace Greeter.Cells
             messageLabel.Text = message.MessageBody;
             if (message.CreatedDate.HasValue)
             {
-                messageTimeLabel.Text = message.CreatedDate?.ToString("h:mm tt | MMM yy");
+                messageTimeLabel.Text = message.CreatedDate?.ToString("h:mm tt | dd MMM yy");
             }
         }
     }
