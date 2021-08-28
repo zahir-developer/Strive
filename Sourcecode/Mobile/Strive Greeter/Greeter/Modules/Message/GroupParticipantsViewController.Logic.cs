@@ -39,6 +39,7 @@ namespace Greeter.Modules.Message
                 participants.Add(new ChatUserGroup
                 {
                     UserID = item.ID,
+                    ChatGroupUserID = item.ChatGroupUserId,
                     FirstName = item.FirstName,
                     LastName = item.LastName
                 });
@@ -50,14 +51,14 @@ namespace Greeter.Modules.Message
         public async void RemoveParticipant(ContactEmployee contact)
         {
             ShowActivityIndicator();
-            var result = await SingleTon.MessageApiService.RemoveUserFromGroup(contact.EmployeeId);
+            var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeId);
+            var result = await SingleTon.MessageApiService.RemoveUserFromGroup(participants[index].ChatGroupUserID);
             HideActivityIndicator();
 
             HandleResponse(result);
 
             if (!result.IsSuccess()) return;
 
-            var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeId);
             participants.RemoveAt(index);
 
             var newParticipantIndex = newlyAddedParticipants.FindIndex(obj => obj.UserID == contact.EmployeeId);
@@ -86,7 +87,7 @@ namespace Greeter.Modules.Message
             List<Task> TaskList = new List<Task>();
             foreach (var participant in newlyAddedParticipants)
             {
-                var task = SingleTon.MessageApiService.AddUserToGroup(participant.UserID, 0);
+                var task = SingleTon.MessageApiService.AddUserToGroup(participant.UserID, null);
                 TaskList.Add(task);
             }
 

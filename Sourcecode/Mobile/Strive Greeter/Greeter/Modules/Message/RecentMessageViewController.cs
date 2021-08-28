@@ -71,10 +71,17 @@ namespace Greeter.Modules.Message
             var chatInfo = new ChatInfo
             {
                 Title = $"{recentChat.FirstName} {recentChat.LastName}",
-                GroupId = recentChat.GroupId,
+                GroupId = recentChat.ID,
                 SenderId = AppSettings.UserID,
-                RecipientId = recentChat.ID
+                RecipientId = recentChat.ID,
+                CommunicationId = recentChat.CommunicationId
             };
+
+            if (chatType == ChatType.Group)
+            {
+                chatInfo.SenderId = chatInfo.RecipientId = 0;
+            }
+
             NavigationController.PushViewController(new ChatViewController(chatType, chatInfo), animated: true);
         }
 

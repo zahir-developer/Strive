@@ -973,6 +973,9 @@ namespace Greeter.DTOs
 
         [JsonIgnore]
         public string LastName { get; set; }
+
+        [JsonIgnore]
+        public long ChatGroupUserID { get; set; }
     }
 
     public class CreateGroupResponse : BaseResponse
@@ -1031,8 +1034,8 @@ namespace Greeter.DTOs
         //[JsonProperty("RecentChatMessage")]
         //public string RecentChatMessage { get; set; }
 
-        //[JsonProperty("ChatGroupUserId")]
-        //public long ChatGroupUserId { get; set; }
+        [JsonProperty("ChatGroupUserId")]
+        public long ChatGroupUserId { get; set; }
 
         //[JsonProperty("CreatedDate")]
         //public string CreatedDate { get; set; }
@@ -1106,23 +1109,23 @@ namespace Greeter.DTOs
         //[JsonProperty("chatGroupRecipient")]
         //public List<ChatGroupRecipient> ChatGroupRecipient { get; set; }
 
-        //[JsonProperty("connectionId")]
-        //public string ConnectionID { get; set; }
+        [JsonProperty("connectionId")]
+        public string ConnectionID { get; set; }
 
         //[JsonProperty("fullName")]
         //public string FullName { get; set; }
 
-        //[JsonProperty("groupId")]
-        //public string GroupId { get; set; }
+        [JsonProperty("groupId")]
+        public string GroupId { get; set; }
 
         //[JsonProperty("groupName")]
         //public string GroupName { get; set; }
 
-        //[JsonProperty("firstName")]
-        //public string FirstName { get; set; }
+        [JsonProperty("firstName")]
+        public string FirstName { get; set; }
 
-        //[JsonProperty("lastName")]
-        //public string LastName { get; set; }
+        [JsonProperty("lastName")]
+        public string LastName { get; set; }
     }
 
     public class ChatMessageBody
@@ -1172,8 +1175,8 @@ namespace Greeter.DTOs
         [JsonProperty("recipientId")]
         public long RecipientID { get; set; }
 
-        //[JsonProperty("recipientGroupId")]
-        //public int? RecipientGroupID { get; set; }
+        [JsonProperty("recipientGroupId")]
+        public long? RecipientGroupID { get; set; } = null;
 
         //[JsonProperty("createdDate")]
         //public string CreatedDate { get; set; }
@@ -1184,17 +1187,17 @@ namespace Greeter.DTOs
 
     public class ChatGroupRecipient
     {
-        //[JsonProperty("chatGroupRecipientId")]
-        //public int ChatGroupRecipientID { get; set; }
+        [JsonProperty("chatGroupRecipientId")]
+        public int ChatGroupRecipientID { get; } = 0;
 
-        //[JsonProperty("chatGroupId")]
-        //public int ChatGroupID { get; set; }
+        [JsonProperty("chatGroupId")]
+        public int ChatGroupID { get; set; }
 
-        //[JsonProperty("recipientId")]
-        //public int? RecipientID { get; set; }
+        [JsonProperty("recipientId")]
+        public int? RecipientID { get; set; }
 
-        //[JsonProperty("isRead")]
-        //public bool IsRead { get; set; }
+        [JsonProperty("isRead")]
+        public bool IsRead { get; } = false;
 
         //[JsonProperty("createdBy")]
         //public int CreatedBy { get; set; }

@@ -156,7 +156,6 @@ namespace Greeter.Storyboards
 
                         //TODO : Fill Job Detail and bay scheduels objects in the req
                     }
-                        
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
 

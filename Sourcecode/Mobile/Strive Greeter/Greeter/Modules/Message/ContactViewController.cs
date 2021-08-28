@@ -147,7 +147,7 @@ namespace Greeter.Modules.Message
                 var contact = searchedContacts[indexPath.Row];
                 var chatInfo = new ChatInfo
                 {
-                    Title = $"{contact.FirstName} {contact.LastName}",
+                    Title = Logic.FullName(contact.FirstName, contact.LastName),
                     GroupId = -1,
                     SenderId = AppSettings.UserID,
                     RecipientId = contact.EmployeeId
