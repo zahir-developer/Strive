@@ -212,6 +212,69 @@ namespace Greeter.DTOs
 
         [JsonProperty("jobItem")]
         public List<JobItem> JobItems { get; set; }
+
+        [JsonProperty("jobDetail")]
+        public JobDetail JobDetail { get; set; } = null;
+
+        [JsonProperty("BaySchedule")]
+        public List<BaySchedule> BaySchedules { get; set; } = null;
+    }
+
+    public class JobDetail
+    {
+        [JsonProperty("jobDetailId")]
+        public int JobDetailID { get; set; }
+
+        [JsonProperty("jobId")]
+        public long JobId { get; set; }
+
+        [JsonProperty("bayId")]
+        public int BayId { get; set; }
+
+        [JsonProperty("isActive")]
+        public bool IsActive { get; set; }
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("createdBy")]
+        public int CreatedBy { get; set; }
+
+        [JsonProperty("updatedBy")]
+        public int UpdatedBy { get; set; }
+    }
+
+    public class BaySchedule
+    {
+        [JsonProperty("bayScheduleId")]
+        public int BayScheduleID { get; set; }
+
+        [JsonProperty("bayId")]
+        public int BayID { get; set; }
+
+        [JsonProperty("jobId")]
+        public int JobID { get; set; }
+
+        [JsonProperty("scheduleDate")]
+        public string ScheduleDate { get; set; }
+
+        [JsonProperty("scheduleInTime")]
+        public string ScheduleInTime { get; set; }
+
+        [JsonProperty("scheduleOutTime")]
+        public string ScheduleOutTime { get; set; }
+
+        [JsonProperty("isActive")]
+        public bool IsActive { get; set; }
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("createdBy")]
+        public int CreatedBy { get; set; }
+
+        [JsonProperty("updatedBy")]
+        public int UpdatedBy { get; set; }
     }
 
     public class Job
