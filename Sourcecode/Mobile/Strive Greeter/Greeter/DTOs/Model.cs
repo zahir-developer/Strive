@@ -232,13 +232,13 @@ namespace Greeter.DTOs
         public int BayId { get; set; }
 
         [JsonProperty("isActive")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [JsonProperty("isDeleted")]
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         [JsonProperty("createdBy")]
-        public int CreatedBy { get; set; }
+        public long CreatedBy { get; set; } = AppSettings.UserID;
 
         [JsonProperty("updatedBy")]
         public int UpdatedBy { get; set; }

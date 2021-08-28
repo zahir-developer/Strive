@@ -126,9 +126,6 @@ namespace Greeter.Storyboards
 
                 if (jobId != 0)
                 {
-                    var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationId = AppSettings.LocationID };
-                    var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
-
                     var req = new CreateServiceRequest()
                     {
                         Job = new Job()
@@ -149,8 +146,17 @@ namespace Greeter.Storyboards
 
                     if (ServiceType == ServiceType.Wash)
                         req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins);
-                    else
-                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(MainService.Time + serviceTimeMins);
+                    else // Detail
+                    {
+                        var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationId = AppSettings.LocationID };
+                        var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
+
+                        float totalTimeMins = MainService.Time + serviceTimeMins;
+                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(totalTimeMins);
+
+                        //TODO : Fill Job Detail and bay scheduels objects in the req
+                    }
+                        
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
 
