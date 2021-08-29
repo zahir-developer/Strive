@@ -2,7 +2,9 @@
 using CoreAnimation;
 using CoreGraphics;
 using Foundation;
+using Greeter.Common;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using UIKit;
 
 namespace Greeter.Cells
@@ -11,6 +13,7 @@ namespace Greeter.Cells
     {
         public static readonly NSString Key = new("MessageIncomingCell");
 
+        UILabel userIntialLabel;
         UILabel userNameLabel;
         UILabel messageLabel;
         UILabel messageTimeLabel;
@@ -24,12 +27,15 @@ namespace Greeter.Cells
         {
             SelectionStyle = UITableViewCellSelectionStyle.None;
 
-            var userImageView = new UIImageView(CGRect.Empty);
-            userImageView.TranslatesAutoresizingMaskIntoConstraints = false;
-            userImageView.BackgroundColor = UIColor.Cyan;
-            userImageView.Layer.CornerRadius = 25;
-            userImageView.Layer.MasksToBounds = true;
-            ContentView.Add(userImageView);
+            userIntialLabel = new UILabel(CGRect.Empty);
+            userIntialLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            userIntialLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Semibold);
+            userIntialLabel.TextColor = UIColor.Black;
+            userIntialLabel.TextAlignment = UITextAlignment.Center;
+            userIntialLabel.Layer.CornerRadius = 25;
+            userIntialLabel.Layer.MasksToBounds = true;
+            userIntialLabel.BackgroundColor = UIColor.FromRGB(162.0f / 255.0f, 229.0f / 255.0f, 221.0f / 255.0f);
+            ContentView.Add(userIntialLabel);
 
             userNameLabel = new UILabel(CGRect.Empty);
             userNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -57,16 +63,16 @@ namespace Greeter.Cells
             messageTimeLabel.TextColor = UIColor.Gray;
             ContentView.Add(messageTimeLabel);
 
-            userImageView.LeadingAnchor.ConstraintEqualTo(ContentView.LeadingAnchor, constant: 30).Active = true;
-            userImageView.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, constant: 10).Active = true;
-            userImageView.HeightAnchor.ConstraintEqualTo(50).Active = true;
-            userImageView.WidthAnchor.ConstraintEqualTo(50).Active = true;
+            userIntialLabel.LeadingAnchor.ConstraintEqualTo(ContentView.LeadingAnchor, constant: 30).Active = true;
+            userIntialLabel.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, constant: 10).Active = true;
+            userIntialLabel.HeightAnchor.ConstraintEqualTo(50).Active = true;
+            userIntialLabel.WidthAnchor.ConstraintEqualTo(50).Active = true;
 
-            userNameLabel.TopAnchor.ConstraintEqualTo(userImageView.BottomAnchor, constant: 10).Active = true;
-            userNameLabel.CenterXAnchor.ConstraintEqualTo(userImageView.CenterXAnchor).Active = true;
+            userNameLabel.TopAnchor.ConstraintEqualTo(userIntialLabel.BottomAnchor, constant: 10).Active = true;
+            userNameLabel.CenterXAnchor.ConstraintEqualTo(userIntialLabel.CenterXAnchor).Active = true;
             userNameLabel.WidthAnchor.ConstraintEqualTo(70).Active = true;
 
-            bubbleBackgroundView.LeadingAnchor.ConstraintEqualTo(userImageView.TrailingAnchor, constant: 30).Active = true;
+            bubbleBackgroundView.LeadingAnchor.ConstraintEqualTo(userIntialLabel.TrailingAnchor, constant: 30).Active = true;
             bubbleBackgroundView.TrailingAnchor.ConstraintLessThanOrEqualTo(ContentView.TrailingAnchor, constant: -150).Active = true;
             bubbleBackgroundView.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, constant: 10).Active = true;
 
@@ -75,7 +81,7 @@ namespace Greeter.Cells
             messageLabel.TopAnchor.ConstraintEqualTo(bubbleBackgroundView.TopAnchor, constant: 20).Active = true;
             messageLabel.BottomAnchor.ConstraintEqualTo(bubbleBackgroundView.BottomAnchor, constant: -20).Active = true;
 
-            messageTimeLabel.LeadingAnchor.ConstraintEqualTo(userImageView.TrailingAnchor, constant: 30).Active = true;
+            messageTimeLabel.LeadingAnchor.ConstraintEqualTo(userIntialLabel.TrailingAnchor, constant: 30).Active = true;
             messageTimeLabel.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: -30).Active = true;
             messageTimeLabel.TopAnchor.ConstraintEqualTo(bubbleBackgroundView.BottomAnchor, constant: 10).Active = true;
             messageTimeLabel.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor, constant: -10).Active = true;
@@ -83,6 +89,10 @@ namespace Greeter.Cells
 
         public void SetupData(ChatMessage message)
         {
+            userIntialLabel.Text = message.SenderFirstName?.Substring(0, 1);
+            if (!message.SenderLastName.IsEmpty())
+                userIntialLabel.Text += message.SenderLastName?.Substring(0, 1);
+
             userNameLabel.Text = message.SenderFirstName;
             messageLabel.Text = message.MessageBody;
             if (message.CreatedDate.HasValue)
