@@ -2,7 +2,6 @@
 using CoreAnimation;
 using CoreGraphics;
 using Foundation;
-using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using UIKit;
