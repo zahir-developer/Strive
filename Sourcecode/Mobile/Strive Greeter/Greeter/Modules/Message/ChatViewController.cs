@@ -114,7 +114,7 @@ namespace Greeter.Modules.Message
                 //Title = "Group Chat";
                 NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.PARTICIPANTS), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
                 {
-                    NavigationController.PushViewController(new GroupParticipantsViewController(false, chatInfo?.GroupId ?? -1), true);
+                    NavigationController.PushViewController(new GroupParticipantsViewController(false, chatInfo.CommunicationId, chatInfo?.GroupId ?? -1), true);
                 });
             }
             else

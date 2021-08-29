@@ -99,7 +99,7 @@ namespace Greeter.Modules.Message
             participantTitleLabel.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 30).Active = true;
             participantTitleLabel.HeightAnchor.ConstraintEqualTo(25).Active = true;
 
-            if(isCreateGroup)
+            if (isCreateGroup)
             {
                 participantTitleLabel.TopAnchor.ConstraintEqualTo(headerContainerView.BottomAnchor, constant: 25).Active = true;
             }
@@ -142,9 +142,17 @@ namespace Greeter.Modules.Message
 
         public void RemoveUserConfirmation(ContactEmployee contactEmployee)
         {
-            ShowAlertMsg(Common.Messages.REMOVE_USER_FROM_GROUP_CONFIRMATION_MSG, () => {
-                RemoveParticipant(contactEmployee);
-            }, true, Common.Messages.REMOVE_USER_FROM_GROUP_TITLE);
+            if (isCreateGroup)
+            {
+                RemoveUserObj(contactEmployee);
+            }
+            else
+            {
+                ShowAlertMsg(Common.Messages.REMOVE_USER_FROM_GROUP_CONFIRMATION_MSG, () =>
+                {
+                    RemoveParticipantInApiAsync(contactEmployee);
+                }, true, Common.Messages.REMOVE_USER_FROM_GROUP_TITLE);
+            }
         }
 
         void RegisterCell()

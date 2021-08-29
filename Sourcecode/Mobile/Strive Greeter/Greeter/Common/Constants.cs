@@ -187,8 +187,9 @@ namespace Greeter.Common
         internal const string GROUP_NAME_EMPTY = "Plesae enter the group name";
         internal const string NO_GROUP_PARTICIPANTS = "Plesae add atleast one participant for a group";
         internal const string GROUP_CREATED_MSG = "Group created successfully";
-        internal const string REMOVE_USER_FROM_GROUP_CONFIRMATION_MSG = "Are you sure you want to remove this user from group?";
+        internal const string REMOVE_USER_FROM_GROUP_CONFIRMATION_MSG = "Are you sure you want to remove this user from this group?";
         internal const string USER_REMOVED_SUCCESS_MSG = "User removed successfully";
+        internal const string USER_ADDED_SUCCESS_MSG = "User added successfully";
 
         internal const string HOLD = "Hold";
         internal const string COMPLETE = "Complete";
@@ -197,6 +198,8 @@ namespace Greeter.Common
         internal const string SERVICE = "Service";
         internal const string EMAIL = "Email";
         internal const string REMOVE_USER_FROM_GROUP_TITLE = "Remove User";
+        internal const string ADD_USER_FROM_TO_GROUP_TITLE = "Add User";
+        internal const string GROUP_TITLE = " Group";
     }
 
     //public class StatusCodes

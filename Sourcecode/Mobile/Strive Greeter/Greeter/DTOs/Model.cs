@@ -925,9 +925,11 @@ namespace Greeter.DTOs
 
         //public string Comments { get; set; }
 
-        //public bool IsActive { get; set; }
+        [JsonProperty("isActive")]
+        public bool IsActive { get; } = true;
 
-        //public bool IsDeleted { get; set; }
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; } = false;
 
         [JsonProperty("createdBy")]
         public long CreatedBy { get; set; }

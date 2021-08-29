@@ -13,11 +13,13 @@ namespace Greeter.Modules.Message
 
         readonly bool isCreateGroup;
         readonly long groupId;
+        readonly string communicationId;
 
-        public GroupParticipantsViewController(bool isCreateGroup, long groupId = -1)
+        public GroupParticipantsViewController(bool isCreateGroup, string communicationId = null, long groupId = -1)
         {
             this.isCreateGroup = isCreateGroup;
             this.groupId = groupId;
+            this.communicationId = communicationId;
 
             if(!isCreateGroup)
                 _ = GetParticipants();
@@ -48,7 +50,7 @@ namespace Greeter.Modules.Message
             }
         }
 
-        public async void RemoveParticipant(ContactEmployee contact)
+        public async void RemoveParticipantInApiAsync(ContactEmployee contact)
         {
             ShowActivityIndicator();
             var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeId);
@@ -59,15 +61,22 @@ namespace Greeter.Modules.Message
 
             if (!result.IsSuccess()) return;
 
-            participants.RemoveAt(index);
+            RemoveUserObj(contact);
+
+            ShowAlertMsg(Common.Messages.USER_REMOVED_SUCCESS_MSG, null, false, Common.Messages.REMOVE_USER_FROM_GROUP_TITLE);
+        }
+
+        void RemoveUserObj(ContactEmployee contact)
+        {
+            var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeId);
 
             var newParticipantIndex = newlyAddedParticipants.FindIndex(obj => obj.UserID == contact.EmployeeId);
-            if(newParticipantIndex != -1)
+            if (newParticipantIndex != -1)
                 newlyAddedParticipants.RemoveAt(index);
 
-            ReloadParticipantTableView();
+            participants.RemoveAt(index);
 
-            ShowAlertMsg(Common.Messages.USER_REMOVED_SUCCESS_MSG);
+            ReloadParticipantTableView();
         }
 
         public void ContactSelectionDidCompleted(List<ContactEmployee> contacts)
@@ -89,14 +98,16 @@ namespace Greeter.Modules.Message
             List<Task> TaskList = new List<Task>();
             foreach (var participant in newlyAddedParticipants)
             {
-                var task = SingleTon.MessageApiService.AddUserToGroup(participant.UserID, null);
+                var task = SingleTon.MessageApiService.AddUserToGroup(participant.UserID, communicationId);
                 TaskList.Add(task);
             }
 
             await Task.WhenAll(TaskList.ToArray());
             HideActivityIndicator();
 
-            NavigationController.PopViewController(true);
+            ShowAlertMsg(Common.Messages.USER_ADDED_SUCCESS_MSG, () => {
+                NavigationController.PopViewController(true);
+            }, false, Common.Messages.ADD_USER_FROM_TO_GROUP_TITLE);
         }
 
         async Task OnCreateGroup(string groupName)
@@ -120,7 +131,7 @@ namespace Greeter.Modules.Message
             ShowAlertMsg(Common.Messages.GROUP_CREATED_MSG, () =>
             {
                 NavigationController.PopViewController(true);
-            });
+            }, false, Common.Messages.GROUP_TITLE);
         }
 
         bool IsValidData(string groupName)
