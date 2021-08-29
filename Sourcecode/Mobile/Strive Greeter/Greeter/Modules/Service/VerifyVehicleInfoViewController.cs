@@ -155,6 +155,55 @@ namespace Greeter.Storyboards
                         req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(totalTimeMins);
 
                         //TODO : Fill Job Detail and bay scheduels objects in the req
+
+                        var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayId);
+
+                        GetTimeInDetails matchTimeInDetails = null;
+
+                        foreach (IEnumerable<GetTimeInDetails> timeInDetails in bayGroup)
+                        {
+                            if (matchTimeInDetails is not null) break;
+
+                            var timeInDetailsList = timeInDetails.ToList();
+
+                            if (timeInDetailsList is not null && timeInDetailsList.Count > 0)
+                            {
+                                var previousTimeInDetail = timeInDetails.FirstOrDefault();
+
+                                var availableTime = 0; //Time represent in minutes
+
+                                for (int i = 1; i < timeInDetailsList.Count; i++)
+                                {
+                                    var isThirtyMinuteDistance = IsThirtyMinuteDistance(previousTimeInDetail.TimeIn, timeInDetailsList[i].TimeIn);
+                                    if(isThirtyMinuteDistance)
+                                    {
+                                        availableTime += 60 * 30; //Add 30 minutes
+
+                                        if (availableTime >= totalTimeMins)
+                                        {
+                                            matchTimeInDetails = timeInDetailsList[i];
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        availableTime = 0;
+                                    }
+                                    previousTimeInDetail = timeInDetailsList[i];
+                                }
+                            }
+                        }
+
+                        req.JobDetail = new JobDetail
+                        {
+                            JobId = jobId,
+                            BayId = matchTimeInDetails.BayId
+                        };
+
+                        //TODO Add BaySchedules
+                        req.BaySchedules = new List<BaySchedule>
+                        {
+                        };
                     }
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
@@ -196,6 +245,29 @@ namespace Greeter.Storyboards
                 Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
                 HideActivityIndicator();
             }
+        }
+
+        static bool IsThirtyMinuteDistance(string startTime, string endTime)
+        {
+            if (int.TryParse(startTime[..^3], out int startTimeHour) &&
+                int.TryParse(startTime[3..], out int startTimeMinute) &&
+                int.TryParse(endTime[..^3], out int endTimeHour) &&
+                int.TryParse(endTime[3..], out int endTimeMinute))
+            {
+                var minutesDiffrent = endTimeMinute - startTimeMinute;
+                if (endTimeHour != startTimeHour)
+                {
+                    var hoursDifferent = endTimeHour - startTimeHour;
+
+                    if ((Math.Abs(hoursDifferent) == 23 || Math.Abs(hoursDifferent) == 1) && Math.Abs(minutesDiffrent) == 30)
+                    {
+                        return true;
+                    }
+                }
+                else if (endTimeHour == startTimeHour && Math.Abs(minutesDiffrent) == 30)
+                    return true;
+            }
+            return false;
         }
 
         void NavigateToEmailScreen()
