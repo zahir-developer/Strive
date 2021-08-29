@@ -10,6 +10,7 @@ namespace Greeter.Modules.Pay
     public partial class ServiceListViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
     {
         UITableView checkoutTableView;
+        bool isAlreadyLoaded;
 
         public override void ViewDidLoad()
         {
@@ -26,9 +27,13 @@ namespace Greeter.Modules.Pay
 
         public override void ViewWillAppear(bool animated)
         {
-            var height = NavigationController.NavigationBar.Bounds.Height;
-            var oldContentInset = checkoutTableView.ContentInset;
-            checkoutTableView.ContentInset = new UIEdgeInsets(oldContentInset.Top + height, oldContentInset.Left, oldContentInset.Bottom, oldContentInset.Right);
+            if (!isAlreadyLoaded)
+            {
+                var height = NavigationController.NavigationBar.Bounds.Height;
+                var oldContentInset = checkoutTableView.ContentInset;
+                checkoutTableView.ContentInset = new UIEdgeInsets(oldContentInset.Top + height, oldContentInset.Left, oldContentInset.Bottom, oldContentInset.Right);
+                isAlreadyLoaded = true;
+            }
             base.ViewWillAppear(animated);
         }
 
