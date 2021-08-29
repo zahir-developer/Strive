@@ -156,7 +156,7 @@ namespace Greeter.Modules.Message
             }
             else if(configureType == ContactConfigureType.CreateGroup)
             {
-                var contact = contacts[indexPath.Row];
+                var contact = searchedContacts[indexPath.Row];
                 contact.IsSelected = !contact.IsSelected;
                 tableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
             }
