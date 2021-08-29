@@ -16,6 +16,7 @@ namespace Greeter.Services.Api
         Task<EmployeeListResponse> GetDetailEmployees(GetDetailEmployeeReq req);
         Task<BaseResponse> SendEmail(string email, string subject, string body);
         Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req);
+        Task<GetDetailsSercviesResponse> GetDetailServices(long ClientId);
     }
 
     public class WashApiService : IWashApiService
@@ -60,6 +61,12 @@ namespace Greeter.Services.Api
         public Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req)
         {
             return apiService.DoApiCall<AvailableScheduleResponse>(Urls.GET_AVAILABLILITY_SCHEDULE_TIME, HttpMethod.Post, null, req);
+        }
+
+        public Task<GetDetailsSercviesResponse> GetDetailServices(long ClientId)
+        {
+            var parameters = new Dictionary<string, string>() { { nameof(ClientId), ClientId.ToString() } };
+            return apiService.DoApiCall<GetDetailsSercviesResponse>(Urls.GET_DETAIL_SERVICES, HttpMethod.Get, parameters);
         }
     }
 }

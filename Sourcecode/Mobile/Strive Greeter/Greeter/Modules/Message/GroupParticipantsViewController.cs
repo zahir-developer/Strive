@@ -140,6 +140,13 @@ namespace Greeter.Modules.Message
             }
         }
 
+        public void RemoveUserConfirmation(ContactEmployee contactEmployee)
+        {
+            ShowAlertMsg(Common.Messages.REMOVE_USER_FROM_GROUP_CONFIRMATION_MSG, () => {
+                RemoveParticipant(contactEmployee);
+            }, true, Common.Messages.REMOVE_USER_FROM_GROUP_TITLE);
+        }
+
         void RegisterCell()
         {
             participantTableView.RegisterClassForCellReuse(typeof(ContactCell), ContactCell.Key);

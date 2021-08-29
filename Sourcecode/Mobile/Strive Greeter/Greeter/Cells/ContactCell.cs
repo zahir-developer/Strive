@@ -10,7 +10,7 @@ namespace Greeter.Cells
 {
     public interface IContactCellDelegate
     {
-        public void RemoveParticipant(ContactEmployee contact);
+        public void RemoveUserConfirmation(ContactEmployee contact);
     }
 
     public class ContactCell : UITableViewCell
@@ -76,7 +76,7 @@ namespace Greeter.Cells
 
             if(Delegate.TryGetTarget(out IContactCellDelegate cellDelegate))
             {
-                cellDelegate.RemoveParticipant(contact);
+                cellDelegate.RemoveUserConfirmation(contact);
             }
         }
 

@@ -1235,4 +1235,76 @@ namespace Greeter.DTOs
         [JsonProperty("TimeIn")]
         public string TimeIn { get; set; }
     }
+
+    public class GetDetailsSercviesResponse : BaseResponse
+    {
+        [JsonProperty("DetailsGrid")]
+        public DetailsGrid DetailsGrid { get; set; }
+    }
+
+    public class DetailsGrid
+    {
+        [JsonProperty("BayJobDetailViewModel")]
+        public List<DetailService> DetailServices { get; set; }
+    }
+
+    public class DetailService
+    {
+        [JsonProperty("BayId")]
+        public int BayID { get; set; }
+
+        [JsonProperty("BayName")]
+        public string BayName { get; set; }
+
+        [JsonProperty("JobId")]
+        public long JobID { get; set; }
+
+        [JsonProperty("TimeIn")]
+        public string TimeIn { get; set; }
+
+        [JsonProperty("ClientName")]
+        public string ClientName { get; set; }
+
+        [JsonProperty("PhoneNumber")]
+        public long PhoneNumber { get; set; }
+
+        [JsonProperty("EstimatedTimeOut")]
+        public string EstimatedTimeOut { get; set; }
+
+        [JsonProperty("Upcharge")]
+        public string Upcharge { get; set; }
+
+        [JsonProperty("VehicleColor")]
+        public string VehicleColor { get; set; }
+
+        [JsonProperty("VehicleModel")]
+        public string VehicleModel { get; set; }
+
+        [JsonProperty("VehicleMake")]
+        public string VehicleMake { get; set; }
+
+        [JsonProperty("ServiceTypeName")]
+        public string ServiceTypeName { get; set; }
+
+        [JsonProperty("OutsideService")]
+        public string OutsideService { get; set; }
+
+        [JsonProperty("JobDate")]
+        public DateTime JobDate { get; set; }
+
+        [JsonProperty("LocationId")]
+        public long LocationID { get; set; }
+
+        [JsonProperty("LocationName")]
+        public string LocationName { get; set; }
+
+        [JsonProperty("JobItemId")]
+        public long JobItemID { get; set; }
+
+        [JsonProperty("Cost")]
+        public float Cost { get; set; }
+
+        [JsonProperty("Barcode")]
+        public string Barcode { get; set; }
+    }
 }

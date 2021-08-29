@@ -10,7 +10,7 @@ namespace Greeter.Services.Api
         Task<ModelResponse> GetModelsByMake(int makeId);
     }
 
-    public class VehicleApiService
+    public class VehicleApiService : IVehicleApiService
     {
         readonly IApiService apiService = SingleTon.ApiService;
 

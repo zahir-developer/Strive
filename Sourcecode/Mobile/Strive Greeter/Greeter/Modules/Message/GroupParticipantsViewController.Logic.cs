@@ -66,6 +66,8 @@ namespace Greeter.Modules.Message
                 newlyAddedParticipants.RemoveAt(index);
 
             ReloadParticipantTableView();
+
+            ShowAlertMsg(Common.Messages.USER_REMOVED_SUCCESS_MSG);
         }
 
         public void ContactSelectionDidCompleted(List<ContactEmployee> contacts)

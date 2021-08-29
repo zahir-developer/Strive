@@ -152,13 +152,43 @@ namespace Greeter
 
         void LastServiceTap(UITapGestureRecognizer tap)
         {
-            //if (txtFieldBarcode.Text.IsEmpty())
-            //{
-            //    ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
-            //    return;
-            //}
+            if (txtFieldBarcode.Text.IsEmpty())
+            {
+                ShowAlertMsg(Common.Messages.BARCODE_EMPTY);
+                return;
+            }
 
-            NavigateToLastService();
+            _ = CheckBarcodeAndNavigateToLastServicecAsync(txtFieldBarcode.Text);
+        }
+
+        async Task CheckBarcodeAndNavigateToLastServicecAsync(string barcode)
+        {
+            var clientAndVehicleDetail = await CheckBarcodeAsync(barcode);
+            if (clientAndVehicleDetail is not null)
+            {
+                txtFieldBarcode.Text = string.Empty;
+                NavigateToLastService(clientAndVehicleDetail);
+            }
+        }
+
+        async Task<ClientAndVehicleDetail> CheckBarcodeAsync(string barcode)
+        {
+            ShowActivityIndicator();
+            var response = await SingleTon.VehicleApiService.GetBarcode(txtFieldBarcode.Text);
+            HideActivityIndicator();
+
+            HandleResponse(response);
+
+            ClientAndVehicleDetail clientAndVehicleDetail = null;
+
+            if (response.IsSuccess() && response.ClientAndVehicleDetailList != null && response.ClientAndVehicleDetailList.Count > 0)
+            {
+                clientAndVehicleDetail = response.ClientAndVehicleDetailList[0];
+            }
+            else
+                ShowAlertMsg(Common.Messages.BARCODE_WRONG);
+
+            return clientAndVehicleDetail;
         }
 
         void ViewIssueTap()
@@ -172,9 +202,9 @@ namespace Greeter
             NavigateToIssue();
         }
 
-        void NavigateToLastService()
+        void NavigateToLastService(ClientAndVehicleDetail clientAndVehicleDetail)
         {
-            NavigateToWithAnim(new LastVisitViewController());
+            NavigateToWithAnim(new LastVisitViewController(clientAndVehicleDetail.ClientID));
         }
 
         void NavigateToIssue()

@@ -1,10 +1,11 @@
 ﻿using CoreGraphics;
 using Greeter.Common;
+using Greeter.DTOs;
 using UIKit;
 
 namespace Greeter.Modules.Service
 {
-    public partial class LastVisitViewController : UIViewController
+    public partial class LastVisitViewController : BaseViewController
     {
         UILabel serviceDateLabel;
         UILabel serviceNameLabel;
@@ -24,17 +25,19 @@ namespace Greeter.Modules.Service
 
             SetupView();
 
-            serviceDateLabel.Text = "25/10/2020";
-            serviceNameLabel.Text = "Mega Mammoth";
-            barcodeLabel.Text = "#ERP28";
-            makeLabel.Text = "Honda";
-            modelLabel.Text = "Civic";
-            vechileColorLabel.Text = "Metallic Blue";
-            additionalServicesLabel.Text = "Shampoo Seal";
-            detailPackageServicesLabel.Text = "None";
-            startTimeLabel.Text = "10:00 AM";
-            endTimeLabel.Text = "12:00 PM";
-            notesLabel.Text = "A motor vehicle service or tune-up is a series of maintenance procedures carried out at a set time interval or after the vehicle has traveled a certain distance";
+            _ = GetLastServiceAsync(clientId);
+
+            //serviceDateLabel.Text = "25/10/2020";
+            //serviceNameLabel.Text = "Mega Mammoth";
+            //barcodeLabel.Text = "#ERP28";
+            //makeLabel.Text = "Honda";
+            //modelLabel.Text = "Civic";
+            //vechileColorLabel.Text = "Metallic Blue";
+            //additionalServicesLabel.Text = "Shampoo Seal";
+            //detailPackageServicesLabel.Text = "None";
+            //startTimeLabel.Text = "10:00 AM";
+            //endTimeLabel.Text = "12:00 PM";
+            //notesLabel.Text = "A motor vehicle service or tune-up is a series of maintenance procedures carried out at a set time interval or after the vehicle has traveled a certain distance";
         }
 
         void SetupView()
@@ -159,7 +162,7 @@ namespace Greeter.Modules.Service
             titleLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             titleLabel.TextColor = UIColor.Black;
             titleLabel.Font = UIFont.BoldSystemFontOfSize(18);
-            titleLabel.Text = "Vehicle Details";
+            titleLabel.Text = "Service Details";
             containerView.Add(titleLabel);
 
             titleLabel.LeadingAnchor.ConstraintEqualTo(containerView.LeadingAnchor, 50).Active = true;
@@ -437,6 +440,21 @@ namespace Greeter.Modules.Service
             notesLabel.TrailingAnchor.ConstraintEqualTo(notesBackgroundView.TrailingAnchor, -24).Active = true;
             notesLabel.TopAnchor.ConstraintEqualTo(notesTitleLabel.BottomAnchor, 5).Active = true;
             notesLabel.BottomAnchor.ConstraintEqualTo(notesBackgroundView.BottomAnchor, -20).Active = true;
+        }
+
+        void UpdateDataToUI(DetailService detailService)
+        {
+            serviceDateLabel.Text = detailService.JobDate.ToString("dd/MM/yyyy");
+            serviceNameLabel.Text = detailService.ServiceTypeName;
+            barcodeLabel.Text = detailService?.Barcode ?? "-";
+            makeLabel.Text = detailService.VehicleMake;
+            modelLabel.Text = detailService.VehicleModel ?? "-";
+            vechileColorLabel.Text = detailService.VehicleColor;
+            additionalServicesLabel.Text = detailService.OutsideService;
+            detailPackageServicesLabel.Text = detailService.ServiceTypeName;
+            startTimeLabel.Text = detailService.TimeIn;
+            endTimeLabel.Text = detailService.EstimatedTimeOut;
+            notesLabel.Text = "A motor vehicle service or tune-up is a series of maintenance procedures carried out at a set time interval or after the vehicle has traveled a certain distance";
         }
     }
 }

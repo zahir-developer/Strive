@@ -57,5 +57,11 @@ namespace Greeter.Common
         {
             get => iMessageApiService == null ? new MessageApiService() : iMessageApiService;
         }
+
+        private static IVehicleApiService iVehicleApiService = null;
+        public static IVehicleApiService VehicleApiService
+        {
+            get => iVehicleApiService == null ? new VehicleApiService() : iVehicleApiService;
+        }
     }
 }
