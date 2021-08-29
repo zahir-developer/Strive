@@ -12,7 +12,7 @@ namespace Greeter.Services.Api
         Task<ContactListResponse> GetContactsList(GetContactsRequest req);
         Task<ChatMessagesResponse> GetChatMessages(ChatMessageRequest req);
         Task<CreateGroupResponse> CreateGroup(CreategroupRequest req);
-        public Task<BaseResponse> AddUserToGroup(long userId, long communicationId);
+        public Task<BaseResponse> AddUserToGroup(long userId, string communicationId);
         Task<RemoveUserFromGroupResponse> RemoveUserFromGroup(long groupUserId);
         Task<GroupUsersResponse> GetGroupUsers(long groupId);
         Task<SendMessageResponse> SendMesasge(SendChatMessageReq req);
@@ -38,7 +38,7 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<CreateGroupResponse>(Urls.CREATE_GROUP, HttpMethod.Post, null, req);
         }
 
-        public Task<BaseResponse> AddUserToGroup(long userId, long communicationId)
+        public Task<BaseResponse> AddUserToGroup(long userId, string communicationId)
         {
             var url = Urls.ADD_USER_TO_GROUP + userId + "/" + communicationId;
             return apiService.DoApiCall<BaseResponse>(url, HttpMethod.Put);

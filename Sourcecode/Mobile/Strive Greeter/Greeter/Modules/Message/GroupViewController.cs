@@ -142,7 +142,8 @@ namespace Greeter.Modules.Message
                 Title = Logic.FullName(group.FirstName, group.LastName),
                 GroupId = group.ID,
                 SenderId = 0,
-                RecipientId = 0
+                RecipientId = 0,
+                CommunicationId = group.CommunicationId
             };
             NavigationController.PushViewController(new ChatViewController(ChatType.Group, chatInfo), animated: true);
         }

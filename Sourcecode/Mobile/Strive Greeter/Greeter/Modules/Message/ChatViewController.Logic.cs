@@ -30,6 +30,7 @@ namespace Greeter.Modules.Message
                 GroupID = chatInfo.GroupId,
                 RecipientID = chatInfo.RecipientId
             });
+
             HideActivityIndicator();
 
             HandleResponse(result);
@@ -67,6 +68,14 @@ namespace Greeter.Modules.Message
                     RecipientID = chatInfo.RecipientId
                 }
             };
+
+            if (chatType == ChatType.Group)
+            {
+                req.ChatMessageRecipient.RecipientGroupID = chatInfo.GroupId;
+                req.ConnectionID = req.GroupId = chatInfo.CommunicationId.ToString();
+                req.FirstName = req.FirstName;
+                req.LastName = req.LastName;
+            }
 
             Debug.WriteLine("Send Chat Msg Req : " + JsonConvert.SerializeObject(req));
 

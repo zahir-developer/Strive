@@ -107,9 +107,11 @@ namespace Greeter.Modules.Message
 
         void SetupNavigationItem()
         {
+            Title = chatInfo.Title;
+
             if (chatType == ChatType.Group)
             {
-                Title = "Group Chat";
+                //Title = "Group Chat";
                 NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromBundle(ImageNames.PARTICIPANTS), UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
                 {
                     NavigationController.PushViewController(new GroupParticipantsViewController(false, chatInfo?.GroupId ?? -1), true);
@@ -117,7 +119,7 @@ namespace Greeter.Modules.Message
             }
             else
             {
-                Title = "Chat";
+                //Title = "Chat";
             }
         }
 
