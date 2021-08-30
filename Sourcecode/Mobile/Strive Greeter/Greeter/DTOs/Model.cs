@@ -246,14 +246,14 @@ namespace Greeter.DTOs
 
     public class BaySchedule
     {
-        [JsonProperty("bayScheduleId")]
-        public int BayScheduleID { get; set; }
+        //[JsonProperty("bayScheduleId")]
+        //public int BayScheduleID { get; set; }
 
         [JsonProperty("bayId")]
         public int BayID { get; set; }
 
         [JsonProperty("jobId")]
-        public int JobID { get; set; }
+        public long JobID { get; set; }
 
         [JsonProperty("scheduleDate")]
         public string ScheduleDate { get; set; }
@@ -265,16 +265,16 @@ namespace Greeter.DTOs
         public string ScheduleOutTime { get; set; }
 
         [JsonProperty("isActive")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; } = true;
 
         [JsonProperty("isDeleted")]
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; } = false;
 
-        [JsonProperty("createdBy")]
-        public int CreatedBy { get; set; }
+        //[JsonProperty("createdBy")]
+        //public int CreatedBy { get; set; }
 
-        [JsonProperty("updatedBy")]
-        public int UpdatedBy { get; set; }
+        //[JsonProperty("updatedBy")]
+        //public int UpdatedBy { get; set; }
     }
 
     public class Job

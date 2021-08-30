@@ -56,11 +56,6 @@ namespace Greeter.Storyboards
 				btnEmpSent = null;
 			}
 
-			if (btnPay != null) {
-				btnPay.Dispose ();
-				btnPay = null;
-			}
-
 			if (btnPrint != null) {
 				btnPrint.Dispose ();
 				btnPrint = null;
@@ -79,11 +74,6 @@ namespace Greeter.Storyboards
 			if (viewDetailer != null) {
 				viewDetailer.Dispose ();
 				viewDetailer = null;
-			}
-
-			if (btnPrint != null) {
-				btnPrint.Dispose ();
-				btnPrint = null;
 			}
 
 			if (btnPay != null) {

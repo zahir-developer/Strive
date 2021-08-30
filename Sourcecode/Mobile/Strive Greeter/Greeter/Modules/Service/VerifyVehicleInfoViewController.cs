@@ -156,6 +156,7 @@ namespace Greeter.Storyboards
 
                         //TODO : Fill Job Detail and bay scheduels objects in the req
 
+                        #if DEBUG
                         var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayId);
 
                         GetTimeInDetails matchTimeInDetails = null;
@@ -200,10 +201,42 @@ namespace Greeter.Storyboards
                             BayId = matchTimeInDetails.BayId
                         };
 
-                        //TODO Add BaySchedules
                         req.BaySchedules = new List<BaySchedule>
                         {
                         };
+
+                        string startTime = "7:00";
+                        float diff = 0;
+
+                        for (int i = 0; i < 5; i++)
+                        {
+                            var baySchedule = new BaySchedule()
+                            {
+                                BayID = req.JobDetail.BayId,
+                                JobID = jobId,
+                                ScheduleInTime = startTime,
+                                ScheduleDate = req.Job.JobDate.ToString("yyyy-MM-dd")
+                            };
+
+                            string[] ds = startTime.Split(":");
+
+                            if (ds[1] == "3")
+                            {
+                                int num = Convert.ToInt32(startTime[0]);
+                                num += 1;
+                                startTime = num.ToString() + ":00";
+                            }
+                            else
+                            {
+                                startTime = startTime[0] + ":30";
+                            }
+
+                            baySchedule.ScheduleOutTime = startTime;
+
+                            req.BaySchedules.Add(baySchedule);
+                        }
+
+                        #endif
                     }
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));

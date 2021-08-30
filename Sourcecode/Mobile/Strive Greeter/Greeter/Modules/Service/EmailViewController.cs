@@ -91,11 +91,11 @@ namespace Greeter.Storyboards
                 NavigationController.PopToRootViewController(true);
             };
 
-            btnPrint.TouchUpInside += delegate
-            {
-                //TODO : Temprary Loader to hide not done this functionality
-                _ = ShowLoader();
-            };
+            //btnPrint.TouchUpInside += delegate
+            //{
+            //    //TODO : Temprary Loader to hide not done this functionality
+            //    _ = ShowLoader();
+            //};
 
             btnPay.TouchUpInside += delegate
             {
