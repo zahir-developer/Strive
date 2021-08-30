@@ -127,6 +127,7 @@ export class DashboardComponent implements OnInit {
           this.labourCostPerCarMinusDetail = this.labourCostPerCarMinusDetail + item.LabourCostPerCarMinusDetail;
           this.detailCostPerCar = this.detailCostPerCar + item.DetailCostPerCar;
         });
+        this.washTime = this.washTime / this.dashboardStatistics.length;
       } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
