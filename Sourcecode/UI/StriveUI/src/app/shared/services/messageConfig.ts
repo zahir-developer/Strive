@@ -145,7 +145,9 @@ export const MessageConfig = {
          memberShip: 'Vehicle cannot be deleted, Vehicle has a active membership.',
          membershipDiscountAvailable: 'Membership discount available !',
          membershipDiscountNotAvailable: 'No membership discount available !',
-         membershipDiscountNotUpdated: 'Discount Amount not updated in Membership setup !'
+         membershipDiscountNotUpdated: 'Discount Amount not updated in Membership setup !',
+         UpchargeApplied: 'Upcharge applied successfully!',
+         UpchargeNotAvailable: 'No Upcharge available !'
       },
 
       GiftCard:

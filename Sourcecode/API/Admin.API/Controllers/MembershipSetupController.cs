@@ -39,7 +39,7 @@ namespace Admin.Api.Controllers
         public Result DeleteMembershipById(int membershipId) => _bplManager.DeleteMembershipById(membershipId);
 
         [HttpDelete]
-        [Route("Delete/{clientMembershipId}")]
+        [Route("DeleteVehicleMembershipById/{clientMembershipId}")]
         public Result DeleteVehicleMembershipById(int clientMembershipId) => _bplManager.DeleteVehicleMembershipById(clientMembershipId);
 
         [HttpGet]

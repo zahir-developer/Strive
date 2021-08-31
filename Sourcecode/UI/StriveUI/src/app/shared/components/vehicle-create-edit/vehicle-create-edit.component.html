@@ -86,21 +86,18 @@
                     </option>
                 </select>
             </div>
-            <div class="form-group col-lg-3">
+            <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputStatus">Wash<span class="required">*</span></label>
-                <select class="form-control" formControlName="wash" [ngClass]="{ 'is-invalid': submitted && f.washes.errors }">
+                <select class="form-control" formControlName="wash">
                     <option hidden selected value="">Choose</option>
                     <option *ngFor="let status of washesDropdown" value="{{status.ServiceId}}">{{status.ServiceName}}</option>
                 </select>
-                <div *ngIf="submitted && f.washes.errors" class="invalid-feedback">
-                    <div *ngIf="f.washes.errors.required">Washes is required</div>
-                </div>
             </div>
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputUpcharge">Upcharge Type</label>
                 <select class="form-control" formControlName="upchargeType"
                     (change)="upchargeTypeChange($event, 'type')">
-                    <option hidden selected value="">Choose</option>
+                    <option selected value="">None</option>
                     <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">
                         {{upcharge.ServiceName}}</option>
                 </select>
@@ -109,7 +106,7 @@
                 <label for="inputUpcharge">Upcharge</label>
                 <select class="form-control" formControlName="upcharge"
                     (change)="upchargeTypeChange($event, 'upcharge')">
-                    <option hidden selected value="">Choose</option>
+                    <option selected value="">None</option>
                     <option *ngFor="let upcharge of upchargeType" value="{{upcharge.ServiceId}}">{{upcharge.Upcharges}}
                     </option>
                 </select>
