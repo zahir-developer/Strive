@@ -42,12 +42,12 @@ export class DashboardStaticsComponent implements OnInit {
       if (wash.Dashboard !== null) {
         this.detailCount = wash.Dashboard.DetailsCount;
         this.washCount = wash.Dashboard.WashesCount;
-        this.employeeCount = wash.Dashboard.EmployeeCount;
+        // this.employeeCount = wash.Dashboard.EmployeeCount;
         this.score = wash.Dashboard.Score;
         this.current = wash.Dashboard.Current;
         this.forecastedCar = wash.Dashboard.ForecastedCars;
         this.averageTime = wash.Dashboard.AverageWashTime;
-        this.washerCount = wash.Dashboard.Washercount;
+        this.washerCount = wash.Dashboard.EmployeeCount;
         this.detailerCount = wash.Dashboard.DetailerCount;
       }
     }, (err) => {
