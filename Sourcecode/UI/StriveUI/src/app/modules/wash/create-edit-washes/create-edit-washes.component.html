@@ -147,7 +147,7 @@
                                     <label for="inputUpchargeType">Upcharge Type</label>
                                     <select class="form-control" formControlName="upchargeType"
                                         (change)="upchargeService($event.target.value);">
-                                        <option hidden selected value="">None</option>
+                                        <option selected value="">None</option>
                                         <option *ngFor="let score of UpchargeType" value="{{score.ServiceId}}">
                                             {{score.ServiceName}}
                                         </option>
@@ -157,7 +157,7 @@
                                     <label for="inputUpcharges">Upcharges</label>
                                     <select class="form-control" formControlName="upcharges"
                                         (change)="upchargeService($event.target.value)">
-                                        <option hidden selected value="">None</option>
+                                        <option selected value="">None</option>
                                         <option *ngFor="let score of upcharges" value="{{score.ServiceId}}">
                                             {{score.Upcharges}}
                                         </option>

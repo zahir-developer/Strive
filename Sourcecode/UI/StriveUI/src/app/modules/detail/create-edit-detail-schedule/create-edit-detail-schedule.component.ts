@@ -1744,12 +1744,17 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           });
           this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
         }
-        // else {
-        //   this.detailForm.patchValue({
-        //     upcharges: '',
-        //     upchargeType: ''
-        //   });
-        // }
+        else {
+          this.detailForm.patchValue({
+            upcharges: '',
+            upchargeType: ''
+          });
+
+          if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
+            this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
+          }
+          
+        }
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

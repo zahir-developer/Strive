@@ -1087,9 +1087,14 @@ export class CreateEditWashesComponent implements OnInit {
         else {
           this.additionalServiceRemoved.push(this.selectedUpcharge);
           this.washForm.patchValue({
-            upcharges: 'None',
-            upchargeType: 'None'
+            upcharges: '',
+            upchargeType: ''
           });
+
+          if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
+            this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
+          }
+          
         }
 
         // if(this.upcharges){
