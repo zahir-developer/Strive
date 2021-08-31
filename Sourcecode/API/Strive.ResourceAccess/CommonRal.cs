@@ -187,5 +187,12 @@ namespace Strive.ResourceAccess
             return db.FetchSingle<MaxLocationViewModel>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
         }
 
+        public bool DeleteJobItem(string jobItemId)
+        {
+            _prm.Add("@jobItemId", jobItemId);
+            db.Save(EnumSP.Job.USPDELETEJOBITEMBYID.ToString(), _prm);
+            return true;
+        }
+
     }
 }

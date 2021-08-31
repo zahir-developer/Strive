@@ -13,5 +13,6 @@ namespace Strive.BusinessEntities.DTO
         public Model.JobDetail JobDetail { get; set; }
         public List<Model.BaySchedule> BaySchedule { get; set; }
         public List<JobItem> JobItem { get; set; }
+        public string DeletedJobItemId { get; set; }
     }
 }

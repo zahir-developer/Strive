@@ -32,6 +32,11 @@ namespace Strive.BusinessLogic.Washes
         }
         public Result AddWashTime(WashesDto washes)
         {
+            if(!string.IsNullOrEmpty(washes.DeletedJobItemId))
+            {
+                var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(washes.DeletedJobItemId);
+            }
+
             return ResultWrap(new WashesRal(_tenant).AddWashTime, washes, "Status");
         }
 

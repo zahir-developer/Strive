@@ -25,6 +25,11 @@ namespace Strive.BusinessLogic.Details
 
         public Result UpdateDetails(DetailsDto details)
         {
+            if (!string.IsNullOrEmpty(details.DeletedJobItemId))
+            {
+                var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(details.DeletedJobItemId);
+            }
+
             return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
         }
 

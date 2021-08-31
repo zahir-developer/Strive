@@ -274,7 +274,8 @@ namespace Strive.BusinessEntities
             USPGETCLIENTANDVEHICLEDETAIL,
             USPDELETEWASHES,
             USPGETWASHTIMEBYLOCATIONID,
-            USPGETALLLOCATIONWASHTIME
+            USPGETALLLOCATIONWASHTIME,
+            USPDELETEJOBITEM
         }
         public enum Details
         {
@@ -362,6 +363,11 @@ namespace Strive.BusinessEntities
             USPGETALLADSETUP,
             USPGETADSETUPBYID,
             USPDELETEADSETUP
+        }
+
+        public enum Job
+        {
+            USPDELETEJOBITEMBYID
         }
     }
     
