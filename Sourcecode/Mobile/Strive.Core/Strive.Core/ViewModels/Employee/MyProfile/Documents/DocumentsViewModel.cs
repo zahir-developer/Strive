@@ -58,6 +58,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
 
         public async Task<DownloadDocuments> DownloadDocument(int documentID, string password)
         {
+            _userDialog.ShowLoading(Strings.Loading);
             var result = await AdminService.DownloadDocuments(documentID, password);
             DownloadDocuments docs = new DownloadDocuments();
             if (result != null)
@@ -66,7 +67,7 @@ namespace Strive.Core.ViewModels.Employee.MyProfile.Documents
                 docs = result;
             }
             return docs;
-
+            _userDialog.HideLoading();
         }
         public async Task<bool> DeleteDocument(int DocumentID)
         {

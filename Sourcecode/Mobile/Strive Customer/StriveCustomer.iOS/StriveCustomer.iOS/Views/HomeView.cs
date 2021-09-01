@@ -41,8 +41,7 @@ namespace StriveCustomer.iOS.Views
             WashTimeWebView.ZoomEnabled = true;
             WashTimeWebView.ScrollEnabled = true;
 
-            locationManager.RequestWhenInUseAuthorization();
-            WashTimeWebView.ShowsUserLocation = true;
+            locationManager.RequestWhenInUseAuthorization();            
 
             WashTimeWebView.Register(typeof(WashStationAnnotationView), MKMapViewDefault.AnnotationViewReuseIdentifier);
 
@@ -131,7 +130,7 @@ namespace StriveCustomer.iOS.Views
                 PresentViewController(alertView1, true, null);
                 alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
             }
-            WashTimeWebView.ShowsUserLocation = true;
+            WashTimeWebView.ShowsUserLocation = false;
             //SetMapAnnotations();
             PlaceLocationDetailsToMap(carWashLocations.Location);
         }
@@ -172,7 +171,7 @@ namespace StriveCustomer.iOS.Views
             var annotationView = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as WashStationAnnotationView;
             if(carWashLocations.Location != null)
             {
-                var washlocation = carWashLocations.Location.First(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
+                var washlocation = carWashLocations.Location.FirstOrDefault(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
                 annotationView.SetupData(washlocation);
             }           
             return annotationView;

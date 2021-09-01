@@ -106,10 +106,10 @@ namespace StriveCustomer.iOS.Views
             //modelOptions = ViewModel.modelName;
 
             var preselectedManufacturer = 0;
-            foreach (var makeName in ViewModel.manufacturerName)
+            foreach (var makeName in ViewModel.makeList.Make)
             {
-                makeList.Add(makeName.Value);
-                if (MembershipDetails.vehicleMakeNumber == makeName.Key)
+                makeList.Add(makeName.MakeValue);
+                if (MembershipDetails.vehicleMakeNumber == makeName.MakeId)
                 {
                     MembershipDetails.selectedMake = preselectedManufacturer;
                 }
@@ -178,9 +178,9 @@ namespace StriveCustomer.iOS.Views
                 if(VehicleMake_TextField.Text == item)
                 {
                     MembershipDetails.selectedMake = makeIndex;
-                    var selected = this.ViewModel.manufacturerName.ElementAt(makeIndex);
-                    MembershipDetails.vehicleMakeNumber = selected.Key;
-                    MembershipDetails.vehicleMakeName = selected.Value;
+                    var selected = this.ViewModel.makeList.Make.ElementAt(makeIndex);
+                    MembershipDetails.vehicleMakeNumber = selected.MakeId;
+                    MembershipDetails.vehicleMakeName = selected.MakeValue;
                 }
                 makeIndex++;
             }
@@ -191,9 +191,9 @@ namespace StriveCustomer.iOS.Views
                 if (VehicleModel_TextField.Text == item)
                 {
                     MembershipDetails.selectedModel = modelIndex;
-                    var selected = this.ViewModel.modelName.ElementAt(modelIndex);
-                    MembershipDetails.modelNumber = selected.Key;
-                    MembershipDetails.modelName = selected.Value;
+                    var selected = this.ViewModel.modelList.Model.ElementAt(modelIndex);
+                    MembershipDetails.modelNumber = selected.ModelId;
+                    MembershipDetails.modelName = selected.ModelValue;
                 }
                 modelIndex++;
             }

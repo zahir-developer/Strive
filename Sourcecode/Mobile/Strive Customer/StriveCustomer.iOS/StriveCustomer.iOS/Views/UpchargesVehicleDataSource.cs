@@ -30,6 +30,7 @@ namespace StriveCustomer.iOS.Views
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             var index = 0;
+            recentUpcharge.Add("None");
             foreach(var item in upchargeList.ServicesWithPrice)
             {
                 if ((upchargeList.ServicesWithPrice[index].Upcharges != null) && (!recentUpcharge.Contains(upchargeList.ServicesWithPrice[index].Upcharges)))
@@ -63,6 +64,11 @@ namespace StriveCustomer.iOS.Views
                 if (recentUpcharge[indexPath.Row] == item.Upcharges)
                 {
                     MembershipDetails.selectedUpCharge = item.ServiceId;
+                }
+                else if(recentUpcharge[indexPath.Row] == "None")
+                {
+                    MembershipDetails.isNoneSelected = true;
+                    MembershipDetails.selectedUpCharge = 0;
                 }
             }
         }

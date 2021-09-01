@@ -173,6 +173,11 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<PostResponseBool>(ApiUtils.URL_SAVE_VEHICLE_MEMBERSHIP, HttpMethod.Post, clientVehicle);
         }
 
+        public async Task<PostResponse> DeleteVehicleMembership(int clientMembershipId)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(string.Format(ApiUtils.URL_DELETE_VEHICLE_MEMBERSHIP, clientMembershipId), HttpMethod.Delete, clientMembershipId);
+        }
+
         public async Task<ClientStatus> GetClientDetail(int ClientId)
         {
             var url = ApiUtils.URL_GET_CLIENT_DETAIL + ClientId;
@@ -298,9 +303,29 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<CheckoutDetails>(ApiUtils.URL_CHECKOUT_DETAILS, HttpMethod.Post, CheckoutInfo);
         }
 
+        public async Task<holdCheckoutResponse> CheckOutHold(holdCheckoutReq request)
+        {
+            return await _restClient.MakeApiCall<holdCheckoutResponse>(ApiUtils.URL_CHECKOUT_HOLD, HttpMethod.Post, request);
+        }
+
+        public async Task<holdCheckoutResponse> CheckOutComplete(completeCheckoutReq request)
+        {
+            return await _restClient.MakeApiCall<holdCheckoutResponse>(ApiUtils.URL_CHECKOUT_COMPLETE, HttpMethod.Post, request);
+        }
+
+        public async Task<CheckoutResponse> DoCheckout(doCheckoutReq request)
+        {
+            return await _restClient.MakeApiCall<CheckoutResponse>(ApiUtils.URL_CHECKOUT_UPDATE, HttpMethod.Post, request);
+        }
+
         public async Task<ScheduleModel> GetSchedulePastService(int clientID)
         {
             return await _restClient.MakeApiCall<ScheduleModel>(ApiUtils.URL_SCHEDULE_PAST_SERVICE+ "?ClientId=" +clientID, HttpMethod.Get);
+        }
+
+        public async Task<PostResponse> ScheduleDetail(DetailSchedule request)
+        {
+            return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_SCHEDULE_DETAILBAY, HttpMethod.Post, request);
         }
 
         public async Task<AvailableServicesModel> GetScheduleServices(int LocationID)

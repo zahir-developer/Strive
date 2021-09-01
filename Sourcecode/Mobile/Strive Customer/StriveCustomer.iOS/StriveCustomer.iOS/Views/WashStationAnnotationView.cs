@@ -132,8 +132,11 @@ namespace StriveCustomer.iOS.Views
 
         internal void SetupData(Location location)
         {
-            stationNameLabel.Text = location.LocationName;
-            timeLabel.Text = $"{location.WashTimeMinutes}Mins";
+            if (location != null)
+            {
+                stationNameLabel.Text = location.LocationName;
+                timeLabel.Text = $"{location.WashTimeMinutes}Mins";
+            }
         }
     }
 

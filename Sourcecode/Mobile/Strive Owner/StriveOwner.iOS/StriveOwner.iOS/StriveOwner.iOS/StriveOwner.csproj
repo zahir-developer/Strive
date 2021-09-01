@@ -276,6 +276,10 @@
         <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line.png" />
         <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\lineChart.imageset\Icon awesome-chart-line%403x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Contents.json" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
+        <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />
@@ -326,6 +330,7 @@
         <Folder Include="Resources\Assets.xcassets\barChart-Active.imageset\" />
         <Folder Include="Resources\Assets.xcassets\pieChart.imageset\" />
         <Folder Include="Resources\Assets.xcassets\lineChart.imageset\" />
+        <Folder Include="Resources\Assets.xcassets\select-Contact.imageset\" />
     </ItemGroup>
     <ItemGroup>
         <InterfaceDefinition Include="LaunchScreen.storyboard" />

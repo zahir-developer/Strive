@@ -61,6 +61,8 @@ namespace Strive.Core.Utils
 
         public const string URL_SAVE_VEHICLE_MEMBERSHIP = "/Admin/Vehicle/SaveClientVehicleMembership";
 
+        public const string URL_DELETE_VEHICLE_MEMBERSHIP = "/Admin/MembershipSetup/DeleteVehicleMembershipById/{0}";
+
         public const string URL_GET_CLIENT_DETAIL = "/Admin/Client/GetClientById/";
 
         public const string URL_GET_CLIENT_VEHICLE = "/Admin/Vehicle/GetVehicleByClientId";
@@ -125,7 +127,15 @@ namespace Strive.Core.Utils
 
         public const string URL_CHECKOUT_DETAILS = "/Admin/Checkout/GetAllCheckoutDetails/";
 
+        public const string URL_CHECKOUT_HOLD = "/Admin/Checkout/UpdateJobStatusHold/";
+
+        public const string URL_CHECKOUT_COMPLETE = "/Admin/Checkout/UpdateJobStatusComplete/";
+
+        public const string URL_CHECKOUT_UPDATE = "/Admin/Checkout/UpdateCheckoutDetails/";
+
         public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllDetails";
+
+        public const string URL_SCHEDULE_DETAILBAY = "/Admin/Details/UpdateDetails";
 
         public const string URL_SCHEDULE_SERVICES_AVAILABLE = "/Admin/Sales/GetAllServiceDetail";
 

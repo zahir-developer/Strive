@@ -35,4 +35,33 @@ namespace Strive.Core.Models.Employee.CheckOut
         public string MembershipNameOrPaymentStatus { get; set; }
 
     }
+
+    public class holdCheckoutReq
+    {
+        public int id { get; set; }
+        public bool isHold { get; set; }
+    }
+
+    public class holdCheckoutResponse
+    {
+        public bool UpdateJobStatus { get; set; }
+    }
+
+    public class completeCheckoutReq
+    {
+        public int jobId { get; set; }
+        public DateTime actualTimeOut { get; set; }
+    }
+
+    public class doCheckoutReq
+    {
+        public int jobId { get; set; }
+        public bool checkOut { get; set; }
+        public DateTime checkOutTime { get; set; }
+    }
+
+    public class CheckoutResponse
+    {
+        public bool SaveCheckoutTime { get; set; }
+    }
 }
