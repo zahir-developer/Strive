@@ -68,6 +68,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<PostResponseBool> SaveVehicleMembership(ClientVehicleRoot clientVehicle);
 
+        Task<PostResponse> DeleteVehicleMembership(int clientMembershipId);
+
         Task<ClientStatus> GetClientDetail(int ClientId);
 
         Task<VehicleList> GetClientVehicle(int ClientId);
@@ -115,9 +117,17 @@ namespace Strive.Core.Services.Interfaces
         Task<DeleteResponse> DeleteDocuments(int documentID);
 
         Task<CheckoutDetails> CheckOutVehicleDetails(GetAllEmployeeDetail_Request EmployeeID);
-        
+
+        Task<holdCheckoutResponse> CheckOutHold(holdCheckoutReq holdReq);
+
+        Task<holdCheckoutResponse> CheckOutComplete(completeCheckoutReq completeReq);
+
+        Task<CheckoutResponse> DoCheckout(doCheckoutReq checkoutReq);
+
         Task<ScheduleModel> GetSchedulePastService(int clientID);
-        
+
+        Task<PostResponse> ScheduleDetail(DetailSchedule detailScheduleRequest);
+
         Task<AvailableServicesModel> GetScheduleServices(int LocationID);
         
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);

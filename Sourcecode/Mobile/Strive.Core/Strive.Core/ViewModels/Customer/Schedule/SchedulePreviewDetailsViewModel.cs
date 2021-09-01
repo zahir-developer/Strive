@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Resources;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,8 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         public async Task BookNow()
         {
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-
-           
+            //prepareDetailSchedule();
+            //await AdminService.ScheduleDetail();
 
             _userDialog.HideLoading();
         }
@@ -31,6 +32,11 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         public async void NavtoConfirmSchedule()
         {
             await _navigationService.Navigate<ScheduleConfirmationViewModel>();
-        } 
+        }
+
+        //DetailSchedule  prepareDetailSchedule()
+        //{
+
+        //}
     }
 }

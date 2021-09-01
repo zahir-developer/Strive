@@ -84,7 +84,7 @@ namespace Strive.Core.ViewModels.Customer
 
         public bool VehicleUpchargeCheck()
         {
-            if(MembershipDetails.selectedUpCharge == 0)
+            if(MembershipDetails.selectedUpCharge == 0 && !MembershipDetails.isNoneSelected)
             {
                 _userDialog.Alert("Please select an upcharge");
                 return false;
@@ -107,9 +107,11 @@ namespace Strive.Core.ViewModels.Customer
         public async void NavToAdditionalServices()
         {            
             MembershipDetails.filteredList = new ServiceList();
-            MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();            
-            MembershipDetails.filteredList.ServicesWithPrice.Add(upchargeFullList.ServicesWithPrice.Find(a => a.ServiceId == MembershipDetails.selectedUpCharge));
-                   
+            MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
+            if (MembershipDetails.selectedUpCharge != 0)
+            {
+                MembershipDetails.filteredList.ServicesWithPrice.Add(upchargeFullList.ServicesWithPrice.Find(a => a.ServiceId == MembershipDetails.selectedUpCharge));
+            }
             await _navigationService.Navigate<VehicleAdditionalServiceViewModel>();
         }
         #endregion Commands

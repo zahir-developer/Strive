@@ -79,6 +79,7 @@ namespace Strive.Core.Models.Customer
         public static int selectedMembership { get; set; }
         public static MembershipServices selectedMembershipDetail { get; set; }
         public static int selectedUpCharge { get; set; }
+        public static bool isNoneSelected { get; set; }
         public static int vehicleMakeNumber { get; set; }
         public static string vehicleMakeName { get; set; }
         public static int colorNumber { get; set; }

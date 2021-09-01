@@ -16,6 +16,8 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
         #region Properties
 
         public CheckoutDetails CheckOutVehicleDetails { get; set; }
+        public holdCheckoutResponse holdResponse { get; set; }
+        public CheckoutResponse status { get; set; }
         #endregion Properties
 
         #region Commands
@@ -46,6 +48,55 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
                 CheckOutVehicleDetails.GetCheckedInVehicleDetails = new GetCheckedInVehicleDetails();
                 CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel = new List<checkOutViewModel>();
                 CheckOutVehicleDetails = result;
+            }
+            _userDialog.HideLoading();
+        }
+
+        public async Task updateHoldStatus(int Id)
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.CheckOutHold(new holdCheckoutReq
+            {
+                id = Id,
+                isHold = true,
+            });
+
+            if(result != null)
+            {
+                holdResponse = result;
+            }
+            _userDialog.HideLoading();
+        }
+
+        public async Task updateCompleteStatus(int Id)
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.CheckOutComplete(new completeCheckoutReq
+            {
+                jobId = Id,
+                actualTimeOut = DateTime.Now,
+            });
+
+            if(result != null)
+            {
+                holdResponse = result;
+            }
+            _userDialog.HideLoading();
+        }
+
+        public async Task DoCheckout(int Id)
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.DoCheckout(new doCheckoutReq
+            {
+                jobId = Id,
+                checkOut = true,
+                checkOutTime = DateTime.Now,
+            });
+
+            if (result != null)
+            {
+                status = result;
             }
             _userDialog.HideLoading();
         }

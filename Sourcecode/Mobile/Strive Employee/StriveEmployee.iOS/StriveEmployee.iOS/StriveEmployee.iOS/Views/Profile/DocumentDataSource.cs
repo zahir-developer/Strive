@@ -39,7 +39,7 @@ namespace StriveEmployee.iOS.Views
         {
             var cell = tableView.DequeueReusableCell("DocumentsCell", indexPath) as DocumentsCell;
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.SetData(indexPath, employeeDocuments);
+            cell.SetData(indexPath, employeeDocuments, webview, view);
             return cell;
         }
 

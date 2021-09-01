@@ -13,6 +13,8 @@ namespace Strive.Core.ViewModels.Owner
         #region Properties
 
         public CheckoutDetails CheckOutVehicleDetails { get; set; }
+        public holdCheckoutResponse holdResponse { get; set; }
+        public CheckoutResponse status { get; set; }
 
         #endregion Properties
 
@@ -23,14 +25,14 @@ namespace Strive.Core.ViewModels.Owner
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
             var result = await AdminService.CheckOutVehicleDetails(new GetAllEmployeeDetail_Request
             {
-                startDate = (System.DateTime.Now.AddDays(-1)).ToString("yyy-MM-dd"),
+                startDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
                 endDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
-                locationId = null,
+                locationId = 1,
                 pageNo = 1,
-                pageSize = null,
+                pageSize = 10,
                 query = "",
-                sortOrder = null,
-                sortBy = null,
+                sortOrder = "ASC",
+                sortBy = "TicketNumber",
                 status = true,
             });
             if (result == null || result.GetCheckedInVehicleDetails.checkOutViewModel == null)
@@ -43,6 +45,55 @@ namespace Strive.Core.ViewModels.Owner
                 CheckOutVehicleDetails.GetCheckedInVehicleDetails = new GetCheckedInVehicleDetails();
                 CheckOutVehicleDetails.GetCheckedInVehicleDetails.checkOutViewModel = new List<checkOutViewModel>();
                 CheckOutVehicleDetails = result;
+            }
+            _userDialog.HideLoading();
+        }
+
+        public async Task updateHoldStatus(int Id)
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.CheckOutHold(new holdCheckoutReq
+            {
+                id = Id,
+                isHold = true,
+            });
+
+            if (result != null)
+            {
+                holdResponse = result;
+            }
+            _userDialog.HideLoading();
+        }
+
+        public async Task updateCompleteStatus(int Id)
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.CheckOutComplete(new completeCheckoutReq
+            {
+                jobId = Id,
+                actualTimeOut = DateTime.Now,
+            });
+
+            if (result != null)
+            {
+                holdResponse = result;
+            }
+            _userDialog.HideLoading();
+        }
+
+        public async Task DoCheckout(int Id)
+        {
+            _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
+            var result = await AdminService.DoCheckout(new doCheckoutReq
+            {
+                jobId = Id,
+                checkOut = true,
+                checkOutTime = DateTime.Now,
+            });
+
+            if (result != null)
+            {
+                status = result;
             }
             _userDialog.HideLoading();
         }
