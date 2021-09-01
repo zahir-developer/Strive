@@ -498,7 +498,8 @@ export class SalesComponent implements OnInit {
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices);
               this.upCharges = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge ||
-                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge);
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
+                item.ServiceType === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge);
               this.outsideServices = this.itemList.Status.SalesItemViewModel.filter(item =>
                 item.ServiceType === ApplicationConfig.Enum.ServiceType.OutsideServices);
               this.airfreshnerService = this.itemList.Status.SalesItemViewModel.filter(item =>

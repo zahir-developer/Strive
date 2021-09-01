@@ -865,7 +865,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           else
             vehId = +this.vehicle[this.vehicle.length - 1].VehicleId;
 
-          this.detailForm.patchValue({ vehicle: vehId});
+          this.detailForm.patchValue({ vehicle: vehId });
           this.getVehicleById(vehId);
           this.getMembership(vehId);
         } else {
@@ -1178,7 +1178,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
                 tempfinalminutes = 30;
                 endHour = tempinitialHour + 1;
               }
-              
+
             let baySchedule = {
               bayScheduleId: 0,
               bayId: this.detailForm.value.bay,
@@ -1254,7 +1254,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       }
 
     }
-    
+
     const baySchedule = {
       bayScheduleId: 0,
       bayId: this.detailForm.value.bay,
@@ -1335,7 +1335,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           this.detailForm.controls.inTime.disable();
           this.detailForm.controls.dueTime.disable();
           this.detailForm.controls.bay.disable();
-          
+
           this.getDetailByID(this.jobID);
         } else {
           this.spinner.hide();
@@ -1348,7 +1348,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       });
     }
     else {
-      this.spinner.show();   
+      this.spinner.show();
       this.detailService.updateDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
@@ -1423,7 +1423,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Detail.Delete, 'Success');
         this.closeDialog.emit({ isOpenPopup: false, status: 'saved' });
-        this.refreshDetailGrid.emit(); 
+        this.refreshDetailGrid.emit();
         this.closeSchedules();
       }
       else {
@@ -1728,21 +1728,36 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if ((!this.ceramicUpchargeId || !this.upchargeId) && !this.detailForm.value.model?.id) {
       return;
     }
+
+    if (this.detailForm.value.washes === "") {
+      this.toastr.warning(MessageConfig.Detail.SelectDetail, 'Warning!');
+      return;
+    }
+
     const obj = {
       "upchargeServiceType": this.isCeramic === false ? this.upchargeId : this.ceramicUpchargeId,
       "modelId": this.detailForm.value.model?.id
     };
+
 
     this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
       if (res.status === 'Success') {
         const jobtype = JSON.parse(res.resultData);
         this.upchargeList = jobtype.upcharge;
         if (this.upchargeList?.length > 0) {
+          const serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
           this.detailForm.patchValue({
-            upcharges: this.upchargeList[this.upchargeList.length - 1].ServiceId,
-            upchargeType: this.upchargeList[this.upchargeList.length - 1].ServiceId
+            upcharges: serviceId,
+            upchargeType: serviceId
           });
-          this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
+
+          this.deleteExistingUpcharges();
+
+          this.additionalService = this.additionalService.filter(s=>s.ServiceTypeId !== this.upchargeId && s.ServiceTypeId !== this.ceramicUpchargeId);
+          if (this.additionalService.filter(s => s.ServiceId === serviceId).length === 0) {
+            
+            this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
+          }
         }
         else {
           this.detailForm.patchValue({
@@ -1750,10 +1765,8 @@ export class CreateEditDetailScheduleComponent implements OnInit {
             upchargeType: ''
           });
 
-          if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
-            this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
-          }
-          
+          this.deleteExistingUpcharges();
+
         }
       }
     }, (err) => {
@@ -1761,12 +1774,21 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
+  deleteExistingUpcharges()
+  {
+    if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
+      this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
+    }
+
+    if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.ceramicUpchargeId)[0] !== undefined) {
+      this.washItem.filter(i => Number(i.ServiceTypeId) === this.ceramicUpchargeId)[0].IsDeleted = true;
+    }
+
+  }
   closeSchedules() {
     $(document).ready(function () {
       $('#closeSchedules').trigger("click");
     });
   }
-
-
 }
 

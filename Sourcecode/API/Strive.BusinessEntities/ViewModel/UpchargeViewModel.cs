@@ -6,6 +6,7 @@
         public string ServiceName { get; set; }
         public string Upcharges { get; set; }
         public decimal? Price { get; set; }
+        public int? ServiceTypeId { get; set; }
 
     }
 }

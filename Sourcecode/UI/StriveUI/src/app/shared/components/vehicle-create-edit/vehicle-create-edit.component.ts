@@ -359,7 +359,7 @@ export class VehicleCreateEditComponent implements OnInit {
                 element.IsDeleted = true;
               }
             });
-          } 
+          }
         } else {
           this.vehicleForm.patchValue({
             upcharge: '',
@@ -599,20 +599,19 @@ export class VehicleCreateEditComponent implements OnInit {
       }
 
       if (this.washService !== undefined) {
-        if(this.washService[0] !== undefined)
-        {
-        const serviceId = this.washService[0].ServiceId;
-        this.memberService.push(
-          {
-            ClientVehicleMembershipServiceId: 0,
-            IsDeleted: false,
-            ClientMembershipId: clientMembershipId,
-            ServiceId: serviceId,
-            IsActive: true,
-          }
-        )
+        if (this.washService[0] !== undefined) {
+          const serviceId = this.washService[0].ServiceId;
+          this.memberService.push(
+            {
+              ClientVehicleMembershipServiceId: 0,
+              IsDeleted: false,
+              ClientMembershipId: clientMembershipId,
+              ServiceId: serviceId,
+              IsActive: true,
+            }
+          )
+        }
       }
-    }
 
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
@@ -782,6 +781,7 @@ export class VehicleCreateEditComponent implements OnInit {
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
+  
   upchargeTypeChange(event, value) {
     const upchargeServcie = this.membershipServices.filter(item =>
       item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
@@ -816,7 +816,6 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.patchValue({ wash: serviceId });
   }
 
-
   getServiceType() {
     const serviceTypeValue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValueByType.serviceType);
     if (serviceTypeValue.length > 0) {
@@ -825,43 +824,41 @@ export class VehicleCreateEditComponent implements OnInit {
     }
   }
 
-
   getUpcharge() {
-    if (!this.upchargeId || !this.vehicleForm.value.model?.id) {
-      return;
-    }
-    const obj = {
-      "upchargeServiceType": this.upchargeId,
-      "modelId": this.vehicleForm.value.model?.id
-    };
-
-    this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
-      if (res.status === 'Success') {
-        const jobtype = JSON.parse(res.resultData);
-        this.upchargeList = jobtype.upcharge;
-        var serviceId = 0
-        if (this.upchargeList?.length > 0) {
-          serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
-          this.vehicleForm.patchValue({
-            "upcharge": serviceId,
-            "upchargeType": serviceId
-          });
-          this.toastr.success(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
-        }
-        else
-        {
-          this.vehicleForm.patchValue({
-            "upcharge": '',
-            "upchargeType": ''
-          });
-          this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeNotAvailable, 'Upcharge!');
-        }
+    if (this.isEdit) {
+      if (!this.upchargeId || !this.vehicleForm.value.model?.id) {
+        return;
       }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      const obj = {
+        "upchargeServiceType": this.upchargeId,
+        "modelId": this.vehicleForm.value.model?.id
+      };
+
+      this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
+        if (res.status === 'Success') {
+          const jobtype = JSON.parse(res.resultData);
+          this.upchargeList = jobtype.upcharge;
+          var serviceId = 0
+          if (this.upchargeList?.length > 0) {
+            serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
+            this.vehicleForm.patchValue({
+              "upcharge": serviceId,
+              "upchargeType": serviceId
+            });
+            this.toastr.success(MessageConfig.Admin.Vehicle.UpchargeApplied, 'Upcharge!');
+          }
+          else {
+            this.vehicleForm.patchValue({
+              "upcharge": '',
+              "upchargeType": ''
+            });
+            this.toastr.info(MessageConfig.Admin.Vehicle.UpchargeNotAvailable, 'Upcharge!');
+          }
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
   }
-
-
 }
 

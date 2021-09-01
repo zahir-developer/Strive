@@ -1077,6 +1077,11 @@ export class CreateEditWashesComponent implements OnInit {
         var serviceId = 0
         if (this.upchargeList?.length > 0) {
           serviceId = this.upchargeList[this.upchargeList.length - 1].ServiceId;
+
+          if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
+            this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
+          }
+
           this.washForm.patchValue({
             upcharges: serviceId,
             upchargeType: serviceId

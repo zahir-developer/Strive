@@ -52,7 +52,8 @@ export const MessageConfig = {
       Delete: 'Wash  Ticket deleted successfully !',
       type: 'Please select a valid type',
       model: 'Please select a valid model',
-      color: 'Please select a valid color'
+      color: 'Please select a valid color',
+      SelectWash: 'Select wash package to get Upcharge'
    },
    Detail:
    {
@@ -60,7 +61,8 @@ export const MessageConfig = {
       Update: 'Detail Ticket updated successfully !',
       Delete: 'Detail Ticket deleted successfully !',
       BarCode: 'Please enter the Barcode',
-      InvalidBarCode: 'Invalid BarCode'
+      InvalidBarCode: 'Invalid BarCode',
+      SelectDetail: 'Select detail package to get Upcharge'
    },
    Client:
    {
