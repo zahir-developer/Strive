@@ -30,32 +30,24 @@
             </div>
 
             <div class="form-group col-lg-3">
-                <label for="inputStatus">Upcharge Type<span class="required">*</span></label>
-                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)"
-                    [ngClass]="{ 'is-invalid': submitted && f.upcharge.errors }">
-                    <option value='' selected hidden>Select Type</option>
+                <label for="inputStatus">Upcharge Type<span class="required"></span></label>
+                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)">
+                    <option value='' selected>None</option>
 
                     <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status.ServiceName}}
                     </option>
                 </select>
-                <div *ngIf="submitted && f.upcharge.errors" class="invalid-feedback">
-                    <div *ngIf="f.upcharge.errors.required">Type is required</div>
-                </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-lg-3">
-                <label for="inputStatus">Upcharge<span class="required">*</span></label>
-                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)"
-                    [ngClass]="{ 'is-invalid': submitted && f.upcharge.errors }">
-                    <option value='' selected hidden>Select Upcharge</option>
+                <label for="inputStatus">Upcharge<span class="required"></span></label>
+                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)">
+                    <option value='' selected>None</option>
 
                     <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status?.Upcharges}}
                     </option>
                 </select>
-                <div *ngIf="submitted && f.upcharge.errors" class="invalid-feedback">
-                    <div *ngIf="f.upcharge.errors.required">Upcharge is required</div>
-                </div>
             </div>
          
             <div class="form-group col-lg-3">

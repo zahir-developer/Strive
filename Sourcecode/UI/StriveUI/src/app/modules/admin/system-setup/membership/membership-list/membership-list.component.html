@@ -52,7 +52,7 @@
                                         <tr
                                             *ngFor="let membership of membershipDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{membership.MembershipName}}</th>
-                                            <td class="tb-text-wrap" title="membership.Services">{{membership.Services}} </td>
+                                            <td class="tb-text-wrap" title="{{membership.Services}}">{{membership.Services}} </td>
                                             <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                             <td>{{membership.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
