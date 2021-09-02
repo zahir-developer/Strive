@@ -100,6 +100,7 @@ export const MessageConfig = {
       ValidMember : 'Valided successfully !',
       CreditAccountApplied: 'Credit account applied successfully !',
       MembershipApplied : 'Membership applied successfully !',
+      MembershipServicesNotMatching : 'Membership services not matching.',
       InvalidCharacters: 'Ticket number have Invalid characters.', 
    },
    Messenger: {

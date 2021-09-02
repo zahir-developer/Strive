@@ -114,6 +114,7 @@ export class CreateEditWashesComponent implements OnInit {
       this.viewWash();
     }
     this.getJobType();
+    console.log(this.timeInDate,"TimeInDate");
   }
   landing() {
     this.landingservice.loadTheLandingPage();
@@ -799,6 +800,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(element);
       }
     });
+
     const currentTime = new Date();
     const outTime = currentTime.setMinutes(currentTime.getMinutes() + this.washTime);
     const job = {
@@ -812,7 +814,7 @@ export class CreateEditWashesComponent implements OnInit {
       model: this.washForm.value.model?.id?.toString(),
       color: this.washForm.value.color?.id?.toString(),
       jobType: this.jobTypeId,
-      jobDate: moment(this.timeInDate).format(),
+      jobDate: new Date().toDateString().split('T')[0],
       timeIn: moment(this.timeInDate).format(),
       estimatedTimeOut: this.timeOutDate ? moment(this.timeOutDate).format() : null,
       actualTimeOut: null,
@@ -821,9 +823,9 @@ export class CreateEditWashesComponent implements OnInit {
       isActive: true,
       isDeleted: false,
       createdBy: +localStorage.getItem('empId'),
-      createdDate: new Date(),
+      createdDate: moment(new Date()).format(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: new Date()
+      updatedDate: this.isEdit ? moment(new Date()).format(): null
     };
     this.washItem.forEach(element => {
       this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
@@ -849,9 +851,9 @@ export class CreateEditWashesComponent implements OnInit {
         isActive: true,
         isDeleted: false,
         createdBy: +localStorage.getItem('empId'),
-        createdDate: new Date(),
+        createdDate: moment(new Date()).format(),
         updatedBy: +localStorage.getItem('empId'),
-        updatedDate: new Date()
+        updatedDate: this.isEdit ? moment(new Date()).format(): null
       };
     });
 
@@ -954,7 +956,7 @@ export class CreateEditWashesComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: new Date()
+      updatedDate: this.isEdit ? moment(new Date()).format(): null
     }]
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
@@ -969,7 +971,7 @@ export class CreateEditWashesComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: new Date(),
+      updatedDate: this.isEdit ? moment(new Date()).format(): null,
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
       score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,

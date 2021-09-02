@@ -1711,11 +1711,31 @@ export class SalesComponent implements OnInit {
                     this.totalAmount += ele.Price + ele.TaxAmount;
                   });
                 }
+
+                var MembershipTotalPrice = 0;
+                var services = '';
+                this.itemList.Status.SalesItemViewModel.forEach(s => {
+
+                  if(totalService.filter(t=>t.ServiceId === s.ServiceId).length !== 0)
+                  {
+                    MembershipTotalPrice += s.Price
+                    services += s.ServiceName.trim();
+                  }
+                });
+
                 if (this.amountCheck) {
-                  this.account = this.totalAmount;
-                  this.calculateTotalpaid(this.totalAmount);
-                  this.messageService.showMessage({ severity: 'info', title: 'Information', body: MessageConfig.Sales.MembershipApplied });
+                  this.account = MembershipTotalPrice;
+                  this.calculateTotalpaid(MembershipTotalPrice);
+                  if(services !== '')
+                  {
+                    this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + "Services: " + services });
+                  }
+                  else
+                  {
+                    this.messageService.showMessage({ severity: 'warning', title: 'Membership', body: MessageConfig.Sales.MembershipServicesNotMatching });
+                  }
                 }
+
                 this.amountCheck = false;
               }
             }
