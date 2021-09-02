@@ -24,8 +24,6 @@ namespace Greeter.Modules.Message
             //groups.Add("Holcomb Bridge Employees");
 
             //searchedGroups = groups;
-
-            _ = GetMessageGroups();
         }
 
         async Task GetMessageGroups()

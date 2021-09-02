@@ -16,7 +16,6 @@ namespace Greeter.Modules.Message
         public ContactViewController(ContactConfigureType configureType)
         {
             this.configureType = configureType;
-            _ = GetContacts();
         }
 
         async Task GetContacts()

@@ -1,4 +1,5 @@
-﻿using CoreGraphics;
+﻿using System.Threading.Tasks;
+using CoreGraphics;
 using Greeter.Common;
 using Greeter.DTOs;
 using UIKit;
@@ -24,8 +25,7 @@ namespace Greeter.Modules.Service
             base.ViewDidLoad();
 
             SetupView();
-
-            _ = GetLastServiceAsync(clientId);
+            _ = GetAndUpdateSerivceDetailsToUI();
 
             //serviceDateLabel.Text = "25/10/2020";
             //serviceNameLabel.Text = "Mega Mammoth";
@@ -38,6 +38,12 @@ namespace Greeter.Modules.Service
             //startTimeLabel.Text = "10:00 AM";
             //endTimeLabel.Text = "12:00 PM";
             //notesLabel.Text = "A motor vehicle service or tune-up is a series of maintenance procedures carried out at a set time interval or after the vehicle has traveled a certain distance";
+        }
+
+        async Task GetAndUpdateSerivceDetailsToUI()
+        {
+            var service = await GetLastService(clientId);
+            UpdateDataToUI(service);
         }
 
         void SetupView()

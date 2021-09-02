@@ -35,6 +35,8 @@ namespace Greeter.Extensions
             var activityIndicatorView = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
             activityIndicatorView.Color = Colors.APP_BASE_COLOR.ToPlatformColor();
             activityIndicatorView.Center = view.Center;
+            //activityIndicatorView.CenterYAnchor.ConstraintEqualTo(view.CenterYAnchor).Active = true;
+            //activityIndicatorView.CenterXAnchor.ConstraintEqualTo(view.CenterXAnchor).Active = true;
             view.AddSubview(activityIndicatorView);
             return activityIndicatorView;
         }

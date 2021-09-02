@@ -50,7 +50,6 @@ namespace Greeter.Storyboards
             base.ViewDidLoad();
 
             Initialise();
-            //_ = GetData();
 
 #if DEBUG
             tfCust.Text = "karthiknever16@gmail.com";
@@ -129,6 +128,13 @@ namespace Greeter.Storyboards
             var employeesResponse = await apiService.GetDetailEmployees(req);
             Employees = employeesResponse?.EmployeeList;
             employeeNames = Employees?.Select(x => x.FirstName + " " + x.LastName).ToArray();
+
+            if (employeeNames.Length  > 0)
+            {
+                AddPickerToolbar(tfEmp, tfEmp.Placeholder, PickerDone);
+                tfEmp.InputView = pv;
+            }
+
             HideActivityIndicator();
         }
 
@@ -149,10 +155,10 @@ namespace Greeter.Storyboards
                 //TODO : Email Body Teplate Issue Fix
                 var body = "<p>Ticket Number : </p>" + Service.Job.JobId + "<br /><br />";
 
-                if (Service.Job.ClientId != 0)
+                if (Service.Job.ClientId != 0 && Service.Job.ClientId is not null)
                 {
-                    body += "<p>Client Details : </p>" + ""
-                        + "<p>Client Name - " + CustName + "</p><br />";
+                    body += "<p>Customer Details : </p>" + ""
+                        + "<p>Customer Name - " + "Jimmy" + "</p><br />";
                 }
 
                 body += "<p>Vehicle Details : </p>" +
@@ -204,9 +210,6 @@ namespace Greeter.Storyboards
             tfCust.AddLeftPadding(UIConstants.TEXT_FIELD_HORIZONTAL_PADDING);
             tfCust.AddRightPadding(UIConstants.TEXT_FIELD_RIGHT_BUTTON_PADDING);
 
-            AddPickerToolbar(tfEmp, tfEmp.Placeholder, PickerDone);
-            tfEmp.InputView = pv;
-
             // For Restricting typing in the location field
             tfEmp.ShouldChangeCharacters = (textField, range, replacementString) =>
             {
@@ -220,13 +223,20 @@ namespace Greeter.Storyboards
             {
                 viewDetailer.Hidden = true;
             }
+            else
+            {
+                _ = GetData();
+            }
         }
 
         void PickerDone()
         {
-            int pos = (int)pv.SelectedRowInComponent(0);
-            tfEmp.Text = employeeNames[pos];
-            selectedEmpEmailId = Employees[pos].EmailID;
+            if (employeeNames.Length > 0)
+            {
+                int pos = (int)pv.SelectedRowInComponent(0);
+                tfEmp.Text = employeeNames[pos];
+                selectedEmpEmailId = Employees[pos].EmailID;
+            }
         }
 
         void NavigateToPayScreen()

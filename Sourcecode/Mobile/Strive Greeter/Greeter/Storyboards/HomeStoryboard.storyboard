@@ -15,7 +15,7 @@
             <objects>
                 <viewController id="bTh-oa-yQe" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6eS-RY-TST">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="974"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="F0m-gY-o1l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -57,7 +57,7 @@
             <objects>
                 <viewController id="3uc-Py-uIS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DzO-AG-PNa">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="974"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="gIC-06-CNm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -79,7 +79,7 @@
             <objects>
                 <viewController id="LNC-AB-Heq" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hm8-h2-9wx">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="974"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="PEu-ED-0iZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -95,7 +95,7 @@
             <objects>
                 <viewController id="Pq4-Cm-QNu" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UPb-5v-4Q6">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="974"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Mxg-RZ-B8u">
@@ -122,7 +122,7 @@
             <objects>
                 <viewController id="hgK-oW-beU" customClass="ServiceViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m85-U6-sIV">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="974"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="zxG-DS-ZQx">
@@ -1810,43 +1810,59 @@
             </objects>
             <point key="canvasLocation" x="3280" y="943"/>
         </scene>
-        <!--Sample Web View Controller-->
-        <scene sceneID="OAo-Qd-jkp">
+        <!--Sample Read More View Controller-->
+        <scene sceneID="PLG-Es-2NQ">
             <objects>
-                <viewController storyboardIdentifier="SampleWebViewController" id="aHd-up-Lhf" customClass="SampleWebViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8Vm-J1-O7B">
+                <viewController storyboardIdentifier="SampleReadMoreViewController" id="fSS-9L-hRi" customClass="SampleReadMoreViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Vil-Ql-gQr">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z4p-rB-Y6g" customClass="TestCustomView">
-                                <rect key="frame" x="113" y="256" width="558" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ohk-PH-EMK">
+                                <rect key="frame" x="196" y="369" width="415" height="134"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tumble Class for Beginner level 2Tumble l 2 Tumble l 2" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrJ-KW-yaA">
+                                        <rect key="frame" x="15" y="15" width="385" height="48"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQA-dj-mBu">
+                                        <rect key="frame" x="323" y="89" width="77" height="30"/>
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="77" id="Rzr-aX-C7O"/>
+                                        </constraints>
+                                        <state key="normal" title="More"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray2Color"/>
+                                <constraints>
+                                    <constraint firstItem="RrJ-KW-yaA" firstAttribute="top" secondItem="Ohk-PH-EMK" secondAttribute="top" constant="15" id="5ZO-M3-F3a"/>
+                                    <constraint firstAttribute="trailing" secondItem="VQA-dj-mBu" secondAttribute="trailing" constant="15" id="96g-xr-Asr"/>
+                                    <constraint firstItem="VQA-dj-mBu" firstAttribute="top" secondItem="RrJ-KW-yaA" secondAttribute="bottom" constant="26" id="Ujr-ca-UPW"/>
+                                    <constraint firstItem="RrJ-KW-yaA" firstAttribute="leading" secondItem="Ohk-PH-EMK" secondAttribute="leading" constant="15" id="ZBQ-5e-Xlf"/>
+                                    <constraint firstAttribute="bottom" secondItem="VQA-dj-mBu" secondAttribute="bottom" constant="15" id="dpd-92-oGC"/>
+                                    <constraint firstAttribute="trailing" secondItem="RrJ-KW-yaA" secondAttribute="trailing" constant="15" id="g0x-TC-ERz"/>
+                                </constraints>
                             </view>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jAj-jf-aWa">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="spM-2l-7Bc"/>
+                        <viewLayoutGuide key="safeArea" id="gGq-HH-or0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="spM-2l-7Bc" firstAttribute="trailing" secondItem="jAj-jf-aWa" secondAttribute="trailing" id="3ES-xg-2wk"/>
-                            <constraint firstItem="spM-2l-7Bc" firstAttribute="bottom" secondItem="jAj-jf-aWa" secondAttribute="bottom" id="L1J-qf-3cA"/>
-                            <constraint firstItem="jAj-jf-aWa" firstAttribute="leading" secondItem="spM-2l-7Bc" secondAttribute="leading" id="ZvY-dD-AsS"/>
-                            <constraint firstItem="jAj-jf-aWa" firstAttribute="top" secondItem="spM-2l-7Bc" secondAttribute="top" id="b0U-2j-APA"/>
+                            <constraint firstItem="Ohk-PH-EMK" firstAttribute="leading" secondItem="gGq-HH-or0" secondAttribute="leading" constant="196" id="00h-ls-rim"/>
+                            <constraint firstItem="gGq-HH-or0" firstAttribute="trailing" secondItem="Ohk-PH-EMK" secondAttribute="trailing" constant="157" id="hlw-5F-Lrb"/>
+                            <constraint firstItem="Ohk-PH-EMK" firstAttribute="top" secondItem="gGq-HH-or0" secondAttribute="top" constant="369" id="o13-hv-B5Q"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="webview" destination="jAj-jf-aWa" id="ASY-U4-hNO"/>
+                        <outlet property="btnMore" destination="VQA-dj-mBu" id="F97-Jd-Q2x"/>
+                        <outlet property="lblText" destination="RrJ-KW-yaA" id="vTK-Q6-5Yd"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xiK-Bl-8j7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KVx-O5-0UL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3928" y="943"/>
+            <point key="canvasLocation" x="4146.875" y="942.77343749999989"/>
         </scene>
     </scenes>
     <resources>
@@ -1871,6 +1887,12 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

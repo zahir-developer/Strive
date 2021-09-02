@@ -22,6 +22,7 @@ namespace Greeter.Modules.Message
             SetupView();
             SetupNavigationItem();
             RegisterCell();
+            _ = GetMessageGroups();
 
             //Setup Delegate and DataSource
             messageGroupsTableView.WeakDelegate = this;

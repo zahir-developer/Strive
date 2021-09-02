@@ -76,7 +76,7 @@ namespace Greeter.Cells
                 if(!recentChat.LastName.IsEmpty())
                     userIntialLabel.Text += recentChat.LastName?.Substring(0, 1);
             userNameLabel.Text = $"{recentChat.FirstName} {recentChat.LastName}";
-            dateTimeLabel.Text = "5.18 PM"; //TODO get key from server
+            //dateTimeLabel.Text = "5.18 PM"; //TODO get key from server
             messageContentLabel.Text = recentChat.RecentChatMessage;
         }
     }

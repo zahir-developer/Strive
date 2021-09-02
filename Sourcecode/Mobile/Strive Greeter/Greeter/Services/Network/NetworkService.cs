@@ -43,6 +43,7 @@ namespace Greeter.Services.Network
 
                     // Log
                     Debug.WriteLine("Url : " + urlRequest.Url.ToString());
+                    Debug.WriteLine("Method : " + urlRequest.HttpMethod.ToString());
                     Debug.WriteLine("Bearer Token : " + AppSettings.BearereToken);
 
                     if (request.Body is not null)

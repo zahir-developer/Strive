@@ -111,7 +111,7 @@ namespace Greeter.Storyboards
                 {
                     Additional.JobId = jobId;
                     serviceTimeMins += Additional.Time;
-                    jobItems.Add(Upcharge);
+                    jobItems.Add(Additional);
                 }
 
                 if (AirFreshner != null)
@@ -156,7 +156,7 @@ namespace Greeter.Storyboards
 
                         //TODO : Fill Job Detail and bay scheduels objects in the req
 
-                        #if DEBUG
+#if DEBUG
                         var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayId);
 
                         GetTimeInDetails matchTimeInDetails = null;
@@ -176,7 +176,7 @@ namespace Greeter.Storyboards
                                 for (int i = 1; i < timeInDetailsList.Count; i++)
                                 {
                                     var isThirtyMinuteDistance = IsThirtyMinuteDistance(previousTimeInDetail.TimeIn, timeInDetailsList[i].TimeIn);
-                                    if(isThirtyMinuteDistance)
+                                    if (isThirtyMinuteDistance)
                                     {
                                         availableTime += 60 * 30; //Add 30 minutes
 
@@ -220,9 +220,9 @@ namespace Greeter.Storyboards
 
                             string[] ds = startTime.Split(":");
 
-                            if (ds[1] == "3")
+                            if ((ds[1])[0] == '3')
                             {
-                                int num = Convert.ToInt32(startTime[0]);
+                                int num = Convert.ToInt32(ds[0]);
                                 num += 1;
                                 startTime = num.ToString() + ":00";
                             }
@@ -235,8 +235,7 @@ namespace Greeter.Storyboards
 
                             req.BaySchedules.Add(baySchedule);
                         }
-
-                        #endif
+#endif
                     }
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
@@ -250,10 +249,10 @@ namespace Greeter.Storyboards
                     {
                         ShowAlertMsg(Common.Messages.SERVICE_CREATED_MSG, () =>
                         {
-                        //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
-                        //this.NavigationController.PopToViewController(vc, true);
+                            //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
+                            //this.NavigationController.PopToViewController(vc, true);
 
-                        var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
+                            var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
                             vc.Make = Make;
                             vc.Model = Model;
                             vc.Color = Color;

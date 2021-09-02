@@ -13,7 +13,7 @@ namespace Greeter.Modules.Message
 
         public RecentMessageViewController()
         {
-            _ = GetRecentChatsAsync();
+            
         }
 
         async Task GetRecentChatsAsync()

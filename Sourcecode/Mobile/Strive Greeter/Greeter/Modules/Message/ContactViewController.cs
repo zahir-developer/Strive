@@ -34,6 +34,7 @@ namespace Greeter.Modules.Message
             SetupView();
             SetupNavigationItem();
             RegisterCell();
+            _ = GetContacts();
 
             //Setup Delegate and DataSource
             contactTableView.WeakDelegate = this;

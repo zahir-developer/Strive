@@ -428,6 +428,10 @@
 		<Compile Include="Storyboards\SampleWebViewController.designer.cs">
 		  <DependentUpon>SampleWebViewController.cs</DependentUpon>
 		</Compile>
+		<Compile Include="Storyboards\SampleReadMoreViewController.cs" />
+		<Compile Include="Storyboards\SampleReadMoreViewController.designer.cs">
+		  <DependentUpon>SampleReadMoreViewController.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

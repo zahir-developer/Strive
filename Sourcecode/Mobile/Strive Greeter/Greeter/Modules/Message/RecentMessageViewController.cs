@@ -19,6 +19,7 @@ namespace Greeter.Modules.Message
             SetupView();
             SetupNavigationItem();
             RegisterCell();
+            _ = GetRecentChatsAsync();
 
             //Setup Delegate and DataSource
             recentMessageTableView.WeakDelegate = this;

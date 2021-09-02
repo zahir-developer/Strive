@@ -1,7 +1,6 @@
 using Foundation;
 using Greeter;
 using Greeter.Common;
-using Greeter.Storyboards;
 using UIKit;
 
 namespace NewSingleViewTemplate
@@ -42,7 +41,7 @@ namespace NewSingleViewTemplate
                 }
 
                 //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
-                //vc = sb.InstantiateViewController(nameof(SampleWebViewController));
+                //vc = sb.InstantiateViewController(nameof(SampleReadMoreViewController));
 
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };

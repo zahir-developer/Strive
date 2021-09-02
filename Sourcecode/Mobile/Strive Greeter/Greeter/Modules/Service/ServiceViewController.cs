@@ -204,7 +204,7 @@ namespace Greeter
 
         void NavigateToLastService(ClientAndVehicleDetail clientAndVehicleDetail)
         {
-            NavigateToWithAnim(new LastVisitViewController(clientAndVehicleDetail.ClientID));
+            NavigateToWithAnim(new LastVisitViewController(clientAndVehicleDetail.ClientID, clientAndVehicleDetail.Barcode));
         }
 
         void NavigateToIssue()
