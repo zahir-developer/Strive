@@ -958,7 +958,7 @@ export class SalesComponent implements OnInit {
   updateListItem(formObj, flag) {
     this.salesService.updateListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });        
         this.getDetailByTicket(flag);
         this.addItemForm.controls.quantity.enable();
         this.addItemFormInit();
@@ -1051,7 +1051,8 @@ export class SalesComponent implements OnInit {
         // this.addPayment();
         // this.paymentCapture(result.authObj);
       } else {
-        this.getDetailByTicket(false);
+        this.tips = 0;
+        this.credit= 0;
       }
     });
   }
