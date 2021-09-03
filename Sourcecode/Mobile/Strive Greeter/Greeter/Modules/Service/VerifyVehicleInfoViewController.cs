@@ -160,6 +160,7 @@ namespace Greeter.Storyboards
                         var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayId);
 
                         GetTimeInDetails matchTimeInDetails = null;
+                        string startTime = string.Empty;
 
                         foreach (IEnumerable<GetTimeInDetails> timeInDetails in bayGroup)
                         {
@@ -180,6 +181,11 @@ namespace Greeter.Storyboards
                                     {
                                         availableTime += 60 * 30; //Add 30 minutes
 
+                                        if(string.IsNullOrEmpty(startTime))
+                                        {
+                                            startTime = timeInDetailsList[i].TimeIn;
+                                        }
+
                                         if (availableTime >= totalTimeMins)
                                         {
                                             matchTimeInDetails = timeInDetailsList[i];
@@ -188,11 +194,20 @@ namespace Greeter.Storyboards
                                     }
                                     else
                                     {
+                                        startTime = string.Empty;
                                         availableTime = 0;
                                     }
                                     previousTimeInDetail = timeInDetailsList[i];
                                 }
                             }
+                        }
+
+                        if(matchTimeInDetails is null)
+                        {
+                            startTime = string.Empty;
+                            //TODO show error message
+
+                            return;
                         }
 
                         req.JobDetail = new JobDetail
@@ -205,7 +220,6 @@ namespace Greeter.Storyboards
                         {
                         };
 
-                        string startTime = "7:00";
                         float diff = 0;
 
                         for (int i = 0; i < 5; i++)
