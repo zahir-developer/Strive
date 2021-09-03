@@ -190,6 +190,7 @@ namespace Greeter.Modules.Pay
             securityCodeTextField.Font = UIFont.SystemFontOfSize(18);
             securityCodeTextField.TextColor = UIColor.Black;
             securityCodeTextField.KeyboardType = UIKeyboardType.NumberPad;
+            securityCodeTextField.SecureTextEntry = true;
             backgroundView.Add(securityCodeTextField);
 
             var payButton = new UIButton(CGRect.Empty);

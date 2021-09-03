@@ -101,6 +101,7 @@ namespace Greeter.Common
         internal const string CHAT_MESSAGES = "/Admin/Messenger/GetChatMessage";
         internal const string SEND_MESSAGE = "/Admin/Messenger/SendChatMessage";
         internal const string GET_DETAIL_SERVICES = "/Admin/Details/GetAllDetails";
+        internal const string GET_LOCATION_WASH_TIME = "/Admin/Washes/GetAllLocationWashTime/";
     }
 
     public class UIConstants

@@ -911,7 +911,7 @@ namespace Greeter.DTOs
         public List<ChatUserGroup> ChatUserGroup { get; set; }
 
         [JsonProperty("groupId")]
-        public long GroupID { get; set; }
+        public string GroupID { get; set; }
     }
 
     public class ChatGroup

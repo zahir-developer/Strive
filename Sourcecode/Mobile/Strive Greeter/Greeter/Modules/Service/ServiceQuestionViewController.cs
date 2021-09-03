@@ -248,6 +248,9 @@ namespace Greeter.Storyboards
 
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_UPCHARGE)).ToList();
 
+                ServiceDetail serviceDetail = new();
+                
+
                 jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Wash.ToString())).FirstOrDefault().ID ?? -1;
             }
             else
@@ -260,7 +263,11 @@ namespace Greeter.Storyboards
                 jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Detail.ToString())).FirstOrDefault().ID ?? -1;
             }
 
-            upcharges = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToArray();
+            var upchargesList = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToList();
+            upchargesList.Insert(0, "None");
+            upcharges = upchargesList.ToArray();;
+
+            tfUpcharge.Text = upcharges[0];
 
             AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
             additionalServices = AdditionalServices.Select(x => x.Name).ToArray();
@@ -479,6 +486,10 @@ namespace Greeter.Storyboards
                         break;
                     case ChoiceType.Upcharge:
                         tfUpcharge.Text = data[pos];
+
+                        if (pos == 0) // For None
+                            return;
+
                         upcharge = upcharge ?? new JobItem();
                         upcharge.ServiceId = Upcharges[pos].ID;
                         upcharge.SeriveName = Upcharges[pos].Name;

@@ -10,6 +10,7 @@ namespace Greeter.Services.Api
         Task<LocationsResponse> GetLocations();
         Task<MakeResponse> GetAllMake();
         Task<GlobalDataResponse> GetGlobalData(string dataType);
+        Task<BaseResponse> GetLocationWashTime(long locationId);
     }
 
     public class GeneralApiService : IGeneralApiService
@@ -30,6 +31,12 @@ namespace Greeter.Services.Api
         {
             var url = Urls.GLOBAL_DATA + dataType;
             return apiService.DoApiCall<GlobalDataResponse>(url);
+        }
+
+        public Task<BaseResponse> GetLocationWashTime(long locationId)
+        {
+            var url = Urls.GET_LOCATION_WASH_TIME + locationId;
+            return apiService.DoApiCall<BaseResponse>(url);
         }
     }
 }

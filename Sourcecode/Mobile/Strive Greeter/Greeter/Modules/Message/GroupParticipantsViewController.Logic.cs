@@ -96,14 +96,27 @@ namespace Greeter.Modules.Message
         {
             ShowActivityIndicator();
             List<Task> TaskList = new List<Task>();
+
+            var creategroupReq = new CreategroupRequest();
+            creategroupReq.ChatGroup = null;
+            creategroupReq.ChatUserGroup = new List<ChatUserGroup>();
+            creategroupReq.GroupID = communicationId;
+
             foreach (var participant in newlyAddedParticipants)
             {
-                var task = SingleTon.MessageApiService.AddUserToGroup(participant.UserID, communicationId);
-                TaskList.Add(task);
+                var chatUserGroup = new ChatUserGroup();
+                chatUserGroup.UserID = participant.UserID;
+                chatUserGroup.ChatGroupUserID = participant.ChatGroupUserID;
+                creategroupReq.ChatUserGroup.Add(chatUserGroup);
             }
 
-            await Task.WhenAll(TaskList.ToArray());
+            var response = await SingleTon.MessageApiService.CreateGroup(creategroupReq);
+
             HideActivityIndicator();
+
+            HandleResponse(response);
+
+            if (!response.IsSuccess()) return;
 
             ShowAlertMsg(Common.Messages.USER_ADDED_SUCCESS_MSG, () => {
                 NavigationController.PopViewController(true);

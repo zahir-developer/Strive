@@ -38,7 +38,7 @@ namespace Greeter
             Initialise();
             UpdateData();
 
-            _ = GetAvailableSchedules();
+            //_ = GetAvailableSchedules();
 
             //Clicks
             btnWash.TouchUpInside += delegate
@@ -92,14 +92,14 @@ namespace Greeter
             lblLocName.Text = AppSettings.LocationName;
         }
 
-        async Task GetAvailableSchedules()
-        {
-            #if DEBUG
-                var apiService = new WashApiService();
-                var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationId = AppSettings.LocationID };
-                var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
-            #endif
-        }
+        //async Task GetAvailableSchedules()
+        //{
+        //    #if DEBUG
+        //        var apiService = new WashApiService();
+        //        var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationId = AppSettings.LocationID };
+        //        var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
+        //    #endif
+        //}
 
         void Initialise()
         {
