@@ -34,9 +34,8 @@ namespace Admin.API.Controllers
 
 
         [HttpGet]
-        [Route("GetAllLocationWashTime/{id}")]
-        public Result GetAllLocationWashTime(int id) => _bplManager.GetAllLocationWashTime(id);
-
+        [Route("GetAllLocationWashTime")]
+        public Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatusDto) => _bplManager.GetAllLocationWashTime(locationStoreStatusDto);
 
         #endregion
 

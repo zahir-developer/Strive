@@ -99,5 +99,14 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<LocationWashTimeDto>(EnumSP.Washes.USPGETALLLOCATIONWASHTIME.ToString(), _prm);
             return result;
         }
+
+        public List<LocationWashTimeDto> GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatus)
+        {
+
+            _prm.Add("@LocationId", locationStoreStatus.LocationId);
+            _prm.Add("@Date", locationStoreStatus.Date);
+            var result = db.Fetch<LocationWashTimeDto>(EnumSP.Washes.USPGETALLLOCATIONWASHTIME.ToString(), _prm);
+            return result;
+        }
     }
 }
