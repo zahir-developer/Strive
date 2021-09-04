@@ -34,7 +34,7 @@ namespace Greeter.Modules.Pay
             KeyBoardHandling();
             UpdateData();
 
-            tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0 ,0, 0);
+            tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
 
 #if DEBUG
             cardNumberTextField.Text = "6011000995500000";
@@ -173,7 +173,7 @@ namespace Greeter.Modules.Pay
             expirationDateTextField.BorderStyle = UITextBorderStyle.RoundedRect;
             expirationDateTextField.Font = UIFont.SystemFontOfSize(18);
             expirationDateTextField.TextColor = UIColor.Black;
-            expirationDateTextField.Placeholder = "mm/yy"; 
+            expirationDateTextField.Placeholder = "mm/yy";
             backgroundView.Add(expirationDateTextField);
 
             var securityCodeLabel = new UILabel(CGRect.Empty);
@@ -209,9 +209,9 @@ namespace Greeter.Modules.Pay
                     ccv = Convert.ToInt16(securityCodeTextField.Text);
 
                 if (!tipAmountTextField.Text.IsEmpty())
-                    if(float.TryParse(tipAmountTextField.Text, out float tipAmount))
+                    if (float.TryParse(tipAmountTextField.Text, out float tipAmount))
 
-                 _ = PayAsync(cardNumberTextField.Text, expirationDateTextField.Text, ccv, tipAmount);
+                        _ = PayAsync(cardNumberTextField.Text, expirationDateTextField.Text, ccv, tipAmount);
             };
 
             backgroundImage.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor).Active = true;
@@ -413,18 +413,21 @@ namespace Greeter.Modules.Pay
 
             if (textField == expirationDateTextField)
             {
-                //var oldNSString = new NSString(expirationDateTextField.Text ?? string.Empty);
-                //var replacedString = oldNSString.Replace(range, new NSString(replacementString)).ToString().Replace("/", string.Empty);
+                if (replacementString.Length > 1) return false;
 
-                //if (replacedString.Length > 4) return false;
+                var oldNSString = new NSString(expirationDateTextField.Text ?? string.Empty);
+                var replacedString = oldNSString.Replace(range, new NSString(replacementString))
+                    .ToString()
+                    .Replace("/", string.Empty);
 
-                //if (replacedString.Length > 1)
-                //{
-                //    expirationDateTextField.Text = replacedString.ToString().Insert(2, "/");
-                //    return false;
-                //}
-                //else
-                //    return true;
+                if (replacedString.Length > 4)
+                    return false;
+
+                if (replacedString.Length > 2)
+                {
+                    expirationDateTextField.Text = $"{replacedString[..2]}/{replacedString[2..]}";
+                    return false;
+                }
             }
 
             return true;
