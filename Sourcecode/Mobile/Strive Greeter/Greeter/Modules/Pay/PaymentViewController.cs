@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using CoreGraphics;
 using Foundation;
 using Greeter.Common;
 using Greeter.Extensions;
 using Greeter.Storyboards;
+using InfineaSDK.iOS;
 using UIKit;
 using Xamarin.Essentials;
 
@@ -26,6 +28,10 @@ namespace Greeter.Modules.Pay
 
         const string TIP_AMOUNT_FORMAT = "{0}{1}{2}.{3}{4}";
 
+        private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
+        private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
+        private readonly int[] barcodeTone = { 1046, 80, 1397, 80 };
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -41,6 +47,133 @@ namespace Greeter.Modules.Pay
             expirationDateTextField.Text = "12/21";
             securityCodeTextField.Text = "291";
 #endif
+        }
+
+        void RegisterForCardDetailsScanning()
+        {
+            PeripheralEvents.ConnectionState += OnConnectionStateChanged;
+
+            PeripheralEvents.MagneticCardEncryptedDataTracksDataTrack1maskedTrack2maskedTrack3 += (object sender, MagneticCardEncryptedDataTracksDataTrack1maskedTrack2maskedTrack3EventArgs e) =>
+            {
+                // e contains Data, Encryption, Track1masked, Track2masked, Track3
+                // add handling code here...
+                //ScanTypeLabel.Text = "Magcard (Encrypted)";
+                Console.WriteLine("MagneticCardEncryptedDataTracksDataTrack1maskedTrack2maskedTrack3");
+            };
+
+            PeripheralEvents.MagneticCardReadFailedReason += (object sender, MagneticCardReadFailedReasonEventArgs e) =>
+            {
+                // e contains Reason and Source  (values explained in LibraryDemo source code)
+                // add error handling code here... 
+                //ScanTypeLabel.Text = "Magcard (Error)";
+                //ScanDataLabel.Text = $"Reason: {e.Reason}";
+                Console.WriteLine("MagneticCardReadFailedReason");
+            };
+
+            // MSR card swipes
+            PeripheralEvents.MagneticCardDataTrack2Track3 += OnMagcardRead;
+            ConnectToPeripheral();
+            Peripheral.AddDelegate(PeripheralEvents);
+        }
+
+        /// <summary>
+        /// Plays a sound through the device
+        /// </summary>
+        /// <returns><c>true</c>, if successful, <c>false</c> otherwise.</returns>
+        /// <param name="volume">The sound volume.</param>
+        /// <param name="tones">An even-length array of integers, where the odd elements are frequencies and the even elements are durations.</param>
+        //public bool PlaySound(int volume, int[] tones)
+        //{
+        //    try
+        //    {
+        //        // Attempts to play the sound, providing the volume, the tones, and an output error.
+        //        return Peripheral.PlaySound(volume, tones);
+        //    }
+        //    catch (NSErrorException ex)
+        //    {
+        //        Console.WriteLine(ex.Error.LocalizedDescription);
+        //        //this.DisplayErrorAlert("Play sound failed", ex.Error);
+        //        return false;
+        //    }
+        //}
+
+
+        private void OnConnectionStateChanged(object sender, ConnectionStateEventArgs e)
+        {
+            switch (e.State)
+            {
+                case ConnStates.ConnDisconnected:
+                    Console.WriteLine("Peripheral disconnected");
+                    //View.BackgroundColor = disconnectedColor;
+                    //ConnectionLabel.Text = "Peripheral disconnected";
+
+                    //RfidButton.Hidden = true;
+                    //EmvButton.Hidden = true;
+                    //ConnectButton.Hidden = false;
+                    break;
+
+                case ConnStates.ConnConnecting:
+                    Console.WriteLine("Peripheral connecting...");
+                    //View.BackgroundColor = connectingColor;
+                    //ConnectionLabel.Text = "Peripheral connecting";
+                    //RfidButton.Hidden = true;
+                    //EmvButton.Hidden = true;
+                    //ConnectButton.Hidden = true;
+                    break;
+
+                case ConnStates.ConnConnected:
+                    Console.WriteLine("Peripheral connected");
+                    //View.BackgroundColor = connectedColor;
+                    //ConnectionLabel.Text = "Peripheral connected!";
+                    //RfidButton.Hidden = false;
+                    //EmvButton.Hidden = false;
+                    //ConnectButton.Hidden = true;
+                    //UpdateBatteryPercentage();
+                    //CheckEmsrKeys();
+                    break;
+            }
+        }
+
+        private void ConnectToPeripheral()
+        {
+            Console.WriteLine($"InfineaSDK Version {Peripheral.SdkVersionString} built on {Peripheral.SdkBuildDate}");
+
+            // connect to the peripheral - must be called before any further interaction with the peripheral
+            Peripheral.Connect();
+
+            // the connection state handler OnConnectionStateChanged will be called for peripheral connection states
+            // implement any further peripheral interaction after OnConnectionStateChanged has received ConnStates.ConnConnected
+        }
+
+        private void OnMagcardRead(object sender, MagneticCardDataTrack2Track3EventArgs e)
+        {
+            string data = $"{e.Track1 ?? string.Empty}{e.Track2 ?? string.Empty}{e.Track3 ?? string.Empty}";
+
+            Console.WriteLine($"Magcard swiped: {data}");
+
+            //PlaySound(100, barcodeTone);
+            Logic.Vibrate(2);
+
+            string cardNumber = ParseMagcardData(data);
+            if (cardNumber == null)
+            {
+                //ScanTypeLabel.Text = "Magcard (Error)";
+                //ScanDataLabel.Text = "Could not parse!";
+            }
+            else
+            {
+                //ScanTypeLabel.Text = "Magcard";
+                cardNumberTextField.Text = cardNumber;
+            }
+        }
+
+        private static string ParseMagcardData(string rawData)
+        {
+            Regex magcardRegex = new Regex(@"^%B(\d+)\^");
+            Match numberMatch = magcardRegex.Match(rawData);
+            if (!numberMatch.Success)
+                return null;
+            return numberMatch.Groups[1].Value;
         }
 
         void UpdateData()

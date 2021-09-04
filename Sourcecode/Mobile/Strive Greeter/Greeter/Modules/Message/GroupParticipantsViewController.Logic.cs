@@ -106,7 +106,7 @@ namespace Greeter.Modules.Message
             {
                 var chatUserGroup = new ChatUserGroup();
                 chatUserGroup.UserID = participant.UserID;
-                chatUserGroup.ChatGroupUserID = participant.ChatGroupUserID;
+                chatUserGroup.ChatGroupId = groupId;
                 creategroupReq.ChatUserGroup.Add(chatUserGroup);
             }
 
@@ -135,6 +135,7 @@ namespace Greeter.Modules.Message
                     ChatUserGroup = participants
                 }
             );
+
             HideActivityIndicator();
 
             HandleResponse(result);
