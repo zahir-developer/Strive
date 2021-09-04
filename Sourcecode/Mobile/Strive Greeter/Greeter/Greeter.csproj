@@ -81,6 +81,9 @@
 		<Reference Include="Xamarin.iOS" />
 		<Reference Include="System.Numerics" />
 		<Reference Include="System.Numerics.Vectors" />
+		<Reference Include="InfineaSDK.iOS">
+		  <HintPath>..\..\..\..\..\..\..\..\..\..\Users\hms\Downloads\InfineaSDK_Xamarin_1.3.21\Assemblies\InfineaSDK.iOS.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.2" />

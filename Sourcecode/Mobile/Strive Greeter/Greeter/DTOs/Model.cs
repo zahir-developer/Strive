@@ -341,6 +341,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("vehicleId")] // Optional
         public long? VehicleId { get; set; } = null;
+
+        [JsonProperty("barcode")]
+        public String Barcode { get; set; } = null;
     }
 
     public class JobItem
@@ -377,6 +380,12 @@ namespace Greeter.DTOs
 
         [JsonProperty("updatedDate")]
         public DateTime UpdatedDate { get; } = DateTime.Now;
+
+        [JsonProperty("isActive")]
+        public bool IsActive { get; } = true;
+
+        [JsonProperty("isDeleted")]
+        public bool isDeleted { get; } = false;
 
         [JsonIgnore]
         public string SeriveName { get; set; }
@@ -954,14 +963,14 @@ namespace Greeter.DTOs
         [JsonProperty("userId")]
         public long UserID { get; set; }
 
-        //[JsonProperty("chatGroupId")]
-        //public long ChatGroupId { get; set; }
+        [JsonProperty("chatGroupId")]
+        public long ChatGroupId { get; set; }
 
         //[JsonProperty("isActive")]
-        //public bool IsActive { get; set; }
+        //public bool IsActive { get; } = true;
 
         //[JsonProperty("isDeleted")]
-        //public bool IsDeleted { get; set; }
+        //public bool IsDeleted { get; } = false;
 
         //[JsonProperty("createdBy")]
         //public int CreatedBy { get; set; }

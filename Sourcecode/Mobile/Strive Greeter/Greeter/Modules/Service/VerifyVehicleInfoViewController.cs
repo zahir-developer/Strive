@@ -162,6 +162,8 @@ namespace Greeter.Storyboards
                         GetTimeInDetails matchTimeInDetails = null;
                         string startTime = string.Empty;
 
+                        int bayCount = 0;
+
                         foreach (IEnumerable<GetTimeInDetails> timeInDetails in bayGroup)
                         {
                             if (matchTimeInDetails is not null) break;
@@ -173,6 +175,7 @@ namespace Greeter.Storyboards
                                 var previousTimeInDetail = timeInDetails.FirstOrDefault();
 
                                 var availableTime = 0; //Time represent in minutes
+                                bayCount = 0;
 
                                 for (int i = 1; i < timeInDetailsList.Count; i++)
                                 {
@@ -180,6 +183,7 @@ namespace Greeter.Storyboards
                                     if (isThirtyMinuteDistance)
                                     {
                                         availableTime += 60 * 30; //Add 30 minutes
+                                        bayCount += 1;
 
                                         if(string.IsNullOrEmpty(startTime))
                                         {
@@ -220,9 +224,9 @@ namespace Greeter.Storyboards
                         {
                         };
 
-                        float diff = 0;
+                        //float diff = 0;
 
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < bayCount; i++)
                         {
                             var baySchedule = new BaySchedule()
                             {
@@ -232,18 +236,22 @@ namespace Greeter.Storyboards
                                 ScheduleDate = req.Job.JobDate.ToString("yyyy-MM-dd")
                             };
 
-                            string[] ds = startTime.Split(":");
 
-                            if ((ds[1])[0] == '3')
-                            {
-                                int num = Convert.ToInt32(ds[0]);
-                                num += 1;
-                                startTime = num.ToString() + ":00";
-                            }
-                            else
-                            {
-                                startTime = startTime[0] + ":30";
-                            }
+                            //if (i != 0)
+                            //{
+                                string[] ds = startTime.Split(":");
+
+                                if ((ds[1])[0] == '3')
+                                {
+                                    int num = Convert.ToInt32(ds[0]);
+                                    num += 1;
+                                    startTime = num.ToString() + ":00";
+                                }
+                                else
+                                {
+                                    startTime = ds[0] + ":30";
+                                }
+                            //}
 
                             baySchedule.ScheduleOutTime = startTime;
 

@@ -9,6 +9,7 @@ using Greeter.Extensions;
 using Greeter.Modules.Service;
 using Greeter.Services.Api;
 using Greeter.Storyboards;
+using InfineaSDK.iOS;
 using UIKit;
 
 namespace Greeter
@@ -25,6 +26,9 @@ namespace Greeter
         bool IsWash = true;
 
         //BarcodeResponse barcodeResponse;
+
+        private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
+        private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
 
         public ServiceViewController(IntPtr handle) : base(handle)
         {
@@ -85,6 +89,14 @@ namespace Greeter
             lblChangeloc.AddGestureRecognizer(new UITapGestureRecognizer(LocationTap));
             lblLastService.AddGestureRecognizer(new UITapGestureRecognizer(LastServiceTap));
             lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(ViewIssueTap));
+        }
+
+        void RegisterForBarcodeScanning()
+        {
+            PeripheralEvents.ConnectionState += OnConnectionStateChanged;
+            PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
+            ConnectToPeripheral();
+            Peripheral.AddDelegate(PeripheralEvents);
         }
 
         void UpdateData()
@@ -271,6 +283,60 @@ namespace Greeter
         void SetTextColor(UIButton btn, UIColor color)
         {
             btn.SetTitleColor(color, UIControlState.Normal);
+        }
+
+        private void ConnectToPeripheral()
+        {
+            Console.WriteLine($"InfineaSDK Version {Peripheral.SdkVersionString} built on {Peripheral.SdkBuildDate}");
+
+            // connect to the peripheral - must be called before any further interaction with the peripheral
+            Peripheral.Connect();
+
+            // the connection state handler OnConnectionStateChanged will be called for peripheral connection states
+            // implement any further peripheral interaction after OnConnectionStateChanged has received ConnStates.ConnConnected
+        }
+
+        private void OnConnectionStateChanged(object sender, ConnectionStateEventArgs e)
+        {
+            switch (e.State)
+            {
+                case ConnStates.ConnDisconnected:
+                    Console.WriteLine("Peripheral disconnected");
+                    //View.BackgroundColor = disconnectedColor;
+                    //ConnectionLabel.Text = "Peripheral disconnected";
+                   
+                    //RfidButton.Hidden = true;
+                    //EmvButton.Hidden = true;
+                    //ConnectButton.Hidden = false;
+                    break;
+
+                case ConnStates.ConnConnecting:
+                    Console.WriteLine("Peripheral connecting...");
+                    //View.BackgroundColor = connectingColor;
+                    //ConnectionLabel.Text = "Peripheral connecting";
+                    //RfidButton.Hidden = true;
+                    //EmvButton.Hidden = true;
+                    //ConnectButton.Hidden = true;
+                    break;
+
+                case ConnStates.ConnConnected:
+                    Console.WriteLine("Peripheral connected");
+                    //View.BackgroundColor = connectedColor;
+                    //ConnectionLabel.Text = "Peripheral connected!";
+                    //RfidButton.Hidden = false;
+                    //EmvButton.Hidden = false;
+                    //ConnectButton.Hidden = true;
+                    //UpdateBatteryPercentage();
+                    //CheckEmsrKeys();
+                    break;
+            }
+        }
+
+        private void OnBarcodeScanned(object sender, BarcodeNSDataTypeEventArgs e)
+        {
+            Console.WriteLine($"Barcode scanned: {e.Barcode} ({e.Type})");
+            //ScanTypeLabel.Text = $"Barcode ({e.Type})";
+            txtFieldBarcode.Text = e.Barcode.ToString();
         }
     }
 }

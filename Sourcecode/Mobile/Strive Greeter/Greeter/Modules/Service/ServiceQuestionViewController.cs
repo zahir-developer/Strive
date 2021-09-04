@@ -407,8 +407,6 @@ namespace Greeter.Storyboards
                 return false;
             };
 
-
-
             tfUpcharge.ShouldChangeCharacters = (textField, range, replacementString) =>
             {
                 return false;
