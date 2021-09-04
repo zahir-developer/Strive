@@ -89,6 +89,8 @@ namespace Greeter
             lblChangeloc.AddGestureRecognizer(new UITapGestureRecognizer(LocationTap));
             lblLastService.AddGestureRecognizer(new UITapGestureRecognizer(LastServiceTap));
             lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(ViewIssueTap));
+
+            RegisterForBarcodeScanning();
         }
 
         void RegisterForBarcodeScanning()

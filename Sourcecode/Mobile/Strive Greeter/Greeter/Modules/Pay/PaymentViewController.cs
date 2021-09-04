@@ -42,6 +42,8 @@ namespace Greeter.Modules.Pay
 
             tipAmountTextField.Text = string.Format(TIP_AMOUNT_FORMAT, 0, 0, 0, 0, 0);
 
+            RegisterForCardDetailsScanning();
+
 #if DEBUG
             cardNumberTextField.Text = "6011000995500000";
             expirationDateTextField.Text = "12/21";

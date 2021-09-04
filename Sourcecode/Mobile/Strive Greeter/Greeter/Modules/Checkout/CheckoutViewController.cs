@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
@@ -125,6 +126,12 @@ namespace Greeter.Modules.Pay
             //action2.Image.ApplyTintColor(UIColor.White);
             action2.BackgroundColor = ColorConverters.FromHex("#138a32").ToPlatformColor();
 
+           var contextualActions = new List<UIContextualAction>() { action1, action2 };
+
+            var row = (int)indexPath.Row;
+            var checkout = Checkouts[row];
+            //if (checkout.PaymentStatus.Equals("Success"))
+            //{
             var action3 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
                 "Checkout",
@@ -134,11 +141,13 @@ namespace Greeter.Modules.Pay
                     tableView.Editing = false;
                     CheckoutBtnClicked(Checkouts[indexPath.Row]);
                 });
-            action3.Image = UIImage.FromBundle(ImageNames.TICK);
-            //action3.Image.ApplyTintColor(UIColor.White);
-            action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+                action3.Image = UIImage.FromBundle(ImageNames.TICK);
+                //action3.Image.ApplyTintColor(UIColor.White);
+                action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+                contextualActions.Add(action3);
+            //}
 
-            return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
+            return UISwipeActionsConfiguration.FromActions(contextualActions.ToArray());
         }
     }
 }
