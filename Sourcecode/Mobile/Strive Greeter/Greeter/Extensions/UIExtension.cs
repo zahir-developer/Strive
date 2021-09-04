@@ -33,11 +33,11 @@ namespace Greeter.Extensions
         public static UIActivityIndicatorView AddActivityIndicator(this UIView view)
         {
             var activityIndicatorView = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+            activityIndicatorView.TranslatesAutoresizingMaskIntoConstraints = false;
             activityIndicatorView.Color = Colors.APP_BASE_COLOR.ToPlatformColor();
-            activityIndicatorView.Center = view.Center;
-            //activityIndicatorView.CenterYAnchor.ConstraintEqualTo(view.CenterYAnchor).Active = true;
-            //activityIndicatorView.CenterXAnchor.ConstraintEqualTo(view.CenterXAnchor).Active = true;
             view.AddSubview(activityIndicatorView);
+            activityIndicatorView.CenterYAnchor.ConstraintEqualTo(view.CenterYAnchor).Active = true;
+            activityIndicatorView.CenterXAnchor.ConstraintEqualTo(view.CenterXAnchor).Active = true;
             return activityIndicatorView;
         }
 
