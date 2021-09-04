@@ -329,7 +329,7 @@ namespace Greeter.Modules.Pay
             var payButton = new UIButton(CGRect.Empty);
             payButton.TranslatesAutoresizingMaskIntoConstraints = false;
             payButton.SetTitle("Pay", UIControlState.Normal);
-            payButton.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            payButton.BackgroundColor = Common.Colors.APP_BASE_COLOR.ToPlatformColor();
             payButton.SetTitleColor(UIColor.White, UIControlState.Normal);
             payButton.Font = UIFont.SystemFontOfSize(18);
             backgroundView.Add(payButton);

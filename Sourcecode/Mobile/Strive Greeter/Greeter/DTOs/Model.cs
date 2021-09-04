@@ -886,8 +886,8 @@ namespace Greeter.DTOs
         //[JsonProperty("MobileNo")]
         //public string MobileNo { get; set; }
 
-        //[JsonProperty("CommunicationId")]
-        //public long CommunicationId { get; set; }
+        [JsonProperty("CommunicationId")]
+        public string CommunicationId { get; set; }
 
         //[JsonProperty("Collisions")]
         //public bool Collisions { get; set; }
@@ -957,8 +957,8 @@ namespace Greeter.DTOs
         //[JsonProperty("chatGroupUserId")]
         //public long chatGroupUserId { get; set; }
 
-        //[JsonProperty("communicationId")]
-        //public long CommunicationId { get; set; }
+        [JsonProperty("communicationId")]
+        public string CommunicationId { get; set; }
 
         [JsonProperty("userId")]
         public long UserID { get; set; }
@@ -966,11 +966,11 @@ namespace Greeter.DTOs
         [JsonProperty("chatGroupId")]
         public long ChatGroupId { get; set; }
 
-        //[JsonProperty("isActive")]
-        //public bool IsActive { get; } = true;
+        [JsonProperty("isActive")]
+        public bool IsActive { get; } = true;
 
-        //[JsonProperty("isDeleted")]
-        //public bool IsDeleted { get; } = false;
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; } = false;
 
         //[JsonProperty("createdBy")]
         //public int CreatedBy { get; set; }
