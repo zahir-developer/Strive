@@ -82,7 +82,7 @@
 		<Reference Include="System.Numerics" />
 		<Reference Include="System.Numerics.Vectors" />
 		<Reference Include="InfineaSDK.iOS">
-		  <HintPath>..\..\..\..\..\..\..\..\..\..\Users\hms\Downloads\InfineaSDK_Xamarin_1.3.21\Assemblies\InfineaSDK.iOS.dll</HintPath>
+		  <HintPath>Infea_Sdk\InfineaSDK.iOS.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 	<ItemGroup>
@@ -247,6 +247,7 @@
 		<Folder Include="CustomView\" />
 		<Folder Include="Services\Modules\" />
 		<Folder Include="Services\Modules\Authentication\" />
+		<Folder Include="Infea_Sdk\" />
 	</ItemGroup>
 	<ItemGroup>
 		<InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -260,6 +261,7 @@
 	<ItemGroup>
 		<None Include="Info.plist" />
 		<None Include="Entitlements.plist" />
+		<None Include="Infea_Sdk\InfineaSDK.iOS.dll" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="Support\Main.cs" />
