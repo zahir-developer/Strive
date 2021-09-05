@@ -100,6 +100,9 @@ namespace Greeter.Modules.Pay
         [Export("tableView:trailingSwipeActionsConfigurationForRowAtIndexPath:")]
         public UISwipeActionsConfiguration GetTrailingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
         {
+            var row = (int)indexPath.Row;
+            var checkout = Checkouts[row];
+
             var action1 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
                 "Hold",
@@ -112,7 +115,11 @@ namespace Greeter.Modules.Pay
             action1.Image = UIImage.FromBundle("tick");
             action1.BackgroundColor = ColorConverters.FromHex("#ff9d00").ToPlatformColor();
 
-            var action2 = UIContextualAction.FromContextualActionStyle(
+            var contextualActions = new List<UIContextualAction>() { action1 };
+
+            if (!checkout.MembershipNameOrPaymentStatus.Equals("Completed"))
+            {
+                var action2 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
                 "Complete",
                 (flagAction, view, success) =>
@@ -122,16 +129,12 @@ namespace Greeter.Modules.Pay
                     CompleteBtnClicked(Checkouts[indexPath.Row]);
                 });
 
-            action2.Image = UIImage.FromBundle(ImageNames.TICK);
-            //action2.Image.ApplyTintColor(UIColor.White);
-            action2.BackgroundColor = ColorConverters.FromHex("#138a32").ToPlatformColor();
+                action2.Image = UIImage.FromBundle(ImageNames.TICK);
+                //action2.Image.ApplyTintColor(UIColor.White);
+                action2.BackgroundColor = ColorConverters.FromHex("#138a32").ToPlatformColor();
+                contextualActions.Add(action2);
+            }
 
-           var contextualActions = new List<UIContextualAction>() { action1, action2 };
-
-            var row = (int)indexPath.Row;
-            var checkout = Checkouts[row];
-            //if (checkout.PaymentStatus.Equals("Success"))
-            //{
             var action3 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
                 "Checkout",
@@ -141,11 +144,10 @@ namespace Greeter.Modules.Pay
                     tableView.Editing = false;
                     CheckoutBtnClicked(Checkouts[indexPath.Row]);
                 });
-                action3.Image = UIImage.FromBundle(ImageNames.TICK);
-                //action3.Image.ApplyTintColor(UIColor.White);
-                action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
-                contextualActions.Add(action3);
-            //}
+            action3.Image = UIImage.FromBundle(ImageNames.TICK);
+            //action3.Image.ApplyTintColor(UIColor.White);
+            action3.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            contextualActions.Add(action3);
 
             return UISwipeActionsConfiguration.FromActions(contextualActions.ToArray());
         }

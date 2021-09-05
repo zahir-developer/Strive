@@ -481,6 +481,12 @@ namespace Greeter.DTOs
 
         [JsonProperty("PaymentStatus")]
         public string PaymentStatus { get; set; }
+
+        [JsonProperty("MembershipNameOrPaymentStatus")]
+        public string MembershipNameOrPaymentStatus { get; set; }
+
+        [JsonProperty("valuedesc")]
+        public string Valuedesc { get; set; }
     }
 
     public class HoldCheckoutReq

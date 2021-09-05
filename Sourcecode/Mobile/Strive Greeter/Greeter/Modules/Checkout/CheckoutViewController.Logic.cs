@@ -158,6 +158,20 @@ namespace Greeter.Modules.Pay
 
         void CheckoutBtnClicked(Checkout checkout)
         {
+            // Not Completed
+            if (!checkout.MembershipNameOrPaymentStatus.Equals("Completed"))
+            {
+                ShowAlertMsg(Common.Messages.NOT_COMPLETED_ALERT_MSG, null, false, Common.Messages.IN_PROGRESS);
+                return;
+            }
+
+            // For Paid 
+            if (string.IsNullOrEmpty(checkout.MembershipName) && !checkout.PaymentStatus.Equals("Success"))
+            {
+                ShowAlertMsg(Common.Messages.NOT_PAID_ALERT_MSG, null, false, Common.Messages.NOT_PAID);
+                return;
+            }
+
             ShowAlertMsg(Common.Messages.CHECKOUT_VERIFICATION_MSG, () =>
             {
                 _ = Checkout(checkout);

@@ -191,6 +191,8 @@ namespace Greeter.Common
         internal const string REMOVE_USER_FROM_GROUP_CONFIRMATION_MSG = "Are you sure you want to remove this user from this group?";
         internal const string USER_REMOVED_SUCCESS_MSG = "User removed successfully";
         internal const string USER_ADDED_SUCCESS_MSG = "User added successfully";
+        internal const string NOT_PAID_ALERT_MSG = "Only Paid ticket can be checkedout!";
+        internal const string NOT_COMPLETED_ALERT_MSG = "Only completed ticket can be checkedout!";
 
         internal const string HOLD = "Hold";
         internal const string COMPLETE = "Complete";
@@ -201,6 +203,8 @@ namespace Greeter.Common
         internal const string REMOVE_USER_FROM_GROUP_TITLE = "Remove User";
         internal const string ADD_USER_FROM_TO_GROUP_TITLE = "Add User";
         internal const string GROUP_TITLE = " Group";
+        internal const string NOT_PAID = " Not Paid";
+        internal const string IN_PROGRESS = " In Progress";
     }
 
     //public class StatusCodes
