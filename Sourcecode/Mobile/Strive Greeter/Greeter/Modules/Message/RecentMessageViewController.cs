@@ -19,6 +19,7 @@ namespace Greeter.Modules.Message
             SetupView();
             SetupNavigationItem();
             RegisterCell();
+            RegisterObserver();
             _ = GetRecentChatsAsync();
 
             //Setup Delegate and DataSource
@@ -50,6 +51,11 @@ namespace Greeter.Modules.Message
         void RegisterCell()
         {
             recentMessageTableView.RegisterClassForCellReuse(typeof(RecentMessageCell), RecentMessageCell.Key);
+        }
+
+        void RegisterObserver()
+        {
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("com.strive.greeter.update_recent"), notify: async (notification) => { await GetRecentChatsAsync(); });
         }
 
         public nint RowsInSection(UITableView tableView, nint section)
@@ -91,5 +97,7 @@ namespace Greeter.Modules.Message
             if (IsViewLoaded)
                 recentMessageTableView.ReloadData();
         }
+
+        ~RecentMessageViewController() => NSNotificationCenter.DefaultCenter.RemoveObserver(this);
     }
 }
