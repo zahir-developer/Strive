@@ -200,10 +200,7 @@
 		<ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\Contents.json" />
 		<ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%403x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\add_circle.imageset\add_circle%402x.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Contents.json" />
-		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%402x.png" />
-		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\Group 506%403x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%401x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\more.imageset\more%403x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\more.imageset\Contents.json" />
@@ -220,6 +217,9 @@
 		<ImageAsset Include="Resources\Assets.xcassets\participants.imageset\Icon material-group.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\participants.imageset\Icon material-group%402x.png" />
 		<ImageAsset Include="Resources\Assets.xcassets\participants.imageset\Icon material-group%403x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\tag%402x.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\tag.png" />
+		<ImageAsset Include="Resources\Assets.xcassets\badge_star.imageset\tag%403x.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Resources\" />
