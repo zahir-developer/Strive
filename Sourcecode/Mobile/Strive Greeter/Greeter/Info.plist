@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
@@ -59,7 +59,13 @@
 	<string>com.strive.greeter</string>
 	<key>CFBundleDisplayName</key>
 	<string>Greeter</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>This permission needs for getting the customer vehicle barcode and card details</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This permission needed to get the customer details from periperal device</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This permission needed to get the location details</string>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>4</string>
 </dict>
 </plist>

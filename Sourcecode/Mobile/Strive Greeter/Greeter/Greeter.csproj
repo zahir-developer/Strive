@@ -261,7 +261,6 @@
 	<ItemGroup>
 		<None Include="Info.plist" />
 		<None Include="Entitlements.plist" />
-		<None Include="Infea_Sdk\InfineaSDK.iOS.dll" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="Support\Main.cs" />
