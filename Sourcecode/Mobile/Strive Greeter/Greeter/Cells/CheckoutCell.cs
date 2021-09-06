@@ -23,7 +23,12 @@ namespace Greeter.Cells
         UILabel amountLabel;
         //UILabel remainingBalanceLabel;
         UIView paidStatusContainer;
+        UIView membershipNameContainer;
+        UILabel membershipNameLabel;
         UIButton payButton;
+
+        NSLayoutConstraint membershipContainerTopConstraintToBottomOfPaid;
+        NSLayoutConstraint membershipContainerTopConstraintToTopOfParent;
 
         Checkout checkout;
         Action<Checkout> pay = null;
@@ -80,6 +85,7 @@ namespace Greeter.Cells
             paidStatusContainer.BackgroundColor = ColorConverters.FromHex("#AFE9E3").ToPlatformColor();
             paidStatusContainer.Layer.MaskedCorners = CoreAnimation.CACornerMask.MinXMinYCorner | CoreAnimation.CACornerMask.MinXMaxYCorner;
             paidStatusContainer.Layer.CornerRadius = 5;
+            paidStatusContainer.Hidden = true;
             containerView.Add(paidStatusContainer);
 
             statusIndicatorImage = new UIImageView(CGRect.Empty);
@@ -93,7 +99,25 @@ namespace Greeter.Cells
             paidStatusLabel.Font = UIFont.SystemFontOfSize(16);
             paidStatusContainer.Add(paidStatusLabel);
 
-            paidStatusContainer.Hidden = true;
+            membershipNameContainer = new UIView(CGRect.Empty);
+            membershipNameContainer.TranslatesAutoresizingMaskIntoConstraints = false;
+            membershipNameContainer.Layer.CornerRadius = 5;
+            membershipNameContainer.BackgroundColor = ColorConverters.FromHex("#E3E3E3").ToPlatformColor();
+            membershipNameContainer.Layer.MaskedCorners = CoreAnimation.CACornerMask.MinXMinYCorner | CoreAnimation.CACornerMask.MinXMaxYCorner;
+            membershipNameContainer.Layer.CornerRadius = 5;
+            membershipNameContainer.Hidden = true;
+            containerView.Add(membershipNameContainer);
+
+            var membershipImage = new UIImageView(CGRect.Empty);
+            membershipImage.TranslatesAutoresizingMaskIntoConstraints = false;
+            membershipImage.Image = UIImage.FromBundle(ImageNames.MEMBER);
+            membershipNameContainer.Add(membershipImage);
+
+            membershipNameLabel = new UILabel(CGRect.Empty);
+            membershipNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            membershipNameLabel.TextColor = UIColor.FromRGB(2.0f / 255.0f, 20.0f / 255.0f, 61.0f / 255.0f);
+            membershipNameLabel.Font = UIFont.SystemFontOfSize(16);
+            membershipNameContainer.Add(membershipNameLabel);
 
             payButton = new UIButton(CGRect.Empty);
             payButton.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -101,7 +125,7 @@ namespace Greeter.Cells
             payButton.TitleLabel.TextColor = UIColor.White;
             payButton.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
             payButton.Font = UIFont.BoldSystemFontOfSize(18);
-            
+
             containerView.Add(payButton);
 
             payButton.Hidden = true;
@@ -166,6 +190,20 @@ namespace Greeter.Cells
             paidStatusLabel.TrailingAnchor.ConstraintEqualTo(paidStatusContainer.TrailingAnchor, constant: -20).Active = true;
             paidStatusLabel.CenterYAnchor.ConstraintEqualTo(paidStatusContainer.CenterYAnchor).Active = true;
 
+            membershipNameContainer.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor).Active = true;
+            membershipNameContainer.HeightAnchor.ConstraintEqualTo(40).Active = true;
+            membershipContainerTopConstraintToBottomOfPaid = membershipNameContainer.TopAnchor.ConstraintEqualTo(paidStatusContainer.BottomAnchor, constant: 8);
+            membershipContainerTopConstraintToTopOfParent = membershipNameContainer.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, constant: 20);
+
+            membershipImage.LeadingAnchor.ConstraintEqualTo(membershipNameContainer.LeadingAnchor, constant: 5).Active = true;
+            membershipImage.HeightAnchor.ConstraintEqualTo(30).Active = true;
+            membershipImage.WidthAnchor.ConstraintEqualTo(30).Active = true;
+            membershipImage.CenterYAnchor.ConstraintEqualTo(membershipNameContainer.CenterYAnchor).Active = true;
+
+            membershipNameLabel.LeadingAnchor.ConstraintEqualTo(membershipImage.TrailingAnchor, constant: 14).Active = true;
+            membershipNameLabel.TrailingAnchor.ConstraintEqualTo(membershipNameContainer.TrailingAnchor, constant: -20).Active = true;
+            membershipNameLabel.CenterYAnchor.ConstraintEqualTo(membershipNameContainer.CenterYAnchor).Active = true;
+
             amountLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -100).Active = true;
             amountLabel.TopAnchor.ConstraintEqualTo(containerView.CenterYAnchor).Active = true;
 
@@ -192,11 +230,27 @@ namespace Greeter.Cells
             {
                 paidStatusLabel.Text = "Paid";
                 paidStatusContainer.Hidden = false;
+
+                membershipContainerTopConstraintToTopOfParent.Active = false;
+                membershipContainerTopConstraintToBottomOfPaid.Active = true;
             }
             else
             {
                 paidStatusLabel.Text = string.Empty;
                 paidStatusContainer.Hidden = true;
+
+                membershipContainerTopConstraintToBottomOfPaid.Active = false;
+                membershipContainerTopConstraintToTopOfParent.Active = true;
+            }
+
+            if (string.IsNullOrEmpty(checkout.MembershipName) || string.IsNullOrWhiteSpace(checkout.MembershipName))
+            {
+                membershipNameContainer.Hidden = true;
+            }
+            else
+            {
+                membershipNameContainer.Hidden = false;
+                membershipNameLabel.Text = checkout.MembershipName;
             }
 
             if (isPayOptionNeeded)

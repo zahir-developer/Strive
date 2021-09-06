@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
@@ -92,6 +93,8 @@ namespace Greeter.Modules.Message
             //Chats.AddRange(result.ChatMessageObject.ChatMessageDetail);
                 messageTextView.Text = string.Empty;
                 _ = GetChatsAsync();
+
+            NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString("com.strive.greeter.update_recent"), null);
                 //ReloadChatTableView();
             //}
         }
