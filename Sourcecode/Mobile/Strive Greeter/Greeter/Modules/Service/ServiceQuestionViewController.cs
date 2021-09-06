@@ -480,7 +480,7 @@ namespace Greeter.Storyboards
                         ColorID = Colors[pos].ID;
                         break;
                     case ChoiceType.Barcode:
-                        tfBarcode.Text = data[pos];
+                        //tfBarcode.Text = data[pos];
                         break;
                     case ChoiceType.Upcharge:
                         tfUpcharge.Text = data[pos];
@@ -548,6 +548,8 @@ namespace Greeter.Storyboards
 
         void NavigateToVerifyScreen()
         {
+            Barcode = tfBarcode.Text;
+
             var vc = (VerifyVehicleInfoViewController)GetViewController(GetHomeStorybpard(), nameof(VerifyVehicleInfoViewController));
             vc.MakeID = MakeID;
             vc.ModelID = ModelID;

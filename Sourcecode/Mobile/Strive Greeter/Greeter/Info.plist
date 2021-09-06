@@ -66,6 +66,6 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This permission needed to get the location details</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>6</string>
 </dict>
 </plist>

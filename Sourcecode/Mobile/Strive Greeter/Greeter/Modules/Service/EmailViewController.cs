@@ -171,7 +171,18 @@ namespace Greeter.Storyboards
                 for (int i = 0; i < Service.JobItems.Count; i++)
                 {
                     var job = Service.JobItems[i];
-                    body += "<p>" + job.SeriveName + " - " + job.Price + "</p>";
+                    var price = job.Price.ToString();
+                    if ((job.Price % 1) == 0)
+                    {
+                        price += ":00";
+                    }
+                    else
+                    {
+                        var values = price.Split(".");
+                        price = (int)job.Price + ":" + values[1];
+                    }
+
+                    body += "<p>" + job.SeriveName + " - " + "$" + price + "</p>";
                     totalAmt += job.Price;
                 }
 
