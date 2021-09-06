@@ -729,7 +729,7 @@ namespace Greeter.DTOs
         public int LocationID { get; set; }
 
         [JsonProperty("date")]
-        public DateTime CurrentDate { get; } = DateTime.Now.AddMonths(-1);
+        public DateTime CurrentDate { get; } = DateTime.Now;
     }
 
     public class EmployeeListResponse : BaseResponse
@@ -749,7 +749,7 @@ namespace Greeter.DTOs
         [JsonProperty("LastName")]
         public string LastName { get; set; }
 
-        [JsonProperty("")]
+        [JsonProperty("Email")]
         public string EmailID { get; set; }
     }
 
