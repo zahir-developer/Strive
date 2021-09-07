@@ -812,7 +812,7 @@ export class CreateEditWashesComponent implements OnInit {
       model: this.washForm.value.model?.id?.toString(),
       color: this.washForm.value.color?.id?.toString(),
       jobType: this.jobTypeId,
-      jobDate: new Date().toDateString().split('T')[0],
+      jobDate: new Date().toDateString().split('T')[0] === "" ? new Date().toDateString() : new Date().toDateString().split('T')[0],
       timeIn: moment(this.timeInDate).format(),
       estimatedTimeOut: this.timeOutDate ? moment(this.timeOutDate).format() : null,
       actualTimeOut: null,
