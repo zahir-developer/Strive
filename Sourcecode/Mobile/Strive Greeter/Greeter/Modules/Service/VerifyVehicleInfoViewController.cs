@@ -140,6 +140,7 @@ namespace Greeter.Storyboards
                             ClientId = ClientID != 0 ? ClientID : null,
                             VehicleId = VehicleID != 0 ? VehicleID : null,
                             LocationID = AppSettings.LocationID,
+                            Barcode = Barcode
                         },
                         JobItems = jobItems
                     };
