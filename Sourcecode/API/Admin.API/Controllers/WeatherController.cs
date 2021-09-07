@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Weather;
 using Strive.BusinessEntities.Weather;
 using Strive.BusinessLogic;
 using Strive.BusinessLogic.Common;
@@ -41,7 +42,7 @@ namespace Admin.Api.Controllers
 
         [HttpPost]
         [Route("/Admin/[controller]/SaveWeatherPrediction")]
-        public Result SaveWeatherPrediction([FromBody] WeatherPrediction weatherPrediction)
+        public Result SaveWeatherPrediction([FromBody] WeatherDTO weatherPrediction)
         {
             return _weatherBpl.AddWeatherPrediction(weatherPrediction);
         }

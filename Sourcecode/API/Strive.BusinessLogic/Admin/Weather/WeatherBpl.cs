@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Weather;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.BusinessLogic.Weather;
@@ -87,13 +88,14 @@ namespace Strive.BusinessLogic
         }
 
      
-        public Result AddWeatherPrediction(WeatherPrediction weatherPrediction)
+        public Result AddWeatherPrediction(WeatherDTO weatherPrediction)
         {
             try
             {
                 bool result = false;
-                if (weatherPrediction.WeatherId == 0)
+                if (weatherPrediction.WeatherPrediction.WeatherId == 0)
                 {
+
                     return ResultWrap(new WeatherRal(_tenant).AddWeather, weatherPrediction, "Status");
                 }
                 else

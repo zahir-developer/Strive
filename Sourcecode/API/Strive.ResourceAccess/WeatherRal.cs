@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.DTO.Weather;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.Weather;
 using Strive.Common;
@@ -38,14 +39,14 @@ namespace Strive.ResourceAccess
 
         }
 
-        public bool AddWeather(WeatherPrediction weatherPrediction)
+        public int AddWeather(WeatherDTO weatherPrediction)
         {
-            int WeatherPredictionId = dbRepo.InsertPK(weatherPrediction, "VendorId");
+            return dbRepo.InsertPK(weatherPrediction, "WeatherId");
 
-            return WeatherPredictionId > 0;
+            /*return WeatherPredictionId > 0;*/
         }
 
-        public bool UpdateWeather(WeatherPrediction weatherPrediction)
+        public bool UpdateWeather(WeatherDTO weatherPrediction)
         {
             return dbRepo.Update(weatherPrediction);
         }

@@ -412,7 +412,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
-        this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
+        const weatherPredictObj = {
+          WeatherPrediction: weatherObj
+        }
+        this.weatherService.UpdateWeather(weatherPredictObj).subscribe(response => {
           if (response.status === 'Success') {
             this.spinner.hide();
 
