@@ -30,6 +30,13 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).GetWashTimeDetail, id, "WashesDetail");
         }
+
+        public Result GetLastServiceVisit(SearchDto searchDto)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetLastServiceVisit, searchDto, "WashesDetail");
+        }
+
+        
         public Result AddWashTime(WashesDto washes)
         {
             if(!string.IsNullOrEmpty(washes.DeletedJobItemId))

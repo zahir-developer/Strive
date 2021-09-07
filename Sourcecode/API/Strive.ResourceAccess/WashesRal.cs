@@ -36,6 +36,24 @@ namespace Strive.ResourceAccess
             var result = db.FetchMultiResult<WashDetailViewModel>(EnumSP.Washes.USPGETWASHBYJOBID.ToString(), _prm);
             return result;
         }
+
+        public WashDetailViewModel GetLastServiceVisit(SearchDto searchDto)
+        {
+
+            _prm.Add("@ClientId", searchDto.ClientId);
+            _prm.Add("@VehicleId", searchDto.VehicleId);
+            _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
+            var result = db.FetchMultiResult<WashDetailViewModel>(EnumSP.Washes.USPGETLASTSERVICEVISIT.ToString(), _prm);
+            return result;
+        }
+        
         public bool AddWashTime(WashesDto washes)
         {
             return dbRepo.InsertPc(washes, "JobId");
