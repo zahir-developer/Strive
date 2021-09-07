@@ -30,6 +30,13 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).GetWashTimeDetail, id, "WashesDetail");
         }
+
+        public Result GetLastServiceVisit(SearchDto searchDto)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetLastServiceVisit, searchDto, "WashesDetail");
+        }
+
+        
         public Result AddWashTime(WashesDto washes)
         {
             if(!string.IsNullOrEmpty(washes.DeletedJobItemId))
@@ -68,10 +75,9 @@ namespace Strive.BusinessLogic.Washes
             return ResultWrap(new WashesRal(_tenant).GetWashTime, washTimeDto, "WashTime");
         }
 
-        public Result GetAllLocationWashTime(int id)
+        public Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatus)
         {
-
-            return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, id, "Washes");
+            return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, locationStoreStatus, "Washes");
         }
     }
 }

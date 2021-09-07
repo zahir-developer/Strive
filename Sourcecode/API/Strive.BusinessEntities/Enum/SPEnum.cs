@@ -275,7 +275,8 @@ namespace Strive.BusinessEntities
             USPDELETEWASHES,
             USPGETWASHTIMEBYLOCATIONID,
             USPGETALLLOCATIONWASHTIME,
-            USPDELETEJOBITEM
+            USPDELETEJOBITEM,
+            USPGETLASTSERVICEVISIT
         }
         public enum Details
         {

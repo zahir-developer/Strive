@@ -11,5 +11,8 @@ namespace Strive.BusinessEntities.ViewModel
         public int LocationId { get; set; }
         public string LocationName { get; set; }
         public int WashtimeMinutes { get; set; }
+        public string StoreStatus { get; set; }
+        public DateTimeOffset StoreTimeIn { get; set; }
+        public DateTimeOffset StoreTimeOut { get; set; }
     }
 }

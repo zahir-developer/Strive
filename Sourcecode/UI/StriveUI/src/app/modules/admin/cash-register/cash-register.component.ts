@@ -61,6 +61,8 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   CahRegisterId: any;
   storeStatusList = [];
   storeTimeIn = '';
+  timeIn = '';
+  timeOut: any;
   storeStatus: any = '';
   storeTimeOut = '';
   submitted = false;
@@ -173,13 +175,19 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
               isStatus = false;
             }
           }
+
           this.storeStatus = this.cashDetails.CashRegister.StoreOpenCloseStatus !== null ?
             +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = isStatus ? this.cashDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '' : this.cashDetails.CashRegister.StoreTimeOut !== null ?
-              moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
-          // this.storeTimeIn  = this.cashDetails.CashRegister.StoreTimeOut !== null ?
-          //   moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+            moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+
+          this.timeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ?
+            moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
+
+          this.timeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
+            moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails.CashRegisterCoins.Pennies,
             coinNickels: this.cashDetails.CashRegisterCoins.Nickels,
@@ -193,6 +201,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.totalQuater = (25 * this.cashDetails.CashRegisterCoins.Quarters) / 100;
           this.totalHalf = (50 * this.cashDetails.CashRegisterCoins.HalfDollars) / 100;
           this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
+          
           this.cashRegisterBillForm.patchValue({
             billOnes: this.cashDetails.CashRegisterBills.s1,
             billFives: this.cashDetails.CashRegisterBills.s5,
@@ -223,7 +232,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             this.cashRegisterForm.patchValue({
               goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
             });
-          }, 1200);
+          }, 500);
           this.getTotalCash();
         }
         else {
@@ -384,11 +393,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : null,
-      storeTimeOut: !isStatus ? checkinTime !== '' ? checkinTime : null : null,
+      storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : this.cashDetails.CashRegister.StoreTimeIn,
+      storeTimeOut: !isStatus ? checkinTime !== '' ? checkinTime : this.cashDetails.CashRegister.StoreTimeOut : this.cashDetails.CashRegister.StoreTimeOut,
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus,
       totalAmount: this.totalCash
     };
+
     const formObj = {
       cashregister,
       cashRegisterCoins: coin,
@@ -426,7 +436,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             this.getCashRegister();
           } else {
             this.spinner.hide();
-
           }
         });
       } else {

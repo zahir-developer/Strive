@@ -114,7 +114,6 @@ export class CreateEditWashesComponent implements OnInit {
       this.viewWash();
     }
     this.getJobType();
-    console.log(this.timeInDate,"TimeInDate");
   }
   landing() {
     this.landingservice.loadTheLandingPage();
@@ -800,7 +799,6 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(element);
       }
     });
-
     const currentTime = new Date();
     const outTime = currentTime.setMinutes(currentTime.getMinutes() + this.washTime);
     const job = {
@@ -814,7 +812,7 @@ export class CreateEditWashesComponent implements OnInit {
       model: this.washForm.value.model?.id?.toString(),
       color: this.washForm.value.color?.id?.toString(),
       jobType: this.jobTypeId,
-      jobDate: new Date().toDateString().split('T')[0],
+      jobDate: new Date().toDateString().split('T')[0] === "" ? new Date().toDateString() : new Date().toDateString().split('T')[0],
       timeIn: moment(this.timeInDate).format(),
       estimatedTimeOut: this.timeOutDate ? moment(this.timeOutDate).format() : null,
       actualTimeOut: null,
