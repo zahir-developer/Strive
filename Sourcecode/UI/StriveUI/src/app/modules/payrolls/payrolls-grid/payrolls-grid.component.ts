@@ -115,6 +115,7 @@ export class PayrollsGridComponent implements OnInit {
 
           'Adjustment': this.payRollList[i].Adjustment,
           'Details com.': this.payRollList[i].DetailCommission,
+          'Tip': this.payRollList[i].Tip,
           'Payee Total': this.payRollList[i].PayeeTotal,
 
         })
