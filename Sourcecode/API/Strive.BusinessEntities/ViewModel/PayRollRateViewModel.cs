@@ -32,5 +32,6 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal PayeeTotal { get; set; }
 
         public string Notes { get; set; }
+        public decimal? Tip { get; set; }
     }
 }
