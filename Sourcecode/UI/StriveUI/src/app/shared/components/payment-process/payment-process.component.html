@@ -35,8 +35,19 @@
                             Total Amount Due:
                         </div>
                         <div class="col-2">
-                            <input type="number" class="form-control" placeholder='$0.00' name="totalAmount" formControlName="totalAmount">
-                          
+                            <input type="number" class="form-control" placeholder='$0.00' name="totalAmount" formControlName="totalAmount" (change)="tipAmountAdded()">
+                        
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-4 form-group">
+                            Total Credit card Amount:
+                        </div>
+                        <div class="col-2">
+                            
+                            <strong>{{totalAmount | currency}}</strong>
                         </div>
                     </div>
                     <br>
