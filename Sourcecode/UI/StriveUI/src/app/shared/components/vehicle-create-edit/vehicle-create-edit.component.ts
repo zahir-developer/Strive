@@ -597,7 +597,7 @@ export class VehicleCreateEditComponent implements OnInit {
         clientMembershipId = this.patchedService[0].ClientMembershipId ? this.patchedService[0].ClientMembershipId :
           this.patchedService[0].MembershipId ? this.patchedService[0].MembershipId : 0;
         const r = this.patchedService.filter((elem) => this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
-        r.forEach(item => item.IsDeleted === false);
+        r.forEach(item => item.IsDeleted = false);
         const r1 = this.memberService.filter((elem) => !this.patchedService.find(({ ServiceId }) => elem.item_id === ServiceId));
         r1.forEach(item => {
           item.ClientVehicleMembershipServiceId = 0,
@@ -607,7 +607,7 @@ export class VehicleCreateEditComponent implements OnInit {
           item.IsActive = true;
         });
         const r2 = this.patchedService.filter((elem) => !this.memberService.find(({ item_id }) => elem.ServiceId === item_id));
-        r2.forEach(item => item.IsDeleted === true);
+        r2.forEach(item => item.IsDeleted = true);
         memberService = r.concat(r1).concat(r2);
       } else {
         memberService = this.memberService;
@@ -671,9 +671,7 @@ export class VehicleCreateEditComponent implements OnInit {
       };
       let membershipServices = [];
       if (memberService !== undefined && memberService.length) {
-
-        memberService = memberService.filter(s=>s.ClientVehicleMembershipServiceId !== 0 && s.isDeleted === true || s.ClientVehicleMembershipServiceId === 0);
-        membershipServices = memberService.filter(s=>s.ClientVehicleMembershipServiceId !== null && s.isDeleted === true).map(item => {
+        membershipServices = memberService.map(item => {
           return {
             clientVehicleMembershipServiceId: item.ClientVehicleMembershipServiceId ? item.ClientVehicleMembershipServiceId : 0,
             clientMembershipId: this.vehicles?.ClientVehicleMembership?.ClientMembershipId ?
