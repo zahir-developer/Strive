@@ -123,9 +123,13 @@
                                             Commission&nbsp;<i class="fa" [ngClass]="selectedCls('DetailCommission')"
                                                 aria-hidden="true"></i></th>
                                         <th scope="col" class="pointer" ToolTip="Tips"
-                                            (click)="changeSorting('Tips')">
+                                            (click)="changeSorting('Bonus')">
                                             Tips&nbsp;<i class="fa" [ngClass]="selectedCls('Tips')"
                                                 aria-hidden="true"></i></th>
+                                                <th scope="col" class="pointer" ToolTip="Bonus"
+                                                    (click)="changeSorting('Bonus')">
+                                                    Bonus&nbsp;<i class="fa" [ngClass]="selectedCls('Bonus')"
+                                                        aria-hidden="true"></i></th>
                                         <th scope="col" class="pointer" (click)="changeSorting('PayeeTotal')">
                                             Total&nbsp;
                                             <i class="fa" [ngClass]="selectedCls('PayeeTotal')" aria-hidden="true"></i>
@@ -154,7 +158,8 @@
                                                 (change)="_keyUp($event.target.value,payroll)" placeholder="$0.00">
                                         </td>
                                         <td>{{payroll.DetailCommission | currency}}</td>
-                                        <td>{{payroll.Tip | currency}}</td>                                        
+                                        <td>{{payroll.Tip | currency}}</td>      
+                                        <td>{{payroll.Bonus | currency}}</td>                                                          
                                         <td>{{payroll.PayeeTotal | currency}}</td>
 
                                     </tr>
