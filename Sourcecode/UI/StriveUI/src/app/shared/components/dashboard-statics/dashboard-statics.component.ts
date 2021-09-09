@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DetailService } from '../../services/data-service/detail.service';
 import { MessageConfig } from '../../services/messageConfig';
+import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 
 @Component({
@@ -23,6 +24,7 @@ export class DashboardStaticsComponent implements OnInit {
   type: any;
   constructor(
     private detail: DetailService,
+    private datePipe: DatePipe, 
     private toastr: ToastrService
   ) { }
 
@@ -33,7 +35,7 @@ export class DashboardStaticsComponent implements OnInit {
   getDashboardDetails() {
     const obj = {
       id: localStorage.getItem('empLocationId'),
-      date: moment(new Date()).format(),
+      date: this.datePipe.transform(new Date() , 'MM/dd/yyyy HH:mm'),
       jobType: this.jobTypeId
     };
     this.type = this.jobType;
