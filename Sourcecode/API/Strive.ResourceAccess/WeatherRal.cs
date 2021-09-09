@@ -48,7 +48,7 @@ namespace Strive.ResourceAccess
 
         public bool UpdateWeather(WeatherDTO weatherPrediction)
         {
-            return dbRepo.Update(weatherPrediction);
+            return dbRepo.Update(weatherPrediction.WeatherPrediction);
         }
         public List<ForcastedCarEmployeehoursViewModel> GetForcastedCarEmployeehours(ForecastedRainPercentageDto forecastedRainPercentage)
         {
