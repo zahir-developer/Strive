@@ -59,6 +59,7 @@ export class VehicleCreateEditComponent implements OnInit {
   serviceEnum: any;
   upchargeList: any;
   MembershipDiscount: boolean = false;
+  membershipId: number = 0;
   clientMembershipId: number = 0;
   constructor(private fb: FormBuilder, private toastr: ToastrService, private vehicle: VehicleService,
     private spinner: NgxSpinnerService, private employeeService: EmployeeService,
@@ -225,6 +226,7 @@ export class VehicleCreateEditComponent implements OnInit {
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
           });
           this.clientMembershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.ClientMembershipId;
+          this.membershipId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
         }
         else {
           var clientId = vehicle.VehicleMembershipDetails?.ClientVehicle?.ClientId;
@@ -385,9 +387,9 @@ export class VehicleCreateEditComponent implements OnInit {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       });
     }
-    else
-    {
-      
+    else {
+      this.vehicleForm.patchValue({ upcharge: "", upchargeType: "", wash: "", monthlyCharge: "0.00" });
+      this.vehicleForm.get('services').patchValue(null);
     }
   }
 
@@ -706,22 +708,26 @@ export class VehicleCreateEditComponent implements OnInit {
         MembershipName: membershipName !== '' ? membershipName : 'No'
       };
 
+
+      //Avoid duplicate of existing services which is not removed.
+      membershipServices = membershipServices.filter(s => s.clientVehicleMembershipServiceId === 0 || (s.clientVehicleMembershipServiceId > 0 && s.isDeleted === true));
+
       const model = {
         clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
         clientVehicleMembershipService: membershipServices.length !== 0 ? membershipServices : null
       };
 
       var deleteClientMembershipId = 0;
-      if(this.vehicleForm.value.membership === "")
-      {
+      if (this.vehicleForm.value.membership === "" || ((this.vehicleForm.value.membership !== this.membershipId) && this.clientMembershipId !== 0)) {
         deleteClientMembershipId = this.clientMembershipId !== 0 ? this.clientMembershipId : null;
       }
-       
+
       const sourceObj = {
         clientVehicle: { clientVehicle: formObj },
         clientVehicleMembershipModel: deleteClientMembershipId === 0 ? model : null,
-        DeletedClientMembershipId: deleteClientMembershipId
+        deletedClientMembershipId: deleteClientMembershipId
       };
+
       this.vehicle.vehicleValue = value;
       this.spinner.show();
       this.vehicle.updateVehicle(sourceObj).subscribe(data => {

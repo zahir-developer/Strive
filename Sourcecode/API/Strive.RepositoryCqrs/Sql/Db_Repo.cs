@@ -104,6 +104,9 @@ namespace Strive.RepositoryCqrs
 
         public bool SaveAll<T>(T tview, string PrimaryField)
         {
+            if (tview == null)
+                return true;
+
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
 
@@ -596,7 +599,7 @@ namespace Strive.RepositoryCqrs
                             {
 
                                 //if (baseTable !=null ? prp.Name == ("BaySchedule")|| prp.Name ==( "JobDetail") : false)
-                                var propValue = GetPropertyValue(model, prp.Name + "Id");
+                                var propValue = GetPropertyValue(model, prp.Name.Replace("ClientVehicle", "Vehicle") + "Id");
                                 if (propValue == 0 && propValue != null)
                                 {
                                     var Id = dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);

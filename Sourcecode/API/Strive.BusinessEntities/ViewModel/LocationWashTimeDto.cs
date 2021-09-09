@@ -14,5 +14,8 @@ namespace Strive.BusinessEntities.ViewModel
         public string StoreStatus { get; set; }
         public DateTimeOffset StoreTimeIn { get; set; }
         public DateTimeOffset StoreTimeOut { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+
     }
 }
