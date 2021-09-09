@@ -81,7 +81,7 @@
                 <label for="inputMembership">Membership</label>
                 <select class="form-control" formControlName="membership"
                     (change)="membershipChange($event.target.value)">
-                    <option hidden selected value="">Choose</option>
+                    <option selected value="">None</option>
                     <option *ngFor="let member of membership" value="{{member.MembershipId}}">{{member.MembershipName}}
                     </option>
                 </select>

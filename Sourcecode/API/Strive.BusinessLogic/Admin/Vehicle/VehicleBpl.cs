@@ -96,6 +96,11 @@ namespace Strive.BusinessLogic.Vehicle
                 }
             }
 
+            if(vehicleMembership.DeletedClientMembershipId != null && vehicleMembership.DeletedClientMembershipId.GetValueOrDefault(0) > 0)
+            {
+                var clientMembershipDelete = new MembershipSetupRal(_tenant).DeleteVehicleMembershipById(vehicleMembership.DeletedClientMembershipId.GetValueOrDefault());
+            }
+
             var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
             if (!saveVehicle)
                 return ResultWrap<ClientVehicle>(false, "Result", "Failed to save vehicle details.");

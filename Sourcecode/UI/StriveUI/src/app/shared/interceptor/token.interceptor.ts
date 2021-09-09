@@ -74,6 +74,7 @@ export class TokenInterceptor implements HttpInterceptor {
         }
         else if (err.status === 401) {
             this.messageService.showMessage({ severity: 'warning', title: 'Access Denied.', body: 'UnAuthenticated access. Please relogin and try again.!' });
+            //this.router.navigateByUrl('/session-expired');
         }
         this.authService.logout();
         // this.router.navigateByUrl('/login');

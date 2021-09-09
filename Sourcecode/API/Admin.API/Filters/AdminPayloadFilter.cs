@@ -67,22 +67,26 @@ namespace Admin.API.Filters
             if (!requestPath.Contains("/Auth/") && !requestPath.Contains("/Signup/") && !requestPath.Contains("/External/"))
             {
                 isAuth = false;
-                userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid")).Value;
-                TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid")).Value;
-                schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName")).Value;
 
-                var emp = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId"));
+                if (context.HttpContext.User.Claims.ToList().Count > 0)
+                {
+                    userGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("UserGuid"))?.Value;
+                    TenantGuid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("TenantGuid"))?.Value;
+                    schemaName = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("SchemaName"))?.Value;
 
-                if (emp != null)
-                    EmployeeId = emp.Value;
+                    var emp = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("EmployeeId"));
 
-                var client = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("ClientId"));
+                    if (emp != null)
+                        EmployeeId = emp.Value;
 
-                if (client != null)
-                    ClientId = client.Value;
+                    var client = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("ClientId"));
 
-                tid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("tid")).Value;
-                _tenant.TenantId = tid;
+                    if (client != null)
+                        ClientId = client.Value;
+
+                    tid = context.HttpContext.User.Claims.ToList().Find(a => a.Type.Contains("tid")).Value;
+                    _tenant.TenantId = tid;
+                }
             }
             SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId, ClientId);
         }
