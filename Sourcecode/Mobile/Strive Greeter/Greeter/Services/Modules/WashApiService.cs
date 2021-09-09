@@ -16,7 +16,9 @@ namespace Greeter.Services.Api
         Task<EmployeeListResponse> GetDetailEmployees(GetDetailEmployeeReq req);
         Task<BaseResponse> SendEmail(string email, string subject, string body);
         Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req);
-        Task<GetDetailsSercviesResponse> GetDetailServices(long ClientId);
+        //Task<GetDetailsSercviesResponse> GetDetailServices(long ClientId);
+        Task<LastServiceResponse> GetLastVisitService(long vehicleId);
+        Task<UpchargeResponse> GetUpcharge(GetUpchargeReq req);
     }
 
     public class WashApiService : IWashApiService
@@ -63,10 +65,21 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<AvailableScheduleResponse>(Urls.GET_AVAILABLILITY_SCHEDULE_TIME, HttpMethod.Post, null, req);
         }
 
-        public Task<GetDetailsSercviesResponse> GetDetailServices(long ClientId)
+        //public Task<GetDetailsSercviesResponse> GetDetailServices(long ClientId)
+        //{
+        //    var parameters = new Dictionary<string, string>() { { nameof(ClientId), ClientId.ToString() } };
+        //    return apiService.DoApiCall<GetDetailsSercviesResponse>(Urls.GET_DETAIL_SERVICES, HttpMethod.Get, parameters);
+        //}
+
+        public Task<LastServiceResponse> GetLastVisitService(long VehicleId)
         {
-            var parameters = new Dictionary<string, string>() { { nameof(ClientId), ClientId.ToString() } };
-            return apiService.DoApiCall<GetDetailsSercviesResponse>(Urls.GET_DETAIL_SERVICES, HttpMethod.Get, parameters);
+            var parameters = new Dictionary<string, string>() { { nameof(VehicleId), VehicleId.ToString() } };
+            return apiService.DoApiCall<LastServiceResponse>(Urls.LAST_VISIT_SERVICE, HttpMethod.Get, parameters);
+        }
+
+        public Task<UpchargeResponse> GetUpcharge(GetUpchargeReq req)
+        {
+            return apiService.DoApiCall<UpchargeResponse>(Urls.GET_UPCHARGE, HttpMethod.Post, null, req);
         }
     }
 }

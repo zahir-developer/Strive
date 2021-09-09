@@ -135,7 +135,7 @@ namespace Greeter.Modules.Message
             else
             {
                 //TODO show group name here
-                Title = "New York Branch I";
+                Title = groupName;
                 NavigationItem.RightBarButtonItem = new UIBarButtonItem("Save", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) => SaveParticipant());
             }
         }

@@ -47,6 +47,12 @@ namespace Greeter.DTOs
     {
         [JsonProperty("EmployeeId")]
         public long EmployeeId { get; set; }
+
+        [JsonProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        [JsonProperty("LastName")]
+        public string LastName { get; set; }
     }
 
     public class LocationsResponse : BaseResponse
@@ -369,8 +375,8 @@ namespace Greeter.DTOs
         [JsonProperty("quantity")]
         public int Quantity { get; } = 1;
 
-        //[JsonProperty("reviewNote")]
-        //public string ReviewNote { get; } = null;
+        [JsonProperty("reviewNote")]
+        public string ReviewNote { get; } = null;
 
         [JsonProperty("serviceId")]
         public long ServiceId { get; set; }
@@ -931,7 +937,8 @@ namespace Greeter.DTOs
 
     public class ChatGroup
     {
-        //public long ChatGroupId { get; set; }
+        [JsonProperty("chatGroupId")]
+        public long ChatGroupId { get; set; }
 
         //public long GroupId { get; set; }
 
@@ -1323,5 +1330,80 @@ namespace Greeter.DTOs
 
         [JsonProperty("Barcode")]
         public string Barcode { get; set; }
+    }
+
+    public class LastServiceResponse : BaseResponse
+    {
+        [JsonProperty("WashesDetail")]
+        public LastServiceDetail LastServiceDetail { get; set; }
+    }
+
+    public class LastServiceDetail
+    {
+        [JsonProperty("Washes")]
+        public Service[] Services { get; set; }
+    }
+
+    public class Service
+    {
+        [JsonProperty("JobTypeName")]
+        public string JobTypeName { get; set; }
+
+        [JsonProperty("ReviewNote")]
+        public string ReviewNote { get; set; }
+
+        [JsonProperty("VehicleModel")]
+        public string VehicleModel { get; set; }
+
+        [JsonProperty("VehicleMake")]
+        public string VehicleMake { get; set; }
+
+        [JsonProperty("VehicleColor")]
+        public string VehicleColor { get; set; }
+
+        [JsonProperty("Barcode")]
+        public string Barcode { get; set; }
+
+        [JsonProperty("JobDate")]
+        public DateTime JobDate { get; set; }
+
+        [JsonProperty("TimeIn")]
+        public DateTime TimeIn { get; set; }
+
+        [JsonProperty("EstimatedTimeOut")]
+        public DateTime EstimatedTimeOut { get; set; }
+    }
+
+    public class GetUpchargeReq
+    {
+        [JsonProperty("upchargeServiceType")]
+        public long UpchargeServiceTypeID { get; set; }
+
+        [JsonProperty("ModelId")]
+        public long ModelID { get; set; }
+    }
+
+    public class UpchargeResponse : BaseResponse
+    {
+        [JsonProperty("upcharge")]
+        public Upcharge[] Upcharges { get; set; }
+    }
+
+    public class Upcharge
+    {
+        [JsonProperty("ServiceId")]
+        public long ServiceID { get; set; }
+
+        [JsonProperty("ServiceName")]
+        public string ServiceName { get; set; }
+
+        [JsonProperty("Upcharges")]
+        public string Upcharges { get; set; }
+
+        [JsonProperty("Price")]
+        public float Price { get; set; }
+
+        [JsonProperty("ServiceTypeId")]
+        public long ServiceTypeId { get; set; }
     }
 }

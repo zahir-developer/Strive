@@ -81,9 +81,6 @@
 		<Reference Include="Xamarin.iOS" />
 		<Reference Include="System.Numerics" />
 		<Reference Include="System.Numerics.Vectors" />
-		<Reference Include="InfineaSDK.iOS">
-		  <HintPath>Infea_Sdk\InfineaSDK.iOS.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.2" />
@@ -261,6 +258,7 @@
 	<ItemGroup>
 		<None Include="Info.plist" />
 		<None Include="Entitlements.plist" />
+		<None Include="Infea_Sdk\InfineaSDK.iOS.dll" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="Support\Main.cs" />

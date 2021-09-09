@@ -204,6 +204,7 @@ namespace Greeter.Storyboards
         {
             this.data = data;
             pv.ReloadComponent(0);
+
             int pos = 0;
             if (isPreviousValueSelect && data != null)
             {
@@ -212,6 +213,8 @@ namespace Greeter.Storyboards
 
             if (pos != -1 && pos < data?.Length)
                 pv.Select(pos, 0, false);
+            else
+                pv.Select(0, 0, false);
         }
 
         async Task GetModlesByMake(int makeId)
@@ -238,6 +241,8 @@ namespace Greeter.Storyboards
 
             var jobTypeResponse = await apiService.GetGlobalData("JOBTYPE");
 
+            
+
             var washApiService = new WashApiService();
 
             var allServiceResponse = await washApiService.GetAllSericeDetails(AppSettings.LocationID);
@@ -249,7 +254,6 @@ namespace Greeter.Storyboards
                 Upcharges = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.WASH_UPCHARGE)).ToList();
 
                 ServiceDetail serviceDetail = new();
-                
 
                 jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Wash.ToString())).FirstOrDefault().ID ?? -1;
             }
@@ -265,7 +269,7 @@ namespace Greeter.Storyboards
 
             var upchargesList = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToList();
             upchargesList.Insert(0, "None");
-            upcharges = upchargesList.ToArray();;
+            upcharges = upchargesList.ToArray();
 
             tfUpcharge.Text = upcharges[0];
 
@@ -279,16 +283,34 @@ namespace Greeter.Storyboards
             {
                 make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
                 color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
-                var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
 
-                if (barcodeUpcharge is not null)
+                var serviceTypeResponse = await apiService.GetGlobalData("SERVICETYPE");
+                var upchargeServiceId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.WASH_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
+
+                if (upchargeServiceId != -1)
                 {
-                    upcharge = upcharge ?? new JobItem();
-                    upcharge.ServiceId = barcodeUpcharge.ID;
-                    upcharge.SeriveName = barcodeUpcharge.Name + " - " + barcodeUpcharge.Upcharges;
-                    upcharge.Price = barcodeUpcharge.Price;
-                    upcharge.Time = barcodeUpcharge.Time;
+                    var req = new GetUpchargeReq() { ModelID = ModelID, UpchargeServiceTypeID = upchargeServiceId };
+                    var upchargeResponse = await SingleTon.WashApiService.GetUpcharge(req);
+                    if (upchargeResponse is not null && upchargeResponse.Upcharges is not null && upchargeResponse.Upcharges.Length == 1)
+                    {
+                        var selectedUpcharge = upchargeResponse.Upcharges[0];
+                        upcharge = upcharge ?? new JobItem();
+                        upcharge.ServiceId = selectedUpcharge.ServiceID;
+                        upcharge.SeriveName = selectedUpcharge.ServiceName + " - " + selectedUpcharge.Upcharges;
+                        upcharge.Price = selectedUpcharge.Price;
+                        //upcharge.Time = upchargeResponse.Upcharge.;
+                    }
                 }
+
+                //var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
+                //if (barcodeUpcharge is not null)
+                //{
+                //    upcharge = upcharge ?? new JobItem();
+                //    upcharge.ServiceId = barcodeUpcharge.ID;
+                //    upcharge.SeriveName = barcodeUpcharge.Name + " - " + barcodeUpcharge.Upcharges;
+                //    upcharge.Price = barcodeUpcharge.Price;
+                //    upcharge.Time = barcodeUpcharge.Time;
+                //}
 
                 UpdateBarcodeData();
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Foundation;
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
@@ -14,12 +15,14 @@ namespace Greeter.Modules.Message
         readonly bool isCreateGroup;
         readonly long groupId;
         readonly string communicationId;
+        readonly string groupName;
 
-        public GroupParticipantsViewController(bool isCreateGroup, string communicationId = null, long groupId = -1)
+        public GroupParticipantsViewController(bool isCreateGroup, string communicationId = null, long groupId = -1, string groupName = null)
         {
             this.isCreateGroup = isCreateGroup;
             this.groupId = groupId;
             this.communicationId = communicationId;
+            this.groupName = groupName;
 
             if(!isCreateGroup)
                 _ = GetParticipants();
@@ -102,6 +105,13 @@ namespace Greeter.Modules.Message
             creategroupReq.ChatUserGroup = new List<ChatUserGroup>();
             creategroupReq.GroupID = communicationId;
 
+            if (newlyAddedParticipants.Count == 0)
+            {
+                HideActivityIndicator();
+                ShowAlertMsg("Please add some users to the group and then click save");
+                return;
+            }
+
             foreach (var participant in newlyAddedParticipants)
             {
                 var chatUserGroup = new ChatUserGroup();
@@ -128,19 +138,25 @@ namespace Greeter.Modules.Message
             if (!IsValidData(groupName)) return;
 
             ShowActivityIndicator();
-            var result = await SingleTon.MessageApiService.CreateGroup(
-                new CreategroupRequest
-                {
-                    ChatGroup = new ChatGroup { GroupName = groupName, CreatedBy = AppSettings.UserID },
-                    ChatUserGroup = participants
-                }
-            );
+
+            var req = new CreategroupRequest
+            {
+                ChatGroup = new ChatGroup { GroupName = groupName, CreatedBy = AppSettings.UserID, ChatGroupId = 0},
+                ChatUserGroup = participants
+            };
+
+            var mineParticipant = new ChatUserGroup { UserID = AppSettings.UserID, FirstName = AppSettings.FirstName, LastName = AppSettings.LastName };
+            req.ChatUserGroup.Add(mineParticipant);
+
+            var result = await SingleTon.MessageApiService.CreateGroup(req);
 
             HideActivityIndicator();
 
             HandleResponse(result);
 
             if (!result.IsSuccess()) return;
+
+            NSNotificationCenter.DefaultCenter.PostNotificationName(new NSString(GroupViewController.UPDATE_GROUPS_KEY), null);
 
             ShowAlertMsg(Common.Messages.GROUP_CREATED_MSG, () =>
             {

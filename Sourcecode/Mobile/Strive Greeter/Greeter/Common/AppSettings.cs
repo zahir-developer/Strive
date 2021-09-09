@@ -49,6 +49,24 @@ namespace Greeter.Common
             set => Preferences.Set(nameof(UserID), value);
         }
 
+        public static string FirstName
+        {
+            get => Preferences.Get(nameof(FirstName), string.Empty);
+            set => Preferences.Set(nameof(FirstName), value);
+        }
+
+        public static string LastName
+        {
+            get => Preferences.Get(nameof(LastName), string.Empty);
+            set => Preferences.Set(nameof(LastName), value);
+        }
+
+        public static string CommuniCationId
+        {
+            get => Preferences.Get(nameof(CommuniCationId), string.Empty);
+            set => Preferences.Set(nameof(CommuniCationId), value);
+        }
+
         public static void Clear() => Preferences.Clear();
     }
 }

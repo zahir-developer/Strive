@@ -42,8 +42,8 @@ namespace Greeter.Modules.Service
 
         async Task GetAndUpdateSerivceDetailsToUI()
         {
-            var service = await GetLastService(clientId);
-            UpdateDataToUI(service);
+            var service = await GetLastService(vehicleId);
+            UpdateDataToUI(service.LastServiceDetail.Services[0]);
         }
 
         void SetupView()
@@ -448,19 +448,19 @@ namespace Greeter.Modules.Service
             notesLabel.BottomAnchor.ConstraintEqualTo(notesBackgroundView.BottomAnchor, -20).Active = true;
         }
 
-        void UpdateDataToUI(DetailService detailService)
+        void UpdateDataToUI(DTOs.Service service)
         {
-            serviceDateLabel.Text = detailService.JobDate.ToString("dd/MM/yyyy");
-            serviceNameLabel.Text = detailService.ServiceTypeName;
-            barcodeLabel.Text = detailService?.Barcode ?? "-";
-            makeLabel.Text = detailService.VehicleMake;
-            modelLabel.Text = detailService.VehicleModel ?? "-";
-            vechileColorLabel.Text = detailService.VehicleColor;
-            additionalServicesLabel.Text = detailService.OutsideService;
-            detailPackageServicesLabel.Text = detailService.ServiceTypeName;
-            startTimeLabel.Text = detailService.TimeIn;
-            endTimeLabel.Text = detailService.EstimatedTimeOut;
-            notesLabel.Text = "A motor vehicle service or tune-up is a series of maintenance procedures carried out at a set time interval or after the vehicle has traveled a certain distance";
+            serviceDateLabel.Text = service.JobDate.ToString("dd/MM/yyyy");
+            serviceNameLabel.Text = service.JobTypeName;
+            barcodeLabel.Text = service?.Barcode ?? "-";
+            makeLabel.Text = service.VehicleMake;
+            modelLabel.Text = service.VehicleModel;
+            vechileColorLabel.Text = service.VehicleColor;
+            //additionalServicesLabel.Text = detailService.OutsideService;
+            //detailPackageServicesLabel.Text = service.ServiceTypeName;
+            startTimeLabel.Text = service.TimeIn.ToShortTimeString();
+            endTimeLabel.Text = service.EstimatedTimeOut.ToShortTimeString();
+            notesLabel.Text = service.ReviewNote ?? "-";
         }
     }
 }

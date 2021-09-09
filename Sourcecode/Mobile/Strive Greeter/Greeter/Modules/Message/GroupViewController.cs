@@ -15,6 +15,8 @@ namespace Greeter.Modules.Message
         UITableView messageGroupsTableView;
         readonly UIRefreshControl refreshControl = new();
 
+        public const string UPDATE_GROUPS_KEY = "com.strive.greeter.update_groups";
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -22,6 +24,7 @@ namespace Greeter.Modules.Message
             SetupView();
             SetupNavigationItem();
             RegisterCell();
+            RegisterObserver();
             _ = GetMessageGroups();
 
             //Setup Delegate and DataSource
@@ -90,6 +93,11 @@ namespace Greeter.Modules.Message
             {
                 NavigationController.PushViewController(new GroupParticipantsViewController(true), true);
             });
+        }
+
+        void RegisterObserver()
+        {
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UPDATE_GROUPS_KEY), notify: async (notification) => { await GetMessageGroups(); });
         }
 
         void RegisterCell()

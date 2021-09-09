@@ -9,19 +9,39 @@ namespace Greeter.Modules.Service
 {
     public partial class LastVisitViewController
     {
-        long clientId;
-        string barcode;
+        //long clientId;
+        //string barcode;
 
-        public LastVisitViewController(long clientId, string barcode)
+        long vehicleId;
+
+        public LastVisitViewController(long vehicleId)
         {
-            this.clientId = clientId;
-            this.barcode = barcode;
+            this.vehicleId = vehicleId;
+            //this.barcode = barcode;
         }
 
-        async Task<GetDetailsSercviesResponse> GetDetailServicesAsync(long clientId)
+
+
+        //async Task<GetDetailsSercviesResponse> GetDetailServicesAsync(long clientId)
+        //{
+        //    ShowActivityIndicator();
+        //    var response = await SingleTon.WashApiService.GetDetailServices(clientId);
+        //    HideActivityIndicator();
+
+        //    HandleResponse(response);
+
+        //    if (!response.IsSuccess())
+        //    {
+        //        return null;
+        //    }
+
+        //    return response;
+        //}
+
+        async Task<LastServiceResponse> GetLastService(long vehicleId)
         {
             ShowActivityIndicator();
-            var response = await SingleTon.WashApiService.GetDetailServices(clientId);
+            var response = await SingleTon.WashApiService.GetLastVisitService(vehicleId);
             HideActivityIndicator();
 
             HandleResponse(response);
@@ -34,31 +54,32 @@ namespace Greeter.Modules.Service
             return response;
         }
 
-        async Task<DetailService> GetLastService(long clientId)
-        {
-            var response = await GetDetailServicesAsync(clientId);
-            var vehicleServices = GetParticularVehicleServices(barcode, response?.DetailsGrid?.DetailServices);
 
-            DetailService vehicleService = null;
+        //async Task<DetailService> GetLastService(long clientId)
+        //{
+        //    var response = await GetDetailServicesAsync(clientId);
+        //    var vehicleServices = GetParticularVehicleServices(barcode, response?.DetailsGrid?.DetailServices);
 
-            if (vehicleServices is null)
-                return vehicleService;
+        //    DetailService vehicleService = null;
 
-            if (vehicleServices.Count > 1)
-            {
-                vehicleService = vehicleServices[vehicleServices.Count - 1];
-            }
-            else
-            {
-                vehicleService = vehicleServices[0];
-            }
+        //    if (vehicleServices is null)
+        //        return vehicleService;
 
-            return vehicleService;
-        }
+        //    if (vehicleServices.Count > 1)
+        //    {
+        //        vehicleService = vehicleServices[vehicleServices.Count - 1];
+        //    }
+        //    else
+        //    {
+        //        vehicleService = vehicleServices[0];
+        //    }
 
-        List<DetailService> GetParticularVehicleServices(string barcode, List<DetailService> detailServices)
-        {
-            return detailServices.Where(x => x.Barcode.Equals(barcode)).ToList();
-        }
+        //    return vehicleService;
+        //}
+
+        //List<DetailService> GetParticularVehicleServices(string barcode, List<DetailService> detailServices)
+        //{
+        //    return detailServices.Where(x => x.Barcode.Equals(barcode)).ToList();
+        //}
     }
 }

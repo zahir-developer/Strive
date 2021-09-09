@@ -32,9 +32,9 @@ namespace Greeter.Modules.Pay
                 Status = true,
             };
 
-#if DEBUG
-            //checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
-#endif
+            #if DEBUG
+                //checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
+            #endif
 
             ShowActivityIndicator();
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);

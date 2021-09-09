@@ -120,6 +120,8 @@ namespace Greeter
                     AppSettings.Token = response?.AuthToken;
                     AppSettings.RefreshToken = response?.RefreshToken;
                     AppSettings.UserID = response?.EmployeeDetails?.EmployeeLogin?.EmployeeId ?? 0;
+                    AppSettings.FirstName = response?.EmployeeDetails?.EmployeeLogin?.FirstName;
+                    AppSettings.LastName = response?.EmployeeDetails?.EmployeeLogin?.LastName;
 
                     Debug.WriteLine("Logged in User Id : " + AppSettings.UserID);
                     Debug.WriteLine("Logged in Token : " + AppSettings.Token);
