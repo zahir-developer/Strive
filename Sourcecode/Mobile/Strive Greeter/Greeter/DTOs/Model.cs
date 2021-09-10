@@ -1342,6 +1342,18 @@ namespace Greeter.DTOs
     {
         [JsonProperty("Washes")]
         public Service[] Services { get; set; }
+
+        [JsonProperty("WashItem")]
+        public List<LastServiceJobItem> JobItmes { get; set; }
+    }
+
+    public class LastServiceJobItem
+    {
+        [JsonProperty("ServiceName")]
+        public string ServiceName { get; set; }
+
+        [JsonProperty("ServiceType")]
+        public string ServiceType { get; set; }
     }
 
     public class Service

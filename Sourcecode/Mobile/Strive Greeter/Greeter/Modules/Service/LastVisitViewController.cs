@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CoreGraphics;
 using Greeter.Common;
 using Greeter.DTOs;
@@ -43,7 +45,7 @@ namespace Greeter.Modules.Service
         async Task GetAndUpdateSerivceDetailsToUI()
         {
             var service = await GetLastService(vehicleId);
-            UpdateDataToUI(service.LastServiceDetail.Services[0]);
+            UpdateDataToUI(service.LastServiceDetail.Services[0], service.LastServiceDetail.JobItmes);
         }
 
         void SetupView()
@@ -104,7 +106,7 @@ namespace Greeter.Modules.Service
             serviceTitleLabel.TextColor = UIColor.Black;
             serviceTitleLabel.Font = UIFont.BoldSystemFontOfSize(18);
             serviceTitleLabel.TextAlignment = UITextAlignment.Center;
-            serviceTitleLabel.Text = "Service";
+            serviceTitleLabel.Text = "Service Type";
             headerView.Add(serviceTitleLabel);
 
             serviceNameLabel = new UILabel(CGRect.Empty);
@@ -340,7 +342,7 @@ namespace Greeter.Modules.Service
             detailPackageServicesTitleLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             detailPackageServicesTitleLabel.TextColor = UIColor.FromRGB(39.0f / 255.0f, 68.0f / 255.0f, 110.0f / 255.0f);
             detailPackageServicesTitleLabel.Font = UIFont.SystemFontOfSize(18);
-            detailPackageServicesTitleLabel.Text = "Detail Package Services:";
+            detailPackageServicesTitleLabel.Text = "Package Service:";
             detailPackageServicesBackgroundView.Add(detailPackageServicesTitleLabel);
 
             detailPackageServicesLabel = new UILabel(CGRect.Empty);
@@ -448,7 +450,7 @@ namespace Greeter.Modules.Service
             notesLabel.BottomAnchor.ConstraintEqualTo(notesBackgroundView.BottomAnchor, -20).Active = true;
         }
 
-        void UpdateDataToUI(DTOs.Service service)
+        void UpdateDataToUI(DTOs.Service service, List<LastServiceJobItem> lastServiceJobItems = null)
         {
             serviceDateLabel.Text = service.JobDate.ToString("dd/MM/yyyy");
             serviceNameLabel.Text = service.JobTypeName;
@@ -456,11 +458,24 @@ namespace Greeter.Modules.Service
             makeLabel.Text = service.VehicleMake;
             modelLabel.Text = service.VehicleModel;
             vechileColorLabel.Text = service.VehicleColor;
-            //additionalServicesLabel.Text = detailService.OutsideService;
-            //detailPackageServicesLabel.Text = service.ServiceTypeName;
+            //additionalServicesLabel.Text = "None";
+
             startTimeLabel.Text = service.TimeIn.ToShortTimeString();
             endTimeLabel.Text = service.EstimatedTimeOut.ToShortTimeString();
             notesLabel.Text = service.ReviewNote ?? "-";
+
+            if (service.JobTypeName.Equals("wash", System.StringComparison.OrdinalIgnoreCase))
+            {
+                detailPackageServicesLabel.Text = lastServiceJobItems.Where(x => x.ServiceType.Equals("Wash Package", System.StringComparison.OrdinalIgnoreCase)).FirstOrDefault().ServiceName;
+            }
+            else if (service.JobTypeName.Equals("detail", System.StringComparison.OrdinalIgnoreCase))
+            {
+                detailPackageServicesLabel.Text = lastServiceJobItems.Where(x => x.ServiceType.Equals("Detail Package", System.StringComparison.OrdinalIgnoreCase)).FirstOrDefault().ServiceName;
+            }
+
+            var addtionalServiceName = lastServiceJobItems.Where(x => x.ServiceType.Equals("Additional Services", System.StringComparison.OrdinalIgnoreCase)).FirstOrDefault().ServiceName;
+
+            additionalServicesLabel.Text = addtionalServiceName ?? "None";
         }
     }
 }

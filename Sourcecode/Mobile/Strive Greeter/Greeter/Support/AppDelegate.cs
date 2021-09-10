@@ -1,6 +1,7 @@
 using Foundation;
 using Greeter.Common;
-using Greeter.Services.Authentication;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Crashes;
 using UIKit;
 
 namespace Greeter
@@ -14,7 +15,7 @@ namespace Greeter
         public UIWindow Window { get; set; }
 
         // App Level Services
-            public IAuthenticationService AuthenticationService = new AuthenticationService();
+        //public IAuthenticationService AuthenticationService = new AuthenticationService();
 
 
         [Export("application:didFinishLaunchingWithOptions:")]
@@ -22,6 +23,8 @@ namespace Greeter
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+
+            AppCenter.Start("4e8a243b-8318-4735-980d-439d2ba8ecd4", typeof(Crashes));
 
             SetApperance();
 

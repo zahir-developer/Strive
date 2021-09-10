@@ -103,7 +103,7 @@ namespace Greeter.Storyboards
             tfModel.EditingDidBegin += delegate
             {
                 choiceType = ChoiceType.Make;
-                UpdatePickerView(models, pv, tfModel.Text, false);
+                UpdatePickerView(models, pv, tfModel.Text);
             };
 
             btnMakeDropdown.TouchUpInside += delegate
@@ -241,8 +241,6 @@ namespace Greeter.Storyboards
 
             var jobTypeResponse = await apiService.GetGlobalData("JOBTYPE");
 
-            
-
             var washApiService = new WashApiService();
 
             var allServiceResponse = await washApiService.GetAllSericeDetails(AppSettings.LocationID);
@@ -267,12 +265,6 @@ namespace Greeter.Storyboards
                 jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Detail.ToString())).FirstOrDefault().ID ?? -1;
             }
 
-            var upchargesList = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToList();
-            upchargesList.Insert(0, "None");
-            upcharges = upchargesList.ToArray();
-
-            tfUpcharge.Text = upcharges[0];
-
             AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
             additionalServices = AdditionalServices.Select(x => x.Name).ToArray();
 
@@ -284,23 +276,9 @@ namespace Greeter.Storyboards
                 make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
                 color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
 
-                var serviceTypeResponse = await apiService.GetGlobalData("SERVICETYPE");
-                var upchargeServiceId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.WASH_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
-
-                if (upchargeServiceId != -1)
-                {
-                    var req = new GetUpchargeReq() { ModelID = ModelID, UpchargeServiceTypeID = upchargeServiceId };
-                    var upchargeResponse = await SingleTon.WashApiService.GetUpcharge(req);
-                    if (upchargeResponse is not null && upchargeResponse.Upcharges is not null && upchargeResponse.Upcharges.Length == 1)
-                    {
-                        var selectedUpcharge = upchargeResponse.Upcharges[0];
-                        upcharge = upcharge ?? new JobItem();
-                        upcharge.ServiceId = selectedUpcharge.ServiceID;
-                        upcharge.SeriveName = selectedUpcharge.ServiceName + " - " + selectedUpcharge.Upcharges;
-                        upcharge.Price = selectedUpcharge.Price;
-                        //upcharge.Time = upchargeResponse.Upcharge.;
-                    }
-                }
+                //todo : auto fill upcharge
+                await UpdateUpchargeForModel(ModelID);
+                UpdateBarcodeData();
 
                 //var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
                 //if (barcodeUpcharge is not null)
@@ -311,8 +289,10 @@ namespace Greeter.Storyboards
                 //    upcharge.Price = barcodeUpcharge.Price;
                 //    upcharge.Time = barcodeUpcharge.Time;
                 //}
-
-                UpdateBarcodeData();
+            }
+            else
+            {
+                UpdateUpchargeAsNone();
             }
 
             HideActivityIndicator();
@@ -338,7 +318,48 @@ namespace Greeter.Storyboards
                 tfMake.Text = make;
                 tfModel.Text = Model;
                 tfColor.Text = color;
-                tfUpcharge.Text = upcharge?.SeriveName;
+            }
+        }
+
+        async Task LoadUpchargeByModel(long modelId)
+        {
+            ShowActivityIndicator();
+            await UpdateUpchargeForModel(modelId);
+            HideActivityIndicator();
+        }
+
+        void UpdateUpchargeAsNone()
+        {
+            var upchargesList = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToList();
+            upchargesList.Insert(0, "None");
+            upcharges = upchargesList.ToArray();
+
+            tfUpcharge.Text = upcharges[0];
+        }
+
+        async Task UpdateUpchargeForModel(long modelId)
+        {
+            var serviceTypeResponse = await SingleTon.GeneralApiService.GetGlobalData("SERVICETYPE");
+            var upchargeServiceId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.WASH_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
+
+            if (upchargeServiceId != -1)
+            {
+                var req = new GetUpchargeReq() { ModelID = ModelID, UpchargeServiceTypeID = upchargeServiceId };
+                var upchargeResponse = await SingleTon.WashApiService.GetUpcharge(req);
+                if (upchargeResponse is not null && upchargeResponse.Upcharges is not null && upchargeResponse.Upcharges.Length == 1)
+                {
+                    var selectedUpcharge = upchargeResponse.Upcharges[0];
+                    upcharge = upcharge ?? new JobItem();
+                    upcharge.ServiceId = selectedUpcharge.ServiceID;
+                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - " + selectedUpcharge.Upcharges;
+                    upcharge.Price = selectedUpcharge.Price;
+                    //upcharge.Time = upchargeResponse.Upcharge.;
+                    tfUpcharge.Text = upcharge?.SeriveName;
+                }
+            }
+            else
+            {
+                UpdateUpchargeAsNone();
             }
         }
 
@@ -496,6 +517,7 @@ namespace Greeter.Storyboards
                     case ChoiceType.Make:
                         tfModel.Text = data[pos];
                         ModelID = Models[pos].ID;
+                        _ = LoadUpchargeByModel(ModelID);
                         break;
                     case ChoiceType.Color:
                         tfColor.Text = data[pos];
@@ -506,7 +528,6 @@ namespace Greeter.Storyboards
                         break;
                     case ChoiceType.Upcharge:
                         tfUpcharge.Text = data[pos];
-
                         if (pos == 0) // For None
                             return;
 

@@ -74,6 +74,7 @@ namespace Greeter
 
                 //var washTime = await GetWashTime(AppSettings.LocationID);
                 //AppSettings.WashTime = washTime;
+
                 NavigateToTabsScreen();
             }
             else ShowAlertMsg(Common.Messages.LOCATION_EMPTY, titleTxt: Common.Messages.LOCATION);
