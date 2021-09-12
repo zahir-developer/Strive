@@ -230,5 +230,41 @@ namespace Greeter
             toolbarDone.Items = new UIBarButtonItem[] { barBtnCancel, barBtnSpace, lblBtn, barBtnSpace, barBtnDone };
             textField.InputAccessoryView = toolbarDone;
         }
+
+        public void Print(string html)
+        {
+            //var nsdata = NSData.FromString("Sample Print Text");
+
+            //if (UIPrintInteractionController.CanPrint(nsdata))
+            //{
+            //html = "<p>Ticket Number : </p>";
+                var printController = UIPrintInteractionController.SharedPrintController;
+                var printInfo = UIPrintInfo.PrintInfo;
+                printInfo.OutputType = UIPrintInfoOutputType.General;
+                printInfo.JobName = "myPrintJob";
+
+                printController.PrintInfo = printInfo;
+
+                var textFormatter = new UIMarkupTextPrintFormatter(html);
+                textFormatter.PerPageContentInsets = new UIEdgeInsets(top: 72, left: 72, bottom: 72, right: 72);
+                printController.PrintFormatter = textFormatter;
+                printController.ShowsPageRange = true;
+
+                printController.Present(true, (handler, completed, error) =>
+                {
+                    if (!completed && error != null)
+                    {
+                        Console.WriteLine($"Error: {error.LocalizedDescription ?? ""}");
+                    }
+                });
+
+                printInfo.Dispose();
+                textFormatter.Dispose();
+            //}
+            //else
+            //{
+
+            //}
+        }
     }
 }

@@ -152,13 +152,12 @@ namespace Greeter.Storyboards
 
                 var subject = "Wash Receipt";
 
-                //TODO : Email Body Teplate Issue Fix
                 var body = "<p>Ticket Number : </p>" + Service.Job.JobId + "<br /><br />";
 
                 if (Service.Job.ClientId != 0 && Service.Job.ClientId is not null)
                 {
                     body += "<p>Customer Details : </p>" + ""
-                        + "<p>Customer Name - " + "Jimmy" + "</p><br />";
+                        + "<p>Customer Name - " + CustName + "</p><br />";
                 }
 
                 body += "<p>Vehicle Details : </p>" +
@@ -258,6 +257,7 @@ namespace Greeter.Storyboards
             vc.Model = Model;
             vc.Color = Color;
             vc.CustName = CustName;
+            
 
             var mainService  = Service.JobItems.First(x => x.IsMainService);
 
@@ -270,6 +270,10 @@ namespace Greeter.Storyboards
             }
 
             vc.Amount = totalAmt;
+            //TOdo : 
+            //vc.ServiceName = checkout.Services;
+            //vc.AdditionalServiceName = ;
+
             NavigateToWithAnim(vc);
         }
 

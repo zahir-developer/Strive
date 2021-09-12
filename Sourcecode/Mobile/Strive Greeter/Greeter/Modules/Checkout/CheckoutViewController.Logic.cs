@@ -37,7 +37,7 @@ namespace Greeter.Modules.Pay
             };
 
             #if DEBUG
-                //checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
+                checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
             #endif
 
             ShowActivityIndicator();

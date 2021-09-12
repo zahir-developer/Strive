@@ -71,6 +71,7 @@ namespace Greeter.Modules.Pay
             vc.ServiceName = checkout.Services;
             vc.CustName = checkout.CustomerFirstName + " "+ checkout.CustomerLastName;
             vc.Amount = checkout.Cost;
+            vc.AdditionalServiceName = checkout.AdditionalServices;
             vc.IsFromNewService = false;
             NavigateToWithAnim(vc);
         }

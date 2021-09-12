@@ -1148,7 +1148,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ao-Z1-7hK">
                                                 <rect key="frame" x="5" y="528.5" width="555" height="64"/>
                                                 <subviews>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gR2-xG-caW">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gR2-xG-caW">
                                                         <rect key="frame" x="5" y="5" width="175" height="54"/>
                                                         <color key="backgroundColor" red="0.1137254902" green="0.78823529410000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
@@ -1159,7 +1159,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                     </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GDC-PF-vch">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GDC-PF-vch">
                                                         <rect key="frame" x="190" y="5" width="175" height="54"/>
                                                         <color key="backgroundColor" red="0.1137254902" green="0.78823529410000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
@@ -1167,7 +1167,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                     </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aal-dl-pVn">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aal-dl-pVn">
                                                         <rect key="frame" x="375" y="5" width="175" height="54"/>
                                                         <color key="backgroundColor" name="app_color"/>
                                                         <constraints>

@@ -19,6 +19,7 @@ namespace Greeter.Modules.Pay
         public string Model;
         public string Color;
         public string ServiceName;
+        public string AdditionalServiceName;
         public float Amount;
         public string CustName;
         public bool IsFromNewService = true;
@@ -34,9 +35,7 @@ namespace Greeter.Modules.Pay
             {
                 ShowAlertMsg(Common.Messages.CARD_DETAILS_EMPTY_MISSING_MSG);
                 return;
-            }
-
-            Amount += tipAmount;
+            }            
 
             try
             {
@@ -47,7 +46,7 @@ namespace Greeter.Modules.Pay
                         Account = cardNo,
                         Expiry = expiryDate,
                         CCV = ccv,
-                        Amount = Amount,
+                        Amount = Amount
                     }
                 };
 
@@ -64,7 +63,7 @@ namespace Greeter.Modules.Pay
                     {
                         AuthCode = paymentAuthResponse?.Authcode,
                         RetRef = paymentAuthResponse?.Retref,
-                        Amount = Amount,
+                        Amount = Amount + tipAmount,
                     };
 
                     Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
@@ -79,6 +78,7 @@ namespace Greeter.Modules.Pay
 
                         var paymentTypeResponse = await generalApiService.GetGlobalData("PAYMENTTYPE");
                         //Debug.WriteLine("Payment Type Response : " + JsonConvert.SerializeObject(paymentTypeResponse));
+
                         var paymentTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Card.ToString())).ID ?? -1;
 
                         var addPaymentReqReq = new AddPaymentReq
@@ -102,7 +102,20 @@ namespace Greeter.Modules.Pay
                             },
                             LocationID = AppSettings.LocationID,
                             JobID = JobID
-                    };
+                        };
+
+                        if (tipAmount != 0)
+                        {
+                            var tipsTypeId = paymentTypeResponse?.Codes.First(x => x.Name.Equals(PaymentType.Tips.ToString(), StringComparison.OrdinalIgnoreCase)).ID ?? -1;
+
+                            var tipAmountObj = new JobPaymentDetail()
+                            {
+                                Amount = tipAmount,
+                                PaymentType = tipsTypeId
+                            };
+
+                            addPaymentReqReq.SalesPaymentDto.JobPaymentDetails.Add(tipAmountObj);
+                        }
 
                         //Debug.WriteLine("Add pay req : " + JsonConvert.SerializeObject(addPaymentReqReq));
 
@@ -118,6 +131,8 @@ namespace Greeter.Modules.Pay
                             vc.Color = Color;
                             vc.ServiceName = ServiceName;
                             vc.Amount = Amount;
+                            vc.CustomerName = CustName;
+                            vc.AdditionalServiceName = AdditionalServiceName;
                             vc.IsFromNewService = IsFromNewService;
                             NavigateToWithAnim(vc);
                         }
@@ -139,7 +154,8 @@ namespace Greeter.Modules.Pay
         public enum PaymentType
         {
             Card,
-            Account
+            Account,
+            Tips
         }
     }
 }
