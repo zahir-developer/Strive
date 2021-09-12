@@ -55,8 +55,6 @@
 	<string>UserStoryboard</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To attach images</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.strive.greeter</string>
 	<key>CFBundleDisplayName</key>
 	<string>Greeter</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
@@ -67,5 +65,7 @@
 	<string>This permission needed to get the location details</string>
 	<key>CFBundleVersion</key>
 	<string>8</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.strive.greeter</string>
 </dict>
 </plist>

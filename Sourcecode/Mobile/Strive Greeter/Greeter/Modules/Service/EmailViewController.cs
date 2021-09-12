@@ -150,8 +150,6 @@ namespace Greeter.Storyboards
 
                 ShowActivityIndicator();
 
-                var subject = "Wash Receipt";
-
                 var body = "<p>Ticket Number : </p>" + Service.Job.JobId + "<br /><br />";
 
                 if (Service.Job.ClientId != 0 && Service.Job.ClientId is not null)
@@ -191,7 +189,7 @@ namespace Greeter.Storyboards
 
                 Debug.WriteLine("Email Body :" + body);
 
-                var response = await new WashApiService().SendEmail(email, subject, body);
+                var response = await new WashApiService().SendEmail(email, Common.Messages.SERVICE_RECEIPT_SUBJECT, body);
                 HideActivityIndicator();
 
                 HandleResponse(response);

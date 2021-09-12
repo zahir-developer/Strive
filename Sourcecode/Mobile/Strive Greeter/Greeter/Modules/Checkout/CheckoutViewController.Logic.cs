@@ -37,6 +37,7 @@ namespace Greeter.Modules.Pay
             };
 
             #if DEBUG
+                Console.WriteLine("daswe " + DateTime.Now.ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"));
                 checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
             #endif
 

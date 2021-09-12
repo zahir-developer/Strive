@@ -2,6 +2,7 @@
 using Greeter.Common;
 using Greeter.DTOs;
 using Greeter.Extensions;
+using MessageUI;
 using UIKit;
 
 namespace Greeter
@@ -233,38 +234,45 @@ namespace Greeter
 
         public void Print(string html)
         {
-            //var nsdata = NSData.FromString("Sample Print Text");
+            var printController = UIPrintInteractionController.SharedPrintController;
+            var printInfo = UIPrintInfo.PrintInfo;
+            printInfo.OutputType = UIPrintInfoOutputType.General;
+            printInfo.JobName = "myPrintJob";
 
-            //if (UIPrintInteractionController.CanPrint(nsdata))
-            //{
-            //html = "<p>Ticket Number : </p>";
-                var printController = UIPrintInteractionController.SharedPrintController;
-                var printInfo = UIPrintInfo.PrintInfo;
-                printInfo.OutputType = UIPrintInfoOutputType.General;
-                printInfo.JobName = "myPrintJob";
+            printController.PrintInfo = printInfo;
 
-                printController.PrintInfo = printInfo;
+            var textFormatter = new UIMarkupTextPrintFormatter(html);
+            textFormatter.PerPageContentInsets = new UIEdgeInsets(top: 72, left: 72, bottom: 72, right: 72);
+            printController.PrintFormatter = textFormatter;
+            printController.ShowsPageRange = true;
 
-                var textFormatter = new UIMarkupTextPrintFormatter(html);
-                textFormatter.PerPageContentInsets = new UIEdgeInsets(top: 72, left: 72, bottom: 72, right: 72);
-                printController.PrintFormatter = textFormatter;
-                printController.ShowsPageRange = true;
-
-                printController.Present(true, (handler, completed, error) =>
+            printController.Present(true, (handler, completed, error) =>
+            {
+                if (!completed && error != null)
                 {
-                    if (!completed && error != null)
-                    {
-                        Console.WriteLine($"Error: {error.LocalizedDescription ?? ""}");
-                    }
-                });
+                    Console.WriteLine($"Error: {error.LocalizedDescription ?? ""}");
+                }
+            });
 
-                printInfo.Dispose();
-                textFormatter.Dispose();
-            //}
-            //else
-            //{
+            printInfo.Dispose();
+            textFormatter.Dispose();
+        }
 
-            //}
+        public void EmailServiceReceipt(string html)
+        {
+            if (MFMailComposeViewController.CanSendMail)
+            {
+                var mail = new MFMailComposeViewController();
+                mail.WeakMailComposeDelegate = this;
+                //mail.SetToRecipients(new string[] { "you@yoursite.com" });
+                mail.SetSubject(Common.Messages.SERVICE_RECEIPT_SUBJECT);
+                mail.SetMessageBody(html, true);
+                PresentViewController(mail, true, null);
+            }
+            else
+            {
+                // show failure alert
+            }
         }
     }
 }
