@@ -23,6 +23,8 @@ namespace Strive.RepositoryCqrs
 
         public bool Insert<T>(T tview)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
@@ -374,6 +376,8 @@ namespace Strive.RepositoryCqrs
 
         public bool InsertPc<T>(T tview, string PrimaryField)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
@@ -539,6 +543,8 @@ namespace Strive.RepositoryCqrs
 
         public bool UpdatePc<T>(T tview, string baseTable = null)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
@@ -658,6 +664,8 @@ namespace Strive.RepositoryCqrs
 
         public bool InsertAll<T>(T tview, string PrimaryField)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);

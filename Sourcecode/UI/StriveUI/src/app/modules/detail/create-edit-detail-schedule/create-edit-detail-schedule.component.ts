@@ -659,8 +659,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     } else if (!this.isView) {
       this.detailForm.get('vehicle').enable();
     }
-
-    this.getUpcharge();
   }
 
   getColor() {
