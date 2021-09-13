@@ -163,7 +163,7 @@ namespace Greeter.DTOs
         public long ID { get; set; }
 
         [JsonProperty("ServiceTypeId")]
-        public string TypeId { get; set; }
+        public long TypeId { get; set; }
 
         [JsonProperty("ServiceName")]
         public string Name { get; set; }
@@ -395,6 +395,9 @@ namespace Greeter.DTOs
 
         [JsonIgnore]
         public string SeriveName { get; set; }
+
+        [JsonIgnore]
+        public long ServiceTypeID { get; set; }
 
         [JsonIgnore]
         public float Time { get; set; }

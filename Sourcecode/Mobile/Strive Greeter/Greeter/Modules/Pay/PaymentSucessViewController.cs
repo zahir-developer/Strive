@@ -5,11 +5,12 @@
 using System;
 using System.Diagnostics;
 using Foundation;
+using MessageUI;
 using UIKit;
 
 namespace Greeter.Storyboards
 {
-    public partial class PaymentSucessViewController : BaseViewController
+    public partial class PaymentSucessViewController : BaseViewController, IMFMailComposeViewControllerDelegate
     {
         // Data
         const string SCREEN_TITLE = "Pay";
@@ -56,6 +57,12 @@ namespace Greeter.Storyboards
         {
             string emailContentHtml = MakeServiceReceipt();
             EmailServiceReceipt(emailContentHtml);
+        }
+
+        [Export("mailComposeController:didFinishWithResult:error:")]
+        public void Finished(MFMailComposeViewController controller, MFMailComposeResult result, NSError error)
+        {
+            this.DismissViewController(true, null);
         }
 
         private void UpdateData()

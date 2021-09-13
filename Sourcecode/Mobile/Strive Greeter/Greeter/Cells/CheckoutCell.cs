@@ -128,7 +128,7 @@ namespace Greeter.Cells
 
             containerView.Add(payButton);
 
-            payButton.Hidden = true;
+            payButton.Hidden = false;
 
             amountLabel = new UILabel(CGRect.Empty);
             amountLabel.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -177,7 +177,7 @@ namespace Greeter.Cells
             paidStatusContainer.HeightAnchor.ConstraintEqualTo(40).Active = true;
 
             payButton.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -20).Active = true;
-            payButton.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, constant: 20).Active = true;
+            payButton.BottomAnchor.ConstraintEqualTo(containerView.BottomAnchor, constant: -20).Active = true;
             payButton.HeightAnchor.ConstraintEqualTo(40).Active = true;
             payButton.WidthAnchor.ConstraintEqualTo(100).Active = true;
 
@@ -255,7 +255,7 @@ namespace Greeter.Cells
 
             if (isPayOptionNeeded)
             {
-                payButton.Hidden = !checkout.PaymentStatus.Equals("Success") ? false : true;
+                //payButton.Hidden = !checkout.PaymentStatus.Equals("Success") ? false : true;
             }
 
             amountLabel.Text = "$" + checkout.Cost;

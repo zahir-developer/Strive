@@ -108,7 +108,7 @@ namespace Greeter.Storyboards
 
             btnMakeDropdown.TouchUpInside += delegate
             {
-                tfMake.BecomeFirstResponder();
+                tfModel.BecomeFirstResponder();
             };
 
             tfColor.EditingDidBegin += delegate
@@ -276,8 +276,11 @@ namespace Greeter.Storyboards
                 make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
                 color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
 
-                //todo : auto fill upcharge
-                await UpdateUpchargeForModel(ModelID);
+                if (ServiceType == ServiceType.Wash)
+                {
+                    await UpdateUpchargeForModel(ModelID);
+                }
+
                 UpdateBarcodeData();
 
                 //var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
@@ -335,6 +338,32 @@ namespace Greeter.Storyboards
             upcharges = upchargesList.ToArray();
 
             tfUpcharge.Text = upcharges[0];
+        }
+
+        async Task UpdateUpchargeForDetailAndModel(long modelId)
+        {
+            var serviceTypeResponse = await SingleTon.GeneralApiService.GetGlobalData("SERVICETYPE");
+            var upchargeServiceTypeId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.DETAIL_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
+
+            if (upchargeServiceTypeId != -1)
+            {
+                var req = new GetUpchargeReq() { ModelID = ModelID, UpchargeServiceTypeID = upchargeServiceTypeId };
+                var upchargeResponse = await SingleTon.WashApiService.GetUpcharge(req);
+                if (upchargeResponse is not null && upchargeResponse.Upcharges is not null && upchargeResponse.Upcharges.Length == 1)
+                {
+                    var selectedUpcharge = upchargeResponse.Upcharges[0];
+                    upcharge = upcharge ?? new JobItem();
+                    upcharge.ServiceId = selectedUpcharge.ServiceID;
+                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - " + selectedUpcharge.Upcharges;
+                    upcharge.Price = selectedUpcharge.Price;
+                    //upcharge.Time = upchargeResponse.Upcharge.;
+                    tfUpcharge.Text = upcharge?.SeriveName;
+                }
+            }
+            else
+            {
+                UpdateUpchargeAsNone();
+            }
         }
 
         async Task UpdateUpchargeForModel(long modelId)
@@ -517,7 +546,12 @@ namespace Greeter.Storyboards
                     case ChoiceType.Make:
                         tfModel.Text = data[pos];
                         ModelID = Models[pos].ID;
-                        _ = LoadUpchargeByModel(ModelID);
+                        if (ServiceType == ServiceType.Wash)
+                            _ = LoadUpchargeByModel(ModelID);
+                        else if (mainService == null)
+                            return;
+                        else
+                            _ = UpdateUpchargeForDetailAndModel(ModelID);
                         break;
                     case ChoiceType.Color:
                         tfColor.Text = data[pos];
@@ -530,7 +564,7 @@ namespace Greeter.Storyboards
                         tfUpcharge.Text = data[pos];
                         if (pos == 0) // For None
                             return;
-
+                        pos -= 1;
                         upcharge = upcharge ?? new JobItem();
                         upcharge.ServiceId = Upcharges[pos].ID;
                         upcharge.SeriveName = Upcharges[pos].Name;
@@ -568,8 +602,11 @@ namespace Greeter.Storyboards
                         mainService.IsMainService = true;
                         mainService.ServiceId = DetailPackages[pos].ID;
                         mainService.SeriveName = DetailPackages[pos].Name;
+                        mainService.ServiceTypeID = DetailPackages[pos].TypeId;
                         mainService.Price = DetailPackages[pos].Price;
                         mainService.Time = DetailPackages[pos].Time;
+                        if(ModelID != 0)
+                            _ = UpdateUpchargeForDetailAndModel(ModelID);
                         break;
                 }
         }

@@ -31,6 +31,8 @@ namespace Greeter.Modules.Pay
 
         async Task PayAsync(string cardNo, string expiryDate, short ccv, float tipAmount)
         {
+            var totalAmnt = Amount + tipAmount;
+
             if (cardNo.IsEmpty() || expiryDate.IsEmpty() || ccv == 0)
             {
                 ShowAlertMsg(Common.Messages.CARD_DETAILS_EMPTY_MISSING_MSG);
@@ -63,7 +65,7 @@ namespace Greeter.Modules.Pay
                     {
                         AuthCode = paymentAuthResponse?.Authcode,
                         RetRef = paymentAuthResponse?.Retref,
-                        Amount = Amount + tipAmount,
+                        Amount = totalAmnt,
                     };
 
                     Debug.WriteLine("" + JsonConvert.SerializeObject(paymentCaptureReq));
@@ -130,7 +132,7 @@ namespace Greeter.Modules.Pay
                             vc.Model = Model;
                             vc.Color = Color;
                             vc.ServiceName = ServiceName;
-                            vc.Amount = Amount;
+                            vc.Amount = totalAmnt;
                             vc.CustomerName = CustName;
                             vc.AdditionalServiceName = AdditionalServiceName;
                             vc.IsFromNewService = IsFromNewService;

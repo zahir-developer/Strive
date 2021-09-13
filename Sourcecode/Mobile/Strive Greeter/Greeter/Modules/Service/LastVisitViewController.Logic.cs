@@ -20,8 +20,6 @@ namespace Greeter.Modules.Service
             //this.barcode = barcode;
         }
 
-
-
         //async Task<GetDetailsSercviesResponse> GetDetailServicesAsync(long clientId)
         //{
         //    ShowActivityIndicator();

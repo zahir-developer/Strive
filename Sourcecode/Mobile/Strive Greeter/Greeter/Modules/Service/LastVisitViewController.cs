@@ -473,9 +473,20 @@ namespace Greeter.Modules.Service
                 detailPackageServicesLabel.Text = lastServiceJobItems.Where(x => x.ServiceType.Equals("Detail Package", System.StringComparison.OrdinalIgnoreCase)).FirstOrDefault().ServiceName;
             }
 
-            var addtionalServiceName = lastServiceJobItems.Where(x => x.ServiceType.Equals("Additional Services", System.StringComparison.OrdinalIgnoreCase)).FirstOrDefault().ServiceName;
+            var additionalServices = lastServiceJobItems.Where(x => x.ServiceType.Equals("Additional Services", System.StringComparison.OrdinalIgnoreCase)).ToList();
 
-            additionalServicesLabel.Text = addtionalServiceName ?? "None";
+            //FirstOrDefault().ServiceName;
+
+            var addtionalServices = additionalServices.Select(x => x.ServiceName).ToArray();
+
+            //if (additionalServices.Count == 1)
+            //{
+
+            //}
+
+            string addtionalServiceNames = string.Join(", ", addtionalServices);
+
+            additionalServicesLabel.Text =  !string.IsNullOrEmpty(addtionalServiceNames) ? addtionalServiceNames : "None";
         }
     }
 }
