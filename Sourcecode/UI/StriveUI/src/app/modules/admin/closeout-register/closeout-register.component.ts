@@ -140,6 +140,11 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
 
         const closeOut = JSON.parse(data.resultData);
         this.closeOutDetails = closeOut.CashRegister;
+        this.getTotalCash();
+        this.closeoutRegisterForm.patchValue({
+          cardAmount: this.closeOutDetails.CardAmount.CardAmount ?
+            this.closeOutDetails.CardAmount.CardAmount : '',
+        });
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
           this.tips = this.closeOutDetails.CashRegister.Tips
@@ -188,11 +193,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.totalDimeRoll = (50 * 10 * this.closeOutDetails.CashRegisterRolls.Dimes) / 100;
           this.totalQuaterRoll = (40 * 25 * this.closeOutDetails.CashRegisterRolls.Quarters) / 100;
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
-          this.getTotalCash();
-          this.closeoutRegisterForm.patchValue({
-            cardAmount: this.closeOutDetails.CardAmount.CardAmount ?
-              this.closeOutDetails.CardAmount.CardAmount : '',
-          });
+         
+          
+         
           this.closeoutRegisterForm.controls.cardAmount.disable();
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
           || this.closeOutDetails.CashRegisterRolls === null || this.closeOutDetails.CashRegisterBills === null) {
