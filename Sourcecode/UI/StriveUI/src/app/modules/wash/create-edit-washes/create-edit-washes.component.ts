@@ -276,10 +276,11 @@ export class CreateEditWashesComponent implements OnInit {
             const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
             if (additionalService !== undefined && additionalService.length !== 0) {
               additionalService.forEach(item => {
-                this.change(item);
+                item.IsChecked = true;
               });
             }
           });
+          console.log(this.additional);
         } else {
           this.washForm.get('washes').reset();
         }
@@ -639,7 +640,7 @@ export class CreateEditWashesComponent implements OnInit {
         const wash = JSON.parse(data.resultData);
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-          this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId);
+          this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId, 1);
           setTimeout(() => {
             this.washForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
@@ -681,7 +682,7 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   // Get Vehicle By ClientId
-  getClientVehicle(id, vehicleId = 0) {
+  getClientVehicle(id, vehicleId = 0, getByBarcode = 0) {
 
     this.wash.getVehicleByClientId(id).subscribe(data => {
       if (data.status === 'Success') {
@@ -694,9 +695,12 @@ export class CreateEditWashesComponent implements OnInit {
           else
             vehId = +this.vehicle[this.vehicle.length - 1].VehicleId;
 
-          this.washForm.patchValue({ vehicle: vehId});
+          this.washForm.patchValue({ vehicle: vehId });
+
           this.getVehicleById(vehId);
-          this.getMembership(vehId);
+          if (getByBarcode !== 1) {
+            this.getMembership(vehId);
+          }
         } else {
           this.washForm.get('vehicle').reset();
         }
@@ -807,7 +811,7 @@ export class CreateEditWashesComponent implements OnInit {
       ticketNumber: this.ticketNumber,
       barcode: this.washForm.value.barcode,
       locationId: +localStorage.getItem('empLocationId'),
-      clientId: (this.clientName.toLowerCase().trim().replace(' ','')) == 'driveup' ? null : this.washForm.value.client.id,
+      clientId: (this.clientName.toLowerCase().trim().replace(' ', '')) == 'driveup' ? null : this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
       make: this.washForm.value.type?.id?.toString(),
       model: this.washForm.value.model?.id?.toString(),
@@ -824,7 +828,7 @@ export class CreateEditWashesComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: moment(new Date()).format(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: this.isEdit ? moment(new Date()).format(): null
+      updatedDate: this.isEdit ? moment(new Date()).format() : null
     };
     this.washItem.forEach(element => {
       this.additionalService = this.additionalService.filter(item => item.ServiceId !== element.ServiceId);
@@ -852,7 +856,7 @@ export class CreateEditWashesComponent implements OnInit {
         createdBy: +localStorage.getItem('empId'),
         createdDate: moment(new Date()).format(),
         updatedBy: +localStorage.getItem('empId'),
-        updatedDate: this.isEdit ? moment(new Date()).format(): null
+        updatedDate: this.isEdit ? moment(new Date()).format() : null
       };
     });
 
@@ -955,7 +959,7 @@ export class CreateEditWashesComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: this.isEdit ? moment(new Date()).format(): null
+      updatedDate: this.isEdit ? moment(new Date()).format() : null
     }]
     const formObj = {
       clientId: this.isEdit ? this.selectedData.ClientId : 0,
@@ -970,7 +974,7 @@ export class CreateEditWashesComponent implements OnInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: this.isEdit ? this.selectedData.CreatedDate : new Date(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: this.isEdit ? moment(new Date()).format(): null,
+      updatedDate: this.isEdit ? moment(new Date()).format() : null,
       notes: this.clientFormComponent.clientForm.value.notes,
       recNotes: this.clientFormComponent.clientForm.value.checkOut,
       score: (this.clientFormComponent.clientForm.value.score == "" || this.clientFormComponent.clientForm.value.score == null) ? 0 : this.clientFormComponent.clientForm.value.score,
@@ -1100,7 +1104,7 @@ export class CreateEditWashesComponent implements OnInit {
           if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
             this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
           }
-          
+
         }
 
         // if(this.upcharges){
