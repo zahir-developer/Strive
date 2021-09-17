@@ -188,6 +188,15 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12"></div>
                                                 </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12"></div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -199,18 +208,23 @@
                                                 <h4 class="d-inline-block">Tips</h4>
                                             </div>
                                             <form >
-
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-6 font-size-1-7">
-                                                        <label class="bold-text col-md-6" for="inputquarters">Wash Tips:</label>
-                                                        <label class="col-md-6 font-size-1-1">{{washTips |
-                                                            currency}}</label>
+                                                    <div class="form-group col-md-3 font-size-1-4">
+                                                        <label class="bold-text" for="inputquarters">Wash Tips:</label>
+                                                       
                                                     </div>
-                                                    <div class="form-group col-md-6 font-size-1-7">
-                                                        <label class="bold-text col-md-6" for="inputquarters">Detail Tips:</label>
-                                                        <label class="col-md-6 font-size-1-1">{{ detailTips |
-                                                            currency}}</label>
+                                                     <div class="form-group col-md-4">   <label class="font-size-1-1">{{washTips |
+                                                        currency}}</label>
+                                                        </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3 font-size-1-4">
+                                                        <label class="bold-text" for="inputquarters">Detail Tips:</label>
+                                                       
                                                     </div>
+                                                    <div class="form-group col-md-4">   <label class="font-size-1-1">{{detailTips |
+                                                       currency}}</label>
+                                                       </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-3 p-t-4">
@@ -219,9 +233,6 @@
                                                     <div class="form-group col-md-4">
                                                         <input type="text" appTwoDecimalNumber class="form-control" [disabled]="!cashTipsEnable" [(ngModel)]="tips" name="tip" placeholder="$0.00" (change)="tipsEvent($event.target.value)">
                                                     </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-12"></div>
                                                 </div>
                                             </form>
                                         </div>
@@ -253,6 +264,12 @@
                                                 </tbody>
                                             </table>
 
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12"></div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
