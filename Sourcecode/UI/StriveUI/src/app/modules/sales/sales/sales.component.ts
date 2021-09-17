@@ -1726,7 +1726,9 @@ export class SalesComponent implements OnInit {
                 if (this.amountCheck) {
                   this.account = MembershipTotalPrice;
                   this.calculateTotalpaid(MembershipTotalPrice);
-                  if(services !== '')
+                }
+
+                if(services !== '')
                   {
                     this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + "Services: " + services });
                   }
@@ -1734,7 +1736,6 @@ export class SalesComponent implements OnInit {
                   {
                     this.messageService.showMessage({ severity: 'warning', title: 'Membership', body: MessageConfig.Sales.MembershipServicesNotMatching });
                   }
-                }
 
                 this.amountCheck = false;
               }

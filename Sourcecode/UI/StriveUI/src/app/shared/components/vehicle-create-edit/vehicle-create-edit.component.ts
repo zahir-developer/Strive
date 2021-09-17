@@ -588,9 +588,7 @@ export class VehicleCreateEditComponent implements OnInit {
       return;
     }
 
-    this.washService =
-
-      this.vehicleForm.controls.vehicleNumber.enable();
+    this.vehicleForm.controls.vehicleNumber.enable();
     this.vehicleForm.controls.client.enable();
     let memberService = [];
     let clientMembershipId = '';
@@ -710,7 +708,7 @@ export class VehicleCreateEditComponent implements OnInit {
 
 
       //Avoid duplicate of existing services which is not removed.
-      membershipServices = membershipServices.filter(s => (s.clientVehicleMembershipServiceId === 0  && (s.serviceId !== null) && (s.serviceId !== undefined))  || (s.clientVehicleMembershipServiceId > 0 && s.isDeleted === true));
+      membershipServices = membershipServices.filter(s => (s.clientVehicleMembershipServiceId === 0 && (s.serviceId !== null) && (s.serviceId !== undefined)) || (s.clientVehicleMembershipServiceId > 0 && s.isDeleted === true));
 
       const model = {
         clientVehicleMembershipDetails: this.vehicleForm.value.membership === '' && membership.clientMembershipId === 0 ? null : membership,
