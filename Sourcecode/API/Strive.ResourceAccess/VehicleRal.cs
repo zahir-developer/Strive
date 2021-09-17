@@ -35,6 +35,19 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.InsertPc(ClientVehicle,"VehicleId");
         }
+        public bool AddDriveUpVehicle(int? locationId, string barcode, int? make, int? model, int? color, int? createdBy)
+        {
+            _prm.Add("Locationid", locationId);
+            _prm.Add("Barcode", barcode);
+            _prm.Add("Make", make);
+            _prm.Add("Model", model);
+            _prm.Add("Color", color);
+            _prm.Add("CreatedBy", createdBy);
+
+            db.Save(EnumSP.Vehicle.USPADDDRIVEUPVEHICLE.ToString(), _prm);
+
+            return true;
+        }
 
         public bool SaveClientVehicle(VehicleDto client)
         {
@@ -123,6 +136,8 @@ namespace Strive.ResourceAccess
             }
            
         }
+
+
 
     }
 }

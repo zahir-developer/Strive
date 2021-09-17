@@ -20,7 +20,12 @@ namespace Strive.BusinessLogic.Details
 
         public Result AddDetails(DetailsDto details)
         {
-           return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "Status");
+            if (details.Job.ClientId == null && !string.IsNullOrEmpty(details.Job.BarCode))
+            {
+                var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
+            }
+
+            return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "Status");
         }
 
         public Result UpdateDetails(DetailsDto details)
@@ -28,6 +33,11 @@ namespace Strive.BusinessLogic.Details
             if (!string.IsNullOrEmpty(details.DeletedJobItemId))
             {
                 var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(details.DeletedJobItemId);
+            }
+
+            if (details.Job.ClientId == null && !string.IsNullOrEmpty(details.Job.BarCode))
+            {
+                var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
 
             return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");

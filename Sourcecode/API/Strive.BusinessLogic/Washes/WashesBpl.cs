@@ -39,9 +39,10 @@ namespace Strive.BusinessLogic.Washes
         
         public Result AddWashTime(WashesDto washes)
         {
-            if(!string.IsNullOrEmpty(washes.DeletedJobItemId))
+
+            if(washes.Job.ClientId == null && !string.IsNullOrEmpty(washes.Job.BarCode))
             {
-                var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(washes.DeletedJobItemId);
+                var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(washes.Job.LocationId, washes.Job.BarCode, washes.Job.Make, washes.Job.Model, washes.Job.Color, washes.Job.CreatedBy);
             }
 
             return ResultWrap(new WashesRal(_tenant).AddWashTime, washes, "Status");
@@ -49,6 +50,16 @@ namespace Strive.BusinessLogic.Washes
 
         public Result UpdateWashTime(WashesDto washes)
         {
+            if (washes.Job.ClientId == null && !string.IsNullOrEmpty(washes.Job.BarCode))
+            {
+                var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(washes.Job.LocationId, washes.Job.BarCode, washes.Job.Make, washes.Job.Model, washes.Job.Color, washes.Job.CreatedBy);
+            }
+
+            if (!string.IsNullOrEmpty(washes.DeletedJobItemId))
+            {
+                var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(washes.DeletedJobItemId);
+            }
+
             return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
         }
         public Result GetDailyDashboard(WashesDashboardDto dashboard)

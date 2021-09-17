@@ -799,6 +799,7 @@ export class CreateEditWashesComponent implements OnInit {
         this.additionalService.push(element);
       }
     });
+
     const currentTime = new Date();
     const outTime = currentTime.setMinutes(currentTime.getMinutes() + this.washTime);
     const job = {
@@ -806,7 +807,7 @@ export class CreateEditWashesComponent implements OnInit {
       ticketNumber: this.ticketNumber,
       barcode: this.washForm.value.barcode,
       locationId: +localStorage.getItem('empLocationId'),
-      clientId: this.washForm.value.client.id,
+      clientId: (this.clientName.toLowerCase().trim().replace(' ','')) == 'driveup' ? null : this.washForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.washForm.value.vehicle,
       make: this.washForm.value.type?.id?.toString(),
       model: this.washForm.value.model?.id?.toString(),
