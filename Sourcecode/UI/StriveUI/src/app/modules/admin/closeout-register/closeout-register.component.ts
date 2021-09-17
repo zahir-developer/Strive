@@ -62,7 +62,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
   tips: any;
   TipsDto: any;
   washTips: any;
-  detailTip: any;
+  detailTips: any;
+  detailerTip: any;
   today: Date;
   locationId: number;
   cashTipsEnable: boolean;
@@ -488,8 +489,9 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const dType = JSON.parse(data.resultData);
         this.TipsDto = dType.CashRegister;
-        this.washTips = this.TipsDto.washTip.WashTips
-        this.detailTip = this.TipsDto.detailerTips
+        this.washTips = this.TipsDto.washTip.WashTips;
+        this.detailTips = this.TipsDto.washTip.DetailTips;
+        this.detailerTip = this.TipsDto.detailerTips;
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
