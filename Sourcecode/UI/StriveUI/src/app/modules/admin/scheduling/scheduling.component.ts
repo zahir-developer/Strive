@@ -476,12 +476,15 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         const selectedScheduledData = JSON.parse(data.resultData);
         if (selectedScheduledData.Status.length !== 0) {
+
+          const startTime = selectedScheduledData.Status[0].StartTime.split('+');
+          const endTime = selectedScheduledData.Status[0].EndTime.split('+');
           $('#name').html(this.empName);
           $('#empId').html(this.empId);
           this.empName = selectedScheduledData.Status[0].EmployeeName;
           this.empId = selectedScheduledData.Status[0].EmployeeId;
-          this.startTime = selectedScheduledData.Status[0].StartTime;
-          this.endTime = selectedScheduledData.Status[0].EndTime;
+          this.startTime = startTime[0];
+          this.endTime = endTime[0];
           this.scheduleId = selectedScheduledData.Status[0].ScheduleId;
           this.scheduleType = selectedScheduledData.Status[0].ScheduleType;
           this.isLeave = selectedScheduledData.Status[0].IsEmployeeAbscent;
