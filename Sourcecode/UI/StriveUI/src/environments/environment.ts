@@ -8,13 +8,11 @@ export const environment = {
   name: 'Development',
   appName: 'Strive Phase 1',
   api: { // API Endpoints
+    
     striveUrl:  'http://localhost:60001/',
-    //striveUrl: 'https://mammothuatapi-qa.azurewebsites.net/',
+    //striveUrl:  'https://mammothuatapi-dev.azurewebsites.net/',
     striveCdn: 'https://mammothuatapi-cdn.azurewebsites.net/',
     //striveUrl:  'http://40.114.79.101:5006/',
-    //striveUrl:  'http://40.114.79.101:5006/',
-    signalR:  'https://mammothuatapi-qa.azurewebsites.net/',
-    //signalR:  'https://1447af389eed.ngrok.io'
     //striveUrl: 'http://14.141.185.75:5006/'
     //  striveUrl: 'http://' + location.hostname + ':5001',
     //   appUrl: 'http://' + location.hostname + ':5000'

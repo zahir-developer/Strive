@@ -28,7 +28,7 @@ public ReceiveGrpMsg: Observable<any> = this.recGrpMsg.asObservable();
   private hubConnection: signalR.HubConnection;
   public startConnection = () => {
   this.hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl(environment.api.signalR + 'ChatMessageHub').build();
+  .withUrl(environment.api.striveUrl + 'ChatMessageHub').build();
 
 
     this.hubConnection
