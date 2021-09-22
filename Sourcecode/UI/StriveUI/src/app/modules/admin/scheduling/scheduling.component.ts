@@ -66,7 +66,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   noOfCurrentEmployee = 0;
   noOfCurrentHours = 0;
   forecastDialog: boolean;
-  forecastedList = [];
+  forecastedList: any;
+
   constructor(
     private empService: EmployeeService,
     private locationService: LocationService,
@@ -213,7 +214,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   // Get all the Employees details
   getEmployeeList() {
-    this.empService.getEmployees().subscribe(data => {
+    this.empService.getAllEmployeeName(this.locationId).subscribe(data => {
       if (data.status === 'Success') {
         this.empList = JSON.parse(data.resultData);
         this.setBoolean();
@@ -225,10 +226,13 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   // Set Default boolean for customization
   setBoolean() {
-    this.empList.EmployeeList.forEach(item => {
-      item.selected = false;
-      item.clicked = false;
-    });
+
+    if (this.empList.EmployeeList !== undefined) {
+      this.empList.EmployeeList.forEach(item => {
+        item.selected = false;
+        item.clicked = false;
+      });
+    }
   }
   // Get All Location
   getLocationList() {
@@ -293,7 +297,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
     this.scheduleService.saveSchedule(scheduleObj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
-
+        this.scheduleId = false;
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Schedule.save });
         $('#calendarModal').modal('hide');
         this.getSchedule();
@@ -337,8 +341,8 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
             empSchehdule?.ScheduleDetail?.ScheduleEmployeeViewModel?.TotalEmployees : 0;
           if (empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel !== null) {
             empSchehdule?.ScheduleDetail?.ScheduleDetailViewModel.forEach(item => {
-             const startTime = item.StartTime.split('+');
-             const endTime = item.EndTime.split('+');
+              const startTime = item.StartTime.split('+');
+              const endTime = item.EndTime.split('+');
               const emp = {
                 id: +item.ScheduleId,
                 start: moment(startTime[0]).format('YYYY-MM-DDTHH:mm:ss'),
@@ -469,6 +473,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   getLocationId(event) {
     this.locationId = event.LocationId;
     this.getSchedule();
+    this.searchEmployee();
   }
   // Get the schedule by Id
   getScheduleById(id) {
@@ -579,6 +584,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   getAll() {
     this.locationId = 0;
     this.getSchedule();
+    this.searchEmployee();
   }
   isAbsentChange(event) {
   }

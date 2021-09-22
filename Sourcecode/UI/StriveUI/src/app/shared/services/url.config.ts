@@ -288,7 +288,6 @@ export const UrlConfig = {
     getAllVehicle: `Admin/Vehicle/GetAll`,
     updateVehicle: `Admin/Vehicle/SaveClientVehicleMembership`,
     deleteVehicle: `Admin/Vehicle/Delete`,
-    getMembershipByVehicle: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     getVehicleByClientId: `Admin/Vehicle/GetVehicleByClientId`,
     getVehicleCodes: `Admin/Vehicle/GetVehicleCodes`,

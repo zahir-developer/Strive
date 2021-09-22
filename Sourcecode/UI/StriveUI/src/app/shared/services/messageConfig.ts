@@ -102,6 +102,7 @@ export const MessageConfig = {
       MembershipApplied : 'Membership applied successfully !',
       MembershipServicesNotMatching : 'Membership services not matching.',
       InvalidCharacters: 'Ticket number have Invalid characters.', 
+      DiscountServiceNotMatching: 'Service Discount Type not matching with any of the Job service.'
    },
    Messenger: {
       Message: 'Please enter a message!',
