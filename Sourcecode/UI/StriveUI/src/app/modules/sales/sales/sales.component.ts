@@ -171,7 +171,7 @@ export class SalesComponent implements OnInit {
     this.getJobType();
   }
 
-  
+
   print() {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
@@ -958,7 +958,7 @@ export class SalesComponent implements OnInit {
   updateListItem(formObj, flag) {
     this.salesService.updateListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });        
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
         this.getDetailByTicket(flag);
         this.addItemForm.controls.quantity.enable();
         this.addItemFormInit();
@@ -1024,11 +1024,11 @@ export class SalesComponent implements OnInit {
     this.clearGridItems();
   }
   creditProcess() {
-    if(this.isCreditPay ==false ){
-    this.removAddedAmount(+this.credit);
-    this.credit = this.originalGrandTotal - this.totalPaid - this.discountAmount;
-    
-    this.paymentProcess();    
+    if (this.isCreditPay == false) {
+      this.removAddedAmount(+this.credit);
+      this.credit = this.originalGrandTotal - this.totalPaid - this.discountAmount;
+
+      this.paymentProcess();
     }
   }
 
@@ -1045,14 +1045,14 @@ export class SalesComponent implements OnInit {
       if (result.status) {
         this.isCreditPay = true;
         this.tips = result.tipAmount;
-        this.credit= result.totalAmount
+        this.credit = result.totalAmount
         this.captureObj = result.authObj;
         this.calculateTotalpaid(+this.credit);
         // this.addPayment();
         // this.paymentCapture(result.authObj);
       } else {
         this.tips = 0;
-        this.credit= 0;
+        this.credit = 0;
       }
     });
   }
@@ -1191,7 +1191,9 @@ export class SalesComponent implements OnInit {
               outsideDiscountPrice = outsideDiscountPrice + (outsideCost * item.Price / 100);
               item.Price = (outsideCost * item.Price / 100);
             }
-          } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.Upcharges) {
+          }
+          //Wash Upcharge
+          else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
             this.upCharges.forEach(upcharge => {
               upchargeCost = upchargeCost + upcharge.Price;
             });
@@ -1203,7 +1205,36 @@ export class SalesComponent implements OnInit {
               upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
               item.Price = (upchargeCost * item.Price / 100);
             }
-          } else if (item.DiscountServiceType === null) {
+          }
+          //Detail Upcharge
+          else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
+            this.upCharges.filter(s=>s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+              upchargeCost = upchargeCost + upcharge.Price;
+            });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
+            if (item.DiscountType === 'Flat Fee') {
+              upchargeDiscountPrice = upchargeDiscountPrice + item.Price;
+            } else if (item.DiscountType === 'Percentage') {
+              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
+              item.Price = (upchargeCost * item.Price / 100);
+            }
+          }
+          // Detail Ceramic Upcharge
+          else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge) {
+            this.upCharges.filter(s=>s.ServiceType === serviceType[0].CodeValue).forEach(upcharge => {
+              upchargeCost = upchargeCost + upcharge.Price;
+            });
+            item.Price = String(item.Price).replace('-', '');
+            item.Price = +item.Price;
+            if (item.DiscountType === 'Flat Fee') {
+              upchargeDiscountPrice = upchargeDiscountPrice + item.Price;
+            } else if (item.DiscountType === 'Percentage') {
+              upchargeDiscountPrice = upchargeDiscountPrice + (upchargeCost * item.Price / 100);
+              item.Price = (upchargeCost * item.Price / 100);
+            }
+          }
+          else if (item.DiscountServiceType === null) {
             noServiceTypePrice = noServiceTypePrice + item.Price;
           } else if (serviceType[0].CodeValue === ApplicationConfig.Enum.ServiceType.ServiceDiscounts) {
             this.allService.forEach(service => {
@@ -1229,9 +1260,16 @@ export class SalesComponent implements OnInit {
     } else {
       this.discountAmount = 0;
     }
-    this.addedDiscount.forEach(item => {
-      this.discountList.push(item);
-    });
+
+    if (this.discountAmount !== 0) {
+      this.addedDiscount.forEach(item => {
+        this.discountList.push(item);
+      });
+    }
+    else {
+      this.messageService.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Sales.DiscountServiceNotMatching });
+      return;
+    }
     document.getElementById('discountpopup').style.width = '0';
   }
   discountChange(event) {
@@ -1356,7 +1394,7 @@ export class SalesComponent implements OnInit {
         jobPaymentDiscountId: 0,
         jobPaymentId: null,
         serviceDiscountId: +item.ServiceId,
-        amount:this.discountAmount,
+        amount: this.discountAmount,
         isActive: true,
         isDeleted: false,
         createdBy: null,
@@ -1716,8 +1754,7 @@ export class SalesComponent implements OnInit {
                 var services = '';
                 this.itemList.Status.SalesItemViewModel.forEach(s => {
 
-                  if(totalService.filter(t=>t.ServiceId === s.ServiceId).length !== 0)
-                  {
+                  if (totalService.filter(t => t.ServiceId === s.ServiceId).length !== 0) {
                     MembershipTotalPrice += s.Price
                     services += s.ServiceName.trim();
                   }
@@ -1728,14 +1765,12 @@ export class SalesComponent implements OnInit {
                   this.calculateTotalpaid(MembershipTotalPrice);
                 }
 
-                if(services !== '')
-                  {
-                    this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + "Services: " + services });
-                  }
-                  else
-                  {
-                    this.messageService.showMessage({ severity: 'warning', title: 'Membership', body: MessageConfig.Sales.MembershipServicesNotMatching });
-                  }
+                if (services !== '') {
+                  this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + "Services: " + services });
+                }
+                else {
+                  this.messageService.showMessage({ severity: 'warning', title: 'Membership', body: MessageConfig.Sales.MembershipServicesNotMatching });
+                }
 
                 this.amountCheck = false;
               }
@@ -1785,10 +1820,10 @@ export class SalesComponent implements OnInit {
     }
   }
 
-  setFocus(){
-  $(document).ready(function () {
-    $('#ticketNumber').focus();
-  });
-}
+  setFocus() {
+    $(document).ready(function () {
+      $('#ticketNumber').focus();
+    });
+  }
 
 }
