@@ -111,22 +111,30 @@ namespace Admin.API.Filters
                 var isSchemaAvailable = (!string.IsNullOrEmpty(strTenantSchema));
 
                 if (!isSchemaAvailable) _tenant.SetConnection(strConnectionString);
-
-                var tenantSchema = (isSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
-                    new AuthManagerBpl(_cache, _tenant).GetTenantSchema(Guid.Parse(userGuid));
-
-                if (tenantSchema is null)
+                
+                if(!string.IsNullOrEmpty(userGuid))
                 {
-                    throw new Exception("Invalid Login");
+
+                    var tenantSchema = (isSchemaAvailable) ? JsonConvert.DeserializeObject<TenantSchema>(strTenantSchema) :
+                        new AuthManagerBpl(_cache, _tenant).GetTenantSchema(Guid.Parse(userGuid));
+
+                    if (tenantSchema is null)
+                    {
+                        throw new Exception("Invalid Login");
+                    }
+
+                    if (isSchemaAvailable)
+                    {
+                        _tenant.SetTenantGuid(tenantGuid);
+                    }
+
+                    strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
+                    _tenant.SetConnection(strConnectionString);
+
                 }
 
-                if (isSchemaAvailable)
-                {
-                    _tenant.SetTenantGuid(tenantGuid);
-                }
 
-                strConnectionString = $"Server={Pick("Settings", "TenantDbServer")};Initial Catalog={Pick("Settings", "TenantDb")};MultipleActiveResultSets=true;User ID={tenantSchema.Username};Password={tenantSchema.Password}";
-                _tenant.SetConnection(strConnectionString);
+          
 
             }
             _tenant.TokenExpiryMintues = Pick("Jwt", "TokenExpiryMinutes").toInt();
