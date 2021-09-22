@@ -17,8 +17,8 @@ export class DashboardService {
     return this.http.post(`${UrlConfig.washes.getDashBoardCount}`, obj);
   }
 
-  getAllLocationWashTime(locationId){
-    return this.http.get(`${UrlConfig.dashboard.getAllLocationWashTime}`, { params: { locationId, date: null }});
+  getAllLocationWashTime(locationId,date){
+    return this.http.get(`${UrlConfig.dashboard.getAllLocationWashTime}`, { params: { locationId, date }});
    }
    
   getLocation() {

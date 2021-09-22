@@ -233,7 +233,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   // Get All Location
   getLocationList() {
     const locID = 0;
-    this.dashboardService.getAllLocationWashTime(locID).subscribe(res => {
+    this.dashboardService.getAllLocationWashTime(locID,null).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;

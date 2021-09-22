@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
   getDashboardCount() {
     const obj = {
       id: localStorage.getItem('empLocationId'),
-      date: new Date()
+      date: new Date() 
     };
     this.dashboardService.getDetailCount(obj).subscribe(res => {
       const dashboardCount = JSON.parse(res.resultData);
@@ -164,7 +164,7 @@ export class DashboardComponent implements OnInit {
   // Get All Location
   getLocationList() {
     const locID = 0;
-    this.dashboardService.getAllLocationWashTime(locID).subscribe(res => {
+    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd')).subscribe(res => {
             if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;
