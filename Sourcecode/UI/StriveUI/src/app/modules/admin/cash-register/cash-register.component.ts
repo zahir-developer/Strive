@@ -393,7 +393,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : this.cashDetails.CashRegister.StoreTimeIn,
+      storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : (this.cashDetails.CashRegister?.StoreTimeIn),
       storeTimeOut: !isStatus ? checkinTime !== '' ? checkinTime : (this.cashDetails.CashRegister == null ? null : this.cashDetails.CashRegister.StoreTimeOut) : (this.cashDetails.CashRegister == null ? null : this.cashDetails.CashRegister.StoreTimeOut),
       storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus,
       totalAmount: this.totalCash
