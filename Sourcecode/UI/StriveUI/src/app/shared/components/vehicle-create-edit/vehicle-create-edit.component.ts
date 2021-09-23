@@ -327,12 +327,16 @@ export class VehicleCreateEditComponent implements OnInit {
               //this.washTypeChange(this.washService[0].ServiceId);
               this.vehicleForm.controls.wash.disable();
             }
+
+            //Upcharge - Disabled when mebership change as per Business requirement.
+            /*
             const upchargeServcie = this.membershipServices.filter(item =>
               item.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
 
             if (upchargeServcie.length > 0) {
               this.vehicleForm.patchValue({ upcharge: upchargeServcie[0].ServiceId, upchargeType: upchargeServcie[0].ServiceId });
             }
+            */
 
             if (this.membershipServices.filter(i => i.ServiceType === ApplicationConfig.Enum.ServiceType.AdditonalServices || ApplicationConfig.Enum.ServiceType.WashPackage).length !== 0) { // Additonal Services
               this.memberOnchangePatchedService = this.membershipServices.filter(item =>
