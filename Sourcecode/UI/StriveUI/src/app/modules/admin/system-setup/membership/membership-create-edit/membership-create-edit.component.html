@@ -31,8 +31,8 @@
 
             <div class="form-group col-lg-3">
                 <label for="inputStatus">Upcharge Type<span class="required"></span></label>
-                <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)">
-                    <option value='' selected>None</option>
+                <select class="form-control" formControlName="upchargeType" (change)="bindUpcharge($event.target.value)">
+                    <option value="" selected>None</option>
 
                     <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status.ServiceName}}
                     </option>
@@ -43,7 +43,7 @@
             <div class="form-group col-lg-3">
                 <label for="inputStatus">Upcharge<span class="required"></span></label>
                 <select class="form-control" formControlName="upcharge" (change)="bindUpcharge($event.target.value)">
-                    <option value='' selected>None</option>
+                    <option value="" selected>None</option>
 
                     <option *ngFor="let status of upchargeType" value="{{status.ServiceId}}">{{status?.Upcharges}}
                     </option>

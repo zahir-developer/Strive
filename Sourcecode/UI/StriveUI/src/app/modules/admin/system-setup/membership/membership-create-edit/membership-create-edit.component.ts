@@ -54,6 +54,7 @@ export class MembershipCreateEditComponent implements OnInit {
       service: ['',],
       washes: ['', Validators.required],
       upcharge: ['',],
+      upchargeType: ['',],
       status: ['',],
       price: ['', Validators.required],
       notes: ['',],
@@ -176,10 +177,13 @@ export class MembershipCreateEditComponent implements OnInit {
         (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0].ServiceId;
 
       this.membershipForm.get('upcharge').patchValue(upcharge === undefined ? '' : upcharge);
+
+      this.membershipForm.get('upchargeType').patchValue(upcharge === undefined ? '' : upcharge);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.upcharge)[0]);
     }
     else {
       this.membershipForm.get('upcharge').patchValue('');
+      this.membershipForm.get('upchargeType').patchValue('');
     }
     if (this.selectedData.MembershipService.filter(i =>
       (i.ServiceType) === ApplicationConfig.Enum.ServiceType.AdditonalServices).length !== 0) {
@@ -201,18 +205,24 @@ export class MembershipCreateEditComponent implements OnInit {
         this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +element.item_id)[0]);
       });
     }
+    //Disabled: Since its overriding the amount entered while saving.
+    /*
     let price = 0;
     this.PriceServices.forEach(element => {
       price += +element.Price;
     });
     this.membershipForm.get('price').patchValue(price.toFixed(2));
+    */
   }
 
   bindUpcharge(data) {
-    this.membershipForm.patchValue({
-      upcharge: +data
-    });
-    this.calculate(data, 'upcharge');
+
+    this.membershipForm.patchValue({ upcharge: data });
+    this.membershipForm.patchValue({ upchargeType: data });
+
+    if (data !== '') {
+      this.calculate(data, 'upcharge');
+    }
   }
 
   // Add/Update Membership
@@ -222,7 +232,6 @@ export class MembershipCreateEditComponent implements OnInit {
     if (this.membershipForm.value.membershipName.toLowerCase() == "none" || this.membershipForm.value.membershipName.toLowerCase() == "unk") {
       this.toastr.error(MessageConfig.Admin.SystemSetup.MemberShipSetup.MemberShipName, 'Error!');
       return;
-
     }
 
     if (this.membershipForm.invalid) {
@@ -271,7 +280,7 @@ export class MembershipCreateEditComponent implements OnInit {
       });
     } else {
       if (memberService !== null) {
-        ServiceObj = memberService.filter(s=>s.MembershipServiceId === 0 || (s.MembershipServiceId > 0 && s.isDeleted === true) || s.item_id > 0).map(item => {
+        ServiceObj = memberService.filter(s => s.MembershipServiceId === 0 || (s.MembershipServiceId > 0 && s.isDeleted === true) || s.item_id > 0).map(item => {
           return {
             membershipServiceId: item.MembershipServiceId ? item.MembershipServiceId : 0,
             membershipId: item.MembershipId ? item.MembershipId : this.selectedData.Membership.MembershipId ?
@@ -317,21 +326,26 @@ export class MembershipCreateEditComponent implements OnInit {
           ServiceObj.push(washDelete);
         }
       }
+
       const upchargeType = this.selectedData?.MembershipService?.filter(i =>
         i.ServiceType === ApplicationConfig.Enum.ServiceType.WashUpcharge);
       if (upchargeType.length > 0) {
         if (Number(upchargeType[0].ServiceId) !== Number(this.membershipForm.value.upcharge)) {
-          const upcharge = {
-            membershipServiceId: 0,
-            membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
-            serviceId: Number(this.membershipForm.value.upcharge),
-            isActive: true,
-            isDeleted: false,
-            createdBy: this.employeeId,
-            createdDate: new Date(),
-            updatedBy: this.employeeId,
-            updatedDate: new Date()
-          };
+
+          if (this.membershipForm.value.upcharge !== "") {
+            const upcharge = {
+              membershipServiceId: 0,
+              membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
+              serviceId: Number(this.membershipForm.value.upcharge),
+              isActive: true,
+              isDeleted: false,
+              createdBy: this.employeeId,
+              createdDate: new Date(),
+              updatedBy: this.employeeId,
+              updatedDate: new Date()
+            };
+            ServiceObj.push(upcharge);
+          }
           const upchargeDelete = {
             membershipServiceId: Number(upchargeType[0].MembershipServiceId),
             membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,
@@ -343,7 +357,6 @@ export class MembershipCreateEditComponent implements OnInit {
             updatedBy: this.employeeId,
             updatedDate: new Date()
           };
-          ServiceObj.push(upcharge);
           ServiceObj.push(upchargeDelete);
         }
       }
