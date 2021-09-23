@@ -108,6 +108,9 @@
     <Compile Include="Fragments\MyTicket\MyTicketFragment.cs" />
     <Compile Include="Fragments\MyTicket\PendingTicketsFragment.cs" />
     <Compile Include="Fragments\Schedule\ScheduleFragment.cs" />
+    <Compile Include="Helper\MyButton.cs" />
+    <Compile Include="Helper\MyButtonClickListener.cs" />
+    <Compile Include="Helper\MySwipeHelper.cs" />
     <Compile Include="Listeners\IItemClickListener.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="MvvmCross\App.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Views\BaseExampleView.cs" />
     <Compile Include="Views\DashboardView.cs" />
+    <Compile Include="Views\DocumentView.cs" />
     <Compile Include="Views\LoginView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +167,9 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.1.0.442</Version>
     </PackageReference>
+    <PackageReference Include="Glide.Xamarin">
+      <Version>4.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNet.SignalR">
       <Version>2.4.1</Version>
     </PackageReference>
@@ -193,6 +200,9 @@
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
+    <PackageReference Include="Xamarin.Android.Support.v4">
+      <Version>28.0.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.Plugin.FilePicker">
       <Version>2.1.41</Version>
@@ -956,6 +966,9 @@
     <AndroidResource Include="Resources\layout\ScheduleItemView.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DocumentView.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

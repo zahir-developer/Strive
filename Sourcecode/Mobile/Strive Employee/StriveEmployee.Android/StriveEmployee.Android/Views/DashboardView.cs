@@ -45,7 +45,7 @@ namespace StriveEmployee.Android.Views
             profile_Fragment = new MyProfileFragment();
             schedule_Fragment = new ScheduleFragment();
             myTicket_Fragment = new MyTicketFragment();
-            checkOut_Fragment = new CheckOutFragment();
+            checkOut_Fragment = new CheckOutFragment(this);
             bottom_NavigationView = FindViewById<BottomNavigationView>(Resource.Id.dash_bottomNav);
             bottom_NavigationView.InflateMenu(Resource.Menu.bottom_nav_menu);
             bottom_NavigationView.NavigationItemSelected += Bottom_NavigationView_NavigationItemSelected;

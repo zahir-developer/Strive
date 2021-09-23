@@ -20,6 +20,7 @@ namespace StriveEmployee.Android.Adapter.Schedule
         Context context;
         ScheduleDetail scheduleDetail;
         public ScheduleAdapterViewHolder scheduleViewHolder;
+        private List<ScheduleDetailViewModel> scheduleDetailViewModels = new List<ScheduleDetailViewModel>();
 
         public ScheduleAdapter(Context context, ScheduleDetail scheduleDetail)
         {
@@ -28,6 +29,7 @@ namespace StriveEmployee.Android.Adapter.Schedule
             this.scheduleDetail.ScheduleDetailViewModel = new List<ScheduleDetailViewModel>();
             this.scheduleDetail.ScheduleEmployeeViewModel = new ScheduleEmployeeViewModel();
             this.scheduleDetail.ScheduleHoursViewModel = new ScheduleHoursViewModel();
+            
             this.scheduleDetail = scheduleDetail;
         }
 
@@ -38,12 +40,12 @@ namespace StriveEmployee.Android.Adapter.Schedule
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             scheduleViewHolder = holder as ScheduleAdapterViewHolder;
-            scheduleViewHolder.locationNameSchedule.Text = scheduleDetail.ScheduleDetailViewModel[position].LocationName;
-            if(!string.IsNullOrEmpty(scheduleDetail.ScheduleDetailViewModel[position].StartTime) && !string.IsNullOrEmpty(scheduleDetail.ScheduleDetailViewModel[position].EndTime))
+            scheduleViewHolder.locationNameSchedule.Text = scheduleDetailViewModels[position].LocationName;
+            if(!string.IsNullOrEmpty(scheduleDetailViewModels[position].StartTime) && !string.IsNullOrEmpty(scheduleDetailViewModels[position].EndTime))
             {
-                var start = scheduleDetail.ScheduleDetailViewModel[position].StartTime.Split('T');
+                var start = scheduleDetailViewModels[position].StartTime.Split('T');
                 var startTime = start[1].Split(":");
-                var end = scheduleDetail.ScheduleDetailViewModel[position].StartTime.Split('T');
+                var end = scheduleDetailViewModels[position].StartTime.Split('T');
                 var endTime = end[1].Split(":");
                 if(int.Parse(startTime[0]) > 12)
                 {
@@ -70,7 +72,7 @@ namespace StriveEmployee.Android.Adapter.Schedule
         {
             get
             {
-                return scheduleDetail.ScheduleDetailViewModel.Count;
+                return scheduleDetailViewModels.Count;
             }
         }
     }
