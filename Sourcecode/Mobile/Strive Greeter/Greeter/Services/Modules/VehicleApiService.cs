@@ -7,7 +7,7 @@ namespace Greeter.Services.Api
     public interface IVehicleApiService
     {
         Task<BarcodeResponse> GetBarcode(string barcode);
-        Task<ModelResponse> GetModelsByMake(int makeId);
+        Task<ModelResponse> GetModelsByMake(long makeId);
     }
 
     public class VehicleApiService : IVehicleApiService
@@ -20,7 +20,7 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<BarcodeResponse>(url);
         }
 
-        public Task<ModelResponse> GetModelsByMake(int makeId)
+        public Task<ModelResponse> GetModelsByMake(long makeId)
         {
             var url = Urls.MODELS_BY_MAKE + makeId;
             return apiService.DoApiCall<ModelResponse>(url);

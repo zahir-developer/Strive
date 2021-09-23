@@ -452,7 +452,7 @@ namespace Greeter.Modules.Service
 
         void UpdateDataToUI(DTOs.Service service, List<LastServiceJobItem> lastServiceJobItems = null)
         {
-            serviceDateLabel.Text = service.JobDate.ToString("dd/MM/yyyy");
+            serviceDateLabel.Text = service.JobDate.ToString("MM/dd/yyyy");
             serviceNameLabel.Text = service.JobTypeName;
             barcodeLabel.Text = service?.Barcode ?? "-";
             makeLabel.Text = service.VehicleMake;

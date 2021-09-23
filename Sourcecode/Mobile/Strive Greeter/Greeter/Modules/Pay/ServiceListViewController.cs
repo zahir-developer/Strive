@@ -35,6 +35,8 @@ namespace Greeter.Modules.Pay
                 isAlreadyLoaded = true;
             }
             base.ViewWillAppear(animated);
+
+            GetCheckoutListAsync().ConfigureAwait(false);
         }
 
         void SetupView()

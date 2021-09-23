@@ -49,6 +49,8 @@ namespace Greeter.Storyboards
         {
             base.ViewDidLoad();
 
+            NavigationController.NavigationBar.Hidden = true;
+
             Initialise();
 
 #if DEBUG
@@ -189,7 +191,13 @@ namespace Greeter.Storyboards
 
                 Debug.WriteLine("Email Body :" + body);
 
-                var response = await new WashApiService().SendEmail(email, Common.Messages.SERVICE_RECEIPT_SUBJECT, body);
+                string subject = null;
+                if (ServiceType == ServiceType.Wash)
+                    subject = Common.Messages.SERVICE_RECEIPT_SUBJECT;
+                else // DETAIL
+                    subject = Common.Messages.DETAIL_RECEIPT_SUBJECT;
+
+                var response = await new WashApiService().SendEmail(email, subject, body);
                 HideActivityIndicator();
 
                 HandleResponse(response);

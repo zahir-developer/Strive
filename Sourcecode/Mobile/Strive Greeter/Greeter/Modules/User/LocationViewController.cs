@@ -72,27 +72,38 @@ namespace Greeter
                 AppSettings.LocationName = locations[pos].Name;
                 AppSettings.WashTime = locations[pos].WashTimeMinutes;
 
-                //var washTime = await GetWashTime(AppSettings.LocationID);
-                //AppSettings.WashTime = washTime;
+                var washTime = await GetWashTime(AppSettings.LocationID);
 
-                NavigateToTabsScreen();
+                if (washTime != 0)
+                {
+                    AppSettings.WashTime = washTime;
+                    NavigateToTabsScreen();
+                }
+                else
+                {
+                    ShowAlertMsg("Wash Time not Receiving from Api");
+                }
             }
             else ShowAlertMsg(Common.Messages.LOCATION_EMPTY, titleTxt: Common.Messages.LOCATION);
         }
 
-        //async Task<> GetWashTime(long locationId)
-        //{
-        //    ShowActivityIndicator();
-        //    var response = await new GeneralApiService().GetLocationWashTime(locationId);
-        //    HideActivityIndicator();
+        async Task<int> GetWashTime(long locationId)
+        {
+            ShowActivityIndicator();
+            var response = await new GeneralApiService().GetLocationWashTime(locationId);
+            HideActivityIndicator();
 
-        //    HandleResponse(response);
+            HandleResponse(response);
 
-        //    if (response.IsSuccess())
-        //    {
-        //        response.
-        //    }
-        //}
+            int washTime = 0;
+
+            if (response.IsSuccess())
+            {
+                washTime = response.Locations[0].WashtimeMinutes;
+            }
+
+            return washTime;
+        }
 
         void UpdateSelectedLocationIfAny()
         {

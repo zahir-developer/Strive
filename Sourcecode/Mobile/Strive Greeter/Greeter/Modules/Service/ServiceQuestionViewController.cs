@@ -37,6 +37,7 @@ namespace Greeter.Storyboards
         public long ClientID;
         public long VehicleID;
         public long UpchargeID;
+        public bool IsNewBarcode;
 
         //int modelId;
         string make;
@@ -217,7 +218,14 @@ namespace Greeter.Storyboards
                 pv.Select(0, 0, false);
         }
 
-        async Task GetModlesByMake(int makeId)
+        async Task UpdateModelsByMakeWithoutLoader(long makeId)
+        {
+            var modelsResponse = await new VehicleApiService().GetModelsByMake(makeId);
+            Models = modelsResponse.ModelList;
+            models = Models?.Select(x => x.Name).ToArray();
+        }
+
+        async Task GetModlesByMake(long makeId)
         {
             ShowActivityIndicator();
             var modelsResponse = await new VehicleApiService().GetModelsByMake(makeId);
@@ -265,13 +273,17 @@ namespace Greeter.Storyboards
                 jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Detail.ToString())).FirstOrDefault().ID ?? -1;
             }
 
+            var upchargesList = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToList();
+            upchargesList.Insert(0, "None");
+            upcharges = upchargesList.ToArray();
+
             AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
             additionalServices = AdditionalServices.Select(x => x.Name).ToArray();
 
             AirFreshners = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.AIR_FRESHNERS)).ToList();
             airFreshners = AirFreshners.Select(x => x.Name).ToArray();
 
-            if (!String.IsNullOrEmpty(Barcode))
+            if (!IsNewBarcode)
             {
                 make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
                 color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
@@ -280,8 +292,23 @@ namespace Greeter.Storyboards
                 {
                     await UpdateUpchargeForModel(ModelID);
                 }
+                else
+                {
+                    UpdateUpchargeAsNone();
+                }
 
-                UpdateBarcodeData();
+                if (string.IsNullOrEmpty(Model))
+                {
+                    await UpdateModelsByMakeWithoutLoader(MakeID);
+                    int index = Array.FindIndex(models, t => t.Equals("unk", StringComparison.InvariantCultureIgnoreCase));
+                    if (index != -1)
+                    {
+                        ModelID = Models[index].ID;
+                        Model = models[index];
+                    }
+                }
+
+                UpdateBarcodeData(Barcode);
 
                 //var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
                 //if (barcodeUpcharge is not null)
@@ -295,6 +322,7 @@ namespace Greeter.Storyboards
             }
             else
             {
+                UpdateBarcodeText(Barcode);
                 UpdateUpchargeAsNone();
             }
 
@@ -305,9 +333,9 @@ namespace Greeter.Storyboards
 #endif
         }
 
-        void UpdateBarcodeData()
+        void UpdateBarcodeData(string barcode)
         {
-            if (!String.IsNullOrEmpty(Barcode))
+            if (!String.IsNullOrEmpty(barcode))
             {
                 btnTypeDropdown.Hidden = true;
                 btnMakeDropdown.Hidden = true;
@@ -317,11 +345,16 @@ namespace Greeter.Storyboards
                 tfModel.UserInteractionEnabled = false;
                 tfColor.UserInteractionEnabled = false;
 
-                tfBarcode.Text = Barcode;
+                tfBarcode.Text = barcode;
                 tfMake.Text = make;
                 tfModel.Text = Model;
                 tfColor.Text = color;
             }
+        }
+
+        void UpdateBarcodeText(string barcode)
+        {
+            tfBarcode.Text = barcode;
         }
 
         async Task LoadUpchargeByModel(long modelId)
@@ -333,10 +366,6 @@ namespace Greeter.Storyboards
 
         void UpdateUpchargeAsNone()
         {
-            var upchargesList = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToList();
-            upchargesList.Insert(0, "None");
-            upcharges = upchargesList.ToArray();
-
             tfUpcharge.Text = upcharges[0];
         }
 
@@ -371,7 +400,7 @@ namespace Greeter.Storyboards
             var serviceTypeResponse = await SingleTon.GeneralApiService.GetGlobalData("SERVICETYPE");
             var upchargeServiceId = serviceTypeResponse?.Codes?.Where(x => x.Name.Equals(ServiceTypes.WASH_UPCHARGE.ToString())).FirstOrDefault().ID ?? -1;
 
-            if (upchargeServiceId != -1)
+            if (upchargeServiceId != -1 && modelId != 0)
             {
                 var req = new GetUpchargeReq() { ModelID = ModelID, UpchargeServiceTypeID = upchargeServiceId };
                 var upchargeResponse = await SingleTon.WashApiService.GetUpcharge(req);
@@ -513,7 +542,7 @@ namespace Greeter.Storyboards
         {
             if (textField == tfBarcode)
             {
-                if (!String.IsNullOrEmpty(Barcode))
+                if (!IsNewBarcode)
                 {
                     return false;
                 }

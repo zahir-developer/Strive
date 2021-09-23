@@ -96,6 +96,9 @@ namespace Greeter.DTOs
         [JsonProperty("Barcode")]
         public string Barcode { get; set; }
 
+        [JsonProperty("Email")]
+        public string Email { get; set; }
+
         [JsonProperty("VehicleMfr")]
         public long MakeID { get; set; }
 
@@ -310,7 +313,7 @@ namespace Greeter.DTOs
         public bool IsDeleted { get; } = false;
 
         [JsonProperty("jobDate")]
-        public DateTime JobDate { get; } = DateTime.Now;
+        public string JobDate { get; } = DateTime.Now.ToString("yyyy-MM-dd");
 
         [JsonProperty("jobId")]
         public long JobId { get; set; }
@@ -337,7 +340,7 @@ namespace Greeter.DTOs
         public long TicketNumber { get; set; }
 
         [JsonProperty("timeIn")]
-        public DateTime TimeIn { get; } = DateTime.Now;
+        public DateTime TimeIn { get; set; } = DateTime.Now;
 
         [JsonProperty("updatedBy")]
         public long UpdatedByID { get; } = AppSettings.UserID;
@@ -1420,5 +1423,17 @@ namespace Greeter.DTOs
 
         [JsonProperty("ServiceTypeId")]
         public long ServiceTypeId { get; set; }
+    }
+
+    public class LocationWashTimeResponse : BaseResponse
+    {
+        [JsonProperty("Washes")]
+        public List<LocWahTime> Locations { get; set; }
+    }
+
+    public class LocWahTime
+    {
+        [JsonProperty("WashtimeMinutes")]
+        public int WashtimeMinutes { get; set; }
     }
 }

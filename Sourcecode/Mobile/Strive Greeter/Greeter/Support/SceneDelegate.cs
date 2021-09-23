@@ -43,6 +43,9 @@ namespace NewSingleViewTemplate
                 //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
                 //vc = sb.InstantiateViewController(nameof(SampleReadMoreViewController));
 
+                //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+                //vc = sb.InstantiateViewController(nameof(PagerViewController));
+
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };
                 nc.ViewControllers = vcs;

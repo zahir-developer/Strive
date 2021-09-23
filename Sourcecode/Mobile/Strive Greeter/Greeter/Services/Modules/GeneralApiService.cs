@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Greeter.Common;
 using Greeter.DTOs;
+using Greeter.Services.Network;
 
 namespace Greeter.Services.Api
 {
@@ -10,7 +12,7 @@ namespace Greeter.Services.Api
         Task<LocationsResponse> GetLocations();
         Task<MakeResponse> GetAllMake();
         Task<GlobalDataResponse> GetGlobalData(string dataType);
-        //Task<BaseResponse> GetLocationWashTime(long locationId);
+        Task<LocationWashTimeResponse> GetLocationWashTime(long locationId);
     }
 
     public class GeneralApiService : IGeneralApiService
@@ -33,10 +35,10 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<GlobalDataResponse>(url);
         }
 
-        //public Task<BaseResponse> GetLocationWashTime(long locationId)
-        //{
-        //    var url = Urls.GET_LOCATION_WASH_TIME + locationId;
-        //    return apiService.DoApiCall<BaseResponse>(url);
-        //}
+        public Task<LocationWashTimeResponse> GetLocationWashTime(long locationId)
+        {
+            var parameters = new Dictionary<string, string>() { { nameof(locationId), locationId.ToString() } };
+            return apiService.DoApiCall<LocationWashTimeResponse>(Urls.GET_LOCATION_WASH_TIME, HttpMethod.Get, parameters);
+        }
     }
 }

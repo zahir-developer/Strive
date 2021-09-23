@@ -24,6 +24,7 @@ namespace Greeter.Storyboards
         public float Amount;
         public string CustomerName;
         public bool IsFromNewService = true;
+        public ServiceType ServiceType;
 
         public PaymentSucessViewController(IntPtr handle) : base(handle)
         {
@@ -56,7 +57,14 @@ namespace Greeter.Storyboards
         void SendEmailReceipt()
         {
             string emailContentHtml = MakeServiceReceipt();
-            EmailServiceReceipt(emailContentHtml);
+
+            string subject = null;
+            if (ServiceType == ServiceType.Wash)
+                subject = Common.Messages.SERVICE_RECEIPT_SUBJECT;
+            else // DETAIL
+                subject = Common.Messages.DETAIL_RECEIPT_SUBJECT;
+
+            EmailServiceReceipt(emailContentHtml, subject);
         }
 
         [Export("mailComposeController:didFinishWithResult:error:")]

@@ -83,7 +83,7 @@ namespace Greeter
 
             btnDriveUp.TouchUpInside += delegate
             {
-                NavigateToWashOrDetailScreen();
+                NavigateToWashOrDetailScreen(null, txtFieldBarcode.Text);
             };
 
             lblChangeloc.AddGestureRecognizer(new UITapGestureRecognizer(LocationTap));
@@ -117,8 +117,9 @@ namespace Greeter
             DismissKeyboardOnTapArround = true;
 
             #if DEBUG
-              //txtFieldBarcode.Text = "ZNL9678";
-                txtFieldBarcode.Text = "61012381";
+                //txtFieldBarcode.Text = "ZNL9678";
+                //txtFieldBarcode.Text = "61012381";
+                txtFieldBarcode.Text = "63010412";
             #endif
         }
 
@@ -141,7 +142,7 @@ namespace Greeter
             {
                 //barcodeResponse = response;
                 txtFieldBarcode.Text = string.Empty;
-                NavigateToWashOrDetailScreen(response.ClientAndVehicleDetailList[0]);
+                NavigateToWashOrDetailScreen(response.ClientAndVehicleDetailList[0], barcode);
             }
             else
                 ShowAlertMsg(Common.Messages.BARCODE_WRONG);
@@ -220,7 +221,7 @@ namespace Greeter
             NavigateToWithAnim(vc);
         }
 
-        void NavigateToWashOrDetailScreen(ClientAndVehicleDetail clientDetail = null)
+        void NavigateToWashOrDetailScreen(ClientAndVehicleDetail clientDetail = null, string barcode = null)
         {
             //if (IsWash)
             //    ShowAlertMsg(btnWash.TitleLabel.Text);
@@ -231,10 +232,14 @@ namespace Greeter
 
             var vc = (ServiceQuestionViewController)this.Storyboard.InstantiateViewController(nameof(ServiceQuestionViewController));
 
-            if (clientDetail != null)
+            vc.Barcode = barcode;
+            if (clientDetail is null)
+            {
+                vc.IsNewBarcode = true;
+            }
+            else if (clientDetail != null)
             {
                 //var clientDetail = barcodeResponse.ClientAndVehicleDetailList[0];
-                vc.Barcode = clientDetail.Barcode;
                 vc.MakeID = clientDetail.MakeID;
                 vc.ModelID = clientDetail.ModelID;
                 vc.Model = clientDetail.Model;

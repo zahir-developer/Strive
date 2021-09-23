@@ -70,6 +70,9 @@ namespace Greeter.Common
         //  Url Format Example : /Admin/Common/GetTicketNumber/{locationId}
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
         internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
+        internal const string CREATE_DETAIL_SERVICE = "/Admin/Details/UpdateDetails";
+        
+
         internal const string SEND_EMAIL = "/Admin/Common/SendMail";
         internal const string GET_AVAILABLILITY_SCHEDULE_TIME = "/Admin/Dashboard/GetAvailablilityScheduleTime";
         internal const string WASH_TIME = "/Admin/Washes/GetWashTimeDetail/";
@@ -155,6 +158,7 @@ namespace Greeter.Common
     public class Messages
     {
         internal const string SERVICE_RECEIPT_SUBJECT = "Wash Receipt";
+        internal const string DETAIL_RECEIPT_SUBJECT = "Details Receipt";
         internal const string BARCODE_EMPTY = "Please enter the barcode";
         internal const string USER_ID_AND_PSWD_EMPTY = "Please enter your user id and password";
         internal const string USER_ID_EMPTY = "Please enter your user id";
@@ -197,6 +201,7 @@ namespace Greeter.Common
         internal const string USER_ADDED_SUCCESS_MSG = "User added successfully";
         internal const string NOT_PAID_ALERT_MSG = "Only Paid ticket can be checkedout!";
         internal const string NOT_COMPLETED_ALERT_MSG = "Only completed ticket can be checkedout!";
+        internal const string NO_SLOTS = "No slots avaibale";
 
         internal const string HOLD = "Hold";
         internal const string COMPLETE = "Complete";

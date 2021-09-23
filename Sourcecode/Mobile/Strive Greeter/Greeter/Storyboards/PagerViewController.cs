@@ -3,12 +3,15 @@
 using System;
 
 using Foundation;
+using Greeter.Common;
 using UIKit;
 
 namespace Greeter.Storyboards
 {
-	public partial class PagerViewController : UIViewController
-	{
+	public partial class PagerViewController : UIPageViewController, IUIPageViewControllerDataSource
+    {
+        UIViewController[] vcs;
+
 		public PagerViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -16,17 +19,29 @@ namespace Greeter.Storyboards
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            var s = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+            var vc = s.InstantiateViewController(nameof(ImageController));
+            var vc1 = s.InstantiateViewController(nameof(GreenController));
+            vcs = new UIViewController[] { vc, vc1 };
+
+            DataSource = this;
         }
 
-        public override void ViewWillLayoutSubviews()
+        UIViewController IUIPageViewControllerDataSource.GetPreviousViewController(UIPageViewController pageViewController, UIViewController referenceViewController)
         {
-            base.ViewWillLayoutSubviews();
+            int index = Array.IndexOf(vcs, referenceViewController);
+            var previousIndex = index - 1;
+            if (previousIndex < 0) return null;
+            return vcs[previousIndex];
         }
 
-        public override void ViewDidLayoutSubviews()
+        UIViewController IUIPageViewControllerDataSource.GetNextViewController(UIPageViewController pageViewController, UIViewController referenceViewController)
         {
-            base.ViewDidLayoutSubviews();
+            int index = Array.IndexOf(vcs, referenceViewController);
+            var nextIndex = index + 1;
+            if (nextIndex > vcs.Length - 1) return null;
+            return vcs[nextIndex];
         }
-
     }
 }

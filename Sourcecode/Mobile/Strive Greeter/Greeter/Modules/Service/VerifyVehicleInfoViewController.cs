@@ -153,15 +153,13 @@ namespace Greeter.Storyboards
                         var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
 
                         float totalTimeMins = MainService.Time + serviceTimeMins;
-                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(totalTimeMins);
-
-                        //TODO : Fill Job Detail and bay scheduels objects in the req
-
-#if DEBUG
+                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(20);
+//#if DEBUG
                         var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayId);
 
                         GetTimeInDetails matchTimeInDetails = null;
                         string startTime = string.Empty;
+                        string endTime = string.Empty;
 
                         int bayCount = 0;
 
@@ -186,7 +184,7 @@ namespace Greeter.Storyboards
                                         availableTime += 60 * 30; //Add 30 minutes
                                         bayCount += 1;
 
-                                        if(string.IsNullOrEmpty(startTime))
+                                        if (string.IsNullOrEmpty(startTime))
                                         {
                                             startTime = timeInDetailsList[i].TimeIn;
                                         }
@@ -207,11 +205,11 @@ namespace Greeter.Storyboards
                             }
                         }
 
-                        if(matchTimeInDetails is null)
+                        if (matchTimeInDetails is null)
                         {
                             startTime = string.Empty;
                             //TODO show error message
-
+                            ShowAlertMsg(Common.Messages.NO_SLOTS);
                             return;
                         }
 
@@ -221,9 +219,7 @@ namespace Greeter.Storyboards
                             BayId = matchTimeInDetails.BayId
                         };
 
-                        req.BaySchedules = new List<BaySchedule>
-                        {
-                        };
+                        req.BaySchedules = new List<BaySchedule>();
 
                         //float diff = 0;
 
@@ -234,36 +230,51 @@ namespace Greeter.Storyboards
                                 BayID = req.JobDetail.BayId,
                                 JobID = jobId,
                                 ScheduleInTime = startTime,
-                                ScheduleDate = req.Job.JobDate.ToString("yyyy-MM-dd")
+                                //ScheduleDate = req.Job.JobDate.ToString("yyyy-MM-dd")
+                                ScheduleDate = req.Job.JobDate
                             };
 
 
                             //if (i != 0)
                             //{
-                                string[] ds = startTime.Split(":");
+                                endTime = startTime;
+                                string[] ds = endTime.Split(":");
 
                                 if ((ds[1])[0] == '3')
                                 {
                                     int num = Convert.ToInt32(ds[0]);
                                     num += 1;
-                                    startTime = num.ToString() + ":00";
+                                    endTime = num.ToString() + ":00";
                                 }
                                 else
                                 {
-                                    startTime = ds[0] + ":30";
+                                    endTime = ds[0] + ":30";
                                 }
                             //}
 
-                            baySchedule.ScheduleOutTime = startTime;
+                            baySchedule.ScheduleOutTime = endTime;
 
                             req.BaySchedules.Add(baySchedule);
                         }
-#endif
+//#endif
+                        string[] sdt = startTime.Split(":");
+                        req.Job.TimeIn = DateTime.Now.Date.AddHours(Convert.ToDouble(sdt[0])).AddMinutes(Convert.ToDouble(sdt[1])).AddSeconds(0);
+
+                        string[] edt = endTime.Split(":");
+                        req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
                     }
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
 
-                    var createServiceResponse = await apiService.CreateService(req);
+                    BaseResponse createServiceResponse = null;
+
+                    if (ServiceType == ServiceType.Wash)
+                        createServiceResponse = await apiService.CreateService(req);
+                    else
+                    {
+                        createServiceResponse = await apiService.CreateDetailService(req);
+                    }
+
                     HideActivityIndicator();
 
                     HandleResponse(createServiceResponse);
@@ -275,14 +286,21 @@ namespace Greeter.Storyboards
                             //var vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
                             //this.NavigationController.PopToViewController(vc, true);
 
-                            var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
+                            // Remove this and service question view controllers from stack
+                        var nc = NavigationController;
+                        var navigationViewControllers = NavigationController.ViewControllers.ToList();
+                        navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);
+                        navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);// You can pass your index here
+                        NavigationController.ViewControllers = navigationViewControllers.ToArray();
+
+                        var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
                             vc.Make = Make;
                             vc.Model = Model;
                             vc.Color = Color;
                             vc.CustName = CustName;
                             vc.Service = req;
                             vc.ServiceType = ServiceType;
-                            NavigationController.PushViewController(vc, true);
+                            nc.PushViewController(vc, true);
                         }, titleTxt: Common.Messages.SERVICE);
                     }
                     else

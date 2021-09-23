@@ -258,14 +258,14 @@ namespace Greeter
             textFormatter.Dispose();
         }
 
-        public void EmailServiceReceipt(string html)
+        public void EmailServiceReceipt(string html, string subject)
         {
             if (MFMailComposeViewController.CanSendMail)
             {
                 var mail = new MFMailComposeViewController();
                 mail.WeakMailComposeDelegate = this;
                 //mail.SetToRecipients(new string[] { "you@yoursite.com" });
-                mail.SetSubject(Common.Messages.SERVICE_RECEIPT_SUBJECT);
+                mail.SetSubject(subject);
                 mail.SetMessageBody(html, true);
                 PresentViewController(mail, true, null);
             }

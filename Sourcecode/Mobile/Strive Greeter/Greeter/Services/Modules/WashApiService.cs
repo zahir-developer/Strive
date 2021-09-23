@@ -13,6 +13,7 @@ namespace Greeter.Services.Api
         Task<TicketResponse> GetWashTime(int locationId);
         Task<TicketResponse> GetTicketNumber(int locationId);
         Task<BaseResponse> CreateService(CreateServiceRequest req);
+        Task<BaseResponse> CreateDetailService(CreateServiceRequest req);
         Task<EmployeeListResponse> GetDetailEmployees(GetDetailEmployeeReq req);
         Task<BaseResponse> SendEmail(string email, string subject, string body);
         Task<AvailableScheduleResponse> GetAvailablilityScheduleTime(GetAvailableScheduleReq req);
@@ -80,6 +81,11 @@ namespace Greeter.Services.Api
         public Task<UpchargeResponse> GetUpcharge(GetUpchargeReq req)
         {
             return apiService.DoApiCall<UpchargeResponse>(Urls.GET_UPCHARGE, HttpMethod.Post, null, req);
+        }
+
+        public Task<BaseResponse> CreateDetailService(CreateServiceRequest req)
+        {
+            return apiService.DoApiCall<BaseResponse>(Urls.CREATE_DETAIL_SERVICE, HttpMethod.Post, null, req);
         }
     }
 }

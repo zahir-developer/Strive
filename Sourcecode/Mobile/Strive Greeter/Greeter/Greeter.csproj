@@ -439,6 +439,14 @@
 		<Compile Include="Storyboards\SampleReadMoreViewController.designer.cs">
 		  <DependentUpon>SampleReadMoreViewController.cs</DependentUpon>
 		</Compile>
+		<Compile Include="Storyboards\ImageController.cs" />
+		<Compile Include="Storyboards\ImageController.designer.cs">
+		  <DependentUpon>ImageController.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Storyboards\GreenController.cs" />
+		<Compile Include="Storyboards\GreenController.designer.cs">
+		  <DependentUpon>GreenController.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

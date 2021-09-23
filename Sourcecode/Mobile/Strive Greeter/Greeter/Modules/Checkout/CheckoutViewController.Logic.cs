@@ -19,7 +19,7 @@ namespace Greeter.Modules.Pay
         public CheckoutViewController()
         {
             //LoadItems(lastPagePos).ConfigureAwait(false);
-            GetCheckouts().ConfigureAwait(false);
+            //GetCheckouts().ConfigureAwait(false);
         }
 
         async Task<List<Checkout>> GetCheckoutListAsync()
@@ -172,6 +172,13 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.NOT_PAID_ALERT_MSG, null, false, Common.Messages.NOT_PAID);
                 return;
             }
+
+            // Membership But Service Type Is Detail
+            //if (string.IsNullOrEmpty(checkout.MembershipName) && checkout.Services && !checkout.PaymentStatus.Equals("Success"))
+            //{
+            //    ShowAlertMsg(Common.Messages.NOT_PAID_ALERT_MSG, null, false, Common.Messages.NOT_PAID);
+            //    return;
+            //}
 
             ShowAlertMsg(Common.Messages.CHECKOUT_VERIFICATION_MSG, () =>
             {
