@@ -70,7 +70,7 @@ namespace Greeter.Modules.Pay
 
         void SetupNavigationItem()
         {
-            Title = "Checkout";
+            Title = "Pay";
             NavigationItem.RightBarButtonItem = new UIBarButtonItem("Next", UIBarButtonItemStyle.Plain, (object sender, EventArgs e) =>
             {
                 //TODO navigate to next screen.
