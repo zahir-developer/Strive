@@ -1,6 +1,7 @@
 using Foundation;
 using Greeter;
 using Greeter.Common;
+using Greeter.Storyboards;
 using UIKit;
 
 namespace NewSingleViewTemplate
@@ -31,20 +32,23 @@ namespace NewSingleViewTemplate
                 UIViewController vc;
 
                 if (!AppSettings.IsLogin)
-                    vc = sb.InstantiateViewController(nameof(LoginViewController));
+                  vc = sb.InstantiateViewController(nameof(LoginViewController));
                 else if (!AppSettings.IsHavingLocation)
                     vc = sb.InstantiateViewController(nameof(LocationViewController));
                 else
                 {
-                    sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+                  sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
                     vc = sb.InstantiateViewController(nameof(TabViewController));
                 }
 
-                //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
-                //vc = sb.InstantiateViewController(nameof(SampleReadMoreViewController));
+                //sb = UIStoryboard.Fromme(StoryBoardNames.ME, null);
+                //vc = sb.InstantiateViewController(nameof(SaleReadMoreViewController));
 
                 //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
                 //vc = sb.InstantiateViewController(nameof(PagerViewController));
+
+                //sb = UIStoryboard.FromName(StoryBoardNames.HOME, null);
+                //vc = sb.InstantiateViewController(nameof(IssueImagesViewController));
 
                 var nc = new UINavigationController();
                 var vcs = new UIViewController[] { vc };

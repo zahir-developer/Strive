@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics;
 using Foundation;
+using Greeter.DTOs;
 using MessageUI;
 using UIKit;
 
@@ -25,6 +26,7 @@ namespace Greeter.Storyboards
         public string CustomerName;
         public bool IsFromNewService = true;
         public ServiceType ServiceType;
+        public CreateServiceRequest Service;
 
         public PaymentSucessViewController(IntPtr handle) : base(handle)
         {
@@ -39,17 +41,13 @@ namespace Greeter.Storyboards
 
             lblReceipt.AddGestureRecognizer(new UITapGestureRecognizer(NoReceiptClicked));
 
-            btnPrint.TouchUpInside += delegate {
+            btnPrint.TouchUpInside += delegate
+            {
                 PrintReceipt();
-	        };
-
-            btnPrintAndEmail.TouchUpInside += delegate {
-                //Todo
-
-                //Print();
             };
 
-            btnEmail.TouchUpInside += delegate {
+            btnEmail.TouchUpInside += delegate
+            {
                 SendEmailReceipt();
             };
         }
@@ -78,9 +76,23 @@ namespace Greeter.Storyboards
             lblTicketId.Text = TicketID.ToString();
             lblVehicle.Text = $"{Make} {Model} {Color}";
 
+            if (Service is not null)
+            {
+                ServiceName = string.Empty;
+                for (int i = 0; i < Service.JobItems.Count; i++)
+                {
+                    ServiceName += Service.JobItems[i].SeriveName;
+
+                    if (i != Service.JobItems.Count - 1)
+                    {
+                        ServiceName += ",";
+                    }
+                }
+            }
+
             var mutableAttributedString = new NSMutableAttributedString(
-               "Services: ",
-               UIFont.SystemFontOfSize(18));
+           "Services: ",
+           UIFont.SystemFontOfSize(18));
             var attributedString = new NSAttributedString(
                ServiceName,
                font: UIFont.SystemFontOfSize(18, UIFontWeight.Semibold)
@@ -129,14 +141,39 @@ namespace Greeter.Storyboards
                  "<p>Color - " + Color + "</p><br />" +
                  "<p>Services : " + "</p>";
 
-            if (!string.IsNullOrEmpty(ServiceName))
+            if (Service is not null)
             {
-                body += "<p>" + ServiceName + "</p>";
-            }
+                var totalAmt = 0f;
+                for (int i = 0; i < Service.JobItems.Count; i++)
+                {
+                    var job = Service.JobItems[i];
+                    var price = job.Price.ToString();
+                    if ((job.Price % 1) == 0)
+                    {
+                        price += ":00";
+                    }
+                    else
+                    {
+                        var values = price.Split(".");
+                        price = (int)job.Price + ":" + values[1];
+                    }
 
-            if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))
+                    body += "<p>" + job.SeriveName + " - " + "$" + price + "</p>";
+                    totalAmt += job.Price;
+                    Amount = totalAmt;
+                }
+            }
+            else
             {
-                body += "<p>" + AdditionalServiceName + "</p>";
+                if (!string.IsNullOrEmpty(ServiceName))
+                {
+                    body += "<p>" + ServiceName + "</p>";
+                }
+
+                if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))
+                {
+                    body += "<p>" + AdditionalServiceName + "</p>";
+                }
             }
 
             body += "<br/ ><p>" + "Total Amount : " + Amount.ToString() + "</p>";

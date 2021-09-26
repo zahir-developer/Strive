@@ -56,7 +56,7 @@
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<LangVersion>latest</LangVersion>
-		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
 		<Optimize>false</Optimize>
@@ -259,6 +259,7 @@
 		<InterfaceDefinition Include="Resources\Storyboards\HomeStoryboard~.storyboard" />
 		<InterfaceDefinition Include="Cells\IssueCell.xib" />
 		<InterfaceDefinition Include="Cells\ImageCell.xib" />
+		<InterfaceDefinition Include="Cells\IssueImageCollectionViewCell.xib" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Info.plist" />
@@ -446,6 +447,14 @@
 		<Compile Include="Storyboards\GreenController.cs" />
 		<Compile Include="Storyboards\GreenController.designer.cs">
 		  <DependentUpon>GreenController.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Storyboards\IssueImagesViewController.cs" />
+		<Compile Include="Storyboards\IssueImagesViewController.designer.cs">
+		  <DependentUpon>IssueImagesViewController.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Cells\IssueImageCollectionViewCell.cs" />
+		<Compile Include="Cells\IssueImageCollectionViewCell.designer.cs">
+		  <DependentUpon>IssueImageCollectionViewCell.cs</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

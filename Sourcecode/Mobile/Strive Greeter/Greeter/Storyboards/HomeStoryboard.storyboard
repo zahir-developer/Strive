@@ -1769,6 +1769,45 @@
             </objects>
             <point key="canvasLocation" x="4984.5703125" y="201.61054172767203"/>
         </scene>
+        <!--Issue Images View Controller-->
+        <scene sceneID="L62-z4-JWq">
+            <objects>
+                <viewController storyboardIdentifier="IssueImagesViewController" id="BhO-S3-sQa" customClass="IssueImagesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WoZ-Cn-MAi">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aLx-tC-xBh">
+                                <rect key="frame" x="0.0" y="258.5" width="768" height="507"/>
+                                <color key="backgroundColor" red="0.59999999999999998" green="0.99607843139999996" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="507" id="1N0-dF-g0x"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="l4Q-Ns-oD7">
+                                    <size key="itemSize" width="316" height="267"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="lKT-6B-LaY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="aLx-tC-xBh" firstAttribute="leading" secondItem="lKT-6B-LaY" secondAttribute="leading" id="JQ0-p9-6rM"/>
+                            <constraint firstItem="aLx-tC-xBh" firstAttribute="centerY" secondItem="lKT-6B-LaY" secondAttribute="centerY" id="USY-eX-LYS"/>
+                            <constraint firstItem="aLx-tC-xBh" firstAttribute="trailing" secondItem="lKT-6B-LaY" secondAttribute="trailing" id="kpP-0N-Zfj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cvImages" destination="aLx-tC-xBh" id="JA1-EJ-yQ7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q51-lg-HY7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1673.4375" y="1048.828125"/>
+        </scene>
         <!--Image Controller-->
         <scene sceneID="raf-bB-Zuq">
             <objects>

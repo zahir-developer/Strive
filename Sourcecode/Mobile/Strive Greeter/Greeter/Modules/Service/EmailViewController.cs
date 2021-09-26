@@ -198,7 +198,6 @@ namespace Greeter.Storyboards
                     subject = Common.Messages.DETAIL_RECEIPT_SUBJECT;
 
                 var response = await new WashApiService().SendEmail(email, subject, body);
-                HideActivityIndicator();
 
                 HandleResponse(response);
 
@@ -210,8 +209,9 @@ namespace Greeter.Storyboards
             catch (Exception ex)
             {
                 Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
-                HideActivityIndicator();
             }
+
+            HideActivityIndicator();
         }
 
         void Initialise()
@@ -263,22 +263,17 @@ namespace Greeter.Storyboards
             vc.Model = Model;
             vc.Color = Color;
             vc.CustName = CustName;
-            
 
-            var mainService  = Service.JobItems.First(x => x.IsMainService);
-
-            vc.ServiceName = mainService.SeriveName;
+            //var mainService  = Service.JobItems.First(x => x.IsMainService);
+            //vc.ServiceName = mainService.SeriveName;
+            vc.Service = Service;
 
             var totalAmt = 0f;
             for (int i = 0; i < Service.JobItems.Count; i++)
             {
                 totalAmt += Service.JobItems[i].Price;
             }
-
             vc.Amount = totalAmt;
-            //TOdo : 
-            //vc.ServiceName = checkout.Services;
-            //vc.AdditionalServiceName = ;
 
             NavigateToWithAnim(vc);
         }

@@ -23,6 +23,7 @@ namespace Greeter.Modules.Pay
         public float Amount;
         public string CustName;
         public bool IsFromNewService = true;
+        public CreateServiceRequest Service;
 
         public PaymentViewController()
         {
@@ -135,6 +136,7 @@ namespace Greeter.Modules.Pay
                             vc.Amount = totalAmnt;
                             vc.CustomerName = CustName;
                             vc.AdditionalServiceName = AdditionalServiceName;
+                            vc.Service = Service;
                             vc.IsFromNewService = IsFromNewService;
                             NavigateToWithAnim(vc);
                         }
