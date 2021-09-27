@@ -196,7 +196,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
           this.totalRoll = this.totalPennieRoll + this.totalNickelRoll + this.totalDimeRoll + this.totalQuaterRoll;
          
           
-         
+          this.getTotalCash();
           this.closeoutRegisterForm.controls.cardAmount.disable();
         } else if (this.closeOutDetails.CashRegister === null || this.closeOutDetails.CashRegisterCoins === null
           || this.closeOutDetails.CashRegisterRolls === null || this.closeOutDetails.CashRegisterBills === null) {
@@ -220,6 +220,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.spinner.hide();
 
       }
+      
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       this.spinner.hide();

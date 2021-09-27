@@ -16,6 +16,7 @@ namespace Strive.BusinessLogic.Details
     {
         public DetailsBpl(IDistributedCache cache, ITenantHelper tenantHelper) : base(tenantHelper, cache)
         {
+
         }
 
         public Result AddDetails(DetailsDto details)
@@ -25,7 +26,223 @@ namespace Strive.BusinessLogic.Details
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
 
+            if(details.BaySchedule.Count > 0)
+            {
+                var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
+
+                details.BaySchedule = baySlot;
+            }
+
             return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "Status");
+        }
+
+        private List<BusinessEntities.Model.BaySchedule> GetBaySlot(int jobId, int bayId, DateTime jobDate, DateTimeOffset initialTimeIn, DateTimeOffset finalDueTime)
+        {
+
+            var bayScheduleList = new List<BusinessEntities.Model.BaySchedule>();
+
+            var finalHour = finalDueTime.Hour;
+            var initialHour = initialTimeIn.Hour;
+
+            var finalminutes = finalDueTime.Minute;
+            var initialminutes = initialTimeIn.Minute;
+
+            var tempfinalminutes = finalminutes;
+            var tempinitialHour = initialHour;
+
+            var baySchedule = new BusinessEntities.Model.BaySchedule();
+
+            if (((finalHour == initialHour) || (initialHour + 1 == finalHour)) && ((initialminutes) == 30 && initialminutes != finalminutes))
+            {
+
+                int startTime;
+                int endTime;
+
+                var hour = initialHour;
+                var endHour = initialHour;
+
+                //HH:00, HH:30
+                if (initialminutes < tempfinalminutes)
+                {
+                    startTime = 0;
+                    endTime = 30;
+                    tempfinalminutes = 0;
+                }
+                //HH:30, HH+1:00
+                else if (finalHour > initialHour)
+                {
+                    startTime = 30;
+                    endTime = 0;
+                    endHour = initialHour + 1;
+                }
+                else //HH:30, HH:00
+                {
+                    startTime = 30;
+                    endTime = 0;
+                    tempfinalminutes = 30;
+                    hour = initialHour + 1;
+                }
+
+                baySchedule = new BusinessEntities.Model.BaySchedule
+                {
+                    BayScheduleId = 0,
+                    BayId = bayId,
+                    JobId = jobId,
+                    ScheduleDate = jobDate,
+                    ScheduleInTime = new TimeSpan(hour, startTime, 0),
+                    ScheduleOutTime = new TimeSpan(hour, endTime, 0),
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedBy = 0,
+                    UpdatedBy = 0,
+                };
+
+                bayScheduleList.Add(baySchedule);
+            }
+            else
+            {
+
+                //Loop 1
+                int startTime;
+                int endTime;
+                var hour = initialHour;
+                var endHour = initialHour;
+
+                tempinitialHour = initialHour;
+                //2:00 > 1:00
+                while (finalHour >= tempinitialHour)
+                {
+
+                    var temp = new List<int>();
+
+                    hour = tempinitialHour;
+                    var tempInitialminutes = initialminutes;
+
+                    for (int i = 1; i <= 2; i++)
+                    {
+
+                        if (finalminutes != tempInitialminutes || finalHour != tempinitialHour || finalHour == initialHour)
+                        {
+                            //HH:30, HH:00
+                            if (tempInitialminutes > tempfinalminutes)
+                            {
+                                startTime = 30;
+                                endTime = 0;
+                                tempfinalminutes = 30;
+                                tempInitialminutes = 0;
+                                endHour = tempinitialHour + 1;
+                            }
+                            else
+                              //HH:00, HH:30
+                              if (tempInitialminutes < tempfinalminutes)
+                            {
+                                startTime = 0;
+                                endTime = 30;
+                                tempfinalminutes = 0;
+                                tempInitialminutes = 30;
+                                if (endHour != hour)
+                                    hour = endHour;
+                            }
+                            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0))
+                            {
+                                startTime = 0;
+                                endTime = 30;
+                                tempInitialminutes = 30;
+                            }
+                            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 30))
+                            {
+                                startTime = 30;
+                                endTime = 0;
+                                tempInitialminutes = 0;
+                                tempfinalminutes = 30;
+                                endHour = tempinitialHour + 1;
+                            }
+                            else //HH:30, HH:00
+                            {
+                                startTime = 30;
+                                endTime = 0;
+                                tempfinalminutes = 30;
+                                endHour = tempinitialHour + 1;
+                            }
+
+                            baySchedule = new BusinessEntities.Model.BaySchedule
+                            {
+                                BayScheduleId = 0,
+                                BayId = bayId,
+                                JobId = jobId,
+                                ScheduleDate = jobDate,
+                                ScheduleInTime = new TimeSpan(hour, startTime, 0),
+                                ScheduleOutTime = new TimeSpan(hour, endTime, 0),
+                                IsActive = true,
+                                IsDeleted = false,
+                                CreatedBy = 0,
+                                UpdatedBy = 0,
+                            };
+
+                            bayScheduleList.Add(baySchedule);
+                            /*
+                            //Loop 2
+                            //HH:30, HH:00
+                            if (tempInitialminutes > tempfinalminutes) {
+                              startTime = ":30";
+                              endTime = ":00";
+                              tempfinalminutes = 30;
+                              tempInitialminutes = 0;
+                              endHour = tempinitialHour + 1;
+                            }
+                            else
+                            //HH:00, HH:30
+                            if (tempInitialminutes < tempfinalminutes) {
+                              startTime = ":00";
+                              endTime = ":30";
+                              tempfinalminutes = 0;
+                              tempInitialminutes = 30;
+                            }
+                            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0)) {
+                              startTime = ":00";
+                              endTime = ":30";
+                              tempInitialminutes = 30;
+                            }
+                            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 30)) {
+                              startTime = ":30";
+                              endTime = ":00";
+                              tempInitialminutes = 0;
+                              tempfinalminutes = 30;
+                              endHour = tempinitialHour + 1;
+                            }
+                            else //HH:30, HH:00
+                            {
+                              startTime = ":30";
+                              endTime = ":00";
+                              tempfinalminutes = 30;
+                              endHour = tempinitialHour + 1;
+                            }
+
+                            baySchedule = {
+                              bayScheduleId: 0,
+                              bayId: this.detailForm.value.bay,
+                              jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
+                              scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
+                              scheduleInTime: hour + startTime,
+                              scheduleOutTime: endHour + endTime,
+                              isActive: true,
+                              isDeleted: false,
+                              createdBy: 0,
+                              updatedBy: 0,
+                            };
+
+                            BaySchedule.push(baySchedule);
+                            */
+                        }
+                    }
+
+                    tempinitialHour++;
+                }
+
+            }
+
+            return bayScheduleList;
+
         }
 
         public Result UpdateDetails(DetailsDto details)
@@ -39,6 +256,12 @@ namespace Strive.BusinessLogic.Details
             {
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
+
+
+            var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
+
+            details.BaySchedule = baySlot;
+
 
             return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
         }
@@ -74,7 +297,7 @@ namespace Strive.BusinessLogic.Details
         }
         public Result DeleteDetails(int id)
         {
-            return ResultWrap(new DetailsRal(_tenant).DeleteDetails,id, "DeleteRespectiveDetail");
+            return ResultWrap(new DetailsRal(_tenant).DeleteDetails, id, "DeleteRespectiveDetail");
         }
 
         public Result GetDetailScheduleStatus(DetailScheduleDto scheduleDto)
