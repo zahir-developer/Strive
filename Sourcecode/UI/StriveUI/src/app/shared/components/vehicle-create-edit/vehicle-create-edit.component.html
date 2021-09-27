@@ -107,7 +107,7 @@
             <div class="form-group col-lg-3" *ngIf="isEdit">
                 <label for="inputStatus">Wash<span class="required">*</span></label>
                 <select class="form-control" formControlName="wash">
-                    <option hidden selected value="">Choose</option>
+                    <option selected value="">Choose</option>
                     <option *ngFor="let status of washesDropdown" value="{{status.ServiceId}}">{{status.ServiceName}}</option>
                 </select>
             </div>
