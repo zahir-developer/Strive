@@ -257,8 +257,18 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const wash = JSON.parse(data.resultData);
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-          this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId);
-          this.getPastClientNotesById(this.barcodeDetails.ClientId);
+          if (this.barcodeDetails.ClientId !== 0) {
+            this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId);
+            this.getPastClientNotesById(this.barcodeDetails.ClientId);
+          }
+
+          if (this.barcodeDetails.VehicleId !== null) {
+            this.detailForm.patchValue({ vehicle: this.barcodeDetails.VehicleId });
+            this.getVehicleById(this.barcodeDetails.VehicleId);
+          }
+
+          this.clientName = this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName;
+
           setTimeout(() => {
             this.detailForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
@@ -576,8 +586,12 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         this.jobStatusID = isJobStatus[0].CodeId;
       }
     }
-    this.getVehicleList(this.selectedData?.Details?.ClientId);
-    this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
+    if(this.selectedData?.Details?.ClientId !== null)
+    {
+      this.getVehicleList(this.selectedData?.Details?.ClientId);
+      this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
+    
+    }
     this.note = this.selectedData?.Details?.Notes;
     this.detailItems = this.selectedData?.DetailsItem;
     this.jobID = this.selectedData?.Details?.JobId;
@@ -792,6 +806,20 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
+        if (this.barcodeDetails.ClientId === 0) {
+          var vehicles = [];
+          var v  = 
+          {
+            VehicleId : vData.ClientVehicleId,
+            VehicleModel: vData.ModelName === null ? 'Unk' : vData.ModelName,
+            VehicleMfr: vData.VehicleMake === null ? 'Unk' : vData.VehicleMake,
+            VehicleColor: vData.Color === null ? 'Unk' : vData.Color
+          };
+
+          vehicles.push(v);
+          this.vehicle = vehicles;
+        }
+        
         this.detailForm.patchValue({
           vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
@@ -1034,7 +1062,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       ticketNumber: this.ticketNumber,
       barcode: this.detailForm.value.barcode,
       locationId: localStorage.getItem('empLocationId'),
-      clientId: this.detailForm.value.client.id,
+      clientId: this.clientName.toLowerCase().startsWith('drive') || this.detailForm.value.client.id === 0  ? null : this.detailForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.detailForm.value.vehicle,
       make: this.detailForm.value.type.id,
       model: this.detailForm.value.model.id,
@@ -1751,9 +1779,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
           this.deleteExistingUpcharges();
 
-          this.additionalService = this.additionalService.filter(s=>s.ServiceTypeId !== this.upchargeId && s.ServiceTypeId !== this.ceramicUpchargeId);
+          this.additionalService = this.additionalService.filter(s => s.ServiceTypeId !== this.upchargeId && s.ServiceTypeId !== this.ceramicUpchargeId);
           if (this.additionalService.filter(s => s.ServiceId === serviceId).length === 0) {
-            
+
             this.additionalService.push(this.upchargeList[this.upchargeList.length - 1]);
           }
         }
@@ -1772,8 +1800,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
-  deleteExistingUpcharges()
-  {
+  deleteExistingUpcharges() {
     if (this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0] !== undefined) {
       this.washItem.filter(i => Number(i.ServiceTypeId) === this.upchargeId)[0].IsDeleted = true;
     }

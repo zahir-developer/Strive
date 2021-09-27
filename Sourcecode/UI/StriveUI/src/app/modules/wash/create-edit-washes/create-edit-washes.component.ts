@@ -354,6 +354,22 @@ export class CreateEditWashesComponent implements OnInit {
       if (res.status === 'Success') {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
+
+        if (this.barcodeDetails.ClientId === 0) {
+          var vehicles = [];
+          var v  = 
+          {
+            VehicleId : vData.ClientVehicleId,
+            VehicleModel: vData.ModelName === null ? 'Unk' : vData.ModelName,
+            VehicleMfr: vData.VehicleMake === null ? 'Unk' : vData.VehicleMake,
+            VehicleColor: vData.Color === null ? 'Unk' : vData.Color
+          };
+
+          vehicles.push(v);
+          this.vehicle = vehicles;
+        }
+        
+
         this.washForm.patchValue({
           vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
@@ -640,7 +656,17 @@ export class CreateEditWashesComponent implements OnInit {
         const wash = JSON.parse(data.resultData);
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
+          if (this.barcodeDetails.ClientId !== 0) {
           this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId, 1);
+          }
+          else
+          {
+            this.getVehicleById(this.barcodeDetails.VehicleId);
+          }
+
+          
+          this.clientName = this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName;
+          
           setTimeout(() => {
             this.washForm.patchValue({
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
