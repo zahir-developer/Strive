@@ -346,6 +346,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.toastr.success(MessageConfig.Admin.CloseRegister.Update, 'Success!');
         this.spinner.hide();
         this.getCloseOutRegister();
+        this.getTotalCash();
       } else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
