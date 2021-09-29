@@ -128,17 +128,17 @@ namespace Strive.Core.ViewModels.Customer
         public bool VehicleDetailsCheck()
         {
            
-            if (MembershipDetails.selectedMake == 0)
+            if (MembershipDetails.vehicleMakeName == null)
             {
                 _userDialog.Alert("Select the vehicle manufacturer");
                 return false;
             }
-            else if (MembershipDetails.selectedColor == 0)
+            else if (MembershipDetails.colorName == null)
             {
                 _userDialog.Alert("Select the vehicle color");
                 return false;
             }
-            else if(MembershipDetails.selectedModel == 0)
+            else if(MembershipDetails.modelName == null)
             {
                 _userDialog.Alert("Select the vehicle model");
                 return false;

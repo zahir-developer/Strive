@@ -7,9 +7,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.Telliant.StriveCustomerMobile</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.16</string>
+	<string>2.5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -49,11 +49,11 @@
 	<string>App wants to use the location service</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>App wants to use the location service</string>
-	<key>NSCameraUsageDescription</key>
-	<string>App wants to access the camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App wants to use the location service</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App  wants camera access for scanning the QR code</string>
 </dict>
 </plist>

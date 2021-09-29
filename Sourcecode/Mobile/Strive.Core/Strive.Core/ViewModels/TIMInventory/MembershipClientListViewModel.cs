@@ -45,13 +45,13 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task GetAllClientsCommand(String query)
         {
-            _userDialog.ShowLoading(Strings.Loading);
-            Clients.Clear();
+            _userDialog.ShowLoading(Strings.Loading);            
             var clientReq = PrepareClientReuest(query);
             var result = await AdminService.GetAllClient(clientReq);
             if (result != null)
             {
-                if(result.Client.Count.Count != 0)
+                Clients.Clear();
+                if (result.Client.Count.Count != 0)
                 {
                     foreach (var item in result.Client.clientViewModel)
                     {

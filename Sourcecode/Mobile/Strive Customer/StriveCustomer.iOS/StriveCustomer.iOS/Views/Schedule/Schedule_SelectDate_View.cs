@@ -13,6 +13,7 @@ namespace StriveCustomer.iOS.Views.Schedule
     public partial class Schedule_SelectDate_View : MvxViewController<ScheduleAppointmentDateViewModel>
     {
         NSDate date = NSDate.Now;
+        //DateTime date = DateTime.Now;
         public Schedule_SelectDate_View() : base("Schedule_SelectDate_View", null)
         {
         }
@@ -31,9 +32,9 @@ namespace StriveCustomer.iOS.Views.Schedule
         }
 
         partial void dateChange(UIDatePicker sender)
-        {
+        {            
             date = Schedule_datePicker.Date;
-            
+            //date = Schedule_datePicker.Date.ToDateTime();
             getTimeSlots();
         }
 
@@ -141,6 +142,8 @@ namespace StriveCustomer.iOS.Views.Schedule
             }
             this.ViewModel.checkDate = CustomerScheduleInformation.ScheduleDate + "/" + CustomerScheduleInformation.ScheduleMonth + "/"
                 + CustomerScheduleInformation.ScheduleYear;
+            CustomerScheduleInformation.ScheduleFullDate = (date.ToString()).Substring(0,10);
+            //CustomerScheduleInformation.ScheduleFullDate = date.Year + "-" + date.Month + "-" + date.Day;
             await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date.ToString());           
 
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)

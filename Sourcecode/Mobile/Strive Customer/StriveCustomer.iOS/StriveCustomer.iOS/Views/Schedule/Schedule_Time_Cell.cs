@@ -3,6 +3,7 @@
 using Foundation;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Customer.Schedule;
 using UIKit;
 
@@ -40,7 +41,10 @@ namespace StriveCustomer.iOS.Views.Schedule
             if(Time_CellView.BackgroundColor == UIColor.Gray)
             {
                 Time_CellView.BackgroundColor = UIColor.SystemBlueColor;
-                CustomerScheduleInformation.ScheduleServiceTime = timeSlots.GetTimeInDetails[selectedTime.Row].TimeIn;
+                CustomerScheduleInformation.ScheduleServiceTime = timeSlots.GetTimeInDetails[selectedTime.Row].TimeIn;               
+                //CustomerScheduleInformation.ScheduleTime = CustomerScheduleInformation.ScheduleFullDate + "T" + CustomerScheduleInformation.ScheduleServiceTime + ":00+05:30";
+                CustomerScheduleInformation.ScheduleTime = CustomerScheduleInformation.ScheduleFullDate + "T" + CustomerScheduleInformation.ScheduleServiceTime;
+                CustomerScheduleInformation.ScheduledBayId = timeSlots.GetTimeInDetails[selectedTime.Row].BayId;               
             }
             else
             {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoreGraphics;
 using CoreLocation;
 using Foundation;
 using MapKit;
@@ -10,13 +9,17 @@ using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace StriveCustomer.iOS.Views
 {
     public partial class ContactUsView : MvxViewController<ContactUsViewModel>, IMKMapViewDelegate
-    { 
-        public Locations locations;
-        public static Locations washlocations;
+    {        
+        public washLocations locations;
+        public static washLocations washlocations;
+        public List<Double> distanceList = new List<double>();
+        Dictionary<int, double> dict = new Dictionary<int, double>();
+
         CLLocationManager locationManager = new CLLocationManager();
         public ContactUsView() : base("ContactUsView", null)
         {
@@ -71,8 +74,9 @@ namespace StriveCustomer.iOS.Views
 
         private async void setMaps()
         {
-            var allLocations = await this.ViewModel.GetAllLocationsCommand();
-            if (allLocations.Location.Count == 0)
+            //var allLocations = await this.ViewModel.GetAllLocationsCommand();
+            var allLocations = await ViewModel.GetAllLocationStatus();
+            if (allLocations.Washes.Count == 0)
             {
                 locations = null;
             }
@@ -81,20 +85,20 @@ namespace StriveCustomer.iOS.Views
                 locations = allLocations;
                 washlocations = allLocations;
             }
-            //SetMapAnnotations();
-            PlaceLocationDetailsToMap(locations.Location);
+            
+            PlaceLocationDetailsToMap(locations.Washes);
         }
 
         public void setData(int index)
         {
-            LocationNameLbl.Text = washlocations.Location[index].LocationName;
-            locationValue_Lbl.Text = washlocations.Location[index].Address1;
-            phoneValue_Lbl.Text = washlocations.Location[index].PhoneNumber;
-            mailValue_Lbl.Text = washlocations.Location[index].Email;
-            if(washlocations.Location[index].StartTime != null)
-            {
-                timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
-            }
+            LocationNameLbl.Text = washlocations.Washes[index].LocationName;
+            locationValue_Lbl.Text = washlocations.Washes[index].Address1;
+            phoneValue_Lbl.Text = washlocations.Washes[index].PhoneNumber;
+            mailValue_Lbl.Text = washlocations.Washes[index].Email;
+            //if(washlocations.Washes[index].StartTime != null)
+            //{
+            //    timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
+            //}
         } 
         public void setAnnotationData(UILabel locationName, UILabel locationValue_Lbls, UILabel phoneValue_Lbls, UILabel mailValue_Lbls, UILabel timeValue_Lbls, int index)
         {
@@ -102,17 +106,17 @@ namespace StriveCustomer.iOS.Views
             locationValue_Lbl = locationValue_Lbls;
             phoneValue_Lbl = phoneValue_Lbls;
             mailValue_Lbl = mailValue_Lbls;
-            LocationNameLbl.Text = washlocations.Location[index].LocationName;
-            locationValue_Lbl.Text = washlocations.Location[index].Address1;
-            phoneValue_Lbl.Text = washlocations.Location[index].PhoneNumber;
-            mailValue_Lbl.Text = washlocations.Location[index].Email;
-            if (washlocations.Location[index].StartTime != null)
-            {
-                timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
-            }
+            LocationNameLbl.Text = washlocations.Washes[index].LocationName;
+            locationValue_Lbl.Text = washlocations.Washes[index].Address1;
+            phoneValue_Lbl.Text = washlocations.Washes[index].PhoneNumber;
+            mailValue_Lbl.Text = washlocations.Washes[index].Email;
+            //if (washlocations.Washes[index].StartTime != null)
+            //{
+            //    timeValue_Lbl.Text = washlocations.Location[index].StartTime + "to" + washlocations.Location[index].EndTime;
+            //}
         }
 
-        void PlaceLocationDetailsToMap(List<Location> locations)
+        void PlaceLocationDetailsToMap(List<LocationStatus> locations)
         {
             if (locations == null) return;
 
@@ -123,18 +127,50 @@ namespace StriveCustomer.iOS.Views
                 Coordinate = new CLLocationCoordinate2D((double)location.Latitude, (double)location.Longitude)
             }).ToArray();
 
-            ContactUsMap.AddAnnotations(annotations);            
-            CenterMap((double)locations[0].Latitude, (double)locations[0].Longitude);
+            ContactUsMap.AddAnnotations(annotations);
             setData(0);
+            setCenter();
+        }
+
+        void setCenter()
+        {
+            dict.Clear();
+
+            foreach (var item in locations.Washes)
+            {
+                getDistance((double)item.Latitude, (double)item.Longitude, item.LocationId);
+            }
+            distanceList.Sort();
+            foreach (var item in dict)
+            {
+                if (item.Value == distanceList[0])
+                {
+
+                    var shortLoc = locations.Washes.Find(location => location.LocationId == item.Key);
+                    CenterMap((double)shortLoc.Latitude, (double)shortLoc.Longitude);
+                }
+            }
+        }
+
+        async void getDistance(double lat, double lon, int id)
+        {
+            double latEnd = lat;
+            double lngEnd = lon;
+
+            var currentLocation = await Geolocation.GetLastKnownLocationAsync();
+            double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
+
+            dict.Add(id, dist);
+            distanceList.Add(dist);
         }
 
         [Export("mapView:viewForAnnotation:")]
         public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
             var annotationView = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as WashStationAnnotationView;
-            if (locations.Location != null)
+            if (locations.Washes != null)
             {
-                var washlocation = locations.Location.First(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
+                var washlocation = locations.Washes.First(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
                 annotationView.SetupData(washlocation);
             }
             return annotationView;
@@ -148,7 +184,7 @@ namespace StriveCustomer.iOS.Views
             mapItem.Name = view.Annotation.GetTitle();
             
             var index = 0;
-            foreach (var item in washlocations.Location)
+            foreach (var item in washlocations.Washes)
             {
                 if (coordinate.Latitude == (double)item.Latitude)
                 {
@@ -160,38 +196,7 @@ namespace StriveCustomer.iOS.Views
                 index++;
             }
         }
-        //private void SetMapAnnotations()
-        //{
-        //    double LatCenter = 0.0;
-        //    double LongCenter = 0.0;
-        //    int AddressCount = 0;
-
-        //    MKPointAnnotation[] annotations = new MKPointAnnotation[locations.Location.Count];
-
-        //    for (int i = 0; i < locations.Location.Count; i++)
-        //    {
-        //        var subtitle = "";
-        //        LatCenter += (double)locations.Location[i].Latitude;
-        //        LongCenter += (double)locations.Location[i].Longitude;
-        //        ++AddressCount;
-        //        var WashTime = locations.Location[i].WashTimeMinutes;
-        //        var OpenTime = locations.Location[i].StartTime;
-        //        var CloseTime = locations.Location[i].EndTime;
-        //        subtitle = WashTime.ToString();
-
-        //        annotations[i] = new MKPointAnnotation()
-        //        {
-        //            Title = locations.Location[i].LocationName,
-        //            //Subtitle = subtitle,
-        //            Coordinate = new CLLocationCoordinate2D((double)locations.Location[i].Latitude, (double)locations.Location[i].Longitude)
-        //        };
-        //        ContactUsMap.AddAnnotations(annotations[i]);
-        //    }
-        //    LatCenter = LatCenter / AddressCount;
-        //    LongCenter = LongCenter / AddressCount;
-        //    CenterMap((double)locations.Location[0].Latitude, (double)locations.Location[0].Longitude);
-        //    setData(0);
-        //}
+        
         void CenterMap(double lat, double lon)
         {
             var mapCenter = new CLLocationCoordinate2D(lat, lon);

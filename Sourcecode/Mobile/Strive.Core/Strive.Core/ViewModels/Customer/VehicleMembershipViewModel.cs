@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Customer;
+using Strive.Core.Models.Customer.Schedule;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using System;
@@ -16,6 +17,7 @@ namespace Strive.Core.ViewModels.Customer
         }
         #region Properties
          public MembershipServiceList membershipList { get; set; }
+         public modelUpchargeResponse modelUpcharge { get; set; }
         #endregion Properties
 
         #region Commands
@@ -39,6 +41,18 @@ namespace Strive.Core.ViewModels.Customer
         public async Task getMembershipDetails()
         {
             _userDialog.ShowLoading(Strings.Loading);
+            var result = await AdminService.GetCommonCodes("SERVICETYPE");
+            var washId = result.Codes.Find(x => x.CodeValue == "Wash-Upcharge");
+            var upchargeRequest = new modelUpcharge()
+            {
+                upchargeServiceType = washId.CodeId ,
+                modelId = MembershipDetails.modelNumber ?? 0
+            };
+
+            modelUpcharge = new modelUpchargeResponse();
+            modelUpcharge = await AdminService.GetModelUpcharge(upchargeRequest);
+            MembershipDetails.modelUpcharge = modelUpcharge;
+
             membershipList = new MembershipServiceList();
             membershipList = await AdminService.GetMembershipServiceList();
             if (membershipList == null)

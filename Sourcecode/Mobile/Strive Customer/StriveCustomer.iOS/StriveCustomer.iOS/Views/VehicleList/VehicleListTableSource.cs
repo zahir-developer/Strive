@@ -69,6 +69,7 @@ namespace StriveCustomer.iOS.Views
             var data = CustomerVehiclesInformation.vehiclesList.Status[indexPath.Row];
             CustomerVehiclesInformation.selectedVehicleInfo = data.VehicleId;
             MembershipDetails.clientVehicleID = data.VehicleId;
+            MembershipDetails.modelNumber = data.VehicleModelId;
 
             vehicleViewModel.NavToEditVehicle();
         }

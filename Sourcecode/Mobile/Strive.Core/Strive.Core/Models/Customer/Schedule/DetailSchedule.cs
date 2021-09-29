@@ -25,9 +25,9 @@ namespace Strive.Core.Models.Customer.Schedule
         public int jobType { get; set; }
         public string jobDate { get; set; }
         public int jobStatus { get; set; }
-        public DateTime timeIn { get; set; }
-        public DateTime estimatedTimeOut { get; set; }
-        public DateTime actualTimeOut { get; set; }
+        public string timeIn { get; set; }
+        public string estimatedTimeOut { get; set; }
+        public string? actualTimeOut { get; set; }
         public bool isActive { get; set; }
         public bool isDeleted { get; set; }
         public int createdBy { get; set; }

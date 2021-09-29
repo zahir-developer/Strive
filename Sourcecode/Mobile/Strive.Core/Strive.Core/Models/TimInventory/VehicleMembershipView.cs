@@ -10,7 +10,7 @@ namespace Strive.Core.Models.TimInventory
         public int? LocationId { get; set; }
         public string VehicleNumber { get; set; }
         public int VehicleMfr { get; set; }
-        public int VehicleModel { get; set; }
+        public int? VehicleModel { get; set; }
         public int? VehicleModelNo { get; set; }
         public string VehicleYear { get; set; }
         public int VehicleColor { get; set; }
@@ -34,14 +34,14 @@ namespace Strive.Core.Models.TimInventory
         public int MembershipId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public bool Status { get; set; }
+        public bool? Status { get; set; } 
         public string Notes { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsDeleted { get; set; }
         public object CreatedBy { get; set; }
         public object CreatedDate { get; set; }
-        public int UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public int? UpdatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 
     public class ClientVehicleMembershipServiceView
@@ -50,8 +50,8 @@ namespace Strive.Core.Models.TimInventory
         public int ClientMembershipId { get; set; }
         public int? ServiceId { get; set; }
         public int? ServiceTypeId { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsDeleted { get; set; }
         public object CreatedBy { get; set; }
         public object CreatedDate { get; set; }
         public object UpdatedBy { get; set; }

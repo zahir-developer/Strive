@@ -79,6 +79,7 @@ namespace StriveCustomer.iOS.Views
         public async Task getDeals()
         {
             await ViewModel.GetAllDealsCommand();
+            IsCameraAuthorized();
         }
 
         public bool IsCameraAuthorized()

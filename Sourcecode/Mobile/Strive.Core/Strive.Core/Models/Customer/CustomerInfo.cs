@@ -1,4 +1,5 @@
-﻿using Strive.Core.Models.TimInventory;
+﻿using Strive.Core.Models.Customer.Schedule;
+using Strive.Core.Models.TimInventory;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -92,6 +93,7 @@ namespace Strive.Core.Models.Customer
         public static ClientVehicleRoot customerVehicleDetails { get; set; }
         public static List<ClientVehicleMembershipService> selectedMembershipServices { get; set; }
         public static int clientVehicleID { get; set; }
+        public static modelUpchargeResponse modelUpcharge { get; set; }
 
         #endregion MembershipProperties
 
@@ -146,6 +148,7 @@ namespace Strive.Core.Models.Customer
         public static string ScheduledVehicleName { get; set; }
         public static int ScheduleLocationCode { get; set; }
         public static string ScheduleLocationAddress { get; set; }
+        public static string ScheduleFullDate { get; set; }
         public static string ScheduleTime { get; set; }
         public static string ScheduleMonth { get; set; }
         public static string ScheduleDate { get; set; }
@@ -156,10 +159,13 @@ namespace Strive.Core.Models.Customer
         public static int ScheduleServiceType { get; set; }
         public static string ScheduleServiceName { get; set; }
         public static string ScheduleServiceTime { get; set; }
+        public static int ScheduledBayId { get; set; }
+        public static double ScheduleServiceEstimatedTime { get; set; }
         public static int ScheduleServiceSlotNumber { get; set; } = -1;
         public static int ScheduleServiceSelectedNumber { get; set; } = -1;
         public static int ScheduleServiceLocationNumber { get; set; } = -1;
         public static int OldScheduleServiceLocationNumber { get; set; } = -1;
+        public static VehicleDetail ScheduleSelectedVehicle { get; set; }
         #endregion Properties
 
 
@@ -170,6 +176,7 @@ namespace Strive.Core.Models.Customer
             ScheduledVehicleName = null;
             ScheduleLocationCode = -1;
             ScheduleLocationAddress = null;
+            ScheduleFullDate = null;
             ScheduleTime = null;
             ScheduleMonth = null;
             ScheduleDate = null;
@@ -180,10 +187,13 @@ namespace Strive.Core.Models.Customer
             ScheduleServiceType = -1;
             ScheduleServiceName = null;
             ScheduleServiceTime = null;
+            ScheduledBayId = -1;
+            ScheduleServiceEstimatedTime = 0;
             ScheduleServiceSlotNumber = -1;
             ScheduleServiceSelectedNumber = -1;
             ScheduleServiceLocationNumber = -1;
             OldScheduleServiceLocationNumber = -1;
+            ScheduleSelectedVehicle = null;
         }
 
         #endregion Commands

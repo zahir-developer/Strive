@@ -48,6 +48,7 @@ namespace StriveTimInventory.iOS.Views.MembershipView
 
         public override async void ViewDidAppear(bool animated)
         {
+            ClientSearch.Text = "";
             GetClients();
         }
 

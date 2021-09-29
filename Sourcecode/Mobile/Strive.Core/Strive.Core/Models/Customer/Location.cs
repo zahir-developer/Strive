@@ -28,4 +28,30 @@ namespace Strive.Core.Models.Customer
     {
         public List<Location> Location { get; set; }
     }
+
+    public class LocationStatus
+    {
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
+        public string Address1 { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public int WashtimeMinutes { get; set; }
+        public string? StoreStatus { get; set; }
+        public string StoreTimeIn { get; set; }
+        public string StoreTimeOut { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+    }
+
+    public class washLocations
+    {
+        public List<LocationStatus> Washes { get; set; }
+    }
+
+    public class LocationStatusReq
+    {
+        public string Date { get; set; }
+        public int LocationId { get; set; }
+    }
 }

@@ -40,6 +40,7 @@ namespace StriveCustomer.iOS.Views
         partial void ScheduleNow_BtnTouch(UIButton sender)
         {
             CustomerScheduleInformation.ScheduledVehicleName = dataList.Status[selectedRow.Row].VehicleColor + " " + dataList.Status[selectedRow.Row].VehicleMfr + " " + dataList.Status[selectedRow.Row].VehicleModel ?? "";
+            CustomerScheduleInformation.ScheduleSelectedVehicle = dataList.Status[selectedRow.Row];
             var select_service = new Schedule_SelectService();
             view.NavigationController.PushViewController(select_service, true);
         }

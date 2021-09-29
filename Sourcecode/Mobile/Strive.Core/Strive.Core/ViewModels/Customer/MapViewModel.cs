@@ -16,6 +16,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public ICarwashLocationService carWashLocationService = Mvx.IoCProvider.Resolve<ICarwashLocationService>();
         public Locations Locations;
+        public washLocations locationStatus;
         
         public MapViewModel()
         {
@@ -44,6 +45,35 @@ namespace Strive.Core.ViewModels.Customer
                     }
                 }
                 return Locations;
+            }
+        }
+
+        public async Task<washLocations> GetAllLocationStatus()
+        {
+            LocationStatusReq request = new LocationStatusReq()
+            {
+                Date = (System.DateTime.Now).ToString("yyy-MM-dd"),
+                LocationId = 0
+            };
+            var washLocations = await carWashLocationService.GetAllLocationStatus(request);
+
+            if(washLocations == null)
+            {
+                locationStatus = new washLocations();
+                return locationStatus;
+            }
+            else
+            {
+                locationStatus = new washLocations();
+                locationStatus.Washes = new List<LocationStatus>();
+                foreach(var locationItem in washLocations.Washes)
+                {
+                    if (locationItem.Latitude != null && locationItem.Longitude != null)
+                    {
+                        locationStatus.Washes.Add(locationItem);
+                    }
+                }
+                return locationStatus;
             }
         }
 

@@ -18,6 +18,7 @@ namespace Strive.Core.Models.Customer.Schedule
         public string Upcharges { get; set; }
         public float Price { get; set; }
         public string DiscountType { get; set; }
+        public double? EstimatedTime { get; set; }
     }
 
 }

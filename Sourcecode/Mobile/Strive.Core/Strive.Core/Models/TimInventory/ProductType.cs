@@ -9,8 +9,8 @@ namespace Strive.Core.Models.TimInventory
         public string Category { get; set; }
         public int CodeId { get; set; }
         public string CodeValue { get; set; }
-        public string CodeShortValue { get; set; }
-        public int Sortorder { get; set; }
+        public string? CodeShortValue { get; set; }
+        public int? Sortorder { get; set; }
     }
 
     public class ProductType

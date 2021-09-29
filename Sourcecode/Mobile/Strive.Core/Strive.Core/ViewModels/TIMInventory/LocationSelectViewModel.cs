@@ -16,7 +16,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             get
             {
-                return _selectedLocation;
+                return _selectedLocation;  
             }
             set { SetProperty(ref _selectedLocation, value); }
         }
@@ -27,46 +27,54 @@ namespace Strive.Core.ViewModels.TIMInventory
         public void locationCommand(EmployeeLocation location)
         {
             ItemLocation = location.LocationName;
-            //EmployeeData.selectedLocationId = location.LocationId;
-            EmployeeData.selectedLocationId = EmployeeData.EmployeeDetails.EmployeeLocations[0].LocationId;
+            EmployeeData.selectedLocationId = location.LocationId;
+            //EmployeeData.selectedLocationId = EmployeeData.EmployeeDetails.EmployeeLocations[0].LocationId;
         }
 
         public  async void NextScreen()
         {
-            var request = new TimeClockRequest()
+            if (EmployeeData.selectedLocationId != 0)
             {
-                locationId = EmployeeData.selectedLocationId,
-                employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
-                roleId = 0,
-                date = DateUtils.GetTodayDateString()
-            };
-            var status = await AdminService.GetClockInStatus(request);
-            if (status.timeClock.Count > 0)
-            {
-                var SingleTimeClock = new TimeClockRoot();
-                foreach (var item in status.timeClock)
-                {                    
-                    if (item.outTime == null)
+                var request = new TimeClockRequest()
+                {
+                    locationId = EmployeeData.selectedLocationId,
+                    employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
+                    roleId = 0,
+                    date = DateUtils.GetTodayDateString()
+                };
+                var status = await AdminService.GetClockInStatus(request);
+                if (status.timeClock.Count > 0)
+                {
+                    var SingleTimeClock = new TimeClockRoot();
+                    foreach (var item in status.timeClock)
                     {
-                        SingleTimeClock.TimeClock = item;
-                        EmployeeData.ClockInStatus = SingleTimeClock;
-                        var inTime = EmployeeData.ClockInStatus.TimeClock.inTime.Substring(0, 19);
-                        EmployeeData.ClockInTime = inTime;
-                        await _navigationService.Navigate<ClockedInViewModel>();
-                        isclocked = true;
-                    }                    
+                        if (item.outTime == null)
+                        {
+                            SingleTimeClock.TimeClock = item;
+                            EmployeeData.ClockInStatus = SingleTimeClock;
+                            var inTime = EmployeeData.ClockInStatus.TimeClock.inTime.Substring(0, 19);
+                            EmployeeData.ClockInTime = inTime;
+                            //await _navigationService.Navigate<ClockedInViewModel>();
+                            await _navigationService.Navigate<RootViewModel>();
+                            isclocked = true;
+                        }
+                    }
+                    if (!isclocked)
+                    {
+                        await _navigationService.Navigate<RootViewModel>();
+                    }
                 }
-                if (!isclocked)
+                else
                 {
                     await _navigationService.Navigate<RootViewModel>();
-                }                
+                }
+                _navigationService.Close(this);
+                await RaiseAllPropertiesChanged();
             }
             else
             {
-                await _navigationService.Navigate<RootViewModel>();
+                _userDialog.AlertAsync("Please select a location to proceed further");
             }
-            _navigationService.Close(this);
-            await RaiseAllPropertiesChanged();
         }
     }
 }

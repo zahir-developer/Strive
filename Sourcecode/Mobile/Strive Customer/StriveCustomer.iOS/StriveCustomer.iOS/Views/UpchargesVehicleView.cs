@@ -51,6 +51,7 @@ namespace StriveCustomer.iOS.Views
             };
             NavigationItem.Title = "Vehicle";
 
+            UpchargesVehicle_TableView.UserInteractionEnabled = false;
             UpchargesVehicle_TableView.Layer.CornerRadius = 5;
             UpchargesVehicle_TableView.RegisterNibForCellReuse(MembershipVehicle_ViewCell.Nib, MembershipVehicle_ViewCell.Key);
             UpchargesVehicle_TableView.ReloadData();
