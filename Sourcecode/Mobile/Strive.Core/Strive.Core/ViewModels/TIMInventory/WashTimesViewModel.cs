@@ -12,15 +12,17 @@ namespace Strive.Core.ViewModels.TIMInventory
     public class WashTimesViewModel : BaseViewModel
     {
         public ILocationService LocationService = Mvx.IoCProvider.Resolve<ILocationService>();
-
         public Locations Location;
+
+        //public ICarwashLocationService carWashLocationService = Mvx.IoCProvider.Resolve<ICarwashLocationService>();
+        //public washLocations locationStatus;
 
         public WashTimesViewModel()
         {
         }
 
         public async Task<Locations> GetAllLocationAddress()
-        {            
+        {
             //_userDialog.ShowLoading(Strings.Loading);
             var locations = await LocationService.GetAllLocationAddress();
 
@@ -42,8 +44,37 @@ namespace Strive.Core.ViewModels.TIMInventory
                     }
                 }
                 return Location;
-            }            
+            }
         }
+
+        //public async Task<washLocations> GetAllLocationStatus()
+        //{
+        //    LocationStatusReq request = new LocationStatusReq()
+        //    {
+        //        Date = (System.DateTime.Now).ToString("yyy-MM-dd"),
+        //        LocationId = 0
+        //    };
+        //    var washLocations = await carWashLocationService.GetAllLocationStatus(request);
+
+        //    if (washLocations == null)
+        //    {
+        //        locationStatus = new washLocations();
+        //        return locationStatus;
+        //    }
+        //    else
+        //    {
+        //        locationStatus = new washLocations();
+        //        locationStatus.Washes = new List<LocationStatus>();
+        //        foreach (var locationItem in washLocations.Washes)
+        //        {
+        //            if (locationItem.Latitude != null && locationItem.Longitude != null)
+        //            {
+        //                locationStatus.Washes.Add(locationItem);
+        //            }
+        //        }
+        //        return locationStatus;
+        //    }
+        //}
 
         public async Task NavigateBackCommand()
         {

@@ -15,15 +15,20 @@ using CarWashLocation = Strive.Core.Models.Customer.Locations;
 using Foundation;
 using Strive.Core.Models.Customer;
 using System.Linq;
+using Xamarin.Essentials;
+using GoogleMaps.LocationServices;
 
 namespace StriveCustomer.iOS.Views
 {
     public partial class HomeView : MvxViewController<MapViewModel>, IMKMapViewDelegate
     {
         CLLocationManager locationManager = new CLLocationManager();
-        public CarWashLocation carWashLocations = new CarWashLocation();
-        //private MapDelegate mapDelegate;
-        public static CarWashLocation washlocations;
+        //public CarWashLocation carWashLocations = new CarWashLocation();
+        public washLocations carWashLocations = new washLocations();
+        //public static CarWashLocation washlocations;
+        public static washLocations washlocations;
+        public List<Double> distanceList = new List<double>();        
+        Dictionary<int, double> dict = new Dictionary<int, double>();
 
         public HomeView() : base("HomeView", null)
         {
@@ -55,6 +60,12 @@ namespace StriveCustomer.iOS.Views
             //locationManager.StartMonitoring(geofenceRegion);
             //locationManager.Delegate = new MyLocationDelegate(WashTimeWebView);
         }
+
+        public override void ViewDidAppear(bool animated)
+        {            
+            SetMaps();
+        }
+
         private void InitialSetup()
         {
             var leftBtn = new UIButton(UIButtonType.Custom);
@@ -69,9 +80,11 @@ namespace StriveCustomer.iOS.Views
             };
         }
         private async void SetMaps()
-        {            
-            var locations = await ViewModel.GetAllLocationsCommand();
-            if(locations.Location.Count == 0)
+        {
+            //var locations = await ViewModel.GetAllLocationsCommand();
+            var locations = await ViewModel.GetAllLocationStatus();            
+
+            if (locations.Washes.Count == 0)
             {
                 carWashLocations = null;
                 washlocations = null;
@@ -130,10 +143,12 @@ namespace StriveCustomer.iOS.Views
                 PresentViewController(alertView1, true, null);
                 alertView1.AddAction(UIAlertAction.Create("Enable", UIAlertActionStyle.Default, alert => NavToSettings()));
             }
-            WashTimeWebView.ShowsUserLocation = false;
+            WashTimeWebView.ShowsUserLocation = false;                             
+           
             //SetMapAnnotations();
-            PlaceLocationDetailsToMap(carWashLocations.Location);
+            PlaceLocationDetailsToMap(carWashLocations.Washes);
         }
+
         void CenterMap(double lat, double lon)
         {
             var mapCenter = new CLLocationCoordinate2D(lat, lon);
@@ -150,7 +165,7 @@ namespace StriveCustomer.iOS.Views
             }            
         }
 
-        void PlaceLocationDetailsToMap(List<Location> locations)
+        void PlaceLocationDetailsToMap(List<LocationStatus> locations)
         {
             if (locations == null) return;
 
@@ -161,17 +176,50 @@ namespace StriveCustomer.iOS.Views
                 Coordinate = new CLLocationCoordinate2D((double)location.Latitude, (double)location.Longitude)
             }).ToArray();
 
-            WashTimeWebView.AddAnnotations(annotations);            
-            CenterMap((double)carWashLocations.Location[0].Latitude, (double)carWashLocations.Location[0].Longitude);
+            WashTimeWebView.AddAnnotations(annotations);
+
+            setCenter();
+        }
+
+        void setCenter()
+        {                                                       
+            dict.Clear();
+
+            foreach (var item in carWashLocations.Washes)
+            {
+                getDistance((double)item.Latitude, (double)item.Longitude, item.LocationId);
+            }
+            distanceList.Sort();
+            foreach(var item in dict)
+            {
+                if(item.Value == distanceList[0])
+                {
+
+                    var shortLoc = carWashLocations.Washes.Find(location => location.LocationId == item.Key);
+                    CenterMap((double)shortLoc.Latitude, (double)shortLoc.Longitude);
+                }
+            }
+        }
+
+        async void getDistance(double lat, double lon, int id)
+        {
+            double latEnd = lat;
+            double lngEnd = lon;
+
+            var currentLocation = await Geolocation.GetLastKnownLocationAsync();           
+            double dist = currentLocation.CalculateDistance(latEnd, lngEnd, DistanceUnits.Miles);
+
+            dict.Add(id, dist);
+            distanceList.Add(dist);
         }
 
         [Export("mapView:viewForAnnotation:")]
         public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
             var annotationView = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as WashStationAnnotationView;
-            if(carWashLocations.Location != null)
+            if(carWashLocations.Washes != null)
             {
-                var washlocation = carWashLocations.Location.FirstOrDefault(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
+                var washlocation = carWashLocations.Washes.FirstOrDefault(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
                 annotationView.SetupData(washlocation);
             }           
             return annotationView;

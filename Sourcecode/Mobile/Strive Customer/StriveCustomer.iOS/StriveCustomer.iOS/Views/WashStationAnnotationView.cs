@@ -1,7 +1,7 @@
 ﻿using System;
 using CoreGraphics;
 using MapKit;
-using UIKit;
+using UIKit;    
 using Strive.Core.Models.Customer;
 
 namespace StriveCustomer.iOS.Views
@@ -10,6 +10,7 @@ namespace StriveCustomer.iOS.Views
     {
         UILabel stationNameLabel;
         UILabel timeLabel;
+        UILabel statusLabel;
 
         public WashStationAnnotationView(IntPtr handle) : base(handle)
         {
@@ -19,7 +20,7 @@ namespace StriveCustomer.iOS.Views
         void SetupView()
         {
             BackgroundColor = UIColor.Clear;
-            Frame = new CGRect(0, 0, 260, 150);
+            Frame = new CGRect(0, 0, 260, 180);
             CenterOffset = new CGPoint(x: 0, y: -Frame.Size.Height / 2);
 
             var outerCircle = new UIView(CGRect.Empty);
@@ -64,6 +65,13 @@ namespace StriveCustomer.iOS.Views
             stationNameLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Bold);
             stationNameLabel.Lines = 2;
             infoContainerView.Add(stationNameLabel);
+
+            statusLabel = new UILabel(CGRect.Empty);
+            statusLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            statusLabel.TextColor = UIColor.FromRGB(255,255,255);
+            statusLabel.Font = UIFont.SystemFontOfSize(14, UIFontWeight.Bold);
+            statusLabel.Lines = 1;
+            infoContainerView.Add(statusLabel);
 
             var timeContainerView = new UIView(CGRect.Empty);
             timeContainerView.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -116,6 +124,9 @@ namespace StriveCustomer.iOS.Views
             stationNameLabel.SetContentCompressionResistancePriority(249, UILayoutConstraintAxis.Horizontal);
             stationNameLabel.SetContentHuggingPriority(249, UILayoutConstraintAxis.Horizontal);
 
+            statusLabel.LeadingAnchor.ConstraintEqualTo(stationNameLabel.LeadingAnchor).Active = true;
+            statusLabel.TopAnchor.ConstraintEqualTo(stationNameLabel.BottomAnchor, constant: 1).Active = true;
+
             timeContainerView.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -16).Active = true;
             timeContainerView.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
             timeContainerView.HeightAnchor.ConstraintEqualTo(40).Active = true;
@@ -130,14 +141,29 @@ namespace StriveCustomer.iOS.Views
             timeLabel.CenterYAnchor.ConstraintEqualTo(timeContainerView.CenterYAnchor).Active = true;
         }
 
-        internal void SetupData(Location location)
+        internal void SetupData(LocationStatus location)
         {
             if (location != null)
             {
                 stationNameLabel.Text = location.LocationName;
-                timeLabel.Text = $"{location.WashTimeMinutes}Mins";
+                
+                if (location.StoreStatus == "Open")
+                {
+                    statusLabel.Text = location.StoreStatus;
+                    timeLabel.Text = $"{location.WashtimeMinutes}Mins";
+                }
+                else if(location.StoreStatus == null)
+                {
+                    timeLabel.Text = "";
+                    statusLabel.Text = "closed";
+                }
+                else
+                {
+                    timeLabel.Text = "";
+                    statusLabel.Text = location.StoreStatus;
+                }
             }
-        }
+        }                
     }
 
     class PinView : UIView

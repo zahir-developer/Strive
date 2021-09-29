@@ -127,10 +127,10 @@ namespace StriveCustomer.iOS.Views
                 preselectedColor++;
             }            
 
-            makeList.Insert(0, "Select Manufacturer");
-            makeList.RemoveAt(1);
-            colorList.Insert(0, "Select Color");
-            colorList.RemoveAt(1);
+            //makeList.Insert(0, "Select Manufacturer");
+            //makeList.RemoveAt(1);
+            //colorList.Insert(0, "Select Color");
+            //colorList.RemoveAt(1);
 
             MakePicker(makeList, VehicleMake_TextField);
             MakePicker(colorList, VehicleColor_TextField);
@@ -152,8 +152,8 @@ namespace StriveCustomer.iOS.Views
                     }
                     preselectedModel++;
                 }
-                modelList.Insert(0, "Select Model");
-                modelList.RemoveAt(1);
+                //modelList.Insert(0, "Select Model");
+                //modelList.RemoveAt(1);
                 MakePicker(modelList, VehicleModel_TextField);
             }
         }

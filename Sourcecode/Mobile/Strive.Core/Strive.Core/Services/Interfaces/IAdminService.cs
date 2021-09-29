@@ -46,6 +46,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<ProductType> GetProductType();
 
+        Task<ProductType> GetCodes();
+
         Task<PostResponse> AddProduct(AddProduct product);
 
         Task<DeleteResponse> DeleteProduct(int Id);
@@ -63,6 +65,8 @@ namespace Strive.Core.Services.Interfaces
         Task<CustomerPersonalInfo> GetClientById(int Id);
 
         Task<ProductsSearch> SearchProduct(string productName);
+
+        Task<modelUpchargeResponse> GetModelUpcharge(modelUpcharge request);
 
         Task<MembershipServiceList> GetMembershipServiceList();
 
@@ -131,6 +135,8 @@ namespace Strive.Core.Services.Interfaces
         Task<AvailableServicesModel> GetScheduleServices(int LocationID);
         
         Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo);
+
+        Task<ticketNumber> GetTicketNumber(int locationId);
 
         Task<PostResponseBool> UpdateEmployeePersonalDetails(UpdatePersonalDetails employeeInfo);
 

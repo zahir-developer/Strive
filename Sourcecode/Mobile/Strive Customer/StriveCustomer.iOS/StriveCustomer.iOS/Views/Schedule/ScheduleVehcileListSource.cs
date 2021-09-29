@@ -46,6 +46,7 @@ namespace StriveCustomer.iOS.Views
         {
             CustomerScheduleInformation.ScheduledVehicleName = scheduleVehicleList.Status[indexPath.Row].VehicleColor +
                 " " + scheduleVehicleList.Status[indexPath.Row].VehicleMfr;
+            CustomerScheduleInformation.ScheduleSelectedVehicle = scheduleVehicleList.Status[indexPath.Row];
             var select_service = new Schedule_SelectService();
             view.NavigationController.PushViewController(select_service, true);
         }

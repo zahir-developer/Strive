@@ -96,6 +96,7 @@ namespace StriveCustomer.iOS.Views.Schedule
                         CustomerScheduleInformation.ScheduleServicePrice =
                             view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].Price;
                         CustomerScheduleInformation.ScheduleServiceName = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].ServiceName;
+                        CustomerScheduleInformation.ScheduleServiceEstimatedTime = view.scheduleServices.AllServiceDetail[int.Parse(sender.Tag.ToString())].EstimatedTime ?? 0;
                     }
                 }
             }

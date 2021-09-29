@@ -35,7 +35,8 @@ namespace StriveCustomer.iOS.Views
             Membership_VehicleLbl.Text = data.Membership[indexPath.Row].MembershipName;
             if(data.Membership[indexPath.Row].MembershipId == MembershipDetails.selectedMembership)
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);                
+                MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
             }
             else
             {
@@ -60,17 +61,46 @@ namespace StriveCustomer.iOS.Views
             this.upchargeList = serviceList;
 
             Membership_VehicleLbl.Text = upchargeList[indexpath.Row];
-            if ((MembershipDetails.filteredList.ServicesWithPrice.Count > 0) && (upchargeList[indexpath.Row] == MembershipDetails.filteredList.ServicesWithPrice[0].Upcharges))
+
+            //if ((MembershipDetails.filteredList.ServicesWithPrice.Count > 0))
+            //{
+            //    foreach (var item in MembershipDetails.filteredList.ServicesWithPrice)
+            //    {
+            //        if (item.Upcharges == upchargeList[indexpath.Row])
+            //        {
+            //            Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+            //            MembershipDetails.selectedUpCharge = item.ServiceId;
+            //        }
+            //    }
+
+            //    //cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+            //    //Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+            //    //Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+            //    //Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+            //}
+            if (MembershipDetails.modelUpcharge.upcharge.Count == 0)
             {
-                //Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                if("None" == upchargeList[indexpath.Row])
+                {
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    MembershipDetails.isNoneSelected = true;
+                }
+                else
+                {
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                }
             }
             else
             {
-                Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                //Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                if (upchargeList[indexpath.Row] == MembershipDetails.modelUpcharge.upcharge[0].Upcharges)
+                {
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                }
+                else
+                {
+                    Membership_CellBtn.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+                }
             }
         }
 

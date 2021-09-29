@@ -1,21 +1,42 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace StriveCustomer.iOS.Views.Login
 {
-    [Register("NewPasswordView")]
-    partial class NewPasswordView
-    {
-        void ReleaseDesignerOutlets()
-        {
-        }
-    }
+	[Register ("NewPasswordView")]
+	partial class NewPasswordView
+	{
+		[Outlet]
+		UIKit.UITextField ConfirmPasswordTextField { get; set; }
+
+		[Outlet]
+		UIKit.UITextField NewPasswordTextField { get; set; }
+
+		[Outlet]
+		UIKit.UIButton submitPassword { get; set; }
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (NewPasswordTextField != null) {
+				NewPasswordTextField.Dispose ();
+				NewPasswordTextField = null;
+			}
+
+			if (ConfirmPasswordTextField != null) {
+				ConfirmPasswordTextField.Dispose ();
+				ConfirmPasswordTextField = null;
+			}
+
+			if (submitPassword != null) {
+				submitPassword.Dispose ();
+				submitPassword = null;
+			}
+		}
+	}
 }

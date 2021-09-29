@@ -17,6 +17,7 @@ namespace Strive.Core.ViewModels.TIMInventory
             //Timer checkForTime = new Timer(15000);
             //checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             //checkForTime.Enabled = true;
+            Init();
             GetClockStatus();            
         }
 
@@ -59,8 +60,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                         EmployeeData.ClockInStatus = SingleTimeClock;
                     }
                 }                
-            }
-            Init();
+            }            
             _userDialog.HideLoading();
         }
 
@@ -68,7 +68,15 @@ namespace Strive.Core.ViewModels.TIMInventory
         {
             if(EmployeeData.EmployeeDetails != null)
             {
-                if(EmployeeData.ClockInStatus.TimeClock.outTime == null)
+                if(EmployeeData.ClockInStatus == null)
+                {
+                    var oldEmployeeDetail = EmployeeData.EmployeeDetails;
+                    Name = oldEmployeeDetail.EmployeeLogin.Firstname + " " + oldEmployeeDetail.EmployeeLogin.LastName;
+                    Role = EmployeeData.CurrentRole;
+                    CurrentDate = DateUtils.GetTodayDateString();
+                    ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInTime);
+                }
+                else if(EmployeeData.ClockInStatus.TimeClock.outTime == null)
                 {
                     var oldEmployeeDetail = EmployeeData.EmployeeDetails;
                     Name = oldEmployeeDetail.EmployeeLogin.Firstname + " " + oldEmployeeDetail.EmployeeLogin.LastName;

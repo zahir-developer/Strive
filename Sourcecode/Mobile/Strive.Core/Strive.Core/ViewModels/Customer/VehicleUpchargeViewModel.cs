@@ -106,12 +106,12 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void NavToAdditionalServices()
         {            
-            MembershipDetails.filteredList = new ServiceList();
-            MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
-            if (MembershipDetails.selectedUpCharge != 0)
-            {
-                MembershipDetails.filteredList.ServicesWithPrice.Add(upchargeFullList.ServicesWithPrice.Find(a => a.ServiceId == MembershipDetails.selectedUpCharge));
-            }
+            //MembershipDetails.filteredList = new ServiceList();
+            //MembershipDetails.filteredList.ServicesWithPrice = new List<ServiceDetail>();
+            //if (MembershipDetails.selectedUpCharge != 0)
+            //{
+            //    MembershipDetails.filteredList.ServicesWithPrice.Add(upchargeFullList.ServicesWithPrice.Find(a => a.ServiceId == MembershipDetails.selectedUpCharge));
+            //}
             await _navigationService.Navigate<VehicleAdditionalServiceViewModel>();
         }
         #endregion Commands

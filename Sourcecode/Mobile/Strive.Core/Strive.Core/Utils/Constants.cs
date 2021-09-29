@@ -8,20 +8,22 @@ namespace Strive.Core.Utils
         //public const string BASE_URL = "http://14.141.185.75:5004";
         public const string AZURE_URL = "http://40.114.79.101:5004"; 
         public const string AZURE_URL_TEST = "https://mammothuatapi-qa.azurewebsites.net";
-
+            
         public static string Token { get; set; }
 
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
 
         public const string URL_CUST_SIGN_UP = "/Auth/CreateLogin";
 
-        public const string URL_CUST_FORGOT_PASSWORD = "/Auth/SendOTP/{0}";
+        public const string URL_CUST_FORGOT_PASSWORD = "/Auth/SendOTP";
 
         public const string URL_CUST_CONFIRM_PASSWORD = "/Auth/ResetPassword";
 
-        public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP/{0}/{1}";
+        public const string URL_CUST_VERIFY_OTP = "/Auth/VerfiyOTP";
 
         public const string URL_GET_ALL_LOCATION_ADDRESS = "/Admin/Location/GetAll";
+
+        public const string URL_ALL_LOCATION_STATUS = "/Admin/Washes/GetAllLocationWashTime";
 
         public const string URL_GET_CLOCKIN_STATUS = "/Admin/TimeClock/TimeClockDetails";
 
@@ -36,6 +38,8 @@ namespace Strive.Core.Utils
         public const string URL_GET_ALL_LOCATION_NAME = "/Admin/Location/GetAllLocationName";
 
         public const string URL_GET_PRODUCTTYPE = "/Admin/Common/GetCodesByCategory/PRODUCTTYPE";
+
+        public const string URL_GET_ALLCODES = "/Admin/Common/GetCodesByCategory/ALL";
 
         public const string URL_GET_PRODUCTDETAIL_BYID = "/Admin/Product/GetProductDetailById";
 
@@ -56,6 +60,8 @@ namespace Strive.Core.Utils
         public const string URL_GET_ALL_CLIENT = "/Admin/Client/GetAll";
 
         public const string URL_SEARCH_CLIENT = "/Admin/Client/GetClientSearch";
+
+        public const string URL_MODEL_UPCHARGE = "/Admin/Common/GetUpchargeType";
 
         public const string URL_GET_ALL_SERVICE = "/Admin/MembershipSetup/GetAll";
 
@@ -84,6 +90,8 @@ namespace Strive.Core.Utils
         public const string URL_GET_MAKE_LIST = "/Admin/Common/GetAllMake";
 
         public const string URL_GET_MODEL_LIST = "/Admin/Common/GetModelById/{0}";
+
+        public const string URL_GET_TICKET_NUMBER = "/Admin/Common/GetTicketNumber/{0}";
 
         public const string URL_UPDATE_VEHICLE_INFO = "/Admin/Vehicle/Update";
 

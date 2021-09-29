@@ -17,6 +17,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         public DateTime currentDate { get; set; }
         public AvailableScheduleSlots ScheduleSlotInfo { get; set; }
         public int BayID { get; set; } = -1;
+        public List<string> slots = new List<string>();
         #endregion Properties
 
         #region Commands
@@ -30,19 +31,29 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 ScheduleSlotInfo = new AvailableScheduleSlots();
                 ScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();
                 string prevSlotTiming = "";
+                slots.Clear();
                 BayID = result.GetTimeInDetails[0].BayId;
-                foreach (var data in result.GetTimeInDetails)
+                foreach (var slot in result.GetTimeInDetails)
                 {
-                    if(BayID == data.BayId)
+                    if (!slots.Contains(slot.TimeIn))
                     {
-                        if (!string.Equals(prevSlotTiming, data.TimeIn))
-                        {
-                            ScheduleSlotInfo.GetTimeInDetails.Add(data);
-                            prevSlotTiming = data.TimeIn;
-                        }
-                    }                    
+                        ScheduleSlotInfo.GetTimeInDetails.Add(slot);
+                        slots.Add(slot.TimeIn);
+                    }                                   
                 }
-            }
+                //BayID = result.GetTimeInDetails[0].BayId;
+                //foreach (var data in result.GetTimeInDetails)
+                //{
+                //    if (BayID == data.BayId)
+                //    {
+                //        if (!string.Equals(prevSlotTiming, data.TimeIn))
+                //        {
+                //            ScheduleSlotInfo.GetTimeInDetails.Add(data);
+                //            prevSlotTiming = data.TimeIn;
+                //        }
+                //    }
+                //}
+            }           
         }
 
         public async void NavToSelect_Preview()

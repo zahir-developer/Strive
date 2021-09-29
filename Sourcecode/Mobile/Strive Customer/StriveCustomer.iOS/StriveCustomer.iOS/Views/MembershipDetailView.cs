@@ -47,7 +47,7 @@ namespace StriveCustomer.iOS.Views
 
             ActivatedDate_Value.Text = CreatedDate;
             CancelledDate_Value.Text = DeletedDate;
-            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive)
+            if (!CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.IsActive.HasValue)
             {
                 MembershipStatus_Value.Text = "Active";
             }

@@ -51,7 +51,12 @@ namespace Strive.Core.Services.Implementations
 
         public async Task<CustomerResponse> CustomerForgotPassword(string emailID)
         {
-            return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_FORGOT_PASSWORD,emailID),HttpMethod.Put,emailID);
+            var uriBuilder = new UriBuilder(ApiUtils.URL_CUST_FORGOT_PASSWORD);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["emailId"] = emailID;
+            uriBuilder.Query = query.ToString();
+            var url = uriBuilder.Uri.PathAndQuery.ToString();
+            return await _restClient.MakeApiCall<CustomerResponse>(url, HttpMethod.Put);            
         }
 
         public async Task<CustomerResponse> CustomerConfirmPassword(CustomerResetPassword resetPasswordRequest)
@@ -61,7 +66,13 @@ namespace Strive.Core.Services.Implementations
 
         public async Task<CustomerResponse> CustomerVerifyOTP(CustomerVerifyOTPRequest otpRequest)
         {
-            return await _restClient.MakeApiCall<CustomerResponse>(string.Format(ApiUtils.URL_CUST_VERIFY_OTP, otpRequest.emailId,otpRequest.otp), HttpMethod.Get, otpRequest);
+            var uriBuilder = new UriBuilder(ApiUtils.URL_CUST_VERIFY_OTP);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["emailId"] = otpRequest.emailId;
+            query["otp"] = otpRequest.otp;
+            uriBuilder.Query = query.ToString();    
+            var url = uriBuilder.Uri.PathAndQuery.ToString();
+            return await _restClient.MakeApiCall<CustomerResponse>(url, HttpMethod.Get);
         }
 
         public async Task<TimeClockRootList> GetClockInStatus(TimeClockRequest request)
@@ -103,6 +114,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<ProductType> GetProductType()
         {
             return await _restClient.MakeApiCall<ProductType>(ApiUtils.URL_GET_PRODUCTTYPE, HttpMethod.Get);
+        }
+
+        public async Task<ProductType> GetCodes()
+        {
+            return await _restClient.MakeApiCall<ProductType>(ApiUtils.URL_GET_ALLCODES, HttpMethod.Get);
         }
 
         public async Task<PostResponse> AddProduct(AddProduct product)
@@ -161,6 +177,11 @@ namespace Strive.Core.Services.Implementations
         {
             var data = new { productSearch = productName};
             return await _restClient.MakeApiCall<ProductsSearch>(ApiUtils.URL_SEARCH_PRODUCT, HttpMethod.Post, data);
+        }
+
+        public async Task<modelUpchargeResponse> GetModelUpcharge(modelUpcharge request)
+        {
+            return await _restClient.MakeApiCall<modelUpchargeResponse>(ApiUtils.URL_MODEL_UPCHARGE, HttpMethod.Post, request);
         }
 
         public async Task<MembershipServiceList> GetMembershipServiceList()
@@ -336,6 +357,11 @@ namespace Strive.Core.Services.Implementations
         public async Task<AvailableScheduleSlots> GetScheduleSlots(ScheduleSlotInfo slotInfo )
         {
             return await _restClient.MakeApiCall<AvailableScheduleSlots>(ApiUtils.URL_SCHEDULE_TIME_SLOTS, HttpMethod.Post, slotInfo);
+        }
+
+        public async Task<ticketNumber> GetTicketNumber(int locationId)
+        {
+            return await _restClient.MakeApiCall<ticketNumber>(string.Format(ApiUtils.URL_GET_TICKET_NUMBER, locationId), HttpMethod.Get, locationId);
         }
 
         public async Task<DownloadDocuments> DownloadDocuments(int documentID, string documentPassword)
