@@ -43,6 +43,9 @@ namespace Greeter.Storyboards
 		UIKit.UIButton btnWashPkgDropdown { get; set; }
 
 		[Outlet]
+		UIKit.UILabel lblCustName { get; set; }
+
+		[Outlet]
 		UIKit.UILabel lblDate { get; set; }
 
 		[Outlet]
@@ -61,13 +64,7 @@ namespace Greeter.Storyboards
 		UIKit.UITextField tfColor { get; set; }
 
 		[Outlet]
-		UIKit.NSLayoutConstraint tfdetailHeight { get; set; }
-
-		[Outlet]
 		UIKit.UITextField tfDetailPkg { get; set; }
-
-		[Outlet]
-		UIKit.NSLayoutConstraint tfdetailTop { get; set; }
 
 		[Outlet]
 		UIKit.UITextField tfMake { get; set; }
@@ -79,19 +76,47 @@ namespace Greeter.Storyboards
 		UIKit.UITextField tfUpcharge { get; set; }
 
 		[Outlet]
-		UIKit.NSLayoutConstraint tfwashHeight { get; set; }
-
-		[Outlet]
 		UIKit.UITextField tfWashPkg { get; set; }
 
 		[Outlet]
-		UIKit.NSLayoutConstraint tfwashTop { get; set; }
+		UIKit.UIView viewCustomerName { get; set; }
+
+		[Outlet]
+		UIKit.UIView viewDetailPkg { get; set; }
 
 		[Outlet]
 		UIKit.UIView viewHeader { get; set; }
+
+		[Outlet]
+		UIKit.UIView viewWashPkg { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnCancel != null) {
+				btnCancel.Dispose ();
+				btnCancel = null;
+			}
+
+			if (btnNext != null) {
+				btnNext.Dispose ();
+				btnNext = null;
+			}
+
+			if (lblDate != null) {
+				lblDate.Dispose ();
+				lblDate = null;
+			}
+
+			if (lblTime != null) {
+				lblTime.Dispose ();
+				lblTime = null;
+			}
+
+			if (viewHeader != null) {
+				viewHeader.Dispose ();
+				viewHeader = null;
+			}
+
 			if (btnAddtionalDropdown != null) {
 				btnAddtionalDropdown.Dispose ();
 				btnAddtionalDropdown = null;
@@ -100,11 +125,6 @@ namespace Greeter.Storyboards
 			if (btnAirFReshnersDropdown != null) {
 				btnAirFReshnersDropdown.Dispose ();
 				btnAirFReshnersDropdown = null;
-			}
-
-			if (btnCancel != null) {
-				btnCancel.Dispose ();
-				btnCancel = null;
 			}
 
 			if (btnColorDropdown != null) {
@@ -122,11 +142,6 @@ namespace Greeter.Storyboards
 				btnMakeDropdown = null;
 			}
 
-			if (btnNext != null) {
-				btnNext.Dispose ();
-				btnNext = null;
-			}
-
 			if (btnTypeDropdown != null) {
 				btnTypeDropdown.Dispose ();
 				btnTypeDropdown = null;
@@ -140,16 +155,6 @@ namespace Greeter.Storyboards
 			if (btnWashPkgDropdown != null) {
 				btnWashPkgDropdown.Dispose ();
 				btnWashPkgDropdown = null;
-			}
-
-			if (lblDate != null) {
-				lblDate.Dispose ();
-				lblDate = null;
-			}
-
-			if (lblTime != null) {
-				lblTime.Dispose ();
-				lblTime = null;
 			}
 
 			if (tfAdditionalService != null) {
@@ -172,24 +177,9 @@ namespace Greeter.Storyboards
 				tfColor = null;
 			}
 
-			if (tfdetailHeight != null) {
-				tfdetailHeight.Dispose ();
-				tfdetailHeight = null;
-			}
-
 			if (tfDetailPkg != null) {
 				tfDetailPkg.Dispose ();
 				tfDetailPkg = null;
-			}
-
-			if (tfdetailTop != null) {
-				tfdetailTop.Dispose ();
-				tfdetailTop = null;
-			}
-
-			if (tfUpcharge != null) {
-				tfUpcharge.Dispose ();
-				tfUpcharge = null;
 			}
 
 			if (tfMake != null) {
@@ -202,9 +192,9 @@ namespace Greeter.Storyboards
 				tfModel = null;
 			}
 
-			if (tfwashHeight != null) {
-				tfwashHeight.Dispose ();
-				tfwashHeight = null;
+			if (tfUpcharge != null) {
+				tfUpcharge.Dispose ();
+				tfUpcharge = null;
 			}
 
 			if (tfWashPkg != null) {
@@ -212,14 +202,24 @@ namespace Greeter.Storyboards
 				tfWashPkg = null;
 			}
 
-			if (tfwashTop != null) {
-				tfwashTop.Dispose ();
-				tfwashTop = null;
+			if (viewCustomerName != null) {
+				viewCustomerName.Dispose ();
+				viewCustomerName = null;
 			}
 
-			if (viewHeader != null) {
-				viewHeader.Dispose ();
-				viewHeader = null;
+			if (viewWashPkg != null) {
+				viewWashPkg.Dispose ();
+				viewWashPkg = null;
+			}
+
+			if (viewDetailPkg != null) {
+				viewDetailPkg.Dispose ();
+				viewDetailPkg = null;
+			}
+
+			if (lblCustName != null) {
+				lblCustName.Dispose ();
+				lblCustName = null;
 			}
 		}
 	}

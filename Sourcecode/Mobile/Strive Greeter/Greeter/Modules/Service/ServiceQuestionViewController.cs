@@ -322,6 +322,7 @@ namespace Greeter.Storyboards
             }
             else
             {
+                viewCustomerName.Hidden = true;
                 UpdateBarcodeText(Barcode);
                 UpdateUpchargeAsNone();
             }
@@ -349,6 +350,16 @@ namespace Greeter.Storyboards
                 tfMake.Text = make;
                 tfModel.Text = Model;
                 tfColor.Text = color;
+
+                //if (!string.IsNullOrEmpty(CustName))
+                //{
+                //    lblCustName.Text = CustName;
+                //    viewCustomerName.Hidden = false;
+                //}
+                //else
+                //{
+                //    viewCustomerName.Hidden = true;
+                //}
             }
         }
 
@@ -441,10 +452,10 @@ namespace Greeter.Storyboards
         {
             string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
 
+            viewCustomerName.Hidden = true;
+
             NavigationController.NavigationBar.Hidden = false;
             Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];
-
-            tfBarcode.WeakDelegate = this;
 
             viewHeader.AddHearderViewShadow();
 
@@ -491,6 +502,8 @@ namespace Greeter.Storyboards
             tfDetailPkg.InputView = pv;
             tfAdditionalService.InputView = pv;
             tfAirFreshner.InputView = pv;
+
+            tfBarcode.WeakDelegate = this;
 
             // For Restricting typing in the location field
             tfMake.ShouldChangeCharacters = (textField, range, replacementString) =>
@@ -645,12 +658,14 @@ namespace Greeter.Storyboards
             switch (type)
             {
                 case ServiceType.Wash:
-                    tfdetailHeight.Constant = 0;
-                    tfdetailTop.Constant = 0;
+                    //tfdetailHeight.Constant = 0;
+                    //tfdetailTop.Constant = 0;
+                    viewDetailPkg.Hidden = true;
                     break;
                 case ServiceType.Detail:
-                    tfwashHeight.Constant = 0;
-                    tfwashTop.Constant = 0;
+                    //tfwashHeight.Constant = 0;
+                    //tfwashTop.Constant = 0;
+                    viewWashPkg.Hidden = true;
                     break;
             }
         }
