@@ -17,7 +17,7 @@ namespace Greeter.Modules.Home
         async Task GetData()
         {
             ShowActivityIndicator();
-            var response = await new GeneralApiService().GetLocations();
+            var response = await new GeneralApiService().GetAllLocationWashTime();
             HideActivityIndicator();
 
             HandleResponse(response);

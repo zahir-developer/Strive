@@ -1428,12 +1428,12 @@ namespace Greeter.DTOs
     public class LocationWashTimeResponse : BaseResponse
     {
         [JsonProperty("Washes")]
-        public List<LocWahTime> Locations { get; set; }
+        public List<Location> Locations { get; set; }
     }
 
-    public class LocWahTime
-    {
-        [JsonProperty("WashtimeMinutes")]
-        public int WashtimeMinutes { get; set; }
-    }
+    //public class LocWahTime
+    //{
+    //    [JsonProperty("WashtimeMinutes")]
+    //    public int WashtimeMinutes { get; set; }
+    //}
 }

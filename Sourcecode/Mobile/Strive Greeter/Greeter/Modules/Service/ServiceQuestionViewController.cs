@@ -351,15 +351,15 @@ namespace Greeter.Storyboards
                 tfModel.Text = Model;
                 tfColor.Text = color;
 
-                //if (!string.IsNullOrEmpty(CustName))
-                //{
-                //    lblCustName.Text = CustName;
-                //    viewCustomerName.Hidden = false;
-                //}
-                //else
-                //{
-                //    viewCustomerName.Hidden = true;
-                //}
+                if (!string.IsNullOrEmpty(CustName))
+                {
+                    lblCustName.Text = CustName;
+                    viewCustomerName.Hidden = false;
+                }
+                else
+                {
+                    viewCustomerName.Hidden = true;
+                }
             }
         }
 

@@ -99,7 +99,7 @@ namespace Greeter
 
             if (response.IsSuccess())
             {
-                washTime = response.Locations[0].WashtimeMinutes;
+                washTime = response.Locations[0].WashTimeMinutes;
             }
 
             return washTime;
@@ -118,7 +118,7 @@ namespace Greeter
         async Task GetData()
         {
             ShowActivityIndicator();
-            var response = await new GeneralApiService().GetLocations();
+            var response = await new GeneralApiService().GetAllLocationWashTime();
             HideActivityIndicator();
 
             HandleResponse(response);

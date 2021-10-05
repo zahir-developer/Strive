@@ -433,8 +433,8 @@ namespace Greeter.Modules.Pay
 
         void NavigateToPaymentSuccessScreen()
         {
-            var vcLocation = GetHomeStorybpard().InstantiateViewController(nameof(PaymentSucessViewController));
-            NavigateToWithAnim(vcLocation);
+            var vc = GetHomeStorybpard().InstantiateViewController(nameof(PaymentSucessViewController));
+            NavigateToWithAnim(vc);
         }
 
         void KeyBoardHandling()
