@@ -29,7 +29,7 @@ namespace Strive.Core.ViewModels.Owner
                 endDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
                 locationId = 1,
                 pageNo = 1,
-                pageSize = 10,
+                pageSize = 100,
                 query = "",
                 sortOrder = "ASC",
                 sortBy = "TicketNumber",

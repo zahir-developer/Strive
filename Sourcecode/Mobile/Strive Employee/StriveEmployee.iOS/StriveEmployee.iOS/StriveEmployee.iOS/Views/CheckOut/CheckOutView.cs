@@ -27,6 +27,12 @@ namespace StriveEmployee.iOS.Views
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            GetCheckoutDetails();
+        }
         private void InitialSetup()
         {
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()

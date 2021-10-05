@@ -96,6 +96,7 @@ namespace StriveCustomer.iOS.Views
                 if (upchargeList[indexpath.Row] == MembershipDetails.modelUpcharge.upcharge[0].Upcharges)
                 {
                     Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
+                    MembershipDetails.isNoneSelected = true;
                 }
                 else
                 {

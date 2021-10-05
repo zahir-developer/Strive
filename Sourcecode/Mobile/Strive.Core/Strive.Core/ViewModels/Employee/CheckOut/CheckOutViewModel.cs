@@ -31,16 +31,16 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
                 endDate = (System.DateTime.Now).ToString("yyy-MM-dd"),
                 locationId = 1,
                 pageNo = 1,
-                pageSize = 10,
+                pageSize = 100,
                 query = "",
                 sortOrder = "ASC",
                 sortBy = "TicketNumber",
                 status = true,
             });
-            if (result == null)
+            if (result == null || result.GetCheckedInVehicleDetails.checkOutViewModel == null)
             {
                 CheckOutVehicleDetails = null;
-                _userDialog.ShowLoading("No details available at this time.", MaskType.Gradient);
+                _userDialog.Toast("No relatable data");
             }
             else
             {
