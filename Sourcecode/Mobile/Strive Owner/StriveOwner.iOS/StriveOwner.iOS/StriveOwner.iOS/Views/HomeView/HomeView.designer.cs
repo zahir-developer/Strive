@@ -43,6 +43,9 @@ namespace StriveOwner.iOS.Views.HomeView
 		UIKit.UILabel DetailLbl { get; set; }
 
 		[Outlet]
+		UIKit.UILabel detailScheduleStatus { get; set; }
+
+		[Outlet]
 		UIKit.UILabel employeeCount { get; set; }
 
 		[Outlet]
@@ -157,6 +160,11 @@ namespace StriveOwner.iOS.Views.HomeView
 				forecastedImage = null;
 			}
 
+			if (LocationSegment != null) {
+				LocationSegment.Dispose ();
+				LocationSegment = null;
+			}
+
 			if (plotView != null) {
 				plotView.Dispose ();
 				plotView = null;
@@ -207,9 +215,9 @@ namespace StriveOwner.iOS.Views.HomeView
 				WashLbl = null;
 			}
 
-			if (LocationSegment != null) {
-				LocationSegment.Dispose ();
-				LocationSegment = null;
+			if (detailScheduleStatus != null) {
+				detailScheduleStatus.Dispose ();
+				detailScheduleStatus = null;
 			}
 		}
 	}

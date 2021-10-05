@@ -624,6 +624,7 @@
           <DependentUpon>LocationView.cs</DependentUpon>
         </Compile>
         <Compile Include="Views\LocationPicker.cs" />
+        <Compile Include="Views\WashAnnotation.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Strive.Core\Strive.Core\Strive.Core.csproj">

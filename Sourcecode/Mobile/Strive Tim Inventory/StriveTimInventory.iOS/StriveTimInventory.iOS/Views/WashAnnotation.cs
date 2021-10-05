@@ -1,20 +1,20 @@
 ﻿using System;
 using CoreGraphics;
 using MapKit;
-using UIKit;    
 using Strive.Core.Models.Customer;
+using UIKit;
 
-namespace StriveCustomer.iOS.Views
+namespace StriveTimInventory.iOS.Views
 {
-    public class WashStationAnnotationView : MKAnnotationView
+    public class WashAnnotation : MKAnnotationView
     {
         UILabel stationNameLabel;
         UILabel timeLabel;
         UILabel statusLabel;
 
-        public WashStationAnnotationView(IntPtr handle) : base(handle)
+        public WashAnnotation(IntPtr handle) : base(handle)
         {
-            SetupView();           
+            SetupView();
         }
 
         void SetupView()
@@ -68,7 +68,7 @@ namespace StriveCustomer.iOS.Views
 
             statusLabel = new UILabel(CGRect.Empty);
             statusLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            statusLabel.TextColor = UIColor.FromRGB(255,255,255);
+            statusLabel.TextColor = UIColor.FromRGB(255, 255, 255);
             statusLabel.Font = UIFont.SystemFontOfSize(14, UIFontWeight.Bold);
             statusLabel.Lines = 1;
             infoContainerView.Add(statusLabel);
@@ -82,7 +82,7 @@ namespace StriveCustomer.iOS.Views
 
             var carImageView = new UIImageView(CGRect.Empty);
             carImageView.TranslatesAutoresizingMaskIntoConstraints = false;
-            carImageView.Image = UIImage.FromBundle("icon-car");
+            carImageView.Image = UIImage.FromBundle("map-car-icon");
             timeContainerView.Add(carImageView);
 
             timeLabel = new UILabel(CGRect.Empty);
@@ -146,13 +146,13 @@ namespace StriveCustomer.iOS.Views
             if (location != null)
             {
                 stationNameLabel.Text = location.LocationName;
-                
+
                 if (location.StoreStatus == "Open")
                 {
                     statusLabel.Text = location.StoreStatus;
                     timeLabel.Text = $"{location.WashtimeMinutes}Mins";
                 }
-                else if(location.StoreStatus == null)
+                else if (location.StoreStatus == null)
                 {
                     timeLabel.Text = "0 Mins";
                     statusLabel.Text = "closed";
@@ -163,7 +163,7 @@ namespace StriveCustomer.iOS.Views
                     statusLabel.Text = location.StoreStatus;
                 }
             }
-        }                
+        }
     }
 
     class PinView : UIView

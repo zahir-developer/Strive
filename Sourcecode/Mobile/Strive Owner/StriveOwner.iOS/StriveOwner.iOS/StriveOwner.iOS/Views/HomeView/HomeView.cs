@@ -5,6 +5,7 @@ using MvvmCross.Platforms.Ios.Views;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Owner;
 using StriveOwner.iOS.UIUtils;
 using UIKit;
@@ -13,6 +14,9 @@ namespace StriveOwner.iOS.Views.HomeView
 {
     public partial class HomeView : MvxViewController<HomeViewModel>
     {
+        public Locations Locations;
+        public string SelectedLocName;
+
         public HomeView() : base("HomeView", null)
         {
         }
@@ -30,7 +34,7 @@ namespace StriveOwner.iOS.Views.HomeView
             // Release any cached data, images, etc that aren't in use.
         }
 
-        private void DoInitialSetup()
+        private async void DoInitialSetup()
         {
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()
             {
@@ -46,21 +50,55 @@ namespace StriveOwner.iOS.Views.HomeView
             ScheduleTableView.BackgroundColor = UIColor.Clear;
             ScheduleTableView.ReloadData();
 
-            getStatisticsData(1);
+            Locations = await ViewModel.GetAllLocationsCommand();
+            setSegment();
         }
          
         private async void getStatisticsData(int locationId)
-        {
+        {            
             await ViewModel.getStatistics(locationId);
-            await ViewModel.getDashboardSchedule(locationId);
+            await ViewModel.getDashboardSchedule(locationId);           
             setData();
             setScheduleData();
             setChartView();
         }
 
-        private void setData()
+        private void setSegment()
         {
-            if(ViewModel.statisticsData != null)
+            if (Locations.Location.Count > 3)
+            {
+                var index = 0;
+
+                while (index != 3)
+                {
+                    LocationSegment.SetTitle(Locations.Location[index].LocationName, index);
+                    index++;
+                }
+
+                var newSegment = 3;
+                while (newSegment != Locations.Location.Count)
+                {
+                    LocationSegment.InsertSegment(Locations.Location[newSegment].LocationName, newSegment, true);
+                    LocationSegment.SetTitle(Locations.Location[newSegment].LocationName, newSegment);
+                    newSegment++;
+                }
+            }
+            else
+            {
+                var index = 0;
+                foreach (var item in Locations.Location)
+                {
+                    LocationSegment.SetTitle(item.LocationName, index);
+                    index++;
+                }
+            }
+            getStatisticsData(Locations.Location[0].LocationId);
+            SelectedLocName = Locations.Location[0].LocationName;
+        }
+
+        private void setData()
+        {           
+            if (ViewModel.statisticsData != null)
             {
                 WashLbl.Text = "No of Washes";
                 DetailLbl.Text = "No of Details";
@@ -88,18 +126,25 @@ namespace StriveOwner.iOS.Views.HomeView
         private void setScheduleData()
         {
             if (ViewModel.dbSchedule != null && ViewModel.dbSchedule.DetailsGrid.BayJobDetailViewModel != null)
-            {
+            {              
                 var scheduleSource = new DBSchedule_DataSource(ScheduleTableView,ViewModel.dbSchedule);
                 ScheduleTableView.Source = scheduleSource;
                 ScheduleTableView.TableFooterView = new UIView(CGRect.Empty);
                 ScheduleTableView.DelaysContentTouches = false;
                 ScheduleTableView.ReloadData();
+                detailScheduleStatus.Hidden = true;
+                ScheduleTableView.Hidden = false;
+            }
+            else
+            {                
+                detailScheduleStatus.Hidden = false;
+                ScheduleTableView.Hidden = true;
             }
         }
         partial void DashboardServices_Touch(UISegmentedControl sender)
         {
             var index = dashboardService_Seg.SelectedSegment;
-
+            
             if(index == 0)
             {
                 setData();
@@ -160,19 +205,12 @@ namespace StriveOwner.iOS.Views.HomeView
 
         partial void locationSegment_Touch(UISegmentedControl sender)
         {
-            var index = LocationSegment.SelectedSegment;
-            if(index == 0)
-            {
-                getStatisticsData(1);
-            }
-            else if(index == 1)
-            {
-                getStatisticsData(2);
-            }
-            else if(index == 2)
-            {
-                getStatisticsData(3);
-            }
+            var selectedIndex = LocationSegment.SelectedSegment;
+            SelectedLocName = LocationSegment.TitleAt(selectedIndex);
+
+            var selectedLoc = Locations.Location.Find(x => x.LocationName == SelectedLocName);
+
+            getStatisticsData(selectedLoc.LocationId);           
         }
 
         public void setChartView()
@@ -221,13 +259,19 @@ namespace StriveOwner.iOS.Views.HomeView
             s2.Items.Add(new ColumnItem(30));
             s2.Items.Add(new ColumnItem(10));
             s2.Items.Add(new ColumnItem(20));
-            s2.ColumnWidth = 20;                      
+            s2.ColumnWidth = 20;
+
+            if (scoreCount.Text == "")
+            {
+                scoreCount.Text = "0";
+            }
 
             var Items = new Collection<Item>
-            {
-                new Item {Label = "Main Street", Value1 = 5, Value2 = 3, Value3 = 0},
-                new Item {Label = "Old Milton", Value1 = 4, Value2 = 2, Value3 = 1},
-                new Item {Label = "Holcomb Bridge", Value1 = 1, Value2 = 4, Value3 = 2}
+            {                
+                new Item {Label = SelectedLocName, WashValue = int.Parse(washCount.Text.ToString()), DetailValue = int.Parse(detailCount.Text.ToString()), EmployeeValue = int.Parse(employeeCount.Text.ToString()), ScoreValue = double.Parse(scoreCount.Text.ToString())},
+                
+                //new Item {Label = "Old Milton", Value1 = 4, Value2 = 2, Value3 = 1},
+                //new Item {Label = "Holcomb Bridge", Value1 = 1, Value2 = 4, Value3 = 2}
             };
 
             model.Axes.Add(new CategoryAxis { ItemsSource = Items, LabelField = "Label", AbsoluteMinimum = -0.5 });
@@ -235,6 +279,7 @@ namespace StriveOwner.iOS.Views.HomeView
             model.Series.Add(new ColumnSeries { Title = "Washes", ItemsSource = Items, ValueField = "Value1", ColumnWidth = 20 });
             model.Series.Add(new ColumnSeries { Title = "Details", ItemsSource = Items, ValueField = "Value2", ColumnWidth = 20 });
             model.Series.Add(new ColumnSeries { Title = "Employees", ItemsSource = Items, ValueField = "Value3", ColumnWidth = 20 });
+            model.Series.Add(new ColumnSeries { Title = "Score", ItemsSource = Items, ValueField = "Value4", ColumnWidth = 20 });
 
             this.plotView.Model = model;
             plotView.Frame = new CGRect(0, 0, this.View.Frame.Width + 10, this.View.Frame.Height);            
@@ -244,9 +289,10 @@ namespace StriveOwner.iOS.Views.HomeView
     internal class Item
     {
         public string Label { get; set; }
-        public int Value1 { get; set; }
-        public int Value2 { get; set; }
-        public int Value3 { get; set; }
+        public int WashValue { get; set; }
+        public int DetailValue { get; set; }
+        public int EmployeeValue { get; set; }
+        public double ScoreValue { get; set; }
     }
 }
 
