@@ -192,7 +192,7 @@ export class PaymentProcessComponent implements OnInit {
         const auth = JSON.parse(res.resultData);
         console.log(auth, 'auth');
         this.errorMessage = '';
-        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Card Payment done Successfully' });
+        this.messageService.showMessage({ severity: 'success', title: 'Success', body: 'Card Payment Completed !' });
         this.paymentCapture(auth);
       } else {
         this.errorMessage = res.errorMessage;
@@ -217,13 +217,13 @@ export class PaymentProcessComponent implements OnInit {
   }
 
   getCardType(number) {
+
     // visa
     let re = new RegExp('^4');
     if (number.match(re) != null) {
       this.card = 'Visa';
       return this.card;
     }
-
 
     // Mastercard 
     // Updated for Mastercard 2017 BINs expansion
@@ -238,38 +238,41 @@ export class PaymentProcessComponent implements OnInit {
       this.card = 'AMEX';
       return this.card;
     }
+
     // Discover
     re = new RegExp('^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)');
     if (number.match(re) != null) {
       this.card = 'Discover';
       return this.card;
     }
+
     // Diners
     re = new RegExp('^36');
     if (number.match(re) != null) {
       this.card = 'Diners';
       return this.card;
     }
+    
     // Diners - Carte Blanche
     re = new RegExp('^30[0-5]');
     if (number.match(re) != null) {
       this.card = 'Diners - Carte Blanche';
       return this.card;
     }
+    
     // JCB
     re = new RegExp('^35(2[89]|[3-8][0-9])');
     if (number.match(re) != null) {
       this.card = 'JCB';
       return this.card;
     }
+
     // Visa Electron
     re = new RegExp('^(4026|417500|4508|4844|491(3|7))');
     if (number.match(re) != null) {
       this.card = 'Visa Electron';
       return this.card;
     }
-
-    console.log(this.card);
   }
 
   next() {
@@ -309,8 +312,8 @@ export class PaymentProcessComponent implements OnInit {
     const paymentDetailObj = {
       account: this.paymentForm.value.cardNumber, // '6011000995500000', // ,
       expiry: this.paymentForm.value.expiryDate, // '0622', //
-      amount: amount.toString(),
-      orderId: 'AB-11-9876',  // need too change
+      amount: amount.toString().replace(",",""),
+      orderId: "",  // need too change
       ccv: this.paymentForm.value.ccv // '291' //
     };
 

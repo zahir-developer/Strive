@@ -27,10 +27,17 @@ public ReceiveGrpMsg: Observable<any> = this.recGrpMsg.asObservable();
   public data: any;
   private hubConnection: signalR.HubConnection;
   public startConnection = () => {
-  this.hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl(environment.api.striveUrl + 'ChatMessageHub').build();
 
 
+    this.hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl(environment.api.striveUrl + 'ChatMessageHub',
+      {
+        //skipNegotiation: true,
+        //transport: signalR.HttpTransportType.WebSockets
+      }).build();
+
+  /*this.hubConnection = new signalR.HubConnectionBuilder()
+  .withUrl(environment.api.striveUrl + 'ChatMessageHub').build();*/
     this.hubConnection
       .start()
       .then(() => console.log('Connection started'))

@@ -355,7 +355,7 @@ export class CreateEditWashesComponent implements OnInit {
         const vehicle = JSON.parse(res.resultData);
         const vData = vehicle.Status;
 
-        if (this.barcodeDetails.ClientId === 0) {
+        if (this.barcodeDetails?.ClientId === 0) {
           var vehicles = [];
           var v  = 
           {
@@ -656,8 +656,8 @@ export class CreateEditWashesComponent implements OnInit {
         const wash = JSON.parse(data.resultData);
         if (wash.ClientAndVehicleDetail !== null && wash.ClientAndVehicleDetail.length > 0) {
           this.barcodeDetails = wash.ClientAndVehicleDetail[0];
-          if (this.barcodeDetails.ClientId !== 0) {
-          this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId, 1);
+          if (this.barcodeDetails?.ClientId !== 0) {
+              this.getClientVehicle(this.barcodeDetails.ClientId, this.barcodeDetails.VehicleId, 1);
           }
           else
           {
