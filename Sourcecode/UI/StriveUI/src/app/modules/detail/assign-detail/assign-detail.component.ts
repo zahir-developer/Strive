@@ -247,9 +247,13 @@ export class AssignDetailComponent implements OnInit {
         updatedDate: new Date()
       });
     });
+    var jobId = this.details?.length > 0 ? this.details[0].JobId : 0;
+
     const finalObj = {
-      jobServiceEmployee: assignServiceObj
+      jobServiceEmployee: assignServiceObj,
+      jobId: jobId
     };
+    
     this.spinner.show();
     this.detailServices.saveEmployeeWithService(finalObj).subscribe(res => {
       if (res.status === 'Success') {

@@ -69,6 +69,7 @@ namespace Strive.Common
         SuperAdmin,
         NewEmployeeInfo,
         ProductRequest,
+        DetailAssignedToEmployee,
         GeneralMail
     }
 

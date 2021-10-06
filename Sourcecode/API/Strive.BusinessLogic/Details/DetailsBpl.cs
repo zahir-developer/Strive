@@ -2,6 +2,7 @@
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Details;
 using Strive.BusinessEntities.Model;
+using Strive.BusinessLogic.Common;
 using Strive.Common;
 using Strive.ResourceAccess;
 using System;
@@ -26,7 +27,7 @@ namespace Strive.BusinessLogic.Details
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
 
-            if(details.BaySchedule.Count > 0)
+            if (details.BaySchedule.Count > 0)
             {
                 var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
 
@@ -247,6 +248,7 @@ namespace Strive.BusinessLogic.Details
 
         public Result UpdateDetails(DetailsDto details)
         {
+            
             if (!string.IsNullOrEmpty(details.DeletedJobItemId))
             {
                 var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(details.DeletedJobItemId);
@@ -256,19 +258,27 @@ namespace Strive.BusinessLogic.Details
             {
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
+            if(details.BaySchedule.Count > 0)
+            {
+                var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
 
-
-            var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
-
-            details.BaySchedule = baySlot;
-
-
-            return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
+                details.BaySchedule = baySlot;
+            }
+            var updateDetail = new DetailsRal(_tenant).UpdateDetails(details);
+           
+            return ResultWrap(updateDetail, "Status");
         }
 
         public Result AddServiceEmployee(JobServiceEmployeeDto jobServiceEmployee)
         {
-            return ResultWrap(new DetailsRal(_tenant).AddServiceEmployee, jobServiceEmployee, "Status");
+            var assignDetailer = new DetailsRal(_tenant).AddServiceEmployee(jobServiceEmployee);
+
+            if (assignDetailer)
+            {
+                if(jobServiceEmployee.JobId.GetValueOrDefault() != 0 || jobServiceEmployee.JobId != null)
+                DetailAssignedToEmployee(jobServiceEmployee.JobId.GetValueOrDefault());
+            }
+            return ResultWrap(assignDetailer, "Status");
         }
 
         public Result GetBaySchedulesDetails(DetailsGridDto detailsGrid)
@@ -303,6 +313,43 @@ namespace Strive.BusinessLogic.Details
         public Result GetDetailScheduleStatus(DetailScheduleDto scheduleDto)
         {
             return ResultWrap(new DetailsRal(_tenant).GetDetailScheduleStatus, scheduleDto, "Status");
+        }
+
+        public void DetailAssignedToEmployee(int jobId)
+        {
+
+            var detail = new DetailsRal(_tenant).GetDetailsById(jobId);
+
+            if (!string.IsNullOrEmpty(detail.Email?.Email?.Trim()))
+            {
+
+                var commonBpl = new CommonBpl(_cache, _tenant);
+                
+                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                keyValues.Add("{{CustomerName}}", detail.Details.ClientName);
+                keyValues.Add("{{TicketNumber}}", detail.Details.TicketNumber);
+                keyValues.Add("{{JobType}}", "Detail");
+                keyValues.Add("{{JobDate}}", detail.Details.JobDate.ToString("MM-dd-yyy"));
+                keyValues.Add("{{Vehicle}}", detail.Details.VehicleMake + "," + detail.Details.VehicleModel + "," +detail.Details.VehicleColor);
+                keyValues.Add("{{Barcode}}", detail.Details.Barcode);
+
+                string services = string.Empty;
+
+                foreach (var item in detail.DetailsJobServiceEmployee)
+                {
+                    services += "<tr>";
+                    services += "<td>" + item.EmployeeId + "</td>";
+                    services += "<td>" + item.EmployeeName + "</td>";
+                    services += "<td>" + item.CommissionAmount + "</td>";
+                    services += "<td>" + item.ServiceName + "</td>";
+                    services += "<td>" + item.Cost + "</td>";
+                    services += "</tr>";
+                }
+
+                keyValues.Add("{{Services}}", services);
+
+                commonBpl.SendEmail(HtmlTemplate.DetailAssignedToEmployee, detail.Email.Email, keyValues, "Detail Add/Update - Job Assigned !");
+            }
         }
 
     }

@@ -47,10 +47,11 @@ namespace Strive.BusinessLogic.EmailHelper
             MailboxAddress address;
             foreach(string emailId in emailIds.Split(','))
             {
-                address = new MailboxAddress(emailId, emailId);
+                address = new MailboxAddress(emailId, emailId.Trim());
                 emailToList.Add(address);
             }
 
+            msg.From = _settings.FromEmail;
             msg.To = emailToList;
             msg.Content = content;
             msg.Subject = subject;

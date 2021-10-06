@@ -398,7 +398,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null || model.ToString() == "string" || model.GetType().BaseType == typeof(Enum)) continue;
+                            if (model is null || model.ToString() == "string" || model.GetType() == typeof(int) || model.GetType().BaseType == typeof(Enum)) continue;
 
                             Type subModelType = model.GetType();
 

@@ -17,7 +17,9 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
         public decimal Price { get; set; }
         public string DiscountType { get; set; }
         public bool IsCeramic { get; set; }
-
+        public bool Commission { get; set; }
+        public string CommissionType { get; set; }
+        public decimal CommissionCost { get; set; }
         public decimal? EstimatedTime { get; set; }
 
 
