@@ -258,7 +258,7 @@ namespace Strive.BusinessLogic.Details
             {
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
-            if(details.BaySchedule.Count > 0)
+            if(details.BaySchedule?.Count > 0)
             {
                 var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
 
