@@ -10,5 +10,7 @@ namespace Strive.BusinessEntities.DTO.TimeClock
     {
         public int LocationId { get; set; }
         public DateTime Date { get; set; }
+        public DateTime CurrentDate { get; set; }
+        
     }
 }
