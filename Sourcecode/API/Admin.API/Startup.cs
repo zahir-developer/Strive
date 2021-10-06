@@ -56,19 +56,19 @@ using Strive.BusinessLogic.Logger;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Serilog;
 using Serilog.AspNetCore;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Admin.API
 {
     public class Startup
     {
         private readonly Microsoft.Extensions.Logging.ILogger _logger;
+        private readonly string allowSpecificOrigins = "_allowSpecificOrigins";
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
             _logger = logger;
         }
-
-        readonly string CorsAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public IConfiguration Configuration { get; }
 
@@ -137,22 +137,23 @@ namespace Admin.API
             _logger.LogInformation("Test log Strive");
 
             #region Add CORS
-
-
             services.AddCors(options =>
             {
-                options.AddPolicy(CorsAllowSpecificOrigins,
+                options.AddPolicy(allowSpecificOrigins,
+
                 builder =>
+
                 {
-                    builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", 
-                "http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5000", "http://40.114.79.101:5003",
-                "http://40.114.79.101:5007", "http://40.114.79.101:5009", "http://strive.localqa.com",
-                "https://azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net")
-                .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+
+                    builder.WithOrigins("http://localhost:4200", "https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net","https://mammothuat.azurewebsites.net")
+
+                            .AllowAnyHeader()
+
+                            .AllowAnyMethod();
 
                 });
-            });
 
+            });
             #endregion
 
             #region Add MVC
@@ -260,15 +261,9 @@ namespace Admin.API
             app.UseExceptionHandler("/error");
             app.UseAuthentication();
             app.UseStatusCodePages();
-
-            app.UseCors(CorsAllowSpecificOrigins);
-
-            //app.UseCors(builder => builder.WithOrigins("http://14.141.185.75:5000", "http://14.141.185.75:5003", 
-            //    "http://localhost:4200", "http://localhost:4300", "http://40.114.79.101:5000", "http://40.114.79.101:5003", 
-            //    "http://40.114.79.101:5007", "http://40.114.79.101:5009", "http://strive.localqa.com",
-            //    "https://mammothuat.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net", "https://mammothuat-dev.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
-            ////app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200","https://mammothuat-dev.azurewebsites.net", "https://mammothuat-qa.azurewebsites.net").AllowAnyMethod().AllowCredentials().AllowAnyHeader());
+            //app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            
             // global cors policy
             //app.UseCors(x => x
             //    .AllowAnyMethod()
