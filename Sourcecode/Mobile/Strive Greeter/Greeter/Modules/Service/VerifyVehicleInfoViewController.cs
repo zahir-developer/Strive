@@ -69,7 +69,7 @@ namespace Greeter.Storyboards
             lblType.Text = !UpchargeTypeName.IsEmpty() ? UpchargeTypeName : "-";
         }
 
-        string CustomerName => !CustName.IsEmpty() ? CustName : "Drive up";
+        string CustomerName => !CustName.IsEmpty() ? CustName : Common.Messages.DRIVE_UP;
 
         void Initialise()
         {

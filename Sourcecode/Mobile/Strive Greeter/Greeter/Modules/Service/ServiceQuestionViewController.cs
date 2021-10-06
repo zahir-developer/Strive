@@ -322,7 +322,8 @@ namespace Greeter.Storyboards
             }
             else
             {
-                viewCustomerName.Hidden = true;
+                //viewCustomerName.Hidden = true;
+                lblCustName.Text = Common.Messages.DRIVE_UP;
                 UpdateBarcodeText(Barcode);
                 UpdateUpchargeAsNone();
             }
@@ -452,7 +453,7 @@ namespace Greeter.Storyboards
         {
             string[] SCREEN_TITLES = new string[] { "Wash", "Detail" };
 
-            viewCustomerName.Hidden = true;
+            //viewCustomerName.Hidden = true;
 
             NavigationController.NavigationBar.Hidden = false;
             Title = ServiceType == ServiceType.Wash ? SCREEN_TITLES[0] : SCREEN_TITLES[1];

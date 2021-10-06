@@ -180,6 +180,7 @@ namespace Greeter.Cells
             payButton.BottomAnchor.ConstraintEqualTo(containerView.BottomAnchor, constant: -20).Active = true;
             payButton.HeightAnchor.ConstraintEqualTo(40).Active = true;
             payButton.WidthAnchor.ConstraintEqualTo(100).Active = true;
+            payButton.Hidden = true;
 
             statusIndicatorImage.LeadingAnchor.ConstraintEqualTo(paidStatusContainer.LeadingAnchor, constant: 12).Active = true;
             statusIndicatorImage.HeightAnchor.ConstraintEqualTo(24).Active = true;
@@ -255,7 +256,7 @@ namespace Greeter.Cells
 
             if (isPayOptionNeeded)
             {
-                //payButton.Hidden = !checkout.PaymentStatus.Equals("Success") ? false : true;
+                payButton.Hidden = !checkout.PaymentStatus.Equals("Success") ? false : true;
             }
 
             amountLabel.Text = "$" + checkout.Cost;

@@ -92,7 +92,6 @@ namespace Greeter.Common
         internal const string COMPLETE_CHECKOUT = "/Admin/Checkout/UpdateJobStatusComplete";
         internal const string DO_CHECKOUT = "/Admin/Checkout/UpdateCheckoutDetails";
 
-        // Message
         //internal const string URL_MESSENGER_PERSONAL_CHATS = "/Admin/Messenger/GetChatMessage";
         internal const string RECENT_CHAT_LIST = "/Admin/Messenger/GetChatEmployeeList/";
         internal const string CREATE_GROUP = "/Admin/Messenger/CreateChatGroup";
@@ -159,6 +158,7 @@ namespace Greeter.Common
     {
         internal const string SERVICE_RECEIPT_SUBJECT = "Wash Receipt";
         internal const string DETAIL_RECEIPT_SUBJECT = "Details Receipt";
+        internal const string DRIVE_UP = "Drive up";
         internal const string BARCODE_EMPTY = "Please enter the barcode";
         internal const string USER_ID_AND_PSWD_EMPTY = "Please enter your user id and password";
         internal const string USER_ID_EMPTY = "Please enter your user id";
