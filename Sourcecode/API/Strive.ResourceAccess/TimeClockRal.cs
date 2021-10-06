@@ -75,6 +75,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("locationId", timeClockLocationDto.LocationId);
             _prm.Add("date", timeClockLocationDto.Date);
+            _prm.Add("currentDate", timeClockLocationDto.CurrentDate);
 
             return db.FetchMultiResult<TimeClockEmployeeHourViewModel>(EnumSP.ClockTime.USPGETTIMECLOCKEMPLOYEEHOURDETAIL.ToString(), _prm);
         }

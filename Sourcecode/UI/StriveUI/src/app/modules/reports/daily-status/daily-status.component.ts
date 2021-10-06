@@ -65,7 +65,9 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   getClockDetail() {
     const obj = {
       locationId: +this.locationId,
-      date: moment(this.date).format('YYYY-MM-DD')
+      date: moment(this.date).format('YYYY-MM-DD'),
+      CurrentDate: moment(this.date)
+
     };
     this.spinner.show();
     this.reportService.getDailyClockDetail(obj).subscribe(data => {
