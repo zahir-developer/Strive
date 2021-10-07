@@ -40,7 +40,7 @@ namespace Greeter
 
             // Initial UI Settings
             Initialise();
-            UpdateData();
+            UpdateStaticDataToUI();
 
             //_ = GetAvailableSchedules();
 
@@ -93,17 +93,50 @@ namespace Greeter
             //RegisterForBarcodeScanning();
         }
 
-        void RegisterForBarcodeScanning()
+        public override void ViewWillAppear(bool animated)
         {
-            PeripheralEvents.ConnectionState += OnConnectionStateChanged;
-            PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
-            ConnectToPeripheral();
-            Peripheral.AddDelegate(PeripheralEvents);
+            base.ViewWillAppear(animated);
+
+            _ = GetAndUpdateLocationWashTimeToUI();
         }
 
-        void UpdateData()
+        async Task GetAndUpdateLocationWashTimeToUI()
         {
-            lblLocName.Text = AppSettings.LocationName;
+            var washTime = await GetWashTime(AppSettings.LocationID);
+
+            //if (washTime != 0)
+            //{
+                AppSettings.WashTime = washTime;
+            //}
+            //else
+            //{
+            //    ShowAlertMsg("Wash Time not Receiving from Api");
+            //}
+
+            UpdateWashTimeToUI(washTime);
+        }
+
+        void UpdateWashTimeToUI(int washTime)
+        {
+            lblWashTime.Text = washTime.ToString() + ":00";
+        }
+
+        async Task<int> GetWashTime(long locationId)
+        {
+            ShowActivityIndicator();
+            var response = await new GeneralApiService().GetLocationWashTime(locationId);
+            HideActivityIndicator();
+
+            HandleResponse(response);
+
+            int washTime = 0;
+
+            if (response.IsSuccess())
+            {
+                washTime = response.Locations[0].WashTimeMinutes;
+            }
+
+            return washTime;
         }
 
         void Initialise()
@@ -113,14 +146,26 @@ namespace Greeter
 
             txtFieldBarcode.WeakDelegate = this;
 
-            lblWashTime.Text = AppSettings.WashTime.ToString() + ":00";
             DismissKeyboardOnTapArround = true;
 
-            #if DEBUG
+#if DEBUG
                 //txtFieldBarcode.Text = "ZNL9678";
                 //txtFieldBarcode.Text = "61012381";
                 txtFieldBarcode.Text = "63010412";
-            #endif
+#endif
+        }
+
+        void UpdateStaticDataToUI()
+        {
+            lblLocName.Text = AppSettings.LocationName;
+        }
+
+        void RegisterForBarcodeScanning()
+        {
+            PeripheralEvents.ConnectionState += OnConnectionStateChanged;
+            PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
+            ConnectToPeripheral();
+            Peripheral.AddDelegate(PeripheralEvents);
         }
 
         [Export("textFieldShouldReturn:")]

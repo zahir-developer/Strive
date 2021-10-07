@@ -26,11 +26,9 @@ namespace Greeter.Modules.Message
             //searchedGroups = groups;
         }
 
-        async Task GetMessageGroups()
+        async Task GetGroupChatsFromApi()
         {
-            ShowActivityIndicator();
             var response = await SingleTon.MessageApiService.GetRecentChatList(AppSettings.UserID);
-            HideActivityIndicator();
 
             HandleResponse(response);
 
@@ -42,6 +40,13 @@ namespace Greeter.Modules.Message
             RefreshGroupsToUI();
         }
 
+        async Task GetGroupChats()
+        {
+            ShowActivityIndicator();
+            await GetGroupChatsFromApi();
+            HideActivityIndicator();
+        }
+
         async Task SearchGroup(string keyword)
         {
             searchedGroups = await Task.Run(() => groups.Where(group => Logic.FullName(group.FirstName, group.LastName).ToLower().Contains(keyword.ToLower().Trim())).ToList());
@@ -50,9 +55,7 @@ namespace Greeter.Modules.Message
 
         async Task OnRefersh()
         {
-            //TODO refresh data
-
-            await Task.Delay(2000);
+            await GetGroupChatsFromApi();
             refreshControl.EndRefreshing();
         }
     }

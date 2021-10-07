@@ -25,7 +25,13 @@ namespace Greeter.Modules.Home
 
             SetupView();
             SetupNavigationItem();
-            _ = GetData();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+            GetData().ConfigureAwait(false);
         }
 
         void SetupView()

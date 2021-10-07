@@ -25,7 +25,7 @@ namespace Greeter.Modules.Message
             SetupNavigationItem();
             RegisterCell();
             RegisterObserver();
-            _ = GetMessageGroups();
+            _ = GetGroupChats();
 
             //Setup Delegate and DataSource
             messageGroupsTableView.WeakDelegate = this;
@@ -97,7 +97,7 @@ namespace Greeter.Modules.Message
 
         void RegisterObserver()
         {
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UPDATE_GROUPS_KEY), notify: async (notification) => { await GetMessageGroups(); });
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UPDATE_GROUPS_KEY), notify: async (notification) => { await GetGroupChats(); });
         }
 
         void RegisterCell()

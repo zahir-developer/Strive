@@ -59,11 +59,11 @@ namespace Greeter
 
             btnNext.TouchUpInside += delegate
             {
-                _ = BtnNextClicked();
+                BtnNextClicked();
             };
         }
 
-        async Task BtnNextClicked()
+        void BtnNextClicked()
         {
             if (!string.IsNullOrEmpty(tfLocation.Text))
             {
@@ -71,38 +71,9 @@ namespace Greeter
                 AppSettings.LocationID = locations[pos].ID;
                 AppSettings.LocationName = locations[pos].Name;
                 AppSettings.WashTime = locations[pos].WashTimeMinutes;
-
-                var washTime = await GetWashTime(AppSettings.LocationID);
-
-                if (washTime != 0)
-                {
-                    AppSettings.WashTime = washTime;
-                    NavigateToTabsScreen();
-                }
-                else
-                {
-                    ShowAlertMsg("Wash Time not Receiving from Api");
-                }
+                NavigateToTabsScreen();
             }
             else ShowAlertMsg(Common.Messages.LOCATION_EMPTY, titleTxt: Common.Messages.LOCATION);
-        }
-
-        async Task<int> GetWashTime(long locationId)
-        {
-            ShowActivityIndicator();
-            var response = await new GeneralApiService().GetLocationWashTime(locationId);
-            HideActivityIndicator();
-
-            HandleResponse(response);
-
-            int washTime = 0;
-
-            if (response.IsSuccess())
-            {
-                washTime = response.Locations[0].WashTimeMinutes;
-            }
-
-            return washTime;
         }
 
         void UpdateSelectedLocationIfAny()

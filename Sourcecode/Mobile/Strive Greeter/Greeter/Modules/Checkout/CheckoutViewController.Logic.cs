@@ -22,7 +22,16 @@ namespace Greeter.Modules.Pay
             //GetCheckouts().ConfigureAwait(false);
         }
 
-        async Task<List<Checkout>> GetCheckoutListAsync()
+        async Task GetCheckoutListAsync()
+        {
+            ShowActivityIndicator();
+            Checkouts = await GetCheckoutListFromApiAsync();
+            if (IsViewLoaded)
+                checkoutTableView.ReloadData();
+            HideActivityIndicator();
+        }
+
+        async Task<List<Checkout>> GetCheckoutListFromApiAsync()
         {
             var checkoutRequest = new CheckoutRequest
             {
@@ -41,9 +50,7 @@ namespace Greeter.Modules.Pay
                 checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
             #endif
 
-            ShowActivityIndicator();
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
-            HideActivityIndicator();
 
             List<Checkout> checkouts = null;
 
@@ -63,14 +70,16 @@ namespace Greeter.Modules.Pay
             return checkouts;
         }
 
-        async Task GetCheckouts()
-        {
-            //RestartPagination();
-            //_ = LoadItems(lastPagePos);
-            Checkouts = await GetCheckoutListAsync();
-            if (IsViewLoaded)
-                checkoutTableView.ReloadData();
-        }
+        //async Task GetCheckouts()
+        //{
+        //    //RestartPagination();
+        //    //_ = LoadItems(lastPagePos);
+        //    Checkouts = await GetCheckoutListAsync();
+        //    if (IsViewLoaded)
+        //        checkoutTableView.ReloadData();
+        //}
+
+        
 
         //void RestartPagination()
         //{
@@ -121,7 +130,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_HOLD_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    _ = GetCheckouts();
+                    _ = GetCheckoutListAsync();
                 }, titleTxt: Common.Messages.HOLD);
             }
         }
@@ -152,7 +161,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_COMPLETED_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    _ = GetCheckouts();
+                    _ = GetCheckoutListAsync();
                 }, titleTxt: Common.Messages.COMPLETE);
             }
         }
@@ -204,7 +213,7 @@ namespace Greeter.Modules.Pay
                 ShowAlertMsg(Common.Messages.SERVICE_CHECKED_OUT_SUCCESS_MSG, () =>
                 {
                     // Refreshing checkout list
-                    _ = GetCheckouts();
+                    _ = GetCheckoutListAsync();
                 }, titleTxt:Common.Messages.CHECKOUT);
             }
         }

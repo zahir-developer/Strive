@@ -4,12 +4,14 @@ using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter.Modules.Pay
 {
     public partial class ServiceListViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
     {
         UITableView checkoutTableView;
+        readonly UIRefreshControl refreshControl = new();
         bool isAlreadyLoaded;
 
         public override void ViewDidLoad()
@@ -23,6 +25,12 @@ namespace Greeter.Modules.Pay
             //Setup Delegate and DataSource
             checkoutTableView.WeakDelegate = this;
             checkoutTableView.WeakDataSource = this;
+
+            refreshControl.ValueChanged += async (sender, e) =>
+            {
+                await GetCheckoutListFromApiAsync();
+                refreshControl.EndRefreshing();
+            };
         }
 
         public override void ViewWillAppear(bool animated)
@@ -55,6 +63,8 @@ namespace Greeter.Modules.Pay
             checkoutTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             checkoutTableView.BackgroundColor = UIColor.Clear;
             checkoutTableView.AutomaticallyAdjustsScrollIndicatorInsets = true;
+            refreshControl.TintColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            checkoutTableView.RefreshControl = refreshControl;
             View.Add(checkoutTableView);
 
             checkoutTableView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 60).Active = true;

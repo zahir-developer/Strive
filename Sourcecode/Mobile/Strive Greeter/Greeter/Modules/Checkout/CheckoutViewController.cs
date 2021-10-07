@@ -12,6 +12,7 @@ namespace Greeter.Modules.Pay
     public partial class CheckoutViewController : BaseViewController, IUITableViewDataSource, IUITableViewDelegate
     {
         UITableView checkoutTableView;
+        readonly UIRefreshControl refreshControl = new();
         bool isAlreadyLoaded;
 
         public override void ViewDidLoad()
@@ -25,6 +26,13 @@ namespace Greeter.Modules.Pay
             //Setup Delegate and DataSource
             checkoutTableView.WeakDelegate = this;
             checkoutTableView.WeakDataSource = this;
+
+            refreshControl.ValueChanged += async (sender, e) =>
+            {
+                Checkouts = await GetCheckoutListFromApiAsync();
+                checkoutTableView.ReloadData();
+                refreshControl.EndRefreshing();
+            };
         }
 
         public override void ViewWillAppear(bool animated)
@@ -38,7 +46,7 @@ namespace Greeter.Modules.Pay
             }
             base.ViewWillAppear(animated);
 
-            GetCheckouts().ConfigureAwait(false);
+            GetCheckoutListAsync().ConfigureAwait(false);
         }
 
         void SetupView()
@@ -57,6 +65,8 @@ namespace Greeter.Modules.Pay
             checkoutTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             checkoutTableView.BackgroundColor = UIColor.Clear;
             checkoutTableView.AutomaticallyAdjustsScrollIndicatorInsets = true;
+            refreshControl.TintColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+            checkoutTableView.RefreshControl = refreshControl;
             View.Add(checkoutTableView);
 
             checkoutTableView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor, constant: 60).Active = true;

@@ -4,6 +4,7 @@ using Greeter.Storyboards;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace Greeter
 {
@@ -53,6 +54,7 @@ namespace Greeter
                 var vcs = new UIViewController[] { vc };
                 nc.ViewControllers = vcs;
                 Window.RootViewController = nc;
+                Window.TintColor = Colors.APP_BASE_COLOR.ToPlatformColor();
                 Window.MakeKeyAndVisible();
             }
 

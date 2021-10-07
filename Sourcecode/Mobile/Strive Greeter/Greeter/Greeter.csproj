@@ -26,8 +26,9 @@
 		<MtouchArch>x86_64</MtouchArch>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<MtouchDebug>true</MtouchDebug>
-		<CodesignKey>Apple Development: Nandha Kumar Sundararaj (8PS34QM9RL)</CodesignKey>
+		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<LangVersion>latest</LangVersion>
+		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
 		<DebugSymbols>true</DebugSymbols>
@@ -56,7 +57,7 @@
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<MtouchLink>SdkOnly</MtouchLink>
 		<LangVersion>latest</LangVersion>
-		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
+		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debuging|iPhoneSimulator' ">
 		<Optimize>false</Optimize>

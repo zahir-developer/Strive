@@ -118,11 +118,12 @@ namespace Greeter.Storyboards
         void NavigateToServiceHome()
         {
             UIViewController vc = null;
-            if (IsFromNewService)
-                vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 6];
-            else
-                vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
-            NavigationController.PopToViewController(vc, true);
+            //if (IsFromNewService)
+            //    vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 6];
+            //else
+            //    vc = NavigationController.ViewControllers[NavigationController.ViewControllers.Length - 3];
+            //NavigationController.PopToViewController(vc, true);
+            NavigationController.PopToRootViewController(true);
         }
 
         string MakeServiceReceipt()

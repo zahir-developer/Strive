@@ -1,8 +1,8 @@
 using Foundation;
 using Greeter;
 using Greeter.Common;
-using Greeter.Storyboards;
 using UIKit;
+using Xamarin.Essentials;
 
 namespace NewSingleViewTemplate
 {
@@ -54,6 +54,7 @@ namespace NewSingleViewTemplate
                 var vcs = new UIViewController[] { vc };
                 nc.ViewControllers = vcs;
                 Window.RootViewController = nc;
+                Window.TintColor = Colors.APP_BASE_COLOR.ToPlatformColor();
                 Window.MakeKeyAndVisible();
             }
         }

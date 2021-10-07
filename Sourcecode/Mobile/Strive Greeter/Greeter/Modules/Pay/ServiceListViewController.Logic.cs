@@ -22,6 +22,15 @@ namespace Greeter.Modules.Pay
 
         async Task GetCheckoutListAsync()
         {
+            ShowActivityIndicator();
+            await GetCheckoutListFromApiAsync();
+            if (IsViewLoaded)
+                checkoutTableView.ReloadData();
+            HideActivityIndicator();
+        }
+
+        async Task GetCheckoutListFromApiAsync()
+        {
             var checkoutRequest = new CheckoutRequest
             {
                 StartDate = DateTime.Now.Date.ToString(Constants.DATE_FORMAT_FOR_API),
@@ -36,9 +45,7 @@ namespace Greeter.Modules.Pay
                 //checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
             #endif
 
-            ShowActivityIndicator();
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
-            HideActivityIndicator();
 
             HandleResponse(response);
 

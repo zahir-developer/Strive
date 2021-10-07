@@ -96,7 +96,7 @@ namespace Greeter.Storyboards
                 UpdatePickerView(makes, pv, tfMake.Text);
             };
 
-            btnTypeDropdown.TouchUpInside += delegate
+            btnMakeDropdown.TouchUpInside += delegate
             {
                 tfMake.BecomeFirstResponder();
             };
@@ -107,7 +107,7 @@ namespace Greeter.Storyboards
                 UpdatePickerView(models, pv, tfModel.Text);
             };
 
-            btnMakeDropdown.TouchUpInside += delegate
+            btnTypeDropdown.TouchUpInside += delegate
             {
                 tfModel.BecomeFirstResponder();
             };
@@ -278,10 +278,16 @@ namespace Greeter.Storyboards
             upcharges = upchargesList.ToArray();
 
             AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
-            additionalServices = AdditionalServices.Select(x => x.Name).ToArray();
+            var additionalServicesList = AdditionalServices.Select(x => x.Name).ToList();
+            additionalServicesList.Insert(0, "None");
+            additionalServices = additionalServicesList.ToArray();
+            UpdateAdditionalServiceAsNone();
 
             AirFreshners = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.AIR_FRESHNERS)).ToList();
-            airFreshners = AirFreshners.Select(x => x.Name).ToArray();
+            var airFreshnersList = AirFreshners.Select(x => x.Name).ToList();
+            airFreshnersList.Insert(0, "None");
+            airFreshners = airFreshnersList.ToArray();
+            UpdateAirfreshnerAsNone();
 
             if (!IsNewBarcode)
             {
@@ -379,6 +385,16 @@ namespace Greeter.Storyboards
         void UpdateUpchargeAsNone()
         {
             tfUpcharge.Text = upcharges[0];
+        }
+
+        void UpdateAdditionalServiceAsNone()
+        {
+            tfAdditionalService.Text = additionalServices[0];
+        }
+
+        void UpdateAirfreshnerAsNone()
+        {
+            tfAirFreshner.Text = airFreshners[0];
         }
 
         async Task UpdateUpchargeForDetailAndModel(long modelId)
@@ -616,6 +632,9 @@ namespace Greeter.Storyboards
                         break;
                     case ChoiceType.AdditionalService:
                         tfAdditionalService.Text = data[pos];
+                        if (pos == 0) // For None
+                            return;
+                        pos -= 1;
                         additional = additional ?? new JobItem();
                         additional.ServiceId = AdditionalServices[pos].ID;
                         additional.SeriveName = AdditionalServices[pos].Name;
@@ -624,6 +643,9 @@ namespace Greeter.Storyboards
                         break;
                     case ChoiceType.AirFreshner:
                         tfAirFreshner.Text = data[pos];
+                        if (pos == 0) // For None
+                            return;
+                        pos -= 1;
                         airFreshner = airFreshner ?? new JobItem();
                         airFreshner.ServiceId = AirFreshners[pos].ID;
                         airFreshner.SeriveName = AirFreshners[pos].Name;
