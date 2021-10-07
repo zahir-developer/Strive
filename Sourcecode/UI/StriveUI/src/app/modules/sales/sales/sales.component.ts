@@ -1063,7 +1063,7 @@ export class SalesComponent implements OnInit {
     const amount = this.decimalPipe.transform(totalAmount, '.2-2');
     const capObj = {
       authCode: auth.authcode,
-      amount: amount.toString(),
+      amount: amount.toString().replace(",",""),
       retRef: auth.retref,
       invoiceId: {}
     };
