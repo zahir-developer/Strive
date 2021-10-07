@@ -1390,6 +1390,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("EstimatedTimeOut")]
         public DateTime EstimatedTimeOut { get; set; }
+
+        [JsonProperty("ClientName")]
+        public string CustName { get; set; }
     }
 
     public class GetUpchargeReq

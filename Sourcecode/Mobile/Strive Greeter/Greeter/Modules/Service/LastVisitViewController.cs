@@ -13,6 +13,7 @@ namespace Greeter.Modules.Service
         UILabel serviceDateLabel;
         UILabel serviceNameLabel;
         UILabel barcodeLabel;
+        UILabel customerNameLabel;
         UILabel makeLabel;
         UILabel modelLabel;
         UILabel vechileColorLabel;
@@ -178,6 +179,37 @@ namespace Greeter.Modules.Service
             titleLabel.TopAnchor.ConstraintEqualTo(containerView.TopAnchor, 30).Active = true;
             titleLabel.HeightAnchor.ConstraintEqualTo(30).Active = true;
 
+            var customerNameBackgroundView = new UIView(CGRect.Empty);
+            customerNameBackgroundView.TranslatesAutoresizingMaskIntoConstraints = false;
+            customerNameBackgroundView.BackgroundColor = UIColor.FromRGB(245.0f / 255.0f, 245.0f / 255.0f, 245.0f / 255.0f);
+            containerView.Add(customerNameBackgroundView);
+
+            var customerNameTitleLabel = new UILabel(CGRect.Empty);
+            customerNameTitleLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            customerNameTitleLabel.TextColor = UIColor.FromRGB(39.0f / 255.0f, 68.0f / 255.0f, 110.0f / 255.0f);
+            customerNameTitleLabel.Font = UIFont.SystemFontOfSize(18);
+            customerNameTitleLabel.Text = "Customer Name:";
+            customerNameBackgroundView.Add(customerNameTitleLabel);
+
+            customerNameLabel = new UILabel(CGRect.Empty);
+            customerNameLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            customerNameLabel.TextColor = UIColor.FromRGB(36.0f / 255.0f, 72.0f / 255.0f, 154.0f / 255.0f);
+            customerNameLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Semibold);
+            customerNameBackgroundView.Add(customerNameLabel);
+
+            customerNameBackgroundView.LeadingAnchor.ConstraintEqualTo(containerView.LeadingAnchor, 50).Active = true;
+            customerNameBackgroundView.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, -50).Active = true;
+            customerNameBackgroundView.HeightAnchor.ConstraintEqualTo(58).Active = true;
+            customerNameBackgroundView.TopAnchor.ConstraintEqualTo(titleLabel.BottomAnchor, 15).Active = true;
+
+            customerNameTitleLabel.LeadingAnchor.ConstraintEqualTo(customerNameBackgroundView.LeadingAnchor, 24).Active = true;
+            customerNameTitleLabel.TrailingAnchor.ConstraintEqualTo(customerNameBackgroundView.CenterXAnchor).Active = true;
+            customerNameTitleLabel.CenterYAnchor.ConstraintEqualTo(customerNameBackgroundView.CenterYAnchor).Active = true;
+
+            customerNameLabel.LeadingAnchor.ConstraintEqualTo(customerNameBackgroundView.CenterXAnchor, 20).Active = true;
+            customerNameLabel.TrailingAnchor.ConstraintEqualTo(customerNameBackgroundView.TrailingAnchor, -24).Active = true;
+            customerNameLabel.CenterYAnchor.ConstraintEqualTo(customerNameBackgroundView.CenterYAnchor).Active = true;
+
             var barCodeBackgroundView = new UIView(CGRect.Empty);
             barCodeBackgroundView.TranslatesAutoresizingMaskIntoConstraints = false;
             barCodeBackgroundView.BackgroundColor = UIColor.FromRGB(245.0f / 255.0f, 245.0f / 255.0f, 245.0f / 255.0f);
@@ -199,7 +231,7 @@ namespace Greeter.Modules.Service
             barCodeBackgroundView.LeadingAnchor.ConstraintEqualTo(containerView.LeadingAnchor, 50).Active = true;
             barCodeBackgroundView.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, -50).Active = true;
             barCodeBackgroundView.HeightAnchor.ConstraintEqualTo(58).Active = true;
-            barCodeBackgroundView.TopAnchor.ConstraintEqualTo(titleLabel.BottomAnchor, 15).Active = true;
+            barCodeBackgroundView.TopAnchor.ConstraintEqualTo(customerNameBackgroundView.BottomAnchor, 15).Active = true;
 
             barCodeTitleLabel.LeadingAnchor.ConstraintEqualTo(barCodeBackgroundView.LeadingAnchor, 24).Active = true;
             barCodeTitleLabel.TrailingAnchor.ConstraintEqualTo(barCodeBackgroundView.CenterXAnchor).Active = true;
@@ -458,6 +490,9 @@ namespace Greeter.Modules.Service
             makeLabel.Text = service.VehicleMake;
             modelLabel.Text = service.VehicleModel;
             vechileColorLabel.Text = service.VehicleColor;
+
+            customerNameLabel.Text = service.CustName ?? "-";
+
             //additionalServicesLabel.Text = "None";
 
             startTimeLabel.Text = service.TimeIn.ToShortTimeString();
