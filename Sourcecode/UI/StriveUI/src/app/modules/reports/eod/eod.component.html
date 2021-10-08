@@ -62,6 +62,7 @@
                                             <th scope="col">Emp. Name</th>
                                             <th scope="col">Wash Hours</th>
                                             <th scope="col">Detail Hours</th>
+                                            <th scope="col">Total Hours</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,6 +70,7 @@
                                             <td>{{clock?.LastName}}&nbsp;{{clock?.FirstName}}</td>
                                             <td >{{clock?.WashHours}}</td>
                                             <td >{{clock?.DetailHours}}</td>
+                                            <td >{{clock?.TotalHours}}</td>
                                         </tr>
                                         <tr *ngIf="clockDetail.length === 0">
                                             <td colspan="2" class="text-center">
