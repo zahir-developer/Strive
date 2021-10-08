@@ -66,7 +66,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     const obj = {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD'),
-      CurrentDate: moment(this.date)
+      CurrentDate: new Date()
 
     };
     this.spinner.show();
