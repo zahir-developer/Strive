@@ -116,6 +116,21 @@ namespace Greeter
             UITabBar.Appearance.UnselectedItemTintColor = UIColor.White;
             UITabBar.Appearance.TintColor = UIColor.FromRGB(12, 78, 71);
 
+            if(UIDevice.CurrentDevice.CheckSystemVersion(15, 0))
+            {
+                var tabBarAppearance = new UITabBarAppearance();
+                tabBarAppearance.ConfigureWithDefaultBackground();
+                tabBarAppearance.BackgroundColor = UIColor.White;
+                UITabBar.Appearance.StandardAppearance = tabBarAppearance;
+                UITabBar.Appearance.ScrollEdgeAppearance = tabBarAppearance;
+
+                var navigationBarAppearance = new UINavigationBarAppearance();
+                navigationBarAppearance.ConfigureWithDefaultBackground();
+                navigationBarAppearance.BackgroundColor = UIColor.White;
+                UINavigationBar.Appearance.StandardAppearance = navigationBarAppearance;
+                UINavigationBar.Appearance.ScrollEdgeAppearance = navigationBarAppearance;
+            }
+
             //UITabBar.Appearance.TintColor = UIColor.FromName(ColorNames.APP_COLOR);
         }
     }
