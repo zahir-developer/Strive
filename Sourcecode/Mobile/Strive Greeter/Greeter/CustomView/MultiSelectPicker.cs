@@ -27,7 +27,9 @@ namespace Greeter.CustomView
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            selectedIndex.AddRange(DefaultSelectedIndex);
+
+            if(DefaultSelectedIndex is not null && DefaultSelectedIndex.Count > 0)
+                selectedIndex.AddRange(DefaultSelectedIndex);
 
             SetupView();
             SetupNavigationItem();

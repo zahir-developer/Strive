@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
 using Greeter.Common;
+using Greeter.CustomView;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Services.Api;
@@ -13,7 +14,7 @@ using UIKit;
 
 namespace Greeter.Storyboards
 {
-    public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource, IUITextFieldDelegate
+    public partial class ServiceQuestionViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource, IUITextFieldDelegate, IMultiSelectPickerDelegate
     {
         //string[] sampleData = new string[] {
         //    "Main Street 1",
@@ -46,7 +47,8 @@ namespace Greeter.Storyboards
         long jobTypeId;
         JobItem mainService;
         JobItem upcharge;
-        JobItem additional;
+        //JobItem additional;
+        List<JobItem> additionalServcies;
         JobItem airFreshner;
 
         // Data
@@ -57,6 +59,7 @@ namespace Greeter.Storyboards
         List<ServiceDetail> DetailPackages;
         List<ServiceDetail> Upcharges;
         List<ServiceDetail> AdditionalServices;
+        List<int> AdditionalServicesSelectedPositions;
         List<ServiceDetail> AirFreshners;
 
         string[] makes;
@@ -86,7 +89,8 @@ namespace Greeter.Storyboards
             //Clicks
             btnNext.TouchUpInside += delegate
             {
-                CreateService(MakeID, ModelID, ColorID, jobTypeId, mainService, upcharge, additional, airFreshner, ClientID, VehicleID);
+                CreateService(MakeID, ModelID, ColorID, jobTypeId, mainService, upcharge, additionalServcies?.ToArray(), airFreshner, ClientID, VehicleID);
+                //ShowMultiselectOptions();
             };
 
             //Choice type change
@@ -174,7 +178,9 @@ namespace Greeter.Storyboards
 
             btnAddtionalDropdown.TouchUpInside += delegate
             {
-                tfAdditionalService.BecomeFirstResponder();
+                //tfAdditionalService.BecomeFirstResponder();
+                
+                ShowMultiselectOptions(additionalServices.ToList());
             };
 
             tfAirFreshner.EditingDidBegin += delegate
@@ -199,6 +205,23 @@ namespace Greeter.Storyboards
         {
             textField.EndEditing(true);
             return true;
+        }
+
+        void ShowMultiselectOptions(List<string> options)
+        {
+            var nc = new UINavigationController();
+            var mc = new MultiSelectPicker();
+            nc.ViewControllers = new UIViewController[] { mc };
+            //mc.Options = new List<string>() { "dfsa", "fsaf" };
+            mc.Options = options;
+            mc.PickerDelegate = this;
+
+            if (additionalServcies is not null && additionalServcies.Count > 0)
+            {
+                mc.DefaultSelectedIndex = AdditionalServicesSelectedPositions;
+            }
+
+            PresentViewController(nc, true, null);
         }
 
         void UpdatePickerView(string[] data, UIPickerView pv, string selectedText, bool isPreviousValueSelect = true)
@@ -279,7 +302,7 @@ namespace Greeter.Storyboards
 
             AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
             var additionalServicesList = AdditionalServices.Select(x => x.Name).ToList();
-            additionalServicesList.Insert(0, "None");
+            //additionalServicesList.Insert(0, "None");
             additionalServices = additionalServicesList.ToArray();
             UpdateAdditionalServiceAsNone();
 
@@ -389,7 +412,8 @@ namespace Greeter.Storyboards
 
         void UpdateAdditionalServiceAsNone()
         {
-            tfAdditionalService.Text = additionalServices[0];
+            //tfAdditionalService.Text = additionalServices[0];
+            tfAdditionalService.Text = "None";
         }
 
         void UpdateAirfreshnerAsNone()
@@ -449,7 +473,7 @@ namespace Greeter.Storyboards
             }
         }
 
-        void CreateService(long makeId, long modelId, long colorId, long jobTypeId, JobItem mainService, JobItem upcharge, JobItem additional, JobItem airFreshners, long vehicleId = 0, long clientId = 0)
+        void CreateService(long makeId, long modelId, long colorId, long jobTypeId, JobItem mainService, JobItem upcharge, JobItem[] additional, JobItem airFreshners, long vehicleId = 0, long clientId = 0)
         {
             if (makeId == 0 || modelId == 0 || colorId == 0 || mainService == null)
             {
@@ -507,7 +531,7 @@ namespace Greeter.Storyboards
             AddPickerToolbar(tfWashPkg, tfWashPkg.Placeholder, PickerDone);
             AddPickerToolbar(tfDetailPkg, tfDetailPkg.Placeholder, PickerDone);
             AddPickerToolbar(tfUpcharge, tfUpcharge.Placeholder, PickerDone);
-            AddPickerToolbar(tfAdditionalService, tfAdditionalService.Placeholder, PickerDone);
+            //AddPickerToolbar(tfAdditionalService, tfAdditionalService.Placeholder, PickerDone);
             AddPickerToolbar(tfAirFreshner, tfAirFreshner.Placeholder, PickerDone);
 
             tfMake.InputView = pv;
@@ -517,7 +541,9 @@ namespace Greeter.Storyboards
             tfUpcharge.InputView = pv;
             tfWashPkg.InputView = pv;
             tfDetailPkg.InputView = pv;
-            tfAdditionalService.InputView = pv;
+            //tfAdditionalService.InputView = pv;
+            tfAdditionalService.Delegate = this;
+            tfAdditionalService.AddTarget((sender, e) => { ShowMultiselectOptions(additionalServices.ToList()); }, UIControlEvent.EditingDidBegin);
             tfAirFreshner.InputView = pv;
 
             tfBarcode.WeakDelegate = this;
@@ -553,10 +579,10 @@ namespace Greeter.Storyboards
                 return false;
             };
 
-            tfAdditionalService.ShouldChangeCharacters = (textField, range, replacementString) =>
-            {
-                return false;
-            };
+            //tfAdditionalService.ShouldChangeCharacters = (textField, range, replacementString) =>
+            //{
+            //    return false;
+            //};
 
             tfAirFreshner.ShouldChangeCharacters = (textField, range, replacementString) =>
             {
@@ -576,6 +602,10 @@ namespace Greeter.Storyboards
                 {
                     return false;
                 }
+            }
+            else if (textField == tfAdditionalService)
+            {
+                return false;
             }
 
             return true;
@@ -635,11 +665,11 @@ namespace Greeter.Storyboards
                         if (pos == 0) // For None
                             return;
                         pos -= 1;
-                        additional = additional ?? new JobItem();
-                        additional.ServiceId = AdditionalServices[pos].ID;
-                        additional.SeriveName = AdditionalServices[pos].Name;
-                        additional.Price = AdditionalServices[pos].Price;
-                        additional.Time = AdditionalServices[pos].Time;
+                        //additional = additional ?? new JobItem();
+                        //additional.ServiceId = AdditionalServices[pos].ID;
+                        //additional.SeriveName = AdditionalServices[pos].Name;
+                        //additional.Price = AdditionalServices[pos].Price;
+                        //additional.Time = AdditionalServices[pos].Time;
                         break;
                     case ChoiceType.AirFreshner:
                         tfAirFreshner.Text = data[pos];
@@ -709,7 +739,7 @@ namespace Greeter.Storyboards
             vc.MainService = mainService;
             vc.Upcharge = upcharge;
             vc.UpchargeTypeName = tfUpcharge.Text;
-            vc.Additional = additional;
+            vc.AdditionalServices = additionalServcies?.ToArray();
             vc.AirFreshner = airFreshner;
             vc.CustName = CustName;
             vc.ClientID = ClientID;
@@ -738,6 +768,46 @@ namespace Greeter.Storyboards
         public string GetTitle(UIPickerView pickerView, nint row, nint component)
         {
             return data[row];
+        }
+
+        public void DidCompleted(MultiSelectPicker pickerView, List<int> selectedIndex)
+        {
+            UpdateSelectedAdditionalServices(selectedIndex);
+        }
+
+        void UpdateSelectedAdditionalServices(List<int> selectedIndexList)
+        {
+            if (selectedIndexList is null || selectedIndexList.Count == 0)
+                return;
+
+            AdditionalServicesSelectedPositions = selectedIndexList;
+            //if (additionalServcies is null)
+                additionalServcies = new();
+
+            for (int i = 0; i < selectedIndexList.Count; i++)
+            {
+                int selectedPos = selectedIndexList[i];
+
+                //if (selectedPos == 0)
+                //{
+                //    return;
+                //}
+
+                var additional = new JobItem();
+                additional.ServiceId = AdditionalServices[selectedPos].ID;
+                additional.SeriveName = AdditionalServices[selectedPos].Name;
+                additional.Price = AdditionalServices[selectedPos].Price;
+                additional.Time = AdditionalServices[selectedPos].Time;
+                additionalServcies.Add(additional);
+            }
+
+            var names = additionalServcies.Select(x => x.SeriveName);
+            tfAdditionalService.Text = String.Join(",", names);
+        }
+
+        public void DidCancel(MultiSelectPicker pickerView)
+        {
+            
         }
     }
 

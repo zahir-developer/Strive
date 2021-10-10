@@ -26,7 +26,7 @@ namespace Greeter.Storyboards
         public long VehicleID;
         public JobItem MainService;
         public JobItem Upcharge;
-        public JobItem Additional;
+        public JobItem[] AdditionalServices;
         public JobItem AirFreshner;
 
         public string Make = string.Empty;
@@ -107,11 +107,18 @@ namespace Greeter.Storyboards
                     jobItems.Add(Upcharge);
                 }
 
-                if (Additional != null)
+                if (AdditionalServices is not null && AdditionalServices.Length > 0)
                 {
-                    Additional.JobId = jobId;
-                    serviceTimeMins += Additional.Time;
-                    jobItems.Add(Additional);
+                    for (int i = 0; i < AdditionalServices.Length; i++)
+                    {
+                        AdditionalServices[i].JobId = jobId;
+                        serviceTimeMins += AdditionalServices[i].Time;
+                        jobItems.Add(AdditionalServices[i]);
+                    }
+
+                    //Additional.JobId = jobId;
+                    //serviceTimeMins += Additional.Time;
+                    //jobItems.Add(Additional);
                 }
 
                 if (AirFreshner != null)

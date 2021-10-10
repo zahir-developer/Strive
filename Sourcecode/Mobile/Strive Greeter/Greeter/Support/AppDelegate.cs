@@ -122,7 +122,7 @@ namespace Greeter
                 tabBarAppearance.ConfigureWithDefaultBackground();
                 tabBarAppearance.BackgroundColor = UIColor.White;
                 UITabBar.Appearance.StandardAppearance = tabBarAppearance;
-                UITabBar.Appearance.ScrollEdgeAppearance = tabBarAppearance;
+                //UITabBar.Appearance.ScrollEdgeAppearance = tabBarAppearance;
 
                 var navigationBarAppearance = new UINavigationBarAppearance();
                 navigationBarAppearance.ConfigureWithDefaultBackground();
