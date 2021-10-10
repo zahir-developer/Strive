@@ -177,7 +177,9 @@ namespace Greeter.Storyboards
                 }
             }
 
-            body += "<br/ ><p>" + "Total Amount : " + Amount.ToString() + "</p>";
+            body += "<br/ ><p>" + "Total Amount Due: " + Amount.ToString() + "</p>";
+            body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
+
             Debug.WriteLine("Email Body :" + body);
 
             return body;

@@ -185,7 +185,9 @@ namespace Greeter.Storyboards
                     totalAmt += job.Price;
                 }
 
-                body += "<br/ ><p>" + "Total Amount : " + totalAmt.ToString() + "</p>";
+                body += "<br/ ><p>" + "Total Amount Due: " + totalAmt.ToString() + "</p>";
+
+                body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
 
                 //body = "<div>Something</div>";
 
