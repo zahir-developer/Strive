@@ -457,6 +457,7 @@
 		<Compile Include="Cells\IssueImageCollectionViewCell.designer.cs">
 		  <DependentUpon>IssueImageCollectionViewCell.cs</DependentUpon>
 		</Compile>
+		<Compile Include="CustomView\MultiSelectPicker.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
