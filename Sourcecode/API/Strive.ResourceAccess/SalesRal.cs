@@ -77,7 +77,7 @@ namespace Strive.ResourceAccess
         }
         public bool UpdateListItem(SalesUpdateItemDto salesUpdateItemDto)
         {
-            return dbRepo.SavePc(salesUpdateItemDto, "JobId");
+            return dbRepo.UpdatePc(salesUpdateItemDto, "JobId");
         }
         public List<ServiceItemDto> GetServicesWithPrice()
         {
