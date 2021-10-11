@@ -258,6 +258,7 @@ export class VehicleCreateEditComponent implements OnInit {
               item_text: item.item_text
             };
           });
+          this.memberService = this.memberService.filter(s=>s.item_id !== undefined);
           this.dropDownSetting();
           this.vehicleForm.patchValue({
             services: this.memberService
@@ -371,7 +372,8 @@ export class VehicleCreateEditComponent implements OnInit {
               const f = this.additionalService.find(a => a.ServiceId === e);
               return f ? f : 0;
             });
-            this.memberService = memberService.map(item => {
+            
+            this.memberService = memberService.filter(s=>s.ServiceId !== undefined).map(item => {
               return {
                 item_id: item.ServiceId,
                 item_text: item.ServiceName

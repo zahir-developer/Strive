@@ -956,6 +956,7 @@ export class SalesComponent implements OnInit {
     }
   }
   updateListItem(formObj, flag) {
+    formObj.job = null;
     this.salesService.updateListItem(formObj).subscribe(data => {
       if (data.status === 'Success') {
         this.messageService.showMessage({ severity: 'success', title: 'Success', body: MessageConfig.Sales.Add });
