@@ -22,19 +22,21 @@ namespace Strive.BusinessLogic.Details
 
         public Result AddDetails(DetailsDto details)
         {
+            if (!string.IsNullOrEmpty(details.DeletedJobItemId))
+            {
+                var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(details.DeletedJobItemId);
+            }
+
             if (details.Job.ClientId == null && !string.IsNullOrEmpty(details.Job.BarCode))
             {
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
 
-            if (details.BaySchedule.Count > 0)
-            {
-                var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
+            var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
 
-                details.BaySchedule = baySlot;
-            }
+            details.BaySchedule = baySlot;
 
-            return ResultWrap(new DetailsRal(_tenant).AddDetails, details, "Status");
+            return ResultWrap(new DetailsRal(_tenant).UpdateDetails, details, "Status");
         }
 
         private List<BusinessEntities.Model.BaySchedule> GetBaySlot(int jobId, int bayId, DateTime jobDate, DateTimeOffset initialTimeIn, DateTimeOffset finalDueTime)
@@ -100,14 +102,16 @@ namespace Strive.BusinessLogic.Details
                     JobId = jobId,
                     ScheduleDate = scheduleDate,
                     ScheduleInTime = new TimeSpan(hour, startTime, 0),
-                    ScheduleOutTime = new TimeSpan(hour, endTime, 0),
+                    ScheduleOutTime = new TimeSpan(endHour, endTime, 0),
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = 0,
                     UpdatedBy = 0,
                 };
 
-                bayScheduleList.Add(baySchedule);
+
+                if (hour >= 7 && (hour <= 19 && endTime <= 30))
+                    bayScheduleList.Add(baySchedule);
             }
             else
             {
@@ -143,7 +147,7 @@ namespace Strive.BusinessLogic.Details
                     }
 
 
-                    if(tempEndHour == -1)
+                    if (tempEndHour == -1)
                     {
                         tempEndHour = 0;
                     }
@@ -192,7 +196,7 @@ namespace Strive.BusinessLogic.Details
                                 tempInitialminutes = 0;
                                 tempfinalminutes = 30;
                                 endHour = tempinitialHour + 1;
-                                
+
                             }
                             else //HH:30, HH:00
                             {
@@ -216,7 +220,11 @@ namespace Strive.BusinessLogic.Details
                                 UpdatedBy = 0,
                             };
 
-                            bayScheduleList.Add(baySchedule);
+
+                            if (hour >= 7 && hour <= 19)
+                            {
+                                bayScheduleList.Add(baySchedule);
+                            }
 
                             tempEndHour = endHour;
 
@@ -250,12 +258,7 @@ namespace Strive.BusinessLogic.Details
             {
                 var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(details.Job.LocationId, details.Job.BarCode, details.Job.Make, details.Job.Model, details.Job.Color, details.Job.CreatedBy);
             }
-            if (details.BaySchedule?.Count > 0)
-            {
-                var baySlot = GetBaySlot(details.Job.JobId, details.JobDetail.BayId.GetValueOrDefault(), details.Job.JobDate, details.Job.TimeIn.GetValueOrDefault(), details.Job.EstimatedTimeOut.GetValueOrDefault());
 
-                details.BaySchedule = baySlot;
-            }
             var updateDetail = new DetailsRal(_tenant).UpdateDetails(details);
 
             return ResultWrap(updateDetail, "Status");

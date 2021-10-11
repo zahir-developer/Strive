@@ -16,9 +16,9 @@ namespace Strive.ResourceAccess
     {
         public DetailsRal(ITenantHelper tenant) : base(tenant) { }
 
-        public int AddDetails(DetailsDto details)
+        public bool AddDetails(DetailsDto details)
         {
-            return dbRepo.InsertPK<DetailsDto>(details, "JobId");    
+            return dbRepo.UpdatePc<DetailsDto>(details, "JobId");    
         }
         
         public bool UpdateDetails(DetailsDto details)

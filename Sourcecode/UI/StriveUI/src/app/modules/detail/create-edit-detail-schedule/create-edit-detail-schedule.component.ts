@@ -1089,197 +1089,6 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       updatedBy: 0
     };
 
-    var finalDueTime = new Date(this.detailForm.value.dueTime);
-    const initialDate = this.bayScheduleObj ? this.bayScheduleObj.date : this.selectedData.Details.JobDate
-    var initialTimeIn = new Date(initialDate);
-
-    var BaySchedule = [];
-
-    const finalHour = finalDueTime.getHours();
-    const initialHour = initialTimeIn.getHours();
-
-    const finalminutes = finalDueTime.getMinutes();
-    const initialminutes = initialTimeIn.getMinutes();
-
-    var tempfinalminutes = finalminutes;
-    var tempinitialHour = initialHour;
-
-    if (((finalHour == initialHour) || (initialHour + 1 == finalHour)) && ((initialminutes) == 30 && initialminutes != finalminutes)) {
-
-      var startTime;
-      var endTime;
-
-      var hour = initialHour;
-      var endHour = initialHour;
-
-      //HH:00, HH:30
-      if (initialminutes < tempfinalminutes) {
-        startTime = ":00";
-        endTime = ":30";
-        tempfinalminutes = 0;
-      }
-      //HH:30, HH+1:00
-      else if (finalHour > initialHour) {
-        startTime = ":30";
-        endTime = ":00";
-        endHour = initialHour + 1;
-      }
-      else //HH:30, HH:00
-      {
-        startTime = ":30";
-        endTime = ":00";
-        tempfinalminutes = 30;
-        hour = initialHour + 1;
-      }
-
-      let baySchedule = {
-        bayScheduleId: 0,
-        bayId: this.detailForm.value.bay,
-        jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
-        scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-        scheduleInTime: hour + startTime,
-        scheduleOutTime: endHour + endTime,
-        isActive: true,
-        isDeleted: false,
-        createdBy: 0,
-        updatedBy: 0,
-      };
-
-      BaySchedule.push(baySchedule);
-    }
-    else {
-
-      //Loop 1
-      var startTime;
-      var endTime;
-      var hour = initialHour;
-      var endHour = initialHour;
-
-      tempinitialHour = initialHour;
-      //2:00 > 1:00
-      while (finalHour >= tempinitialHour) {
-
-        var temp = [1, 2];
-        hour = tempinitialHour;
-        var tempInitialminutes = initialminutes;
-
-
-        temp.forEach(element => {
-
-          if (finalminutes !== tempInitialminutes || finalHour != tempinitialHour || finalHour == initialHour) {
-            //HH:30, HH:00
-            if (tempInitialminutes > tempfinalminutes) {
-              startTime = ":30";
-              endTime = ":00";
-              tempfinalminutes = 30;
-              tempInitialminutes = 0;
-              endHour = tempinitialHour + 1;
-            }
-            else
-              //HH:00, HH:30
-              if (tempInitialminutes < tempfinalminutes) {
-                startTime = ":00";
-                endTime = ":30";
-                tempfinalminutes = 0;
-                tempInitialminutes = 30;
-                if (endHour != hour)
-                  hour = endHour;
-              }
-              else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0)) {
-                startTime = ":00";
-                endTime = ":30";
-                tempInitialminutes = 30;
-              }
-              else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 30)) {
-                startTime = ":30";
-                endTime = ":00";
-                tempInitialminutes = 0;
-                tempfinalminutes = 30;
-                endHour = tempinitialHour + 1;
-              }
-              else //HH:30, HH:00
-              {
-                startTime = ":30";
-                endTime = ":00";
-                tempfinalminutes = 30;
-                endHour = tempinitialHour + 1;
-              }
-
-            let baySchedule = {
-              bayScheduleId: 0,
-              bayId: this.detailForm.value.bay,
-              jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
-              scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-              scheduleInTime: hour + startTime,
-              scheduleOutTime: endHour + endTime,
-              isActive: true,
-              isDeleted: false,
-              createdBy: 0,
-              updatedBy: 0,
-            };
-
-            BaySchedule.push(baySchedule);
-
-            /*
-            //Loop 2
-            //HH:30, HH:00
-            if (tempInitialminutes > tempfinalminutes) {
-              startTime = ":30";
-              endTime = ":00";
-              tempfinalminutes = 30;
-              tempInitialminutes = 0;
-              endHour = tempinitialHour + 1;
-            }
-            else
-            //HH:00, HH:30
-            if (tempInitialminutes < tempfinalminutes) {
-              startTime = ":00";
-              endTime = ":30";
-              tempfinalminutes = 0;
-              tempInitialminutes = 30;
-            }
-            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0)) {
-              startTime = ":00";
-              endTime = ":30";
-              tempInitialminutes = 30;
-            }
-            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 30)) {
-              startTime = ":30";
-              endTime = ":00";
-              tempInitialminutes = 0;
-              tempfinalminutes = 30;
-              endHour = tempinitialHour + 1;
-            }
-            else //HH:30, HH:00
-            {
-              startTime = ":30";
-              endTime = ":00";
-              tempfinalminutes = 30;
-              endHour = tempinitialHour + 1;
-            }
-  
-            baySchedule = {
-              bayScheduleId: 0,
-              bayId: this.detailForm.value.bay,
-              jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
-              scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-              scheduleInTime: hour + startTime,
-              scheduleOutTime: endHour + endTime,
-              isActive: true,
-              isDeleted: false,
-              createdBy: 0,
-              updatedBy: 0,
-            };
-  
-            BaySchedule.push(baySchedule);
-            */
-          }
-        });
-
-        tempinitialHour++;
-      }
-
-    }
 
     const baySchedule = {
       bayScheduleId: 0,
@@ -1349,7 +1158,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       job,
       jobItem: this.jobItems,
       jobDetail,
-      BaySchedule: BaySchedule
+      BaySchedule: null
     };
 
     if (this.isEdit === true) {
@@ -1375,7 +1184,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     }
     else {
       this.spinner.show();
-      this.detailService.updateDetail(formObj).subscribe(res => {
+      this.detailService.addDetail(formObj).subscribe(res => {
         if (res.status === 'Success') {
           this.spinner.hide();
           this.isAssign = true;
