@@ -42,18 +42,27 @@ namespace Strive.BusinessLogic.Details
 
             var bayScheduleList = new List<BusinessEntities.Model.BaySchedule>();
 
-            var finalHour = finalDueTime.Hour;
+            DateTime scheduleDate = jobDate;
+
             var initialHour = initialTimeIn.Hour;
 
-            var finalminutes = finalDueTime.Minute;
+            var initialDay = initialTimeIn.Day;
             var initialminutes = initialTimeIn.Minute;
+
+
+            var finalHour = finalDueTime.Hour;
+            var finalminutes = finalDueTime.Minute;
+            var finalDay = finalDueTime.Day;
+
 
             var tempfinalminutes = finalminutes;
             var tempinitialHour = initialHour;
+            var tempinitialDay = initialDay;
 
             var baySchedule = new BusinessEntities.Model.BaySchedule();
 
-            if (((finalHour == initialHour) || (initialHour + 1 == finalHour)) && ((initialminutes) == 30 && initialminutes != finalminutes))
+
+            if (((finalHour == initialHour && initialDay == finalDay) || (initialHour == finalHour)) && ((initialminutes) == 30 && initialminutes != finalminutes && finalminutes == 30))
             {
 
                 int startTime;
@@ -89,7 +98,7 @@ namespace Strive.BusinessLogic.Details
                     BayScheduleId = 0,
                     BayId = bayId,
                     JobId = jobId,
-                    ScheduleDate = jobDate,
+                    ScheduleDate = scheduleDate,
                     ScheduleInTime = new TimeSpan(hour, startTime, 0),
                     ScheduleOutTime = new TimeSpan(hour, endTime, 0),
                     IsActive = true,
@@ -108,22 +117,45 @@ namespace Strive.BusinessLogic.Details
                 int endTime;
                 var hour = initialHour;
                 var endHour = initialHour;
+                int tempEndHour = -1;
+                int tempEndMinute = 0;
 
                 tempinitialHour = initialHour;
+                tempinitialDay = initialDay;
                 //2:00 > 1:00
-                while (finalHour >= tempinitialHour)
+                while (true)
                 {
+
+                    if (tempinitialHour == 23)
+                    {
+                        tempinitialDay++;
+                        tempinitialHour = -1;
+                    }
 
                     var temp = new List<int>();
 
                     hour = tempinitialHour;
                     var tempInitialminutes = initialminutes;
 
+                    if (tempEndHour == 0)
+                    {
+                        scheduleDate = scheduleDate.AddDays(1);
+                    }
+
+
+                    if(tempEndHour == -1)
+                    {
+                        tempEndHour = 0;
+                    }
                     for (int i = 1; i <= 2; i++)
                     {
 
-                        if (finalminutes != tempInitialminutes || finalHour != tempinitialHour || finalHour == initialHour)
+                        if (finalminutes != tempInitialminutes || finalHour != tempinitialHour || finalDay != tempinitialDay)
                         {
+
+                            if (finalminutes <= tempEndMinute && finalHour == tempEndHour && finalDay == tempinitialDay)
+                                break;
+
                             //HH:30, HH:00
                             if (tempInitialminutes > tempfinalminutes)
                             {
@@ -143,6 +175,9 @@ namespace Strive.BusinessLogic.Details
                                 tempInitialminutes = 30;
                                 if (endHour != hour)
                                     hour = endHour;
+
+                                if (tempfinalminutes < 30)
+                                    tempfinalminutes = 30;
                             }
                             else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0))
                             {
@@ -157,6 +192,7 @@ namespace Strive.BusinessLogic.Details
                                 tempInitialminutes = 0;
                                 tempfinalminutes = 30;
                                 endHour = tempinitialHour + 1;
+                                
                             }
                             else //HH:30, HH:00
                             {
@@ -171,9 +207,9 @@ namespace Strive.BusinessLogic.Details
                                 BayScheduleId = 0,
                                 BayId = bayId,
                                 JobId = jobId,
-                                ScheduleDate = jobDate,
+                                ScheduleDate = scheduleDate,
                                 ScheduleInTime = new TimeSpan(hour, startTime, 0),
-                                ScheduleOutTime = new TimeSpan(hour, endTime, 0),
+                                ScheduleOutTime = new TimeSpan(endHour, endTime, 0),
                                 IsActive = true,
                                 IsDeleted = false,
                                 CreatedBy = 0,
@@ -181,61 +217,17 @@ namespace Strive.BusinessLogic.Details
                             };
 
                             bayScheduleList.Add(baySchedule);
-                            /*
-                            //Loop 2
-                            //HH:30, HH:00
-                            if (tempInitialminutes > tempfinalminutes) {
-                              startTime = ":30";
-                              endTime = ":00";
-                              tempfinalminutes = 30;
-                              tempInitialminutes = 0;
-                              endHour = tempinitialHour + 1;
-                            }
-                            else
-                            //HH:00, HH:30
-                            if (tempInitialminutes < tempfinalminutes) {
-                              startTime = ":00";
-                              endTime = ":30";
-                              tempfinalminutes = 0;
-                              tempInitialminutes = 30;
-                            }
-                            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 0)) {
-                              startTime = ":00";
-                              endTime = ":30";
-                              tempInitialminutes = 30;
-                            }
-                            else if (tempInitialminutes == tempfinalminutes && (tempInitialminutes == 30)) {
-                              startTime = ":30";
-                              endTime = ":00";
-                              tempInitialminutes = 0;
-                              tempfinalminutes = 30;
-                              endHour = tempinitialHour + 1;
-                            }
-                            else //HH:30, HH:00
-                            {
-                              startTime = ":30";
-                              endTime = ":00";
-                              tempfinalminutes = 30;
-                              endHour = tempinitialHour + 1;
-                            }
 
-                            baySchedule = {
-                              bayScheduleId: 0,
-                              bayId: this.detailForm.value.bay,
-                              jobId: this.isEdit ? this.selectedData.Details.JobId : this.jobID,
-                              scheduleDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-                              scheduleInTime: hour + startTime,
-                              scheduleOutTime: endHour + endTime,
-                              isActive: true,
-                              isDeleted: false,
-                              createdBy: 0,
-                              updatedBy: 0,
-                            };
+                            tempEndHour = endHour;
 
-                            BaySchedule.push(baySchedule);
-                            */
+                            tempEndMinute = endTime;
                         }
                     }
+
+
+                    if (finalHour <= tempinitialHour && tempinitialDay == finalDay)
+                        break;
+
 
                     tempinitialHour++;
                 }
