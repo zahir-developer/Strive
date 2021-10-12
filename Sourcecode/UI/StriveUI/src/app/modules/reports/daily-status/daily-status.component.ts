@@ -149,7 +149,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         (item?.DetailHours).toString().replace(".",":")
         : "0") + `</td><td>`;
 
-        var decimalTimeString = item?.WashHours + item?.DetailHours;
+        var decimalTimeString = (item?.WashHours + item?.DetailHours).toFixed(2);
         const hrs = decimalTimeString.toString().split(".");
         var n = new Date(0,0);
         n.setSeconds(+hrs[0] * 60 * 60);
