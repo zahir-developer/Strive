@@ -574,24 +574,25 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     const isJobStatus = _.where(this.jobStatus, { CodeId: this.selectedData?.Details?.JobStatus });
     if (isJobStatus.length > 0) {
       if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.inProgress) {
-        this.isCompleted = true;
+        this.isCompleted = false;
+        this.isStart = true;
         this.jobStatusID = isJobStatus[0].CodeId;
       } else if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.Completed) {
         this.isCompleted = true;
         this.isStart = true;
         this.jobStatusID = isJobStatus[0].CodeId;
       } else if (isJobStatus[0].CodeValue === ApplicationConfig.CodeValue.Waiting) {
-        this.isStart = true;
+        this.isStart = false;
         this.isCompleted = false;
         this.jobStatusID = isJobStatus[0].CodeId;
       }
     }
-    if(this.selectedData?.Details?.ClientId !== null)
-    {
+    if (this.selectedData?.Details?.ClientId !== null) {
       this.getVehicleList(this.selectedData?.Details?.ClientId);
       this.getPastClientNotesById(this.selectedData?.Details?.ClientId);
-    
+
     }
+
     this.note = this.selectedData?.Details?.Notes;
     this.detailItems = this.selectedData?.DetailsItem;
     this.jobID = this.selectedData?.Details?.JobId;
@@ -808,9 +809,9 @@ export class CreateEditDetailScheduleComponent implements OnInit {
         const vData = vehicle.Status;
         if (this.barcodeDetails?.ClientId === 0) {
           var vehicles = [];
-          var v  = 
+          var v =
           {
-            VehicleId : vData.ClientVehicleId,
+            VehicleId: vData.ClientVehicleId,
             VehicleModel: vData.ModelName === null ? 'Unk' : vData.ModelName,
             VehicleMfr: vData.VehicleMake === null ? 'Unk' : vData.VehicleMake,
             VehicleColor: vData.Color === null ? 'Unk' : vData.Color
@@ -819,7 +820,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
           vehicles.push(v);
           this.vehicle = vehicles;
         }
-        
+
         this.detailForm.patchValue({
           vehicle: vData.ClientVehicleId,
           barcode: vData.Barcode,
@@ -909,6 +910,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
   start() {
     const jobstatus = _.where(this.jobStatus, { CodeValue: ApplicationConfig.CodeValue.inProgress });
     let jobStatusId;
+
     if (jobstatus.length > 0) {
       jobStatusId = jobstatus[0].CodeId;
     }
@@ -918,42 +920,19 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.detailForm.controls.bay.enable();
     }
 
-    const job = {
+    var objStart =
+    {
       jobId: this.selectedData.Details.JobId,
-      ticketNumber: this.ticketNumber,
-      locationId: localStorage.getItem('empLocationId'),
-      barcode: this.detailForm.value.barcode,
-      clientId: this.detailForm.value.client.id,
-      vehicleId: this.detailForm.value.vehicle,
-      make: this.detailForm.value.type.id,
-      model: this.detailForm.value.model.id,
-      color: this.detailForm.value.color.id,
-      jobType: this.jobTypeId,
-      jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-      jobStatus: jobStatusId,
-      timeIn: moment(this.detailForm.value.inTime).format(),
-      estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      jobStatusId: jobStatusId,
       actualTimeOut: new Date(),
-      isActive: true,
-      isDeleted: false,
-      checkOut: false,
-      createdBy: 0,
-      updatedBy: 0,
-      notes: this.note
-    };
-    const formObj = {
-      job,
-      jobItem: null,
-      jobDetail: null,
-      baySchedule: null
-    };
+      jobStatus: ApplicationConfig.CodeValue.inProgress,
+    }
+
     this.spinner.show();
-    this.detailService.updateDetail(formObj).subscribe(res => {
+    this.detailService.updateJobStatus(objStart).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
-        this.isStart = false;
-        this.isCompleted = true;
+        this.isStart = true;
         this.detailForm.controls.inTime.disable();
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
@@ -980,42 +959,21 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     if (this.isEdit) {
       this.detailForm.controls.bay.enable();
     }
-
-    const job = {
+    var objJobComplete =
+    {
       jobId: this.selectedData.Details.JobId,
-      ticketNumber: this.ticketNumber,
-      locationId: localStorage.getItem('empLocationId'),
-      clientId: this.detailForm.value.client.id,
-      vehicleId: this.detailForm.value.vehicle,
-      make: this.detailForm.value.type.id,
-      model: this.detailForm.value.model.id,
-      color: this.detailForm.value.color.id,
-      jobType: this.jobTypeId,
-      jobDate: this.datePipe.transform(this.detailForm.value.inTime, 'yyyy-MM-dd'),
-      jobStatus: jobStatusId,
-      timeIn: moment(this.detailForm.value.inTime).format(),
-      estimatedTimeOut: moment(this.detailForm.value.dueTime).format(),
+      jobStatusId: jobStatusId,
       actualTimeOut: new Date(),
-      isActive: true,
-      isDeleted: false,
-      checkOut: true,
-      createdBy: 0,
-      updatedBy: 0,
-      notes: this.note
-    };
-    const formObj = {
-      job,
-      jobItem: null,
-      jobDetail: null,
-      baySchedule: null
-    };
+      jobStatus: ApplicationConfig.CodeValue.Completed,
+    }
+
     this.spinner.show();
-    this.detailService.updateDetail(formObj).subscribe(res => {
+    this.detailService.updateJobStatus(objJobComplete).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
 
-        this.isCompleted = false;
-        this.isStart = false;
+        this.isCompleted = true;
+        this.isStart = true;
         this.detailForm.controls.inTime.disable();
         this.detailForm.controls.dueTime.disable();
         this.detailForm.controls.bay.disable();
@@ -1062,7 +1020,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       ticketNumber: this.ticketNumber,
       barcode: this.detailForm.value.barcode,
       locationId: localStorage.getItem('empLocationId'),
-      clientId: this.clientName.toLowerCase().startsWith('drive') || this.detailForm.value.client.id === 0  ? null : this.detailForm.value.client.id,
+      clientId: this.clientName.toLowerCase().startsWith('drive') || this.detailForm.value.client.id === 0 ? null : this.detailForm.value.client.id,
       vehicleId: this.clientName.toLowerCase().startsWith('drive') ? null : this.detailForm.value.vehicle,
       make: this.detailForm.value.type.id,
       model: this.detailForm.value.model.id,

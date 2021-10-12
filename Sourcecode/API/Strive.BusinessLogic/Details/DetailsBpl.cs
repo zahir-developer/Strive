@@ -347,5 +347,10 @@ namespace Strive.BusinessLogic.Details
             }
         }
 
+        public Result UpdateJobStatus(JobStatusDto jobStatus)
+        {
+            return ResultWrap(new DetailsRal(_tenant).UpdateJobStatus, jobStatus, "Status");
+        }
+
     }
 }

@@ -83,4 +83,8 @@ export class DetailService {
     return this.http.get(`${UrlConfig.common.getTicketNumber}` + locationId);
   }
 
+  updateJobStatus(obj) {
+    return this.http.post(`${UrlConfig.details.updateJobStatus}`, obj);
+  }
+
 }

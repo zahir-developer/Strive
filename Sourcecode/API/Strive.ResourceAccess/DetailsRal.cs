@@ -85,5 +85,14 @@ namespace Strive.ResourceAccess
             return result;
         }
 
+        public bool UpdateJobStatus(JobStatusDto jobStatus)
+        {
+            _prm.Add("@Date", jobStatus.ActualTimeOut);
+            _prm.Add("@JobId", jobStatus.JobId);
+            _prm.Add("@JobStatus", jobStatus.JobStatus);
+            _prm.Add("@JobStatusId", jobStatus.JobStatusId);
+            db.Save(EnumSP.Details.USPUPDATEJOBSTATUS.ToString(), _prm);
+            return true;
+        }
     }
 }
