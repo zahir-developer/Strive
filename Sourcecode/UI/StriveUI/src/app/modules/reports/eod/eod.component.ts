@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit  } from '@angular/core';
 import { BsDatepickerConfig, BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
 import { ReportsService } from 'src/app/shared/services/data-service/reports.service';
 import { ExcelService } from 'src/app/shared/services/common-service/excel.service';
@@ -331,7 +331,15 @@ export class EodComponent implements OnInit, AfterViewInit {
           this.clockDetail = clockDetail.Result.TimeClockEmployeeDetails;
           this.clockDetail.forEach(item => {
             this.empTotalHours = this.empTotalHours + item.HoursPerDay;
-            item.TotalHours = (item.WashHours + item.DetailHours).toString().replace('.',':');
+    var hrs =  (item.WashHours + item.DetailHours).toString().split(".");
+    var n = new Date(0,0);
+    n.setSeconds(+hrs[0] * 60 * 60);
+    if(hrs.length>=2){
+    n.setSeconds(+hrs[1] * 60 );
+    }
+  
+            item.TotalHours =  n.toTimeString().slice(0, 5).replace('.',':');
+            
             item.WashHours =  item.WashHours.toString().replace('.',':');
             item.DetailHours = item.DetailHours.toString().replace('.',':');
           });
