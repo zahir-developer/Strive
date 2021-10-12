@@ -116,7 +116,7 @@
                                                             pTooltip="Checkout" tooltipPosition="top"
                                                             (click)="statusConfirmation('Check Out',checkout)"></em>
                                                         <em class="mdi mdi-file-clock font-size-1-5 pointer"
-                                                            [ngClass]="{ 'theme-primary-color': checkout.MembershipNameOrPaymentStatus !== 'Hold', 'theme-disabled-icon-color':checkout.isHold == true }"
+                                                            [ngClass]="{ 'theme-primary-color': checkout.IsHold == false, 'theme-disabled-icon-color':checkout.IsHold == true }"
                                                             pTooltip="Hold" tooltipPosition="top"
                                                             (click)="statusConfirmation('Hold',checkout)"></em>
                                                         <em class="mdi mdi-checkbox-marked  font-size-1-5 pointer"

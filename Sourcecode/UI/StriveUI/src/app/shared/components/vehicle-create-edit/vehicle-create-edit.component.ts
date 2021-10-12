@@ -258,7 +258,7 @@ export class VehicleCreateEditComponent implements OnInit {
               item_text: item.item_text
             };
           });
-          this.memberService = this.memberService.filter(s=>s.item_id !== undefined);
+          this.memberService = this.memberService.filter(s => s.item_id !== undefined);
           this.dropDownSetting();
           this.vehicleForm.patchValue({
             services: this.memberService
@@ -295,7 +295,8 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   membershipChange(data) {
-
+    this.selectedservice = [];
+    this.extraService = [];
     if (data !== "") {
       this.vehicleForm.get('monthlyCharge').reset();
 
@@ -328,6 +329,7 @@ export class VehicleCreateEditComponent implements OnInit {
               });
             }
           }
+
           if (membership.MembershipAndServiceDetail.MembershipService !== null) {
             this.membershipServices = membership.MembershipAndServiceDetail.MembershipService;
             this.washService = this.membershipServices.filter(item =>
@@ -372,8 +374,8 @@ export class VehicleCreateEditComponent implements OnInit {
               const f = this.additionalService.find(a => a.ServiceId === e);
               return f ? f : 0;
             });
-            
-            this.memberService = memberService.filter(s=>s.ServiceId !== undefined).map(item => {
+
+            this.memberService = memberService.filter(s => s.ServiceId !== undefined).map(item => {
               return {
                 item_id: item.ServiceId,
                 item_text: item.ServiceName
@@ -450,6 +452,7 @@ export class VehicleCreateEditComponent implements OnInit {
   }
 
   getMemberServices(data) {
+    this.extraService = [];
     this.vehicle.getMembershipById(+data).subscribe(res => {
       if (res.status === 'Success') {
         this.memberOnchangePatchedService = [];
@@ -682,7 +685,7 @@ export class VehicleCreateEditComponent implements OnInit {
         if (upchargeService.length === 0)
           insertUpcharge = 1;
       }
-      if (insertUpcharge ||(this.oldUpchargeId !== +this.vehicleForm.value.upcharge && this.oldUpchargeId === 0)) {
+      if (insertUpcharge || (this.oldUpchargeId !== +this.vehicleForm.value.upcharge && this.oldUpchargeId === 0)) {
         memberService.push(
           {
             ClientVehicleMembershipServiceId: 0,
@@ -817,8 +820,8 @@ export class VehicleCreateEditComponent implements OnInit {
 
       const sourceObj = {
         clientVehicle: { clientVehicle: formObj },
-        clientVehicleMembershipModel: (deleteClientMembershipId === 0) ? 
-        ((this.vehicleForm.value.membership !== "") ? model : null) : ((this.vehicleForm.value.membership !== "") ? model : null),
+        clientVehicleMembershipModel: (deleteClientMembershipId === 0) ?
+          ((this.vehicleForm.value.membership !== "") ? model : null) : ((this.vehicleForm.value.membership !== "") ? model : null),
         deletedClientMembershipId: deleteClientMembershipId
       };
 

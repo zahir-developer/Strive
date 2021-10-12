@@ -233,14 +233,14 @@ export class CheckoutGridComponent implements OnInit {
   }
 
   hold(data, checkout) {
-    this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
+    this.confirmationService.confirm(data, `Are you sure want to change the Hold status`, 'Yes', 'No')
       .then((confirmed) => {
         debugger
         const finalObj = {
           id: checkout.JobId,
-          IsHold: checkout.IsHold == true ? true : false
-
+          IsHold: checkout.IsHold == false ? true : false
         };
+        
         if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
           return;
         }
