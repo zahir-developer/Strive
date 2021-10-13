@@ -129,7 +129,7 @@ namespace Greeter.Modules.Pay
 
             var contextualActions = new List<UIContextualAction>() { action1 };
 
-            if (!checkout.MembershipNameOrPaymentStatus.Equals("Completed"))
+            if (!checkout.Valuedesc.Equals("Completed"))
             {
                 var action2 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,

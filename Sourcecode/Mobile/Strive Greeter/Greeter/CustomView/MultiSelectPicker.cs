@@ -72,6 +72,7 @@ namespace Greeter.CustomView
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = new UITableViewCell();
+            cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             cell.TextLabel.Text = Options[indexPath.Row];
             if (selectedIndex.Contains(indexPath.Row))
             {
@@ -90,13 +91,32 @@ namespace Greeter.CustomView
             if (selectedIndex.Contains(indexPath.Row))
             {
                 selectedIndex.Remove(indexPath.Row);
+                tableView.ReloadRows(new[] { indexPath }, UITableViewRowAnimation.Fade);
             }
             else
             {
-                selectedIndex.Add(indexPath.Row);
+                if (selectedIndex.Contains(0))
+                {
+                    return;
+                }
+
+                if (indexPath.Row == 0)
+                {
+                    selectedIndex.Clear();
+                    selectedIndex.Add(indexPath.Row);
+                    tableView.ReloadData();
+                }
+                else
+                {
+                    selectedIndex.Add(indexPath.Row);
+                    tableView.ReloadRows(new[] { indexPath }, UITableViewRowAnimation.Fade);
+                }
             }
 
-            tableView.ReloadRows(new[] { indexPath }, UITableViewRowAnimation.Fade);
+            //if (indexPath.Contains(0))
+            //{
+
+            //}
         }
     }
 }

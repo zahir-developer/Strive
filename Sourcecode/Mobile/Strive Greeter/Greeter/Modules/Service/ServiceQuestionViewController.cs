@@ -216,10 +216,10 @@ namespace Greeter.Storyboards
             mc.Options = options;
             mc.PickerDelegate = this;
 
-            if (additionalServcies is not null && additionalServcies.Count > 0)
-            {
+            //if (additionalServcies is not null && additionalServcies.Count > 0)
+            //{
                 mc.DefaultSelectedIndex = AdditionalServicesSelectedPositions;
-            }
+            //}
 
             PresentViewController(nc, true, null);
         }
@@ -302,7 +302,7 @@ namespace Greeter.Storyboards
 
             AdditionalServices = allServiceResponse?.ServiceDetailList.Where(x => x.Type.Equals(ServiceTypes.ADDITIONAL_SERVICES)).ToList();
             var additionalServicesList = AdditionalServices.Select(x => x.Name).ToList();
-            //additionalServicesList.Insert(0, "None");
+            additionalServicesList.Insert(0, "None");
             additionalServices = additionalServicesList.ToArray();
             UpdateAdditionalServiceAsNone();
 
@@ -412,8 +412,7 @@ namespace Greeter.Storyboards
 
         void UpdateAdditionalServiceAsNone()
         {
-            //tfAdditionalService.Text = additionalServices[0];
-            tfAdditionalService.Text = "None";
+            tfAdditionalService.Text = additionalServices[0];
         }
 
         void UpdateAirfreshnerAsNone()
@@ -788,10 +787,13 @@ namespace Greeter.Storyboards
             {
                 int selectedPos = selectedIndexList[i];
 
-                //if (selectedPos == 0)
-                //{
-                //    return;
-                //}
+                if (selectedPos == 0)
+                {
+                    UpdateAdditionalServiceAsNone();
+                    return;
+                }
+
+                selectedPos -= 1;
 
                 var additional = new JobItem();
                 additional.ServiceId = AdditionalServices[selectedPos].ID;

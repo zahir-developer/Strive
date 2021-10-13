@@ -47,7 +47,7 @@ namespace Greeter.Modules.Pay
 
             #if DEBUG
                 Console.WriteLine("daswe " + DateTime.Now.ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"));
-                checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
+                //checkoutRequest.StartDate = DateTime.Now.Date.AddMonths(-1).ToString(Constants.DATE_FORMAT_FOR_API);
             #endif
 
             var response = await new CheckoutApiService().GetCheckoutList(checkoutRequest);
@@ -169,7 +169,7 @@ namespace Greeter.Modules.Pay
         void CheckoutBtnClicked(Checkout checkout)
         {
             // Not Completed
-            if (!checkout.MembershipNameOrPaymentStatus.Equals("Completed"))
+            if (!checkout.Valuedesc.Equals("Completed"))
             {
                 ShowAlertMsg(Common.Messages.NOT_COMPLETED_ALERT_MSG, null, false, Common.Messages.IN_PROGRESS);
                 return;
