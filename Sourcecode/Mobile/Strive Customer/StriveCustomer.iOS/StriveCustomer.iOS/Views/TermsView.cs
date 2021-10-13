@@ -35,6 +35,8 @@ namespace StriveCustomer.iOS.Views
             NavigationItem.Title = "Vehicle";
 
             TermsParentView.Layer.CornerRadius = 5;
+
+            //termsLabel.Text = "";
         }
 
         partial void AgreeBtn_Touch(UIButton sender)

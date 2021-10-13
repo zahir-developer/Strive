@@ -7,7 +7,7 @@ namespace Strive.Core.Utils
 
         //public const string BASE_URL = "http://14.141.185.75:5004";
         public const string AZURE_URL = "http://40.114.79.101:5004"; 
-        public const string AZURE_URL_TEST = "https://mammothuatapi-qa.azurewebsites.net";
+        public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net";
             
         public static string Token { get; set; }
 
@@ -143,7 +143,7 @@ namespace Strive.Core.Utils
 
         public const string URL_SCHEDULE_PAST_SERVICE = "/Admin/Details/GetAllDetails";
 
-        public const string URL_SCHEDULE_DETAILBAY = "/Admin/Details/UpdateDetails";
+        public const string URL_SCHEDULE_DETAILBAY = "/Admin/Details/AddDetails";
 
         public const string URL_SCHEDULE_SERVICES_AVAILABLE = "/Admin/Sales/GetAllServiceDetail";
 
@@ -161,6 +161,8 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_DASHBOARD_STATISTICS = "/Admin/Dashboard/GetDashboardStatistics";
 
-        public const string URL_CUSTOMER_SIGNUP = "https://mammothuat-qa.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE";
+        public const string URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT = "/Admin/Vehicle/GetMembershipDiscountStatus/{0}";
+
+        public const string URL_CUSTOMER_SIGNUP = "https://mammothuat-dev.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE";
     }
 }

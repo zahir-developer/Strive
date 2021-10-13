@@ -74,4 +74,14 @@ namespace Strive.Core.Models.TimInventory
         public ClientVehicle clientVehicle { get; set; }
         public ClientVehicleMembershipModel clientVehicleMembershipModel { get; set; }
     }
+
+    public class VehicleDiscountDetail
+    {
+        
+        public string status { get; set; }
+        public string statusCode { get; set; }
+        public string exception { get; set; }
+        public string resultData { get; set; }
+        public string errorMessage { get; set; }
+    }
 }

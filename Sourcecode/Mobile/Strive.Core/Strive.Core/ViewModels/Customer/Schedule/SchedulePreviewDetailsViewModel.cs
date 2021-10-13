@@ -162,7 +162,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 job = newJob,
                 jobItem = jobList,
                 jobDetail = jobDetail,
-                BaySchedule = bayList
+                BaySchedule = null
             };
 
             return detail;

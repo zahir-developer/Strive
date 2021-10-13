@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using MvvmCross;
+using Newtonsoft.Json;
 using Strive.Core.Models;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
@@ -346,6 +347,9 @@ namespace Strive.Core.Services.Implementations
 
         public async Task<PostResponse> ScheduleDetail(DetailSchedule request)
         {
+            Console.WriteLine("ScheduleDetail:" + Newtonsoft.Json.JsonConvert.SerializeObject(request, Formatting.Indented));
+            Console.WriteLine("ScheduleDetail:" + "End");
+
             return await _restClient.MakeApiCall<PostResponse>(ApiUtils.URL_SCHEDULE_DETAILBAY, HttpMethod.Post, request);
         }
 
@@ -387,6 +391,12 @@ namespace Strive.Core.Services.Implementations
         public async Task<StatisticsData> getDashboardServices(StatisticRequest statisticsRequest)
         {
             return await _restClient.MakeApiCall<StatisticsData>(ApiUtils.URL_GET_DASHBOARD_STATISTICS, HttpMethod.Post, statisticsRequest);
+        }
+
+
+        public async Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int Id)
+        {
+            return await _restClient.MakeApiCall<VehicleDiscountDetail>(string.Format(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT, Id), HttpMethod.Get, Id);
         }
 
         public async Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId)
