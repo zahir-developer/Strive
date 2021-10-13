@@ -122,7 +122,7 @@ export const MessageConfig = {
    checkOut:
    {
       Add: 'Vehicle has been CheckedOut successfully !',
-      Hold: 'Vehicle is on Hold !',
+      Hold: 'Vehicle Hold status updated !',
       Complete: 'Services have been completed successfully !',
       checkoutRestriction: 'Only Comleted ticket can be Checkedout !',
       unPaidTicket: 'Only Paid ticket can be Checkedout !'
