@@ -306,7 +306,7 @@ export const UrlConfig = {
     deleteWash: `Admin/washes/Delete`,
     getDashBoardCount: `Admin/Washes/DashboardCount`,
     getByBarcode: `Admin/Washes/GetByBarCode/`,
-    getWashTimeByLocationId: `Admin/Washes/GetWashTimeByLocationId`
+    getWashTimeByLocationId: `Admin/Washes/GetAllLocationWashTime`
   },
   weather: {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,

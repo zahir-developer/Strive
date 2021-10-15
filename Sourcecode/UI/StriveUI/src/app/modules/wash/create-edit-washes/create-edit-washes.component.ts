@@ -19,6 +19,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { GetUpchargeService } from 'src/app/shared/services/common-service/get-upcharge.service';
 import { MakeService } from 'src/app/shared/services/common-service/make.service';
 import { ModelService } from 'src/app/shared/services/common-service/model.service';
+import { DatePipe } from '@angular/common';
 declare var $: any;
 
 @Component({
@@ -97,7 +98,8 @@ export class CreateEditWashesComponent implements OnInit {
     private modelService: ModelService,
     private wash: WashService, private client: ClientService, private router: Router, private detailService: DetailService,
     private spinner: NgxSpinnerService, private codeValueService: CodeValueService, private serviceSetupService: ServiceSetupService
-    , private GetUpchargeService: GetUpchargeService,
+    , private GetUpchargeService: GetUpchargeService,    
+    private datePipe: DatePipe, 
   ) { }
 
   ngOnInit() {
@@ -163,12 +165,7 @@ export class CreateEditWashesComponent implements OnInit {
 
   getWashTimeByLocationID() {
 
-    const washTimeObj =
-    {
-      locationId: +localStorage.getItem('empLocationId'),
-      dateTime: moment(new Date()).format()
-    }
-    this.detailService.getWashTimeByLocationId(washTimeObj).subscribe(res => {
+    this.detailService.getWashTimeByLocationId(localStorage.getItem('empLocationId'),this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss')).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
         if (washTime.WashTime.length > 0) {

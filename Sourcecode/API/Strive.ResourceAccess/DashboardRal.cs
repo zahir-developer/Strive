@@ -18,6 +18,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId", dashboard.locationId);
             _prm.Add("@FromDate", dashboard.FromDate);
             _prm.Add("@ToDate", dashboard.ToDate);
+            _prm.Add("@CurrentDate", dashboard.CurrentDate);
             var result = db.Fetch<DashboardGridViewModel>(EnumSP.DashboardStatistics.USPGETDASHBOARDSTATISTICS.ToString(), _prm);
             return result;
         }

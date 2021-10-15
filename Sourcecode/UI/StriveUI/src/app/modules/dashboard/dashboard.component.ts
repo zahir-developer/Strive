@@ -97,7 +97,8 @@ export class DashboardComponent implements OnInit {
     const finalObj = {
       locationId: locationID,
       fromDate: this.datePipe.transform(this.fromDate, 'yyyy-MM-dd'),
-      toDate: this.datePipe.transform(this.toDate, 'yyyy-MM-dd') 
+      toDate: this.datePipe.transform(this.toDate, 'yyyy-MM-dd') ,
+      CurrentDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss') 
     };
     this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
@@ -164,7 +165,7 @@ export class DashboardComponent implements OnInit {
   // Get All Location
   getLocationList() {
     const locID = 0;
-    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd')).subscribe(res => {
+    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss')).subscribe(res => {
             if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;

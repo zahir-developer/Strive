@@ -65,20 +65,11 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
   getClockDetail() {
     var curDate = new Date();
     var curr_date = curDate.getDate();
-    var curr_min = curDate.getMinutes().toString();
-    var curr_hr= curDate.getHours().toString();
-    var curr_sc= curDate.getSeconds();  
-
-    if(curr_hr.toString().length == 1)
-    curr_hr = '0' + curr_hr;
-
-    if(curr_min.toString().length == 1)
-    curr_min = '0' + curr_min;
 
     const obj = {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD'),
-      CurrentDate:  moment(this.date).format('YYYY-MM-DD') +' ' + curr_hr + ':' +curr_min+':'+curr_sc
+      CurrentDate: this.date.getDate() == curr_date ?  this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss') : moment(this.date).format('YYYY-MM-DD') 
 
     };
     this.spinner.show();
@@ -142,23 +133,23 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.clockDetail.forEach(item => {
       tableBody += `<tr><td>` + item.EmployeeName + `</td><td>`;
       tableBody += (item?.WashHours ?
-        (item?.WashHours).toString().replace(".",":")
+        (item?.WashHours)
         : "0") + `</td><td>`;
 
         tableBody += (item?.DetailHours ?
-        (item?.DetailHours).toString().replace(".",":")
+        (item?.DetailHours)
         : "0") + `</td><td>`;
-
+/*
         var decimalTimeString = (item?.WashHours + item?.DetailHours).toFixed(2);
         const hrs = decimalTimeString.toString().split(".");
         var n = new Date(0,0);
         n.setSeconds(+hrs[0] * 60 * 60);
         if(hrs.length>=2){
         n.setSeconds(+hrs[1] * 60 );
-        }
+        }*/
       
-      tableBody +=
-      (n.toTimeString().slice(0, 5)).toString().replace(".",":")
+      tableBody += (item?.WashHours + item?.DetailHours).toFixed(2)
+      // (n.toTimeString().slice(0, 5)).toString().replace(".",":")
         + `</td>`;
 
       for (let i = 1; i <= count; i++) {
@@ -183,8 +174,16 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     });
     tableBody += `</tr>`;
     $('#table tbody').html(tableBody);
+    this.totalWashHours = this.washHours > 0 ?
+    this.washHours.toFixed(2).toString()
+      : "0";
 
 
+    this.totalDetailHours = this.detailHours > 0 ?
+    this.detailHours.toFixed(2).toString()
+      : "0";
+   // this.totalWashHours = (this.washHours +this.detailHours).toString().replace(".",":");
+/*
     var hrs =  this.washHours.toString().split(".");
     var n = new Date(0,0);
     n.setSeconds(+hrs[0] * 60 * 60);
@@ -206,7 +205,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
     this.totalDetailHours = this.detailHours > 0 ?
     n.toTimeString().slice(0, 5).replace(".",":")
-      : "0";
+      : "0";*/
   }
   getDailyStatusReport() {
     this.washes = [];
@@ -249,11 +248,15 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     this.details = [];
     this.washTotal = 0;
     this.detailTotal = 0;
+    var curDate = new Date();
+    var curr_date = curDate.getDate();
+
     const obj = {
       locationId: +this.locationId,
-      date: moment(this.date).format('YYYY-MM-DD')
+      date: curr_date == this.date.getDate() ? this.datePipe.transform(this.date, 'yyyy-MM-dd hh:mm:ss') : this.datePipe.transform(this.date, 'yyyy-MM-dd')
     };
     this.spinner.show();
+    
     this.reportService.getDailyStatusWashReport(obj).subscribe(data => {
       if (data.status === 'Success') {
         this.spinner.hide();
@@ -278,9 +281,12 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     });
   }
   getDailyStatusDetailInfo() {
+    var curDate = new Date();
+    var curr_date = curDate.getDate();
+
     const obj = {
       locationId: +this.locationId,
-      date: moment(this.date).format('YYYY-MM-DD')
+      date: this.date.getDate() == curr_date ? this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss') :  moment(this.date).format('YYYY-MM-DD') 
     };
     this.spinner.show();
     this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {
