@@ -12,7 +12,7 @@ export const MessageConfig = {
    {
       Add: 'Schedule added successfully !',
       Update: 'Schedule updated successfully !',
-      save: 'Schedule Saved Successfully!',
+      save: 'Schedule saved successfully!',
       pastDates: 'New schedule is not allowed for past dates.',
       schedulePassDate: 'Schedule cannot be added for Past Date/Time.',
       passedDateTime: 'Schedule cannot be created for past dates',
