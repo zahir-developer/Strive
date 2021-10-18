@@ -124,6 +124,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
   }
   customizeObj(dailyTip) {
+    debugger;
     if (dailyTip.length > 0) {
       const dTip = dailyTip.map(item => {
         return {
@@ -136,6 +137,7 @@ export class DailyTipComponent implements OnInit, AfterViewInit {
     }
   }
   submit() {
+    debugger;
     this.totalHours = 0;
     this.totalTip = 0;
     if (this.tipAmount !== 0) {

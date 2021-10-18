@@ -164,12 +164,11 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getWashTimeByLocationID() {
-
-    this.detailService.getWashTimeByLocationId(localStorage.getItem('empLocationId'),this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss')).subscribe(res => {
+        this.detailService.getWashTimeByLocationId(localStorage.getItem('empLocationId'),this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss').toString()).subscribe(res => {
       if (res.status === 'Success') {
         const washTime = JSON.parse(res.resultData);
-        if (washTime.WashTime.length > 0) {
-          const WashTimeMinutes = washTime.WashTime[0].WashTimeMinutes;
+        if (washTime.Washes.length > 0) {
+          const WashTimeMinutes = washTime.Washes[0].WashtimeMinutes;
           this.washTime = WashTimeMinutes;
           const dt = new Date();
           this.timeOutDate = dt.setMinutes(dt.getMinutes() + this.washTime);
