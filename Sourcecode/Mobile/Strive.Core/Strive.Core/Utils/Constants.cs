@@ -46,7 +46,7 @@ namespace Strive.Core.Utils
         public const string URL_ADD_PRODUCT = "/Admin/Product/Add";
 
         public const string URL_DELETE_PRODUCT = "/Admin/Product/Delete";
-
+        
         public const string URL_UPDATE_PRODUCT = "/Admin/Product/Update";
 
         public const string URL_UPDATE_PRODUCT_QUANTITY = "/Admin/Product/UpdateProductQuantity";

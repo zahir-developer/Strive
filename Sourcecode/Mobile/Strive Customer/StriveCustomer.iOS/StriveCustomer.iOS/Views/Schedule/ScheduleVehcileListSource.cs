@@ -4,6 +4,7 @@ using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.ViewModels.Customer;
+using Strive.Core.ViewModels.Customer.Schedule;
 using StriveCustomer.iOS.Views.Schedule;
 using UIKit;
 
@@ -13,6 +14,7 @@ namespace StriveCustomer.iOS.Views
     {
         public VehicleList scheduleVehicleList;
         public MvxViewController view;
+        ScheduleServicesViewModel viewModel = new ScheduleServicesViewModel();
         public ScheduleVehcileListSource(MvxViewController scheduleView ,ScheduleViewModel viewModel)
         {
             this.view = scheduleView;
@@ -47,8 +49,9 @@ namespace StriveCustomer.iOS.Views
             CustomerScheduleInformation.ScheduledVehicleName = scheduleVehicleList.Status[indexPath.Row].VehicleColor +
                 " " + scheduleVehicleList.Status[indexPath.Row].VehicleMfr;
             CustomerScheduleInformation.ScheduleSelectedVehicle = scheduleVehicleList.Status[indexPath.Row];
-            var select_service = new Schedule_SelectService();
-            view.NavigationController.PushViewController(select_service, true);
+            //ar select_service = new Schedule_SelectService();
+            //view.NavigationController.PushViewController(select_service, true);
+            viewModel.NavToSelect_Location(); 
         }
     }
 }

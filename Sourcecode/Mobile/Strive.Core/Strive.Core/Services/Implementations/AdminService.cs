@@ -396,7 +396,9 @@ namespace Strive.Core.Services.Implementations
 
         public async Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int Id)
         {
+
             return await _restClient.MakeApiCall<VehicleDiscountDetail>(string.Format(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT, Id), HttpMethod.Get, Id);
+
         }
 
         public async Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId)

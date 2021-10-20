@@ -23,8 +23,9 @@ namespace Strive.Core.ViewModels.Customer.Schedule
 
         public async Task GetScheduledServices()
         {
+            int locationid = CustomerScheduleInformation.ScheduleLocationCode;
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
-            var result = await AdminService.GetScheduleServices(1);
+            var result = await AdminService.GetScheduleServices(locationid);
             
             if(result == null)
             {
@@ -46,13 +47,16 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             }
             _userDialog.HideLoading();
         }
-
-        public async void NavToSelect_Loc()
+        public async void NavToSelect_Appoitment()
         {
-            if(checkSelectedService())
+            if (checkSelectedService())
             {
-                await _navigationService.Navigate<ScheduleLocationsViewModel>();
+                await _navigationService.Navigate<ScheduleAppointmentDateViewModel>();
             }
+        }
+        public async void NavToSelect_Location()
+        {
+            await _navigationService.Navigate<ScheduleLocationsViewModel>();  
         }
 
         public async void NavToSchedule()

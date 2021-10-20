@@ -78,10 +78,9 @@ namespace Strive.Core.Models.TimInventory
     public class VehicleDiscountDetail
     {
         
-        public string status { get; set; }
-        public string statusCode { get; set; }
-        public string exception { get; set; }
-        public string resultData { get; set; }
-        public string errorMessage { get; set; }
+        public string Status { get; set; }
+        
     }
+    
+
 }

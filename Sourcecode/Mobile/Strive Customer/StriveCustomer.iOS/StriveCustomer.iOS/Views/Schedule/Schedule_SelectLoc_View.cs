@@ -9,10 +9,11 @@ namespace StriveCustomer.iOS.Views.Schedule
 {
     public partial class Schedule_SelectLoc_View : MvxViewController<ScheduleLocationsViewModel>
     {
+        public MvxViewController view;
         public Schedule_SelectLoc_View() : base("Schedule_SelectLoc_View", null)
         {
         }
-
+        
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -36,7 +37,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>
             {
-                ViewModel.NavToSelect_Appoitment();
+                ViewModel.NavToSelect_Service();
             };
 
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes()

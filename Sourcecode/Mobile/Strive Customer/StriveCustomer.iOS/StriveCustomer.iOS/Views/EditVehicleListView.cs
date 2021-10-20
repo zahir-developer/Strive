@@ -98,6 +98,7 @@ namespace StriveCustomer.iOS.Views
             if (result)
             {
                 ViewModel.NavToVehicleMembership();
+                
             }
         }
     }

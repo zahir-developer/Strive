@@ -13,6 +13,7 @@ namespace Strive.Core.ViewModels.Customer
     {
         public VehicleMembershipViewModel()
         {
+            
             SetVehicleInformation();
         }
         #region Properties
@@ -24,6 +25,7 @@ namespace Strive.Core.ViewModels.Customer
 
         private void SetVehicleInformation()
         {
+            PreviousMembership(CustomerInfo.ClientID);
             MembershipDetails.customerVehicleDetails = new ClientVehicleRoot();
             MembershipDetails.customerVehicleDetails.clientVehicle = new ClientVehicle();
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle = new ClientVehicleDetail();
@@ -37,6 +39,7 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.locationId = 1;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.createdDate = DateTime.Now;
             MembershipDetails.customerVehicleDetails.clientVehicle.clientVehicle.updatedDate = DateTime.Now;
+            
         }
         public async Task getMembershipDetails()
         {
@@ -61,7 +64,21 @@ namespace Strive.Core.ViewModels.Customer
             }
             _userDialog.HideLoading();
         }
-
+        public async Task<bool> PreviousMembership(int id)
+        {
+            var result = await AdminService.GetVehicleDiscountDetail(id);
+            if (result.Status == "true")
+            {
+                _userDialog.Alert("Membership Discount Available !");
+                return true;
+            }
+            else
+            {
+                _userDialog.Alert("Membership Not Discount Available !");
+                return false;
+            }
+            
+        }
         public async void NextCommand()
         {
            if(VehicleMembershipCheck())
@@ -82,6 +99,7 @@ namespace Strive.Core.ViewModels.Customer
                 _userDialog.Alert("Please choose a membership");
                 return false;
             }
+
             return true;
         }
         public async void NavToUpcharges()

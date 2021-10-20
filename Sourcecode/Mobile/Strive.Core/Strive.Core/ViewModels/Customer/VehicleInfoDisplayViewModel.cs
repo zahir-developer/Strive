@@ -79,6 +79,7 @@ namespace Strive.Core.ViewModels.Customer
                 return confirmed = false;
             }
         }
+        
 
         public async void NavToVehicleMembership()
         {
