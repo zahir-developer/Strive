@@ -47,6 +47,7 @@ export class VehicleCreateEditComponent implements OnInit {
   selectedservice: any = [];
   extraService: any = [];
   washService: any = [];
+  washServiceId: number = 0;
   washesDropdown: any = [];
   submitted: boolean;
   filteredModel: any = [];
@@ -230,7 +231,7 @@ export class VehicleCreateEditComponent implements OnInit {
         this.vehicles = vehicle.VehicleMembershipDetails;
         if (vehicle.VehicleMembershipDetails.ClientVehicleMembership !== null) {
           this.memberServiceId = vehicle?.VehicleMembershipDetails?.ClientVehicleMembership?.MembershipId;
-          this.getMemberServices(this.memberServiceId);
+          //this.getMemberServices(this.memberServiceId);
           this.vehicleForm.patchValue({
             membership: vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId
           });
@@ -263,6 +264,14 @@ export class VehicleCreateEditComponent implements OnInit {
           this.vehicleForm.patchValue({
             services: this.memberService
           });
+
+          const washService = this.patchedService.filter(item => item.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
+          if (washService.length > 0) {
+            this.washServiceId = washService[0].ServiceId;
+            this.vehicleForm.patchValue({ wash: washService[0].ServiceId });
+            this.vehicleForm.controls.wash.disable();
+          }
+
         }
       }
     }, (err) => {
@@ -645,6 +654,20 @@ export class VehicleCreateEditComponent implements OnInit {
             }
           )
         }
+      }
+
+      if(this.washServiceId === 0 && this.vehicleForm.value.wash !== "")
+      {
+        memberService.push(
+          {
+            ClientVehicleMembershipServiceId: 0,
+            IsDeleted: false,
+            ClientMembershipId: clientMembershipId,
+            ServiceId: +this.vehicleForm.value.wash,
+            IsActive: true,
+          }
+        )
+        
       }
 
       if (this.patchedService !== undefined) {

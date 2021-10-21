@@ -49,6 +49,7 @@ export class ClientListComponent implements OnInit {
       debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
+        this.resetPagination();
         this.getAllClientDetails();
       });
    }
@@ -73,6 +74,11 @@ export class ClientListComponent implements OnInit {
   {
     this.page = 1;
     this.getAllClientDetails();
+  }
+
+  resetPagination()
+  {
+    this.page = 1;
   }
 
   // Get All Client

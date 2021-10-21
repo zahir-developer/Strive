@@ -274,7 +274,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
               client: { id: this.barcodeDetails.ClientId, name: this.barcodeDetails.FirstName + ' ' + this.barcodeDetails.LastName },
               vehicle: this.barcodeDetails.VehicleId,
             });
-            this.getMembership(this.barcodeDetails.VehicleId);
+            //this.getMembership(this.barcodeDetails.VehicleId);
           }, 200);
         } else {
           const barCode = this.detailForm.value.barcode;
@@ -293,6 +293,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
+  /*
   getMembership(id) {
     this.wash.getMembership(+id).subscribe(data => {
       if (data.status === 'Success') {
@@ -316,6 +317,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
+*/
 
   washService(data) {
     if (this.washItem.length > 0) {
@@ -798,7 +800,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     this.additional.forEach(element => {
       element.IsChecked = false;
     });
-    this.getMembership(id);
+    //this.getMembership(id);
     this.getVehicleById(id);
   }
 
@@ -894,7 +896,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
 
           this.detailForm.patchValue({ vehicle: vehId });
           this.getVehicleById(vehId);
-          this.getMembership(vehId);
+          //this.getMembership(vehId);
         } else {
           this.detailForm.get('vehicle').reset();
         }
@@ -1230,6 +1232,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
     });
   }
 
+  /*
   membershipChange(data) {
     this.memberService = [];
     this.wash.getMembershipById(Number(data)).subscribe(res => {
@@ -1249,7 +1252,7 @@ export class CreateEditDetailScheduleComponent implements OnInit {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');
     });
   }
-
+*/
   getJobType() {
     this.detailService.getJobType().subscribe(res => {
       if (res.status === 'Success') {

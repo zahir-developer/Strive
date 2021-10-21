@@ -1756,8 +1756,9 @@ export class SalesComponent implements OnInit {
                 this.itemList.Status.SalesItemViewModel.forEach(s => {
 
                   if (totalService.filter(t => t.ServiceId === s.ServiceId).length !== 0) {
-                    MembershipTotalPrice += s.Price
+                    MembershipTotalPrice += s.Price;
                     services += s.ServiceName.trim();
+                    services += ", ";
                   }
                 });
 
@@ -1767,7 +1768,11 @@ export class SalesComponent implements OnInit {
                 }
 
                 if (services !== '') {
-                  this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + "Services: " + services });
+                  
+                  services = services.slice(0,services.length-2);
+                  services += ".";
+
+                  this.messageService.showMessage({ severity: 'info', title: 'Membership', body: MessageConfig.Sales.MembershipApplied + services });
                 }
                 else {
                   this.messageService.showMessage({ severity: 'warning', title: 'Membership', body: MessageConfig.Sales.MembershipServicesNotMatching });
