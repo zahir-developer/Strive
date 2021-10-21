@@ -25,7 +25,7 @@ namespace Strive.Core.ViewModels.Customer
             SetupServices();
         }
 
-        private void SetupServices()
+        public void SetupServices()
         {
             ClientVehicleMembershipService clientVehicleAddServices ;
             MembershipDetails.customerVehicleDetails
@@ -60,7 +60,7 @@ namespace Strive.Core.ViewModels.Customer
             }
         }
 
-        private void SetupMembership()
+        public void SetupMembership()
         {
             //if (CustomerInfo.actionType == 2)
             //{
@@ -181,7 +181,15 @@ namespace Strive.Core.ViewModels.Customer
         {
             await _navigationService.Navigate<MyProfileInfoViewModel>();
         }
-       
+        public async void NavToSignatureView()
+        {
+            foreach (var item in MembershipDetails.selectedAdditionalServices)
+            {
+                MembershipDetails.filteredList.ServicesWithPrice.Add(MembershipDetails.completeList.ServicesWithPrice.Find(a => a.ServiceId == item));
+            }
+
+            await _navigationService.Navigate<MembershipSignatureViewModel>();
+        }
         public async void BackCommand()
         {
             await _navigationService.Navigate<MembershipSignatureViewModel>();

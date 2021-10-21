@@ -41,7 +41,7 @@ namespace StriveCustomer.iOS.Views
 
         partial void AgreeBtn_Touch(UIButton sender)
         {
-            AgreeTerms();
+            ViewModel.NavToSignatureView();
         }
 
         partial void DisAgreeBtn_Touch(UIButton sender)
@@ -56,7 +56,7 @@ namespace StriveCustomer.iOS.Views
             if (result)
             {                
                 SignatureClass.signaturePoints = null;
-                ViewModel.NavigateToLanding();
+                ViewModel.NavToSignatureView();
             }
         }
 

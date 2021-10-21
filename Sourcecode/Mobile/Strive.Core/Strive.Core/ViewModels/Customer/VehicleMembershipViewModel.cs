@@ -74,7 +74,6 @@ namespace Strive.Core.ViewModels.Customer
             }
             else
             {
-                _userDialog.Alert("Membership Not Discount Available !");
                 return false;
             }
             

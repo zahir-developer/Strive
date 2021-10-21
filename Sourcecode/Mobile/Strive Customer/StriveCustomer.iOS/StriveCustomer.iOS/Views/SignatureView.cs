@@ -31,16 +31,18 @@ namespace StriveCustomer.iOS.Views
 
         private void InitialSetup()
         {
-            var rightBtn = new UIButton(UIButtonType.Custom);
-            rightBtn.SetTitle("Next", UIControlState.Normal);
-            rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
+            // TODO
+            //var rightBtn = new UIButton(UIButtonType.Custom);
+            //rightBtn.SetTitle("Next", UIControlState.Normal);
+            //rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
 
-            var rightBarBtn = new UIBarButtonItem(rightBtn);
-            NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
-            rightBtn.TouchUpInside += (sender, e) =>
-            {
-                ViewModel.NextCommand();
-            };
+            //var rightBarBtn = new UIBarButtonItem(rightBtn);
+            //NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
+            //rightBtn.TouchUpInside += (sender, e) =>
+            //{
+                //AgreeTerms();
+            //};
+
 
             signature = new SignaturePadView(signPadView.Frame)
             {
@@ -69,7 +71,15 @@ namespace StriveCustomer.iOS.Views
 
             LoadSignature();
         }
-
+        private async void Agree()
+        {
+            //CancelMembership
+            var result = await ViewModel.AgreeMembership();
+            if (result)
+            { 
+                ViewModel.NextCommand();
+            }
+        }
         private void LoadSignature()
         {
             if (SignatureClass.signaturePoints != null)
@@ -97,7 +107,7 @@ namespace StriveCustomer.iOS.Views
             }
             else
             {
-                ViewModel.NextCommand();
+                Agree();
             }
         }
 

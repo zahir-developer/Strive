@@ -42,16 +42,11 @@ namespace Strive.Core.ViewModels.Customer
                 }
             }
         }
-
-        public async void NavToSignatureView()
+        public async void NavtoTermsCondition()
         {
-            foreach(var item in MembershipDetails.selectedAdditionalServices)
-            {
-                MembershipDetails.filteredList.ServicesWithPrice.Add(MembershipDetails.completeList.ServicesWithPrice.Find(a => a.ServiceId == item));
-            }
-
-            await _navigationService.Navigate<MembershipSignatureViewModel>();
+            await _navigationService.Navigate<TermsAndConditionsViewModel>();
         }
+        
         #endregion Commands
     }
 }

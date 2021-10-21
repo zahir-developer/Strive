@@ -29,7 +29,7 @@ namespace Strive.Core.ViewModels.Customer
                             Find(x=> x.MembershipId == CustomerVehiclesInformation.completeVehicleDetails.
                                                         VehicleMembershipDetails.ClientVehicleMembership.MembershipId).MembershipName;
 
-            _userDialog.HideLoading();
+            //_userDialog.HideLoading();
         }
 
         public async Task CancelMembership()
@@ -99,21 +99,24 @@ namespace Strive.Core.ViewModels.Customer
         }
         public void GetMembershipServicesData()
         {
-
-            foreach(var data in CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembershipService)
+            if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembershipService!=null)
             {
-                ClientVehicleMembershipService serviceView = new ClientVehicleMembershipService();
-                serviceView.clientMembershipId = data.ClientMembershipId;
-                serviceView.clientVehicleMembershipServiceId = data.ClientVehicleMembershipServiceId;
-                serviceView.serviceId = data.ServiceId;
-                serviceView.isActive = false;
-                serviceView.isDeleted = true;
-                serviceView.createdDate = DateUtils.ConvertDateTimeWithZ();
-                serviceView.updatedDate = DateUtils.ConvertDateTimeWithZ();
+                foreach (var data in CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembershipService)
+                {
+                    ClientVehicleMembershipService serviceView = new ClientVehicleMembershipService();
+                    serviceView.clientMembershipId = data.ClientMembershipId;
+                    serviceView.clientVehicleMembershipServiceId = data.ClientVehicleMembershipServiceId;
+                    serviceView.serviceId = data.ServiceId;
+                    serviceView.isActive = false;
+                    serviceView.isDeleted = true;
+                    serviceView.createdDate = DateUtils.ConvertDateTimeWithZ();
+                    serviceView.updatedDate = DateUtils.ConvertDateTimeWithZ();
 
-                CustomerVehiclesInformation.membershipDetails.
-                 clientVehicleMembershipModel.clientVehicleMembershipService.Add(serviceView);
+                    CustomerVehiclesInformation.membershipDetails.
+                     clientVehicleMembershipModel.clientVehicleMembershipService.Add(serviceView);
+                }
             }
+            
         }
         public async void NavigateToDashBoard()
         {

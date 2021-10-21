@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Customer;
+using Strive.Core.Models.TimInventory;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,10 +9,11 @@ namespace Strive.Core.ViewModels.Customer
 {
     public class MembershipSignatureViewModel : BaseViewModel
     {
-
+        
         public MembershipSignatureViewModel()
         {
             AddServiceDetails();
+            
         }
 
         #region Properties
@@ -25,14 +27,46 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void NextCommand()
         {
-            await _navigationService.Navigate<TermsAndConditionsViewModel>();
+            await _navigationService.Navigate<MyProfileInfoViewModel>();
         }
 
         public async void BackCommand()
         {
            await _navigationService.Navigate<VehicleAdditionalServiceViewModel>();
         }
-
+        public async Task<bool> AgreeMembership()
+        {
+            bool agree = true;
+            var confirm = await _userDialog.ConfirmAsync("Would you like to create the membership ?");
+            if (confirm)
+            {
+                if (CustomerVehiclesInformation.completeVehicleDetails!=null)
+                {
+                    if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
+                    {
+                        var isDeleted = await AdminService.DeleteVehicleMembership(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
+                    }
+                }
+                
+                var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
+                if (data.Status == true)
+                {
+                    _userDialog.Toast("Membership has been created successfully");
+                    MembershipDetails.clearMembershipData();
+                    return agree;
+                }
+                else
+                {
+                    _userDialog.Alert("Error membership not created");
+                    agree = false;
+                }
+            }
+            else
+            {
+                agree = false;
+            }
+            return agree;
+        }
         public async Task<bool> CancelMembership()
         {
             var cancelMembership = false;
@@ -53,7 +87,7 @@ namespace Strive.Core.ViewModels.Customer
             MembershipDetails.
                 customerVehicleDetails.
                 clientVehicleMembershipModel.
-                clientVehicleMembershipService = new List<Models.TimInventory.ClientVehicleMembershipService>();
+                clientVehicleMembershipService = new List<ClientVehicleMembershipService>();
         }
 
         public void NoSignatureError()
@@ -66,5 +100,6 @@ namespace Strive.Core.ViewModels.Customer
             await _navigationService.Navigate<VehicleMembershipViewModel>();
         }
         #endregion Commands
+        
     }
 }
