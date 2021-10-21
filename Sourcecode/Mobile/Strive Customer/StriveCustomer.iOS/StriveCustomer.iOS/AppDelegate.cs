@@ -1,14 +1,17 @@
-﻿using Foundation;
+﻿using System;
+using Firebase.CloudMessaging;
+using Foundation;
 using MvvmCross.Platforms.Ios.Core;
 using StriveCustomer.iOS.MvvmCross;
 using UIKit;
+using UserNotifications;
 
 namespace StriveCustomer.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : MvxApplicationDelegate<Setup, App>
+    public class AppDelegate : MvxApplicationDelegate<Setup, App>, IMessagingDelegate, IUNUserNotificationCenterDelegate
     {
         // class-level declarations
 
@@ -20,6 +23,33 @@ namespace StriveCustomer.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            // Setting up for Firebase Notification
+            Firebase.Core.App.Configure();
+
+            Messaging.SharedInstance.Delegate = this;
+
+            // Register your app for remote notifications.
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+
+                // For iOS 10 display notification (sent via APNS)
+                UNUserNotificationCenter.Current.Delegate = this;
+
+                var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
+                UNUserNotificationCenter.Current.RequestAuthorization(authOptions, (granted, error) => {
+                    Console.WriteLine(granted);
+                });
+            }
+            else
+            {
+                // iOS 9 or before
+                var allNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound;
+                var settings = UIUserNotificationSettings.GetSettingsForTypes(allNotificationTypes, null);
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            }
+
+            UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
             // create a new window instance based on the screen size
             var result = base.FinishedLaunching(application, launchOptions);
 
@@ -55,6 +85,21 @@ namespace StriveCustomer.iOS
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        [Export("messaging:didReceiveRegistrationToken:")]
+        public void DidReceiveRegistrationToken(Messaging messaging, string fcmToken)
+        {
+            Console.WriteLine("DidReceiveRegistrationToken");
+            Console.WriteLine($"Firebase registration token: {fcmToken}");
+
+            // TODO: If necessary send token to application server.
+            // Note: This callback is fired at each app startup and whenever a new token is generated.
+        }
+
+        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        {
+            Messaging.SharedInstance.ApnsToken = deviceToken;
         }
     }
 

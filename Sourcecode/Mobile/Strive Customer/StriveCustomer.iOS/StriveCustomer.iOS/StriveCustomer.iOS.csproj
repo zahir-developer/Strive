@@ -26,8 +26,8 @@
         <MtouchArch>x86_64</MtouchArch>
         <MtouchLink>None</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>StriveCustomerRelease</CodesignProvision>
         <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignProvision>StriveCustomerAdHoc</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <DebugType>none</DebugType>
@@ -37,6 +37,7 @@
         <WarningLevel>4</WarningLevel>
         <MtouchLink>None</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
+        <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
@@ -47,10 +48,9 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
-        <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
-        <CodesignProvision>StriveCustomerRelease</CodesignProvision>
+        <CodesignProvision>iOS Team Provisioning Profile: com.Telliant.StriveCustomerMobile</CodesignProvision>
         <MtouchLink>SdkOnly</MtouchLink>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -59,11 +59,10 @@
         <OutputPath>bin\iPhone\Release</OutputPath>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
-        <CodesignProvision>StriveCustomerRelease</CodesignProvision>
         <MtouchLink>SdkOnly</MtouchLink>
+        <CodesignProvision>StriveCustomerAdHoc</CodesignProvision>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -92,6 +91,9 @@
       </PackageReference>
       <PackageReference Include="GoogleMaps.LocationServices">
         <Version>1.2.0.5</Version>
+      </PackageReference>
+      <PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging">
+        <Version>4.7.1</Version>
       </PackageReference>
     </ItemGroup>
     <ItemGroup>
@@ -507,6 +509,7 @@
       <BundleResource Include="Resources\OpenSans-Regular.ttf" />
       <BundleResource Include="Resources\OpenSans-SemiBold.ttf" />
       <BundleResource Include="Resources\OpenSans-SemiBoldItalic.ttf" />
+      <BundleResource Include="GoogleService-Info.plist" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
