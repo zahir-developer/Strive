@@ -414,7 +414,8 @@ export class SalesComponent implements OnInit {
       const ticketNumber = this.multipleTicketNumber.length > 0 ? this.multipleTicketNumber.toString()
         : this.newTicketNumber ? this.newTicketNumber : 0;
       const obj = {
-        ticketNumber
+        ticketNumber,
+        locationId: this.locationId
       };
       this.salesService.getAccountDetails(obj).subscribe(data => {
         if (data.status === 'Success') {
