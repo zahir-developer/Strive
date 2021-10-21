@@ -69,7 +69,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
     const obj = {
       locationId: +this.locationId,
       date: moment(this.date).format('YYYY-MM-DD'),
-      CurrentDate: this.date.getDate() == curr_date ?  this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss') : moment(this.date).format('YYYY-MM-DD') 
+      CurrentDate: this.date.getDate() == curr_date ?  this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss') : moment(this.date).format('YYYY-MM-DD') 
 
     };
     this.spinner.show();
@@ -253,7 +253,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
     const obj = {
       locationId: +this.locationId,
-      date: curr_date == this.date.getDate() ? this.datePipe.transform(this.date, 'yyyy-MM-dd hh:mm:ss') : this.datePipe.transform(this.date, 'yyyy-MM-dd')
+      date: curr_date == this.date.getDate() ? this.datePipe.transform(this.date, 'yyyy-MM-dd HH:mm:ss') : this.datePipe.transform(this.date, 'yyyy-MM-dd')
     };
     this.spinner.show();
     
@@ -286,7 +286,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
 
     const obj = {
       locationId: +this.locationId,
-      date: this.date.getDate() == curr_date ? this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss') :  moment(this.date).format('YYYY-MM-DD') 
+      date: this.date.getDate() == curr_date ? this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss') :  moment(this.date).format('YYYY-MM-DD') 
     };
     this.spinner.show();
     this.reportService.getDailyStatusDetailInfo(obj).subscribe(data => {

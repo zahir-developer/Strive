@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit {
       locationId: locationID,
       fromDate: this.datePipe.transform(this.fromDate, 'yyyy-MM-dd'),
       toDate: this.datePipe.transform(this.toDate, 'yyyy-MM-dd') ,
-      CurrentDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss') 
+      CurrentDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss') 
     };
     this.spinner.show();
     this.dashboardService.getDashboardStatistics(finalObj).subscribe(res => {
