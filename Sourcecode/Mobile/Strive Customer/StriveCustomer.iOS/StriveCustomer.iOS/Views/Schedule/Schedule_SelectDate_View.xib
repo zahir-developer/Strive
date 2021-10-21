@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,6 +23,7 @@
                 <outlet property="Schedule_Date_ChildView" destination="oK3-b5-qWQ" id="CZ8-o8-PUS"/>
                 <outlet property="Schedule_datePicker" destination="f3K-VA-VKr" id="jdU-Du-jas"/>
                 <outlet property="SelectDate_ParentView" destination="O2T-TA-IHw" id="gks-nm-sOb"/>
+                <outlet property="TimeSlot_Label" destination="JMn-rW-CAR" id="1pX-62-eCZ"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -41,7 +42,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="347" height="300"/>
                             <subviews>
                                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="f3K-VA-VKr">
-                                    <rect key="frame" x="20" y="20" width="307" height="293.5"/>
+                                    <rect key="frame" x="20" y="20" width="307" height="304"/>
                                     <date key="minimumDate" timeIntervalSinceReferenceDate="631191600">
                                         <!--2021-01-01 11:00:00 +0000-->
                                     </date>

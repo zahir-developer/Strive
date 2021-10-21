@@ -1,6 +1,7 @@
 ﻿using System;
 using Acr.UserDialogs;
 using Foundation;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Customer;
 using Strive.Core.Models.Customer.Schedule;
@@ -22,6 +23,9 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             base.ViewDidLoad();
             InitialSetup();
+            var set = this.CreateBindingSet<Schedule_SelectDate_View, ScheduleAppointmentDateViewModel>();
+            set.Bind(TimeSlot_Label).For("Text").To(vm => vm.LblString);
+            set.Apply();
             // Perform any additional setup after loading the view, typically from a nib.
         }
         
@@ -66,7 +70,7 @@ namespace StriveCustomer.iOS.Views.Schedule
 
             Date_CollectionView.RegisterNibForCell(Schedule_Time_Cell.Nib, Schedule_Time_Cell.Key);
             Date_CollectionView.ReloadData();
-
+            Schedule_datePicker.MinimumDate = NSDate.Now;
             getTimeSlots();
 
         }
@@ -155,6 +159,7 @@ namespace StriveCustomer.iOS.Views.Schedule
             else
             {
                 Date_CollectionView.Hidden = true;
+               
             }
         }
 

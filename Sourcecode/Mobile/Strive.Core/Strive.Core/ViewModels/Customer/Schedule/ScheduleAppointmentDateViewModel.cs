@@ -18,8 +18,17 @@ namespace Strive.Core.ViewModels.Customer.Schedule
         public AvailableScheduleSlots ScheduleSlotInfo { get; set; }
         public int BayID { get; set; } = -1;
         public List<string> slots = new List<string>();
+        private string _lblString;
+        public string LblString
+        {
+            get => _lblString;
+            set
+            {
+                _lblString = value;
+                RaisePropertyChanged(() => LblString);
+            }
+        }
         #endregion Properties
-
         #region Commands
 
         public async Task GetSlotAvailability(int LocationID, string Time)
@@ -41,6 +50,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                         slots.Add(slot.TimeIn);
                     }                                   
                 }
+                LblString = "Available Times Slots";
                 //BayID = result.GetTimeInDetails[0].BayId;
                 //foreach (var data in result.GetTimeInDetails)
                 //{
@@ -53,7 +63,13 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 //        }
                 //    }
                 //}
-            }           
+            }
+            else
+            {
+                ScheduleSlotInfo = new AvailableScheduleSlots();
+                ScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();
+                LblString = "No Available Time Slots";
+            }
         }
 
         public async void NavToSelect_Preview()
@@ -61,6 +77,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             if (checkSelectedTime() && checkSelectedDate())
             {
                 await _navigationService.Navigate<SchedulePreviewDetailsViewModel>();
+
             }
         }
 

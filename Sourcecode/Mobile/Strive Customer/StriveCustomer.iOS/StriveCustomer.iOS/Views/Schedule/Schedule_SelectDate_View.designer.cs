@@ -27,6 +27,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 		[Outlet]
 		UIKit.UIView SelectDate_ParentView { get; set; }
 
+		[Outlet]
+		UIKit.UILabel TimeSlot_Label { get; set; }
+
 		[Action ("CancelDate_BtnTouch:")]
 		partial void CancelDate_BtnTouch (UIKit.UIButton sender);
 
@@ -58,6 +61,11 @@ namespace StriveCustomer.iOS.Views.Schedule
 			if (SelectDate_ParentView != null) {
 				SelectDate_ParentView.Dispose ();
 				SelectDate_ParentView = null;
+			}
+
+			if (TimeSlot_Label != null) {
+				TimeSlot_Label.Dispose ();
+				TimeSlot_Label = null;
 			}
 		}
 	}

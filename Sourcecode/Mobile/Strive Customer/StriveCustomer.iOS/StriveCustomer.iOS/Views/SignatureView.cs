@@ -108,6 +108,8 @@ namespace StriveCustomer.iOS.Views
             else
             {
                 Agree();
+                signature.Clear();
+                SignatureClass.signaturePoints = null;
             }
         }
 
