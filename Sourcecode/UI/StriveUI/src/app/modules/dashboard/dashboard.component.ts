@@ -165,7 +165,7 @@ export class DashboardComponent implements OnInit {
   // Get All Location
   getLocationList() {
     const locID = 0;
-    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss')).subscribe(res => {
+    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')).subscribe(res => {
             if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;
