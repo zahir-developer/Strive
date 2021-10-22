@@ -297,7 +297,7 @@
         <app-print-customer-copy *ngIf="isEdit" [selectedData]="selectedData"></app-print-customer-copy>
     </div>
 </div>
-<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '50vw'}" [baseZIndex]="10000" appendTo="body">
+<p-dialog [(visible)]="showDialog" header="Assign" [blockScroll]="true" [resizable]="true" appendTo="body" [modal]="true" [focusOnShow]="false" [closable]="false" [style]="{width: '70vw'}" [baseZIndex]="10000" appendTo="body">
     <app-assign-detail *ngIf="showDialog" (storedService)="storedService($event)" [isView]="isView" (closeAssignModel)="closeAssignModel()" [details]="detailItems" [detailsJobServiceEmployee]="detailsJobServiceEmployee" [employeeList]="employeeList" (cancelAssignModel)="cancelAssignModel()"></app-assign-detail>
 </p-dialog>
 

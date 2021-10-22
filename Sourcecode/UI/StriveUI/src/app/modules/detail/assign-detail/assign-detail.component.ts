@@ -38,8 +38,8 @@ export class AssignDetailComponent implements OnInit {
     private fb: FormBuilder, private getCode: GetCodeService,
     private confirmationService: ConfirmationUXBDialogService,
     private detailServices: DetailService,
-    private spinner : NgxSpinnerService,
-    private toastr : ToastrService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
     private codeService: CodeValueService
   ) { }
 
@@ -93,7 +93,10 @@ export class AssignDetailComponent implements OnInit {
     });
 
     this.assignForm.value.serviceId.forEach(service => {
-      this.clonedServices = this.clonedServices.filter(item => item.item_id !== service.item_id);
+      const clonedServiceCount = this.clonedServices.filter(elem => elem.ServiceId === service.item_id)?.length;
+      if (clonedServiceCount === 0) {
+        this.clonedServices = this.clonedServices.filter(item => item.item_id !== service.item_id);
+      }
     });
     selectedService.forEach(service => {
       this.assignForm.value.employeeId.forEach(emp => {
@@ -144,15 +147,50 @@ export class AssignDetailComponent implements OnInit {
   }
 
   delete(service) {
-    const deleteService = _.where(this.detailService, { JobServiceEmployeeId: +service.JobServiceEmployeeId });
+    const deleteService = _.where(this.detailService, { ServiceId: +service.ServiceId });
+
     if (deleteService.length > 0) {
-      this.deleteIds.push(deleteService[0]);
+      deleteService.forEach(s => {
+        this.deleteIds.push(s);
+        var i = this.detailService.indexOf(s)
+        this.detailService.splice(i, 1);
+      });
     }
+
     this.detailService = this.detailService.filter(item => item.detailServiceId !== service.detailServiceId);
     const clonedDetailService = this.detailService.map(x => Object.assign({}, x));
-    this.serviceByEmployeeId(service.ServiceId);
-    this.detailService = [];
+    
     this.clonedServices = [];
+    this.details.forEach(x => {
+      const count = this.clonedServices.filter(elem => elem.ServiceId === x.ServiceId)?.length;
+      if (count === 0) {
+        this.clonedServices.push(
+          {
+            item_id: x.ServiceId,
+            item_text: x.ServiceName
+          });
+      }
+    });
+
+    if (this.detailService.length > 0) {
+      this.clonedServices = [];
+      this.details.forEach(item => {
+        const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId);
+        const clonedServiceCount = this.clonedServices.filter(elem => elem.ServiceId === item.ServiceId)?.length;
+        if (selectedService.length === 0 && clonedServiceCount === 0) {
+          this.clonedServices.push({
+            item_id: item.ServiceId,
+            item_text: item.ServiceName
+          });
+        }
+      });
+    }
+
+    //this.serviceByEmployeeId(service.ServiceId);
+    //this.detailService = [];
+    //this.clonedServices = [];
+    
+    /*
     this.details.forEach(item => {
       const selectedService = clonedDetailService.filter(elem => elem.ServiceId === item.ServiceId);
       if (selectedService.length > 0) {
@@ -166,12 +204,15 @@ export class AssignDetailComponent implements OnInit {
           this.detailService.push(emp);
         });
       } else {
-        this.clonedServices.push({
-          item_id: item.ServiceId,
-          item_text: item.ServiceName
-        });
+        if (this.clonedServices.filter(s => s.item_id === item.ServiceId)?.length === 0) {
+          this.clonedServices.push({
+            item_id: item.ServiceId,
+            item_text: item.ServiceName
+          });
+        }
       }
     });
+    */
   }
 
   confirmDelete(service) {
@@ -253,7 +294,7 @@ export class AssignDetailComponent implements OnInit {
       jobServiceEmployee: assignServiceObj,
       jobId: jobId
     };
-    
+
     this.spinner.show();
     this.detailServices.saveEmployeeWithService(finalObj).subscribe(res => {
       if (res.status === 'Success') {
@@ -261,7 +302,7 @@ export class AssignDetailComponent implements OnInit {
 
         this.cancelAssignModel.emit();
       }
-      else{
+      else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
 
@@ -300,18 +341,28 @@ export class AssignDetailComponent implements OnInit {
 
   getDetailService() {
     this.details = this.details.filter(i => i.ServiceTypeId !== this.serviceType.CodeId);
-    this.clonedServices = this.details.map(x => Object.assign({}, x));
-    this.clonedServices = this.clonedServices.map(item => {
-      return {
-        item_id: item.ServiceId,
-        item_text: item.ServiceName
-      };
+
+
+    this.clonedServices = [];
+    this.details.forEach(x => {
+      const count = this.clonedServices.filter(elem => elem.ServiceId === x.ServiceId)?.length;
+      if (count === 0) {
+        this.clonedServices.push(
+          {
+            item_id: x.ServiceId,
+            item_text: x.ServiceName
+          });
+      }
     });
+
+
+
     if (this.detailService.length > 0) {
       this.clonedServices = [];
       this.details.forEach(item => {
         const selectedService = this.detailService.filter(elem => elem.ServiceId === item.ServiceId);
-        if (selectedService.length === 0) {
+        const clonedServiceCount = this.clonedServices.filter(elem => elem.ServiceId === item.ServiceId)?.length;
+        if (selectedService.length === 0 && clonedServiceCount === 0) {
           this.clonedServices.push({
             item_id: item.ServiceId,
             item_text: item.ServiceName
