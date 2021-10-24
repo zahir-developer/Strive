@@ -90,7 +90,7 @@ namespace Greeter
             lblLastService.AddGestureRecognizer(new UITapGestureRecognizer(LastServiceTap));
             lblViewIssue.AddGestureRecognizer(new UITapGestureRecognizer(ViewIssueTap));
 
-            RegisterForBarcodeScanning();
+            //RegisterForBarcodeScanning();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -164,7 +164,7 @@ namespace Greeter
         {
             PeripheralEvents.ConnectionState += OnConnectionStateChanged;
             PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
-            //ConnectToPeripheral();
+            ConnectToPeripheral();
             Peripheral.AddDelegate(PeripheralEvents);
         }
 

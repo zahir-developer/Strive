@@ -71,8 +71,10 @@ namespace Greeter.Storyboards
                     ShowAlertMsg(Common.Messages.EMPLOYEE_MISSING);
                     return;
                 }
+
                 //_ = SendEmail(selectedEmpEmailId);
                 //_ = AssignServiceToEmployee(selectedEmpId);
+
                 _= GetDetailService(Service.Job.JobID);
             };
 
