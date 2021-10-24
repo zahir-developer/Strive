@@ -24,7 +24,7 @@ namespace Greeter.Storyboards
         public string AdditionalServiceName;
         public float Amount;
         public string CustomerName;
-        public bool IsFromNewService = true;
+        //public bool IsFromNewService = true;
         public ServiceType ServiceType;
         public CreateServiceRequest Service;
 
@@ -35,6 +35,8 @@ namespace Greeter.Storyboards
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            NavigationController.NavigationBar.Hidden = true;
 
             Initialise();
             UpdateData();
@@ -106,7 +108,6 @@ namespace Greeter.Storyboards
 
         void Initialise()
         {
-            NavigationController.NavigationBar.Hidden = false;
             Title = SCREEN_TITLE;
         }
 

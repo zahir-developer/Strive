@@ -22,7 +22,8 @@ namespace Greeter.Modules.Pay
         public string AdditionalServiceName;
         public float Amount;
         public string CustName;
-        public bool IsFromNewService = true;
+        public ServiceType ServiceType;
+        //public bool IsFromNewService = true;
         public CreateServiceRequest Service;
 
         public PaymentViewController()
@@ -127,6 +128,11 @@ namespace Greeter.Modules.Pay
 
                         if (paymentResponse.IsSuccess())
                         {
+                            var nc = NavigationController;
+                            var navigationViewControllers = NavigationController.ViewControllers.ToList();
+                            navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);
+                            NavigationController.ViewControllers = navigationViewControllers.ToArray();
+
                             var vc = (PaymentSucessViewController)GetViewController(GetHomeStorybpard(), nameof(PaymentSucessViewController));
                             vc.TicketID = JobID;
                             vc.Make = Make;
@@ -137,8 +143,10 @@ namespace Greeter.Modules.Pay
                             vc.CustomerName = CustName;
                             vc.AdditionalServiceName = AdditionalServiceName;
                             vc.Service = Service;
-                            vc.IsFromNewService = IsFromNewService;
-                            NavigateToWithAnim(vc);
+                            vc.ServiceType = ServiceType;
+                            //vc.IsFromNewService = IsFromNewService;
+                            nc.PushViewController(vc, true);
+                            //NavigateToWithAnim(vc);
                         }
                     }
                 }

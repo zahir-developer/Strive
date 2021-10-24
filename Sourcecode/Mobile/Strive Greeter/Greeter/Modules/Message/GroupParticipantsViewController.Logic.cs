@@ -44,7 +44,7 @@ namespace Greeter.Modules.Message
                 participants.Add(new ChatUserGroup
                 {
                     UserID = item.ID,
-                    ChatGroupUserID = item.ChatGroupUserId,
+                    ChatGroupUserID = item.ChatGroupUserID,
                     FirstName = item.FirstName,
                     LastName = item.LastName
                 });
@@ -56,7 +56,7 @@ namespace Greeter.Modules.Message
         public async void RemoveParticipantInApiAsync(ContactEmployee contact)
         {
             ShowActivityIndicator();
-            var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeId);
+            var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeID);
             var result = await SingleTon.MessageApiService.RemoveUserFromGroup(participants[index].ChatGroupUserID);
             HideActivityIndicator();
 
@@ -71,9 +71,9 @@ namespace Greeter.Modules.Message
 
         void RemoveUserObj(ContactEmployee contact)
         {
-            var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeId);
+            var index = participants.FindIndex(obj => obj.UserID == contact.EmployeeID);
 
-            var newParticipantIndex = newlyAddedParticipants.FindIndex(obj => obj.UserID == contact.EmployeeId);
+            var newParticipantIndex = newlyAddedParticipants.FindIndex(obj => obj.UserID == contact.EmployeeID);
             if (newParticipantIndex != -1)
                 newlyAddedParticipants.RemoveAt(index);
 
@@ -88,7 +88,7 @@ namespace Greeter.Modules.Message
             //participants.AddRange(participants);
             foreach(var contact in contacts)
             {
-                var participant = new ChatUserGroup { UserID = contact.EmployeeId, FirstName = contact.FirstName, LastName = contact.LastName, CommunicationId = contact.CommunicationId };
+                var participant = new ChatUserGroup { UserID = contact.EmployeeID, FirstName = contact.FirstName, LastName = contact.LastName, CommunicationID = contact.CommunicationID };
                 participants.Add(participant);
                 newlyAddedParticipants.Add(participant);
             }
@@ -116,7 +116,7 @@ namespace Greeter.Modules.Message
             {
                 var chatUserGroup = new ChatUserGroup();
                 chatUserGroup.UserID = participant.UserID;
-                chatUserGroup.ChatGroupId = groupId;
+                chatUserGroup.ChatGroupID = groupId;
                 creategroupReq.ChatUserGroup.Add(chatUserGroup);
             }
 
@@ -141,7 +141,7 @@ namespace Greeter.Modules.Message
 
             var req = new CreategroupRequest
             {
-                ChatGroup = new ChatGroup { GroupName = groupName, CreatedBy = AppSettings.UserID, ChatGroupId = 0},
+                ChatGroup = new ChatGroup { GroupName = groupName, CreatedBy = AppSettings.UserID, ChatGroupID = 0},
                 ChatUserGroup = participants
             };
 

@@ -174,7 +174,7 @@ namespace Greeter.Modules.Message
         {
             var cell = tableView.DequeueReusableCell(ContactCell.Key) as ContactCell;
             var participant = participants[indexPath.Row];
-            var employee = new ContactEmployee { EmployeeId = participant.UserID, FirstName = participant.FirstName, LastName = participant.LastName };
+            var employee = new ContactEmployee { EmployeeID = participant.UserID, FirstName = participant.FirstName, LastName = participant.LastName };
             cell.SetupData(ContactConfigureType.Participant, employee);
             cell.Delegate = new WeakReference<IContactCellDelegate>(this);
             return cell;

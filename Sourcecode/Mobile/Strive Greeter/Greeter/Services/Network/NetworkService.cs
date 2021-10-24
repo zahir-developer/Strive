@@ -49,10 +49,11 @@ namespace Greeter.Services.Network
                     if (request.Body is not null)
                         Debug.WriteLine("Request Body : " + JsonConvert.SerializeObject(request.Body));
 
+                    Debug.WriteLine("Status Code : " + urlResponse.StatusCode);
+
                     if (urlResponse?.StatusCode >= 200 && urlResponse?.StatusCode <= 299)
                     {
                         using var responseString = NSString.FromData(dataTaskRequest.Data, NSStringEncoding.UTF8);
-                        Debug.WriteLine("Status Code : " + urlResponse.StatusCode);
                         Debug.WriteLine("Response String : " + responseString);
 
                         TResult result = Activator.CreateInstance<TResult>();

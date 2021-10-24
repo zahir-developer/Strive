@@ -73,7 +73,7 @@ namespace Greeter.Modules.Message
             if (chatType == ChatType.Group)
             {
                 req.ChatMessageRecipient.RecipientGroupID = chatInfo.GroupId;
-                req.ConnectionID = req.GroupId = chatInfo.CommunicationId.ToString();
+                req.ConnectionID = req.GroupID = chatInfo.CommunicationId.ToString();
                 req.FirstName = req.FirstName;
                 req.LastName = req.LastName;
             }

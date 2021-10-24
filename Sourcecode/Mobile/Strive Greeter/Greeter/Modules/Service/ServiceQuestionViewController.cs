@@ -179,7 +179,7 @@ namespace Greeter.Storyboards
             btnAddtionalDropdown.TouchUpInside += delegate
             {
                 //tfAdditionalService.BecomeFirstResponder();
-                
+
                 ShowMultiselectOptions(additionalServices.ToList());
             };
 
@@ -218,7 +218,7 @@ namespace Greeter.Storyboards
 
             //if (additionalServcies is not null && additionalServcies.Count > 0)
             //{
-                mc.DefaultSelectedIndex = AdditionalServicesSelectedPositions;
+            mc.DefaultSelectedIndex = AdditionalServicesSelectedPositions;
             //}
 
             PresentViewController(nc, true, null);
@@ -339,6 +339,15 @@ namespace Greeter.Storyboards
 
                 UpdateBarcodeData(Barcode);
 
+                //var response = await GetVehicleMembershipDetails(VehicleID);
+
+                //TODO : Check membership available or not and update details
+                //if (response != null)
+                //{
+                //    HideActivityIndicator();
+                //    return;
+                //}
+
                 //var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
                 //if (barcodeUpcharge is not null)
                 //{
@@ -358,7 +367,6 @@ namespace Greeter.Storyboards
             }
 
             HideActivityIndicator();
-
 #if DEBUG
 
 #endif
@@ -444,6 +452,20 @@ namespace Greeter.Storyboards
             {
                 UpdateUpchargeAsNone();
             }
+        }
+
+        async Task<BaseResponse> GetVehicleMembershipDetails(long vehicleId)
+        {
+            var response = await SingleTon.VehicleApiService.GetVehicleMembershipDetails(vehicleId);
+
+            HandleResponse(response);
+
+            if (!response.IsSuccess())
+            {
+                return null;
+            }
+
+            return response;
         }
 
         async Task UpdateUpchargeForModel(long modelId)
@@ -658,6 +680,9 @@ namespace Greeter.Storyboards
                         upcharge.SeriveName = Upcharges[pos].Name;
                         upcharge.Price = Upcharges[pos].Price;
                         upcharge.Time = Upcharges[pos].Time;
+                        upcharge.IsCommission = Upcharges[pos].Commission;
+                        upcharge.CommissionType = Upcharges[pos].CommissionType;
+                        upcharge.CommissionAmount = Upcharges[pos].CommissionCost;
                         break;
                     case ChoiceType.AdditionalService:
                         tfAdditionalService.Text = data[pos];
@@ -680,6 +705,9 @@ namespace Greeter.Storyboards
                         airFreshner.SeriveName = AirFreshners[pos].Name;
                         airFreshner.Price = AirFreshners[pos].Price;
                         airFreshner.Time = AirFreshners[pos].Time;
+                        airFreshner.IsCommission = AirFreshners[pos].Commission;
+                        airFreshner.CommissionType = AirFreshners[pos].CommissionType;
+                        airFreshner.CommissionAmount = AirFreshners[pos].CommissionCost;
                         break;
                     case ChoiceType.Washpackage:
                         tfWashPkg.Text = data[pos];
@@ -689,6 +717,9 @@ namespace Greeter.Storyboards
                         mainService.SeriveName = WashPackages[pos].Name;
                         mainService.Price = WashPackages[pos].Price;
                         mainService.Time = WashPackages[pos].Time;
+                        mainService.IsCommission = WashPackages[pos].Commission;
+                        mainService.CommissionType = WashPackages[pos].CommissionType;
+                        mainService.CommissionAmount = WashPackages[pos].CommissionCost;
                         break;
                     case ChoiceType.DetailPackage:
                         tfDetailPkg.Text = data[pos];
@@ -696,10 +727,13 @@ namespace Greeter.Storyboards
                         mainService.IsMainService = true;
                         mainService.ServiceId = DetailPackages[pos].ID;
                         mainService.SeriveName = DetailPackages[pos].Name;
-                        mainService.ServiceTypeID = DetailPackages[pos].TypeId;
+                        mainService.ServiceTypeID = DetailPackages[pos].TypeID;
                         mainService.Price = DetailPackages[pos].Price;
                         mainService.Time = DetailPackages[pos].Time;
-                        if(ModelID != 0)
+                        mainService.IsCommission = DetailPackages[pos].Commission;
+                        mainService.CommissionType = DetailPackages[pos].CommissionType;
+                        mainService.CommissionAmount = DetailPackages[pos].CommissionCost;
+                        if (ModelID != 0)
                             _ = UpdateUpchargeForDetailAndModel(ModelID);
                         break;
                 }
@@ -781,7 +815,7 @@ namespace Greeter.Storyboards
 
             AdditionalServicesSelectedPositions = selectedIndexList;
             //if (additionalServcies is null)
-                additionalServcies = new();
+            additionalServcies = new();
 
             for (int i = 0; i < selectedIndexList.Count; i++)
             {
@@ -800,6 +834,9 @@ namespace Greeter.Storyboards
                 additional.SeriveName = AdditionalServices[selectedPos].Name;
                 additional.Price = AdditionalServices[selectedPos].Price;
                 additional.Time = AdditionalServices[selectedPos].Time;
+                additional.IsCommission = AdditionalServices[selectedPos].Commission;
+                additional.CommissionType = AdditionalServices[selectedPos].CommissionType;
+                additional.CommissionAmount = AdditionalServices[selectedPos].CommissionCost;
                 additionalServcies.Add(additional);
             }
 
@@ -809,7 +846,7 @@ namespace Greeter.Storyboards
 
         public void DidCancel(MultiSelectPicker pickerView)
         {
-            
+
         }
     }
 

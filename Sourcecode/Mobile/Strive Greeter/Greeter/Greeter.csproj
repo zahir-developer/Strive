@@ -248,9 +248,8 @@
 		<Folder Include="Services\Api\" />
 		<Folder Include="Resources\Assets.xcassets\participants.imageset\" />
 		<Folder Include="CustomView\" />
-		<Folder Include="Services\Modules\" />
-		<Folder Include="Services\Modules\Authentication\" />
 		<Folder Include="Infea_Sdk\" />
+		<Folder Include="Services\Api\Modules\" />
 	</ItemGroup>
 	<ItemGroup>
 		<InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -409,14 +408,6 @@
 		<Compile Include="DTOs\Group.cs" />
 		<Compile Include="CustomView\CustomTextField.cs" />
 		<Compile Include="Common\SingleTon.cs" />
-		<Compile Include="Services\Modules\Authentication\AuthenticationService.cs" />
-		<Compile Include="Services\Modules\Authentication\IAuthenticationService.cs" />
-		<Compile Include="Services\Modules\CheckoutApiService.cs" />
-		<Compile Include="Services\Modules\GeneralApiService.cs" />
-		<Compile Include="Services\Modules\MessageApiService.cs" />
-		<Compile Include="Services\Modules\PaymentApiService.cs" />
-		<Compile Include="Services\Modules\VehicleApiService.cs" />
-		<Compile Include="Services\Modules\WashApiService.cs" />
 		<Compile Include="DTOs\ChatInfo.cs" />
 		<Compile Include="Common\Logic.cs" />
 		<Compile Include="CustomView\FloatingTextField.cs" />
@@ -458,6 +449,14 @@
 		  <DependentUpon>IssueImageCollectionViewCell.cs</DependentUpon>
 		</Compile>
 		<Compile Include="CustomView\MultiSelectPicker.cs" />
+		<Compile Include="Services\Api\Modules\Authentication\AuthenticationService.cs" />
+		<Compile Include="Services\Api\Modules\Authentication\IAuthenticationService.cs" />
+		<Compile Include="Services\Api\Modules\CheckoutApiService.cs" />
+		<Compile Include="Services\Api\Modules\GeneralApiService.cs" />
+		<Compile Include="Services\Api\Modules\MessageApiService.cs" />
+		<Compile Include="Services\Api\Modules\PaymentApiService.cs" />
+		<Compile Include="Services\Api\Modules\VehicleApiService.cs" />
+		<Compile Include="Services\Api\Modules\WashApiService.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

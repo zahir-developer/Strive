@@ -151,7 +151,7 @@ namespace Greeter.Modules.Message
                     Title = Logic.FullName(contact.FirstName, contact.LastName),
                     GroupId = -1,
                     SenderId = AppSettings.UserID,
-                    RecipientId = contact.EmployeeId
+                    RecipientId = contact.EmployeeID
                 };
                 NavigationController.PushViewController(new ChatViewController(ChatType.Indivisual, chatInfo), animated: true);
             }

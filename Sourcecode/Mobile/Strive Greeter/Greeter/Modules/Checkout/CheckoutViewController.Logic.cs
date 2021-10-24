@@ -147,7 +147,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutCompleteReq = new CompleteCheckoutReq
             {
-                JobId = checkout.ID,
+                JobID = checkout.ID,
             };
 
             ShowActivityIndicator();
@@ -169,7 +169,7 @@ namespace Greeter.Modules.Pay
         void CheckoutBtnClicked(Checkout checkout)
         {
             // Not Completed
-            if (!checkout.Valuedesc.Equals("Completed"))
+            if (!checkout.JobStatus.Equals("Completed"))
             {
                 ShowAlertMsg(Common.Messages.NOT_COMPLETED_ALERT_MSG, null, false, Common.Messages.IN_PROGRESS);
                 return;
@@ -199,7 +199,7 @@ namespace Greeter.Modules.Pay
         {
             var checkoutReq = new DoCheckoutReq
             {
-                JobId = checkout.ID,
+                JobID = checkout.ID,
             };
 
             ShowActivityIndicator();

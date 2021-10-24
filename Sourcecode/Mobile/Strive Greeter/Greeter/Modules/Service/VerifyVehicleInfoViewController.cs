@@ -93,7 +93,7 @@ namespace Greeter.Storyboards
 
                 var jobItems = new List<JobItem>();
 
-                MainService.JobId = jobId;
+                MainService.JobID = jobId;
                 jobItems.Add(MainService);
 
                 float serviceTimeMins = 0;
@@ -102,7 +102,7 @@ namespace Greeter.Storyboards
 
                 if (Upcharge != null)
                 {
-                    Upcharge.JobId = jobId;
+                    Upcharge.JobID = jobId;
                     serviceTimeMins += Upcharge.Time;
                     jobItems.Add(Upcharge);
                 }
@@ -111,7 +111,7 @@ namespace Greeter.Storyboards
                 {
                     for (int i = 0; i < AdditionalServices.Length; i++)
                     {
-                        AdditionalServices[i].JobId = jobId;
+                        AdditionalServices[i].JobID = jobId;
                         serviceTimeMins += AdditionalServices[i].Time;
                         jobItems.Add(AdditionalServices[i]);
                     }
@@ -123,7 +123,7 @@ namespace Greeter.Storyboards
 
                 if (AirFreshner != null)
                 {
-                    AirFreshner.JobId = jobId;
+                    AirFreshner.JobID = jobId;
                     serviceTimeMins += AirFreshner.Time;
                     jobItems.Add(AirFreshner);
                 }
@@ -137,32 +137,37 @@ namespace Greeter.Storyboards
                     {
                         Job = new Job()
                         {
-                            JobId = jobId,
+                            JobID = jobId,
                             TicketNumber = jobId,
                             JobStatusID = jobStatusId,
                             JobTypeID = JobTypeID,
                             MakeID = MakeID,
                             ModelID = ModelID,
-                            ColorId = ColorID,
-                            ClientId = ClientID != 0 ? ClientID : null,
-                            VehicleId = VehicleID != 0 ? VehicleID : null,
+                            ColorID = ColorID,
+                            ClientID = ClientID != 0 ? ClientID : null,
+                            VehicleID = VehicleID != 0 ? VehicleID : null,
                             LocationID = AppSettings.LocationID,
                             Barcode = Barcode
                         },
                         JobItems = jobItems
                     };
 
+                    BaseResponse createServiceResponse = null;
+
                     if (ServiceType == ServiceType.Wash)
+                    {
                         req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(AppSettings.WashTime + serviceTimeMins);
+                        createServiceResponse = await apiService.CreateService(req);
+                    }
                     else // Detail
                     {
-                        var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationId = AppSettings.LocationID };
+                        var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationID = AppSettings.LocationID };
                         var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
 
                         float totalTimeMins = MainService.Time + serviceTimeMins;
-                        req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(20);
-//#if DEBUG
-                        var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayId);
+                        //req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(20);
+                        //#if DEBUG
+                        var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayID);
 
                         GetTimeInDetails matchTimeInDetails = null;
                         string startTime = string.Empty;
@@ -217,13 +222,14 @@ namespace Greeter.Storyboards
                             startTime = string.Empty;
                             //TODO show error message
                             ShowAlertMsg(Common.Messages.NO_SLOTS);
+                            HideActivityIndicator();
                             return;
                         }
 
                         req.JobDetail = new JobDetail
                         {
-                            JobId = jobId,
-                            BayId = matchTimeInDetails.BayId
+                            JobID = jobId,
+                            BayID = matchTimeInDetails.BayID
                         };
 
                         req.BaySchedules = new List<BaySchedule>();
@@ -234,7 +240,7 @@ namespace Greeter.Storyboards
                         {
                             var baySchedule = new BaySchedule()
                             {
-                                BayID = req.JobDetail.BayId,
+                                BayID = req.JobDetail.BayID,
                                 JobID = jobId,
                                 ScheduleInTime = startTime,
                                 //ScheduleDate = req.Job.JobDate.ToString("yyyy-MM-dd")
@@ -244,43 +250,35 @@ namespace Greeter.Storyboards
 
                             //if (i != 0)
                             //{
-                                endTime = startTime;
-                                string[] ds = endTime.Split(":");
+                            endTime = startTime;
+                            string[] ds = endTime.Split(":");
 
-                                if ((ds[1])[0] == '3')
-                                {
-                                    int num = Convert.ToInt32(ds[0]);
-                                    num += 1;
-                                    endTime = num.ToString() + ":00";
-                                }
-                                else
-                                {
-                                    endTime = ds[0] + ":30";
-                                }
+                            if ((ds[1])[0] == '3')
+                            {
+                                int num = Convert.ToInt32(ds[0]);
+                                num += 1;
+                                endTime = num.ToString() + ":00";
+                            }
+                            else
+                            {
+                                endTime = ds[0] + ":30";
+                            }
                             //}
 
                             baySchedule.ScheduleOutTime = endTime;
 
-                            req.BaySchedules.Add(baySchedule);
+                            //req.BaySchedules.Add(baySchedule);
                         }
-//#endif
+                        //#endif
                         string[] sdt = startTime.Split(":");
                         req.Job.TimeIn = DateTime.Now.Date.AddHours(Convert.ToDouble(sdt[0])).AddMinutes(Convert.ToDouble(sdt[1])).AddSeconds(0);
 
                         string[] edt = endTime.Split(":");
                         req.Job.EstimatedTimeOut = DateTime.Now.Date.AddHours(Convert.ToDouble(edt[0])).AddMinutes(Convert.ToDouble(edt[1])).AddSeconds(0);
+                        createServiceResponse = await apiService.CreateDetailService(req);
                     }
 
                     Debug.WriteLine("Create Serive Req " + JsonConvert.SerializeObject(req));
-
-                    BaseResponse createServiceResponse = null;
-
-                    if (ServiceType == ServiceType.Wash)
-                        createServiceResponse = await apiService.CreateService(req);
-                    else
-                    {
-                        createServiceResponse = await apiService.CreateDetailService(req);
-                    }
 
                     HideActivityIndicator();
 
@@ -294,13 +292,13 @@ namespace Greeter.Storyboards
                             //this.NavigationController.PopToViewController(vc, true);
 
                             // Remove this and service question view controllers from stack
-                        var nc = NavigationController;
-                        var navigationViewControllers = NavigationController.ViewControllers.ToList();
-                        navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);
-                        navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);// You can pass your index here
-                        NavigationController.ViewControllers = navigationViewControllers.ToArray();
+                            var nc = NavigationController;
+                            var navigationViewControllers = NavigationController.ViewControllers.ToList();
+                            navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);
+                            navigationViewControllers.RemoveAt(navigationViewControllers.Count - 1);// You can pass your index here
+                            NavigationController.ViewControllers = navigationViewControllers.ToArray();
 
-                        var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
+                            var vc = (EmailViewController)GetViewController(GetHomeStorybpard(), nameof(EmailViewController));
                             vc.Make = Make;
                             vc.Model = Model;
                             vc.Color = Color;

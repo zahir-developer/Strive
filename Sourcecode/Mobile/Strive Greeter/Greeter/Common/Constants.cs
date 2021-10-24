@@ -70,7 +70,7 @@ namespace Greeter.Common
         //  Url Format Example : /Admin/Common/GetTicketNumber/{locationId}
         internal const string TICKET_NUMBER = "/Admin/Common/GetTicketNumber/";
         internal const string CREATE_SERVICE = "/Admin/Washes/UpdateWashTime";
-        internal const string CREATE_DETAIL_SERVICE = "/Admin/Details/UpdateDetails";
+        //internal const string CREATE_DETAIL_SERVICE = "/Admin/Details/UpdateDetails";
         
 
         internal const string SEND_EMAIL = "/Admin/Common/SendMail";
@@ -106,6 +106,11 @@ namespace Greeter.Common
         internal const string GET_LOCATION_WASH_TIME = "/Admin/Washes/GetAllLocationWashTime/";
         internal const string LAST_VISIT_SERVICE = "/Admin/Washes/GetLastServiceVisit";
         internal const string GET_UPCHARGE = "/Admin/Common/GetUpchargeType";
+        internal const string ASSIGN_EMPLOYEE_FOR_DETAIL_SERVICE = "/Admin/Details/AddServiceEmployee";
+        internal const string CREATE_DETAIL_SERVICE = "/Admin/Details/AddDetails";
+        internal const string GET_VEHICLE_MEMBERSHIP_DETAILS = "/Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId";
+
+        internal const string GET_DETAIL_SERVICE = "/Admin/Details/GetDetailsById/";
     }
 
     public class UIConstants
@@ -175,6 +180,7 @@ namespace Greeter.Common
         internal const string EMAIL_WARNING = "Please enter the valid email id";
         internal const string EMAIL_MISSING = "Please enter the email id";
         internal const string EMPLOYEE_MISSING = "Please select the employee";
+        internal const string EMPLOYEE_ASSIGNED_SUCCESS_MSG = "Employee assigned successfully";
 
         // Network
         internal const string NO_INTERNET_MSG = "Please check your internet connection and try again";
@@ -209,6 +215,7 @@ namespace Greeter.Common
         internal const string LOCATION = "Location";
         internal const string SERVICE = "Service";
         internal const string EMAIL = "Email";
+        internal const string ASSIGN = "Assign";
         internal const string REMOVE_USER_FROM_GROUP_TITLE = "Remove User";
         internal const string ADD_USER_FROM_TO_GROUP_TITLE = "Add User";
         internal const string GROUP_TITLE = " Group";

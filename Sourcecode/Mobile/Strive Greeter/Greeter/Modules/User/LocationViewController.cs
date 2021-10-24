@@ -89,7 +89,7 @@ namespace Greeter
         async Task GetData()
         {
             ShowActivityIndicator();
-            var response = await new GeneralApiService().GetAllLocationWashTime();
+            var response = await new GeneralApiService().GetLocationWashTime();
             HideActivityIndicator();
 
             HandleResponse(response);

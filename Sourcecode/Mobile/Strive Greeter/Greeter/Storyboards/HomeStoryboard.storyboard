@@ -450,7 +450,7 @@
                                                             <constraint firstAttribute="height" constant="54" id="d4Q-Kr-gvA"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                        <state key="normal" title="SEND">
+                                                        <state key="normal" title="ASSIGN">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                     </button>

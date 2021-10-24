@@ -152,7 +152,7 @@ namespace Greeter.Modules.Message
                 GroupId = group.ID,
                 SenderId = 0,
                 RecipientId = 0,
-                CommunicationId = group.CommunicationId
+                CommunicationId = group.CommunicationID
             };
             NavigationController.PushViewController(new ChatViewController(ChatType.Group, chatInfo), animated: true);
         }

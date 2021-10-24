@@ -37,6 +37,7 @@ namespace Greeter.Storyboards
         string[] employeeNames;
 
         string selectedEmpEmailId;
+        long selectedEmpId;
 
         //Views
         UIPickerView pv = new UIPickerView();
@@ -70,8 +71,9 @@ namespace Greeter.Storyboards
                     ShowAlertMsg(Common.Messages.EMPLOYEE_MISSING);
                     return;
                 }
-
-                _ = SendEmail(selectedEmpEmailId);
+                //_ = SendEmail(selectedEmpEmailId);
+                //_ = AssignServiceToEmployee(selectedEmpId);
+                _= GetDetailService(Service.Job.JobID);
             };
 
             btnCustomerSend.TouchUpInside += delegate
@@ -131,13 +133,89 @@ namespace Greeter.Storyboards
             Employees = employeesResponse?.EmployeeList;
             employeeNames = Employees?.Select(x => x.FirstName + " " + x.LastName).ToArray();
 
-            if (employeeNames.Length  > 0)
+            if (employeeNames.Length > 0)
             {
                 AddPickerToolbar(tfEmp, tfEmp.Placeholder, PickerDone);
                 tfEmp.InputView = pv;
             }
 
             HideActivityIndicator();
+        }
+
+        async Task GetDetailService(long jobId)
+        {
+            try
+            {
+                ShowActivityIndicator();
+                var response = await SingleTon.WashApiService.GetDetailService(jobId);
+                HandleResponse(response);
+
+                if (response.IsSuccess())
+                {
+                    _ = AssignServiceToEmployee(selectedEmpId, response?.DetailsForDetailID?.DetailsItems);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                HideActivityIndicator();
+            }
+        }
+
+        async Task AssignServiceToEmployee(long selectedEmpId, List<DetailsItem> detailsItems)
+        {
+            try
+            {
+                ShowActivityIndicator();
+                var req = new AssignEmployeeToServiceReq();
+                req.JobID = Service.Job.JobID;
+                req.JobServiceEmployees = new();
+
+                for (int i = 0; i < detailsItems.Count; i++)
+                {
+                    var assignEmployeeToService = new AssignEmployeeToService();
+                    assignEmployeeToService.JobItemID = detailsItems[i].JobItemID;
+                    assignEmployeeToService.ServiceID = detailsItems[i].ServiceID;
+                    assignEmployeeToService.EmployeeID = selectedEmpId;
+
+                    if (string.IsNullOrEmpty(detailsItems[i].CommissionType))
+                    {
+                        assignEmployeeToService.CommissionAmount = 0;
+                    }
+                    else if (detailsItems[i].CommissionType.Equals("flat fee", StringComparison.OrdinalIgnoreCase))
+                    {
+                        assignEmployeeToService.CommissionAmount = detailsItems[i].CommissionCost;
+                    }
+                    else if (detailsItems[i].CommissionType.Equals("percentage", StringComparison.OrdinalIgnoreCase))
+                    {
+                        assignEmployeeToService.CommissionAmount = (detailsItems[i].Price * detailsItems[i].CommissionCost) / 100;
+                    }
+
+                    req.JobServiceEmployees.Add(assignEmployeeToService);
+                }
+
+                //req.JobServiceEmployees = new AssignEmployeeToService[]{ assignEmployeeToService };
+
+                var response = await SingleTon.WashApiService.AssignEmployeeToDetailService(req);
+
+                HandleResponse(response);
+
+                if (response.IsSuccess())
+                {
+                    ShowAlertMsg(Common.Messages.EMPLOYEE_ASSIGNED_SUCCESS_MSG, titleTxt: Common.Messages.ASSIGN);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+            }
+            finally
+            {
+                HideActivityIndicator();
+            }
         }
 
         async Task SendEmail(string email)
@@ -152,9 +230,9 @@ namespace Greeter.Storyboards
 
                 ShowActivityIndicator();
 
-                var body = "<p>Ticket Number : </p>" + Service.Job.JobId + "<br /><br />";
+                var body = "<p>Ticket Number : </p>" + Service.Job.JobID + "<br /><br />";
 
-                if (Service.Job.ClientId != 0 && Service.Job.ClientId is not null)
+                if (Service.Job.ClientID != 0 && Service.Job.ClientID is not null)
                 {
                     body += "<p>Customer Details : </p>" + ""
                         + "<p>Customer Name - " + CustName + "</p><br />";
@@ -254,13 +332,14 @@ namespace Greeter.Storyboards
                 int pos = (int)pv.SelectedRowInComponent(0);
                 tfEmp.Text = employeeNames[pos];
                 selectedEmpEmailId = Employees[pos].EmailID;
+                selectedEmpId = Employees[pos].ID;
             }
         }
 
         void NavigateToPayScreen()
         {
             var vc = new PaymentViewController();
-            vc.JobID = Service.Job.JobId;
+            vc.JobID = Service.Job.JobID;
             vc.Make = Make;
             vc.Model = Model;
             vc.Color = Color;
@@ -269,6 +348,7 @@ namespace Greeter.Storyboards
             //var mainService  = Service.JobItems.First(x => x.IsMainService);
             //vc.ServiceName = mainService.SeriveName;
             vc.Service = Service;
+            vc.ServiceType = ServiceType;
 
             var totalAmt = 0f;
             for (int i = 0; i < Service.JobItems.Count; i++)

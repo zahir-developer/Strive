@@ -81,7 +81,7 @@ namespace Greeter.Modules.Message
                 GroupId = recentChat.ID,
                 SenderId = AppSettings.UserID,
                 RecipientId = recentChat.ID,
-                CommunicationId = recentChat.CommunicationId
+                CommunicationId = recentChat.CommunicationID
             };
 
             if (chatType == ChatType.Group)
