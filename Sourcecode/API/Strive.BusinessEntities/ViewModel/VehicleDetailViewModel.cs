@@ -27,6 +27,6 @@ namespace Strive.BusinessEntities.ViewModel
         public bool IsDeleted { get; set; }
         public string ModelName { get; set; }
         public string Color { get; set; }
-        public int ColorId { get; set; }
+        public int? ColorId { get; set; }
     }
 }
