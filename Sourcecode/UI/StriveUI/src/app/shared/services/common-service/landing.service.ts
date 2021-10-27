@@ -87,6 +87,10 @@ export class LandingService {
         const clientId = localStorage.getItem('clientId');
         this.router.navigate([`/customer`], { relativeTo: this.route, queryParams: { clientId: clientId } });
       }
+      else if(Roles === ApplicationConfig.Roles.Greeter)
+      {
+        this.router.navigate([`/checkout`], { relativeTo: this.route });
+      }
     }
   }
 }
