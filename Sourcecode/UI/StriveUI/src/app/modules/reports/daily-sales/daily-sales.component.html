@@ -57,7 +57,7 @@
                                     <th scope="col">Ticket #</th>
                                     <th scope="col">Time In</th>
                                     <th scope="col">Time Out</th>
-                                    <th scope="col">Est. Time Out</th>
+                                    <th scope="col">Est. Time</th>
                                     <th scope="col">+/- Deviation</th>
 
                                     <th scope="col">Service
@@ -66,44 +66,42 @@
                                     <th scope="col">Service
                                         <br> Type
                                     </th>
-                                    <th scope="col">Merchandise
-                                        <br>Items purchased
+                                    <th scope="col">Merch.
+                                        <br>Items
                                     </th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Payment</th>
                                     <th scope="col">Barcode</th>
-                                    <th scope="col">Make</th>
-
-                                    <th scope="col">Color</th>
-                                    <th scope="col">Model</th>
+                                    <th scope="col">Make/Model/Color</th>
                                     <th scope="col">Customer
                                         <br> Name
                                     </th>
                                     <th scope="col">Phone</th>
-                                    <th scope="col">Amount</th>
                                     <th scope="col">Type</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr
                                     *ngFor="let dailySales of dailySalesReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                     <th scope="row">{{dailySales.TicketNumber}}</th>
-                                    <td>{{dailySales.TimeIn |date:'mediumTime'}}</td>
-                                    <td>{{dailySales.TimeOut|date:'mediumTime'}}</td>
-                                    <td>{{dailySales.Est|date:'mediumTime'}} </td>
+                                    <td>{{dailySales.TimeIn |date:'shortTime'}}</td>
+                                    <td>{{dailySales.TimeOut|date:'shortTime'}}</td>
+                                    <td>{{dailySales.EstTime}} </td>
                                     <td class="theme-optional-icon-color">{{dailySales.Deviation}}</td>
                                     <td>{{dailySales.ServiceName}}</td>
                                     <td>{{dailySales.ServiceType}}</td>
                                     <td>{{dailySales.MerchandiseItemsPurchased}}</td>
+                                    <td>{{dailySales.Amount | currency}}</td>
+                                    <td>{{dailySales.PaymentType}}</td>
                                     <td>{{dailySales.Barcode}}</td>
-                                    <td>{{dailySales.Make}}</td>
-                                    <td>{{dailySales.Color}}</td>
-                                    <td>{{dailySales.Model}}</td>
+                                    <td>{{dailySales.Make}} {{"/ "}} {{dailySales.Model}} {{"/ "}} {{dailySales.Color}}</td>
                                     <td>{{dailySales.CustomerName}} </td>
                                     <td>{{dailySales.PhoneNumber}}</td>
-                                    <td>{{dailySales.Amount | currency}}</td>
                                     <td>{{dailySales.Type}}</td>
                                 </tr>
                                 <tr *ngIf="dailySalesReport.length === 0">
-                                    <td colspan="10" class="text-center">
+                                    <td colspan="14" class="text-center">
                                         No Record Found
                                     </td>
                                 </tr>
