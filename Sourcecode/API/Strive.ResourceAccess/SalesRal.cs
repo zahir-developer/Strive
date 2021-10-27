@@ -56,6 +56,8 @@ namespace Strive.ResourceAccess
         public SalesAccountDeatilViewModel GetAccountDetails(SalesAccountDto salesAccountDto)
         {
             _prm.Add("@TicketNumber", salesAccountDto.TicketNumber);
+            _prm.Add("@LocationId", salesAccountDto.LocationId.GetValueOrDefault(0));
+
             return db.FetchMultiResult<SalesAccountDeatilViewModel>(EnumSP.Sales.USPGETACCOUNTDETAILS.ToString(), _prm);
 
         }
