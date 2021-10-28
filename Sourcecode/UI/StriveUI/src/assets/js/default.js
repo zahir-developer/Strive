@@ -17,7 +17,7 @@ function openNav() {
 
 function closeNav() {
     document.getElementById("navSliderMenu").style.width = "0";
-    document.getElementById("content-wrapper").style.marginLeft = "0";
+    document.getElementById("content-wrapper").style.marginLeft = "1%";
 }
 
 function openmbsidebar() {
