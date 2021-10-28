@@ -61,31 +61,29 @@
                                             <th scope="col">No. of Membership
                                                 <br> Account
                                             </th>
-                                            <th scope="col">No. of Customers</th>
+                                            <th scope="col">No. of Vehicle</th>
                                             <th scope="col">No. of Washes</th>
                                             <th scope="col">Avg No. of Washes
-                                                <br> per Customer
+                                                <br> per Vehicle
                                             </th>
                                             <th scope="col">Total No. of Washes
-                                                <br> per Customer
+                                                <br> per Vehicle
                                             </th>
-                                            <th scope="col">% of Customers
+                                            <th scope="col">% of Vehicle
                                                 <br>turned up
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody
-                                        *ngFor="let custSummary of customerSummaryReport | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                                        *ngFor="let custSummary of customerSummaryReport">
                                         <tr>
                                             <th scope="row">{{custSummary?.Month}}</th>
                                             <td>{{custSummary?.NumberOfMembershipAccounts}}</td>
-                                            <td>{{custSummary?.CustomerCount}}</td>
+                                            <td>{{custSummary?.VehicleCount}}</td>
                                             <td>{{custSummary?.WashesCompletedCount}} </td>
-                                            <td> {{custSummary?.AverageNumberOfWashesPerCustomer | number : '1.2-2'}}
-                                            </td>
-                                            <td> {{custSummary?.TotalNumberOfWashesPerCustomer | number : '1.2-2'}}</td>
-                                            <td> {{custSummary?.PercentageOfCustomersThatTurnedUp | number : '1.2-2'}}
-                                            </td>
+                                            <td>{{custSummary?.WashesCompletedCount / custSummary?.VehicleCount | number : '1.2-2'}}</td>
+                                            <td>{{custSummary?.TotalNumberOfWashesPerVehicle | number : '1.2-2'}}</td>
+                                            <td>{{custSummary?.PercentageOfVehicleThatTurnedUp | number : '1.2-2'}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
