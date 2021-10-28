@@ -242,7 +242,7 @@ return
       employeeId: this.selectedEmployee.EmployeeId,
       locationId: localStorage.getItem('empLocationId'),
       roleId: null,
-      eventDate: moment(this.startDate).format(),
+      eventDate: moment(this.startDate).format('YYYY-MM-DD'),
       inTime: null,
       outTime: null,
       eventType: null,
