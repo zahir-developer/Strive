@@ -1467,9 +1467,10 @@ export class SalesComponent implements OnInit {
     if (this.account !== 0) {
       // if (this.accountDetails?.SalesAccountViewModel?.CodeValue !== ApplicationConfig.CodeValue.Comp) {
       //}
-      if (this.paymentType === true) {
+
+      if (this.isAccount) {
         this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;
-      } else if (this.paymentType === false) {
+      } else if (this.isMembership) {
         this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Membership)[0].CodeId;
       } else {
         this.accountPayType = this.PaymentType.filter(i => i.CodeValue === ApplicationConfig.PaymentType.Account)[0].CodeId;

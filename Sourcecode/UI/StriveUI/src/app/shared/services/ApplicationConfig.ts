@@ -62,13 +62,13 @@ export const ApplicationConfig = {
                 order: 'ASC',
             },
             CheckOut: {
-                order: 'ASC',
+                order: 'DESC',
             },
             PayRoll: {
                 order: 'ASC',
             },
             Washes: {
-                order: 'ASC',
+                order: 'DESC',
             },
 
             Detail: {
@@ -253,6 +253,7 @@ export const ApplicationConfig = {
         Admin: 'Admin',
         Manager: 'Manager',
         Operator: 'Operator',
+        Greeter: 'Greeter',
         Cashier: 'Cashier',
         Detailer: 'Detailer',
         Wash: 'Washer',
