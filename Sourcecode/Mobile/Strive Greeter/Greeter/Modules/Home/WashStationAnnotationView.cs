@@ -23,7 +23,7 @@ namespace Greeter.Modules.Home
         void SetupView()
         {
             BackgroundColor = UIColor.Clear;
-            Frame = new CGRect(0, 0, 260, 150);
+            Frame = new CGRect(0, 0, 260, 180);
             CenterOffset = new CGPoint(x: 0, y: -Frame.Size.Height / 2);
 
             var outerCircle = new UIView(CGRect.Empty);
@@ -69,19 +69,19 @@ namespace Greeter.Modules.Home
             stationNameLabel.Lines = 2;
             infoContainerView.Add(stationNameLabel);
 
-            var timeContainerView = new UIView(CGRect.Empty);
-            timeContainerView.TranslatesAutoresizingMaskIntoConstraints = false;
-            timeContainerView.BackgroundColor = UIColor.FromRGB(253.0f / 255.0f, 204.0f / 255.0f, 83.0f / 255.0f);
-            timeContainerView.Layer.CornerRadius = 5;
-            timeContainerView.ClipsToBounds = true;
-            infoContainerView.Add(timeContainerView);
-
             statusLabel = new(CGRect.Empty);
             statusLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             statusLabel.TextColor = UIColor.White;
             statusLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Bold);
             statusLabel.Lines = 2;
             infoContainerView.Add(statusLabel);
+
+            var timeContainerView = new UIView(CGRect.Empty);
+            timeContainerView.TranslatesAutoresizingMaskIntoConstraints = false;
+            timeContainerView.BackgroundColor = UIColor.FromRGB(253.0f / 255.0f, 204.0f / 255.0f, 83.0f / 255.0f);
+            timeContainerView.Layer.CornerRadius = 5;
+            timeContainerView.ClipsToBounds = true;
+            infoContainerView.Add(timeContainerView);
 
             var carImageView = new UIImageView(CGRect.Empty);
             carImageView.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -121,16 +121,16 @@ namespace Greeter.Modules.Home
 
             stationNameLabel.LeadingAnchor.ConstraintEqualTo(infoContainerView.LeadingAnchor, constant: 16).Active = true;
             stationNameLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: -16).Active = true;
-            stationNameLabel.TopAnchor.ConstraintGreaterThanOrEqualTo(infoContainerView.TopAnchor, constant: 8).Active = true;
+            stationNameLabel.TopAnchor.ConstraintEqualTo(infoContainerView.TopAnchor, constant: 20).Active = true;
             //stationNameLabel.BottomAnchor.ConstraintLessThanOrEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
-            stationNameLabel.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
+            //stationNameLabel.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
             stationNameLabel.SetContentCompressionResistancePriority(249, UILayoutConstraintAxis.Horizontal);
             stationNameLabel.SetContentHuggingPriority(249, UILayoutConstraintAxis.Horizontal);
 
             statusLabel.LeadingAnchor.ConstraintEqualTo(stationNameLabel.LeadingAnchor, constant: 0).Active = true;
-            statusLabel.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -16).Active = true;
+            statusLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: -16).Active = true;
             statusLabel.TopAnchor.ConstraintEqualTo(stationNameLabel.BottomAnchor, constant: 5).Active = true;
-            statusLabel.BottomAnchor.ConstraintEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
+            statusLabel.BottomAnchor.ConstraintLessThanOrEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
 
             timeContainerView.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -16).Active = true;
             timeContainerView.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
@@ -144,6 +144,19 @@ namespace Greeter.Modules.Home
 
             timeLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.TrailingAnchor, constant: -12).Active = true;
             timeLabel.CenterYAnchor.ConstraintEqualTo(timeContainerView.CenterYAnchor).Active = true;
+        }
+
+        nfloat GetContentHeight(NSString nSString)
+        {
+            var constraintRect = new CGSize(width: 260, height: double.PositiveInfinity);
+            var boundingBox = nSString.GetBoundingRect(
+                constraintRect,
+                options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+                attributes: new UIStringAttributes {
+                    Font = UIFont.BoldSystemFontOfSize(18)
+                },
+                null);
+            return boundingBox.Height;
         }
 
         internal void SetupData(Location location)
