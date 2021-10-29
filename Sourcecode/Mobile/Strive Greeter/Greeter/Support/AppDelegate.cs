@@ -1,6 +1,7 @@
 using Foundation;
 using Greeter.Common;
 using Greeter.Storyboards;
+using InfineaSDK.iOS;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using UIKit;
@@ -26,7 +27,8 @@ namespace Greeter
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
 
-            AppCenter.Start("4e8a243b-8318-4735-980d-439d2ba8ecd4", typeof(Crashes));
+            AppCenter.Start(Constants.APP_CENTER_SECTRET_KEY, typeof(Crashes));
+            IPCIQ.Instance.SetDeveloperKey(Constants.INFEA_DEVELOPER_KEY);
 
             SetApperance();
 
@@ -54,7 +56,7 @@ namespace Greeter
                 var vcs = new UIViewController[] { vc };
                 nc.ViewControllers = vcs;
                 Window.RootViewController = nc;
-                Window.TintColor = Colors.APP_BASE_COLOR.ToPlatformColor();
+                Window.TintColor = Common.Colors.APP_BASE_COLOR.ToPlatformColor();
                 Window.MakeKeyAndVisible();
             }
 

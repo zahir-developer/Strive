@@ -527,19 +527,8 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="linkColor"/>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vSb-OS-dhV">
-                                        <rect key="frame" x="44" y="899" width="298" height="54"/>
-                                        <color key="backgroundColor" red="0.74509803919999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="54" id="tjy-xU-lGY"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                        <state key="normal" title="PAY LATER">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFm-L5-LXy">
-                                        <rect key="frame" x="348" y="899" width="298" height="54"/>
+                                        <rect key="frame" x="450" y="899" width="196" height="54"/>
                                         <color key="backgroundColor" red="0.1137254902" green="0.78823529410000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="ARk-YY-e1N"/>
@@ -549,15 +538,40 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SBO-yq-WRr">
+                                        <rect key="frame" x="44" y="899" width="196" height="54"/>
+                                        <color key="backgroundColor" red="0.11372549019607843" green="0.78823529411764703" blue="0.71764705882352942" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="54" id="faI-ih-nVG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <state key="normal" title="PRINT TICKET">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vSb-OS-dhV">
+                                        <rect key="frame" x="248" y="899" width="196" height="54"/>
+                                        <color key="backgroundColor" red="0.74509803921568629" green="0.72156862745098038" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="54" id="tjy-xU-lGY"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <state key="normal" title="PAY LATER">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="WT5-0y-116" firstAttribute="top" secondItem="bPS-5J-rBM" secondAttribute="top" id="4yg-Pm-P4e"/>
                                     <constraint firstAttribute="bottom" secondItem="vSb-OS-dhV" secondAttribute="bottom" constant="47" id="6WO-Lw-QNu"/>
                                     <constraint firstItem="GFm-L5-LXy" firstAttribute="leading" secondItem="vSb-OS-dhV" secondAttribute="trailing" constant="6" id="D9E-aJ-Oma"/>
-                                    <constraint firstItem="vSb-OS-dhV" firstAttribute="leading" secondItem="bPS-5J-rBM" secondAttribute="leading" constant="44" id="cPx-Hb-wK7"/>
+                                    <constraint firstItem="SBO-yq-WRr" firstAttribute="width" secondItem="vSb-OS-dhV" secondAttribute="width" id="EU8-zm-70a"/>
+                                    <constraint firstItem="SBO-yq-WRr" firstAttribute="top" secondItem="vSb-OS-dhV" secondAttribute="top" id="Rh8-nP-7lu"/>
+                                    <constraint firstItem="vSb-OS-dhV" firstAttribute="leading" secondItem="SBO-yq-WRr" secondAttribute="trailing" constant="8" symbolic="YES" id="Xrr-Ph-Ien"/>
                                     <constraint firstAttribute="trailing" secondItem="GFm-L5-LXy" secondAttribute="trailing" constant="44" id="e0H-jA-Top"/>
                                     <constraint firstItem="WT5-0y-116" firstAttribute="leading" secondItem="bPS-5J-rBM" secondAttribute="leading" id="nG8-ng-Med"/>
+                                    <constraint firstItem="SBO-yq-WRr" firstAttribute="leading" secondItem="bPS-5J-rBM" secondAttribute="leading" constant="44" id="ohb-EJ-9je"/>
                                     <constraint firstItem="vSb-OS-dhV" firstAttribute="width" secondItem="GFm-L5-LXy" secondAttribute="width" id="uHi-ij-fTb"/>
                                     <constraint firstAttribute="trailing" secondItem="WT5-0y-116" secondAttribute="trailing" id="xks-Ai-RP3"/>
                                     <constraint firstItem="GFm-L5-LXy" firstAttribute="top" secondItem="vSb-OS-dhV" secondAttribute="top" id="ymE-FV-uqg"/>
@@ -583,6 +597,7 @@
                         <outlet property="btnEmpSent" destination="T4W-o9-tod" id="4Ww-ZK-y0z"/>
                         <outlet property="btnPay" destination="GFm-L5-LXy" id="99W-1a-9Xe"/>
                         <outlet property="btnPayLater" destination="vSb-OS-dhV" id="VPj-10-JqI"/>
+                        <outlet property="btnPrint" destination="SBO-yq-WRr" id="h2o-aJ-Acw"/>
                         <outlet property="tfCust" destination="pha-Qz-cja" id="Q1Y-xY-3It"/>
                         <outlet property="tfEmp" destination="xCX-dO-UVl" id="3wh-Zs-Ruq"/>
                         <outlet property="viewDetailer" destination="L5c-wY-Et1" id="wAA-PD-9zR"/>

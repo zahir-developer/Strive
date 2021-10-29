@@ -108,7 +108,7 @@ namespace Greeter.Modules.Pay
             var row = (int)indexPath.Row;
             var checkout = Checkouts[row];
 
-            var action1 = UIContextualAction.FromContextualActionStyle(
+            var actionPrint = UIContextualAction.FromContextualActionStyle(
               UIContextualActionStyle.Normal,
               "Print",
               (flagAction, view, success) =>
@@ -117,53 +117,13 @@ namespace Greeter.Modules.Pay
                   tableView.Editing = false;
                   PrintReceipt(checkout);
               });
-            //action1.Image = UIImage.FromBundle("tick");
-            action1.BackgroundColor = Colors.APP_BASE_COLOR.ToPlatformColor();
 
-            var contextualActions = new List<UIContextualAction>() { action1 };
+            actionPrint.Image = UIImage.FromBundle("tick");
+            actionPrint.BackgroundColor = Colors.PRINT_COLOR.ToPlatformColor();
+
+            var contextualActions = new List<UIContextualAction>() { actionPrint };
 
             return UISwipeActionsConfiguration.FromActions(contextualActions.ToArray());
-        }
-
-        void PrintReceipt(Checkout checkout)
-        {
-            string printContentHtml = MakeServiceReceipt(checkout);
-            Print(printContentHtml);
-        }
-
-        string MakeServiceReceipt(Checkout checkout)
-        {
-            var body = "<p>Ticket Number : </p>" + checkout.ID + "<br /><br />";
-
-            if (!string.IsNullOrEmpty(checkout.CustomerFirstName))
-            {
-                body += "<p>Customer Details : </p>" + ""
-                    + "<p>Customer Name - " + checkout.CustomerFirstName + " " + checkout.CustomerLastName + "</p><br />";
-            }
-
-            body += "<p>Vehicle Details : </p>" +
-                 "<p>Make - " + checkout.VehicleMake + "</p>" +
-                "<p>Model - " + checkout.VehicleModel + "</p>" +
-                 "<p>Color - " + checkout.VehicleColor + "</p><br />" +
-                 "<p>Services : " + "</p>";
-
-            if (!string.IsNullOrEmpty(checkout.Services))
-            {
-                body += "<p>" + checkout.Services + "</p>";
-            }
-
-            if (!string.IsNullOrEmpty(checkout.AdditionalServices) && !checkout.AdditionalServices.Equals("none", StringComparison.OrdinalIgnoreCase))
-            {
-                body += "<p>" + checkout.AdditionalServices + "</p>";
-            }
-
-            body += "<br/ ><p>" + "Total Amount Due: " + "$" + checkout.Cost.ToString() + "</p>";
-
-            body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
-
-            Debug.WriteLine("Email Body :" + body);
-
-            return body;
         }
     }
 }

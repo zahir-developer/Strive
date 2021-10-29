@@ -94,6 +94,47 @@ namespace Greeter.Modules.Pay
             NavigateToWithAnim(vc);
         }
 
+        void PrintReceipt(Checkout checkout)
+        {
+            string printContentHtml = MakeServiceReceipt(checkout);
+            Print(printContentHtml);
+        }
+
+        string MakeServiceReceipt(Checkout checkout)
+        {
+            var body = "<p>Ticket Number : </p>" + checkout.ID + "<br /><br />";
+
+            if (!string.IsNullOrEmpty(checkout.CustomerFirstName))
+            {
+                body += "<p>Customer Details : </p>" + ""
+                    + "<p>Customer Name - " + checkout.CustomerFirstName + " " + checkout.CustomerLastName + "</p><br />";
+            }
+
+            body += "<p>Vehicle Details : </p>" +
+                 "<p>Make - " + checkout.VehicleMake + "</p>" +
+                "<p>Model - " + checkout.VehicleModel + "</p>" +
+                 "<p>Color - " + checkout.VehicleColor + "</p><br />" +
+                 "<p>Services : " + "</p>";
+
+            if (!string.IsNullOrEmpty(checkout.Services))
+            {
+                body += "<p>" + checkout.Services + "</p>";
+            }
+
+            if (!string.IsNullOrEmpty(checkout.AdditionalServices) && !checkout.AdditionalServices.Equals("none", StringComparison.OrdinalIgnoreCase))
+            {
+                body += "<p>" + checkout.AdditionalServices + "</p>";
+            }
+
+            body += "<br/ ><p>" + "Total Amount Due: " + "$" + checkout.Cost.ToString() + "</p>";
+
+            body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
+
+            Debug.WriteLine("Email Body :" + body);
+
+            return body;
+        }
+
         //ServiceType GetSerViceType(string jobType)
         //   => jobType switch
         //   {

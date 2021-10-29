@@ -10,6 +10,9 @@ namespace Greeter.Common
         internal const string DATE_FORMAT_FOR_API = "yyyy-MM-dd";
 
         internal const short PAGINATION_LIMIT = 10;
+
+        internal const string APP_CENTER_SECTRET_KEY = "4e8a243b-8318-4735-980d-439d2ba8ecd4";
+        internal const string INFEA_DEVELOPER_KEY = "lkAfY0qI6092/y9YWsMZCeHshSjZK6QMo2z8Hqx6HU+SeLVCMILsSKK9JX+33hqkm6HKBVosqMTGi4YRkXPODg==";
     }
 
     class BundleIds
@@ -157,6 +160,7 @@ namespace Greeter.Common
     public class Colors
     {
         internal static Color APP_BASE_COLOR = Color.FromArgb(29, 201, 183);
+        internal static Color PRINT_COLOR = Color.FromArgb(36, 72, 154);
     }
 
     public class Messages

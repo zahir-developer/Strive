@@ -75,7 +75,7 @@ namespace Greeter.Storyboards
                 //_ = SendEmail(selectedEmpEmailId);
                 //_ = AssignServiceToEmployee(selectedEmpId);
 
-                _= GetDetailService(Service.Job.JobID);
+                _ = GetDetailService(Service.Job.JobID);
             };
 
             btnCustomerSend.TouchUpInside += delegate
@@ -87,6 +87,11 @@ namespace Greeter.Storyboards
                 }
 
                 _ = SendEmail(tfCust.Text);
+            };
+
+            btnPrint.TouchUpInside += delegate
+            {
+                PrintReceipt();
             };
 
             //Clicks
@@ -294,6 +299,72 @@ namespace Greeter.Storyboards
             }
 
             HideActivityIndicator();
+        }
+
+        void PrintReceipt()
+        {
+            string printContentHtml = MakeServiceReceipt();
+            Print(printContentHtml);
+        }
+
+        string MakeServiceReceipt()
+        {
+            var body = "<p>Ticket Number : </p>" + Service.Job.JobID + "<br /><br />";
+
+            if (!string.IsNullOrEmpty(CustName))
+            {
+                body += "<p>Customer Details : </p>" + ""
+                    + "<p>Customer Name - " + CustName + "</p><br />";
+            }
+
+            body += "<p>Vehicle Details : </p>" +
+                 "<p>Make - " + Make + "</p>" +
+                "<p>Model - " + Model + "</p>" +
+                 "<p>Color - " + Color + "</p><br />" +
+                 "<p>Services : " + "</p>";
+
+            var totalAmt = 0f;
+            if (Service is not null)
+            {
+                for (int i = 0; i < Service.JobItems.Count; i++)
+                {
+                    var job = Service.JobItems[i];
+                    var price = job.Price.ToString();
+                    if ((job.Price % 1) == 0)
+                    {
+                        price += ":00";
+                    }
+                    else
+                    {
+                        var values = price.Split(".");
+                        price = (int)job.Price + ":" + values[1];
+                    }
+
+                    body += "<p>" + job.SeriveName + " - " + "$" + price + "</p>";
+                    totalAmt += job.Price;
+                    //Amount = totalAmt;
+                }
+            }
+            //else
+            //{
+            //    if (!string.IsNullOrEmpty(ServiceName))
+            //    {
+            //        body += "<p>" + ServiceName + "</p>";
+            //    }
+
+            //    if (!string.IsNullOrEmpty(AdditionalServiceName) && !AdditionalServiceName.Equals("none", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        body += "<p>" + AdditionalServiceName + "</p>";
+            //    }
+            //}
+
+            body += "<br/ ><p>" + "Total Amount Due: " + "$" + totalAmt.ToString() + "</p>";
+
+            body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
+
+            Debug.WriteLine("Email Body :" + body);
+
+            return body;
         }
 
         void Initialise()

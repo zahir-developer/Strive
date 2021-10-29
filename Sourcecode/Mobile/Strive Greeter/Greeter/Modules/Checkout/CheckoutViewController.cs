@@ -115,6 +115,19 @@ namespace Greeter.Modules.Pay
             var row = (int)indexPath.Row;
             var checkout = Checkouts[row];
 
+            var actionPrint = UIContextualAction.FromContextualActionStyle(
+             UIContextualActionStyle.Normal,
+             "Print",
+             (flagAction, view, success) =>
+             {
+                  //success(true);
+                  tableView.Editing = false;
+                 PrintReceipt(checkout);
+             });
+
+            actionPrint.Image = UIImage.FromBundle("tick");
+            actionPrint.BackgroundColor = Colors.PRINT_COLOR.ToPlatformColor();
+
             var action1 = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal,
                 "Hold",
@@ -127,7 +140,7 @@ namespace Greeter.Modules.Pay
             action1.Image = UIImage.FromBundle("tick");
             action1.BackgroundColor = ColorConverters.FromHex("#ff9d00").ToPlatformColor();
 
-            var contextualActions = new List<UIContextualAction>() { action1 };
+            var contextualActions = new List<UIContextualAction>() { actionPrint, action1 };
 
             if (!checkout.JobStatus.Equals("Completed"))
             {
@@ -163,5 +176,7 @@ namespace Greeter.Modules.Pay
 
             return UISwipeActionsConfiguration.FromActions(contextualActions.ToArray());
         }
+
+
     }
 }

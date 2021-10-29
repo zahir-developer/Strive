@@ -77,6 +77,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("WashTimeMinutes")]
         public short WashTimeMinutes { get; set; }
+
+        [JsonProperty("StoreStatus")]
+        public string StoreStatus { get; set; }        
     }
 
     public class BarcodeResponse : BaseResponse
@@ -1474,6 +1477,9 @@ namespace Greeter.DTOs
 
         [JsonProperty("ServiceId")]
         public long ServiceID { get; set; }
+
+        [JsonProperty("JobServiceEmployeeId")]
+        public long JobServiceEmployeeId { get; } = 0;
 
         [JsonProperty("employeeId")]
         public long EmployeeID { get; set; }

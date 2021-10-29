@@ -13,6 +13,7 @@ namespace Greeter.Modules.Home
     {
         UILabel stationNameLabel;
         UILabel timeLabel;
+        UILabel statusLabel;
 
         public WashStationAnnotationView(IntPtr handle) : base(handle)
         {
@@ -75,6 +76,13 @@ namespace Greeter.Modules.Home
             timeContainerView.ClipsToBounds = true;
             infoContainerView.Add(timeContainerView);
 
+            statusLabel = new(CGRect.Empty);
+            statusLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            statusLabel.TextColor = UIColor.White;
+            statusLabel.Font = UIFont.SystemFontOfSize(18, UIFontWeight.Bold);
+            statusLabel.Lines = 2;
+            infoContainerView.Add(statusLabel);
+
             var carImageView = new UIImageView(CGRect.Empty);
             carImageView.TranslatesAutoresizingMaskIntoConstraints = false;
             carImageView.Image = UIImage.FromBundle(ImageNames.CAR);
@@ -114,10 +122,15 @@ namespace Greeter.Modules.Home
             stationNameLabel.LeadingAnchor.ConstraintEqualTo(infoContainerView.LeadingAnchor, constant: 16).Active = true;
             stationNameLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: -16).Active = true;
             stationNameLabel.TopAnchor.ConstraintGreaterThanOrEqualTo(infoContainerView.TopAnchor, constant: 8).Active = true;
-            stationNameLabel.BottomAnchor.ConstraintLessThanOrEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
+            //stationNameLabel.BottomAnchor.ConstraintLessThanOrEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
             stationNameLabel.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
             stationNameLabel.SetContentCompressionResistancePriority(249, UILayoutConstraintAxis.Horizontal);
             stationNameLabel.SetContentHuggingPriority(249, UILayoutConstraintAxis.Horizontal);
+
+            statusLabel.LeadingAnchor.ConstraintEqualTo(stationNameLabel.LeadingAnchor, constant: 0).Active = true;
+            statusLabel.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -16).Active = true;
+            statusLabel.TopAnchor.ConstraintEqualTo(stationNameLabel.BottomAnchor, constant: 5).Active = true;
+            statusLabel.BottomAnchor.ConstraintEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
 
             timeContainerView.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -16).Active = true;
             timeContainerView.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
@@ -137,6 +150,10 @@ namespace Greeter.Modules.Home
         {
             stationNameLabel.Text = location.Name;
             timeLabel.Text = $"{location.WashTimeMinutes}Mins";
+            statusLabel.Text = "Closed";
+
+            //statusLabel.Text = location.StoreStatus;
+            
         }
     }
 
