@@ -52,7 +52,7 @@ namespace Strive.Core.ViewModels.Customer
         {
             LocationStatusReq request = new LocationStatusReq()
             {
-                Date = (System.DateTime.Now).ToString("yyy-MM-dd"),
+                Date = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss"),
                 LocationId = 0
             };
             var washLocations = await carWashLocationService.GetAllLocationStatus(request);

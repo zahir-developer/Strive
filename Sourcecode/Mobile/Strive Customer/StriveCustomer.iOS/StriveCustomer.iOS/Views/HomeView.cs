@@ -17,6 +17,7 @@ using Strive.Core.Models.Customer;
 using System.Linq;
 using Xamarin.Essentials;
 using GoogleMaps.LocationServices;
+using System.Threading.Tasks;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -38,7 +39,7 @@ namespace StriveCustomer.iOS.Views
         {
             base.ViewDidLoad();
             InitialSetup();
-            SetMaps();
+            ScheduleSetMap();
 
             CustomerInfo.setMapInfo();
             WashTimeWebView.MapType = MKMapType.Hybrid;
@@ -60,7 +61,17 @@ namespace StriveCustomer.iOS.Views
             //locationManager.StartMonitoring(geofenceRegion);
             //locationManager.Delegate = new MyLocationDelegate(WashTimeWebView);
         }
+        public async void ScheduleSetMap()
+        {
+            int seconds = 60000;
+            while (seconds != 0)
+            {
+                await Task.Delay(seconds);
+                SetMaps();
+                //Console.WriteLine("refreshing home");
 
+            }
+        }
         public override void ViewDidAppear(bool animated)
         {            
             SetMaps();
@@ -187,7 +198,8 @@ namespace StriveCustomer.iOS.Views
 
             foreach (var item in carWashLocations.Washes)
             {
-                getDistance((double)item.Latitude, (double)item.Longitude, item.LocationId);
+                if(item.Latitude != 0 && item.Longitude != 0) // This check to avoid showing locations that dont have lat,long
+                    getDistance((double)item.Latitude, (double)item.Longitude, item.LocationId);
             }
             distanceList.Sort();
             foreach(var item in dict)
@@ -221,7 +233,9 @@ namespace StriveCustomer.iOS.Views
             {
                 var washlocation = carWashLocations.Washes.FirstOrDefault(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
                 annotationView.SetupData(washlocation);
-            }           
+                annotationView.CenterOffset = CGPoint.Empty;
+
+            }
             return annotationView;
         }
 

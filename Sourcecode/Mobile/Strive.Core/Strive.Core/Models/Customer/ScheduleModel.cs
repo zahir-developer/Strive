@@ -43,5 +43,8 @@ namespace Strive.Core.Models.Customer
         public string LocationName { get; set; }
         public int JobItemId { get; set; }
         public float Cost { get; set; }
+        public string Barcode { get; set; }
+
+        public bool? IsOpened = false;
     }
 }

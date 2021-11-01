@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Foundation;
 using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
@@ -16,7 +17,11 @@ namespace StriveCustomer.iOS.Views.Schedule
         public Schedule_PastHis_Source(ScheduleViewModel viewModel)
         {
             this.ViewModel = viewModel;
-            this.PastHis_List = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
+            var JobDetailsViewModel = ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel;
+            this.PastHis_List = JobDetailsViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)).ToList();
+
+            //this.PastHis_List = (List<BayJobDetailViewModel>)ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.OrderByDescending(x => DateTime.Parse(x.JobDate)); ;
+
 
         }
 
@@ -27,7 +32,7 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            if (isClicked)
+            if ((bool)PastHis_List[indexPath.Row].IsOpened)
             {
                 return 200;
             }
@@ -53,22 +58,31 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            isClicked = true;
             
-            if (selectedCell != indexPath)
+            if (!(bool)PastHis_List[indexPath.Row].IsOpened)
             {
+                PastHis_List[indexPath.Row].IsOpened = true;
                 var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
+                cell.SetData(PastHis_List, indexPath);
                 GetHeightForRow(tableView, indexPath);
                 selectedCell = indexPath;
             }
-                      
+            else
+            {
+                PastHis_List[indexPath.Row].IsOpened = false;
+                var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
+                cell.SetData(PastHis_List, indexPath);
+                GetHeightForRow(tableView, indexPath);
+                selectedCell = indexPath;
+            }
+            
         }
 
-        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
-        {
-            isClicked = false;
-            var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
-            GetHeightForRow(tableView, indexPath);
-        }
+        //public override void RowDeselected(UITableView tableView, NSIndexPath indexPath) commented for now becasue of crash
+        //{
+        //    isClicked = false;
+        //    var cell = tableView.DequeueReusableCell("DB_PastHistory_Cell", indexPath) as DB_PastHistory_Cell;
+        //    GetHeightForRow(tableView, indexPath);
+        //}
     }
 }

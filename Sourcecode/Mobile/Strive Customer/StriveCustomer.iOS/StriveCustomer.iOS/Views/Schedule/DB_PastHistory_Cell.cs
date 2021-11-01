@@ -26,18 +26,21 @@ namespace StriveCustomer.iOS.Views.Schedule
         {            
             PastHis_FullView.Layer.CornerRadius = 5;
             PH_TicNo_Lbl.Text = datalist[indexPath.Row].TicketNumber;
-            PH_VehicleName_Lbl.Text = datalist[indexPath.Row].VehicleColor +
-                                        datalist[indexPath.Row].VehicleColor +
-                                        datalist[indexPath.Row].VehicleModel;
+            PH_VehicleName_Lbl.Text = datalist[indexPath.Row].VehicleMake + "/" +
+                                        datalist[indexPath.Row].VehicleModel + "/" +
+                                        datalist[indexPath.Row].VehicleColor;
             
             var date = datalist[indexPath.Row].JobDate;            
             var FullSplitDates = date.Split("-");
             var fullDateInfo = FullSplitDates[2].Substring(0,2);
 
             PH_Date_Lbl.Text = FullSplitDates[1].ToString() +"/"+ fullDateInfo.ToString() +"/"+ FullSplitDates[0].ToString();
-            PH_DetService_Lbl.Text = "";
-            PH_Barcode_Lbl.Text = "";
+            PH_DetService_Lbl.Text = datalist[indexPath.Row].ServiceTypeName;
+            PH_Barcode_Lbl.Text = datalist[indexPath.Row].Barcode;
             PH_Price_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
-        }      
+            PH_Cost_Lbl.Text = datalist[indexPath.Row].Cost.ToString();
+
+
+        }
     }
 }
