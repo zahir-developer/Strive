@@ -90,7 +90,8 @@ namespace Strive.Core.ViewModels.Customer
                     if (success)
                     {
                         CustomerInfo.Clear();
-                        _navigationService.Close(this);
+                        //_navigationService.Close(this);
+                        _navigationService.Navigate<LoginViewModel>();
                         _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit!"));
                     }
                 }

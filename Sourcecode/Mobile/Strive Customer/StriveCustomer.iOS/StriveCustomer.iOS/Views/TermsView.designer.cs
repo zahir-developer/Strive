@@ -13,6 +13,15 @@ namespace StriveCustomer.iOS.Views
 	partial class TermsView
 	{
 		[Outlet]
+		UIKit.UIView _TermsConfirmView { get; set; }
+
+		[Outlet]
+		UIKit.UILabel Date { get; set; }
+
+		[Outlet]
+		UIKit.UILabel membership_name { get; set; }
+
+		[Outlet]
 		UIKit.UILabel termsLabel { get; set; }
 
 		[Outlet]
@@ -26,6 +35,16 @@ namespace StriveCustomer.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Date != null) {
+				Date.Dispose ();
+				Date = null;
+			}
+
+			if (membership_name != null) {
+				membership_name.Dispose ();
+				membership_name = null;
+			}
+
 			if (termsLabel != null) {
 				termsLabel.Dispose ();
 				termsLabel = null;
@@ -34,6 +53,11 @@ namespace StriveCustomer.iOS.Views
 			if (TermsParentView != null) {
 				TermsParentView.Dispose ();
 				TermsParentView = null;
+			}
+
+			if (_TermsConfirmView != null) {
+				_TermsConfirmView.Dispose ();
+				_TermsConfirmView = null;
 			}
 		}
 	}

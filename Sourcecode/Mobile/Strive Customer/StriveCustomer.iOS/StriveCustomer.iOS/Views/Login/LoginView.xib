@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -72,24 +72,24 @@
                     </state>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yp8-zX-hJ1">
-                    <rect key="frame" x="93" y="689" width="228" height="25"/>
+                    <rect key="frame" x="97" y="686" width="220.5" height="21.5"/>
                     <attributedString key="attributedText">
                         <fragment content="Create a new account">
                             <attributes>
                                 <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <font key="NSFont" size="16" name="OpenSans-Regular"/>
+                                <font key="NSFont" metaFont="system" size="16"/>
                             </attributes>
                         </fragment>
                         <fragment content=" ">
                             <attributes>
                                 <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                <font key="NSFont" size="16" name="OpenSans-Regular"/>
+                                <font key="NSFont" metaFont="system" size="16"/>
                             </attributes>
                         </fragment>
                         <fragment content="SignUp">
                             <attributes>
                                 <color key="NSColor" red="0.1145514473" green="0.78911465410000003" blue="0.71918755769999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <font key="NSFont" size="18" name="OpenSans-Bold"/>
+                                <font key="NSFont" metaFont="system" size="18"/>
                                 <integer key="NSUnderline" value="1"/>
                             </attributes>
                         </fragment>
@@ -97,13 +97,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2E1-qZ-P25">
-                    <rect key="frame" x="20" y="595" width="132" height="34"/>
+                    <rect key="frame" x="20" y="595" width="130" height="31"/>
                     <state key="normal">
                         <attributedString key="attributedTitle">
                             <fragment content="Forgot Password?">
                                 <attributes>
                                     <color key="NSColor" red="0.11507000000000001" green="0.78556000000000004" blue="0.71555000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="16" name="OpenSans-Regular"/>
+                                    <font key="NSFont" metaFont="system" size="16"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                     <integer key="NSUnderline" value="1"/>
                                     <color key="NSUnderlineColor" red="0.11507000000000001" green="0.78556000000000004" blue="0.71555000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

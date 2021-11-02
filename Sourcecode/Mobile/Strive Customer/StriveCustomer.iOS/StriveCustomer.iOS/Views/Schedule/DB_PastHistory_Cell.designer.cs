@@ -13,6 +13,9 @@ namespace StriveCustomer.iOS.Views.Schedule
 	partial class DB_PastHistory_Cell
 	{
 		[Outlet]
+		UIKit.NSLayoutConstraint Height { get; set; }
+
+		[Outlet]
 		UIKit.UIView PastHis_FullView { get; set; }
 
 		[Outlet]
@@ -41,6 +44,12 @@ namespace StriveCustomer.iOS.Views.Schedule
 
 		[Outlet]
 		UIKit.UILabel PH_VehicleName_Lbl { get; set; }
+
+		[Outlet]
+		UIKit.UIButton ViewMore_Btn { get; set; }
+
+		[Action ("ViewMore_BtnTouch:")]
+		partial void ViewMore_BtnTouch (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -54,6 +63,16 @@ namespace StriveCustomer.iOS.Views.Schedule
 				PastHis_ShortView = null;
 			}
 
+			if (PH_AddService_Lbl != null) {
+				PH_AddService_Lbl.Dispose ();
+				PH_AddService_Lbl = null;
+			}
+
+			if (PH_Barcode_Lbl != null) {
+				PH_Barcode_Lbl.Dispose ();
+				PH_Barcode_Lbl = null;
+			}
+
 			if (PH_Cost_Lbl != null) {
 				PH_Cost_Lbl.Dispose ();
 				PH_Cost_Lbl = null;
@@ -62,6 +81,16 @@ namespace StriveCustomer.iOS.Views.Schedule
 			if (PH_Date_Lbl != null) {
 				PH_Date_Lbl.Dispose ();
 				PH_Date_Lbl = null;
+			}
+
+			if (PH_DetService_Lbl != null) {
+				PH_DetService_Lbl.Dispose ();
+				PH_DetService_Lbl = null;
+			}
+
+			if (PH_Price_Lbl != null) {
+				PH_Price_Lbl.Dispose ();
+				PH_Price_Lbl = null;
 			}
 
 			if (PH_TicNo_Lbl != null) {
@@ -74,24 +103,14 @@ namespace StriveCustomer.iOS.Views.Schedule
 				PH_VehicleName_Lbl = null;
 			}
 
-			if (PH_DetService_Lbl != null) {
-				PH_DetService_Lbl.Dispose ();
-				PH_DetService_Lbl = null;
+			if (ViewMore_Btn != null) {
+				ViewMore_Btn.Dispose ();
+				ViewMore_Btn = null;
 			}
 
-			if (PH_Barcode_Lbl != null) {
-				PH_Barcode_Lbl.Dispose ();
-				PH_Barcode_Lbl = null;
-			}
-
-			if (PH_Price_Lbl != null) {
-				PH_Price_Lbl.Dispose ();
-				PH_Price_Lbl = null;
-			}
-
-			if (PH_AddService_Lbl != null) {
-				PH_AddService_Lbl.Dispose ();
-				PH_AddService_Lbl = null;
+			if (Height != null) {
+				Height.Dispose ();
+				Height = null;
 			}
 		}
 	}

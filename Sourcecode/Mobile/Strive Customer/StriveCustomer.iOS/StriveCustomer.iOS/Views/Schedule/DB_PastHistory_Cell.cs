@@ -11,6 +11,7 @@ namespace StriveCustomer.iOS.Views.Schedule
     {
         public static readonly NSString Key = new NSString("DB_PastHistory_Cell");
         public static readonly UINib Nib;
+        Schedule_PastHis_Source source;
 
         static DB_PastHistory_Cell()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Models.Customer;
 using Strive.Core.ViewModels.Customer;
 using StriveCustomer.iOS.UIUtils;
 using UIKit;
@@ -33,12 +34,16 @@ namespace StriveCustomer.iOS.Views
                 ForegroundColor = UIColor.Clear.FromHex(0x24489A),
             };
             NavigationItem.Title = "Vehicle";
-
+            string Datenow= DateTime.Now.Date.ToString();
+            Date.Text = Datenow.Substring(0,10);
+            string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName + "-$"+MembershipDetails.selectedMembershipDetail.DiscountedPrice;
+            membership_name.Text = membershipname;
             TermsParentView.Layer.CornerRadius = 5;
+            _TermsConfirmView.Layer.CornerRadius = 5;
 
             //termsLabel.Text = "";
         }
-
+        
         partial void AgreeBtn_Touch(UIButton sender)
         {
             ViewModel.NavToSignatureView();

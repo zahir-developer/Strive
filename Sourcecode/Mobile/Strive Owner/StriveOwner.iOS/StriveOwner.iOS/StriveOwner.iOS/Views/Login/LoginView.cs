@@ -26,6 +26,7 @@ namespace StriveOwner.iOS.Views.Login
             set.Bind(EmailTextfield).To(vm => vm.loginEmailPhone);
             set.Bind(PasswordTextfield).To(vm => vm.loginPassword);
             set.Bind(LoginBtn).To(vm => vm.Commands["DoLogin"]);
+            set.Bind(ForgotBtn).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
             // Perform any additional setup after loading the view, typically from a nib.
         }

@@ -28,9 +28,8 @@ namespace StriveCustomer.iOS.Views
         public washLocations carWashLocations = new washLocations();
         //public static CarWashLocation washlocations;
         public static washLocations washlocations;
-        public List<Double> distanceList = new List<double>();        
+        public List<Double> distanceList = new List<double>();
         Dictionary<int, double> dict = new Dictionary<int, double>();
-
         public HomeView() : base("HomeView", null)
         {
         }
@@ -38,6 +37,7 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+           
             InitialSetup();
             ScheduleSetMap();
 
@@ -76,7 +76,10 @@ namespace StriveCustomer.iOS.Views
         {            
             SetMaps();
         }
-
+        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
+        {
+            return true;
+        }
         private void InitialSetup()
         {
             var leftBtn = new UIButton(UIButtonType.Custom);

@@ -42,8 +42,7 @@ namespace Strive.Core.ViewModels.Employee
                 ChatHubMessagingService.StopConnection();
                 await SetChatCommunicationDetails();
                 EmployeeTempData.ResetAll();
-                await _navigationService.Close(this);
-            }
+                await _navigationService.Navigate<LoginViewModel>();            }
         }
         public async Task SetChatCommunicationDetails()
         {

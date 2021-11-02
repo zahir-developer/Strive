@@ -31,9 +31,11 @@ namespace StriveCustomer.iOS.Views
         public void SetData(MembershipServiceList list, NSIndexPath indexPath)
         {
             this.data = list;
+            MembershipCell_ViewHeight.Constant = 25;
             
             Membership_VehicleLbl.Text = data.Membership[indexPath.Row].MembershipName;
-            if(data.Membership[indexPath.Row].MembershipId == MembershipDetails.selectedMembership)
+            Membership_Discount.Text = data.Membership[indexPath.Row].DiscountedPrice.ToString();
+            if (data.Membership[indexPath.Row].MembershipId == MembershipDetails.selectedMembership)
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);                
                 MembershipDetails.selectedMembershipDetail = data.Membership[indexPath.Row];
@@ -59,7 +61,9 @@ namespace StriveCustomer.iOS.Views
         public void setUpchargeData(List<string> serviceList, NSIndexPath indexpath, MembershipVehicle_ViewCell cell)
         {
             this.upchargeList = serviceList;
-
+            MembershipCell_ViewHeight.Constant = 0;
+            Membership_Discount.Hidden = true;
+            MonthlyCharge_lbl.Hidden = true;
             Membership_VehicleLbl.Text = upchargeList[indexpath.Row];
 
             //if ((MembershipDetails.filteredList.ServicesWithPrice.Count > 0))
@@ -108,6 +112,9 @@ namespace StriveCustomer.iOS.Views
         public void setServicesData(ObservableCollection<AllServiceDetail> services, NSIndexPath indexPath, MembershipVehicle_ViewCell cell)
         {
             Membership_VehicleLbl.Text = services[indexPath.Row].ServiceName;
+            MembershipCell_ViewHeight.Constant = 0;
+            Membership_Discount.Hidden = true;
+            MonthlyCharge_lbl.Hidden = true;
             string service = Membership_VehicleLbl.Text.Replace(" ", "");
 
             string[] selectedServices = MembershipDetails.selectedMembershipDetail.Services.Split(",");

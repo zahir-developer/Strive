@@ -16,13 +16,11 @@ namespace Strive.Core.ViewModels.Owner
         {
 
         }
-
-        public async void getNavigation()
-        {
-            await _navigationService.Navigate<SampleViewModel>();
-        }
-
         #region Commands
+        public async Task ForgotPasswordCommand()
+        {
+            await _navigationService.Navigate<ForgotPasswordViewModel>();
+        }
 
         public async Task DoLoginCommand()
         {

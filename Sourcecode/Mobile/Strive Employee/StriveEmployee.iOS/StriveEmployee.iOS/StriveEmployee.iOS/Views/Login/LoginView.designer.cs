@@ -27,6 +27,9 @@ namespace StriveEmployee.iOS.Views.Login
 		[Outlet]
 		UIKit.UITextField PasswordTextfield { get; set; }
 
+		[Outlet]
+		UIKit.UILabel SignUPLbl { get; set; }
+
 		[Action ("CheckBoxClicked:")]
 		partial void CheckBoxClicked (UIKit.UIButton sender);
 		
@@ -55,6 +58,11 @@ namespace StriveEmployee.iOS.Views.Login
 			if (PasswordTextfield != null) {
 				PasswordTextfield.Dispose ();
 				PasswordTextfield = null;
+			}
+
+			if (SignUPLbl != null) {
+				SignUPLbl.Dispose ();
+				SignUPLbl = null;
 			}
 		}
 	}

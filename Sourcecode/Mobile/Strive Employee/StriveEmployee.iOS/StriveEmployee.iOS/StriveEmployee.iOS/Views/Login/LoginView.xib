@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -19,8 +19,10 @@
             <connections>
                 <outlet property="CheckBox" destination="cbV-80-7tm" id="wjK-HQ-H8E"/>
                 <outlet property="EmailTextfield" destination="jyG-XL-I3s" id="iEK-zu-Yhl"/>
+                <outlet property="ForgotPasswordBtn" destination="0OX-Si-bD2" id="ejs-mw-Pai"/>
                 <outlet property="LoginBtn" destination="rCf-Zu-vso" id="770-cj-dqc"/>
                 <outlet property="PasswordTextfield" destination="FXe-VG-IHM" id="riz-6r-tBp"/>
+                <outlet property="SignUPLbl" destination="hqm-19-FPl" id="Vj0-dt-g5H"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -88,6 +90,49 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqm-19-FPl">
+                    <rect key="frame" x="92" y="686" width="274" height="20"/>
+                    <attributedString key="attributedText">
+                        <fragment content="Create a new account ">
+                            <attributes>
+                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <font key="NSFont" metaFont="system" size="16"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                            </attributes>
+                        </fragment>
+                        <fragment content="Sign Up">
+                            <attributes>
+                                <color key="NSColor" red="0.11372549019607843" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <font key="NSFont" metaFont="system" size="18"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                <integer key="NSUnderline" value="1"/>
+                                <color key="NSUnderlineColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0OX-Si-bD2">
+                    <rect key="frame" x="20" y="595" width="191" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="191" id="1S3-XB-iuu"/>
+                        <constraint firstAttribute="height" constant="31" id="lyF-x8-WqZ"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button">
+                        <attributedString key="attributedTitle">
+                            <fragment content="Forgot Password?">
+                                <attributes>
+                                    <color key="NSColor" red="0.1145514473" green="0.78911465410000003" blue="0.71918755769999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <font key="NSFont" metaFont="system" size="16"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                    <integer key="NSUnderline" value="1"/>
+                                    <color key="NSUnderlineColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -101,20 +146,26 @@
                 <constraint firstAttribute="bottom" secondItem="Svj-RW-3Gr" secondAttribute="bottom" constant="-10" id="JPm-hc-XPn"/>
                 <constraint firstItem="rCf-Zu-vso" firstAttribute="width" secondItem="FXe-VG-IHM" secondAttribute="width" id="K7r-l4-DUo"/>
                 <constraint firstItem="jyG-XL-I3s" firstAttribute="top" secondItem="6T5-qD-PDT" secondAttribute="bottom" constant="20" id="N2b-YY-ej1"/>
+                <constraint firstItem="0OX-Si-bD2" firstAttribute="top" secondItem="rCf-Zu-vso" secondAttribute="bottom" constant="15" id="SEA-kq-1Gz"/>
                 <constraint firstItem="rCf-Zu-vso" firstAttribute="top" secondItem="W4O-Hf-hTZ" secondAttribute="bottom" constant="15" id="Sb8-d1-vKF"/>
                 <constraint firstItem="FXe-VG-IHM" firstAttribute="top" secondItem="jyG-XL-I3s" secondAttribute="bottom" constant="10" id="ZRS-Vc-PDD"/>
                 <constraint firstItem="6T5-qD-PDT" firstAttribute="leading" secondItem="FXe-VG-IHM" secondAttribute="leading" id="bcc-w2-XkL"/>
+                <constraint firstAttribute="trailing" secondItem="hqm-19-FPl" secondAttribute="trailing" constant="48" id="bg3-zh-5GY"/>
                 <constraint firstItem="jyG-XL-I3s" firstAttribute="width" secondItem="FXe-VG-IHM" secondAttribute="width" id="cqy-bC-Ylh"/>
                 <constraint firstItem="FXe-VG-IHM" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="eMg-qf-ibg"/>
                 <constraint firstItem="jyG-XL-I3s" firstAttribute="centerX" secondItem="FXe-VG-IHM" secondAttribute="centerX" id="evh-cj-1iA"/>
                 <constraint firstItem="4GG-N3-W8I" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="fbr-TF-lwa"/>
+                <constraint firstItem="0OX-Si-bD2" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="gWl-g2-Edp"/>
                 <constraint firstItem="4GG-N3-W8I" firstAttribute="width" secondItem="Svj-RW-3Gr" secondAttribute="width" multiplier="0.3066" id="i1u-tq-J61"/>
+                <constraint firstAttribute="trailing" secondItem="0OX-Si-bD2" secondAttribute="trailing" constant="203" id="meO-nE-yKF"/>
+                <constraint firstItem="hqm-19-FPl" firstAttribute="top" secondItem="0OX-Si-bD2" secondAttribute="bottom" constant="60" id="oQf-In-DB4"/>
                 <constraint firstItem="W4O-Hf-hTZ" firstAttribute="centerY" secondItem="cbV-80-7tm" secondAttribute="centerY" id="qub-6b-vvZ"/>
                 <constraint firstItem="6T5-qD-PDT" firstAttribute="top" secondItem="4GG-N3-W8I" secondAttribute="bottom" constant="70" id="smJ-H6-vEV"/>
                 <constraint firstItem="FXe-VG-IHM" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="w3E-ck-emz"/>
                 <constraint firstItem="cbV-80-7tm" firstAttribute="leading" secondItem="FXe-VG-IHM" secondAttribute="leading" id="wbH-k3-gVS"/>
                 <constraint firstItem="FXe-VG-IHM" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="y5A-tf-tRr"/>
                 <constraint firstItem="cbV-80-7tm" firstAttribute="top" secondItem="FXe-VG-IHM" secondAttribute="bottom" constant="15" id="yMs-Hy-EdI"/>
+                <constraint firstItem="hqm-19-FPl" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="92" id="yuj-lW-Nmb"/>
             </constraints>
             <point key="canvasLocation" x="111.59420289855073" y="1.3392857142857142"/>
         </view>

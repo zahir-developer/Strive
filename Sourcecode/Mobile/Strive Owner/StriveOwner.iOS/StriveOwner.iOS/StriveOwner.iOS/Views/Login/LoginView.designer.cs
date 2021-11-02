@@ -19,24 +19,40 @@ namespace StriveOwner.iOS.Views.Login
 		UIKit.UITextField EmailTextfield { get; set; }
 
 		[Outlet]
+		UIKit.UIButton ForgotBtn { get; set; }
+
+		[Outlet]
 		UIKit.UIButton LoginBtn { get; set; }
 
 		[Outlet]
 		UIKit.UITextField PasswordTextfield { get; set; }
+
+		[Outlet]
+		UIKit.UILabel SignUpLbl { get; set; }
 
 		[Action ("CheckBoxClicked:")]
 		partial void CheckBoxClicked (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (CheckBox != null) {
+				CheckBox.Dispose ();
+				CheckBox = null;
+			}
+
 			if (EmailTextfield != null) {
 				EmailTextfield.Dispose ();
 				EmailTextfield = null;
 			}
 
-			if (CheckBox != null) {
-				CheckBox.Dispose ();
-				CheckBox = null;
+			if (LoginBtn != null) {
+				LoginBtn.Dispose ();
+				LoginBtn = null;
+			}
+
+			if (ForgotBtn != null) {
+				ForgotBtn.Dispose ();
+				ForgotBtn = null;
 			}
 
 			if (PasswordTextfield != null) {
@@ -44,9 +60,9 @@ namespace StriveOwner.iOS.Views.Login
 				PasswordTextfield = null;
 			}
 
-			if (LoginBtn != null) {
-				LoginBtn.Dispose ();
-				LoginBtn = null;
+			if (SignUpLbl != null) {
+				SignUpLbl.Dispose ();
+				SignUpLbl = null;
 			}
 		}
 	}

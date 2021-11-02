@@ -179,6 +179,18 @@
     <Compile Include="Views\Profile\DocumentView.designer.cs">
       <DependentUpon>DocumentView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Login\OtpView.cs" />
+    <InterfaceDefinition Include="Views\Login\OtpView.xib" />
+    <Compile Include="Views\Login\OtpView.designer.cs" />
+    <InterfaceDefinition Include="Views\Login\ForgotPasswordView.xib" />
+    <Compile Include="Views\Login\ForgotPasswordView.cs" />
+    <Compile Include="Views\Login\ForgotPasswordView.designer.cs">
+      <DependentUpon>ForgotPasswordView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="Resources\Views\Login\en.lproj\NewPasswordView.xib" />
+    <Compile Include="Views\Login\NewPasswordView.cs" />
+    <Compile Include="Views\Login\NewPasswordView.designer.cs" />
+    <InterfaceDefinition Include="Views\Login\NewPasswordView.xib" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -316,6 +328,10 @@
     <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
     <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
     <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%403x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

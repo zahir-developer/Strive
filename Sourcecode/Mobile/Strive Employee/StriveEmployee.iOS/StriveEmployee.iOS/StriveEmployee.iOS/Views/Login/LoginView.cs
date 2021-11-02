@@ -2,6 +2,7 @@
 using Foundation;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
+using Strive.Core.Utils;
 using Strive.Core.ViewModels.Employee;
 using UIKit;
 
@@ -25,8 +26,18 @@ namespace StriveEmployee.iOS.Views.Login
             set.Bind(EmailTextfield).To(vm => vm.loginEmailPhone);
             set.Bind(PasswordTextfield).To(vm => vm.loginPassword);
             set.Bind(LoginBtn).To(vm => vm.Commands["DoLogin"]);
-            //set.Bind(ForgotPasswordBtn).To(vm => vm.Commands["ForgotPassword"]);
+            set.Bind(ForgotPasswordBtn).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
+
+
+            SignUPLbl.UserInteractionEnabled = true;
+            Action action = () =>
+            {
+                UIApplication.SharedApplication.OpenUrl(new NSUrl(ApiUtils.URL_CUSTOMER_SIGNUP));
+            };
+            UITapGestureRecognizer tap = new UITapGestureRecognizer(action);
+            SignUPLbl.AddGestureRecognizer(tap);
+
             // Perform any additional setup after loading the view, typically from a nib.
         }
 
@@ -63,6 +74,7 @@ namespace StriveEmployee.iOS.Views.Login
                 ViewModel.rememberMe = true;
                 SetRememberMe();
             }
+            
         }
 
         void SetRememberMe()

@@ -25,7 +25,7 @@ namespace Strive.Core.ViewModels.Employee
 
         public async void ForgotPasswordCommand()
         {
-            
+            await _navigationService.Navigate<ForgotPasswordViewModel>();
         }
 
         public async Task DoLoginCommand()
@@ -72,10 +72,12 @@ namespace Strive.Core.ViewModels.Employee
                 || String.IsNullOrEmpty(loginPassword))
             {
                 isValid = false;
+                _userDialog.Alert("Please provide all the details");
             }
             else
             {
                 isValid = false;
+                _userDialog.Alert("Please enter a valid UserName ");
             }
             return isValid;
         }

@@ -19,7 +19,16 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UIView Membership_CellView { get; set; }
 
 		[Outlet]
+		UIKit.UILabel Membership_Discount { get; set; }
+
+		[Outlet]
 		UIKit.UILabel Membership_VehicleLbl { get; set; }
+
+		[Outlet]
+		UIKit.NSLayoutConstraint MembershipCell_ViewHeight { get; set; }
+
+		[Outlet]
+		UIKit.UILabel MonthlyCharge_lbl { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -28,14 +37,29 @@ namespace StriveCustomer.iOS.Views
 				Membership_CellBtn = null;
 			}
 
+			if (Membership_CellView != null) {
+				Membership_CellView.Dispose ();
+				Membership_CellView = null;
+			}
+
+			if (Membership_Discount != null) {
+				Membership_Discount.Dispose ();
+				Membership_Discount = null;
+			}
+
 			if (Membership_VehicleLbl != null) {
 				Membership_VehicleLbl.Dispose ();
 				Membership_VehicleLbl = null;
 			}
 
-			if (Membership_CellView != null) {
-				Membership_CellView.Dispose ();
-				Membership_CellView = null;
+			if (MonthlyCharge_lbl != null) {
+				MonthlyCharge_lbl.Dispose ();
+				MonthlyCharge_lbl = null;
+			}
+
+			if (MembershipCell_ViewHeight != null) {
+				MembershipCell_ViewHeight.Dispose ();
+				MembershipCell_ViewHeight = null;
 			}
 		}
 	}

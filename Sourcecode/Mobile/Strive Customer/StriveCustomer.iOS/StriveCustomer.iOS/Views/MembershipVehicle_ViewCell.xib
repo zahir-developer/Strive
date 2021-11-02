@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,16 +18,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5yk-Pm-99K">
-                        <rect key="frame" x="20" y="0.0" width="280" height="44"/>
+                        <rect key="frame" x="20" y="0.0" width="280" height="4"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uyK-SW-WIU">
-                                <rect key="frame" x="0.0" y="11.5" width="42" height="21"/>
+                                <rect key="frame" x="0.0" y="-8.5" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8p8-k5-4dD">
-                                <rect key="frame" x="255" y="9.5" width="25" height="25"/>
+                                <rect key="frame" x="255" y="-10.5" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="YSK-In-E66"/>
                                     <constraint firstAttribute="width" constant="25" id="rJa-1W-WgT"/>
@@ -43,20 +43,37 @@
                             <constraint firstItem="uyK-SW-WIU" firstAttribute="centerY" secondItem="5yk-Pm-99K" secondAttribute="centerY" id="vgo-vL-ibP"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Monthly Charge $" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qa1-kY-1j0">
+                        <rect key="frame" x="20" y="29" width="94" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFo-Bt-9SW">
+                        <rect key="frame" x="122" y="29" width="29" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="5yk-Pm-99K" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" constant="20" id="RWb-GZ-Kds"/>
                     <constraint firstItem="5yk-Pm-99K" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" id="SkT-g7-sdG"/>
                     <constraint firstAttribute="trailing" secondItem="5yk-Pm-99K" secondAttribute="trailing" constant="20" id="beu-WF-ix1"/>
-                    <constraint firstAttribute="bottom" secondItem="5yk-Pm-99K" secondAttribute="bottom" id="ebp-85-5l1"/>
+                    <constraint firstAttribute="bottom" secondItem="5yk-Pm-99K" secondAttribute="bottom" constant="40" id="ebp-85-5l1"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="MembershipCell_ViewHeight" destination="ebp-85-5l1" id="3B6-4u-1U2"/>
                 <outlet property="Membership_CellBtn" destination="8p8-k5-4dD" id="mZ8-x0-3u1"/>
                 <outlet property="Membership_CellView" destination="5yk-Pm-99K" id="yaI-WA-7fX"/>
+                <outlet property="Membership_Discount" destination="aFo-Bt-9SW" id="miZ-m2-eUc"/>
                 <outlet property="Membership_VehicleLbl" destination="uyK-SW-WIU" id="1DT-Vd-cdD"/>
+                <outlet property="MonthlyCharge_lbl" destination="Qa1-kY-1j0" id="naJ-2M-oK3"/>
             </connections>
-            <point key="canvasLocation" x="84.057971014492765" y="0.0"/>
+            <point key="canvasLocation" x="83" y="-1"/>
         </tableViewCell>
     </objects>
     <resources>

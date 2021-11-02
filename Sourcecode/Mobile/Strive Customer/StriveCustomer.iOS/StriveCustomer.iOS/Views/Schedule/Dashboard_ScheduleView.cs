@@ -11,6 +11,7 @@ namespace StriveCustomer.iOS.Views
 {
     public partial class Dashboard_ScheduleView : MvxViewController<ScheduleViewModel>
     {
+        DB_PastHistory_Cell dB;
         public Dashboard_ScheduleView() : base("Dashboard_ScheduleView", null)
         {
         }

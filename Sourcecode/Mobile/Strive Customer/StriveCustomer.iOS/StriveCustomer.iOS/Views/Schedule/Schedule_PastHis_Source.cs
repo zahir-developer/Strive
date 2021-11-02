@@ -10,6 +10,7 @@ namespace StriveCustomer.iOS.Views.Schedule
 {
     public class Schedule_PastHis_Source : UITableViewSource
     {
+        
         ScheduleViewModel ViewModel;
         public bool isClicked = false;
         public NSIndexPath selectedCell;
@@ -34,14 +35,16 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             if ((bool)PastHis_List[indexPath.Row].IsOpened)
             {
+                
                 return 200;
             }
             else
             {
+                
                 return 90;
             }            
         }
-
+        
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             return ViewModel.pastServiceHistory.DetailsGrid.BayJobDetailViewModel.Count;
@@ -53,9 +56,11 @@ namespace StriveCustomer.iOS.Views.Schedule
                        
             cell.SelectionStyle = UITableViewCellSelectionStyle.None;
             cell.SetData(PastHis_List, indexPath);
+            tableView.RowHeight = 200;
+
             return cell;
         }
-
+        
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             
@@ -74,6 +79,7 @@ namespace StriveCustomer.iOS.Views.Schedule
                 cell.SetData(PastHis_List, indexPath);
                 GetHeightForRow(tableView, indexPath);
                 selectedCell = indexPath;
+                cell.Selected = false;
             }
             
         }

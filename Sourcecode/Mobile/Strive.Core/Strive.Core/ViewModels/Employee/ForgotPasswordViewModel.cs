@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Strive.Core.ViewModels.Customer
+namespace Strive.Core.ViewModels.Employee
 {
     public class ForgotPasswordViewModel : BaseViewModel
     {
@@ -35,7 +35,7 @@ namespace Strive.Core.ViewModels.Customer
                 }
 
             }
-
+   
         }
 
         public void NavigateBackCommand()
@@ -59,12 +59,12 @@ namespace Strive.Core.ViewModels.Customer
         {
             get
             {
-               return Strings.ReceiveOTP;
+                return Strings.ReceiveOTP;
             }
         }
         public string ForgotPassword
         {
-            get 
+            get
             {
                 return Strings.ForgotPassword_fpScreen;
             }

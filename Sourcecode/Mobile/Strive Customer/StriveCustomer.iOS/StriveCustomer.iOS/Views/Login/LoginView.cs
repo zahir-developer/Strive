@@ -10,9 +10,11 @@ namespace StriveCustomer.iOS.Views.Login
 {
     public partial class LoginView : MvxViewController<LoginViewModel>
     {
+        
         NSUserDefaults Persistance;
         string UsernameKey = "username";
         string PasswordKey = "password";
+      
 
         public LoginView() : base("LoginView", null)
         {
@@ -65,6 +67,7 @@ namespace StriveCustomer.iOS.Views.Login
 
         void StoreCredentials()
         {
+            
             Persistance.SetString(ViewModel.loginEmailPhone, UsernameKey);
             Persistance.SetString(ViewModel.loginPassword, PasswordKey);
         }
@@ -82,11 +85,14 @@ namespace StriveCustomer.iOS.Views.Login
         {
             var username = Persistance.StringForKey(UsernameKey);
             var password = Persistance.StringForKey(PasswordKey);
+            
+            
             if (username != null && password != null)
             {
                 ViewModel.loginEmailPhone = username;
                 ViewModel.loginPassword = password;
                 ViewModel.rememberMe = true;
+                
                 SetRememberMe();
             }
         }

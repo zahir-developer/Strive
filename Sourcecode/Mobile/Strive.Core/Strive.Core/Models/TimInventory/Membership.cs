@@ -13,13 +13,19 @@ namespace Strive.Core.Models.TimInventory
         public int LocationId { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
+        public double DiscountedPrice { get; set; }
+
+
     }
 
     public class MembershipServiceList
     {
         public List<MembershipServices> Membership { get; set; }
+        
+
     }
 
+    
     public class SelectedServiceList
     {
         public List<ServiceDetail> MembershipDetail { get; set; }
