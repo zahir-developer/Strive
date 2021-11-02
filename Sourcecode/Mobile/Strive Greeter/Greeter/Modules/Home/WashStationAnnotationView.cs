@@ -128,12 +128,12 @@ namespace Greeter.Modules.Home
             stationNameLabel.SetContentHuggingPriority(249, UILayoutConstraintAxis.Horizontal);
 
             statusLabel.LeadingAnchor.ConstraintEqualTo(stationNameLabel.LeadingAnchor, constant: 0).Active = true;
-            statusLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: -16).Active = true;
-            statusLabel.TopAnchor.ConstraintEqualTo(stationNameLabel.BottomAnchor, constant: 5).Active = true;
+            statusLabel.TrailingAnchor.ConstraintEqualTo(timeContainerView.TrailingAnchor, constant: 0).Active = true;
+            statusLabel.TopAnchor.ConstraintEqualTo(stationNameLabel.BottomAnchor, constant: 10).Active = true;
             statusLabel.BottomAnchor.ConstraintLessThanOrEqualTo(infoContainerView.BottomAnchor, constant: -8).Active = true;
 
             timeContainerView.TrailingAnchor.ConstraintEqualTo(infoContainerView.TrailingAnchor, constant: -16).Active = true;
-            timeContainerView.CenterYAnchor.ConstraintEqualTo(infoContainerView.CenterYAnchor, constant: 5).Active = true;
+            timeContainerView.TopAnchor.ConstraintEqualTo(stationNameLabel.TopAnchor, constant: 0).Active = true;
             timeContainerView.HeightAnchor.ConstraintEqualTo(40).Active = true;
 
             carImageView.LeadingAnchor.ConstraintEqualTo(timeContainerView.LeadingAnchor, constant: 12).Active = true;
@@ -163,10 +163,13 @@ namespace Greeter.Modules.Home
         {
             stationNameLabel.Text = location.Name;
             timeLabel.Text = $"{location.WashTimeMinutes}Mins";
-            statusLabel.Text = "Closed";
 
-            //statusLabel.Text = location.StoreStatus;
-            
+            if (string.IsNullOrEmpty(location.StoreStatus))
+            {
+                statusLabel.Text = "Closed";
+            }
+            else
+                statusLabel.Text = location.StoreStatus;
         }
     }
 
