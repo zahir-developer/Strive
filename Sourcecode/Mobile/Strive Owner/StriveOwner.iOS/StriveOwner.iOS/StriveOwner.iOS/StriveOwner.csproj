@@ -46,10 +46,10 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
         <MtouchLink>SdkOnly</MtouchLink>
-        <CodesignProvision>Strive Owner Release</CodesignProvision>
+        <CodesignProvision>iOS Team Provisioning Profile: com.telliant.StriveOwner</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -280,10 +280,6 @@
         <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346.png" />
         <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%402x.png" />
         <ImageAsset Include="Resources\Assets.xcassets\select-Contact.imageset\Group 2346%403x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%402x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2%403x.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\2931162-64-2.png" />
-        <ImageAsset Include="Resources\Assets.xcassets\icon-back-arrow.imageset\Contents.json" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Resources\" />

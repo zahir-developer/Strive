@@ -1,4 +1,5 @@
 ﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.Messenger.MessengerGroups;
 using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
 using System;
@@ -14,6 +15,8 @@ namespace Strive.Core.ViewModels.Employee
         #region Properties
         public EmployeeList EmployeeLists { get; set; }
 
+        public chatGroup chatGroupforCreation = new chatGroup();
+        public static List<chatUserGroup> chatUserGroups = new List<chatUserGroup>();
         #endregion Properties
 
 
@@ -61,6 +64,16 @@ namespace Strive.Core.ViewModels.Employee
             _userDialog.HideLoading();
         }
 
+        public async Task CreateGroupChat()
+        {
+            _userDialog.ShowLoading(Strings.Loading);
+
+            chatGroupforCreation.chatGroupId = 0;
+            chatGroupforCreation.comments = "";
+            chatGroupforCreation.groupId = "";
+
+
+        }
         public void NotEnough()
         {
             _userDialog.Alert("Please add participants to the group");

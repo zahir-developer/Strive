@@ -1,5 +1,6 @@
 ﻿using System;
 using Foundation;
+using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using UIKit;
 
@@ -15,7 +16,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if(ViewModel.chatMessages.ChatMessage.ChatMessageDetail[indexPath.Row].ReceipientId != 0)
+            if(ViewModel.chatMessages.ChatMessage.ChatMessageDetail[indexPath.Row].SenderId != EmployeeTempData.EmployeeID)
             {
                 var cell = tableView.DequeueReusableCell("MessageIncomingCell", indexPath) as MessageIncomingCell;
                 cell.SelectionStyle = UITableViewCellSelectionStyle.None;

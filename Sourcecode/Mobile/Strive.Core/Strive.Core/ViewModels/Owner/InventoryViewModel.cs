@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
+using Strive.Core.Utils;
 using Strive.Core.Utils.TimInventory;
 
 namespace Strive.Core.ViewModels.Owner
@@ -162,11 +163,11 @@ namespace Strive.Core.ViewModels.Owner
             return (response.Result);
         }
 
-        //public async Task NavigateBackCommand()
-        //{
-        //    await _navigationService.Close(this);
-        //    _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "boo!"));
-        //}
+        public async Task NavigateBackCommand()
+        {
+            await _navigationService.Navigate<LoginViewModel>();
+            _mvxMessenger.Publish<ValuesChangedMessage>(new ValuesChangedMessage(this, 1, "exit"));
+        }
         #endregion Commands
     }
 }

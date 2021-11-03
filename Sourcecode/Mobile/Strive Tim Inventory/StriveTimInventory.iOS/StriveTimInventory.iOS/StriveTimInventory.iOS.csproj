@@ -49,10 +49,10 @@
         <WarningLevel>4</WarningLevel>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-        <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
+        <CodesignKey>Apple Development: Ramkumar Rajendran (J8Q86UTS6J)</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
         <MtouchLink>SdkOnly</MtouchLink>
-        <CodesignProvision>Strive Tim Distribution</CodesignProvision>
+        <CodesignProvision>iOS Team Provisioning Profile: com.telliant.strive-tim</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>

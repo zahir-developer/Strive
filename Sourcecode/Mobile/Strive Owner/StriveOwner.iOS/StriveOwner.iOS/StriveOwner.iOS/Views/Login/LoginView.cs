@@ -40,6 +40,7 @@ namespace StriveOwner.iOS.Views.Login
         void DoInitialSetup()
         {
             NavigationController.NavigationBarHidden = true;
+
             var Tap = new UITapGestureRecognizer(() => View.EndEditing(true));
             Tap.CancelsTouchesInView = false;
             View.AddGestureRecognizer(Tap);

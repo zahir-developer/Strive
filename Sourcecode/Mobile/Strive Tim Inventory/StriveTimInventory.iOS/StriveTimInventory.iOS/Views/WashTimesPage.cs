@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using CoreGraphics;
 using CoreLocation;
 using Foundation;
@@ -31,6 +32,7 @@ namespace StriveTimInventory.iOS.Views
             base.ViewDidLoad();
             DoInitialSetup();
             SetMapCenter();
+            ScheduleSetMap();
             var set = this.CreateBindingSet<WashTimesPage, WashTimesViewModel>();
             set.Bind(LogOutButton).To(vm => vm.Commands["NavigateBack"]);
             set.Apply();
@@ -39,7 +41,16 @@ namespace StriveTimInventory.iOS.Views
             
             MapView.Register(typeof(WashAnnotation), MKMapViewDefault.AnnotationViewReuseIdentifier);
         }
-
+        public async void ScheduleSetMap()
+        {
+            int seconds = 60000;
+            while (seconds != 0)
+            {
+                await Task.Delay(seconds);
+                SetMapCenter();
+                //Console.WriteLine("refreshing home");
+            }
+        }
         async void SetMapCenter()
         {
             //var location = await ViewModel.GetAllLocationAddress();
@@ -116,6 +127,8 @@ namespace StriveTimInventory.iOS.Views
             {
                 var washlocation = carWashLocations.Washes.FirstOrDefault(location => (double)location.Latitude == annotation.Coordinate.Latitude && (double)location.Longitude == annotation.Coordinate.Longitude);
                 annotationView.SetupData(washlocation);
+                annotationView.CenterOffset = CGPoint.Empty;
+
             }
             return annotationView;
         }

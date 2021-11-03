@@ -44,7 +44,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" image="icon-back-arrow">
+                    <state key="normal" image="arrow.backward" catalog="system">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
@@ -187,7 +187,7 @@
         </view>
     </objects>
     <resources>
-        <image name="icon-back-arrow" width="21" height="21"/>
+        <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="icon-strive-splash" width="125" height="83.5"/>
         <image name="splash" width="390" height="812"/>
     </resources>

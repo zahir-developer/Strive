@@ -4,15 +4,17 @@ using CoreGraphics;
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
-using Strive.Core.Utils.Employee;
+using Strive.Core.Models.Employee.Messenger.MessengerGroups;
 using Strive.Core.ViewModels.Employee;
 using StriveEmployee.iOS.UIUtils;
 using UIKit;
 
 namespace StriveEmployee.iOS.Views.Messenger
 {
+
     public partial class CreateGroupView : MvxViewController<MessengerCreateGroupViewModel>
     {
+
         public CreateGroupView() : base("CreateGroupView", null)
         {
         }
@@ -45,9 +47,10 @@ namespace StriveEmployee.iOS.Views.Messenger
 
             var rightBarBtn = new UIBarButtonItem(rightBtn);
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
-            rightBtn.TouchUpInside += (sender, e) =>
+            rightBtn.TouchUpInside += async (sender, e) =>
             {
-                
+                await ViewModel.CreateGroupChat();
+
             };
 
             CreateGroup_ParentView.Layer.CornerRadius = 5;
@@ -58,6 +61,9 @@ namespace StriveEmployee.iOS.Views.Messenger
             CreateGroup_TableView.ReloadData();
 
             getContacts();
+
+            
+
         }
 
         async void getContacts()
@@ -78,6 +84,8 @@ namespace StriveEmployee.iOS.Views.Messenger
     public class CreateGroupDataSource : UITableViewSource
     {
         List<Employee> list;
+        public List<NSIndexPath> RowSelections = new List<NSIndexPath>();
+
         public CreateGroupDataSource(List<Employee> contactList)
         {
             this.list = contactList;
@@ -103,17 +111,32 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell("SelectContactCell", indexPath) as SelectContactCell;
-            cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.selectContact();
+            SelectContactCell cell = (SelectContactCell)tableView.CellAt(indexPath);
+
+            if (RowSelections.Contains(indexPath))
+            {
+                var itemToRemove = RowSelections.FindIndex(r => r == indexPath);
+                RowSelections.RemoveAt(itemToRemove);
+
+                cell.deselectRow(indexPath);
+            }
+            else
+            {
+                RowSelections.Add(indexPath);
+                cell.updateCell(indexPath);
+
+            }
+
+
+
         }
 
-        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
-        {
-            var cell = tableView.DequeueReusableCell("SelectContactCell", indexPath) as SelectContactCell;
-            cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            cell.selectContact();
-        }
+        //public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
+        //{
+        //    SelectContactCell cell = (SelectContactCell)tableView.CellAt(indexPath);
+        //    cell.deselectRow(indexPath);
+
+        //}
     }
 }
 

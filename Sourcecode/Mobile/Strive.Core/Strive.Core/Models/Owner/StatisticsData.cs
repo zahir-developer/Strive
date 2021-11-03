@@ -7,7 +7,9 @@ namespace Strive.Core.Models.Owner
     {
         public int locationId { get; set; }
         public string fromDate { get; set; }
-        public string toDate { get; set; }      
+        public string toDate { get; set; }
+        public string CurrentDate { get; set; }
+
     }
 
     public class GetDashboardStatisticsForLocationId

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CoreFoundation;
 using CoreGraphics;
 using Foundation;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts.Contacts;
@@ -19,7 +20,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
         UILabel contactIntialLabel;
         UILabel contactNameLabel;
-        UIImageView selectionImageView;
+        UIButton selectionImageView;
         private char[] firstInitial;
         private char[] secondInitial;
 
@@ -56,9 +57,9 @@ namespace StriveEmployee.iOS.Views.Messenger
             contactNameLabel.TextColor = UIColor.Black;
             ContentView.Add(contactNameLabel);
 
-            selectionImageView = new UIImageView(CGRect.Empty);
+            selectionImageView = new UIButton(CGRect.Empty);
             selectionImageView.TranslatesAutoresizingMaskIntoConstraints = false;
-            selectionImageView.AddGestureRecognizer(new UITapGestureRecognizer(OnRemoveSelected));
+            selectionImageView.AddGestureRecognizer(new UITapGestureRecognizer());
             ContentView.Add(selectionImageView);
 
             contactIntialLabel.LeadingAnchor.ConstraintEqualTo(ContentView.LeadingAnchor, constant: 15).Active = true;
@@ -67,27 +68,32 @@ namespace StriveEmployee.iOS.Views.Messenger
             contactIntialLabel.HeightAnchor.ConstraintEqualTo(40).Active = true;
 
             contactNameLabel.LeadingAnchor.ConstraintEqualTo(contactIntialLabel.TrailingAnchor, constant: 20).Active = true;
-            contactNameLabel.TrailingAnchor.ConstraintEqualTo(selectionImageView.LeadingAnchor, constant: 15).Active = true;
-            contactNameLabel.WidthAnchor.ConstraintEqualTo(100).Active = true;
+            //contactNameLabel.TrailingAnchor.ConstraintEqualTo(selectionImageView.LeadingAnchor, constant: 15).Active = true;
+            contactNameLabel.WidthAnchor.ConstraintEqualTo(150).Active = true;
             contactNameLabel.CenterYAnchor.ConstraintEqualTo(ContentView.CenterYAnchor).Active = true;
 
-            //selectionImageView.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: -80).Active = true;
-            selectionImageView.LeadingAnchor.ConstraintEqualTo(contactNameLabel.TrailingAnchor, constant: 15).Active = true;
+            selectionImageView.TrailingAnchor.ConstraintEqualTo(ContentView.TrailingAnchor, constant: -15).Active = true;
+            //selectionImageView.LeadingAnchor.ConstraintEqualTo(contactNameLabel.TrailingAnchor, constant: 15).Active = true;
             selectionImageView.CenterYAnchor.ConstraintEqualTo(ContentView.CenterYAnchor).Active = true;
             selectionImageView.WidthAnchor.ConstraintEqualTo(25).Active = true;
             selectionImageView.HeightAnchor.ConstraintEqualTo(25).Active = true;
+            selectionImageView.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
+
+            //selectionImageView.Image = UIImage.FromBundle("select-Contact");
+            //selectionImageView.Layer.Opacity = 0;
+
         }
 
-        void OnRemoveSelected()
-        {
-            //TODO implement remove logic
-            if (Delegate is null) return;
+        //void OnRemoveSelected()
+        //{
+        //    //TODO implement remove logic
+        //    if (Delegate is null) return;
 
-            if (Delegate.TryGetTarget(out IGroupCellDelegate cellDelegate))
-            {
-                cellDelegate.RemoveParticipant(new { });
-            }
-        }
+        //    if (Delegate.TryGetTarget(out IGroupCellDelegate cellDelegate))
+        //    {
+        //        cellDelegate.RemoveParticipant(new { });
+        //    }
+        //}
 
         public void SetData(Employee employee)
         {
@@ -120,14 +126,15 @@ namespace StriveEmployee.iOS.Views.Messenger
             }
         }
 
-        public void selectContact()
+        public void updateCell(NSIndexPath indexPath)
         {
-            selectionImageView.Image = UIImage.FromBundle("select-Contact");
+            selectionImageView.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
         }
 
-        public void deselectContact()
+        public void deselectRow(NSIndexPath indexPath)
         {
-            selectionImageView.Image = UIImage.FromBundle("select-Contact");
+            selectionImageView.SetImage(UIImage.FromBundle("icon-unchecked-round"), UIControlState.Normal);
         }
+
     }
 }
