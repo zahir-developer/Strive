@@ -337,6 +337,7 @@
     <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1%403x %281%29.png" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Contents.json" />
     <ImageAsset Include="Resources\Assets.xcassets\icon-checked-round.imageset\Component 29 – 1 %281%29.png" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

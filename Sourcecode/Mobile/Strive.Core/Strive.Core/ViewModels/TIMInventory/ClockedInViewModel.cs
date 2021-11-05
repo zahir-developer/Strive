@@ -25,6 +25,7 @@ namespace Strive.Core.ViewModels.TIMInventory
         public string Role { get; set; }
         public string CurrentDate { get; set; }
         public string ClockInTime { get; set; }
+        public int Currentlogin;
 
 
         public string WelcomeTitle
@@ -58,6 +59,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                     {
                         SingleTimeClock.TimeClock = item;
                         EmployeeData.ClockInStatus = SingleTimeClock;
+                        Currentlogin = item.employeeId;
                     }
                 }                
             }            
@@ -75,11 +77,13 @@ namespace Strive.Core.ViewModels.TIMInventory
                     Role = EmployeeData.CurrentRole;
                     CurrentDate = DateUtils.GetTodayDateString();
                     ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInTime);
+                    
                 }
                 else if(EmployeeData.ClockInStatus.TimeClock.outTime == null)
                 {
                     var oldEmployeeDetail = EmployeeData.EmployeeDetails;
                     Name = oldEmployeeDetail.EmployeeLogin.Firstname + " " + oldEmployeeDetail.EmployeeLogin.LastName;
+                    //if(EmployeeData.ClockInStatus.TimeClock.roleName!=EmployeeData.EmployeeDetails.EmployeeRoles[0].RoleName)
                     Role = EmployeeData.ClockInStatus.TimeClock.roleName;
                     CurrentDate = DateUtils.GetTodayDateString();
                     ClockInTime = DateUtils.GetClockInTypeString(EmployeeData.ClockInTime);

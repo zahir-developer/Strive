@@ -53,6 +53,7 @@ namespace Strive.Core.Rest.Implementations
                         Console.WriteLine(request);
                         response = await httpClient.SendAsync(request).ConfigureAwait(true);
                         Console.WriteLine(response);
+                        //Console.WriteLine("TermsResponse:--"+Newtonsoft.Json.JsonConvert.SerializeObject(response));
                     }
                     catch (Exception ex)
                     {

@@ -12,6 +12,7 @@ namespace Strive.Core.ViewModels.Customer
     public class LoginViewModel : BaseViewModel
     {
         public bool first;
+
         
         public LoginViewModel()
         {
@@ -35,6 +36,7 @@ namespace Strive.Core.ViewModels.Customer
             {
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var loginResponse = await AdminService.CustomerLogin(new CustomerLoginRequest(loginEmailPhone, loginPassword));
+                
 
                 if(loginResponse != null)
                 {
@@ -44,10 +46,9 @@ namespace Strive.Core.ViewModels.Customer
                         CustomerInfo.ClientID = loginResponse.ClientDetails.ClientDetail.ClientId;
                         CustomerInfo.AuthID = loginResponse.ClientDetails.ClientDetail.AuthId;
                         if (!string.IsNullOrEmpty(loginResponse.Token))
-                        {                          
-                             await _navigationService.Navigate<DashboardViewModel>();
-                            //await _navigationService.Navigate<FirstTermsViewModel>();
-                            //await _navigationService.Navigate<DashboardViewModel>();
+                        {
+                            
+                            await _navigationService.Navigate<DashboardViewModel>();
                         }
                         else
                         {
@@ -63,9 +64,12 @@ namespace Strive.Core.ViewModels.Customer
                 {
                     _userDialog.Alert(Strings.UsernamePasswordIncorrect);
                 }
+                
+                
                 _userDialog.HideLoading();
             }            
         }
+        
         public bool validateCommand()
         {
             bool isValid ;
@@ -93,7 +97,7 @@ namespace Strive.Core.ViewModels.Customer
         {
             rememberMe = !rememberMe;
         }
-
+        
         #endregion Commands
 
 

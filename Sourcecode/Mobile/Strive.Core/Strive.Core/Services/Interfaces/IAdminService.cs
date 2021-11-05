@@ -118,6 +118,8 @@ namespace Strive.Core.Services.Interfaces
 
         Task<DownloadDocuments> DownloadDocuments(int documentID, string documentPassword);
 
+        Task<TermsDocument> TermsDocuments(int doctypeid, string doctype);
+
         Task<DeleteResponse> DeleteDocuments(int documentID);
 
         Task<CheckoutDetails> CheckOutVehicleDetails(GetAllEmployeeDetail_Request EmployeeID);

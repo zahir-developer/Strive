@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeView">
             <connections>
+                <outlet property="AgreeBtn" destination="cxN-ao-3F7" id="m7x-pP-0PD"/>
+                <outlet property="TermsDocuments" destination="TaN-Nk-aey" id="Fne-t9-m0c"/>
                 <outlet property="WashTimeWebView" destination="Qdo-rC-5md" id="name-outlet-Qdo-rC-5md"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
@@ -21,15 +24,58 @@
                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qdo-rC-5md">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </mapView>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cxN-ao-3F7">
+                    <rect key="frame" x="311" y="526" width="83" height="32"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal">
+                        <attributedString key="attributedTitle">
+                            <fragment content="Button">
+                                <attributes>
+                                    <font key="NSFont" metaFont="system" size="15"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                    <buttonConfiguration key="configuration" style="plain" title="Agree">
+                        <backgroundConfiguration key="background">
+                            <color key="backgroundColor" red="0.050653807820000001" green="0.81573516130000001" blue="0.76461380720000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </backgroundConfiguration>
+                        <fontDescription key="titleFontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                        <color key="baseForegroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="AgreeBtnclicked:" destination="-1" eventType="touchUpInside" id="kNj-Zc-uNb"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TaN-Nk-aey">
+                    <rect key="frame" x="20" y="93" width="374" height="414"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="414" id="3mk-Ea-niq"/>
+                        <constraint firstAttribute="width" constant="374" id="sDx-JM-N05"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="TaN-Nk-aey" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="4zk-YW-WXX"/>
+                <constraint firstAttribute="trailing" secondItem="TaN-Nk-aey" secondAttribute="trailing" constant="20" symbolic="YES" id="FP5-lh-t8X"/>
                 <constraint firstItem="Qdo-rC-5md" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="GQT-eU-IDt"/>
+                <constraint firstItem="TaN-Nk-aey" firstAttribute="top" secondItem="2" secondAttribute="top" constant="93" id="LWM-rf-m5d"/>
                 <constraint firstAttribute="bottom" secondItem="Qdo-rC-5md" secondAttribute="bottom" id="S1k-gR-179"/>
                 <constraint firstItem="Qdo-rC-5md" firstAttribute="top" secondItem="2" secondAttribute="top" id="ZyO-du-ksu"/>
+                <constraint firstItem="cxN-ao-3F7" firstAttribute="top" secondItem="TaN-Nk-aey" secondAttribute="bottom" constant="19" id="qtC-Qy-tw6"/>
                 <constraint firstAttribute="trailing" secondItem="Qdo-rC-5md" secondAttribute="trailing" id="vyM-Jv-W68"/>
             </constraints>
-            <point key="canvasLocation" x="25" y="52"/>
+            <point key="canvasLocation" x="24.637681159420293" y="51.5625"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiarySystemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

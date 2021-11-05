@@ -39,7 +39,7 @@ namespace Strive.Core.ViewModels.TIMInventory
                 {
                     locationId = EmployeeData.selectedLocationId,
                     employeeId = EmployeeData.EmployeeDetails.EmployeeLogin.EmployeeId,
-                    roleId = 0,
+                    roleId = EmployeeData.SelectedRoleId,
                     date = DateUtils.GetTodayDateString()
                 };
                 var status = await AdminService.GetClockInStatus(request);

@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using MvvmCross;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Resources;
 using Strive.Core.Services.Implementations;
 using Strive.Core.Services.Interfaces;
@@ -17,17 +18,24 @@ namespace Strive.Core.ViewModels.Customer
         public ICarwashLocationService carWashLocationService = Mvx.IoCProvider.Resolve<ICarwashLocationService>();
         public Locations Locations;
         public washLocations locationStatus;
-        
+        public TermsDocument document;
+
         public MapViewModel()
         {
 
         }
-        
+        public async Task<TermsDocument> Terms()
+        {
+            document = await AdminService.TermsDocuments(215, "TERMSANDCONDITION");
+            return document;
+            
+        }
         public async Task<Locations> GetAllLocationsCommand()
         {
             var washLocations = await carWashLocationService.GetAllCarWashLocations();
             
-            if(washLocations == null)
+
+            if (washLocations == null)
             {
                 Locations = new Locations();
                 

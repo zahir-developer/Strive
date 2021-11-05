@@ -14,10 +14,12 @@ using Strive.Core.Models.TimInventory;
 using CarWashLocation = Strive.Core.Models.Customer.Locations;
 using Foundation;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Documents;
 using System.Linq;
 using Xamarin.Essentials;
 using GoogleMaps.LocationServices;
 using System.Threading.Tasks;
+using PdfKit;
 
 namespace StriveCustomer.iOS.Views
 {
@@ -30,6 +32,11 @@ namespace StriveCustomer.iOS.Views
         public static washLocations washlocations;
         public List<Double> distanceList = new List<double>();
         Dictionary<int, double> dict = new Dictionary<int, double>();
+        NSString urlString;
+        
+
+
+
         public HomeView() : base("HomeView", null)
         {
         }
@@ -37,15 +44,16 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-           
+            SetTerm();
             InitialSetup();
             ScheduleSetMap();
-
+           
             CustomerInfo.setMapInfo();
             WashTimeWebView.MapType = MKMapType.Hybrid;
             WashTimeWebView.WeakDelegate = this;
             WashTimeWebView.ZoomEnabled = true;
             WashTimeWebView.ScrollEnabled = true;
+            
 
             locationManager.RequestWhenInUseAuthorization();            
 
@@ -61,6 +69,44 @@ namespace StriveCustomer.iOS.Views
             //locationManager.StartMonitoring(geofenceRegion);
             //locationManager.Delegate = new MyLocationDelegate(WashTimeWebView);
         }
+        async void SetTerm()
+        {
+            TermsDocument term =await  ViewModel.Terms();
+            var FilePath = term.Document.Document.FilePath;
+            //string PdfPath = "https://strivestorageaccount.blob.core.windows.net/strivedev" + FilePath ;
+            string PdfPath = "http://developer.apple.com/iphone/library/documentation/UIKit/Reference/UIWebView_Class/UIWebView_Class.pdf";
+            //var base64String = term.Document.Document.Base64;
+            //var data = new NSData(base64String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters);
+            //TermsDocuments.LoadData(data, mimeType: "application/pdf","", baseUrl: NSUrl.FromString("https://www.google.com"));
+
+            //NSUrl url = new NSUrl(new Uri(DefaultPath).AbsoluteUri);
+            //NSUrlRequest nSUrlRequest = new NSUrlRequest(url);
+            //TermsDocuments.LoadRequest(nSUrlRequest);
+            //WKWebView _wkWebView = new WKWebView(TermsDocuments.Frame, new WKWebViewConfiguration());
+
+            //_wkWebView.LoadFileUrl(url, url);
+            //_wkWebView.ContentMode = UIViewContentMode.ScaleToFill;
+            //_wkWebView.BackgroundColor = UIColor.Clear;
+            //_wkWebView.Opaque = false;
+            //_wkWebView.ScrollView.BackgroundColor = UIColor.Clear;
+
+            ////_wkWebView.DrawViewHierarchy(_wkWebView.Bounds, true);
+            //TermsDocuments.AddSubview(_wkWebView);
+            PdfView pdfView = new PdfView();
+            pdfView.TranslatesAutoresizingMaskIntoConstraints = false;
+            TermsDocuments.AddSubview(pdfView);
+            PdfDocument document;
+            using (urlString = new NSString(PdfPath))
+
+            using (var tempUrl = NSUrl.CreateFileUrl(new string[] { urlString}))
+            document = new PdfDocument(tempUrl);
+
+
+            //if var document = PdfDocument(url: path) {
+            pdfView.Document = document;
+
+        }
+       
         public async void ScheduleSetMap()
         {
             int seconds = 60000;
@@ -82,6 +128,7 @@ namespace StriveCustomer.iOS.Views
         }
         private void InitialSetup()
         {
+            
             var leftBtn = new UIButton(UIButtonType.Custom);
             leftBtn.SetTitle("Logout", UIControlState.Normal);
             leftBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);

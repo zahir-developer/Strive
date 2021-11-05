@@ -372,6 +372,14 @@ namespace Strive.Core.Services.Implementations
         {
             return await _restClient.MakeApiCall<DownloadDocuments>(ApiUtils.URL_EMPLOYEE_DOCUMENTS_DOWNLOAD+documentID+","+documentPassword, HttpMethod.Get);
         }
+        public async Task<TermsDocument> TermsDocuments(int doctypeid, string doctype)
+        {
+            var path = ApiUtils.URL_GET_TERMS_AND_CONDITIONS + doctypeid + "/" + doctype+ "?documentSubType=34551";
+            return await _restClient.MakeApiCall<TermsDocument>(path, HttpMethod.Get);
+            
+            
+        }
+
 
         public async Task<DeleteResponse> DeleteDocuments(int documentID)
         {
