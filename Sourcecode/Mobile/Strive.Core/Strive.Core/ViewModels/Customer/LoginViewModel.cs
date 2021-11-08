@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using MvvmCross;
 using Strive.Core.Models.Customer;
+using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.TimInventory;
 using Strive.Core.Resources;
 using Strive.Core.Utils;
@@ -12,8 +13,8 @@ namespace Strive.Core.ViewModels.Customer
     public class LoginViewModel : BaseViewModel
     {
         public bool first;
+        public TermsDocument document;
 
-        
         public LoginViewModel()
         {
         }
@@ -29,8 +30,15 @@ namespace Strive.Core.ViewModels.Customer
         {
             await _navigationService.Navigate<ForgotPasswordViewModel>();
         }
+        public async Task<TermsDocument> Terms()
+        {
+            _userDialog.ShowLoading();
+            document = await AdminService.TermsDocuments(215, "TERMSANDCONDITION");
+            _userDialog.HideLoading();
+            return document;
 
-        public async Task DoLoginCommand()
+        }
+        public async Task DoLogin()
         {
             if (validateCommand())
             {
@@ -38,7 +46,7 @@ namespace Strive.Core.ViewModels.Customer
                 var loginResponse = await AdminService.CustomerLogin(new CustomerLoginRequest(loginEmailPhone, loginPassword));
                 
 
-                if(loginResponse != null)
+                if (loginResponse != null)
                 {
                     ApiUtils.Token = loginResponse.Token;
                     if(loginResponse.ClientDetails != null)
@@ -48,28 +56,37 @@ namespace Strive.Core.ViewModels.Customer
                         if (!string.IsNullOrEmpty(loginResponse.Token))
                         {
                             
-                            await _navigationService.Navigate<DashboardViewModel>();
+                            //await _navigationService.Navigate<DashboardViewModel>();
                         }
                         else
                         {
+                            
                             _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                            
                         }
                     }
                     else
                     {
                         _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                        
                     }
                 }
                 else
                 {
                     _userDialog.Alert(Strings.UsernamePasswordIncorrect);
+                    
                 }
                 
-                
-                _userDialog.HideLoading();
-            }            
+            }
+            _userDialog.HideLoading();
+           
         }
-        
+        public async void navigatetodashboard()
+        {
+            await _navigationService.Navigate<DashboardViewModel>();
+        }
+       
+
         public bool validateCommand()
         {
             bool isValid ;

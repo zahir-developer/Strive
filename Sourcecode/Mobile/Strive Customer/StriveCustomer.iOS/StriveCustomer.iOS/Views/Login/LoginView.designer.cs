@@ -13,8 +13,14 @@ namespace StriveCustomer.iOS.Views.Login
 	partial class LoginView
 	{
 		[Outlet]
+		UIKit.UIButton AgreeBtn { get; set; }
+
+		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UIButton CheckBox { get; set; }
+
+		[Outlet]
+		UIKit.UIButton DisagreeBtn { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -35,11 +41,33 @@ namespace StriveCustomer.iOS.Views.Login
 		[Outlet]
 		UIKit.UILabel SignupLbl { get; set; }
 
+		[Outlet]
+		UIKit.UIWebView TermsDocuments { get; set; }
+
+		[Action ("AgreeBtnclicked:")]
+		partial void AgreeBtnclicked (UIKit.UIButton sender);
+
 		[Action ("CheckBoxClicked:")]
 		partial void CheckBoxClicked (UIKit.UIButton sender);
+
+		[Action ("DisagreeBtnclicked:")]
+		partial void DisagreeBtnclicked (UIKit.UIButton sender);
+
+		[Action ("LoginButtonClicked:")]
+		partial void LoginButtonClicked (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (AgreeBtn != null) {
+				AgreeBtn.Dispose ();
+				AgreeBtn = null;
+			}
+
+			if (DisagreeBtn != null) {
+				DisagreeBtn.Dispose ();
+				DisagreeBtn = null;
+			}
+
 			if (CheckBox != null) {
 				CheckBox.Dispose ();
 				CheckBox = null;
@@ -68,6 +96,11 @@ namespace StriveCustomer.iOS.Views.Login
 			if (SignupLbl != null) {
 				SignupLbl.Dispose ();
 				SignupLbl = null;
+			}
+
+			if (TermsDocuments != null) {
+				TermsDocuments.Dispose ();
+				TermsDocuments = null;
 			}
 		}
 	}

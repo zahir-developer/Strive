@@ -44,7 +44,7 @@ namespace StriveCustomer.iOS.Views
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            SetTerm();
+            //SetTerm();
             InitialSetup();
             ScheduleSetMap();
            
@@ -138,6 +138,9 @@ namespace StriveCustomer.iOS.Views
             leftBtn.TouchUpInside += (sender, e) =>
             {
                 ViewModel.LogoutCommand();
+                var plist = NSUserDefaults.StandardUserDefaults;
+                var First = plist.BoolForKey("first");
+                plist.SetBool(true, "first");
             };
         }
         private async void SetMaps()

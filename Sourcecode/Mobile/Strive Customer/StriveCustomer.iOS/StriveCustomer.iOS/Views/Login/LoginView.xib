@@ -17,12 +17,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginView">
             <connections>
+                <outlet property="AgreeBtn" destination="iPg-jr-3tj" id="G8l-xV-QGm"/>
                 <outlet property="CheckBox" destination="ujE-X9-LeZ" id="name-outlet-ujE-X9-LeZ"/>
+                <outlet property="DisagreeBtn" destination="3dL-AF-mTa" id="cOf-IU-uzk"/>
                 <outlet property="EmailTextfield" destination="mzp-bD-SUp" id="name-outlet-mzp-bD-SUp"/>
                 <outlet property="ForgotPasswordButton" destination="2E1-qZ-P25" id="name-outlet-2E1-qZ-P25"/>
                 <outlet property="LoginButton" destination="tfd-No-OYy" id="name-outlet-tfd-No-OYy"/>
                 <outlet property="PasswordTextfield" destination="kVA-Zu-eJ3" id="name-outlet-kVA-Zu-eJ3"/>
                 <outlet property="SignupLbl" destination="yp8-zX-hJ1" id="s93-gk-pi5"/>
+                <outlet property="TermsDocuments" destination="W2Z-pw-6mF" id="7rk-U6-hfB"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -70,6 +73,9 @@
                     <state key="normal" title="LOGIN">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="LoginButtonClicked:" destination="-1" eventType="touchUpInside" id="NBu-b0-6Fj"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yp8-zX-hJ1">
                     <rect key="frame" x="97" y="686" width="220.5" height="21.5"/>
@@ -133,11 +139,54 @@
                         <action selector="CheckBoxClicked:" destination="-1" eventType="touchUpInside" id="931"/>
                     </connections>
                 </button>
+                <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W2Z-pw-6mF">
+                    <rect key="frame" x="20" y="114" width="374" height="627"/>
+                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="374" id="2J8-du-33s"/>
+                        <constraint firstAttribute="height" constant="627" id="8Li-Qx-1bD"/>
+                    </constraints>
+                    <wkWebViewConfiguration key="configuration">
+                        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                        <wkPreferences key="preferences"/>
+                    </wkWebViewConfiguration>
+                </wkWebView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPg-jr-3tj">
+                    <rect key="frame" x="213" y="775" width="181" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="181" id="H5Y-uc-J71"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Agree">
+                        <backgroundConfiguration key="background">
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </backgroundConfiguration>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="AgreeBtnclicked:" destination="-1" eventType="touchUpInside" id="YM3-YN-vdE"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dL-AF-mTa">
+                    <rect key="frame" x="20" y="775" width="197" height="31"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Disagree">
+                        <backgroundConfiguration key="background">
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </backgroundConfiguration>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="DisagreeBtnclicked:" destination="-1" eventType="touchUpInside" id="kKh-u6-vOv"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="iPg-jr-3tj" firstAttribute="leading" secondItem="3dL-AF-mTa" secondAttribute="trailing" constant="-4" id="02F-f4-u6o"/>
                 <constraint firstItem="tfd-No-OYy" firstAttribute="centerX" secondItem="kVA-Zu-eJ3" secondAttribute="centerX" id="0KG-V6-wsH"/>
                 <constraint firstAttribute="trailing" secondItem="fwZ-gY-5Lc" secondAttribute="trailing" constant="-10" id="1cB-g7-XNL"/>
+                <constraint firstItem="3dL-AF-mTa" firstAttribute="baseline" secondItem="iPg-jr-3tj" secondAttribute="baseline" id="1ul-PN-wPZ"/>
+                <constraint firstItem="W2Z-pw-6mF" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="39u-bd-tGp"/>
+                <constraint firstAttribute="trailing" secondItem="W2Z-pw-6mF" secondAttribute="trailing" constant="20" symbolic="YES" id="3tw-p1-kfv"/>
                 <constraint firstItem="2E1-qZ-P25" firstAttribute="top" secondItem="tfd-No-OYy" secondAttribute="bottom" constant="15" id="40Q-Cb-TCh"/>
                 <constraint firstItem="fwZ-gY-5Lc" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="8XE-5e-BjA"/>
                 <constraint firstItem="2E1-qZ-P25" firstAttribute="leading" secondItem="kVA-Zu-eJ3" secondAttribute="leading" id="8mN-OO-dvT"/>
@@ -155,14 +204,19 @@
                 <constraint firstAttribute="trailing" secondItem="kVA-Zu-eJ3" secondAttribute="trailing" constant="20" id="TBx-iJ-7GV"/>
                 <constraint firstItem="tfd-No-OYy" firstAttribute="width" secondItem="kVA-Zu-eJ3" secondAttribute="width" id="UDg-YJ-WBV"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="top" secondItem="70J-84-Sja" secondAttribute="bottom" constant="20" id="XGJ-dk-O9a"/>
+                <constraint firstAttribute="bottom" secondItem="3dL-AF-mTa" secondAttribute="bottom" constant="90" id="XL4-ah-ChI"/>
                 <constraint firstItem="mBa-5n-Bdi" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="Z0u-Lf-7nF"/>
+                <constraint firstItem="W2Z-pw-6mF" firstAttribute="top" secondItem="2" secondAttribute="top" constant="114" id="bh4-cA-23Z"/>
                 <constraint firstItem="kVA-Zu-eJ3" firstAttribute="top" secondItem="mzp-bD-SUp" secondAttribute="bottom" constant="10" id="dGb-ux-FSz"/>
+                <constraint firstAttribute="bottom" secondItem="iPg-jr-3tj" secondAttribute="bottom" constant="90" id="ePx-pE-aJo"/>
                 <constraint firstItem="mBa-5n-Bdi" firstAttribute="width" secondItem="fwZ-gY-5Lc" secondAttribute="width" multiplier="0.3066" id="ela-kf-Eiu"/>
                 <constraint firstItem="yp8-zX-hJ1" firstAttribute="centerX" secondItem="kVA-Zu-eJ3" secondAttribute="centerX" id="evf-Xh-5g6"/>
                 <constraint firstItem="fwZ-gY-5Lc" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-10" id="jrs-Fk-5YF"/>
                 <constraint firstItem="mzp-bD-SUp" firstAttribute="height" secondItem="kVA-Zu-eJ3" secondAttribute="height" id="m0b-ys-e0Q"/>
+                <constraint firstItem="3dL-AF-mTa" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="pBK-Xs-V2e"/>
                 <constraint firstItem="ujE-X9-LeZ" firstAttribute="top" secondItem="kVA-Zu-eJ3" secondAttribute="bottom" constant="15" id="qqc-2U-N7t"/>
                 <constraint firstItem="vAd-DW-oHM" firstAttribute="leading" secondItem="ujE-X9-LeZ" secondAttribute="trailing" constant="10" id="uQx-MR-we1"/>
+                <constraint firstAttribute="trailing" secondItem="iPg-jr-3tj" secondAttribute="trailing" constant="20" symbolic="YES" id="uYR-pF-NdO"/>
                 <constraint firstAttribute="bottom" secondItem="fwZ-gY-5Lc" secondAttribute="bottom" constant="-10" id="xCp-gX-UKK"/>
                 <constraint firstItem="vAd-DW-oHM" firstAttribute="centerY" secondItem="ujE-X9-LeZ" secondAttribute="centerY" id="yPP-6t-XTu"/>
             </constraints>
