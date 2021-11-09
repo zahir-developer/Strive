@@ -258,7 +258,7 @@ namespace Greeter.Modules.Pay
             else
             {
                 body += "<br/ ><p>" + "Total Amount Due: " + "$" + checkout.Cost.ToString() + "</p>";
-                body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
+                body += "<br/ ><p>Note: Please disregard if you already paid.</p>";
             }
 
             Debug.WriteLine("Email Body :" + body);

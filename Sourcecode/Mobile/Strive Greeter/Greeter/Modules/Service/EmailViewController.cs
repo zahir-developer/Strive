@@ -120,33 +120,43 @@ namespace Greeter.Storyboards
             return true;
         }
 
-        async Task ShowLoader()
-        {
-            ShowActivityIndicator();
-            await Task.Delay(3000);
-            HideActivityIndicator();
-        }
+        //async Task ShowLoader()
+        //{
+        //    ShowActivityIndicator();
+        //    await Task.Delay(3000);
+        //    HideActivityIndicator();
+        //}
 
         async Task GetData()
         {
-            ShowActivityIndicator();
-            var apiService = new WashApiService();
-            var req = new GetDetailEmployeeReq
+            try
             {
-                LocationID = AppSettings.LocationID
-            };
+                ShowActivityIndicator();
+                var apiService = new WashApiService();
+                var req = new GetDetailEmployeeReq
+                {
+                    LocationID = AppSettings.LocationID
+                };
 
-            var employeesResponse = await apiService.GetDetailEmployees(req);
-            Employees = employeesResponse?.EmployeeList;
-            employeeNames = Employees?.Select(x => x.FirstName + " " + x.LastName).ToArray();
+                var employeesResponse = await apiService.GetDetailEmployees(req);
+                Employees = employeesResponse?.EmployeeList;
+                employeeNames = Employees?.Select(x => x.FirstName + " " + x.LastName).ToArray();
 
-            if (employeeNames.Length > 0)
-            {
-                AddPickerToolbar(tfEmp, tfEmp.Placeholder, PickerDone);
-                tfEmp.InputView = pv;
+                if (employeeNames.Length > 0)
+                {
+                    AddPickerToolbar(tfEmp, tfEmp.Placeholder, PickerDone);
+                    tfEmp.InputView = pv;
+                }
+
             }
+            catch (Exception ex)
+            {
 
-            HideActivityIndicator();
+            }
+            finally
+            {
+                HideActivityIndicator();
+            }
         }
 
         async Task GetDetailService(long jobId)
@@ -176,7 +186,7 @@ namespace Greeter.Storyboards
         {
             try
             {
-                ShowActivityIndicator();
+                //ShowActivityIndicator();
                 var req = new AssignEmployeeToServiceReq();
                 req.JobID = Service.Job.JobID;
                 req.JobServiceEmployees = new();
@@ -221,7 +231,7 @@ namespace Greeter.Storyboards
             }
             finally
             {
-                HideActivityIndicator();
+                //HideActivityIndicator();
             }
         }
 
@@ -237,46 +247,46 @@ namespace Greeter.Storyboards
 
                 ShowActivityIndicator();
 
-                var body = "<p>Ticket Number : </p>" + Service.Job.JobID + "<br /><br />";
+                //var body = "<p>Ticket Number : </p>" + Service.Job.JobID + "<br /><br />";
 
-                if (Service.Job.ClientID != 0 && Service.Job.ClientID is not null)
-                {
-                    body += "<p>Customer Details : </p>" + ""
-                        + "<p>Customer Name - " + CustName + "</p><br />";
-                }
+                //if (Service.Job.ClientID != 0 && Service.Job.ClientID is not null)
+                //{
+                //    body += "<p>Customer Details : </p>" + ""
+                //        + "<p>Customer Name - " + CustName + "</p><br />";
+                //}
 
-                body += "<p>Vehicle Details : </p>" +
-                     "<p>Make - " + Make + "</p>" +
-                    "<p>Model - " + Model + "</p>" +
-                     "<p>Color - " + Color + "</p><br />" +
-                     "<p>Services : " + "</p>";
+                //body += "<p>Vehicle Details : </p>" +
+                //     "<p>Make - " + Make + "</p>" +
+                //    "<p>Model - " + Model + "</p>" +
+                //     "<p>Color - " + Color + "</p><br />" +
+                //     "<p>Services : " + "</p>";
 
-                var totalAmt = 0f;
-                for (int i = 0; i < Service.JobItems.Count; i++)
-                {
-                    var job = Service.JobItems[i];
-                    var price = job.Price.ToString();
-                    if ((job.Price % 1) == 0)
-                    {
-                        price += ":00";
-                    }
-                    else
-                    {
-                        var values = price.Split(".");
-                        price = (int)job.Price + ":" + values[1];
-                    }
+                //var totalAmt = 0f;
+                //for (int i = 0; i < Service.JobItems.Count; i++)
+                //{
+                //    var job = Service.JobItems[i];
+                //    var price = job.Price.ToString();
+                //    if ((job.Price % 1) == 0)
+                //    {
+                //        price += ":00";
+                //    }
+                //    else
+                //    {
+                //        var values = price.Split(".");
+                //        price = (int)job.Price + ":" + values[1];
+                //    }
 
-                    body += "<p>" + job.SeriveName + " - " + "$" + price + "</p>";
-                    totalAmt += job.Price;
-                }
+                //    body += "<p>" + job.SeriveName + " - " + "$" + price + "</p>";
+                //    totalAmt += job.Price;
+                //}
 
-                body += "<br/ ><p>" + "Total Amount Due: " + "$" + totalAmt.ToString() + "</p>";
+                //body += "<br/ ><p>" + "Total Amount Due: " + "$" + totalAmt.ToString() + "</p>";
 
-                body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
+                //body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
 
-                //body = "<div>Something</div>";
+                string bodyHtml = MakeServiceReceipt();
 
-                Debug.WriteLine("Email Body :" + body);
+                Debug.WriteLine("Email Body :" + bodyHtml);
 
                 string subject = null;
                 if (ServiceType == ServiceType.Wash)
@@ -284,7 +294,7 @@ namespace Greeter.Storyboards
                 else // DETAIL
                     subject = Common.Messages.DETAIL_RECEIPT_SUBJECT;
 
-                var response = await new WashApiService().SendEmail(email, subject, body);
+                var response = await new WashApiService().SendEmail(email, subject, bodyHtml);
 
                 HandleResponse(response);
 
@@ -360,7 +370,7 @@ namespace Greeter.Storyboards
 
             body += "<br/ ><p>" + "Total Amount Due: " + "$" + totalAmt.ToString() + "</p>";
 
-            body += "<br/ ><p>Note: Please avoid if you already paid.</p>";
+            body += "<br/ ><p>Note: Please disregard if you already paid.</p>";
 
             Debug.WriteLine("Email Body :" + body);
 

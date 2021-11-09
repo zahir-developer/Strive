@@ -97,6 +97,7 @@ namespace Greeter.Modules.Home
         public MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
         {
             var annotationView = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as WashStationAnnotationView;
+            annotationView.CenterOffset = CGPoint.Empty;
             var location = locations.First(location => location.Latitude == annotation.Coordinate.Latitude && location.Longitude == annotation.Coordinate.Longitude);
             annotationView.SetupData(location);
             return annotationView;

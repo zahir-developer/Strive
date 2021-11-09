@@ -1489,6 +1489,12 @@ namespace Greeter.DTOs
 
         [JsonProperty("createdDate")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        [JsonProperty("isActive")]
+        public bool IsActive { get; set; } = true;
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; } = false;
     }
 
     //public class LocWahTime

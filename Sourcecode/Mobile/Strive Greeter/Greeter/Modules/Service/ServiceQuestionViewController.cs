@@ -296,7 +296,7 @@ namespace Greeter.Storyboards
                 jobTypeId = jobTypeResponse?.Codes.Where(x => x.Name.Equals(ServiceType.Detail.ToString())).FirstOrDefault().ID ?? -1;
             }
 
-            var upchargesList = Upcharges.Select(x => x.Name + " - " + x.Upcharges).ToList();
+            var upchargesList = Upcharges.Select(x => x.Name + " - $" + x.Price).ToList();
             upchargesList.Insert(0, "None");
             upcharges = upchargesList.ToArray();
 
@@ -339,13 +339,12 @@ namespace Greeter.Storyboards
 
                 UpdateBarcodeData(Barcode);
 
-                //var response = await GetVehicleMembershipDetails(VehicleID);
+                var response = await GetVehicleMembershipDetails(VehicleID);
 
                 //TODO : Check membership available or not and update details
                 //if (response != null)
                 //{
-                //    HideActivityIndicator();
-                //    return;
+                    
                 //}
 
                 //var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
@@ -442,7 +441,7 @@ namespace Greeter.Storyboards
                     var selectedUpcharge = upchargeResponse.Upcharges[0];
                     upcharge = upcharge ?? new JobItem();
                     upcharge.ServiceId = selectedUpcharge.ServiceID;
-                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - " + selectedUpcharge.Upcharges;
+                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - $" + selectedUpcharge.Price;
                     upcharge.Price = selectedUpcharge.Price;
                     //upcharge.Time = upchargeResponse.Upcharge.;
                     tfUpcharge.Text = upcharge?.SeriveName;
@@ -482,7 +481,7 @@ namespace Greeter.Storyboards
                     var selectedUpcharge = upchargeResponse.Upcharges[0];
                     upcharge = upcharge ?? new JobItem();
                     upcharge.ServiceId = selectedUpcharge.ServiceID;
-                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - " + selectedUpcharge.Upcharges;
+                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - $" + selectedUpcharge.Price;
                     upcharge.Price = selectedUpcharge.Price;
                     //upcharge.Time = upchargeResponse.Upcharge.;
                     tfUpcharge.Text = upcharge?.SeriveName;

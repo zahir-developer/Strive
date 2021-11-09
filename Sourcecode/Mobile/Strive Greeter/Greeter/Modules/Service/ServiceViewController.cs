@@ -152,6 +152,7 @@ namespace Greeter
                 //txtFieldBarcode.Text = "ZNL9678";
                 //txtFieldBarcode.Text = "61012381";
                 txtFieldBarcode.Text = "63010412";
+                //txtFieldBarcode.Text = "73077401";
 #endif
         }
 
