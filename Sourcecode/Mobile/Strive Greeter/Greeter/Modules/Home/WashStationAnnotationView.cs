@@ -164,11 +164,11 @@ namespace Greeter.Modules.Home
             stationNameLabel.Text = location.Name;
             timeLabel.Text = $"{location.WashTimeMinutes}Mins";
 
-            if (string.IsNullOrEmpty(location.StoreStatus))
-            {
-                statusLabel.Text = "Closed";
-            }
-            else
+            //if (string.IsNullOrEmpty(location.StoreStatus))
+            //{
+            //    statusLabel.Text = "Closed";
+            //}
+            //else
                 statusLabel.Text = location.StoreStatus;
         }
     }

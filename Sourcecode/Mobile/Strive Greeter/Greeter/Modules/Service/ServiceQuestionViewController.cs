@@ -339,7 +339,7 @@ namespace Greeter.Storyboards
 
                 UpdateBarcodeData(Barcode);
 
-                var response = await GetVehicleMembershipDetails(VehicleID);
+                //var response = await GetVehicleMembershipDetails(VehicleID);
 
                 //TODO : Check membership available or not and update details
                 //if (response != null)
@@ -441,7 +441,7 @@ namespace Greeter.Storyboards
                     var selectedUpcharge = upchargeResponse.Upcharges[0];
                     upcharge = upcharge ?? new JobItem();
                     upcharge.ServiceId = selectedUpcharge.ServiceID;
-                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - $" + selectedUpcharge.Price;
+                    upcharge.SeriveName = selectedUpcharge.ServiceName;
                     upcharge.Price = selectedUpcharge.Price;
                     //upcharge.Time = upchargeResponse.Upcharge.;
                     tfUpcharge.Text = upcharge?.SeriveName;
@@ -481,10 +481,10 @@ namespace Greeter.Storyboards
                     var selectedUpcharge = upchargeResponse.Upcharges[0];
                     upcharge = upcharge ?? new JobItem();
                     upcharge.ServiceId = selectedUpcharge.ServiceID;
-                    upcharge.SeriveName = selectedUpcharge.ServiceName + " - $" + selectedUpcharge.Price;
+                    upcharge.SeriveName = selectedUpcharge.ServiceName;
                     upcharge.Price = selectedUpcharge.Price;
                     //upcharge.Time = upchargeResponse.Upcharge.;
-                    tfUpcharge.Text = upcharge?.SeriveName;
+                    tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
                 }
             }
             else
