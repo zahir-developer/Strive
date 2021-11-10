@@ -337,7 +337,6 @@ namespace Strive.BusinessLogic.Details
                     services += "<td>" + item.EmployeeName + "</td>";
                     services += "<td>" + item.CommissionAmount + "</td>";
                     services += "<td>" + item.ServiceName + "</td>";
-                    services += "<td>" + item.Cost + "</td>";
                     services += "</tr>";
                 }
 

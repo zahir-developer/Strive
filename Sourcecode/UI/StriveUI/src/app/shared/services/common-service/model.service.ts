@@ -14,6 +14,6 @@ export class ModelService {
   }  
 
   getModelByMakeId(Id) {
-    return this.http.get(`${UrlConfig.common.ModelByMakeId}`+  Id ,  { params: { makeId: Id } });
+    return this.http.get(`${UrlConfig.Auth.ModelByMakeId}`+  Id ,  { params: { makeId: Id } });
   }  
 }
