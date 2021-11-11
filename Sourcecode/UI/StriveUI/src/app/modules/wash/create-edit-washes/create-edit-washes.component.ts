@@ -190,7 +190,6 @@ export class CreateEditWashesComponent implements OnInit {
     this.getVehicleList(this.selectedData?.Washes[0]?.ClientId);
     this.getClientPastNotes(this.selectedData?.Washes[0]?.ClientId);
 
-
     this.washForm.patchValue({
       barcode: this.selectedData?.Washes[0]?.Barcode,
       client: { id: this.selectedData?.Washes[0]?.ClientId, name: this.selectedData?.Washes[0]?.ClientName },
@@ -262,12 +261,29 @@ export class CreateEditWashesComponent implements OnInit {
   }
 
   getMembership(id) {
+    var loggedLocId = +localStorage.getItem('empLocationId');
     this.wash.getMembership(+id).subscribe(data => {
       if (data.status === 'Success') {
         const vehicle = JSON.parse(data.resultData);
         this.membership = vehicle.VehicleMembershipDetails.ClientVehicleMembershipService;
         if (this.membership !== null) {
-          this.membershipChange(+vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId);
+
+          var mlocationId = vehicle.VehicleMembershipDetails?.ClientVehicleMembership?.LocationId;
+          var membershipId = +vehicle.VehicleMembershipDetails.ClientVehicleMembership.MembershipId;
+          if(mlocationId !== undefined)
+          {
+            if(mlocationId !== loggedLocId)
+            {
+              this.getAllServices(mlocationId, membershipId);
+
+            }
+            else
+            {
+              this.getAllServices(loggedLocId, membershipId);
+            }
+          }
+          this.toastr.warning(MessageConfig.Wash.DifferentLocationServiceLoadded, 'Different Location Services Loadded!');
+          this.membershipChange(membershipId);
           this.membership.forEach(element => {
             const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
             if (additionalService !== undefined && additionalService.length !== 0) {
@@ -279,6 +295,7 @@ export class CreateEditWashesComponent implements OnInit {
           console.log(this.additional);
         } else {
           this.washForm.get('washes').reset();
+          this.getAllServices(loggedLocId);
         }
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
@@ -384,9 +401,10 @@ export class CreateEditWashesComponent implements OnInit {
     });
   }
 
-  getAllServices() {
+  getAllServices( locationId = 0, membershipId = 0) {
+    var locId = locationId == 0 ? +localStorage.getItem('empLocationId'): locationId;
     const serviceObj = {
-      locationId: +localStorage.getItem('empLocationId'),
+      locationId: locId,
       pageNo: null,
       pageSize: null,
       query: null,
@@ -394,7 +412,7 @@ export class CreateEditWashesComponent implements OnInit {
       sortBy: null,
       status: true
     };
-    this.serviceSetupService.getAllServiceDetail(+localStorage.getItem('empLocationId')).subscribe(res => {
+    this.serviceSetupService.getAllServiceDetail(locId).subscribe(res => {
       if (res.status === 'Success') {
         const serviceDetails = JSON.parse(res.resultData);
         if (serviceDetails.AllServiceDetail !== null) {
@@ -410,6 +428,19 @@ export class CreateEditWashesComponent implements OnInit {
           this.additional.forEach(element => {
             element.IsChecked = false;
           });
+
+          if(membershipId !== 0)
+          {
+            this.membershipChange(membershipId);
+            this.membership.forEach(element => {
+              const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
+              if (additionalService !== undefined && additionalService.length !== 0) {
+                additionalService.forEach(item => {
+                  item.IsChecked = true;
+                });
+              }
+            });
+          }
           if (this.isEdit === true) {
             this.washForm.reset();
             this.getWashById();

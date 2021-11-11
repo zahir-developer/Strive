@@ -284,7 +284,7 @@ export class TimeClockWeekComponent implements OnInit {
         const clockItem = clockItems[0];
         var push = true;
         if (clockItem !== null && clockItem !== undefined) {
-          if (this.datePipe.transform(clockItem.InTime, 'HH:mm') !== time.InTime || this.datePipe.transform(clockItem.OutTime, 'HH:mm') !== time.OutTime || clockItem.RoleId !== time.RoleId)
+          if (time.isDeleted == true || this.datePipe.transform(clockItem.InTime, 'HH:mm') !== time.InTime || this.datePipe.transform(clockItem.OutTime, 'HH:mm') !== time.OutTime || clockItem.RoleId !== time.RoleId)
             push = true;
           else
             push = false;

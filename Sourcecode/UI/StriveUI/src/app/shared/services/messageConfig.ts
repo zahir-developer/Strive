@@ -53,7 +53,9 @@ export const MessageConfig = {
       type: 'Please select a valid type',
       model: 'Please select a valid model',
       color: 'Please select a valid color',
-      SelectWash: 'Select wash package to get Upcharge'
+      SelectWash: 'Select wash package to get Upcharge',
+      DifferentLocationServiceLoadded: 'Vehicle have membership with different location. Same Location services loaded.'
+
    },
    Detail:
    {

@@ -15,6 +15,7 @@ import { DashboardStaticsComponent } from 'src/app/shared/components/dashboard-s
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { DashboardService } from 'src/app/shared/services/data-service/dashboard.service';
+import { DatePipe } from '@angular/common';
 
 declare var $: any;
 @Component({
@@ -71,6 +72,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
 
   constructor(
     private empService: EmployeeService,
+    private datePipe: DatePipe, 
     private locationService: LocationService,
     private messageService: MessageServiceToastr,
     private scheduleService: ScheduleService,
@@ -276,7 +278,7 @@ export class SchedulingComponent implements OnInit, AfterViewInit {
   // Get All Location
   getLocationList() {
     const locID = 0;
-    this.dashboardService.getAllLocationWashTime(locID,null).subscribe(res => {
+    this.dashboardService.getAllLocationWashTime(locID,this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')).subscribe(res => {
       if (res.status === 'Success') {
         const location = JSON.parse(res.resultData);
         this.location = location.Washes;

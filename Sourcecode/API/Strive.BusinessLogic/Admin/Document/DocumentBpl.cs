@@ -394,9 +394,9 @@ namespace Strive.BusinessLogic.Document
         }
 
 
-        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType)
+        public Result GetDocument(int documentTypeId, GlobalUpload.DocumentType documentType, int? documentSubType)
         {
-            var document = new DocumentRal(_tenant).GetDocument(documentTypeId);
+            var document = new DocumentRal(_tenant).GetDocument(documentTypeId, documentSubType);
 
             if (document.Document != null)
             {
