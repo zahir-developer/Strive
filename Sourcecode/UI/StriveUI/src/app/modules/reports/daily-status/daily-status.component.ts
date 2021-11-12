@@ -148,7 +148,7 @@ export class DailyStatusComponent implements OnInit, AfterViewInit {
         n.setSeconds(+hrs[1] * 60 );
         }*/
       
-      tableBody += (item?.WashHours + item?.DetailHours).toFixed(2)
+      tableBody += item?.TotalHours.toFixed(2)
       // (n.toTimeString().slice(0, 5)).toString().replace(".",":")
         + `</td>`;
 

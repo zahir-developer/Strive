@@ -249,7 +249,7 @@ export class UserSignupComponent implements OnInit {
 
 
   getVehicleMakeList() {
-    this.makeService.getMake().subscribe(data => {
+    this.makeService.getAuthMake().subscribe(data => {
       if (data.status === 'Success') {
         this.vehicleMakeTotalList = JSON.parse(data.resultData);
         const makeList = this.vehicleMakeTotalList.Make;

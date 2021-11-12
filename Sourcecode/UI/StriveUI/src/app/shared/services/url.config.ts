@@ -12,7 +12,8 @@ export const UrlConfig = {
     allmake: `Auth/GetAllMake`,
     model:`Auth/GetModelById/`,
     emailIdExists: `Auth/EmailIdExists/`,
-    color: `Auth/GetAllColor`
+    color: `Auth/GetAllColor`,
+    ModelByMakeId: `Auth/GetModelById/`
   },
   AdSetup: {
     getadSetup: `Admin/AdSetup/GetAll`,
