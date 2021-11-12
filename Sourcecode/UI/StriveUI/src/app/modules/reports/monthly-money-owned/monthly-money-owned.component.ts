@@ -217,7 +217,25 @@ export class MonthlyMoneyOwnedComponent implements OnInit {
         }
 
         const locationShortName = _.pluck(this.moneyOwnedReport?.Location, 'shortName');
-        this.headerLocationShort = [...new Set(locationShortName)]
+        //this.headerLocationShort = [...new Set(locationShortName)]
+        this.headerLocationShort = [];
+        this.moneyOwnedReport?.Location.forEach(s =>
+          {
+            
+            const spaceAvoid = s.LocationName.replace('  ', ' ');
+                const charSplit = spaceAvoid.split(' ');
+                var locShortName = "";
+                if (charSplit.length > 1) {
+                  locShortName = charSplit[0].charAt(0).toUpperCase() + charSplit[1].charAt(0).toUpperCase();
+                } else {
+                  locShortName = charSplit[0].charAt(0).toUpperCase();
+                }
+
+                if(locShortName !== "")
+                {
+                  this.headerLocationShort.push(locShortName);
+                }
+          });
 
         if (this.moneyOwnedReport.MoneyOwedReport !== null && this.moneyOwnedReport.MoneyOwedReport.length !== 0) {
 
