@@ -66,10 +66,10 @@ namespace StriveCustomer.iOS.Views.Login
             if (First == true)
             {
                 SetTerm();
-                TermsDocuments.Hidden = false;
-                AgreeBtn.Hidden = false;
-                DisagreeBtn.Hidden = false;
-
+                TermsDocuments.Hidden = true;
+                AgreeBtn.Hidden = true;
+                DisagreeBtn.Hidden = true;
+                ViewModel.navigatetodashboard();
             }
             else
             {
