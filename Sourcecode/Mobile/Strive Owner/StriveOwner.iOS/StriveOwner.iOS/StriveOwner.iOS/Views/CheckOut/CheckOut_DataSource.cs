@@ -70,7 +70,14 @@ namespace StriveOwner.iOS.Views.CheckOut
             action3.Image = UIImage.FromBundle("select-Contact");
             //action3.BackgroundColor = colo(29, 201, 183);
 
-            return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
+            if (checkoutDetails.GetCheckedInVehicleDetails.checkOutViewModel[indexPath.Row].valuedesc != "Completed")
+            {
+                return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action2, action3 });
+            }
+            else
+            {
+                return UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { action1, action3 });
+            }
         }
 
         public void HoldBtnClicked(checkOutViewModel checkout)

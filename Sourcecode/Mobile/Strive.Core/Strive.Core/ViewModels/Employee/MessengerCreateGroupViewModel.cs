@@ -71,8 +71,29 @@ namespace Strive.Core.ViewModels.Employee
             chatGroupforCreation.chatGroupId = 0;
             chatGroupforCreation.comments = "";
             chatGroupforCreation.groupId = "";
+            chatGroupforCreation.createdBy = EmployeeTempData.EmployeeID;
 
+            chatGroupforCreation.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
+            chatGroupforCreation.isActive = true;
+            chatGroupforCreation.isDeleted = false;
+            chatGroupforCreation.updatedBy = EmployeeTempData.EmployeeID;
+            chatGroupforCreation.updatedDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
 
+            //foreach(chatUserGroup chatUserGroupItem in chatUserGroups)
+            //{
+
+            //}
+            CreateGroupChat createGroupChat = new CreateGroupChat();
+
+            createGroupChat.chatGroup = chatGroupforCreation;
+            createGroupChat.chatUserGroup = chatUserGroups;
+            //     public string comments { get; set; }
+            //public bool isActive { get; set; }
+            //public bool isDeleted { get; set; }
+            //public int createdBy { get; set; }
+            //public string createdDate { get; set; }
+            //public int updatedBy { get; set; }
+            //public string updatedDate { get; set; }
         }
         public void NotEnough()
         {

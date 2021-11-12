@@ -137,7 +137,7 @@ namespace StriveEmployee.iOS.Views
             paidStatusLabel.TrailingAnchor.ConstraintEqualTo(paidStatusContainer.TrailingAnchor, constant: -20).Active = true;
             paidStatusLabel.CenterYAnchor.ConstraintEqualTo(paidStatusContainer.CenterYAnchor).Active = true;
 
-            amountLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -80).Active = true;
+            amountLabel.TrailingAnchor.ConstraintEqualTo(containerView.TrailingAnchor, constant: -10).Active = true;
             amountLabel.TopAnchor.ConstraintEqualTo(customerNameLabel.BottomAnchor, constant: 5).Active = true;           
         }
 

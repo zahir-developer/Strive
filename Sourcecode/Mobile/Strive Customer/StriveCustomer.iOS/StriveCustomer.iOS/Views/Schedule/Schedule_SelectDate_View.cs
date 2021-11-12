@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Acr.UserDialogs;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
@@ -14,7 +15,9 @@ namespace StriveCustomer.iOS.Views.Schedule
     public partial class Schedule_SelectDate_View : MvxViewController<ScheduleAppointmentDateViewModel>
     {
         NSDate date = NSDate.Now;
-        //DateTime date = DateTime.Now;
+        public AvailableScheduleSlots updatedScheduleSlotInfo { get; set; }
+
+
         public Schedule_SelectDate_View() : base("Schedule_SelectDate_View", null)
         {
         }
@@ -37,8 +40,8 @@ namespace StriveCustomer.iOS.Views.Schedule
 
         partial void dateChange(UIDatePicker sender)
         {            
+            //date = Schedule_datePicker.Date;
             date = Schedule_datePicker.Date;
-            //date = Schedule_datePicker.Date.ToDateTime();
             getTimeSlots();
         }
 
@@ -80,6 +83,8 @@ namespace StriveCustomer.iOS.Views.Schedule
             var dates = date.ToString();
             var FullSplitDates = dates.Split(" ");
             var fullDateInfo = FullSplitDates[0].Split("-");
+            updatedScheduleSlotInfo = new AvailableScheduleSlots();
+            updatedScheduleSlotInfo.GetTimeInDetails = new List<GetTimeInDetails>();
 
             switch (fullDateInfo[1])
             {
@@ -148,13 +153,45 @@ namespace StriveCustomer.iOS.Views.Schedule
                 + CustomerScheduleInformation.ScheduleYear;
             CustomerScheduleInformation.ScheduleFullDate = (date.ToString()).Substring(0,10);
             //CustomerScheduleInformation.ScheduleFullDate = date.Year + "-" + date.Month + "-" + date.Day;
-            await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, date.ToString());           
+            DateTime local = date.ToDateTime();
+
+            await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, local.ToString());
+            var datenow = DateTime.Now.TimeOfDay;
+            if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
+            {
+                foreach (var item in this.ViewModel.ScheduleSlotInfo.GetTimeInDetails)
+                {
+                    DateTime availabletime = DateTime.Parse(item.TimeIn, System.Globalization.CultureInfo.CurrentCulture);
+                    if (local.Date == DateTime.Now.Date)
+                    {
+                        if (availabletime.TimeOfDay > datenow)
+                        {
+                            updatedScheduleSlotInfo.GetTimeInDetails.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        updatedScheduleSlotInfo.GetTimeInDetails.Add(item);
+                    }
+                }
+                if (updatedScheduleSlotInfo.GetTimeInDetails.Count > 0)
+                {
+                    ViewModel.LblString = "Available Times Slots";
+                }
+                else
+                {
+                    ViewModel.LblString = "No Available Time Slots";
+                }
+                Date_CollectionView.Hidden = false; Date_CollectionView.DataSource = new ScheduleDate_CollectionSource(updatedScheduleSlotInfo);
+                Date_CollectionView.Delegate = new timeSlotSourceDelegate(Date_CollectionView, updatedScheduleSlotInfo);
+            }
+
 
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {
                 Date_CollectionView.Hidden = false;
-                Date_CollectionView.DataSource = new ScheduleDate_CollectionSource(this.ViewModel.ScheduleSlotInfo);
-                Date_CollectionView.Delegate = new timeSlotSourceDelegate(Date_CollectionView, this.ViewModel.ScheduleSlotInfo);
+                Date_CollectionView.DataSource = new ScheduleDate_CollectionSource(updatedScheduleSlotInfo);
+                Date_CollectionView.Delegate = new timeSlotSourceDelegate(Date_CollectionView, updatedScheduleSlotInfo);
             }
             else
             {

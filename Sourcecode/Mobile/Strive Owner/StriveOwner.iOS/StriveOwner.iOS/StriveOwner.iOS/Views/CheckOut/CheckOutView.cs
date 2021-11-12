@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoreGraphics;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.CheckOut;
@@ -10,22 +11,63 @@ namespace StriveOwner.iOS.Views.CheckOut
 {
     public partial class CheckOutView : MvxViewController<CheckOutViewModel>
     {
+        bool useRefreshControl = false;
+        UIRefreshControl RefreshControl;
+
         public CheckOutView() : base("CheckOutView", null)
         {
         }
 
-        public override void ViewDidLoad()
+        public override async void ViewDidLoad()
         {
             base.ViewDidLoad();
-            InitialSetup();
+            
+            await RefreshAsync();
+
+            AddRefreshControl();
+            CheckOut_TableView.Add(RefreshControl);
+
+
             // Perform any additional setup after loading the view, typically from a nib.
         }
-
+        public override void ViewDidAppear(bool animated)
+        {
+            InitialSetup();
+        }
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
+        async Task RefreshAsync()
+        {
+            // only activate the refresh control if the feature is available
+            if (useRefreshControl)
+                RefreshControl.BeginRefreshing();
+
+            if (useRefreshControl)
+                RefreshControl.EndRefreshing();
+            CheckOut_TableView.ReloadData();
+
+        }
+        void AddRefreshControl()
+        {
+            if (UIDevice.CurrentDevice.CheckSystemVersion(6, 0))
+            {
+
+                // the refresh control is available, let's add it
+                RefreshControl = new UIRefreshControl();
+                RefreshControl.ValueChanged += async (sender, e) =>
+                {
+                    InitialSetup();
+                    await RefreshAsync();
+                };
+                useRefreshControl = true;
+
+            }
+        }
+
+
 
         private void InitialSetup()
         {
@@ -60,6 +102,13 @@ namespace StriveOwner.iOS.Views.CheckOut
                     CheckOut_TableView.DelaysContentTouches = false;
                     CheckOut_TableView.ReloadData();
                 }
+            }
+            else
+            {
+                CheckOut_TableView.Source = null;
+                CheckOut_TableView.TableFooterView = new UIView(CGRect.Empty);
+                CheckOut_TableView.DelaysContentTouches = false;
+                CheckOut_TableView.ReloadData();
             }
         }
 

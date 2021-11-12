@@ -89,6 +89,7 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public async Task LoginCommand()
         {
+            EmployeeData.ClockInStatus = null;
             if (await ValidateCredentialsAsync())
             {
                 _userDialog.ShowLoading(Strings.LoggingIn, Acr.UserDialogs.MaskType.Gradient);

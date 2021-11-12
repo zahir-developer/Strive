@@ -1,4 +1,5 @@
 ﻿using System;
+using Acr.UserDialogs;
 using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Ios.Views;
@@ -56,6 +57,8 @@ namespace StriveTimInventory.iOS.Views
 
         partial void locProceedTouch(UIButton sender)
         {
+            
+
             if (locationTextField.Text == "")
             {
                 EmployeeData.selectedLocationId = 0;
@@ -63,6 +66,8 @@ namespace StriveTimInventory.iOS.Views
             }
             else
             {
+                IUserDialogs dialogs = Mvx.IoCProvider.Resolve<IUserDialogs>();
+                dialogs.ShowLoading("Loading", MaskType.Gradient);
                 ViewModel.NextScreen();
             }
         }
