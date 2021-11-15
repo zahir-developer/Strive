@@ -282,7 +282,7 @@ export class CreateEditWashesComponent implements OnInit {
               this.getAllServices(loggedLocId, membershipId);
             }
           }
-          this.toastr.warning(MessageConfig.Wash.DifferentLocationServiceLoadded, 'Different Location Services Loadded!');
+          this.toastr.warning(MessageConfig.Wash.DifferentLocationServiceLoaded, 'Different Location Services Loaded!');
           this.membershipChange(membershipId);
           this.membership.forEach(element => {
             const additionalService = this.additional.filter(i => Number(i.ServiceId) === Number(element.ServiceId));
