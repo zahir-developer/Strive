@@ -143,8 +143,8 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
         this.closeOutDetails = closeOut.CashRegister;
         this.getTotalCash();
         this.closeoutRegisterForm.patchValue({
-          cardAmount: this.closeOutDetails.CardAmount.CardAmount ?
-            this.closeOutDetails.CardAmount.CardAmount : '',
+          cardAmount: this.closeOutDetails?.CardAmount?.CardAmount ?
+            this.closeOutDetails?.CardAmount?.CardAmount : '',
         });
         if (this.closeOutDetails.CashRegister !== null) {
           this.isUpdate = true;
@@ -325,7 +325,7 @@ export class CloseoutRegisterComponent implements OnInit, AfterViewInit {
       createdBy: +localStorage.getItem('empId'),
       createdDate: new Date(),
       updatedBy: +localStorage.getItem('empId'),
-      updatedDate: new Date(),
+      updatedDate: this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss') ,
       storeTimeIn: null,
       Tips: this.tips,
       totalAmount: this.totalCash,
