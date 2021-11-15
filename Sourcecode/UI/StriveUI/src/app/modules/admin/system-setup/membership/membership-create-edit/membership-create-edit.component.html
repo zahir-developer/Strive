@@ -25,7 +25,7 @@
                 <label for="inputService">Services</label>
                 <ng-multiselect-dropdown [placeholder]="'Select Service'" [settings]="dropdownSettings"
                     [data]="additional" formControlName="service" [(ngModel)]="memberService"
-                    (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
+                    (onSelect)="onItemSelect($event,'Add')" (onDeSelect)="onItemSelect($event,'Remove')">
                 </ng-multiselect-dropdown>
             </div>
 

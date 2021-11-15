@@ -54,7 +54,7 @@ export const MessageConfig = {
       model: 'Please select a valid model',
       color: 'Please select a valid color',
       SelectWash: 'Select wash package to get Upcharge',
-      DifferentLocationServiceLoadded: 'Vehicle have membership with different location. Same Location services loaded.'
+      DifferentLocationServiceLoaded: 'Vehicle have membership with different location. Same Location services loaded.'
 
    },
    Detail:
@@ -153,7 +153,8 @@ export const MessageConfig = {
          membershipDiscountNotAvailable: 'No membership discount available !',
          membershipDiscountNotUpdated: 'Discount Amount not updated in Membership setup !',
          UpchargeApplied: 'Upcharge applied successfully!',
-         UpchargeNotAvailable: 'No Upcharge available !'
+         UpchargeNotAvailable: 'No Upcharge available !',
+         ServiceZeroPrice: 'Selected service have Price: 0'
       },
 
       GiftCard:

@@ -137,15 +137,27 @@ export class MembershipCreateEditComponent implements OnInit {
     }
   }
 
-  onItemSelect(data) {
+  onItemSelect(data, mode) {
+    var service = this.service.filter(i => +i.ServiceId === +data.item_id)[0];
+    var price = Number(this.membershipForm.value.price);
+    var total = 0;
+
+    if(mode == 'Add')
+    total = price + service.Price;
+    else
+    total = price - service.Price;
+    
+    this.membershipForm.get('price').patchValue(total.toFixed(2));
+    /*
     this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data.item_id)[0]);
     let price = 0;
     this.PriceServices.forEach(element => {
       price += +element.Price;
     });
-    this.membershipForm.get('price').patchValue(price.toFixed(2));
+    */    
   }
 
+  /*
   onItemDeSelect(data) {
     this.PriceServices = this.PriceServices.filter(i => +i.ServiceId !== +data.item_id);
     let price = 0;
@@ -154,6 +166,7 @@ export class MembershipCreateEditComponent implements OnInit {
     });
     this.membershipForm.get('price').patchValue(price.toFixed(2));
   }
+*/
 
   getMembershipById() {
     let service = [];
@@ -164,10 +177,10 @@ export class MembershipCreateEditComponent implements OnInit {
       discountedPrice: this.selectedData?.Membership.DiscountedPrice?.toFixed(2),
       status: this.selectedData.Membership.Status === true ? 0 : 1
     });
-    if (this.selectedData.MembershipService.filter(i =>
-      (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashPackage)[0] !== undefined) {
-      this.membershipForm.get('washes').patchValue(this.selectedData.MembershipService.filter(i =>
-        (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashPackage)[0].ServiceId);
+    var wash = this.selectedData.MembershipService.filter(i =>
+      (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashPackage)[0];
+    if (wash !== undefined) {
+      this.membershipForm.get('washes').patchValue(wash.ServiceId);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.washes)[0]);
     }
     if (this.selectedData.MembershipService.filter(i =>
@@ -401,7 +414,9 @@ export class MembershipCreateEditComponent implements OnInit {
         updatedDate: new Date()
       };
       ServiceObj.push(wash);
-      ServiceObj.push(upcharge);
+
+      if (this.membershipForm.value.upcharge !== "")
+        ServiceObj.push(upcharge);
     }
     const membership = {
       membershipId: this.isEdit ? this.selectedData.Membership.MembershipId : 0,

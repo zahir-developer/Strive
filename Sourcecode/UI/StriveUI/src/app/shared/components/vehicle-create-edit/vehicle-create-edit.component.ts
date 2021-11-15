@@ -439,6 +439,10 @@ export class VehicleCreateEditComponent implements OnInit {
     this.vehicleForm.get('services').patchValue(this.memberService);
     let price = 0;
     price = +this.additionalService.filter(i => i.ServiceId === data.item_id)[0].Price;
+    if(price === 0)
+    {
+      this.toastr.warning(MessageConfig.Admin.Vehicle.ServiceZeroPrice, 'Additional Service');
+    }
     price += +this.vehicleForm.value.monthlyCharge;
     this.vehicleForm.get('monthlyCharge').patchValue(price.toFixed(2));
   }
