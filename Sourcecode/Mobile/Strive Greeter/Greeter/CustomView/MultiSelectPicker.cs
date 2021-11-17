@@ -95,16 +95,25 @@ namespace Greeter.CustomView
             }
             else
             {
-                if (selectedIndex.Contains(0))
+                if (Options[0].Equals("none", StringComparison.OrdinalIgnoreCase))
                 {
-                    return;
-                }
+                    if (selectedIndex.Contains(0))
+                    {
+                        return;
+                    }
 
-                if (indexPath.Row == 0)
-                {
-                    selectedIndex.Clear();
-                    selectedIndex.Add(indexPath.Row);
-                    tableView.ReloadData();
+                    if (indexPath.Row == 0)
+                    {
+                        selectedIndex.Clear();
+                        selectedIndex.Add(indexPath.Row);
+                        //tableView.ReloadData();
+                        tableView.ReloadRows(new NSIndexPath[] { NSIndexPath.FromRowSection(0, 0), indexPath }, UITableViewRowAnimation.Fade);
+                    }
+                    else
+                    {
+                        selectedIndex.Add(indexPath.Row);
+                        tableView.ReloadRows(new[] { indexPath }, UITableViewRowAnimation.Fade);
+                    }
                 }
                 else
                 {

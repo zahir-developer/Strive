@@ -339,23 +339,9 @@ namespace Greeter.Storyboards
 
                 UpdateBarcodeData(Barcode);
 
-                //var response = await GetVehicleMembershipDetails(VehicleID);
+                var response = await GetVehicleMembershipDetails(VehicleID);
 
-                //TODO : Check membership available or not and update details
-                //if (response != null)
-                //{
-                    
-                //}
-
-                //var barcodeUpcharge = Upcharges?.Where(x => x.ID == UpchargeID).FirstOrDefault();
-                //if (barcodeUpcharge is not null)
-                //{
-                //    upcharge = upcharge ?? new JobItem();
-                //    upcharge.ServiceId = barcodeUpcharge.ID;
-                //    upcharge.SeriveName = barcodeUpcharge.Name + " - " + barcodeUpcharge.Upcharges;
-                //    upcharge.Price = barcodeUpcharge.Price;
-                //    upcharge.Time = barcodeUpcharge.Time;
-                //}
+                UpdateMembershipUpcharge(response);
             }
             else
             {
@@ -443,7 +429,12 @@ namespace Greeter.Storyboards
                     upcharge.ServiceId = selectedUpcharge.ServiceID;
                     upcharge.SeriveName = selectedUpcharge.ServiceName;
                     upcharge.Price = selectedUpcharge.Price;
-                    //upcharge.Time = upchargeResponse.Upcharge.;
+
+                    //upcharge.Time = selectedUpcharge.Time;
+                    //upcharge.IsCommission = selectedUpcharge.;
+                    //upcharge.CommissionType = selectedUpcharge.;
+                    //upcharge.CommissionAmount = selectedUpcharge.;
+
                     tfUpcharge.Text = upcharge?.SeriveName;
                 }
             }
@@ -453,7 +444,7 @@ namespace Greeter.Storyboards
             }
         }
 
-        async Task<BaseResponse> GetVehicleMembershipDetails(long vehicleId)
+        async Task<MembershipResponse> GetVehicleMembershipDetails(long vehicleId)
         {
             var response = await SingleTon.VehicleApiService.GetVehicleMembershipDetails(vehicleId);
 
@@ -465,6 +456,30 @@ namespace Greeter.Storyboards
             }
 
             return response;
+        }
+
+        void UpdateMembershipUpcharge(MembershipResponse membershipResponse)
+        {
+            if (membershipResponse.VehicleMembershipDetail?.ClientVehicle?.UpchargeID is not 0)
+            {
+                UpdateUpchargeByID(membershipResponse.VehicleMembershipDetail.ClientVehicle.UpchargeID);
+            }
+        }
+
+        void UpdateUpchargeByID(long id)
+        {
+            var membershipUpcharge = Upcharges.Find(x => x.ID == id);
+
+            upcharge = upcharge ?? new JobItem();
+            upcharge.ServiceId = id;
+            upcharge.SeriveName = membershipUpcharge.Name;
+            upcharge.Price = membershipUpcharge.Price;
+            upcharge.Time = membershipUpcharge.Time;
+            upcharge.IsCommission = membershipUpcharge.Commission;
+            upcharge.CommissionType = membershipUpcharge.CommissionType;
+            upcharge.CommissionAmount = membershipUpcharge.CommissionCost;
+
+            tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
         }
 
         async Task UpdateUpchargeForModel(long modelId)

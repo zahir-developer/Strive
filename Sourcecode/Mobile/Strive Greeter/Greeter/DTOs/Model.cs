@@ -1532,4 +1532,22 @@ namespace Greeter.DTOs
         [JsonProperty("Price")]
         public float Price { get; set; }
     }
+
+    public class MembershipResponse : BaseResponse
+    {
+        [JsonProperty("VehicleMembershipDetails")]
+        public VehicleMembershipDetail VehicleMembershipDetail;
+    }
+
+    public class VehicleMembershipDetail
+    {
+        [JsonProperty("ClientVehicle")]
+        public ClientVehicle ClientVehicle;
+    }
+
+    public class ClientVehicle
+    {
+        [JsonProperty("Upcharge")]
+        public long UpchargeID;
+    }
 }

@@ -272,6 +272,7 @@ namespace Greeter
             else
             {
                 // show failure alert
+                ShowAlertMsg(Common.Messages.ADD_EMAIL_ACCOUNT);
             }
         }
     }

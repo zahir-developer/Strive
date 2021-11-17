@@ -10,7 +10,7 @@ namespace Greeter.Services.Api
     {
         Task<BarcodeResponse> GetBarcode(string barcode);
         Task<ModelResponse> GetModelsByMake(long makeId);
-        Task<BaseResponse> GetVehicleMembershipDetails(long vehicleId);
+        Task<MembershipResponse> GetVehicleMembershipDetails(long vehicleId);
     }
 
     public class VehicleApiService : IVehicleApiService
@@ -29,10 +29,10 @@ namespace Greeter.Services.Api
             return apiService.DoApiCall<ModelResponse>(url);
         }
 
-        public Task<BaseResponse> GetVehicleMembershipDetails(long vehicleId)
+        public Task<MembershipResponse> GetVehicleMembershipDetails(long vehicleId)
         {
             var parameters = new Dictionary<string, string>() { { "id", vehicleId.ToString() } };
-            return apiService.DoApiCall<BaseResponse>(Urls.GET_VEHICLE_MEMBERSHIP_DETAILS, HttpMethod.Get, parameters);
+            return apiService.DoApiCall<MembershipResponse>(Urls.GET_VEHICLE_MEMBERSHIP_DETAILS, HttpMethod.Get, parameters);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CoreFoundation;
 using Foundation;
 using Greeter.Common;
+using Greeter.CustomView;
 using Greeter.DTOs;
 using Greeter.Extensions;
 using Greeter.Modules.Pay;
@@ -16,7 +17,7 @@ using UIKit;
 
 namespace Greeter.Storyboards
 {
-    public partial class EmailViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource, IUITextFieldDelegate
+    public partial class EmailViewController : BaseViewController, IUIPickerViewDelegate, IUIPickerViewDataSource, IUITextFieldDelegate, IMultiSelectPickerDelegate
     {
         // Data
         const string SCREEN_TITLE = "Email Receipt";
@@ -36,8 +37,11 @@ namespace Greeter.Storyboards
         List<Employee> Employees;
         string[] employeeNames;
 
-        string selectedEmpEmailId;
+        //string selectedEmpEmailId;
         long selectedEmpId;
+
+        List<long> selectedEmpIds;
+        List<int> selectedEmpPositions;
 
         //Views
         UIPickerView pv = new UIPickerView();
@@ -66,7 +70,13 @@ namespace Greeter.Storyboards
 
             btnEmpSent.TouchUpInside += delegate
             {
-                if (selectedEmpEmailId.IsEmpty())
+                //if (selectedEmpId == 0)
+                //{
+                //    ShowAlertMsg(Common.Messages.EMPLOYEE_MISSING);
+                //    return;
+                //}
+
+                if (selectedEmpIds.IsNullOrEmpty())
                 {
                     ShowAlertMsg(Common.Messages.EMPLOYEE_MISSING);
                     return;
@@ -132,22 +142,23 @@ namespace Greeter.Storyboards
             try
             {
                 ShowActivityIndicator();
-                var apiService = new WashApiService();
+
                 var req = new GetDetailEmployeeReq
                 {
                     LocationID = AppSettings.LocationID
                 };
 
-                var employeesResponse = await apiService.GetDetailEmployees(req);
+                var employeesResponse = await SingleTon.WashApiService.GetDetailEmployees(req);
                 Employees = employeesResponse?.EmployeeList;
-                employeeNames = Employees?.Select(x => x.FirstName + " " + x.LastName).ToArray();
 
-                if (employeeNames.Length > 0)
-                {
-                    AddPickerToolbar(tfEmp, tfEmp.Placeholder, PickerDone);
-                    tfEmp.InputView = pv;
-                }
+                employeeNames = GetEmployeeNames(Employees);
+                tfEmp.AddTarget((sender, e) => { ShowMultiselectOptions(employeeNames.ToList()); }, UIControlEvent.EditingDidBegin);
 
+                //if (employeeNames.Length > 0)
+                //{
+                //    AddPickerToolbar(tfEmp, tfEmp.Placeholder, PickerDone);
+                //    tfEmp.InputView = pv;
+                //}
             }
             catch (Exception ex)
             {
@@ -157,6 +168,11 @@ namespace Greeter.Storyboards
             {
                 HideActivityIndicator();
             }
+        }
+
+        string[] GetEmployeeNames(List<Employee> employees)
+        {
+             return employees?.Select(x => Logic.FullName(x.FirstName, x.LastName)).ToArray();
         }
 
         async Task GetDetailService(long jobId)
@@ -169,7 +185,7 @@ namespace Greeter.Storyboards
 
                 if (response.IsSuccess())
                 {
-                    _ = AssignServiceToEmployee(selectedEmpId, response?.DetailsForDetailID?.DetailsItems);
+                    await AssignServiceToEmployees(selectedEmpIds, response?.DetailsForDetailID?.DetailsItems);
                 }
             }
             catch (Exception ex)
@@ -214,14 +230,17 @@ namespace Greeter.Storyboards
                     req.JobServiceEmployees.Add(assignEmployeeToService);
                 }
 
-                //req.JobServiceEmployees = new AssignEmployeeToService[]{ assignEmployeeToService };
-
                 var response = await SingleTon.WashApiService.AssignEmployeeToDetailService(req);
 
                 HandleResponse(response);
 
                 if (response.IsSuccess())
                 {
+                    tfEmp.UserInteractionEnabled = false;
+                    tfEmp.Enabled = false;
+                    btnEmpSent.UserInteractionEnabled = false;
+                    btnEmpSent.BackgroundColor = btnEmpSent.BackgroundColor.ColorWithAlpha(0.6f);
+                    //btnEmpSent.Enabled = false;
                     ShowAlertMsg(Common.Messages.EMPLOYEE_ASSIGNED_SUCCESS_MSG, titleTxt: Common.Messages.ASSIGN);
                 }
             }
@@ -235,7 +254,92 @@ namespace Greeter.Storyboards
             }
         }
 
-        async Task SendEmail(string email)
+        async Task AssignServiceToEmployees(List<long> selectedEmpIds, List<DetailsItem> detailsItems)
+        {
+            try
+            {
+                //ShowActivityIndicator();
+                var req = new AssignEmployeeToServiceReq();
+                req.JobID = Service.Job.JobID;
+                req.JobServiceEmployees = new();
+
+                for (int i = 0; i < detailsItems.Count; i++)
+                {
+                    //var assignEmployeeToService = new AssignEmployeeToService();
+                    //assignEmployeeToService.JobItemID = detailsItems[i].JobItemID;
+                    //assignEmployeeToService.ServiceID = detailsItems[i].ServiceID;
+                    //assignEmployeeToService.EmployeeID = selectedEmpId;
+
+                    //if (string.IsNullOrEmpty(detailsItems[i].CommissionType))
+                    //{
+                    //    assignEmployeeToService.CommissionAmount = 0;
+                    //}
+                    //else if (detailsItems[i].CommissionType.Equals("flat fee", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    assignEmployeeToService.CommissionAmount = detailsItems[i].CommissionCost;
+                    //}
+                    //else if (detailsItems[i].CommissionType.Equals("percentage", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    assignEmployeeToService.CommissionAmount = (detailsItems[i].Price * detailsItems[i].CommissionCost) / 100;
+                    //}
+
+                    //req.JobServiceEmployees.Add(assignEmployeeToService);
+
+                    var commisionAmount = -1f;
+
+                    if (string.IsNullOrEmpty(detailsItems[i].CommissionType))
+                    {
+                        commisionAmount = 0;
+                    }
+                    else if (detailsItems[i].CommissionType.Equals("flat fee", StringComparison.OrdinalIgnoreCase))
+                    {
+                        commisionAmount = detailsItems[i].CommissionCost;
+                    }
+                    else if (detailsItems[i].CommissionType.Equals("percentage", StringComparison.OrdinalIgnoreCase))
+                    {
+                        commisionAmount = (detailsItems[i].Price * detailsItems[i].CommissionCost) / 100;
+                    }
+
+                    var individualCommisionAmount = commisionAmount / selectedEmpIds.Count;
+
+                    for (int j = 0; j < selectedEmpIds.Count; j++)
+                    {
+                        var assignEmployeeToService = new AssignEmployeeToService();
+                        assignEmployeeToService.JobItemID = detailsItems[i].JobItemID;
+                        assignEmployeeToService.ServiceID = detailsItems[i].ServiceID;
+                        assignEmployeeToService.EmployeeID = selectedEmpIds[j];
+                        assignEmployeeToService.CommissionAmount = individualCommisionAmount;
+                        req.JobServiceEmployees.Add(assignEmployeeToService);
+                    }
+                }
+
+                var response = await SingleTon.WashApiService.AssignEmployeeToDetailService(req);
+
+                HandleResponse(response);
+
+                if (response.IsSuccess())
+                {
+                    tfEmp.UserInteractionEnabled = false;
+                    tfEmp.Enabled = false;
+                    btnEmpSent.UserInteractionEnabled = false;
+                    btnEmpSent.BackgroundColor = btnEmpSent.BackgroundColor.ColorWithAlpha(0.6f);
+                    //btnEmpSent.Enabled = false;
+                    ShowAlertMsg(Common.Messages.EMPLOYEE_ASSIGNED_SUCCESS_MSG, titleTxt: Common.Messages.ASSIGN);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception happened and the reason is : " + ex.Message);
+            }
+            finally
+            {
+                //HideActivityIndicator();
+            }
+        }
+
+      
+
+async Task SendEmail(string email)
         {
             try
             {
@@ -414,9 +518,22 @@ namespace Greeter.Storyboards
             {
                 int pos = (int)pv.SelectedRowInComponent(0);
                 tfEmp.Text = employeeNames[pos];
-                selectedEmpEmailId = Employees[pos].EmailID;
+                //selectedEmpEmailId = Employees[pos].EmailID;
                 selectedEmpId = Employees[pos].ID;
             }
+        }
+
+        void ShowMultiselectOptions(List<string> options)
+        {
+            var nc = new UINavigationController();
+            var mc = new MultiSelectPicker();
+            nc.ViewControllers = new UIViewController[] { mc };
+            mc.Options = options;
+            mc.PickerDelegate = this;
+
+            mc.DefaultSelectedIndex = selectedEmpPositions;
+
+            PresentViewController(nc, true, null);
         }
 
         void NavigateToPayScreen()
@@ -463,6 +580,58 @@ namespace Greeter.Storyboards
         public string GetTitle(UIPickerView pickerView, nint row, nint component)
         {
             return employeeNames[row];
+        }
+
+        void UpdateSelectedAdditionalServices(List<int> selectedIndexList)
+        {
+            if (selectedIndexList is null || selectedIndexList.Count == 0)
+            {
+
+                return;
+            }
+
+            selectedEmpPositions = selectedIndexList;
+
+            if (selectedEmpIds is null)
+                selectedEmpIds = new();
+
+            selectedEmpIds.Clear();
+
+            List<string> selectedEmpNames = new();
+
+            for (int i = 0; i < selectedIndexList.Count; i++)
+            {
+                //int selectedPos = selectedIndexList[i];
+
+                //selectedPos -= 1;
+
+                //var additional = new JobItem();
+                //additional.ServiceId = Employees[selectedPos].ID;
+                //additional.SeriveName = AdditionalServices[selectedPos].Name;
+                //additional.Price = AdditionalServices[selectedPos].Price;
+                //additional.Time = AdditionalServices[selectedPos].Time;
+                //additional.IsCommission = AdditionalServices[selectedPos].Commission;
+                //additional.CommissionType = AdditionalServices[selectedPos].CommissionType;
+                //additional.CommissionAmount = AdditionalServices[selectedPos].CommissionCost;
+                //additionalServcies.Add(additional);
+
+                var emp = Employees[selectedIndexList[i]];
+
+                selectedEmpIds.Add(emp.ID);
+                selectedEmpNames.Add(Logic.FullName(emp.FirstName, emp.LastName));
+            }
+
+            tfEmp.Text = String.Join(", ", selectedEmpNames);
+        }
+
+        public void DidCompleted(MultiSelectPicker pickerView, List<int> selectedIndexList)
+        {
+            UpdateSelectedAdditionalServices(selectedIndexList);
+        }
+
+        public void DidCancel(MultiSelectPicker pickerView)
+        {
+            
         }
     }
 }

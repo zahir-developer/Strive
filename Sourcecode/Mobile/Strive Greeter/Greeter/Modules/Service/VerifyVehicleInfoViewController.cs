@@ -129,7 +129,8 @@ namespace Greeter.Storyboards
                 }
 
                 var jobStatusResponse = await new GeneralApiService().GetGlobalData("JOBSTATUS");
-                long jobStatusId = jobStatusResponse.Codes.Where(x => x.Name.Equals("In Progress")).FirstOrDefault().ID;
+
+                long jobStatusId = jobStatusResponse.Codes.Where(x => x.Name.Equals("Waiting")).FirstOrDefault().ID;
 
                 if (jobId != 0)
                 {

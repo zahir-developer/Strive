@@ -151,8 +151,12 @@ namespace Greeter
 #if DEBUG
                 //txtFieldBarcode.Text = "ZNL9678";
                 //txtFieldBarcode.Text = "61012381";
-                txtFieldBarcode.Text = "63010412";
+                //txtFieldBarcode.Text = "63010412";
                 //txtFieldBarcode.Text = "73077401";
+
+                //QA Membership Barcode
+                txtFieldBarcode.Text = "16112021";
+                
 #endif
         }
 
