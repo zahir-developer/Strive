@@ -28,16 +28,16 @@ namespace StriveCustomer.iOS.Views
             BackgroundView.Layer.CornerRadius = 5;
             TitleLabel.Text = item.DealName;
 
-            var date1 = item.StartDate.ToString();
-            var FullSplitDates = date1.Split("/");
-            var fullDateInfo = FullSplitDates[2].Substring(0, 4);
-            var month1 = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(int.Parse(FullSplitDates[0]));
+            var date1 = item.StartDate;
+            var FullSplitDates = date1.Split("-");
+            var fullDateInfo = FullSplitDates[0].Substring(0, 4);
+            var month1 = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(int.Parse(FullSplitDates[1]));
             var shortMon1 = month1.Substring(0, 3);
 
-            var date2 = item.EndDate.ToString();
-            var FullSplitDates2 = date2.Split("/");
-            var fullDateInfo2 = FullSplitDates[2].Substring(0, 4);
-            var month2 = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(int.Parse(FullSplitDates2[0]));
+            var date2 = item.EndDate;
+            var FullSplitDates2 = date2.Split("-");
+            var fullDateInfo2 = FullSplitDates[0].Substring(0, 4);
+            var month2 = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(int.Parse(FullSplitDates2[1]));
             var shortMon2 = month2.Substring(0, 3);
 
             if((int.Parse(fullDateInfo) < 2000) && (int.Parse(fullDateInfo2) < 2000))
@@ -46,7 +46,7 @@ namespace StriveCustomer.iOS.Views
             }
             else
             {
-                ValidityLabel.Text = "Validity: " + FullSplitDates[1] + " " + shortMon1 + " " + fullDateInfo + " to " + FullSplitDates2[1] + " " + shortMon2 + " " + fullDateInfo2;
+                ValidityLabel.Text = "Validity: " + FullSplitDates[2].Substring(0, 2) + " " + shortMon1 + " " + fullDateInfo + " to " + FullSplitDates2[2].Substring(0, 2) + " " + shortMon2 + " " + fullDateInfo2;
             }
         }
     }

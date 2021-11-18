@@ -27,7 +27,7 @@
         <MtouchLink>None</MtouchLink>
         <MtouchDebug>true</MtouchDebug>
         <CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
-        <CodesignProvision>StriveCustomerAdHoc</CodesignProvision>
+        <CodesignProvision>StriveCustomer_AppstoreDestribution</CodesignProvision>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <DebugType>none</DebugType>

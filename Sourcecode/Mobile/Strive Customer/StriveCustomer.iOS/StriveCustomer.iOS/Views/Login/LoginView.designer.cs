@@ -52,9 +52,6 @@ namespace StriveCustomer.iOS.Views.Login
 
 		[Action ("DisagreeBtnclicked:")]
 		partial void DisagreeBtnclicked (UIKit.UIButton sender);
-
-		[Action ("LoginButtonClicked:")]
-		partial void LoginButtonClicked (UIKit.UIButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -63,14 +60,14 @@ namespace StriveCustomer.iOS.Views.Login
 				AgreeBtn = null;
 			}
 
-			if (DisagreeBtn != null) {
-				DisagreeBtn.Dispose ();
-				DisagreeBtn = null;
-			}
-
 			if (CheckBox != null) {
 				CheckBox.Dispose ();
 				CheckBox = null;
+			}
+
+			if (DisagreeBtn != null) {
+				DisagreeBtn.Dispose ();
+				DisagreeBtn = null;
 			}
 
 			if (EmailTextfield != null) {

@@ -58,10 +58,14 @@ namespace Strive.Core.ViewModels.Customer.Schedule
             {
                 _userDialog.Alert("No code value");
             }
-            _userDialog.HideLoading();
+
 
             var newSchedule = prepareDetailSchedule();
-            await AdminService.ScheduleDetail(newSchedule);
+            var result = await AdminService.ScheduleDetail(newSchedule);
+
+            _userDialog.HideLoading();
+
+
         }
 
         public async void NavtoScheduleDate()
@@ -138,6 +142,7 @@ namespace Strive.Core.ViewModels.Customer.Schedule
 
             while (inTime != estimatedTime)
             {
+                Console.WriteLine("inTime " + inTime + ":" + estimatedTime);
                 var outTime = inTime.AddMinutes(30);
                 BaySchedule bayItem = new BaySchedule()
                 {
@@ -155,6 +160,9 @@ namespace Strive.Core.ViewModels.Customer.Schedule
                 };
                 inTime = outTime;
                 bayList.Add(bayItem);
+
+                if (inTime > estimatedTime) //manage if estimated time less than 30 min
+                    break;
             }
 
             DetailSchedule detail = new DetailSchedule()

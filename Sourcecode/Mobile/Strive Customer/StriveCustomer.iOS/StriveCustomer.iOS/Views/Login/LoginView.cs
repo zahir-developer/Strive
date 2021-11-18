@@ -32,7 +32,7 @@ namespace StriveCustomer.iOS.Views.Login
             var set = this.CreateBindingSet<LoginView, LoginViewModel>();
             set.Bind(EmailTextfield).To(vm => vm.loginEmailPhone);
             set.Bind(PasswordTextfield).To(vm => vm.loginPassword);
-            //set.Bind(LoginButton).To(vm => vm.Commands["DoLogin"]);
+            set.Bind(LoginButton).To(vm => vm.Commands["DoLogin"]);
             set.Bind(ForgotPasswordButton).To(vm => vm.Commands["ForgotPassword"]);
             set.Apply();
             TermsDocuments.Hidden = true;
@@ -51,16 +51,17 @@ namespace StriveCustomer.iOS.Views.Login
             SignupLbl.AddGestureRecognizer(tap);
             // Perform any additional setup after loading the view, typically from a nib.
         }
-        partial  void LoginButtonClicked(UIButton sender)
-        {
-            CallLogin();
+        // need this when terms implementation
+        //partial  void LoginButtonClicked(UIButton sender)
+        //{
+        //    CallLogin();
             
             
 
-        }
+        //}
         async void CallLogin()
         {
-            await Task.Run(ViewModel.DoLogin);
+            await Task.Run(ViewModel.DoLoginCommand);
             var plist = NSUserDefaults.StandardUserDefaults;
             var First = plist.BoolForKey("first");
             if (First == true)
@@ -76,7 +77,7 @@ namespace StriveCustomer.iOS.Views.Login
 
                 ViewModel.navigatetodashboard();
             }
-            
+
         }
         
         async void SetTerm()
@@ -145,9 +146,13 @@ namespace StriveCustomer.iOS.Views.Login
 
         void StoreCredentials()
         {
+
+            if(ViewModel.loginEmailPhone != null && ViewModel.loginPassword != null)
+            {
+                Persistance.SetString(ViewModel.loginEmailPhone, UsernameKey);
+                Persistance.SetString(ViewModel.loginPassword, PasswordKey);
+            }
             
-            Persistance.SetString(ViewModel.loginEmailPhone, UsernameKey);
-            Persistance.SetString(ViewModel.loginPassword, PasswordKey);
         }
 
         void ClearCredentials()

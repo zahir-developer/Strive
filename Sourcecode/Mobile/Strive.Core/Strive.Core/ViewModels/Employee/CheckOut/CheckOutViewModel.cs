@@ -39,7 +39,10 @@ namespace Strive.Core.ViewModels.Employee.CheckOut
             });
             if (result == null || result.GetCheckedInVehicleDetails.checkOutViewModel == null)
             {
-                CheckOutVehicleDetails = null;
+                if (CheckOutVehicleDetails != null)
+                {
+                    CheckOutVehicleDetails = null;
+                }
                 _userDialog.Toast("No relatable data");
             }
             else
