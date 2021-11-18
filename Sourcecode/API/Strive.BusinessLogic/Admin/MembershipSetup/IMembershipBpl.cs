@@ -23,7 +23,7 @@ namespace Strive.BusinessLogic.MembershipSetup
 
         Result GetVehicleMembershipByMembershipId(int membershipId);
 
-        Result GetAllMembershipName();
+        Result GetAllMembershipName(int locationId);
     }
 
 

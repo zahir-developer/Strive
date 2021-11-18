@@ -83,9 +83,10 @@ namespace Strive.ResourceAccess
             }
         }
 
-        public List<MembershipNameViewModel> GetAllMembershipName()
+        public List<MembershipNameViewModel> GetAllMembershipName(int locationId)
         {
-            return db.Fetch<MembershipNameViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIPNAME.ToString(), null);
+            _prm.Add("@LocationId", locationId);
+            return db.Fetch<MembershipNameViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIPNAME.ToString(), _prm);
         }
 
     }

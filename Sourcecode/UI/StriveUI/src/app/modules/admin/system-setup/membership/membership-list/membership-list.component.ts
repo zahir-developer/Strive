@@ -68,11 +68,15 @@ export class MembershipListComponent implements OnInit {
   // Get All Membership
   getAllMembershipDetails() {
     this.isLoading = true;
-    this.member.getMembership().subscribe(data => {
+    const obj = {
+      membershipSearch: this.query,
+      locationId: +localStorage.getItem('empLocationId')
+    };
+    this.member.searchMembership(obj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
         const membership = JSON.parse(data.resultData);
-        this.membershipDetails = membership.Membership;
+        this.membershipDetails = membership.MembershipSearch;
         this.membershipDetails = this.membershipDetails.filter(item => item.IsActive === true);
         if (this.membershipDetails.length === 0) {
           this.isTableEmpty = true;
@@ -148,8 +152,10 @@ export class MembershipListComponent implements OnInit {
   membershipSearch() {
     this.page = 1;
     const obj = {
-      membershipSearch: this.query
+      membershipSearch: this.query,
+      locationId: +localStorage.getItem('empLocationId')
     };
+
     this.isLoading = true;
     this.member.searchMembership(obj).subscribe(data => {
       this.isLoading = false;

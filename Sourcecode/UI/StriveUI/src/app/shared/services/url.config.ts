@@ -147,7 +147,7 @@ export const UrlConfig = {
     getMerchantDetails: `Admin/Location/GetMerchantDetails`,
   },
   MembershipSetup: {
-    getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName`,
+    getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName/`,
 
    
     getMembershipById: `Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,

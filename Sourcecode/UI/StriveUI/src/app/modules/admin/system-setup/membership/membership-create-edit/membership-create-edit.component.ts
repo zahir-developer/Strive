@@ -33,6 +33,8 @@ export class MembershipCreateEditComponent implements OnInit {
   PriceServices: any = [];
   costErrMsg: boolean = false;
   employeeId: number;
+  washPrice: number = 0
+  upchargePrice: number = 0;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -119,20 +121,29 @@ export class MembershipCreateEditComponent implements OnInit {
 
   calculate(data, name) {
     if (name === 'washes') {
-      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== ApplicationConfig.Enum.ServiceType.WashPackage);
-      this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
-      let price = 0;
-      this.PriceServices.forEach(element => {
-        price += +element.Price;
-      });
+      //this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== ApplicationConfig.Enum.ServiceType.WashPackage);
+      
+      var service = this.service.filter(i => +i.ServiceId === +data)[0];
+
+      this.PriceServices.push(service);
+      let price = Number(this.membershipForm.value.price);;
+
+      price = price + service.Price - Number(this.washPrice);
+      this.washPrice = service.Price;
+      // this.PriceServices.forEach(element => {
+      //   price += +element.Price;
+      // });
+
       this.membershipForm.get('price').patchValue(price.toFixed(2));
     } else if (name === 'upcharge') {
-      this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== ApplicationConfig.Enum.ServiceType.WashUpcharge);
-      this.PriceServices.push(this.service.filter(i => +i.ServiceId === +data)[0]);
-      let price = 0;
-      this.PriceServices.forEach(element => {
-        price += +element.Price;
-      });
+      //this.PriceServices = this.PriceServices.filter(i => i.ServiceTypeName !== ApplicationConfig.Enum.ServiceType.WashUpcharge);
+      var service = this.service.filter(i => +i.ServiceId === +data)[0];
+
+      this.PriceServices.push(service);
+      let price = Number(this.membershipForm.value.price);
+      price = price + service.Price - Number(this.upchargePrice);
+      this.upchargePrice = service.Price;
+
       this.membershipForm.get('price').patchValue(price.toFixed(2));
     }
   }
@@ -179,6 +190,7 @@ export class MembershipCreateEditComponent implements OnInit {
     });
     var wash = this.selectedData.MembershipService.filter(i =>
       (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashPackage)[0];
+this.washPrice = wash.Price;
     if (wash !== undefined) {
       this.membershipForm.get('washes').patchValue(wash.ServiceId);
       this.PriceServices.push(this.service.filter(i => +(i.ServiceId) === +this.membershipForm.value.washes)[0]);
@@ -189,6 +201,7 @@ export class MembershipCreateEditComponent implements OnInit {
       var upcharge = this.selectedData.MembershipService.filter(i =>
         (i.ServiceType) === ApplicationConfig.Enum.ServiceType.WashUpcharge)[0].ServiceId;
 
+        this.upchargePrice = upcharge.Price;
       this.membershipForm.get('upcharge').patchValue(upcharge === undefined ? '' : upcharge);
 
       this.membershipForm.get('upchargeType').patchValue(upcharge === undefined ? '' : upcharge);

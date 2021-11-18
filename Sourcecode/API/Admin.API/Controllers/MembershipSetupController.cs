@@ -56,8 +56,8 @@ namespace Admin.Api.Controllers
         public Result GetVehicleMembershipByMembershipId(int membershipId) => _bplManager.GetVehicleMembershipByMembershipId(membershipId);
 
         [HttpGet]
-        [Route("GetAllMembershipName")]
-        public Result GetAllMembershipName() => _bplManager.GetAllMembershipName();
+        [Route("GetAllMembershipName/{locationId}")]
+        public Result GetAllMembershipName(int locationId) => _bplManager.GetAllMembershipName(locationId);
 
 
     }
