@@ -293,23 +293,21 @@ color-icon:hover {
 }
 
 .bodyfix {
-    display: block;
-    height: 300px;
+    /* height: 300px; */
     overflow-y: scroll;
     text-overflow: ellipsis;
 }
 
 .headerfix thead,
 .bodyfix tr {
-    display: table;
     width: 100%;
     table-layout: fixed;
 }
 
-.headerfix td,
+/* .headerfix td,
 .headerfix th {
     white-space: pre-wrap !important;
-}
+} */
 
 body {
     -ms-overflow-style: none;

@@ -30,13 +30,36 @@ namespace Strive.BusinessLogic.Washes
         {
             return ResultWrap(new WashesRal(_tenant).GetWashTimeDetail, id, "WashesDetail");
         }
+
+        public Result GetLastServiceVisit(SearchDto searchDto)
+        {
+            return ResultWrap(new WashesRal(_tenant).GetLastServiceVisit, searchDto, "WashesDetail");
+        }
+
+        
         public Result AddWashTime(WashesDto washes)
         {
+
+            if(washes.Job.ClientId == null && !string.IsNullOrEmpty(washes.Job.BarCode))
+            {
+                var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(washes.Job.LocationId, washes.Job.BarCode, washes.Job.Make, washes.Job.Model, washes.Job.Color, washes.Job.CreatedBy);
+            }
+
             return ResultWrap(new WashesRal(_tenant).AddWashTime, washes, "Status");
         }
 
         public Result UpdateWashTime(WashesDto washes)
         {
+            if (washes.Job.ClientId == null && !string.IsNullOrEmpty(washes.Job.BarCode))
+            {
+                var clientVehicle = new VehicleRal(_tenant).AddDriveUpVehicle(washes.Job.LocationId, washes.Job.BarCode, washes.Job.Make, washes.Job.Model, washes.Job.Color, washes.Job.CreatedBy);
+            }
+
+            if (!string.IsNullOrEmpty(washes.DeletedJobItemId))
+            {
+                var deleteJobItem = new CommonRal(_tenant).DeleteJobItem(washes.DeletedJobItemId);
+            }
+
             return ResultWrap(new WashesRal(_tenant).UpdateWashTime, washes, "Status");
         }
         public Result GetDailyDashboard(WashesDashboardDto dashboard)
@@ -63,10 +86,9 @@ namespace Strive.BusinessLogic.Washes
             return ResultWrap(new WashesRal(_tenant).GetWashTime, washTimeDto, "WashTime");
         }
 
-        public Result GetAllLocationWashTime(int id)
+        public Result GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatus)
         {
-
-            return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, id, "Washes");
+            return ResultWrap(new WashesRal(_tenant).GetAllLocationWashTime, locationStoreStatus, "Washes");
         }
     }
 }

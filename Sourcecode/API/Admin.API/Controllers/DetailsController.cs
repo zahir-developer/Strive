@@ -96,5 +96,12 @@ namespace Admin.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         public Result DeleteDetails(int id) => _bplManager.DeleteDetails(id);
+
+        /// <summary>
+        /// Update job status
+        /// </summary>
+        [HttpPost]
+        [Route("UpdateJobStatus")]
+        public Result UpdateJobStatus([FromBody]JobStatusDto jobStatus) => _bplManager.UpdateJobStatus(jobStatus);
     }
 }

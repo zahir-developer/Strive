@@ -20,12 +20,16 @@ namespace Strive.BusinessLogic.MonthlySalesReport
         Result GetDailyStatusReport(DailyStatusReportDto DailyStatusReport);
         Result GetDailyStatusInfo(DailyStatusReportDto DailyStatusDailyStatusDetailInfo);
         Result GetDailyClockDetail(DailyStatusReportDto GetDailyClockDetail);
-        Result GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned);
+        Result GetMonthlyMoneyOwedReport(MonthlyMoneyOwedDto MonthlyMoneyOwed);
+        Result GetMonthlyMoneyOwedReportDetail(MonthlyMoneyOwedDto MonthlyMoneyOwed);
         Result GetEODSalesReport(SalesReportDto salesReportDto);
         EODReportPrintViewModel GetEODSalesExport(EODReportDto eodReportDto);
+        HourlyWashSalesReportViewModel GetHourlyWashExport(SalesReportDto salesReportDto);
         DailyStatusReportPrintViewModel GetDailyStatusExport(EODReportDto eodReportDto);
 
         Result GetDailySalesReport(DailySalesReportDto DailySalesReport);
         Result GetHourlyWashReport(SalesReportDto salesReportDto);
+        Result GetIrregularitiesReport(IrregularitiesDto Irregularities);
+        IrregularityViewModel GetIrregularitiesExport(IrregularitiesDto eodReportDto);
     }
 }

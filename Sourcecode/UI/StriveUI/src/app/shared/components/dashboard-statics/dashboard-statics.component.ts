@@ -2,14 +2,16 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DetailService } from '../../services/data-service/detail.service';
 import { MessageConfig } from '../../services/messageConfig';
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard-statics',
-  templateUrl: './dashboard-statics.component.html',
-  styleUrls: ['./dashboard-statics.component.css']
+  templateUrl: './dashboard-statics.component.html'
 })
 export class DashboardStaticsComponent implements OnInit {
   @Input() jobTypeId?: any;
+  @Input() jobType?: any;
   detailCount: any;
   washCount: any;
   employeeCount: any;
@@ -17,8 +19,12 @@ export class DashboardStaticsComponent implements OnInit {
   current: any;
   forecastedCar: any;
   averageTime: any;
+  washerCount: any;
+  detailerCount: any;
+  type: any;
   constructor(
     private detail: DetailService,
+    private datePipe: DatePipe, 
     private toastr: ToastrService
   ) { }
 
@@ -29,19 +35,22 @@ export class DashboardStaticsComponent implements OnInit {
   getDashboardDetails() {
     const obj = {
       id: localStorage.getItem('empLocationId'),
-      date: new Date(),
+      date: this.datePipe.transform(new Date() , 'MM/dd/yyyy HH:mm'),
       jobType: this.jobTypeId
     };
+    this.type = this.jobType;
     this.detail.getDetailCount(obj).subscribe( res => {
       const wash = JSON.parse(res.resultData);
       if (wash.Dashboard !== null) {
         this.detailCount = wash.Dashboard.DetailsCount;
         this.washCount = wash.Dashboard.WashesCount;
-        this.employeeCount = wash.Dashboard.EmployeeCount;
+        // this.employeeCount = wash.Dashboard.EmployeeCount;
         this.score = wash.Dashboard.Score;
         this.current = wash.Dashboard.Current;
         this.forecastedCar = wash.Dashboard.ForecastedCars;
         this.averageTime = wash.Dashboard.AverageWashTime;
+        this.washerCount = wash.Dashboard.EmployeeCount;
+        this.detailerCount = wash.Dashboard.DetailerCount;
       }
     }, (err) => {
       this.toastr.error(MessageConfig.CommunicationError, 'Error!');

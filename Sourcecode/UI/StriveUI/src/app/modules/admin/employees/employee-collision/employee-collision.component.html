@@ -14,7 +14,7 @@
                     <div class="input-group" id="datepicker">
                         <input type="text" class="form-control" placeholder="Date of Collision" #dp="bsDatepicker"
                             bsDatepicker formControlName="dateOfCollision" [outsideClick]="true"
-                            [bsConfig]="{ showWeekNumbers: false }"
+                            [bsConfig]="{ showWeekNumbers: false }" (focus)="dp.show()"
                             [ngClass]="{ 'is-invalid': submitted && f.dateOfCollision.errors }">
                         <div class="input-group-append">
                             <span class="input-group-text"><em

@@ -11,5 +11,6 @@ namespace Strive.BusinessEntities.DTO.Dashboard
         public long locationId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public DateTime CurrentDate { get; set; }
     }
 }

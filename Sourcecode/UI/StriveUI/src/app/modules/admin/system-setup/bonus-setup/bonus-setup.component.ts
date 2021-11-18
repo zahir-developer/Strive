@@ -8,8 +8,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-bonus-setup',
-  templateUrl: './bonus-setup.component.html',
-  styleUrls: ['./bonus-setup.component.css']
+  templateUrl: './bonus-setup.component.html'
 })
 export class BonusSetupComponent implements OnInit {
   locationId: any;
@@ -94,6 +93,9 @@ export class BonusSetupComponent implements OnInit {
     if (checkValue) {
       this.isValueMax = true;
     }
+    if (this.isMinValueObj?.isMinValue || this.isValueObj?.isValueMax) {
+      return;
+    }
     for (let i = 0; i < this.monthBonusList.length; i++) {
       if (+this.monthBonusList[i].Min > +this.monthBonusList[i].Max || +this.monthBonusList[i].Min === +this.monthBonusList[i].Max) {
         this.isValueObj = { isValueMax: true, index: i };
@@ -103,16 +105,16 @@ export class BonusSetupComponent implements OnInit {
       }
     }
 
-    let washCount = '';
-    if (this.monthBonusList.length === 1) {
-      washCount = '0';
-    }
+    // let washCount = '';
+    // if (this.monthBonusList.length === 1) {
+    //   washCount = '0';
+    // }
     this.monthBonusList.push({
       BonusRangeId: 0,
       BonusId: this.bonusId,
       Min: '',
       Max: '',
-      noOfWashes: washCount,
+      noOfWashes: '',
       BonusAmount: '',
       Total: '',
       IsActive: true,
@@ -160,7 +162,7 @@ export class BonusSetupComponent implements OnInit {
     if (bonus.BonusRangeId === 0) {
       this.monthBonusList = this.monthBonusList.filter((item, i) => i !== ind);
       if (this.monthBonusList.length === 0) {
-        this.addBonus()
+        this.addBonus();
       }
     } else {
       this.monthBonusList = this.monthBonusList.filter(item => item.BonusRangeId !== bonus.BonusRangeId);
@@ -170,6 +172,8 @@ export class BonusSetupComponent implements OnInit {
         this.addBonus();
       }
     }
+    this.isMinValueObj = { isMinValue: false, index: ind };
+    this.isValueObj = { isValueMax: false, index: ind };
   }
 
   totalCollisionAmount() {
@@ -236,6 +240,9 @@ export class BonusSetupComponent implements OnInit {
     });
     if (checkValue) {
       this.submitted = true;
+      return;
+    }
+    if (this.isMinValueObj?.isMinValue || this.isValueObj?.isValueMax) {
       return;
     }
     for (let i = 0; i < this.monthBonusList.length; i++) {
@@ -368,8 +375,13 @@ export class BonusSetupComponent implements OnInit {
           this.collisionDeduction = 0;
           this.badReviewDeduction = 0;
         }
+        if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
+          this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
+        } else {
+          this.noOfWashes = '';
+        }
         if (bonus?.BonusDetails?.BonusRange !== null) {
-          this.noOfWashes = 0;
+          // this.noOfWashes = 0;
           this.isEdit = true;
           this.monthBonusList = bonus?.BonusDetails?.BonusRange;
         } else {
@@ -377,10 +389,10 @@ export class BonusSetupComponent implements OnInit {
           this.monthBonusList = [
             {
               BonusRangeId: 0,
-              BonusId: this.bonusId,
+              BonusId: this.bonusId, 
               Min: '',
               Max: '',
-              noOfWashes: '',
+              noOfWashes: this.noOfWashes,   // ''
               BonusAmount: '',
               Total: '',
               IsActive: true,
@@ -388,15 +400,20 @@ export class BonusSetupComponent implements OnInit {
             }
           ];
         }
-        if (bonus?.BonusDetails?.LocationBasedWashCount !== null) {
-          this.noOfWashes = bonus.BonusDetails.LocationBasedWashCount.WashCount;
-        }
+        let isWashBetween = false;
         for (const list of this.monthBonusList) {
           if (+(list.Min) <= +this.noOfWashes && +this.noOfWashes <= +(list.Max)) {
             list.noOfWashes = this.noOfWashes;
             list.Total = list.BonusAmount;
+            isWashBetween = false;
             break;
+          } else {
+            isWashBetween = true;
+            list.Total = '';
           }
+        }
+        if (isWashBetween) {
+          this.toastr.info(MessageConfig.Admin.SystemSetup.BonusSetup.washesMsg, 'Information');
         }
         let totalAmount = 0;
         let deduction: any;

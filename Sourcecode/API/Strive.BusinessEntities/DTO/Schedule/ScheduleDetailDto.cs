@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities.DTO.Schedule
     {
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
-        public  int locationId { get; set; }
+        public int locationId { get; set; }
+        public int? EmployeeId { get; set; }
     }
 }

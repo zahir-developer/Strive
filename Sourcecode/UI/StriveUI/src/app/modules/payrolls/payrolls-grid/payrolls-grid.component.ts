@@ -17,8 +17,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-payrolls-grid',
-  templateUrl: './payrolls-grid.component.html',
-  styleUrls: ['./payrolls-grid.component.css']
+  templateUrl: './payrolls-grid.component.html'
 })
 export class PayrollsGridComponent implements OnInit {
   payrollDateForm: FormGroup;
@@ -72,10 +71,9 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollDateForm = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
-     
     });
     this.location = JSON.parse(localStorage.getItem('empLocation'));
-    //this.locationId = localStorage.getItem('empLocationId');
+    this.locationId = +localStorage.getItem('empLocationId');
     this.isEditAdjustment = false;
     this.patchValue();
     this.fileExportType = [
@@ -101,35 +99,40 @@ export class PayrollsGridComponent implements OnInit {
     } else if (this.payRollList.length === 0) {
       return;
     }
-    let excelReport : any = [];
-    if(this.payRollList.length > 0){
-      for(let i = 0; i < this.payRollList.length; i ++){
+    let excelReport: any = [];
+    if (this.payRollList.length > 0) {
+      for (let i = 0; i < this.payRollList.length; i++) {
         excelReport.push({
-        'Emp.ID': this.payRollList[i].EmployeeId,
-        'Payee Name': this.payRollList[i].PayeeName,
-        'Wash Hrs.' : this.payRollList[i].TotalWashHours,
-        'Detail Hrs.' : this.payRollList[i].TotalDetailHours,
-        'Rate': this.payRollList[i].WashRate,
-        'Reg. pay': this.payRollList[i].WashAmount,
-        'OT Hrs.': this.payRollList[i].OverTimeHours,
-        'OT Pay' : this.payRollList[i].OverTimePay,
-        'Collision' : this.payRollList[i].Collision,
+          'Emp.ID': this.payRollList[i].EmployeeId,
+          'Payee Name': this.payRollList[i].PayeeName,
+          'Wash Hrs.': this.payRollList[i].TotalWashHours,
+          'Detail Hrs.': this.payRollList[i].TotalDetailHours,
+          'Rate': this.payRollList[i].WashRate,
+          'Reg. pay': this.payRollList[i].WashAmount,
+          'OT Hrs.': this.payRollList[i].OverTimeHours,
+          'OT Pay': this.payRollList[i].OverTimePay,
+          'Collision': this.payRollList[i].Collision,
 
-        'Adjustment' : this.payRollList[i].Adjustment,
-        'Details com.': this.payRollList[i].DetailCommission,
-        'Payee Total': this.payRollList[i].PayeeTotal,
+          'Adjustment': this.payRollList[i].Adjustment,
+          'Details com.': this.payRollList[i].DetailCommission,
+          'CashTip': this.payRollList[i].CashTip,
+          'DetailTip': this.payRollList[i].DetailTip,
+          'CardTip': this.payRollList[i].CardTip,
+          'WashTip': this.payRollList[i].WashTip,
+          'Bonus': this.payRollList[i].Bonus,
+          'Payee Total': this.payRollList[i].PayeeTotal,
 
-      })
+        })
       }
     }
-    if(this.fileType == 1){
+    if (this.fileType == 1) {
       this.excelService.exportAsCSVFile(excelReport, 'payrollReport_' + moment(this.date).format('MM/dd/yyyy'));
     }
-    else{
+    else {
       this.excelService.exportAsExcelFile(excelReport, 'payrollReport_' + moment(this.date).format('MM/dd/yyyy'));
 
     }
-    
+
   }
   patchValue() {
     const curr = new Date(); // get current date
@@ -159,14 +162,18 @@ export class PayrollsGridComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     //this.runReport();
   }
+
+  onLocationChange(event) {
+    this.locationId = +event;
+  }
+
   runReport() {
     const locationId = this.locationId;
 
-    if(+locationId === 0)
-    {
+    if (+locationId === 0) {
       this.toastr.warning(MessageConfig.PayRoll.SelectLocation, 'Warning!');
       return;
     }
@@ -177,12 +184,11 @@ export class PayrollsGridComponent implements OnInit {
     this.payrollsService.getPayroll(locationId, startDate, endDate).subscribe(res => {
       if (res.status === 'Success') {
         this.spinner.hide();
-
         this.editRestriction();
         const payRoll = JSON.parse(res.resultData);
         if (payRoll.Result.PayRollRateViewModel) {
           this.payRollList = payRoll.Result.PayRollRateViewModel;
-          this.payRollBackup = payRoll.Result.PayRollRateViewModel
+          this.payRollBackup = payRoll.Result.PayRollRateViewModel;
           const length = this.payRollList === null ? 0 : this.payRollList.length;
           this.collectionSize = Math.ceil(length / this.pageSize) * 10;
           this.sort(ApplicationConfig.Sorting.SortBy.PayRoll);
@@ -198,7 +204,6 @@ export class PayrollsGridComponent implements OnInit {
       else {
         this.spinner.hide();
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-
       }
     }, (err) => {
       this.spinner.hide();
@@ -206,14 +211,14 @@ export class PayrollsGridComponent implements OnInit {
     });
   }
   editRestriction() {
-
     const empId = null;
     const startDate = this.datePipe.transform(this.payrollDateForm.value.fromDate, 'yyyy-MM-dd');
     const endDate = this.datePipe.transform(this.payrollDateForm.value.toDate, 'yyyy-MM-dd');
-    this.payrollsService.editRestriction(empId, startDate, endDate).subscribe(res => {
+    const locationId = this.locationId;
+    this.payrollsService.editRestriction(empId, startDate, endDate, locationId).subscribe(res => {
       const edit = JSON.parse(res.resultData);
       if (res.status === 'Success') {
-        if (edit.Result == false) {
+        if (edit.Result === false) {
 
           this.isEditRestriction = false;
           this.processLabel = "Process";
@@ -299,7 +304,8 @@ export class PayrollsGridComponent implements OnInit {
         if (oldPayroll.Adjustment !== +item.Adjustment) {
           updateObj.push({
             id: item.EmployeeId,
-            adjustment: +item.Adjustment
+            adjustment: +item.Adjustment,
+            LocationId:this.locationId
           });
         }
       }
@@ -336,13 +342,12 @@ export class PayrollsGridComponent implements OnInit {
         "createdDate": new Date(),
         "updatedBy": this.employeeId,
         "updatedDate": new Date(),
+        "locationId":this.locationId
       },
       "payrollEmployee": updatedObj
     }
     this.payRollList.forEach(item => {
       updatedObj.push({
-
-
         "payrollEmployeeId": item.EmployeeId,
         "employeeId": this.employeeId,
         "payrollProcessId": 0,
@@ -391,7 +396,6 @@ export class PayrollsGridComponent implements OnInit {
       const pageHeight = 295;
       const imgHeight = canvas.height * imgWidth / canvas.width;
       const heightLeft = imgHeight;
-
       const contentDataURL = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
       const position = 0;
@@ -400,4 +404,8 @@ export class PayrollsGridComponent implements OnInit {
     });
   }
 
+  newRunReport() {
+    this.page = 1;
+    this.runReport();
+      }
 }

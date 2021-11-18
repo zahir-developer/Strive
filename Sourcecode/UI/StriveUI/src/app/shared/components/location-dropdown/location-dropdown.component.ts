@@ -6,8 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-location-dropdown',
-  templateUrl: './location-dropdown.component.html',
-  styleUrls: ['./location-dropdown.component.css']
+  templateUrl: './location-dropdown.component.html'
 })
 export class LocationDropdownComponent implements OnInit {
   location = [];

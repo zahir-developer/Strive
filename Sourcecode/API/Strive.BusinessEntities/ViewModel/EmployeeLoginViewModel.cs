@@ -11,5 +11,6 @@ namespace Strive.BusinessEntities.DTO.Employee
         public List<EmployeeLocationDto> EmployeeLocations { get; set; }
         public List<Drawer> Drawer { get; set; }
         public List<RolePermissionViewModel> RolePermissionViewModel { get; set; }
+        public TokenExpireViewModel TokenExpireMinutes { get; set; }
     }
 }

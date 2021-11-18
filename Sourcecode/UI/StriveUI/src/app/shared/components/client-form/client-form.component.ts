@@ -7,11 +7,11 @@ import { GetCodeService } from '../../services/data-service/getcode.service';
 import { CityComponent } from '../city/city.component';
 import { MessageConfig } from '../../services/messageConfig';
 import { ApplicationConfig } from '../../services/ApplicationConfig';
+import { CodeValueService } from '../../common-service/code-value.service';
 
 @Component({
   selector: 'app-client-form',
-  templateUrl: './client-form.component.html',
-  styleUrls: ['./client-form.component.css']
+  templateUrl: './client-form.component.html'
 })
 export class ClientFormComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
@@ -34,8 +34,10 @@ export class ClientFormComponent implements OnInit {
   ClientNameAvailable: any;
   ClientEmailAvailable: boolean;
   isAmount: boolean;
+  creditCheck = false;
+  emailregex: RegExp = /^[ A-Za-z0-9@.]*$/;
   constructor(private fb: FormBuilder, private toastr: ToastrService,
-    private client: ClientService, private getCode: GetCodeService) { }
+    private client: ClientService, private getCode: GetCodeService, private codeService: CodeValueService) { }
 
 
   ngOnInit() {
@@ -88,8 +90,8 @@ export class ClientFormComponent implements OnInit {
 
   sameClientName() {
     const clientNameDto = {
-      FirstName: this.clientForm.value.fName,
-      LastName: this.clientForm.value.lName,
+      FirstName: this.clientForm.value.fName.replace(' ', ''),
+      LastName: this.clientForm.value.lName.replace(' ', ''),
       PhoneNumber: this.clientForm.value.phone1
     };
     if (this.clientForm.value.fName && this.clientForm.value.lName && this.clientForm.value.phone1) {
@@ -102,7 +104,6 @@ export class ClientFormComponent implements OnInit {
 
           } else {
             this.ClientNameAvailable = false;
-
           }
         }
       }, (err) => {
@@ -127,22 +128,28 @@ export class ClientFormComponent implements OnInit {
 
   // Get ClientType
   getClientType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
-      if (data.status === "Success") {
-        const cType = JSON.parse(data.resultData);
-        this.Type = cType.Codes;
-      } else {
+    const clientTypeValue = this.codeService.getCodeValueByType(ApplicationConfig.CodeValue.clientType);
+    if (clientTypeValue.length > 0) {
+      this.Type = clientTypeValue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.ClientType).subscribe(data => {
+        if (data.status === "Success") {
+          const cType = JSON.parse(data.resultData);
+          this.Type = cType.Codes;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      }, (err) => {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    }, (err) => {
-      this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-    });
+      });
+    }
   }
   getClientById() {
     this.selectedStateId = this.selectedData.State;
     this.State = this.selectedStateId;
     this.selectedCityId = this.selectedData.City;
     this.city = this.selectedCityId;
+    this.creditCheck = this.selectedData.IsCreditAccount
     this.clientForm.patchValue({
       fName: this.selectedData.FirstName,
       lName: this.selectedData.LastName,
@@ -202,12 +209,12 @@ export class ClientFormComponent implements OnInit {
     this.client.ClientEmailCheck(this.clientForm.controls.email.value).subscribe(res => {
       if (res.status === 'Success') {
         const sameEmail = JSON.parse(res.resultData);
-        if (sameEmail.emailExist === true) {
+        if (sameEmail.EmailIdExist === true) {
           this.ClientEmailAvailable = true;
           this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
         } else {
           this.ClientEmailAvailable = false;
-
+          this.toastr.info(MessageConfig.Client.emailNotExist, 'Information!');
         }
       }
     }, (err) => {

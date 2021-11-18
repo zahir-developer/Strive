@@ -32,6 +32,7 @@ namespace Strive.ResourceAccess
         {
             _prm.Add("@ProductSearch", search.ProductSearch);
             _prm.Add("@ProductTypeNames", search.ProductTypeNames);
+            _prm.Add("@status", search.Status);
             return db.Fetch<ProductViewModel>(EnumSP.Product.USPGETPRODUCTS.ToString(), _prm);
         }
 
@@ -53,6 +54,14 @@ namespace Strive.ResourceAccess
             db.Save(EnumSP.Product.USPDELETEPRODUCT.ToString(), _prm);
             return true;
         }
-        
+        public bool UpdateProductQuantity(ProductQuantityDto productQuantityDto)
+        {
+            _prm.Add("ProductId", productQuantityDto.ProductId);
+            _prm.Add("Quantity", productQuantityDto.Quantity);
+            db.Save(EnumSP.Sales.USPUPDATEPRODUCTQUANTITY.ToString(), _prm);
+            return true;
+        }
+
+
     }
 }

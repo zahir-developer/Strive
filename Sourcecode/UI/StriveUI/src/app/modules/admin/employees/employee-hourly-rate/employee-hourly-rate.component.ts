@@ -4,8 +4,7 @@ import { EmployeeService } from 'src/app/shared/services/data-service/employee.s
 
 @Component({
   selector: 'app-employee-hourly-rate',
-  templateUrl: './employee-hourly-rate.component.html',
-  styleUrls: ['./employee-hourly-rate.component.css']
+  templateUrl: './employee-hourly-rate.component.html'
 })
 export class EmployeeHourlyRateComponent implements OnInit {
   @Input() employeeId?: any;

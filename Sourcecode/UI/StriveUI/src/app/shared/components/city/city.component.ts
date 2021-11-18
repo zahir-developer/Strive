@@ -7,8 +7,7 @@ import { MessageConfig } from '../../services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-city',
-  templateUrl: './city.component.html',
-  styleUrls: ['./city.component.css']
+  templateUrl: './city.component.html'
 })
 export class CityComponent implements OnInit, AfterViewChecked {
   @Input() isView: any;

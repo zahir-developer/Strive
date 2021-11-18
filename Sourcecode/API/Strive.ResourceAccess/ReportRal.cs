@@ -85,14 +85,21 @@ namespace Strive.ResourceAccess
 
             return result;
         }
-        public List<MonthlyMoneyOwnedReportViewModel> GetMonthlyMoneyOwnedReport(MonthlyMoneyOwnedDto MonthlyMoneyOwned)
+        public List<MonthlyMoneyOwedReportViewModel> GetMonthlyMoneyOwedReport(MonthlyMoneyOwedDto MonthlyMoneyOwed)
         {
-            _prm.Add("@Date", MonthlyMoneyOwned.Date);
-            _prm.Add("@LocationId", MonthlyMoneyOwned.LocationId);
-            var result = db.Fetch<MonthlyMoneyOwnedReportViewModel>(EnumSP.SalesReport.USPGETMONTHLYMONEYOWNEDREPORT.ToString(), _prm);
+            _prm.Add("@Date", MonthlyMoneyOwed.Date);
+            _prm.Add("@LocationId", MonthlyMoneyOwed.LocationId);
+            var result = db.Fetch<MonthlyMoneyOwedReportViewModel>(EnumSP.SalesReport.USPGETMONTHLYMONEYOWNEDREPORT.ToString(), _prm);
             return result;
         }
 
+        public MoneyOwedReportDetailViewModel GetMonthlyMoneyOwedReportDetail(MonthlyMoneyOwedDto MonthlyMoneyOwned)
+        {
+            _prm.Add("@Date", MonthlyMoneyOwned.Date);
+            _prm.Add("@LocationId", MonthlyMoneyOwned.LocationId);
+            var result = db.FetchMultiResult<MoneyOwedReportDetailViewModel>(EnumSP.SalesReport.USPGETMONEYOWEDREPORTDETAIL.ToString(), _prm);
+            return result;
+        }
         public EODSalesReportViewModel GetEODSalesReport(SalesReportDto salesReportDto)
         {
             _prm.Add("@LocationId", salesReportDto.LocationId);
@@ -126,5 +133,14 @@ namespace Strive.ResourceAccess
             var result = db.FetchMultiResult<HourlyWashSalesViewModel>(EnumSP.SalesReport.USPGETHOURLYWASHSALESREPORT.ToString(), _prm);
             return result;
         }
+        public IrregularityViewModel GetIrregularitiesReport(IrregularitiesDto irregularitiesDto)
+        {
+            _prm.Add("@LocationId", irregularitiesDto.LocationId);
+            _prm.Add("@FromDate", irregularitiesDto.FromDate);
+            _prm.Add("@EndDate", irregularitiesDto.EndDate);
+            var result = db.FetchMultiResult<IrregularityViewModel>(EnumSP.SalesReport.USPGETIRREGULARITIESREPORT.ToString(), _prm);
+            return result;
+        }
+        
     }
 }

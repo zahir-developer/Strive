@@ -13,5 +13,7 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTime ToDate { get; set; }
         public int PayrollEmployeeId { get; set; }
         public int EmployeeId { get; set; }
+        public int LocationId { get; set; }
+
     }
 }

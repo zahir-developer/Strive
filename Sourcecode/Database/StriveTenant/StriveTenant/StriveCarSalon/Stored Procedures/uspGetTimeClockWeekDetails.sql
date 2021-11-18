@@ -1,21 +1,27 @@
-﻿--[StriveCarSalon].[uspGetTimeClockWeekDetails] 1456,1,'2021-05-30','2021-06-05'  
-CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails]   
-@EmployeeId INT,  
-@LocationId INT,  
-@StartDate DATETIME,  
-@EndDate DATETIME  
-/*  
------------------------------------------------------------------------------------------  
-Author              : Lenin  
-Create date         : 14-SEP-2020  
-Description         : To Get TimeClock Details for an Employee for a Week  
-FRS     : TimeClock Maintainance  
------------------------------------------------------------------------------------------  
- Rev | Date Modified | Developer | Change Summary  
------------------------------------------------------------------------------------------  
-  1  |  2020-Sep-01   | Lenin  | Added RollBack for errored transaction   
-  2  |  2020-Sep-16   | Zahir  | Procedure Name changed. Column name changes added. Parameter name changes.  
-  3  |  2021-MAy-20   | Shalini  | Wash rate changed..taking from employeehourlyrate table  
+﻿
+
+
+
+
+
+
+CREATE PROCEDURE [StriveCarSalon].[uspGetTimeClockWeekDetails] --136,2056,'2021-01-03','2021-01-09'
+@EmployeeId INT,
+@LocationId INT,
+@StartDate DATETIME,
+@EndDate DATETIME
+/*
+-----------------------------------------------------------------------------------------
+Author              : Lenin
+Create date         : 14-SEP-2020
+Description         : To Get TimeClock Details for an Employee for a Week
+FRS					: TimeClock Maintainance
+-----------------------------------------------------------------------------------------
+ Rev | Date Modified | Developer	| Change Summary
+-----------------------------------------------------------------------------------------
+  1  |  2020-Sep-01   | Lenin		| Added RollBack for errored transaction 
+  2  |  2020-Sep-16   | Zahir		| Procedure Name changed. Column name changes added. Parameter name changes.
+  3  |  2021-MAy-20   | Shalini		| Wash rate changed..taking from employeehourlyrate table
   4  |  2021-June-08  | Vetriselvi  | Added Location filter in Collision  
     
   
@@ -220,4 +226,4 @@ SELECT --TotalWashHours1,TotalDetailHours1,OverTimeHours1,
 Replace(TotalWashHours,'.',':') AS TotalWashHours,REPLACE(TotalDetailHours,'.',':') AS TotalDetailHours,  
  WorkHourThreshold,Replace(OverTimeHours,'.',':')AS OverTimeHours, WashRate,DetailRate,[WashAmount],[DetailAmount],OverTimePay,CollisionAmount,GrandTotal   
  FROM #Result  
-END
+END  

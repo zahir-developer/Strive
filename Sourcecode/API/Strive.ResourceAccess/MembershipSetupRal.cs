@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Strive.BusinessEntities;
+using Strive.BusinessEntities.DTO.Location;
 using Strive.BusinessEntities.DTO.MembershipSetup;
 using Strive.BusinessEntities.MembershipSetup;
 using Strive.BusinessEntities.ViewModel;
@@ -43,6 +44,13 @@ namespace Strive.ResourceAccess
             return true;
         }
 
+        public bool DeleteVehicleMembershipById(int ClientMembershipid)
+        {
+            _prm.Add("ClientMembershipId", ClientMembershipid);
+            db.Save(EnumSP.Membership.USPDELETEVEHICLEMEMBERSHIP.ToString(), _prm);
+            return true;
+        }
+
         public List<MembershipServiceViewModel> GetMembershipById(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);
@@ -59,6 +67,8 @@ namespace Strive.ResourceAccess
             var result = db.Fetch<AllMembershipViewModel>(EnumSP.Membership.USPGETALLMEMBERSHIP.ToString(), _prm);
             return result;
         }
+
+
         public bool GetVehicleMembershipByMembershipId(int membershipid)
         {
             _prm.Add("@MembershipId", membershipid);

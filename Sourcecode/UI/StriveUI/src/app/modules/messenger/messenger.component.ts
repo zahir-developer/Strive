@@ -16,7 +16,6 @@ declare var $: any;
 @Component({
   selector: 'app-messenger',
   templateUrl: './messenger.component.html',
-  styleUrls: ['./messenger.component.css'],
   providers: [SignalRService]
 })
 export class MessengerComponent implements OnInit, AfterViewChecked {
@@ -148,7 +147,9 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
 
 
   LoadMessageChat(employeeObj) {
+
     this.spinner.show();
+    this.previouslyMessaged = true;
     this.messengerEmployeeSearchComponent.closeemp();
     this.selectedEmployee = employeeObj;
     this.isGroupChat = employeeObj.IsGroup;
@@ -204,7 +205,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage(override = false) {
-    if (this.messageBody.trim() === '' && override) {
+    if (this.messageBody.trim() === '' && !override) {
       this.messageNotification.showMessage({ severity: 'warning', title: 'Warning', body: MessageConfig.Messenger.Message });
       return;
     }
@@ -330,6 +331,7 @@ export class MessengerComponent implements OnInit, AfterViewChecked {
   }
 
   sendFirstMessage(selectedEmployee) {
+    this.previouslyMessaged = true;
     this.sendMessage(true);
   }
 

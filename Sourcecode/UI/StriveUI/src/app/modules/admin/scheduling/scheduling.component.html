@@ -28,7 +28,7 @@
 
                 </ul>
                 <div class="tab-content">
-                    <app-dashboard-statics [jobTypeId]="jobTypeId"></app-dashboard-statics>
+                    <app-dashboard-statics [jobTypeId]="jobTypeId" [jobType]="'Detail'"></app-dashboard-statics>
                     <div class="row no-gutter">
                         <div class="col-xl-3">
                             <div class="card">
@@ -37,13 +37,19 @@
                                     <div class="input-icon right p-10"> <i class="mdi mdi-magnify search-icon"
                                             (click)="searchEmployee()"></i>
                                         <input type="text" class="form-control rounded-0" placeholder="Search Employee"
-                                            (input)=searchVechicleList($event.target.value)>
+                                            (input)=searchEmployeeList($event.target.value)>
                                     </div>
-                                    <div class="Search-box " #draggable_people>
+                                    <div class="Search-box" #draggable_people>
+                                        <div *ngIf="empList !== null" class="ml-3">
+                                            <div>
+                                                <input type="checkbox" id="selectAll" [checked]="isSelectAll" (click)="selectAllEmployees($event)">&nbsp;&nbsp;
+                                                <label for="selectAll">Select All</label>
+                                            </div>
+                                        </div>
                                         <div *ngFor="let emp of empList">
                                             <div class="fc-event Search-item border-top "
                                                 style=" display: flex;background-color: transparent; color:black !important;border-top: 1px solid #dddd!important;">
-                                                <img class="mr-3 rounded-circle" src="assets/img/male.png" width="40"
+                                                <img class="mr-3 rounded-circle" src="http://mammothuatapi-cdn.azurewebsites.net/images/male.png" width="40"
                                                     alt="Search image">
                                                 <div class="Search-item-body"> <span class="float-right">
                                                         <div class="custom-control custom-checkbox">
@@ -99,7 +105,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><span id="name">{{empName}}</span>- <span id="empId">{{empId}}</span></h5>
+                <h5 class="modal-title"><span>#</span><span id="empId">{{empId}}</span> - <span id="name">{{empName}}</span></h5>
                 <button type="button" class="close" (click)="cancel()" aria-label="Close"> <span
                         aria-hidden="true">×</span> </button>
             </div>
@@ -134,7 +140,7 @@
                         <div class="form-group col-md-12">
                             <input type="checkbox" id="isleave" [(ngModel)]="isLeave"
                                 [ngModelOptions]="{standalone: true}" (change)="isAbsentChange($event)">&nbsp;
-                            <label>Not Available</label>
+                            <label for="isleave">Not Available</label>
                         </div>
                     </div>
                     <div class="form-row">
@@ -161,7 +167,7 @@
         </div>
     </div>
 </div>
-<p-dialog styleClass="MyDialog" header="Forcased Detail" [(visible)]="forecastDialog" [blockScroll]="true" [modal]="true" [resizable]="true"
+<p-dialog styleClass="MyDialog" header="Forecasted Detail" [(visible)]="forecastDialog" [blockScroll]="true" [modal]="true" [resizable]="true"
     appendTo="body" [focusOnShow]="false" [closable]="true">
     <div class="table-responsive">
         <table class="table  table-striped m-t-10">

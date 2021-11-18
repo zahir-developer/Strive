@@ -8,7 +8,12 @@ export const UrlConfig = {
     getOtpCode: `Auth/SendOTP/`,
     verifyOtp: `Auth/VerfiyOTP/`,
     resetPassword: `Auth/ResetPassword`,
-
+    customerSignup: `Auth/CustomerSignup`,
+    allmake: `Auth/GetAllMake`,
+    model:`Auth/GetModelById/`,
+    emailIdExists: `Auth/EmailIdExists/`,
+    color: `Auth/GetAllColor`,
+    ModelByMakeId: `Auth/GetModelById/`
   },
   AdSetup: {
     getadSetup: `Admin/AdSetup/GetAll`,
@@ -34,11 +39,11 @@ export const UrlConfig = {
     getPaymentStatus: `Admin/Common/GetCodesByCategory/`,
     cityList: `Admin/Common/GetCodesByCategory/`,
     cityByStateId: `Admin/Common/GetCityByStateId/`,
-    modelByMakeId: `Admin/Common/GetModelById/`,
+    ModelByMakeId: `Admin/Common/GetModelById/`,
     getUpchargeType : `Admin/Common/GetUpchargeType/`,
     getDropdownValue: `Admin/Common/GetCodesByCategory/`,
     stateList: `Admin/Common/StateList`,
-    makeList: `Admin/Common/GetAllMake`,
+    MakeList: `Admin/Common/GetAllMake`,
 
     countryList: `Admin/Common/CountryList`,
     getTicketNumber: `Admin/Common/GetTicketNumber/`,
@@ -81,6 +86,8 @@ export const UrlConfig = {
     updateClient: `Admin/Client/UpdateClientVehicle`,
     deleteClient: `Admin/Client/`,
     getClientById: `Admin/Client/GetClientById/`,
+    getClientList: `Admin/Client/EmailBlast/`,
+    getCSVClientList: `Admin/Client/EmailBlastCSV/`,
   },
   details: {
     addDetail: `Admin/Details/AddDetails`,
@@ -93,8 +100,8 @@ export const UrlConfig = {
     getJobType: `Admin/Details/GetJobType`,
     getTodayDateScheduleList: `Admin/Details/GetAllDetails`,
     saveEmployeeWithService: `Admin/Details/AddServiceEmployee`,
-    getDetailScheduleStatus: `Admin/Details/GetDetailScheduleStatus`
-
+    getDetailScheduleStatus: `Admin/Details/GetDetailScheduleStatus`,
+    updateJobStatus: `Admin/Details/UpdateJobStatus`
   },
 
 
@@ -112,7 +119,8 @@ export const UrlConfig = {
     getEmployeeDocumentById: `Admin/Document/GetEmployeeDocumentById/`,
     deleteEmployeeDocument: `Admin/Document/DeleteEmployeeDocument/`,
     getAllEmployeeName: `Admin/Employee/GetAllEmployeeName`,
-    getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`
+    getEmployeeHourlyRateById: `Admin/Employee/GetEmployeeHourlyRateById`,
+    validateEmail: `Admin/Common/GetEmailIdExist/`
   },
 
   giftCard: {
@@ -135,7 +143,8 @@ export const UrlConfig = {
     updateLocation: `Admin/Location/Update`,
     getLocationById: `Admin/Location/GetById`,
     getLocationSearch: `Admin/Location/GetLocationSearch`,
-    getAllLocationName: `Admin/Location/GetAllLocationName`
+    getAllLocationName: `Admin/Location/GetAllLocationName`,
+    getMerchantDetails: `Admin/Location/GetMerchantDetails`,
   },
   MembershipSetup: {
     getMembershipByName: `Admin/MembershipSetup/GetAllMembershipName`,
@@ -149,7 +158,8 @@ export const UrlConfig = {
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getAllMembership: `Admin/MembershipSetup/GetAll`,
     getAllMembershipName: `Admin/MembershipSetup/GetAllMembershipName`,
-    deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,},
+    deleteRestrictionMembershipByVehicleId: `Admin/MembershipSetup/GetVehicleMembershipByMembershipId/`,
+  },
 
   Messenger:
   {
@@ -161,7 +171,8 @@ export const UrlConfig = {
     getUnReadMessageCount: `Admin/Messenger/GetUnReadMessageCount/`,
     getGroupMemberList: `Admin/Messenger/GetChatGroupEmployeelist/`,
     deleteGroupUser: `Admin/Messenger/DeleteChatGroupUser/`,
-    changeUnreadMessageState: `Admin/Messenger/ChangeUnreadMessageState`
+    changeUnreadMessageState: `Admin/Messenger/ChangeUnreadMessageState`,
+    getAllEmployeeName: `Admin/Messenger/getAllEmployeeName`
   },
   ServiceSetup: {
     getServiceSetup: `Admin/ServiceSetup/GetAll`,
@@ -203,13 +214,17 @@ export const UrlConfig = {
     getDailyClockDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getCashRegister: `Admin/CashRegister/Get`,
     getMonthlyMoneyOwnedReport: `Admin/Report/GetMonthlyMoneyOwnedReport`,
+    getMonthlyOwedReport: `Admin/Report/GetMonthlyMoneyOwedReport`,
     getEodSaleReport: `Admin/Report/EODSalesReport`,
     getTimeClockEmpHoursDetail: `Admin/TimeClock/GetTimeClockEmployeeHourDetails`,
     getDailySalesReport: `Admin/Report/DailySalesReport`,
-    getHourlyWashReport: `Admin/Report/GetHourlyWashReport`
+    getHourlyWashReport: `Admin/Report/GetHourlyWashReport`,
+    getHourlyWashExport: `Admin/Report/HourlyWashExport`,
+    getIrregularityReports: `Admin/Report/GetIrregularitiesReport`,
+    getIrregularityExport: `Admin/Report/IrregularitiesExport`,
   },
   sales: {
-    addItem: `Admin/Sales/AddListItem`,
+    addListItem: `Admin/Sales/AddListItem`,
     updateListItem: `Admin/Sales/UpdateListItem`,
     updateItem: `Admin/Sales/UpdateItem`,
     addPayment: `Admin/Sales/AddPayment`,
@@ -221,7 +236,8 @@ export const UrlConfig = {
     getItemByTicketNumber: `Admin/Sales/GetScheduleByTicketNumber`,
     deleteItemById: `Admin/Sales/DeleteItemById`,
     updateProductObj: `Admin/Sales/SaveProductItem`,
-
+    AddCreditCardPayment: `Payment/PaymentGateway/TrasactionWithUserFields`,
+    getTicketsByPaymentId: `Admin/Sales/GetTicketsByPaymentId/`
   },
   dashboard: {
     getDashboardLocation: `Admin/Location/GetAll`,
@@ -273,7 +289,6 @@ export const UrlConfig = {
     getAllVehicle: `Admin/Vehicle/GetAll`,
     updateVehicle: `Admin/Vehicle/SaveClientVehicleMembership`,
     deleteVehicle: `Admin/Vehicle/Delete`,
-    getMembershipByVehicle: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     getVehicleMembershipDetailsByVehicleId: `Admin/Vehicle/GetVehicleMembershipDetailsByVehicleId`,
     getVehicleByClientId: `Admin/Vehicle/GetVehicleByClientId`,
     getVehicleCodes: `Admin/Vehicle/GetVehicleCodes`,
@@ -281,8 +296,8 @@ export const UrlConfig = {
     getVehicleMembership: `Admin/Vehicle/GetVehicleMembership`,
     addVehicle: 'Admin/Vehicle/AddVehicle',
     getAllVehicleThumbnail: `Admin/Vehicle/GetAllVehicleThumbnail/`,
-    getVehicleImageById: `Admin/Vehicle/GetVehicleImageById/`
-
+    getVehicleImageById: `Admin/Vehicle/GetVehicleImageById/`,
+    getMembershipDiscountStatus: `Admin/Vehicle/GetMembershipDiscountStatus/`
   },
   washes: {
     getAllWash: `Admin/Washes/GetAllWashes`,
@@ -292,7 +307,7 @@ export const UrlConfig = {
     deleteWash: `Admin/washes/Delete`,
     getDashBoardCount: `Admin/Washes/DashboardCount`,
     getByBarcode: `Admin/Washes/GetByBarCode/`,
-    getWashTimeByLocationId: `Admin/Washes/GetWashTimeByLocationId`
+    getWashTimeByLocationId: `Admin/Washes/GetAllLocationWashTime`
   },
   weather: {
     getTargetBusinessData: `Admin/Weather/GetWeatherPrediction/`,
@@ -328,6 +343,12 @@ export const UrlConfig = {
     getTenantDetailById: `Admin/Tenant/TenantById/`,
     updateTenant: `Admin/Tenant/UpdateTenant`,
     getStateList: `Admin/Tenant/StateList`,
-    getCityByStateId: `Admin/Tenant/GetCityByStateId/`
+    getCityByStateId: `Admin/Tenant/GetCityByStateId/`,
+    getMaxLocationCount :'Admin/Tenant/GetLocationMaxLimit'
+  },
+
+  paymentGateway: {
+    paymentAuth: `Payroll/PaymentGateway/Auth`,
+    paymentCapture: `Payroll/PaymentGateway/Capture`
   }
 };

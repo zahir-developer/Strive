@@ -9,12 +9,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 
 @Component({
   selector: 'app-employee-hand-book',
-  templateUrl: './employee-hand-book.component.html',
-  styleUrls: ['./employee-hand-book.component.css']
+  templateUrl: './employee-hand-book.component.html'
 })
 export class EmployeeHandBookComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
@@ -41,11 +41,15 @@ export class EmployeeHandBookComponent implements OnInit {
   sortColumn: { sortBy: string; sortOrder: string; };
   actionType: string;
   header: string;
+  collectionSize: number = 0;
+  pageSize: number;
+  pageSizeList: number[];
+  page: number;
 
   constructor(private documentService: DocumentService, private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-
-    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService) { }
+    private confirmationService: ConfirmationUXBDialogService, private getCode: GetCodeService,
+    private codeValueService: CodeValueService) { }
   ngOnInit(): void {
     this.sortColumn = {
       sortBy: ApplicationConfig.Sorting.SortBy.EmployeeHandbook,
@@ -53,6 +57,10 @@ export class EmployeeHandBookComponent implements OnInit {
     }
     this.isLoading = false;
     this.getDocumentType();
+    this.page = ApplicationConfig.PaginationConfig.page;
+    this.pageSize = ApplicationConfig.PaginationConfig.TableGridSize;
+    this.pageSizeList = ApplicationConfig.PaginationConfig.Rows;
+    this.getDocument();
   }
 
   adddata(data, handbookDetails?) {
@@ -109,18 +117,24 @@ this.header = "Edit Employee Handbook";
       });
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.EmployeeHandBook)[0].CodeId;
-        this.getDocument();
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const documentTypeVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.CodeValue.documentType);
+    console.log(documentTypeVaue, 'cached value ');
+    if (documentTypeVaue.length > 0) {
+      this.documentTypeId = documentTypeVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.EmployeeHandBook)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.documentType).subscribe(data => {
+        if (data.status === "Success") {
+          const dType = JSON.parse(data.resultData);
+          this.documentTypeId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.EmployeeHandBook)[0].CodeId;
+          this.getDocument();
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        });
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      });
   }
 
   getDocument() {
@@ -133,7 +147,9 @@ this.header = "Edit Employee Handbook";
         this.document = documentDetails.Document;
         this.Documents = this.document?.Document;
         this.sort(ApplicationConfig.Sorting.SortBy.EmployeeHandbook)
-
+        this.collectionSize = Math.ceil(this.document.length / this.pageSize) * 10;
+        console.log(this.collectionSize);
+        this.isTableEmpty = false;
       } else {
         this.isLoading = false;
 
@@ -231,5 +247,20 @@ this.header = "Edit Employee Handbook";
     }
     return '';
   }
+
+
+  paginate(event) {
+    this.pageSize = +this.pageSize;
+    this.page = event;
+    this.getDocument();
+  }
+  paginatedropdown(event) {
+    this.pageSize = +event.target.value;
+    this.page = 1;
+    this.getDocument();
+  }
+
+
+
 
 }

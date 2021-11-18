@@ -13,8 +13,7 @@ import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 
 @Component({
   selector: 'app-location-create-edit',
-  templateUrl: './location-create-edit.component.html',
-  styleUrls: ['./location-create-edit.component.css']
+  templateUrl: './location-create-edit.component.html'
 })
 export class LocationCreateEditComponent implements OnInit {
   @ViewChild(StateDropdownComponent) stateDropdownComponent: StateDropdownComponent;
@@ -42,6 +41,12 @@ export class LocationCreateEditComponent implements OnInit {
   offsetD = '';
   offsetE = '';
   offsetF = '';
+
+  //Merchat Detail
+
+  merchantId = '';
+  merchantUserName = '';
+  merchantPassword = '';
   emailPattern: '^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$'
   isOffset: boolean;
   employeeId: number;
@@ -158,6 +163,11 @@ export class LocationCreateEditComponent implements OnInit {
       this.offsetE = this.selectedData.LocationOffset.OffSetE;
       this.offsetF = this.selectedData.LocationOffset.OffSetF;
     }
+    if (this.selectedData.MerchantDetail !== null) {
+      this.merchantId = this.selectedData?.MerchantDetail.MID;
+      this.merchantUserName = this.selectedData?.MerchantDetail.UserName;
+      this.merchantPassword = this.selectedData?.MerchantDetail.Password;
+    }
   }
 
   change(data) {
@@ -207,8 +217,7 @@ export class LocationCreateEditComponent implements OnInit {
       });
     });
 
-    this.emailRemovedList.forEach((item, index) => 
-    {
+    this.emailRemovedList.forEach((item, index) => {
       this.emailAddress.push({
         locationEmailId: item.LocationEmailId,
         locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
@@ -235,15 +244,18 @@ export class LocationCreateEditComponent implements OnInit {
       state: this.State,
       zip: this.locationSetupForm.value.zipcode,
       country: this.countryDropdownComponent.country,
-      longitude: 0,
-      latitude: 0,
+      longitude: this.isEdit ? this.selectedData.LocationAddress.Longitude : 0,
+      latitude: this.isEdit ? this.selectedData.LocationAddress.Latitude : 0,
       weatherLocationId: 0,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
       createdDate: moment(new Date()).format('YYYY-MM-DD'),
       updatedBy: this.employeeId,
-      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+      updatedDate: moment(new Date()).format('YYYY-MM-DD'),
+      cityName : this.cityComponent.city.name,
+      stateName : this.stateDropdownComponent.state.name
+
     };
     const formObj = {
       locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
@@ -296,13 +308,30 @@ export class LocationCreateEditComponent implements OnInit {
       updatedDate: moment(new Date()).format('YYYY-MM-DD')
     };
 
+    const merchantDetail = {
+      merchantDetailId: this.isEdit ? this.selectedData?.MerchantDetail?.MerchantDetailId : 0,
+      locationId: this.isEdit ? this.selectedData.Location.LocationId : 0,
+      mid: this.merchantId,
+      userName: this.merchantUserName,
+      password: this.merchantPassword,
+      isActive: true,
+      isDeleted: false,
+      createdBy: this.employeeId,
+      createdDate: moment(new Date()).format('YYYY-MM-DD'),
+      updatedBy: this.employeeId,
+      updatedDate: moment(new Date()).format('YYYY-MM-DD')
+    }
+
     const finalObj = {
       location: formObj,
       locationAddress: this.address,
       locationOffset,
-      locationEmail: this.emailAddress
-
+      locationEmail: this.emailAddress,
+      merchantDetail: merchantDetail
     };
+
+    console.log(finalObj);
+    
     if (this.isEdit === false) {
       this.spinner.show();
       this.locationService.saveLocation(finalObj).subscribe(data => {

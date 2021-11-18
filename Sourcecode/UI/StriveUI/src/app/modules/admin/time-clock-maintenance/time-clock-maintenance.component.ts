@@ -11,8 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-time-clock-maintenance',
-  templateUrl: './time-clock-maintenance.component.html',
-  styleUrls: ['./time-clock-maintenance.component.css']
+  templateUrl: './time-clock-maintenance.component.html'
 })
 export class TimeClockMaintenanceComponent implements OnInit {
 
@@ -114,7 +113,7 @@ export class TimeClockMaintenanceComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.weeklyDateAssign();
   }
 
@@ -243,7 +242,7 @@ return
       employeeId: this.selectedEmployee.EmployeeId,
       locationId: localStorage.getItem('empLocationId'),
       roleId: null,
-      eventDate: moment(this.startDate).format(),
+      eventDate: moment(this.startDate).format('YYYY-MM-DD'),
       inTime: null,
       outTime: null,
       eventType: null,

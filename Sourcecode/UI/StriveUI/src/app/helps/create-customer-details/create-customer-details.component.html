@@ -21,11 +21,12 @@
         </div>
         <div class="form-group">
             <label> Date Of Birth :</label>
-            <input type="text" placeholder="Enter customer Date of Birth" formControlName="dob"class="form-control" bsDatepicker>
+            <input type="text" placeholder="Enter customer Date of Birth" formControlName="dob" class="form-control"
+                #pd="bsDatepicker" (focus)="pd.show()" bsDatepicker>
         </div>
         <div class="form-group">
             <label>Phone : </label>
-            <input type="text" class="form-control" formControlName="phone" placeholder="Enter customer phone">
+            <input type="text" class="form-control" formControlName="phone" (focus)="pd.hide()" placeholder="Enter customer phone">
         </div>
 
         <div class="form-group">
@@ -46,25 +47,25 @@
             <label> How would you about this services? </label>
             <div class="checkbox">
                 <label><input type="checkbox" value="">&nbsp;&nbsp;NewsLetter</label>
-              </div>
-              <div class="checkbox">
+            </div>
+            <div class="checkbox">
                 <label><input type="checkbox" value="">&nbsp;&nbsp;AD</label>
-              </div>
-              <div class="checkbox">
-                <label><input type="checkbox" value="" >&nbsp;&nbsp;Others</label>
-              </div>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="">&nbsp;&nbsp;Others</label>
+            </div>
         </div>
         <div class="form-group">
             <label>Payment Method</label>
             <div class="radio">
                 <label><input type="radio" name="optradio" checked>&nbsp;&nbsp;NetBanking</label>
-              </div>
-              <div class="radio">
+            </div>
+            <div class="radio">
                 <label><input type="radio" name="optradio">&nbsp;&nbsp;Credit Card</label>
-              </div>
-              <div class="radio disabled">
-                <label><input type="radio" name="optradio" >&nbsp;&nbsp;Others</label>
-              </div>
+            </div>
+            <div class="radio disabled">
+                <label><input type="radio" name="optradio">&nbsp;&nbsp;Others</label>
+            </div>
         </div>
         <button type="reset" class="btn btn-warning mr-1" (click)="reset()">Reset</button>
         <button type="submit" [disabled]="!createCustomerForm.valid" class="btn btn-primary">Insert Customer</button>

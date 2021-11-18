@@ -14,3 +14,6 @@
   .disable {
       background-color: #e9ecef;
   }
+.close {
+    color: black !important;
+}

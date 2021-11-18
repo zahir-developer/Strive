@@ -10,6 +10,7 @@ namespace Strive.BusinessEntities.ViewModel
     {
         public decimal WashTips { get; set; }
 
+        public decimal DetailTips { get; set; }
     }
 }
 

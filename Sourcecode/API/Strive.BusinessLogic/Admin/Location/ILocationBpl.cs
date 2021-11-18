@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Location;
+using Strive.BusinessEntities.DTO.MembershipSetup;
 using Strive.Common;
 
 namespace Strive.BusinessLogic.Location
@@ -23,5 +24,6 @@ namespace Strive.BusinessLogic.Location
         Result DeleteLocationOffset(int id);
 
         Result GetAllLocationName();
+        Result GetMerchantDetails(MerchantSearch search);
     }
 }

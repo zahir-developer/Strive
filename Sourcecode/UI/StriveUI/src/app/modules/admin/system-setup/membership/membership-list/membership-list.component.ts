@@ -12,7 +12,14 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-membership-list',
   templateUrl: './membership-list.component.html',
-  styleUrls: ['./membership-list.component.css']
+  styles: [`
+  .table-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 350px;
+}
+  `]
 })
 export class MembershipListComponent implements OnInit {
   membershipDetails = [];
@@ -90,7 +97,7 @@ export class MembershipListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllMembershipDetails();
   }
 

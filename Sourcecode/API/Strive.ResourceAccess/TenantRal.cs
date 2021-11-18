@@ -9,12 +9,13 @@ using System.Data;
 using Strive.Common;
 using Strive.BusinessEntities.ViewModel;
 using Strive.BusinessEntities.City;
+using Strive.BusinessEntities.DTO;
 
 namespace Strive.ResourceAccess
 {
     public class TenantRal : RalBase
     {
-        public TenantRal(ITenantHelper tenant, bool isAuth = false) : base(tenant, isAuth)
+        public TenantRal(ITenantHelper tenant, bool isAuth = false, bool isTenantAdmin = false) : base(tenant, isAuth, isTenantAdmin)
         {
         }
 
@@ -57,9 +58,9 @@ namespace Strive.ResourceAccess
 
             return result;
         }
-        public bool AddModule(TenantListModuleViewModel module)
+        public int AddModule(TenantListModuleViewModel module)
         {
-            return dbRepo.InsertPc(module, "ModuleId");
+            return dbRepo.InsertPK(module, "ModuleId");
         }
         public bool UpdateTenant(TenantViewModel tenant)
         {
@@ -86,23 +87,28 @@ namespace Strive.ResourceAccess
         {
             return dbRepo.UpdatePc(module);
         }
-        public List<ClientTenantViewModel> GetAllTenant()
-        {           
-            return db.Fetch<ClientTenantViewModel>(EnumSP.Tenant.USPGETTENANT.ToString(), _prm);
+        public ClientTenantGridViewModel GetAllTenant(SearchDto searchDto)
+        {
+            _prm.Add("PageNo", searchDto.PageNo);
+            _prm.Add("PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            return db.FetchMultiResult<ClientTenantGridViewModel>(EnumSP.Tenant.USPGETTENANT.ToString(), _prm);
         }
         public ClientTenantViewModel GetTenantById(int id)
         {
             _prm.Add("ClientId", id);
             return db.FetchSingle<ClientTenantViewModel>(EnumSP.Tenant.USPGETTENANTBYID.ToString(), _prm);
         }
-        public List<TenantModuleViewModel> GetAllModule()
+        public ModuleListDto GetAllModule()
         {
-            return db.Fetch<TenantModuleViewModel>(EnumSP.Tenant.USPGETALLMODULE.ToString(), _prm);
+            return db.FetchMultiResult<ModuleListDto>(EnumSP.Tenant.USPGETALLMODULE.ToString(), _prm);
         }
-        public List<TenantModuleViewModel> GetModuleById(int id)
+        public ModuleListDto GetModuleById(int id)
         {
             _prm.Add("@TenantId", id);
-            return db.Fetch<TenantModuleViewModel>(EnumSP.Tenant.USPGETMODULEBYID.ToString(), _prm);
+            return db.FetchMultiResult<ModuleListDto>(EnumSP.Tenant.USPGETMODULEBYID.ToString(), _prm);
         }
         public List<StateViewModel> GetState()
         {
@@ -113,5 +119,18 @@ namespace Strive.ResourceAccess
             _prm.Add("stateId", stateId);
             return db.Fetch<CityDto>(EnumSP.Tenant.USPGETCITYBYSTATEID.ToString(), _prm);
         }
+
+        public int GetLoationMaxLimit(int tenantId)
+        {
+            _prm.Add("tenantId", tenantId);
+            return db.FetchSingle<int>(EnumSP.Tenant.USPGETLOCATIONLIMIT.ToString(), _prm);
+        }
+
+        public int GetLocationCount(int tenantId)
+        {
+            _prm.Add("tenantId", tenantId);
+            return db.FetchSingle<int>(EnumSP.Tenant.USPGETLOCATIONCOUNT.ToString(), _prm);
+        }
+        
     }
 }

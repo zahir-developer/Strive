@@ -8,7 +8,6 @@
                 </ol>
             </nav>
             <div class="col-lg-12 p-l-0 p-r-0">
-                <app-dashboard-statics [jobTypeId]="jobTypeId"></app-dashboard-statics>
                 <div class="row no-gutter">
                     <div class="col-12">
                         <div class="card">
@@ -38,7 +37,7 @@
                                                         <div class="form-group col-sm m-l-5">
                                                             <button type="button"
                                                                 class="btn theme-primary-button-color btn-sm m-l-10"
-                                                                (click)="getAllClientDetails()">Search</button>
+                                                                (click)="newgetAllClientDetails()">Search</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -150,13 +149,13 @@
 
     .headerfix thead,
     .header tr {
-        display: table;
+        /* display: table; */
         width: 100%;
         table-layout: fixed;
     }
 
     .header tr {
-        display: table;
+        /* display: table; */
         width: 100%;
         table-layout: fixed;
         overflow: hidden;

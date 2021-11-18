@@ -15,8 +15,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-checkout-grid',
-  templateUrl: './checkout-grid.component.html',
-  styleUrls: ['./checkout-grid.component.css']
+  templateUrl: './checkout-grid.component.html'
 })
 export class CheckoutGridComponent implements OnInit {
   uncheckedVehicleDetails: any = [];
@@ -86,6 +85,7 @@ export class CheckoutGridComponent implements OnInit {
   }
   // Get All Unchecked Vehicles
   getAllUncheckedVehicleDetails() {
+    this.search = this.query;
     const obj = {
       locationId: localStorage.getItem('empLocationId'),
       StartDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
@@ -103,21 +103,30 @@ export class CheckoutGridComponent implements OnInit {
         this.spinner.hide();
 
         const uncheck = JSON.parse(data.resultData);
-        this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
-        if (this.uncheckedVehicleDetails?.length > 0) {
-          for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
-            this.uncheckedVehicleDetails[i].VehicleModel == 'None' ? this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
+        if (uncheck.GetCheckedInVehicleDetails.checkOutViewModel !== null) {
+          this.uncheckedVehicleDetails = uncheck.GetCheckedInVehicleDetails.checkOutViewModel;
+          if (this.uncheckedVehicleDetails?.length > 0) {
+            for (let i = 0; i < this.uncheckedVehicleDetails.length; i++) {
+              this.uncheckedVehicleDetails[i].VehicleModel === 'None' ?
+               this.uncheckedVehicleDetails[i].VehicleModel = 'Unk' : this.uncheckedVehicleDetails[i].VehicleModel;
+            }
           }
+          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;
         }
+        else
+        {
+          this.isTableEmpty = true;
+          this.uncheckedVehicleDetails = [];
+        }
+          
+
         if (this.uncheckedVehicleDetails == null) {
           this.isTableEmpty = true;
         } else {
-          this.collectionSize = Math.ceil(uncheck.GetCheckedInVehicleDetails.Count.Count / this.pageSize) * 10;
           this.isTableEmpty = false;
         }
       } else {
         this.spinner.hide();
-
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
     }, (err) => {
@@ -136,7 +145,7 @@ export class CheckoutGridComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllUncheckedVehicleDetails();
   }
   changeSorting(column) {
@@ -224,14 +233,14 @@ export class CheckoutGridComponent implements OnInit {
   }
 
   hold(data, checkout) {
-    this.confirmationService.confirm(data, `Are you sure want to change the status to` + ' ' + data, 'Yes', 'No')
+    this.confirmationService.confirm(data, `Are you sure want to change the Hold status`, 'Yes', 'No')
       .then((confirmed) => {
         debugger
         const finalObj = {
           id: checkout.JobId,
-          IsHold: checkout.IsHold == true ? true : false
-
+          IsHold: checkout.IsHold == false ? true : false
         };
+        
         if (checkout.MembershipNameOrPaymentStatus === 'Hold') {
           return;
         }

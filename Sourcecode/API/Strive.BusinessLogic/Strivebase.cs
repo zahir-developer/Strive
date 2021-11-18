@@ -42,6 +42,7 @@ namespace Strive.BusinessLogic
             {
                 //Strivecache.SetString(tenantSchema.UserGuid, JsonConvert.SerializeObject(tenantSchema));
                 _cache.SetString(tenantSchema.Schemaname, JsonConvert.SerializeObject(tenantSchema));
+                _tenant.SchemaName = tenantSchema.Schemaname;
             }
         }
 

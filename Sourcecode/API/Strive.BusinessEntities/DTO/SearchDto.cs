@@ -11,6 +11,11 @@ namespace Strive.BusinessEntities.DTO
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public int? ClientId { get; set; }
+
+        public int? VehicleId { get; set; }
+
         public int? LocationId { get; set; }
 
         public int? PageNo { get; set; }
@@ -22,6 +27,7 @@ namespace Strive.BusinessEntities.DTO
         public string SortOrder { get; set; }
 
         public string SortBy { get; set; }
+
         public bool? Status { get; set; }
        
         

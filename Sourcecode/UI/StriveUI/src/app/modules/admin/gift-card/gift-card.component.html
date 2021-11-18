@@ -47,12 +47,8 @@
                                                                     [ngClass]="selectedCls('GiftCardCode')"
                                                                     aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"
-                                                                (click)="changeSorting('FirstName')">First Name&nbsp;<i
-                                                                    class="fa" [ngClass]="selectedCls('FirstName')"
-                                                                    aria-hidden="true"></i></th>
-                                                            <th scope="col" class="pointer"
-                                                                (click)="changeSorting('LastName')">Last Name&nbsp;<i
-                                                                    class="fa" [ngClass]="selectedCls('LastName')"
+                                                                (click)="changeSorting('TotalAmount')">Amount&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('TotalAmount')"
                                                                     aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"
                                                                 (click)="changeSorting('ActivatedDate')">Activated
@@ -60,19 +56,20 @@
                                                                     [ngClass]="selectedCls('ActivatedDate')"
                                                                     aria-hidden="true"></i></th>
                                                             <th scope="col" class="pointer"
-                                                                (click)="changeSorting('TotalAmount')">Amount&nbsp;<i
-                                                                    class="fa" [ngClass]="selectedCls('TotalAmount')"
+                                                                (click)="changeSorting('FirstName')">Customer Name&nbsp;<i
+                                                                    class="fa" [ngClass]="selectedCls('FirstName')"
                                                                     aria-hidden="true"></i></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody *ngIf="giftCardList.length > 0">
                                                         <tr *ngFor="let card of giftCardList">
                                                             <td class="text-underline theme-primary-color font-size--9"
-                                                            style="cursor: pointer;" (click)="getGiftCardDetail(card)">{{card.GiftCardCode}}</td>
-                                                            <td>{{card.FirstName}}</td>
-                                                            <td>{{card.LastName}}</td>
-                                                            <td>{{card.ActivationDate | date: 'MM/dd/yyyy'}}</td>
+                                                                style="cursor: pointer;"
+                                                                (click)="getGiftCardDetail(card)">{{card.GiftCardCode}}
+                                                            </td>
                                                             <td>{{card.TotalAmount | currency}}</td>
+                                                            <td>{{card.ActivationDate | date: 'MM/dd/yyyy'}}</td>
+                                                            <td>{{card.FirstName +" "+ card.LastName}} </td>
                                                         </tr>
                                                     </tbody>
                                                     <tbody *ngIf="giftCardList.length === 0">
@@ -210,7 +207,7 @@
                                                                     <td>{{card.TransactionDate | date: 'MM/dd/yyyy'}}
                                                                     </td>
                                                                     <td>{{card.Status ? 'Active' : 'InActive'}}</td>
-                                                                    <td>{{card.GiftCardId}}</td>
+                                                                    <td>{{card.TicketNumber}}</td>
                                                                     <td>{{card.TransactionAmount | currency}}</td>
                                                                 </tr>
                                                             </tbody>

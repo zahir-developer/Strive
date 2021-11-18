@@ -22,7 +22,7 @@ namespace Strive.BusinessLogic.Details
         Result GetJobType();
         Result GetAllDetails(DetailsGridDto detailsGrid);
         Result DeleteDetails(int id);
-
         Result GetDetailScheduleStatus(DetailScheduleDto scheduleDto);
+        Result UpdateJobStatus(JobStatusDto jobStatus);
     }
 }

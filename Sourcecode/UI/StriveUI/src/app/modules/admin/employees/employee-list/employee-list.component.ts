@@ -18,8 +18,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-employee-list',
-  templateUrl: './employee-list.component.html',
-  styleUrls: ['./employee-list.component.css']
+  templateUrl: './employee-list.component.html'
 })
 export class EmployeeListComponent implements OnInit {
   employeeDetails = [];
@@ -46,6 +45,7 @@ export class EmployeeListComponent implements OnInit {
   pageSizeList: any[];
   sortColumn: { sortBy: string; sortOrder: string; };
   searchUpdate = new Subject<string>();
+  statusGroup = true;
 
   constructor(
     private employeeService: EmployeeService,
@@ -61,7 +61,7 @@ export class EmployeeListComponent implements OnInit {
       debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
-        this.seachEmployee();
+        this.newSeachEmployee();
       });
    }
 
@@ -129,7 +129,7 @@ export class EmployeeListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.seachEmployee();
   }
   employeeDetail(employeeDetail) {
@@ -180,6 +180,11 @@ export class EmployeeListComponent implements OnInit {
       this.spinner.hide();
     });
   }
+  newSeachEmployee()
+  {
+    this.page = 1;
+    this.seachEmployee();
+  }
 
   seachEmployee() {
     this.spinner.show();
@@ -192,7 +197,7 @@ export class EmployeeListComponent implements OnInit {
       query: this.search,
       sortOrder: this.sortColumn.sortOrder,
       sortBy: this.sortColumn.sortBy,
-      status: true
+      status: this.statusGroup
     };
     this.employeeDetails = [];
     this.employeeService.getAllEmployeeList(empObj).subscribe(res => {
@@ -422,6 +427,15 @@ export class EmployeeListComponent implements OnInit {
       return 'fa-sort-asc';
     }
     return '';
+  }
+
+
+  selectOption(event) {
+    if(event === 'null') {
+      this.statusGroup = null
+    } else {
+    this.statusGroup = event === 'true' ? true: false;
+    }
   }
 
 

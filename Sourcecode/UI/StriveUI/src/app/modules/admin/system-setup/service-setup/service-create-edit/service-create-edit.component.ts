@@ -55,8 +55,9 @@ export class ServiceCreateEditComponent implements OnInit {
   detailUpcharge: boolean;
   CategoryName: any;
   Category: any[];
-
-
+  Hours: any;
+  pattern: RegExp = /^[ A-Za-z0-9+]*$/;
+  isCommission: boolean = true;
 
   constructor(
     private serviceSetup: ServiceSetupService,
@@ -112,7 +113,8 @@ export class ServiceCreateEditComponent implements OnInit {
       suggested: [''],
       serviceCategory: [''],
       isCeramic: [''],
-      location: [[], Validators.required]
+      location: [[], Validators.required],
+      estimatedTime:['']
     });
     this.serviceSetupForm.patchValue({ status: 0 });
   }
@@ -189,10 +191,11 @@ export class ServiceCreateEditComponent implements OnInit {
         this.Category = element;
           }
         });
+        
         this.serviceSetupForm.patchValue({
           
           serviceType: this.selectedService?.ServiceTypeId,
-          name: this.selectedService?.ServiceName,
+          name: this.selectedService?.ServiceName ? this.selectedService?.ServiceName.replace(/\s+/g, ' ').trim() : '',
           description: this.selectedService?.Description,
           cost: this.selectedService?.Cost,
           price: this.selectedService?.Price,
@@ -206,7 +209,8 @@ export class ServiceCreateEditComponent implements OnInit {
           discountServiceType: this.selectedService?.DiscountServiceType,
           parentName: this.selectedService?.ParentServiceId,
           status: this.selectedService.IsActive ? 0 : 1,
-          location: selectedLocation
+          location: selectedLocation,          
+          estimatedTime:this.selectedService?.EstimatedTime
         });
         this.change(this.selectedService.Commision);
         this.checkService(this.selectedService.ServiceTypeId);
@@ -314,14 +318,15 @@ export class ServiceCreateEditComponent implements OnInit {
   }
 
   checkService(typeID) {
+    this.isCommission = false;
     const serviceType = this.serviceType.filter(item => +item.CodeId === +typeID);
     if (serviceType.length > 0) {
       const type = serviceType[0].CodeValue;
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge ||
         type === ApplicationConfig.Enum.ServiceType.DetailCeramicUpcharge || type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.isUpcharge = true;
-        this.categoryName()
-
+        this.categoryName();
+        this.isCommission = true;
       } else {
         this.isUpcharge = false;
         this.serviceSetupForm.get('upcharge').clearValidators();
@@ -329,6 +334,7 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       if (type === ApplicationConfig.Enum.ServiceType.AdditonalServices) {
         this.isAdditional = true;
+        this.isCommission = true;
       } else {
         this.isAdditional = false;
       }
@@ -339,12 +345,13 @@ export class ServiceCreateEditComponent implements OnInit {
       }
       if (type === ApplicationConfig.Enum.ServiceType.WashUpcharge) {
         this.washUpcharge = true;
-        
+        this.isCommission = true;
       } else {
         this.washUpcharge = false;
       }
       if (type === ApplicationConfig.Enum.ServiceType.DetailUpcharge) {
         this.detailUpcharge = true;
+        this.isCommission = true;
       } else {
         this.detailUpcharge = false;
       }
@@ -456,6 +463,7 @@ categoryName(){
             updatedDate: new Date(),
             discountServiceType: this.serviceSetupForm.value.discountServiceType,
             discountType: this.serviceSetupForm.value.discountType,
+            estimatedTime: this.serviceSetupForm.value.estimatedTime
           });
       });
     }

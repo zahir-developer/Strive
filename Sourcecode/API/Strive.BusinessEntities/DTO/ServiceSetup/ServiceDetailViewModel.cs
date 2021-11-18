@@ -9,14 +9,20 @@ namespace Strive.BusinessEntities.DTO.ServiceSetup
     public class ServiceDetailViewModel
     {
         public int ServiceId { get; set; }
+        public int LocationId { get; set; }
         public int  DiscountServiceType { get; set; }
         public string ServiceName { get; set; }
         public int ServiceTypeId { get; set; }
         public string ServiceTypeName { get; set; }
+        public string Description { get; set; }
         public string Upcharges { get; set; }
         public decimal Price { get; set; }
         public string DiscountType { get; set; }
         public bool IsCeramic { get; set; }
+        public bool Commission { get; set; }
+        public string CommissionType { get; set; }
+        public decimal CommissionCost { get; set; }
+        public decimal? EstimatedTime { get; set; }
 
 
     }

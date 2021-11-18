@@ -26,16 +26,34 @@ namespace Strive.ResourceAccess
             _prm.Add("@StartDate", searchDto.StartDate);
             _prm.Add("@EndDate", searchDto.EndDate);
 
-            return db.FetchMultiResult<WashesListViewModel>(SPEnum.USPGETALLJOB.ToString(), _prm);
+            return db.FetchMultiResult<WashesListViewModel>(EnumSP.Washes.USPGETALLJOB.ToString(), _prm);
         }
 
         public WashDetailViewModel GetWashTimeDetail(int id)
         {
 
             _prm.Add("@JobId", id);
-            var result = db.FetchMultiResult<WashDetailViewModel>(SPEnum.USPGETJOBBYID.ToString(), _prm);
+            var result = db.FetchMultiResult<WashDetailViewModel>(EnumSP.Washes.USPGETWASHBYJOBID.ToString(), _prm);
             return result;
         }
+
+        public WashDetailViewModel GetLastServiceVisit(SearchDto searchDto)
+        {
+
+            _prm.Add("@ClientId", searchDto.ClientId);
+            _prm.Add("@VehicleId", searchDto.VehicleId);
+            _prm.Add("@locationId", searchDto.LocationId);
+            _prm.Add("@PageNo", searchDto.PageNo);
+            _prm.Add("@PageSize", searchDto.PageSize);
+            _prm.Add("@Query", searchDto.Query);
+            _prm.Add("@SortOrder", searchDto.SortOrder);
+            _prm.Add("@SortBy", searchDto.SortBy);
+            _prm.Add("@StartDate", searchDto.StartDate);
+            _prm.Add("@EndDate", searchDto.EndDate);
+            var result = db.FetchMultiResult<WashDetailViewModel>(EnumSP.Washes.USPGETLASTSERVICEVISIT.ToString(), _prm);
+            return result;
+        }
+        
         public bool AddWashTime(WashesDto washes)
         {
             return dbRepo.InsertPc(washes, "JobId");
@@ -58,20 +76,20 @@ namespace Strive.ResourceAccess
             _prm.Add("@lastweek", lastweek.ToString("yyyy-MM-dd"));
             _prm.Add("@lastMonth", lastMonth.ToString("yyyy-MM-dd"));
             _prm.Add("@lastThirdMonth", lastThirdMonth.ToString("yyyy-MM-dd"));
-            var result =  db.FetchSingle<WashesDashboardViewModel>(SPEnum.USPGETWASHDASHBOARD.ToString(), _prm);
+            var result =  db.FetchSingle<WashesDashboardViewModel>(EnumSP.Washes.USPGETWASHDASHBOARD.ToString(), _prm);
             return result;
         }
         public List<ClientVehicleViewModel> GetByBarCode(string barcode)
         {
 
             _prm.Add("@BarCode", barcode);
-            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETCLIENTANDVEHICLEDETAIL.ToString(), _prm);
+            var result = db.Fetch<ClientVehicleViewModel>(EnumSP.Washes.USPGETCLIENTANDVEHICLEDETAIL.ToString(), _prm);
             return result;
         }
         public List<ClientVehicleViewModel> GetMembershipListByVehicleId(int vehicleId)
         {
             _prm.Add("@VehicleId", vehicleId);
-            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.uspGetMembershipListByVehicleId.ToString(), _prm);
+            var result = db.Fetch<ClientVehicleViewModel>(SPEnum.USPGETMEMBERSHIPLISTBYVEHICLEID.ToString(), _prm);
             return result;
         }
         public bool DeleteWashes(int id)
@@ -87,7 +105,7 @@ namespace Strive.ResourceAccess
             _prm.Add("@LocationId",washTimeDto.LocationId);
 
             _prm.Add("@DateTime", washTimeDto.DateTime);
-            var result = db.Fetch<LocationDetailViewModel>(SPEnum.USPGETWASHTIMEBYLOCATIONID.ToString(), _prm);
+            var result = db.Fetch<LocationDetailViewModel>(EnumSP.Washes.USPGETWASHTIMEBYLOCATIONID.ToString(), _prm);
             return result;
         }
 
@@ -96,7 +114,16 @@ namespace Strive.ResourceAccess
         {
 
             _prm.Add("@LocationId", id);
-            var result = db.Fetch<LocationWashTimeDto>(SPEnum.uspGetAllLocationWashTime.ToString(), _prm);
+            var result = db.Fetch<LocationWashTimeDto>(EnumSP.Washes.USPGETALLLOCATIONWASHTIME.ToString(), _prm);
+            return result;
+        }
+
+        public List<LocationWashTimeDto> GetAllLocationWashTime(LocationStoreStatusDto locationStoreStatus)
+        {
+
+            _prm.Add("@LocationId", locationStoreStatus.LocationId);
+            _prm.Add("@Date", locationStoreStatus.Date);
+            var result = db.Fetch<LocationWashTimeDto>(EnumSP.Washes.USPGETALLLOCATIONWASHTIME.ToString(), _prm);
             return result;
         }
     }

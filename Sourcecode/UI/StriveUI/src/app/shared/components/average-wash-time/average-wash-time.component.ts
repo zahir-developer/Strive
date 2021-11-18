@@ -6,8 +6,7 @@ import { MessageConfig } from '../../services/messageConfig';
 
 @Component({
   selector: 'app-average-wash-time',
-  templateUrl: './average-wash-time.component.html',
-  styleUrls: ['./average-wash-time.component.css']
+  templateUrl: './average-wash-time.component.html'
 })
 export class AverageWashTimeComponent implements OnInit {
   average: any;

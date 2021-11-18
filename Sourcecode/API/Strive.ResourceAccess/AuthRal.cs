@@ -68,5 +68,30 @@ namespace Strive.ResourceAccess
                 throw;
             }
         }
+
+        public bool EmailIdExists(string email)
+        {
+            var _prm = new DynamicParameters();
+            _prm.Add("@Email", email);
+            var result = db.FetchSingle<bool>(EnumSP.Authentication.USPEMAILEXIST.ToString(), _prm);
+            return result;
+        }
+
+        public List<ModelDto> GetModelByMakeId(int makeId)
+        {
+            var _prm = new DynamicParameters();
+            _prm.Add("makeId", makeId);
+            return db.Fetch<ModelDto>(EnumSP.Vehicle.USPGETMODELBYMAKE.ToString(), _prm);
+        }
+
+        public List<MakeDto> GetAllMake()
+        {
+            return db.Fetch<MakeDto>(EnumSP.Vehicle.USPGETALLMAKE.ToString(), null);
+        }
+
+        public List<ColorDto> GetAllColor()
+        {
+            return db.Fetch<ColorDto>(EnumSP.Vehicle.USPGETALLCOLOR.ToString(), null);
+        }
     }
 }

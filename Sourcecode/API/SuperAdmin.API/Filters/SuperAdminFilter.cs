@@ -71,7 +71,7 @@ namespace SuperAdmin.API.Filters
                 schemaName = context.HttpContext.User.Claims?.ToList()?.Find(a => a.Type.Contains("SchemaName"))?.Value;
                 EmployeeId = context.HttpContext.User.Claims?.ToList()?.Find(a => a.Type.Contains("EmployeeId"))?.Value;
                 tid = context.HttpContext.User.Claims?.ToList()?.Find(a => a.Type.Contains("tid"))?.Value;
-                _tenant.TenatId = tid;
+                _tenant.TenantId = tid;
             }
             SetDbConnection(userGuid, schemaName, isAuth, TenantGuid, EmployeeId);
         }

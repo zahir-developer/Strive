@@ -23,7 +23,7 @@ namespace Strive.BusinessEntities.Model
         public string GiftCardName { get; set; }
 
         [Column]
-        public DateTimeOffset? ActivationDate { get; set; }
+        public DateTimeOffset ActivationDate { get; set; }
         [Column]
         public decimal TotalAmount { get; set; }
         [Column]

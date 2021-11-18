@@ -12,6 +12,7 @@ namespace Strive.BusinessEntities.ViewModel
         public DateTimeOffset TimeIn { get; set; }
         public DateTimeOffset TimeOut { get; set; }
         public DateTimeOffset Est { get; set; }
+        public int EstTime { get; set; }
         //public int? TimeOutDifference { get; set; }
         public string Deviation { get; set; }
         public int MerchandiseItemsPurchased { get; set; }
@@ -25,5 +26,6 @@ namespace Strive.BusinessEntities.ViewModel
         public decimal? Amount { get; set; }
         public string Type { get; set; }
         public string Make { get; set; }
+        public string PaymentType { get; set; }
     }
 }

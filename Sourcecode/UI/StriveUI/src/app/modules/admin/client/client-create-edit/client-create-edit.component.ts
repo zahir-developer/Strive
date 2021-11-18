@@ -13,8 +13,7 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-client-create-edit',
-  templateUrl: './client-create-edit.component.html',
-  styleUrls: ['./client-create-edit.component.css']
+  templateUrl: './client-create-edit.component.html'
 })
 export class ClientCreateEditComponent implements OnInit {
   @ViewChild(ClientFormComponent) clientFormComponent: ClientFormComponent;
@@ -23,6 +22,7 @@ export class ClientCreateEditComponent implements OnInit {
   @Input() selectedData?: any;
   @Input() isEdit?: any;
   @Input() isView?: any;
+  @Input() isAdd?: any;
   vehicleDetails = [];
   vehicleDet = [];
   isTableEmpty: boolean;
@@ -51,6 +51,7 @@ export class ClientCreateEditComponent implements OnInit {
     this.employeeId = +localStorage.getItem('empId');
     this.isVehicleEdit = false;
     this.getService();
+    this.vehicle.addVehicle = undefined;
     if (this.isEdit === true) {
       this.getClientVehicle(this.selectedData.ClientId);
     }
@@ -103,13 +104,13 @@ export class ClientCreateEditComponent implements OnInit {
     if (this.clientFormComponent.clientForm.invalid) {
       return;
     }
-    if (this.clientFormComponent.ClientEmailAvailable == true) {
-      this.toastr.error(MessageConfig.Client.emailExist, 'Warning!');
+    if (this.clientFormComponent.ClientEmailAvailable == true && this.isEdit === false) {
+      this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
 
       return;
     }
 
-    if (this.clientFormComponent.ClientNameAvailable == true) {
+    if (this.clientFormComponent.ClientNameAvailable == true && this.isEdit === false) {
       this.toastr.warning(MessageConfig.Client.clientExist, 'Warning!');
 
       return;
@@ -155,12 +156,15 @@ export class ClientCreateEditComponent implements OnInit {
       isCreditAccount: this.clientFormComponent.clientForm.value.creditAccount,
       clientType: (this.clientFormComponent.clientForm.value.type === '' || this.clientFormComponent.clientForm.value.type == null) ?
         0 : this.clientFormComponent.clientForm.value.type,
-      amount: this.clientFormComponent.clientForm.value.amount
+      amount: this.clientFormComponent.clientForm.value.amount,
+      authId: this.selectedData.AuthId
     };
     const myObj = {
       client: formObj,
       clientVehicle: this.vehicleDet.length === 0 ? null : this.vehicleDet,
-      clientAddress: this.address
+      clientAddress: this.address,
+      token: null,
+      password: ''
     }
     if (this.isEdit === true) {
       this.spinner.show();
@@ -209,12 +213,63 @@ export class ClientCreateEditComponent implements OnInit {
       });
     }
   }
+  Validate() {
+    if (this.isEdit === true) {
+      this.submit();
+    }
+    else {
+      this.client.ClientEmailCheck(this.clientFormComponent.clientForm.value.email).subscribe(res => {
+        if (res.status === 'Success') {
+          const sameEmail = JSON.parse(res.resultData);
+          if (sameEmail.EmailIdExist === true) {
+            this.clientFormComponent.ClientEmailAvailable = true;
+            this.toastr.warning(MessageConfig.Client.emailExist, 'Warning!');
+          } else {
+            this.clientFormComponent.ClientEmailAvailable = false;
+            this.submit();
+          }
+        }
+      }, (err) => {
+        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+      });
+    }
+  }
   cancel() {
     this.closeDialog.emit({ isOpenPopup: false, status: 'unsaved' });
   }
   closePopupEmit(event) {
     if (event.status === 'saved') {
-      this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
+      var oExists = this.clonedVehicleDetails.find(x => x.VehicleId === this.vehicle.vehicleValue.ClientVehicleId);
+      if (this.vehicle.vehicleValue.ClientVehicleId == undefined) {
+        this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
+      }
+      else if (oExists.length == 0) {
+        this.clonedVehicleDetails.push(this.vehicle.vehicleValue);
+      }
+      /*else{
+
+        this.clonedVehicleDetails.forEach(item => {
+          if (item.VehicleId === this.vehicle.vehicleValue.ClientVehicleId) {
+            item.VehicleColor = this.vehicle.vehicleValue.VehicleColor;
+            item.VehicleMfr = this.vehicle.vehicleValue.VehicleMfr;
+            item.VehicleModel = this.vehicle.vehicleValue.VehicleModel;
+            item.Barcode = this.vehicle.vehicleValue.Barcode;
+            item.ClientId = this.vehicle.vehicleValue.ClientId;
+            item.MembershipName = this.vehicle.vehicleValue.MembershipName;
+            item.Upcharge = this.vehicle.vehicleValue.Upcharge;
+            item.VehicleNumber = this.vehicle.vehicleValue.VehicleNumber;
+          }
+        });
+        // var oIndex = this.clonedVehicleDetails.findIndex(x => x.VehicleId === this.vehicle.vehicleValue.ClientVehicleId);
+        // this.clonedVehicleDetails[oIndex].Barcode = this.vehicle.vehicleValue.Barcode;
+        // this.clonedVehicleDetails[oIndex].ClientId = this.vehicle.vehicleValue.ClientId;
+        // this.clonedVehicleDetails[oIndex].MembershipName = this.vehicle.vehicleValue.MembershipName;
+        // this.clonedVehicleDetails[oIndex].Upcharge = this.vehicle.vehicleValue.Upcharge;
+        // this.clonedVehicleDetails[oIndex].VehicleColor = this.vehicle.vehicleValue.VehicleColor;
+        // this.clonedVehicleDetails[oIndex].VehicleMfr = this.vehicle.vehicleValue.VehicleMfr;
+        // this.clonedVehicleDetails[oIndex].VehicleModel = this.vehicle.vehicleValue.VehicleModel;
+        // this.clonedVehicleDetails[oIndex].VehicleNumber = this.vehicle.vehicleValue.VehicleNumber;
+      }*/
       if (this.clonedVehicleDetails.length > 0) {
         this.vehicleDetails = [];
         this.clonedVehicleDetails.forEach(item => {
@@ -223,7 +278,9 @@ export class ClientCreateEditComponent implements OnInit {
       }
       let len = this.vehicleDetails.length;
       this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
-      this.vehicleDet.push(this.vehicle.addVehicle);
+      if (this.vehicle.addVehicle != undefined) {
+        this.vehicleDet.push(this.vehicle.addVehicle);
+      }
       this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
       this.showVehicleDialog = false;
     } else if (event.status === 'edit') {
@@ -266,7 +323,7 @@ export class ClientCreateEditComponent implements OnInit {
     let len = this.vehicleDetails.length;
     this.vehicleNumber = Number(this.vehicleDetails.length) + 1;
     this.vehicleDet = this.vehicleDet.filter(item => item.Barcode !== data.Barcode);
-    this.toastr.success(MessageConfig.Client.Delete, 'Success!');
+    this.toastr.success(MessageConfig.Admin.Vehicle.Delete, 'Success!');
     this.collectionSize = Math.ceil(this.vehicleDetails.length / this.pageSize) * 10;
     if (data.ClientVehicleId !== 0) {
       this.deleteIds.push(data);

@@ -16,8 +16,7 @@ import { AddChecklistComponent } from './add-checklist/add-checklist.component';
 
 @Component({
   selector: 'app-check-list',
-  templateUrl: './check-list.component.html',
-  styleUrls: ['./check-list.component.css']
+  templateUrl: './check-list.component.html'
 })
 export class CheckListComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
@@ -123,7 +122,7 @@ export class CheckListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllcheckListDetails();
   }
   onRoleDeSelect(event) {

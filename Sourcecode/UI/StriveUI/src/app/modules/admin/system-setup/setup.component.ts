@@ -51,6 +51,9 @@ export class SetupComponent implements OnInit {
       this.router.navigate([`/admin/setup/empHandBook`], { relativeTo: this.route });
     }
     else if (event.target.value == 11) {
+      this.router.navigate([`/admin/setup/emailBlast`], { relativeTo: this.route });
+    }
+    else if (event.target.value == 12) {
       this.router.navigate([`/admin/setup/terms&condition`], { relativeTo: this.route });
     }
 

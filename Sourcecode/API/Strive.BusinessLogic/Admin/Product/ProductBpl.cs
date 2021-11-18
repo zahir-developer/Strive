@@ -4,6 +4,7 @@ using Strive.BusinessEntities.DTO;
 using Strive.BusinessEntities.DTO.Product;
 using Strive.BusinessEntities.Model;
 using Strive.BusinessEntities.ViewModel.Product;
+using Strive.BusinessLogic.Common;
 using Strive.BusinessLogic.Document;
 using Strive.Common;
 using Strive.ResourceAccess;
@@ -47,11 +48,29 @@ namespace Strive.BusinessLogic
 
         public Result GetAllProduct(ProductSearchDto search)
         {
-            return ResultWrap(new ProductRal(_tenant).GetAllProduct, search, "ProductSearch");
+            var products = new ProductRal(_tenant).GetAllProduct(search);
+
+            if (search.LoadThumbnailImage.GetValueOrDefault(false))
+            {
+                foreach (var prod in products)
+                {
+                    string fileName = string.Empty;
+
+                    fileName = prod.ThumbFileName;
+
+                    if (string.IsNullOrEmpty(fileName))
+                        fileName = prod.FileName;
+
+                    if (!string.IsNullOrEmpty(fileName))
+                            prod.Base64 = new DocumentBpl(_cache, _tenant).GetBase64(GlobalUpload.DocumentType.PRODUCTIMAGE, fileName);
+                }
+            }
+            return ResultWrap(products, "ProductSearch");
         }
 
         public Result UpdateProduct(ProductListDto products)
         {
+
             Result result = new Result();
             foreach (var product in products.Product)
             {
@@ -148,6 +167,39 @@ namespace Strive.BusinessLogic
             }
             return (error, fileName, thumbFileName);
         }
+        public Result UpdateProductQuantity(ProductQuantityDto productQuantityDto)
+        {
+            return ResultWrap(new ProductRal(_tenant).UpdateProductQuantity, productQuantityDto, "Status");
 
+        }
+        public Result ProductRequest(ProductRequestDto productRequestDto)
+        {
+            var emailId = new CommonRal(_tenant).GetEmailIdByRole(productRequestDto.locationId.ToString());
+            char[] charToTrim = { ',' };
+            string emailList = string.Empty;
+            foreach (var email in emailId)
+            {
+                emailList += email.Email + ",";
+            }
+            emailList = emailList.TrimEnd(charToTrim);
+            var vendorProduct = new VendorRal(_tenant).GetVendorByProductId(productRequestDto.productId);
+            string vendorList = string.Empty;
+            foreach (var vendor in vendorProduct)
+            {
+                vendorList += vendor.VendorName + "-" + vendor.PhoneNumber + ",";
+            }
+            vendorList = vendorList.TrimEnd(charToTrim);
+            var subject = EmailSubject.ProductThreshold;
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+
+            keyValues.Add("{{productName}}", productRequestDto.productName);
+            keyValues.Add("{{locationName}}", productRequestDto.locationName);
+            keyValues.Add("{{Vendor}}", vendorList);
+            keyValues.Add("{{quantityRequest}}", productRequestDto.RequestQuantity.ToString());
+            new CommonBpl(_cache, _tenant).SendEmail(HtmlTemplate.ProductRequest, emailList, keyValues, subject);
+
+            return ResultWrap(true, "MailsentToManager", "");
+
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace Strive.BusinessEntities.DTO.Details
     public class JobServiceEmployeeDto
     {
         public List<JobServiceEmployee> JobServiceEmployee { get; set; }
+
+        public int? JobId { get; set; }
     }
 }

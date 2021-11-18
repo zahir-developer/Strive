@@ -1,23 +1,11 @@
-﻿-- =============================================
+﻿
+
+-- =============================================
 -- Author:		Vineeth B
 -- Create date: 03-11-2020
 -- Description:	To get Dashboard Details
---  --
-/*
-
-[StriveCarSalon].[uspGetDashboardStatistics] 1,'2021-06-10','2021-06-10'
-
-*/
+--  --[StriveCarSalon].[uspGetDashboardStatistics] 1,'2021-04-22','2021-04-22'
 -- =============================================
-----------History------------
-
--- =============================================
-/*
-1.june-10-2021 -- added jobdate filter in ##WashRoleCount
-*/ 
--- =============================================
-
-
 
 CREATE PROCEDURE [StriveCarSalon].[uspGetDashboardStatistics]
 (@LocationId INT,@FromDate Date,@ToDate Date)
@@ -45,8 +33,7 @@ INNER JOIN    tblLocation tblL ON (tblTC.LocationId = tblL.LocationId)
 INNER JOIN    tblJob tblJ ON (tblJ.LocationId = tblL.LocationId) 
 WHERE
   tblL.IsActive = 1 
-  AND (tblTC.EventDate>=@FromDate AND tblTC.EventDate<=@ToDate)   
-  AND (tblj.JobDate>=@FromDate AND tblj.JobDate<=@ToDate) 
+  AND (tblTC.EventDate>=@FromDate AND tblTC.EventDate<=@ToDate) 
   AND ISNULL(tblL.IsDeleted, 0) = 0 
   AND tblTC.IsActive = 1 
   AND ISNULL(tblTC.IsDeleted, 0) = 0 

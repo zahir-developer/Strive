@@ -70,10 +70,11 @@ export class TokenInterceptor implements HttpInterceptor {
     private logoutAndRedirect(err): Observable<HttpEvent<any>> {
 
         if (err.status === 404) {
-            this.messageService.showMessage({ severity: 'error', title: 'Authentication refresh token failed.', body: 'Please relogin and try again.!' });
+            this.messageService.showMessage({ severity: 'warning', title: 'Authentication refresh token failed.', body: 'Please relogin and try again.!' });
         }
         else if (err.status === 401) {
-            this.messageService.showMessage({ severity: 'error', title: 'Access Denied.', body: 'UnAuthenticated access. Please relogin and try again.!' });
+            this.messageService.showMessage({ severity: 'warning', title: 'Access Denied.', body: 'UnAuthenticated access. Please relogin and try again.!' });
+            //this.router.navigateByUrl('/session-expired');
         }
         this.authService.logout();
         // this.router.navigateByUrl('/login');

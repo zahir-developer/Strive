@@ -47,7 +47,7 @@ namespace Strive.ResourceAccess
         public ServiceViewModel GetServiceSetupById(int id)
         {
             _prm.Add("@ServiceId", id);
-            var result = db.FetchSingle<ServiceViewModel>(SPEnum.USPGETSERVICES.ToString(), _prm);
+            var result = db.FetchSingle<ServiceViewModel>(SPEnum.USPGETSERVICEBYID.ToString(), _prm);
             return result;
         }
 

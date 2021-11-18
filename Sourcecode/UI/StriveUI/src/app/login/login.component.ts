@@ -15,6 +15,7 @@ import { tap, mapTo, share } from 'rxjs/operators';
 import { ApplicationConfig } from '../shared/services/ApplicationConfig';
 import { WeatherService } from '../shared/services/common-service/weather.service';
 import { LogoService } from '../shared/services/common-service/logo.service';
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -33,24 +34,30 @@ export class LoginComponent implements OnInit {
   favIcon: HTMLLinkElement = document.querySelector('#appIcon');
   dashBoardModule: boolean;
   isRememberMe: boolean;
+  emailregex: RegExp = /^[ A-Za-z0-9@.+]*$/;
+  showSignup = true;
+
   constructor(
     private loginService: LoginService, private router: Router, private route: ActivatedRoute,
     private authService: AuthService, private whiteLabelService: WhiteLabelService, private getCodeService: GetCodeService,
     private msgService: MessengerService, private user: UserDataService,
     private logoService: LogoService,
     private spinner: NgxSpinnerService, private weatherService: WeatherService,
-    private landing: LandingService, private codeValueService: CodeValueService) { }
+    private landing: LandingService, private codeValueService: CodeValueService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn.subscribe(data => {
     });
-    this.authService.logout();
+    this.getQueryToken();
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
       isRemember: new FormControl(false)
     });
     this.bindValue();
+    this.sidenavsHide();
+    this.clearCacheValue();
   }
 
   bindValue() {
@@ -100,7 +107,6 @@ export class LoginComponent implements OnInit {
           const token = JSON.parse(data.resultData);
           this.landing.loadTheLandingPage(true);
           this.getCodeValue();
-          this.getThemeColor();
           this.msgService.startConnection();
         } else {
           this.errorFlag = true;
@@ -123,31 +129,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate([`/forgot-password`], { relativeTo: this.route });
   }
 
-  getThemeColor() {
-    if (localStorage.getItem('isAuthenticated') === 'true') {
-      this.whiteLabelService.getAllWhiteLabelDetail().subscribe(res => {
-        if (res.status === 'Success') {
-          const label = JSON.parse(res.resultData);
-          this.logoService.setLogo(label.WhiteLabelling.WhiteLabel?.Base64);
-          const base64 = 'data:image/png;base64,';
-          const logoBase64 = base64 + label.WhiteLabelling.WhiteLabel?.Base64;
-          this.favIcon.href = logoBase64;
-          this.colorTheme = label.WhiteLabelling.Theme;
-          this.whiteLabelDetail = label.WhiteLabelling.WhiteLabel;
-          this.colorTheme.forEach(item => {
-            if (this.whiteLabelDetail.ThemeId === item.ThemeId) {
-              document.documentElement.style.setProperty(`--primary-color`, item.PrimaryColor);
-              document.documentElement.style.setProperty(`--navigation-color`, item.NavigationColor);
-              document.documentElement.style.setProperty(`--secondary-color`, item.SecondaryColor);
-              document.documentElement.style.setProperty(`--tertiary-color`, item.TertiaryColor);
-              document.documentElement.style.setProperty(`--body-color`, item.BodyColor);
-            }
-          });
-          document.documentElement.style.setProperty(`--text-font`, this.whiteLabelDetail.FontFace);
-        }
-      });
-    }
-  }
+  
 
   getCodeValue() {
     this.getCodeService.getCodeByCategory(ApplicationConfig.Category.all).subscribe(res => {
@@ -157,4 +139,33 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+
+  createAccount() {
+    this.router.navigate(['/signup'], { queryParams: { token: '0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE' } });
+  }
+
+  getQueryToken() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params.token) {
+        this.showSignup = true;
+      }
+    });
+  }
+
+  sidenavsHide() {
+    $(document).ready(function(){ 
+      $('#sidenavSec').css('display','none');
+      $('#footerSec').css('display','none');
+      $('#headerSec').css('display','none');
+     });
+  }
+
+  clearCacheValue() {
+    localStorage.setItem('isAuthenticated', 'false');
+    localStorage.removeItem('authorizationToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('empLocation');
+  }
+
 }

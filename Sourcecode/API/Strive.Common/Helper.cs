@@ -11,9 +11,9 @@ namespace Strive.Common
 {
     public static class Helper
     {
+
         public static Result BindFailedResult(Exception ex, HttpStatusCode scode)
         {
-
             return new Result()
             {
                 Exception = ex.Message + "\n" + ex.StackTrace,
@@ -22,29 +22,38 @@ namespace Strive.Common
             };
         }
 
-        public static Result BindValidationErrorResult(string errorMessage)
+        public static Result BindValidationErrorResult(string errorMessage, JObject resultContent = null)
         {
-
             return new Result()
             {
-                ErrorMessage = errorMessage,
+                ResultData = JsonConvert.SerializeObject(resultContent),
                 Status = GlobalEnum.Fail.ToString(),
-                StatusCode = HttpStatusCode.BadRequest
+                StatusCode = HttpStatusCode.BadRequest,
+                ErrorMessage = errorMessage,
             };
         }
 
         public static Result BindSuccessResult(JObject resultContent)
         {
+
+            if(resultContent == null)
+            {
+                return Helper.BindVersionNotSupportedResult("NO CONTENT", resultContent);
+            }
+
             return new Result()
             {
                 ResultData = JsonConvert.SerializeObject(resultContent),
                 Status = GlobalEnum.Success.ToString(),
                 StatusCode = HttpStatusCode.OK
             };
+
+
         }
 
         public static Result ErrorMessageResult(string errorText)
         {
+
             return new Result()
             {
                 ResultData = errorText,
@@ -71,6 +80,16 @@ namespace Strive.Common
                 ResultData = JsonConvert.SerializeObject(resultContent),
                 StatusCode = HttpStatusCode.NotFound,
                 Exception = ex.Message
+            };
+        }
+
+        public static Result BindVersionNotSupportedResult(string message, JObject resultContent)
+        {
+            return new Result()
+            {
+                ResultData = JsonConvert.SerializeObject(resultContent),
+                StatusCode = HttpStatusCode.HttpVersionNotSupported,
+                ErrorMessage = message
             };
         }
 

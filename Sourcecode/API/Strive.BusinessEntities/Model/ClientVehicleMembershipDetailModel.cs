@@ -11,5 +11,7 @@ namespace Strive.BusinessEntities.Model
         public ClientVehicleModel ClientVehicle { get; set; }
 
         public ClientVehicleMembershipModel ClientVehicleMembershipModel { get; set; }
+
+        public int? DeletedClientMembershipId { get; set; }
     }
 }

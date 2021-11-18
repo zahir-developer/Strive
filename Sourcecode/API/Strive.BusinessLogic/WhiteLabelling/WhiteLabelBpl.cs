@@ -77,7 +77,7 @@ namespace Strive.BusinessLogic.WhiteLabelling
                     thumbFileName = fileName.Replace(extension, string.Empty) + "Thumb" + extension;
                     try
                     {
-                        documentBpl.SaveThumbnail(GlobalUpload.DocumentType.LOGO, _tenant.LogoThumbWidth, _tenant.LogoThumbHeight, base64, thumbFileName);
+                        //documentBpl.SaveThumbnail(GlobalUpload.DocumentType.LOGO, _tenant.LogoThumbWidth, _tenant.LogoThumbHeight, base64, thumbFileName);
 
                     }
                     catch (Exception ex)

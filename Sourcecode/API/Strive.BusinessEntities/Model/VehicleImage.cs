@@ -26,6 +26,9 @@ namespace Strive.BusinessEntities.Model
         [Column]
         public string FilePath { get; set; }
 
+        [Column]
+        public string Description { get; set; }
+
         [Ignore]
         public string Base64 { get; set; }
         [Column]

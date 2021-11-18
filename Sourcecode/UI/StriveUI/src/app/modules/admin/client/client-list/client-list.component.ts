@@ -14,8 +14,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-client-list',
-  templateUrl: './client-list.component.html',
-  styleUrls: ['./client-list.component.css']
+  templateUrl: './client-list.component.html'
 })
 export class ClientListComponent implements OnInit {
   clientDetails = [];
@@ -50,6 +49,7 @@ export class ClientListComponent implements OnInit {
       debounceTime(ApplicationConfig.debounceTime.sec),
       distinctUntilChanged())
       .subscribe(value => {
+        this.resetPagination();
         this.getAllClientDetails();
       });
    }
@@ -68,6 +68,17 @@ export class ClientListComponent implements OnInit {
       this.getClientById('view', clientObj);
     }
     this.getAllClientDetails();
+  }
+
+  newgetAllClientDetails()
+  {
+    this.page = 1;
+    this.getAllClientDetails();
+  }
+
+  resetPagination()
+  {
+    this.page = 1;
   }
 
   // Get All Client
@@ -114,7 +125,7 @@ export class ClientListComponent implements OnInit {
   }
   paginatedropdown(event) {
     this.pageSize = +event.target.value;
-    this.page = this.page;
+    this.page = 1;
     this.getAllClientDetails();
   }
 
@@ -165,7 +176,7 @@ export class ClientListComponent implements OnInit {
 
         this.toastr.success(MessageConfig.Client.Delete, 'Success!');
         this.sortColumn ={ sortBy: ApplicationConfig.Sorting.SortBy.Client, sortOrder: ApplicationConfig.Sorting.SortOrder.Client.order };
-
+        this.page=1;
         this.getAllClientDetails();
       } else {
         this.spinner.hide();

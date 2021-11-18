@@ -23,6 +23,8 @@ namespace Strive.RepositoryCqrs
 
         public bool Insert<T>(T tview)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
@@ -68,6 +70,9 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
+                            if (model is null || model.ToString() == "string" || model.GetType().BaseType == typeof(Enum))
+                                continue;
+
 
                             if (primInsert)
                             {
@@ -101,6 +106,9 @@ namespace Strive.RepositoryCqrs
 
         public bool SaveAll<T>(T tview, string PrimaryField)
         {
+            if (tview == null)
+                return true;
+
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
 
@@ -156,7 +164,23 @@ namespace Strive.RepositoryCqrs
                             {
                                 var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
 
-                                insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
+                                List<object> insertList = new List<object>();
+                                List<object> updateList = new List<object>();
+                                foreach (var item in dynamicListObject)
+                                {
+                                    var prInfo = item.GetType().GetProperties().FirstOrDefault().GetValue(item, null) ?? 0;
+                                    if (Convert.ToInt32(prInfo) == 0)
+                                        insertList.Add(item);
+                                    else
+                                        updateList.Add(item);
+                                }
+
+                                if(insertList.Count > 0)
+                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction);
+
+                                if(updateList.Count > 0)
+                                insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
+
                                 isGeneric = false;
 
                             }
@@ -290,7 +314,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null || model.GetType() == typeof(string) || model.GetType().BaseType == typeof(Enum)) continue;
+                            if (model is null || model.GetType() == typeof(string) || model.GetType() == typeof(Guid) || model.GetType().BaseType == typeof(Enum)) continue;
 
                             Type subModelType = model.GetType();
 
@@ -352,6 +376,8 @@ namespace Strive.RepositoryCqrs
 
         public bool InsertPc<T>(T tview, string PrimaryField)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
@@ -372,7 +398,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null || model.ToString() == "string" || model.GetType().BaseType == typeof(Enum)) continue;
+                            if (model is null || model.ToString() == "string" || model.GetType() == typeof(int) || model.GetType().BaseType == typeof(Enum)) continue;
 
                             Type subModelType = model.GetType();
 
@@ -515,14 +541,17 @@ namespace Strive.RepositoryCqrs
             return true;
         }
 
-        public bool UpdatePc<T>(T tview)
+        public bool UpdatePc<T>(T tview, string baseTable = null)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);
 
             using (var dbcon = new SqlConnection(cs).EnsureOpen())
             {
+
                 Type type = typeof(T);
                 bool isGeneric = false;
                 int insertId = 0;
@@ -534,7 +563,7 @@ namespace Strive.RepositoryCqrs
                         {
                             var model = prp.GetValue(tview, null);
 
-                            if (model is null) continue;
+                            if (model is null || model.GetType() == typeof(string) || model.GetType().BaseType == typeof(Enum)) continue;
 
                             Type subModelType = model.GetType();
 
@@ -546,13 +575,43 @@ namespace Strive.RepositoryCqrs
                             if (isGeneric)
                             {
                                 var dynamicListObject = (IList)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(model), typeof(List<>).MakeGenericType(new[] { model.GetType().GenericTypeArguments.First() }));
+
                                 if (dynamicListObject.Count > 0)
                                     insertId = (int)dbcon.MergeAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)dynamicListObject, transaction: transaction);
                                 isGeneric = false;
+
+                                /*
+                                List<object> insertList = new List<object>();
+                                List<object> updateList = new List<object>();
+                                foreach (var item in dynamicListObject)
+                                {
+                                    var prInfo = item.GetType().GetProperties().FirstOrDefault().GetValue(item, null) ?? 0;
+                                    if (Convert.ToInt32(prInfo) == 0)
+                                        insertList.Add(item);
+                                    else
+                                        updateList.Add(item);
+                                }
+
+                                if (insertList.Count > 0)
+                                    insertId = (int)dbcon.InsertAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)insertList, transaction: transaction);
+
+                                if (updateList.Count > 0)
+                                    insertId = (int)dbcon.UpdateAll($"{sc}.tbl" + prp.Name, entities: (IEnumerable<object>)updateList, transaction: transaction);
+
+                                isGeneric = false;
+                                */
                             }
                             else
                             {
-                                insertId = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+
+                                //if (baseTable !=null ? prp.Name == ("BaySchedule")|| prp.Name ==( "JobDetail") : false)
+                                var propValue = GetPropertyValue(model, prp.Name.Replace("ClientVehicle", "Vehicle") + "Id");
+                                if (propValue == 0 && propValue != null)
+                                {
+                                    var Id = dbcon.Insert($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
+                                }
+                                else
+                                    insertId = (int)dbcon.Update($"{sc}.tbl" + prp.Name, entity: model, transaction: transaction);
                             }
                         }
                     }
@@ -565,6 +624,16 @@ namespace Strive.RepositoryCqrs
                 }
             }
             return true;
+        }
+
+        public static int? GetPropertyValue(object model, string propertyName)
+        {
+            var value = model.GetType()?.GetProperty(propertyName)?.GetValue(model, null);
+
+            if (value != null)
+                return (int)value;
+            else
+                return null;
         }
 
         public int Add<T>(T tview)
@@ -595,6 +664,8 @@ namespace Strive.RepositoryCqrs
 
         public bool InsertAll<T>(T tview, string PrimaryField)
         {
+            if (tview == null)
+                return true;
 
             SqlServerBootstrap.Initialize();
             DbHelperMapper.Add(typeof(SqlConnection), new SqlServerDbHelperNew(), true);

@@ -84,7 +84,7 @@
                                 <div class="form-group col-md-3">
                                     <label for="inputPhone">Mobile Number <span class="required">*</span></label>
                                     <input type="text" maxlength="14" class="form-control" appPhoneMask id="inputPhone"
-                                        formControlName="mobile" [appMaxLength]="10"
+                                        formControlName="mobile" 
                                         [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
                                     <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback"
                                         placeholder="Mobile Number">
@@ -118,10 +118,17 @@
                                         appCalendarMask class="form-control" bsDatepicker #dp="bsDatepicker"
                                         (focus)="dp.show()">
                                 </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="inputZipcode">ZipCode</label>
+                                    <input numbersOnly type="text" id="Zip" [appMaxLength]="9" [ngClass]="{ 'is-invalid': submitted && f.Zip.errors }" class="form-control" placeholder="Zip"
+                                        formControlName="Zip">
+                                        <div *ngIf="submitted && f.Zip.errors" class="invalid-feedback">
+                                            <div *ngIf="f.Zip.errors.minlength">ZipCode must be Minimum 5 digit</div>
+                                        </div>
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputssn">SSN </label>
-                                    <input type="text" class="form-control" id="inputssn" formControlName="ssn"
-                                        appSsnNumberMask placeholder="SSN">
+                                    <input type="password" class="form-control" id="inputssn" formControlName="ssn" placeholder="SSN">
                                 </div>
                                 <div class="form-group col-md-3 m-t-10">
 
@@ -201,10 +208,12 @@
                                     <input type="text" class="form-control" formControlName="comRate"
                                         placeholder="{{ctypeLabel}}" appTwoDecimalNumber>
                                 </div>
+                                
                                 <div class="form-group col-md-3">
-                                    <label for="inputexemptions">Exemptions </label>
-                                    <input type="phone" class="form-control" id="inputexemptions"
-                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions">
+                                    <label for="inputSalary">Salary</label>
+                                    <input type="text" class="form-control" id="inputSalary" [appMaxLength]="10"
+                                        formControlName="salary" appTwoDecimalNumber
+                                        placeholder="$0.00">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="d-block">Roles </label>
@@ -219,10 +228,14 @@
                                     <ng-multiselect-dropdown [placeholder]="'Select Location'"
                                         [disabled]="!isEditEmployeeList && actionType === 'view'"
                                         [settings]="dropdownSettings" [data]="location" formControlName="location"
-                                        (onDeSelect)="onLocationDeSelect($event)">
+                                        (onDeSelect)="onLocationDeSelect($event)" (onSelect)="onSelectedLocation($event)">
                                     </ng-multiselect-dropdown>
                                 </div>
-
+                                <div class="form-group col-md-3">
+                                    <label for="inputexemptions">Exemptions </label>
+                                    <input type="text" class="form-control" id="inputexemptions"
+                                        formControlName="exemptions" [appMaxLength]="50" placeholder="Exemptions">
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputStatus">Status</label>
                                     <select id="inputStatus" class="form-control" formControlName="status">
@@ -253,7 +266,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="location">Location </label>
+                                <label for="location">Location <span class="required">*</span></label>
                                 <select id="location" class="form-control" [(ngModel)]="hourlyLocationId">
                                     <option value="" hidden selected>Select Location</option>
                                     <option *ngFor="let loc of locationList" value={{loc.item_id}}>{{loc.item_text}}
@@ -261,7 +274,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="rate">Rate Per Hour </label>
+                                <label for="rate">Rate Per Hour<span class="required">*</span> </label>
                                 <input type="text" class="form-control" id="rate" [(ngModel)]="locationRate"
                                     [ngClass]="{ 'is-invalid': errorMessage && locationRate !== ''}" appTwoDecimalNumber
                                     placeholder="$0.00">

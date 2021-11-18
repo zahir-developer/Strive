@@ -5,17 +5,14 @@
       <div class="col-lg-7 web-display"> </div>
       <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 d-flex vh-100 login-panel theme-wrapper-color">
         <div class="login-panel-container my-auto w-100">
-          <!-- <div class="branding d-flex justify-content-center w-100 m-b-30"> <img alt=""
-              src="assets/img/Strive-Logo-login.png" title="logo-img" class="justify-content-center">
-          </div> -->
           <div class="login-form">
             <h1 class="form-title p-b-20 text-uppercase"> Login </h1>
             <p *ngIf="errorFlag" class="alert alert-danger">Email address or password was incorrect.</p>
             <form [formGroup]="loginForm" (ngSubmit)="LoginSubmit()">
               <div class="form-group">
                 <label for="emailId">Email address</label>
-                <input type="email" class="form-control" id="emailId" (keydown.space)="$event.preventDefault()"
-                  formControlName="username" aria-describedby="emailHelp" placeholder="Enter email">
+                <input type="email" class="form-control" id="emailId"
+                  formControlName="username" aria-describedby="emailHelp" placeholder="Enter email" [pKeyFilter]="emailregex">
               </div>
               <div class="form-group">
                 <label for="password">Password</label>
@@ -30,7 +27,10 @@
                 <button type="submit" class="btn theme-primary-button-color w-100 btn-sm">Login</button>
               </div>
               <div class="form-group" style="cursor: pointer;"> <a (click)="forgotPassword()"
-                  class="theme-primary-color">Forgot Password?</a> </div>
+                  class="theme-primary-color">Forgot Password?</a> 
+              <span *ngIf="showSignup" style="cursor: pointer;float: right;"> <a (click)="createAccount()"
+                    class="theme-primary-color">Sign up</a> </span>    
+                </div>
             </form>
           </div>
         </div>

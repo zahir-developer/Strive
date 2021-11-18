@@ -64,6 +64,7 @@ import { CheckListComponent } from './system-setup/check-list/check-list.compone
 import { EmployeeHandBookComponent } from './system-setup/employee-hand-book/employee-hand-book.component';
 import { CreateEditEmployeeHandBookComponent } from './system-setup/employee-hand-book/create-edit-employee-hand-book/create-edit-employee-hand-book.component';
 import { TermsAndConditionsComponent } from './system-setup/terms-and-conditions/terms-and-conditions.component';
+import { EmailBlastComponent } from './system-setup/email-blast/email-blast.component';
 import { BonusSetupComponent } from './system-setup/bonus-setup/bonus-setup.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
@@ -95,7 +96,7 @@ import { EmployeeHourlyRateComponent } from './employees/employee-hourly-rate/em
     CreateDocumentComponent, ViewDocumentComponent, GiftCardComponent, AddGiftCardComponent, AddActivityComponent,
     AddScheduleComponent, MembershipComponent, MembershipListComponent, MembershipCreateEditComponent, ClientStatementComponent, ClientHistoryComponent, TimeClockMaintenanceComponent, TimeClockWeekComponent, 
     CheckListComponent, EmployeeHandBookComponent, CreateEditEmployeeHandBookComponent
-  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent, EditChecklistComponent, AddChecklistComponent, TenantSetupComponent, AddTenantComponent, EmployeeHourlyRateComponent
+  , TermsAndConditionsComponent, BonusSetupComponent, CreateEditTermsAndConditionsComponent, AdSetupComponent, AdSetupListComponent, AdSetupCreateEditComponent, DealSetupComponent, DealsAddComponent, ServiceListComponent, EditChecklistComponent, AddChecklistComponent, TenantSetupComponent, AddTenantComponent, EmployeeHourlyRateComponent,EmailBlastComponent
 ],
   imports: [
     CommonModule,

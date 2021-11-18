@@ -12,15 +12,16 @@ namespace Strive.BusinessEntities.ViewModel
         public string ProductName { get; set; }
         public string ProductTypeName { get; set; }
         public string ProductCode { get; set; }
+        public int LocationId { get; set; }
         public string ProductDescription { get; set; }
         public string FileName { get; set; }
         public string OriginalFileName { get; set; }
         public string ThumbFileName { get; set; }
         public string SizeName { get; set; }
-        public decimal Quantity { get; set; }
-        public decimal Cost { get; set; }
-        public decimal Price { get; set; }
-        public bool IsActive { get; set; }
+        public decimal? Quantity { get; set; }
+        public decimal? Cost { get; set; }
+        public decimal? Price { get; set; }
+        public bool? IsActive { get; set; }
         public string LocationName { get; set; }
         public string VendorName { get; set; }
         public string VendorId { get; set; }

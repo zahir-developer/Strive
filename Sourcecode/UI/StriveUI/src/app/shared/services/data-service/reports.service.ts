@@ -46,7 +46,7 @@ export class ReportsService {
     { params: { cashRegisterType: type, locationId: locId, dateTime: date } });
   }
   getMonthlyMoneyOwnedReport(Date, LocationId) {
-    return this.http.get(`${UrlConfig.reports.getMonthlyMoneyOwnedReport}`, {  params : { Date , LocationId } });
+    return this.http.get(`${UrlConfig.reports.getMonthlyOwedReport}`, {  params : { Date , LocationId } });
   }
   getEodSaleReport(obj) {
     return this.http.post(`${UrlConfig.reports.getEodSaleReport}`, obj);
@@ -75,4 +75,23 @@ export class ReportsService {
 
 
   }
+  getHourlyWashExport(obj){
+    const headers = new HttpHeaders();
+
+    return this.http.post(`${UrlConfig.reports.getHourlyWashExport}`, obj,{ responseType: 'arraybuffer', headers: headers } );
+  }
+
+
+  getIrregularityReports(obj) {
+    return this.http.get(`${UrlConfig.reports.getIrregularityReports}`,{ params: { LocationId: obj.locationId, FromDate: obj.fromDate, EndDate: obj.endDate} });
+  }
+
+getIrregularityExport(obj) {
+  
+  const headers = new HttpHeaders();
+  return this.http.post(`${UrlConfig.reports.getIrregularityExport}`, obj,{ responseType: 'arraybuffer', headers: headers });
+}
+
+
+
 }

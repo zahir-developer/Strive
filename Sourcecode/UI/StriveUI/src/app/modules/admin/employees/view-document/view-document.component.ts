@@ -7,14 +7,15 @@ import { MessageConfig } from 'src/app/shared/services/messageConfig';
 
 @Component({
   selector: 'app-view-document',
-  templateUrl: './view-document.component.html',
-  styleUrls: ['./view-document.component.css']
+  templateUrl: './view-document.component.html'
 })
 export class ViewDocumentComponent implements OnInit {
   passwordForm: FormGroup;
   @Input() employeeId?: any;
   @Input() documentId?: any;
   submitted: boolean;
+  contenttype: any;
+
   constructor(
     private activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -50,8 +51,30 @@ export class ViewDocumentComponent implements OnInit {
     this.employeeService.getDocumentById(this.documentId, password).subscribe( res => {
       if (res.status === 'Success' && res.resultData !== 'Invalid Password !!!') {
         const documentDetail = JSON.parse(res.resultData);
-        const base64 = documentDetail.Document;
-        const linkSource = 'data:application/pdf;base64,' + base64;
+        console.log(documentDetail,'hello');
+        const base64 = documentDetail.Document.Base64Url;
+        const fileGroup = documentDetail.Document.FileType;
+        switch (fileGroup) {
+          case ".doc":
+            this.contenttype = "data:application/msword;base64,";
+            break;
+          case ".docx":
+            this.contenttype = "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,";
+            break;
+          case ".xls":
+            this.contenttype = "data:application/vnd.ms-excel;base64,";
+            break;
+          case ".xlsx":
+            this.contenttype = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
+            break;
+          case ".pdf":
+            this.contenttype = "data:application/pdf;base64,";
+            break;
+          case ".csv":
+            this.contenttype = "data:application/vnd.ms-excel;base64,"
+            break;  
+        }
+        const linkSource = this.contenttype+ base64;
         const downloadLink = document.createElement('a');
         const fileName = 'file'; 
         downloadLink.href = linkSource;

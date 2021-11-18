@@ -13,11 +13,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageConfig } from 'src/app/shared/services/messageConfig';
 import { ApplicationConfig } from 'src/app/shared/services/ApplicationConfig';
 import { DatePipe } from '@angular/common';
+import { CodeValueService } from 'src/app/shared/common-service/code-value.service';
 
 @Component({
   selector: 'app-cash-register',
-  templateUrl: './cash-register.component.html',
-  styleUrls: ['./cash-register.component.css']
+  templateUrl: './cash-register.component.html'
 })
 export class CashinRegisterComponent implements OnInit, AfterViewInit {
   @ViewChild('dp', { static: false }) datepicker: BsDaterangepickerDirective;
@@ -61,13 +61,16 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   CahRegisterId: any;
   storeStatusList = [];
   storeTimeIn = '';
+  timeIn = '';
+  timeOut: any;
   storeStatus: any = '';
   storeTimeOut = '';
   submitted = false;
   isTimechange: boolean;
   constructor(private fb: FormBuilder, private registerService: CashRegisterService, private getCode: GetCodeService,
     private toastr: ToastrService, private weatherService: WeatherService,
-    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe) { }
+    private cd: ChangeDetectorRef, private spinner: NgxSpinnerService, private datePipe: DatePipe,
+    private codeValueService: CodeValueService) { }
 
   ngOnInit() {
     this.selectDate = moment(new Date()).format('MM/DD/YYYY');
@@ -163,7 +166,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
         this.cashDetails = cashIn.CashRegister;
         if (this.cashDetails.CashRegister !== null) {
           this.isUpdate = true;
-          const storeStatus = this.storeStatusList.filter( item =>  item.CodeId === this.cashDetails.CashRegister.StoreOpenCloseStatus);
+          const storeStatus = this.storeStatusList.filter(item => item.CodeId === this.cashDetails.CashRegister.StoreOpenCloseStatus);
           let isStatus = false;
           if (storeStatus.length > 0) {
             if (storeStatus[0].CodeValue === 'Open') {
@@ -172,13 +175,19 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
               isStatus = false;
             }
           }
+
           this.storeStatus = this.cashDetails.CashRegister.StoreOpenCloseStatus !== null ?
             +this.cashDetails.CashRegister.StoreOpenCloseStatus : '';
           this.storeTimeIn = isStatus ? this.cashDetails.CashRegister.StoreTimeIn !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '' : this.cashDetails.CashRegister.StoreTimeOut !== null ?
             moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
-          // this.storeTimeIn  = this.cashDetails.CashRegister.StoreTimeOut !== null ?
-          //   moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+
+          this.timeIn = this.cashDetails.CashRegister.StoreTimeIn !== null ?
+            moment(this.cashDetails.CashRegister.StoreTimeIn).format('HH:mm') : '';
+
+          this.timeOut = this.cashDetails.CashRegister.StoreTimeOut !== null ?
+            moment(this.cashDetails.CashRegister.StoreTimeOut).format('HH:mm') : '';
+
           this.cashRegisterCoinForm.patchValue({
             coinPennies: this.cashDetails.CashRegisterCoins.Pennies,
             coinNickels: this.cashDetails.CashRegisterCoins.Nickels,
@@ -192,6 +201,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.totalQuater = (25 * this.cashDetails.CashRegisterCoins.Quarters) / 100;
           this.totalHalf = (50 * this.cashDetails.CashRegisterCoins.HalfDollars) / 100;
           this.totalCoin = this.totalPennie + this.totalNickel + this.totalDime + this.totalQuater + this.totalHalf;
+          
           this.cashRegisterBillForm.patchValue({
             billOnes: this.cashDetails.CashRegisterBills.s1,
             billFives: this.cashDetails.CashRegisterBills.s5,
@@ -222,7 +232,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             this.cashRegisterForm.patchValue({
               goal: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday.TargetBusiness
             });
-          }, 1200);
+          }, 500);
           this.getTotalCash();
         }
         else {
@@ -233,7 +243,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
           this.cashRegisterRollForm.reset();
         }
       }
-      else{
+      else {
         this.spinner.hide();
 
       }
@@ -249,9 +259,9 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     this.weatherService.data.subscribe((data: any) => {
       if (data !== undefined) {
         this.spinner.hide();
-
+        //this.weatherDetails = JSON.parse(data.resultData);
         this.weatherDetails = data;
-      }else{
+      } else {
         this.spinner.hide();
 
       }
@@ -262,18 +272,23 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
     );
   }
   getDocumentType() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
-      if (data.status === "Success") {
-        const dType = JSON.parse(data.resultData);
-        this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CashIn)[0].CodeId;
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const cashRegisterVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.cashRegister);
+    if (cashRegisterVaue.length > 0) {
+      this.CahRegisterId = cashRegisterVaue.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CashIn)[0].CodeId;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.cashRegister).subscribe(data => {
+        if (data.status === 'Success') {
+          const dType = JSON.parse(data.resultData);
+          this.CahRegisterId = dType.Codes.filter(i => i.CodeValue === ApplicationConfig.CodeValue.CashIn)[0].CodeId;
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    );
   }
   // Add/Update CashInRegister
   submit() {
@@ -288,7 +303,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       nickels: this.cashRegisterCoinForm.value.coinNickels == null ? 0 : this.cashRegisterCoinForm.value.coinNickels,
       dimes: this.cashRegisterCoinForm.value.coinDimes == null ? 0 : this.cashRegisterCoinForm.value.coinDimes,
       quarters: this.cashRegisterCoinForm.value.coinQuaters == null ? 0 : this.cashRegisterCoinForm.value.coinQuaters,
-      halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars == null ? 0 : this.cashRegisterCoinForm.value.coinQuaters,
+      halfDollars: this.cashRegisterCoinForm.value.coinHalfDollars == null ? 0 : this.cashRegisterCoinForm.value.coinHalfDollars,
       isActive: true,
       isDeleted: false,
       createdBy: this.employeeId,
@@ -300,7 +315,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       cashRegBillId: this.isUpdate ? this.cashDetails.CashRegisterBills.CashRegBillId : 0,
       cashRegisterId: this.isUpdate ? this.cashDetails.CashRegister.CashRegisterId : 0,
       s1: this.cashRegisterBillForm.value.billOnes == null ? 0 : this.cashRegisterBillForm.value.billOnes,
-      s5: this.cashRegisterBillForm.value.billFives == null ? 0 : this.cashRegisterBillForm.value.billOnes,
+      s5: this.cashRegisterBillForm.value.billFives == null ? 0 : this.cashRegisterBillForm.value.billFives,
       s10: this.cashRegisterBillForm.value.billTens == null ? 0 : this.cashRegisterBillForm.value.billTens,
       s20: this.cashRegisterBillForm.value.billTwenties == null ? 0 : this.cashRegisterBillForm.value.billTwenties,
       s50: this.cashRegisterBillForm.value.billFifties == null ? 0 : this.cashRegisterBillForm.value.billFifties,
@@ -357,7 +372,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       checkinTime = this.datePipe.transform(this.storeTimeIn, 'MM/dd/yyyy HH:mm');
       checkoutTime = this.storeTimeOut;
     }
-    const storeStatus = this.storeStatusList.filter( item => item.CodeId === +this.storeStatus);
+    const storeStatus = this.storeStatusList.filter(item => item.CodeId === +this.storeStatus);
     let isStatus = false;
     if (storeStatus.length > 0) {
       if (storeStatus[0].CodeValue === 'Open') {
@@ -378,10 +393,12 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       createdDate: new Date(),
       updatedBy: this.employeeId,
       updatedDate: new Date(),
-      storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : null,
-      storeTimeOut: !isStatus ? checkinTime !== '' ? checkinTime : null : null,
-      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus
+      storeTimeIn: isStatus ? checkinTime !== '' ? checkinTime : null : (this.cashDetails.CashRegister?.StoreTimeIn),
+      storeTimeOut: !isStatus ? checkinTime !== '' ? checkinTime : (this.cashDetails.CashRegister == null ? null : this.cashDetails.CashRegister.StoreTimeOut) : (this.cashDetails.CashRegister == null ? null : this.cashDetails.CashRegister.StoreTimeOut),
+      storeOpenCloseStatus: this.storeStatus === '' ? null : +this.storeStatus,
+      totalAmount: this.totalCash
     };
+
     const formObj = {
       cashregister,
       cashRegisterCoins: coin,
@@ -390,7 +407,7 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       cashregisterOthers: other
     }
     const weatherObj = {
-      weatherId: 0,
+      weatherId: this.targetBusiness?.WeatherPrediction?.WeatherPredictionToday?.WeatherId,
       locationId: +this.locationId,
       weather: (this.weatherDetails?.currentWeather?.temporature) ? Math.floor(this.weatherDetails?.currentWeather?.temporature).toString() : null,
       rainProbability: (this.weatherDetails?.currentWeather?.rainPercentage) ? Math.floor(this.weatherDetails?.currentWeather?.rainPercentage).toString() : null,
@@ -405,7 +422,10 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
       if (data.status === 'Success') {
         this.spinner.hide();
         this.toastr.success(MessageConfig.Admin.CashRegister.Update, 'Success!');
-        this.weatherService.UpdateWeather(weatherObj).subscribe(response => {
+        const weatherPredictObj = {
+          WeatherPrediction: weatherObj
+        }
+        this.weatherService.UpdateWeather(weatherPredictObj).subscribe(response => {
           if (response.status === 'Success') {
             this.spinner.hide();
 
@@ -416,7 +436,6 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
             this.getCashRegister();
           } else {
             this.spinner.hide();
-
           }
         });
       } else {
@@ -526,19 +545,25 @@ export class CashinRegisterComponent implements OnInit, AfterViewInit {
   }
 
   getStoreStatusList() {
-    this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
-      if (data.status === 'Success') {
-        const dType = JSON.parse(data.resultData);
-        this.storeStatusList = dType.Codes;
-        // this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue === ApplicationConfig.storestatus.open);
-      } else {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+    const storeStatusVaue = this.codeValueService.getCodeValueByType(ApplicationConfig.Category.cashRegister);
+    console.log(storeStatusVaue, 'cached value ');
+    if (storeStatusVaue.length > 0) {
+      this.storeStatusList = storeStatusVaue;
+    } else {
+      this.getCode.getCodeByCategory(ApplicationConfig.Category.storeStatus).subscribe(data => {
+        if (data.status === 'Success') {
+          const dType = JSON.parse(data.resultData);
+          this.storeStatusList = dType.Codes;
+          // this.storeStatusList = this.storeStatusList.filter(item => item.CodeValue === ApplicationConfig.storestatus.open);
+        } else {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
       }
+        , (err) => {
+          this.toastr.error(MessageConfig.CommunicationError, 'Error!');
+        }
+      );
     }
-      , (err) => {
-        this.toastr.error(MessageConfig.CommunicationError, 'Error!');
-      }
-    );
   }
 
   inTime(event) {

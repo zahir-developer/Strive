@@ -28,4 +28,7 @@ export class LocationService {
   LocationSearch(obj) {
     return this.http.post(`${UrlConfig.location.getLocationSearch}`, obj);
   }
+  getMerchantSearch(obj) {
+    return this.http.post(`${UrlConfig.location.getMerchantDetails}`, obj);
+  }
 }

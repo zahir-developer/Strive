@@ -96,6 +96,11 @@ namespace Strive.BusinessLogic.Vehicle
                 }
             }
 
+            if(vehicleMembership.DeletedClientMembershipId != null && vehicleMembership.DeletedClientMembershipId.GetValueOrDefault(0) > 0)
+            {
+                var clientMembershipDelete = new MembershipSetupRal(_tenant).DeleteVehicleMembershipById(vehicleMembership.DeletedClientMembershipId.GetValueOrDefault());
+            }
+
             var saveVehicle = new VehicleRal(_tenant).SaveVehicle(vehicleMembership.ClientVehicle);
             if (!saveVehicle)
                 return ResultWrap<ClientVehicle>(false, "Result", "Failed to save vehicle details.");
@@ -122,7 +127,7 @@ namespace Strive.BusinessLogic.Vehicle
             var documentBpl = new DocumentBpl(_cache, _tenant);
             foreach(var vehicle in vehicleThumnail)
             {
-                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ThumbnailFileName);
+                vehicle.Base64Thumbnail = documentBpl.GetBase64(GlobalUpload.DocumentType.VEHICLEIMAGE, vehicle.ImageName);
             }
 
             return ResultWrap(vehicleThumnail, "VehicleThumbnails");
@@ -143,6 +148,9 @@ namespace Strive.BusinessLogic.Vehicle
         {
             return ResultWrap(new VehicleRal(_tenant).DeleteVehicleImage, vehicleImageId, "Status");
         }
-
+        public Result GetMembershipDiscountStatus(int clientId)
+        {
+            return ResultWrap(new VehicleRal(_tenant).GetMembershipDiscountStatus, clientId, "Status");
+        }
     }
 }

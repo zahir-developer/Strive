@@ -51,12 +51,12 @@ namespace Strive.BusinessLogic.GiftCard
             {
                 if (giftcard > 0)
                 {
-                    var subject = "Gift card details";
+                    var subject = EmailSubject.GiftCard;
                     Dictionary<string, string> keyValues = new Dictionary<string, string>();
                     keyValues.Add("{{emailId}}", giftCardDto.GiftCard.Email);
                     keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
-                    keyValues.Add("{{giftAmount}}", giftCardDto.GiftCard.BalanceAmount.ToString());
-                    keyValues.Add("{{activationDate}}", giftCardDto.GiftCard.ActivationDate.ToString());
+                    keyValues.Add("{{giftAmount}}", giftCardDto.GiftCard.TotalAmount.ToString());
+                    keyValues.Add("{{activationDate}}", giftCardDto.GiftCard.ActivationDate.ToString("yyy-MM-dd"));
                     comBpl.SendEmail(HtmlTemplate.GiftCardDetails, giftCardDto.GiftCard.Email, keyValues,subject);
                 }
             }
@@ -68,12 +68,12 @@ namespace Strive.BusinessLogic.GiftCard
 
                     if (giftcard > 0)
                     {
-                        var subject = "Gift card details";
+                        var subject = EmailSubject.GiftCard;
                         Dictionary<string, string> keyValues = new Dictionary<string, string>();
                         keyValues.Add("{{emailId}}", clientemail.FirstName);
                         keyValues.Add("{{giftcardcode}}", giftCardDto.GiftCard.GiftCardCode);
-                        keyValues.Add("{{giftAmount}}", giftCardDto.GiftCard.BalanceAmount.ToString());
-                        keyValues.Add("{{activationDate}}", giftCardDto.GiftCard.ActivationDate.ToString());
+                        keyValues.Add("{{giftAmount}}", giftCardDto.GiftCard.TotalAmount.ToString());
+                        keyValues.Add("{{activationDate}}", giftCardDto.GiftCard.ActivationDate.ToString("yyy-MM-dd"));
                         comBpl.SendEmail(HtmlTemplate.GiftCardDetails, clientemail.Email, keyValues,subject);
                     }
                 }

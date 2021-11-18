@@ -9,5 +9,7 @@ namespace Strive.BusinessLogic.DTO.Client
         public ClientLoginDetailViewModel ClientDetail { get; set; }
 
         public List<RolePermissionViewModel> RolePermissionViewModel { get; set; }
+        public TokenExpireViewModel TokenExpireMinutes { get; set; }
+
     }
 }

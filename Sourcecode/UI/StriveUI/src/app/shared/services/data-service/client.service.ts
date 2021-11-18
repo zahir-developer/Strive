@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpUtilsService } from '../../util/http-utils.service';
 import { UrlConfig } from '../url.config';
+import { HttpHeaders } from '@angular/common/http';
 
 
 @Injectable({
@@ -29,7 +30,11 @@ export class ClientService {
     return this.http.delete(`${UrlConfig.client.deleteClient}` + id);
   }
   ClientEmailCheck(email) {
-    return this.http.get(`${UrlConfig.client.clientEmailCheck}` , { params: { email: email } });
+    return this.http.get(`${UrlConfig.employee.validateEmail}` + email );
+  }
+
+  ValidateTenantEmail(email) {
+    return this.http.get(`${UrlConfig.employee.validateEmail}` + email);
   }
 
   getClientById(id: number) {
@@ -47,4 +52,14 @@ export class ClientService {
   getHistoryByClientId(id) {
     return this.http.get(`${UrlConfig.client.getHistoryByClientId}` + id);
   }
+  getClientList(obj) {
+  const headers = new HttpHeaders();
+
+    return this.http.post(`${UrlConfig.client.getClientList}`, obj,{ responseType: 'arraybuffer', headers: headers } );
+  }
+
+  
+  getCSVClientList(obj) {
+      return this.http.post(`${UrlConfig.client.getCSVClientList}` , obj);
+    }
 }

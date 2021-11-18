@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Strive.Common;
 using Strive.BusinessLogic.Common;
 using Strive.BusinessEntities.City;
+using Strive.BusinessEntities;
+using System.Collections.Generic;
 
 namespace Admin.API.Controllers
 {
@@ -90,5 +92,25 @@ namespace Admin.API.Controllers
         {
             return _commonBpl.GetUpchargeByType(upchargeDto);
         }
+
+        [HttpPost]
+        [Route("SendMail")]
+        public void SendMail(string email, string body, string subject)
+        {
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+
+            keyValues.Add("{{body}}", body);
+            _commonBpl.SendEmail(HtmlTemplate.GeneralMail, email, keyValues, subject);
+
+        }
+
+        [HttpPut]
+        [Route("Template")]
+        public string Template(string templateName)
+        {
+            return _commonBpl.Template(templateName);
+        }
+
+
     }
 }

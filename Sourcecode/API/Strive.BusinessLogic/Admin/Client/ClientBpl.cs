@@ -18,6 +18,7 @@ using Strive.BusinessEntities.DTO.Client;
 using Strive.BusinessEntities.DTO.Vehicle;
 using Strive.BusinessEntities.DTO.User;
 using Strive.BusinessEntities.DTO;
+using Strive.BusinessEntities.ViewModel;
 
 namespace Strive.BusinessLogic
 {
@@ -66,30 +67,40 @@ namespace Strive.BusinessLogic
                 {
                     if (!string.IsNullOrEmpty(item.Email))
                     {
-                        var comBpl = new CommonBpl(_cache, _tenant);
-                        var clientLogin = comBpl.CreateLogin(UserType.Client, item.Email, item.PhoneNumber);
-                        client.Client.AuthId = clientLogin.authId;
-                        
+                        string password = client.Password.Trim();
+                        if (client.Client.AuthId == null)
+                        {
+                            var comBpl = new CommonBpl(_cache, _tenant);
+                            var clientLogin = comBpl.CreateLogin(UserType.Client, item.Email, item.PhoneNumber, password);
+                            client.Client.AuthId = clientLogin.authId;
 
-                        if (clientLogin.authId > 0)
+                            if (password == string.Empty)
+                                password = clientLogin.password;
+                        }
+
+                        if (client.Client.AuthId > 0)
                         {
                             var clientSignup = new ClientRal(_tenant).InsertClientDetails(client);
+                            var comBpl = new CommonBpl(_cache, _tenant);
                             if (clientSignup > 0)
                             {
-                                var subject = "Welcom To Strive";
+                                var subject = EmailSubject.WelcomeEmail;
                                 Dictionary<string, string> keyValues = new Dictionary<string, string>();
                                 keyValues.Add("{{emailId}}",item.Email);
-                                keyValues.Add("{{password}}",clientLogin.password);
+                                keyValues.Add("{{password}}",password);
                                 keyValues.Add("{{employeeName}}", client.Client.FirstName);
-                               
+                                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+                                
                                 comBpl.SendEmail(HtmlTemplate.ClientSignUp, item.Email,keyValues,subject);
                                // comBpl.SendLoginCreationEmail(HtmlTemplate.ClientSignUp, item.Email, clientLogin.password);
                                 clientId.Add(clientSignup);
                             }
-                            else if(clientLogin.authId > 0)
+                            else if(client.Client.AuthId > 0)
                             {
                                 //Delete AuthMaster record from AuthDatabase in case client add failed.
-                                comBpl.DeleteUser(clientLogin.authId);
+                                comBpl.DeleteUser(client.Client.AuthId.GetValueOrDefault());
                             }
                         }
                     }
@@ -175,7 +186,15 @@ namespace Strive.BusinessLogic
         {
             return ResultWrap(new ClientRal(_tenant).ClientEmailExist, email, "emailExist");
         }
-
-
+        public List<ClientEmailBlastViewModel> ClientExport(EmailBlastDto  emailBlast)
+        {
+            List<ClientEmailBlastViewModel> client = new List<ClientEmailBlastViewModel>();
+            client =new ClientRal(_tenant).GetClientList(emailBlast);
+            return client;
+        }
+        public Result ClientCSVExport(EmailBlastDto emailBlast)
+        {
+            return ResultWrap(new ClientRal(_tenant).GetClientList, emailBlast, "ClientCSVExport");
+        }
     }
 }

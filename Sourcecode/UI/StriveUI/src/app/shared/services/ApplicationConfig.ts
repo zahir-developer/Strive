@@ -62,13 +62,13 @@ export const ApplicationConfig = {
                 order: 'ASC',
             },
             CheckOut: {
-                order: 'ASC',
+                order: 'DESC',
             },
             PayRoll: {
                 order: 'ASC',
             },
             Washes: {
-                order: 'ASC',
+                order: 'DESC',
             },
 
             Detail: {
@@ -164,7 +164,8 @@ export const ApplicationConfig = {
         paymentStatus: 'PAYMENTSTATUS',
         ClientType: 'CLIENTTYPE',
         ServiceCategory: 'ServiceCategory',
-        TermsAndCondition: 'TERMSANDCONDITION'
+        TermsAndCondition: 'TERMSANDCONDITION',
+        Gender: 'GENDER'
     },
     CodeValue: {
         EmployeeHandBook: 'EmployeeHandBook',
@@ -181,7 +182,22 @@ export const ApplicationConfig = {
         Details: 'Details',
         Washes: 'Washes',
         additionalServices: 'Additional Services',
-        adjustment: 'Adjustment'
+        adjustment: 'Adjustment',
+        gender: 'Gender',
+        immigrationStatus: 'ImmigrationStatus',
+        liablityType: 'LiabilityType',
+        liablityDetailType: 'LiabilityDetailType',
+        vehicleModel: 'VehicleModel',
+        vehcileMake: 'VehicleManufacturer',
+        vehcileColor: 'VehicleColor',
+        documentType: 'DocumentType',
+        documentSubType: 'DocumentSubType',
+        size: 'Size',
+        jobStatus: 'JobStatus',
+        serviceType: 'ServiceType',
+        clientType: 'ClientType',
+        paymentType: 'PaymentType',
+        paymentStatus: 'PaymentStatus'
     },
     CodeValueByType: {
         ProductType: 'ProductType',
@@ -237,10 +253,11 @@ export const ApplicationConfig = {
         Admin: 'Admin',
         Manager: 'Manager',
         Operator: 'Operator',
+        Greeter: 'Greeter',
         Cashier: 'Cashier',
         Detailer: 'Detailer',
         Wash: 'Washer',
-        Client: 'Client'
+        Customer: 'Customer'
     },
 
     dropdownSettings: {
@@ -253,11 +270,16 @@ export const ApplicationConfig = {
         allowSearchFilter: true
     },
     refreshTime: {
-        refreshTime: 19
+        refreshTime: 30
     },
 
     debounceTime: {
-        sec: 1000
+        sec: 1500
+    },
+
+    modules: {
+        admin: 'Admin',
+        report: 'Report'
     }
 
 };

@@ -19,6 +19,14 @@ namespace Strive.Common
         Admin,
     }
 
+    public static class EmailSubject
+    {
+        public static string GiftCard = "Gift card details";
+        public static string ProductThreshold = "Product threshold limit reached";
+        public static string VehicleHold = "Vehicle is ON Hold";
+        public static string WelcomeEmail = "Welcome To Strive";
+        public static string Manager = "New Employee Info";
+    }
 
 
     public static class GlobalUpload
@@ -60,6 +68,9 @@ namespace Strive.Common
         GiftCardDetails,
         SuperAdmin,
         NewEmployeeInfo,
+        ProductRequest,
+        DetailAssignedToEmployee,
+        GeneralMail
     }
 
     public enum Roles

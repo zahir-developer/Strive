@@ -89,4 +89,8 @@ export class EmployeeService {
   getEmployeeHourlyRateById(id) {
     return this.http.get(`${UrlConfig.employee.getEmployeeHourlyRateById}`, { params: { id } });
   }
+
+  validateEmail(id) {
+    return this.http.get(`${UrlConfig.employee.validateEmail}` + id);
+  }
 }

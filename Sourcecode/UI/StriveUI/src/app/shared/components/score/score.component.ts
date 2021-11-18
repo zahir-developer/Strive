@@ -5,8 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-score',
-  templateUrl: './score.component.html',
-  styleUrls: ['./score.component.css']
+  templateUrl: './score.component.html'
 })
 export class ScoreComponent implements OnInit {
   score: any;

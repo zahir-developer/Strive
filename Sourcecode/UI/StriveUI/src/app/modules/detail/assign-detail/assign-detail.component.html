@@ -40,7 +40,7 @@
                             <th scope="col">
                                 Employee Name
                             </th>
-                            <th scope="col">Commission Amount</th>
+                            <th scope="col">Commission</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                             </td>
                             <td>{{detail.EmployeeName}}
                             </td>
-                            <td>{{detail.CommissionAmount}}
+                            <td>{{detail.CommissionAmount | currency}}
                             </td>
                             <td>
                                 <em class="fa fa-times-circle delete-list theme-optional-icon-color" style="color:red"
@@ -67,7 +67,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
+                <ngb-pagination *ngIf="detailService.length > 0" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="3" [rotate]="true"
                     [ellipses]="false" [boundaryLinks]="true" class="d-flex justify-content-end">
                 </ngb-pagination>
             </div>

@@ -15,7 +15,7 @@ export class CustomerService {
   }
 
   getLocation(): Observable<any> {
-    return this.http.get(`${UrlConfig.location.getAllLocationName}`);
+    return this.http.get(`${UrlConfig.location.getLocation}`);
   }
 
   getServices(obj): Observable<any> {

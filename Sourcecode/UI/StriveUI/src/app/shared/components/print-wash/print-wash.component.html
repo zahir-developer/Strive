@@ -25,9 +25,9 @@
         </div>
     </div>
     <div class="row border-bottom m-b-5">
-        <div class="col-4">Vehicle: &nbsp;{{selectedData?.Details?.vehicleModel}}</div>
-        <div class="col-4 text-center">{{selectedData?.Details?.vehicleMake}}</div>
-        <div class="col-4 text-right">{{selectedData?.Details?.vehicleColor}}</div>
+        <div class="col-4">Vehicle: &nbsp;{{selectedData?.Details?.VehicleModel}}</div>
+        <div class="col-4 text-center">{{selectedData?.Details?.VehicleMake}}</div>
+        <div class="col-4 text-right">{{selectedData?.Details?.VehicleColor}}</div>
     </div>
 </div>
 <div id="print-body">
@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="col-12">
-        <div>Ticket Number:<br>
+        <div>Ticket Number:&nbsp; {{selectedData?.Details?.TicketNumber}} <br>
             <qr-code [value]="selectedData?.Details?.TicketNumber"></qr-code>
         </div>
 

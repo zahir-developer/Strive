@@ -4,8 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-filter-dashboard',
-  templateUrl: './filter-dashboard.component.html',
-  styleUrls: ['./filter-dashboard.component.css']
+  templateUrl: './filter-dashboard.component.html'
 })
 export class FilterDashboardComponent implements OnInit {
   filterForm: FormGroup;

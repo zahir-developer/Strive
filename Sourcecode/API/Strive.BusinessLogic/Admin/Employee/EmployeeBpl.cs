@@ -27,128 +27,152 @@ namespace Strive.BusinessLogic
 
             bool success = false;
 
-            //Validate emailId already exist
-            var isExist = new CommonRal(_tenant, true).GetEmailIdExist(employee.EmployeeAddress.Email);
-
-            if (isExist)
-            {
-                _result = Helper.BindValidationErrorResult("EmailId already exists. Try again.!!!");
-                return _result;
-            }
-
-            //Validate documents
-
-            var docBpl = new DocumentBpl(_cache, _tenant);
-
-            if (employee.EmployeeDocument.Count > 0)
+            if (employee != null)
             {
 
-                string error = docBpl.ValidateEmployeeFiles(employee.EmployeeDocument);
-                if (!(error == string.Empty))
+                //Validate emailId already exist
+                var isExist = new CommonRal(_tenant, true).GetEmailIdExist(employee.EmployeeAddress.Email);
+
+                if (isExist)
                 {
-                    _result = Helper.ErrorMessageResult(error);
+                    _result = Helper.BindValidationErrorResult("EmailId already exists. Try again.!!!");
+                    return _result;
                 }
 
-                return _result;
-            }
+                //Validate documents
 
-            var commonBpl = new CommonBpl(_cache, _tenant);
-            var createLogin = commonBpl.CreateLogin(UserType.Employee, employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
-            employee.EmployeeDetail.AuthId = createLogin.authId;
+                var docBpl = new DocumentBpl(_cache, _tenant);
 
-            if (createLogin.authId > 0)
-            {
                 if (employee.EmployeeDocument.Count > 0)
                 {
-                    //Documents Upload & Get File Names
-                    List<EmployeeDocument> employeeDocument = docBpl.UploadEmployeeFiles(employee.EmployeeDocument);
 
-                    employee.EmployeeDocument = employeeDocument;
-                }
-
-                //Add Employee
-                var employeeResult = new EmployeeRal(_tenant).AddEmployee(employee);
-
-
-
-                if (employeeResult > 0)
-                {
-                    var employeeLocationRole = new EmployeeRal(_tenant).GetEmployeeById(employeeResult);
+                    string error = docBpl.ValidateEmployeeFiles(employee.EmployeeDocument);
+                    if (!(error == string.Empty))
                     {
-
-                        //Send Email to employee
-                        string subject = " Welcome to Strive !";
-                        Dictionary<string, string> keyValues = new Dictionary<string, string>();
-
-                        keyValues.Add("{{employeeName}}", employee.Employee.FirstName);
-                        string emplocation = string.Empty;
-                        foreach (var empLoc in employeeLocationRole.EmployeeLocations)
-                        {
-                            emplocation += empLoc.LocationName + ", ";
-                        }
-                        char[] chars = { ',' };
-                        emplocation = emplocation.TrimEnd(chars);
-                        keyValues.Add("{{locationList}}", emplocation);
-                        string emprole = string.Empty;
-                        foreach (var empRole in employeeLocationRole.EmployeeRoles)
-                        {
-                            emprole += empRole.RoleName + ", ";
-                        }
-                        char[] comma = { ',' };
-                        emprole = emprole.TrimEnd(comma);
-                        keyValues.Add("{{roleList}}", emprole);
-                        keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
-                        keyValues.Add("{{password}}", createLogin.password);
-                        commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues, subject);
+                        _result = Helper.ErrorMessageResult(error);
                     }
 
-                    //Send Email to Manager
+                    // return _result;
+                }
+
+                var commonBpl = new CommonBpl(_cache, _tenant);
+                var createLogin = commonBpl.CreateLogin(UserType.Employee, employee.EmployeeAddress.Email, employee.EmployeeAddress.PhoneNumber);
+                employee.EmployeeDetail.AuthId = createLogin.authId;
+
+                if (createLogin.authId > 0)
+                {
+                    if (employee.EmployeeDocument.Count > 0)
                     {
-                        foreach (var item in employee.EmployeeLocation)
-                        {
-                            var emailId = new CommonRal(_tenant).GetEmailIdByRole(item.LocationId);
+                        //Documents Upload & Get File Names
+                        List<EmployeeDocument> employeeDocument = docBpl.UploadEmployeeFiles(employee.EmployeeDocument);
 
+                        employee.EmployeeDocument = employeeDocument;
+                    }
 
-                            foreach (var email in emailId)
-                            {
-                                string sub = "New Employee Info!";
-                                Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
-                                keyValues1.Add("{{Manager/Operator}}", email.FirstName);
-                                keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
-                                string location = string.Empty;
-                                foreach (var empLoc in employeeLocationRole.EmployeeLocations)
-                                {
-                                    location += empLoc.LocationName + ", ";
-                                }
-                                char[] charsToTrim = { ',' };
-                                location = location.TrimEnd(charsToTrim);
-                                keyValues1.Add("{{locationList}}", location);
-                                string role = string.Empty;
-                                foreach (var empRole in employeeLocationRole.EmployeeRoles)
-                                {
-                                    role += empRole.RoleName + ", ";
-                                }
-                                char[] charToTrim = { ',' };
-                                role = role.TrimEnd(charToTrim);
-                                keyValues1.Add("{{roleList}}", role);
-                                commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, email.Email, keyValues1, sub);
-                            }
-                        }
+                    //Add Employee
+                    var employeeId = new EmployeeRal(_tenant).AddEmployee(employee);
 
+                    if (employeeId > 0)
+                    {
+                        //Send Email to employee
+                        SendEmployeeNotification(employee, employee.EmployeeLocation, employee.EmployeeRole, employeeId, createLogin.password);
+
+                        //Send Email to Manager
+                        SendEmailManagerNotification(employee, employee.EmployeeLocation, employee.EmployeeRole);
 
                         success = true;
                     }
-                }
 
-                else if (createLogin.authId > 0)
-                {
-                    //Delete AuthMaster record from AuthDatabase
-                    commonBpl.DeleteUser(createLogin.authId);
-                }
+                    else if (createLogin.authId > 0)
+                    {
+                        //Delete AuthMaster record from AuthDatabase
+                        commonBpl.DeleteUser(createLogin.authId);
+                    }
 
+                }
             }
+            else
+                return Helper.BindValidationErrorResult("Internal Error.");
 
             return ResultWrap(success, "Status");
+        }
+
+        private void SendEmployeeNotification(EmployeeModel employee, List<EmployeeLocation> employeeLocations, List<Strive.BusinessEntities.Model.EmployeeRole> employeeRoles, int employeeId, string password)
+        {
+            if (employeeLocations != null)
+            {
+                var subject = EmailSubject.WelcomeEmail;
+                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+
+                keyValues.Add("{{employeeName}}", employee.Employee.FirstName);
+                string emplocation = string.Empty;
+                foreach (var empLoc in employeeLocations)
+                {
+                    emplocation += empLoc.LocationName + ",";
+                }
+                char[] chars = { ',' };
+                emplocation = emplocation.TrimEnd(chars);
+                keyValues.Add("{{locationList}}", emplocation);
+                string emprole = string.Empty;
+                foreach (var empRole in employeeRoles)
+                {
+                    emprole += empRole.RoleName + ",";
+                }
+                char[] comma = { ',' };
+                emprole = emprole.TrimEnd(comma);
+                keyValues.Add("{{roleList}}", emprole);
+                keyValues.Add("{{emailId}}", employee.EmployeeAddress.Email);
+                keyValues.Add("{{password}}", password);
+                keyValues.Add("{{url}}", _tenant.ApplicationUrl);
+                keyValues.Add("{{appUrl}}", _tenant.MobileUrl);
+
+                var commonBpl = new CommonBpl(_cache, _tenant);
+
+                commonBpl.SendEmail(HtmlTemplate.EmployeeSignUp, employee.EmployeeAddress.Email, keyValues, subject);
+            }
+        }
+
+        private void SendEmailManagerNotification(EmployeeModel employee, List<EmployeeLocation> employeeLocations, List<Strive.BusinessEntities.Model.EmployeeRole> employeeRoles)
+        {
+
+            char[] charToTrim = { ',' };
+            string id = string.Empty;
+            foreach (var item in employee.EmployeeLocation)
+            {
+                id += item.LocationId + ",";
+            }
+
+            id = id.TrimEnd(charToTrim);
+            var emailId = new CommonRal(_tenant).GetEmailIdByRole(id, DateTime.Now, DateTime.Now);
+
+            string emailList = string.Empty;
+            foreach (var email in emailId)
+            {
+                emailList += email.Email + ",";
+            }
+            emailList = emailList.TrimEnd(charToTrim);
+            var sub = EmailSubject.Manager;
+            Dictionary<string, string> keyValues1 = new Dictionary<string, string>();
+            //keyValues1.Add("{{Manager/Operator}}", email.FirstName);
+            keyValues1.Add("{{employeeName}}", employee.Employee.FirstName);
+            string location = string.Empty;
+            foreach (var empLoc in employeeLocations)
+            {
+                location += empLoc.LocationName + ",";
+            }
+
+            location = location.TrimEnd(charToTrim);
+            keyValues1.Add("{{locationList}}", location);
+            string role = string.Empty;
+            foreach (var empRole in employeeRoles)
+            {
+                role += empRole.RoleName + ",";
+            }
+            role = role.TrimEnd(charToTrim);
+            keyValues1.Add("{{roleList}}", role);
+            var commonBpl = new CommonBpl(_cache, _tenant);
+
+            commonBpl.SendEmail(HtmlTemplate.NewEmployeeInfo, emailList, keyValues1, sub);
         }
 
         public Result UpdateEmployee(EmployeeModel employee)
@@ -200,6 +224,10 @@ namespace Strive.BusinessLogic
         public Result GetEmployeeHourlyRateById(int employeeId)
         {
             return ResultWrap(new EmployeeRal(_tenant).GetEmployeeHourlyRateById, employeeId, "Employee");
+        }
+        public Result GetEmployeePayCheck(EmployeePayCheckDto checkDto)
+        {
+            return ResultWrap(new EmployeeRal(_tenant).GetEmployeePayCheck, checkDto, "EmployeePayCheck");
         }
 
     }

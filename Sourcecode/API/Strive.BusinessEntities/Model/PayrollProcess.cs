@@ -14,6 +14,8 @@ namespace Strive.BusinessEntities.Model
         public DateTime? FromDate { get; set; }
         [Column]
         public DateTime? ToDate { get; set; }
+        [Column]
+        public int? LocationId { get; set; }
 
 
         [Column]

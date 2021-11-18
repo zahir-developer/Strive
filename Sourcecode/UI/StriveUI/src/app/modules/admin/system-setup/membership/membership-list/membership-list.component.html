@@ -16,8 +16,8 @@
                                 <form>
                                     <div class="form-row">
                                         <div class="form-group d-flex"> <input type="search" size="35"
-                                                class="form-control" [(ngModel)]="query" name="search" id="inputSearch"
-                                                placeholder="Search by Name, Service Type"
+                                                title="Search by Service Name, Type, Price." class="form-control" [(ngModel)]="query" name="search" id="inputSearch"
+                                                placeholder="Search..."
                                                 (ngModelChange)="this.searchUpdate.next($event)"> </div>&nbsp;
 
                                         <div class="form-group col-sm m-l-5">
@@ -29,7 +29,7 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table  table-striped m-t-10 headerfix" *ngIf="!isLoading">
+                                <table class="table table-striped m-t-10 headerfix" *ngIf="!isLoading">
                                     <thead>
                                         <tr>
                                             <th class="pointer" (click)="changesort('MembershipName')">Name&nbsp;
@@ -52,13 +52,13 @@
                                         <tr
                                             *ngFor="let membership of membershipDetails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                                             <th scope="row">{{membership.MembershipName}}</th>
-                                            <td class="table-ellipsis">{{membership.Services}}</td>
+                                            <td class="tb-text-wrap" title="{{membership.Services}}">{{membership.Services}} </td>
                                             <td>{{membership.CreatedDate | date: 'MM/dd/yyyy'}}</td>
                                             <td>{{membership.IsActive === true ? "Active" : "InActive"}}</td>
                                             <td>
                                                 <em class="fa fa-pencil-square edit-list theme-secondary-icon-color m-r-10"
                                                     style="color:green" pTooltip="Edit" tooltipPosition="bottom"
-                                                    (click)="add('edit', membership)"></em>&nbsp;&nbsp;
+                                                    (click)="add('edit', membership)"></em>
                                                 <em class="fa fa-times-circle delete-list theme-optional-icon-color"
                                                     style="color:red" pTooltip="Delete" tooltipPosition="bottom"
                                                     (click)="delete(membership)"></em>

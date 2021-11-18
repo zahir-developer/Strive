@@ -49,6 +49,7 @@ export class SidenavComponent implements OnInit {
   hourlyWashReportView: boolean = false
   customerHistoryView: boolean = false
   customerView: boolean = false
+  irregularReportView = true;
 
   roles = [];
   newRolePermission: string;
@@ -68,8 +69,22 @@ export class SidenavComponent implements OnInit {
     this.user.navName.subscribe((data = []) => {
       this.roles = [];
       this.localStorageUpdation = 'localStorageUpdation'
+      
+    this.salesModule = false;
+    this.adminModule = false;
+    this.detailModule = false;
+    this.washModule = false;
+    this.dashBoardModule = false;
+    this.customerModule = false;
+    this.reportModule = false;
+    this.whiteLabellingModule = false;
+    this.payRollModule = false;
+    this.checkOutModule = false;
+    this.messengerModule = false;
+
       if (data) {
         const newparsedData = JSON.parse(data);
+        console.log(newparsedData,'testing user name');
         for (let i = 0; i < newparsedData?.length; i++) {
           const viewName = newparsedData[i].ViewName;
           const rollName = newparsedData[i].RollName;
@@ -93,7 +108,7 @@ export class SidenavComponent implements OnInit {
   }
 
   routingNav(ModuleNameLocal, viewNameLocal) {
-    // Sales Module        
+        // Sales Module        
     if (ModuleNameLocal === "Sales") {
       this.salesModule = true;
     }
@@ -178,6 +193,9 @@ export class SidenavComponent implements OnInit {
       }
       else if (viewNameLocal === 'DailySalesreport') {
         this.dailyTipReportView = true;
+      }
+      else if (viewNameLocal === 'DailySalesreport') {
+        this.irregularReportView = true;
       }
     }
     // White Labelling
