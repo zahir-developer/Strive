@@ -434,14 +434,10 @@ export class CreateEditWashesComponent implements OnInit {
                   item.IsChecked = true;
                 });
               }
-
-
-
-
             });
           }
 
-          if (this.membership.length > 0) {
+          if (this.membership?.length > 0) {
             const washPackage = this.membership.filter(s => s.ServiceType === ApplicationConfig.Enum.ServiceType.WashPackage);
 
             if (washPackage.length > 0) {

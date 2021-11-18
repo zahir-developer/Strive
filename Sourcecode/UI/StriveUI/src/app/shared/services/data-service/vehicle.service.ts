@@ -42,7 +42,7 @@ export class VehicleService {
   getMembershipById(id: number) {
     return this.http.get(`${UrlConfig.MembershipSetup.getMembershipById}` + id);
   }
-  getUpchargeService(locationId): Observable<any> {
+  getAllServiceDetail(locationId): Observable<any> {
     return this.http.get(`${UrlConfig.ServiceSetup.getAllServiceDetail}`, { params: { locationId } });
   }
   getVehicleMembershipDetailsByVehicleId(id) {

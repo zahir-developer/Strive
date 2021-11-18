@@ -573,7 +573,7 @@ export class VehicleCreateEditComponent implements OnInit {
           };
         });
 
-        this.upchargeService();
+        this.getAllServiceDetail();
       } else {
         this.toastr.error(MessageConfig.CommunicationError, 'Error!');
       }
@@ -582,7 +582,7 @@ export class VehicleCreateEditComponent implements OnInit {
     });
   }
 
-  upchargeService() {
+  getAllServiceDetail() {
     const serviceObj = {
       locationId: localStorage.getItem('empLocationId'),
       pageNo: null,
@@ -593,7 +593,7 @@ export class VehicleCreateEditComponent implements OnInit {
       status: true
     };
     const locationID = this.locationId;
-    this.vehicle.getUpchargeService(locationID).subscribe(data => {
+    this.vehicle.getAllServiceDetail(locationID).subscribe(data => {
       if (data.status === 'Success') {
         const serviceDetails = JSON.parse(data.resultData);
         this.upchargeType = serviceDetails.AllServiceDetail.filter(item =>
@@ -771,7 +771,7 @@ export class VehicleCreateEditComponent implements OnInit {
       const formObj = {
         vehicleId: this.selectedData.ClientVehicleId,
         clientId: this.vehicleForm.value.client.id,
-        locationId: localStorage.getItem('empLocationId'),
+        locationId: this.selectedData.LocationId,
         vehicleNumber: this.vehicleForm.value.vehicleNumber,
         vehicleMfr: this.vehicleForm.value.make.id,
         vehicleModel: this.vehicleForm.value.model.id,
@@ -1030,7 +1030,8 @@ export class VehicleCreateEditComponent implements OnInit {
       }
       const obj = {
         "upchargeServiceType": this.upchargeTypeId,
-        "modelId": this.vehicleForm.value.model ?.id
+        "modelId": this.vehicleForm.value.model ?.id,
+        locationId: this.locationId
       };
 
       this.GetUpchargeService.getUpcharge(obj).subscribe(res => {
