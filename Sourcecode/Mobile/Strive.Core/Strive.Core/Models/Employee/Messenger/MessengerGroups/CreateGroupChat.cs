@@ -8,12 +8,12 @@ namespace Strive.Core.Models.Employee.Messenger.MessengerGroups
     {
         public chatGroup chatGroup { get; set; }
         public List<chatUserGroup> chatUserGroup { get; set; }
-        public string groupId { get; set; } 
+        public string GroupId { get; set; } 
     }
     public class chatGroup
     {
         public int chatGroupId { get; set; }
-        public string groupId { get; set; }
+        
         public string groupName { get; set; }
         public string comments { get; set; }
         public bool isActive { get; set; }
@@ -27,7 +27,7 @@ namespace Strive.Core.Models.Employee.Messenger.MessengerGroups
     public class chatUserGroup
     {
         public int chatGroupUserId { get; set; }
-        public string communicationId { get; set; }
+        public string CommunicationId { get; set; }
         public int userId { get; set; }
         public int chatGroupId { get; set; }
         public bool isActive { get; set; }

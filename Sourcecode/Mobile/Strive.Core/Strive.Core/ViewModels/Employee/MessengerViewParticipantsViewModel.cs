@@ -58,7 +58,7 @@ namespace Strive.Core.ViewModels.Employee
                 {
                     chatGroupId = MessengerTempData.GroupID,
                     chatGroupUserId = 0,
-                    communicationId = null,
+                    CommunicationId = null,
                     createdBy = EmployeeTempData.EmployeeID,
                     createdDate = DateUtils.ConvertDateTimeWithZ(),
                     isActive = true,
@@ -67,7 +67,7 @@ namespace Strive.Core.ViewModels.Employee
                 };
                 groupChatInfo.chatUserGroup.Add(participants);  
             }
-            groupChatInfo.groupId = null;
+            groupChatInfo.GroupId = null;
 
             GroupChatResponse groupChatResponse = new GroupChatResponse();
             groupChatResponse.Result = new Result();
@@ -106,7 +106,7 @@ namespace Strive.Core.ViewModels.Employee
             {
                 chatGroupId = 0,
                 chatGroupUserId = 0,
-                communicationId = null,
+                CommunicationId = null,
                 createdBy = EmployeeTempData.EmployeeID,
                 createdDate = DateUtils.ConvertDateTimeWithZ(),
                 isActive = true,

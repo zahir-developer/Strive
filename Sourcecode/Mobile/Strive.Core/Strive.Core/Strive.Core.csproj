@@ -26,6 +26,7 @@
     <Folder Include="ViewModels\TIMInventory\Membership\" />
     <Folder Include="Models\TimInventory\Product_Id\" />
     <Folder Include="Models\Owner\" />
+    <Folder Include="Models\Employee\PayRoll\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">
@@ -44,5 +45,8 @@
     <Reference Include="Xamarin.iOS">
       <HintPath>..\..\..\..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\13.18.2.1\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\Employee\PayRoll\" />
   </ItemGroup>
 </Project>

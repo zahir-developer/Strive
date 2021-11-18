@@ -165,6 +165,10 @@ namespace Strive.Core.Utils
 
         public const string URL_GET_TERMS_AND_CONDITIONS = "/Admin/Document/GetDocument/";
 
+        public const string URL_GET_PAYROLL_STATUS = "/Admin/PayRoll/GetPayrollProcessStatus";
+
+        public const string URL_GET_PAYROLL =   "/Admin/PayRoll/GetPayroll";
+
         public const string URL_CUSTOMER_SIGNUP = "https://mammothuat-dev.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE";
     }
 }

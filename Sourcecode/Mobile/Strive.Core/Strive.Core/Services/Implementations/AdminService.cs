@@ -12,6 +12,7 @@ using Strive.Core.Models.Employee.CheckOut;
 using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
+using Strive.Core.Models.Employee.PayRoll;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.Owner;
 using Strive.Core.Models.TimInventory;
@@ -408,7 +409,16 @@ namespace Strive.Core.Services.Implementations
             return await _restClient.MakeApiCall<VehicleDiscountDetail>(string.Format(ApiUtils.URL_GET_CLIENT_VEHICLE_SERVICES_DISCOUNT, Id), HttpMethod.Get, Id);
 
         }
-
+        public async Task<PayRollRateViewModel> GetPayRollStatus(string StartDate, string EndDate, int EmpId, int LocationId)
+        {
+            var url = ApiUtils.URL_GET_PAYROLL_STATUS + "?empid=" + EmpId + "&StartDate=" + StartDate + "&EndDate=" + EndDate + "&Locationid=" + LocationId;
+            return await _restClient.MakeApiCall<PayRollRateViewModel>(url,HttpMethod.Get);
+        }
+        public async Task<PayRoll> GetPayRoll(string StartDate, string EndDate, int EmpId, int LocationId)
+        {
+            var url = ApiUtils.URL_GET_PAYROLL + "?Locationid=" + LocationId + "&StartDate=" + StartDate + "&EndDate=" + EndDate+ "&empid = " + EmpId ;
+            return await _restClient.MakeApiCall<PayRoll>(url, HttpMethod.Get);
+        }
         public async Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId)
         {
             var uriBuilder = ApiUtils.URL_SCHEDULE_PAST_SERVICE;

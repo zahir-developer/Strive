@@ -27,6 +27,7 @@ namespace Strive.Core.Services.HubServices
         public static ObservableCollection<SendChatMessage> GroupMessageList { get; set; }
         public static ObservableCollection<RecipientsCommunicationID> RecipientsID { get; set; }
         public static IMessengerService MessengerService = Mvx.IoCProvider.Resolve<IMessengerService>();
+        
 
         //meh! Just to connect to the so called "SERVER"
         public static async Task<string> StartConnection()
@@ -38,6 +39,7 @@ namespace Strive.Core.Services.HubServices
                 try
                 {
                     await connection?.StartAsync();
+                    Console.WriteLine("Connection established Successfully! ");
                     PrivateMessageList = new System.Collections.ObjectModel.ObservableCollection<SendChatMessage>();
                     GroupMessageList = new ObservableCollection<SendChatMessage>();
                 }
@@ -61,6 +63,10 @@ namespace Strive.Core.Services.HubServices
             }
             connection.Closed += Connection_Closed;
             ConnectionID = connection.ConnectionId;
+            var chatcommunication = new ChatCommunication();
+            chatcommunication.communicationId = ConnectionID;
+            chatcommunication.employeeId = EmployeeTempData.EmployeeID;
+            var tempresult = await MessengerService.ChatCommunication(chatcommunication);
             return ConnectionID;
         }
 
@@ -94,20 +100,7 @@ namespace Strive.Core.Services.HubServices
 
             });
 
-            connection?.On<object>("ReceivePrivateMessage", (data) =>
-            {
-                Console.WriteLine("Private Message received", data);
-                try
-                {
-                    var datas = JsonConvert.DeserializeObject<SendChatMessage>(data.ToString());
-                    PrivateMessageList.Add(datas);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-            });
+            
 
             connection?.On<object>("ReceiveGroupMessage", (data) =>
             {
@@ -219,5 +212,6 @@ namespace Strive.Core.Services.HubServices
             }
 
         }
+      
     }
 }

@@ -13,7 +13,7 @@ namespace StriveOwner.iOS.Views.CheckOut
     {
         bool useRefreshControl = false;
         UIRefreshControl RefreshControl;
-
+        public CheckoutDetails CheckOutVehicle { get; set; }
         public CheckOutView() : base("CheckOutView", null)
         {
         }

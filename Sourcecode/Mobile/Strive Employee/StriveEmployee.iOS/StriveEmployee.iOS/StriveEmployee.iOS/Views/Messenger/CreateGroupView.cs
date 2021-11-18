@@ -85,7 +85,7 @@ namespace StriveEmployee.iOS.Views.Messenger
     {
         List<Employee> list;
         public List<NSIndexPath> RowSelections = new List<NSIndexPath>();
-
+        chatUserGroup chatUser = new chatUserGroup();
         public CreateGroupDataSource(List<Employee> contactList)
         {
             this.list = contactList;
@@ -112,9 +112,11 @@ namespace StriveEmployee.iOS.Views.Messenger
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             SelectContactCell cell = (SelectContactCell)tableView.CellAt(indexPath);
-
+            var tempgrplist = list[indexPath.Row];
             if (RowSelections.Contains(indexPath))
             {
+                var temp = new chatUserGroup();
+                
                 var itemToRemove = RowSelections.FindIndex(r => r == indexPath);
                 RowSelections.RemoveAt(itemToRemove);
 
@@ -122,6 +124,17 @@ namespace StriveEmployee.iOS.Views.Messenger
             }
             else
             {
+                     
+                var temp = new chatUserGroup();
+                temp.CommunicationId = list[indexPath.Row].CommunicationId;
+                temp.createdBy = 0;
+                temp.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss").ToString();
+                temp.isActive = true;
+                temp.isDeleted = false;
+                temp.userId = list[indexPath.Row].EmployeeId;
+                temp.chatGroupUserId = 0;
+                temp.chatGroupId = 0;
+                MessengerCreateGroupViewModel.chatUserGroups.Add(temp);
                 RowSelections.Add(indexPath);
                 cell.updateCell(indexPath);
 
@@ -130,6 +143,7 @@ namespace StriveEmployee.iOS.Views.Messenger
 
 
         }
+        
 
         //public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
         //{

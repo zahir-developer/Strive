@@ -1,4 +1,5 @@
-﻿using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+﻿using Acr.UserDialogs;
+using Strive.Core.Models.Employee.Messenger.MessengerContacts;
 using Strive.Core.Models.Employee.Messenger.MessengerGroups;
 using Strive.Core.Resources;
 using Strive.Core.Utils.Employee;
@@ -14,7 +15,7 @@ namespace Strive.Core.ViewModels.Employee
     {
         #region Properties
         public EmployeeList EmployeeLists { get; set; }
-
+        
         public chatGroup chatGroupforCreation = new chatGroup();
         public static List<chatUserGroup> chatUserGroups = new List<chatUserGroup>();
         #endregion Properties
@@ -66,34 +67,39 @@ namespace Strive.Core.ViewModels.Employee
 
         public async Task CreateGroupChat()
         {
-            _userDialog.ShowLoading(Strings.Loading);
-
-            chatGroupforCreation.chatGroupId = 0;
-            chatGroupforCreation.comments = "";
-            chatGroupforCreation.groupId = "";
-            chatGroupforCreation.createdBy = EmployeeTempData.EmployeeID;
-
-            chatGroupforCreation.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
-            chatGroupforCreation.isActive = true;
-            chatGroupforCreation.isDeleted = false;
-            chatGroupforCreation.updatedBy = EmployeeTempData.EmployeeID;
-            chatGroupforCreation.updatedDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
-
-            //foreach(chatUserGroup chatUserGroupItem in chatUserGroups)
-            //{
-
-            //}
+            PromptResult GroupName = await _userDialog.PromptAsync(new PromptConfig{InputType = InputType.Name,OkText="Create Group",CancelText="Cancel", Title="Create Group" });
             CreateGroupChat createGroupChat = new CreateGroupChat();
 
-            createGroupChat.chatGroup = chatGroupforCreation;
-            createGroupChat.chatUserGroup = chatUserGroups;
-            //     public string comments { get; set; }
-            //public bool isActive { get; set; }
-            //public bool isDeleted { get; set; }
-            //public int createdBy { get; set; }
-            //public string createdDate { get; set; }
-            //public int updatedBy { get; set; }
-            //public string updatedDate { get; set; }
+            if (GroupName.Ok&& !string.IsNullOrWhiteSpace(GroupName.Text))
+            {
+                _userDialog.ShowLoading(Strings.Loading);
+
+                chatGroupforCreation.chatGroupId = 0;
+                chatGroupforCreation.comments = null;
+                
+                chatGroupforCreation.groupName = GroupName.Text;
+                chatGroupforCreation.createdBy = 0;
+
+                chatGroupforCreation.createdDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
+                chatGroupforCreation.isActive = true;
+                chatGroupforCreation.isDeleted = false;
+                chatGroupforCreation.updatedBy = EmployeeTempData.EmployeeID;
+                chatGroupforCreation.updatedDate = (System.DateTime.Now).ToString("yyy/MM/dd HH:mm:ss");
+                createGroupChat.chatGroup = chatGroupforCreation;
+                createGroupChat.chatUserGroup = chatUserGroups;
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(createGroupChat));
+                var result =await MessengerService.CreateChatGroup(createGroupChat);
+                
+                //     public string comments { get; set; }
+                //public bool isActive { get; set; }
+                //public bool isDeleted { get; set; }
+                //public int createdBy { get; set; }
+                //public string createdDate { get; set; }
+                //public int updatedBy { get; set; }
+                //public string updatedDate { get; set; }
+
+            }
+            
         }
         public void NotEnough()
         {

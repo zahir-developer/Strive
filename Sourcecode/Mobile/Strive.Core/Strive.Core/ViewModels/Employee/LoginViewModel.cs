@@ -19,7 +19,7 @@ namespace Strive.Core.ViewModels.Employee
         {
 
         }
-
+        
 
         #region Commands
 
@@ -32,6 +32,7 @@ namespace Strive.Core.ViewModels.Employee
         {
             if (validateCommand())
             {
+
                 _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
                 var loginResponse = await AdminService.EmployeeLogin( new EmployeeLoginRequest(loginEmailPhone, loginPassword));
                 if (loginResponse != null)
@@ -40,7 +41,8 @@ namespace Strive.Core.ViewModels.Employee
                     MessengerTempData.FirstName = loginResponse.EmployeeDetails.EmployeeLogin.Firstname;
                     MessengerTempData.LastName = loginResponse.EmployeeDetails.EmployeeLogin.LastName;
                     EmployeeTempData.EmployeeID = loginResponse.EmployeeDetails.EmployeeLogin.EmployeeId;
-                    
+                    EmployeeTempData.LocationId = loginResponse.EmployeeDetails.EmployeeLocations[0].LocationId;
+                    EmployeeTempData.LocationName = loginResponse.EmployeeDetails.EmployeeLocations[0].LocationName;
                     if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
                         await _navigationService.Navigate<DashboardViewModel>();

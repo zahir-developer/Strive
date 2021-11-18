@@ -9,6 +9,7 @@ using Strive.Core.Models.Employee.Collisions;
 using Strive.Core.Models.Employee.Common;
 using Strive.Core.Models.Employee.Documents;
 using Strive.Core.Models.Employee.Messenger.MessengerContacts;
+using Strive.Core.Models.Employee.PayRoll;
 using Strive.Core.Models.Employee.PersonalDetails;
 using Strive.Core.Models.Owner;
 using Strive.Core.Models.TimInventory;
@@ -149,6 +150,10 @@ namespace Strive.Core.Services.Interfaces
         Task<ScheduleModel> getDashboardSchedule(string jobDate, int locationId);
 
         Task<VehicleDiscountDetail> GetVehicleDiscountDetail(int ClientId);
+
+        Task<PayRollRateViewModel> GetPayRollStatus(string StartDate, String EndDate, int EmpId, int LocationId);
+
+        Task<PayRoll> GetPayRoll(string StartDate, string EndDate, int EmpId, int LocationId);
 
     }
 }

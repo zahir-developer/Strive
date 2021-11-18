@@ -4,6 +4,7 @@ using CoreGraphics;
 using Foundation;
 using MvvmCross.Platforms.Ios.Views;
 using Strive.Core.Models.Employee.Messenger.PersonalChat;
+using Strive.Core.Services.HubServices;
 using Strive.Core.Utils.Employee;
 using Strive.Core.ViewModels.Employee;
 using UIKit;
@@ -18,6 +19,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
         UILabel chatMessagePlaceholderLabel;
         NSLayoutConstraint messageBoxContainerBottomConstraint;
         MessengerPersonalChatViewModel ViewModel;
+        
 
         public List<string> Chats = new List<string>();
 
@@ -44,7 +46,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
             // Release any cached data, images, etc that aren't in use.
         }
 
-        void SetupView()
+        async void SetupView()
         {
             View.BackgroundColor = UIColor.White;
 
@@ -118,6 +120,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                 chatTableView.DelaysContentTouches = false;
                 chatTableView.ReloadData();
             }
+            await ChatHubMessagingService.SubscribeChatEvent();
         }
 
         void SetupNavigationItem()
@@ -204,6 +207,7 @@ namespace StriveEmployee.iOS.Views.Messenger.Chat
                     ViewModel.chatMessages.ChatMessage.ChatMessageDetail.Add(data);
                 }
                 this.ViewModel.Message = messageTextView.Text;
+                
                 await this.ViewModel.SendMessage();
                 if (this.ViewModel.SentSuccess)
                 {

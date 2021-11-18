@@ -37,7 +37,7 @@ namespace Strive.Core.ViewModels.Employee
             groupChatInfo.chatGroup = new chatGroup()
             {
                 chatGroupId = 0,
-                groupId = null,
+                
                 groupName = GroupName,
                 comments = null,
                 isActive = true,
@@ -56,7 +56,7 @@ namespace Strive.Core.ViewModels.Employee
                 {
                     chatGroupId = 0,
                     chatGroupUserId = 0,
-                    communicationId = null,
+                    CommunicationId = null,
                     createdBy = EmployeeTempData.EmployeeID,
                     createdDate = DateUtils.ConvertDateTimeWithZ(),
                     isActive = true,
@@ -65,7 +65,7 @@ namespace Strive.Core.ViewModels.Employee
                 };
                 groupChatInfo.chatUserGroup.Add(participants);
             }
-            groupChatInfo.groupId = null;
+            groupChatInfo.  GroupId = null;
 
             _userDialog.ShowLoading(Strings.Loading, MaskType.Gradient);
 
@@ -93,7 +93,7 @@ namespace Strive.Core.ViewModels.Employee
             { 
                 chatGroupId = 0,
                 chatGroupUserId = 0,
-                communicationId = null,
+                CommunicationId = null,
                 createdBy = EmployeeTempData.EmployeeID,
                 createdDate = DateUtils.ConvertDateTimeWithZ(),
                 isActive = true,
