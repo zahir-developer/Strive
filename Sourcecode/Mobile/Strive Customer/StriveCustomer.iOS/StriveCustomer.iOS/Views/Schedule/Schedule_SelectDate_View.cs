@@ -154,8 +154,8 @@ namespace StriveCustomer.iOS.Views.Schedule
             CustomerScheduleInformation.ScheduleFullDate = (date.ToString()).Substring(0,10);
             //CustomerScheduleInformation.ScheduleFullDate = date.Year + "-" + date.Month + "-" + date.Day;
             DateTime local = date.ToDateTime();
-
-            await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, local.ToString());
+            var dateToServer = local.ToString("yyy/MM/dd HH:mm:ss");
+            await this.ViewModel.GetSlotAvailability(CustomerScheduleInformation.ScheduleLocationCode, dateToServer);
             var datenow = DateTime.Now.TimeOfDay;
             if (this.ViewModel.ScheduleSlotInfo != null && this.ViewModel.ScheduleSlotInfo.GetTimeInDetails.Count > 0)
             {

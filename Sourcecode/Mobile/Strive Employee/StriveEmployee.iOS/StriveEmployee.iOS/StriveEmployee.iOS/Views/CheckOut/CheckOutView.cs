@@ -111,6 +111,13 @@ namespace StriveEmployee.iOS.Views
                     CheckOut_TableView.ReloadData();
                 }
             }
+            else
+            {
+                CheckOut_TableView.Source = null;
+                CheckOut_TableView.TableFooterView = new UIView(CGRect.Empty);
+                CheckOut_TableView.DelaysContentTouches = false;
+                CheckOut_TableView.ReloadData();
+            }
         }
 
         public void HoldTicket(checkOutViewModel checkout)

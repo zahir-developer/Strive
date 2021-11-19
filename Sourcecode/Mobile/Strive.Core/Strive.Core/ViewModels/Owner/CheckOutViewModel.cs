@@ -37,6 +37,10 @@ namespace Strive.Core.ViewModels.Owner
             });
             if (result == null || result.GetCheckedInVehicleDetails.checkOutViewModel == null)
             {
+                if (CheckOutVehicleDetails != null)
+                {
+                    CheckOutVehicleDetails = null;
+                }
                 _userDialog.Toast("No relatable data");
             }
             else

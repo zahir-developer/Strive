@@ -17,6 +17,8 @@ namespace StriveCustomer.iOS.Views.Schedule
         {
             base.ViewDidLoad();
             InitialSetup();
+            this.NavigationItem.SetHidesBackButton(true, false);
+
             // Perform any additional setup after loading the view, typically from a nib.
         }
 

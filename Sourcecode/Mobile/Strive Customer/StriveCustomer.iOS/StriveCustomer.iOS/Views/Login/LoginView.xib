@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -22,7 +22,7 @@
                 <outlet property="DisagreeBtn" destination="3dL-AF-mTa" id="cOf-IU-uzk"/>
                 <outlet property="EmailTextfield" destination="mzp-bD-SUp" id="name-outlet-mzp-bD-SUp"/>
                 <outlet property="ForgotPasswordButton" destination="2E1-qZ-P25" id="name-outlet-2E1-qZ-P25"/>
-                <outlet property="LoginButton" destination="tfd-No-OYy" id="name-outlet-tfd-No-OYy"/>
+                <outlet property="LoginButton" destination="tfd-No-OYy" id="Aa2-f1-pav"/>
                 <outlet property="PasswordTextfield" destination="kVA-Zu-eJ3" id="name-outlet-kVA-Zu-eJ3"/>
                 <outlet property="SignupLbl" destination="yp8-zX-hJ1" id="s93-gk-pi5"/>
                 <outlet property="TermsDocuments" destination="W2Z-pw-6mF" id="7rk-U6-hfB"/>
@@ -73,9 +73,6 @@
                     <state key="normal" title="LOGIN">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
-                    <connections>
-                        <action selector="LoginButtonClicked:" destination="-1" eventType="touchUpInside" id="NBu-b0-6Fj"/>
-                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yp8-zX-hJ1">
                     <rect key="frame" x="97" y="686" width="220.5" height="21.5"/>
@@ -139,18 +136,6 @@
                         <action selector="CheckBoxClicked:" destination="-1" eventType="touchUpInside" id="931"/>
                     </connections>
                 </button>
-                <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W2Z-pw-6mF">
-                    <rect key="frame" x="20" y="114" width="374" height="627"/>
-                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="374" id="2J8-du-33s"/>
-                        <constraint firstAttribute="height" constant="627" id="8Li-Qx-1bD"/>
-                    </constraints>
-                    <wkWebViewConfiguration key="configuration">
-                        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                        <wkPreferences key="preferences"/>
-                    </wkWebViewConfiguration>
-                </wkWebView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPg-jr-3tj">
                     <rect key="frame" x="213" y="775" width="181" height="31"/>
                     <constraints>
@@ -178,6 +163,18 @@
                         <action selector="DisagreeBtnclicked:" destination="-1" eventType="touchUpInside" id="kKh-u6-vOv"/>
                     </connections>
                 </button>
+                <wkWebView hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W2Z-pw-6mF">
+                    <rect key="frame" x="20" y="115" width="374" height="625"/>
+                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="374" id="2J8-du-33s"/>
+                        <constraint firstAttribute="height" constant="627" id="8Li-Qx-1bD"/>
+                    </constraints>
+                    <wkWebViewConfiguration key="configuration">
+                        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                        <wkPreferences key="preferences"/>
+                    </wkWebViewConfiguration>
+                </wkWebView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>

@@ -38,7 +38,7 @@ namespace Strive.Core.ViewModels.Customer
             return document;
 
         }
-        public async Task DoLogin()
+        public async Task DoLoginCommand()
         {
             if (validateCommand())
             {
@@ -56,7 +56,7 @@ namespace Strive.Core.ViewModels.Customer
                         if (!string.IsNullOrEmpty(loginResponse.Token))
                         {
                             
-                            //await _navigationService.Navigate<DashboardViewModel>();
+                            await _navigationService.Navigate<DashboardViewModel>();
                         }
                         else
                         {
