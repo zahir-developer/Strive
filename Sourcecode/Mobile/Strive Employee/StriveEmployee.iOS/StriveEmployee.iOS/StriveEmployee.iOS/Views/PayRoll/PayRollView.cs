@@ -116,6 +116,7 @@ namespace StriveEmployee.iOS.Views.PayRoll
                 Washtip.Text = "$" + ViewModel.PayRoll.WashTip;
                 Detailtip.Text = "$" + ViewModel.PayRoll.DetailTip;
                 Bonus.Text = "$" + ViewModel.PayRoll.Bonous;
+                Total.Text = "$" + ViewModel.PayRoll.PayeeTotal;
             }
         
         }

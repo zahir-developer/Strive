@@ -31,7 +31,7 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="eLe-uN-qoT">
                     <rect key="frame" x="-10" y="-10" width="434" height="916"/>
                 </imageView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRb-m2-ikm">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRb-m2-ikm">
                     <rect key="frame" x="33" y="131" width="347" height="128"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I authorize: NEW MAMMOTH DETAIL SALON" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pcf-a1-VGK">
@@ -182,7 +182,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JWt-zI-vZz">
-                    <rect key="frame" x="34" y="166" width="347" height="520"/>
+                    <rect key="frame" x="33.5" y="267" width="347" height="520"/>
                     <subviews>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nri-us-Yhv">
                             <rect key="frame" x="0.0" y="0.0" width="347" height="449"/>
@@ -948,8 +948,8 @@ Cg
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="JWt-zI-vZz" firstAttribute="centerY" secondItem="eLe-uN-qoT" secondAttribute="centerY" constant="-22" id="061-Do-ZmY"/>
-                <constraint firstItem="JWt-zI-vZz" firstAttribute="top" secondItem="UcW-wR-nfC" secondAttribute="bottom" constant="50.5" id="2bz-nm-HfX"/>
+                <constraint firstItem="JWt-zI-vZz" firstAttribute="centerY" secondItem="eLe-uN-qoT" secondAttribute="centerY" constant="79" id="061-Do-ZmY"/>
+                <constraint firstItem="JWt-zI-vZz" firstAttribute="top" secondItem="UcW-wR-nfC" secondAttribute="bottom" constant="151.5" id="2bz-nm-HfX"/>
                 <constraint firstItem="HRb-m2-ikm" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="33" id="Amd-ES-SC0"/>
                 <constraint firstItem="HRb-m2-ikm" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="33" id="BcF-jf-BzG"/>
                 <constraint firstItem="eLe-uN-qoT" firstAttribute="top" secondItem="2" secondAttribute="top" constant="-10" id="Etu-zD-PWG"/>
