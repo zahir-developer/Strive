@@ -25,6 +25,7 @@ namespace Greeter.Modules.Pay
         public ServiceType ServiceType;
         //public bool IsFromNewService = true;
         public CreateServiceRequest Service;
+        //public bool IsMembershipService;
 
         public PaymentViewController()
         {
@@ -144,6 +145,7 @@ namespace Greeter.Modules.Pay
                             vc.AdditionalServiceName = AdditionalServiceName;
                             vc.Service = Service;
                             vc.ServiceType = ServiceType;
+                            //vc.IsMembershipService = IsMembershipService;
                             //vc.IsFromNewService = IsFromNewService;
                             nc.PushViewController(vc, true);
                             //NavigateToWithAnim(vc);

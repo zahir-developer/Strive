@@ -106,8 +106,7 @@ namespace Greeter.CustomView
                     {
                         selectedIndex.Clear();
                         selectedIndex.Add(indexPath.Row);
-                        //tableView.ReloadData();
-                        tableView.ReloadRows(new NSIndexPath[] { NSIndexPath.FromRowSection(0, 0), indexPath }, UITableViewRowAnimation.Fade);
+                        tableView.ReloadData();
                     }
                     else
                     {

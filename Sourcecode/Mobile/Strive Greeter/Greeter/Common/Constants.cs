@@ -212,6 +212,7 @@ namespace Greeter.Common
         internal const string NOT_COMPLETED_ALERT_MSG = "Only completed ticket can be checkedout!";
         internal const string NO_SLOTS = "No slots avaibale";
         internal const string ADD_EMAIL_ACCOUNT = "Please add your account in mail application";
+        internal const string MEMBERSHIP_MESSAGE = " This customer has membership for this vechicle. Please ask him to pay at the cashier inside.";
 
         internal const string HOLD = "Hold";
         internal const string COMPLETE = "Complete";

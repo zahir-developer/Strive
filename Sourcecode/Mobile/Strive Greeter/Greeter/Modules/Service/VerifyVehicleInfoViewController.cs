@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Greeter.Common;
@@ -36,6 +37,7 @@ namespace Greeter.Storyboards
         public string CustName;
         public string UpchargeTypeName;
         public ServiceType ServiceType;
+        public bool IsMembershipService;
 
         public VerifyVehicleInfoViewController(IntPtr handle) : base(handle)
         {
@@ -176,6 +178,33 @@ namespace Greeter.Storyboards
 
                         int bayCount = 0;
 
+                        //var currentTime = DateTime.Now;
+
+                        //if (currentTime.Minute < 30)
+                        //{
+                        //    currentTime = currentTime.AddMinutes(30 - currentTime.Minute);
+                        //}
+                        //else if (currentTime.Minute < 60)
+                        //{
+                        //    currentTime = currentTime.AddMinutes(60 - currentTime.Minute);
+                        //}
+
+                        //var timeInFormat = currentTime.ToString("HH:mm");
+
+                        ////var scheduleList = bayGroup.ToList();
+
+                        //var datetime = DateTime.ParseExact(timeInFormat, "HH:mm", CultureInfo.InvariantCulture);
+
+                        //Debug.WriteLine("datetime " + datetime);
+
+                        //var index = availableScheduleResponse.GetTimeInDetails.FindIndex(x => DateTime.ParseExact(x.TimeIn, "HH:mm", CultureInfo.InvariantCulture) > datetime);
+
+                        //foreach (var timeIn in availableScheduleResponse.GetTimeInDetails)
+                        //{
+                        //    Debug.WriteLine(DateTime.ParseExact(timeIn.TimeIn, "HH:mm", CultureInfo.InvariantCulture));
+                        //    //Debug.WriteLine("datetime " + datetime);
+                        //}
+
                         foreach (IEnumerable<GetTimeInDetails> timeInDetails in bayGroup)
                         {
                             if (matchTimeInDetails is not null) break;
@@ -306,6 +335,7 @@ namespace Greeter.Storyboards
                             vc.CustName = CustName;
                             vc.Service = req;
                             vc.ServiceType = ServiceType;
+                            vc.IsMembershipService = IsMembershipService;
                             nc.PushViewController(vc, true);
                         }, titleTxt: Common.Messages.SERVICE);
                     }

@@ -456,6 +456,10 @@
 		<Compile Include="Services\Api\Modules\PaymentApiService.cs" />
 		<Compile Include="Services\Api\Modules\VehicleApiService.cs" />
 		<Compile Include="Services\Api\Modules\WashApiService.cs" />
+		<Compile Include="Storyboards\EmailPopupViewController.cs" />
+		<Compile Include="Storyboards\EmailPopupViewController.designer.cs">
+		  <DependentUpon>EmailPopupViewController.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

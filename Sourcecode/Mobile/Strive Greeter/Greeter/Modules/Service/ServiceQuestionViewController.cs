@@ -70,6 +70,7 @@ namespace Greeter.Storyboards
         string[] upcharges;
         string[] additionalServices;
         string[] airFreshners;
+        bool isMembershipService;
 
         //Views
         UIPickerView pv = new UIPickerView();
@@ -342,6 +343,13 @@ namespace Greeter.Storyboards
                 var response = await GetVehicleMembershipDetails(VehicleID);
 
                 UpdateMembershipUpcharge(response);
+
+                UpdateMembershipServices(response);
+
+                if (response.VehicleMembershipDetail?.ClientVehicleMembership?.ClientMembershipId is not 0)
+                {
+                    isMembershipService = true;
+                }
             }
             else
             {
@@ -355,6 +363,55 @@ namespace Greeter.Storyboards
 #if DEBUG
 
 #endif
+        }
+
+        private void UpdateMembershipServices(MembershipResponse membershipResponse)
+        {
+            var services = membershipResponse.VehicleMembershipDetail?.ClientVehicleMembershipServices;
+
+            if (services is not null || services.Length > 0)
+            {
+                for (int i = 0; i < services.Length; i++)
+                {
+                    var service = services[i];
+                    if (service.ServiceType == ServiceTypes.WASH_PACKAGE && ServiceType == ServiceType.Wash)
+                    {
+                        int pos = WashPackages.FindIndex(x => x.ID == service.ServiceId);
+                        tfWashPkg.Text = washPackages[pos];
+                        mainService = mainService ?? new JobItem();
+                        mainService.IsMainService = true;
+                        mainService.ServiceId = WashPackages[pos].ID;
+                        mainService.SeriveName = WashPackages[pos].Name;
+                        mainService.Price = WashPackages[pos].Price;
+                        mainService.Time = WashPackages[pos].Time;
+                        mainService.IsCommission = WashPackages[pos].Commission;
+                        mainService.CommissionType = WashPackages[pos].CommissionType;
+                        mainService.CommissionAmount = WashPackages[pos].CommissionCost;
+                    }
+                    else if (service.ServiceType == ServiceTypes.DETAIL_PACKAGE && ServiceType == ServiceType.Detail)
+                    {
+                        int pos = DetailPackages.FindIndex(x => x.ID == service.ServiceId);
+                        tfWashPkg.Text = washPackages[pos];
+                        mainService = mainService ?? new JobItem();
+                        mainService.IsMainService = true;
+                        mainService.ServiceId = DetailPackages[pos].ID;
+                        mainService.SeriveName = DetailPackages[pos].Name;
+                        mainService.Price = DetailPackages[pos].Price;
+                        mainService.Time = DetailPackages[pos].Time;
+                        mainService.IsCommission = DetailPackages[pos].Commission;
+                        mainService.CommissionType = DetailPackages[pos].CommissionType;
+                        mainService.CommissionAmount = DetailPackages[pos].CommissionCost;
+                    }
+                    else if (service.ServiceType == ServiceTypes.AIR_FRESHNERS)
+                    {
+                        UpdateAirFreshner(service.ServiceId);
+                    }
+                    else if (service.ServiceType == ServiceTypes.ADDITIONAL_SERVICES)
+                    {
+                        UpdateAdditionalService(service.ServiceId);
+                    }
+                }
+            }
         }
 
         void UpdateBarcodeData(string barcode)
@@ -470,16 +527,20 @@ namespace Greeter.Storyboards
         {
             var membershipUpcharge = Upcharges.Find(x => x.ID == id);
 
-            upcharge = upcharge ?? new JobItem();
-            upcharge.ServiceId = id;
-            upcharge.SeriveName = membershipUpcharge.Name;
-            upcharge.Price = membershipUpcharge.Price;
-            upcharge.Time = membershipUpcharge.Time;
-            upcharge.IsCommission = membershipUpcharge.Commission;
-            upcharge.CommissionType = membershipUpcharge.CommissionType;
-            upcharge.CommissionAmount = membershipUpcharge.CommissionCost;
+            if (membershipUpcharge is not null)
+            {
+                upcharge = upcharge ?? new JobItem();
+                upcharge.ServiceId = id;
+                upcharge.SeriveName = membershipUpcharge.Name;
+                upcharge.Price = membershipUpcharge.Price;
+                upcharge.Time = membershipUpcharge.Time;
+                upcharge.IsCommission = membershipUpcharge.Commission;
+                upcharge.CommissionType = membershipUpcharge.CommissionType;
+                upcharge.CommissionAmount = membershipUpcharge.CommissionCost;
 
-            tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
+                tfUpcharge.Text = upcharge?.SeriveName + " - $" + upcharge.Price;
+            }
+
         }
 
         async Task UpdateUpchargeForModel(long modelId)
@@ -729,6 +790,7 @@ namespace Greeter.Storyboards
                         mainService.IsMainService = true;
                         mainService.ServiceId = WashPackages[pos].ID;
                         mainService.SeriveName = WashPackages[pos].Name;
+                        mainService.ServiceTypeID = WashPackages[pos].TypeID;
                         mainService.Price = WashPackages[pos].Price;
                         mainService.Time = WashPackages[pos].Time;
                         mainService.IsCommission = WashPackages[pos].Commission;
@@ -751,6 +813,45 @@ namespace Greeter.Storyboards
                             _ = UpdateUpchargeForDetailAndModel(ModelID);
                         break;
                 }
+        }
+
+        void UpdateAirFreshner(long serviceId)
+        {
+            int pos = AirFreshners.FindIndex(x => x.ID == serviceId);
+
+            tfAirFreshner.Text = AirFreshners[pos].Name;
+
+            airFreshner = airFreshner ?? new JobItem();
+            airFreshner.ServiceId = AirFreshners[pos].ID;
+            airFreshner.SeriveName = AirFreshners[pos].Name;
+            airFreshner.Price = AirFreshners[pos].Price;
+            airFreshner.Time = AirFreshners[pos].Time;
+            airFreshner.IsCommission = AirFreshners[pos].Commission;
+            airFreshner.CommissionType = AirFreshners[pos].CommissionType;
+            airFreshner.CommissionAmount = AirFreshners[pos].CommissionCost;
+        }
+
+        void UpdateAdditionalService(long serviceId)
+        {
+            int pos = AdditionalServices.FindIndex(x => x.ID == serviceId);
+
+            tfAdditionalService.Text = AdditionalServices[pos].Name;
+
+            var additional = new JobItem();
+            additional.ServiceId = AdditionalServices[pos].ID;
+            additional.SeriveName = AdditionalServices[pos].Name;
+            additional.Price = AdditionalServices[pos].Price;
+            additional.Time = AdditionalServices[pos].Time;
+            additional.IsCommission = AdditionalServices[pos].Commission;
+            additional.CommissionType = AdditionalServices[pos].CommissionType;
+            additional.CommissionAmount = AdditionalServices[pos].CommissionCost;
+
+            if (additionalServcies is null)
+            {
+                additionalServcies = new();
+            }
+
+            additionalServcies.Add(additional);
         }
 
         void ChangeScreenType(ServiceType type)
@@ -792,6 +893,7 @@ namespace Greeter.Storyboards
             vc.ClientID = ClientID;
             vc.VehicleID = VehicleID;
             vc.ServiceType = ServiceType;
+            vc.IsMembershipService = isMembershipService;
             NavigateToWithAnim(vc);
         }
 
@@ -852,10 +954,17 @@ namespace Greeter.Storyboards
                 additional.CommissionType = AdditionalServices[selectedPos].CommissionType;
                 additional.CommissionAmount = AdditionalServices[selectedPos].CommissionCost;
                 additionalServcies.Add(additional);
-            }
+            } 
+            UpdateAdditionalServicesText(additionalServcies);
+        }
 
-            var names = additionalServcies.Select(x => x.SeriveName);
-            tfAdditionalService.Text = String.Join(",", names);
+        void UpdateAdditionalServicesText(List<JobItem> addtionalServices)
+        {
+            if (!additionalServcies.IsNullOrEmpty())
+            {
+                var names = additionalServcies.Select(x => x.SeriveName);
+                tfAdditionalService.Text = String.Join(",", addtionalServices);
+            }
         }
 
         public void DidCancel(MultiSelectPicker pickerView)

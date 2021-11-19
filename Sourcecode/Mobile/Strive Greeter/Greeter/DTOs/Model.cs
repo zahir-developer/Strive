@@ -1543,11 +1543,35 @@ namespace Greeter.DTOs
     {
         [JsonProperty("ClientVehicle")]
         public ClientVehicle ClientVehicle;
+
+        [JsonProperty("ClientVehicleMembership")]
+        public ClientVehicleMembership ClientVehicleMembership;
+
+        [JsonProperty("ClientVehicleMembershipService")]
+        public ClientVehicleMembershipService[] ClientVehicleMembershipServices;
     }
 
     public class ClientVehicle
     {
         [JsonProperty("Upcharge")]
         public long UpchargeID;
+    }
+
+    public class ClientVehicleMembership
+    {
+        [JsonProperty("ClientMembershipId")]
+        public long ClientMembershipId;
+    }
+
+    public class ClientVehicleMembershipService
+    {
+        [JsonProperty("ServiceId")]
+        public long ServiceId;
+
+        [JsonProperty("ServiceTypeId")]
+        public long ServiceTypeId;
+
+        [JsonProperty("ServiceType")]
+        public string ServiceType;        
     }
 }

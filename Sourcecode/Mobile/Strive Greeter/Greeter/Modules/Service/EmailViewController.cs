@@ -33,6 +33,7 @@ namespace Greeter.Storyboards
         public string CustName;
         public CreateServiceRequest Service;
         public ServiceType ServiceType;
+        public bool IsMembershipService;
 
         List<Employee> Employees;
         string[] employeeNames;
@@ -119,6 +120,12 @@ namespace Greeter.Storyboards
 
             btnPay.TouchUpInside += delegate
             {
+                if (IsMembershipService)
+                {
+                    ShowAlertMsg(Common.Messages.MEMBERSHIP_MESSAGE, () => { });
+                    return;
+                }
+
                 NavigateToPayScreen();
             };
         }
@@ -544,6 +551,7 @@ async Task SendEmail(string email)
             vc.Model = Model;
             vc.Color = Color;
             vc.CustName = CustName;
+            //vc.IsMembershipService = IsMembershipService;
 
             //var mainService  = Service.JobItems.First(x => x.IsMainService);
             //vc.ServiceName = mainService.SeriveName;

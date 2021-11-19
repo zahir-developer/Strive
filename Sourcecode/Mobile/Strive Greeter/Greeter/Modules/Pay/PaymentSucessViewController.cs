@@ -4,14 +4,17 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Foundation;
+using Greeter.Common;
 using Greeter.DTOs;
+using Greeter.Extensions;
 using MessageUI;
 using UIKit;
 
 namespace Greeter.Storyboards
 {
-    public partial class PaymentSucessViewController : BaseViewController, IMFMailComposeViewControllerDelegate
+    public partial class PaymentSucessViewController : BaseViewController, IMFMailComposeViewControllerDelegate, IEmailDelegate
     {
         // Data
         const string SCREEN_TITLE = "Pay";
@@ -27,6 +30,7 @@ namespace Greeter.Storyboards
         //public bool IsFromNewService = true;
         public ServiceType ServiceType;
         public CreateServiceRequest Service;
+        public bool IsMembershipService;
 
         public PaymentSucessViewController(IntPtr handle) : base(handle)
         {
@@ -50,11 +54,13 @@ namespace Greeter.Storyboards
 
             btnEmail.TouchUpInside += delegate
             {
-                SendEmailReceipt();
+                EmailPopupViewController vc = (EmailPopupViewController)GetViewController(GetHomeStorybpard(), nameof(EmailPopupViewController));
+                vc.EmailDelegate = this;
+                PresentViewController(vc, true, () => { });
             };
         }
 
-        void SendEmailReceipt()
+        async Task SendEmailReceipt(string email)
         {
             string emailContentHtml = MakeServiceReceipt();
 
@@ -64,7 +70,20 @@ namespace Greeter.Storyboards
             else // DETAIL
                 subject = Common.Messages.DETAIL_RECEIPT_SUBJECT;
 
-            EmailServiceReceipt(emailContentHtml, subject);
+            ShowActivityIndicator();
+
+            var response = await SingleTon.WashApiService.SendEmail(email, subject, emailContentHtml);
+
+            HideActivityIndicator();
+
+            HandleResponse(response);
+
+            if (response.IsSuccess())
+            {
+                ShowAlertMsg(Common.Messages.EMAIL_SENT_MSG, titleTxt: Common.Messages.EMAIL);
+            }
+
+            //EmailServiceReceipt(emailContentHtml, subject);
         }
 
         [Export("mailComposeController:didFinishWithResult:error:")]
@@ -189,6 +208,11 @@ namespace Greeter.Storyboards
         {
             string printContentHtml = MakeServiceReceipt();
             Print(printContentHtml);
+        }
+
+        public void SendEmailClicked(string email)
+        {
+            _ = SendEmailReceipt(email);
         }
     }
 }

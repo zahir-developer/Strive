@@ -1984,6 +1984,90 @@
             </objects>
             <point key="canvasLocation" x="2484" y="1054"/>
         </scene>
+        <!--Email Popup View Controller-->
+        <scene sceneID="HNg-aV-VMV">
+            <objects>
+                <viewController storyboardIdentifier="EmailPopupViewController" id="bbC-Fh-dTf" customClass="EmailPopupViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NBm-rw-hSf">
+                        <rect key="frame" x="0.0" y="0.0" width="810" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Cj-hj-rTK">
+                                <rect key="frame" x="71" y="412" width="668" height="256.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send Email Receipt" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUS-fO-Xaj">
+                                        <rect key="frame" x="40" y="30" width="148.5" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="isT-HW-PB8">
+                                        <rect key="frame" x="494" y="171.5" width="134" height="54"/>
+                                        <color key="backgroundColor" red="0.1137254902" green="0.78823529410000004" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="134" id="fLH-wi-4Tp"/>
+                                            <constraint firstAttribute="height" constant="54" id="gts-sL-0b6"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <state key="normal" title="SEND">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oiw-q6-WGz">
+                                        <rect key="frame" x="350" y="171.5" width="134" height="54"/>
+                                        <color key="backgroundColor" red="0.74509803919999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="54" id="lPH-Vw-cfu"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <state key="normal" title="CANCEL">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X06-qT-IWf">
+                                        <rect key="frame" x="40" y="73.5" width="588" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="WaU-hg-T83"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="X06-qT-IWf" firstAttribute="top" secondItem="yUS-fO-Xaj" secondAttribute="bottom" constant="24" id="2LW-sJ-gvu"/>
+                                    <constraint firstItem="X06-qT-IWf" firstAttribute="trailing" secondItem="isT-HW-PB8" secondAttribute="trailing" id="3jU-uJ-UHI"/>
+                                    <constraint firstAttribute="trailing" secondItem="isT-HW-PB8" secondAttribute="trailing" constant="40" id="4Rc-gx-k2R"/>
+                                    <constraint firstAttribute="bottom" secondItem="isT-HW-PB8" secondAttribute="bottom" constant="31" id="7fc-NQ-zqE"/>
+                                    <constraint firstItem="X06-qT-IWf" firstAttribute="leading" secondItem="8Cj-hj-rTK" secondAttribute="leading" constant="40" id="DQm-4K-vrv"/>
+                                    <constraint firstItem="isT-HW-PB8" firstAttribute="leading" secondItem="Oiw-q6-WGz" secondAttribute="trailing" constant="10" id="Jpi-wA-cRk"/>
+                                    <constraint firstItem="Oiw-q6-WGz" firstAttribute="top" secondItem="isT-HW-PB8" secondAttribute="top" id="Qx3-ij-kCY"/>
+                                    <constraint firstItem="isT-HW-PB8" firstAttribute="top" secondItem="X06-qT-IWf" secondAttribute="bottom" constant="50" id="aBA-X5-inN"/>
+                                    <constraint firstItem="yUS-fO-Xaj" firstAttribute="top" secondItem="8Cj-hj-rTK" secondAttribute="top" constant="30" id="bmu-cC-mA2"/>
+                                    <constraint firstItem="Oiw-q6-WGz" firstAttribute="width" secondItem="isT-HW-PB8" secondAttribute="width" id="lvx-Cs-sgr"/>
+                                    <constraint firstItem="yUS-fO-Xaj" firstAttribute="leading" secondItem="X06-qT-IWf" secondAttribute="leading" id="zwH-eG-zZP"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Szf-C4-vsv"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Szf-C4-vsv" firstAttribute="trailing" secondItem="8Cj-hj-rTK" secondAttribute="trailing" constant="71" id="89b-SV-POx"/>
+                            <constraint firstItem="8Cj-hj-rTK" firstAttribute="centerX" secondItem="Szf-C4-vsv" secondAttribute="centerX" id="GoQ-tL-8sR"/>
+                            <constraint firstItem="8Cj-hj-rTK" firstAttribute="centerY" secondItem="NBm-rw-hSf" secondAttribute="centerY" id="HsJ-Qh-F0i"/>
+                            <constraint firstItem="8Cj-hj-rTK" firstAttribute="leading" secondItem="Szf-C4-vsv" secondAttribute="leading" constant="71" id="s2I-0t-iHT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnCancel" destination="Oiw-q6-WGz" id="rnw-Vo-sk5"/>
+                        <outlet property="btnSend" destination="isT-HW-PB8" id="OTN-GQ-m4r"/>
+                        <outlet property="tfEmail" destination="X06-qT-IWf" id="GMg-Hr-0MP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j1V-Eh-Pb2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4921" y="914"/>
+        </scene>
     </scenes>
     <resources>
         <image name="barcode" width="34.5" height="17"/>

@@ -153,6 +153,7 @@ namespace Greeter.Modules.Pay
             Console.WriteLine($"Magcard swiped: {data}");
 
             //PlaySound(100, barcodeTone);
+
             Logic.Vibrate(2);
 
             string cardNumber = ParseMagcardData(data);
