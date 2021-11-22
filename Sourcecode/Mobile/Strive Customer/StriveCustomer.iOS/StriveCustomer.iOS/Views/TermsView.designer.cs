@@ -16,16 +16,37 @@ namespace StriveCustomer.iOS.Views
 		UIKit.UIView _TermsConfirmView { get; set; }
 
 		[Outlet]
+		UIKit.UILabel AdditionalServicesTotal { get; set; }
+
+		[Outlet]
 		UIKit.UILabel Date { get; set; }
 
 		[Outlet]
+		UIKit.UILabel DisplaySelectedAddtionals { get; set; }
+
+		[Outlet]
+		UIKit.UILabel EndingDate { get; set; }
+
+		[Outlet]
 		UIKit.UILabel membership_name { get; set; }
+
+		[Outlet]
+		UIKit.UILabel MonthlyTotal { get; set; }
+
+		[Outlet]
+		UIKit.UILabel StartingDate { get; set; }
 
 		[Outlet]
 		UIKit.UILabel termsLabel { get; set; }
 
 		[Outlet]
 		UIKit.UIView TermsParentView { get; set; }
+
+		[Outlet]
+		UIKit.UILabel total { get; set; }
+
+		[Outlet]
+		UIKit.UILabel Yearlytotal { get; set; }
 
 		[Action ("AgreeBtn_Touch:")]
 		partial void AgreeBtn_Touch (UIKit.UIButton sender);
@@ -35,14 +56,34 @@ namespace StriveCustomer.iOS.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (_TermsConfirmView != null) {
+				_TermsConfirmView.Dispose ();
+				_TermsConfirmView = null;
+			}
+
 			if (Date != null) {
 				Date.Dispose ();
 				Date = null;
 			}
 
+			if (EndingDate != null) {
+				EndingDate.Dispose ();
+				EndingDate = null;
+			}
+
 			if (membership_name != null) {
 				membership_name.Dispose ();
 				membership_name = null;
+			}
+
+			if (MonthlyTotal != null) {
+				MonthlyTotal.Dispose ();
+				MonthlyTotal = null;
+			}
+
+			if (StartingDate != null) {
+				StartingDate.Dispose ();
+				StartingDate = null;
 			}
 
 			if (termsLabel != null) {
@@ -55,9 +96,24 @@ namespace StriveCustomer.iOS.Views
 				TermsParentView = null;
 			}
 
-			if (_TermsConfirmView != null) {
-				_TermsConfirmView.Dispose ();
-				_TermsConfirmView = null;
+			if (total != null) {
+				total.Dispose ();
+				total = null;
+			}
+
+			if (Yearlytotal != null) {
+				Yearlytotal.Dispose ();
+				Yearlytotal = null;
+			}
+
+			if (AdditionalServicesTotal != null) {
+				AdditionalServicesTotal.Dispose ();
+				AdditionalServicesTotal = null;
+			}
+
+			if (DisplaySelectedAddtionals != null) {
+				DisplaySelectedAddtionals.Dispose ();
+				DisplaySelectedAddtionals = null;
 			}
 		}
 	}
