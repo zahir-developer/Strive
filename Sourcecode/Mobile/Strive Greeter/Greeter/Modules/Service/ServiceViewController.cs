@@ -149,14 +149,20 @@ namespace Greeter
             DismissKeyboardOnTapArround = true;
 
 #if DEBUG
-                //txtFieldBarcode.Text = "ZNL9678";
-                //txtFieldBarcode.Text = "61012381";
-                //txtFieldBarcode.Text = "63010412";
-                //txtFieldBarcode.Text = "73077401";
+            //txtFieldBarcode.Text = "ZNL9678";
+            //txtFieldBarcode.Text = "61012381";
+            //txtFieldBarcode.Text = "63010412";
+            txtFieldBarcode.Text = "73077401";
 
-                //QA Membership Barcode
-                txtFieldBarcode.Text = "16112021";
-                
+            // DEV Membership Barcode
+            //txtFieldBarcode.Text = "19112021p";
+            //txtFieldBarcode.Text = "61003352";
+
+            //QA Membership Barcode
+            //txtFieldBarcode.Text = "16112021";
+            //txtFieldBarcode.Text = "03112021";
+            //txtFieldBarcode.Text = "73085420";
+
 #endif
         }
 

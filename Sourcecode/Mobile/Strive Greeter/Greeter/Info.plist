@@ -43,6 +43,9 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Assets.xcassets/AppIcon.appiconset</string>
@@ -61,6 +64,6 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.strive.greeter</string>
 	<key>CFBundleVersion</key>
-	<string>24</string>
+	<string>26</string>
 </dict>
 </plist>

@@ -28,7 +28,7 @@
 		<MtouchDebug>true</MtouchDebug>
 		<CodesignKey>Apple Distribution: Telliant Systems LLC (793EC47L69)</CodesignKey>
 		<LangVersion>latest</LangVersion>
-		<CodesignProvision>Strive Greeter Appstore</CodesignProvision>
+		<CodesignProvision>Strive Greeter Adhoc</CodesignProvision>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
 		<DebugSymbols>true</DebugSymbols>

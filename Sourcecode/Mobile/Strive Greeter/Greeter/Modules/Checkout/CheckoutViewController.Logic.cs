@@ -176,12 +176,18 @@ namespace Greeter.Modules.Pay
                 return;
             }
 
-            // For Paid 
-            if (string.IsNullOrEmpty(checkout.MembershipName) && !checkout.PaymentStatus.Equals("Success"))
+            // For Not Paid
+            if (!checkout.PaymentStatus.Equals("Success"))
             {
                 ShowAlertMsg(Common.Messages.NOT_PAID_ALERT_MSG, null, false, Common.Messages.NOT_PAID);
                 return;
             }
+
+            //if (string.IsNullOrEmpty(checkout.MembershipName) && !checkout.PaymentStatus.Equals("Success"))
+            //{
+            //    ShowAlertMsg(Common.Messages.NOT_PAID_ALERT_MSG, null, false, Common.Messages.NOT_PAID);
+            //    return;
+            //}
 
             // Membership But Service Type Is Detail
             //if (string.IsNullOrEmpty(checkout.MembershipName) && checkout.Services && !checkout.PaymentStatus.Equals("Success"))

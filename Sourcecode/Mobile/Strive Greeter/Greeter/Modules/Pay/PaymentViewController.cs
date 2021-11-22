@@ -432,11 +432,11 @@ namespace Greeter.Modules.Pay
             payButton.WidthAnchor.ConstraintEqualTo(250).Active = true;
         }
 
-        void NavigateToPaymentSuccessScreen()
-        {
-            var vc = GetHomeStorybpard().InstantiateViewController(nameof(PaymentSucessViewController));
-            NavigateToWithAnim(vc);
-        }
+        //void NavigateToPaymentSuccessScreen()
+        //{
+        //    var vc = GetHomeStorybpard().InstantiateViewController(nameof(PaymentSucessViewController));
+        //    NavigateToWithAnim(vc);
+        //}
 
         void KeyBoardHandling()
         {

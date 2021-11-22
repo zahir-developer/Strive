@@ -66,6 +66,12 @@ namespace Greeter.Modules.Pay
 
         void PayBtnClicked(Checkout checkout)
         {
+            if (!string.IsNullOrEmpty(checkout.MembershipName))
+            {
+                ShowAlertMsg(Common.Messages.MEMBERSHIP_MESSAGE, () => { });
+                return;
+            }
+
             NavigateToPayScreen(checkout);
         }
 

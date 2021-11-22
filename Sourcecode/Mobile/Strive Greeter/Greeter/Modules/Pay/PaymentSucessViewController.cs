@@ -30,7 +30,8 @@ namespace Greeter.Storyboards
         //public bool IsFromNewService = true;
         public ServiceType ServiceType;
         public CreateServiceRequest Service;
-        public bool IsMembershipService;
+        //public bool IsMembershipService;
+        public string CardNumber;
 
         public PaymentSucessViewController(IntPtr handle) : base(handle)
         {
@@ -196,6 +197,12 @@ namespace Greeter.Storyboards
                     body += "<p>" + AdditionalServiceName + "</p>";
                 }
             }
+
+            body += "<br /><p>Payment Details : </p>";
+            body += "<p> Payment Type - Credit Card</p>";
+            body += "<p> Card Number - " + CardNumber + "</p>";
+
+
 
             body += "<br/ ><p>" + "Total Amount Paid: " + "$" + Amount.ToString() + "</p>";
 

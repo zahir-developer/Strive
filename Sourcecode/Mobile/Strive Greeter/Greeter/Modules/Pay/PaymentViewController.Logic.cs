@@ -145,6 +145,7 @@ namespace Greeter.Modules.Pay
                             vc.AdditionalServiceName = AdditionalServiceName;
                             vc.Service = Service;
                             vc.ServiceType = ServiceType;
+                            vc.CardNumber = cardNo;
                             //vc.IsMembershipService = IsMembershipService;
                             //vc.IsFromNewService = IsFromNewService;
                             nc.PushViewController(vc, true);

@@ -48,7 +48,7 @@ namespace Greeter.Storyboards
         JobItem mainService;
         JobItem upcharge;
         //JobItem additional;
-        List<JobItem> additionalServcies;
+        List<JobItem> selectedAdditionalServcies;
         JobItem airFreshner;
 
         // Data
@@ -59,7 +59,7 @@ namespace Greeter.Storyboards
         List<ServiceDetail> DetailPackages;
         List<ServiceDetail> Upcharges;
         List<ServiceDetail> AdditionalServices;
-        List<int> AdditionalServicesSelectedPositions;
+        List<int> AdditionalServicesSelectedPositions = new();
         List<ServiceDetail> AirFreshners;
 
         string[] makes;
@@ -90,7 +90,7 @@ namespace Greeter.Storyboards
             //Clicks
             btnNext.TouchUpInside += delegate
             {
-                CreateService(MakeID, ModelID, ColorID, jobTypeId, mainService, upcharge, additionalServcies?.ToArray(), airFreshner, ClientID, VehicleID);
+                CreateService(MakeID, ModelID, ColorID, jobTypeId, mainService, upcharge, selectedAdditionalServcies?.ToArray(), airFreshner, ClientID, VehicleID);
                 //ShowMultiselectOptions();
             };
 
@@ -340,15 +340,19 @@ namespace Greeter.Storyboards
 
                 UpdateBarcodeData(Barcode);
 
-                var response = await GetVehicleMembershipDetails(VehicleID);
-
-                UpdateMembershipUpcharge(response);
-
-                UpdateMembershipServices(response);
-
-                if (response.VehicleMembershipDetail?.ClientVehicleMembership?.ClientMembershipId is not 0)
+                // Membership only applciable for wash
+                if (ServiceType == ServiceType.Wash)
                 {
-                    isMembershipService = true;
+                    var response = await GetVehicleMembershipDetails(VehicleID);
+
+                    UpdateMembershipUpcharge(response);
+
+                    UpdateMembershipServices(response);
+
+                    if (response.VehicleMembershipDetail?.ClientVehicleMembership?.ClientMembershipId is not 0)
+                    {
+                        isMembershipService = true;
+                    }
                 }
             }
             else
@@ -369,7 +373,7 @@ namespace Greeter.Storyboards
         {
             var services = membershipResponse.VehicleMembershipDetail?.ClientVehicleMembershipServices;
 
-            if (services is not null || services.Length > 0)
+            if (services is not null && services.Length > 0)
             {
                 for (int i = 0; i < services.Length; i++)
                 {
@@ -377,6 +381,10 @@ namespace Greeter.Storyboards
                     if (service.ServiceType == ServiceTypes.WASH_PACKAGE && ServiceType == ServiceType.Wash)
                     {
                         int pos = WashPackages.FindIndex(x => x.ID == service.ServiceId);
+
+                        if (pos == -1)
+                            return;
+
                         tfWashPkg.Text = washPackages[pos];
                         mainService = mainService ?? new JobItem();
                         mainService.IsMainService = true;
@@ -388,20 +396,20 @@ namespace Greeter.Storyboards
                         mainService.CommissionType = WashPackages[pos].CommissionType;
                         mainService.CommissionAmount = WashPackages[pos].CommissionCost;
                     }
-                    else if (service.ServiceType == ServiceTypes.DETAIL_PACKAGE && ServiceType == ServiceType.Detail)
-                    {
-                        int pos = DetailPackages.FindIndex(x => x.ID == service.ServiceId);
-                        tfWashPkg.Text = washPackages[pos];
-                        mainService = mainService ?? new JobItem();
-                        mainService.IsMainService = true;
-                        mainService.ServiceId = DetailPackages[pos].ID;
-                        mainService.SeriveName = DetailPackages[pos].Name;
-                        mainService.Price = DetailPackages[pos].Price;
-                        mainService.Time = DetailPackages[pos].Time;
-                        mainService.IsCommission = DetailPackages[pos].Commission;
-                        mainService.CommissionType = DetailPackages[pos].CommissionType;
-                        mainService.CommissionAmount = DetailPackages[pos].CommissionCost;
-                    }
+                    //else if (service.ServiceType == ServiceTypes.DETAIL_PACKAGE && ServiceType == ServiceType.Detail)
+                    //{
+                    //    int pos = DetailPackages.FindIndex(x => x.ID == service.ServiceId);
+                    //    tfWashPkg.Text = washPackages[pos];
+                    //    mainService = mainService ?? new JobItem();
+                    //    mainService.IsMainService = true;
+                    //    mainService.ServiceId = DetailPackages[pos].ID;
+                    //    mainService.SeriveName = DetailPackages[pos].Name;
+                    //    mainService.Price = DetailPackages[pos].Price;
+                    //    mainService.Time = DetailPackages[pos].Time;
+                    //    mainService.IsCommission = DetailPackages[pos].Commission;
+                    //    mainService.CommissionType = DetailPackages[pos].CommissionType;
+                    //    mainService.CommissionAmount = DetailPackages[pos].CommissionCost;
+                    //}
                     else if (service.ServiceType == ServiceTypes.AIR_FRESHNERS)
                     {
                         UpdateAirFreshner(service.ServiceId);
@@ -410,6 +418,20 @@ namespace Greeter.Storyboards
                     {
                         UpdateAdditionalService(service.ServiceId);
                     }
+                }
+
+                if (selectedAdditionalServcies?.Count > 0)
+                {
+                    var additionalServiceList = additionalServices.ToList();
+                    for (int i = 0; i < selectedAdditionalServcies.Count; i++)
+                    {
+                        var pos = additionalServiceList.FindIndex(x => x.Equals(selectedAdditionalServcies[i].SeriveName));
+
+                        if (pos != -1)
+                            AdditionalServicesSelectedPositions.Add(pos);
+                    }
+
+                    UpdateAdditionalServicesText(selectedAdditionalServcies);
                 }
             }
         }
@@ -819,6 +841,9 @@ namespace Greeter.Storyboards
         {
             int pos = AirFreshners.FindIndex(x => x.ID == serviceId);
 
+            if (pos == -1)
+                return;
+
             tfAirFreshner.Text = AirFreshners[pos].Name;
 
             airFreshner = airFreshner ?? new JobItem();
@@ -835,7 +860,8 @@ namespace Greeter.Storyboards
         {
             int pos = AdditionalServices.FindIndex(x => x.ID == serviceId);
 
-            tfAdditionalService.Text = AdditionalServices[pos].Name;
+            if (pos == -1)
+                return;
 
             var additional = new JobItem();
             additional.ServiceId = AdditionalServices[pos].ID;
@@ -846,12 +872,12 @@ namespace Greeter.Storyboards
             additional.CommissionType = AdditionalServices[pos].CommissionType;
             additional.CommissionAmount = AdditionalServices[pos].CommissionCost;
 
-            if (additionalServcies is null)
+            if (selectedAdditionalServcies is null)
             {
-                additionalServcies = new();
+                selectedAdditionalServcies = new();
             }
 
-            additionalServcies.Add(additional);
+            selectedAdditionalServcies.Add(additional);
         }
 
         void ChangeScreenType(ServiceType type)
@@ -887,7 +913,7 @@ namespace Greeter.Storyboards
             vc.MainService = mainService;
             vc.Upcharge = upcharge;
             vc.UpchargeTypeName = tfUpcharge.Text;
-            vc.AdditionalServices = additionalServcies?.ToArray();
+            vc.AdditionalServices = selectedAdditionalServcies?.ToArray();
             vc.AirFreshner = airFreshner;
             vc.CustName = CustName;
             vc.ClientID = ClientID;
@@ -931,7 +957,7 @@ namespace Greeter.Storyboards
 
             AdditionalServicesSelectedPositions = selectedIndexList;
             //if (additionalServcies is null)
-            additionalServcies = new();
+            selectedAdditionalServcies = new();
 
             for (int i = 0; i < selectedIndexList.Count; i++)
             {
@@ -953,17 +979,17 @@ namespace Greeter.Storyboards
                 additional.IsCommission = AdditionalServices[selectedPos].Commission;
                 additional.CommissionType = AdditionalServices[selectedPos].CommissionType;
                 additional.CommissionAmount = AdditionalServices[selectedPos].CommissionCost;
-                additionalServcies.Add(additional);
-            } 
-            UpdateAdditionalServicesText(additionalServcies);
+                selectedAdditionalServcies.Add(additional);
+            }
+            UpdateAdditionalServicesText(selectedAdditionalServcies);
         }
 
         void UpdateAdditionalServicesText(List<JobItem> addtionalServices)
         {
-            if (!additionalServcies.IsNullOrEmpty())
+            if (!addtionalServices.IsNullOrEmpty())
             {
-                var names = additionalServcies.Select(x => x.SeriveName);
-                tfAdditionalService.Text = String.Join(",", addtionalServices);
+                var names = addtionalServices.Select(x => x.SeriveName);
+                tfAdditionalService.Text = String.Join(", ", names);
             }
         }
 

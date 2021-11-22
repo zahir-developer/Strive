@@ -167,9 +167,29 @@ namespace Greeter.Storyboards
                         var getAvailableScheduleReq = new GetAvailableScheduleReq() { LocationID = AppSettings.LocationID };
                         var availableScheduleResponse = await apiService.GetAvailablilityScheduleTime(getAvailableScheduleReq);
 
-                        float totalTimeMins = MainService.Time + serviceTimeMins;
+                        float totalTimeMins = (MainService.Time * 60) + serviceTimeMins;
                         //req.Job.EstimatedTimeOut = DateTime.Now.AddMinutes(20);
                         //#if DEBUG
+
+                        var distinct = availableScheduleResponse.GetTimeInDetails.Distinct();
+                        var datetime = DateTime.Now;
+
+#if DEBUG
+                        //datetime = new DateTime(2021, 10, 21, 17, 15, 00);
+
+                        for (int i = 0; i < availableScheduleResponse.GetTimeInDetails.Count; i++)
+                        {
+                            Debug.WriteLine("GetTimeIn : " + DateTime.ParseExact(availableScheduleResponse.GetTimeInDetails[i].TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay);
+                            Debug.WriteLine(TimeSpan.Compare(DateTime.ParseExact(availableScheduleResponse.GetTimeInDetails[i].TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay, datetime.TimeOfDay));
+                        }
+
+                        totalTimeMins = 60;
+#endif
+                        Debug.WriteLine("Current time of day : " + datetime.TimeOfDay);
+
+                        availableScheduleResponse.GetTimeInDetails.RemoveAll(x => TimeSpan.Compare(DateTime.ParseExact(x.TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay, datetime.TimeOfDay) == -1); 
+                        Debug.WriteLine("Distinct GetTimeInDetails : " + JsonConvert.SerializeObject(availableScheduleResponse.GetTimeInDetails));
+
                         var bayGroup = availableScheduleResponse.GetTimeInDetails.Distinct().GroupBy(obj => obj.BayID);
 
                         GetTimeInDetails matchTimeInDetails = null;
@@ -205,35 +225,57 @@ namespace Greeter.Storyboards
                         //    //Debug.WriteLine("datetime " + datetime);
                         //}
 
-                        foreach (IEnumerable<GetTimeInDetails> timeInDetails in bayGroup)
+                        //foreach (IEnumerable<GetTimeInDetails> timeInDetails in bayGroup)
+                        //{
+                        //    var timeInDetailsList = timeInDetails.ToList();
+
+                        //    bayGroup.
+
+                        //    for (int i = 1; i < timeInDetailsList.Count; i++)
+                        //    {
+
+                        //    }
+                        //}
+
+                        //bayGroup.ToList().RemoveAll(x => x.time)
+
+                        var bayGroups = bayGroup.ToList();
+
+                        for (int i = 0; i < bayGroups.Count; i++)
                         {
                             if (matchTimeInDetails is not null) break;
 
-                            var timeInDetailsList = timeInDetails.ToList();
+                            var timeInDetailsList = bayGroups[i].ToList();
 
                             if (timeInDetailsList is not null && timeInDetailsList.Count > 0)
                             {
-                                var previousTimeInDetail = timeInDetails.FirstOrDefault();
+                                GetTimeInDetails previousTimeInDetail = null;
 
                                 var availableTime = 0; //Time represent in minutes
                                 bayCount = 0;
 
-                                for (int i = 1; i < timeInDetailsList.Count; i++)
+                                for (int j = 0; j < timeInDetailsList.Count; j++)
                                 {
-                                    var isThirtyMinuteDistance = IsThirtyMinuteDistance(previousTimeInDetail.TimeIn, timeInDetailsList[i].TimeIn);
+                                    var isThirtyMinuteDistance = true;
+
+                                    if(availableTime != 0 && previousTimeInDetail != null)
+                                    {
+                                        isThirtyMinuteDistance = IsThirtyMinuteDistance(previousTimeInDetail.TimeIn, timeInDetailsList[j].TimeIn);
+                                    }
+
                                     if (isThirtyMinuteDistance)
                                     {
-                                        availableTime += 60 * 30; //Add 30 minutes
+                                        availableTime += 30; //Add 30 minutes
                                         bayCount += 1;
 
                                         if (string.IsNullOrEmpty(startTime))
                                         {
-                                            startTime = timeInDetailsList[i].TimeIn;
+                                            startTime = timeInDetailsList[j].TimeIn;
                                         }
 
                                         if (availableTime >= totalTimeMins)
                                         {
-                                            matchTimeInDetails = timeInDetailsList[i];
+                                            matchTimeInDetails = timeInDetailsList[j];
                                             break;
                                         }
                                     }
@@ -241,11 +283,55 @@ namespace Greeter.Storyboards
                                     {
                                         startTime = string.Empty;
                                         availableTime = 0;
+                                        j--;
                                     }
-                                    previousTimeInDetail = timeInDetailsList[i];
+
+                                    previousTimeInDetail = timeInDetailsList[j];
                                 }
                             }
                         }
+
+                        //foreach (IEnumerable<GetTimeInDetails> timeInDetails in bayGroup)
+                        //{
+                        //    if (matchTimeInDetails is not null) break;
+
+                        //    var timeInDetailsList = timeInDetails.ToList();
+
+                        //    if (timeInDetailsList is not null && timeInDetailsList.Count > 0)
+                        //    {
+                        //        //var previousTimeInDetail = timeInDetails.FirstOrDefault();
+
+                        //        var availableTime = 0; //Time represent in minutes
+                        //        bayCount = 0;
+
+                        //        for (int i = 0; i < timeInDetailsList.Count; i++)
+                        //        {
+                        //            var isThirtyMinuteDistance = IsThirtyMinuteDistance(timeInDetailsList[i].TimeIn, timeInDetailsList[i+ 1].TimeIn);
+                        //            if (isThirtyMinuteDistance)
+                        //            {
+                        //                availableTime += 60 * 30; //Add 30 minutes
+                        //                bayCount += 1;
+
+                        //                if (string.IsNullOrEmpty(startTime))
+                        //                {
+                        //                    startTime = timeInDetailsList[i].TimeIn;
+                        //                }
+
+                        //                if (availableTime >= totalTimeMins)
+                        //                {
+                        //                    matchTimeInDetails = timeInDetailsList[i];
+                        //                    break;
+                        //                }
+                        //            }
+                        //            else
+                        //            {
+                        //                startTime = string.Empty;
+                        //                availableTime = 0;
+                        //            }
+                        //            //previousTimeInDetail = timeInDetailsList[i];
+                        //        }
+                        //    }
+                        //}
 
                         if (matchTimeInDetails is null)
                         {
@@ -268,19 +354,21 @@ namespace Greeter.Storyboards
 
                         for (int i = 0; i < bayCount; i++)
                         {
-                            var baySchedule = new BaySchedule()
-                            {
-                                BayID = req.JobDetail.BayID,
-                                JobID = jobId,
-                                ScheduleInTime = startTime,
-                                //ScheduleDate = req.Job.JobDate.ToString("yyyy-MM-dd")
-                                ScheduleDate = req.Job.JobDate
-                            };
-
-
-                            //if (i != 0)
+                            //var baySchedule = new BaySchedule()
                             //{
-                            endTime = startTime;
+                            //    BayID = req.JobDetail.BayID,
+                            //    JobID = jobId,
+                            //    ScheduleInTime = startTime,
+                            //    //ScheduleDate = req.Job.JobDate.ToString("yyyy-MM-dd")
+                            //    ScheduleDate = req.Job.JobDate
+                            //};
+
+
+                            if (i == 0)
+                            {
+                                endTime = startTime;
+                            }
+
                             string[] ds = endTime.Split(":");
 
                             if ((ds[1])[0] == '3')
@@ -295,7 +383,7 @@ namespace Greeter.Storyboards
                             }
                             //}
 
-                            baySchedule.ScheduleOutTime = endTime;
+                            //baySchedule.ScheduleOutTime = endTime;
 
                             //req.BaySchedules.Add(baySchedule);
                         }
