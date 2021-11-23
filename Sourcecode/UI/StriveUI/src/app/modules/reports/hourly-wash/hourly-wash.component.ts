@@ -159,7 +159,7 @@ export class HourlyWashComponent implements OnInit {
                 washCount = 0;
                 const nameBased = washService.filter(ele => ele.ServiceName === name);
                 nameBased.forEach(count => {
-                  washCount =  count.WashCount;
+                  washCount +=  count.WashCount;
                 });
                 serviceName.push({
                   serviceName: name,
