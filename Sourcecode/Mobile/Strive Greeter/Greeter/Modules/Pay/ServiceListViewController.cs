@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using CoreGraphics;
 using Foundation;
 using Greeter.Cells;
 using Greeter.Common;
-using Greeter.DTOs;
 using UIKit;
 using Xamarin.Essentials;
 

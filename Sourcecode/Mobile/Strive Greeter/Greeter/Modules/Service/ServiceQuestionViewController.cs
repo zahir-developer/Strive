@@ -313,7 +313,7 @@ namespace Greeter.Storyboards
             airFreshners = airFreshnersList.ToArray();
             UpdateAirfreshnerAsNone();
 
-            if (!IsNewBarcode)
+            if (!IsNewBarcode)  
             {
                 make = Makes.Where(x => x.ID == MakeID).FirstOrDefault().Name;
                 color = Colors.Where(x => x.ID == ColorID).FirstOrDefault().Name;
@@ -349,7 +349,7 @@ namespace Greeter.Storyboards
 
                     UpdateMembershipServices(response);
 
-                    if (response.VehicleMembershipDetail?.ClientVehicleMembership?.ClientMembershipId is not 0)
+                    if (response.VehicleMembershipDetail?.ClientVehicleMembership is not null && response.VehicleMembershipDetail.ClientVehicleMembership.ClientMembershipId is not 0)
                     {
                         isMembershipService = true;
                     }

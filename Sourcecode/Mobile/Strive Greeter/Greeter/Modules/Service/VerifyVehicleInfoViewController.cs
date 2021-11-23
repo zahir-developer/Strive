@@ -183,7 +183,7 @@ namespace Greeter.Storyboards
                             Debug.WriteLine(TimeSpan.Compare(DateTime.ParseExact(availableScheduleResponse.GetTimeInDetails[i].TimeIn, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay, datetime.TimeOfDay));
                         }
 
-                        totalTimeMins = 60;
+                        //totalTimeMins = 60;
 #endif
                         Debug.WriteLine("Current time of day : " + datetime.TimeOfDay);
 

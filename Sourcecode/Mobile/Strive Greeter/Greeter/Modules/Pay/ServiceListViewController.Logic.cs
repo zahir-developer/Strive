@@ -66,7 +66,7 @@ namespace Greeter.Modules.Pay
 
         void PayBtnClicked(Checkout checkout)
         {
-            if (!string.IsNullOrEmpty(checkout.MembershipName))
+            if (!string.IsNullOrEmpty(checkout.MembershipName) && checkout.JobType.Equals(ServiceType.Wash.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 ShowAlertMsg(Common.Messages.MEMBERSHIP_MESSAGE, () => { });
                 return;

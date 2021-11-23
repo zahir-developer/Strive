@@ -120,7 +120,7 @@ namespace Greeter.Storyboards
 
             btnPay.TouchUpInside += delegate
             {
-                if (IsMembershipService)
+                if (IsMembershipService && ServiceType == ServiceType.Wash)
                 {
                     ShowAlertMsg(Common.Messages.MEMBERSHIP_MESSAGE, () => { });
                     return;
