@@ -31,7 +31,7 @@ namespace StriveCustomer.iOS.Views
         public void SetData(MembershipServiceList list, NSIndexPath indexPath)
         {
             this.data = list;
-            MembershipCell_ViewHeight.Constant = 25;
+            MembershipCell_ViewHeight.Constant = 12;
             
             Membership_VehicleLbl.Text = data.Membership[indexPath.Row].MembershipName;
             Membership_Discount.Text = "$" + (VehicleMembershipViewModel.isDiscoutAvailable ? data.Membership[indexPath.Row].DiscountedPrice.ToString() : data.Membership[indexPath.Row].Price.ToString());

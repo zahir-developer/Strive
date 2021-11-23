@@ -17,6 +17,7 @@ namespace StriveCustomer.iOS.Views
         }
         public double Total = 0;
         public List<string> SelectedAdditionalServices = new List<string>();
+        
         UILabel DisplaySelectedServices = new UILabel();
         public override void ViewDidLoad()
         {
@@ -43,7 +44,7 @@ namespace StriveCustomer.iOS.Views
             StartingDate.Text = DateTime.Now.Date.ToString("yyyy-MM-dd");
             EndingDate.Text = DateTime.Now.Date.AddMonths(12).ToString("yyyy-MM-dd");
             Date.Text = Datenow.Substring(0, 10);
-            string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName.Substring(8) + "-$" + MembershipDetails.selectedMembershipDetail.DiscountedPrice;
+            string membershipname = MembershipDetails.selectedMembershipDetail.MembershipName.Substring(8) + "- $" + (VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price);
             membership_name.Text = membershipname;
             TermsParentView.Layer.CornerRadius = 5;
             GetTotal();
@@ -62,7 +63,7 @@ namespace StriveCustomer.iOS.Views
                     if (Service.Upcharges.Count() > 4)
                     {
                         
-                        Console.WriteLine(Service.Upcharges.Split("-")[1].Substring(3));
+                        //Console.WriteLine(Service.Upcharges.Split("-")[1].Substring(3));
                         Total += double.Parse(Service.Upcharges.Split("-")[1].Substring(3));
                         SelectedAdditionalServices.Add(Service.ServiceName.Trim() + "-$"+Service.Upcharges.Split("-")[1].Substring(3));
                     } 
@@ -75,7 +76,7 @@ namespace StriveCustomer.iOS.Views
                
                 
             }
-            string ValuesToDisply = String.Join(", ",SelectedAdditionalServices);
+            string ValuesToDisply = "Additional Services: "+ String.Join(",",SelectedAdditionalServices);
             DisplaySelectedAddtionals.Text = ValuesToDisply;
             AdditionalServicesTotal.Text = "$"+Total.ToString();
             Total += MembershipAmount;
