@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Models\Employee\Messenger\MessengerContacts\Contacts\Employee.cs" />
+    <Compile Remove="Models\Customer\BaseResponse.cs" />
   </ItemGroup>
 
   <ItemGroup>

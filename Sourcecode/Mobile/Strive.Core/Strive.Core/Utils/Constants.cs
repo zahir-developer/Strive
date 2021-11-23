@@ -10,7 +10,7 @@ namespace Strive.Core.Utils
         public const string AZURE_URL_TEST = "https://mammothuatapi-dev.azurewebsites.net";
             
         public static string Token { get; set; }
-
+          
         public const string URL_LOGIN_EMPLOYEE = "/Auth/Login";
 
         public const string URL_CUST_SIGN_UP = "/Auth/CreateLogin";
@@ -170,5 +170,11 @@ namespace Strive.Core.Utils
         public const string URL_GET_PAYROLL =   "/Admin/PayRoll/GetPayroll";
 
         public const string URL_CUSTOMER_SIGNUP = "https://mammothuat-dev.azurewebsites.net/#/signup?token=0A7E0CAA-DA62-4BF8-B83A-3F6625CDD6DE";
+
+        //Payment
+        internal const string PAYMENT_AUTH = "/Payroll/PaymentGateway/Auth";
+        internal const string PAYMENT_CAPTURE = "/Payroll/PaymentGateway/Capture";
+        internal const string ADD_PAYMENT = "/Admin/Sales/AddPayment";
+        internal const string GLOBAL_DATA = "/Admin/Common/GetCodesByCategory/";
     }
 }

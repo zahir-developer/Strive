@@ -27,7 +27,8 @@ namespace Strive.Core.ViewModels.Customer
 
         public async void NextCommand()
         {
-            await _navigationService.Navigate<MyProfileInfoViewModel>();
+            await _navigationService.Navigate<PaymentViewModel>();
+            //await _navigationService.Navigate<MyProfileInfoViewModel>();
         }
 
         public async void BackCommand()
@@ -40,26 +41,8 @@ namespace Strive.Core.ViewModels.Customer
             var confirm = await _userDialog.ConfirmAsync("Would you like to create the membership ?");
             if (confirm)
             {
-                if (CustomerVehiclesInformation.completeVehicleDetails!=null)
-                {
-                    if (CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership != null)
-                    {
-                        var isDeleted = await AdminService.DeleteVehicleMembership(CustomerVehiclesInformation.completeVehicleDetails.VehicleMembershipDetails.ClientVehicleMembership.ClientMembershipId);
-                    }
-                }
-                
-                var data = await AdminService.SaveVehicleMembership(MembershipDetails.customerVehicleDetails);
-                if (data.Status == true)
-                {
-                    _userDialog.Toast("Membership has been created successfully");
-                    MembershipDetails.clearMembershipData();
-                    return agree;
-                }
-                else
-                {
-                    _userDialog.Alert("Error membership not created");
-                    agree = false;
-                }
+                return agree;
+                 
             }
             else
             {

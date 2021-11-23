@@ -9,7 +9,7 @@ namespace Strive.Core.Models.Customer
     public static class CustomerInfo
     {
         #region properties
-
+        public static string custName { get; set; }
         public static string resetEmail { get; set; }
         public static string OTP { get; set; }
         public static string selectedMilesOption { get; set; }
