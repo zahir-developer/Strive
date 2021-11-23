@@ -28,8 +28,6 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         private EmployeeRole FirstSelectedRole { get; set; }
 
-        private EmployeeRole SecondSelectedRole { get; set; }
-
         public TimeClockRootList clockInStatus { get; set; }
 
         public ClockInViewModel()
@@ -166,30 +164,14 @@ namespace Strive.Core.ViewModels.TIMInventory
 
         public void RoleDecisionCommand(int index)
         {
-            if (FirstSelectedRole == null)
-            {
-                FirstSelectedRole = RolesList[index];
-                RoleSelectedCommand(FirstSelectedRole);
-            }
-            else
-            {
-                SecondSelectedRole = RolesList[index];
-                if(FirstSelectedRole == SecondSelectedRole)
-                {
-                    RoleDeSelectedCommand(FirstSelectedRole);
-                    FirstSelectedRole = null;
-                    SecondSelectedRole = null;
-                }
-                else
-                {
-                    RoleDeSelectedCommand(FirstSelectedRole);
-                    RoleSelectedCommand(SecondSelectedRole);
-                    FirstSelectedRole = SecondSelectedRole;
-                    SecondSelectedRole = null;
-                }
-            }
+            _userDialog.ShowLoading(Strings.Loading);
+            FirstSelectedRole = RolesList[index];
+            RoleSelectedCommand(FirstSelectedRole);
            
             RaiseAllPropertiesChanged();
+
+            _userDialog.HideLoading();
+
         }
 
         void RoleSelectedCommand(EmployeeRole role)

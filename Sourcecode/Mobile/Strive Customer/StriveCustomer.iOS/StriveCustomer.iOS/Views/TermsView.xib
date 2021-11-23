@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -72,7 +72,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRb-m2-ikm">
-                            <rect key="frame" x="7" y="0.0" width="313" height="152"/>
+                            <rect key="frame" x="0.0" y="0.0" width="328" height="152"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I authorize: NEW MAMMOTH DETAIL SALON" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pcf-a1-VGK">
                                     <rect key="frame" x="5" y="5" width="213" height="12"/>
@@ -84,19 +84,19 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Val-2o-ecW">
-                                    <rect key="frame" x="231.99999999999997" y="5.6666666666666723" width="84.666666666666657" height="11.333333333333336"/>
+                                    <rect key="frame" x="232" y="5.6666666666666723" width="76" height="11.333333333333336"/>
                                     <attributedString key="attributedText">
                                         <fragment content="LBL">
                                             <attributes>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQ2-xg-aKG">
-                                    <rect key="frame" x="201" y="30" width="84" height="18"/>
+                                    <rect key="frame" x="201.33333333333334" y="30" width="84.000000000000028" height="18"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="84" id="qCs-3y-oPK"/>
                                         <constraint firstAttribute="height" constant="18" id="qgs-Kz-CtU"/>
@@ -105,23 +105,24 @@
                                         <fragment content="Addtional Services:">
                                             <attributes>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zve-Lp-dBN">
-                                    <rect key="frame" x="248" y="75" width="29" height="10"/>
+                                    <rect key="frame" x="227" y="75" width="29" height="10"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="10" id="7bj-9U-EaI"/>
                                         <constraint firstAttribute="width" constant="29" id="LsN-kw-p5I"/>
                                     </constraints>
                                     <attributedString key="attributedText">
-                                        <fragment content="Total">
+                                        <fragment content="Total: ">
                                             <attributes>
                                                 <color key="NSBackgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPS-BoldMT"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -364,7 +365,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Lw-66-qai">
-                                    <rect key="frame" x="286" y="34" width="27" height="10"/>
+                                    <rect key="frame" x="290.33333333333331" y="34" width="17.666666666666686" height="10"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="10" id="DqP-tc-kXW"/>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="cYm-0t-rIb"/>
@@ -373,7 +374,7 @@
                                         <fragment content="0.00">
                                             <attributes>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPSMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -390,9 +391,8 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xb-rx-rJg">
-                                    <rect key="frame" x="280" y="75" width="49" height="10"/>
+                                    <rect key="frame" x="259" y="75" width="49" height="10"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="49" id="Qor-Xs-v8A"/>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="bgt-hY-8LV"/>
                                         <constraint firstAttribute="width" constant="49" id="gcE-03-bjg"/>
                                         <constraint firstAttribute="height" constant="10" id="wq4-NE-x6Y"/>
@@ -403,7 +403,7 @@
                                                 <color key="NSBackgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="NSColor" red="0.0066989937213935979" green="0.0066989937213935979" blue="0.0066989937213935979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPS-BoldMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -420,7 +420,7 @@
                                             <attributes>
                                                 <color key="NSBackgroundColor" red="1" green="0.96318668129999996" blue="0.068018026649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <font key="NSFont" size="10" name="TimesNewRomanPS-BoldMT"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -433,7 +433,6 @@
                                 <constraint firstItem="J1N-Fx-dmk" firstAttribute="leading" secondItem="CaZ-TU-OfZ" secondAttribute="trailing" constant="26" id="1pb-dn-JiB"/>
                                 <constraint firstItem="Sod-vZ-56c" firstAttribute="bottom" secondItem="V5N-4j-TzC" secondAttribute="bottom" constant="-1" id="3r6-l1-L6y"/>
                                 <constraint firstItem="QwI-ZH-4CY" firstAttribute="top" secondItem="V5N-4j-TzC" secondAttribute="bottom" constant="-2" id="3xe-z8-hIu"/>
-                                <constraint firstItem="Val-2o-ecW" firstAttribute="leading" secondItem="nQ2-xg-aKG" secondAttribute="leading" constant="30.999999999999972" id="5Z2-iH-96n"/>
                                 <constraint firstItem="CaZ-TU-OfZ" firstAttribute="leading" secondItem="HRb-m2-ikm" secondAttribute="leading" constant="48" id="6XV-0K-nOe"/>
                                 <constraint firstItem="Zve-Lp-dBN" firstAttribute="top" secondItem="nQ2-xg-aKG" secondAttribute="bottom" constant="27" id="7nA-aG-1u5"/>
                                 <constraint firstItem="Pcf-a1-VGK" firstAttribute="top" secondItem="HRb-m2-ikm" secondAttribute="top" constant="5" id="9se-xZ-3N1"/>
@@ -441,25 +440,24 @@
                                 <constraint firstItem="JdK-V2-gSP" firstAttribute="leading" secondItem="aLk-TP-XPM" secondAttribute="trailing" constant="1" id="C96-56-N4Q"/>
                                 <constraint firstItem="QwI-ZH-4CY" firstAttribute="leading" secondItem="wPa-gm-kNo" secondAttribute="trailing" constant="56" id="EUH-5a-cAI"/>
                                 <constraint firstItem="mye-Pb-0mr" firstAttribute="centerY" secondItem="Sod-vZ-56c" secondAttribute="centerY" id="El7-Fn-DhK"/>
-                                <constraint firstItem="0Lw-66-qai" firstAttribute="leading" secondItem="XWJ-co-D5f" secondAttribute="trailing" constant="75" id="GSc-nx-UzT"/>
                                 <constraint firstItem="Val-2o-ecW" firstAttribute="leading" secondItem="Pcf-a1-VGK" secondAttribute="trailing" constant="14" id="GnD-7U-kck"/>
                                 <constraint firstItem="XWJ-co-D5f" firstAttribute="leading" secondItem="iCf-hi-4Vk" secondAttribute="leading" id="HHD-NQ-3sl"/>
                                 <constraint firstItem="Pcf-a1-VGK" firstAttribute="leading" secondItem="XWJ-co-D5f" secondAttribute="leading" id="LcU-k6-90e"/>
                                 <constraint firstItem="CaZ-TU-OfZ" firstAttribute="baseline" secondItem="J1N-Fx-dmk" secondAttribute="baseline" constant="1" id="Qp4-pc-G9J"/>
-                                <constraint firstAttribute="trailing" secondItem="Val-2o-ecW" secondAttribute="trailing" constant="-3.6666666666666288" id="So5-6G-yfI"/>
+                                <constraint firstAttribute="trailing" secondItem="Val-2o-ecW" secondAttribute="trailing" constant="20" id="So5-6G-yfI"/>
                                 <constraint firstItem="Pcf-a1-VGK" firstAttribute="leading" secondItem="HRb-m2-ikm" secondAttribute="leading" constant="5" id="T7P-eq-8y7"/>
                                 <constraint firstItem="mye-Pb-0mr" firstAttribute="leading" secondItem="wPa-gm-kNo" secondAttribute="leading" id="TSV-3Q-anj"/>
-                                <constraint firstAttribute="trailing" secondItem="0Lw-66-qai" secondAttribute="trailing" id="UU9-wP-jJV"/>
+                                <constraint firstAttribute="trailing" secondItem="0Lw-66-qai" secondAttribute="trailing" constant="20" id="UU9-wP-jJV"/>
                                 <constraint firstItem="Wr2-El-ddi" firstAttribute="top" secondItem="Zve-Lp-dBN" secondAttribute="bottom" constant="8" id="YNw-dJ-8ob"/>
                                 <constraint firstItem="iCf-hi-4Vk" firstAttribute="baseline" secondItem="fxZ-Rb-POc" secondAttribute="baseline" id="aEy-wo-lrc"/>
                                 <constraint firstItem="Wr2-El-ddi" firstAttribute="leading" secondItem="HRb-m2-ikm" secondAttribute="leading" constant="5" id="aFZ-dV-1XB"/>
                                 <constraint firstItem="CaZ-TU-OfZ" firstAttribute="top" secondItem="Sod-vZ-56c" secondAttribute="bottom" constant="1" id="bA2-UF-Ddo"/>
                                 <constraint firstItem="CaZ-TU-OfZ" firstAttribute="baseline" secondItem="wPa-gm-kNo" secondAttribute="firstBaseline" id="bfa-g2-AGS"/>
                                 <constraint firstItem="XWJ-co-D5f" firstAttribute="top" secondItem="Pcf-a1-VGK" secondAttribute="bottom" constant="6" id="byW-cp-KEa"/>
-                                <constraint firstItem="nQ2-xg-aKG" firstAttribute="leading" secondItem="Zve-Lp-dBN" secondAttribute="leading" constant="-47" id="dPv-rw-NDD"/>
                                 <constraint firstItem="fxZ-Rb-POc" firstAttribute="leading" secondItem="iCf-hi-4Vk" secondAttribute="trailing" constant="5" id="dQM-JN-AVQ"/>
                                 <constraint firstItem="fxZ-Rb-POc" firstAttribute="leading" secondItem="kkw-7Y-iGH" secondAttribute="leading" id="eeX-Iz-egK"/>
                                 <constraint firstItem="5xb-rx-rJg" firstAttribute="top" secondItem="nQ2-xg-aKG" secondAttribute="bottom" constant="27" id="ffv-VT-dM0"/>
+                                <constraint firstAttribute="trailing" secondItem="5xb-rx-rJg" secondAttribute="trailing" constant="20" id="gGu-bF-CWt"/>
                                 <constraint firstItem="5xb-rx-rJg" firstAttribute="leading" secondItem="Zve-Lp-dBN" secondAttribute="trailing" constant="3" id="h2z-Bb-2bx"/>
                                 <constraint firstItem="JdK-V2-gSP" firstAttribute="baseline" secondItem="Zve-Lp-dBN" secondAttribute="baseline" constant="1" id="ime-gp-SmS"/>
                                 <constraint firstItem="iCf-hi-4Vk" firstAttribute="top" secondItem="XWJ-co-D5f" secondAttribute="bottom" constant="8" id="j6I-ye-pph"/>
@@ -469,6 +467,7 @@
                                 <constraint firstItem="XcW-af-Zvh" firstAttribute="leading" secondItem="mye-Pb-0mr" secondAttribute="leading" constant="-1" id="nFX-uS-XSK"/>
                                 <constraint firstItem="V5N-4j-TzC" firstAttribute="leading" secondItem="Sod-vZ-56c" secondAttribute="trailing" constant="-6" id="oEk-xQ-qtk"/>
                                 <constraint firstItem="XcW-af-Zvh" firstAttribute="top" secondItem="iCf-hi-4Vk" secondAttribute="bottom" constant="10" id="rO9-2g-Iet"/>
+                                <constraint firstItem="0Lw-66-qai" firstAttribute="leading" secondItem="nQ2-xg-aKG" secondAttribute="trailing" constant="5" id="sfR-04-QdC"/>
                                 <constraint firstItem="s6G-Jk-8bZ" firstAttribute="leading" secondItem="V5N-4j-TzC" secondAttribute="trailing" constant="5" id="shr-GG-taD"/>
                                 <constraint firstItem="QwI-ZH-4CY" firstAttribute="leading" secondItem="CaZ-TU-OfZ" secondAttribute="trailing" constant="-5" id="tEj-5M-Rpa"/>
                                 <constraint firstItem="iCf-hi-4Vk" firstAttribute="leading" secondItem="XcW-af-Zvh" secondAttribute="leading" id="vM6-qX-jjN"/>
@@ -1183,7 +1182,7 @@ Cg
                                         </fragment>
                                     </attributedString>
                                     <color key="highlightedColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <mutableString key="userLabel">• In consideration of first month as a discounted/prorated price point, next month MUST BE PAID. Cancel any time after 1st month is paid. • I understand this form is valid for an undetermined time period month to month. Cancellation must be given, in person, by the 25th of any month in order to avoid being charged on the first of the next month. Cancellation is INVALID unless signed AND approved by a manager of our management team. You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. ( Only by filling out cancellation form)  • Agreement is by each vehicle. Vehicles may be switched or exchanged for another vehicle with a $20.00 service charge. New vehicle will be placed under a new contract and the old vehicle will be taken off any contractual agreement previously in place. • All returned or NSF payments will be assessed an additional $20.00 if payment of contract is not collected after the 5th day of the due date. Mammoth will not serve clients with more than 1 NSF. • Payment amounts may change during the contract agreement depending on cancellations and/ or additional contracts of any other vehicle under the contract. Variations of 1st, 2nd and 3rd vehicles can/will cause a price increase or decrease. • Additional services outside of Monthly contract agreement will be paid at time of service rendered. If for some reason payment was not made at time of service, the credit card information NEW MAMMOTH DETAIL SALON has on file will be used to pay for the additional services rendered. •  NEW MAMMOTH DETAIL SALON has normal business hours posted, however, weather will dictate if the business will be closed from time to time. Store hours change throughout the year due to Daylight Savings Time. • Normal wash times are 30 to 80 minutes, although longer wash times may occur during uncommon rushes. • Please Note: Prices May change without notice. Please keep in mind the two Alpharetta Locations are billed separately from Holcomb Bridge Location</mutableString>
+                                    <string key="userLabel">• In consideration of first month as a discounted/prorated price point, next month MUST BE PAID. Cancel any time after 1st month is paid. • I understand this form is valid for an undetermined time period month to month. Cancellation must be given, in person, by the 25th of any month in order to avoid being charged on the first of the next month. Cancellation is INVALID unless signed AND approved by a manager of our management team. You must come in to one of our stores and sign a Cancellation Form in order for the request to be processed. ( Only by filling out cancellation form)  • Agreement is by each vehicle. Vehicles may be switched or exchanged for another vehicle with a $20.00 service charge. New vehicle will be placed under a new contract and the old vehicle will be taken off any contractual agreement previously in place. • All returned or NSF payments will be assessed an additional $20.00 if payment of contract is not collected after the 5th day of the due date. Mammoth will not serve clients with more than 1 NSF. • Payment amounts may change during the contract agreement depending on cancellations and/ or additional contracts of any other vehicle under the contract. Variations of 1st, 2nd and 3rd vehicles can/will cause a price increase or decrease. • Additional services outside of Monthly contract agreement will be paid at time of service rendered. If for some reason payment was not made at time of service, the credit card information NEW MAMMOTH DETAIL SALON has on file will be used to pay for the additional services rendered. •  NEW MAMMOTH DETAIL SALON has normal business hours posted, however, weather will dictate if the business will be closed from time to time. Store hours change throughout the year due to Daylight Savings Time. • Normal wash times are 30 to 80 minutes, although longer wash times may occur during uncommon rushes. • Please Note: Prices May change without notice. Please keep in mind the two Alpharetta Locations are billed separately from Holcomb Bridge Location</string>
                                 </label>
                             </subviews>
                             <constraints>
@@ -1212,11 +1211,12 @@ Cg
                         <constraint firstItem="0vl-2O-o1W" firstAttribute="centerY" secondItem="Zw0-Yk-9PT" secondAttribute="centerY" id="9x0-S9-BeH"/>
                         <constraint firstItem="HRb-m2-ikm" firstAttribute="top" secondItem="JWt-zI-vZz" secondAttribute="top" id="JuT-2a-zas"/>
                         <constraint firstItem="Wpk-Op-elS" firstAttribute="top" secondItem="nri-us-Yhv" secondAttribute="bottom" constant="-2" id="P2c-oD-Pry"/>
-                        <constraint firstItem="HRb-m2-ikm" firstAttribute="leading" secondItem="JWt-zI-vZz" secondAttribute="leading" constant="7" id="PKc-uo-56R"/>
+                        <constraint firstItem="HRb-m2-ikm" firstAttribute="leading" secondItem="JWt-zI-vZz" secondAttribute="leading" id="PKc-uo-56R"/>
+                        <constraint firstAttribute="trailing" secondItem="HRb-m2-ikm" secondAttribute="trailing" id="UD1-1O-DrA"/>
                         <constraint firstItem="Wpk-Op-elS" firstAttribute="top" secondItem="nri-us-Yhv" secondAttribute="bottom" constant="-2" id="ghW-WS-7iF"/>
                         <constraint firstItem="Zw0-Yk-9PT" firstAttribute="top" secondItem="Wpk-Op-elS" secondAttribute="bottom" constant="8" id="i8K-DN-TJs"/>
                         <constraint firstAttribute="trailing" secondItem="0vl-2O-o1W" secondAttribute="trailing" constant="10" id="lq4-dG-fRd"/>
-                        <constraint firstAttribute="trailing" secondItem="HRb-m2-ikm" secondAttribute="trailing" constant="8" id="ohY-fy-HJU"/>
+                        <constraint firstAttribute="trailing" secondItem="HRb-m2-ikm" secondAttribute="trailing" id="ohY-fy-HJU"/>
                         <constraint firstItem="Wpk-Op-elS" firstAttribute="leading" secondItem="JWt-zI-vZz" secondAttribute="leading" constant="10" id="qoK-zG-EBX"/>
                         <constraint firstAttribute="trailing" secondItem="nri-us-Yhv" secondAttribute="trailing" id="rc2-FI-BWg"/>
                         <constraint firstAttribute="bottom" secondItem="HRb-m2-ikm" secondAttribute="bottom" constant="472" id="vBh-Ph-5q2"/>

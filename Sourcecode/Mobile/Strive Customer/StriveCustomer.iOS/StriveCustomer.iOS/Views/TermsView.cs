@@ -76,7 +76,7 @@ namespace StriveCustomer.iOS.Views
                
                 
             }
-            string ValuesToDisply = "Additional Services: "+ String.Join(",",SelectedAdditionalServices);
+            string ValuesToDisply = "Additional Services: "+ String.Join(", ",SelectedAdditionalServices);
             DisplaySelectedAddtionals.Text = ValuesToDisply;
             AdditionalServicesTotal.Text = "$"+Total.ToString();
             Total += MembershipAmount;
