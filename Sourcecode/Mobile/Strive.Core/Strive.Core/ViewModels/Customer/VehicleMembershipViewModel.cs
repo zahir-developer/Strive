@@ -19,6 +19,8 @@ namespace Strive.Core.ViewModels.Customer
         #region Properties
          public MembershipServiceList membershipList { get; set; }
          public modelUpchargeResponse modelUpcharge { get; set; }
+         public static bool isDiscoutAvailable = false;
+
         #endregion Properties
 
         #region Commands
@@ -69,12 +71,15 @@ namespace Strive.Core.ViewModels.Customer
             var result = await AdminService.GetVehicleDiscountDetail(id);
             if (result.Status == "true")
             {
+                isDiscoutAvailable = true;
                 _userDialog.Alert("Membership Discount Available !");
-                return true;
+                return isDiscoutAvailable;
             }
             else
             {
-                return false;
+                isDiscoutAvailable = false;
+
+                return isDiscoutAvailable;
             }
             
         }

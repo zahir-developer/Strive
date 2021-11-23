@@ -69,25 +69,30 @@ namespace StriveEmployee.iOS.Views.PayRoll
             EmployeeName.Text = ViewModel.PayRoll.PayeeName;
             WashHrs.Text = ViewModel.PayRoll.TotalWashHours;
             DetailHrs.Text = ViewModel.PayRoll.TotalDetailHours;
-            WashRate.Text = "$"+ViewModel.PayRoll.WashRate.ToString();
-            RegPay.Text = "$" + ViewModel.PayRoll.WashAmount.ToString();
+            WashRate.Text = "$"+ SetTwoDecimel(ViewModel.PayRoll.WashRate);
+            RegPay.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashAmount);
             OtHrs.Text = ViewModel.PayRoll.OverTimeHours;
-            OtPay.Text = "$"+ViewModel.PayRoll.OverTimePay.ToString();
-            Cols.Text = "$" + ViewModel.PayRoll.Collision;
-            Adjs.Text = "$" + ViewModel.PayRoll.Adjustment;
-            Commission.Text = "$" + ViewModel.PayRoll.DetailCommission;
-            Cashtip.Text = "$" + ViewModel.PayRoll.CashTip;
-            Cardtip.Text = "$" + ViewModel.PayRoll.CardTip;
-            Washtip.Text = "$" + ViewModel.PayRoll.WashTip;
-            Detailtip.Text = "$" + ViewModel.PayRoll.DetailTip;
-            Bonus.Text = "$" + ViewModel.PayRoll.Bonous;
-            Total.Text = "$" + ViewModel.PayRoll.PayeeTotal;
+            OtPay.Text = "$"+ SetTwoDecimel(ViewModel.PayRoll.OverTimePay);
+            Cols.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Collision);
+            Adjs.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Adjustment);
+            Commission.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailCommission);
+            Cashtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CashTip);
+            Cardtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.CardTip);
+            Washtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.WashTip);
+            Detailtip.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.DetailTip);
+            Bonus.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.Bonous);
+            Total.Text = "$" + SetTwoDecimel(ViewModel.PayRoll.PayeeTotal);
             Location.Text = EmployeeTempData.LocationName;
             FindPayRoll.TouchUpInside += (sender, e) =>
             {  
                 GetDate();
             };
             
+        }
+
+        private string SetTwoDecimel(float value)
+        {
+            return string.Format("{0:0.00}", value);
         }
         
         public async Task GetDate()

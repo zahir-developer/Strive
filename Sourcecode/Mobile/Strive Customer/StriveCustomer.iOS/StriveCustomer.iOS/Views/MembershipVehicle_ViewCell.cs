@@ -34,7 +34,7 @@ namespace StriveCustomer.iOS.Views
             MembershipCell_ViewHeight.Constant = 25;
             
             Membership_VehicleLbl.Text = data.Membership[indexPath.Row].MembershipName;
-            Membership_Discount.Text = "$ " + data.Membership[indexPath.Row].DiscountedPrice.ToString();
+            Membership_Discount.Text = "$" + (VehicleMembershipViewModel.isDiscoutAvailable ? data.Membership[indexPath.Row].DiscountedPrice.ToString() : data.Membership[indexPath.Row].Price.ToString());
             if (data.Membership[indexPath.Row].MembershipId == MembershipDetails.selectedMembership)
             {
                 Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);                
@@ -121,13 +121,13 @@ namespace StriveCustomer.iOS.Views
 
             foreach(var itm in selectedServices)
             {
-                if (itm == service)
+                if (itm.Replace(" ", "") == service)
                 {
                     Membership_CellBtn.SetImage(UIImage.FromBundle("icon-checked-round"), UIControlState.Normal);
-                    cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
-                    Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    //cell.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    //Membership_CellBtn.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    //Membership_VehicleLbl.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
+                    //Membership_CellView.BackgroundColor = UIColor.Clear.FromHex(0xDCDCDC);
                 }
                 else
                 {

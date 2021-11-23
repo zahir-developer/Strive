@@ -53,7 +53,7 @@ namespace StriveCustomer.iOS.Views
         }
         public void GetTotal ()
         {
-            double MembershipAmount = MembershipDetails.selectedMembershipDetail.DiscountedPrice;
+            double MembershipAmount = VehicleMembershipViewModel.isDiscoutAvailable ? MembershipDetails.selectedMembershipDetail.DiscountedPrice : MembershipDetails.selectedMembershipDetail.Price;
             var SelectedServices = MembershipDetails.completeList.ServicesWithPrice.Where(x => MembershipDetails.selectedAdditionalServices.Contains(x.ServiceId)).ToList();
             foreach (var Service in SelectedServices)
             {
@@ -69,7 +69,7 @@ namespace StriveCustomer.iOS.Views
                 }
                 else
                 {
-                    SelectedAdditionalServices.Add(Service.ServiceName + "-$0");
+                    SelectedAdditionalServices.Add(Service.ServiceName.Trim() + "-$0");
                 }
                
                
