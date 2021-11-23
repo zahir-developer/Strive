@@ -32,7 +32,10 @@ namespace StriveCustomer.iOS.Views
             var rightBtn = new UIButton(UIButtonType.Custom);
             rightBtn.SetTitle("Next", UIControlState.Normal);
             rightBtn.SetTitleColor(UIColor.FromRGB(0, 110, 202), UIControlState.Normal);
-
+            if (MembershipDetails.selectedAdditionalServices != null)
+            {
+                MembershipDetails.selectedAdditionalServices.Clear();
+            }
             var rightBarBtn = new UIBarButtonItem(rightBtn);
             NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { rightBarBtn }, false);
             rightBtn.TouchUpInside += (sender, e) =>

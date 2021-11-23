@@ -55,7 +55,24 @@ namespace StriveCustomer.iOS.Views
         {
              MembershipVehicle_ViewCell cell = (MembershipVehicle_ViewCell)tableView.CellAt(indexPath);
              cell.updateServices(indexPath);
-             MembershipDetails.selectedAdditionalServices.Add(services[indexPath.Row].ServiceId);
+            if (MembershipDetails.selectedAdditionalServices.Count!=0)
+            {
+                if (MembershipDetails.selectedAdditionalServices.Contains(services[indexPath.Row].ServiceId))
+                {
+                    MembershipDetails.selectedAdditionalServices.Remove(services[indexPath.Row].ServiceId);
+                }
+                else
+                {
+                    MembershipDetails.selectedAdditionalServices.Add(services[indexPath.Row].ServiceId);
+                }
+
+            }
+            else
+            {
+                MembershipDetails.selectedAdditionalServices.Add(services[indexPath.Row].ServiceId);
+            }
+            
+             
         }
     }
 }
