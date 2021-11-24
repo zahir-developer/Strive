@@ -153,7 +153,7 @@ export const UrlConfig = {
     getMembershipById: `Admin/MembershipSetup/GetMembershipAndServiceByMembershipId/`,
     addMembership: `Admin/MembershipSetup/Add`,
     updateMembership: `Admin/MembershipSetup/Update`,
-    deleteMembership: `Admin/MembershipSetup/Delete/`,
+    deleteMembership: `Admin/MembershipSetup/Delete/`,  
     getMembershipService: `Admin/ServiceSetup/GetService`,
     membershipSearch: `Admin/MembershipSetup/GetMembershipSearch`,
     getAllMembership: `Admin/MembershipSetup/GetAll`,

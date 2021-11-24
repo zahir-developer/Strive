@@ -71,7 +71,7 @@ export class MembershipListComponent implements OnInit {
     const obj = {
       membershipSearch: this.query,
       locationId: +localStorage.getItem('empLocationId')
-    };
+  };
     this.member.searchMembership(obj).subscribe(data => {
       this.isLoading = false;
       if (data.status === 'Success') {
